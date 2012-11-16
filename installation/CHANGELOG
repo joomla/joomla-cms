@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Nov-2012 Jean-Marie Simonet
+ $+ Adding Uyghur ug-CN installation files
+
 15-Nov-2012 Jean-Marie Simonet
  $+ Adding Galician gl-ES installation files
  # [#29660] Error 500 due to "missing alias column in assets table" Thanks Elin.
