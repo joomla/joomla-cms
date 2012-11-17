@@ -1,42 +1,38 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Jokte.Administrator
+ * @subpackage  com_jokteupdate
+ * @copyright   Copyleft (C) 2012 Comunidad Juuntos
+ * @license     GNU General Public License version 3
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Joomla! update overview Model
+ * Jokte! Modelo para Actualizaciones en línea
  *
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @author      nikosdion <nicholas@dionysopoulos.me>
- * @since       2.5.4
+ * @package     Jokte.Administrator
+ * @subpackage  com_jokteaupdate
+ * @author      tuxmerlin <tuxmerlin@gmail.com>
+ * @since       1.1.9
  */
 class JokteupdateModelDefault extends JModelLegacy
 {
 	/**
-	 * Detects if the Joomla! update site currently in use matches the one
-	 * configured in this component. If they don't match, it changes it.
+	 * Detecto si el sitio actual de actualización Jokte coincide
+	 * con alguno de los configurados en el componente. Si no coincide lo cambio.
 	 *
 	 * @return	void
-	 *
-	 * @since	2.5.4
+	 * @since	1.1.9
 	 */
 	public function applyUpdateSite()
 	{
-		// Determine the intended update URL
+		// Determinar la URL de actualización según parámetros
 		$params = JComponentHelper::getParams('com_jokteupdate');
+				
 		switch ($params->get('updatesource', 'nochange'))
 		{
-			// "Long Term Support (LTS) branch - Recommended"
-			case 'jokte':
-				$updateURL = 'https://update.jokte.org/list.xml';
-                                break;
-                        // "Long Term Support (LTS) branch - Recommended"
+			// Soporte largo - Recomendado"
 			case 'lts':
 				$updateURL = 'http://update.jokte.org/core/list.xml';
 				break;
@@ -46,12 +42,12 @@ class JokteupdateModelDefault extends JModelLegacy
 				$updateURL = 'http://update.jokte.org/core/test/list_test.xml';
 				break;
 
-			// "Custom"
+			// "Personalizado"
 			case 'custom':
 				$updateURL = $params->get('customurl', '');
 				break;
 
-			// "Do not change"
+			// "Sin cambios"
 			case 'nochange':
 			default:
 				return;
@@ -74,15 +70,15 @@ class JokteupdateModelDefault extends JModelLegacy
 			);
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
-
+		
 		if ($update_site->location != $updateURL)
 		{
-			// Modify the database record
+			// Modifico el registro de la BD
 			$update_site->last_check_timestamp = 0;
 			$update_site->location = $updateURL;
 			$db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
-			// Remove cached updates
+			// Borro actualizaciones del cache
 			$query = $db->getQuery(true)
 				->delete($db->nq('#__updates'))
 				->where($db->nq('extension_id').' = '.$db->q('700'));
@@ -92,12 +88,10 @@ class JokteupdateModelDefault extends JModelLegacy
 	}
 
 	/**
-	 * Makes sure that the Joomla! update cache is up-to-date
+	 * Me aseguro que el cache esta realmente actualizado
 	 *
 	 * @param   bool  $force  Force reload, ignoring the cache timeout
-	 *
 	 * @return	void
-	 *
 	 * @since	2.5.4
 	 */
 	public function refreshUpdates($force = false)
@@ -116,22 +110,23 @@ class JokteupdateModelDefault extends JModelLegacy
 	}
 
 	/**
-	 * Returns an array with the Joomla! update information
+	 * Regreso un array con la información de la actualización de Jokte!
 	 *
 	 * @return array
-	 *
-	 * @since 2.5.4
+	 * @since 1.1.9
 	 */
 	public function getUpdateInformation()
 	{
-		// Initialise the return array
+		// Inicializo el array a retornar
+		// Ojo!!! Nueva global: VJOKTE 
+		// La global JVERSION se mantiene por compatibilidad con extensiones Joomla	
 		$ret = array(
-			'installed'		=> JVERSION,
+			'installed'		=> VJOKTE,
 			'latest'		=> null,
 			'object'		=> null
 		);
 
-		// Fetch the update information from the database
+		// Busco la información en la BD
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
@@ -139,10 +134,10 @@ class JokteupdateModelDefault extends JModelLegacy
 			->where($db->nq('extension_id') . ' = ' . $db->q(700));
 		$db->setQuery($query);
 		$updateObject = $db->loadObject();
-
+		
 		if (is_null($updateObject))
 		{
-			$ret['latest'] = JVERSION;
+			$ret['latest'] = VJOKTE;
 			return $ret;
 		}
 		else
@@ -150,27 +145,27 @@ class JokteupdateModelDefault extends JModelLegacy
 			$ret['latest'] = $updateObject->version;
 		}
 
-		// Fetch the full udpate details from the update details URL
+		// Busco los detalles completos de la actualización desde la URL
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
 		$update->loadFromXML($updateObject->detailsurl);
-
-		// Pass the update object
-		if($ret['latest'] == JVERSION) {
+		
+		//var_dump($update);	
+		
+		// Paso el objeto a actualizar
+		if($ret['latest'] == VJOKTE) {
 			$ret['object'] = null;
 		} else {
 			$ret['object'] = $update;
-		}
-
+		}		
 		return $ret;
 	}
 
 	/**
-	 * Returns an array with the configured FTP options
+	 * Regreso un array con los opciones configuradas del FTP
 	 *
 	 * @return array
-	 *
-	 * @since  2.5.4
+	 * @since  1.1.9
 	 */
 	public function getFTPOptions()
 	{
@@ -186,11 +181,10 @@ class JokteupdateModelDefault extends JModelLegacy
 	}
 
 	/**
-	 * Downloads the update package to the site
+	 * Descargo del paquete de actualización al sitio
 	 *
-	 * @return bool|string False on failure, basename of the file in any other case
-	 *
-	 * @since 2.5.4
+	 * @return bool|string Falso si falla, basename del archivo en cualquier caso
+	 * @since 1.1.9
 	 */
 	public function download()
 	{
@@ -198,40 +192,38 @@ class JokteupdateModelDefault extends JModelLegacy
 		$packageURL = $updateInfo['object']->downloadurl->_data;
 		$basename = basename($packageURL);
 
-		// Find the path to the temp directory and the local package
+		// Busco la ruta temporal y el paquete local
 		$jreg = JFactory::getConfig();
 		$tempdir = $jreg->getValue('config.tmp_path');
 		$target = $tempdir . '/' . $basename;
 
-		// Do we have a cached file?
+		// Verifico si hay un archivo en cache
 		jimport('joomla.filesystem.file');
 		$exists = JFile::exists($target);
 
 		if (!$exists)
 		{
-
-			// Not there, let's fetch it
+			// No hay nada, voy a traer el paquete
 			return $this->downloadPackage($packageURL, $target);
 		}
 		else
 		{
-			// Is it a 0-byte file? If so, re-download please.
+			// Si es un archivo vacio lo re-descargo
 			$filesize = @filesize($target);
 			if(empty($filesize)) return $this->downloadPackage($packageURL, $target);
 
-			// Yes, it's there, skip downloading
+			// Si es correcto, salto la descarga
 			return $basename;
 		}
 	}
 
 	/**
-	 * Downloads a package file to a specific directory
+	 * Descargo el paquete en un directorio específico
 	 *
-	 * @param   string  $url     The URL to download from
-	 * @param   string  $target  The directory to store the file
+	 * @param   string  $url     La URL par la descarga
+	 * @param   string  $target  El directorio donde guardar el archivo
 	 *
-	 * @return boolean True on success
-	 *
+	 * @return boolean Verdadero si ocurre
 	 * @since  2.5.4
 	 */
 	protected function downloadPackage($url, $target)
