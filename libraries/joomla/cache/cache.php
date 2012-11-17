@@ -667,6 +667,7 @@ class JCache
 		$registeredurlparams->Itemid = 'INT';
 
 		$safeuriaddon = new stdClass;
+        $safeuriaddon->url = JURI::current();
 
 		foreach ($registeredurlparams as $key => $value)
 		{
