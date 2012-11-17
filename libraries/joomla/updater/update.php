@@ -8,7 +8,6 @@
  */
 
 defined('JPATH_PLATFORM') or die;
-
 /**
  * Update class.
  *
@@ -166,6 +165,7 @@ class JUpdate extends JObject
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
+		
 		// Reset the data
 		eval('$this->' . $tag . '->_data = "";');
 
@@ -208,11 +208,11 @@ class JUpdate extends JObject
 		switch ($name)
 		{
 			// Closing update, find the latest version and check
-			case 'UPDATE':
-				$ver = new JVersion;
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+			case 'UPDATE':				
+				$ver = new JVjokte;				
+				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCTO, 'cmd'));
 				if ($product == $this->_current_update->targetplatform->name
-					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
+					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->LIBERACION))
 				{
 					if (isset($this->_latest))
 					{
@@ -225,7 +225,7 @@ class JUpdate extends JObject
 					{
 						$this->_latest = $this->_current_update;
 					}
-				}
+				}				
 				break;
 			case 'UPDATES':
 				// If the latest item is set then we transfer it to where we want to
@@ -284,11 +284,11 @@ class JUpdate extends JObject
 			// TODO: Add a 'mark bad' setting here somehow
 			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));
 			return false;
-		}
-
+		}		
+		
 		$this->xml_parser = xml_parser_create('');
 		xml_set_object($this->xml_parser, $this);
-		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
+		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');		
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
 
 		while ($data = fread($fp, 8192))
@@ -303,7 +303,7 @@ class JUpdate extends JObject
 				);
 			}
 		}
-		xml_parser_free($this->xml_parser);
+		xml_parser_free($this->xml_parser);		
 		return true;
 	}
 }
