@@ -122,7 +122,7 @@ class MenusViewItems extends JViewLegacy
 							}
 							else {
 								// Special case for absent views
-								$value .= ' » ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
+								$value .= ' » '.$vars['view'];
 							}
 						}
 					}
