@@ -71,10 +71,13 @@ class ContentController extends JControllerLegacy
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}
 
-		$model = $this->getModel('featured');
-		$categories = $model->getState('filter.frontpage.categories');
-		JRequest::setVar('categories', $categories);
-		$safeurlparams['categories'] = 'ARRAY';
+		if ($vName == 'featured')
+		{
+			$model = $this->getModel('featured');
+			$categories = $model->getState('filter.frontpage.categories');
+			JRequest::setVar('categories', $categories);
+			$safeurlparams['categories'] = 'ARRAY';
+		}
 
 		parent::display($cachable, $safeurlparams);
 
