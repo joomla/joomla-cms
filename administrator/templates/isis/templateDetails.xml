@@ -27,12 +27,15 @@
 	</files>
 	<positions>
 		<position>menu</position>
-		<position>status</position>
-		<position>toolbar</position>
-		<position>top</position>
 		<position>submenu</position>
-		<position>bottom</position>
+		<position>toolbar</position>
+		<position>title</position>
 		<position>status</position>
+		<position>icon</position>
+		<position>cp_shell</position>
+		<position>cpanel</position>
+		<position>footer</position>
+		<position>login</position>
 		<position>debug</position>
 	</positions>
 	<languages folder="language">
