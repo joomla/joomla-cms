@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
 	<name>com_jokteupdate</name>
-	<author>Joomla! Project</author>
-	<creationDate>February 2012</creationDate>
-	<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved.	</copyright>
-	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
-	<authorEmail>admin@joomla.org</authorEmail>
-	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.5.0</version>
+	<author>Jokte!</author>
+	<creationDate>Noviembre 2012</creationDate>
+	<copyright>(C) 2012 Comunidad Juuntos. </copyright>
+	<license>GNU General Public License version 3; see	LICENSE.txt</license>
+	<authorEmail>admin@jokte.org</authorEmail>
+	<authorUrl>www.jokte.org</authorUrl>
+	<version>1.1.9</version>
 	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<administration>
 		<files folder="admin">
