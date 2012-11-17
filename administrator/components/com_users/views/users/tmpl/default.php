@@ -61,16 +61,16 @@ $loggeduser = JFactory::getUser();
 				<th width="10%" class="nowrap center">
 					<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 				</th>
-				<th width="15%" class="nowrap center">
+				<th width="15%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap center">
+				<th width="10%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap center">
+				<th width="10%" class="nowrap center hidden-phone hidden-tablet">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap center">
+				<th width="1%" class="nowrap center hidden-phone hidden-tablet">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
@@ -143,20 +143,20 @@ $loggeduser = JFactory::getUser();
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php echo $this->escape($item->email); ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>
 					<?php endif;?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone hidden-tablet">
 					<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone hidden-tablet">
 					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
