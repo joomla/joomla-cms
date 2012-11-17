@@ -20,6 +20,13 @@ $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
 JHtml::_('behavior.caption');
 
+$document 	= JFactory::getDocument();
+$url		= JURI::root();
+$sch 		= parse_url($url, PHP_URL_SCHEME);
+$server 	= parse_url($url, PHP_URL_HOST);
+$canonical 	= $this->escape($this->item->readmore_link);
+$document->addCustomTag('<link rel="canonical" href="'.$sch.'://'.$server.$canonical.'"/>');
+
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
