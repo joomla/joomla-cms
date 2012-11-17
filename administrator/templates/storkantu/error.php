@@ -55,9 +55,9 @@ defined('_JEXEC') or die;
 			<a href="http://www.jokte.org">JOKTE.org</a> Un proyecto de software Libre para Latinoamérica
 		</p>
 		<p class="copyright">
-			<?php $joomla= '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+			<?php $joomla= '<a href="http://www.jokte.org">Jokte!&#174;</a>';
 				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
-			<span class="version"><?php echo  JText::_('JVERSION') ?> <?php echo  JVERSION; ?></span>
+			<span class="version"><?php echo  JText::_('JVERSION') ?> <?php echo  VJOKTE; ?></span>
 		</p>
 	</div>
 </body>

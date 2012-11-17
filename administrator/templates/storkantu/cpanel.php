@@ -107,7 +107,7 @@ if ($this->params->get('highContrast')) {
 	<jdoc:include type="modules" name="footer" style="none"  />
 	<div id="Jkfooter" class="Jkadmin">
             <p class="copyleft">
-                <?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', 'Jokte! '. JText::_('JVERSION') . ' ' . JVERSION); ?>
+                <?php echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', 'Jokte! '. JText::_('JVERSION') . ' ' . VJOKTE); ?>
                 <br /><br />
                 <img src="../images/copyleft.png" />
             </p>
