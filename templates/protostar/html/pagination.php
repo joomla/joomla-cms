@@ -177,7 +177,14 @@ function pagination_item_active(&$item)
 		$display = $item->text;
 	}
 
-	return "<li><a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $item->text . "</a><li>";
+	// Add class hide-phone if list item is numeric
+	$class = '';
+	if (is_numeric($item->text)) 
+	{
+		$class = ' class="hide-phone"';
+	}
+
+	return "<li" . $class . "><a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $item->text . "</a><li>";
 }
 
 /**
