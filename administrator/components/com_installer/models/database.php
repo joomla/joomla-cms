@@ -144,7 +144,7 @@ class InstallerModelDatabase extends InstallerModel
 
 	public function getUpdateVersion()
 	{
-		$table = JTable::getInstance('Extension');
+		$table = JTable::getInstance('Extension');		
 		$table->load('700');
 		$cache = new JRegistry($table->manifest_cache);
 		return $cache->get('version');
@@ -161,7 +161,7 @@ class InstallerModelDatabase extends InstallerModel
 		$table->load('700');
 		$cache = new JRegistry($table->manifest_cache);
 		$updateVersion =  $cache->get('version');
-		$cmsVersion = new JVersion();
+		$cmsVersion = new JVjokte();
 		if ($updateVersion == $cmsVersion->getShortVersion())
 		{
 			return $updateVersion;
