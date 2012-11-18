@@ -360,6 +360,9 @@ class JImage
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -496,6 +499,9 @@ class JImage
 	 */
 	public function loadFile($path)
 	{
+		// Destroy the current image handle if it exists
+		$this->destroy();
+
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
@@ -658,6 +664,9 @@ class JImage
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -714,6 +723,9 @@ class JImage
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -928,5 +940,34 @@ class JImage
 		}
 
 		return $width;
+	}
+
+	/**
+	 * Method to destroy an image handle and
+	 * free the memory associated with the handle
+	 *
+	 * @return  boolean  True on success, false on failure or if no image is loaded
+	 *
+	 * @since 12.3
+	 */
+	public function destroy()
+	{
+		if ($this->isLoaded())
+		{
+			return imagedestroy($this->handle);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to call the destroy() method one last time
+	 * to free any memory when the object is unset
+	 *
+	 * @see     JImage::destroy()
+	 */
+	public function __destruct()
+	{
+		$this->destroy();
 	}
 }

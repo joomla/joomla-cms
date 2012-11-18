@@ -964,4 +964,23 @@ class JImageTest extends TestCase
 		// Validate the correct response.
 		$this->assertEquals($expected, $image->sanitizeOffset($input));
 	}
+
+	/**
+	 * Tests the JImage::destory method
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testDestroy()
+	{
+		// Create an image handle
+		$imageHandle = imagecreatetruecolor(100, 100);
+
+		// Pass created handle to JImage
+		$image = new JImage($imageHandle);
+
+		// Destroying the image should return boolean true
+		$this->assertTrue($image->destroy());
+	}
 }
