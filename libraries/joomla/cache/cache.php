@@ -664,8 +664,10 @@ class JCache
 		$registeredurlparams->layout = 'WORD';
 		$registeredurlparams->tpl = 'CMD';
 		$registeredurlparams->id = 'INT';
+		$registeredurlparams->Itemid = 'INT';
 
 		$safeuriaddon = new stdClass;
+        $safeuriaddon->url = JURI::current();
 
 		foreach ($registeredurlparams as $key => $value)
 		{
