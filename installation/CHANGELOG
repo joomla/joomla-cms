@@ -26,6 +26,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Nov-2012 Jean-Marie Simonet
+ # [#29684] Wrong HTML markup on category edit. Thanks Ofer
+ # [#29528] Incorrect arrows in table heading. Thanks Dennis
+ # [#29687] *Adapting hathor to new message using editor
+ # [#29679] *Passwords fields not required when creating a new user in back-end
+ # [#29698] *Adding bootsrtap-rtl to compiler, correcting some rtl classes
+ # [#29693] *Position of Article Info. Setting Use Global not saved. Menu Manager: Edit Menu Item and Article Manager: Edit Article. Thanks Volkmar 
+
 16-Nov-2012 Jean-Marie Simonet
  $+ Adding Uyghur ug-CN installation files
 
