@@ -28,7 +28,7 @@ class plgContentJoomla extends JPlugin
 	 * @param	bool		If the content is just about to be created
 	 * @since	1.6
 	 */
-	public function onContentAfterSave($context, &$article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew)
 	{
 		// Check we are handling the frontend edit form.
 		if ($context != 'com_content.form') {

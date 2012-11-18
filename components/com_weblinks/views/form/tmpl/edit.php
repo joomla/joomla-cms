@@ -23,9 +23,6 @@ $params = $this->state->get('params');
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task);
 		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
 	}
 </script>
 <div class="edit<?php echo $this->pageclass_sfx; ?>">

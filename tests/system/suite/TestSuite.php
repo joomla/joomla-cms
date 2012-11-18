@@ -1,4 +1,4 @@
-// <?php
+<?php
 /**
  * @package		Joomla.SystemTest
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.

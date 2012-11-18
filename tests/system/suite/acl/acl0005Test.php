@@ -27,13 +27,13 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 		$login = 'acltestuser' . $salt;
 		$email = $login . '@test.com';
 		$group = 'Public';
-		echo "Create $username and add to $group group.\n";
+		$this->jPrint ("Create $username and add to $group group.\n");
 	    $this->createUser($username, $login, $password, $email, $group);
 
-	    echo "Removing $username from Registered group.\n";
+	    $this->jPrint ("Removing $username from Registered group.\n");
 	    $this->changeAssignedGroup($username,$group="Registered");
 
-        echo "Setting all roles to inherit.\n";
+        $this->jPrint ("Setting all roles to inherit.\n");
 		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
 		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');
 		$this->setPermissions('Global Configuration', $group, $actions, $permissions);
@@ -167,7 +167,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
-	    echo "Logging in to front end.\n";
+	    $this->jPrint ("Logging in to front end.\n");
 	    $this->doAdminLogin($login,$password);
 		    $this->doAdminLogin($login,$password);
 		try {

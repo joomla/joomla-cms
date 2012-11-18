@@ -209,12 +209,11 @@ abstract class ContentHelperRoute
 				}
 			}
 		}
-		else
+
+		$active = $menus->getActive();
+		if ($active && $active->component == 'com_content' && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
 		{
-			$active = $menus->getActive();
-			if ($active && $active->component == 'com_content' && ($active->language == '*' || !JLanguageMultilang::isEnabled())) {
-				return $active->id;
-			}
+			return $active->id;
 		}
 
 		// if not found, return language specific home link

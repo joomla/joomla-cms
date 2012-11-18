@@ -26,6 +26,83 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Nov-2012 Jean-Marie Simonet
+ $+ Adding Uyghur ug-CN installation files
+
+15-Nov-2012 Jean-Marie Simonet
+ $+ Adding Galician gl-ES installation files
+ # [#29660] Error 500 due to "missing alias column in assets table" Thanks Elin.
+ $+ Adding Esperanto eo-XX installation files
+
+14-Nov-2012 Jean-Marie Simonet
+ # [#29558] Incorrect current menu item highlighting in mod_menu if 'Base Item' is not current. Thanks Dennis
+ # [#29619] In the current version 3.0.2 (master branch, 03. Nov. 2012) some settings aren't working. Thanks Benjamin.
+ # [#29473] Fixed issue with hits_class not being defined when hits is 24. Thanks Peter.
+ # [#29676] *formatting at the PM System are lost
+
+13-Nov-2012 Jean-Marie Simonet
+ #$ [#29669] Consistent form validation notifications. Thanks Roland
+ # [#29675] *Protostar error page tries to load search module even when module is not published
+ $ [#29668] language installer coordinator team URL must changed j3 TT. Thanks Chalak
+ # [#29646] Some errors on Updater. Thanks Mark.
+
+11-Nov-2012 Jean-Marie Simonet
+ # [#29569] *Implementing accordeons for Modules Options
+ # [#29635] * No message notification when new article is created
+
+10-Nov-2012 Mark Dexter
+ # Remove trashed categories from sample data
+ # [#29621] The root asset has the wrong lft value in 3 files. Thanks Elin.
+
+10-Nov-2012 Jean-Marie Simonet
+ $ [#29616] Missing JGLOBAL_CENTER in frontend language file. Thanks Patrick
+ # [#29654] *User Basic settings do not display when debug language on
+ # [#29653] *Correcting Isis media modal display
+ # [#29638] *admin dashboard statics not fully RTL. Thanks Chalak
+
+09-Nov-2012 Jean-Marie Simonet
+ # Correcting EOL
+
+-------------------- 3.0.2 Stable Release [8-Nov-2012] ------------------
+
+06-Nov-2012 Mark Dexter
+ # [#29128] Add a heading menu item, use Bootstrap's markup for separator. Thanks Michael.
+ # [#29626] Commit for 29519 Breaks Wrapper Menu Item Type. Thanks Elin.
+
+05-Nov-2012 Mark Dexter
+ # [#29565] Joomla! 3.x version update information issue on 64-bit servers. Thanks Ofer.
+ # [#28960] Correct system message output. Thanks Viet Vu.
+
+04-Nov-2012 Jean-Marie Simonet
+ # [#29610] User and Notes views missing chosen/bootstrap. Thanks Kyle.
+ # [#29615] *Hathor edit user broken
+
+02-Nov-2012 Jean-Marie Simonet
+ # [#29606] *New Feature Items associations also displays the parameter for other categories than com_content. Thanks Benjamin
+ # [#29602] Add bootstrap-extended to the CSS compiler. Thanks Michael
+ # [#29305] Adding red colour to invalid fields. Thanks Andrea
+
+01-Nov-2012 Jean-Marie Simonet
+ # [#29597] 'Title' label doesn't appear when editing an article in frontend. Thanks Stephania
+ # [#29599] *Beez article category list display issue.
+ # [#29604] *Language no more available in Extension Manager after uninstall
+
+30-Oct-2012 Jean-Marie Simonet
+ # [#29582] User Profile cannot be edited from user manager. Thanks Emir
+ # [#29583] JForm media field element is unable to determine the selected image root path. Thanks Sven.
+ #$ [#29584] *Untranslated strings in chosen.jquery.js using Isis
+ # [#29587] *Adding Author alias in Article Manager
+
+28-Oct-2012 Jean-Marie Simonet
+ # [#29251] Com_content caches article view no matter of Itemid. Thanks Dennis
+
+27-Oct-2012 Jean-Marie Simonet
+ $ Updating en-GB version to 3.0.2
+ # [#29339] User Manager: Viewing Access Levels - layout
+ # [#29570] Recaptcha fails. Thanks Panayiotis
+ # [#29577] Wrong status filter in Plug-in-Manager
+ + Adding Kiswahili (East African Kiswahili Commission) flag
+
 25-Oct-2012 Jean-Marie Simonet
  # [#27989] Filtering of extension update list and additional notice before updating. Thanks Rob.
  # [#29536] XHTML syntax error in default system Breadcrumbs module. Thanks Denia

@@ -169,12 +169,14 @@ else
 								</ul>
 							</div>
 							<div class="span6">
-								<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
-								<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-								<?php
-									$module = JModuleHelper::getModule('search');
-									echo JModuleHelper::renderModule($module);
-								?>
+								<?php if (JModuleHelper::getModule('search')) : ?>
+									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
+									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
+									<?php
+										$module = JModuleHelper::getModule('search');
+										echo JModuleHelper::renderModule($module);
+									?>
+								<?php endif; ?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><i class="icon-home"></i> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
 							</div>

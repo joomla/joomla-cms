@@ -5547,6 +5547,13 @@ fieldset.radio.btn-group {
 .accordion-body.in:hover {
 	overflow: visible;
 }
+.invalid {
+	color: #9d261d;
+	font-weight: bold;
+}
+input.invalid {
+	border: 1px solid #9d261d;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../media/jui/fonts/IcoMoon.eot');
