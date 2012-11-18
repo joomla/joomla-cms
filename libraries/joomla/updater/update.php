@@ -199,17 +199,16 @@ class JUpdate extends JObject
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
-				if (isset($this->currentUpdate->$name))
+
+				if (!isset($this->currentUpdate->$name))
 				{
-					$this->currentUpdate->$name->_data = '';
+					$this->currentUpdate->$name = new stdClass();
 				}
+				$this->currentUpdate->$name->_data = '';
+
 				foreach ($attrs as $key => $data)
 				{
 					$key = strtolower($key);
-					if (!isset($this->currentUpdate->$name))
-					{
-						$this->currentUpdate->$name = new stdClass();
-					}
 					$this->currentUpdate->$name->$key = $data;
 				}
 				break;

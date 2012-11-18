@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#29693] *Position of Article Info. Setting Use Global not saved. Menu Manager: Edit Menu Item and Article Manager: Edit Article. Thanks Volkmar
  # [#29710] mod_breadcrumbs: Custom separator is not applied. Thanks Constantin
  # [#29682] Adding an icon to the "reply" button in com_messages. Thanks Constantin.
+ # [#29712] Alternate fix for 29646 update changes. Thanks Michael
 
 16-Nov-2012 Jean-Marie Simonet
  $+ Adding Uyghur ug-CN installation files
