@@ -176,9 +176,11 @@ abstract class JHtmlModules
 		}
 
 		// Pop the first item off the array if it's blank
-		if (strlen($options[0]->text) < 1)
-		{
-			array_shift($options);
+		if(count($options)) {
+			if (strlen($options[0]->text) < 1)
+			{
+				array_shift($options);
+			}
 		}
 
 		return $options;
