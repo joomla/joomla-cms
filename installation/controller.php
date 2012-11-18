@@ -28,6 +28,7 @@ class InstallationController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+
 		// Get the current URI to redirect to.
 		$uri      = JURI::getInstance();
 		$redirect = base64_encode($uri);
@@ -58,20 +59,28 @@ class InstallationController extends JControllerLegacy
 		$view = $this->getView($vName, $vFormat);
 		if ($view)
 		{
-			$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
-			$sufficient = $model->getPhpOptionsSufficient();
-
+			$checkOptions = null;
 			switch ($vName)
 			{
 				case 'preinstall':
+					$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
+					$sufficient = $model->getPhpOptionsSufficient();
 					$checkOptions = false;
-					if ($sufficient) {
+					if ($sufficient)
+					{
 						$this->setRedirect('index.php');
 					}
 					break;
+				case 'languages':
+				case 'defaultlanguage':
+					$model = $this->getModel('Languages', 'InstallationModel', array('dbo' => null));
+					break;
 				default:
+					$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
+					$sufficient = $model->getPhpOptionsSufficient();
 					$checkOptions = true;
-					if (!$sufficient) {
+					if (!$sufficient)
+					{
 						$this->setRedirect('index.php?view=preinstall');
 					}
 					break;

@@ -25,6 +25,7 @@ class JHtmlInstallation
 	 */
 	public static function stepbar()
 	{
+
 		// Determine if the configuration file path is writable.
 		$path = JPATH_CONFIGURATION . '/configuration.php';
 		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
@@ -45,6 +46,32 @@ class JHtmlInstallation
 			$html[] = self::getTab($tab, $tabs);
 		}
 		$html[] = '</ul>';
+		return implode('', $html);
+	}
+
+	/**
+	 * Method to generate the side bar
+	 *
+	 * @return  string  Markup for the side bar
+	 *
+	 * @since   3.0
+	 */
+	public static function stepbarlanguages()
+	{
+
+		$tabs = array();
+		$tabs[] = 'languages';
+		$tabs[] = 'defaultlanguage';
+		$tabs[] = 'complete';
+
+		$html = array();
+		$html[] = '<ul class="nav nav-tabs">';
+		foreach ($tabs as $tab)
+		{
+			$html[] = self::getTab($tab, $tabs);
+		}
+		$html[] = '</ul>';
+
 		return implode('', $html);
 	}
 
@@ -91,6 +118,7 @@ class JHtmlInstallation
 	{
 		$num = (int) array_search($id, $tabs);
 		$num++;
+
 		return $num;
 	}
 }
