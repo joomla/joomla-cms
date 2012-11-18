@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 18-Nov-2012 Jean-Marie Simonet
  # [#29684] Wrong HTML markup on category edit. Thanks Ofer
+ # [#29528] Incorrect arrows in table heading. Thanks Dennis
 
 16-Nov-2012 Jean-Marie Simonet
  $+ Adding Uyghur ug-CN installation files
