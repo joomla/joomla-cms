@@ -147,7 +147,7 @@ window.onload = function() {
 		}
 		c = el.className;
 		c = c.match(/icon-[^\s'"]+/);
-		if (c && icons[c[0]] != null) {
+		if (c && typeof icons[c[0]] != "undefined") {
 			addIcon(el, icons[c[0]]);
 		}
 	}
