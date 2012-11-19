@@ -419,6 +419,10 @@ final class JSite extends JApplication
 	{
 		if(is_object($this->template))
 		{
+			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php')) {
+				throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+			}
+
 			if ($params) {
 				return $this->template;
 			}
@@ -497,6 +501,9 @@ final class JSite extends JApplication
 		}
 
 		// Cache the result
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
+			throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+		}
 		$this->template = $template;
 		if ($params) {
 			return $template;
