@@ -404,7 +404,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 	}
 
@@ -416,7 +416,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback()
+	public function transactionRollback($toSavepoint = false)
 	{
 	}
 
@@ -428,7 +428,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 	}
 
