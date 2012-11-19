@@ -1264,7 +1264,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data = array();
 			$data['menutype'] = 'main';
 			$data['client_id'] = 1;
-			$data['title'] = (string) $menuElement;
+			$data['title'] = (string) trim($menuElement);
 			$data['alias'] = (string) $menuElement;
 			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
@@ -1395,7 +1395,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data = array();
 			$data['menutype'] = 'main';
 			$data['client_id'] = 1;
-			$data['title'] = (string) $child;
+			$data['title'] = (string) trim($child);
 			$data['alias'] = (string) $child;
 			$data['type'] = 'component';
 			$data['published'] = 0;
