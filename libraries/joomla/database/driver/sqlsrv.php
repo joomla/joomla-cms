@@ -785,49 +785,94 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('COMMIT TRANSACTION');
-		$this->execute();
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('COMMIT TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to roll back a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback()
+	public function transactionRollback($toSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('ROLLBACK TRANSACTION');
-		$this->execute();
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('ROLLBACK TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . ($this->transactionDepth - 1);
+		$this->setQuery('ROLLBACK TRANSACTION ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth--;
+		}
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('BEGIN TRANSACTION');
-		$this->execute();
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			if ($this->setQuery('BEGIN TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 1;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('BEGIN TRANSACTION ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 
 	/**
