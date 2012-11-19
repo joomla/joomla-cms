@@ -135,14 +135,13 @@ else
 		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
 			<!-- Header -->
 			<div class="header">
-				<div class="header-inner">
+				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
 					</a>
 					<div class="header-search pull-right">
 						<jdoc:include type="modules" name="position-0" style="none" />
 					</div>
-					<div class="clearfix"></div>
 				</div>
 			</div>
 			<?php if ($this->countModules('position-1')): ?>
