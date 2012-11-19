@@ -204,7 +204,21 @@ class JUpdaterExtension extends JUpdateAdapter
 		{
 			if (isset($this->latest->client) && strlen($this->latest->client))
 			{
-				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client)->id;
+				if (is_numeric($this->latest->client))
+				{
+					$byName = false;
+
+					// <client> has to be 'administrator' or 'site', numeric values are depreceated. See http://docs.joomla.org/Design_of_JUpdate
+					JLog::add(
+						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
+						JLog::WARNING, 'deprecated'
+					);
+				}
+				else
+				{
+					$byName = true;
+				}
+				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
 			$updates = array($this->latest);
