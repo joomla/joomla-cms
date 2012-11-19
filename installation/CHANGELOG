@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 19-Nov-2012 Jean-Marie Simonet
  # [#29714] Code style fixes based on Jenkins, replace uses of JRequest. Thanks Michael.
+ # [#28087] PHP errors when all modules are removed. Thanks David
 
 18-Nov-2012 Jean-Marie Simonet
  # [#29684] Wrong HTML markup on category edit. Thanks Ofer
