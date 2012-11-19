@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#28087] PHP errors when all modules are removed. Thanks David
  # [#29694] Fix broken extension update. Thanks Viet Vu
  # [#29439] Bootstrap clearfix improperly used. Thanks Elijah.
+ # [#29700] Component installer and menus may return invisible bug. Thanks Mario.
 
 18-Nov-2012 Jean-Marie Simonet
  # [#29684] Wrong HTML markup on category edit. Thanks Ofer
