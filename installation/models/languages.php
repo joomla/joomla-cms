@@ -20,33 +20,39 @@ jimport('joomla.updater.update');
  */
 class InstallationModelLanguages extends JModelLegacy
 {
-
 	/**
-	 * @var object client object
+	 * @var    object  Client object
+	 * @since  3.0
 	 */
 	protected $client = null;
 
 	/**
-	 * @var array languages description
+	 * @var    array  Languages description
+	 * @since  3.0
 	 */
 	protected $data = null;
 
 	/**
-	 * @var string language path
+	 * @var    string  Language path
+	 * @since  3.0
 	 */
 	protected $path = null;
 
 	/**
-	 * @var int total number of languages installed
+	 * @var    integer  Total number of languages installed
+	 * @since  3.0
 	 */
 	protected $langlist = null;
 
 	/**
- 	 * Constructor, deletes the default installation config file and recreates it with the good config file.
+	 * Constructor
+	 *
+	 * Deletes the default installation config file and recreates it with the good config file.
+	 *
+	 * @since  3.0
 	 */
 	public function __construct()
 	{
-
 		// Overrides application config and set the configuration.php file so tokens and database works
 		JFactory::$config = null;
 		JFactory::getConfig(JPATH_SITE . '/configuration.php');
@@ -58,7 +64,9 @@ class InstallationModelLanguages extends JModelLegacy
 	/**
 	 * Generate a list of language choices to install in the Joomla CMS
 	 *
-	 * @return	boolean True if successful
+	 * @return  boolean  True if successful
+	 *
+	 * @since   3.0
 	 */
 	public function getItems()
 	{
@@ -98,52 +106,50 @@ class InstallationModelLanguages extends JModelLegacy
 	 */
 	public function install($lids)
 	{
-
-		$app			= JFactory::getApplication();
-		$installer		= JInstaller::getInstance();
+		$app       = JFactory::getApplication();
+		$installer = JInstaller::getInstance();
 
 		// Loop through every selected language
 		foreach ($lids as $id)
 		{
-
 			// Loads the update database object that represents the language
 			$language = JTable::getInstance('update');
 			$language->load($id);
 
 			// Get the url to the XML manifest file of the selected language
-			$remote_manifest 	= $this->_getLanguageManifest($id);
+			$remote_manifest = $this->getLanguageManifest($id);
+
 			if (!$remote_manifest)
 			{
-
 				// Could not find the url, the information in the update server may be corrupt
-				$message 	= JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message 	.= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
 
 			// Based on the language XML manifest get the url of the package to download
-			$package_url 		= $this->_getPackageUrl($remote_manifest);
+			$package_url = $this->getPackageUrl($remote_manifest);
+
 			if (!$package_url)
 			{
 
 				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
-				$message 	= JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message 	.= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
 
 			// Download the package to the tmp folder
-			$package 			= $this->_downloadPackage($package_url);
+			$package = $this->downloadPackage($package_url);
 
 			// Install the package
 			if (!$installer->install($package['dir']))
 			{
-
 				// There was an error installing the package
-				$message 	= JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
-				$message 	.= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
+				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
+				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -159,22 +165,24 @@ class InstallationModelLanguages extends JModelLegacy
 			// Delete the installed language from the list
 			$language->delete($id);
 		}
-		return true;
 
+		return true;
 	}
 
 	/**
 	 * Gets the manifest file of a selected language from a the language list in a update server.
 	 *
-	 * @param   int  $uid  the id of the language in the #__updates table
+	 * @param   integer  $uid  The id of the language in the #__updates table
 	 *
-	 * @return string
+	 * @return  string
+	 *
+	 * @since   3.0
 	 */
-	protected function _getLanguageManifest($uid)
+	protected function getLanguageManifest($uid)
 	{
-		$instance	= JTable::getInstance('update');
+		$instance = JTable::getInstance('update');
 		$instance->load($uid);
-		$detailurl	= trim($instance->detailsurl);
+		$detailurl = trim($instance->detailsurl);
 
 		return $detailurl;
 	}
@@ -184,9 +192,11 @@ class InstallationModelLanguages extends JModelLegacy
 	 *
 	 * @param   string  $remote_manifest  url to the manifest XML file of the remote package
 	 *
-	 * @return string|bool
+	 * @return  string|bool
+	 *
+	 * @since   3.0
 	 */
-	protected function _getPackageUrl($remote_manifest)
+	protected function getPackageUrl($remote_manifest)
 	{
 		$update = new JUpdate;
 		$update->loadFromXML($remote_manifest);
@@ -200,11 +210,12 @@ class InstallationModelLanguages extends JModelLegacy
 	 *
 	 * @param   string  $url  url of the package
 	 *
-	 * @return array|bool Package details or false on failure
+	 * @return  array|bool Package details or false on failure
+	 *
+	 * @since   3.0
 	 */
-	protected function _downloadPackage($url)
+	protected function downloadPackage($url)
 	{
-
 		// Download the package from the given URL
 		$p_file = JInstallerHelper::downloadPackage($url);
 
@@ -227,7 +238,9 @@ class InstallationModelLanguages extends JModelLegacy
 	/**
 	 * Method to get Languages item data for the Administrator
 	 *
-	 * @return	array
+	 * @return  array
+	 *
+	 * @since   3.0
 	 */
 	public function getInstalledlangsAdministrator()
 	{
@@ -237,7 +250,9 @@ class InstallationModelLanguages extends JModelLegacy
 	/**
 	 * Method to get Languages item data for the Frontend
 	 *
-	 * @return	array
+	 * @return  array
+	 *
+	 * @since   3.0
 	 */
 	public function getInstalledlangsFrontend()
 	{
@@ -249,27 +264,29 @@ class InstallationModelLanguages extends JModelLegacy
 	 *
 	 * @param   string  $cms_client  name of the cms client
 	 *
-	 * @return	array
+	 * @return  array
+	 *
+	 * @since   3.0
 	 */
-	private function getInstalledlangs($cms_client = 'administrator')
+	protected function getInstalledlangs($cms_client = 'administrator')
 	{
-
 		// Get information
-		$path		= $this->_getPath();
-		$client		= $this->_getClient($cms_client);
-		$langlist   = $this->_getLanguageList($client->id);
+		$path     = $this->getPath();
+		$client   = $this->getClient($cms_client);
+		$langlist = $this->getLanguageList($client->id);
 
 		// Compute all the languages
-		$data	= array ();
+		$data = array();
 
 		foreach ($langlist as $lang)
 		{
 			$file = $path . '/' . $lang . '/' . $lang . '.xml';
-			$info = JApplicationHelper::parseXMLLangMetaFile($file);
+			$info = JInstaller::parseXMLInstallFile($file);
 			$row = new stdClass;
 			$row->language = $lang;
 
-			if (!is_array($info)) {
+			if (!is_array($info))
+			{
 				continue;
 			}
 
@@ -280,11 +297,13 @@ class InstallationModelLanguages extends JModelLegacy
 
 			// If current then set published
 			$params = JComponentHelper::getParams('com_languages');
+
 			if ($params->get($client->name, 'en-GB') == $row->language)
 			{
 				$row->published	= 1;
 			}
-			else {
+			else
+			{
 				$row->published = 0;
 			}
 
@@ -292,7 +311,7 @@ class InstallationModelLanguages extends JModelLegacy
 			$data[] = $row;
 		}
 
-		usort($data, array($this, '_compareLanguages'));
+		usort($data, array($this, 'compareLanguages'));
 
 		return $data;
 	}
@@ -300,11 +319,14 @@ class InstallationModelLanguages extends JModelLegacy
 	/**
 	 * Method to get installed languages data.
 	 *
-	 * @return	string	An SQL query
+	 * @param   integer  $client_id  The client ID to retrieve data for
+	 *
+	 * @return  object  The language data
+	 *
+	 * @since   3.0
 	 */
-	protected function _getLanguageList($client_id = 1)
+	protected function getLanguageList($client_id = 1)
 	{
-
 		// Create a new db object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -331,24 +353,27 @@ class InstallationModelLanguages extends JModelLegacy
 	 * @param   object  $lang1  the first language
 	 * @param   object  $lang2  the second language
 	 *
-	 * @return	integer
+	 * @return  integer
+	 *
+	 * @since   3.0
 	 */
-	protected function _compareLanguages($lang1, $lang2)
+	protected function compareLanguages($lang1, $lang2)
 	{
 		return strcmp($lang1->name, $lang2->name);
 	}
 
-
 	/**
 	 * Method to get the path
 	 *
-	 * @return	string	The path to the languages folders
+	 * @return  string  The path to the languages folders
+	 *
+	 * @since   3.0
 	 */
-	protected function _getPath()
+	protected function getPath()
 	{
 		if (is_null($this->path))
 		{
-			$client = $this->_getClient();
+			$client = $this->getClient();
 			$this->path = JLanguage::getLanguagePath($client->path);
 		}
 
@@ -360,14 +385,17 @@ class InstallationModelLanguages extends JModelLegacy
 	 *
 	 * @param   string  $client  name of the client object
 	 *
-	 * @return	object
+	 * @return  object
+	 *
+	 * @since   3.0
 	 */
-	protected function _getClient( $client = null )
+	protected function getClient($client = null)
 	{
 		if (null == $this->client)
 		{
 			$this->client = JApplicationHelper::getClientInfo('administrator', true);
 		}
+
 		if ($client)
 		{
 			$this->client = JApplicationHelper::getClientInfo($client, true);
@@ -379,10 +407,12 @@ class InstallationModelLanguages extends JModelLegacy
 	/**
 	 * Method to set the default language.
 	 *
-	 * @param   int     $language_id  The Id of the language to be set as default
-	 * @param   string  $cms_client   The name of the CMS client
+	 * @param   integer  $language_id  The Id of the language to be set as default
+	 * @param   string   $cms_client   The name of the CMS client
 	 *
-	 * @return	bool
+	 * @return	boolean
+	 *
+	 * @since   3.0
 	 */
 	public function setDefault($language_id = null, $cms_client = "administrator")
 	{
@@ -391,13 +421,13 @@ class InstallationModelLanguages extends JModelLegacy
 			return false;
 		}
 
-		$client	= $this->_getClient($cms_client);
+		$client	= $this->getClient($cms_client);
 
 		$params = JComponentHelper::getParams('com_languages');
 		$params->set($client->name, $language_id);
 
 		$table = JTable::getInstance('extension');
-		$id = $table->find(array('element' => 'com_languages'));
+		$id    = $table->find(array('element' => 'com_languages'));
 
 		// Load
 		if (!$table->load($id))
@@ -428,7 +458,9 @@ class InstallationModelLanguages extends JModelLegacy
 	/**
 	 * Get the current setup options from the session.
 	 *
-	 * @return	array
+	 * @return  array
+	 *
+	 * @since   3.0
 	 */
 	public function getOptions()
 	{

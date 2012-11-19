@@ -202,7 +202,7 @@ class JUpdate extends JObject
 
 				if (!isset($this->currentUpdate->$name))
 				{
-					$this->currentUpdate->$name = new stdClass();
+					$this->currentUpdate->$name = new stdClass;
 				}
 				$this->currentUpdate->$name->_data = '';
 
@@ -235,6 +235,7 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+
 				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name

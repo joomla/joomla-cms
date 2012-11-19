@@ -26,7 +26,6 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function setlanguage()
 	{
-
 		// Check for request forgeries.
 		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
@@ -63,7 +62,6 @@ class InstallationControllerSetup extends JControllerLegacy
 		// Check for validation errors.
 		if ($return === false)
 		{
-
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
@@ -83,6 +81,7 @@ class InstallationControllerSetup extends JControllerLegacy
 			// Redirect to the page.
 			$r->view = $this->input->getWord('view', 'site');
 			$this->sendResponse($r);
+
 			return false;
 		}
 
