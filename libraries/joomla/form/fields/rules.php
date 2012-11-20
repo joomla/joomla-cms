@@ -120,7 +120,7 @@ class JFormFieldRules extends JFormField
 
 			$html[] = '<li class="' . $active . '">';
 				$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
-				$html[] = str_repeat('<span class="level">&ndash;</i> ', $curLevel = $group->level) . $group->text;
+				$html[] = str_repeat('<span class="level">&ndash; ', $curLevel = $group->level) . $group->text;
 				$html[] = '</a>';
 			$html[] = '</li>';
 		}

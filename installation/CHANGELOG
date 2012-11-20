@@ -26,6 +26,39 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Nov-2012 Jean-Marie Simonet
+ # [#29714] Code style fixes based on Jenkins, replace uses of JRequest. Thanks Michael.
+ # [#28087] PHP errors when all modules are removed. Thanks David
+ # [#29694] Fix broken extension update. Thanks Viet Vu
+ # [#29439] Bootstrap clearfix improperly used. Thanks Elijah.
+ # [#29700] Component installer and menus may return invisible bug. Thanks Mario.
+
+18-Nov-2012 Jean-Marie Simonet
+ # [#29684] Wrong HTML markup on category edit. Thanks Ofer
+ # [#29528] Incorrect arrows in table heading. Thanks Dennis
+ # [#29687] *Adapting hathor to new message using editor
+ # [#29679] *Passwords fields not required when creating a new user in back-end
+ # [#29698] *Adding bootsrtap-rtl to compiler, correcting some rtl classes
+ # [#29693] *Position of Article Info. Setting Use Global not saved. Menu Manager: Edit Menu Item and Article Manager: Edit Article. Thanks Volkmar
+ # [#29710] mod_breadcrumbs: Custom separator is not applied. Thanks Constantin
+ # [#29682] Adding an icon to the "reply" button in com_messages. Thanks Constantin.
+ # [#29712] Alternate fix for 29646 update changes. Thanks Michael
+ + [#29496] Language Installation tool for the Joomla Installer. Thanks Javier.
+
+16-Nov-2012 Jean-Marie Simonet
+ $+ Adding Uyghur ug-CN installation files
+
+15-Nov-2012 Jean-Marie Simonet
+ $+ Adding Galician gl-ES installation files
+ # [#29660] Error 500 due to "missing alias column in assets table" Thanks Elin.
+ $+ Adding Esperanto eo-XX installation files
+
+14-Nov-2012 Jean-Marie Simonet
+ # [#29558] Incorrect current menu item highlighting in mod_menu if 'Base Item' is not current. Thanks Dennis
+ # [#29619] In the current version 3.0.2 (master branch, 03. Nov. 2012) some settings aren't working. Thanks Benjamin.
+ # [#29473] Fixed issue with hits_class not being defined when hits is 24. Thanks Peter.
+ # [#29676] *formatting at the PM System are lost
+
 13-Nov-2012 Jean-Marie Simonet
  #$ [#29669] Consistent form validation notifications. Thanks Roland
  # [#29675] *Protostar error page tries to load search module even when module is not published
