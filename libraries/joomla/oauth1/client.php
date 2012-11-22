@@ -59,21 +59,22 @@ abstract class JOAuth1Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   string           $version      Specify the OAuth version. By default we are using 1.0a.
 	 * @param   JRegistry        $options      OAuth1Client options object.
 	 * @param   JHttp            $client       The HTTP client object.
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
+	 * @param   string           $version      Specify the OAuth version. By default we are using 1.0a.
 	 *
 	 * @since 12.3
 	 */
-	public function __construct($version = null, JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
+		$version = null)
 	{
-		$this->version = isset($version) ? $version : '1.0a';
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client = isset($client) ? $client : JHttpFactory::getHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
+		$this->version = isset($version) ? $version : '1.0a';
 	}
 
 	/**
