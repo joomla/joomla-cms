@@ -9,6 +9,7 @@
 - [JKeychain](chapters/packages/keychain.md)
 - [JLog](chapters/packages/log.md)
 - [MVC](chapters/packages/mvc.md)
+- [JProfiler](chapters/packages/profiler.md)
 - [Testing](chapters/testing.md)
 
 - Coding Standards
