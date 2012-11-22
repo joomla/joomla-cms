@@ -35,7 +35,7 @@ class JUser extends JObject
 	public $id = null;
 
 	/**
-	 * The users real name (or nickname)
+	 * The user's real name (or nickname)
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -416,6 +416,7 @@ class JUser extends JObject
 
 		return $this->_authLevels;
 	}
+
 	/**
 	 * Gets an array of the authorised user groups
 	 *
@@ -437,6 +438,7 @@ class JUser extends JObject
 
 		return $this->_authGroups;
 	}
+
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
@@ -526,7 +528,7 @@ class JUser extends JObject
 				$array['password2'] = $array['password'];
 			}
 
-			// TODO: Backend controller checks the password, frontend doesn't but should.
+			// Not all controllers check the password, although they should.
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
