@@ -176,6 +176,7 @@ abstract class JOAuth1Client
 		$response = $this->oauthRequest($this->getOption('requestTokenURL'), 'POST', $parameters);
 
 		parse_str($response->body, $params);
+
 		if (strcmp($this->version, '1.0a') === 0 && strcmp($params['oauth_callback_confirmed'], 'true') !== 0)
 		{
 			throw new DomainException('Bad request token!');
@@ -574,6 +575,7 @@ abstract class JOAuth1Client
 	public function setOption($key, $value)
 	{
 		$this->options->set($key, $value);
+
 		return $this;
 	}
 
@@ -601,6 +603,7 @@ abstract class JOAuth1Client
 	public function setToken($token)
 	{
 		$this->token = $token;
+
 		return $this;
 	}
 }
