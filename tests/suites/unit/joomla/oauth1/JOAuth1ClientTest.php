@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/oauth1/client.php';
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
 include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 
@@ -88,7 +87,7 @@ class JOAuth1ClientTest extends TestCase
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
-		$this->object = new JOAuth1ClientInspector(null, $this->options, $this->client, $this->input, $this->application);
+		$this->object = new JOAuth1ClientInspector($this->options, $this->client, $this->input, $this->application);
 	}
 
 	/**
