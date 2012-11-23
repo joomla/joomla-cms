@@ -77,8 +77,11 @@ class JObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGet()
 	{
-		$this->assertEquals("onaplane", $this->o->get("foo", "onaplane"));
-		$this->assertNotEquals(null, $this->o->get("foo", "onaplane"));
+		$this->o->goo = 'car';
+		$this->assertEquals('car', $this->o->get('goo', 'fudge'));
+		$this->assertEquals('fudge', $this->o->get('foo', 'fudge'));
+		$this->assertNotEquals(null, $this->o->get('foo', 'fudge'));
+		$this->assertNull($this->o->get('boo'));
 	}
 
 	/**
