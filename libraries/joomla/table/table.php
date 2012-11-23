@@ -501,7 +501,7 @@ abstract class JTable extends JObject
 	/**
 	 * Method to reset class properties to the defaults set in the class
 	 * definition. It will ignore the primary key as well as any private class
-	 * properties.
+	 * properties (except $_errors).
 	 *
 	 * @return  void
 	 *
@@ -519,6 +519,8 @@ abstract class JTable extends JObject
 				$this->$k = $v->Default;
 			}
 		}
+		// Reset table errors
+		$this->_errors = array();
 	}
 
 	/**
