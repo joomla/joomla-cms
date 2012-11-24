@@ -209,6 +209,8 @@ class JCacheController
 	 * @param   string   $group       The cache data group
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
+	 * @return  boolean  True if cache stored
+	 * 
 	 * @since   11.1
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
