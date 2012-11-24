@@ -135,3 +135,111 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 	<p class="nowarning"> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
 	<div class="joomlaupdate_spinner" />
 </div>
+
+<?php if( (isset($this->options) && !empty($this->options)) || (isset($this->settings) && !empty($this->settings)) ): ?>
+	<div class="joomla_check">
+		<h1><?php echo JText::_('COM_JOOMLAUPDATE_COMPATIBILITY_CHECK'); ?></h1>
+		<hr class="hr-condensed">
+		<div class="row-fluid">
+			<div class="span6">
+				<h3><?php echo JText::_('COM_JOOMLAUPDATE_PRE_CHECK'); ?></h3>
+				<hr class="hr-condensed">
+					<table class="table table-striped table-condensed">
+						<tbody>
+							<?php if(isset($this->options) && !empty($this->options)): ?>            
+								<?php foreach ($this->options as $option): ?>
+									<tr>
+										<td class="item"> <?php echo $option->label; ?> </td>
+										<td>
+											<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
+												<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
+												<?php if ($option->notice):?>
+													<i class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></i>
+												<?php endif;?>                        
+											</span>
+										</td>
+									</tr>
+								<?php endforeach; ?>
+							<?php else: ?>
+							<tr>
+								<td colspan="2"><?php echo JText::_('COM_JOOMLAUPDATE_NO_DATA_AVAILABLE'); ?></td>
+							</tr>
+							<?php endif; ?>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2"></td>
+							</tr>
+						</tfoot>
+					</table>
+			</div>
+			<!-- close span -->
+			<div class="span6">
+				<h3><?php echo JText::_('COM_JOOMLAUPDATE_INSTL_PRECHECK_RECOMMENDED_SETTINGS_TITLE'); ?></h3>
+				<hr class="hr-condensed">
+				<p class="install-text"><?php echo JText::_('COM_JOOMLAUPDATE_INSTL_PRECHECK_RECOMMENDED_SETTINGS_DESC'); ?></p>
+					<table class="table table-striped table-condensed">
+						<thead>
+							<tr>
+								<th> <?php echo JText::_('COM_JOOMLAUPDATE_INSTL_PRECHECK_DIRECTIVE'); ?> </th>
+								<th> <?php echo JText::_('COM_JOOMLAUPDATE_INSTL_PRECHECK_RECOMMENDED'); ?> </th>
+								<th> <?php echo JText::_('COM_JOOMLAUPDATE_INSTL_PRECHECK_ACTUAL'); ?> </th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php if(isset($this->settings) && !empty($this->settings)): ?>            
+							<?php foreach ($this->settings as $setting) : ?>
+								<tr>
+									<td> <?php echo $setting->label; ?> </td>
+									<td><span class="label label-success disabled"> <?php echo JText::_(($setting->recommended) ? 'JON' : 'JOFF'); ?> </span></td>
+									<td><span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>"> <?php echo JText::_(($setting->state) ? 'JON' : 'JOFF'); ?> </span></td>
+								</tr>
+							<?php endforeach; ?>
+						<?php else: ?>
+							<tr>
+								<td colspan="3"><?php echo JText::_('COM_JOOMLAUPDATE_NO_DATA_AVAILABLE'); ?></td>
+							</tr>
+						<?php endif; ?>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3"></td>
+							</tr>
+						</tfoot>
+					</table>
+			</div>
+			<!-- close span -->
+
+			<div class="span12">
+				<h3><?php echo JText::_('COM_JOOMLAUPDATE_EXTENSIONS_PRE_CHECK'); ?></h3>
+				<hr class="hr-condensed">
+				<table class="table table-striped table-condensed">
+					<thead>
+						<tr>
+							<th> <?php echo JText::_('COM_JOOMLAUPDATE_EXTENSION_NAME'); ?> </th>
+							<th> <?php echo JText::_('COM_JOOMLAUPDATE_COMPATIBLE'); ?> </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td> K2 </td>
+							<td><span class="label label-success"> <?php echo JText::_('JYES'); ?> </span></td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3"><br />
+								<?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_LABEL'); ?> <span class="label label-warning"> <?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_DESCRIPTION'); ?></span><br />
+								<br />
+								<?php echo JText::_('COM_JOOMLAUPDATE_MARKED_DESCRIPTION_FIRST'); ?> <span class="label label-important"><?php echo JText::_('JNO'); ?></span> or <span class="label label-warning"><?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_MARK'); ?></span> <?php echo JText::_('COM_JOOMLAUPDATE_MARKED_DESCRIPTION_LAST'); ?> </span>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<!-- close span --> 
+		</div>
+		<!-- close row-fluid --> 
+	</div>
+	<!-- close joomla_check --> 
+<?php endif;?>
