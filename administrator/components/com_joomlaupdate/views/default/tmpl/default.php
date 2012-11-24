@@ -135,7 +135,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 	<p class="nowarning"> <?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
 	<div class="joomlaupdate_spinner" />
 </div>
-
+</div>
 <?php if( (isset($this->options) && !empty($this->options)) || (isset($this->settings) && !empty($this->settings)) ): ?>
 	<div class="joomla_check">
 		<h1><?php echo JText::_('COM_JOOMLAUPDATE_COMPATIBILITY_CHECK'); ?></h1>
