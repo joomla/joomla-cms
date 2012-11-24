@@ -51,10 +51,7 @@ $object->bind(array('goo' => 'car');
 // Get a plain object version of the JData.
 $stdClass = $object->dump();
 
-// Set a property with a default value if it is not already set.
-$object->def('foo', 'oof');
-
-// An alternative technique to get a value or a default.
+// Get a property with a default value if it is not already set.
 $foo = $object->foo ?: 'The default';
 
 // Iterate over the properties as if the object were a real array.

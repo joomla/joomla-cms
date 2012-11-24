@@ -233,24 +233,6 @@ class JDataTest extends TestCase
 	}
 
 	/**
-	 * Tests setting the default for a property of the object.
-	 *
-	 * @return void
-	 *
-	 * @covers  JData::def
-	 * @since   12.3
-	 */
-	public function testDef()
-	{
-		$this->_instance->def('check');
-		$this->assertEquals(null, $this->_instance->def('check'));
-		$this->_instance->def('check', 'paint');
-		$this->_instance->def('check', 'forced');
-		$this->assertEquals('paint', $this->_instance->def('check'));
-		$this->assertNotEquals('forced', $this->_instance->def('check'));
-	}
-
-	/**
 	 * Tests the dump method.
 	 *
 	 * @return  void

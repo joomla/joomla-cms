@@ -163,29 +163,6 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable
 	}
 
 	/**
-	 * Set a property value if not alreay set.
-	 *
-	 * @param   string  $property  The name of the property to define.
-	 * @param   mixed   $value     The value to give the property.
-	 *
-	 * @return  mixed  If the property is defined, the current value, otherwise, the new value is returned.
-	 *
-	 * @since   11.1
-	 */
-	public function def($property, $value = null)
-	{
-		// Check if the property is set.
-		if (!isset($this->$property))
-		{
-			// Set the property.
-			return $this->setProperty($property, $value);
-		}
-
-		// Get the property value.
-		return $this->getProperty($property);
-	}
-
-	/**
 	 * Dumps the data properties into a stdClass object, recursively if appropriate.
 	 *
 	 * @param   integer           $depth   The maximum depth of recursion (default = 3).
