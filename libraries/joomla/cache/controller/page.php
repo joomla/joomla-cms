@@ -117,8 +117,8 @@ class JCacheControllerPage extends JCacheController
 	 * Stop the cache buffer and store the cached data
 	 *
 	 * @param   mixed    $data        The data to store
-+	 * @param   string   $id          The cache data id
-+	 * @param   string   $group       The cache data group
+	 * @param   string   $id          The cache data id
+	 * @param   string   $group       The cache data group
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if cache stored
