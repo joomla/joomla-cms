@@ -50,12 +50,12 @@ class JFactoryTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFactory::getApplicatiom method.
+	 * Tests the JFactory::getApplication method.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getApplicatiom
+	 * @covers  JFactory::getApplication
 	 * @todo    Implement testGetApplication().
 	 */
 	public function testGetApplication()
