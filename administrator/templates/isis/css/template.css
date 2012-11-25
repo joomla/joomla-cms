@@ -5192,6 +5192,11 @@ svg {
 .nowrap {
 	white-space: nowrap;
 }
+
+td.nowrap.has-context{	
+	width:	45%;
+}
+
 .center,
 .table td.center,
 .table th.center {
