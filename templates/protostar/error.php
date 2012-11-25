@@ -117,7 +117,7 @@ else
 		<div class="container<?php if ($params->get('fluidContainer')) { echo "-fluid"; } ?>">
 			<!-- Header -->
 			<div class="header">
-				<div class="header-inner">
+				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" />
 					</a>
@@ -133,7 +133,6 @@ else
 						}
 						?>
 					</div>
-					<div class="clearfix"></div>
 				</div>
 			</div>
 			<div class="navigation">

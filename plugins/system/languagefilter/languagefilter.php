@@ -535,7 +535,9 @@ class plgSystemLanguageFilter extends JPlugin
 				foreach (JLanguageHelper::getLanguages() as $language)
 				{
 					if (!JLanguage::exists($language->lang_code))
+					{
 						continue;
+					}
 
 					$item = $menu->getDefault($language->lang_code);
 
