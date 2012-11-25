@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Nov-2012 Jean-Marie Simonet
+ $ Missing Beez3 and library lang strings. Syncing both en-GB.lib_joomla.ini
+
 19-Nov-2012 Jean-Marie Simonet
  # [#29714] Code style fixes based on Jenkins, replace uses of JRequest. Thanks Michael.
  # [#28087] PHP errors when all modules are removed. Thanks David
