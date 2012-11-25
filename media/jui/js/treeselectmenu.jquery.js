@@ -53,6 +53,10 @@ jQuery(function($)
 		var text = $(this).val().toLowerCase();
 		$('.treeselect li').each(function()
 		{
+			if( $( this ).is( 'ul.dropdown-menu li' ) ) {
+				return;
+			}
+
 			if ($(this).text().toLowerCase().indexOf(text) == -1) {
 				$(this).hide();
 			}
