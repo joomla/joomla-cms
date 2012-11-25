@@ -59,6 +59,8 @@ abstract class JHtmlJquery
 			JHtml::_('script', 'jui/jquery-noconflict.js', false, true, false, false, false);
 		}
 
+		JHtml::_('script', 'jui/cookies.jquery.min.js', false, true, false, false, $debug);
+		
 		self::$loaded[__METHOD__] = true;
 
 		return;
