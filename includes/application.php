@@ -419,6 +419,10 @@ final class JSite extends JApplication
 	{
 		if(is_object($this->template))
 		{
+			if (!file_exists(JPATH_THEMES . '/' . $this->template->template . '/index.php')) {
+				throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $this->template->template));
+			}
+
 			if ($params) {
 				return $this->template;
 			}
@@ -489,14 +493,22 @@ final class JSite extends JApplication
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
-			JError::raiseWarning(0, JText::_('JERROR_ALERTNOTEMPLATE'));
-			$template->template = 'beez3';
-			if (!file_exists(JPATH_THEMES . '/beez3/index.php')) {
-				$template->template = '';
+			$this->enqueueMessage( JText::_('JERROR_ALERTNOTEMPLATE'), 'error' );
+			// try to find data for 'beez3' template
+			$original_tmpl = $template->template;
+			foreach( $templates as $tmpl ) {
+				if( $tmpl->template == 'beez3' ) {
+					$template = $tmpl;
+					break;
+				}
 			}
-		}
 
-		// Cache the result
+			// check, the data were found and the template really exist
+			if ( !file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
+				throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $original_tmpl));
+			}
+	   }
+			
 		$this->template = $template;
 		if ($params) {
 			return $template;
@@ -536,7 +548,7 @@ final class JSite extends JApplication
 	public function getMenu($name = null, $options = array())
 	{
 		$options	= array();
-		$menu		= parent::getMenu('site', $options);
+		$menu		= parent::getMenu('site', $options)  ;
 		return $menu;
 	}
 
