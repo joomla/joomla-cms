@@ -22,7 +22,7 @@ require_once __DIR__ . '/stubs/nosqldriver.php';
 class JDatabaseTest extends TestCaseDatabase
 {
 	/**
-	 * @var       JDatabase
+	 * @var    JDatabase
 	 * @since  11.4
 	 */
 	protected $db;
@@ -412,6 +412,7 @@ class JDatabaseTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseDriver::quote
 	 * @since   11.4
 	 */
 	public function testQuote()
@@ -427,6 +428,26 @@ class JDatabaseTest extends TestCaseDatabase
 			$this->equalTo("'-test-'"),
 			'Tests the with escaping (default).'
 		);
+
+		$this->assertEquals(
+			array("'-test1-'", "'-test2-'"),
+			$this->db->quote(array('test1', 'test2')),
+			'Check that the array is quoted.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::quote method for a known exception.
+	 *
+	 * @return  void
+	 *
+	 * @covers             JDatabaseDriver::quote
+	 * @expectedException  InvalidArgumentException
+	 * @since              12.3
+	 */
+	public function testQuote_exception()
+	{
+		$this->db->quote(new stdClass);
 	}
 
 	/**
