@@ -1275,11 +1275,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function quote($text, $escape = true)
 	{
-		if (is_string($text))
-		{
-			return '\'' . ($escape ? $this->escape($text) : $text) . '\'';
-		}
-		elseif (is_array($text))
+		if (is_array($text))
 		{
 			foreach ($text as $k => $v)
 			{
@@ -1290,7 +1286,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 		else
 		{
-			throw new InvalidArgumentException(sprintf('%s cannot accept a %s', __METHOD__, gettype($text)));
+			return '\'' . ($escape ? $this->escape($text) : $text) . '\'';
 		}
 	}
 

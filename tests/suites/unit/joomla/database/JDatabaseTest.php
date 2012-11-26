@@ -437,20 +437,6 @@ class JDatabaseTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the JDatabase::quote method for a known exception.
-	 *
-	 * @return  void
-	 *
-	 * @covers             JDatabaseDriver::quote
-	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
-	 */
-	public function testQuote_exception()
-	{
-		$this->db->quote(new stdClass);
-	}
-
-	/**
 	 * Tests the JDatabase::quoteName method.
 	 *
 	 * @return  void
