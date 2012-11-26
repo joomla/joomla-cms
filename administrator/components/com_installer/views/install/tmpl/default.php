@@ -52,23 +52,23 @@ defined('_JEXEC') or die;
   	<?php if(!empty( $this->sidebar)): ?>
       <div id="j-sidebar-container" class="span2">
         <?php echo $this->sidebar; ?>
-      </div>  
+      </div>
       <div id="j-main-container" class="span10">
     <?php else : ?>
       <div id="j-main-container">
     <?php endif;?>
-  	
+
   	<!-- Render messages set by extension install scripts here -->
   	<?php if ($this->showMessage) : ?>
   	<?php echo $this->loadTemplate('message'); ?>
   	<?php endif; ?>
-  	
+
   	<ul class="nav nav-tabs">
   		<li class="active"><a href="#upload" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE'); ?></a></li>
   		<li><a href="#directory" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY'); ?></a></li>
   		<li><a href="#url" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_URL'); ?></a></li>
   		<?php if ($this->ftp) : ?>
-  			<li><a href="#ftp" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_INSTALL_FTP'); ?></a></li>
+  			<li><a href="#ftp" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?></a></li>
   		<?php endif; ?>
   	</ul>
   	<div class="tab-content">
@@ -123,7 +123,7 @@ defined('_JEXEC') or die;
   	<input type="hidden" name="installtype" value="upload" />
   	<input type="hidden" name="task" value="install.install" />
   	<?php echo JHtml::_('form.token'); ?>
-  	
+
   	</div>
   </form>
 </div>

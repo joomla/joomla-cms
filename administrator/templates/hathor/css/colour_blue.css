@@ -160,6 +160,35 @@ div.btn-toolbar div.btn-group button:hover {
 	color: #054993;
 	cursor: pointer;
 }
+div.btn-toolbar a {
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
+	border-right: 1px solid #738498;
+	border-bottom: 1px solid #738498;
+	background-color: #b1c4db;
+	background-image: -moz-linear-gradient(top,#a5bbd4,#c3d2e5);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#a5bbd4),to(#c3d2e5));
+	background-image: -webkit-linear-gradient(top,#a5bbd4,#c3d2e5);
+	background-image: -o-linear-gradient(top,#a5bbd4,#c3d2e5);
+	background-image: linear-gradient(to bottom,#a5bbd4,#c3d2e5);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffa5bbd4', endColorstr='#ffc3d2e5', GradientType=0);
+	padding: 6px 5px;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+	font-size: 1.2em;
+	text-decoration: none;
+}
+div.btn-toolbar a:hover {
+	border-left: 1px solid #868778;
+	border-top: 1px solid #868778;
+	border-right: 1px solid #f6f7db;
+	border-bottom: 1px solid #f6f7db;
+	background: #e5d9c3;
+	color: #054993;
+	cursor: pointer;
+}
 div.btn-toolbar div.btn-group button.inactive {
 	background: #c3d2e5;
 }

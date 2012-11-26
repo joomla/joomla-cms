@@ -139,15 +139,18 @@ Copyright (c) 2011 by Harvest
       return this.max_selected_options = this.options.max_selected_options || Infinity;
     };
 
+    /* USING JOOMLA.JTEXT TO TRANSLATE LANGUAGE STRINGS
+    * ================================================= */
+
     AbstractChosen.prototype.set_default_text = function() {
       if (this.form_field.getAttribute("data-placeholder")) {
         this.default_text = this.form_field.getAttribute("data-placeholder");
       } else if (this.is_multiple) {
-        this.default_text = this.options.placeholder_text_multiple || this.options.placeholder_text || "Select Some Options";
+        this.default_text = this.options.placeholder_text_multiple || this.options.placeholder_text || Joomla.JText._('JGLOBAL_SELECT_SOME_OPTIONS');
       } else {
-        this.default_text = this.options.placeholder_text_single || this.options.placeholder_text || "Select an Option";
+        this.default_text = this.options.placeholder_text_single || this.options.placeholder_text || Joomla.JText._('JGLOBAL_SELECT_AN_OPTION');
       }
-      return this.results_none_found = this.form_field.getAttribute("data-no_results_text") || this.options.no_results_text || "No results match";
+      return this.results_none_found = this.form_field.getAttribute("data-no_results_text") || this.options.no_results_text || Joomla.JText._('JGLOBAL_SELECT_NO_RESULTS_MATCH');
     };
 
     AbstractChosen.prototype.mouse_enter = function() {

@@ -26,6 +26,46 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Nov-2012 Mark Dexter
+ # Fix failing system test
+
+11-Nov-2012 Mark Dexter
+ ^ Rename config-def.php-dist to be consistent with xml files
+
+09-Nov-2012 Mark Dexter
+ ^ Change echo statements to jEcho for selective logging
+
+05-Nov-2012 Mark Dexter
+ # Fix failing system tests (from HTML output changes)
+ ^ Remove some asserts from try/catch blocks (makes it easier to trace failures)
+ # Fix failing Webdriver tests (from HTML output changes)
+
+02-Nov-2012 Mark Dexter
+ ^ Fix up phpunit.xml.dist for old system tests.
+ # Remove logs folder (should not be tracked in Git)
+ # Fix up system test XML file
+
+01-Nov-2012 Mark Dexter
+ + Add Webdriver system tests
+ # Clean up Webdriver tests, fix Linux bug.
+
+27-Oct-2012 Mark Dexter
+ # Fix up servers/config-def.php-dist
+ # Fix typo in TestSuite.php
+
+24-Oct-2012 Mark Dexter
+ # Fix failing system test (to accommodate markup changes)
+
+19-Oct-2012 Mark Dexter
+ # Fix system test for HTML output change
+
+14-Oct-2012 Mark Dexter
+ # Fix redirect test for Firefox
+
+13-Oct-2012 Mark Dexter
+ # Fix remaining system tests for version 3.0.
+ # Fix exception/error problem in com_contact and com_newsfeed.
+
 26-Sep-2012 Mark Dexter
  # Fix a few more system tests
 

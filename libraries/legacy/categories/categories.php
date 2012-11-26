@@ -280,7 +280,7 @@ class JCategories
  			c.path, c.published, c.rgt, c.title, c.modified_user_id');
 
 		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter())
+		if (empty($this->_options['allLanguages']) && $app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$query->where(
 				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' .

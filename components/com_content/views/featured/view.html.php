@@ -69,8 +69,10 @@ class ContentViewFeatured extends JViewLegacy
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
 			// No link for ROOT category
-			if ($item->parent_alias == 'root') {
+			if ($item->parent_alias == 'root')
+			{
 				$item->parent_slug = null;
 			}
 

@@ -15,10 +15,10 @@ class Security0001Test extends SeleniumJoomlaTestCase
 {
 	function testXSS()
 	{
-		print("Start testXSS" . "\n");
+		$this->jPrint("Start testXSS" . "\n");
 		$this->setUp();
 		$this->gotoSite();
-		echo "testing some XSS URLs\n";
+		$this->jPrint ("testing some XSS URLs\n");
 		$link = $this->cfg->path . 'index.php?option=com_contact&view=category&catid=26&id=36&Itemid=-1"><script>alert(/XSS/)</script>';
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
@@ -42,12 +42,12 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//link[contains(@href,\"<script>\")]"));
-		print("Finish testXSS" . "\n");
+		$this->jPrint("Finish testXSS" . "\n");
 		$this->deleteAllVisibleCookies();
 	}
 
 	function testPathDisclosure() {
-		print("Start testPathDisclosure" . "\n");
+		$this->jPrint("Start testPathDisclosure" . "\n");
 		$this->setUp();
 		$this->gotoSite();
 
@@ -59,7 +59,7 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->open($link, "true");
 		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isElementPresent("//div[@class='error']"));
-		print("Finish testPathDisclosure" . "\n");
+		$this->jPrint("Finish testPathDisclosure" . "\n");
 		$this->deleteAllVisibleCookies();
 
 	}

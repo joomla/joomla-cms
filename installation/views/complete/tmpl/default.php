@@ -8,7 +8,8 @@
 
 defined('_JEXEC') or die;
 ?>
-<form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
+<form action="index.php" xmlns="http://www.w3.org/1999/html" method="post" id="adminForm"
+	class="form-validate form-horizontal">
 	<div class="alert alert-error inlineError" id="theDefaultError" style="display: none">
 		<h4 class="alert-heading"><?php echo JText::_('JERROR'); ?></h4>
 		<p id="theDefaultErrorMessage"></p>
@@ -43,7 +44,7 @@ defined('_JEXEC') or die;
 					</td>
 				</tr>
 				<tr>
-					<td class="item">
+								<td class="notice">
 						<?php echo JText::_('JUSERNAME'); ?>
 					</td>
 					<td>
@@ -58,12 +59,12 @@ defined('_JEXEC') or die;
 				</tfoot>
 			</table>
 		</div>
-		<div class="span6">
+		<div id="languages" class="span6">
 			<h3><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_1'); ?></h3>
 			<hr class="hr-condensed" />
-			<a href="http://community.joomla.org/translations/joomla-3-translations.html" target="_blank">
-				<?php echo JText::_('INSTL_COMPLETE_LANGUAGE_2'); ?>
-			</a>
+			<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC'); ?></p>
+			<p></p><a href="#" class="btn btn-primary" id="instLangs" onclick="return Install.goToPage('languages');"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('INSTL_COMPLETE_INSTALL_LANGUAGES'); ?></a></p>
+			<p><?php echo JText::_('INSTL_COMPLETE_LANGUAGE_DESC2'); ?></p>
 		</div>
 	</div>
 

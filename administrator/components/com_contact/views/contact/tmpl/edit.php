@@ -22,9 +22,6 @@ JHtml::_('formbehavior.chosen', 'select');
 			<?php echo $this->form->getField('misc')->save(); ?>
 			Joomla.submitform(task, document.getElementById('contact-form'));
 		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
 	}
 </script>
 

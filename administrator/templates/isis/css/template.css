@@ -2433,7 +2433,7 @@ input[type="submit"].btn.btn-mini {
 .btn-mini .caret,
 .btn-small .caret,
 .btn-large .caret {
-	margin-top: 5px;
+	margin-top: 6px;
 }
 .btn-large .caret {
 	border-left-width: 5px;
@@ -5214,10 +5214,7 @@ a.disabled:hover {
 	line-height: 27px;
 }
 .btn .caret {
-	margin-bottom: 5px;
-}
-.table td.has-context {
-	line-height: 20px;
+	margin-bottom: 7px;
 }
 .blog-row-rule,
 .blog-item-rule {
@@ -5549,6 +5546,13 @@ fieldset.radio.btn-group {
 }
 .accordion-body.in:hover {
 	overflow: visible;
+}
+.invalid {
+	color: #9d261d;
+	font-weight: bold;
+}
+input.invalid {
+	border: 1px solid #9d261d;
 }
 @font-face {
 	font-family: 'IcoMoon';
