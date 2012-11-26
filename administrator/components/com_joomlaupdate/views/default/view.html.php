@@ -69,7 +69,12 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$document = JFactory::getDocument();
 		$document->addScript('../media/com_joomlaupdate/default.js');
 		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
-
+		
+		
+		// Load Stylesheet
+		JHtml::_('stylesheet', 'media/com_joomlaupdate/stylesheet.css', array(), false);
+		
+		
 		// Render the view
 		parent::display($tpl);
 	}
