@@ -18,7 +18,9 @@ defined('_JEXEC') or die;
 class plgSystemCache extends JPlugin
 {
 
-	var $_cache = null;
+	var $_cache		= null;
+
+	var $_cache_key	= null;
 
 	/**
 	 * Constructor
@@ -40,7 +42,8 @@ class plgSystemCache extends JPlugin
 			'caching'		=> false,
 		);
 
-		$this->_cache = JCache::getInstance('page', $options);
+		$this->_cache		= JCache::getInstance('page', $options);
+		$this->_cache_key	= JRequest::getURI();
 	}
 
 	/**
@@ -65,7 +68,7 @@ class plgSystemCache extends JPlugin
 			$this->_cache->setCaching(true);
 		}
 
-		$data  = $this->_cache->get();
+		$data = $this->_cache->get($this->_cache_key);
 
 		if ($data !== false)
 		{
@@ -98,7 +101,7 @@ class plgSystemCache extends JPlugin
 		$user = JFactory::getUser();
 		if ($user->get('guest')) {
 			//We need to check again here, because auto-login plugins have not been fired before the first aid check
-			$this->_cache->store();
+			$this->_cache->store($this->_cache_key);
 		}
 	}
 }
