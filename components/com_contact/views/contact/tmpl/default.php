@@ -46,10 +46,21 @@ $cparams = JComponentHelper::getParams ('com_media');
 	<?php if ($this->params->get('presentation_style')=='plain'):?>
 		<?php  echo '<h3>'. JText::_('COM_CONTACT_DETAILS').'</h3>';  ?>
 	<?php endif; ?>
+	 
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
 		<div class="contact-image">
-			<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')); ?>
+		<?php 
+			if ($this->params->get('allowGravatar')):		
+				$imgdefault_g 	= JURI::root().$this->params->get('gravimgdefault');
+				$imgsize_g		= $this->params->get('gravatarsize');
+				$title_g		= $this->contact->name;
+				$imgcontact		= "http://www.gravatar.com/avatar/avatar.php?gravatar_id=" . md5($this->email_g)."?d=".$imgdefault_g. "&s=" . $imgsize_g;		
+			else:
+				$imgcontact 	= $this->contact->image;
+ 			endif; ?>			
+			<?php echo JHtml::_('image', $imgcontact, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')); ?>
 		</div>
+		
 	<?php endif; ?>
 
 	<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>
