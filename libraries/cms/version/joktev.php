@@ -20,10 +20,10 @@ final class JVjokte
 	public $PRODUCTO = 'Jokte!';
 
 	/** @var  string  Release version. */
-	public $LIBERACION = '1.1';
+	public $LIBERACION = '1.2';
 
 	/** @var  string  Maintenance version. */
-	public $DESARROLLO = '8';
+	public $DESARROLLO = '0';
 
 	/** @var  string  Development STATUS. */
 	public $ESTADO = 'Estable';
@@ -32,13 +32,13 @@ final class JVjokte
 	public $COMPILACION = '';
 
 	/** @var  string  Code name. */
-	public $NOMBRECODIGO = 'Antu';
+	public $NOMBRECODIGO = 'Kyju';
 
 	/** @var  string  Release date. */
-	public $LIBDIA = '10-Oct-2012';
+	public $LIBDIA = '24-Nov-2012';
 
 	/** @var  string  Release time. */
-	public $LIBHORA = '14:00';
+	public $LIBHORA = '11:00';
 
 	/** @var  string  Release timezone. */
 	public $LIBTZ = 'GMT';
