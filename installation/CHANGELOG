@@ -30,6 +30,7 @@ $ -> Language fix or change
  +$ Adding Swahili sw-KE installation files.
  $ Although not used, adding missing JText::script strings in installation as they show in debug.
  # [#29665] *Cache plugin is not differentiating between Menu-Items. Thanks Dennis.
+ # [#29740] *HTML direction tag for Back-end login missed
 
 23-Nov-2012 Jean-Marie Simonet
  $ Missing Beez3 and library lang strings. Syncing both en-GB.lib_joomla.ini
