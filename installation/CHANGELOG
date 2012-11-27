@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Nov-2012 Jean-Marie Simonet
+ +$ Adding Swahili sw-KE installation files.
+
 23-Nov-2012 Jean-Marie Simonet
  $ Missing Beez3 and library lang strings. Syncing both en-GB.lib_joomla.ini
 
