@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="2.5" type="file" method="upgrade">
+	<name>jokte</name>
+	<author>Comunidad Juuntos</author>
+	<authorEmail>info@juuntos.org</authorEmail>
+	<authorUrl>www.juuntos.net</authorUrl>
+	<copyright>(Copyleft) 2012 Comunidad Juuntos</copyright>
+	<license>GNU General Public License version 3; see LICENSE.txt</license>
+	<version>1.1.9</version>
+	<creationDate>Noviembre 2012</creationDate>
+	<description>Jokte CMS Latinoamericano 100% libre</description>
+
+	<scriptfile>administrator/components/com_admin/script.php</scriptfile>
+
+	<update>
+		<schemas>
+			<schemapath type="mysql">administrator/components/com_admin/sql/updates/mysql</schemapath>
+			<schemapath type="sqlsrv">administrator/components/com_admin/sql/updates/sqlsrv</schemapath>
+			<schemapath type="sqlazure">administrator/components/com_admin/sql/updates/sqlazure</schemapath>
+		</schemas>
+	</update>
+
+	<fileset>
+		<files>
+			<folder>administrator</folder>
+			<folder>cache</folder>
+			<folder>cli</folder>
+			<folder>components</folder>
+			<folder>images</folder>
+			<folder>includes</folder>
+			<folder>language</folder>
+			<folder>libraries</folder>
+			<folder>logs</folder>
+			<folder>media</folder>
+			<folder>modules</folder>
+			<folder>plugins</folder>
+			<folder>templates</folder>
+			<folder>tmp</folder>
+			<file>htaccess.txt</file>
+			<file>web.config.txt</file>
+			<file>index.php</file>
+		</files>
+	</fileset>
+
+	<updateservers>
+		<server type="collection" name="Jokte">http://update.jokte.org/list.xml</server>
+	</updateservers>
+</extension>
