@@ -50,7 +50,7 @@ class plgQuickiconJoomlaupdate extends JPlugin
 		$cur_template = JFactory::getApplication()->getTemplate();
 		$ajax_url = JURI::base().'index.php?option=com_installer&view=update&task=update.ajax';
 		$script = "var plg_quickicon_joomlaupdate_ajax_url = '$ajax_url';\n";
-		$script .= 'var plg_quickicon_jupdatecheck_jversion = "'.JVERSION.'";'."\n";
+		$script .= 'var plg_quickicon_jupdatecheck_jversion = "'.VJOKTE.'";'."\n";
 		$script .= 'var plg_quickicon_joomlaupdate_text = {"UPTODATE" : "'.
 			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true).'", "UPDATEFOUND": "'.
 			JText::_('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true).'", "ERROR": "'.
@@ -64,7 +64,7 @@ class plgQuickiconJoomlaupdate extends JPlugin
 		$document->addScript(JURI::base().'../media/plg_quickicon_joomlaupdate/jupdatecheck.js');
 
 		return array(array(
-			'link' => 'index.php?option=com_jokteupdate',
+			'link' => 'index.php?option=com_installer&view=update',
 			'image' => 'header/icon-48-download.png',
 			'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 			'id' => 'plg_quickicon_joomlaupdate'
