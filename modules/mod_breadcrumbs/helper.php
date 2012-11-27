@@ -19,10 +19,13 @@ class modBreadCrumbsHelper
 		$items		= $pathway->getPathWay();
 
 		$count = count($items);
+		// don't use $items here as it references JPathway properties directly
+		$crumbs	= array();
 		for ($i = 0; $i < $count; $i ++)
 		{
-			$items[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
-			$items[$i]->link = JRoute::_($items[$i]->link);
+			$crumbs[$i] = new stdClass();
+			$crumbs[$i]->name = stripslashes(htmlspecialchars($items[$i]->name, ENT_COMPAT, 'UTF-8'));
+			$crumbs[$i]->link = JRoute::_($items[$i]->link);
 		}
 
 		if ($params->get('showHome', 1))
@@ -30,10 +33,10 @@ class modBreadCrumbsHelper
 			$item = new stdClass();
 			$item->name = htmlspecialchars($params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME')));
 			$item->link = JRoute::_('index.php?Itemid='.$app->getMenu()->getDefault()->id);
-			array_unshift($items, $item);
+			array_unshift($crumbs, $item);
 		}
 
-		return $items;
+		return $crumbs;
 	}
 
 	/**
