@@ -162,17 +162,17 @@ class InstallerModelDatabase extends InstallerModel
 		$cache = new JRegistry($table->manifest_cache);
 		$updateVersion =  $cache->get('version');
 		$cmsVersion = new JVjokte();
-		if ($updateVersion == $cmsVersion->getShortVersion())
+		if ($updateVersion == $cmsVersion->getVersionCorta())
 		{
 			return $updateVersion;
 		}
 		else
 		{
-			$cache->set('version', $cmsVersion->getShortVersion());
+			$cache->set('version', $cmsVersion->getVersionCorta());
 			$table->manifest_cache = $cache->toString();
 			if ($table->store())
 			{
-				return $cmsVersion->getShortVersion();
+				return $cmsVersion->getVersionCorta();
 			}
 			else
 			{

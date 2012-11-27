@@ -28,7 +28,7 @@ class InstallerModelOneClick extends JModelList
 	 *
 	 * @var		string
 	 */
-	protected $_context = 'com_installer.install';
+	protected $_context = 'com_installer.oneclick';
 
     /**
 	 * Constructor.
@@ -68,13 +68,13 @@ class InstallerModelOneClick extends JModelList
 		$app = JFactory::getApplication();
 		$filters = JRequest::getVar('filters');
 		if (empty($filters)) {
-			$data = $app->getUserState($this->context.'.data');
+			$data = $app->getUserState($this->_context.'.data');
 			$filters = $data['filters'];
 		}
 		else {
-			$app->setUserState($this->context.'.data', array('filters'=>$filters));
+			$app->setUserState($this->_context.'.data', array('filters'=>$filters));
 		}
-
+			
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
@@ -85,10 +85,10 @@ class InstallerModelOneClick extends JModelList
 		$this->setState('install.directory', $path);
 
         $this->setState('filter.type', isset($filters['type']) ? $filters['type'] : '');
-        if (!isset($filters['update_site_id'])) JRequest::setVar('update_site_id', '1');
-        $this->setState('filter.update_site_id', isset($filters['update_site_id']) ? $filters['update_site_id'] : '1');
+        if (!isset($filters['update_site_id'])) JRequest::setVar('update_site_id', '2');
+        $this->setState('filter.update_site_id', isset($filters['update_site_id']) ? $filters['update_site_id'] : '2');
         $this->setState('filter.folder', isset($filters['folder']) ? $filters['folder'] : '');
-	$this->setState('filter.search', isset($filters['search']) ? $filters['search'] : '');
+		$this->setState('filter.search', isset($filters['search']) ? $filters['search'] : '');
 
 		parent::populateState('a.name', 'asc');
 	}
@@ -110,11 +110,10 @@ class InstallerModelOneClick extends JModelList
         if ($this->getState('filter.type') != '') $query->where('a.type = '.$db->quote($this->getState('filter.type')));
         if ($this->getState('filter.update_site_id') != '') $query->where('a.update_site_id = '.$db->quote($this->getState('filter.update_site_id')));
         if ($this->getState('filter.folder') != '') $query->where('a.folder = '.$db->quote($this->getState('filter.folder')));
-	if ($this->getState('filter.search') != '') $query->where('CONCAT(a.name, a.element, a.folder) LIKE '.$db->quote('%'.$this->getState('filter.search').'%'));
+		if ($this->getState('filter.search') != '') $query->where('CONCAT(a.name, a.element, a.folder) LIKE '.$db->quote('%'.$this->getState('filter.search').'%'));
 
         // Join update_sites
         $query->join('left', $db->nameQuote('#__update_sites').' AS u ON u.update_site_id = a.update_site_id');
-
 		return $query;
 	}
 
@@ -293,6 +292,7 @@ class InstallerModelOneClick extends JModelList
 	public function install_remote($cids)
 	{
 		$result = true;
+		
 		foreach($cids as $cid) {
 			$update = new JUpdate();
 			$instance = JTable::getInstance('update');
@@ -734,7 +734,7 @@ class InstallerModelOneClick extends JModelList
 		$app = JFactory::getApplication();
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		$form = JForm::getInstance('com_installer.install', 'install', array('load_data' => $loadData));
+		$form = JForm::getInstance('com_installer.oneclick', 'oneclick', array('load_data' => $loadData));
 
 		// Check for an error.
 		if ($form == false) {
@@ -761,7 +761,7 @@ class InstallerModelOneClick extends JModelList
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_installer.install.data', array());
+		$data = JFactory::getApplication()->getUserState('com_installer.oneclick.data', array());
 
 		return $data;
 	}

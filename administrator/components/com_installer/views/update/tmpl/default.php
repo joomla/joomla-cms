@@ -36,6 +36,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<th class="nowrap"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>
 				<th class="nowrap"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_INSTALLTYPE', 'extension_id', $listDirn, $listOrder); ?></th>
 				<th ><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?></th>
+				<th width="2%" colspan="2" class="center"><?php echo JText::_('JOKTE_FIX_RANGETYPE'); ?></th>				
 				<th width="10%" class="center"><?php echo JText::_('JVERSION'); ?></th>
 				<th><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?></th>
 				<th><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $listDirn, $listOrder); ?></th>
@@ -44,7 +45,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</thead>
 		<tfoot>
 			<tr>
-			<td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="10"><?php echo JTEXT::_(JOKTE_UPGRADE_RAZON); ?></td>
+			</tr>
+			<tr>
+				<td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td>
 			</tr>
 		</tfoot>
 		<tbody>
@@ -62,6 +66,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo $item->extension_id ? JText::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : JText::_('COM_INSTALLER_NEW_INSTALL') ?>
 				</td>
 				<td><?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type) ?></td>
+				<td class="center" style="background:#ccc;color:red;font-weight:bold;"><?php echo $item->rangetype; ?></td>
+				<td>
+					<?php if ($item->rangetype != 0): ?>
+						<a href="<?php echo $item->rangeurl; ?>" class="modal" rel="{handler: 'iframe', size: {x: 750, y: 600}}"> [ver]</a>
+					<?php endif; ?>					
+				</td>
 				<td class="center"><?php echo $item->version ?></td>
 				<td class="center"><?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?></td>
 				<td class="center"><?php echo $client; ?></td>

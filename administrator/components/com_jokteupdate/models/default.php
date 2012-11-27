@@ -39,7 +39,7 @@ class JokteupdateModelDefault extends JModelLegacy
 
 			// "Testing"
 			case 'testing':
-				$updateURL = 'http://update.jokte.org/core/test/list_test.xml';
+				$updateURL = 'http://update.jokte.org/core/list_test.xml';
 				break;
 
 			// "Personalizado"
@@ -248,7 +248,7 @@ class JokteupdateModelDefault extends JModelLegacy
 		// Get a password
 		jimport('joomla.user.helper');
 		$password = JUserHelper::genRandomPassword(32);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.password', $password);
+		JFactory::getApplication()->setUserState('com_jokteupdate.password', $password);
 
 		// Do we have to use FTP?
 		$method = JRequest::getCmd('method', 'direct');

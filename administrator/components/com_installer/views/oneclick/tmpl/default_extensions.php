@@ -16,7 +16,7 @@ JHtml::_('behavior.multiselect');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_installer&view=oneclick');?>" method="post" name="adminForm" id="adminForm">
     
     <?php echo $this->loadTemplate('filter'); ?>
 	
@@ -52,8 +52,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<td><?php echo JHtml::_('grid.id', $i, $item->update_id, false, 'cid'); ?></td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_DESCRIPTION');?>::<?php echo $item->description ? $item->description : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
-					<?php echo $item->name; ?>
+						<?php echo $item->name; ?>					
 					</span>
+					<?php 
+						if ($item->infourl) { ?>
+							&nbsp;|&nbsp;<a href="<?php echo $item->infourl;?>" class="modal" rel="{handler: 'iframe', size: {x: 750, y: 600}}" >[Info]</a>
+					<?php } else { ?>
+							<?php echo $item->name; ?>
+					<?php } ?>
+					<?php 
+						if ($item->demourl) { ?>
+							&nbsp;|&nbsp;<a href="<?php echo $item->demourl;?>" class="modal" rel="{handler: 'iframe', size: {x: 750, y: 600}}" >[Demo]</a>
+					<?php } else { ?>
+							<?php echo $item->name; ?>
+					<?php } ?>
+					
 				</td>
 				<td><?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type) ?></td>
 				<td class="center"><?php echo $item->update_site ?></td>

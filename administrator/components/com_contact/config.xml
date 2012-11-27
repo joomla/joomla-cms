@@ -173,8 +173,7 @@
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
-		</field>
-
+		</field>			
 		<field name="show_image"
 			type="radio"
 			default="1"
@@ -187,6 +186,31 @@
 			type="media"
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
+		>
+		</field>
+		<field
+			name="allowGravatar"
+			type="radio"
+			default="0"
+			label="COM_CONTACT_FIELD_ALLOWGRAVATAR_LABEL"
+			description="COM_CONTACT_FIELD_ALLOWGRAVATAR_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+		
+		<field
+			name="gravatarsize"
+			type="text"
+			default="200"
+			label="COM_CONTACT_FIELD_GRAVATARSIZE_LABEL"
+			description="COM_CONTACT_FIELD_GRAVATARSIZE_DESC"
+		/>		
+		<field name="gravimgdefault"
+			type="media"
+			label="COM_CONTACT_FIELD_GRAVATAR_IMAGE_DEFAULT_LABEL"
+			description="COM_CONTACT_FIELD_GRAVATAR_IMAGE_DEFAULT_DESC"
 		>
 		</field>
 		<field name="allow_vcard"

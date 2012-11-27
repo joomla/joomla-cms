@@ -31,6 +31,7 @@ class ContentModelFeatured extends ContentModelArticles
 				'id', 'a.id',
 				'title', 'a.title',
 				'alias', 'a.alias',
+				'introtext.','a.introtext',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
@@ -66,7 +67,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
+				'a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
 				'a.language, a.publish_up, a.publish_down'
 			)
 		);

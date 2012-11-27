@@ -53,7 +53,14 @@ class CategoriesViewCategories extends JViewLegacy
 		$options[]	= JHtml::_('select.option', '10', JText::_('J10'));
 
 		$this->f_levels = $options;
-
+		
+		// Params for administrators
+		$component	 = JComponentHelper::getComponent('com_content');
+		$params 	 = $component->params;
+		$showpreview = $params->get('catpreview');
+		
+		$this->assignRef('catpreview', $showpreview);
+		
 		$this->addToolbar();
 		parent::display($tpl);
 	}

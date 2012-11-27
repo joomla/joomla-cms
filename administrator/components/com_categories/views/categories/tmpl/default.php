@@ -111,9 +111,18 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
 						<?php endif; ?>
-						<?php if ($canEdit || $canEditOwn) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id='.$item->id.'&extension='.$extension);?>">
-								<?php echo $this->escape($item->title); ?></a>
+						<?php if ($canEdit || $canEditOwn) : ?>	
+							<?php if ($this->catpreview): 
+								(strlen($item->description) > 0) ? $textintro = htmlentities(utf8_decode($item->description)) : $textintro = JTEXT::_(JGLOBAL_NODESC); 
+								?>
+								<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_PREVIEW_DESCRIPTION');?>::<?php echo $textintro; ?>">
+									<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id='.$item->id.'&extension='.$extension);?>">
+										<?php echo $this->escape($item->title); ?></a>
+								</span>
+							<?php else : ?>
+								 <a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id='.$item->id.'&extension='.$extension);?>">
+									<?php echo $this->escape($item->title); ?></a>
+							<?php endif; ?>						
 						<?php else : ?>
 							<?php echo $this->escape($item->title); ?>
 						<?php endif; ?>

@@ -16,11 +16,7 @@
 			name="select"
 		>
             
-            <field type="updatesites" name="update_site_id" hidden="true" onchange="this.form.submit();">
-                <option value="">COM_INSTALLER_VALUE_UPDATESITE_SELECT</option>
-            </field>
-
-			<field type="updatetype"
+           	<field type="updatetype"
 				name="type"
 				hidden="true"
 				onchange="this.form.submit();"

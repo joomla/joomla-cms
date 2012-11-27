@@ -1373,7 +1373,10 @@ class MenusModelItem extends JModelAdmin
 		$table = $this->getTable();
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-			$title = JString::increment($title);
+			if ($title == $table->title)
+			{
+				$title = JString::increment($title);
+			}
 			$alias = JString::increment($alias, 'dash');
 		}
 

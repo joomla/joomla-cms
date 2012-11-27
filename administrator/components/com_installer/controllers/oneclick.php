@@ -55,10 +55,10 @@ class InstallerControllerOneClick extends JControllerAdmin
     public function install_remote() {
         JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-        $model = $this->getModel('install');
+        $model = $this->getModel('oneclick');
         $cid = JRequest::getVar('cid', array(), '', 'array');
-		
-        JArrayHelper::toInteger($cid, array());
+		        
+		JArrayHelper::toInteger($cid, array());
         if ($model->install_remote($cid)) {
             $cache = JFactory::getCache('mod_menu');
             $cache->clean();

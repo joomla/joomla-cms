@@ -5,6 +5,14 @@
 		label="COM_INSTALLER_PREFERENCES_LABEL"
 		description="COM_INSTALLER_PREFERENCES_DESCRIPTION"
 		>
+		<field name="thisversion"
+			type="radio"
+			default="0"
+			label="COM_INSTALLER_THISVERSION_LABEL"
+			description="COM_INSTALLER_THISVERSION_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
 		<field
 			name="cachetimeout"
 			type="integer"

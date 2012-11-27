@@ -114,7 +114,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) :
+		<?php foreach ($this->items as $i => $item) :			
 			$item->max_ordering = 0; //??
 			$ordering	= ($listOrder == 'a.ordering');
 			$canCreate	= $user->authorise('core.create',		'com_content.category.'.$item->catid);
@@ -132,8 +132,17 @@ $saveOrder	= $listOrder == 'a.ordering';
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 					<?php endif; ?>
 					<?php if ($canEdit || $canEditOwn) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
-							<?php echo $this->escape($item->title); ?></a>
+						<?php if ($this->showpreview) : 
+							(strlen($item->introtext) > 0) ? $textintro = htmlentities(utf8_decode($item->introtext)) : $textintro = JTEXT::_(JGLOBAL_NODESC); 
+							?>
+							<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_PREVIEW_DESCRIPTION');?>::<?php echo $textintro; ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
+								<?php echo $this->escape($item->title); ?></a>
+							</span>
+						<?php else : ?>
+							 <a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
+								<?php echo $this->escape($item->title); ?></a>
+						<?php endif; ?>
 					<?php else : ?>
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>

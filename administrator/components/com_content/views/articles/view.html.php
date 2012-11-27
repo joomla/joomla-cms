@@ -58,6 +58,14 @@ class ContentViewArticles extends JViewLegacy
 		if ($this->getLayout() !== 'modal') {
 			$this->addToolbar();
 		}
+		
+		// Params for administrators
+		$component	 = JComponentHelper::getComponent('com_content');
+		$params 	 = $component->params;
+		$showpreview = $params->get('showpreview');
+		
+		$this->assignRef('showpreview', $showpreview);
+		
 
 		parent::display($tpl);
 	}

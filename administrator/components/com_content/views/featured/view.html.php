@@ -30,7 +30,14 @@ class ContentViewFeatured extends JViewLegacy
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
-
+		
+		// Params for administrators
+		$component	 = JComponentHelper::getComponent('com_content');
+		$params 	 = $component->params;
+		$showpreview = $params->get('showpreview');
+		
+		$this->assignRef('showpreview', $showpreview);
+		
 		$this->addToolbar();
 		parent::display($tpl);
 	}

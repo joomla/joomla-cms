@@ -37,13 +37,13 @@ class joomlaInstallerScript
 		{
 			$query = $db->getQuery(true);
 			$query->insert('#__schemas');
-			$query->set('extension_id=700, version_id='.$db->quote('1.6.0-2011-01-10'));
+			$query->set('extension_id=700, version_id='.$db->quote('1.1.8'));
 			$db->setQuery($query);
 			$db->query();
 		}
 		return true;
 	}
-
+	
 	/**
 	 * method to update Joomla!
 	 *
@@ -57,8 +57,29 @@ class joomlaInstallerScript
 		$this->updateManifestCaches();
 		$this->updateDatabase();
 	}
+	
 	protected function updateDatabase()
 	{
+		// Borrar JoomlaUpdate
+		$table = JTable::getInstance('Extension');
+		if ($table->load(array('element'=> 'com_joomlaupdate', 'type'=>'component', 'client_id'=>1))) {
+			if (!file_exists(JPATH_ADMINISTRATOR . '/components/com_joomlaupdate')) {
+				// Delete this extension
+				if (!$table->delete()) {
+					echo $table->getError().'<br />';
+					return;
+				}
+			}
+			else {
+				// Mark this extension as unprotected
+				$table->protected = 0;
+				if (!$table->store()) {
+					echo $table->getError().'<br />';
+					return;
+				}
+			}
+		}
+		
 		$db = JFactory::getDbo();
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
@@ -90,66 +111,7 @@ class joomlaInstallerScript
 
 	protected function updateManifestCaches()
 	{
-		// TODO Remove this for 2.5
-		if (!JTable::getInstance('Extension')->load(array('element'=> 'pkg_joomla', 'type'=>'package'))) {
-			// Create the package pkg_joomla
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->insert('#__extensions');
-			$query->columns(array($db->quoteName('name'), $db->quoteName('type'),
-								$db->quoteName('element'), $db->quoteName('enabled'), $db->quoteName('access'),
-								$db->quoteName('protected')));
-			$query->values($db->quote('joomla'). ', '. $db->quote('package').', '.$db->quote('pkg_joomla') . ', 1, 1, 1');
-
-			$db->setQuery($query);
-			$db->query();
-			if ($db->getErrorNum())
-			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
-				return;
-			}
-		}
-
-		// TODO Remove this for 2.5
-		$table = JTable::getInstance('Extension');
-		if ($table->load(array('element'=> 'mod_online', 'type'=>'module', 'client_id'=>1))) {
-			if (!file_exists(JPATH_ADMINISTRATOR . '/modules/mod_online')) {
-				// Delete this extension
-				if (!$table->delete()) {
-					echo $table->getError().'<br />';
-					return;
-				}
-			}
-			else {
-				// Mark this extension as unprotected
-				$table->protected = 0;
-				if (!$table->store()) {
-					echo $table->getError().'<br />';
-					return;
-				}
-			}
-		}
-
-		// TODO Remove this for 2.5
-		$table = JTable::getInstance('Extension');
-		if ($table->load(array('element'=> 'mod_unread', 'type'=>'module', 'client_id'=>1))) {
-			if (!file_exists(JPATH_ADMINISTRATOR . '/modules/mod_unread')) {
-				// Delete this extension
-				if (!$table->delete()) {
-					echo $table->getError().'<br />';
-					return;
-				}
-			}
-			else {
-				// Mark this extension as unprotected
-				$table->protected = 0;
-				if (!$table->store()) {
-					echo $table->getError().'<br />';
-					return;
-				}
-			}
-		}
-
+		
 		$extensions = array();
 		// Components
 
@@ -179,6 +141,7 @@ class joomlaInstallerScript
 		$extensions[] = array('component', 'com_config', '', 1);
 		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
+		$extensions[] = array('component', 'com_jokteupdate', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -280,6 +243,8 @@ class joomlaInstallerScript
 		// Languages
 		$extensions[] = array('language', 'en-GB', '', 0);
 		$extensions[] = array('language', 'en-GB', '', 1);
+		$extensions[] = array('language', 'es-LA', '', 0);
+		$extensions[] = array('language', 'es-LA', '', 1);
 
 		// Files
 		$extensions[] = array('file', 'joomla', '', 0);
@@ -313,83 +278,52 @@ class joomlaInstallerScript
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
-			'/includes/version.php',
-			'/installation/sql/mysql/joomla_update_170to171.sql',
-			'/installation/sql/mysql/joomla_update_172to173.sql',
-			'/installation/sql/mysql/joomla_update_17ga.sql',
-			'/libraries/cms/cmsloader.php',
-			'/libraries/joomla/application/applicationexception.php',
-			'/libraries/joomla/client/http.php',
-			'/libraries/joomla/filter/filterinput.php',
-			'/libraries/joomla/filter/filteroutput.php',
-			'/libraries/joomla/form/fields/templatestyle.php',
-			'/libraries/joomla/form/fields/user.php',
-			'/libraries/joomla/form/fields/menu.php',
-			'/libraries/joomla/form/fields/helpsite.php',
-			'/libraries/joomla/form/formfield.php',
-			'/libraries/joomla/form/formrule.php',
-			'/libraries/joomla/utilities/garbagecron.txt',
-			'/libraries/phpmailer/language/phpmailer.lang-en.php',
-			'/media/system/css/modal_msie.css',
-			'/media/system/images/modal/closebox.gif',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.0-2011-06-06-2.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.0-2011-06-06.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.0.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.1-2011-09-15-2.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.1-2011-09-15-3.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.1-2011-09-15-4.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.1-2011-09-15.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.1-2011-09-17.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.1-2011-09-20.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.3-2011-10-15.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.3-2011-10-19.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.3-2011-11-10.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.4-2011-11-19.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.4-2011-11-23.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/1.7.4-2011-12-12.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-06.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-16.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-19.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-20.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-21-1.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-21-2.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-22.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-23.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2011-12-24.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2012-01-10.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.0-2012-01-14.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.1-2012-01-26.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.2-2012-03-05.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.3-2012-03-13.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.4-2012-03-18.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.4-2012-03-19.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.5.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/2.5.6.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/2.5.2-2012-03-05.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/2.5.3-2012-03-13.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/2.5.4-2012-03-18.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/2.5.4-2012-03-19.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/2.5.5.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/2.5.6.sql',
 			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.2-2012-03-05.sql',
-			'/administrator/components/com_admin/sql/updates/sqlsrv/2.5.3-2012-03-13.sql',
-			'/administrator/components/com_admin/sql/updates/sqlsrv/index.html',
-			'/administrator/components/com_users/controllers/config.php',
-			'/administrator/language/en-GB/en-GB.plg_system_finder.ini',
-			'/administrator/language/en-GB/en-GB.plg_system_finder.sys.ini',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlist/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autolink/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autoresize/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autosave/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/directionality/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullscreen/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/iespell/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/insertdatetime/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/layer/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/lists/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/nonbreaking/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/noneditable/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/pagebreak/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/preview/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/print/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/save/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/spellchecker/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/tabfocus/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/visualchars/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/wordcount/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/editor_plugin_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/editor_template_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/editor_template_src.js',
-			'/media/editors/tinymce/jscripts/tiny_mce/tiny_mce_src.js',
-			'/media/com_finder/images/calendar.png',
-			'/media/com_finder/images/mime/index.html',
-			'/media/com_finder/images/mime/pdf.png',
+			'/includes/version.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
-			'/libraries/joomlacms',
-			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/img',
-			'/media/plg_highlight',
-			'/media/mod_finder_status',
-			'/administrator/components/com_admin/sql/updates/sqlsrv',
-			'/media/com_finder/images/mime',
-			'/media/com_finder/images',
+			'/administrator/components/com_joomlaupdate',
 		);
 
 		foreach ($files as $file) {

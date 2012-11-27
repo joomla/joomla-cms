@@ -123,7 +123,7 @@ class InstallerControllerUpdate extends JControllerLegacy {
         // change, making it impossible for AJAX to work.
 
         $eid = JRequest::getInt('eid', 0);
-        $skip = JRequest::getVar('skip', array(), 'default', 'array');
+	    $skip = JRequest::getVar('skip', array(), 'default', 'array');
 
         $cache_timeout = JRequest::getInt('cache_timeout', 0);
         if ($cache_timeout == 0) {

@@ -113,9 +113,18 @@ $saveOrder	= $listOrder == 'fp.ordering';
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'featured.', $canCheckin); ?>
 					<?php endif; ?>
-					<?php if ($canEdit) : ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id='.$item->id);?>">
-						<?php echo $this->escape($item->title); ?></a>
+					<?php if ($canEdit) : ?>						
+						<?php if ($this->showpreview) : 
+							(strlen($item->introtext) > 0) ? $textintro = htmlentities(utf8_decode($item->introtext)) : $textintro = JTEXT::_(JGLOBAL_NODESC); 
+							?>
+							<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_PREVIEW_DESCRIPTION');?>::<?php echo $textintro; ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id='.$item->id);?>">
+									<?php echo $this->escape($item->title); ?></a>
+							</span>
+						<?php else : ?>
+							 <a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id='.$item->id);?>">
+								<?php echo $this->escape($item->title); ?></a>
+						<?php endif; ?>					
 					<?php else : ?>
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
