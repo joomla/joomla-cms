@@ -14,7 +14,7 @@ ver el código fuente y el archivo de la CHANGELOG
 2. Historial de cambios
 ------------
 Esta es una lista no exhaustiva (pero aún así casi completa) de cambios para
-Jokte! 2.5, entre ellos el alfa y versiones beta.
+Jokte! 1.2.0, entre ellos el alfa y versiones beta.
 Nuestro agradecimiento a todas aquellas personas que han aportado informes de errores y
 correcciones de código.
 
@@ -27,6 +27,38 @@ $ -> Idioma corrección o cambio
 ^ -> Cambiar
 - -> Eliminado
 ! -> Nota
+
+
+17-Oct-2012
+ # Arreglos varios
+ ! Cambio de versión Jokte v1.1.5 - No se liberó
+
+10-Oct-2012
+ # Arreglos varios
+ ! Cambio de versión Jokte v1.1.4 - No se liberó
+
+09-Oct-2012
+ # Fix varios
+ ! Cambio de versión Jokte v1.1.2 - No se liberó
+
+30-Sep-2012
+ # Fix varios
+ ! Cambio de versión Jokte v1.1.1 
+
+17-Sep-2012
+ ^ Instalación simplificada en tres pasos
+ $ Actualización del paquete de idiomas es-LA
+ # Plantilla Jokte Antu correcciones
+ ! Jokte v1.1.0-RC
+
+30-Jul-2012
+ * Actualización a la última versión de Joomla 2.5.6
+ $ Cambio del paquete de idiomas por defecto a es-LA
+ - Eliminación de la sección languages de com_installer 
+ + Creación de funcionalidad para instalar extensiones con 1 clic desde la administración
+ + Creación de funcionalidad para el registro de instalaciones Jokte
+ ^ Cambio de los contenidos de ejemplo
+ ! Jokte v1.0RC1
 
 02-Mar-2012 Matias Aguirre
  + Creacion de CHANGELOG
