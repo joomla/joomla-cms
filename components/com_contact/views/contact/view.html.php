@@ -75,7 +75,10 @@ class ContactViewContact extends JViewLegacy
 		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
 
 
-		// Handle email cloaking
+		// To Gravatar
+		$email_g 	= $item->email_to;
+		
+		// Handle email cloaking		
 		if ($item->email_to && $params->get('show_email')) {
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
 		}
@@ -147,6 +150,7 @@ class ContactViewContact extends JViewLegacy
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
+		$this->assignRef('email_g',		$email_g);
 		$this->assignRef('contact',		$item);
 		$this->assignRef('params',		$params);
 		$this->assignRef('return',		$return);
