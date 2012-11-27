@@ -37,7 +37,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Ordering");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//i[@class='icon-arrow-down']"));
+		$this->assertTrue($this->isElementPresent("//i[@class='icon-downarrow']"));
 		$this->type("//input[@name='order[]' and @value='1']", "4");
 		$this->type("//input[@name='order[]' and @value='2']", "3");
 		$this->type("//input[@name='order[]' and @value='3']", "2");

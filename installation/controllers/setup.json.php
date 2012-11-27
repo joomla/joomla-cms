@@ -58,6 +58,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$return	= $model->validate($data, 'preinstall');
 
 		$r = new stdClass;
+
 		// Check for validation errors.
 		if ($return === false)
 		{
@@ -80,6 +81,7 @@ class InstallationControllerSetup extends JControllerLegacy
 			// Redirect to the page.
 			$r->view = $this->input->getWord('view', 'site');
 			$this->sendResponse($r);
+
 			return false;
 		}
 
@@ -442,6 +444,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	function checkForm($page = 'site')
 	{
+
 		// Check for request forgeries.
 		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
@@ -464,6 +467,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		// Check for validation errors.
 		if ($return === false)
 		{
+
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
@@ -503,6 +507,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function detectFtpRoot()
 	{
+
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
@@ -542,6 +547,7 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function verifyFtpSettings()
 	{
+
 		// Check for a valid token. If invalid, send a 403 with the error message.
 		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
@@ -590,13 +596,14 @@ class InstallationControllerSetup extends JControllerLegacy
 		$vars = $this->input->get('jform', array(), 'array');
 
 		$path = JPATH_INSTALLATION;
-		//check whether the folder still exists
+
+		// Check whether the folder still exists
 		if (!file_exists($path))
 		{
 			$this->sendResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
 		}
 
-		// check whether we need to use FTP
+		// Check whether we need to use FTP
 		$useFTP = false;
 		if ((file_exists($path) && !is_writable($path)))
 		{
@@ -617,6 +624,7 @@ class InstallationControllerSetup extends JControllerLegacy
 
 		if ($useFTP == true)
 		{
+
 			// Connect the FTP client
 			jimport('joomla.filesystem.path');
 
@@ -641,6 +649,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		}
 		else
 		{
+
 			// Try to delete the folder.
 			// We use output buffering so that any error message echoed JFolder::delete
 			// doesn't land in our JSON output.
@@ -676,9 +685,11 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function sendResponse($response)
 	{
+
 		// Check if we need to send an error code.
 		if ($response instanceof Exception)
 		{
+
 			// Send the appropriate error code response.
 			JResponse::setHeader('status', $response->getCode());
 			JResponse::setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -692,6 +703,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$app = JFactory::getApplication();
 		$app->close();
 	}
+
 }
 
 /**
@@ -704,6 +716,7 @@ class InstallationJsonResponse
 {
 	function __construct($state)
 	{
+
 		// The old token is invalid so send a new one.
 		$this->token = JSession::getFormToken(true);
 
@@ -734,6 +747,7 @@ class InstallationJsonResponse
 		// Check if we are dealing with an error.
 		if ($state instanceof Exception)
 		{
+
 			// Prepare the error response.
 			$this->error   = true;
 			$this->header  = JText::_('INSTL_HEADER_ERROR');
@@ -741,6 +755,7 @@ class InstallationJsonResponse
 		}
 		else
 		{
+
 			// Prepare the response data.
 			$this->error = false;
 			$this->data  = $state;
