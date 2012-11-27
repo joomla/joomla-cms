@@ -51,7 +51,7 @@ JHtml::_('script', 'installation/template/js/installation.js', true, false, fals
 	<body>
 		<div id="header">
                     <h1 class=""><?php echo JText::_('INSTL_INSTALLATION') ?></h1>
-                    <h3><?php echo JText::_('INSTL_CMS_NAME') . ' ' . JVERSION; ?> </h3>
+                    <h3><?php echo JText::_('INSTL_CMS_NAME') . ' ' . VJOKTE; ?> </h3>
                     <h2><?php echo JText::_('INSTL_LATAM'); ?> | </h2>
 		</div>
 		<jdoc:include type="message" />

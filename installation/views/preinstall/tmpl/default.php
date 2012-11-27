@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 <form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m install">
-			<h3><?php echo JText::sprintf('INSTL_PRECHECK_FOR_VERSION', $this->version->getLongVersion()); ?></h3>
+			<h3><?php echo JText::sprintf('INSTL_PRECHECK_FOR_VERSION', $this->version->getVersionLarga()); ?></h3>
 			<div class="install-text">
 				<?php echo JText::_('INSTL_PRECHECK_DESC'); ?>
 			</div>

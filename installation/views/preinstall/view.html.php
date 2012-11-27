@@ -32,7 +32,7 @@ class JInstallationViewPreinstall extends JView
 		$this->settings		= $this->get('PhpSettings');
 		$this->options		= $this->get('PhpOptions');
 		$this->sufficient	= $this->get('PhpOptionsSufficient');
-		$this->version		= new JVersion;
+		$this->version		= new JVjokte;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
