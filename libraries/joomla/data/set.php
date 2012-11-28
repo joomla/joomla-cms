@@ -133,7 +133,7 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 		$return = array();
 
 		// Iterate through the objects.
-		foreach ($this->_objects as $key => $object)
+		foreach ($this->_objects as $object)
 		{
 			// Check the property.
 			$return[] = isset($object->$property);
@@ -159,10 +159,8 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 	 */
 	public function __set($property, $value)
 	{
-		$return = array();
-
 		// Iterate through the objects.
-		foreach ($this->_objects as $key => $object)
+		foreach ($this->_objects as $object)
 		{
 			// Set the property.
 			$object->$property = $value;
@@ -371,7 +369,7 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 	public function offsetSet($offset, $object)
 	{
 		// Check if the object is a JData object.
-		if (!($object instanceOf JData))
+		if (!($object instanceof JData))
 		{
 			throw new InvalidArgumentException(sprintf('%s("%s", *%s*)', __METHOD__, $offset, gettype($object)));
 		}

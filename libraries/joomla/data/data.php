@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Data
  * @since       12.3
  */
-class JData implements JDataDumpable, IteratorAggregate, JsonSerializable
+class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Countable
 {
 	/**
 	 * The data properties.
@@ -315,5 +315,17 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable
 		$this->_properties[$property] = $value;
 
 		return $value;
+	}
+
+	/**
+	 * Count the number of data properties.
+	 *
+	 * @return  integer  The number of data properties.
+	 *
+	 * @since   12.3
+	 */
+	public function count()
+	{
+		return count($this->_properties);
 	}
 }

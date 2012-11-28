@@ -440,6 +440,55 @@ class JDataTest extends TestCase
 	}
 
 	/**
+	 * Test the count method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JData::count
+	 *
+	 * @since   12.3
+	 */
+	public function testCount()
+	{
+		// Set three properties.
+		$this->_instance->foo = 'foo';
+		$this->_instance->bar = 'bar';
+		$this->_instance->barz = 'barz';
+
+		$this->assertCount(3, $this->_instance);
+	}
+
+	/**
+	 * Test the count method with no properties.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JData::count
+	 *
+	 * @since   12.3
+	 */
+	public function testCountEmpty()
+	{
+		$this->assertCount(0, $this->_instance);
+	}
+
+	/**
+	 * Test that the count method only counts one level of properties.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JData::count
+	 *
+	 * @since   12.3
+	 */
+	public function testCountDepth()
+	{
+		$this->_instance->foo = array(1 => array(2));
+
+		$this->assertCount(1, $this->_instance);
+	}
+
+	/**
 	 * Setup the tests.
 	 *
 	 * @return  void
