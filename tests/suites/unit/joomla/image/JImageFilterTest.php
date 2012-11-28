@@ -73,7 +73,7 @@ class JImageFilterTest extends TestCase
 	 */
 	public function testConstructor()
 	{
-		// Create a image handle of the correct size.
+		// Create an image handle of the correct size.
 		$imageHandle = imagecreatetruecolor(100, 100);
 
 		$filter = new JImageFilterBrightness($imageHandle);
