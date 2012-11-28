@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
+$lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
@@ -23,6 +24,13 @@ $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 if ($this->direction == 'rtl') :
 	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
 endif;
+
+// Load specific language related CSS
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+if (is_file($file))
+{
+	$doc->addStyleSheet($file);
+}
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -37,7 +45,7 @@ $config = JFactory::getConfig();
 $debug  = (boolean) $config->get('debug');
 ?>
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
