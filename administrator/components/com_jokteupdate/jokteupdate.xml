@@ -7,7 +7,7 @@
 	<license>GNU General Public License version 3; see	LICENSE.txt</license>
 	<authorEmail>admin@jokte.org</authorEmail>
 	<authorUrl>www.jokte.org</authorUrl>
-	<version>1.1.9</version>
+	<version>1.2.0</version>
 	<description>COM_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<administration>
 		<files folder="admin">
@@ -22,9 +22,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_jokteupdate.ini
-			<language tag="es-LA">language/es-LA.com_jokteupdate.ini
-			</language>
+			<language tag="en-GB">language/en-GB.com_jokteupdate.ini</language>
+			<language tag="es-LA">language/es-LA.com_jokteupdate.ini</language>			
 		</languages>
 	</administration>
 </extension>
