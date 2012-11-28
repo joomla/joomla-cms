@@ -519,6 +519,7 @@ abstract class JTable extends JObject
 				$this->$k = $v->Default;
 			}
 		}
+		
 		// Reset table errors
 		$this->_errors = array();
 	}
