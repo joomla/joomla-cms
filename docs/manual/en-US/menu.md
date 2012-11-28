@@ -1,6 +1,7 @@
 - Chapters
 - [Introductions](chapters/introduction.md)
 - [JCrypt](chapters/packages/crypt.md)
+- [JData](chapters/packages/data.md)
 - [JDatabase](chapters/packages/database.md)
 - [JGithub](chapters/packages/github.md)
 - [JGoogle](chapters/packages/google.md)
@@ -9,6 +10,7 @@
 - [JKeychain](chapters/packages/keychain.md)
 - [JLog](chapters/packages/log.md)
 - [MVC](chapters/packages/mvc.md)
+- [JObject](chapters/packages/object.md)
 - [JProfiler](chapters/packages/profiler.md)
 - [Testing](chapters/testing.md)
 
