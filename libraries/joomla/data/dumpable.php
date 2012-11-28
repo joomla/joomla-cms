@@ -30,5 +30,5 @@ interface JDataDumpable
 	 *
 	 * @since   12.3
 	 */
-	public function dump($depth, SplObjectStorage $dumped = null);
+	public function dump($depth = 3, SplObjectStorage $dumped = null);
 }
