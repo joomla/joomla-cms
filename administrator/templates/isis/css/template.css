@@ -1888,6 +1888,7 @@ table .span24 {
 	position: relative;
 	height: 0;
 	overflow: hidden;
+	overflow: visible \9;
 	-webkit-transition: height .35s ease;
 	-moz-transition: height .35s ease;
 	-o-transition: height .35s ease;
