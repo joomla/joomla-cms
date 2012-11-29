@@ -168,7 +168,7 @@ else
 					</div>
 
 					<!-- Display Admin Information Panels -->
-					<div class="cpanel-component well">
+					<div class="cpanel-component">
 						<jdoc:include type="component" />
 					</div>
 

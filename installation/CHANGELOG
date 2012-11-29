@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 29-Nov-2012 Mark Dexter
  # [#29744] Submenu module missing closing A tag. Thanks Kevin Griffiths.
+ # [#29749] *Correcting Hathor CPanel display. Thanks JM. 
 
 27-Nov-2012 Jean-Marie Simonet
  +$ Adding Swahili sw-KE installation files.

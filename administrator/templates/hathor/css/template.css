@@ -1161,7 +1161,7 @@ div.cpanel-icons {
 	float: left;
 }
 div.cpanel-component {
-	width: 45%;
+	width: 75%;
 	float: right;
 }
 div.col {
@@ -2833,6 +2833,7 @@ fieldset.uploadform {
 	vertical-align: middle;
 	border-top: 1px solid #dddddd;
 	margin-left: 0;
+	font-size: 1.2em;
 }
 .list-striped li,
 .list-striped dd,
