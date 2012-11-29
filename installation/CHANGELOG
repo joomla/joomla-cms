@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Nov-2012 Mark Dexter
+ # [#29744] Submenu module missing closing A tag. Thanks Kevin Griffiths.
+
 27-Nov-2012 Jean-Marie Simonet
  +$ Adding Swahili sw-KE installation files.
  $ Although not used, adding missing JText::script strings in installation as they show in debug.
