@@ -6577,3 +6577,6 @@ ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
 }
+div.calendar {
+    z-index: 1030;
+}
