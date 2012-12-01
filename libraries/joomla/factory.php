@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class JFactory
 {
 	/**
-	 * @var    JApplication
+	 * @var    JApplicationBase
 	 * @since  11.1
 	 */
 	public static $application = null;
@@ -80,15 +80,15 @@ abstract class JFactory
 	/**
 	 * Get a application object.
 	 *
-	 * Returns the global {@link JApplication} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link JApplicationBase} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   mixed   $id      A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
 	 * @param   string  $prefix  Application prefix
 	 *
-	 * @return  JApplication object
+	 * @return  JApplicationBase object
 	 *
-	 * @see     JApplication
+	 * @see     JApplicationBase
 	 * @since   11.1
 	 * @throws  Exception
 	 */
@@ -96,12 +96,32 @@ abstract class JFactory
 	{
 		if (!self::$application)
 		{
+			/*
+			 * @deprecated  13.3 - JFactory::getApplication() will no longer attempt to retrieve an instance of JApplication if self::$application is not set.
+			 *                     Instead, an Exception will be thrown if the object is not set.
+			 */
+			JLog::add(
+				sprintf(
+					'Using %s to instantiate applications is deprecated.  JApplicationBase classes should register directly to JFactory::$application.',
+					__METHOD__
+				),
+				JLog::WARNING,
+				'deprecated'
+			);
+
 			if (!$id)
 			{
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
-			self::$application = JApplication::getInstance($id, $config, $prefix);
+			if (class_exists('JApplication'))
+			{
+				self::$application = JApplication::getInstance($id, $config, $prefix);
+			}
+			else
+			{
+				throw new Exception('JApplication not loaded, unable to load JApplication instance', 500);
+			}
 		}
 
 		return self::$application;
