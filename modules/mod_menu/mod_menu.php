@@ -13,13 +13,15 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 
 $list		= modMenuHelper::getList($params);
+$base		= modMenuHelper::getBase($params);
 $active		= modMenuHelper::getActive($params);
 $active_id 	= $active->id;
-$path		= $active->tree;
+$path		= $base->tree;
 
 $showAll	= $params->get('showAllChildren');
 $class_sfx	= htmlspecialchars($params->get('class_sfx'));
 
-if(count($list)) {
+if (count($list))
+{
 	require JModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
 }

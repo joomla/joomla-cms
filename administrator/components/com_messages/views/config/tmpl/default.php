@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
+JHtml::_('behavior.modal');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -23,32 +24,47 @@ JHtml::_('behavior.keepalive');
 		}
 	}
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate form-horizontal">
 	<fieldset>
-		<div class="fltrt">
-			<button type="button" onclick="Joomla.submitform('config.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 1400);">
-				<?php echo JText::_('JSAVE');?></button>
-			<button type="button" onclick="window.parent.SqueezeBox.close();">
-				<?php echo JText::_('JCANCEL');?></button>
+		<div>
+			<div class="modal-header">
+				<h3><?php echo JText::_('COM_MESSAGES_MY_SETTINGS');?></h3>
+			</div>
+			<div class="modal-body">
+				<button class="btn btn-primary" type="submit" onclick="Joomla.submitform('config.save', this.form);window.top.setTimeout('window.parent.SqueezeBox.close()', 700);">
+					<?php echo JText::_('JSAVE');?></button>
+				<button class="btn" type="button" onclick="window.parent.SqueezeBox.close();">
+					<?php echo JText::_('JCANCEL');?></button>
+				<hr />
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('lock'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('lock'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('mail_on_new'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('mail_on_new'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('auto_purge'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('auto_purge'); ?>
+					</div>
+				</div>
+
+			</div>
 		</div>
-		<div class="configuration" >
-			<?php echo JText::_('COM_MESSAGES_MY_SETTINGS') ?>
-		</div>
-	</fieldset>
-
-	<fieldset class="adminform">
-	<ul  class="adminformlist">
-		<li><?php echo $this->form->getLabel('lock'); ?>
-		<?php echo $this->form->getInput('lock'); ?></li>
-
-		<li><?php echo $this->form->getLabel('mail_on_new'); ?>
-		<?php echo $this->form->getInput('mail_on_new'); ?></li>
-
-		<li><?php echo $this->form->getLabel('auto_purge'); ?>
-		<?php echo $this->form->getInput('auto_purge'); ?></li>
-	</ul>
-
+		</fieldset>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
-	</fieldset>
+
 </form>

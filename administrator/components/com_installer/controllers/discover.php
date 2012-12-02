@@ -10,13 +10,18 @@
 defined('_JEXEC') or die;
 
 /**
+ * Discover Installation Controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerControllerDiscover extends JControllerLegacy
 {
 	/**
 	 * Refreshes the cache of discovered extensions.
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */
@@ -30,6 +35,8 @@ class InstallerControllerDiscover extends JControllerLegacy
 	/**
 	 * Install a discovered extension.
 	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
 	public function install()
@@ -41,6 +48,8 @@ class InstallerControllerDiscover extends JControllerLegacy
 
 	/**
 	 * Clean out the discovered extension cache.
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */

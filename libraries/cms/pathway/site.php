@@ -47,6 +47,7 @@ class JPathwaySite extends JPathway
 					switch ($link->type)
 					{
 						case 'separator':
+						case 'heading':
 							$url = null;
 							break;
 

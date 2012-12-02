@@ -34,16 +34,16 @@ class Acl0006Test extends SeleniumJoomlaTestCase
 		$group = $groupName;
 	    $this->createUser($username, $login, 'password', $email, $group);
 
-    	echo "Set global permissions for ". $groupName." to allowed\n";
+    	$this->jPrint ("Set global permissions for ". $groupName." to allowed\n");
  		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State', 'Edit Own');
 		$permissions = array('Inherited', 'Allowed', 'Denied', 'Allowed', 'Allowed', 'Allowed', 'Allowed', 'Allowed', 'Allowed');
 		$this->setPermissions('Global Configuration', $group, $actions, $permissions);
     	$this->doAdminLogout();
 
     	$this->doAdminLogin($login, 'password');
-   		echo "Testng access of ". $login.".\n";
+   		$this->jPrint ("Testng access of ". $login.".\n");
 
-    	echo "Testng Banners access of ". $login.".\n";
+    	$this->jPrint ("Testng Banners access of ". $login.".\n");
     	$this->click("link=Banners");
     	$this->waitForPageToLoad("30000");
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-new']"));
@@ -53,9 +53,9 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-checkin']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-		echo "Testng Contacts access of ". $login.".\n";
+		$this->jPrint ("Testng Contacts access of ". $login.".\n");
     	$this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
     	$this->click("link=Contacts");
@@ -67,9 +67,9 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-checkin']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-		echo "Testng Messaging access of ". $login.".\n";
+		$this->jPrint ("Testng Messaging access of ". $login.".\n");
     	$this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
     	$this->click("link=Messaging");
@@ -78,10 +78,10 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-publish']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-unpublish']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertTrue($this->isElementPresent("//button[contains(., 'My Settings')]"));
-    	$this->assertFalse($this->isElementPresent("//button[contains(., 'Options')]"));
+    	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-config']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-     	echo "Testng Newsfeeds access of ". $login.".\n";
+     	$this->jPrint ("Testng Newsfeeds access of ". $login.".\n");
     	$this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
     	$this->click("link=Newsfeeds");
@@ -92,9 +92,10 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-unpublish']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-batch']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-    	echo "Testng Redirect access of ". $login.".\n";
+    	$this->jPrint ("Testng Redirect access of ". $login.".\n");
     	$this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
     	$this->click("link=Redirect");
@@ -105,9 +106,9 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-unpublish']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-    	echo "Testng weblinks access of ". $login.".\n";
+    	$this->jPrint ("Testng weblinks access of ". $login.".\n");
     	$this->click("link=Control Panel");
     	$this->waitForPageToLoad("30000");
     	$this->jClick('Weblinks');
@@ -118,21 +119,22 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-checkin']"));
     	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-batch']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
     	$this->doAdminLogout();
     	$this->doAdminLogin();
 
-    	echo "Set global permissions for ". $groupName.".\n";
+    	$this->jPrint ("Set global permissions for ". $groupName.".\n");
  		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State', 'Edit Own');
 		$permissions = array('Inherited', 'Allowed', 'Denied', 'Allowed', 'Denied', 'Denied', 'Denied', 'Denied', 'Denied');
 		$this->setPermissions('Global Configuration', $group, $actions, $permissions);
     	$this->doAdminLogout();
     	$this->doAdminLogin($login, 'password');
 
-		echo "Testng access of ". $login.".\n";
+		$this->jPrint ("Testng access of ". $login.".\n");
 
-    	echo "Testng Banners access of ". $login.".\n";
+    	$this->jPrint ("Testng Banners access of ". $login.".\n");
     	$this->click("link=Banners");
     	$this->waitForPageToLoad("30000");
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-new']"));
@@ -142,9 +144,9 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-checkin']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-		echo "Testng Contacts access of ". $login.".\n";
+		$this->jPrint ("Testng Contacts access of ". $login.".\n");
     	$this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
     	$this->click("link=Contacts");
@@ -156,9 +158,9 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-checkin']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-		echo "Testng Messaging access of ". $login.".\n";
+		$this->jPrint ("Testng Messaging access of ". $login.".\n");
     	$this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
     	$this->click("link=Messaging");
@@ -167,10 +169,10 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-publish']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-unpublish']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertTrue($this->isElementPresent("//button[contains(., 'My Settings')]"));
-    	$this->assertFalse($this->isElementPresent("//button[contains(., 'Options')]"));
+    	$this->assertTrue($this->isElementPresent("//div[@id='toolbar-config']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-     	echo "Testng Newsfeeds access of ". $login.".\n";
+     	$this->jPrint ("Testng Newsfeeds access of ". $login.".\n");
     	$this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
     	$this->click("link=Newsfeeds");
@@ -181,9 +183,9 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-unpublish']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-    	echo "Testng Redirect access of ". $login.".\n";
+    	$this->jPrint ("Testng Redirect access of ". $login.".\n");
     	$this->click("link=Control Panel");
 	    $this->waitForPageToLoad("30000");
     	$this->click("link=Redirect");
@@ -194,9 +196,9 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-unpublish']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
-    	echo "Testng weblinks access of ". $login.".\n";
+    	$this->jPrint ("Testng weblinks access of ". $login.".\n");
     	$this->click("link=Control Panel");
     	$this->waitForPageToLoad("30000");
     	$this->jClick('Weblinks');
@@ -207,10 +209,10 @@ class Acl0006Test extends SeleniumJoomlaTestCase
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-archive']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-checkin']"));
     	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-trash']"));
-    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-popup-options']"));
+    	$this->assertFalse($this->isElementPresent("//div[@id='toolbar-options']"));
 
 		$this->gotoAdmin();
-		echo "Log back in as admin and delete user and group\n";
+		$this->jPrint ("Log back in as admin and delete user and group\n");
 		$this->doAdminLogout();
 		$this->doAdminLogin();
 

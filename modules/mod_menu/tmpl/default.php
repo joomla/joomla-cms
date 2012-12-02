@@ -40,6 +40,10 @@ foreach ($list as $i => &$item) :
 		}
 	}
 
+	if ($item->type == 'separator') {
+		$class .= ' divider';
+	}
+
 	if ($item->deeper) {
 		$class .= ' deeper';
 	}
@@ -59,6 +63,7 @@ foreach ($list as $i => &$item) :
 		case 'separator':
 		case 'url':
 		case 'component':
+		case 'heading':
 			require JModuleHelper::getLayoutPath('mod_menu', 'default_'.$item->type);
 			break;
 

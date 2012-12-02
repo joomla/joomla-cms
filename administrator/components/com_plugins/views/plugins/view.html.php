@@ -88,7 +88,7 @@ class PluginsViewPlugins extends JViewLegacy
 		JHtmlSidebar::addFilter(
 				JText::_('JOPTION_SELECT_PUBLISHED'),
 				'filter_enabled',
-				JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.enabled'), true)
+				JHtml::_('select.options', PluginsHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.enabled'), true)
 		);
 
 		JHtmlSidebar::addFilter(
