@@ -22,43 +22,57 @@ defined('JPATH_PLATFORM') or die;
 class JFilterInput
 {
 	/**
-	 * @var    array  A container for JFilterInput instances.
+	 * A container for JFilterInput instances.
+	 *
+	 * @var    array
 	 * @since  11.3
 	 */
 	protected static $instances = array();
 
 	/**
-	 * @var    array  An array of permitted tags.
+	 * The array of permitted tags (white list).
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $tagsArray;
 
 	/**
-	 * @var    array  An array of permitted tag attributes.
+	 * The array of permitted tag attributes (white list).
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $attrArray;
 
 	/**
-	 * @var    integer  Method for tags: WhiteList method = 0 (default), BlackList method = 1
+	 * The method for sanitising tags: WhiteList method = 0 (default), BlackList method = 1
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $tagsMethod;
 
 	/**
-	 * @var    integer  Method for attributes: WhiteList method = 0 (default), BlackList method = 1
+	 * The method for sanitising attributes: WhiteList method = 0 (default), BlackList method = 1
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $attrMethod;
 
 	/**
-	 * @var    integer  Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 * A flag for XSS checks. Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
+	 *
+	 * @var    integer
 	 * @since  11.1
 	 */
 	public $xssAuto;
 
 	/**
-	 * @var    array  A list of the default blacklisted tags.
+	 * The list of the default blacklisted tags.
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $tagBlacklist = array(
@@ -87,7 +101,9 @@ class JFilterInput
 	);
 
 	/**
-	 * @var    array     A list of the default blacklisted tag attributes.  All event handlers implicit.
+	 * The list of the default blacklisted tag attributes. All event handlers implicit.
+	 *
+	 * @var    array
 	 * @since   11.1
 	 */
 	public $attrBlacklist = array(
@@ -153,7 +169,23 @@ class JFilterInput
 	 * specified bad code.
 	 *
 	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
-	 * @param   string  $type    Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param   string  $type    The return type for the variable:
+	 *                           INT:       An integer,
+	 *                           UINT:      An unsigned integer,
+	 *                           FLOAT:     A floating point number,
+	 *                           BOOLEAN:   A boolean value,
+	 *                           WORD:      A string containing A-Z or underscores only (not case sensitive),
+	 *                           ALNUM:     A string containing A-Z or 0-9 only (not case sensitive),
+	 *                           CMD:       A string containing A-Z, 0-9, underscores, periods or hyphens (not case sensitive),
+	 *                           BASE64:    A string containing A-Z, 0-9, forward slashes, plus or equals (not case sensitive),
+	 *                           STRING:    A fully decoded and sanitised string (default),
+	 *                           HTML:      A sanitised string,
+	 *                           ARRAY:     An array,
+	 *                           PATH:      A sanitised file path,
+	 *                           USERNAME:  Do not use (use an application specific filter),
+	 *                           NONE:      The raw string is returned with no filtering,
+	 *                           unknown:   An unknown filter will act like STRING. If the input is an array it will return an
+	 *                                      array of fully decoded and sanitised strings.
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *

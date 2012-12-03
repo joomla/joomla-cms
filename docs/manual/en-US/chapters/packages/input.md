@@ -1,21 +1,16 @@
 ## The Input Package
 
-The Input package provides a number of classes that can be used as an
-alternative to using the static calls of the `JRequest` class. The package
-comprises of four classes, `JInput`and three sub-classes extended from
-it: `JInputCli`, `JInputCookie` and `JInputFiles`. An input object is
-generally owned by the application and explicitly added to an
-application class as a public property, such as can be found in
-`JApplication`, `JApplicationCli` and `JApplicationDaemon`.
+This package comprises of four classes, `JInput`and three sub-classes extended from it: `JInputCli`, `JInputCookie` and `JInputFiles`. It replaces the role of the now deprecated `JRequest` class. An input object is generally owned by the application and explicitly added to an application class as a public property, such as can be found in `JApplicationWeb`, `JApplicationCli` and `JApplicationDaemon`. 
 
-All classes in this package are supported by the auto-loader so can be
-invoked at any time.
+The intent of this package is to abstract out the input source to allow code to be reused in different applications and in different contexts through dependency injection. For example, a controller could inspect the request variables directly using `JRequest`. But suppose there is a requirement to add a web service that carries input as a JSON payload. Instead of writing a second controller to handle the different input source, it would be much easier to inject an  input object, that is tailored for the type of input source, into the controller.
 
-### Classes
+Using a `JInput` object through dependency injection also makes code easier to test. Writing unit tests for code that relies on `JRequest` is problematic to say the least.
 
-#### JInput
+All classes in this package are supported by the auto-loader so can be invoked at any time. 
 
-##### Construction
+### JInput
+
+#### Construction
 
 Unlike its predecessor `JRequest` which is used statically, the `JInput`
 class is meant to be used as an instantiated concrete class. Among other
@@ -41,7 +36,7 @@ $filter = JFilterInput::getInstance(/* custom settings */);
 $input = new JInput(null, $filter);
 ```
 
-##### Usage
+#### Usage
 
 The most common usage of the `JInput` class will be through the get method
 which is roughly equivalent to the `JRequest::getVar` method. The get
@@ -134,7 +129,7 @@ if ($input->server->get('SERVER_ADDR'))
 $host = $input->env->get('HOSTNAME');
 ```
 
-##### Serialization
+#### Serialization
 
 The `JInput` class implements the `Serializable` interface so that it can be
 safely serialized and unserialized. Note that when serializing the "ENV"
@@ -142,7 +137,7 @@ and "SERVER" inputs are removed from the class as they may conflict or
 inappropriately overwrite settings during unserialization. This allows
 for `JInput` objects to be safely used with cached data.
 
-#### JInputCli
+### JInputCli
 
 The JInputCli class is extended from `JInput` but is tailored to work with
 command line input. Once again the get method is used to get values of
@@ -210,10 +205,80 @@ bool(false)
 array(1) {[0] => string(3) "bar"}
 ```
 
-#### JInputCookie
+### JInputCookie
 
 > Can you help improve this section of the manual?
 
-#### JInputFiles
+### JInputFiles
 
-> Can you help improve this section of the manual?
+The `JInputFiles` class provides a way to handle file attachments as payloads of POSTed forms. Consider the following form which is assumed to handle an array of files to be attached (through some JavaScript behavior):
+
+```html
+<form method="POST" action="/files" enctype="multipart/form-data">
+   Attachments:
+   <input type="file" name="attachments[]" />
+   <button>Add another file</button>
+</form>
+```
+
+Access the files from the request could be done as follows:
+
+```php
+// By default, a new JInputFiles will inspect $_FILES.
+$input = new JInputFiles;
+$files = $input->get('attachments');
+
+echo 'Inspecting $_FILES:';
+var_dump($_FILES);
+
+echo 'Inspecting $files:';
+var_dump($files);
+```
+
+```
+Inspecting $_FILES:
+
+array
+  'name' => 
+    array
+      0 => string 'aje_sig_small.png' (length=17)
+      1 => string '' (length=0)
+  'type' => 
+    array
+      0 => string 'image/png' (length=9)
+      1 => string '' (length=0)
+  'tmp_name' => 
+    array
+      0 => string '/private/var/tmp/phpPfGfnN' (length=26)
+      1 => string '' (length=0)
+  'error' => 
+    array
+      0 => int 0
+      1 => int 4
+  'size' => 
+    array
+      0 => int 16225
+      1 => int 0
+
+Inspectiong $files:
+
+array
+  0 => 
+    array
+      'name' => string 'sig_small.png' (length=17)
+      'type' => string 'image/png' (length=9)
+      'tmp_name' => string '/private/var/tmp/phpybKghO' (length=26)
+      'error' => int 0
+      'size' => int 16225
+  1 => 
+    array
+      'name' => string '' (length=0)
+      'type' => string '' (length=0)
+      'tmp_name' => string '' (length=0)
+      'error' => int 4
+      'size' => int 0
+```
+
+Unlike the PHP `$_FILES` supergobal, this array is very easier to parse. The example above assumes two files were submitted, but only one was specified. The 'blank' file contains an error code (see [PHP file upload errors](http://php.net/manual/en/features.file-upload.errors.php)).
+
+The `set` method is disabled in `JInputFiles`. However, 
