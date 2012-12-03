@@ -232,10 +232,10 @@ class JFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   12.3
 	 * @covers  JFactory::getDate
 	 */
-	public function testGetDate()
+	public function testGetDateUnchanged()
 	{
 		JFactory::$language = $this->getMockLanguage();
 
@@ -246,6 +246,19 @@ class JFactoryTest extends TestCase
 			$this->equalTo('2001-01-01 01:01:01'),
 			'Tests that a date passed in comes back unchanged.'
 		);
+	}
+
+	/**
+	 * Tests the JFactory::getDate method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @covers  JFactory::getDate
+	 */
+	public function testGetDateNow()
+	{
+		JFactory::$language = $this->getMockLanguage();
 
 		$date = JFactory::getDate('now');
 		sleep(2);
@@ -256,6 +269,19 @@ class JFactoryTest extends TestCase
 			$this->equalTo($date),
 			'Tests that the cache for the same time is working.'
 		);
+	}
+
+	/**
+	 * Tests the JFactory::getDate method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @covers  JFactory::getDate
+	 */
+	public function testGetDateUTC1()
+	{
+		JFactory::$language = $this->getMockLanguage();
 
 		$tz = 'Etc/GMT+0';
 		$date = JFactory::getDate('2001-01-01 01:01:01', $tz);
@@ -265,6 +291,19 @@ class JFactoryTest extends TestCase
 			$this->equalTo('2001-01-01 01:01:01'),
 			'Tests that a date passed in with UTC timezone string comes back unchanged.'
 		);
+	}
+
+	/**
+	 * Tests the JFactory::getDate method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @covers  JFactory::getDate
+	 */
+	public function testGetDateUTC2()
+	{
+		JFactory::$language = $this->getMockLanguage();
 
 		$tz = new DateTimeZone('Etc/GMT+0');
 		$date = JFactory::getDate('2001-01-01 01:01:01', $tz);
@@ -273,6 +312,23 @@ class JFactoryTest extends TestCase
 			(string) $date,
 			$this->equalTo('2001-01-01 01:01:01'),
 			'Tests that a date passed in with UTC timezone comes back unchanged.'
+		);
+	}
+
+	/**
+	 * Tests the JFactory::getUser method.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @covers  JFactory::getUser
+	 */
+	public function testGetUserInstance()
+	{
+		$this->assertInstanceOf(
+			'JUser',
+			JFactory::getUser(),
+			'Line: ' . __LINE__
 		);
 	}
 }

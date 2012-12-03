@@ -244,7 +244,7 @@ class JUserTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test...
+	 * Test getAuthorisedCategories
 	 *
 	 * @covers JUser::getAuthorisedCategories
 	 * @todo Implement testGetAuthorisedCategories().

@@ -72,8 +72,17 @@ class JUserHelperTest extends TestCaseDatabase
 				array(
 					'code' => 'SOME_ERROR_CODE',
 					'msg' => 'JLIB_USER_ERROR_UNABLE_TO_LOAD_USER',
-					'info' => ''
-				),
+					'info' => ''),
+			),
+			'publisher' => array(
+				43,
+				array(5 => 5,),
+				array(),
+			),
+			'manager' => array(
+				44,
+				array(2 => 2, 6 => 6),
+				array(),
 			),
 		);
 	}
@@ -119,15 +128,18 @@ class JUserHelperTest extends TestCaseDatabase
 	}
 
 	/**
-	 * TestingGetUserGroups().
+	 * TestingGetUserId().
 	 *
-	 * @param   string  $username  User name
-	 * @param   int     $expected  Expected user id
-	 * @param   array   $error     Expected error info
+	 * @param   string   $username  User name
+	 * @param   integer  $expected  Expected user id
+	 * @param   array    $error     Expected error info
 	 *
 	 * @dataProvider casesGetUserId
 	 * @covers  JUserHelper::getUserId
+	 *
 	 * @return  void
+	 *
+	 * @since   12.2
 	 */
 	public function testGetUserId($username, $expected, $error)
 	{
@@ -137,5 +149,136 @@ class JUserHelperTest extends TestCaseDatabase
 			$this->equalTo($expResult)
 		);
 
+	}
+
+	/**
+	 * Test cases for testAddUserToGroup
+	 *
+	 * @return array
+	 */
+	public function casesAddUserToGroup()
+	{
+		return array(
+			'publisher' => array(
+				43,
+				6,
+				true
+			),
+			'manager' => array(
+				44,
+				6,
+				true
+			),
+		);
+	}
+	/**
+	 * Testing addUserToGroup().
+	 *
+	 * @param   string   $userId    User id
+	 * @param   integer  $groupId   Group to add user to
+	 * @param   boolean  $expected  Expected params
+	 *
+	 * @dataProvider casesAddUsertoGroup
+	 * @covers  JUserHelper::addUsertoGroup
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testAddUserToGroup($userId, $groupId, $expected)
+	{
+		$this->assertThat(
+			JUserHelper::addUserToGroup($userId, $groupId),
+			$this->equalTo($expected)
+		);
+	}
+
+	/**
+	 * Testing addUserToGroup() with expected exception.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @expectedException  RuntimeException
+	 * @covers  JUserHelper::addUsertoGroup
+	 */
+	public function testAddUserToGroupException()
+	{
+		JUserHelper::addUserToGroup(44, 99);
+	}
+
+	/**
+	 * Test cases for testRemoveUserFromGroup
+	 *
+	 * @return array
+	 */
+	public function casesRemoveUserFromGroup()
+	{
+		return array(
+			'publisher' => array(
+				43,
+				8,
+				true
+			),
+			'manager' => array(
+				44,
+				6,
+				true
+			),
+		);
+	}
+
+	/**
+	 * Testing removeUserFromGroup().
+	 *
+	 * @param   string   $userId    User id
+	 * @param   integer  $groupId   Group to remove user from
+	 * @param   boolean  $expected  Expected params
+	 *
+	 * @dataProvider casesRemoveUserFromGroup
+	 * @covers  JUserHelper::removeUserFromGroup
+	 * @return  void
+	 */
+	public function testRemoveUserFromGroup($userId, $groupId, $expected)
+	{
+		$this->assertThat(
+			JUserHelper::removeUserFromGroup($userId, $groupId),
+			$this->equalTo($expected)
+		);
+	}
+
+	/**
+	 * Test cases for testActivateUser
+	 *
+	 * @return array
+	 */
+	public function casesActivateUser()
+	{
+		return array(
+			'Valid User' => array(
+				'30cc6de70fb18231196a28dd83363d57',
+				true),
+			'Invalid User' => array(
+				'30cc6de70fb18231196a28dd83363d72',
+				false),
+		);
+	}
+	/**
+	 * Testing activateUser().
+	 *
+	 * @param   string   $activation  Activation string
+	 * @param   boolean  $expected    Expected params
+	 *
+	 * @dataProvider casesActivateUser
+	 * @covers  JUserHelper::activateUser
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function testActivateUser($activation, $expected)
+	{
+		$this->assertThat(
+			JUserHelper::activateUser($activation),
+			$this->equalTo($expected)
+		);
 	}
 }

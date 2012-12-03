@@ -3404,6 +3404,24 @@ separator=
 		<column>profile_value</column>
 		<column>ordering</column>
 	</table>
+		<row>
+			<value>42</value>
+			<value>profile.favoritebook</value>
+			<value>"War and Peace"</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>43</value>
+			<value>profile.favoritebook</value>
+			<value>"Alice in Wonderland"</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>43</value>
+			<value>profile.favoritemovie</value>
+			<value>"The Wizard of Oz"</value>
+			<value>2</value>
+		</row>
 	<table name="jos_user_usergroup_map">
 		<column>user_id</column>
 		<column>group_id</column>
@@ -3418,6 +3436,14 @@ separator=
 		<row>
 			<value>44</value>
 			<value>6</value>
+		</row>
+		<row>
+			<value>44</value>
+			<value>2</value>
+		</row>
+		<row>
+			<value>100</value>
+			<value>2</value>
 		</row>
 	</table>
 	<table name="jos_usergroups">
@@ -3564,6 +3590,20 @@ separator=
 			<value>2010-02-13 00:34:42</value>
 			<value>0000-00-00 00:00:00</value>
 			<value></value>
+			<value>{&quot;admin_language&quot;:&quot;&quot;,&quot;language&quot;:&quot;&quot;,&quot;editor&quot;:&quot;&quot;,&quot;helpsite&quot;:&quot;&quot;,&quot;timezone&quot;:&quot;&quot;}</value>
+		</row>
+		<row>
+			<value>100</value>
+			<value>Activate</value>
+			<value>activate</value>
+			<value>activate@example.com</value>
+			<value>b69eafa62e549e5fa875e127fadc3c83:VapLaQZx00iYDRwgMjgsfyIHgoe01DK8</value>
+			<value>deprecated</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2010-02-13 00:34:42</value>
+			<value>0000-00-00 00:00:00</value>
+			<value>30cc6de70fb18231196a28dd83363d57</value>
 			<value>{&quot;admin_language&quot;:&quot;&quot;,&quot;language&quot;:&quot;&quot;,&quot;editor&quot;:&quot;&quot;,&quot;helpsite&quot;:&quot;&quot;,&quot;timezone&quot;:&quot;&quot;}</value>
 		</row>
 	</table>
