@@ -223,7 +223,7 @@ The `JInputFiles` class provides a way to handle file attachments as payloads of
 
 Access the files from the request could be done as follows:
 
-```
+```php
 // By default, a new JInputFiles will inspect $_FILES.
 $input = new JInputFiles;
 $files = $input->get('attachments');
