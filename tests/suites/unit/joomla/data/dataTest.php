@@ -233,6 +233,29 @@ class JDataTest extends TestCase
 	}
 
 	/**
+	 * Tests the count method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JData::count
+	 * @since   12.3
+	 */
+	public function testCount()
+	{
+		// Tests the current object is empty.
+		$this->assertCount(0, $this->_instance);
+
+		// Set a complex property.
+		$this->_instance->foo = array(1 => array(2));
+		$this->assertCount(1, $this->_instance);
+
+		// Set some more properties.
+		$this->_instance->bar = 'bar';
+		$this->_instance->barz = 'barz';
+		$this->assertCount(3, $this->_instance);
+	}
+
+	/**
 	 * Tests the dump method.
 	 *
 	 * @return  void
@@ -437,55 +460,6 @@ class JDataTest extends TestCase
 
 		// The property should not be set.
 		$this->assertNull($this->_instance->$property);
-	}
-
-	/**
-	 * Test the count method.
-	 *
-	 * @return  void
-	 *
-	 * @covers  JData::count
-	 *
-	 * @since   12.3
-	 */
-	public function testCount()
-	{
-		// Set three properties.
-		$this->_instance->foo = 'foo';
-		$this->_instance->bar = 'bar';
-		$this->_instance->barz = 'barz';
-
-		$this->assertCount(3, $this->_instance);
-	}
-
-	/**
-	 * Test the count method with no properties.
-	 *
-	 * @return  void
-	 *
-	 * @covers  JData::count
-	 *
-	 * @since   12.3
-	 */
-	public function testCountEmpty()
-	{
-		$this->assertCount(0, $this->_instance);
-	}
-
-	/**
-	 * Test that the count method only counts one level of properties.
-	 *
-	 * @return  void
-	 *
-	 * @covers  JData::count
-	 *
-	 * @since   12.3
-	 */
-	public function testCountDepth()
-	{
-		$this->_instance->foo = array(1 => array(2));
-
-		$this->assertCount(1, $this->_instance);
 	}
 
 	/**

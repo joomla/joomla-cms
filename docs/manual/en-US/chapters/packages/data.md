@@ -98,6 +98,10 @@ The magic `__get` method in the `JDataSet` class effectively works like a "get c
 
 The magic `__set` method is similar and works like a "set column" method. It will set all a value for a property for all the objects in the list.
 
+The `clear` method will clear all the objects in the data set.
+
+The `keys` method will return all of the keys of the objects stored in the set. It works like the `array_keys` function does on an PHP array.
+
 ```php
 // Add a new element to the end of the list.
 $players[] => new JData(array('race' => 'Skaven', 'level' => 2));
@@ -113,6 +117,9 @@ $players->level = 4;
 
 // Get the value of a property for all object and also the count (get the average level).
 $average = $players->level / count($players);
+
+// Clear all the objects.
+$players->clear();
 ```
 
 `JDataSet` supports magic methods that operate on all the objects in the list. Calling an arbitrary method will iterate of the list of objects, checking if each object has a callable method of the name of the method that was invoked. In such a case, the return values are assembled in an array forming the return value of the method invoked on the `JDataSet` object. The keys of the original objects are maintained in the result array.
