@@ -10,13 +10,18 @@
 defined('_JEXEC') or die;
 
 /**
+ * Installer Update Controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerControllerUpdate extends JControllerLegacy
 {
 	/**
 	 * Update a set of extensions.
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */
@@ -29,18 +34,21 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$uid   = $this->input->get('cid', array(), 'array');
 
 		JArrayHelper::toInteger($uid, array());
-		if ($model->update($uid)) {
+		if ($model->update($uid))
+		{
 			$cache = JFactory::getCache('mod_menu');
 			$cache->clean();
 		}
 
 		$app = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
-		if(empty($redirect_url)) {
-			$redirect_url = JRoute::_('index.php?option=com_installer&view=update', false);
-		} else
+		if (empty($redirect_url))
 		{
-			// wipe out the user state when we're going to redirect
+			$redirect_url = JRoute::_('index.php?option=com_installer&view=update', false);
+		}
+		else
+		{
+			// Wipe out the user state when we're going to redirect
 			$app->setUserState('com_installer.redirect_url', '');
 			$app->setUserState('com_installer.message', '');
 			$app->setUserState('com_installer.extension_message', '');
@@ -50,6 +58,8 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 	/**
 	 * Find new updates.
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */
@@ -68,11 +78,14 @@ class InstallerControllerUpdate extends JControllerLegacy
 		$model	= $this->getModel('update');
 		$result = $model->findUpdates(0, $cache_timeout);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false));
-		//$view->display();
+
+		// $view->display();
 	}
 
 	/**
 	 * Purges updates.
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */
@@ -96,15 +109,18 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 */
 	public function ajax()
 	{
-		// Note: we don't do a token check as we're fetching information
-		// asynchronously. This means that between requests the token might
-		// change, making it impossible for AJAX to work.
+		/*
+		 * Note: we don't do a token check as we're fetching information
+		 * asynchronously. This means that between requests the token might
+		 * change, making it impossible for AJAX to work.
+		 */
 
 		$eid  = $this->input->getInt('eid', 0);
 		$skip = $this->input->get('skip', array(), 'array');
 
 		$cache_timeout = $this->input->getInt('cache_timeout', 0);
-		if($cache_timeout == 0) {
+		if ($cache_timeout == 0)
+		{
 			$component = JComponentHelper::getComponent('com_installer');
 			$params = $component->params;
 			$cache_timeout = $params->get('cachetimeout', 6, 'int');
@@ -116,20 +132,24 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
-		if($eid != 0) {
+		if ($eid != 0)
+		{
 			$model->setState('filter.extension_id', $eid);
 		}
 		$updates = $model->getItems();
 
-		if(!empty($skip)) {
+		if (!empty($skip))
+		{
 			$unfiltered_updates = $updates;
 			$updates = array();
-
-			foreach($unfiltered_updates as $update) {
-				if(!in_array($update->extension_id, $skip)) $updates[] = $update;
+			foreach ($unfiltered_updates as $update)
+			{
+				if (!in_array($update->extension_id, $skip))
+				{
+					$updates[] = $update;
+				}
 			}
 		}
-
 		echo json_encode($updates);
 
 		JFactory::getApplication()->close();

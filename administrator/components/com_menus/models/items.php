@@ -47,15 +47,7 @@ class MenusModelItems extends JModelList
 			);
 
 			$app = JFactory::getApplication();
-			if (isset($app->menu_associations))
-			{
-				$assoc = $app->menu_associations;
-			}
-			else
-			{
-				$assoc = 0;
-			}
-
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -196,6 +188,7 @@ class MenusModelItems extends JModelList
 			' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
 			' WHEN ' . $db->quote('alias') . ' THEN a.published+4 ' .
 			' WHEN ' . $db->quote('separator') . ' THEN a.published+6 ' .
+			' WHEN ' . $db->quote('heading') . ' THEN a.published+8 ' .
 			' END AS published');
 		$query->from($db->quoteName('#__menu').' AS a');
 
@@ -216,7 +209,7 @@ class MenusModelItems extends JModelList
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the associations.
-		$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association');

@@ -16,11 +16,11 @@ $input = JFactory::getApplication()->input;
 ?>
 <script type='text/javascript'>
 var image_base_path = '<?php $params = JComponentHelper::getParams('com_media');
-echo $params->get('image_path', 'images');?>/';
+echo $params->get('image_path', 'images'); ?>/';
 </script>
-<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>" class="form-horizontal" id="imageForm" method="post" enctype="multipart/form-data">
+<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
-		<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true)?>
+		<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true) ?>
 	</div>
 	<div class="well">
 		<div class="row">

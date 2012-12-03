@@ -282,6 +282,24 @@ class ContentModelArticle extends JModelAdmin
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
 
+		// Load associated content items
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
+		if ($assoc)
+		{
+			$item->associations = array();
+
+			if ($item->id != null) {
+				$associations = ContentHelper::getAssociations($item->id);
+
+				foreach ($associations as $tag => $association) {
+					$item->associations[$tag] = $association->id;
+				}
+
+			}
+		}
+
 		return $item;
 	}
 
@@ -420,6 +438,65 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			if ($assoc)
+			{
+				$id = (int) $this->getState($this->getName() . '.id');
+				$item = $this->getItem($id);
+
+				// Adding self to the association
+				$associations = $data['associations'];
+
+				foreach ($associations as $tag => $id)
+				{
+					if (empty($id)) {
+						unset($associations[$tag]);
+					}
+				}
+
+				// Detecting all item menus
+				$all_language = $item->language == '*';
+
+				if ($all_language && !empty($associations)) {
+					JError::raiseNotice(403, JText::_('COM_CONTENT_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+				}
+
+				$associations[$item->language] = $item->id;
+
+				// Deleting old association for these items
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true);
+				$query->delete('#__associations');
+				$query->where('context='.$db->quote('com_content.item'));
+				$query->where('id IN ('.implode(',', $associations).')');
+				$db->setQuery($query);
+				$db->execute();
+
+				if ($error = $db->getErrorMsg()) {
+					$this->setError($error);
+					return false;
+				}
+
+				if (!$all_language && count($associations)) {
+					// Adding new association for these items
+					$key = md5(json_encode($associations));
+					$query->clear();
+					$query->insert('#__associations');
+
+					foreach ($associations as $tag => $id) {
+						$query->values($id.','.$db->quote('com_content.item') . ',' . $db->quote($key));
+					}
+
+					$db->setQuery($query);
+					$db->execute();
+
+					if ($error = $db->getErrorMsg()) {
+						$this->setError($error);
+						return false;
+					}
+				}
+			}
+
 			return true;
 		}
 
@@ -519,6 +596,52 @@ class ContentModelArticle extends JModelAdmin
 		$condition = array();
 		$condition[] = 'catid = '.(int) $table->catid;
 		return $condition;
+	}
+
+	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return	void
+	 * @since	3.0
+	 */
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	{
+		// Association content items
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc) {
+			$languages = JLanguageHelper::getLanguages('lang_code');
+
+			// force to array (perhaps move to $this->loadFormData())
+			$data = (array) $data;
+
+			$addform = new SimpleXMLElement('<form />');
+			$fields = $addform->addChild('fields');
+			$fields->addAttribute('name', 'associations');
+			$fieldset = $fields->addChild('fieldset');
+			$fieldset->addAttribute('name', 'item_associations');
+			$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+			$add = false;
+			foreach ($languages as $tag => $language)
+			{
+				if (empty($data['language']) || $tag != $data['language']) {
+					$add = true;
+					$field = $fieldset->addChild('field');
+					$field->addAttribute('name', $tag);
+					$field->addAttribute('type', 'modal_article');
+					$field->addAttribute('language', $tag);
+					$field->addAttribute('label', $language->title);
+					$field->addAttribute('translate_label', 'false');
+				}
+			}
+			if ($add) {
+				$form->load($addform, false);
+			}
+		}
+
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**

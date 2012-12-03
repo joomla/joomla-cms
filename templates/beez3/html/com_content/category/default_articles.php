@@ -53,6 +53,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	</fieldset>
 	<?php endif; ?>
 
+	<div class="clr"></div>
+
 	<table class="category">
 		<?php if ($this->params->get('show_headings')) :?>
 		<thead>
@@ -112,7 +114,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</td>
 					<?php endif; ?>
 
-					<<?php if ($this->params->get('list_show_author', 1)) : ?>
+					<?php if ($this->params->get('list_show_author', 1)) : ?>
 					<td class="list-author">
 						<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>

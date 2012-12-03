@@ -41,7 +41,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 	 *
 	 * @return mixed|void
 	 */
-	public function display($tpl=null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$this->state      = $this->get('State');
@@ -75,6 +75,7 @@ class InstallerViewLanguages extends InstallerViewDefault
 			JToolBarHelper::custom('languages.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
 			JToolBarHelper::divider();
 			parent::addToolbar();
+
 			// TODO: this help screen will need to be created
 			JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_LANGUAGES');
 		}
