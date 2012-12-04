@@ -202,6 +202,21 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 	}
 
 	/**
+	 * Clears the objects in the data set.
+	 *
+	 * @return  JDataSet  Returns itself to allow chaining.
+	 *
+	 * @since   12.3
+	 */
+	public function clear()
+	{
+		$this->_objects = array();
+		$this->rewind();
+
+		return $this;
+	}
+
+	/**
 	 * Get the current data object in the set.
 	 *
 	 * @return  JData  The current object, or false if the array is empty or the pointer is beyond the end of the elements.
@@ -300,6 +315,18 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 	}
 
 	/**
+	 * Gets the array of keys for all the objects in the iterator (emulates array_keys).
+	 *
+	 * @return  array  The array of keys
+	 *
+	 * @since   12.3
+	 */
+	public function keys()
+	{
+		return array_keys($this->_objects);
+	}
+
+	/**
 	 * Advances the iterator to the next object in the iterator.
 	 *
 	 * @return  void
@@ -309,21 +336,30 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 	public function next()
 	{
 		// Get the object offsets.
-		$keys = array_keys($this->_objects);
+		$keys = $this->keys();
 
-		// Get the current key.
-		$position = array_search($this->_current, $keys);
-
-		// Check if there is an object after the current object.
-		if (isset($keys[$position + 1]))
+		// Check if _current has been set to false but offsetUnset.
+		if ($this->_current === false && isset($keys[0]))
 		{
-			// Get the next id.
-			$this->_current = $keys[$position + 1];
+			// This is a special case where offsetUnset was used in a foreach loop and the first element was unset.
+			$this->_current = $keys[0];
 		}
 		else
 		{
-			// That was the last object.
-			$this->_current = null;
+			// Get the current key.
+			$position = array_search($this->_current, $keys);
+
+			// Check if there is an object after the current object.
+			if ($position !== false && isset($keys[$position + 1]))
+			{
+				// Get the next id.
+				$this->_current = $keys[$position + 1];
+			}
+			else
+			{
+				// That was the last object or the internal properties have become corrupted.
+				$this->_current = null;
+			}
 		}
 	}
 
@@ -389,6 +425,32 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 	 */
 	public function offsetUnset($offset)
 	{
+		if (!$this->offsetExists($offset))
+		{
+			// Do nothing if the offset does not exist.
+			return;
+		}
+
+		// Check for special handling of unsetting the current position.
+		if ($offset == $this->_current)
+		{
+			// Get the current position.
+			$keys = $this->keys();
+			$position = array_search($this->_current, $keys);
+
+			// Check if there is an object before the current object.
+			if ($position > 0)
+			{
+				// Move the current position back one.
+				$this->_current = $keys[$position - 1];
+			}
+			else
+			{
+				// We are at the start of the keys AND let's assume we are in a foreach loop and `next` is going to be called.
+				$this->_current = false;
+			}
+		}
+
 		unset($this->_objects[$offset]);
 	}
 
@@ -408,7 +470,7 @@ class JDataSet implements JDataDumpable, ArrayAccess, Countable, Iterator
 		}
 		else
 		{
-			$keys = array_keys($this->_objects);
+			$keys = $this->keys();
 			$this->_current = array_shift($keys);
 		}
 	}
