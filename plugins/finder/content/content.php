@@ -245,6 +245,8 @@ class plgFinderContent extends FinderIndexerAdapter
 	 */
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
+		$item->setLanguage();
+
 		// Check if the extension is enabled
 		if (JComponentHelper::isEnabled($this->extension) == false)
 		{

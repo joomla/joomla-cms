@@ -252,6 +252,8 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			return;
 		}
 
+		$item->setLanguage();
+
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);

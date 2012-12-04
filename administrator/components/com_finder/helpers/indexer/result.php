@@ -179,6 +179,24 @@ class FinderIndexerResult
 	public $type_id;
 
 	/**
+	 * The default language for content.
+	 *
+	 * @var    string
+	 * @since  3.0.2
+	 */
+	public $defaultLanguage;
+
+	/**
+	 * Constructor
+	 *
+	 * @since   3.0.3
+	 */
+	public function __construct()
+	{
+		$this->defaultLanguage = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+	}
+
+	/**
 	 * The magic set method is used to push additional values into the elements
 	 * array in order to preserve the cleanliness of the object.
 	 *
@@ -394,5 +412,12 @@ class FinderIndexerResult
 
 		// Add the node to the taxonomy branch.
 		$this->taxonomy[$branch][$node->title] = $node;
+	}
+	public function setLanguage()
+	{
+		if ($this->language = '*' || $this->language = '')
+		{
+			$this->language = $this->defaultLanguage;
+		}
 	}
 }
