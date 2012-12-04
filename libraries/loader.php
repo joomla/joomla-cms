@@ -413,7 +413,7 @@ abstract class JLoader
 	 * packages with different class prefixes to the system autoloader.  More than one lookup path
 	 * may be registered for the same class prefix, but if this method is called with the reset flag
 	 * set to true then any registered lookups for the given prefix will be overwritten with the current
-	 * lookup path.
+	 * lookup path. When loaded, prefix paths are searched in a "last in, first out" order.
 	 *
 	 * @param   string   $prefix  The class prefix to register.
 	 * @param   string   $path    Absolute file path to the library root where classes with the given prefix can be found.
@@ -441,12 +441,12 @@ abstract class JLoader
 		// Otherwise we want to simply add the path to the prefix.
 		else
 		{
-			self::$prefixes[$prefix][] = $path;
+			array_unshift(self::$prefixes[$prefix], $path);
 		}
 	}
 
 	/**
-	 * Register a namespace to the autoloader.
+	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
 	 *
 	 * @param   string   $namespace  A case sensitive Namespace to register.
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
@@ -475,7 +475,7 @@ abstract class JLoader
 		// Otherwise we want to simply add the path to the namespace.
 		else
 		{
-			self::$namespaces[$namespace][] = $path;
+			array_unshift(self::$namespaces[$namespace], $path);
 		}
 	}
 
