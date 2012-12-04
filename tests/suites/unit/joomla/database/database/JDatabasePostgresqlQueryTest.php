@@ -33,7 +33,7 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	{
 		return array(
 			// Quoted, expected
-			array(true, "'1970-01-01 00:00:00'"),
+			array(true, "'_1970-01-01 00:00:00_'"),
 			array(false, "1970-01-01 00:00:00"),
 		);
 	}
