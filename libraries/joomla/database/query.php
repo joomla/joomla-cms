@@ -1241,8 +1241,9 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->quote('fulltext');
 	 * $query->q('fulltext');
+	 * $query->q(array('option', 'fulltext'));
 	 *
-	 * @param   string   $text    The string to quote.
+	 * @param   mixed    $text    A string or an array of strings to quote.
 	 * @param   boolean  $escape  True to escape the string, false to leave it unchanged.
 	 *
 	 * @return  string  The quoted input string.
