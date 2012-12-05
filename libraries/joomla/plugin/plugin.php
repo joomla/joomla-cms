@@ -48,7 +48,7 @@ abstract class JPlugin extends JEvent
 	 * @var    boolean
 	 * @since  12.3
 	 */
-	protected $load_language = false;
+	protected $loadLanguage = false;
 
 	/**
 	 * Constructor
@@ -89,7 +89,7 @@ abstract class JPlugin extends JEvent
 		}
 
 		// Load the language files if needed.
-		if ($this->load_language)
+		if ($this->loadLanguage)
 		{
 			$this->loadLanguage();
 		}
