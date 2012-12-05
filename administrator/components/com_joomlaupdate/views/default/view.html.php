@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_installer
  * @since       2.5.4
  */
-class JoomlaupdateViewDefault extends JViewLegacy
+class JoomlaupdateViewDefault extends JViewLegacy 
 {
 	/**
 	 * Renders the view
@@ -47,8 +47,10 @@ class JoomlaupdateViewDefault extends JViewLegacy
 			if (file_exists($path) && $this->xml_requirements = simplexml_load_file($path)){
 				foreach($this->xml_requirements as $xml_data){
 					if($xml_data->attributes()->release == $this->updateInfo['latest']){
-						$this->settings = $model->getPhpSettings($xml_data->php_settings);
-						$this->options  = $model->getPhpOptions($xml_data->php_options);
+						$this->assign('settings', $model->getPhpSettings($xml_data->php_settings));
+						$this->assign('options', $model->getPhpOptions($xml_data->php_options));
+						// Check for 3rd party extensions
+						$this->assign('extensions', $model->getExtensions($this->updateInfo['latest']));
 						break;
 					}
 				}

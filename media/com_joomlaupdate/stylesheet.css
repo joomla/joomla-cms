@@ -211,3 +211,33 @@
 .joomla_check .centered {
 	text-align:center;
 }
+.joomla_check .submenu-box{
+	background:#fff;
+}
+.joomla_check .submit{
+	-webkit-border-radius:5px;
+	-khtml-border-radius:5px;
+	-moz-border-radius:5px;
+	border-radius:5px;
+	padding:2px 8px;
+}
+	
+.joomla_check .submit.not_compatible,
+.joomla_check .submit.no_xmltag{
+	background-color: #FF0000;
+	font-weight:bold;
+	color:#fff;
+	border:1px solid #930;
+	opacity:0.5;  
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; // first!
+	filter: alpha(opacity=50);	
+}
+.joomla_check .submit.no_xmltag{
+	background-color: #F89406;
+	border:1px solid #D24724;
+}
+.joomla_check #dontrecom{
+	display:none;
+	color: #FF0000;
+	font-weight:bold;
+}

@@ -690,7 +690,7 @@ ENDDATA;
 	 *
 	 * @return	array
 	 *
-	 * @since   3.0
+	 * @since   2.5.9
 	 */
 	public function getPhpOptions(SimpleXMLElement $xml = null)
 	{
@@ -788,7 +788,7 @@ ENDDATA;
 	 *
 	 * @return  array
 	 *
-	 * @since   3.0
+	 * @since   2.5.9
 	 */
 	public function getPhpSettings(SimpleXMLElement $xml = null)
 	{
@@ -882,5 +882,136 @@ ENDDATA;
 		}
 
 		return $result;
+	}
+	
+	/**
+	 * Method to get a list with 3rd party extensions, sorted by compatibility
+	 *
+	 * @return  mixed  An array of data items.
+	 * @since   2.5.9
+	 */
+	public function getExtensions($latest_version)
+	{
+		$db 	= $this->getDbo();
+		$query 	= $db->getQuery(true);
+		
+		$query->select('*');
+		$query->from('#__extensions');
+		$query->where('protected = 0');
+		$query->where('extension_id > 9999');
+
+		$db->setQuery($query, 0, 0);
+		$result = $db->loadObjectList();
+
+		return $this->checkCompatibility($result,$latest_version);
+	}
+
+	/**
+	 * Method to filter 3rd party extensions by the compatibility versions
+	 *
+	 * @return  array  An array of data items.
+	 * @since   2.5.9
+	 */
+	public function checkCompatibility($items,$latest_version)
+	{
+
+		// If empty, return the current value
+		if (empty($items) || !is_array($items))
+		{
+			return array();
+		}
+		
+		//return variable
+		$items_compatible = array("compatible"=>array(),"not_compatible"=>array(),"na"=>array());
+
+		//import installer class for finding manifest xml file
+		jimport('joomla.installer.installer');
+		$installer 	= JInstaller::getInstance();
+
+		foreach ($items as $field => $value)
+		{
+			//get the extension folder
+			switch($value->type){
+				case "plugin":
+					$package_folder = JPath::clean(($value->client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR).'/plugins/'.$value->folder.'/'.$value->element);
+				break;
+				case "module":
+					$package_folder = JPath::clean(($value->client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR).'/modules/'.$value->element);
+				break;
+				case "template":
+					$package_folder = JPath::clean(($value->client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR).'/templates/'.$value->element);
+				break;				
+				case "component":
+				default:
+					$package_folder = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$value->element);
+				break;				
+			}
+			
+			//get the manifest file inside the extension folder
+			$installer->setPath('source', $package_folder);
+
+			if($installer->findManifest()){
+				//check inside manifest xml for compatibility tags
+				$manifest 	= $installer->getManifest();
+				$element 	= $manifest->compatibility;
+				if($element && !empty($latest_version)){
+					$compatible_found = false;
+					foreach ($element->children() as $compatible){
+						if($this->compareVersions($latest_version,$compatible)){
+							//extension is compatible
+							$items_compatible['compatible'][] = $value;
+							$compatible_found = true;
+							break;
+						}
+					}
+					//extension is not compatible
+					if(!$compatible_found){
+						$items_compatible['not_compatible'][] = $value;
+					}
+				}else{
+					//compatibility xml tag not found
+					$items_compatible['na'][] = $value;
+				}
+			}else{
+				//manifest file not found
+				$items_compatible['na'][] = $value;
+			}
+		}
+
+		return $items_compatible;
+	}
+	
+	/**
+	 * Method to compare two versions
+	 *
+	 * @param   string  $latest_version_array  	Dot-number notation
+	 * @param   string  $compatible_array		Dot-number notation
+	 *
+	 * @return boolean True on success
+	 * @since   2.5.9
+	 */
+	public function compareVersions($latest_version = "",$compatible = "")
+	{
+	
+		$latest_version_array	= explode(".",$latest_version);
+		$compatible_array 		= explode(".",$compatible);
+	
+		// If empty, return false
+		if (empty($latest_version_array) || empty($compatible_array))
+		{
+			return false;
+		}
+		
+		$depth	= count($latest_version_array) - 1;
+		for($i = $depth; $i >= 0; $i--){
+			if(!isset($compatible_array[$i])) continue;
+					
+			if((int)$latest_version_array[$i] != (int)$compatible_array[$i]){
+				return false;
+			}
+		}
+		
+		return true;
+	
 	}	
 }
