@@ -17,11 +17,23 @@ window.addEvent('domready', function () {
 			}
 		});
 	}
-
+	
 	$$('button.submit').addEvent('click', function() {
 		$$('div.download_message').setStyle('display', 'block');
 		var el = $$('div.joomlaupdate_spinner');
 		el.set('spinner', {class: 'joomlaupdate_spinner'});
 		el.spin();
 	})
+	
+	$$('#enable_update').addEvent('click', function(el) {
+		if (this.checked){
+			$$('button.submit').set('disabled','');
+			$$('button.submit').setStyle('opacity',1);
+			$$('#dontrecom').setStyle('display','block');
+		}else{
+			$$('button.submit').set('disabled','disabled');
+			$$('button.submit').setStyle('opacity',0.5);
+			$$('#dontrecom').setStyle('display','none');
+		}
+	});	
 });
