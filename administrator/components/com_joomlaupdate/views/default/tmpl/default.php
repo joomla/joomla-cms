@@ -358,7 +358,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
                                                     <?php echo $extension->name; ?>
                                                 </td>
                                                 <td><span class="label label-warning">
-                                                    <?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_DESCRIPTION'); ?></span></td>
+                                                    <?php echo JText::_('COM_JOOMLAUPDATE_NA'); ?></span></td>
                                             </tr>
                                             <?php } ?>
                                         <?php }else{ ?>
@@ -374,13 +374,13 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
                         </div>
                     </div>
                 </div>
-                <?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_LABEL'); ?>
-                <span class="label label-warning">
-                <?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_DESCRIPTION'); ?></span><br />
-                <br />
                 <?php echo JText::_('COM_JOOMLAUPDATE_MARKED_DESCRIPTION_FIRST'); ?>
                 <span class="label label-important"><?php echo JText::_('JNO'); ?></span> or <span class="label label-warning"><?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_MARK'); ?></span>
                 <?php echo JText::_('COM_JOOMLAUPDATE_MARKED_DESCRIPTION_LAST'); ?>
+                <br />
+                <br />
+                <span class="label label-warning"><?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_LABEL'); ?></span>
+                <?php echo JText::_('COM_JOOMLAUPDATE_MISSING_TAG_DESCRIPTION'); ?>
 			<?php endif;?>
 		</div>
 		<!-- close span -->
