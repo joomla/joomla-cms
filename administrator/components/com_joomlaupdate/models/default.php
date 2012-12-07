@@ -886,6 +886,8 @@ ENDDATA;
 	
 	/**
 	 * Method to get a list with 3rd party extensions, sorted by compatibility
+	 * 
+	 * @param   string  $latest_version  The Joomla! version to test against
 	 *
 	 * @return  mixed  An array of data items.
 	 * @since   2.5.9
@@ -909,11 +911,14 @@ ENDDATA;
 
 	/**
 	 * Method to filter 3rd party extensions by the compatibility versions
+	 * 
+	 * @param   array   $items           The items to check as an object list. See getExtensions().
+	 * @param   string  $latest_version  The Joomla! version to test against
 	 *
 	 * @return  array  An array of data items.
 	 * @since   2.5.9
 	 */
-	public function checkCompatibility($items,$latest_version)
+	private function checkCompatibility($items, $latest_version)
 	{
 
 		// If empty, return the current value
@@ -923,7 +928,11 @@ ENDDATA;
 		}
 		
 		//return variable
-		$items_compatible = array("compatible"=>array(),"not_compatible"=>array(),"na"=>array());
+		$items_compatible = array(
+			'compatible'		=> array(),
+			'not_compatible'	=> array(),
+			'na'				=> array()
+		);
 
 		//import installer class for finding manifest xml file
 		jimport('joomla.installer.installer');
@@ -931,50 +940,141 @@ ENDDATA;
 
 		foreach ($items as $field => $value)
 		{
-			//get the extension folder
+			// Initialise the manifest sniffer code
+			$package_folder = null;
+			$manifest_filename = null;
+			
+			// Guess the manifest path and name
 			switch($value->type){
-				case "plugin":
-					$package_folder = JPath::clean(($value->client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR).'/plugins/'.$value->folder.'/'.$value->element);
-				break;
-				case "module":
-					$package_folder = JPath::clean(($value->client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR).'/modules/'.$value->element);
-				break;
-				case "template":
-					$package_folder = JPath::clean(($value->client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR).'/templates/'.$value->element);
-				break;				
-				case "component":
-				default:
-					$package_folder = JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$value->element);
-				break;				
+				case 'component':
+					// A "component" type extension. We'll have to look for its manifest.
+					$package_folder = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $value->element);
+					break;
+				
+				case 'file':
+					// A "file" type extension. Its manifest is strictly named and in a predictable path.
+					$package_folder = JPath::clean(JPATH_MANIFESTS . '/files');
+					$manifest_filename = $value->element . '.xml';
+					break;
+
+				case 'language':
+					// A "language" type extension. Its manifest is strictly named and in a predictable path.
+					$manifest_filename = $value->element . '.xml';
+					if ($value->client_id == 0)
+					{
+						// A site language
+						$base_path = JPATH_SITE;
+					}
+					else
+					{
+						// An administrator language
+						$base_path = JPATH_ADMINISTRATOR;
+					}
+					$package_folder = JPath::clean($base_path . '/language/' . $value->element);
+					
+					break;
+
+				case 'library':
+					// A "library" type extension. Its manifest is strictly named and in a predictable path.
+					$package_folder = JPATH_MANIFESTS . '/libraries/' . $value->element;
+					$manifest_filename = $value->element . '.xml';
+					break;
+
+				case 'module':
+					// A "module" type extension. We'll have to look for its manifest.
+					if ($value->client_id == 0)
+					{
+						// A site language
+						$base_path = JPATH_SITE;
+					}
+					else
+					{
+						// An administrator language
+						$base_path = JPATH_ADMINISTRATOR;
+					}
+					$package_folder = JPath::clean($base_path . '/modules/' . $value->element);
+					break;
+
+				case 'package':
+					// A "package" type extension. Its manifest is strictly named and in a predictable path.
+					$package_folder = JPATH_MANIFESTS . '/packages/' . $value->element;
+					$manifest_filename = $value->element . '.xml';
+					break;
+
+				case 'plugin':
+					// A "plugin" type extension. We'll have to look for its manifest.
+					$package_folder = JPath::clean(JPATH_SITE . '/plugins/' . $value->folder . '/' . $value->element);
+					break;
+
+				case 'template':
+					// A "tempalte" type extension. We'll have to look for its manifest.
+					if ($value->client_id == 0)
+					{
+						// A site language
+						$base_path = JPATH_SITE;
+					}
+					else
+					{
+						// An administrator language
+						$base_path = JPATH_ADMINISTRATOR;
+					}
+					$package_folder = JPath::clean($base_path . '/templates/' . $value->element);
+					break;
 			}
 			
-			//get the manifest file inside the extension folder
+			// Set up the installer's source path
 			$installer->setPath('source', $package_folder);
 
-			if($installer->findManifest()){
-				//check inside manifest xml for compatibility tags
-				$manifest 	= $installer->getManifest();
-				$element 	= $manifest->compatibility;
-				if($element && !empty($latest_version)){
-					$compatible_found = false;
-					foreach ($element->children() as $compatible){
-						if($this->compareVersions($latest_version,$compatible)){
-							//extension is compatible
-							$items_compatible['compatible'][] = $value;
-							$compatible_found = true;
-							break;
-						}
-					}
-					//extension is not compatible
-					if(!$compatible_found){
-						$items_compatible['not_compatible'][] = $value;
-					}
-				}else{
-					//compatibility xml tag not found
-					$items_compatible['na'][] = $value;
+			// Load the extension's manifest
+			$manifest = null;
+			if (!is_null($manifest_filename))
+			{
+				// We already have a manifest path. Let's try to load it.
+				$manifest = $installer->isManifest($package_folder . '/' . $manifest_filename);
+				
+			}
+			else
+			{
+				// We don't have a manifest path. Let's try to find one.
+				if ($installer->findManifest() !== false)
+				{
+					$manifest = $installer->getManifest();
 				}
-			}else{
-				//manifest file not found
+			}
+			
+			if (!is_object($manifest))
+			{
+				// This extension's manifest is missing or corrupt
+				$items_compatible['na'][] = $value;
+				continue;
+			}
+
+			// Check inside manifest xml for compatibility tags
+			$element = $manifest->compatibility;
+			
+			if ($element && !empty($latest_version))
+			{
+				$compatible_found = false;
+				foreach ($element->children() as $compatible)
+				{
+					if ($this->compareVersions($latest_version, $compatible))
+					{
+						// The extension is compatible
+						$items_compatible['compatible'][] = $value;
+						$compatible_found = true;
+						break;
+					}
+				}
+				
+				if (!$compatible_found)
+				{
+					// The extension is not compatible
+					$items_compatible['not_compatible'][] = $value;
+				}
+			}
+			else
+			{
+				// The compatibility xml tag wasn't found
 				$items_compatible['na'][] = $value;
 			}
 		}
