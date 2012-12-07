@@ -15,7 +15,18 @@ use SeleniumClient\WebElement;
  */
 abstract class AdminEditPage extends AdminPage
 {
-	public $toolbar = array();
+	/**
+	 * Array of expected id values for toolbar div elements
+	 * @var array
+	 */
+	public $toolbar = array (
+			'Save' => 'toolbar-apply',
+			'Save & Close' => 'toolbar-save',
+			'Save & New' => 'toolbar-save-new',
+			'Cancel' => 'toolbar-cancel',
+			'Help' => 'toolbar-help',
+	);
+
 	public $inputFields = array();
 
 	public function __construct(Webdriver $driver, $test, $url = null)
@@ -110,6 +121,7 @@ abstract class AdminEditPage extends AdminPage
 					break;
 
 				case 'input' :
+				case 'textarea' :
 					return $this->getTextValues($fieldArray);
 					break;
 
@@ -203,8 +215,9 @@ abstract class AdminEditPage extends AdminPage
 	{
 		foreach ($actualFields as $field)
 		{
-			echo "array('label' => '" . $field['label'] . "', 'id' => '" . $field['id'] . "', 'type' => '" . $field['type'] . "', 'tab' => '"
-			. $field['tab'] . "'),\n";
+			$field->labelText = (substr($field->labelText, -2) == ' *') ? substr($field->labelText, 0, -2) : $field->labelText;
+			echo "array('label' => '" . $field->labelText . "', 'id' => '" . $field->id . "', 'type' => '" . $field->tag . "', 'tab' => '"
+			. $field->tab . "'),\n";
 		}
 	}
 
@@ -237,6 +250,10 @@ abstract class AdminEditPage extends AdminPage
 
 				case 'input' :
 					$this->setTextValues($fieldArray);
+					break;
+
+				case 'textarea' :
+					$this->setTextAreaValues($fieldArray);
 					break;
 
 			}
@@ -293,6 +310,16 @@ abstract class AdminEditPage extends AdminPage
 		$inputElement = $this->driver->findElement(By::id($values['id']));
 		$inputElement->clear();
 		$inputElement->sendKeys($values['value']);
+	}
+
+	protected function setTextAreaValues(array $values)
+	{
+		$this->selectTab($values['tab']);
+		$this->driver->findElement(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"))->click();
+		$inputElement = $this->driver->findElement(By::id($values['id']));
+		$inputElement->clear();
+		$inputElement->sendKeys($values['value']);
+		$this->driver->findElement(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"))->click();
 	}
 
 	/**

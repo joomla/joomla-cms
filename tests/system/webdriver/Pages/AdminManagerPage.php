@@ -84,6 +84,13 @@ abstract class AdminManagerPage extends AdminPage
 		return $this->driver->findElement(By::id('submenu'));
 	}
 
+	/**
+	 * Checks a table for a row containing the desired text
+	 *
+	 * @param  string  $name  Text that identifies the desired row
+	 *
+	 * @return mixed   row that contains the text or false if row not found
+	 */
 	public function getRowNumber($name)
 	{
 		$result = false;

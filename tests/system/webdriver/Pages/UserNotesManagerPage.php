@@ -51,28 +51,29 @@ class UserNotesManagerPage extends AdminManagerPage
 			'Select Category' => 'filter_category_id',
 	);
 
-	public function addUserNotes($name = 'Test User Notes', $otherFields = null)
+	public function addUserNotes($name = 'Test User Notes',  $userName = 'Super User', $otherFields = null)
 	{
 		$this->clickButton('toolbar-new');
 		$editUserNotesPage = $this->test->getPageObject('UserNotesEditPage');
 		$editUserNotesPage->setFieldValues(array('Subject' => $name));
+		$editUserNotesPage->setUser($userName);
 		if (is_array($otherFields))
 		{
 			$editUserNotesPage->setFieldValues($otherFields);
 		}
 		$editUserNotesPage->clickButton('toolbar-save');
-		$this->userNotesManagerPage = $this->test->getPageObject('UserNotesManagerPage');
+		$this->test->getPageObject('UserNotesManagerPage');
 	}
 
 	public function deleteUserNotes($name)
 	{
 		$this->searchFor($name);
-		$this->userNotesManagerPage->checkAll();
+		$this->checkAll();
 		$this->clickButton('toolbar-trash');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		$this->searchFor();
 		$this->setFilter('Status', 'Trashed');
-		$this->userNotesManagerPage->checkAll();
+		$this->checkAll();
 		$this->clickButton('Empty trash');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		$this->setFilter('Status', 'Select Status');
@@ -82,9 +83,16 @@ class UserNotesManagerPage extends AdminManagerPage
 	public function editUserNotes($name, $fields)
 	{
 		$this->clickItem($name);
+
+		/* var $editUserNotesPage EditUserNotesPage */
 		$editUserNotesPage = $this->test->getPageObject('UserNotesEditPage');
 		$editUserNotesPage->setFieldValues($fields);
 		$editUserNotesPage->clickButton('toolbar-save');
-		$this->userNotesManagerPage = $this->test->getPageObject('UserNotesManagerPage');
+		$this->test->getPageObject('UserNotesManagerPage');
+	}
+
+	public function clickItem($name)
+	{
+		$this->driver->findElement(By::xPath("//tbody//td[contains(., '" . $name . "')]/../td/a[contains(@href, 'task=note.edit')]"))->click();
 	}
 }

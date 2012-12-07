@@ -19,18 +19,6 @@ class GroupEditPage extends AdminEditPage
 	protected $url = 'administrator/index.php?option=com_users&view=group&layout=edit';
 
 	/**
-	 * Array of expected id values for toolbar div elements
-	 * @var array
-	 */
-	public $toolbar = array (
-			'Save' => 'toolbar-apply',
-			'Save & Close' => 'toolbar-save',
-			'Save & New' => 'toolbar-save-new',
-			'Cancel' => 'toolbar-cancel',
-			'Help' => 'toolbar-help',
-	);
-
-	/**
 	 * Associative array of expected input fields for the Account Details and Basic Settings tabs
 	 * Assigned User Groups tab is omitted because that depends on the groups set up in the sample data
 	 * @var unknown_type

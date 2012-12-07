@@ -1,7 +1,6 @@
 <?php
 
-// require_once 'AutoLoader.php';
-require_once '../bootstrap.php';
+require_once 'JoomlaWebdriverTestCase.php';
 
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
@@ -9,46 +8,18 @@ use SeleniumClient\WebDriver;
 use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
-class AlertTest extends PHPUnit_Framework_TestCase
+class AlertTest extends JoomlaWebdriverTestCase
 {
-	private $_driver = null;
-	private $_testUrl = null;
 
-	public function setUp()
+	/**
+	 * @test
+	 */
+	public function createMenuItem()
 	{
-		$this->_testUrl = "http://localhost/joomla_development/cms-trunk/";
+		$cpPage = $this->doAdminLogin();
 
-// 		$desiredCapabilities = new DesiredCapabilities("firefox");
-		$desiredCapabilities = new DesiredCapabilities("chrome");
-
-		$this->_driver = new WebDriver($desiredCapabilities);
-	}
-
-	public function tearDown()
-	{
-		if($this->_driver != null) { $this->_driver->quit(); }
-	}
-
-	public function testCreateMenuItem()
-	{
-		//get url
-		$this->_driver->get($this->_testUrl . '/administrator');
-		//access text input
-		$webElement = $this->_driver->findElement(By::id("mod-login-username"));
-		$webElement->clear();
-		$webElement->sendKeys("admin");
-		$webElement = $this->_driver->findElement(By::id("mod-login-password"));
-		$webElement->clear();
-		$webElement->sendKeys("password");
-		//access button
-		$this->_driver->findElement(By::partialLinkText("Log in"))->click();
-		$d = $this->_driver;
-		$el = $d->waitForElementUntilIsPresent(By::partialLinkText('Menu Manager'));
-
-		$el->click();
-		$el = $d->waitForElementUntilIsPresent(By::partialLinkText('Main Menu'));
-		echo "found Main Menu";
-		$el->click();
+		$page = $cpPage->clickMenu('Main Menu');
+		$page->clickButton('New');
 		$el = $d->waitForElementUntilIsPresent(By::partialLinkText('New'));
 		$el->click();
 		$el = $d->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, 'iframe')]"));

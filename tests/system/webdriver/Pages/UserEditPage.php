@@ -19,19 +19,6 @@ class UserEditPage extends AdminEditPage
 	protected $url = 'administrator/index.php?option=com_users&view=user&layout=edit';
 
 	/**
-	 * Array of expected id values for toolbar div elements
-	 * @var array
-	 */
-
-	public $toolbar = array (
-			'Save' => 'toolbar-apply',
-			'Save & Close' => 'toolbar-save',
-			'Save & New' => 'toolbar-save-new',
-			'Cancel' => 'toolbar-cancel',
-			'Help' => 'toolbar-help',
-	);
-
-	/**
 	 * Array of
 	 * @var array expected id values for tab div elements
 	 */

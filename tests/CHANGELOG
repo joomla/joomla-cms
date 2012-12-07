@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Nov-2012 Mark Dexter
+ + Add new Webdriver tests for Menu Manager.
+
 21-Nov-2012 Mark Dexter
  # Fix failing system test
 
