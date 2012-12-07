@@ -762,19 +762,19 @@ class JLanguage
 
 		if (file_exists($filename))
 		{
-			$strings = $this->parse($filename);
+			$strings = ksort($this->parse($filename),SORT_STRING);
 		}
 
 		if ($strings)
 		{
 			if (is_array($strings))
 			{
-				$this->strings = array_merge($this->strings, $strings);
+				$this->strings = ksort(array_merge($this->strings, $strings),SORT_STRING);
 			}
 
 			if (is_array($strings) && count($strings))
 			{
-				$this->strings = array_merge($this->strings, $this->override);
+				$this->strings = ksort(array_merge($this->strings, $this->override),SORT_STRING);
 				$result = true;
 			}
 		}
