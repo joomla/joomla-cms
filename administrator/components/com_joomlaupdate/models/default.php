@@ -895,15 +895,16 @@ ENDDATA;
 		$db 	= $this->getDbo();
 		$query 	= $db->getQuery(true);
 		
-		$query->select('*');
-		$query->from('#__extensions');
-		$query->where('protected = 0');
-		$query->where('extension_id > 9999');
+		$query->select('*')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('protected') . ' = ' . $db->q('0'))
+			->where($db->qn('extension_id') . ' > ' . $db->q('9999'));
 
-		$db->setQuery($query, 0, 0);
+		$db->setQuery($query);
+		
 		$result = $db->loadObjectList();
 
-		return $this->checkCompatibility($result,$latest_version);
+		return $this->checkCompatibility($result, $latest_version);
 	}
 
 	/**
