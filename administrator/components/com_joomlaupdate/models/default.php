@@ -1085,34 +1085,49 @@ ENDDATA;
 	/**
 	 * Method to compare two versions
 	 *
-	 * @param   string  $latest_version_array  	Dot-number notation
-	 * @param   string  $compatible_array		Dot-number notation
+	 * @param   string  $latest_version  Dot-number notation
+	 * @param   string  $compatible      Dot-number notation
+	 * @param   bool	$exclude         When true we only check that $compatible and $latest_version are different
 	 *
 	 * @return boolean True on success
 	 * @since   2.5.9
 	 */
-	public function compareVersions($latest_version = "",$compatible = "")
+	protected function compareVersions($latest_version, $compatible, $exclude = false)
 	{
-	
-		$latest_version_array	= explode(".",$latest_version);
-		$compatible_array 		= explode(".",$compatible);
-	
-		// If empty, return false
-		if (empty($latest_version_array) || empty($compatible_array))
+		// Normalise the version to check against
+		$all_zeroes = array(0, 0, 0);
+		$latest_version_array	= explode(".", $latest_version, 3);
+		$latest_version_array	= array_merge($latest_version_array, $all_zeroes);
+		$latest_version_array	= array_slice($latest_version_array, 0, 3);
+		$latest_version			= implode('.', $latest_version_array);
+		
+		// If no version is given return false;
+		if ($latest_version == '0.0.0')
 		{
 			return false;
 		}
 		
-		$depth	= count($latest_version_array) - 1;
-		for($i = $depth; $i >= 0; $i--){
-			if(!isset($compatible_array[$i])) continue;
-					
-			if((int)$latest_version_array[$i] != (int)$compatible_array[$i]){
-				return false;
-			}
-		}
+		// Normalise the minimum version to check against
+		$compatible_array 		= explode(".", $compatible, 3);
+		$compatible_array		= array_merge($compatible_array, $all_zeroes);
+		$compatible_array		= array_slice($compatible_array, 0, 3);
+		$compatible				= implode('.', $compatible_array);
 		
-		return true;
-	
+		if ($exclude)
+		{
+			// Perform an exclusion test
+			return version_compare($latest_version, $compatible, 'ne');
+		}
+		else
+		{
+			// Perform a regular version test
+
+			// Get the maximum version to check against by increasing the minor version
+			$compatible_array[1]++;
+			$max_compatible			= implode('.', $compatible_array);
+
+			return version_compare($latest_version, $compatible, 'ge') &&
+				version_compare($latest_version, $max_compatible, 'lt');
+		}
 	}	
 }
