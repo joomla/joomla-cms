@@ -1057,16 +1057,24 @@ ENDDATA;
 				$compatible_found = false;
 				foreach ($element->children() as $compatible)
 				{
-					if ($this->compareVersions($latest_version, $compatible))
+					if (($compatible->getAttribute('exclude') == true) && $compatible_found)
 					{
+						if (!$this->compareVersions($latest_version, $compatible, true)) {
+							$compatible_found = false;
+							break;
+						}
+					}
+					elseif (!$compatible_found && $this->compareVersions($latest_version, $compatible)) {
 						// The extension is compatible
-						$items_compatible['compatible'][] = $value;
 						$compatible_found = true;
-						break;
 					}
 				}
 				
-				if (!$compatible_found)
+				if ($compatible_found)
+				{
+					$items_compatible['compatible'][] = $value;
+				}
+				else
 				{
 					// The extension is not compatible
 					$items_compatible['not_compatible'][] = $value;
