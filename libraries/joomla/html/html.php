@@ -526,11 +526,11 @@ abstract class JHtml
 	/**
 	 * Write a <img></img> element
 	 *
-	 * @param   string	$file		The relative or absolute URL to use for the src attribute
-	 * @param   string	$alt		The alt text.
-	 * @param   mixed	$attribs	String or associative array of attribute(s) to use
-	 * @param   boolean	$relative	path to file is relative to /media folder (and searches in template)
-	 * @param   mixed	$path_rel	Return html tag without (-1) or with file computing(false). Return computed path only (true) 
+	 * @param   string   $file     The relative or absolute URL to use for the src attribute
+	 * @param   string   $alt      The alt text.
+	 * @param   mixed    $attribs  String or associative array of attribute(s) to use
+	 * @param   boolean  $relative Path to file is relative to /media folder (and searches in template)
+	 * @param   mixed    $path_rel Return html tag without (-1) or with file computing(false). Return computed path only (true) 
 	 *
 	 * @return  string
 	 *
@@ -538,12 +538,14 @@ abstract class JHtml
 	 */
 	public static function image($file, $alt, $attribs = null, $relative = false, $path_rel = false)
 	{
-		if ($path_rel!==-1) {
+		if ($path_rel !== -1)
+		{
 			$includes = self::includeRelativeFiles('images', $file, $relative, false, false);
 			$file = count($includes) ? $includes[0] : null;
 		}
 		// If only path is required
-		if ($path_rel) {
+		if ($path_rel)
+		{
 			return $file;
 		}
 		else
