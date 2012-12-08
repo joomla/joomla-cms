@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Mar-2013 Michael Babker
+ ^ [#29803] Encourage proper use of JHtml APIs dealing with scripts and stylesheets
+
 08-Mar-2013 Jean-Marie Simonet
  $ Missing string for com_tags
  $ Updating Installation ini files: ar-AA, bg-BG, id-ID, ja-JP, lv-LV, sv-SE, sw-KE, tr-TR
