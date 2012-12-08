@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 07-Nov-2012 Mark Dexter
  + Add new Webdriver tests for Menu Manager.
+ ^ Organize Pages classes in folders. Improve autoloader.
 
 21-Nov-2012 Mark Dexter
  # Fix failing system test

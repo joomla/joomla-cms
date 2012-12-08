@@ -1,7 +1,5 @@
 <?php
 
-require_once 'AdminEditPage.php';
-
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;

@@ -1,8 +1,5 @@
 <?php
 
-require_once '../bootstrap.php';
-require_once '../../servers/configdef.php';
-
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
