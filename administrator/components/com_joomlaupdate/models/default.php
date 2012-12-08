@@ -1102,24 +1102,11 @@ ENDDATA;
 	 */
 	protected function compareVersions($latest_version, $compatible, $exclude = false)
 	{
-		// Normalise the version to check against
-		$all_zeroes = array(0, 0, 0);
-		$latest_version_array	= explode(".", $latest_version, 3);
-		$latest_version_array	= array_merge($latest_version_array, $all_zeroes);
-		$latest_version_array	= array_slice($latest_version_array, 0, 3);
-		$latest_version			= implode('.', $latest_version_array);
-		
 		// If no version is given return false;
-		if ($latest_version == '0.0.0')
+		if (empty($latest_version))
 		{
 			return false;
 		}
-		
-		// Normalise the minimum version to check against
-		$compatible_array 		= explode(".", $compatible, 3);
-		$compatible_array		= array_merge($compatible_array, $all_zeroes);
-		$compatible_array		= array_slice($compatible_array, 0, 3);
-		$compatible				= implode('.', $compatible_array);
 		
 		if ($exclude)
 		{
@@ -1130,6 +1117,11 @@ ENDDATA;
 		{
 			// Perform a regular version test
 
+			// Normalise the minimum version to check against
+			$compatible_array 		= explode(".", $compatible, 3);
+			$compatible_array		= array_pad($compatible_array, 2, 0);
+			$compatible				= implode('.', $compatible_array);
+			
 			// Get the maximum version to check against by increasing the minor version
 			$compatible_array[1]++;
 			$max_compatible			= implode('.', $compatible_array);
