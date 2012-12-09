@@ -776,7 +776,7 @@ ENDDATA;
 		// Check for configuration file writeable.
 		$option = new stdClass;
 		$option->label  = JText::sprintf('COM_JOOMLAUPDATE_INSTL_WRITABLE', 'configuration.php');
-		$option->state  = (is_writable('../configuration.php') || (!file_exists('../configuration.php') && is_writable('../')));
+		$option->state  = (is_writable(JPATH_ROOT . '/configuration.php') || (!file_exists(JPATH_ROOT . '/configuration.php') && is_writable(JPATH_ROOT)));
 		$option->notice = ($option->state) ? null : JText::_('COM_JOOMLAUPDATE_INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
