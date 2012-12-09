@@ -546,24 +546,6 @@ class JUser extends JObject
 			// Set the registration timestamp
 
 			$this->set('registerDate', JFactory::getDate()->toSql());
-
-			// Check that username is not greater than 150 characters
-			$username = $this->get('username');
-
-			if (strlen($username) > 150)
-			{
-				$username = substr($username, 0, 150);
-				$this->set('username', $username);
-			}
-
-			// Check that password is not greater than 100 characters
-			$password = $this->get('password');
-
-			if (strlen($password) > 100)
-			{
-				$password = substr($password, 0, 100);
-				$this->set('password', $password);
-			}
 		}
 		else
 		{
@@ -613,6 +595,24 @@ class JUser extends JObject
 			$this->setError(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
 
 			return false;
+		}
+
+		// Check that username is not greater than 150 characters
+		$username = $this->get('username');
+
+		if (strlen($username) > 150)
+		{
+			$username = substr($username, 0, 150);
+			$this->set('username', $username);
+		}
+
+		// Check that password is not greater than 100 characters
+		$password = $this->get('password');
+
+		if (strlen($password) > 100)
+		{
+			$password = substr($password, 0, 100);
+			$this->set('password', $password);
 		}
 
 		// Make sure its an integer
