@@ -152,7 +152,7 @@ class JDatabaseFactory
 	/**
 	 * Get the current query object or a new JDatabaseQuery object.
 	 *
-	 * @param   string           $name  Name of the driver you want an importer for.
+	 * @param   string           $name  Name of the driver you want an query object for.
 	 * @param   JDatabaseDriver  $db    Optional JDatabaseDriver instance
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
