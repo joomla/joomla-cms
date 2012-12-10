@@ -526,11 +526,11 @@ abstract class JHtml
 	/**
 	 * Write a <img></img> element
 	 *
-	 * @param   string   $file     The relative or absolute URL to use for the src attribute
-	 * @param   string   $alt      The alt text.
-	 * @param   mixed    $attribs  String or associative array of attribute(s) to use
-	 * @param   boolean  $relative Path to file is relative to /media folder (and searches in template)
-	 * @param   mixed    $path_rel Return html tag without (-1) or with file computing(false). Return computed path only (true) 
+	 * @param   string   $file      The relative or absolute URL to use for the src attribute
+	 * @param   string   $alt       The alt text.
+	 * @param   mixed    $attribs   String or associative array of attribute(s) to use
+	 * @param   boolean  $relative  Path to file is relative to /media folder (and searches in template)
+	 * @param   mixed    $path_rel  Return html tag without (-1) or with file computing(false). Return computed path only (true) 
 	 *
 	 * @return  string
 	 *
