@@ -75,8 +75,9 @@ class ContentViewForm extends JViewLegacy
 		$this->params = $params;
 		$this->user   = $user;
 
-		if ($this->params->get('enable_category') == 1) {
+		if ($params->get('enable_category') == 1) {
 			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 		$this->_prepareDocument();
 		parent::display($tpl);
