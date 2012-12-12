@@ -9,7 +9,9 @@ You can find out more about Joomla development *(though not platform specific)* 
 
 You can discuss *Joomla Platform* development at: http://groups.google.com/group/joomla-dev-platform
 
-A guide for contributing to the Joomla Platform can be found at: https://github.com/joomla/joomla-platform/wiki/Contributing-to-the-joomla-platform
+You can view the Joomla Platform Manual at: http://joomla.github.com/joomla-platform
+
+A general guide for contributing to the Joomla platform can be found in the CONTRIBUTING.markdown file in this repository. A thorough contributing guide can be found at: https://github.com/joomla/joomla-platform/wiki/Contributing-to-the-joomla-platform
 
 
 Requirements
