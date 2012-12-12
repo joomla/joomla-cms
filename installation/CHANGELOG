@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 12-Dec-2012 Mark Dexter
  # [#29738] Weblinks Hits Display when set to hide. Thanks Glenn Arkell.
+ # [#29809] Callback logger wrongly named. Thanks Elijah Madden.
 
 04-Dec-2012 Mark Dexter
  # [#29763] Category list state change bug. Thanks Dennis.
