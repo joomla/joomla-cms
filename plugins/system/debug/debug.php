@@ -29,6 +29,14 @@ class plgSystemDebug extends JPlugin
 	private $debugLang = false;
 
 	/**
+	 * Holds log entries handled by the plugin.
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	private $logEntries = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe
@@ -57,6 +65,26 @@ class plgSystemDebug extends JPlugin
 		}
 
 		$this->linkFormat = ini_get('xdebug.file_link_format');
+
+		if ($this->params->get('logs', 1))
+		{
+			$priority = 0;
+			foreach ($this->params->get('log_priorities', array()) as $p)
+			{
+				$const = 'JLog::'.strtoupper($p);
+				if (!defined($const))
+				{
+					continue;
+				}
+				$priority |= constant($const);
+			}
+
+			// Split into an array and remove any empties.
+			$categories = array_filter(explode(' ', $this->params->get('log_categories', '')));
+			$mode = $this->params->get('log_category_mode', 0);
+
+			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+		}
 	}
 
 	/**
@@ -151,6 +179,11 @@ class plgSystemDebug extends JPlugin
 			if ($this->params->get('queries', 1))
 			{
 				$html .= $this->display('queries');
+			}
+
+			if ($this->params->get('logs', 1) && !empty($this->logEntries))
+			{
+				$html .= $this->display('logs');
 			}
 		}
 
@@ -839,6 +872,44 @@ class plgSystemDebug extends JPlugin
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Store log messages so they can be displayed later.
+	 *
+	 * @since   3.0
+	 */
+	public function logger(JLogEntry $entry)
+	{
+		$this->logEntries[] = $entry;
+	}
+
+	/**
+	 * Display log messages
+	 *
+	 * @return  string
+	 *
+	 * @since   3.0
+	 */
+	protected function displayLogs()
+	{
+		$priorities = array(
+			JLog::EMERGENCY => 'EMERGENCY',
+			JLog::ALERT => 'ALERT',
+			JLog::CRITICAL => 'CRITICAL',
+			JLog::ERROR => 'ERROR',
+			JLog::WARNING => 'WARNING',
+			JLog::NOTICE => 'NOTICE',
+			JLog::INFO => 'INFO',
+			JLog::DEBUG => 'DEBUG');
+
+		$out = array();
+		foreach ($this->logEntries as $entry)
+		{
+			$out[] = '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . ' </h5><code>' . $entry->message . '</code>';
+		}
+
+		return implode('<br /><br />', $out);
 	}
 
 }
