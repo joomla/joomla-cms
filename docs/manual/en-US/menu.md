@@ -6,6 +6,7 @@
 - [JGithub](chapters/packages/github.md)
 - [JGoogle](chapters/packages/google.md)
 - [JHttp](chapters/packages/http.md)
+- [JImage](chapters/packages/image.md)
 - [JInput](chapters/packages/input.md)
 - [JKeychain](chapters/packages/keychain.md)
 - [JLog](chapters/packages/log.md)
