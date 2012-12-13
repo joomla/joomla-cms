@@ -26,6 +26,27 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2012 Jean-Marie Simonet
+ # [#29819] *Correcting Hathor admin login
+ # [#29762] *cpanel layout in backend messed up after adding feed to cpanel
+ # [#29764] Missing icon-pending in back-end. Thanks Michael
+
+13-Dec-2012 Mark Dexter
+ # [#29821] Cannot select contact or newsfeed in modal after filtering
+
+12-Dec-2012 Mark Dexter
+ # [#29738] Weblinks Hits Display when set to hide. Thanks Glenn Arkell.
+ # [#29809] Callback logger wrongly named. Thanks Elijah Madden.
+ # [#29715] *Submit an Article doesn't work. Thanks Jean-Marie.
+
+04-Dec-2012 Mark Dexter
+ # [#29763] Category list state change bug. Thanks Dennis.
+
+29-Nov-2012 Mark Dexter
+ # [#29744] Submenu module missing closing A tag. Thanks Kevin Griffiths.
+ # [#29749] *Correcting Hathor CPanel display. Thanks JM.
+ # [#29573] Remove unnecessary JS snippet from rules field. Thanks Michael.
+
 27-Nov-2012 Jean-Marie Simonet
  +$ Adding Swahili sw-KE installation files.
  $ Although not used, adding missing JText::script strings in installation as they show in debug.
