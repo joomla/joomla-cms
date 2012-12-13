@@ -2834,6 +2834,7 @@ fieldset.uploadform {
 	border-top: 1px solid #dddddd;
 	margin-left: 0;
 	font-size: 1.2em;
+	padding: 9px;
 }
 .list-striped li,
 .list-striped dd,
