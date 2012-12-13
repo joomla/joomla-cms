@@ -93,12 +93,12 @@
 					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
 				</field>
 
-				<field name="log_categories" type="text" size="60"
+				<field name="log_categories" type="text" size="60" default="deprecated"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
 				/>
 
-				<field name="log_category_mode" type="radio" default="0"
+				<field name="log_category_mode" type="hidden" default="0"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 				>
