@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2012 Jean-Marie Simonet
+ # [#29819] *Correcting Hathor admin login
+
 13-Dec-2012 Mark Dexter
  # [#29821] Cannot select contact or newsfeed in modal after filtering
 
