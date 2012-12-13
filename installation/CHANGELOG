@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Dec-2012 Mark Dexter
+ # [#29821] Cannot select contact or newsfeed in modal after filtering
+
 12-Dec-2012 Mark Dexter
  # [#29738] Weblinks Hits Display when set to hide. Thanks Glenn Arkell.
  # [#29809] Callback logger wrongly named. Thanks Elijah Madden.
