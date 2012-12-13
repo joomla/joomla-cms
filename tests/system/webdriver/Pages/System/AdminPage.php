@@ -173,6 +173,7 @@ abstract class AdminPage
 	public function __construct(Webdriver $driver, $test, $url = null)
 	{
 		$this->driver = $driver;
+		/* @var $test JoomlaWebdriverTestCase */
 		$this->test = $test;
 		$cfg = new SeleniumConfig();
 		$this->cfg = $cfg; // save current configuration
@@ -183,7 +184,7 @@ abstract class AdminPage
 		$element = $driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath), 5);
 		if (isset($this->url))
 		{
-			$test->assertStringEndsWith($this->url, $driver->getCurrentPageUrl(), 'URL for page does not match expected value.');
+			$test->assertContains($this->url, $driver->getCurrentPageUrl(), 'URL for page does not match expected value.');
 		}
 	}
 

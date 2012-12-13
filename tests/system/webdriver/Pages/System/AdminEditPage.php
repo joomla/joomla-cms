@@ -57,7 +57,10 @@ abstract class AdminEditPage extends AdminPage
 				$labels = $div->findElements(By::xPath("//div[@id='" . $tabId . "']//div/label"));
 				foreach ($labels as $label)
 				{
-					$return[] = $this->getInputField($tabId, $label);
+					if ($object = $this->getInputField($tabId, $label))
+					{
+						$return[] = $object;
+					}
 				}
 			}
 		}
@@ -264,6 +267,7 @@ abstract class AdminEditPage extends AdminPage
 		{
 			$this->setFieldValue($label, $value);
 		}
+		return $this;
 	}
 
 	protected function setRadioValues(array $values)

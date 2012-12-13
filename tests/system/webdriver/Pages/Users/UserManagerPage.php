@@ -53,7 +53,7 @@ class UserManagerPage extends AdminManagerPage
 		}
 		$userEditPage->setGroups($groupNames);
 		$userEditPage->clickButton('toolbar-save');
-		$this->userManagerPage = $this->test->getPageObject('UserManagerPage');
+		$this->test->getPageObject('UserManagerPage');
 	}
 
 	public function changeUserState($name, $state = 'published')
@@ -89,7 +89,8 @@ class UserManagerPage extends AdminManagerPage
 		$userEditPage->setFieldValues($fields);
 		$userEditPage->setGroups($groupNames);
 		$userEditPage->clickButton('toolbar-save');
-		$this->userManagerPage = $this->test->getPageObject('UserManagerPage');
+		$this->test->getPageObject('UserManagerPage');
+		$this->searchFor();
 	}
 
 	public function getGroups($userName)
@@ -98,7 +99,7 @@ class UserManagerPage extends AdminManagerPage
 		$userEditPage = $this->test->getPageObject('UserEditPage');
 		$result = $userEditPage->getGroups();
 		$userEditPage->clickButton('toolbar-save');
-		$this->userManagerPage = $this->test->getPageObject('UserManagerPage');
+		$this->test->getPageObject('UserManagerPage');
 		return $result;
 	}
 

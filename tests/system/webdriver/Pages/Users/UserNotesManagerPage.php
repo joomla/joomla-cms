@@ -63,21 +63,6 @@ class UserNotesManagerPage extends AdminManagerPage
 		$this->test->getPageObject('UserNotesManagerPage');
 	}
 
-	public function deleteUserNotes($name)
-	{
-		$this->searchFor($name);
-		$this->checkAll();
-		$this->clickButton('toolbar-trash');
-		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-		$this->searchFor();
-		$this->setFilter('Status', 'Trashed');
-		$this->checkAll();
-		$this->clickButton('Empty trash');
-		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-		$this->setFilter('Status', 'Select Status');
-		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-	}
-
 	public function editUserNotes($name, $fields)
 	{
 		$this->clickItem($name);

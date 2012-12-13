@@ -14,7 +14,7 @@ use SeleniumClient\WebElement;
 class MenuEditPage extends AdminEditPage
 {
 	protected $waitForXpath = "//form[@id='item-form']";
-	protected $url = 'administrator/index.php?option=com_users&view=group&layout=edit';
+	protected $url = 'administrator/index.php?option=com_menus&view=menu&layout=edit';
 
 	/**
 	 * Associative array of expected input fields for the Menu Manager: Add / Edit Menu
