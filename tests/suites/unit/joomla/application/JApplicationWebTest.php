@@ -478,7 +478,7 @@ class JApplicationWebTest extends TestCase
 					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
 					sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-		//replace \r\n -> \n to ensure same length on all platforms
+		// Replace \r\n -> \n to ensure same length on all platforms
 		// Fill the header body with a value.
 		TestReflection::setValue(
 			$this->class,
@@ -532,7 +532,7 @@ class JApplicationWebTest extends TestCase
 					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
 					sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-		//replace \r\n -> \n to ensure same length on all platforms
+		// Replace \r\n -> \n to ensure same length on all platforms
 		// Fill the header body with a value.
 		TestReflection::setValue(
 			$this->class,
@@ -592,7 +592,7 @@ class JApplicationWebTest extends TestCase
 					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
 					sunt in culpa qui officia deserunt mollit anim id est laborum.';
 
-		//replace \r\n -> \n to ensure same length on all platforms
+		// Replace \r\n -> \n to ensure same length on all platforms
 		// Fill the header body with a value.
 		TestReflection::setValue(
 			$this->class,

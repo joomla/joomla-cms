@@ -289,7 +289,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
   </table_structure>
  </database>
 </postgresqldump>';
-		//replace used to prevent platform conflicts
+		// Replace used to prevent platform conflicts
 		$this->assertThat(
 			preg_replace('/\v/', '', (string) $instance),
 			$this->equalTo(
@@ -364,7 +364,7 @@ class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
   </table_structure>
  </database>
 </postgresqldump>';
-		//replace used to prevent platform conflicts
+		// Replace used to prevent platform conflicts
 		$this->assertThat(
 			preg_replace('/\v/', '', $instance->buildXml()),
 			$this->equalTo(
