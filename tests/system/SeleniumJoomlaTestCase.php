@@ -84,7 +84,14 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 		$this->type("mod-login-username", $username);
 		$this->type("mod-login-password", $password);
-		$this->click("//button[contains(text(), 'Log in')]");
+		if ($this->isElementPresent("//button[contains(text(), 'Log in')]"))
+		{
+			$this->click("//button[contains(text(), 'Log in')]");
+		}
+		elseif ($this->isElementPresent("//a[contains(text(), 'Log in')]"))
+		{
+			$this->click("//a[contains(text(), 'Log in')]");
+		}
 		$this->waitForPageToLoad("30000");
 	}
 
