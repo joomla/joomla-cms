@@ -92,7 +92,7 @@ class JApplicationBaseTest extends TestCase
 	 * @covers  JApplicationBase::loadIdentity
 	 * @covers  JApplicationBase::getIdentity
 	 */
-	public function testLoadGetIdentity()
+	public function testLoadGetIdentityCorrectClass()
 	{
 		$mock = $this->getMock('JUser', array(), array(), '', false);
 		$this->class->loadIdentity($mock);
@@ -103,12 +103,38 @@ class JApplicationBaseTest extends TestCase
 			$this->class,
 			'Tests that the identity object is the correct class.'
 		);
+	}
+	/**
+	 * Tests the JApplicationBase::loadIdentity and JApplicationBase::getIdentity methods.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @covers  JApplicationBase::loadIdentity
+	 * @covers  JApplicationBase::getIdentity
+	 */
+	public function testLoadGetIdentityGetJUser()
+	{
+		$mock = $this->getMock('JUser', array(), array(), '', false);
+		$this->class->loadIdentity($mock);
 
 		$this->assertInstanceOf(
 			'JUser',
 			$this->class->getIdentity()
 		);
+	}
 
+	/**
+	 * Tests the JApplicationBase::loadIdentity and JApplicationBase::getIdentity methods.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @covers  JApplicationBase::loadIdentity
+	 * @covers  JApplicationBase::getIdentity
+	 */
+	public function testLoadGetIdentity99()
+	{
 		// Mock the session.
 		JFactory::$session = $this->getMockSession(array('get.user.id' => 99));
 

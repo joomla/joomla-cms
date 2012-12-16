@@ -78,11 +78,11 @@ class JSessionTest extends TestCase
 			'first_instance' => array(
 				'none',
 				array('expire' => 99),
-				'Line: ' . __LINE__ . ': ' . 'Should not be a different instance '
+				'Line: ' . __LINE__ . ': ' . 'Should not be a different instance and options should not change'
 			),
 			'second_instance' => array(
 				'database',
-				array('expire' => 15),
+				array(),
 				'Line: ' . __LINE__ . ': ' . 'Should not be a different instance '
 			)
 		);
@@ -103,14 +103,18 @@ class JSessionTest extends TestCase
 	{
 		$oldSession = $this->object;
 		$newSession = JSession::getInstance($store, $options);
+		// The properties and values should be identical to each other.
 		$this->assertThat(
 			$oldSession,
 			$this->identicalTo($newSession)
 		);
+
+		// They should be the same object.
+		$this->assertSame($oldSession,$newSession);
 	}
 
 	/**
-	 * Test...
+	 * Test getState
 	 *
 	 * @covers  JSession::getState
 	 *
@@ -118,11 +122,15 @@ class JSessionTest extends TestCase
 	 */
 	public function testGetState()
 	{
-		$this->assertEquals('active', $this->object->getState(), 'Session should be active');
+		$this->assertEquals(
+			TestReflection::getValue($this->object, '_state'),
+			$this->object->getState(),
+			'Session state should be the same'
+		);
 	}
 
 	/**
-	 * Test...
+	 * Test getExpire()
 	 *
 	 * @covers  JSession::getExpire
 	 *
@@ -130,11 +138,15 @@ class JSessionTest extends TestCase
 	 */
 	public function testGetExpire()
 	{
-		$this->assertEquals(20, $this->object->getExpire(), 'Session expire should be 20');
+		$this->assertEquals(
+			TestReflection::getValue($this->object, '_expire'),
+			$this->object->getExpire(),
+			'Session expire time should be the same'
+		);
 	}
 
 	/**
-	 * Test...
+	 * Test getToken
 	 *
 	 * @covers  JSession::getToken
 	 *
@@ -154,7 +166,7 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Test hasToken
 	 *
 	 * @covers  JSession::hasToken
 	 *
@@ -173,7 +185,7 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Test getFormToken
 	 *
 	 * @covers  JSession::getFormToken
 	 *
@@ -189,44 +201,37 @@ class JSessionTest extends TestCase
 			->with($this->equalTo('secret'))
 			->will($this->returnValue('abc'));
 
+		$this->object->set('secret','abc');
 		$expected = md5('abc' . $user->get('id', 0) . $this->object->getToken(false));
-		$this->assertEquals($expected, $this->object->getFormToken(), 'Form token should be calculated as above');
+		$this->assertEquals($expected, $this->object->getFormToken(), 'Form token should be calculated as above.');
 	}
 
 	/**
-	 * Test...
+	 * Test getName
 	 *
-	 * @todo Implement testGetName().
-	 * @covers  JSession::hasToken
+	 * @covers  JSession::getName
 	 *
 	 * @return void
 	 */
 	public function testGetName()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->assertEquals(session_name(), $this->object->getName(), 'Session names should match.');
 	}
 
 	/**
-	 * Test...
+	 * Test getId
 	 *
-	 * @todo Implement testGetId().
-	 * @covers  JSession::hasToken
+	 * @covers  JSession::getId
 	 *
 	 * @return void
 	 */
 	public function testGetId()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->assertEquals(session_id(), $this->object->getId(), 'Session ids should match.');
 	}
 
 	/**
-	 * Test...
+	 * Test getStores
 	 *
 	 * @covers  JSession::getStores
 	 *
@@ -253,18 +258,15 @@ class JSessionTest extends TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testIsNew().
+	 * Test isNew
 	 *
 	 * @return void
 	 */
 	public function testIsNew()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		$this->object->set('session.counter', 1);
+
+		$this->assertEquals(true, $this->object->isNew(), '$isNew should be true.');
 	}
 
 	/**
