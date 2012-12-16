@@ -262,6 +262,8 @@ class JGoogleDataPicasaTest extends TestCase
  */
 function picasaAlbumCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'album.txt');
@@ -285,6 +287,8 @@ function dataPicasaAlbumCallback($url, $data, array $headers = null, $timeout = 
 {
 	PHPUnit_Framework_TestCase::assertContains('<title>New Title</title>', $data);
 
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = $data;
@@ -305,6 +309,8 @@ function dataPicasaAlbumCallback($url, $data, array $headers = null, $timeout = 
  */
 function picasaAlbumlistCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'albumlist.txt');
@@ -325,6 +331,8 @@ function picasaAlbumlistCallback($url, array $headers = null, $timeout = null)
  */
 function picasaExceptionCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = 'BADDATA';
@@ -346,6 +354,8 @@ function picasaExceptionCallback($url, array $headers = null, $timeout = null)
  */
 function picasaDataExceptionCallback($url, $data, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = 'BADDATA';
@@ -366,6 +376,8 @@ function picasaDataExceptionCallback($url, $data, array $headers = null, $timeou
  */
 function picasaBadXmlCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = '<feed />';

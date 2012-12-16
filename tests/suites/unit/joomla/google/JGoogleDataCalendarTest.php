@@ -489,6 +489,8 @@ class JGoogleDataCalendarTest extends TestCase
  */
 function jsonDataCalendarCallback($url, $data, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = '{"items":{"1":1,"2":2}}';
@@ -510,6 +512,8 @@ function jsonDataCalendarCallback($url, $data, array $headers = null, $timeout =
  */
 function emptyDataCalendarCallback($url, $data, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = '';
@@ -530,6 +534,8 @@ function emptyDataCalendarCallback($url, $data, array $headers = null, $timeout 
  */
 function jsonCalendarCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = '{"items":{"1":1,"2":2}}';
@@ -550,6 +556,8 @@ function jsonCalendarCallback($url, array $headers = null, $timeout = null)
  */
 function emptyCalendarCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = '';
@@ -570,6 +578,8 @@ function emptyCalendarCallback($url, array $headers = null, $timeout = null)
  */
 function calendarExceptionCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = 'BADDATA';
@@ -591,6 +601,8 @@ function calendarExceptionCallback($url, array $headers = null, $timeout = null)
  */
 function calendarDataExceptionCallback($url, $data, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = 'BADDATA';
