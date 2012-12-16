@@ -380,6 +380,8 @@ class JGoogleDataAdsenseTest extends TestCase
  */
 function jsonAdsenseCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = '{"items":{"1":1,"2":2},"nextPageToken":"1234"}';
@@ -400,6 +402,8 @@ function jsonAdsenseCallback($url, array $headers = null, $timeout = null)
  */
 function jsonAdsenseReportCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = '{"rows":{"0":1,"1":2},"totalMatchedRows":1}';
@@ -420,6 +424,8 @@ function jsonAdsenseReportCallback($url, array $headers = null, $timeout = null)
  */
 function adsenseExceptionCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = 'BADDATA';

@@ -477,6 +477,8 @@ class JGoogleDataPicasaAlbumTest extends TestCase
  */
 function emptyPicasaCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = '';
@@ -497,6 +499,8 @@ function emptyPicasaCallback($url, array $headers = null, $timeout = null)
  */
 function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photolist.txt');
@@ -518,6 +522,8 @@ function picasaPhotolistCallback($url, array $headers = null, $timeout = null)
  */
 function dataPicasaUploadCallback($url, $data, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/atom+xml');
 	$response->body = JFile::read(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'photo.txt');

@@ -347,6 +347,7 @@ class JOAuth2ClientTest extends TestCase
  */
 function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
 
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'x-www-form-urlencoded');
@@ -370,6 +371,8 @@ function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout 
 function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
 
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'application/json');
 	$response->body = '{"access_token":"accessvalue","refresh_token":"refreshvalue","expires_in":3600}';
@@ -391,6 +394,8 @@ function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = n
  */
 function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = 'Lorem ipsum dolor sit amet.';
@@ -411,6 +416,8 @@ function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
  */
 function getOauthCallback($url, array $headers = null, $timeout = null)
 {
+	$response = new stdClass;
+
 	$response->code = 200;
 	$response->headers = array('Content-Type' => 'text/html');
 	$response->body = 'Lorem ipsum dolor sit amet.';
