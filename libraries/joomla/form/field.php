@@ -345,6 +345,7 @@ abstract class JFormField
 		$multiple = (string) $element['multiple'];
 		$name = (string) $element['name'];
 		$required = (string) $element['required'];
+		$ariaRequired = (string) $element['aria-required'];
 		$disabled = (string) $element['disabled'];
 		$readonly = (string) $element['readonly'];
 
@@ -367,6 +368,10 @@ abstract class JFormField
 			else
 			{
 				$this->element->addAttribute('class', 'required');
+			}
+
+			if(!$ariaRequired) {
+				$this->element->addAttribute('aria-required', 'true');
 			}
 		}
 
