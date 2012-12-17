@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Dec-2012 Jean-Marie Simonet
+ $+ Adding Armenian hy-AM new installation language
+
 12-Dec-2012 Mark Dexter
  # [#29715] *Submit an Article doesn't work. Thanks Jean-Marie.
 
