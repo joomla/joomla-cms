@@ -16,7 +16,6 @@ The constructor takes a single optional `$source` parameter. This argument can b
 - A string containing a valid, absolute path to an image
 
 If you choose the first option, the class sets the protected property `$handle` to the provided image resource.
-
 If you choose the second option, the class will call the `loadFile` method, passing along the `$source` parameter.
 
 ```php
@@ -46,10 +45,11 @@ Since Platform version 12.3, there is a new `destroy()` method that get's called
 
 #### The `resize` method
 __Accepted Parameters__
-* `$width`: The width of the resized image in pixels or a percentage.
-* `$height`: The height of the resized image in pixels or a percentage.
-* `$createNew`: If true the current image will be cloned, resized and returned; else the current image will be resized and returned.
-* `$scaleMethod`: Which method to use for scaling
+
+- `$width`: The width of the resized image in pixels or a percentage.
+- `$height`: The height of the resized image in pixels or a percentage.
+- `$createNew`: If true the current image will be cloned, resized and returned; else the current image will be resized and returned.
+- `$scaleMethod`: Which method to use for scaling
 
 Example: Using `JImage::resize()` to generate a resized image.
 
@@ -68,11 +68,12 @@ $image->toFile(JPATH_SITE . '/tmp/bar_resized.png');
 
 #### The `crop` method
 __Accepted Parameters__
-* `$width`: The width of the image section to crop in pixels or a percentage.
-* `$height`: The height of the image section to crop in pixels or a percentage.
-* `$left`: The number of pixels from the left to start cropping.
-* `$top`: The number of pixels from the top to start cropping.
-* `$createNew`: If true the current image will be cloned, cropped and returned; else the current image will be cropped and returned.
+
+- `$width`: The width of the image section to crop in pixels or a percentage.
+- `$height`: The height of the image section to crop in pixels or a percentage.
+- `$left`: The number of pixels from the left to start cropping.
+- `$top`: The number of pixels from the top to start cropping.
+- `$createNew`: If true the current image will be cloned, cropped and returned; else the current image will be cropped and returned.
 
 Example: Using `JImage::crop()` to generate a cropped image.
 
@@ -90,9 +91,10 @@ $image->toFile(JPATH_SITE . '/tmp/bar_cropped.png');
 
 #### The `createThumbs` method
 __Accepted Parameters__
-* `$thumbsizes`: String or array of strings. Example: $thumbSizes = array('150x75','250x150');
-* `$creationMethod`: See __Resize Methods__ below. 
-* `$thumbsFolder`: Destination for thumbnails. Passing null generates a thumbs folder in the loaded image's containing folder.
+
+- `$thumbsizes`: String or array of strings. Example: $thumbSizes = array('150x75','250x150');
+- `$creationMethod`: See __Resize Methods__ below. 
+- `$thumbsFolder`: Destination for thumbnails. Passing null generates a thumbs folder in the loaded image's containing folder.
 
 Example: Using `JImage::createThumbs()` to generate thumbnails of an image.
 
@@ -115,7 +117,7 @@ In this example, we use the `createThumbs` method of `JImage`. This method takes
 The `resize`, `createThumbs` and `generateThumbs` methods take an optional parameter that defines what method to use when scaling an image.
 This parameter can be one of the following:
 
-* `JImage::SCALE_FILL` - Gives you a thumbnail of the exact size, stretched or squished to fit the parameters.
-* `JImage::SCALE_INSIDE` - Fits your thumbnail within your given parameters. It will not be any taller or wider than the size passed, whichever is larger.
-* `JImage::SCALE_OUTSIDE` - Fits your thumbnail to the given parameters. It will be as tall or as wide as the size passed, whichever is smaller.
-* `JImage::CROP` - Gives you a thumbnail of the exact size, cropped from the center of the full sized image.
+- `JImage::SCALE_FILL` - Gives you a thumbnail of the exact size, stretched or squished to fit the parameters.
+- `JImage::SCALE_INSIDE` - Fits your thumbnail within your given parameters. It will not be any taller or wider than the size passed, whichever is larger.
+- `JImage::SCALE_OUTSIDE` - Fits your thumbnail to the given parameters. It will be as tall or as wide as the size passed, whichever is smaller.
+- `JImage::CROP` - Gives you a thumbnail of the exact size, cropped from the center of the full sized image.
