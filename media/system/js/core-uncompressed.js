@@ -461,7 +461,7 @@ Joomla.addEvent = function (event, fn) {
 		// Get event type and namespace
         var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
 
-        window.addEvent(eventName, fn);
+        window.addEvent(nameBase, fn);
         //window.addEvent(nameBase, fn.bind(this, nameBase, document));
         if (nameSpace) {
         	 window.addEvent(events[i], fn);
