@@ -289,21 +289,6 @@ class JFormFieldRules extends JFormField
 		}
 		$html[] = '</div>';
 
-		// Get the JInput object
-		$input = JFactory::getApplication()->input;
-
-		$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'),"
-			. "$$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');"
-			. "toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_permissions-sliders"
-			. $component
-			. "',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},"
-			. "onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');"
-			. "i.removeClass('pane-down');}, duration: 300, display: "
-			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", show: "
-			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", alwaysHide:true, opacity: false}); });";
-
-		JFactory::getDocument()->addScriptDeclaration($js);
-
 		return implode("\n", $html);
 	}
 

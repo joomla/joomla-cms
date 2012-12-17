@@ -1,7 +1,5 @@
 <?php
 
-require_once 'AdminEditPage.php';
-
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -17,18 +15,6 @@ class LevelEditPage extends AdminEditPage
 {
 	protected $waitForXpath = "//form[@id='level-form']";
 	protected $url = 'administrator/index.php?option=com_users&view=level&layout=edit';
-
-	/**
-	 * Array of expected id values for toolbar div elements
-	 * @var array
-	 */
-	public $toolbar = array (
-			'Save' => 'toolbar-apply',
-			'Save & Close' => 'toolbar-save',
-			'Save & New' => 'toolbar-save-new',
-			'Cancel' => 'toolbar-cancel',
-			'Help' => 'toolbar-help',
-	);
 
 	/**
 	 * Associative array of expected input fields for the Account Details and Basic Settings tabs
