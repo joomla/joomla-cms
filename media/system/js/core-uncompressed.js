@@ -434,6 +434,11 @@ function checkAll_button(n, task) {
 
 Joomla.optionsStorage = {};
 
+/**
+ * init events storage
+ */
+
+Joomla.eventsStorage = {};
 
 /**
  * add events for init
@@ -459,21 +464,37 @@ Joomla.addEvent = function (event, fn) {
 
 	for (var i = 0; i < events.length; i++) {
 		// Get event type and namespace
-        var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
+        var names = events[i].split('.'), nameBase = names[0];//, nameSpace = names[1];
 
-        window.addEvent(nameBase, fn);
-        //window.addEvent(nameBase, fn.bind(this, nameBase, document));
-        if (nameSpace) {
-        	 window.addEvent(events[i], fn);
-        	 //window.addEvent(event[i], fn.bind(this, event[i], document));
+        // store in Joomla.eventsStorage by the base event name
+        if (!Joomla.eventsStorage[nameBase]) {
+        	Joomla.eventsStorage[nameBase] = [];
         }
+        //addonly once
+        if (Joomla.eventsStorage[nameBase].indexOf(fn) === -1) {
+        	Joomla.eventsStorage[nameBase].push(fn);
+        }
+
+        // store in Joomla.eventsStorage by the full name (with namespace)
+        if (!Joomla.eventsStorage[events[i]]) {
+        	Joomla.eventsStorage[events[i]] = [];
+        }
+        if (Joomla.eventsStorage[events[i]].indexOf(fn) === -1) {
+        	Joomla.eventsStorage[events[i]].push(fn);
+        }
+
+        //window.addEvent(nameBase, Joomla.fireEvent.bind(this, nameBase, document));
+        window.addEvent(nameBase, function(event){
+        	Joomla.fireEvent(event, document);
+        }.bind(this, nameBase));
+
 	}
 };
 
 /**
  * remove events
  */
-Joomla.removeEvent = function (type, fn) {
+Joomla.removeEvent = function (event, fn) {
 	var events = [];
 
 	if(Object.prototype.toString.call(event) === '[object Array]') {
@@ -486,12 +507,19 @@ Joomla.removeEvent = function (type, fn) {
 
 	for (var i = 0; i < events.length; i++) {
 		// Get event type and namespace
-        var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
+        var names = events[i].split('.'), nameBase = names[0];//, nameSpace = names[1];
+        //remove from storage
+        if (Joomla.eventsStorage[nameBase]) {
+        	var index = Joomla.eventsStorage[nameBase].indexOf(fn);
+        	if( index !== -1) delete Joomla.eventsStorage[nameBase][index];
+        }
 
-		window.removeEvent(nameBase, fn);
-		if (nameSpace) {
-			window.removeEvent(events[i], fn);
-		}
+        if (Joomla.eventsStorage[events[i]]) {
+        	var index = Joomla.eventsStorage[events[i]].indexOf(fn);
+        	if( index !== -1) delete Joomla.eventsStorage[events[i]][index];
+        }
+
+		window.removeEvent(nameBase, Joomla.fireEvent);
 	}
 };
 
@@ -505,8 +533,18 @@ Joomla.removeEvent = function (type, fn) {
  * 		Joomla.fireEvent('domchanged.extension_name', 'changed-element');
  */
 
-Joomla.fireEvent = function(type, element) {
-	window.fireEvent(type, [type, element]);
+Joomla.fireEvent = function(event, element) {
+	if (!Joomla.eventsStorage[event]) return;
+	if (!element) element = document;
+	//call functions
+	for (var i = 0; i < Joomla.eventsStorage[event].length; i++) {
+		//try do not break site if some script is buggy
+		try {
+			Joomla.eventsStorage[event][i].call(this, event, element);
+		} catch (e) {
+			if(window.console){ console.log(e); console.log(e.stack);}
+		}
+	}
 }
 
 
