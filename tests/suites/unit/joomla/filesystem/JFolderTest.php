@@ -118,23 +118,29 @@ class JFolderTest extends TestCase
 		file_put_contents(JPath::clean(JPATH_TESTS . '/tmp/test/test/index.html'), 'test');
 		file_put_contents(JPath::clean(JPATH_TESTS . '/tmp/test/test/index.txt'), 'test');
 
-		$expected = array(
-			JPath::clean(JPATH_TESTS . '/tmp/test/index.txt'),
-			JPath::clean(JPATH_TESTS . '/tmp/test/test/index.txt')
-		);
-
+		// use of realpath to ensure test works for on all platforms
+		$result = JFolder::files(JPath::clean(JPATH_TESTS . '/tmp/test'), 'index.*', true, true, array('index.html'));
+		$result[0] = realpath($result[0]);
+		$result[1] = realpath($result[1]);
 		$this->assertEquals(
-			$expected,
-			JFolder::files(JPath::clean(JPATH_TESTS . '/tmp/test'), 'index.*', true, true, array('index.html')),
+			array(
+				JPath::clean(JPATH_TESTS . '/tmp/test/index.txt'),
+				JPath::clean(JPATH_TESTS . '/tmp/test/test/index.txt')
+			),
+			$result,
 			'Line: ' . __LINE__ . ' Should exclude index.html files'
 		);
 
+		// use of realpath to ensure test works for on all platforms
+		$result = JFolder::files(JPath::clean(JPATH_TESTS . '/tmp/test'), 'index.html', true, true);
+		$result[0] = realpath($result[0]);
+		$result[1] = realpath($result[1]);
 		$this->assertEquals(
 			array(
 				JPath::clean(JPATH_TESTS . '/tmp/test/index.html'),
 				JPath::clean(JPATH_TESTS . '/tmp/test/test/index.html')
 			),
-			JFolder::files(JPath::clean(JPATH_TESTS . '/tmp/test'), 'index.html', true, true),
+			$result,
 			'Line: ' . __LINE__ . ' Should include full path of both index.html files'
 		);
 
@@ -147,11 +153,14 @@ class JFolderTest extends TestCase
 			'Line: ' . __LINE__ . ' Should include only file names of both index.html files'
 		);
 
+		// use of realpath to ensure test works for on all platforms
+		$result = JFolder::files(JPath::clean(JPATH_TESTS . '/tmp/test'), 'index.html', false, true);
+		$result[0] = realpath($result[0]);
 		$this->assertEquals(
 			array(
 				JPath::clean(JPATH_TESTS . '/tmp/test/index.html')
 			),
-			JFolder::files(JPath::clean(JPATH_TESTS . '/tmp/test'), 'index.html', false, true),
+			$result,
 			'Line: ' . __LINE__ . ' Non-recursive should only return top folder file full path'
 		);
 
@@ -207,18 +216,32 @@ class JFolderTest extends TestCase
 			JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), 'bar1', true, true, array('foo1', 'foo2'))
 		);
 
+		// use of realpath to ensure test works for on all platforms
+		$result = JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), 'bar1', true, true, array('foo1'));
+		$result[0] = realpath($result[0]);
 		$this->assertEquals(
 			array(JPath::clean(JPATH_TESTS . '/tmp/test/foo2/bar1')),
-			JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), 'bar1', true, true, array('foo1'))
+			$result
 		);
+
+		// use of realpath to ensure test works for on all platforms
+		$result = JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), 'bar1', true, true);
+		$result[0] = realpath($result[0]);
+		$result[1] = realpath($result[1]);
 		$this->assertEquals(
 			array(
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo1/bar1'),
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo2/bar1'),
 			),
-			JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), 'bar1', true, true)
+			$result
 		);
 
+		// use of realpath to ensure test works for on all platforms
+		$result = JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), 'bar', true, true);
+		$result[0] = realpath($result[0]);
+		$result[1] = realpath($result[1]);
+		$result[2] = realpath($result[2]);
+		$result[3] = realpath($result[3]);
 		$this->assertEquals(
 			array(
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo1/bar1'),
@@ -226,8 +249,17 @@ class JFolderTest extends TestCase
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo2/bar1'),
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo2/bar2'),
 			),
-			JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), 'bar', true, true)
+			$result
 		);
+
+		// use of realpath to ensure test works for on all platforms
+		$result = JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), '.', true, true);
+		$result[0] = realpath($result[0]);
+		$result[1] = realpath($result[1]);
+		$result[2] = realpath($result[2]);
+		$result[3] = realpath($result[3]);
+		$result[4] = realpath($result[4]);
+		$result[5] = realpath($result[5]);
 
 		$this->assertEquals(
 			array(
@@ -238,7 +270,7 @@ class JFolderTest extends TestCase
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo2/bar1'),
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo2/bar2'),
 			),
-			JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), '.', true, true)
+			$result
 		);
 
 		$this->assertEquals(
@@ -253,12 +285,17 @@ class JFolderTest extends TestCase
 			JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), '.', true, false)
 		);
 
+		// use of realpath to ensure test works for on all platforms
+		$result = JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), '.', false, true);
+		$result[0] = realpath($result[0]);
+		$result[1] = realpath($result[1]);
+
 		$this->assertEquals(
 			array(
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo1'),
 				JPath::clean(JPATH_TESTS . '/tmp/test/foo2'),
 			),
-			JFolder::folders(JPath::clean(JPATH_TESTS . '/tmp/test'), '.', false, true)
+			$result
 		);
 
 		$this->assertEquals(

@@ -471,6 +471,14 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testCompressWithNoAcceptEncodings()
 	{
+		$string = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+		// Replace \r\n -> \n to ensure same length on all platforms
 		// Fill the header body with a value.
 		TestReflection::setValue(
 			$this->class,
@@ -478,12 +486,7 @@ class JApplicationWebTest extends TestCase
 			(object) array(
 				'cachable' => null,
 				'headers' => null,
-				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+				'body' => array(str_replace("\r\n","\n",$string)),
 			)
 		);
 
@@ -522,6 +525,14 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testCompressWithHeadersSent()
 	{
+		$string = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+		// Replace \r\n -> \n to ensure same length on all platforms
 		// Fill the header body with a value.
 		TestReflection::setValue(
 			$this->class,
@@ -529,12 +540,7 @@ class JApplicationWebTest extends TestCase
 			(object) array(
 				'cachable' => null,
 				'headers' => null,
-				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+				'body' => array(str_replace("\r\n","\n",$string)),
 			)
 		);
 
@@ -579,6 +585,14 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testCompressWithUnsupportedEncodings()
 	{
+		$string = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+					sunt in culpa qui officia deserunt mollit anim id est laborum.';
+
+		// Replace \r\n -> \n to ensure same length on all platforms
 		// Fill the header body with a value.
 		TestReflection::setValue(
 			$this->class,
@@ -586,12 +600,7 @@ class JApplicationWebTest extends TestCase
 			(object) array(
 				'cachable' => null,
 				'headers' => null,
-				'body' => array('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-					eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-					veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-					consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-					dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-					sunt in culpa qui officia deserunt mollit anim id est laborum.'),
+				'body' => array(str_replace("\r\n","\n",$string)),
 			)
 		);
 

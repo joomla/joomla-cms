@@ -175,6 +175,7 @@ class JTableTest extends TestCaseDatabase
 
 		$reflection = new ReflectionClass('JTable');
 
+		// use of realpath to ensure test works for on all platforms
 		$this->assertEquals(
 			realpath(dirname($reflection->getFileName())),
 			realpath($result[0]),
@@ -185,7 +186,7 @@ class JTableTest extends TestCaseDatabase
 		$expected = array(
 			'/dummy/',
 			'dir/not/exist',
-			JPATH_PLATFORM . '/joomla/table'
+			realpath(JPATH_PLATFORM . '/joomla/table')
 		);
 
 		// Add dummy paths

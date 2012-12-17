@@ -213,10 +213,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 			->from('jos_test')
 			->withStructure(true);
 
-		$this->assertThat(
-			(string) $instance,
-			$this->equalTo(
-				'<?xml version="1.0"?>
+		$expecting = '<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
@@ -225,11 +222,15 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
    <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
   </table_structure>
  </database>
-</mysqldump>'
+</mysqldump>';
+
+		$this->assertThat(
+			preg_replace('/\v/', '', (string) $instance),
+			$this->equalTo(
+				preg_replace('/\v/', '', $expecting)
 			),
 			'__toString has not returned the expected result.'
 		);
-
 	}
 
 	/**
@@ -275,10 +276,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 			->from('jos_test')
 			->withStructure(true);
 
-		$this->assertThat(
-			$instance->buildXml(),
-			$this->equalTo(
-				'<?xml version="1.0"?>
+		$expecting = '<?xml version="1.0"?>
 <mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
@@ -287,7 +285,12 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
    <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
   </table_structure>
  </database>
-</mysqldump>'
+</mysqldump>';
+		// Replace used to prevent platform conflicts
+		$this->assertThat(
+			preg_replace('/\v/', '', $instance->buildXml()),
+			$this->equalTo(
+				preg_replace('/\v/', '', $expecting)
 			),
 			'buildXml has not returned the expected result.'
 		);
