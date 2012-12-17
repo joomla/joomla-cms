@@ -148,6 +148,13 @@ class JDocument
 	public $_script = array();
 
 	/**
+	 * Array of scripts options
+	 *
+	 *  @var    array
+	 */
+	public $_scripts_otions = array();
+
+	/**
 	 * Array of linked style sheets
 	 *
 	 * @var    array
@@ -479,6 +486,43 @@ class JDocument
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Add option for script
+	 * @param string $name = extension name
+	 * @param array $options
+	 * @param string $prefix = one of:
+	 * 					'com' (for components),
+	 * 					'mod' (for modules),
+	 * 					'plg' (for plugins),
+	 * 					'sys' (for joomla core),
+	 */
+	public function setScriptOptions( $options, $name, $prefix )
+	{
+		$this->_scripts_otions[$prefix.'_'.$name] = $options;
+
+		return $this;
+	}
+
+	/**
+	 * Get script(s) options
+	 * @param string $name = extension name
+	 * @param string $prefix = one of:
+	 * 				'com' (for components),
+	 * 				'mod' (for modules),
+	 * 				'plg' (for plugins),
+	 * 				'sys' (for joomla core),
+	 */
+	public function getScriptOptions($name = null,  $prefix = 'sys')
+	{
+		if ($name && $prefix)
+		{
+			return (empty($this->_scripts_otions[$prefix.'_'.$name])) ? array() : $this->_scripts_otions[$prefix.'_'.$name];
+		}
+		else {
+			return $this->_scripts_otions;
+		}
 	}
 
 	/**

@@ -420,3 +420,93 @@ function checkAll_button(n, task) {
 	}
 	submitform(task);
 }
+
+/**
+ * One way scripts initialisation
+ * Links:
+ * 	https://groups.google.com/d/topic/joomla-dev-platform/dWUbRsOAtNw/discussion
+ * 	http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28119
+ */
+
+/**
+ * init options storage
+ */
+
+Joomla.optionsStorage = {};
+
+
+/**
+ * add events for init
+ * use like:
+ * 		Joomla.addEvent('domready domchanged', callback);
+ * 		Joomla.addEvent(['domready', 'domchanged'], callback);
+ * 		Joomla.addEvent('domready domchanged.extension_name', callback);
+ * 		Joomla.addEvent(['domready', 'domchanged.extension_name'], callback);
+ *
+ * 		instead of "domready" can be "load" if need
+ */
+
+Joomla.addEvent = function (event, fn) {
+	var events = [];
+
+	if(Object.prototype.toString.call(event) === '[object Array]') {
+		events = event;
+	} else if(typeof(event) == 'string' && event.indexOf(' ') !== -1) {
+		events = event.split(' ');
+	} else {
+		events.push(event);
+	}
+
+	for (var i = 0; i < events.length; i++) {
+		// Get event type and namespace
+        var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
+
+        window.addEvent(eventName, fn);
+        //window.addEvent(nameBase, fn.bind(this, nameBase, document));
+        if (nameSpace) {
+        	 window.addEvent(events[i], fn);
+        	 //window.addEvent(event[i], fn.bind(this, event[i], document));
+        }
+	}
+};
+
+/**
+ * remove events
+ */
+Joomla.removeEvent = function (type, fn) {
+	var events = [];
+
+	if(Object.prototype.toString.call(event) === '[object Array]') {
+		events = event;
+	} else if(typeof(event) == 'string' && event.indexOf(' ') !== -1) {
+		events = event.split(' ');
+	} else {
+		events.push(event);
+	}
+
+	for (var i = 0; i < events.length; i++) {
+		// Get event type and namespace
+        var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
+
+		window.removeEvent(nameBase, fn);
+		if (nameSpace) {
+			window.removeEvent(events[i], fn);
+		}
+	}
+};
+
+/**
+ * fire event before/after domchanged
+ * use like:
+ * 		Joomla.fireEvent('unload', 'unloaded-element');
+ * 		Joomla.fireEvent('unload.extension_name', 'unloaded-element');
+ *
+ * 		Joomla.fireEvent('domchanged', 'changed-element');
+ * 		Joomla.fireEvent('domchanged.extension_name', 'changed-element');
+ */
+
+Joomla.fireEvent = function(type, element) {
+	window.fireEvent(type, [type, element]);
+}
+
+
