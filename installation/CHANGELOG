@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Dec-2012 Mark Dexter
+ # [#29651] Removing try/catch clauses in 'dispatch' methods. Thanks Patrick Alt.
+
 13-Dec-2012 Jean-Marie Simonet
  # [#29819] *Correcting Hathor admin login
  # [#29762] *cpanel layout in backend messed up after adding feed to cpanel
