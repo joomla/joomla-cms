@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 18-Dec-2012 Mark Dexter
  # [#29651] Removing try/catch clauses in 'dispatch' methods. Thanks Patrick Alt.
+ # [#29771] Inconsistent usage of module suffix at mod_menu and mod_breadcrumbs. Thanks Kevin Griffiths.
 
 13-Dec-2012 Jean-Marie Simonet
  # [#29819] *Correcting Hathor admin login
