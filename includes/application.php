@@ -153,68 +153,61 @@ final class JSite extends JApplication
 	 */
 	public function dispatch($component = null)
 	{
-		try
+
+		// Get the component if not set.
+		if (!$component) {
+			$component = $this->input->get('option');
+		}
+
+		$document	= JFactory::getDocument();
+		$user		= JFactory::getUser();
+		$router		= $this->getRouter();
+		$params		= $this->getParams();
+
+		switch($document->getType())
 		{
-			// Get the component if not set.
-			if (!$component) {
-				$component = $this->input->get('option');
-			}
+			case 'html':
+				// Get language
+				$lang_code = JFactory::getLanguage()->getTag();
+				$languages = JLanguageHelper::getLanguages('lang_code');
 
-			$document	= JFactory::getDocument();
-			$user		= JFactory::getUser();
-			$router		= $this->getRouter();
-			$params		= $this->getParams();
-
-			switch($document->getType())
-			{
-				case 'html':
-					// Get language
-					$lang_code = JFactory::getLanguage()->getTag();
-					$languages = JLanguageHelper::getLanguages('lang_code');
-
-					// Set metadata
-					if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey) {
-						$document->setMetaData('keywords', $languages[$lang_code]->metakey);
-					} else {
-						$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
-					}
-					$document->setMetaData('rights', $this->getCfg('MetaRights'));
-					if ($router->getMode() == JROUTER_MODE_SEF) {
-						$document->setBase(htmlspecialchars(JURI::current()));
-					}
-					break;
-
-				case 'feed':
+				// Set metadata
+				if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey) {
+					$document->setMetaData('keywords', $languages[$lang_code]->metakey);
+				} else {
+					$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
+				}
+				$document->setMetaData('rights', $this->getCfg('MetaRights'));
+				if ($router->getMode() == JROUTER_MODE_SEF) {
 					$document->setBase(htmlspecialchars(JURI::current()));
-					break;
-			}
+				}
+				break;
 
-			$document->setTitle($params->get('page_title'));
-			$document->setDescription($params->get('page_description'));
-
-			// Add version number or not based on global configuration
-			if ($this->getCfg('MetaVersion', 0))
-			{
-				$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
-			}
-			else
-			{
-				$document->setGenerator('Joomla! - Open Source Content Management');
-			}
-
-			$contents = JComponentHelper::renderComponent($component);
-			$document->setBuffer($contents, 'component');
-
-			// Trigger the onAfterDispatch event.
-			JPluginHelper::importPlugin('system');
-			$this->triggerEvent('onAfterDispatch');
+			case 'feed':
+				$document->setBase(htmlspecialchars(JURI::current()));
+				break;
 		}
-		// Mop up any uncaught exceptions.
-		catch (Exception $e)
+
+		$document->setTitle($params->get('page_title'));
+		$document->setDescription($params->get('page_description'));
+
+		// Add version number or not based on global configuration
+		if ($this->getCfg('MetaVersion', 0))
 		{
-			$code = $e->getCode();
-			JError::raiseError($code ? $code : 500, $e->getMessage());
+			$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
 		}
+		else
+		{
+			$document->setGenerator('Joomla! - Open Source Content Management');
+		}
+
+		$contents = JComponentHelper::renderComponent($component);
+		$document->setBuffer($contents, 'component');
+
+		// Trigger the onAfterDispatch event.
+		JPluginHelper::importPlugin('system');
+		$this->triggerEvent('onAfterDispatch');
+
 	}
 
 	/**
@@ -254,10 +247,10 @@ final class JSite extends JApplication
 					$file = 'component';
 				}
 				$params = array(
-					'template'	=> $template->template,
-					'file'		=> $file.'.php',
-					'directory'	=> JPATH_THEMES,
-					'params'	=> $template->params
+						'template'	=> $template->template,
+						'file'		=> $file.'.php',
+						'directory'	=> JPATH_THEMES,
+						'params'	=> $template->params
 				);
 				break;
 		}

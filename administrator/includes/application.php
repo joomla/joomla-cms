@@ -133,41 +133,32 @@ class JAdministrator extends JApplication
 	 */
 	public function dispatch($component = null)
 	{
-		try
-		{
-			if ($component === null) {
-				$component = JAdministratorHelper::findOption();
-			}
-
-			$document	= JFactory::getDocument();
-			$user		= JFactory::getUser();
-
-			switch ($document->getType()) {
-				case 'html':
-					$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
-					break;
-
-				default:
-					break;
-			}
-
-			$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
-			$document->setDescription($this->getCfg('MetaDesc'));
-			$document->setGenerator('Joomla! - Open Source Content Management');
-
-			$contents = JComponentHelper::renderComponent($component);
-			$document->setBuffer($contents, 'component');
-
-			// Trigger the onAfterDispatch event.
-			JPluginHelper::importPlugin('system');
-			$this->triggerEvent('onAfterDispatch');
+		if ($component === null) {
+			$component = JAdministratorHelper::findOption();
 		}
-		// Mop up any uncaught exceptions.
-		catch (Exception $e)
-		{
-			$code = $e->getCode();
-			JError::raiseError($code ? $code : 500, $e->getMessage());
+
+		$document	= JFactory::getDocument();
+		$user		= JFactory::getUser();
+
+		switch ($document->getType()) {
+			case 'html':
+				$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
+				break;
+
+			default:
+				break;
 		}
+
+		$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
+		$document->setDescription($this->getCfg('MetaDesc'));
+		$document->setGenerator('Joomla! - Open Source Content Management');
+
+		$contents = JComponentHelper::renderComponent($component);
+		$document->setBuffer($contents, 'component');
+
+		// Trigger the onAfterDispatch event.
+		JPluginHelper::importPlugin('system');
+		$this->triggerEvent('onAfterDispatch');
 	}
 
 	/**
@@ -190,15 +181,15 @@ class JAdministrator extends JApplication
 		$config		= JFactory::getConfig();
 		$rootUser	= $config->get('root_user');
 		if (property_exists('JConfig', 'root_user') &&
-			(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)) {
+				(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)) {
 			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}
 
 		$params = array(
-			'template'	=> $template->template,
-			'file'		=> $file.'.php',
-			'directory'	=> JPATH_THEMES,
-			'params'	=> $template->params
+				'template'	=> $template->template,
+				'file'		=> $file.'.php',
+				'directory'	=> JPATH_THEMES,
+				'params'	=> $template->params
 		);
 
 		$document = JFactory::getDocument();
