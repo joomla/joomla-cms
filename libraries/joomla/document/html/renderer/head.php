@@ -80,7 +80,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 				}
 				elseif ($type == 'standard' && !empty($content))
 				{
+					if ($name != 'title') {
 					$buffer .= $tab . '<meta name="' . $name . '" content="' . htmlspecialchars($content) . '" />' . $lnEnd;
+					}
 				}
 			}
 		}
