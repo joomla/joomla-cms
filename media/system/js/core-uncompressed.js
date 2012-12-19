@@ -422,10 +422,13 @@ function checkAll_button(n, task) {
 }
 
 /**
- * One way scripts initialisation
+ * One way scripts initialisation.
+ * For current implementation need a MooTools.
+ *
  * Links:
  * 	https://groups.google.com/d/topic/joomla-dev-platform/dWUbRsOAtNw/discussion
  * 	http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28119
+ *
  */
 
 /**
@@ -448,7 +451,7 @@ Joomla.eventsStorage = {};
  * 		Joomla.addEvent('domready domchanged.extension_name', callback);
  * 		Joomla.addEvent(['domready', 'domchanged.extension_name'], callback);
  *
- * 		instead of "domready" can be "load" if need
+ * 		instead of "domready" can be "load"/"unload" if need
  */
 
 Joomla.addEvent = function (event, fn) {
@@ -464,26 +467,29 @@ Joomla.addEvent = function (event, fn) {
 
 	for (var i = 0; i < events.length; i++) {
 		// Get event type and namespace
-        var names = events[i].split('.'), nameBase = names[0];//, nameSpace = names[1];
+        var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
 
         // store in Joomla.eventsStorage by the base event name
         if (!Joomla.eventsStorage[nameBase]) {
         	Joomla.eventsStorage[nameBase] = [];
         }
-        //addonly once
+        //add only once
         if (Joomla.eventsStorage[nameBase].indexOf(fn) === -1) {
         	Joomla.eventsStorage[nameBase].push(fn);
         }
 
         // store in Joomla.eventsStorage by the full name (with namespace)
-        if (!Joomla.eventsStorage[events[i]]) {
-        	Joomla.eventsStorage[events[i]] = [];
-        }
-        if (Joomla.eventsStorage[events[i]].indexOf(fn) === -1) {
-        	Joomla.eventsStorage[events[i]].push(fn);
+        // add only if namespace exist, otherwise will be same atachment twice
+        if (nameSpace) {
+	        if (!Joomla.eventsStorage[events[i]]) {
+	        	Joomla.eventsStorage[events[i]] = [];
+	        }
+	        //add only once
+	        if (Joomla.eventsStorage[events[i]].indexOf(fn) === -1) {
+	        	Joomla.eventsStorage[events[i]].push(fn);
+	        }
         }
 
-        //window.addEvent(nameBase, Joomla.fireEvent.bind(this, nameBase, document));
         window.addEvent(nameBase, function(event){
         	Joomla.fireEvent(event, document);
         }.bind(this, nameBase));
