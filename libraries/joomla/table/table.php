@@ -695,6 +695,8 @@ abstract class JTable extends JObject
 	{
 		$k = $this->_tbl_keys;
 
+		$currentAssetId = 0;
+
 		if (!empty($this->asset_id))
 		{
 			$currentAssetId = $this->asset_id;
@@ -774,20 +776,19 @@ abstract class JTable extends JObject
 			return false;
 		}
 
-		if (isset($currentAssetId)) {
+
 			// Create an asset_id or heal one that is corrupted.
-			if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
-				// Update the asset_id field in this table.
-				$this->asset_id = (int)$asset->id;
+		if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id))) {
+			// Update the asset_id field in this table.
+			$this->asset_id = (int)$asset->id;
 
-				$query = $this->_db->getQuery(TRUE);
-				$query->update($this->_db->quoteName($this->_tbl));
-				$query->set('asset_id = ' . (int)$this->asset_id);
-				$this->appendPrimaryKeys($query);
-				$this->_db->setQuery($query);
+			$query = $this->_db->getQuery(TRUE);
+			$query->update($this->_db->quoteName($this->_tbl));
+			$query->set('asset_id = ' . (int)$this->asset_id);
+			$this->appendPrimaryKeys($query);
+			$this->_db->setQuery($query);
 
-				$this->_db->execute();
-			}
+			$this->_db->execute();
 		}
 
 		return true;
