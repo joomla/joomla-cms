@@ -20,7 +20,7 @@ jimport('joomla.filesystem.path');
  * @subpackage  Table
  * @link        http://docs.joomla.org/JTable
  * @since       11.1
- * @tutorial	Joomla.Platform/jtable.cls
+ * @tutorial    Joomla.Platform/jtable.cls
  */
 abstract class JTable extends JObject
 {
@@ -181,7 +181,7 @@ abstract class JTable extends JObject
 		if ($cache === null)
 		{
 			// Lookup the fields for this table only once.
-			$name = $this->_tbl;
+			$name   = $this->_tbl;
 			$fields = $this->_db->getTableColumns($name, false);
 
 			if (empty($fields))
@@ -211,7 +211,7 @@ abstract class JTable extends JObject
 	public static function getInstance($type, $prefix = 'JTable', $config = array())
 	{
 		// Sanitize and prepare the table class name.
-		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
+		$type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix . ucfirst($type);
 
 		// Only try to load the class if it doesn't already exist.
@@ -432,6 +432,7 @@ abstract class JTable extends JObject
 				return $this->_tbl_keys[0];
 			}
 		}
+
 		return '';
 	}
 
@@ -591,12 +592,12 @@ abstract class JTable extends JObject
 		if (empty($keys))
 		{
 			$empty = true;
-			$keys = array();
+			$keys  = array();
 
 			// If empty, use the value of the current key
 			foreach ($this->_tbl_keys as $key)
 			{
-				$empty = $empty && empty($this->$key);
+				$empty      = $empty && empty($this->$key);
 				$keys[$key] = $this->$key;
 			}
 
@@ -695,6 +696,8 @@ abstract class JTable extends JObject
 	{
 		$k = $this->_tbl_keys;
 
+		$currentAssetId = 0;
+
 		if (!empty($this->asset_id))
 		{
 			$currentAssetId = $this->asset_id;
@@ -732,8 +735,8 @@ abstract class JTable extends JObject
 		 */
 
 		$parentId = $this->_getAssetParentId();
-		$name = $this->_getAssetName();
-		$title = $this->_getAssetTitle();
+		$name     = $this->_getAssetName();
+		$title    = $this->_getAssetTitle();
 
 		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
 		$asset->loadByName($name);
@@ -759,8 +762,8 @@ abstract class JTable extends JObject
 
 		// Prepare the asset to be stored.
 		$asset->parent_id = $parentId;
-		$asset->name = $name;
-		$asset->title = $title;
+		$asset->name      = $name;
+		$asset->title     = $title;
 
 		if ($this->_rules instanceof JAccessRules)
 		{
@@ -807,7 +810,7 @@ abstract class JTable extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link	http://docs.joomla.org/JTable/save
+	 * @link    http://docs.joomla.org/JTable/save
 	 * @since   11.1
 	 */
 	public function save($src, $orderingFilter = '', $ignore = '')
@@ -891,7 +894,7 @@ abstract class JTable extends JObject
 		if ($this->_trackAssets)
 		{
 			// Get the asset name
-			$name = $this->_getAssetName();
+			$name  = $this->_getAssetName();
 			$asset = self::getInstance('Asset');
 
 			if ($asset->loadByName($name))
@@ -987,7 +990,7 @@ abstract class JTable extends JObject
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->checked_out = (int) $userId;
+		$this->checked_out      = (int) $userId;
 		$this->checked_out_time = $time;
 
 		return true;
@@ -1048,7 +1051,7 @@ abstract class JTable extends JObject
 		$this->_db->execute();
 
 		// Set table values in the object.
-		$this->checked_out = 0;
+		$this->checked_out      = 0;
 		$this->checked_out_time = '';
 
 		return true;
@@ -1245,6 +1248,7 @@ abstract class JTable extends JObject
 				}
 			}
 		}
+
 		return $keys;
 	}
 
@@ -1336,8 +1340,8 @@ abstract class JTable extends JObject
 			return true;
 		}
 
-		$k = $this->_tbl_key;
-		$row = null;
+		$k     = $this->_tbl_key;
+		$row   = null;
 		$query = $this->_db->getQuery(true);
 
 		// Select the primary key and ordering values from the table.
@@ -1434,7 +1438,7 @@ abstract class JTable extends JObject
 		}
 
 		$userId = (int) $userId;
-		$state = (int) $state;
+		$state  = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
