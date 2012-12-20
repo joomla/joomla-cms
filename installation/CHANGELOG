@@ -12,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6, 1.7 and 2.5, including alpha and beta versions.
+Joomla! 1.6, 1.7, 2.5 and 3.0.x, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -25,6 +25,9 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+19-Dec-2012 Jean-Marie Simonet
+ $+ Adding Catalan ca-ES installation files
 
 19-Dec-2012 Jean-Marie Simonet
  $ Full alpha display of installation languages
