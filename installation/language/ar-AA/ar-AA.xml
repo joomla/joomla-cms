@@ -2,7 +2,7 @@
 <metafile
 	version="2.5"
 	client="installation">
-	<name>Arabic Unitag(العربية الموحدة)</name>
+	<name>Arabic Unitag (العربية الموحدة)</name>
 	<version>2.5</version>
 	<creationDate>2011-01-06</creationDate>
 	<author>Joomla! Arabic Unitag Translation</author>
@@ -13,7 +13,7 @@
 		<filename>ar-AA.ini</filename>
 	</files>
 	<metadata>
-		<name>Arabic Unitag(العربية الموحدة)</name>
+		<name>Arabic Unitag (العربية الموحدة)</name>
 		<tag>ar-AA</tag>
 		<rtl>1</rtl>
 	</metadata>

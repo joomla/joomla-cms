@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Dec-2012 Jean-Marie Simonet
+ $ Normalizing names of installation languages
+
 17-Dec-2012 Jean-Marie Simonet
  $+ Adding Armenian hy-AM new installation language
 

@@ -2,7 +2,7 @@
 <metafile
 	version="2.5"
 	client="installation">
-	<name>Українська (Україна)</name>
+	<name>Ukrainian-Українська (Україна)</name>
 	<version>2.5</version>
 	<creationDate>06.01.2011</creationDate>
 	<author>Joomla! Ukraine Denys Nosov</author>
@@ -13,7 +13,7 @@
 		<filename>uk-UA.ini</filename>
 	</files>
 	<metadata>
-		<name>Українська (Україна)</name>
+		<name>Ukrainian-Українська (Україна)</name>
 		<tag>uk-UA</tag>
 		<rtl>0</rtl>
 	</metadata>

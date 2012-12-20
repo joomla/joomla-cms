@@ -2,7 +2,7 @@
 <metafile
 	version="2.5"
 	client="installation">
-	<name>ລາວ(ພາສາລາວ)</name>
+	<name>Lao-ລາວ(ພາສາລາວ)</name>
 	<version>2.5</version>
 	<creationDate>January 2011</creationDate>
 	<author>Lao Open Source Team (Outhai Saioudom)</author>
@@ -13,7 +13,7 @@
 		<filename>lo-LA.ini</filename>
 	</files>
 	<metadata>
-		<name>ລາວ(ພາສາລາວ)</name>
+		<name>Lao-ລາວ(ພາສາລາວ)</name>
 		<tag>lo-LA</tag>
 		<rtl>0</rtl>
 	</metadata>

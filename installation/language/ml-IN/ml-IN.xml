@@ -2,7 +2,7 @@
 <metafile
 	version="2.5"
 	client="installation">
-	<name>മലയാളം (India)</name>
+	<name>Malayalam-മലയാളം (India)</name>
 	<version>2.5</version>
 	<creationDate>January 2012</creationDate>
 	<author>sujith</author>
@@ -13,7 +13,7 @@
 		<filename>ml-IN.ini</filename>
 	</files>
 	<metadata>
-		<name>മലയാളം(India)</name>
+		<name>Malayalam-മലയാളം(India)</name>
 		<tag>ml-IN</tag>
 		<rtl>0</rtl>
 	</metadata>
