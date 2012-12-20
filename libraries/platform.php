@@ -26,7 +26,7 @@ final class JPlatform
 	const MAINTENANCE = '0';
 
 	// Development STATUS.
-	const STATUS = 'Dev';
+	const STATUS = 'Stable';
 
 	// Build number.
 	const BUILD = 0;
@@ -35,7 +35,7 @@ final class JPlatform
 	const CODE_NAME = 'Curiosity';
 
 	// Release date.
-	const RELEASE_DATE = '??-??-2012';
+	const RELEASE_DATE = '20-Dec-2012';
 
 	// Release time.
 	const RELEASE_TIME = '00:00';
