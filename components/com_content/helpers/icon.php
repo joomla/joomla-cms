@@ -119,7 +119,7 @@ class JHtmlIcon
 				$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
 		$icon	= $article->state ? 'edit' : 'eye-close';
-		$text = '<span class="hasTip icon-' . $icon . ' tip" title="' . JText::_('COM_CONTENT_EDIT_ITEM') . ' :: ' . $overlib . '">&#160;' . JText::_('JGLOBAL_EDIT') . '</span>';
+		$text = '<span class="hasTip icon-' . $icon . ' tip" title="' . JText::_('COM_CONTENT_EDIT_ITEM') . ' :: ' . $overlib . '"></span>&#160;' . JText::_('JGLOBAL_EDIT') . '&#160;';
 
 		$output = JHtml::_('link', JRoute::_($url), $text);
 
