@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class JTableContent extends JTable
 {
 	/**
+	 * Associative array of tag ids => tag ids for the item
+	 *
+	 * @var    array
+	 * @since  12.3
+	 */
+	public $tags = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
@@ -269,6 +277,7 @@ class JTableContent extends JTable
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 			return false;
 		}
+
 		return parent::store($updateNulls);
 	}
 

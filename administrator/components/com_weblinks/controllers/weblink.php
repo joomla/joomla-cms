@@ -102,4 +102,55 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		return parent::batch($model);
 	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getItem(); 
+		$id = $item->get('id');
+		$tags = $validData['tags'];
+
+		// Store the tag data if the weblink data was saved.
+		if ($tags )
+		{
+			// Delete the old tag maps.
+			$db		= JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->delete();
+			$query->from($db->quoteName('#__contentitem_tag_map'));
+			$query->where($db->quoteName('item_name') . ' = ' .  $db->quote('com_weblinks.weblink.' . (int) $id));
+			$db->setQuery($query);
+			$db->execute();
+
+			// Set the new tag maps.
+			// Have to break this up into individual queries for cross-database support.
+			foreach ($tags as $tag)
+			{echo $tag;
+			$query2 = $db->getQuery(true);
+
+			$query2->insert($db->quoteName('#__contentitem_tag_map'));
+			$query2->columns(array($db->quoteName('item_name'), $db->quoteName('tag_id')));
+
+				$query2->clear('values');
+				$query2->values($db->quote('com_weblinks.weblink.' . $id) . ', ' . $tag);
+				$db->setQuery($query2);
+				$db->execute();
+			}
+		}
+
+		if ($task == 'save')
+		{
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=category&id='.$validData['catid'], false));
+		}
+	}
 }

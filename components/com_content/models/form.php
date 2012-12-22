@@ -84,7 +84,8 @@ class ContentModelForm extends ContentModelArticle
 		$asset	= 'com_content.article.'.$value->id;
 
 		// Check general edit permission first.
-		if ($user->authorise('core.edit', $asset)) {
+		if ($user->authorise('core.edit', $asset))
+		{
 			$value->params->set('access-edit', true);
 		}
 		// Now check if edit.own is available.
@@ -100,7 +101,8 @@ class ContentModelForm extends ContentModelArticle
 			// Existing item
 			$value->params->set('access-change', $user->authorise('core.edit.state', $asset));
 		}
-		else {
+		else
+		{
 			// New item.
 			$catId = (int) $this->getState('article.catid');
 
@@ -108,15 +110,33 @@ class ContentModelForm extends ContentModelArticle
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
 				$value->catid = $catId;
 			}
-			else {
+			else
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
 			}
 		}
 
 		$value->articletext = $value->introtext;
-		if (!empty($value->fulltext)) {
+		if (!empty($value->fulltext))
+		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
+
+			$query = $this->_db->getQuery(true);
+
+			// Load the tags.
+			$query->clear();
+			$query->select($this->_db->quoteName('t.id') );
+
+			$query->from($this->_db->quoteName('#__tags') . ' AS t');
+			$query->join('INNER', $this->_db->quoteName('#__contentitem_tag_map') . ' AS m ' .
+				' ON ' . $this->_db->quoteName('m.tag_id') . ' = ' .  $this->_db->quoteName('t.id'));
+			$query->where($this->_db->quoteName('m.item_name') . ' = ' . $this->_db->quote('com_content.article.' . $value->id));
+			$this->_db->setQuery($query);
+
+			// Add the tags to the content data.
+			$tagsList = $this->_db->loadColumn();
+			$value->tags = implode(',', $tagsList);
 
 		return $value;
 	}

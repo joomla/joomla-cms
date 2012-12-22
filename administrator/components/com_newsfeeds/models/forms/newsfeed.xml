@@ -33,6 +33,13 @@
 		>
 		</field>
 
+		<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox" multiple="true"
+		>
+		</field>
+
+
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
 		>

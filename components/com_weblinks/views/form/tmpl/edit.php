@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -104,6 +105,16 @@ $params = $this->state->get('params');
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 		</div>
+
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('tags'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('tags'); ?>
+			</div>
+		</div>
+
 
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<input type="hidden" name="task" value="" />

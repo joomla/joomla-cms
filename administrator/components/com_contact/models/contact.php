@@ -388,6 +388,7 @@ class ContactModelContact extends JModelAdmin
 			$item->metadata = $registry->toArray();
 		}
 
+<<<<<<< Upstream, based on master
 		// Load associated contact items
 		$app = JFactory::getApplication();
 		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
@@ -404,6 +405,47 @@ class ContactModelContact extends JModelAdmin
 				}
 
 			}
+
+		if ($item = parent::getItem($pk))
+		{
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true);
+
+			// Load the tags.
+			$query->clear();
+			$query->select($db->quoteName('t.id') );
+
+			$query->from($db->quoteName('#__tags') . ' AS t');
+			$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m ' .
+				' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id'));
+			$query->where($db->quoteName('m.item_name') . ' = ' . $db->quote('com_contact.contact.' . $item->id));
+			$db->setQuery($query);
+
+			// Add the tags to the content data.
+			$tagsList = $this->_db->loadColumn();
+			$item->tags = implode(',', $tagsList);
+		}
+
+		if ($item = parent::getItem($pk))
+		{
+			$db = JFactory::getDbo();
+
+			$query = $db->getQuery(true);
+
+			// Load the tags.
+			$query->clear();
+			$query->select($db->quoteName('t.id') );
+
+			$query->from($db->quoteName('#__tags') . ' AS t');
+			$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m ' .
+				' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id'));
+			$query->where($db->quoteName('m.item_name') . ' = ' . $db->quote('com_contact.contact.' . $item->id));
+			$db->setQuery($query);
+
+			// Add the tags to the content data.
+			$tagsList = $this->_db->loadColumn();
+			$item->tags = implode(',', $tagsList);
 		}
 
 		return $item;

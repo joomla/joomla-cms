@@ -37,6 +37,11 @@
 			class="inputbox" required="true"
 		>
 		</field>
+		<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox" multiple="true"
+		>
+		</field>
 		<field
 			name="buttonspacer"
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"

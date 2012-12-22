@@ -62,7 +62,7 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @return	mixed	Menu item data object on success, false on failure.
 	 */
-	public function &getItem($pk = null)
+	public function getItem($pk = null)
 	{
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
@@ -320,4 +320,5 @@ class ContentModelArticle extends JModelItem
 		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
 		return false;
 	}
+
 }

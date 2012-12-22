@@ -962,6 +962,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
+
 		$key = $table->getKeyName();
 		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
