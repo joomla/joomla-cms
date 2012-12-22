@@ -437,6 +437,85 @@ class JDatabaseTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the JDatabase::quote method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testQuoteBooleanTrue()
+	{
+		$this->assertThat(
+			$this->db->quote(true),
+			$this->equalTo("'-1-'"),
+			'Tests handling of boolean true with escaping (default).'
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::quote method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testQuoteBooleanFalse()
+	{
+		$this->assertThat(
+			$this->db->quote(false),
+			$this->equalTo("'--'"),
+			'Tests handling of boolean false with escaping (default).'
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::quote method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testQuoteNull()
+	{
+		$this->assertThat(
+			$this->db->quote(null),
+			$this->equalTo("'--'"),
+			'Tests handling of null with escaping (default).'
+		);
+	}
+	/**
+	 * Tests the JDatabase::quote method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testQuoteInteger()
+	{
+		$this->assertThat(
+			$this->db->quote(42),
+			$this->equalTo("'-42-'"),
+			'Tests handling of integer with escaping (default).'
+		);
+	}
+
+	/**
+	 * Tests the JDatabase::quote method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testQuoteFloat()
+	{
+		$this->assertThat(
+			$this->db->quote(3.14),
+			$this->equalTo("'-3.14-'"),
+			'Tests handling of float with escaping (default).'
+		);
+	}
+
+	/**
 	 * Tests the JDatabase::quoteName method.
 	 *
 	 * @return  void
