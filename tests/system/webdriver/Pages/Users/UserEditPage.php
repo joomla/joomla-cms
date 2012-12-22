@@ -1,7 +1,5 @@
 <?php
 
-require_once 'AdminEditPage.php';
-
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -17,19 +15,6 @@ class UserEditPage extends AdminEditPage
 {
 	protected $waitForXpath =  "//form[@id='user-form']";
 	protected $url = 'administrator/index.php?option=com_users&view=user&layout=edit';
-
-	/**
-	 * Array of expected id values for toolbar div elements
-	 * @var array
-	 */
-
-	public $toolbar = array (
-			'Save' => 'toolbar-apply',
-			'Save & Close' => 'toolbar-save',
-			'Save & New' => 'toolbar-save-new',
-			'Cancel' => 'toolbar-cancel',
-			'Help' => 'toolbar-help',
-	);
 
 	/**
 	 * Array of

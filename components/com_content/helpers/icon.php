@@ -26,9 +26,9 @@ class JHtmlIcon
 		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&a_id=0&catid=' . $category->id;
 
 		if ($params->get('show_icons')) {
-			$text = '<i class="icon-plus"></i> ' . JText::_('JNEW') . '&#160;';
+			$text = '<span class="icon-plus"></span>&#160;' . JText::_('JNEW') . '&#160;';
 		} else {
-			$text = JText::_('JNEW').'&#160;';
+			$text = JText::_('JNEW') . '&#160;';
 		}
 
 		$button = JHtml::_('link', JRoute::_($url), $text, 'class="btn btn-primary"');
@@ -49,7 +49,7 @@ class JHtmlIcon
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
 		if ($params->get('show_icons')) {
-			$text = '<i class="icon-envelope"></i> ' . JText::_('JGLOBAL_EMAIL');
+			$text = '<span class="icon-envelope"></span>&#160;' . JText::_('JGLOBAL_EMAIL') . '&#160;';
 		} else {
 			$text = JText::_('JGLOBAL_EMAIL');
 		}
@@ -119,7 +119,7 @@ class JHtmlIcon
 				$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
 		$icon	= $article->state ? 'edit' : 'eye-close';
-		$text = '<i class="hasTip icon-'.$icon.' tip" title="'.JText::_('COM_CONTENT_EDIT_ITEM').' :: '.$overlib.'"></i> '.JText::_('JGLOBAL_EDIT');
+		$text = '<span class="hasTip icon-' . $icon . ' tip" title="' . JText::_('COM_CONTENT_EDIT_ITEM') . ' :: ' . $overlib . '"></span>&#160;' . JText::_('JGLOBAL_EDIT') . '&#160;';
 
 		$output = JHtml::_('link', JRoute::_($url), $text);
 
@@ -135,7 +135,7 @@ class JHtmlIcon
 
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = '<i class="icon-print"></i> '.JText::_('JGLOBAL_PRINT');
+			$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;' ;
 		} else {
 			$text = JText::_('JGLOBAL_PRINT');
 		}
@@ -151,7 +151,7 @@ class JHtmlIcon
 	{
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = $text = '<i class="icon-print"></i> '.JText::_('JGLOBAL_PRINT');
+			$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;' ;
 		} else {
 			$text = JText::_('JGLOBAL_PRINT');
 		}

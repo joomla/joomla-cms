@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 
 <div class="items-more">
-<ul class="nav nav-tabs nav-stacked">
+<ol class="nav nav-tabs nav-stacked">
 <?php
 	foreach ($this->link_items as &$item) :
 ?>
@@ -21,5 +21,5 @@ defined('_JEXEC') or die;
 			<?php echo $item->title; ?></a>
 	</li>
 <?php endforeach; ?>
-</ul>
+</ol>
 </div>

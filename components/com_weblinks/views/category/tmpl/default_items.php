@@ -59,7 +59,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php else: ?>
 						<li class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
-					<?php if ($this->params->get('list_show_hits', 1)) : ?>
+					<?php if ($this->params->get('show_link_hits', 1)) : ?>
 						<span class="list-hits badge badge-info pull-right">
 							<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
 						</span>

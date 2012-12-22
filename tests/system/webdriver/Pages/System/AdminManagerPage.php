@@ -1,7 +1,5 @@
 <?php
 
-require_once 'AdminPage.php';
-
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -31,11 +29,18 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function checkAll()
 	{
-		$this->driver->findElement(By::xPath("//thead//input[@name='checkall-toggle' or @name='toggle']"))->click();
+ 		$el = $this->driver->findElement(By::xPath("//thead//input[@name='checkall-toggle' or @name='toggle']"));
+
+ 		// Work-around for intermittant bug with click() on checkboxes -- click until checked
+ 		while (!$el->isSelected())
+ 		{
+ 				$el->click();
+ 		}
 	}
 
 	public function clickItem($name)
 	{
+		$this->searchFor($name);
 		$this->driver->findElement(By::xPath("//tbody/tr/td//a[contains(text(), '". $name . "')]"))->click();
 	}
 
@@ -58,6 +63,7 @@ abstract class AdminManagerPage extends AdminPage
 			}
 		}
 		$this->editItem->saveAndClose();
+		$this->searchFor();
 		return $result;
 	}
 
@@ -84,6 +90,13 @@ abstract class AdminManagerPage extends AdminPage
 		return $this->driver->findElement(By::id('submenu'));
 	}
 
+	/**
+	 * Checks a table for a row containing the desired text
+	 *
+	 * @param  string  $name  Text that identifies the desired row
+	 *
+	 * @return mixed   row that contains the text or false if row not found
+	 */
 	public function getRowNumber($name)
 	{
 		$result = false;
@@ -129,14 +142,13 @@ abstract class AdminManagerPage extends AdminPage
 		}
 		else
 		{
-			$this->driver->findElement(By::xPath("//div[@id='filter-bar']//button[@title='Clear' or @title='Reset' or @data-original-title='Reset']"))->click();
+			$this->driver->findElement(By::xPath("//div[@id='filter-bar']//button[@title='Clear' or @title='Reset' or @data-original-title='Reset' or @data-original-title='Clear']"))->click();
 		}
 		return $this->test->getPageObject(get_class($this));
 	}
 
 	public function setFilter($idOrLabel, $value)
 	{
-		$result = false;
 		$filters = array_change_key_case($this->filters, CASE_LOWER);
 		$idOrLabel = strtolower($idOrLabel);
 		$filterId = '';
@@ -162,9 +174,23 @@ abstract class AdminManagerPage extends AdminPage
 			$this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']/a"))->click();
 			$this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-			$result =  true;
 		}
-		return $result;
+		return $this->test->getPageObject(get_class($this));
+	}
+
+	public function deleteItem($name)
+	{
+		$this->searchFor($name);
+		$this->checkAll();
+		$this->clickButton('toolbar-trash');
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		$this->searchFor();
+		$this->setFilter('Status', 'Trashed');
+		$this->checkAll();
+		$this->clickButton('Empty trash');
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		$this->setFilter('Status', 'Select Status');
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
 
 }

@@ -30,11 +30,11 @@ class plgContentVote extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
-	}
+    }
 
 	/**
-	* @since	1.6
-	*/
+	 * @since	1.6
+	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
 		$html = '';
@@ -47,8 +47,8 @@ class plgContentVote extends JPlugin
 			$img = '';
 
 			// look for images in template if available
-			$starImageOn = JHtml::_('image', 'system/rating_star.png', null, null, true);
-			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', null, null, true);
+			$starImageOn = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_STAR_ACTIVE'), null, true);
+			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', JText::_('PLG_VOTE_STAR_INACTIVE'), null, true);
 
 			for ($i = 0; $i < $rating; $i++)
 			{
@@ -58,28 +58,33 @@ class plgContentVote extends JPlugin
 			{
 				$img .= $starImageOff;
 			}
-			$html .= '<span class="content_rating">';
-			$html .= JText::sprintf($img);
-			$html .= '</span>';
+
+			$html .= '<div class="content_rating">';
+			$html .= '<p class="unseen element-invisible">' . JText::sprintf('PLG_VOTE_USER_RATING', $rating, '5') . '</p>';
+			$html .= $img;
+			$html .= '</div>';
 
 			if ($view == 'article' && $row->state == 1)
 			{
 				$uri = JURI::getInstance();
 				$uri->setQuery($uri->getQuery().'&hitcount=0');
 
-				$html .= '<form method="post" action="' . $uri->toString() . '">';
+				// create option list for voting select box
+				$options = array();
+				for($i = 1; $i < 6; $i++)
+				{
+					$options[] = JHTML::_('select.option', $i, JText::sprintf('PLG_VOTE_VOTE', $i));
+				}
+
+				// generate voting form
+				$html .= '<form method="post" action="' . $uri->toString() . '" class="form-inline">';
 				$html .= '<span class="content_vote">';
-//				$html .= JText::_( 'PLG_VOTE_POOR' );
-				$html .= ' <input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '1').'" name="user_rating" value="1" /> ';
-				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '2').'" name="user_rating" value="2" /> ';
-				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '3').'" name="user_rating" value="3" /> ';
-				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '4').'" name="user_rating" value="4" /> ';
-				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '5').'" name="user_rating" value="5" checked="checked" /> ';
-//				$html .= JText::_( 'PLG_VOTE_BEST' );
+				$html .= '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">'.JText::_('PLG_VOTE_LABEL').'</label>';
+				$html .= JHTML::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_'.$row->id);
 				$html .= '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
 				$html .= '<input type="hidden" name="task" value="article.vote" />';
 				$html .= '<input type="hidden" name="hitcount" value="0" />';
-				$html .= '<input type="hidden" name="url" value="'.  $uri->toString() .'" />';
+				$html .= '<input type="hidden" name="url" value="' . $uri->toString() . '" />';
 				$html .= JHtml::_('form.token');
 				$html .= '</span>';
 				$html .= '</form>';

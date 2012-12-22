@@ -1,7 +1,5 @@
 <?php
 
-require_once 'AdminPage.php';
-
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
