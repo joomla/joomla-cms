@@ -77,7 +77,7 @@ abstract class JHtmlGrid
 		JHtml::_('behavior.tooltip');
 
 		$direction = strtolower($direction);
-		$icon = array('arrow-down', 'arrow-up');
+		$icon = array('arrow-up-3', 'arrow-down-3');
 		$index = (int) ($direction == 'desc');
 
 		if ($order != $selected)

@@ -26,6 +26,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Dec-2012 Mark Dexter
+ + Add tests for module manager.
+
+18-Dec-2012 Mark Dexter
+ # Fix intermittent failures in Webdriver tests
+
+13-Dec-2012 Mark Dexter
+ + Add Webdriver tests for Menu Items.
+ # Fix system test for change in hathor login markup
+
+07-Nov-2012 Mark Dexter
+ + Add new Webdriver tests for Menu Manager.
+ ^ Organize Pages classes in folders. Improve autoloader.
+
+21-Nov-2012 Mark Dexter
+ # Fix failing system test
+
+11-Nov-2012 Mark Dexter
+ ^ Rename config-def.php-dist to be consistent with xml files
+
 09-Nov-2012 Mark Dexter
  ^ Change echo statements to jEcho for selective logging
 

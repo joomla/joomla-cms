@@ -88,16 +88,30 @@ class InstallerViewUpdate extends InstallerViewDefault
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATE');
 		JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
-		JHtmlSidebar::addFilter(JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'), 'filter_client_id',
-			JHtml::_('select.options', array('0' => 'JSITE', '1' => 'JADMINISTRATOR'), 'value', 'text', $this->state->get('filter.client_id'), true));
+		JHtmlSidebar::addFilter(
+			JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'),
+			'filter_client_id',
+			JHtml::_('select.options', array('0' => 'JSITE', '1' => 'JADMINISTRATOR'), 'value', 'text', $this->state->get('filter.client_id'), true)
+		);
 
-		JHtmlSidebar::addFilter(JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'), 'filter_type',
-			JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.type'), true));
+		JHtmlSidebar::addFilter(
+			JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'),
+			'filter_type',
+			JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.type'), true)
+		);
 
-		JHtmlSidebar::addFilter(JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'), 'filter_group',
-			JHtml::_('select.options',
-				array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value',
-				'text', $this->state->get('filter.group'), true));
+		JHtmlSidebar::addFilter(
+			JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'),
+			'filter_group',
+			JHtml::_(
+				'select.options',
+				array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))),
+				'value',
+				'text',
+				$this->state->get('filter.group'),
+				true
+			)
+		);
 		parent::addToolbar();
 	}
 }

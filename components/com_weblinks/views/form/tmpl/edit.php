@@ -23,9 +23,6 @@ $params = $this->state->get('params');
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task);
 		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
 	}
 </script>
 <div class="edit<?php echo $this->pageclass_sfx; ?>">
@@ -38,12 +35,12 @@ $params = $this->state->get('params');
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('weblink.save')">
-					<i class="icon-ok"></i> <?php echo JText::_('JSAVE') ?>
+					<span class="icon-ok"></span> <?php echo JText::_('JSAVE') ?>
 				</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn" onclick="Joomla.submitbutton('weblink.cancel')">
-					<i class="icon-cancel"></i> <?php echo JText::_('JCANCEL') ?>
+					<span class="icon-cancel"></span> <?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
 		</div>

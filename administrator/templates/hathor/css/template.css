@@ -95,9 +95,11 @@
 .icon-pencil-2:before {
 	content: "\2c";
 }
+.icon-folder-open:before,
 .icon-folder:before {
 	content: "\2d";
 }
+.icon-folder-close:before,
 .icon-folder-2:before {
 	content: "\2e";
 }
@@ -180,6 +182,7 @@
 .icon-support:before {
 	content: "\46";
 }
+.icon-pending:before,
 .icon-warning:before {
 	content: "\48";
 }
@@ -190,7 +193,6 @@
 	content: "\47";
 }
 .icon-unpublish:before,
-.icon-trash:before,
 .icon-cancel:before {
 	content: "\4a";
 }
@@ -1161,7 +1163,7 @@ div.cpanel-icons {
 	float: left;
 }
 div.cpanel-component {
-	width: 45%;
+	width: 75%;
 	float: right;
 }
 div.col {
@@ -1934,9 +1936,6 @@ table.adminlist .pagination button {
 	height: 1.6em;
 	line-height: 1.5em;
 	margin-right: 20px;
-}
-div.toggle-editor {
-	margin: -15px;
 }
 .tip {
 	float: left;
@@ -2836,6 +2835,8 @@ fieldset.uploadform {
 	vertical-align: middle;
 	border-top: 1px solid #dddddd;
 	margin-left: 0;
+	font-size: 1.2em;
+	padding: 9px;
 }
 .list-striped li,
 .list-striped dd,
@@ -2872,6 +2873,7 @@ fieldset.uploadform {
 	-moz-border-radius: 4px;
 	border-radius: 4px;
 	color: #c09853;
+	font-size: 120%;
 }
 .alert-heading {
 	color: inherit;

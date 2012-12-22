@@ -1,17 +1,40 @@
-/* Bootstrap RTL */
-/* Pull right or left */
+.clearfix {
+	*zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+	display: table;
+	content: "";
+	line-height: 0;
+}
+.clearfix:after {
+	clear: both;
+}
+.hide-text {
+	font: 0/0 a;
+	color: transparent;
+	text-shadow: none;
+	background-color: transparent;
+	border: 0;
+}
+.input-block-level {
+	display: block;
+	width: 100%;
+	min-height: 30px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
 .pull-right {
 	float: left;
 }
 .pull-left {
 	float: right;
 }
-/* Tables */
 .table th,
 .table td {
 	text-align: right;
 }
-/* Navbar */
 .navbar .brand {
 	float: right;
 	padding: 8px 20px 12px;
@@ -30,7 +53,6 @@
 	left: 0;
 	right: auto;
 }
-/* Grid */
 [class*="span"] {
 	float: right;
 	margin-right: 20px;
@@ -40,13 +62,12 @@
 	float: right;
 	margin-right: 2.127659574%;
 	*margin-right: 2.0744680846382977%;
-	margin-left: 0px!important;
-	*margin-left: 0px!important;
+	margin-left: 0px !important;
+	*margin-left: 0px !important;
 }
 .row-fluid [class*="span"]:first-child {
 	margin-right: 0;
 }
-/* Forms */
 .form-horizontal .control-label {
 	float: right;
 	width: 140px;
@@ -65,6 +86,15 @@
 .form-horizontal .controls:first-child {
 	*padding-right: 160px;
 }
+.form-vertical .controls {
+	*display: inline-block;
+	*padding-right: 20px;
+	margin-right: 0;
+	*margin-right: 0;
+	margin-left: 0;
+	text-align: right;
+	margin-top: 6px;
+}
 .form-vertical .control-label {
 	float: none;
 	padding-right: 0;
@@ -72,14 +102,15 @@
 	text-align: right;
 	width: auto;
 }
-/* Nav */
-/* Tabs */
+.chzn-container-single-nosearch .chzn-search input {
+	position: absolute;
+	left: -9000px;
+	display: none;
+}
 .nav-tabs > li,
 .nav-pills > li {
 	float: right;
 }
-/* Buttons */
-/* Button Groups */
 .btn-group > .btn {
 	float: right;
 	margin-right: -1px;
@@ -164,8 +195,6 @@
 	-moz-border-radius-bottomright: 4px;
 	-moz-border-radius-topright: 4px;
 }
-/* Forms */
-/* Input Prepend and Append */
 .input-prepend .add-on {
 	float: right;
 }
@@ -231,7 +260,6 @@
 	-moz-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
 }
-/* start myrtl */
 body {
 	direction: rtl;
 }
@@ -333,17 +361,15 @@ body {
 .pagination ul {
 	display: inline-block;
 	*display: inline;
-	/* IE7 inline-block hack */
-
 	*zoom: 1;
 	margin-right: 0;
 	margin-bottom: 0;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
-	-webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 .pagination a {
 	float: right;
@@ -360,7 +386,7 @@ body {
 	border-radius: 0 3px 3px 0;
 }
 .pagination li:last-child a {
-	-webkit-border-radius: 3px 0 0 3px ;
+	-webkit-border-radius: 3px 0 0 3px;
 	-moz-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
 }
@@ -385,10 +411,9 @@ body {
 .dl-horizontal dt {
 	float: right;
 }
-.profile > ul {
+.profile> ul {
 	margin: 9px 25px 0 0;
 }
-/* end myrtl */
 .dropdown-submenu > a:after {
 	float: left;
 	border-width: 5px 5px 5px 0;

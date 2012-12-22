@@ -17,7 +17,7 @@ JHtml::_('bootstrap.tooltip');
 			<div class="span9">
 				<?php if ($user->client_id == 0) :?>
 					<a class="hasTooltip" title="<?php echo JText::_('MOD_LOGGED_LOGOUT');?>" href="<?php echo $user->logoutLink;?>" class="btn btn-danger btn-mini">
-						<i class="icon-remove icon-white tip" title="<?php echo JText::_('JLOGOUT');?>"></i>
+						<i class="icon-remove icon-white" title="<?php echo JText::_('JLOGOUT');?>"></i>
 					</a>
 				<?php endif; ?>
 

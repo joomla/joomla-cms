@@ -17,7 +17,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 {
 	/**
 	 *
-	 * @var levelManagerPage
+	 * @var LevelManagerPage
 	 */
 	protected $levelManagerPage = null; // Global configuration page
 
