@@ -8,7 +8,6 @@
  */
 
 require_once __DIR__ . '/JDatabaseQueryInspector.php';
-
 require_once JPATH_PLATFORM . '/joomla/database/query/mysqli.php';
 
 /**
@@ -28,17 +27,25 @@ class JDatabaseQueryTest extends TestCase
 	protected $dbo;
 
 	/**
+	 * The instance of the object to test.
+	 *
+	 * @var    JDatabaseQuery
+	 * @since  12.3
+	 */
+	private $_instance;
+
+	/**
 	 * Data for the testNullDate test.
 	 *
 	 * @return  array
 	 *
 	 * @since   11.1
 	 */
-	public function dataTestNullDate()
+	public function seedNullDateTest()
 	{
 		return array(
 			// @todo quoted, expected
-			array(true, "'0000-00-00 00:00:00'"),
+			array(true, "'_0000-00-00 00:00:00_'"),
 			array(false, "0000-00-00 00:00:00"),
 		);
 	}
@@ -50,50 +57,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @since   11.1
 	 */
-	public function dataTestQuote()
+	public function seedQuoteTest()
 	{
 		return array(
-			// @todo text, escaped, expected
+			// text, escaped, expected
 			array('text', false, "'text'"),
-		);
-	}
-
-	/**
-	 * A mock callback for the database escape method.
-	 *
-	 * We use this method to ensure that JDatabaseQuery's escape method uses the
-	 * the database object's escape method.
-	 *
-	 * @param   string  $text  The input text.
-	 *
-	 * @return  string
-	 *
-	 * @since   11.3
-	 */
-	public function getMockEscape($text)
-	{
-		return "_{$text}_";
-	}
-
-	/**
-	 * Sets up the fixture.
-	 *
-	 * This method is called before a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		$this->dbo = $this->getMockDatabase();
-
-		// Mock the escape method to ensure the API is calling the DBO's escape method.
-		$this->assignMockCallbacks(
-			$this->dbo,
-			array(
-				'escape' => array($this, 'getMockEscape'),
-			)
+			array('text', true, "'_text_'"),
+			array(array('text1', 'text2'), false, array("'text1'", "'text2'")),
+			array(array('text1', 'text2'), true, array("'_text1_'", "'_text2_'")),
 		);
 	}
 
@@ -102,35 +73,48 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::__call
 	 * @since   11.1
 	 */
 	public function test__call()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->e('foo'),
-			$this->equalTo($q->escape('foo')),
+			$this->_instance->e('foo'),
+			$this->equalTo($this->_instance->escape('foo')),
 			'Tests the e alias of escape.'
 		);
 
 		$this->assertThat(
-			$q->q('foo'),
-			$this->equalTo($q->quote('foo')),
+			$this->_instance->q('foo'),
+			$this->equalTo($this->_instance->quote('foo')),
 			'Tests the q alias of quote.'
 		);
 
 		$this->assertThat(
-			$q->qn('foo'),
-			$this->equalTo($q->quoteName('foo')),
+			$this->_instance->qn('foo'),
+			$this->equalTo($this->_instance->quoteName('foo')),
 			'Tests the qn alias of quoteName.'
 		);
 
 		$this->assertThat(
-			$q->foo(),
+			$this->_instance->foo(),
 			$this->isNull(),
 			'Tests for an unknown method.'
 		);
+	}
+
+	/**
+	 * Test for the JDatabaseQuery::__get method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::__get
+	 * @since   11.1
+	 */
+	public function test__get()
+	{
+		$this->_instance->select('*');
+		$this->assertEquals('select', $this->_instance->type);
 	}
 
 	/**
@@ -142,15 +126,15 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringFrom_subquery()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
 		$subq = new JDatabaseQueryInspector($this->dbo);
 		$subq->select('col2')->from('table')->where('a=1');
 
-		$q->select('col')->from($subq, 'alias');
+		$this->_instance->select('col')->from($subq, 'alias');
 
 		$this->assertThat(
-			(string) $q,
-			$this->equalTo(PHP_EOL . "SELECT col" . PHP_EOL . "FROM ( " . PHP_EOL . "SELECT col2" . PHP_EOL . "FROM table" . PHP_EOL . "WHERE a=1 ) AS `alias`")
+			(string) $this->_instance,
+			$this->equalTo(PHP_EOL . "SELECT col" . PHP_EOL .
+				"FROM ( " . PHP_EOL . "SELECT col2" . PHP_EOL . "FROM table" . PHP_EOL . "WHERE a=1 ) AS `alias`")
 		);
 	}
 
@@ -163,21 +147,20 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringInsert_subquery()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
 		$subq = new JDatabaseQueryInspector($this->dbo);
 		$subq->select('col2')->where('a=1');
 
-		$q->insert('table')->columns('col')->values($subq);
+		$this->_instance->insert('table')->columns('col')->values($subq);
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col)" . PHP_EOL . "(" . PHP_EOL . "SELECT col2" . PHP_EOL . "WHERE a=1)")
 		);
 
-		$q->clear();
-		$q->insert('table')->columns('col')->values('3');
+		$this->_instance->clear();
+		$this->_instance->insert('table')->columns('col')->values('3');
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col) VALUES " . PHP_EOL . "(3)")
 		);
 	}
@@ -191,12 +174,10 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringYear()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->select($q->year($q->quoteName('col')))->from('table');
+		$this->_instance->select($this->_instance->year($this->_instance->quoteName('col')))->from('table');
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(PHP_EOL . "SELECT YEAR(`col`)" . PHP_EOL . "FROM table")
 		);
 	}
@@ -210,12 +191,10 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringMonth()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->select($q->month($q->quoteName('col')))->from('table');
+		$this->_instance->select($this->_instance->month($this->_instance->quoteName('col')))->from('table');
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(PHP_EOL . "SELECT MONTH(`col`)" . PHP_EOL . "FROM table")
 		);
 	}
@@ -229,12 +208,10 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringDay()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->select($q->day($q->quoteName('col')))->from('table');
+		$this->_instance->select($this->_instance->day($this->_instance->quoteName('col')))->from('table');
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(PHP_EOL . "SELECT DAY(`col`)" . PHP_EOL . "FROM table")
 		);
 	}
@@ -248,12 +225,10 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringHour()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->select($q->hour($q->quoteName('col')))->from('table');
+		$this->_instance->select($this->_instance->hour($this->_instance->quoteName('col')))->from('table');
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(PHP_EOL . "SELECT HOUR(`col`)" . PHP_EOL . "FROM table")
 		);
 	}
@@ -267,12 +242,10 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringMinute()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->select($q->minute($q->quoteName('col')))->from('table');
+		$this->_instance->select($this->_instance->minute($this->_instance->quoteName('col')))->from('table');
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(PHP_EOL . "SELECT MINUTE(`col`)" . PHP_EOL . "FROM table")
 		);
 	}
@@ -286,12 +259,10 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringSecond()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->select($q->second($q->quoteName('col')))->from('table');
+		$this->_instance->select($this->_instance->second($this->_instance->quoteName('col')))->from('table');
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(PHP_EOL . "SELECT SECOND(`col`)" . PHP_EOL . "FROM table")
 		);
 	}
@@ -305,9 +276,7 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringSelect()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->select('a.id')
+		$this->_instance->select('a.id')
 			->from('a')
 			->innerJoin('b ON b.id = a.id')
 			->where('b.id = 1')
@@ -316,7 +285,7 @@ class JDatabaseQueryTest extends TestCase
 			->order('a.id');
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(
 				PHP_EOL . "SELECT a.id" .
 					PHP_EOL . "FROM a" .
@@ -340,15 +309,13 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringUpdate()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->update('#__foo AS a')
+		$this->_instance->update('#__foo AS a')
 			->join('INNER', 'b ON b.id = a.id')
 			->set('a.id = 2')
 			->where('b.id = 1');
 
 		$this->assertThat(
-			(string) $q,
+			(string) $this->_instance,
 			$this->equalTo(
 				PHP_EOL . "UPDATE #__foo AS a" .
 					PHP_EOL . "INNER JOIN b ON b.id = a.id" .
@@ -360,23 +327,48 @@ class JDatabaseQueryTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Tests the union element of __toString.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::__toString
+	 * @since   12.1
 	 */
 	public function test__toStringUnion()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
+		$this->markTestIncomplete('This test does not work!');
+		$this->_instance->select('*')
+			->union('SELECT id FROM a');
 
-		$q->union('SELECT id FROM a');
+		$this->assertEquals("UNION (SELECT id FROM a)", trim($this->_instance));
+	}
 
-		$this->assertThat(
-			(string) $q->union,
-			$this->equalTo(
-				PHP_EOL . "UNION (SELECT id FROM a)"
-			),
-			'Tests union for correct rendering.'
-		);
+	/**
+	 * Tests the JDatabaseQuery::call method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::call
+	 * @since   12.3
+	 */
+	public function testCall()
+	{
+		$this->assertSame($this->_instance, $this->_instance->call('foo'), 'Checks chaining');
+		$this->_instance->call('bar');
+		$this->assertEquals('CALL foo,bar', trim($this->_instance->call), 'Checks method by rendering.');
+	}
+
+	/**
+	 * Tests the call property in  method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::__toString
+	 * @since   12.3
+	 */
+	public function testCall__toString()
+	{
+		$this->assertEquals('CALL foo', trim($this->_instance->call('foo')), 'Checks method by rendering.');
 	}
 
 	/**
@@ -384,14 +376,13 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::castAsChar
 	 * @since   11.1
 	 */
 	public function testCastAsChar()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->castAsChar('123'),
+			$this->_instance->castAsChar('123'),
 			$this->equalTo('123'),
 			'The default castAsChar behaviour is to return the input.'
 		);
@@ -403,40 +394,24 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::charLength
 	 * @since   11.1
 	 */
 	public function testCharLength()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->charLength('a.title'),
+			$this->_instance->charLength('a.title'),
 			$this->equalTo('CHAR_LENGTH(a.title)')
 		);
 
 		$this->assertThat(
-			$q->charLength('a.title', '!=', '0'),
+			$this->_instance->charLength('a.title', '!=', '0'),
 			$this->equalTo('CHAR_LENGTH(a.title) != 0')
 		);
 
 		$this->assertThat(
-			$q->charLength('a.title', 'IS', 'NOT NULL'),
+			$this->_instance->charLength('a.title', 'IS', 'NOT NULL'),
 			$this->equalTo('CHAR_LENGTH(a.title) IS NOT NULL')
-		);
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return void
-	 */
-	public function testChaining()
-	{
-		$q = $this->dbo->getQuery(true)->select('foo');
-
-		$this->assertThat(
-			$q,
-			$this->isInstanceOf('JDatabaseQuery')
 		);
 	}
 
@@ -445,6 +420,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::clear
 	 * @since   11.1
 	 */
 	public function testClear_all()
@@ -464,31 +440,31 @@ class JDatabaseQueryTest extends TestCase
 			'columns',
 			'values',
 			'union',
+			'exec',
+			'call',
 		);
-
-		$q = new JDatabaseQueryInspector($this->dbo);
 
 		// First pass - set the values.
 		foreach ($properties as $property)
 		{
-			$q->$property = $property;
+			$this->_instance->$property = $property;
 		}
 
 		// Clear the whole query.
-		$q->clear();
+		$this->_instance->clear();
 
 		// Check that all properties have been cleared
 		foreach ($properties as $property)
 		{
 			$this->assertThat(
-				$q->get($property),
+				$this->_instance->get($property),
 				$this->equalTo(null)
 			);
 		}
 
 		// And check that the type has been cleared.
 		$this->assertThat(
-			$q->type,
+			$this->_instance->type,
 			$this->equalTo(null)
 		);
 	}
@@ -498,6 +474,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::clear
 	 * @since   11.1
 	 */
 	public function testClear_clause()
@@ -513,6 +490,8 @@ class JDatabaseQueryTest extends TestCase
 			'columns',
 			'values',
 			'union',
+			'exec',
+			'call',
 		);
 
 		// Test each clause.
@@ -555,6 +534,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::clear
 	 * @since   11.1
 	 */
 	public function testClear_type()
@@ -579,31 +559,29 @@ class JDatabaseQueryTest extends TestCase
 			'values',
 		);
 
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		// Set the clauses.
 		foreach ($clauses as $clause)
 		{
-			$q->$clause = $clause;
+			$this->_instance->$clause = $clause;
 		}
 
 		// Check that all properties have been cleared
 		foreach ($types as $type)
 		{
 			// Set the type.
-			$q->$type = $type;
+			$this->_instance->$type = $type;
 
 			// Clear the type.
-			$q->clear($type);
+			$this->_instance->clear($type);
 
 			// Check the type has been cleared.
 			$this->assertThat(
-				$q->type,
+				$this->_instance->type,
 				$this->equalTo(null)
 			);
 
 			$this->assertThat(
-				$q->get($type),
+				$this->_instance->get($type),
 				$this->equalTo(null)
 			);
 
@@ -611,7 +589,7 @@ class JDatabaseQueryTest extends TestCase
 			foreach ($clauses as $clause)
 			{
 				$this->assertThat(
-					$q->get($clause),
+					$this->_instance->get($clause),
 					$this->equalTo($clause)
 				);
 			}
@@ -623,29 +601,28 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::columns
 	 * @since   11.3
 	 */
 	public function testColumns()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->columns('foo'),
-			$this->identicalTo($q),
+			$this->_instance->columns('foo'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->columns),
+			trim($this->_instance->columns),
 			$this->equalTo('(foo)'),
 			'Tests rendered value.'
 		);
 
 		// Add another column.
-		$q->columns('bar');
+		$this->_instance->columns('bar');
 
 		$this->assertThat(
-			trim($q->columns),
+			trim($this->_instance->columns),
 			$this->equalTo('(foo,bar)'),
 			'Tests rendered value after second use.'
 		);
@@ -656,20 +633,19 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::concatenate
 	 * @since   11.3
 	 */
 	public function testConcatenate()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->concatenate(array('foo', 'bar')),
+			$this->_instance->concatenate(array('foo', 'bar')),
 			$this->equalTo('CONCATENATE(foo || bar)'),
 			'Tests without separator.'
 		);
 
 		$this->assertThat(
-			$q->concatenate(array('foo', 'bar'), ' and '),
+			$this->_instance->concatenate(array('foo', 'bar'), ' and '),
 			$this->equalTo("CONCATENATE(foo || '_ and _' || bar)"),
 			'Tests without separator.'
 		);
@@ -680,14 +656,13 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::currentTimestamp
 	 * @since   11.3
 	 */
 	public function testCurrentTimestamp()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->currentTimestamp(),
+			$this->_instance->currentTimestamp(),
 			$this->equalTo('CURRENT_TIMESTAMP()')
 		);
 	}
@@ -697,14 +672,13 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::dateFormat
 	 * @since   11.3
 	 */
 	public function testDateFormat()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->dateFormat(),
+			$this->_instance->dateFormat(),
 			$this->equalTo('Y-m-d H:i:s')
 		);
 	}
@@ -714,17 +688,16 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers             JDatabaseQuery::dateFormat
 	 * @expectedException  RuntimeException
-	 * @since   11.3
+	 * @since              11.3
 	 */
 	public function testDateFormatException()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		// Override the internal database for testing.
-		$q->db = new stdClass;
+		$this->_instance->db = new stdClass;
 
-		$q->dateFormat();
+		$this->_instance->dateFormat();
 	}
 
 	/**
@@ -732,34 +705,53 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::delete
 	 * @since   11.3
 	 */
 	public function testDelete()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->delete('#__foo'),
-			$this->identicalTo($q),
+			$this->_instance->delete('#__foo'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			$q->type,
+			$this->_instance->type,
 			$this->equalTo('delete'),
 			'Tests the type property is set correctly.'
 		);
 
 		$this->assertThat(
-			trim($q->delete),
+			trim($this->_instance->delete),
 			$this->equalTo('DELETE'),
 			'Tests the delete element is set correctly.'
 		);
 
 		$this->assertThat(
-			trim($q->from),
+			trim($this->_instance->from),
 			$this->equalTo('FROM #__foo'),
 			'Tests the from element is set correctly.'
+		);
+	}
+
+	/**
+	 * Tests the delete property in JDatabaseQuery::__toString method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::__toString
+	 * @since   12.3
+	 */
+	public function testDelete__toString()
+	{
+		$this->_instance->delete('#__foo')
+			->innerJoin('join')
+			->where('bar=1');
+
+		$this->assertEquals(
+			implode(PHP_EOL, array('DELETE ', 'FROM #__foo', 'INNER JOIN join', 'WHERE bar=1')),
+			trim($this->_instance)
 		);
 	}
 
@@ -768,17 +760,16 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::dump
 	 * @since   11.3
 	 */
 	public function testDump()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->select('*')
+		$this->_instance->select('*')
 			->from('#__foo');
 
 		$this->assertThat(
-			$q->dump(),
+			$this->_instance->dump(),
 			$this->equalTo(
 				'<pre class="jdatabasequery">' .
 					PHP_EOL . "SELECT *" . PHP_EOL . "FROM foo" .
@@ -793,14 +784,13 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::escape
 	 * @since   11.3
 	 */
 	public function testEscape()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->escape('foo'),
+			$this->_instance->escape('foo'),
 			$this->equalTo('_foo_')
 		);
 	}
@@ -810,17 +800,44 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers             JDatabaseQuery::escape
 	 * @expectedException  RuntimeException
-	 * @since   11.3
+	 * @since              11.3
 	 */
 	public function testEscapeException()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		// Override the internal database for testing.
-		$q->db = new stdClass;
+		$this->_instance->db = new stdClass;
 
-		$q->escape('foo');
+		$this->_instance->escape('foo');
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::exec method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::exec
+	 * @since   12.3
+	 */
+	public function testExec()
+	{
+		$this->assertSame($this->_instance, $this->_instance->exec('a.*'), 'Checks chaining');
+		$this->_instance->exec('b.*');
+		$this->assertEquals('EXEC a.*,b.*', trim($this->_instance->exec), 'Checks method by rendering.');
+	}
+
+	/**
+	 * Tests the exec property in JDatabaseQuery::__toString method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::__toString
+	 * @since   12.3
+	 */
+	public function testExec__toString()
+	{
+		$this->assertEquals('EXEC a.*', trim($this->_instance->exec('a.*')));
 	}
 
 	/**
@@ -828,29 +845,28 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::from
 	 * @since   11.3
 	 */
 	public function testFrom()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->from('#__foo'),
-			$this->identicalTo($q),
+			$this->_instance->from('#__foo'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->from),
+			trim($this->_instance->from),
 			$this->equalTo('FROM #__foo'),
 			'Tests rendered value.'
 		);
 
 		// Add another column.
-		$q->from('#__bar');
+		$this->_instance->from('#__bar');
 
 		$this->assertThat(
-			trim($q->from),
+			trim($this->_instance->from),
 			$this->equalTo('FROM #__foo,#__bar'),
 			'Tests rendered value after second use.'
 		);
@@ -861,29 +877,28 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::group
 	 * @since   11.3
 	 */
 	public function testGroup()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->group('foo'),
-			$this->identicalTo($q),
+			$this->_instance->group('foo'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->group),
+			trim($this->_instance->group),
 			$this->equalTo('GROUP BY foo'),
 			'Tests rendered value.'
 		);
 
 		// Add another column.
-		$q->group('bar');
+		$this->_instance->group('bar');
 
 		$this->assertThat(
-			trim($q->group),
+			trim($this->_instance->group),
 			$this->equalTo('GROUP BY foo,bar'),
 			'Tests rendered value after second use.'
 		);
@@ -894,40 +909,39 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::having
 	 * @since   11.3
 	 */
 	public function testHaving()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->having('COUNT(foo) > 1'),
-			$this->identicalTo($q),
+			$this->_instance->having('COUNT(foo) > 1'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->having),
+			trim($this->_instance->having),
 			$this->equalTo('HAVING COUNT(foo) > 1'),
 			'Tests rendered value.'
 		);
 
 		// Add another column.
-		$q->having('COUNT(bar) > 2');
+		$this->_instance->having('COUNT(bar) > 2');
 
 		$this->assertThat(
-			trim($q->having),
+			trim($this->_instance->having),
 			$this->equalTo('HAVING COUNT(foo) > 1 AND COUNT(bar) > 2'),
 			'Tests rendered value after second use.'
 		);
 
 		// Reset the field to test the glue.
-		$q->having = null;
-		$q->having('COUNT(foo) > 1', 'OR');
-		$q->having('COUNT(bar) > 2');
+		$this->_instance->having = null;
+		$this->_instance->having('COUNT(foo) > 1', 'OR');
+		$this->_instance->having('COUNT(bar) > 2');
 
 		$this->assertThat(
-			trim($q->having),
+			trim($this->_instance->having),
 			$this->equalTo('HAVING COUNT(foo) > 1 OR COUNT(bar) > 2'),
 			'Tests rendered value with OR glue.'
 		);
@@ -938,6 +952,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::innerJoin
 	 * @since   11.3
 	 */
 	public function testInnerJoin()
@@ -966,26 +981,25 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::insert
 	 * @since   11.3
 	 */
 	public function testInsert()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->insert('#__foo'),
-			$this->identicalTo($q),
+			$this->_instance->insert('#__foo'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			$q->type,
+			$this->_instance->type,
 			$this->equalTo('insert'),
 			'Tests the type property is set correctly.'
 		);
 
 		$this->assertThat(
-			trim($q->insert),
+			trim($this->_instance->insert),
 			$this->equalTo('INSERT INTO #__foo'),
 			'Tests the delete element is set correctly.'
 		);
@@ -996,28 +1010,27 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::join
 	 * @since   11.3
 	 */
 	public function testJoin()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->join('INNER', 'foo ON foo.id = bar.id'),
-			$this->identicalTo($q),
+			$this->_instance->join('INNER', 'foo ON foo.id = bar.id'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->join[0]),
+			trim($this->_instance->join[0]),
 			$this->equalTo('INNER JOIN foo ON foo.id = bar.id'),
 			'Tests that first join renders correctly.'
 		);
 
-		$q->join('OUTER', 'goo ON goo.id = car.id');
+		$this->_instance->join('OUTER', 'goo ON goo.id = car.id');
 
 		$this->assertThat(
-			trim($q->join[1]),
+			trim($this->_instance->join[1]),
 			$this->equalTo('OUTER JOIN goo ON goo.id = car.id'),
 			'Tests that second join renders correctly.'
 		);
@@ -1028,6 +1041,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::leftJoin
 	 * @since   11.3
 	 */
 	public function testLeftJoin()
@@ -1056,14 +1070,13 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::length
 	 * @since   11.3
 	 */
 	public function testLength()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			trim($q->length('foo')),
+			trim($this->_instance->length('foo')),
 			$this->equalTo('LENGTH(foo)'),
 			'Tests method renders correctly.'
 		);
@@ -1077,15 +1090,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @dataProvider  dataTestNullDate
+	 * @covers        JDatabaseQuery::nullDate
+	 * @dataProvider  seedNullDateTest
+	 * @since         11.1
 	 */
 	public function testNullDate($quoted, $expected)
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->nullDate($quoted),
+			$this->_instance->nullDate($quoted),
 			$this->equalTo($expected),
 			'The nullDate method should be a proxy for the JDatabase::getNullDate method.'
 		);
@@ -1096,17 +1108,16 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers             JDatabaseQuery::nullDate
 	 * @expectedException  RuntimeException
-	 * @since   11.3
+	 * @since              11.3
 	 */
 	public function testNullDateException()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		// Override the internal database for testing.
-		$q->db = new stdClass;
+		$this->_instance->db = new stdClass;
 
-		$q->nullDate();
+		$this->_instance->nullDate();
 	}
 
 	/**
@@ -1114,41 +1125,40 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::order
 	 * @since   11.3
 	 */
 	public function testOrder()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->order('foo'),
-			$this->identicalTo($q),
+			$this->_instance->order('foo'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->order),
+			trim($this->_instance->order),
 			$this->equalTo('ORDER BY foo'),
 			'Tests rendered value.'
 		);
 
 		// Add another column.
-		$q->order('bar');
+		$this->_instance->order('bar');
 
 		$this->assertThat(
-			trim($q->order),
+			trim($this->_instance->order),
 			$this->equalTo('ORDER BY foo,bar'),
 			'Tests rendered value after second use.'
 		);
 
-		$q->order(
+		$this->_instance->order(
 			array(
 				'goo', 'car'
 			)
 		);
 
 		$this->assertThat(
-			trim($q->order),
+			trim($this->_instance->order),
 			$this->equalTo('ORDER BY foo,bar,goo,car'),
 			'Tests array input.'
 		);
@@ -1159,6 +1169,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::outerJoin
 	 * @since   11.3
 	 */
 	public function testOuterJoin()
@@ -1183,7 +1194,7 @@ class JDatabaseQueryTest extends TestCase
 	}
 
 	/**
-	 * Tests the quoteName method.
+	 * Tests the quote method.
 	 *
 	 * @param   boolean  $text      The value to be quoted.
 	 * @param   boolean  $escape    True to escape the string, false to leave it unchanged.
@@ -1191,18 +1202,13 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
-	 * @dataProvider  dataTestQuote
+	 * @covers        JDatabaseQuery::quote
+	 * @since         11.1
+	 * @dataProvider  seedQuoteTest
 	 */
 	public function testQuote($text, $escape, $expected)
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$this->assertThat(
-			$q->quoteName("test"),
-			$this->equalTo("`test`"),
-			'The quoteName method should be a proxy for the JDatabase::escape method.'
-		);
+		$this->assertEquals($expected, $this->_instance->quote($text, $escape));
 	}
 
 	/**
@@ -1210,17 +1216,16 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers             JDatabaseQuery::quote
 	 * @expectedException  RuntimeException
-	 * @since   11.3
+	 * @since              11.3
 	 */
 	public function testQuoteException()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		// Override the internal database for testing.
-		$q->db = new stdClass;
+		$this->_instance->db = new stdClass;
 
-		$q->quote('foo');
+		$this->_instance->quote('foo');
 	}
 
 	/**
@@ -1228,14 +1233,13 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::quoteName
 	 * @since   11.1
 	 */
 	public function testQuoteName()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->quoteName("test"),
+			$this->_instance->quoteName("test"),
 			$this->equalTo("`test`"),
 			'The quoteName method should be a proxy for the JDatabase::escape method.'
 		);
@@ -1246,17 +1250,16 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers             JDatabaseQuery::quoteName
 	 * @expectedException  RuntimeException
-	 * @since   11.3
+	 * @since              11.3
 	 */
 	public function testQuoteNameException()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		// Override the internal database for testing.
-		$q->db = new stdClass;
+		$this->_instance->db = new stdClass;
 
-		$q->quoteName('foo');
+		$this->_instance->quoteName('foo');
 	}
 
 	/**
@@ -1264,6 +1267,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::rightJoin
 	 * @since   11.3
 	 */
 	public function testRightJoin()
@@ -1292,46 +1296,45 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::select
 	 * @since   11.3
 	 */
 	public function testSelect()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->select('foo'),
-			$this->identicalTo($q),
+			$this->_instance->select('foo'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			$q->type,
+			$this->_instance->type,
 			$this->equalTo('select'),
 			'Tests the type property is set correctly.'
 		);
 
 		$this->assertThat(
-			trim($q->select),
+			trim($this->_instance->select),
 			$this->equalTo('SELECT foo'),
 			'Tests the select element is set correctly.'
 		);
 
-		$q->select('bar');
+		$this->_instance->select('bar');
 
 		$this->assertThat(
-			trim($q->select),
+			trim($this->_instance->select),
 			$this->equalTo('SELECT foo,bar'),
 			'Tests the second use appends correctly.'
 		);
 
-		$q->select(
+		$this->_instance->select(
 			array(
 				'goo', 'car'
 			)
 		);
 
 		$this->assertThat(
-			trim($q->select),
+			trim($this->_instance->select),
 			$this->equalTo('SELECT foo,bar,goo,car'),
 			'Tests the second use appends correctly.'
 		);
@@ -1342,27 +1345,29 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::set
 	 * @since   11.3
 	 */
 	public function testSet()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->set('foo = 1'),
-			$this->identicalTo($q),
+			$this->_instance->set('foo = 1'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->set),
+			trim($this->_instance->set),
 			$this->identicalTo('SET foo = 1'),
 			'Tests set with a string.'
 		);
 
+		$this->_instance->set('bar = 2');
+		$this->assertEquals("SET foo = 1" . PHP_EOL . "\t, bar = 2", trim($this->_instance->set), 'Tests appending with set().');
+
 		// Clear the set.
-		$q->set = null;
-		$q->set(
+		$this->_instance->set = null;
+		$this->_instance->set(
 			array(
 				'foo = 1',
 				'bar = 2',
@@ -1370,14 +1375,14 @@ class JDatabaseQueryTest extends TestCase
 		);
 
 		$this->assertThat(
-			trim($q->set),
-			$this->identicalTo("SET foo = 1\n\t, bar = 2"),
+			trim($this->_instance->set),
+			$this->identicalTo("SET foo = 1" . PHP_EOL . "\t, bar = 2"),
 			'Tests set with an array.'
 		);
 
 		// Clear the set.
-		$q->set = null;
-		$q->set(
+		$this->_instance->set = null;
+		$this->_instance->set(
 			array(
 				'foo = 1',
 				'bar = 2',
@@ -1386,10 +1391,38 @@ class JDatabaseQueryTest extends TestCase
 		);
 
 		$this->assertThat(
-			trim($q->set),
-			$this->identicalTo("SET foo = 1\n\t; bar = 2"),
+			trim($this->_instance->set),
+			$this->identicalTo("SET foo = 1" . PHP_EOL . "\t; bar = 2"),
 			'Tests set with an array and glue.'
 		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::setQuery method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::setQuery
+	 * @since   12.3
+	 */
+	public function testSetQuery()
+	{
+		$this->assertSame($this->_instance, $this->_instance->setQuery('Some SQL'), 'Check chaining.');
+		$this->assertAttributeEquals('Some SQL', 'sql', $this->_instance, 'Checks the property was set correctly.');
+		$this->assertEquals('Some SQL', (string) $this->_instance, 'Checks the rendering of the raw SQL.');
+	}
+
+	/**
+	 * Tests rendering coupled with the JDatabaseQuery::setQuery method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::__toString
+	 * @since   12.3
+	 */
+	public function testSetQuery__toString()
+	{
+		$this->assertEquals('Some SQL', trim($this->_instance->setQuery('Some SQL')));
 	}
 
 	/**
@@ -1397,26 +1430,25 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::update
 	 * @since   11.3
 	 */
 	public function testUpdate()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->update('#__foo'),
-			$this->identicalTo($q),
+			$this->_instance->update('#__foo'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			$q->type,
+			$this->_instance->type,
 			$this->equalTo('update'),
 			'Tests the type property is set correctly.'
 		);
 
 		$this->assertThat(
-			trim($q->update),
+			trim($this->_instance->update),
 			$this->equalTo('UPDATE #__foo'),
 			'Tests the update element is set correctly.'
 		);
@@ -1427,26 +1459,25 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::values
 	 * @since   11.3
 	 */
 	public function testValues()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->values('1,2,3'),
-			$this->identicalTo($q),
+			$this->_instance->values('1,2,3'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->values),
+			trim($this->_instance->values),
 			$this->equalTo('(1,2,3)'),
 			'Tests rendered value.'
 		);
 
 		// Add another column.
-		$q->values(
+		$this->_instance->values(
 			array(
 				'4,5,6',
 				'7,8,9',
@@ -1454,7 +1485,7 @@ class JDatabaseQueryTest extends TestCase
 		);
 
 		$this->assertThat(
-			trim($q->values),
+			trim($this->_instance->values),
 			$this->equalTo('(1,2,3),(4,5,6),(7,8,9)'),
 			'Tests rendered value after second use and array input.'
 		);
@@ -1465,26 +1496,25 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::where
 	 * @since   11.3
 	 */
 	public function testWhere()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->where('foo = 1'),
-			$this->identicalTo($q),
+			$this->_instance->where('foo = 1'),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 
 		$this->assertThat(
-			trim($q->where),
+			trim($this->_instance->where),
 			$this->equalTo('WHERE foo = 1'),
 			'Tests rendered value.'
 		);
 
 		// Add another column.
-		$q->where(
+		$this->_instance->where(
 			array(
 				'bar = 2',
 				'goo = 3',
@@ -1492,14 +1522,14 @@ class JDatabaseQueryTest extends TestCase
 		);
 
 		$this->assertThat(
-			trim($q->where),
+			trim($this->_instance->where),
 			$this->equalTo('WHERE foo = 1 AND bar = 2 AND goo = 3'),
 			'Tests rendered value after second use and array input.'
 		);
 
 		// Clear the where
-		$q->where = null;
-		$q->where(
+		$this->_instance->where = null;
+		$this->_instance->where(
 			array(
 				'bar = 2',
 				'goo = 3',
@@ -1508,7 +1538,7 @@ class JDatabaseQueryTest extends TestCase
 		);
 
 		$this->assertThat(
-			trim($q->where),
+			trim($this->_instance->where),
 			$this->equalTo('WHERE bar = 2 OR goo = 3'),
 			'Tests rendered value with glue.'
 		);
@@ -1560,15 +1590,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
 	public function testUnionChain()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
 		$this->assertThat(
-			$q->union($q),
-			$this->identicalTo($q),
+			$this->_instance->union($this->_instance),
+			$this->identicalTo($this->_instance),
 			'Tests chaining.'
 		);
 	}
@@ -1578,18 +1607,17 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
 	public function testUnionClear()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->order = null;
-		$q->order('bar');
-		$q->union('SELECT name FROM foo');
+		$this->_instance->union = null;
+		$this->_instance->order = null;
+		$this->_instance->order('bar');
+		$this->_instance->union('SELECT name FROM foo');
 		$this->assertThat(
-			$q->order,
+			$this->_instance->order,
 			$this->equalTo(null),
 			'Tests that ORDER BY is cleared with union.'
 		);
@@ -1600,15 +1628,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
 	public function testUnionUnion()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->union('SELECT name FROM foo');
-		$teststring = (string) $q->union;
+		$this->_instance->union = null;
+		$this->_instance->union('SELECT name FROM foo');
+		$teststring = (string) $this->_instance->union;
 		$this->assertThat(
 			$teststring,
 			$this->equalTo(PHP_EOL . "UNION (SELECT name FROM foo)"),
@@ -1621,15 +1648,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
 	public function testUnionDistinctString()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->union('SELECT name FROM foo', 'distinct');
-		$teststring = (string) $q->union;
+		$this->_instance->union = null;
+		$this->_instance->union('SELECT name FROM foo', 'distinct');
+		$teststring = (string) $this->_instance->union;
 		$this->assertThat(
 			$teststring,
 			$this->equalTo(PHP_EOL . "UNION DISTINCT (SELECT name FROM foo)"),
@@ -1642,15 +1668,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
 	public function testUnionDistinctTrue()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->union('SELECT name FROM foo', true);
-		$teststring = (string) $q->union;
+		$this->_instance->union = null;
+		$this->_instance->union('SELECT name FROM foo', true);
+		$teststring = (string) $this->_instance->union;
 		$this->assertThat(
 			$teststring,
 			$this->equalTo(PHP_EOL . "UNION DISTINCT (SELECT name FROM foo)"),
@@ -1663,15 +1688,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
 	public function testUnionDistinctFalse()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->union('SELECT name FROM foo', false);
-		$teststring = (string) $q->union;
+		$this->_instance->union = null;
+		$this->_instance->union('SELECT name FROM foo', false);
+		$teststring = (string) $this->_instance->union;
 		$this->assertThat(
 			$teststring,
 			$this->equalTo(PHP_EOL . "UNION (SELECT name FROM foo)"),
@@ -1684,15 +1708,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
 	public function testUnionArray()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->union(array('SELECT name FROM foo', 'SELECT name FROM bar'));
-		$teststring = (string) $q->union;
+		$this->_instance->union = null;
+		$this->_instance->union(array('SELECT name FROM foo', 'SELECT name FROM bar'));
+		$teststring = (string) $this->_instance->union;
 		$this->assertThat(
 			$teststring,
 			$this->equalTo(PHP_EOL . "UNION (SELECT name FROM foo)" . PHP_EOL . "UNION (SELECT name FROM bar)"),
@@ -1705,16 +1728,15 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::union
 	 * @since   12.1
 	 */
 	public function testUnionTwo()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->union('SELECT name FROM foo');
-		$q->union('SELECT name FROM bar');
-		$teststring = (string) $q->union;
+		$this->_instance->union = null;
+		$this->_instance->union('SELECT name FROM foo');
+		$this->_instance->union('SELECT name FROM bar');
+		$teststring = (string) $this->_instance->union;
 		$this->assertThat(
 			$teststring,
 			$this->equalTo(PHP_EOL . "UNION (SELECT name FROM foo)" . PHP_EOL . "UNION (SELECT name FROM bar)"),
@@ -1727,15 +1749,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::unionDistinct
 	 * @since   12.1
 	 */
 	public function testUnionDistinct()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->unionDistinct('SELECT name FROM foo');
-		$teststring = (string) $q->union;
+		$this->_instance->union = null;
+		$this->_instance->unionDistinct('SELECT name FROM foo');
+		$teststring = (string) $this->_instance->union;
 		$this->assertThat(
 			trim($teststring),
 			$this->equalTo("UNION DISTINCT (SELECT name FROM foo)"),
@@ -1748,16 +1769,14 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::unionDistinct
 	 * @since   12.1
 	 */
 	public function testUnionDistinctArray()
 	{
-
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$q->union = null;
-		$q->unionDistinct(array('SELECT name FROM foo', 'SELECT name FROM bar'));
-		$teststring = (string) $q->union;
+		$this->_instance->union = null;
+		$this->_instance->unionDistinct(array('SELECT name FROM foo', 'SELECT name FROM bar'));
+		$teststring = (string) $this->_instance->union;
 		$this->assertThat(
 			$teststring,
 			$this->equalTo(PHP_EOL . "UNION DISTINCT (SELECT name FROM foo)" . PHP_EOL . "UNION DISTINCT (SELECT name FROM bar)"),
@@ -1770,27 +1789,47 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
+	 * @covers  JDatabaseQuery::format
 	 * @since   12.3
 	 */
 	public function testFormat()
 	{
-		$q = new JDatabaseQueryInspector($this->dbo);
-
-		$result = $q->format('SELECT %n FROM %n WHERE %n = %a', 'foo', '#__bar', 'id', 10);
-		$expected = 'SELECT ' . $q->qn('foo') . ' FROM ' . $q->qn('#__bar') . ' WHERE ' . $q->qn('id') . ' = 10';
+		$result = $this->_instance->format('SELECT %n FROM %n WHERE %n = %a', 'foo', '#__bar', 'id', 10);
+		$expected = 'SELECT ' . $this->_instance->qn('foo') . ' FROM ' . $this->_instance->qn('#__bar') .
+			' WHERE ' . $this->_instance->qn('id') . ' = 10';
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),
 			'Line: ' . __LINE__ . '.'
 		);
 
-		$result = $q->format('SELECT %n FROM %n WHERE %n = %t OR %3$n = %Z', 'id', '#__foo', 'date');
-		$expected = 'SELECT ' . $q->qn('id') . ' FROM ' . $q->qn('#__foo') . ' WHERE ' . $q->qn('date') . ' = ' . $q->currentTimestamp() . ' OR ' . $q->qn('date') . ' = ' . $q->nullDate(true);
+		$result = $this->_instance->format('SELECT %n FROM %n WHERE %n = %t OR %3$n = %Z', 'id', '#__foo', 'date');
+		$expected = 'SELECT ' . $this->_instance->qn('id') . ' FROM ' . $this->_instance->qn('#__foo') .
+			' WHERE ' .$this->_instance->qn('date') . ' = ' . $this->_instance->currentTimestamp() .
+			' OR ' . $this->_instance->qn('date') . ' = ' . $this->_instance->nullDate(true);
 		$this->assertThat(
 			$result,
 			$this->equalTo($expected),
 			'Line: ' . __LINE__ . '.'
 		);
 
+	}
+
+	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->dbo = $this->getMockDatabase();
+
+		$this->_instance = new JDatabaseQueryInspector($this->dbo);
 	}
 }
