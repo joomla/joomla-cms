@@ -68,11 +68,9 @@ class JFormRuleEmailTest extends TestCase
 		$this->markTestIncomplete('More tests required');
 
 		/*
-		 TODO: Need to test the "field" attribute which adds to the unqiue test where clause.
-		 TODO: Is the regex as robust/same as the mail class validation check?
+		 TODO: Need to test the "field" attribute which adds to the unique test where clause.
 		 TODO: Database error is prevents the following tests from working properly.
 		*/
-
 		$this->assertThat(
 			$rule->test($xml->field[1], 'me@example.com'),
 			$this->isTrue(),
@@ -81,11 +79,13 @@ class JFormRuleEmailTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Data Provider  for email rule test with no multiple attribute and no tld attribute
 	 *
 	 * @return array
+	 *
+	 * @since 11.1
 	 */
-	public function emailData()
+	public function emailData1()
 	{
 		return array(
 			array('test@example.com', true),
@@ -95,24 +95,105 @@ class JFormRuleEmailTest extends TestCase
 			array('firstname+middlename+lastname@domain.tld', true),
 			array('firstnamelastname@subdomain.domain.tld', true),
 			array('firstname+lastname@subdomain.domain.tld', true),
-			array('firstname+middlename+lastname@subdomain.domain.tld', true)
+			array('firstname+middlename+lastname@subdomain.domain.tld', true),
+			array('firstname@localhost', true)
 		);
 	}
 
 	/**
-	 * Test...
+	 * Test the email rule
 	 *
-	 * @param   string  $emailAddress    @todo
-	 * @param   string  $expectedResult  @todo
+	 * @param   string    $emailAddress    Email to be tested
+	 * @param   boolean   $expectedResult  Result of test
 	 *
-	 * @dataProvider emailData
+	 * @dataProvider emailData1
 	 *
 	 * @return void
+	 * 
+	 * @since 11.1
 	 */
 	public function testEmailData($emailAddress, $expectedResult)
 	{
 		$rule = new JFormRuleEmail;
 		$xml = simplexml_load_string('<form><field name="email1" /></form>');
+		$this->assertThat(
+			$rule->test($xml->field[0], $emailAddress),
+			$this->equalTo($expectedResult),
+			$emailAddress . ' should have returned ' . ($expectedResult ? 'true' : 'false') . ' but did not'
+		);
+	}
+
+	/**
+	 * Data Provider  for email rule test with multiple attribute and no tld attribute
+	 *
+	 * @return array
+	 *
+	 * @since 12.3
+	 */
+	public function emailData2()
+	{
+		return array(
+			array('test@example.com', true),
+			array('test@example.com,test2@example.com,test3@localhost', true),
+		);
+	}
+
+	/**
+	 * Test the email rule with the multiple attribute
+	 *
+	 * @param   string    $emailAddress    Email to be tested
+	 * @param   boolean   $expectedResult  Result of test
+	 *
+	 * @dataProvider emailData2
+	 *
+	 * @return void
+	 *
+	 * @since 12.3
+	 */
+	public function testEmailData2($emailAddress, $expectedResult)
+	{
+		$rule = new JFormRuleEmail;
+		$xml = simplexml_load_string('<form><field name="email1" multiple="multiple" /></form>');
+		$this->assertThat(
+			$rule->test($xml->field[0], $emailAddress),
+			$this->equalTo($expectedResult),
+			$emailAddress . ' should have returned ' . ($expectedResult ? 'true' : 'false') . ' but did not'
+		);
+	}
+	/**
+	 * Data Provider  for email rule test with tld attribute
+	 *
+	 * @return array
+	 *
+	 * @since 12.3
+	 */
+	public function emailData3()
+	{
+		return array(
+			array('test@example.com', true),
+			array('test3@localhost', false),
+			array('test3@example.c', false),
+			array('test3@example.ca', true),
+			array('test3@example.travel', true),
+		);
+	}
+
+	/**
+	 * Test the email rule with the tld attribute
+	 *
+	 * @param   string    $emailAddress    Email to be tested
+	 * @param   boolean   $expectedResult  Result of test
+	 *
+	 * @dataProvider emailData3
+	 *
+	 * @return void
+	 *
+	 * @since 12.3
+	 */
+	public function testEmailData3($emailAddress, $expectedResult)
+	{
+		$rule = new JFormRuleEmail;
+		$xml = simplexml_load_string('<form><field name="email1" tld="tld" /></form>');
 		$this->assertThat(
 			$rule->test($xml->field[0], $emailAddress),
 			$this->equalTo($expectedResult),
