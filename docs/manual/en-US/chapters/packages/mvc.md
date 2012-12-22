@@ -354,3 +354,38 @@ catch (RuntimeException $e)
 	// Handle database error.
 }
 ```
+
+The default extension for layouts is ".php". This can be modified in derived views by changing the default value for the extension argument. For example:
+
+```php
+/**
+ * My custom HTML view.
+ *
+ * @package  Examples
+ * @since    12.1
+ */
+class MyHtmlView extends JViewHtml
+{
+	/**
+	 * Override the parent method to use the '.phtml' extension for layout files.
+	 *
+	 * @param   string  $layout  The base name of the layout file (excluding extension).
+	 * @param   string  $ext     The extension of the layout file (default: "phtml").
+	 *
+	 * @return  mixed  The layout file name if found, false otherwise.
+	 *
+	 * @see     JViewHtml::getPath
+	 * @since   12.1
+	 */
+	public function getPath($layout, $ext = 'phtml')
+	{
+		return parent::getPath($layout, $ext);
+	}
+}
+```
+
+##### Revision history
+
+The new View package was added in 12.1.
+
+The extension argument was added to `JViewHtml->getPath` in 12.3.
