@@ -103,6 +103,7 @@ class JSessionTest extends TestCase
 	{
 		$oldSession = $this->object;
 		$newSession = JSession::getInstance($store, $options);
+
 		// The properties and values should be identical to each other.
 		$this->assertThat(
 			$oldSession,
@@ -110,7 +111,7 @@ class JSessionTest extends TestCase
 		);
 
 		// They should be the same object.
-		$this->assertSame($oldSession,$newSession);
+		$this->assertSame($oldSession, $newSession);
 	}
 
 	/**
@@ -201,7 +202,7 @@ class JSessionTest extends TestCase
 			->with($this->equalTo('secret'))
 			->will($this->returnValue('abc'));
 
-		$this->object->set('secret','abc');
+		$this->object->set('secret', 'abc');
 		$expected = md5('abc' . $user->get('id', 0) . $this->object->getToken(false));
 		$this->assertEquals($expected, $this->object->getFormToken(), 'Form token should be calculated as above.');
 	}

@@ -486,7 +486,7 @@ class JApplicationWebTest extends TestCase
 			(object) array(
 				'cachable' => null,
 				'headers' => null,
-				'body' => array(str_replace("\r\n","\n",$string)),
+				'body' => array(str_replace("\r\n", "\n", $string)),
 			)
 		);
 
@@ -540,7 +540,7 @@ class JApplicationWebTest extends TestCase
 			(object) array(
 				'cachable' => null,
 				'headers' => null,
-				'body' => array(str_replace("\r\n","\n",$string)),
+				'body' => array(str_replace("\r\n", "\n", $string)),
 			)
 		);
 
@@ -600,7 +600,7 @@ class JApplicationWebTest extends TestCase
 			(object) array(
 				'cachable' => null,
 				'headers' => null,
-				'body' => array(str_replace("\r\n","\n",$string)),
+				'body' => array(str_replace("\r\n", "\n", $string)),
 			)
 		);
 

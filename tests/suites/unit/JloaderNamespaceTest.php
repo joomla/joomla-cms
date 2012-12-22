@@ -179,12 +179,10 @@ class JLoaderNamespaceTest extends \PHPUnit_Framework_TestCase
 		// Unregister the namespace auto loaders if any.
 		foreach ($loaders as $loader)
 		{
-			if (is_array($loader) && $loader[0] === 'JLoader' &&
-				($loader[1] === 'loadByNamespaceLowerCase'
-					|| $loader[1] === 'loadByNamespaceNaturalCase'
-					|| $loader[1] === 'loadByNamespaceMixedCase'
-				)
-			)
+			if (is_array($loader) && $loader[0] === 'JLoader'
+				&& ($loader[1] === 'loadByNamespaceLowerCase'
+				|| $loader[1] === 'loadByNamespaceNaturalCase'
+				|| $loader[1] === 'loadByNamespaceMixedCase'))
 			{
 				spl_autoload_unregister($loader);
 			}
