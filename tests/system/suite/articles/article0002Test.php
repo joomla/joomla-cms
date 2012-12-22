@@ -21,7 +21,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->jPrint ("Edit article in front end\n");
-	    $this->click("//i[contains(@class, 'icon-edit')]");
+	    $this->click("//span[contains(@class, 'icon-edit')]");
 	    $this->waitForPageToLoad("30000");
 	    $salt = mt_rand();
 	    $testText="Test text $salt";
@@ -48,7 +48,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->assertEquals($testText, $this->getText("//div[@class='items-leading']/div[@class='leading-0']//p"));
 
 	    $this->jPrint ("Open again for editing in front end\n");
-	    $this->click("//i[contains(@class, 'icon-edit')]");
+	    $this->click("//span[contains(@class, 'icon-edit')]");
 	    $this->waitForPageToLoad("30000");
 	    $text="<p>Congratulations! You have a Joomla! site! Joomla! makes your site easy to build a website " .
 	    		"just the way you want it and keep it simple to update and maintain.</p> " .

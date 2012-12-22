@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Dec-2012 Mark Dexter
+ # Fix failing system tests caused by markup changes
+
 21-Dec-2012 Mark Dexter
  + Add tests for module manager.
 
