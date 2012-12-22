@@ -481,9 +481,11 @@ class JDataSetTest extends TestCase
 		$this->_instance['5'] = new JData;
 
 		$runs = 0;
+
 		foreach ($this->_instance as $k => $v)
 		{
 			$runs += 1;
+
 			if ($k != 3)
 			{
 				unset($this->_instance[$k]);

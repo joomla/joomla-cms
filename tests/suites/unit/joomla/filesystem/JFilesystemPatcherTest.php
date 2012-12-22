@@ -122,7 +122,8 @@ class JFilesystemPatcherTest extends TestCase
 +Deeper and more profound,
 +The door of all subtleties!
 ';
-		// use of realpath to ensure test works for on all platforms
+
+		// Use of realpath to ensure test works for on all platforms
 		return array(
 			array(
 				$udiff,
@@ -131,19 +132,19 @@ class JFilesystemPatcherTest extends TestCase
 				array(
 					array(
 						'udiff' => $udiff,
-						'root' => realpath(JPATH_TESTS . '/tmp/patcher').DIRECTORY_SEPARATOR,
+						'root' => realpath(JPATH_TESTS . '/tmp/patcher') . DIRECTORY_SEPARATOR,
 						'strip' => 0
 					)
 				)
 			),
 			array(
 				$udiff,
-				realpath(JPATH_TESTS . '/tmp/patcher').DIRECTORY_SEPARATOR,
+				realpath(JPATH_TESTS . '/tmp/patcher') . DIRECTORY_SEPARATOR,
 				0,
 				array(
 					array(
 						'udiff' => $udiff,
-						'root' => realpath(JPATH_TESTS . '/tmp/patcher').DIRECTORY_SEPARATOR,
+						'root' => realpath(JPATH_TESTS . '/tmp/patcher') . DIRECTORY_SEPARATOR,
 						'strip' => 0
 					)
 				)
@@ -232,7 +233,8 @@ class JFilesystemPatcherTest extends TestCase
 +Deeper and more profound,
 +The door of all subtleties!
 ';
-		// use of realpath to ensure test works for on all platforms
+
+		// Use of realpath to ensure test works for on all platforms
 		file_put_contents(JPATH_TESTS . '/tmp/patcher/lao2tzu.diff', $udiff);
 		$patcher = JFilesystemPatcher::getInstance()->reset();
 		$patcher->addFile(JPATH_TESTS . '/tmp/patcher/lao2tzu.diff', realpath(JPATH_TESTS . '/tmp/patcher'));
@@ -241,7 +243,7 @@ class JFilesystemPatcherTest extends TestCase
 			array(
 				array(
 					'udiff' => $udiff,
-					'root' => realpath(JPATH_TESTS . '/tmp/patcher').DIRECTORY_SEPARATOR,
+					'root' => realpath(JPATH_TESTS . '/tmp/patcher') . DIRECTORY_SEPARATOR,
 					'strip' => 0
 				)
 			),

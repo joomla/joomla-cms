@@ -258,6 +258,7 @@ class KeychainManager extends JApplicationCli
 		var_dump($var);
 		$result = trim(ob_get_contents());
 		ob_end_clean();
+
 		return $result;
 	}
 
@@ -292,6 +293,7 @@ class KeychainManager extends JApplicationCli
 		foreach ($this->keychain->toArray() as $key => $value)
 		{
 			$line = $key;
+
 			if ($this->input->get('print-values'))
 			{
 				$line .= ': ' . $this->dumpVar($value);

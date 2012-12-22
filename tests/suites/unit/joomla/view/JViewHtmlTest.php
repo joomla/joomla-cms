@@ -106,7 +106,7 @@ class JViewHtmlTest extends TestCase
 		$paths->insert(__DIR__ . '/layouts1', 1);
 		$paths->insert(__DIR__ . '/layouts2', 2);
 
-		// use of realpath to ensure test works for on all platforms
+		// Use of realpath to ensure test works for on all platforms
 		$this->assertEquals(realpath(__DIR__ . '/layouts2/olivia.php'), $this->_instance->getPath('olivia'));
 		$this->assertEquals(realpath(__DIR__ . '/layouts1/peter.php'), $this->_instance->getPath('peter'));
 		$this->assertEquals(realpath(__DIR__ . '/layouts2/fauxlivia.php'), $this->_instance->getPath('fauxlivia'));

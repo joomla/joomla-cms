@@ -16,6 +16,11 @@ namespace Color;
  */
 class Blue
 {
+	/**
+	 * A color.
+	 *
+	 * @return string
+	 */
 	public function color()
 	{
 		return 'blue';

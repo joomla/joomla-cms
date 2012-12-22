@@ -175,7 +175,7 @@ class JTableTest extends TestCaseDatabase
 
 		$reflection = new ReflectionClass('JTable');
 
-		// use of realpath to ensure test works for on all platforms
+		// Use of realpath to ensure test works for on all platforms
 		$this->assertEquals(
 			realpath(dirname($reflection->getFileName())),
 			realpath($result[0]),

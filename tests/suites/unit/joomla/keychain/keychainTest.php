@@ -25,7 +25,7 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 */
 	public static function setUpBeforeClass()
 	{
-		// clean up files
+		// Clean up files
 		@unlink(__DIR__ . '/data/web-keychain.dat');
 		@unlink(__DIR__ . '/data/web-passphrase.dat');
 
@@ -41,7 +41,7 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 */
 	public static function tearDownAfterClass()
 	{
-		// clean up files
+		// Clean up files
 		@unlink(__DIR__ . '/data/web-keychain.dat');
 		@unlink(__DIR__ . '/data/web-passphrase.dat');
 		parent::tearDownAfterClass();

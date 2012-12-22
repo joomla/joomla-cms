@@ -286,6 +286,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
   </table_structure>
  </database>
 </mysqldump>';
+
 		// Replace used to prevent platform conflicts
 		$this->assertThat(
 			preg_replace('/\v/', '', $instance->buildXml()),
