@@ -32,21 +32,6 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	protected $lastQuery = '';
 
 	/**
-	 * @var    array  Selected sample data for tests.
-	 * @since  12.1
-	 */
-	protected $sample = array(
-		'xml-id-field' => '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
-		'xml-id-seq' => '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
-		'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
-		'xml-title-def' => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
-		'xml-int-defnum' => '<field Field="title" Type="integer" Null="NO" Default="0" Comments="" />',
-		'xml-body-field' => '<field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
-		'xml-primary-key' => '<key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)" />',
-		'xml-index' => '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)" />',
-	);
-
-	/**
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
@@ -139,7 +124,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		/* Check if database is at least 9.1.0 */
+		// Check if database is at least 9.1.0
 		$this->dbo->expects(
 			$this->any()
 		)
@@ -287,19 +272,33 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function dataGetAlterTableSQL()
 	{
-		$f1 = '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />';
+		$f1 = '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" ' .
+			'Comments="" />';
 		$f2 = '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />';
 		$f3 = '<field Field="alias" Type="character varying(255)" Null="NO" Default="test" Comments="" />';
 		$f2_def = '<field Field="title" Type="character varying(50)" Null="NO" Default="add default" Comments="" />';
 
 		$k1 = '<key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)" />';
-		$k2 = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)" />';
-		$k3 = '<key Index="jos_dbtest_idx_title" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING btree (title)" />';
-		$k4 = '<key Index="jos_dbtest_uidx_name" is_primary="FALSE" is_unique="TRUE" Query="CREATE UNIQUE INDEX jos_dbtest_uidx_name ON jos_dbtest USING btree (name)" />';
-		$pk = '<key Index="jos_dbtest_title_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (title)" />';
+		$k2 = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_name ON' .
+			' jos_dbtest USING btree (name)" />';
+		$k3 = '<key Index="jos_dbtest_idx_title" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX ' .
+			'jos_dbtest_idx_title ON jos_dbtest USING btree (title)" />';
+		$k4 = '<key Index="jos_dbtest_uidx_name" is_primary="FALSE" is_unique="TRUE" Query="CREATE UNIQUE INDEX ' .
+			'jos_dbtest_uidx_name ON jos_dbtest USING btree (name)" />';
+		$pk = '<key Index="jos_dbtest_title_pkey" is_primary="TRUE" is_unique="TRUE" ' .
+			'Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (title)" />';
 
-		$s1 = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
-		$s2 = '<sequence Name="jos_dbtest_title_seq" Schema="public" Table="jos_dbtest" Column="title" Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
+		$s1 = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" ' .
+			'Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
+		$s2 = '<sequence Name="jos_dbtest_title_seq" Schema="public" Table="jos_dbtest" Column="title" Type="bigint" Start_Value="1" Min_Value="1" ' .
+			'Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
+
+		$addSequence = 'CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 ' .
+			'NO CYCLE OWNED BY "public.jos_dbtest.title"';
+		$changeCol = "ALTER TABLE \"jos_test\" ALTER COLUMN \"title\"  TYPE character " .
+			"varying(50),\nALTER COLUMN \"title\" SET NOT NULL,\nALTER COLUMN \"title\" SET DEFAULT 'add default'";
+		$changeSeq = "CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 " .
+			"START 1 NO CYCLE OWNED BY \"public.jos_dbtest.title\"";
 
 		return array(
 			array(
@@ -308,85 +307,92 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 				),
 				'getAlterTableSQL should not change anything.'
 			),
-			array( /* add col */
+			array(
+				// Add col
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $f3 . $k1 . $k2 . '</table_structure>'),
 				array(
 					'ALTER TABLE "jos_test" ADD COLUMN "alias" character varying(255) NOT NULL DEFAULT \'test\'',
 				),
 				'getAlterTableSQL should add the new alias column.'
 			),
-			array( /* add idx */
+			array(
+				// Add idx
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . $k2 . $k3 . '</table_structure>'),
-				array(
-					'CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING btree (title)',
-				),
+				array('CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING btree (title)',),
 				'getAlterTableSQL should add the new key.'
 			),
-			array( /* add unique idx */
+			array(
+				// Add unique idx
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . $k2 . $k4 . '</table_structure>'),
 				array(
 					'CREATE UNIQUE INDEX jos_dbtest_uidx_name ON jos_dbtest USING btree (name)',
 				),
 				'getAlterTableSQL should add the new unique key.'
 			),
-			array( /* add sequence */
+			array(
+				//add sequence
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				array(
-					'CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY "public.jos_dbtest.title"',
+					$addSequence,
 				),
 				'getAlterTableSQL should add the new sequence.'
 			),
-			array( /* add pkey */
+			array(
+				// Add pkey
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . $k2 . $pk . '</table_structure>'),
 				array(
 					'ALTER TABLE jos_dbtest ADD PRIMARY KEY (title)',
 				),
 				'getAlterTableSQL should add the new sequence.'
 			),
-			array( /* drop col */
+			array(
+				// Drop col
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $k1 . $k2 . '</table_structure>'),
 				array(
 					'ALTER TABLE "jos_test" DROP COLUMN "title"',
 				),
 				'getAlterTableSQL should remove the title column.'
 			),
-			array( /* drop idx */
+			array(
+				// Drop idx
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . '</table_structure>'),
 				array(
 					"DROP INDEX \"jos_dbtest_idx_name\""
 				),
 				'getAlterTableSQL should change sequence.'
 			),
-			array( /* drop seq */
+			array(
+				// Drop seq
 				new SimpleXmlElement('<table_structure name="#__test">' . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				array(
 					'DROP SEQUENCE "jos_dbtest_id_seq"',
 				),
 				'getAlterTableSQL should drop the sequence.'
 			),
-			array( /* drop pkey */
+			array(
+			// Drop pkey
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k2 . '</table_structure>'),
 				array(
 					'ALTER TABLE ONLY "jos_test" DROP CONSTRAINT "jos_dbtest_pkey"',
 				),
 				'getAlterTableSQL should drop the old primary key.'
 			),
-			array( /* change col */
+			array(
+				// Change col
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2_def . $k1 . $k2 . '</table_structure>'),
-				array(
-					"ALTER TABLE \"jos_test\" ALTER COLUMN \"title\"  TYPE character varying(50),\nALTER COLUMN \"title\" SET NOT NULL,\nALTER COLUMN \"title\" SET DEFAULT 'add default'",
-				),
+				array($changeCol,),
 				'getAlterTableSQL should change title field.'
 			),
-			array( /* change seq */
+			array(
+				// Change seq
 				new SimpleXmlElement('<table_structure name="#__test">' . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				array(
-					"CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY \"public.jos_dbtest.title\"",
-					"DROP SEQUENCE \"jos_dbtest_id_seq\"",
-				),
+					$changeSeq,
+					"DROP SEQUENCE \"jos_dbtest_id_seq\"",),
 				'getAlterTableSQL should change sequence.'
 			),
-			array( /* change idx */
+			array(
+				// Change idx
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $k1 . $k3 . '</table_structure>'),
 				array(
 					"CREATE INDEX jos_dbtest_idx_title ON jos_dbtest USING btree (title)",
@@ -394,7 +400,8 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 				),
 				'getAlterTableSQL should change index.'
 			),
-			array( /* change pkey */
+			array(
+				// Change pkey
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $f1 . $f2 . $pk . $k2 . '</table_structure>'),
 				array(
 					'ALTER TABLE jos_dbtest ADD PRIMARY KEY (title)',
@@ -402,7 +409,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 				),
 				'getAlterTableSQL should change primary key.'
 			),
-			);
+		);
 	}
 
 	/**
@@ -414,31 +421,37 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function dataGetColumnSQL()
 	{
+		$sample = array(
+			'xml-id-field' => '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
+			'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
+			'xml-title-def' => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
+			'xml-body-field' => '<field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',);
+
 		return array(
 			array(
 				new SimpleXmlElement(
-					$this->sample['xml-id-field']
+					$sample['xml-id-field']
 				),
 				'"id" serial',
 				'Typical primary key field',
 			),
 			array(
 				new SimpleXmlElement(
-					$this->sample['xml-title-field']
+					$sample['xml-title-field']
 				),
 				'"title" character varying(50) NOT NULL',
 				'Typical text field',
 			),
 			array(
 				new SimpleXmlElement(
-					$this->sample['xml-body-field']
+					$sample['xml-body-field']
 				),
 				'"description" text NOT NULL',
 				'Typical blob field',
 			),
 			array(
 				new SimpleXmlElement(
-					$this->sample['xml-title-def']
+					$sample['xml-title-def']
 				),
 				'"title" character varying(50) NOT NULL DEFAULT \'this is a test\'',
 				'Typical text field with default value',
@@ -473,7 +486,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the check method.
+	 * Tests the check method
 	 *
 	 * @return void
 	 *
@@ -594,7 +607,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getAddColumnSQL method.
 	 *
-	 * Note that combinations of fields is tested in testGetColumnSQL.
+	 * Note that combinations of fields are tested in testGetColumnSQL.
 	 *
 	 * @return  void
 	 *
@@ -605,10 +618,15 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
+		$sample = array(
+			'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
+			'xml-title-def' => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
+			'xml-int-defnum' => '<field Field="title" Type="integer" Null="NO" Default="0" Comments="" />',);
+
 		$this->assertThat(
 			$instance->getAddColumnSQL(
 				'jos_test',
-				new SimpleXmlElement($this->sample['xml-title-field'])
+				new SimpleXmlElement($sample['xml-title-field'])
 			),
 			$this->equalTo(
 				'ALTER TABLE "jos_test" ADD COLUMN "title" character varying(50) NOT NULL'
@@ -616,11 +634,11 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			'testGetAddColumnSQL did not yield the expected result.'
 		);
 
-		/* test a field with a default value */
+		// Test a field with a default value
 		$this->assertThat(
 			$instance->getAddColumnSQL(
 				'jos_test',
-				new SimpleXmlElement($this->sample['xml-title-def'])
+				new SimpleXmlElement($sample['xml-title-def'])
 			),
 			$this->equalTo(
 				'ALTER TABLE "jos_test" ADD COLUMN "title" character varying(50) NOT NULL DEFAULT \'this is a test\''
@@ -628,11 +646,11 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 			'testGetAddColumnSQL did not yield the expected result.'
 		);
 
-		/* test a field with a numeric default value */
+		// Test a field with a numeric default value
 		$this->assertThat(
 			$instance->getAddColumnSQL(
 				'jos_test',
-				new SimpleXmlElement($this->sample['xml-int-defnum'])
+				new SimpleXmlElement($sample['xml-int-defnum'])
 			),
 			$this->equalTo(
 				'ALTER TABLE "jos_test" ADD COLUMN "title" integer NOT NULL DEFAULT 0'
@@ -653,9 +671,12 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
+		$xmlIdSeq = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" ' .
+			'Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" /> ';
+
 		$this->assertThat(
 			$instance->getAddSequenceSQL(
-				new SimpleXmlElement($this->sample['xml-id-seq'])
+				new SimpleXmlElement($xmlIdSeq)
 			),
 			$this->equalTo(
 				'CREATE SEQUENCE jos_dbtest_id_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY "public.jos_dbtest.id"'
@@ -673,12 +694,17 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddIndexSQL()
 	{
+		$xmlIndex = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" ' .
+			'Query="CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)" />';
+		$xmlPrimaryKey = '<key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" ' .
+			'Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)" />';
+
 		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
 			$instance->getAddIndexSQL(
-					new SimpleXmlElement($this->sample['xml-index'])
+					new SimpleXmlElement($xmlIndex)
 			),
 			$this->equalTo(
 				"CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)"
@@ -688,7 +714,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$instance->getAddIndexSQL(
-					new SimpleXmlElement($this->sample['xml-primary-key'])
+					new SimpleXmlElement($xmlPrimaryKey)
 			),
 			$this->equalTo(
 				"ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)"
@@ -729,7 +755,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getChangeColumnSQL method.
 	 *
-	 * Note that combinations of fields is tested in testGetColumnSQL.
+	 * Note that combinations of fields is tested in testGetColumnSQL
 	 *
 	 * @return  void
 	 *
@@ -737,13 +763,15 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetChangeColumnSQL()
 	{
+		$xmlTitleField = '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />';
+
 		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
 			$instance->getChangeColumnSQL(
 				'jos_test',
-				new SimpleXmlElement($this->sample['xml-title-field'])
+				new SimpleXmlElement($xmlTitleField)
 			),
 			$this->equalTo(
 				'ALTER TABLE "jos_test" ALTER COLUMN "title"  TYPE character varying(50),' . "\n" .
@@ -763,12 +791,15 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetChangeSequenceSQL()
 	{
+		$xmlIdSeq = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" ' .
+			'Type="bigint" Start_Value="1" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" /> ';
+
 		$instance = new JDatabaseImporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
 			$instance->getChangeSequenceSQL(
-				new SimpleXmlElement($this->sample['xml-id-seq'])
+				new SimpleXmlElement($xmlIdSeq)
 			),
 			$this->equalTo(
 				'ALTER SEQUENCE jos_dbtest_id_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 OWNED BY "public.jos_dbtest.id"'

@@ -193,7 +193,8 @@ class JGithubMilestonesTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->edit('joomla', 'joomla-platform', 523, 'This is the revised title.', 'closed', 'This describes it perfectly.', '2012-12-25T20:09:31Z'),
+			$this->object->edit('joomla', 'joomla-platform', 523, 'This is the revised title.', 'closed', 'This describes it perfectly.',
+				'2012-12-25T20:09:31Z'),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}

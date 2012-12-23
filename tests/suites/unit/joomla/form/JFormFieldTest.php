@@ -191,9 +191,12 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
+		$equals = '<label id="title_id-lbl" for="title_id" class="hasTip required" ' .
+			'title="Title::The title.">Title<span class="star">&#160;*</span></label>';
+
 		$this->assertThat(
 			$field->getLabel(),
-			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
+			$this->equalTo($equals),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
@@ -406,9 +409,12 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
+		$equals = '<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">' .
+			'Title<span class="star">&#160;*</span></label>';
+
 		$this->assertThat(
 			$field->label,
-			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
+			$this->equalTo($equals),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
