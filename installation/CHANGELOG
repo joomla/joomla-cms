@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 24-Dec-2012 Jean-Marie Simonet
  $ Adding Missing strings #29852 and +
+ $ Adding missing front-end strings
 
 21-Dec-2012 Jean-Marie Simonet
  # [#29827] Semantic & Accessibility fixes frontend. Thanks Angie
