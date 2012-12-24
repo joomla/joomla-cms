@@ -129,7 +129,7 @@ else
 	<![endif]-->
 </head>
 
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?> <?php if ($this->params->get('fluidContainer')) { echo "fluid"; } ?>">
+<body class="site <?php echo $option . " view-" . $view . ($itemid ? " itemid-" . $itemid : "") . ($layout ? " layout-" . $layout : " no-layout" ) . ($task ? " task-" . $task : " no-task" ); ?> <?php if ($this->params->get('fluidContainer')) { echo "fluid"; } ?>">
 	<!-- Body -->
 	<div class="body">
 		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
