@@ -177,6 +177,8 @@ class JLanguage
 		{
 			if (is_array($contents))
 			{
+				// Sort the underlying heap by key values to optimize merging
+				ksort($contents, SORT_STRING);
 				$this->override = $contents;
 			}
 			unset($contents);
@@ -769,11 +771,14 @@ class JLanguage
 		{
 			if (is_array($strings))
 			{
+				// Sort the underlying heap by key values to optimize merging
+				ksort($strings, SORT_STRING);
 				$this->strings = array_merge($this->strings, $strings);
 			}
 
 			if (is_array($strings) && count($strings))
 			{
+				// Do not bother with ksort here.  Since the originals were sorted, PHP will already have chosen the best heap.
 				$this->strings = array_merge($this->strings, $this->override);
 				$result = true;
 			}
