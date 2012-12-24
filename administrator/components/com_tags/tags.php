@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_categories
+ * @subpackage  com_tags
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -15,8 +15,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_tags'))
 {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
-
-//JLoader::register('JHtmlTagsAdministrator', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categoriesadministrator.php');
 
 $task = $input->get('task');
 

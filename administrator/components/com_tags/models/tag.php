@@ -181,7 +181,7 @@ class TagsModelTag extends JModelAdmin
 		}
 
 		$user = JFactory::getUser();
-		if (!$user->authorise('core.edit.state', $extension . '.category.' . $jinput->get('id')))
+		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -256,7 +256,7 @@ class TagsModelTag extends JModelAdmin
 		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
 
-		// Load the row if saving an existing category.
+		// Load the row if saving an existing tag.
 		if ($pk > 0)
 		{
 			$table->load($pk);
@@ -340,17 +340,18 @@ class TagsModelTag extends JModelAdmin
 		// Trigger the onContentAfterSave event.
 		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
 
-		// Rebuild the path for the category:
+		// Rebuild the path for the tag:
 		if (!$table->rebuildPath($table->id))
 		{
 			$this->setError($table->getError());
 			return false;
 		}
 
-		// Rebuild the paths of the category's children:
+		// Rebuild the paths of the tag's children:
 		if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -360,33 +361,6 @@ class TagsModelTag extends JModelAdmin
 		$this->cleanCache();
 
 		return true;
-	}
-
-	/**
-	 * Method to change the published state of one or more records.
-	 *
-	 * @param   array    &$pks    A list of the primary keys to change.
-	 * @param   integer  $value   The value of the published state.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function publish(&$pks, $value = 1)
-	{
-		if (parent::publish($pks, $value))
-		{
-			$dispatcher	= JEventDispatcher::getInstance();
-			$extension	= JFactory::getApplication()->input->get('extension');
-
-			// Include the content plugins for the change of category state event.
-			JPluginHelper::importPlugin('content');
-
-			// Trigger the onCategoryChangeState event.
-			$dispatcher->trigger('onCategoryChangeState', array($extension, $pks, $value));
-
-			return true;
-		}
 	}
 
 	/**
@@ -443,9 +417,9 @@ class TagsModelTag extends JModelAdmin
 	}
 
 	/**
-	 * Batch copy categories to a new category.
+	 * Batch copy tags to a new tag.
 	 *
-	 * @param   integer  $value     The new category.
+	 * @param   integer  $value     The new tag.
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
@@ -482,14 +456,6 @@ class TagsModelTag extends JModelAdmin
 					$this->setError(JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
-			}
-			// Check that user has create permission for parent category
-			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : $user->authorise('core.create', $extension . '.category.' . $parentId);
-			if (!$canCreate)
-			{
-				// Error since user cannot create in parent category
-				$this->setError(JText::_('COM_TAGS_BATCH_CANNOT_CREATE'));
-				return false;
 			}
 		}
 
@@ -634,9 +600,9 @@ class TagsModelTag extends JModelAdmin
 	}
 
 	/**
-	 * Batch move categories to a new category.
+	 * Batch move tags to a new tag.
 	 *
-	 * @param   integer  $value     The new category ID.
+	 * @param   integer  $value     The new tag ID.
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
@@ -673,26 +639,7 @@ class TagsModelTag extends JModelAdmin
 					$parentId = 0;
 				}
 			}
-			// Check that user has create permission for parent category
-			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : $user->authorise('core.create', $extension . '.category.' . $parentId);
-			if (!$canCreate)
-			{
-				// Error since user cannot create in parent category
-				$this->setError(JText::_('COM_TAGS_BATCH_CANNOT_CREATE'));
-				return false;
-			}
 
-			// Check that user has edit permission for every category being moved
-			// Note that the entire batch operation fails if any category lacks edit permission
-			foreach ($pks as $pk)
-			{
-				if (!$user->authorise('core.edit', $extension . '.category.' . $pk))
-				{
-					// Error since user cannot edit this category
-					$this->setError(JText::_('COM_TAGS_BATCH_CANNOT_EDIT'));
-					return false;
-				}
-			}
 		}
 
 		// We are going to store all the children and just move the tag
