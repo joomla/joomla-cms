@@ -122,21 +122,8 @@ class ContentModelForm extends ContentModelArticle
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
 
-			$query = $this->_db->getQuery(true);
-
-			// Load the tags.
-			$query->clear();
-			$query->select($this->_db->quoteName('t.id') );
-
-			$query->from($this->_db->quoteName('#__tags') . ' AS t');
-			$query->join('INNER', $this->_db->quoteName('#__contentitem_tag_map') . ' AS m ' .
-				' ON ' . $this->_db->quoteName('m.tag_id') . ' = ' .  $this->_db->quoteName('t.id'));
-			$query->where($this->_db->quoteName('m.item_name') . ' = ' . $this->_db->quote('com_content.article.' . $value->id));
-			$this->_db->setQuery($query);
-
-			// Add the tags to the content data.
-			$tagsList = $this->_db->loadColumn();
-			$value->tags = implode(',', $tagsList);
+		require_once JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php';
+		$value->tags = TagsHelper::getTagIds($value->id, 'com_content.article');
 
 		return $value;
 	}

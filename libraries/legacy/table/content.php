@@ -19,14 +19,6 @@ defined('JPATH_PLATFORM') or die;
 class JTableContent extends JTable
 {
 	/**
-	 * Associative array of tag ids => tag ids for the item
-	 *
-	 * @var    array
-	 * @since  12.3
-	 */
-	public $tags = array();
-
-	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
