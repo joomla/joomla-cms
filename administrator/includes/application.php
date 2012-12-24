@@ -278,10 +278,22 @@ class JAdministrator extends JApplication
 				$template->template = 'isis';
 			}
 		}
+
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
+			$error = JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template);
+			// Load the catch-all error page
+			if (!file_exists(JPATH_ADMINISTRATOR . '/includes/error.php')) {
+				throw new InvalidArgumentException($error);
+			}
+			else {
+				require(JPATH_ADMINISTRATOR . '/includes/error.php');
+				JFactory::getApplication()->close();
+			}
+		}
+
 		if ($params) {
 			return $template;
 		}
-
 		return $template->template;
 	}
 
