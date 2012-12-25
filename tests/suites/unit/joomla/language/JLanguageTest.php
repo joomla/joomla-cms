@@ -1156,13 +1156,16 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			$this->inspector->getMetadata('es-ES')
 		);
 
+		$localeString = 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, ' .
+			'uk, united kingdom, united-kingdom';
+
 		// In this case, returns array with default language
 		// - same operation of get method with metadata property
 		$options = array(
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
 			'rtl' => '0',
-			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+			'locale' => $localeString,
 			'firstDay' => '0'
 		);
 
@@ -1185,11 +1188,14 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		// This method returns a list of known languages
 		$basePath = __DIR__ . '/data';
 
+		$localeString = 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
+			' uk, united kingdom, united-kingdom';
+
 		$option1 = array(
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
 			'rtl' => '0',
-			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+			'locale' => $localeString,
 			'firstDay' => '0'
 		);
 		$listCompareEqual1 = array(
@@ -1305,7 +1311,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
 			'rtl' => '0',
-			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england,' .
+				' great britain, uk, united kingdom, united-kingdom',
 			'firstDay' => '0'
 		);
 		$expected = array(
@@ -1334,7 +1341,8 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
 			'rtl' => '0',
-			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom',
+			'locale' => 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
+				' uk, united kingdom, united-kingdom',
 			'firstDay' => '0'
 		);
 		$path = __DIR__ . '/data/language/en-GB/en-GB.xml';

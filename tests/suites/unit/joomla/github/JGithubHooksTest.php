@@ -237,7 +237,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->edit('joomla', 'joomla-platform', 42, 'acunote', array('token' => '123456789'), array('push', 'public'), array('watch'), array('watch')),
+			$this->object->edit('joomla', 'joomla-platform', 42, 'acunote', array('token' => '123456789'),
+				array('push', 'public'), array('watch'), array('watch')
+			),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -272,7 +274,9 @@ class JGithubHooksTest extends PHPUnit_Framework_TestCase
 
 		try
 		{
-			$this->object->edit('joomla', 'joomla-platform', 42, 'acunote', array('token' => '123456789'), array('push', 'public'), array('watch'), array('watch'));
+			$this->object->edit('joomla', 'joomla-platform', 42, 'acunote', array('token' => '123456789'),
+				array('push', 'public'), array('watch'), array('watch')
+			);
 		}
 		catch (DomainException $e)
 		{

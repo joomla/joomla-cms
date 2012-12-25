@@ -54,8 +54,11 @@ class JFormFieldUsergroupTest extends TestCaseDatabase
 	{
 		$form = new JFormInspector('form1');
 
+		$expected = '<form><field name="usergroup" type="usergroup" class="inputbox" disabled="true" onclick="window.reload()">' .
+			'<option value="*">None</option><item value="fake">Fake</item></field></form>';
+
 		$this->assertThat(
-			$form->load('<form><field name="usergroup" type="usergroup" class="inputbox" disabled="true" onclick="window.reload()"><option value="*">None</option><item value="fake">Fake</item></field></form>'),
+			$form->load($expected),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);

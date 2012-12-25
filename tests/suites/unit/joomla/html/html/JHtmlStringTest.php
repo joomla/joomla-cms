@@ -376,10 +376,12 @@ class JHtmlStringTest extends PHPUnit_Framework_TestCase
 			),
 			// From issue tracker, was creating infinite loop
 			'Complex test from issue tracker' => array(
-				'<p class="mod-articles-category-introtext"><em>Bestas Review Magazine</em> featured <a href="http://viewer.zmags.com/publication/a1b0fbb9#/a1b0fbb9/28">something</a> else</p>',
+				'<p class="mod-articles-category-introtext"><em>Bestas Review Magazine</em>' .
+				' featured <a href="http://viewer.zmags.com/publication/a1b0fbb9#/a1b0fbb9/28">something</a> else</p>',
 				60,
 				false,
-				'<p class="mod-articles-category-introtext"><em>Bestas Review Magazine</em> featured <a href="http://viewer.zmags.com/publication/a1b0fbb9#/a1b0fbb9/28">something</a> else</p>'
+				'<p class="mod-articles-category-introtext"><em>Bestas Review Magazine</em> ' .
+				'featured <a href="http://viewer.zmags.com/publication/a1b0fbb9#/a1b0fbb9/28">something</a> else</p>'
 			),
 		);
 	}

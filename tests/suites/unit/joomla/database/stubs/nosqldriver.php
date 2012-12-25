@@ -399,7 +399,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
-	 * @param   boolean  $toSavepoint  Savepoint name.
+	 * @param   boolean  $toSavepoint  If true roll back to savepoint
 	 *
 	 * @return  void
 	 *
@@ -413,7 +413,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	/**
 	 * Method to roll back a transaction.
 	 *
-	 * @param   boolean  $toSavepoint  Savepoint name.
+	 * @param   boolean  $toSavepoint  If true roll back to savepoint
 	 *
 	 * @return  void
 	 *
@@ -427,11 +427,12 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	/**
 	 * Method to initialize a transaction.
 	 *
-	 * @param   boolean  $asSavepoint  Savepoint name.
+	 * @param   boolean  $asSavepoint  If true start as savepoint
 	 *
 	 * @return  void
 	 *
 	 * @since   11.4
+	 * @throws  RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)
 	{

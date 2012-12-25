@@ -52,8 +52,11 @@ class JFormFieldSQLTest extends TestCaseDatabase
 	{
 		$form = new JFormInspector('form1');
 
+		$expected = '<form><field name="sql" type="sql" key_field="id" query="SELECT * FROM `jos_categories`">' .
+			'<option value="*">None</option></field></form>';
+
 		$this->assertThat(
-			$form->load('<form><field name="sql" type="sql" key_field="id" query="SELECT * FROM `jos_categories`"><option value="*">None</option></field></form>'),
+			$form->load($expected),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);

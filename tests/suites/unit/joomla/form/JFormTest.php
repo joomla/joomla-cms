@@ -1098,7 +1098,8 @@ class JFormTest extends TestCase
 			$this->equalTo(
 				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY"/>'
 			),
-			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
+			'Line:' . __LINE__ .
+			' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
 		);
 
 		$lang = JFactory::getLanguage();
@@ -1137,9 +1138,12 @@ class JFormTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
+		$expected = '<label id="title_id-lbl" for="title_id" class="hasTip required" ' .
+				'title="Title::The title.">Title<span class="star">&#160;*</span></label>';
+
 		$this->assertThat(
 			$form->getLabel('title'),
-			$this->equalTo('<label id="title_id-lbl" for="title_id" class="hasTip required" title="Title::The title.">Title<span class="star">&#160;*</span></label>'),
+			$this->equalTo($expected),
 			'Line:' . __LINE__ . ' The method should return a simple label field.'
 		);
 	}
