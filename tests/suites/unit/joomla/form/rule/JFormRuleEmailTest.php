@@ -103,8 +103,8 @@ class JFormRuleEmailTest extends TestCase
 	/**
 	 * Test the email rule
 	 *
-	 * @param   string    $emailAddress    Email to be tested
-	 * @param   boolean   $expectedResult  Result of test
+	 * @param   string   $emailAddress    Email to be tested
+	 * @param   boolean  $expectedResult  Result of test
 	 *
 	 * @dataProvider emailData1
 	 *
@@ -141,8 +141,8 @@ class JFormRuleEmailTest extends TestCase
 	/**
 	 * Test the email rule with the multiple attribute
 	 *
-	 * @param   string    $emailAddress    Email to be tested
-	 * @param   boolean   $expectedResult  Result of test
+	 * @param   string   $emailAddress    Email to be tested
+	 * @param   boolean  $expectedResult  Result of test
 	 *
 	 * @dataProvider emailData2
 	 *
@@ -181,8 +181,8 @@ class JFormRuleEmailTest extends TestCase
 	/**
 	 * Test the email rule with the tld attribute
 	 *
-	 * @param   string    $emailAddress    Email to be tested
-	 * @param   boolean   $expectedResult  Result of test
+	 * @param   string   $emailAddress    Email to be tested
+	 * @param   boolean  $expectedResult  Result of test
 	 *
 	 * @dataProvider emailData3
 	 *

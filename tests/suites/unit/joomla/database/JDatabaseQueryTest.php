@@ -60,7 +60,7 @@ class JDatabaseQueryTest extends TestCase
 	public function seedQuoteTest()
 	{
 		return array(
-			// text, escaped, expected
+			// Text, escaped, expected
 			array('text', false, "'text'"),
 			array('text', true, "'_text_'"),
 			array(array('text1', 'text2'), false, array("'text1'", "'text2'")),
@@ -133,8 +133,10 @@ class JDatabaseQueryTest extends TestCase
 
 		$this->assertThat(
 			(string) $this->_instance,
-			$this->equalTo(PHP_EOL . "SELECT col" . PHP_EOL .
-				"FROM ( " . PHP_EOL . "SELECT col2" . PHP_EOL . "FROM table" . PHP_EOL . "WHERE a=1 ) AS `alias`")
+			$this->equalTo(
+				PHP_EOL . "SELECT col" . PHP_EOL .
+				"FROM ( " . PHP_EOL . "SELECT col2" . PHP_EOL . "FROM table" . PHP_EOL . "WHERE a=1 ) AS `alias`"
+			)
 		);
 	}
 
@@ -1805,7 +1807,7 @@ class JDatabaseQueryTest extends TestCase
 
 		$result = $this->_instance->format('SELECT %n FROM %n WHERE %n = %t OR %3$n = %Z', 'id', '#__foo', 'date');
 		$expected = 'SELECT ' . $this->_instance->qn('id') . ' FROM ' . $this->_instance->qn('#__foo') .
-			' WHERE ' .$this->_instance->qn('date') . ' = ' . $this->_instance->currentTimestamp() .
+			' WHERE ' . $this->_instance->qn('date') . ' = ' . $this->_instance->currentTimestamp() .
 			' OR ' . $this->_instance->qn('date') . ' = ' . $this->_instance->nullDate(true);
 		$this->assertThat(
 			$result,
