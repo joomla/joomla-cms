@@ -208,7 +208,7 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		if ($return) {
-			$append .= '&return='.base64_encode($return);
+			$append .= '&return='.base64_encode(urlencode($return));
 		}
 
 		return $append;
@@ -226,11 +226,11 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$return = $this->input->get('return', null, 'base64');
 
-		if (empty($return) || !JUri::isInternal(base64_decode($return))) {
+		if (empty($return) || !JUri::isInternal(urldecode(base64_decode($return)))) {
 			return JURI::base();
 		}
 		else {
-			return base64_decode($return);
+			return urldecode(base64_decode($return));
 		}
 	}
 
