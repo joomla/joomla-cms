@@ -330,7 +330,7 @@ class JDatabaseImporterPostgresqlTest extends PHPUnit_Framework_TestCase
 				'getAlterTableSQL should add the new unique key.'
 			),
 			array(
-				//add sequence
+				// Add sequence
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				array(
 					$addSequence,

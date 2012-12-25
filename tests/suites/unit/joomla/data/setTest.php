@@ -469,7 +469,7 @@ class JDataSetTest extends TestCase
 
 		foreach ($this->_instance as $key => $object)
 		{
-			$runs += 1;
+			$runs++;
 		}
 
 		$this->assertEquals(1, $runs);
@@ -484,7 +484,7 @@ class JDataSetTest extends TestCase
 
 		foreach ($this->_instance as $k => $v)
 		{
-			$runs += 1;
+			$runs++;
 
 			if ($k != 3)
 			{
