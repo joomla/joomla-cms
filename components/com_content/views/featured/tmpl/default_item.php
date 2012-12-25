@@ -227,7 +227,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
 		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
 		$link = new JURI($link1);
-		$link->setVar('return', base64_encode($returnURL));
+		$link->setVar('return', base64_encode(urlencode($returnURL)));
 	endif;
 	?>
 	<p class="readmore"><a class="btn" href="<?php echo $link; ?>"> <span class="icon-chevron-right"></span>
