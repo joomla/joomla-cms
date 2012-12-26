@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Dec-2012 Jean-Marie Simonet
+ # [#29210] Help page restricted to small window at top of screen. Thanks Chris.
+
 25-Dec-2012 Jean-Marie Simonet
  # [#29833] *Beez3 does not display Print, Mail, Edit, New icons Thanks Michael
  # [#29834] *Beez3 edit article wrong display
