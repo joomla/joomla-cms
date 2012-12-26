@@ -237,6 +237,8 @@ class plgFinderCategories extends FinderIndexerAdapter
 			return;
 		}
 
+		$item->setLanguage();
+
 		// Need to import component route helpers dynamically, hence the reason it's handled here
 		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
 		if (is_file($path))

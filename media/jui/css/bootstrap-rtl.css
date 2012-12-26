@@ -421,3 +421,6 @@ body {
 	border-left-color: transparent;
 	border-right-color: #CCC;
 }
+.badge {
+	margin-left: 10px;
+}

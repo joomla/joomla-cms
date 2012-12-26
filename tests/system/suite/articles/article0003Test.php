@@ -416,8 +416,8 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->jPrint ("Check initial conditions for list\n");
-		$this->assertStringEndsWith("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/strong/a"));
-		$this->assertStringEndsWith("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/strong/a"));
+		$this->assertStringEndsWith("Beginners", $this->getText("//tbody/tr[1]/td/a"));
+		$this->assertStringEndsWith("Getting Help", $this->getText("//tbody/tr[2]/td/a"));
 
 		$this->jPrint ("Unpublish Joomla! category\n");
 		$this->gotoAdmin();
@@ -459,17 +459,17 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertStringEndsWith("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/strong/a"));
-		$this->assertStringEndsWith("Getting Started", $this->getText("//ul[contains(@class, 'category')]/li[2]/strong/a"));
+		$this->assertStringEndsWith("Beginners", $this->getText("//tbody/tr[1]/td/a"));
+		$this->assertStringEndsWith("Getting Started", $this->getText("//tbody/tr[2]/td/a"));
 
 		$this->jPrint ("Log into site and check that Getting Help shows as Unpublished\n");
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertStringEndsWith("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/strong/a"));
-		$this->assertStringEndsWith("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/strong/a"));
-		$this->assertTrue($this->isElementPresent("//div[@class='category-list']//a[contains(text(), 'Getting Help')]/../../../li[contains(@class, 'system-unpublished')]"));
+		$this->assertStringEndsWith("Beginners", $this->getText("//tbody/tr[1]/td/a"));
+		$this->assertStringEndsWith("Getting Help", $this->getText("//tbody/tr[2]/td/a"));
+		$this->assertTrue($this->isElementPresent("//div[@class='category-list']//a[contains(text(), 'Getting Help')]/../span[contains(text(), 'Unpublished')]"));
 
 		$this->jPrint ("Change Getting Help state to Archived\n");
 		$this->gotoAdmin();
@@ -482,8 +482,8 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->doFrontEndLogin();
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
-		$this->assertStringEndsWith("Beginners", $this->getText("//ul[contains(@class, 'category')]/li[1]/strong/a"));
-		$this->assertStringEndsWith("Getting Help", $this->getText("//ul[contains(@class, 'category')]/li[2]/strong/a"));
+		$this->assertStringEndsWith("Beginners", $this->getText("//tbody/tr[1]/td/a"));
+		$this->assertStringEndsWith("Getting Help", $this->getText("//tbody/tr[2]/td/a"));
 
 		$this->jPrint ("Log out of Front End\n");
 		$this->gotoSite();

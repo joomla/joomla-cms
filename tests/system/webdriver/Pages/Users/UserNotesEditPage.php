@@ -65,7 +65,8 @@ class UserNotesEditPage extends AdminEditPage
 		$this->driver->findElement(By::xPath($linkXpath))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($frameXpath));
 		$el = $this->driver->findElement(By::xPath($frameXpath));
-		$el = $this->driver->switchTo()->getFrameByWebElement($el)->findElement(By::id('filter_search'));
+		$el = $this->driver->switchTo()->getFrameByWebElement($el);
+		$el = $this->driver->waitForElementUntilIsPresent(By::id('filter_search'));
 		$el->clear();
 		$el->sendKeys($userName);
 		$this->driver->findElement(By::xPath("//button[@title='Search']"))->click();

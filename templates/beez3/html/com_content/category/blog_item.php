@@ -35,17 +35,17 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 	<ul class="actions">
 		<?php if ($params->get('show_print_icon')) : ?>
 		<li class="print-icon">
-			<?php echo JHtml::_('icon.print_popup', $this->item, $params); ?>
+			<?php echo JHtml::_('icon.print_popup', $this->item, $params, array(), true); ?>
 		</li>
 		<?php endif; ?>
 		<?php if ($params->get('show_email_icon')) : ?>
 		<li class="email-icon">
-			<?php echo JHtml::_('icon.email', $this->item, $params); ?>
+			<?php echo JHtml::_('icon.email', $this->item, $params, array(), true); ?>
 		</li>
 		<?php endif; ?>
 		<?php if ($canEdit) : ?>
 		<li class="edit-icon">
-			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
+			<?php echo JHtml::_('icon.edit', $this->item, $params, array(), true); ?>
 		</li>
 		<?php endif; ?>
 	</ul>

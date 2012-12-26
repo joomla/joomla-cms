@@ -76,18 +76,18 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->jPrint ("Test Article Category List\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list';
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Professionals')]"));
+		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
 		$this->jPrint ("Change Professionals to different category and check that it is no longer shown\n");
 		$this->gotoAdmin();
 		$this->changeCategory('Professionals', 'Article Manager', 'Uncategorised');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertFalse($this->isElementPresent("//strong[@class='list-title'][contains(.,'Professionals')]"));
+		$this->assertFalse($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
 		$this->jPrint ("Change Professionals back to Joomla! and make sure it is shown\n");
 		$this->changeCategory('Professionals', 'Article Manager', 'Joomla!');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Professionals')]"));
+		$this->assertTrue($this->isElementPresent("//td[@class='list-title'][contains(.,'Professionals')]"));
 
 		$this->jPrint ("Test Article Featured\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/featured-articles';
