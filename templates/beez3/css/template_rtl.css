@@ -497,3 +497,8 @@ ul.menu li ul li ul li ul li ul {
 	margin-right: 10px;
 	margin-bottom: 10px;
 }
+
+/* ++++++ Bootstrap markup ++++++++++++++ */
+.pull-left {
+	float: right;
+}
