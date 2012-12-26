@@ -30,6 +30,8 @@ $ -> Language fix or change
  # [#29210] Help page restricted to small window at top of screen. Thanks Chris.
  # [#29849] *RTL: Wrong display of Subcategories titles in Content Category List menu item
  # [#29860] *Wrong display of Search and Clear buttons in Insert Article modal + RTL
+ # [#29838] the registration-mail does not contain username and password if activation is set to "none". Even if "send password" is set to yes. Thanks Yannick Spang
+
 
 
 25-Dec-2012 Jean-Marie Simonet
