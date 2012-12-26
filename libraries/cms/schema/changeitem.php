@@ -1,8 +1,6 @@
 <?php
 /**
- * Abstract class for database schema change
- *
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Each object represents one query, which is one line from a DDS SQL query.
+ * Each object represents one query, which is one line from a DDL SQL query.
  * This class is used to check the site's database to see if the DDL query has been run.
  * If not, it provides the ability to fix the database by re-running the DDL query.
  * The queries are parsed from the update files in the folder
@@ -25,45 +23,50 @@ defined('JPATH_PLATFORM') or die;
  * This is an abstract class. We need to extend it for each database and add a
  * buildCheckQuery() method that creates the query to check that a DDL query has been run.
  *
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  * @since       2.5
  */
-abstract class JSchemaChangeitem extends JObject
+abstract class JSchemaChangeitem
 {
 	/**
-	* Update file: full path file name where query was found
-	*
-	* @var    string
-	*/
+	 * Update file: full path file name where query was found
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
 	public $file = null;
 
 	/**
 	 * Update query: query used to change the db schema (one line from the file)
 	 *
 	 * @var    string
+	 * @since  2.5
 	 */
 	public $updateQuery = null;
 
 	/**
-	* Check query: query used to check the db schema
-	*
-	* @var    string
-	*/
+	 * Check query: query used to check the db schema
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
 	public $checkQuery = null;
 
 	/**
-	* Check query result: expected result of check query if database is up to date
-	*
-	* @var    string
-	*/
+	 * Check query result: expected result of check query if database is up to date
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
 	public $checkQueryExpected = 1;
 
 	/**
-	* JDatabaseDriver object
-	*
-	* @var    JDatabaseDriver
-	*/
+	 * JDatabaseDriver object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  2.5
+	 */
 	public $db = null;
 
 	/**
@@ -71,36 +74,39 @@ abstract class JSchemaChangeitem extends JObject
 	 * message to tell user what was checked / changed
 	 * Possible values: ADD_TABLE, ADD_COLUMN, CHANGE_COLUMN_TYPE, ADD_INDEX
 	 *
-	 * @var   string
-	 *
+	 * @var    string
+	 * @since  2.5
 	 */
 	public $queryType = null;
 
 	/**
-	* Array with values for use in a JText::sprintf statment indicating what was checked
-	*
-	*   Tells you what the message should be, based on which elements are defined, as follows:
-	*     For ADD_TABLE: table
-	*     For ADD_COLUMN: table, column
-	*     For CHANGE_COLUMN_TYPE: table, column, type
-	*     For ADD_INDEX: table, index
-	*
-	* @var    array
-	*/
+	 * Array with values for use in a JText::sprintf statment indicating what was checked
+	 *
+	 * Tells you what the message should be, based on which elements are defined, as follows:
+	 *     For ADD_TABLE: table
+	 *     For ADD_COLUMN: table, column
+	 *     For CHANGE_COLUMN_TYPE: table, column, type
+	 *     For ADD_INDEX: table, index
+	 *
+	 * @var    array
+	 * @since  2.5
+	 */
 	public $msgElements = array();
 
 	/**
-	* Checked status
-	*
-	* @var    int   0=not checked, -1=skipped, -2=failed, 1=succeeded
-	*/
+	 * Checked status
+	 *
+	 * @var    integer   0=not checked, -1=skipped, -2=failed, 1=succeeded
+	 * @since  2.5
+	 */
 	public $checkStatus = 0;
 
 	/**
-	* Rerun status
-	*
-	* @var    int   0=not rerun, -1=skipped, -2=failed, 1=succeeded
-	*/
+	 * Rerun status
+	 *
+	 * @var    int   0=not rerun, -1=skipped, -2=failed, 1=succeeded
+	 * @since  2.5
+	 */
 	public $rerunStatus = 0;
 
 	/**
@@ -121,33 +127,60 @@ abstract class JSchemaChangeitem extends JObject
 	}
 
 	/**
-	 * Returns an instance of the correct schemachangeitem for the $db
+	 * Returns a reference to the JSchemaChangeitem object.
 	 *
 	 * @param   JDatabaseDriver  $db     Database connector object
 	 * @param   string           $file   Full path name of the sql file
 	 * @param   string           $query  Text of the sql query (one line of the file)
 	 *
-	 * @return  JSchemaChangeItem for the $db driver
+	 * @return  JSchemaChangeitem instance based on the database driver
 	 *
 	 * @since   2.5
+	 * @throws  RuntimeException if class for database driver not found
 	 */
 	public static function getInstance($db, $file, $query)
 	{
-		$instance = null;
+		// Get the class name
+		$dbname = $db->name;
 
-		// Get the class name (mysql and mysqli both use mysql)
-		$dbname = (substr($db->name, 0, 5) == 'mysql') ? 'mysql' : $db->name;
-		$path = dirname(__FILE__) . '/' . 'changeitem' . $dbname . '.php';
-		$class = 'JSchemaChangeitem' . $dbname;
-
-		// If the file exists register the class with our class loader.
-		if (file_exists($path))
+		if ($dbname == 'mysqli')
 		{
-			JLoader::register($class, $path);
-			$instance = new $class($db, $file, $query);
+			$dbname = 'mysql';
 		}
-		return $instance;
+		elseif ($dbname == 'sqlazure')
+		{
+			$dbname = 'sqlsrv';
+		}
+
+		$class = 'JSchemaChangeitem' . ucfirst($dbname);
+
+		// If the class exists, return it.
+		if (class_exists($class))
+		{
+			return new $class($db, $file, $query);
+		}
+
+		throw new RuntimeException(sprintf('JSchemaChangeitem child class not found for the %s database driver', $dbname), 500);
 	}
+
+	/**
+	 * Checks a DDL query to see if it is a known type
+	 * If yes, build a check query to see if the DDL has been run on the database.
+	 * If successful, the $msgElements, $queryType, $checkStatus and $checkQuery fields are populated.
+	 * The $msgElements contains the text to create the user message.
+	 * The $checkQuery contains the SQL query to check whether the schema change has
+	 * been run against the current database. The $queryType contains the type of
+	 * DDL query that was run (for example, CREATE_TABLE, ADD_COLUMN, CHANGE_COLUMN_TYPE, ADD_INDEX).
+	 * The $checkStatus field is set to zero if the query is created
+	 *
+	 * If not successful, $checkQuery is empty and , and $checkStatus is -1.
+	 * For example, this will happen if the current line is a non-DDL statement.
+	 *
+	 * @return void
+	 *
+	 * @since  2.5
+	 */
+	abstract protected function buildCheckQuery();
 
 	/**
 	 * Runs the check query and checks that 1 row is returned

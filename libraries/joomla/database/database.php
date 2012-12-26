@@ -93,7 +93,7 @@ abstract class JDatabase
 	/**
 	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
 	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
-	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
+	 * used for the connection -- the default is 'mysqli'.  The 'database' option determines which database is to
 	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
 	 * the chosen database.
 	 *

@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
+$input = JFactory::getApplication()->input;
+
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
@@ -24,15 +26,13 @@ JHtml::_('behavior.keepalive');
 		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
-		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
 
 <div class="category-edit">
 
-<form action="<?php echo JRoute::_('index.php?option=com_categories&extension='.JRequest::getCmd('extension', 'com_content').'&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_CATEGORIES_FIELDSET_DETAILS');?></legend>
@@ -67,6 +67,9 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
+
+				<li><?php echo $this->form->getLabel('hits'); ?>
+				<?php echo $this->form->getInput('hits'); ?></li>
 			</ul>
 
 			<div class="clr"></div>
@@ -79,7 +82,7 @@ JHtml::_('behavior.keepalive');
 
 	<div class="col options-section">
 
-		<?php echo JHtml::_('sliders.start', 'categories-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+		<?php echo JHtml::_('sliders.start', 'categories-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 			<?php echo $this->loadTemplate('options'); ?>
 			<div class="clr"></div>
 
@@ -88,6 +91,27 @@ JHtml::_('behavior.keepalive');
 				<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</fieldset>
+			<?php
+
+				$fieldSets = $this->form->getFieldsets('associations');
+
+				foreach ($fieldSets as $name => $fieldSet) :
+					$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_'.$name.'_FIELDSET_LABEL';
+					echo JHtml::_('sliders.panel', JText::_($label), $name.'-options');
+						if (isset($fieldSet->description) && trim($fieldSet->description)) :
+							echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+						endif;
+						?>
+					<div class="clr"></div>
+					<fieldset class="panelform">
+						<ul class="adminformlist">
+							<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+								<li><?php echo $field->label; ?>
+								<?php echo $field->input; ?></li>
+							<?php endforeach; ?>
+						</ul>
+					</fieldset>
+			<?php endforeach;?>
 
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
@@ -96,7 +120,7 @@ JHtml::_('behavior.keepalive');
 	<?php if ($this->canDo->get('core.admin')): ?>
 		<div  class="col rules-section">
 
-			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+			<?php echo JHtml::_('sliders.start', 'permissions-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CATEGORIES_FIELDSET_RULES'), 'access-rules'); ?>
 			<fieldset class="panelform">

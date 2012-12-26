@@ -58,6 +58,7 @@ class Joomla_Sniffs_Classes_InstantiateNewClassesSniff implements PHP_CodeSniffe
                 switch ($tokens[$cnt]['code'])
                 {
                     case T_SEMICOLON:
+                    case T_COMMA :
                         $valid = true;
                         $running = false;
                         break;

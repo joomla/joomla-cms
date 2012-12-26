@@ -21,11 +21,15 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 class plgSystemLanguageFilter extends JPlugin
 {
 	protected static $mode_sef;
+
 	protected static $tag;
+
 	protected static $sefs;
+
 	protected static $lang_codes;
 
 	protected static $default_lang;
+
 	protected static $default_sef;
 
 	protected static $cookie;
@@ -89,13 +93,13 @@ class plgSystemLanguageFilter extends JPlugin
 					$cookie_path 	= $conf->get('config.cookie_path', '/');
 					setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
 					// set the request var
-					JRequest::setVar('language', $lang_code);
+					$app->input->set('language', $lang_code);
 				}
 			}
 			parent::__construct($subject, $config);
 			// 	Detect browser feature
 			if ($app->isSite()) {
-				$app->setDetectBrowser($this->params->get('detect_browser', '1')=='1');
+				$app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
 			}
 		}
 	}
@@ -103,7 +107,7 @@ class plgSystemLanguageFilter extends JPlugin
 	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
-		$app->menu_associations = $this->params->get('menu_associations', 0);
+		$app->item_associations = $this->params->get('item_associations', 0);
 
 		if ($app->isSite()) {
 			self::$tag = JFactory::getLanguage()->getTag();
@@ -137,7 +141,7 @@ class plgSystemLanguageFilter extends JPlugin
 		if (!is_null($Itemid)) {
 			if ($item = JFactory::getApplication()->getMenu()->getItem($Itemid))
 			{
-				if ($item->home && $uri->getVar('option')!='com_search')
+				if ($item->home && $uri->getVar('option') != 'com_search')
 				{
 					$link = $item->link;
 					$parts = JString::parse_url($link);
@@ -148,7 +152,7 @@ class plgSystemLanguageFilter extends JPlugin
 
 					// test if the url contains same vars as in menu link
 					$test = true;
-					foreach ($uri->getQuery(true) as $key=>$value)
+					foreach ($uri->getQuery(true) as $key => $value)
 					{
 						if (!in_array($key, array('format', 'Itemid', 'lang')) && !(isset($vars[$key]) && $vars[$key] == $value))
 						{
@@ -157,7 +161,7 @@ class plgSystemLanguageFilter extends JPlugin
 						}
 					}
 					if ($test) {
-						foreach ($vars as $key=>$value)
+						foreach ($vars as $key => $value)
 						{
 							$uri->delVar($key);
 						}
@@ -197,7 +201,7 @@ class plgSystemLanguageFilter extends JPlugin
 		$app = JFactory::getApplication();
 
 		$array = array();
-		$lang_code = JRequest::getString(JApplication::getHash('language'), null , 'cookie');
+		$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
 		// No cookie - let's try to detect browser language or use site default
 		if (!$lang_code) {
 			if ($this->params->get('detect_browser', 1)){
@@ -213,8 +217,7 @@ class plgSystemLanguageFilter extends JPlugin
 			$sef = $parts[0];
 
 			// Redirect only if not in post
-			$post = JRequest::get('POST');
-			if (!empty($lang_code) && $app->input->getMethod() != "POST" || count($post) == 0)
+			if (!empty($lang_code) && $app->input->getMethod() != "POST" || count($app->input->post) == 0)
 			{
 				if ($this->params->get('remove_default_prefix', 0) == 0)
 				{
@@ -257,7 +260,7 @@ class plgSystemLanguageFilter extends JPlugin
 					)
 					{
 						array_shift($parts);
-						$uri->setPath(implode('/' , $parts));
+						$uri->setPath(implode('/', $parts));
 
 						if ($app->getCfg('sef_rewrite')) {
 							$app->redirect($uri->base().$uri->toString(array('path', 'query', 'fragment')));
@@ -281,10 +284,8 @@ class plgSystemLanguageFilter extends JPlugin
 			if (!isset(self::$sefs[$sef])) {
 				$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 				$uri->setVar('lang', $sef);
-				$post = JRequest::get('POST');
-				if ($app->input->getMethod() != "POST" || count($post) == 0)
+				if ($app->input->getMethod() != "POST" || count($app->input->post) == 0)
 				{
-					$app = JFactory::getApplication();
 					$app->redirect(JURI::base(true).'/index.php?'.$uri->getQuery());
 				}
 			}
@@ -307,7 +308,7 @@ class plgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
-		if ($this->params->get('automatic_change', '1')=='1' && key_exists('params', $user))
+		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user))
 		{
 			$registry = new JRegistry;
 			$registry->loadString($user['params']);
@@ -333,7 +334,7 @@ class plgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if ($this->params->get('automatic_change', '1')=='1' && key_exists('params', $user) && $success)
+		if ($this->params->get('automatic_change', '1') == '1' && key_exists('params', $user) && $success)
 		{
 			$registry = new JRegistry;
 			$registry->loadString($user['params']);
@@ -435,77 +436,118 @@ class plgSystemLanguageFilter extends JPlugin
 	{
 		$app = JFactory::getApplication();
 		$doc = JFactory::getDocument();
+		$menu = $app->getMenu();
+		$server = JURI::getInstance()->toString(array('scheme', 'host', 'port'));
+		$option = $app->input->get('option');
+		$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
 
 		if ($app->isSite() && $this->params->get('alternate_meta') && $doc->getType() == 'html')
 		{
 			// Get active menu item
-			$active = $app->getMenu()->getActive();
-			if (!$active) {
-				return;
-			}
+			$active = $menu->getActive();
 
-			// Get menu item link
-			if ($app->getCfg('sef')) {
-				$active_link = JRoute::_('index.php?Itemid='.$active->id, false);
-			} else {
-				$active_link = JRoute::_($active->link.'&Itemid='.$active->id, false);
-			}
-			if ($active_link == JUri::base(true).'/') {
-				$active_link .= 'index.php';
-			}
+			// load menu associations
+			if ($active) {
 
-			// Get current link
-			$current_link = JRequest::getUri();
-			if ($current_link == JUri::base(true).'/') {
-				$current_link .= 'index.php';
-			}
-
-			// Check the exact menu item's URL
-			if ($active_link == $current_link)
-			{
-				// Get menu item associations
-				JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-				$associations = MenusHelper::getAssociations($active->id);
-
-				// Remove current menu item
-				unset($associations[$active->language]);
-
-				// Associated menu items in other languages
-				if ($associations && $this->params->get('menu_associations'))
+				// Get menu item link
+				if ($app->getCfg('sef'))
 				{
-					$menu 	= $app->getMenu();
-					$server = JURI::getInstance()->toString(array('scheme', 'host', 'port'));
+					$active_link = JRoute::_('index.php?Itemid='.$active->id, false);
+				}
+				else
+				{
+					$active_link = JRoute::_($active->link.'&Itemid='.$active->id, false);
+				}
 
-					foreach(JLanguageHelper::getLanguages() as $language) {
-						if (isset($associations[$language->lang_code])) {
-							$item = $menu->getItem($associations[$language->lang_code]);
-							if ($item && JLanguage::exists($language->lang_code)) {
-								if ($app->getCfg('sef')) {
-									$link = JRoute::_('index.php?Itemid='.$associations[$language->lang_code].'&lang='.$language->sef);
-								} else {
-									$link = JRoute::_($item->link.'&Itemid='.$associations[$language->lang_code].'&lang='.$language->sef);
-								}
-								$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
-							}
-						}
+				if ($active_link == JUri::base(true).'/')
+				{
+					$active_link .= 'index.php';
+				}
+
+				// Get current link
+				$current_link = JURI::getInstance()->toString(array('path', 'query'));
+				if ($current_link == JUri::base(true).'/')
+				{
+					$current_link .= 'index.php';
+				}
+
+				// Check the exact menu item's URL
+				if ($active_link == $current_link)
+				{
+					$associations = MenusHelper::getAssociations($active->id);
+					unset($associations[$active->language]);
+				}
+
+			}
+			// load component associations
+			$cName = JString::ucfirst($eName.'HelperAssociation');
+			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+
+			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			{
+				$cassociations = call_user_func(array($cName, 'getAssociations'));
+
+				$lang_code = $app->input->getString(JApplication::getHash('language'), null, 'cookie');
+				// No cookie - let's try to detect browser language or use site default
+				if (!$lang_code) {
+					if ($this->params->get('detect_browser', 1)){
+						$lang_code = JLanguageHelper::detectLanguage();
+					} else {
+						$lang_code = self::$default_lang;
 					}
 				}
-				// Homepages in other languages
-				elseif ($active->home)
-				{
-					$menu 	= $app->getMenu();
-					$server = JURI::getInstance()->toString(array('scheme', 'host', 'port'));
+				unset($cassociations[$lang_code]);
+			}
 
-					foreach(JLanguageHelper::getLanguages() as $language) {
-						$item = $menu->getDefault($language->lang_code);
-						if ($item && $item->language != $active->language && $item->language != '*' && JLanguage::exists($language->lang_code)) {
+			// handle the default associations
+			if ((!empty($associations) || !empty($cassociations)) && $this->params->get('item_associations')) {
+
+				foreach (JLanguageHelper::getLanguages() as $language)
+				{
+					if (!JLanguage::exists($language->lang_code))
+					{
+						continue;
+					}
+
+					if (isset($cassociations[$language->lang_code]))
+					{
+						$link = JRoute::_($cassociations[$language->lang_code].'&lang='.$language->sef);
+						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
+					}
+					elseif (isset($associations[$language->lang_code]))
+					{
+						$item = $menu->getItem($associations[$language->lang_code]);
+
+						if ($item) {
 							if ($app->getCfg('sef')) {
 								$link = JRoute::_('index.php?Itemid='.$item->id.'&lang='.$language->sef);
 							} else {
 								$link = JRoute::_($item->link.'&Itemid='.$item->id.'&lang='.$language->sef);
 							}
-							$doc->addHeadLink($server . JRoute::_($item->link.'&Itemid='.$item->id.'&lang='.$language->sef), 'alternate', 'rel', array('hreflang' => $language->lang_code));
+							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
 						}
+					}
+				}
+			}
+			// link to the home page of each language
+			elseif ($active && $active->home)
+			{
+				foreach (JLanguageHelper::getLanguages() as $language)
+				{
+					if (!JLanguage::exists($language->lang_code))
+					{
+						continue;
+					}
+
+					$item = $menu->getDefault($language->lang_code);
+
+					if ($item && $item->language != $active->language && $item->language != '*') {
+						if ($app->getCfg('sef')) {
+							$link = JRoute::_('index.php?Itemid='.$item->id.'&lang='.$language->sef);
+						} else {
+							$link = JRoute::_($item->link.'&Itemid='.$item->id.'&lang='.$language->sef);
+						}
+						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
 					}
 				}
 			}

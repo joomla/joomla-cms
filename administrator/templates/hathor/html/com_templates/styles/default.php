@@ -19,6 +19,14 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=styles'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -76,9 +84,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 			<?php foreach ($this->items as $i => $item) :
-				$canCreate	= $user->authorise('core.create',		'com_templates');
-				$canEdit	= $user->authorise('core.edit',			'com_templates');
-				$canChange	= $user->authorise('core.edit.state',	'com_templates');
+				$canCreate = $user->authorise('core.create',     'com_templates');
+				$canEdit   = $user->authorise('core.edit',       'com_templates');
+				$canChange = $user->authorise('core.edit.state', 'com_templates');
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -108,21 +116,21 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					</label>
 				</td>
 				<td class="center">
-					<?php if ($item->home=='0' || $item->home=='1'):?>
-						<?php echo JHtml::_('jgrid.isdefault', $item->home!='0', $i, 'styles.', $canChange && $item->home!='1');?>
+					<?php if ($item->home == '0' || $item->home == '1'):?>
+						<?php echo JHtml::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1');?>
 					<?php elseif ($canChange):?>
 						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=styles.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
-							<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
 						</a>
 					<?php else:?>
-						<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>$item->language_title), true);?>
+						<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
 					<?php endif;?>
 				</td>
 				<td class="center">
 					<?php if ($item->assigned > 0) : ?>
-							<?php echo JHtml::_('image', 'admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned), array('title'=>JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)), true); ?>
+						<?php echo JHtml::_('image', 'admin/tick.png', JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned), array('title' => JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)), true); ?>
 					<?php else : ?>
-							&#160;
+						&#160;
 					<?php endif; ?>
 				</td>
 				<td class="center">
@@ -140,4 +148,5 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

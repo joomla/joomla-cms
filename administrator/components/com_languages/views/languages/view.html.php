@@ -19,17 +19,21 @@ defined('_JEXEC') or die;
 class LanguagesViewLanguages extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+
+		LanguagesHelper::addSubmenu('languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -37,8 +41,9 @@ class LanguagesViewLanguages extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -51,37 +56,56 @@ class LanguagesViewLanguages extends JViewLegacy
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 		$canDo	= LanguagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'langmanager.png');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'langmanager.png');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('language.add');
+			JToolbarHelper::addNew('language.add');
 		}
 
 		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('language.edit');
-			JToolBarHelper::divider();
+			JToolbarHelper::editList('language.edit');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit.state')) {
 			if ($this->state->get('filter.published') != 2) {
-				JToolBarHelper::publishList('languages.publish');
-				JToolBarHelper::unpublishList('languages.unpublish');
+				JToolbarHelper::publishList('languages.publish');
+				JToolbarHelper::unpublishList('languages.unpublish');
 			}
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::trash('languages.trash');
-			JToolBarHelper::divider();
+			JToolbarHelper::trash('languages.trash');
+			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_languages');
-			JToolBarHelper::divider();
+			// Add install languages link to the lang installer component
+			$bar = JToolbar::getInstance('toolbar');
+			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
+			JToolbarHelper::divider();
+
+			JToolbarHelper::preferences('com_languages');
+			JToolbarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
+		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
+
+		JHtmlSidebar::setAction('index.php?option=com_languages&view=languages');
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
 	}
 }

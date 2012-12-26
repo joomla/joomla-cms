@@ -84,7 +84,6 @@ class plgContentPagebreak extends JPlugin
 			return true;
 		}
 
-		$db = JFactory::getDbo();
 		$view = $input->getString('view');
 		$full = $input->getBool('fullview');
 
@@ -129,10 +128,9 @@ class plgContentPagebreak extends JPlugin
 			// Adds heading or title to <site> Title.
 			if ($title) {
 				if ($page) {
-					$page_text = $page + 1;
-
-					if ($page && @$matches[$page-1][2]) {
-						$attrs = JUtility::parseAttributes($matches[$page-1][1]);
+					if ($page && @$matches[$page - 1][2])
+					{
+						$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
 
 						if (@$attrs['title']) {
 							$row->page_title = $attrs['title'];
@@ -164,7 +162,7 @@ class plgContentPagebreak extends JPlugin
 				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
 				$row->text .= $text[$page];
 				// $row->text .= '<br />';
-				$row->text .= '<div class="pagination">';
+				$row->text .= '<div class="pager">';
 
 				// Adds navigation between pages to bottom of text.
 				if ($hasToc) {
@@ -181,12 +179,12 @@ class plgContentPagebreak extends JPlugin
 			else {
 				$t[] = $text[0];
 
-				$t[] = (string) JHtml::_($style.'.start');
+				$t[] = (string) JHtml::_($style.'.start', 'article'.$row->id.'-'.$style);
 
 				foreach ($text as $key => $subtext) {
 
 					if ($key >= 1) {
-						$match= $matches[$key-1];
+						$match = $matches[$key - 1];
 						$match = (array) JUtility::parseAttributes($match[0]);
 						if (isset($match['alt'])) {
 							$title	= stripslashes($match["alt"]);
@@ -195,7 +193,7 @@ class plgContentPagebreak extends JPlugin
 						} else {
 							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key);
 						}
-						$t[] = (string) JHtml::_($style.'.panel', $match['title'], 'basic-details');
+						$t[] = (string) JHtml::_($style.'.panel', $match['title'], 'article'.$row->id.'-'.$style.$key);
 					}
 					$t[] = (string) $subtext;
 				}
@@ -219,23 +217,23 @@ class plgContentPagebreak extends JPlugin
 		$limitstart = $input->getUInt('limitstart', 0);
 		$showall = $input->getInt('showall', 0);
 		// TOC header.
-		$row->toc .= '<div id="article-index">';
+		$row->toc .= '<div class="pull-right article-index">';
 
-		if($this->params->get('article_index')==1)
+		if($this->params->get('article_index') == 1)
 		{
-			$headingtext= JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
+			$headingtext = JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
 
 			if($this->params->get('article_index_text')) {
-				htmlspecialchars($headingtext=$this->params->get('article_index_text'));
+				htmlspecialchars($headingtext = $this->params->get('article_index_text'));
 			}
-			$row->toc .='<h3>'.$headingtext.'</h3>';
+			$row->toc .= '<h3>' . $headingtext . '</h3>';
 
 		}
 
 		// TOC first Page link.
 		$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$row->toc .= '<ul>
-		<li>
+		$row->toc .= '<ul class="nav nav-tabs nav-stacked">
+		<li class="'.$class.'">
 
 			<a href="'. JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart=') .'" class="'.$class.'">'
 			. $heading .
@@ -247,7 +245,7 @@ class plgContentPagebreak extends JPlugin
 		$i = 2;
 
 		foreach ($matches as $bot) {
-			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($i-1));
+			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($i - 1));
 
 			if (@$bot[0]) {
 				$attrs2 = JUtility::parseAttributes($bot[0]);
@@ -262,7 +260,7 @@ class plgContentPagebreak extends JPlugin
 			} else {
 				$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
-			$class = ($limitstart == $i-1) ? 'toclink active' : 'toclink';
+			$class = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';
 			$row->toc .= '
 				<li>
 
@@ -302,7 +300,7 @@ class plgContentPagebreak extends JPlugin
 			$pnSpace = ' ';
 		}
 
-		if ($page < $n-1) {
+		if ($page < $n - 1) {
 			$page_next = $page + 1;
 
 			$link_next = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid).'&showall=&limitstart='. ($page_next));

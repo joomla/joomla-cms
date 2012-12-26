@@ -39,7 +39,6 @@ class JFormFieldCacheHandler extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Convert to name => name array.

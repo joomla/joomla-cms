@@ -94,7 +94,6 @@ class JFormFieldEditor extends JFormField
 		// Only create the editor if it is not already created.
 		if (empty($this->editor))
 		{
-			// Initialize variables.
 			$editor = null;
 
 			// Get the editor type attribute. Can be in the form of: editor="desired|alternative".

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="2.5"
+	version="3.0"
 	client="installation">
 	<name>English (United Kingdom)</name>
-	<version>2.5</version>
-	<creationDate>March 2009</creationDate>
+	<version>3.0</version>
+	<creationDate>September 2012</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>

@@ -21,8 +21,6 @@ JHtml::_('behavior.keepalive');
 	{
 		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form'))) {
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
-		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
@@ -63,7 +61,7 @@ JHtml::_('behavior.keepalive');
 	</div>
 
 	<div class="col options-section">
-		<?php echo JHtml::_('sliders.start', 'newsfeed-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+		<?php echo JHtml::_('sliders.start', 'newsfeed-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
 			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 

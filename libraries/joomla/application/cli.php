@@ -65,7 +65,7 @@ class JApplicationCli extends JApplicationBase
 		// Create the input based on the application logic.
 		else
 		{
-			if (class_exists('Jinput'))
+			if (class_exists('JInput'))
 			{
 				$this->input = new JInputCLI;
 			}
@@ -291,16 +291,4 @@ class JApplicationCli extends JApplicationBase
 	{
 		// Your application routines go here.
 	}
-}
-
-/**
- * Deprecated class placeholder.  You should use JApplicationCli instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
- * @deprecated  12.3
- */
-class JCli extends JApplicationCli
-{
 }

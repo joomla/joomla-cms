@@ -30,12 +30,12 @@ class MenusHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_MENUS_SUBMENU_MENUS'),
 			'index.php?option=com_menus&view=menus',
 			$vName == 'menus'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_MENUS_SUBMENU_ITEMS'),
 			'index.php?option=com_menus&view=items',
 			$vName == 'items'
@@ -173,17 +173,14 @@ class MenusHelper
 		// Get the options.
 		$db->setQuery($query);
 
-		$links = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
-			return false;
+		try
+		{
+			$links = $db->loadObjectList();
 		}
-
-		// Pad the option text with spaces using depth level as a multiplier.
-		foreach ($links as &$link) {
-			$link->text = str_repeat('- ', $link->level).$link->text;
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+			return false;
 		}
 
 		if (empty($menuType)) {
@@ -195,11 +192,13 @@ class MenusHelper
 			$query->order('title, menutype');
 			$db->setQuery($query);
 
-			$menuTypes = $db->loadObjectList();
-
-			// Check for a database error.
-			if ($error = $db->getErrorMsg()) {
-				JError::raiseWarning(500, $error);
+			try
+			{
+				$menuTypes = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
 				return false;
 			}
 
@@ -237,13 +236,18 @@ class MenusHelper
 		$query->where('m.id=' . (int) $pk);
 		$query->select('m2.language, m2.id');
 		$db->setQuery($query);
-		$menuitems = $db->loadObjectList('language');
-		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+
+		try
+		{
+			$menuitems = $db->loadObjectList('language');
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
-		foreach ($menuitems as $tag=>$item) {
+		foreach ($menuitems as $tag => $item)
+		{
 			$associations[$tag] = $item->id;
 		}
 		return $associations;

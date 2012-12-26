@@ -46,7 +46,6 @@ class SearchModelSearches extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -167,8 +166,14 @@ class SearchModelSearches extends JModelList
 		$db->setQuery(
 			'DELETE FROM #__core_log_searches'
 		);
-		if (!$db->execute()) {
-			$this->setError($db->getErrorMsg());
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

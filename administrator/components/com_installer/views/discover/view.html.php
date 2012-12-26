@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once dirname(__FILE__).'/../default/view.php';
+include_once __DIR__ . '/../default/view.php';
 
 /**
  * Extension Manager Manage View
@@ -21,9 +21,15 @@ include_once dirname(__FILE__).'/../default/view.php';
 class InstallerViewDiscover extends InstallerViewDefault
 {
 	/**
+	 * Display the view
+	 *
+	 * @param   string  $tpl  Template
+	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
-	function display($tpl=null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$this->state		= $this->get('State');
@@ -36,6 +42,8 @@ class InstallerViewDiscover extends InstallerViewDefault
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
 	protected function addToolbar()
@@ -44,11 +52,11 @@ class InstallerViewDiscover extends InstallerViewDefault
 		/*
 		 * Set toolbar items for the page
 		 */
-		JToolBarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true, false);
-		JToolBarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false, false);
-		JToolBarHelper::custom('discover.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
-		JToolBarHelper::divider();
+		JToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true, false);
+		JToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false, false);
+		JToolbarHelper::custom('discover.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
+		JToolbarHelper::divider();
 		parent::addToolbar();
-		JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
 	}
 }

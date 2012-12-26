@@ -51,6 +51,8 @@ class TemplatesViewTemplates extends JViewLegacy
 		$this->state		= $this->get('State');
 		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
 
+		TemplatesHelper::addSubmenu('templates');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
@@ -60,8 +62,8 @@ class TemplatesViewTemplates extends JViewLegacy
 		// Check if there are no matching items
 		if(!count($this->items)) {
 			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES')
-				, 'warning'
+				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'),
+				'warning'
 			);
 		}
 
@@ -80,11 +82,21 @@ class TemplatesViewTemplates extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= TemplatesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'thememanager');
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_templates');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_templates');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
+		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
+
+		JHtmlSidebar::setAction('index.php?option=com_templates&view=templates');
+
+		JHtmlSidebar::addFilter(
+			JText::_('JGLOBAL_FILTER_CLIENT'),
+			'filter_client_id',
+			JHtml::_('select.options', TemplatesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
+		);
+
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

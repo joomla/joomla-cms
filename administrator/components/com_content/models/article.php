@@ -217,8 +217,13 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();
-		if($table->state == 1 && intval($table->publish_up) == 0) {
+		if($table->state == 1 && (int) $table->publish_up == 0) {
 			$table->publish_up = JFactory::getDate()->toSql();
+		}
+
+		if($table->state == 1 && intval($table->publish_down) == 0)
+		{
+			$table->publish_down = $db->getNullDate();
 		}
 
 		// Increment the content version number.
@@ -277,6 +282,24 @@ class ContentModelArticle extends JModelAdmin
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
 		}
 
+		// Load associated content items
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
+		if ($assoc)
+		{
+			$item->associations = array();
+
+			if ($item->id != null) {
+				$associations = ContentHelper::getAssociations($item->id);
+
+				foreach ($associations as $tag => $association) {
+					$item->associations[$tag] = $association->id;
+				}
+
+			}
+		}
+
 		return $item;
 	}
 
@@ -301,12 +324,12 @@ class ContentModelArticle extends JModelAdmin
 		// The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
 		if ($jinput->get('a_id'))
 		{
-			$id =  $jinput->get('a_id', 0);
+			$id = $jinput->get('a_id', 0);
 		}
 		// The back end uses id so we use that the rest of the time and set it to 0 by default.
 		else
 		{
-			$id =  $jinput->get('id', 0);
+			$id = $jinput->get('id', 0);
 		}
 		// Determine correct permissions to check.
 		if ($this->getState('article.id'))
@@ -360,15 +383,15 @@ class ContentModelArticle extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_content.edit.article.data', array());
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_content.edit.article.data', array());
 
 		if (empty($data)) {
 			$data = $this->getItem();
 
 			// Prime some default values.
 			if ($this->getState('article.id') == 0) {
-				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
+				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
 			}
 		}
 
@@ -385,6 +408,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function save($data)
 	{
+		$app = JFactory::getApplication();
+
 		if (isset($data['images']) && is_array($data['images']))
 		{
 			$registry = new JRegistry;
@@ -400,7 +425,8 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Alter the title for save as copy
-		if (JRequest::getVar('task') == 'save2copy') {
+		if ($app->input->get('task') == 'save2copy')
+		{
 			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 			$data['title']	= $title;
 			$data['alias']	= $alias;
@@ -410,6 +436,65 @@ class ContentModelArticle extends JModelAdmin
 
 			if (isset($data['featured'])) {
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
+			}
+
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			if ($assoc)
+			{
+				$id = (int) $this->getState($this->getName() . '.id');
+				$item = $this->getItem($id);
+
+				// Adding self to the association
+				$associations = $data['associations'];
+
+				foreach ($associations as $tag => $id)
+				{
+					if (empty($id)) {
+						unset($associations[$tag]);
+					}
+				}
+
+				// Detecting all item menus
+				$all_language = $item->language == '*';
+
+				if ($all_language && !empty($associations)) {
+					JError::raiseNotice(403, JText::_('COM_CONTENT_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+				}
+
+				$associations[$item->language] = $item->id;
+
+				// Deleting old association for these items
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true);
+				$query->delete('#__associations');
+				$query->where('context='.$db->quote('com_content.item'));
+				$query->where('id IN ('.implode(',', $associations).')');
+				$db->setQuery($query);
+				$db->execute();
+
+				if ($error = $db->getErrorMsg()) {
+					$this->setError($error);
+					return false;
+				}
+
+				if (!$all_language && count($associations)) {
+					// Adding new association for these items
+					$key = md5(json_encode($associations));
+					$query->clear();
+					$query->insert('#__associations');
+
+					foreach ($associations as $tag => $id) {
+						$query->values($id.','.$db->quote('com_content.item') . ',' . $db->quote($key));
+					}
+
+					$db->setQuery($query);
+					$db->execute();
+
+					if ($error = $db->getErrorMsg()) {
+						$this->setError($error);
+						return false;
+					}
+				}
 			}
 
 			return true;
@@ -447,9 +532,7 @@ class ContentModelArticle extends JModelAdmin
 				' SET featured = '.(int) $value.
 				' WHERE id IN ('.implode(',', $pks).')'
 			);
-			if (!$db->execute()) {
-				throw new Exception($db->getErrorMsg());
-			}
+			$db->execute();
 
 			if ((int) $value == 0)
 			{
@@ -459,9 +542,7 @@ class ContentModelArticle extends JModelAdmin
 					'DELETE FROM #__content_frontpage' .
 					' WHERE content_id IN ('.implode(',', $pks).')'
 				);
-				if (!$db->execute()) {
-					throw new Exception($db->getErrorMsg());
-				}
+				$db->execute();
 			} else {
 				// first, we find out which of our new featured articles are already featured.
 				$query = $db->getQuery(true);
@@ -471,9 +552,7 @@ class ContentModelArticle extends JModelAdmin
 				//echo $query;
 				$db->setQuery($query);
 
-				if (!is_array($old_featured = $db->loadColumn())) {
-					throw new Exception($db->getErrorMsg());
-				}
+				$old_featured = $db->loadColumn();
 
 				// we diff the arrays to get a list of the articles that are newly featured
 				$new_featured = array_diff($pks, $old_featured);
@@ -488,10 +567,7 @@ class ContentModelArticle extends JModelAdmin
 						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
-					if (!$db->execute()) {
-						$this->setError($db->getErrorMsg());
-						return false;
-					}
+					$db->execute();
 				}
 			}
 
@@ -520,6 +596,52 @@ class ContentModelArticle extends JModelAdmin
 		$condition = array();
 		$condition[] = 'catid = '.(int) $table->catid;
 		return $condition;
+	}
+
+	/**
+	 * Auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return	void
+	 * @since	3.0
+	 */
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	{
+		// Association content items
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc) {
+			$languages = JLanguageHelper::getLanguages('lang_code');
+
+			// force to array (perhaps move to $this->loadFormData())
+			$data = (array) $data;
+
+			$addform = new SimpleXMLElement('<form />');
+			$fields = $addform->addChild('fields');
+			$fields->addAttribute('name', 'associations');
+			$fieldset = $fields->addChild('fieldset');
+			$fieldset->addAttribute('name', 'item_associations');
+			$fieldset->addAttribute('description', 'COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+			$add = false;
+			foreach ($languages as $tag => $language)
+			{
+				if (empty($data['language']) || $tag != $data['language']) {
+					$add = true;
+					$field = $fieldset->addChild('field');
+					$field->addAttribute('name', $tag);
+					$field->addAttribute('type', 'modal_article');
+					$field->addAttribute('language', $tag);
+					$field->addAttribute('label', $language->title);
+					$field->addAttribute('translate_label', 'false');
+				}
+			}
+			if ($add) {
+				$form->load($addform, false);
+			}
+		}
+
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**

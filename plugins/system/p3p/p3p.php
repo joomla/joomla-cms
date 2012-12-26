@@ -14,10 +14,14 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.p3p
+ * @since       1.6
  */
 class plgSystemP3p extends JPlugin
 {
-	function onAfterInitialise()
+	/*
+	 * @since   1.6
+	 */
+	public function onAfterInitialise()
 	{
 		// Get the header
 		$header = $this->params->get('header', 'NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM');

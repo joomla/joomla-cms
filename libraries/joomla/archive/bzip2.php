@@ -42,7 +42,6 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 */
 	public function extract($archive, $destination, array $options = array ())
 	{
-		// Initialise variables.
 		$this->_data = null;
 
 		if (!extension_loaded('bz2'))
@@ -60,7 +59,8 @@ class JArchiveBzip2 implements JArchiveExtractable
 		if (!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
 			// Old style: read the whole file and then parse it
-			if (!$this->_data = JFile::read($archive))
+			$this->_data = file_get_contents($archive);
+			if (!$this->_data)
 			{
 				if (class_exists('JError'))
 				{

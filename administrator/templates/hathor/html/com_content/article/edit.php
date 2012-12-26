@@ -18,12 +18,13 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 
 // Create shortcut to parameters.
-	$params = $this->state->get('params');
-
-	$params = $params->toArray();
+$params = $this->state->get('params');
+$params = $params->toArray();
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params['show_publishing_options']);
+
+$input = JFactory::getApplication()->input;
 
 if (!$editoroptions):
 	$params['show_publishing_options'] = '1';
@@ -50,8 +51,6 @@ endif;
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
-		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
@@ -106,7 +105,7 @@ endif;
 	</div>
 
 	<div class="col options-section">
-		<?php echo JHtml::_('sliders.start', 'content-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+		<?php echo JHtml::_('sliders.start', 'content-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ): ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
@@ -234,14 +233,35 @@ endif;
 			<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 				<?php echo $this->loadTemplate('metadata'); ?>
+			</fieldset>
+		<?php
 
+			$fieldSets = $this->form->getFieldsets('associations');
+
+			foreach ($fieldSets as $name => $fieldSet) :
+				$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONTENT_'.$name.'_FIELDSET_LABEL';
+				echo JHtml::_('sliders.panel', JText::_($label), $name.'-options');
+					if (isset($fieldSet->description) && trim($fieldSet->description)) :
+						echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+					endif;
+					?>
+				<div class="clr"></div>
+				<fieldset class="panelform">
+					<ul class="adminformlist">
+						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+							<li><?php echo $field->label; ?>
+							<?php echo $field->input; ?></li>
+						<?php endforeach; ?>
+					</ul>
+				</fieldset>
+		<?php endforeach;?>
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
 	<div class="clr"></div>
 	<?php if ($this->canDo->get('core.admin')): ?>
 		<div  class="col rules-section">
-			<?php echo JHtml::_('sliders.start', 'permissions-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+			<?php echo JHtml::_('sliders.start', 'permissions-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
 				<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_RULES'), 'access-rules'); ?>
 				<fieldset class="panelform">
@@ -255,7 +275,7 @@ endif;
 	<?php endif; ?>
 	<div>
 		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="return" value="<?php echo JRequest::getCmd('return');?>" />
+		<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

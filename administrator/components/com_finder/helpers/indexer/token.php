@@ -80,6 +80,14 @@ class FinderIndexerToken
 	public $weight;
 
 	/**
+	 * The simple language identifier for the token.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	public $language;
+
+	/**
 	 * Method to construct the token object.
 	 *
 	 * @param   mixed   $term    The term as a string for words or an array for phrases.
@@ -90,6 +98,8 @@ class FinderIndexerToken
 	 */
 	public function __construct($term, $lang, $spacer = ' ')
 	{
+		$this->language = $lang;
+
 		// Tokens can be a single word or an array of words representing a phrase.
 		if (is_array($term))
 		{

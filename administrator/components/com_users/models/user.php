@@ -71,14 +71,24 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
+		$plugin = JPluginHelper::getPlugin('user', 'joomla');
+		$pluginParams = new JRegistry($plugin->params);
 
 		// Get the form.
 		$form = $this->loadForm('com_users.user', 'user', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
+		}
+
+		// Passwords fields are required when mail to user is set to No in joomla user plugin
+		$userId = $form->getValue('id');
+		if ($userId === 0 && $pluginParams->get('mail_to_user') === "0")
+		{
+			$form->setFieldAttribute('password', 'required', 'true');
+			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		return $form;
@@ -146,7 +156,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
 		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 		$user		= JUser::getInstance($pk);
 
@@ -206,7 +215,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		// Initialise variables.
 		$user	= JFactory::getUser();
 		$table	= $this->getTable();
 		$pks	= (array) $pks;
@@ -280,12 +288,12 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function block(&$pks, $value = 1)
+	public function block(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$dispatcher	= JEventDispatcher::getInstance();
 		$user		= JFactory::getUser();
+
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
@@ -391,11 +399,11 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function activate(&$pks)
+	public function activate(&$pks)
 	{
-		// Initialise variables.
 		$dispatcher	= JEventDispatcher::getInstance();
 		$user		= JFactory::getUser();
+
 		// Check if I am a Super Admin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 		$table		= $this->getTable();
@@ -585,10 +593,13 @@ class UsersModelUser extends JModelAdmin
 
 			$db->setQuery($query);
 
-			// Check for database errors.
-			if (!$db->execute())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
@@ -628,10 +639,13 @@ class UsersModelUser extends JModelAdmin
 			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
 			$db->setQuery($query);
 
-			// Check for database errors.
-			if (!$db->execute())
+			try
 			{
-				$this->setError($db->getErrorMsg());
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
 				return false;
 			}
 		}
@@ -671,7 +685,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getAssignedGroups($userId = null)
 	{
-		// Initialise variables.
 		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
 		if (empty($userId))

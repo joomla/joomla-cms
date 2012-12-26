@@ -10,15 +10,19 @@
 defined('_JEXEC') or die;
 
 /**
+ * Installer Manage Controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerControllerManage extends JControllerLegacy
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see		JController
 	 * @since	1.6
 	 */
@@ -26,12 +30,14 @@ class InstallerControllerManage extends JControllerLegacy
 	{
 		parent::__construct($config);
 
-		$this->registerTask('unpublish',		'publish');
-		$this->registerTask('publish',			'publish');
+		$this->registerTask('unpublish', 'publish');
+		$this->registerTask('publish',   'publish');
 	}
 
 	/**
 	 * Enable/Disable an extension (if supported).
+	 *
+	 * @return  void
 	 *
 	 * @since	1.6
 	 */
@@ -40,26 +46,33 @@ class InstallerControllerManage extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
-		$values	= array('publish' => 1, 'unpublish' => 0);
-		$task	= $this->getTask();
-		$value	= JArrayHelper::getValue($values, $task, 0, 'int');
+		$ids    = $this->input->get('cid', array(), 'array');
+		$values = array('publish' => 1, 'unpublish' => 0);
+		$task   = $this->getTask();
+		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'));
-		} else {
+		}
+		else
+		{
 			// Get the model.
 			$model	= $this->getModel('manage');
 
 			// Change the state of the records.
-			if (!$model->publish($ids, $value)) {
+			if (!$model->publish($ids, $value))
+			{
 				JError::raiseWarning(500, implode('<br />', $model->getErrors()));
-			} else {
-				if ($value == 1) {
+			}
+			else
+			{
+				if ($value == 1)
+				{
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
-				} elseif ($value == 0) {
+				}
+				elseif ($value == 0)
+				{
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
 				$this->setMessage(JText::plural($ntext, count($ids)));
@@ -73,6 +86,7 @@ class InstallerControllerManage extends JControllerLegacy
 	 * Remove an extension (Uninstall).
 	 *
 	 * @return	void
+	 *
 	 * @since	1.5
 	 */
 	public function remove()
@@ -80,8 +94,8 @@ class InstallerControllerManage extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$eid	= JRequest::getVar('cid', array(), '', 'array');
-		$model	= $this->getModel('manage');
+		$eid   = $this->input->get('cid', array(), 'array');
+		$model = $this->getModel('manage');
 
 		JArrayHelper::toInteger($eid, array());
 		$result = $model->remove($eid);
@@ -93,15 +107,17 @@ class InstallerControllerManage extends JControllerLegacy
 	 *
 	 * Useful for debugging and testing purposes when the XML file might change.
 	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
-	function refresh()
+	public function refresh()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$uid	= JRequest::getVar('cid', array(), '', 'array');
-		$model	= $this->getModel('manage');
+		$uid   = $this->input->get('cid', array(), 'array');
+		$model = $this->getModel('manage');
 
 		JArrayHelper::toInteger($uid, array());
 		$result = $model->refresh($uid);

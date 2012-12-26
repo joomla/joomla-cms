@@ -23,7 +23,7 @@ var MediaManager = this.MediaManager = {
 		this.frame		= window.frames['folderframe'];
 		this.frameurl	= this.frame.location.href;
 		//this.frameurl   = window.frames['folderframe'].location.href;
-
+/*
 		this.tree = new MooTreeControl({ div: 'media-tree_tree', mode: 'folders', grid: true, theme: '../media/system/images/mootree.gif', onClick:
 				function(node){
 					target = node.data.target != null ? node.data.target : '_self';
@@ -38,6 +38,7 @@ var MediaManager = this.MediaManager = {
 				}.bind(this)
 			},{ text: '', open: true, data: { url: 'index.php?option=com_media&view=mediaList&tmpl=component', target: 'folderframe'}});
 		this.tree.adopt('media-tree');
+*/
 	},
 
 	submit: function(task)
@@ -60,18 +61,18 @@ var MediaManager = this.MediaManager = {
 		if (folder) {
 			this.updatepaths.each(function(path){ path.value =folder; });
 			this.folderpath.value = basepath+'/'+folder;
-			node = this.tree.get('node_'+folder);
+//			node = this.tree.get('node_'+folder);
 			node.toggle(false, true);
 		} else {
 			this.updatepaths.each(function(path){ path.value = ''; });
 			this.folderpath.value = basepath;
-			node = this.tree.root;
+//			node = this.tree.root;
 		}
-
+/*
 		if (node) {
 			this.tree.select(node, true);
 		}
-
+*/
 		document.id(viewstyle).addClass('active');
 
 		a = this._getUriObject(document.id('uploadForm').getProperty('action'));

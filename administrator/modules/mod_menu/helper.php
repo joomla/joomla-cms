@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_menu
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  * @since       1.5
@@ -56,7 +58,6 @@ abstract class ModMenuHelper
 	 */
 	public static function getComponents($authCheck = true)
 	{
-		// Initialise variables.
 		$lang	= JFactory::getLanguage();
 		$user	= JFactory::getUser();
 		$db		= JFactory::getDbo();

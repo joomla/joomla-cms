@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.extension');
 jimport('joomla.base.adapterinstance');
+jimport('joomla.filesystem.folder');
 
 /**
  * Template installer
@@ -21,10 +22,37 @@ jimport('joomla.base.adapterinstance');
  */
 class JInstallerTemplate extends JAdapterInstance
 {
+	/**
+	 * Copy of the XML manifest file
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $manifest = null;
+
+	/**
+	 * Name of the extension
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * */
 	protected $name = null;
 
+	/**
+	 * The unique identifier for the extension (e.g. mod_login)
+	 *
+	 * @var    string
+	 * @since  11.1
+	 * */
 	protected $element = null;
 
+	/**
+	 * Method of system
+	 *
+	 * @var    string
+	 *
+	 * @since  11.1
+	 */
 	protected $route = 'install';
 
 	/**
@@ -49,7 +77,6 @@ class JInstallerTemplate extends JAdapterInstance
 			);
 		}
 
-		$clientId = isset($this->parent->extension) ? $this->parent->extension->client_id : 0;
 		$this->manifest = $this->parent->getManifest();
 		$name = strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 		$client = (string) $this->manifest->attributes()->client;
@@ -322,6 +349,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function update()
 	{
+		$this->route = 'update';
 		return $this->install();
 	}
 
@@ -336,7 +364,6 @@ class JInstallerTemplate extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$retval = true;
 
 		// First order of business will be to load the template object table from the database.

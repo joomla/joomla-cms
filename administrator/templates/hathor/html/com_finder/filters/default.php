@@ -31,6 +31,14 @@ Joomla.submitbutton = function(pressbutton) {
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::sprintf('COM_FINDER_SEARCH_LABEL', JText::_('COM_FINDER_FILTERS')); ?></legend>
 		<div class="filter-search">
@@ -101,10 +109,10 @@ Joomla.submitbutton = function(pressbutton) {
 		<?php endif; ?>
 
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_finder');
-			$canEdit	= $user->authorise('core.edit',			'com_finder');
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $filter->checked_out == $user->get('id') || $filter->checked_out == 0;
-			$canChange	= $user->authorise('core.edit.state',	'com_finder') && $canCheckin;
+			$canCreate  = $user->authorise('core.create',     'com_finder');
+			$canEdit    = $user->authorise('core.edit',       'com_finder');
+			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $filter->checked_out == $user->get('id') || $filter->checked_out == 0;
+			$canChange  = $user->authorise('core.edit.state', 'com_finder') && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<th class="center">
@@ -148,4 +156,5 @@ Joomla.submitbutton = function(pressbutton) {
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

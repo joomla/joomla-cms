@@ -90,8 +90,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
-		$app	= JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		// Get the form.
 		$form = $this->loadForm('com_weblinks.weblink', 'weblink', array('control' => 'jform', 'load_data' => $loadData));
@@ -142,9 +141,10 @@ class WeblinksModelWeblink extends JModelAdmin
 			$data = $this->getItem();
 
 			// Prime some default values.
-			if ($this->getState('weblink.id') == 0) {
+			if ($this->getState('weblink.id') == 0)
+			{
 				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_weblinks.weblinks.filter.category_id')));
+				$data->set('catid', $app->input->get('catid', $app->getUserState('com_weblinks.weblinks.filter.category_id'), 'int'));
 			}
 		}
 
@@ -161,11 +161,20 @@ class WeblinksModelWeblink extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk)) {
+		if ($item = parent::getItem($pk))
+		{
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
+		}
+
+		if ($item = parent::getItem($pk))
+		{
+			// Convert the images field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->images);
+			$item->images = $registry->toArray();
 		}
 
 		return $item;
@@ -188,7 +197,8 @@ class WeblinksModelWeblink extends JModelAdmin
 			$table->alias = JApplication::stringURLSafe($table->title);
 		}
 
-		if (empty($table->id)) {
+		if (empty($table->id))
+		{
 			// Set the values
 
 			// Set ordering to the last item if not set
@@ -197,14 +207,19 @@ class WeblinksModelWeblink extends JModelAdmin
 				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks');
 				$max = $db->loadResult();
 
-				$table->ordering = $max+1;
+				$table->ordering = $max + 1;
 			}
-		}
-		else {
-			// Set the values
+			else
+			{
+				// Set the values
+				$table->modified	= $date->toSql();
+				$table->modified_by	= $user->get('id');
+			}
+
+			// Increment the content version number.
+			$table->version++;
 		}
 	}
-
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *

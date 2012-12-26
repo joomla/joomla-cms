@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include dependancies.
-require_once dirname(__FILE__).'/helper.php';
+require_once __DIR__ . '/helper.php';
 
 $list = modLatestHelper::getList($params);
 require JModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));

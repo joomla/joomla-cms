@@ -57,7 +57,7 @@ class MenusControllerMenus extends JControllerLegacy
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
-		$cid	= JRequest::getVar('cid', array(), '', 'array');
+		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1) {
 			JError::raiseWarning(500, JText::_('COM_MENUS_NO_MENUS_SELECTED'));
@@ -91,7 +91,6 @@ class MenusControllerMenus extends JControllerLegacy
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 
-		// Initialise variables.
 		$model = $this->getModel('Item');
 
 		if ($model->rebuild()) {
@@ -110,30 +109,35 @@ class MenusControllerMenus extends JControllerLegacy
 	 */
 	public function resync()
 	{
-		// Initialise variables.
 		$db = JFactory::getDbo();
 		$parts = null;
 
-		// Load a lookup table of all the component id's.
-		$components = $db->setQuery(
-			'SELECT element, extension_id' .
-			' FROM #__extensions' .
-			' WHERE type = '.$db->quote('component')
-		)->loadAssocList('element', 'extension_id');
-
-		if ($error = $db->getErrorMsg()) {
-			return JError::raiseWarning(500, $error);
+		try
+		{
+			// Load a lookup table of all the component id's.
+			$components = $db->setQuery(
+				'SELECT element, extension_id' .
+				' FROM #__extensions' .
+				' WHERE type = '.$db->quote('component')
+			)->loadAssocList('element', 'extension_id');
+		}
+		catch (RuntimeException $e)
+		{
+			return JError::raiseWarning(500, $e->getMessage());
 		}
 
-		// Load all the component menu links
-		$items = $db->setQuery(
-			'SELECT id, link, component_id' .
-			' FROM #__menu' .
-			' WHERE type = '.$db->quote('component')
-		)->loadObjectList();
-
-		if ($error = $db->getErrorMsg()) {
-			return JError::raiseWarning(500, $error);
+		try
+		{
+			// Load all the component menu links
+			$items = $db->setQuery(
+				'SELECT id, link, component_id' .
+				' FROM #__menu' .
+				' WHERE type = '.$db->quote('component')
+			)->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			return JError::raiseWarning(500, $e->getMessage());
 		}
 
 		foreach ($items as $item) {
@@ -158,16 +162,19 @@ class MenusControllerMenus extends JControllerLegacy
 					$log = "Link $item->id refers to $item->component_id, converting to $componentId ($item->link)";
 					echo "<br/>$log";
 
-					$db->setQuery(
-						'UPDATE #__menu' .
-						' SET component_id = '.$componentId.
-						' WHERE id = '.$item->id
-					)->execute();
-					//echo "<br>".$db->getQuery();
-
-					if ($error = $db->getErrorMsg()) {
-						return JError::raiseWarning(500, $error);
+					try
+					{
+						$db->setQuery(
+							'UPDATE #__menu' .
+							' SET component_id = '.$componentId.
+							' WHERE id = '.$item->id
+						)->execute();
 					}
+					catch (RuntimeException $e)
+					{
+						return JError::raiseWarning(500, $e->getMessage());
+					}
+					//echo "<br>".$db->getQuery();
 				}
 			}
 		}

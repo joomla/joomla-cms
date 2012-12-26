@@ -49,7 +49,8 @@ class plgQuickiconExtensionupdate extends JPlugin
 			return;
 		}
 
-		$cur_template = JFactory::getApplication()->getTemplate();
+		JHtml::_('jquery.framework');
+
 		$ajax_url = JURI::base().'index.php?option=com_installer&view=update&task=update.ajax';
 		$script = "var plg_quickicon_extensionupdate_ajax_url = '$ajax_url';\n";
 		$script .= 'var plg_quickicon_extensionupdate_text = {"UPTODATE" : "'.
@@ -58,11 +59,11 @@ class plgQuickiconExtensionupdate extends JPlugin
 			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true)."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
-		$document->addScript(JURI::base().'../media/plg_quickicon_extensionupdate/extensionupdatecheck.js');
+		JHtml::script('plg_quickicon_extensionupdate/extensionupdatecheck.js', false, true);
 
 		return array(array(
 			'link' => 'index.php?option=com_installer&view=update',
-			'image' => 'header/icon-48-extension.png',
+			'image' => 'asterisk',
 			'text' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 			'id' => 'plg_quickicon_extensionupdate'
 		));

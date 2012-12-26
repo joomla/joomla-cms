@@ -3,12 +3,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-html, body {
-	margin: 0 !important;
-	padding: 0 !important;
-	font-family: Tahoma, Verdana, sans-serif !important;
-}
-
 .item {
 	float: left;
 	border: 1px solid #ccc !important;

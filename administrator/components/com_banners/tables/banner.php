@@ -23,14 +23,14 @@ class BannersTableBanner extends JTable
 	 *
 	 * @since	1.5
 	 */
-	function __construct(&$_db)
+	public function __construct(&$_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
 		$date = JFactory::getDate();
 		$this->created = $date->toSql();
 	}
 
-	function clicks()
+	public function clicks()
 	{
 		$query = 'UPDATE #__banners'
 		. ' SET clicks = (clicks + 1)'
@@ -47,7 +47,7 @@ class BannersTableBanner extends JTable
 	 * @see		JTable::check
 	 * @since	1.5
 	 */
-	function check()
+	public function check()
 	{
 		// Set name
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
@@ -122,7 +122,7 @@ class BannersTableBanner extends JTable
 	 *
 	 * @param boolean $updateNulls True to update fields even if they are null.
 	 */
-	function store($updateNulls = false)
+	public function store($updateNulls = false)
 	{
 		if (empty($this->id))
 		{
@@ -142,7 +142,7 @@ class BannersTableBanner extends JTable
 			switch($purchase_type)
 			{
 				case 1:
-					$this->reset=$this->_db->getNullDate();
+					$this->reset = $this->_db->getNullDate();
 					break;
 				case 2:
 					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
@@ -175,7 +175,8 @@ class BannersTableBanner extends JTable
 
 			// Verify that the alias is unique
 			$table = JTable::getInstance('Banner', 'BannersTable');
-			if ($table->load(array('alias'=>$this->alias, 'catid'=>$this->catid)) && ($table->id != $this->id || $this->id==0)) {
+			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+			{
 				$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
 				return false;
 			}
@@ -184,13 +185,13 @@ class BannersTableBanner extends JTable
 			parent::store($updateNulls);
 
 			// Need to reorder ?
-			if ($oldrow->state>=0 && ($this->state < 0 || $oldrow->catid != $this->catid))
+			if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
 			{
 				// Reorder the oldrow
 				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
 			}
 		}
-		return count($this->getErrors())==0;
+		return count($this->getErrors()) == 0;
 	}
 
 	/**
@@ -207,7 +208,6 @@ class BannersTableBanner extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -241,12 +241,12 @@ class BannersTableBanner extends JTable
 			}
 
 			// Verify checkout
-			if($table->checked_out==0 || $table->checked_out==$userId)
+			if ($table->checked_out == 0 || $table->checked_out == $userId)
 			{
 				// Change the state
 				$table->state = $state;
-				$table->checked_out=0;
-				$table->checked_out_time=$this->_db->getNullDate();
+				$table->checked_out = 0;
+				$table->checked_out_time = $this->_db->getNullDate();
 
 				// Check the row
 				$table->check();
@@ -258,7 +258,7 @@ class BannersTableBanner extends JTable
 				}
 			}
 		}
-		return count($this->getErrors())==0;
+		return count($this->getErrors()) == 0;
 	}
 
 	/**
@@ -275,7 +275,6 @@ class BannersTableBanner extends JTable
 	 */
 	public function stick($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -309,12 +308,12 @@ class BannersTableBanner extends JTable
 			}
 
 			// Verify checkout
-			if($table->checked_out==0 || $table->checked_out==$userId)
+			if ($table->checked_out == 0 || $table->checked_out == $userId)
 			{
 				// Change the state
 				$table->sticky = $state;
-				$table->checked_out=0;
-				$table->checked_out_time=$this->_db->getNullDate();
+				$table->checked_out = 0;
+				$table->checked_out_time = $this->_db->getNullDate();
 
 				// Check the row
 				$table->check();
@@ -326,6 +325,6 @@ class BannersTableBanner extends JTable
 				}
 			}
 		}
-		return count($this->getErrors())==0;
+		return count($this->getErrors()) == 0;
 	}
 }

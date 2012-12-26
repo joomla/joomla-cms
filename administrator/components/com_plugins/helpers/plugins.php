@@ -55,7 +55,7 @@ class PluginsHelper
 	 *
 	 * @return	string			The HTML code for the select tag
 	 */
-	public static function stateOptions()
+	public static function publishedOptions()
 	{
 		// Build the active state filter options.
 		$options	= array();
@@ -81,15 +81,20 @@ class PluginsHelper
 		$query->order('folder');
 
 		$db->setQuery($query);
-		$options = $db->loadObjectList();
 
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		return $options;
 	}
-	function parseXMLTemplateFile($templateBaseDir, $templateDir)
+
+	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 

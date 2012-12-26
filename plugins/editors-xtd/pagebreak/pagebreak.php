@@ -38,21 +38,16 @@ class plgButtonPagebreak extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$app = JFactory::getApplication();
-
-		$doc = JFactory::getDocument();
-		$template = $app->getTemplate();
+		JHtml::_('behavior.modal');
 
 		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name='.$name;
 
-		JHtml::_('behavior.modal');
-
 		$button = new JObject;
-		$button->set('modal', true);
-		$button->set('link', $link);
-		$button->set('text', JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK'));
-		$button->set('name', 'pagebreak');
-		$button->set('options', "{handler: 'iframe', size: {x: 400, y: 100}}");
+		$button->modal = true;
+		$button->link  = $link;
+		$button->text  = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
+		$button->name  = 'copy';
+		$button->options = "{handler: 'iframe', size: {x: 500, y: 300}}";
 
 		return $button;
 	}

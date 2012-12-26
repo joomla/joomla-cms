@@ -46,12 +46,10 @@ class FinderTableMap extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
 		JArrayHelper::toInteger($pks);
-		$userId = (int) $userId;
 		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
@@ -78,12 +76,14 @@ class FinderTableMap extends JTable
 		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where($where);
 		$this->_db->setQuery($query);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 

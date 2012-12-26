@@ -50,7 +50,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		$data = $this->_doc;
 
-		$uri = JFactory::getURI();
+		$uri = JURI::getInstance();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=rss');
 

@@ -19,34 +19,45 @@ defined('_JEXEC') or die;
 class InstallerViewDefault extends JViewLegacy
 {
 	/**
+	 * Constructor
+	 *
+	 * @param   array  $config  Configuration array
+	 *
 	 * @since	1.5
 	 */
-	function __construct($config = null)
+	public function __construct($config = null)
 	{
 		$app = JFactory::getApplication();
 		parent::__construct($config);
 		$this->_addPath('template', $this->_basePath . '/views/default/tmpl');
-		$this->_addPath('template', JPATH_THEMES.'/'.$app->getTemplate().'/html/com_installer/default');
+		$this->_addPath('template', JPATH_THEMES . '/' . $app->getTemplate() . '/html/com_installer/default');
 	}
 
 	/**
+	 * Display the view
+	 *
+	 * @param   string  $tpl  Template
+	 *
+	 * @return  void
+	 *
 	 * @since	1.5
 	 */
-	function display($tpl=null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$state	= $this->get('State');
 
 		// Are there messages to display ?
 		$showMessage	= false;
-		if (is_object($state)) {
+		if (is_object($state))
+		{
 			$message1		= $state->get('message');
 			$message2		= $state->get('extension_message');
 			$showMessage	= ($message1 || $message2);
 		}
 
 		$this->showMessage = $showMessage;
-		$this->assignRef('state',		$state);
+		$this->state = &$state;
 
 		JHtml::_('behavior.tooltip');
 		$this->addToolbar();
@@ -56,20 +67,26 @@ class InstallerViewDefault extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since	1.6
 	 */
 	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
-		JToolBarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
+		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
 
-		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_installer');
-			JToolBarHelper::divider();
+		if ($canDo->get('core.admin'))
+		{
+			JToolbarHelper::preferences('com_installer');
+			JToolbarHelper::divider();
 		}
 
 		// Document
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_INSTALLER_TITLE_' . $this->getName()));
+
+		// Render side bar
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

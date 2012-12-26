@@ -57,7 +57,7 @@ class BannersModelBanners extends JModelList
 	 *
 	 * @since	1.6
 	 */
-	function &getCategoryOrders()
+	public function &getCategoryOrders()
 	{
 		if (!isset($this->cache['categoryorders'])) {
 			$db		= $this->getDbo();
@@ -80,7 +80,6 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		// Initialise variables.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 
@@ -212,7 +211,6 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.

@@ -22,7 +22,7 @@ JHtml::register('users.editor', array('JHtmlUsers', 'editor'));
 <?php if (count($fields)): ?>
 <fieldset id="users-profile-custom">
 	<legend><?php echo JText::_('COM_USERS_SETTINGS_FIELDSET_LABEL'); ?></legend>
-	<dl>
+	<dl class="dl-horizontal">
 	<?php foreach ($fields as $field):
 		if (!$field->hidden) :?>
 		<dt><?php echo $field->title; ?></dt>

@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class WeblinksViewCategories extends JViewLegacy
 {
 	protected $state = null;
+
 	protected $item = null;
+
 	protected $items = null;
 
 	/**
@@ -27,9 +29,8 @@ class WeblinksViewCategories extends JViewLegacy
 	 *
 	 * @return	mixed	False on error, null otherwise.
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables
 		$state		= $this->get('State');
 		$items		= $this->get('Items');
 		$parent		= $this->get('Parent');
@@ -58,9 +59,9 @@ class WeblinksViewCategories extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->maxLevelcat = $params->get('maxLevelcat', -1);
-		$this->assignRef('params',		$params);
-		$this->assignRef('parent',		$parent);
-		$this->assignRef('items',		$items);
+		$this->params = &$params;
+		$this->parent = &$parent;
+		$this->items  = &$items;
 
 		$this->_prepareDocument();
 

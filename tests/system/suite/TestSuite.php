@@ -81,7 +81,6 @@ class TestSuite
 		$suite->addTestSuite('SampleData0001');
 		$suite->addTestSuite('Acl0001Test');
 		$suite->addTestSuite('Acl0002Test');
-		$suite->addTestSuite('DoInstall');
 		$suite->addTestSuite('Acl0003Test');
 		$suite->addTestSuite('Acl0004Test');
 		$suite->addTestSuite('Acl0005Test');

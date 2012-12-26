@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="2.5">
+<extension type="library" version="3.0">
 	<name>Joomla! Platform</name>
 	<libraryname>joomla</libraryname>
-	<version>11.4</version>
+	<version>12.2</version>
 	<description>LIB_JOOMLA_XML_DESCRIPTION</description>
 	<creationDate>2008</creationDate>
 	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
@@ -12,9 +12,11 @@
 	<authorUrl>http://www.joomla.org</authorUrl>
 	<packager>Joomla!</packager>
 	<packagerurl>http://www.joomla.org</packagerurl>
-	<update>http://update.joomla.org/libraries/joomla</update>
 	<files folder="libraries">
+		<folder>compat</folder>
 		<folder>joomla</folder>
+		<folder>legacy</folder>
+		<file>import.legacy.php</file>
 		<file>import.php</file>
 		<file>loader.php</file>
 		<file>platform.php</file>

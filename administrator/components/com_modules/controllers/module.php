@@ -27,7 +27,6 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function add()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the result of the parent method. If an error, just return it.
@@ -64,7 +63,6 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		$result = parent::cancel();
@@ -132,7 +130,6 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$task = $this->getTask();
 

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the helper functions only once
-require_once dirname(__FILE__).'/helper.php';
+require_once __DIR__ . '/helper.php';
 
 $input = JFactory::getApplication()->input;
 
@@ -56,7 +56,7 @@ $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = $cacheid;
 
-$list = JModuleHelper::moduleCache ($module, $params, $cacheparams);
+$list = JModuleHelper::moduleCache($module, $params, $cacheparams);
 
 
 if (!empty($list)) {

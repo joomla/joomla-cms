@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.base.adapterinstance');
+jimport('joomla.filesystem.folder');
 
 /**
  * Language installer
@@ -128,17 +129,6 @@ class JInstallerLanguage extends JAdapterInstance
 					$this->core = true;
 					break;
 				}
-			}
-		}
-
-		// Either we are installing a core pack or a core pack must exist for the language we are installing.
-		if (!$this->core)
-		{
-			if (!JFile::exists($this->parent->getPath('extension_site') . '/' . $this->get('tag') . '.xml'))
-			{
-				$this->parent
-					->abort(JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_NO_CORE_LANGUAGE', $this->get('tag'))));
-				return false;
 			}
 		}
 
@@ -326,17 +316,6 @@ class JInstallerLanguage extends JAdapterInstance
 					$this->core = true;
 					break;
 				}
-			}
-		}
-
-		// Either we are installing a core pack or a core pack must exist for the language we are installing.
-		if (!$this->core)
-		{
-			if (!JFile::exists($this->parent->getPath('extension_site') . '/' . $this->get('tag') . '.xml'))
-			{
-				$this->parent
-					->abort(JText::sprintf('JLIB_INSTALLER_ABORT', JText::sprintf('JLIB_INSTALLER_ERROR_NO_CORE_LANGUAGE', $this->get('tag'))));
-				return false;
 			}
 		}
 

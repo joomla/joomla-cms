@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile	version="2.5"	client="installation">
+<metafile
+	version="3.0"
+	client="installation">
 	<name>Persian (پارسی)</name>
-	<version>2.5</version>
-	<creationDate>2011-09-14</creationDate>
-	<author>joomlafarsi team.</author>
+	<version>3.0.</version>
+	<creationDate>2012-09-24</creationDate>
+	<author>Joomla Farsi Team</author>
 	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Persian installation language</description>
+	<description></description>
 	<files>
 		<filename>fa-IR.ini</filename>
 	</files>

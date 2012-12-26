@@ -21,28 +21,30 @@ class InstallerController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
+	 *
 	 * @since	1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/installer.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_installer/helpers/installer.php';
 
 		// Get the document object.
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'install');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
+		$vName   = $this->input->get('view', 'install');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
-			$ftp	= JClientHelper::setCredentialsFromRequest('ftp');
-			$view->assignRef('ftp', $ftp);
+		if ($view = $this->getView($vName, $vFormat))
+		{
+			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
+			$view->ftp = &$ftp;
 
 			// Get the model for the view.
 			$model = $this->getModel($vName);
@@ -52,7 +54,8 @@ class InstallerController extends JControllerLegacy
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
+
 			// Load the submenu.
 			InstallerHelper::addSubmenu($vName);
 			$view->display();

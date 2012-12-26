@@ -58,6 +58,7 @@ class JFormFieldDirectories extends JFormFieldList
 		);
 
 		// Get the base directories.
+		jimport('joomla.filesystem.folder');
 		$dirs = JFolder::folders(JPATH_SITE, '.', false, true);
 
 		// Iterate through the base directories and find the subdirectories.

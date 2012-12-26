@@ -28,7 +28,6 @@ class UsersModelMail extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the form.
@@ -69,19 +68,18 @@ class UsersModelMail extends JModelAdmin
 
 	public function send()
 	{
-		// Initialise variables.
-		$data   = JRequest::getVar('jform', array(), 'post', 'array');
 		$app    = JFactory::getApplication();
+		$data   = $app->input->post->get('jform', array(), 'array');
 		$user   = JFactory::getUser();
 		$access = new JAccess;
 		$db     = $this->getDbo();
 
-		$mode		= array_key_exists('mode', $data) ? intval($data['mode']) : 0;
+		$mode		= array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
 		$subject	= array_key_exists('subject', $data) ? $data['subject'] : '';
-		$grp		= array_key_exists('group', $data) ? intval($data['group']) : 0;
-		$recurse	= array_key_exists('recurse', $data) ? intval($data['recurse']) : 0;
-		$bcc		= array_key_exists('bcc', $data) ? intval($data['bcc']) : 0;
-		$disabled	= array_key_exists('disabled', $data) ? intval($data['disabled']) : 0;
+		$grp		= array_key_exists('group', $data) ? (int) $data['group'] : 0;
+		$recurse	= array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
+		$bcc		= array_key_exists('bcc', $data) ? (int) $data['bcc'] : 0;
+		$disabled	= array_key_exists('disabled', $data) ? (int) $data['disabled'] : 0;
 		$message_body = array_key_exists('message', $data) ? $data['message'] : '';
 
 		// automatically removes html formatting
@@ -167,12 +165,12 @@ class UsersModelMail extends JModelAdmin
 			// Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
 			// when the box is not checked and in this case, the default value would be used instead of the '0'
 			// one)
-			$data['mode']=$mode;
-			$data['subject']=$subject;
-			$data['group']=$grp;
-			$data['recurse']=$recurse;
-			$data['bcc']=$bcc;
-			$data['message']=$message_body;
+			$data['mode'] = $mode;
+			$data['subject'] = $subject;
+			$data['group'] = $grp;
+			$data['recurse'] = $recurse;
+			$data['bcc'] = $bcc;
+			$data['message'] = $message_body;
 			$app->setUserState('com_users.display.mail.data', array());
 			$app->enqueueMessage(JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
 			return true;

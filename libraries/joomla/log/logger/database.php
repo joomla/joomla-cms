@@ -26,7 +26,7 @@ class JLogLoggerDatabase extends JLogLogger
 	 * @var    string  The name of the database driver to use for connecting to the database.
 	 * @since  11.1
 	 */
-	protected $driver = 'mysql';
+	protected $driver = 'mysqli';
 
 	/**
 	 * @var    string  The host name (or IP) of the server with which to connect for the logger.
@@ -90,7 +90,7 @@ class JLogLoggerDatabase extends JLogLogger
 		else
 		{
 			$this->dbo = null;
-			$this->driver = (empty($this->options['db_driver'])) ? 'mysql' : $this->options['db_driver'];
+			$this->driver = (empty($this->options['db_driver'])) ? 'mysqli' : $this->options['db_driver'];
 			$this->host = (empty($this->options['db_host'])) ? '127.0.0.1' : $this->options['db_host'];
 			$this->user = (empty($this->options['db_user'])) ? 'root' : $this->options['db_user'];
 			$this->password = (empty($this->options['db_pass'])) ? '' : $this->options['db_pass'];

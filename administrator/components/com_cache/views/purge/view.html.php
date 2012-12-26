@@ -21,6 +21,7 @@ class CacheViewPurge extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -31,15 +32,15 @@ class CacheViewPurge extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		//JSubMenuHelper::addEntry(JText::_('COM_CACHE_BACK_CACHE_MANAGER'), 'index.php?option=com_cache', false);
+		//JHtmlSidebar::addEntry(JText::_('COM_CACHE_BACK_CACHE_MANAGER'), 'index.php?option=com_cache', false);
 
-		JToolBarHelper::title(JText::_('COM_CACHE_PURGE_EXPIRED_CACHE'), 'purge.png');
-		JToolBarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
-		JToolBarHelper::divider();
+		JToolbarHelper::title(JText::_('COM_CACHE_PURGE_EXPIRED_CACHE'), 'purge.png');
+		JToolbarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
+		JToolbarHelper::divider();
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
-			JToolBarHelper::preferences('com_cache');
-			JToolBarHelper::divider();
+			JToolbarHelper::preferences('com_cache');
+			JToolbarHelper::divider();
 		}
-		JToolBarHelper::help('JHELP_SITE_MAINTENANCE_PURGE_EXPIRED_CACHE');
+		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_PURGE_EXPIRED_CACHE');
 	}
 }

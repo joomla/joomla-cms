@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.folder');
-
 /**
  * Joomla Platform Database Interface
  *
@@ -203,8 +201,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
-			// @deprecated 12.3 Stop checking with test()
-			if ($class::isSupported() || $class::test())
+			if ($class::isSupported())
 			{
 				// Connector names should not have file extensions.
 				$connectors[] = str_ireplace('.php', '', $fileName);
@@ -217,7 +214,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Method to return a JDatabaseDriver instance based on the given options.  There are three global options and then
 	 * the rest are specific to the database driver.  The 'driver' option defines which JDatabaseDriver class is
-	 * used for the connection -- the default is 'mysql'.  The 'database' option determines which database is to
+	 * used for the connection -- the default is 'mysqli'.  The 'database' option determines which database is to
 	 * be used for the connection.  The 'select' option determines whether the connector should automatically select
 	 * the chosen database.
 	 *
@@ -233,9 +230,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public static function getInstance($options = array())
 	{
 		// Sanitize the database connector options.
-		$options['driver'] = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysql';
+		$options['driver']   = (isset($options['driver'])) ? preg_replace('/[^A-Z0-9_\.-]/i', '', $options['driver']) : 'mysqli';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : null;
-		$options['select'] = (isset($options['select'])) ? $options['select'] : true;
+		$options['select']   = (isset($options['select'])) ? $options['select'] : true;
 
 		// Get the options signature for the database connector.
 		$signature = md5(serialize($options));
@@ -377,6 +374,27 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Alter database's character set, obtaining query string from protected member.
+	 *
+	 * @param   string  $dbName  The database name that will be altered
+	 *
+	 * @return  string  The query that alter the database query string
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function alterDbCharacterSet($dbName)
+	{
+		if (is_null($dbName))
+		{
+			throw new RuntimeException('Database name must not be null.');
+		}
+
+		$this->setQuery($this->getAlterDbCharacterSet($dbName));
+		return $this->execute();
+	}
+
+	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
@@ -394,6 +412,38 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 */
 	abstract public function connected();
+
+	/**
+	 * Create a new database using information from $options object, obtaining query string
+	 * from protected member.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 * 									This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  string  The query that creates database
+	 *
+	 * @since   12.2
+	 * @throws  RuntimeException
+	 */
+	public function createDatabase($options, $utf = true)
+	{
+		if (is_null($options))
+		{
+			throw new RuntimeException('$options object must not be null.');
+		}
+		elseif (empty($options->db_name))
+		{
+			throw new RuntimeException('$options object must have db_name set.');
+		}
+		elseif (empty($options->db_user))
+		{
+			throw new RuntimeException('$options object must have db_user set.');
+		}
+
+		$this->setQuery($this->getCreateDatabaseQuery($options, $utf));
+		return $this->execute();
+	}
 
 	/**
 	 * Disconnects the database.
@@ -482,6 +532,48 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 */
 	abstract public function getAffectedRows();
+
+	/**
+	 * Return the query string to alter the database character set.
+	 *
+	 * @param   string  $dbName  The database name
+	 *
+	 * @return  string  The query that alter the database query string
+	 *
+	 * @since   12.2
+	 */
+	protected function getAlterDbCharacterSet($dbName)
+	{
+		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
+
+		return $query;
+	}
+
+	/**
+	 * Return the query string to create new Database.
+	 * Each database driver, other than MySQL, need to override this member to return correct string.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 * 									This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  string  The query that creates database
+	 *
+	 * @since   12.2
+	 */
+	protected function getCreateDatabaseQuery($options, $utf)
+	{
+		if ($utf)
+		{
+			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
+		}
+		else
+		{
+			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+		}
+
+		return $query;
+	}
 
 	/**
 	 * Method to get the database collation in use by sampling a text field of a table in the database.
@@ -816,7 +908,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function insertObject($table, &$object, $key = null)
 	{
-		// Initialise variables.
 		$fields = array();
 		$values = array();
 
@@ -855,7 +946,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		// Update the primary key if it exists.
 		$id = $this->insertid();
-		if ($key && $id)
+		if ($key && $id && is_string($key))
 		{
 			$object->$key = $id;
 		}
@@ -888,7 +979,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -930,7 +1020,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -974,7 +1063,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1085,7 +1173,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1125,7 +1212,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1165,7 +1251,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1199,7 +1284,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$ret = null;
 
 		// Execute the query and get the result set cursor.
@@ -1238,7 +1322,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$this->connect();
 
-		// Initialise variables.
 		$array = array();
 
 		// Execute the query and get the result set cursor.
@@ -1392,7 +1475,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		// Initialize variables.
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';
@@ -1597,8 +1679,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * Updates a row in a table based on an object's properties.
 	 *
 	 * @param   string   $table    The name of the database table to update.
-	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string   $key      The name of the primary key.
+	 * @param   object   $object  A reference to an object whose public properties match the table fields.
+	 * @param   array    $key      The name of the primary key.
 	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
@@ -1606,11 +1688,20 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function updateObject($table, &$object, $key, $nulls = false)
+	public function updateObject($table, $object, $key, $nulls = false)
 	{
-		// Initialise variables.
 		$fields = array();
-		$where = '';
+		$where = array();
+
+		if (is_string($key))
+		{
+			$key = array($key);
+		}
+
+		if (is_object($key))
+		{
+			$key = (array) $key;
+		}
 
 		// Create the base update statement.
 		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
@@ -1625,9 +1716,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 
 			// Set the primary key to the WHERE clause instead of a field to update.
-			if ($k == $key)
+			if (in_array($k, $key))
 			{
-				$where = $this->quoteName($k) . '=' . $this->quote($v);
+				$where[] = $this->quoteName($k) . '=' . $this->quote($v);
 				continue;
 			}
 
@@ -1662,7 +1753,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// Set the query and execute the update.
-		$this->setQuery(sprintf($statement, implode(",", $fields), $where));
+		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
 		return $this->execute();
 	}
 

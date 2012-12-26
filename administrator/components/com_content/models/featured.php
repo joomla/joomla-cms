@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/articles.php';
+require_once __DIR__ . '/articles.php';
 
 /**
  * About Page Model
@@ -40,6 +40,7 @@ class ContentModelFeatured extends ContentModelArticles
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
+				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
 				'language', 'a.language',
@@ -58,7 +59,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * @return	string
 	 */
-	function getListQuery($resolveFKs = true)
+	protected function getListQuery($resolveFKs = true)
 	{
 		// Create a new query object.
 		$db = $this->getDbo();
@@ -69,7 +70,7 @@ class ContentModelFeatured extends ContentModelArticles
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-				'a.language, a.publish_up, a.publish_down'
+				'a.language, a.created_by_alias, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');
@@ -109,6 +110,29 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('a.state = ' . (int) $published);
 		} elseif ($published === '') {
 			$query->where('(a.state = 0 OR a.state = 1)');
+		}
+
+		// Filter by a single or group of categories.
+		$baselevel = 1;
+		$categoryId = $this->getState('filter.category_id');
+		if (is_numeric($categoryId)) {
+			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId);
+			$rgt = $cat_tbl->rgt;
+			$lft = $cat_tbl->lft;
+			$baselevel = (int) $cat_tbl->level;
+			$query->where('c.lft >= '.(int) $lft);
+			$query->where('c.rgt <= '.(int) $rgt);
+		}
+		elseif (is_array($categoryId)) {
+			JArrayHelper::toInteger($categoryId);
+			$categoryId = implode(',', $categoryId);
+			$query->where('a.catid IN ('.$categoryId.')');
+		}
+
+		// Filter on the level.
+		if ($level = $this->getState('filter.level')) {
+			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));
 		}
 
 		// Filter by search in title

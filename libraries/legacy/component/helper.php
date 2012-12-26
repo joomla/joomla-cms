@@ -62,18 +62,17 @@ class JComponentHelper
 	/**
 	 * Checks if the component is enabled
 	 *
-	 * @param   string   $option  The component option.
-	 * @param   boolean  $strict  If set and the component does not exist, false will be returned.
+	 * @param   string  $option  The component option.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	public static function isEnabled($option, $strict = false)
+	public static function isEnabled($option)
 	{
-		$result = self::getComponent($option, $strict);
+		$result = self::getComponent($option, true);
 
-		return ($result->enabled | JFactory::getApplication()->isAdmin());
+		return $result->enabled;
 	}
 
 	/**
@@ -288,7 +287,6 @@ class JComponentHelper
 	 */
 	public static function renderComponent($option, $params = array())
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Load template language files.
@@ -385,9 +383,18 @@ class JComponentHelper
 
 		$cache = JFactory::getCache('_system', 'callback');
 
-		self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		try
+		{
+			self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+		}
+		catch (RuntimeException $e)
+		{
+			// Fatal error.
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			return false;
+		}
 
-		if ($error = $db->getErrorMsg() || empty(self::$components[$option]))
+		if (empty(self::$components[$option]))
 		{
 			// Fatal error.
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');

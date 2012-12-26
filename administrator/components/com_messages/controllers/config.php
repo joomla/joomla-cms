@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined( '_JEXEC' ) or die;
+defined('_JEXEC') or die;
 
 /**
  * Messages Component Message Model
@@ -26,10 +26,9 @@ class MessagesControllerConfig extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$model		= $this->getModel('Config', 'MessagesModel');
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel('Config', 'MessagesModel');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
 		$form	= $model->getForm();

@@ -296,7 +296,8 @@ abstract class JLoader
 	{
 		foreach (self::$prefixes as $prefix => $lookup)
 		{
-			if (strpos($class, $prefix) === 0)
+			$chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
+			if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr)))
 			{
 				return self::_load(substr($class, strlen($prefix)), $lookup);
 			}

@@ -37,7 +37,6 @@ class JFormFieldUsergroup extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$options = array();
 		$attr = '';
 

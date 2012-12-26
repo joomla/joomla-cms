@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
 class ContactViewContact extends JViewLegacy
 {
 	protected $state;
+
 	protected $item;
 
 	public function display()
@@ -33,7 +34,6 @@ class ContactViewContact extends JViewLegacy
 		$doc = JFactory::getDocument();
 		$doc->setMetaData('Content-Type', 'text/directory', true);
 
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$params 	= $app->getParams();
 		$user		= JFactory::getUser();
@@ -74,20 +74,20 @@ class ContactViewContact extends JViewLegacy
 		JResponse::setHeader('Content-disposition', 'attachment; filename="'.$card_name.'.vcf"', true);
 
 		$vcard = array();
-		$vcard[].= 'BEGIN:VCARD';
-		$vcard[].= 'VERSION:3.0';
-		$vcard[] = 'N:'.$lastname.';'.$firstname.';'.$middlename;
-		$vcard[] = 'FN:'. $item->name;
-		$vcard[] = 'TITLE:'.$item->con_position;
-		$vcard[] = 'TEL;TYPE=WORK,VOICE:'.$item->telephone;
-		$vcard[] = 'TEL;TYPE=WORK,FAX:'.$item->fax;
-		$vcard[] = 'TEL;TYPE=WORK,MOBILE:'.$item->mobile;
-		$vcard[] = 'ADR;TYPE=WORK:;;'.$item->address.';'.$item->suburb.';'.$item->state.';'.$item->postcode.';'.$item->country;
-		$vcard[] = 'LABEL;TYPE=WORK:'.$item->address."\n".$item->suburb."\n".$item->state."\n".$item->postcode."\n".$item->country;
-		$vcard[] = 'EMAIL;TYPE=PREF,INTERNET:'.$item->email_to;
-		$vcard[] = 'URL:'.$item->webpage;
-		$vcard[] = 'REV:'.$rev.'Z';
-		$vcard[] = 'END:VCARD';
+		$vcard[] .= 'BEGIN:VCARD';
+		$vcard[] .= 'VERSION:3.0';
+		$vcard[]  = 'N:'.$lastname.';'.$firstname.';'.$middlename;
+		$vcard[]  = 'FN:'. $item->name;
+		$vcard[]  = 'TITLE:'.$item->con_position;
+		$vcard[]  = 'TEL;TYPE=WORK,VOICE:'.$item->telephone;
+		$vcard[]  = 'TEL;TYPE=WORK,FAX:'.$item->fax;
+		$vcard[]  = 'TEL;TYPE=WORK,MOBILE:'.$item->mobile;
+		$vcard[]  = 'ADR;TYPE=WORK:;;'.$item->address.';'.$item->suburb.';'.$item->state.';'.$item->postcode.';'.$item->country;
+		$vcard[]  = 'LABEL;TYPE=WORK:'.$item->address."\n".$item->suburb."\n".$item->state."\n".$item->postcode."\n".$item->country;
+		$vcard[]  = 'EMAIL;TYPE=PREF,INTERNET:'.$item->email_to;
+		$vcard[]  = 'URL:'.$item->webpage;
+		$vcard[]  = 'REV:'.$rev.'Z';
+		$vcard[]  = 'END:VCARD';
 
 		echo implode("\n", $vcard);
 		return true;

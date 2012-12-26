@@ -10,19 +10,29 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.framework', true);
-?>
-	<script type="text/javascript">
-	// Hide/show all rows which are not assigned.
-	window.addEvent('domready', function() {
-		document.id('showmods').addEvent('click', function(e) {
-			$$('.adminlist tr.no').toggle();
-		});
-	});
-	</script>
 
-	<label style="margin-right: 5px;" for="showmods"><?php echo JText::_('COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED');?></label>
-	<input type="checkbox" id="showmods" />
-	<table class="adminlist">
+$script = array();
+$script[] = "	window.addEvent('domready', function() {";
+$script[] = "		document.id('showmods').addEvent('click', function(e) {";
+$script[] = "			document.id('showmods').setStyle('display', 'block');";
+$script[] = "		jQuery('.table tr.no').toggle();";
+$script[] = "		});";
+$script[] = "	})";
+
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+?>
+
+<div class="control-group">
+	<div class="control-label">
+		<label for="showmods"><?php echo JText::_('COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED');?></label>
+	</div>
+	<div class="controls">
+		<input type="checkbox" id="showmods" />
+	</div>
+</div>
+
+	<table class="table table-striped">
 		<thead>
 		<tr>
 			<th class="left">
@@ -50,16 +60,26 @@ JHtml::_('behavior.framework', true);
 				<td class="center">
 					<?php if (is_null($module->menuid)) : ?>
 						<?php if ($module->except):?>
-							<?php echo JText::_('JYES'); ?>
+							<span class="label label-success">
+								<?php echo JText::_('JYES'); ?>
+							</span>
 						<?php else : ?>
-							<?php echo JText::_('JNO'); ?>
+							<span class="label label-important">
+								<?php echo JText::_('JNO'); ?>
+							</span>
 						<?php endif;?>
 					<?php elseif ($module->menuid > 0) : ?>
-						<?php echo JText::_('JYES'); ?>
+						<span class="label label-success">
+							<?php echo JText::_('JYES'); ?>
+						</span>
 					<?php elseif ($module->menuid < 0) : ?>
-						<?php echo JText::_('JNO'); ?>
+						<span class="label label-important">
+							<?php echo JText::_('JNO'); ?>
+						</span>
 					<?php else : ?>
-						<?php echo JText::_('JALL'); ?>
+						<span class="label label-info">
+							<?php echo JText::_('JALL'); ?>
+						</span>
 					<?php endif; ?>
 				</td>
 			</tr>

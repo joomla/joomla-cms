@@ -9,13 +9,20 @@
 
 defined('_JEXEC') or die;
 
-// Include the syndicate functions only once
-require_once dirname(__FILE__).'/helper.php';
+// Include the login functions only once
+require_once __DIR__ . '/helper.php';
 
 $params->def('greeting', 1);
 
 $type	= modLoginHelper::getType();
 $return	= modLoginHelper::getReturnURL($params, $type);
 $user	= JFactory::getUser();
+$layout = $params->get('layout', 'default');
 
-require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));
+// Logged users must load the logout sublayout
+if (!$user->guest)
+{
+	$layout .= '_logout';
+}
+
+require JModuleHelper::getLayoutPath('mod_login', $layout);

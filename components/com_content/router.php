@@ -45,7 +45,8 @@ function ContentBuildRoute(&$query)
 	}
 
 	// are we dealing with an article or category that is attached to a menu item?
-	if (($menuItem instanceof stdClass) && $menuItem->query['view'] == $query['view'] && isset($query['id']) && $menuItem->query['id'] == intval($query['id'])) {
+	if (($menuItem instanceof stdClass) && $menuItem->query['view'] == $query['view'] && isset($query['id']) && $menuItem->query['id'] == (int) $query['id'])
+	{
 		unset($query['view']);
 
 		if (isset($query['catid'])) {
@@ -75,7 +76,8 @@ function ContentBuildRoute(&$query)
 				// Make sure we have the id and the alias
 				if (strpos($query['id'], ':') === false) {
 					$db = JFactory::getDbo();
-					$aquery = $db->setQuery($db->getQuery(true)
+					$aquery = $db->setQuery(
+						$db->getQuery(true)
 						->select('alias')
 						->from('#__content')
 						->where('id=' . (int) $query['id'])
@@ -321,9 +323,9 @@ function ContentParseRoute($segments)
 			$vars['id'] = $cid;
 
 			if ($item->query['view'] == 'archive' && $count != 1){
-				$vars['year']	= $count >= 2 ? $segments[$count-2] : null;
-				$vars['month'] = $segments[$count-1];
-				$vars['view']	= 'archive';
+				$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
+				$vars['month'] = $segments[$count - 1];
+				$vars['view']  = 'archive';
 			}
 			else {
 				$vars['view'] = 'article';

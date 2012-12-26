@@ -24,6 +24,14 @@ $loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('COM_USERS_SEARCH_USERS'); ?></legend>
 		<div class="filter-search">
@@ -171,7 +179,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->lastvisitDate!='0000-00-00 00:00:00'):?>
+					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'): ?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>
@@ -199,4 +207,5 @@ $loggeduser = JFactory::getUser();
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+</div>
 </form>

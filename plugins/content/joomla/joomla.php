@@ -28,7 +28,7 @@ class plgContentJoomla extends JPlugin
 	 * @param	bool		If the content is just about to be created
 	 * @since	1.6
 	 */
-	public function onContentAfterSave($context, &$article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew)
 	{
 		// Check we are handling the frontend edit form.
 		if ($context != 'com_content.form') {
@@ -170,17 +170,18 @@ class plgContentJoomla extends JPlugin
 		$query->from($table);
 		$query->where('catid = ' . $catid);
 		$db->setQuery($query);
-		$count = $db->loadResult();
 
-		// Check for DB error.
-		if ($error = $db->getErrorMsg())
+		try
 		{
-			JError::raiseWarning(500, $error);
+			$count = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 			return false;
 		}
-		else {
-			return $count;
-		}
+
+		return $count;
 	}
 
 	/**
@@ -212,18 +213,18 @@ class plgContentJoomla extends JPlugin
 			$query->from($table);
 			$query->where('catid IN (' . implode(',', $childCategoryIds) . ')');
 			$db->setQuery($query);
-			$count = $db->loadResult();
 
-			// Check for DB error.
-			if ($error = $db->getErrorMsg())
+			try
 			{
-				JError::raiseWarning(500, $error);
+				$count = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
 				return false;
 			}
-			else
-			{
-				return $count;
-			}
+
+			return $count;
 		}
 		else
 		// If we didn't have any categories to check, return 0

@@ -107,7 +107,6 @@ class FinderTableFilter extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -149,12 +148,14 @@ class FinderTableFilter extends JTable
 		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where($where);
 		$this->_db->setQuery($query . $checkin);
-		$this->_db->execute();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -207,7 +208,7 @@ class FinderTableFilter extends JTable
 		{
 			// New item. A filter's created field can be set by the user,
 			// so we don't touch it if it is set.
-			if (!intval($this->created))
+			if (!(int) $this->created)
 			{
 				$this->created = $date->toSql();
 			}

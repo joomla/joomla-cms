@@ -109,7 +109,7 @@ class JTableNested extends JTable
 	 */
 	public function debug($level)
 	{
-		$this->_debug = intval($level);
+		$this->_debug = (int) $level;
 	}
 
 	/**
@@ -125,7 +125,6 @@ class JTableNested extends JTable
 	 */
 	public function getPath($pk = null, $diagnostic = false)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -156,7 +155,6 @@ class JTableNested extends JTable
 	 */
 	public function getTree($pk = null, $diagnostic = false)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -185,7 +183,6 @@ class JTableNested extends JTable
 	 */
 	public function isLeaf($pk = null)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 		$node = $this->_getNode($pk);
@@ -243,7 +240,6 @@ class JTableNested extends JTable
 	 */
 	public function move($delta, $where = '')
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = $this->$k;
 
@@ -305,7 +301,6 @@ class JTableNested extends JTable
 		}
 		// @codeCoverageIgnoreEnd
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -429,6 +424,7 @@ class JTableNested extends JTable
 		/*
 		 * Create space in the nested sets at the new location for the moved sub-tree.
 		 */
+
 		// Shift left values.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl)
@@ -472,11 +468,14 @@ class JTableNested extends JTable
 			$query->update($this->_tbl);
 
 			// Update the title and alias fields if they exist for the table.
+			$fields = $this->getFields();
+
 			if (property_exists($this, 'title') && $this->title !== null)
 			{
 				$query->set('title = ' . $this->_db->Quote($this->title));
 			}
-			if (property_exists($this, 'alias') && $this->alias !== null)
+
+			if (array_key_exists('alias', $fields)  && $this->alias !== null)
 			{
 				$query->set('alias = ' . $this->_db->Quote($this->alias));
 			}
@@ -512,7 +511,6 @@ class JTableNested extends JTable
 	 */
 	public function delete($pk = null, $children = true)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -699,7 +697,6 @@ class JTableNested extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// @codeCoverageIgnoreStart
@@ -861,7 +858,6 @@ class JTableNested extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -980,7 +976,6 @@ class JTableNested extends JTable
 	 */
 	public function orderUp($pk)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1062,7 +1057,6 @@ class JTableNested extends JTable
 	 */
 	public function orderDown($pk)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1171,7 +1165,9 @@ class JTableNested extends JTable
 			return $result[0];
 		}
 
-		if (property_exists($this, 'alias'))
+		$fields = $this->getFields();
+
+		if (array_key_exists('alias', $fields))
 		{
 			// Test for a unique record alias = root
 			$query = $this->_db->getQuery(true);
@@ -1295,13 +1291,14 @@ class JTableNested extends JTable
 	 */
 	public function rebuildPath($pk = null)
 	{
+		$fields = $this->getFields();
+
 		// If there is no alias or path field, just return true.
-		if (!property_exists($this, 'alias') || !property_exists($this, 'path'))
+		if (!array_key_exists('alias', $fields) || !array_key_exists('path', $fields))
 		{
 			return true;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -1479,7 +1476,6 @@ class JTableNested extends JTable
 			return false;
 		}
 
-		// Initialise variables.
 		$k = $this->_tbl_key;
 		$data = new stdClass;
 

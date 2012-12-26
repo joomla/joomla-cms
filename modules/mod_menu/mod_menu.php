@@ -10,17 +10,18 @@
 defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once dirname(__FILE__).'/helper.php';
+require_once __DIR__ . '/helper.php';
 
-$list	= modMenuHelper::getList($params);
-$app	= JFactory::getApplication();
-$menu	= $app->getMenu();
-$active	= $menu->getActive();
-$active_id = isset($active) ? $active->id : $menu->getDefault()->id;
-$path	= isset($active) ? $active->tree : array();
+$list		= modMenuHelper::getList($params);
+$base		= modMenuHelper::getBase($params);
+$active		= modMenuHelper::getActive($params);
+$active_id 	= $active->id;
+$path		= $base->tree;
+
 $showAll	= $params->get('showAllChildren');
 $class_sfx	= htmlspecialchars($params->get('class_sfx'));
 
-if(count($list)) {
+if (count($list))
+{
 	require JModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
 }

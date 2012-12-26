@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.environment.uri');
-
 /**
  * Joomla! Application class
  *
@@ -17,6 +15,7 @@ jimport('joomla.environment.uri');
  *
  * @package     Joomla.Site
  * @subpackage  Application
+ * @since       1.5
  */
 final class JSite extends JApplication
 {
@@ -56,6 +55,14 @@ final class JSite extends JApplication
 	public function initialise($options = array())
 	{
 		$config = JFactory::getConfig();
+		$user   = JFactory::getUser();
+
+		// If the user is a guest we populate it with the guest user group.
+		if ($user->guest)
+		{
+			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			$user->groups = array($guestUsergroup);
+		}
 
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
@@ -70,7 +77,7 @@ final class JSite extends JApplication
 
 		if ($this->_language_filter && empty($options['language'])) {
 			// Detect cookie language
-			$lang = $this->input->getString(self::getHash('language'), null , 'cookie');
+			$lang = $this->input->getString(self::getHash('language'), null, 'cookie');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
@@ -79,7 +86,7 @@ final class JSite extends JApplication
 
 		if (empty($options['language'])) {
 			// Detect user language
-			$lang = JFactory::getUser()->getParam('language');
+			$lang = $user->getParam('language');
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
 				$options['language'] = $lang;
@@ -97,7 +104,7 @@ final class JSite extends JApplication
 
 		if (empty($options['language'])) {
 			// Detect default language
-			$params =  JComponentHelper::getParams('com_languages');
+			$params = JComponentHelper::getParams('com_languages');
 			$client	= JApplicationHelper::getClientInfo($this->getClientId());
 			$options['language'] = $params->get($client->name, $config->get('language', 'en-GB'));
 		}
@@ -146,68 +153,61 @@ final class JSite extends JApplication
 	 */
 	public function dispatch($component = null)
 	{
-		try
+
+		// Get the component if not set.
+		if (!$component) {
+			$component = $this->input->get('option');
+		}
+
+		$document	= JFactory::getDocument();
+		$user		= JFactory::getUser();
+		$router		= $this->getRouter();
+		$params		= $this->getParams();
+
+		switch($document->getType())
 		{
-			// Get the component if not set.
-			if (!$component) {
-				$component = $this->input->get('option');
-			}
+			case 'html':
+				// Get language
+				$lang_code = JFactory::getLanguage()->getTag();
+				$languages = JLanguageHelper::getLanguages('lang_code');
 
-			$document	= JFactory::getDocument();
-			$user		= JFactory::getUser();
-			$router		= $this->getRouter();
-			$params		= $this->getParams();
-
-			switch($document->getType())
-			{
-				case 'html':
-					// Get language
-					$lang_code = JFactory::getLanguage()->getTag();
-					$languages = JLanguageHelper::getLanguages('lang_code');
-
-					// Set metadata
-					if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey) {
-						$document->setMetaData('keywords', $languages[$lang_code]->metakey);
-					} else {
-						$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
-					}
-					$document->setMetaData('rights', $this->getCfg('MetaRights'));
-					if ($router->getMode() == JROUTER_MODE_SEF) {
-						$document->setBase(htmlspecialchars(JURI::current()));
-					}
-					break;
-
-				case 'feed':
+				// Set metadata
+				if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey) {
+					$document->setMetaData('keywords', $languages[$lang_code]->metakey);
+				} else {
+					$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
+				}
+				$document->setMetaData('rights', $this->getCfg('MetaRights'));
+				if ($router->getMode() == JROUTER_MODE_SEF) {
 					$document->setBase(htmlspecialchars(JURI::current()));
-					break;
-			}
+				}
+				break;
 
-			$document->setTitle($params->get('page_title'));
-			$document->setDescription($params->get('page_description'));
-
-			// Add version number or not based on global configuration
-			if ($this->getCfg('MetaVersion', 0))
-			{
-				$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
-			}
-			else
-			{
-				$document->setGenerator('Joomla! - Open Source Content Management');
-			}
-
-			$contents = JComponentHelper::renderComponent($component);
-			$document->setBuffer($contents, 'component');
-
-			// Trigger the onAfterDispatch event.
-			JPluginHelper::importPlugin('system');
-			$this->triggerEvent('onAfterDispatch');
+			case 'feed':
+				$document->setBase(htmlspecialchars(JURI::current()));
+				break;
 		}
-		// Mop up any uncaught exceptions.
-		catch (Exception $e)
+
+		$document->setTitle($params->get('page_title'));
+		$document->setDescription($params->get('page_description'));
+
+		// Add version number or not based on global configuration
+		if ($this->getCfg('MetaVersion', 0))
 		{
-			$code = $e->getCode();
-			JError::raiseError($code ? $code : 500, $e->getMessage());
+			$document->setGenerator('Joomla! - Open Source Content Management  - Version ' . JVERSION);
 		}
+		else
+		{
+			$document->setGenerator('Joomla! - Open Source Content Management');
+		}
+
+		$contents = JComponentHelper::renderComponent($component);
+		$document->setBuffer($contents, 'component');
+
+		// Trigger the onAfterDispatch event.
+		JPluginHelper::importPlugin('system');
+		$this->triggerEvent('onAfterDispatch');
+
 	}
 
 	/**
@@ -239,7 +239,7 @@ final class JSite extends JApplication
 				if ($this->getCfg('offline') && !$user->authorise('core.login.offline')) {
 					$uri    = JURI::getInstance();
 					$return = (string) $uri;
-					$this->setUserState('users.login.form.data', array( 'return' => $return ) );
+					$this->setUserState('users.login.form.data', array('return' => $return));
 					$file = 'offline';
 					JResponse::setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}
@@ -247,10 +247,10 @@ final class JSite extends JApplication
 					$file = 'component';
 				}
 				$params = array(
-					'template'	=> $template->template,
-					'file'		=> $file.'.php',
-					'directory'	=> JPATH_THEMES,
-					'params'	=> $template->params
+						'template'	=> $template->template,
+						'file'		=> $file.'.php',
+						'directory'	=> JPATH_THEMES,
+						'params'	=> $template->params
 				);
 				break;
 		}
@@ -313,10 +313,10 @@ final class JSite extends JApplication
 				$uri    = JURI::getInstance();
 				$return = (string) $uri;
 
-				$this->setUserState('users.login.form.data', array( 'return' => $return ) );
+				$this->setUserState('users.login.form.data', array('return' => $return));
 
-				$url	= 'index.php?option=com_users&view=login';
-				$url	= JRoute::_($url, false);
+				$url = 'index.php?option=com_users&view=login';
+				$url = JRoute::_($url, false);
 
 				$this->redirect($url, JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 			}
@@ -430,8 +430,9 @@ final class JSite extends JApplication
 		}
 		$condition = '';
 
-		$tid = JRequest::getVar('templateStyle', 0);
-		if (is_numeric($tid) && (int) $tid > 0) {
+		$tid = $this->input->get('templateStyle', 0, 'uint');
+		if (is_numeric($tid) && (int) $tid > 0)
+		{
 			$id = (int) $tid;
 		}
 
@@ -440,7 +441,7 @@ final class JSite extends JApplication
 			$tag = JFactory::getLanguage()->getTag();
 		}
 		else {
-			$tag ='';
+			$tag = '';
 		}
 		if (!$templates = $cache->get('templates0'.$tag)) {
 			// Load styles
@@ -482,8 +483,8 @@ final class JSite extends JApplication
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
 			JError::raiseWarning(0, JText::_('JERROR_ALERTNOTEMPLATE'));
-			$template->template = 'beez_20';
-			if (!file_exists(JPATH_THEMES . '/beez_20/index.php')) {
+			$template->template = 'beez3';
+			if (!file_exists(JPATH_THEMES . '/beez3/index.php')) {
 				$template->template = '';
 			}
 		}
@@ -585,7 +586,7 @@ final class JSite extends JApplication
 	public function setLanguageFilter($state=false)
 	{
 		$old = $this->_language_filter;
-		$this->_language_filter=$state;
+		$this->_language_filter = $state;
 		return $old;
 	}
 	/**
@@ -608,7 +609,7 @@ final class JSite extends JApplication
 	public function setDetectBrowser($state=false)
 	{
 		$old = $this->_detect_browser;
-		$this->_detect_browser=$state;
+		$this->_detect_browser = $state;
 		return $old;
 	}
 

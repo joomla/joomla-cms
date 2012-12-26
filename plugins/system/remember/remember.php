@@ -14,10 +14,11 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.remember
+ * @since       1.5
  */
 class plgSystemRemember extends JPlugin
 {
-	function onAfterInitialise()
+	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
 

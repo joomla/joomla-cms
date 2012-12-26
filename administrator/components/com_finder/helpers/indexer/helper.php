@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
-JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
+JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
  * Helper class for the Finder indexer package.
@@ -70,7 +70,6 @@ class FinderIndexerHelper
 		}
 
 		$tokens = array();
-		$terms = array();
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
@@ -80,8 +79,8 @@ class FinderIndexerHelper
 		 * Parsing the string input into terms is a multi-step process.
 		 *
 		 * Regexes:
-		 *	1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
-		 *	2. Remove plus, dash, period, and comma characters located before letter characters.
+		 *  1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
+		 *  2. Remove plus, dash, period, and comma characters located before letter characters.
 		 *  3. Remove plus, dash, period, and comma characters located after other characters.
 		 *  4. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
 		 *  5. Remove orphaned apostrophe, plus, dash, period, and comma characters.
@@ -260,13 +259,6 @@ class FinderIndexerHelper
 			// Get the types.
 			$db->setQuery($query);
 			$types = $db->loadObjectList('title');
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Check if the type already exists.
@@ -282,13 +274,6 @@ class FinderIndexerHelper
 		$query->values($db->quote($title) . ', ' . $db->quote($mime));
 		$db->setQuery($query);
 		$db->execute();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		// Return the new id.
 		return (int) $db->insertid();
@@ -349,13 +334,6 @@ class FinderIndexerHelper
 		$db->setQuery($query);
 		$results = $db->loadColumn();
 
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
-
 		return $results;
 	}
 
@@ -370,7 +348,7 @@ class FinderIndexerHelper
 	{
 		static $lang;
 
-		// Get the default language.
+		// We need to go to com_languages to get the site default language, it's the best we can guess.
 		if (empty($lang))
 		{
 			$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');

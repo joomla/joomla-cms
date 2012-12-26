@@ -272,7 +272,7 @@ abstract class JModelForm extends JModelLegacy
 			// Get the validation messages from the form.
 			foreach ($form->getErrors() as $message)
 			{
-				$this->setError(JText::_($message));
+				$this->setError($message);
 			}
 
 			return false;

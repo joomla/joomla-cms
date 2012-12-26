@@ -37,7 +37,6 @@ class JFormFieldList extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 		$attr = '';
 
@@ -83,7 +82,6 @@ class JFormFieldList extends JFormField
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		foreach ($this->element->children() as $option)

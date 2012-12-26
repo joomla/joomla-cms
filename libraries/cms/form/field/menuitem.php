@@ -40,7 +40,6 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 
 		// Initialize some field attributes.

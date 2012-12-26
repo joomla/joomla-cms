@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::_('behavior.modal');
 
 /**
  * View class for a list of messages.
@@ -19,7 +20,9 @@ defined('_JEXEC') or die;
 class MessagesViewMessages extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -37,8 +40,9 @@ class MessagesViewMessages extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
@@ -51,36 +55,41 @@ class MessagesViewMessages extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= MessagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
+		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
 
 		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('message.add');
+			JToolbarHelper::addNew('message.add');
 		}
 
 		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
-			JToolBarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
+			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
+			JToolbarHelper::divider();
+			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
 		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::trash('messages.trash');
+			JToolbarHelper::divider();
+			JToolbarHelper::trash('messages.trash');
 		}
 
-		//JToolBarHelper::addNew('module.add');
-		JToolBarHelper::divider();
+		//JToolbarHelper::addNew('module.add');
+		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'options', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
+		JHtml::_('bootstrap.modal', 'collapseModal');
+		$title = JText::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS');
+		$dhtml = "<a class=\"btn modal btn-small\" href=\"index.php?option=com_messages&amp;view=config&amp;tmpl=component\"
+					rel=\"{handler:'iframe', size:{x:700,y:300}}\">
+					<i class=\"icon-cog\" title=\"$title\"></i>$title</a>";
+		$bar->appendButton('Custom', $dhtml, 'config');
 
 		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_messages');
+			JToolbarHelper::preferences('com_messages');
 		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
 	}
 }

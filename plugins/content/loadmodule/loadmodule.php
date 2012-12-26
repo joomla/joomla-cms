@@ -10,12 +10,17 @@
 defined('_JEXEC') or die;
 
 /**
+ * Plug-in to enable loading modules into content (e.g. articles)
+ * This uses the {loadmodule} syntax
+ *
  * @package     Joomla.Plugin
  * @subpackage  Content.loadmodule
+ * @since       1.5
  */
 class plgContentLoadmodule extends JPlugin
 {
 	protected static $modules = array();
+
 	protected static $mods = array();
 
 	/**
@@ -43,7 +48,6 @@ class plgContentLoadmodule extends JPlugin
 		$style		= $this->params->def('style', 'none');
 		// expression to search for(modules)
 		$regexmod	= '/{loadmodule\s+(.*?)}/i';
-		$title		= null;
 		$stylemod	= $this->params->def('style', 'none');
 
 		// Find all instances of plugin and put in $matches for loadposition

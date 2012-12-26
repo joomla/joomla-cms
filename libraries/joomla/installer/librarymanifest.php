@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
  * Joomla! Library Manifest File
  *
@@ -121,7 +119,7 @@ class JLibraryManifest extends JObject
 	 */
 	public function loadManifestFromXML($xmlfile)
 	{
-		$this->manifest_file = JFile::stripExt(basename($xmlfile));
+		$this->manifest_file = basename($xmlfile, '.xml');
 
 		$xml = simplexml_load_file($xmlfile);
 		if (!$xml)
@@ -131,17 +129,17 @@ class JLibraryManifest extends JObject
 		}
 		else
 		{
-			$this->name = (string) $xml->name;
-			$this->libraryname = (string) $xml->libraryname;
-			$this->version = (string) $xml->version;
-			$this->description = (string) $xml->description;
+			$this->name         = (string) $xml->name;
+			$this->libraryname  = (string) $xml->libraryname;
+			$this->version      = (string) $xml->version;
+			$this->description  = (string) $xml->description;
 			$this->creationdate = (string) $xml->creationdate;
-			$this->author = (string) $xml->author;
-			$this->authoremail = (string) $xml->authorEmail;
-			$this->authorurl = (string) $xml->authorUrl;
-			$this->packager = (string) $xml->packager;
-			$this->packagerurl = (string) $xml->packagerurl;
-			$this->update = (string) $xml->update;
+			$this->author       = (string) $xml->author;
+			$this->authoremail  = (string) $xml->authorEmail;
+			$this->authorurl    = (string) $xml->authorUrl;
+			$this->packager     = (string) $xml->packager;
+			$this->packagerurl  = (string) $xml->packagerurl;
+			$this->update       = (string) $xml->update;
 
 			if (isset($xml->files) && isset($xml->files->file) && count($xml->files->file))
 			{

@@ -29,8 +29,6 @@ if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CO
 // System includes.
 require_once JPATH_LIBRARIES.'/import.legacy.php';
 
-// Force library to be in JError legacy mode
-JError::$legacy = true;
 JError::setErrorHandling(E_NOTICE, 'message');
 JError::setErrorHandling(E_WARNING, 'message');
 JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
@@ -91,7 +89,3 @@ unset($config);
 if (JDEBUG) {
 	$_PROFILER = JProfiler::getInstance('Application');
 }
-
-// Joomla! library imports.
-jimport('joomla.environment.uri');
-jimport('joomla.utilities.arrayhelper');

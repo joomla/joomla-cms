@@ -94,13 +94,13 @@ class UsersModelRegistration extends JModelForm
 						' FROM #__users' .
 						' WHERE sendEmail=1';
 
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
 			// Send mail to all users with users creating permissions and receiving system emails
 			foreach( $rows as $row )
 			{
-				$usercreator = JFactory::getUser($id = $row->id);
+				$usercreator = JFactory::getUser($row->id);
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
 					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
@@ -428,12 +428,26 @@ class UsersModelRegistration extends JModelForm
 				$data['sitename']
 			);
 
-			$emailBody = JText::sprintf(
-				'COM_USERS_EMAIL_REGISTERED_BODY',
-				$data['name'],
-				$data['sitename'],
-				$data['siteurl']
-			);
+			if ($sendpassword)
+			{
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_BODY',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl'],
+					$data['username'],
+					$data['password_clear']
+				);
+			}
+			else
+			{
+				$emailBody = JText::sprintf(
+					'COM_USERS_EMAIL_REGISTERED_BODY',
+					$data['name'],
+					$data['sitename'],
+					$data['siteurl']
+				);
+			}
 		}
 
 		// Send the registration email.
@@ -459,7 +473,7 @@ class UsersModelRegistration extends JModelForm
 					' FROM #__users' .
 					' WHERE sendEmail=1';
 
-			$db->setQuery( $query );
+			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
 			// Send mail to all superadministrators id

@@ -47,13 +47,20 @@ class JAdministrator extends JApplication
 	public function initialise($options = array())
 	{
 		$config = JFactory::getConfig();
+		$user   = JFactory::getUser();
+
+		// If the user is a guest we populate it with the guest user group.
+		if ($user->guest)
+		{
+			$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			$user->groups = array($guestUsergroup);
+		}
 
 		// if a language was specified it has priority
 		// otherwise use user or default language settings
 		if (empty($options['language']))
 		{
-			$user	= JFactory::getUser();
-			$lang	= $user->getParam('admin_language');
+			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
 			if ($lang && JLanguage::exists($lang)) {
@@ -126,41 +133,32 @@ class JAdministrator extends JApplication
 	 */
 	public function dispatch($component = null)
 	{
-		try
-		{
-			if ($component === null) {
-				$component = JAdministratorHelper::findOption();
-			}
-
-			$document	= JFactory::getDocument();
-			$user		= JFactory::getUser();
-
-			switch ($document->getType()) {
-				case 'html':
-					$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
-					break;
-
-				default:
-					break;
-			}
-
-			$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
-			$document->setDescription($this->getCfg('MetaDesc'));
-			$document->setGenerator('Joomla! - Open Source Content Management');
-
-			$contents = JComponentHelper::renderComponent($component);
-			$document->setBuffer($contents, 'component');
-
-			// Trigger the onAfterDispatch event.
-			JPluginHelper::importPlugin('system');
-			$this->triggerEvent('onAfterDispatch');
+		if ($component === null) {
+			$component = JAdministratorHelper::findOption();
 		}
-		// Mop up any uncaught exceptions.
-		catch (Exception $e)
-		{
-			$code = $e->getCode();
-			JError::raiseError($code ? $code : 500, $e->getMessage());
+
+		$document	= JFactory::getDocument();
+		$user		= JFactory::getUser();
+
+		switch ($document->getType()) {
+			case 'html':
+				$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
+				break;
+
+			default:
+				break;
 		}
+
+		$document->setTitle($this->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION'));
+		$document->setDescription($this->getCfg('MetaDesc'));
+		$document->setGenerator('Joomla! - Open Source Content Management');
+
+		$contents = JComponentHelper::renderComponent($component);
+		$document->setBuffer($contents, 'component');
+
+		// Trigger the onAfterDispatch event.
+		JPluginHelper::importPlugin('system');
+		$this->triggerEvent('onAfterDispatch');
 	}
 
 	/**
@@ -183,15 +181,15 @@ class JAdministrator extends JApplication
 		$config		= JFactory::getConfig();
 		$rootUser	= $config->get('root_user');
 		if (property_exists('JConfig', 'root_user') &&
-			(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)) {
+				(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)) {
 			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}
 
 		$params = array(
-			'template'	=> $template->template,
-			'file'		=> $file.'.php',
-			'directory'	=> JPATH_THEMES,
-			'params'	=> $template->params
+				'template'	=> $template->template,
+				'file'		=> $file.'.php',
+				'directory'	=> JPATH_THEMES,
+				'params'	=> $template->params
 		);
 
 		$document = JFactory::getDocument();
@@ -235,7 +233,7 @@ class JAdministrator extends JApplication
 		{
 			$lang = $this->input->get('lang');
 			$lang = preg_replace('/[^A-Z-]/i', '', $lang);
-			$this->setUserState('application.lang', $lang );
+			$this->setUserState('application.lang', $lang);
 
 			self::purgeMessages();
 		}
@@ -266,7 +264,7 @@ class JAdministrator extends JApplication
 			{
 				$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
 			}
-			$query->where('s.client_id = 1 AND home = 1', 'OR');
+			$query->where('s.client_id = 1 AND home = ' . $db->quote('1'), 'OR');
 			$query->order('home');
 			$db->setQuery($query);
 			$template = $db->loadObject();
@@ -277,7 +275,7 @@ class JAdministrator extends JApplication
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
 				$template->params = new JRegistry;
-				$template->template = 'bluestork';
+				$template->template = 'isis';
 			}
 		}
 		if ($params) {

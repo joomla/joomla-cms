@@ -35,6 +35,8 @@ class FinderViewFilters extends JViewLegacy
 		$this->total = $this->get('Total');
 		$this->state = $this->get('State');
 
+		FinderHelper::addSubmenu('filters');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -46,7 +48,7 @@ class FinderViewFilters extends JViewLegacy
 
 		// Configure the toolbar.
 		$this->addToolbar();
-
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
@@ -61,33 +63,41 @@ class FinderViewFilters extends JViewLegacy
 	{
 		$canDo = FinderHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'finder');
-		$toolbar = JToolBar::getInstance('toolbar');
+		JToolbarHelper::title(JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'finder');
+		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))
 		{
-			JToolBarHelper::addNew('filter.add');
-			JToolBarHelper::editList('filter.edit');
-			JToolBarHelper::divider();
+			JToolbarHelper::addNew('filter.add');
+			JToolbarHelper::editList('filter.edit');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolBarHelper::publishList('filters.publish');
-			JToolBarHelper::unpublishList('filters.unpublish');
-			JToolBarHelper::divider();
+			JToolbarHelper::publishList('filters.publish');
+			JToolbarHelper::unpublishList('filters.unpublish');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolBarHelper::deleteList('', 'filters.delete');
-			JToolBarHelper::divider();
+			JToolbarHelper::deleteList('', 'filters.delete');
+			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_finder');
+			JToolbarHelper::preferences('com_finder');
 		}
-		JToolBarHelper::divider();
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 500);
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
+		JToolbarHelper::divider();
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
+
+		JHtmlSidebar::setAction('index.php?option=com_finder&view=filters');
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_FINDER_INDEX_FILTER_BY_STATE'),
+			'filter_state',
+			JHtml::_('select.options', JHtml::_('finder.statelist'), 'value', 'text', $this->state->get('filter.state'))
+		);
 	}
 }

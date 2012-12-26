@@ -9,9 +9,16 @@
 
 defined('_JEXEC') or die;
 
-// Include dependancies.
-require_once dirname(__FILE__).'/helper.php';
+$list    = JSubMenuHelper::getEntries();
+$filters = JSubMenuHelper::getFilters();
+$action  = JSubMenuHelper::getAction();
 
-if ($list = modSubmenuHelper::getItems()) {
+$displayMenu    = count($list);
+$displayFilters = count($filters);
+
+$hide = JFactory::getApplication()->input->getBool('hidemainmenu');
+
+if ($displayMenu || $displayFilters)
+{
 	require JModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));
 }

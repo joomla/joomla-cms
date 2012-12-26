@@ -41,7 +41,7 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	function delete()
+	public function delete()
 	{
 		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -58,7 +58,7 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * @since	1.6
 	 */
-	function publish()
+	public function publish()
 	{
 		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));

@@ -38,10 +38,7 @@ class plgButtonReadmore extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$app = JFactory::getApplication();
-
-		$doc		= JFactory::getDocument();
-		$template	= $app->getTemplate();
+		$doc = JFactory::getDocument();
 
 		// button is not active in specific content components
 
@@ -62,13 +59,13 @@ class plgButtonReadmore extends JPlugin
 		$doc->addScriptDeclaration($js);
 
 		$button = new JObject;
-		$button->set('modal', false);
-		$button->set('onclick', 'insertReadmore(\''.$name.'\');return false;');
-		$button->set('text', JText::_('PLG_READMORE_BUTTON_READMORE'));
-		$button->set('name', 'readmore');
+		$button->modal = false;
+		$button->onclick = 'insertReadmore(\''.$name.'\');return false;';
+		$button->text = JText::_('PLG_READMORE_BUTTON_READMORE');
+		$button->name = 'arrow-down';
 		// TODO: The button writer needs to take into account the javascript directive
-		//$button->set('link', 'javascript:void(0)');
-		$button->set('link', '#');
+		//$button->link', 'javascript:void(0)');
+		$button->link = '#';
 
 		return $button;
 	}

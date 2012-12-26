@@ -73,9 +73,12 @@ abstract class JHtmlPhpSetting
 	 * @param string $val a php ini value
 	 *
 	 * @return string html code
+	 *
+	 * @deprecated  4.0  Use intval() or casting instead.
 	 */
 	public static function integer($val)
 	{
-		return intval($val);
+		JLog::add('JHtmlPhpSetting::integer() is deprecated. Use intval() or casting instead.', JLog::WARNING, 'deprecated');
+		return (int) $val;
 	}
 }

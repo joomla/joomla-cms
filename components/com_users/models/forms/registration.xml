@@ -12,7 +12,6 @@
 			description="COM_USERS_REGISTER_NAME_DESC"
 			filter="string"
 			label="COM_USERS_REGISTER_NAME_LABEL"
-			message="COM_USERS_REGISTER_NAME_MESSAGE"
 			required="true"
 			size="30"
 		/>
@@ -47,7 +46,6 @@
 			description="COM_USERS_REGISTER_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_USERS_REGISTER_PASSWORD2_LABEL"
-			message="COM_USERS_REGISTER_PASSWORD2_MESSAGE"
 			required="true"
 			size="30"
 		/>

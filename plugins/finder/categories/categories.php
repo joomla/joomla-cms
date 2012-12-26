@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.filesystem.file');
-
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
@@ -239,10 +237,13 @@ class plgFinderCategories extends FinderIndexerAdapter
 			return;
 		}
 
+		$item->setLanguage();
+
 		// Need to import component route helpers dynamically, hence the reason it's handled here
-		if (JFile::exists(JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php'))
+		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+		if (is_file($path))
 		{
-			include_once JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+			include_once $path;
 		}
 
 		$extension = ucfirst(substr($item->extension, 4));
@@ -309,7 +310,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		FinderIndexerHelper::getContentExtras($item);
 
 		// Index the item.
-		FinderIndexer::index($item);
+		$this->indexer->index($item);
 	}
 
 	/**
@@ -348,7 +349,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias');
+		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
 		$a_id = $sql->castAsChar('a.id');
 		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');

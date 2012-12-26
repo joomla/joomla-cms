@@ -260,7 +260,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('newsfeed.id') == 0) {
 				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id')));
+				$data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
 			}
 		}
 
@@ -284,6 +284,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$item->metadata = $registry->toArray();
 		}
 
+		if ($item = parent::getItem($pk))
+		{
+			// Convert the images field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->images);
+			$item->images = $registry->toArray();
+		}
+
 		return $item;
 	}
 
@@ -304,7 +312,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 		if (empty($table->id)) {
 			// Set the values
-			//$table->created	= $date->toSql();
+			$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering)) {
@@ -312,14 +320,17 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				$db->setQuery('SELECT MAX(ordering) FROM #__newsfeeds');
 				$max = $db->loadResult();
 
-				$table->ordering = $max+1;
+				$table->ordering = $max + 1;
 			}
 		}
 		else {
 			// Set the values
-			//$table->modified	= $date->toSql();
-			//$table->modified_by	= $user->get('id');
+			$table->modified	= $date->toSql();
+			$table->modified_by	= $user->get('id');
 		}
+
+		// Increment the content version number.
+		$table->version++;
 	}
 
 	/**
@@ -331,7 +342,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @return	boolean	True on success.
 	 * @since	1.6
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
 		$result = parent::publish($pks, $value);
 

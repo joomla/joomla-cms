@@ -38,7 +38,6 @@ abstract class JFolder
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)
@@ -70,7 +69,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1 && !$use_streams)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			if (!($dh = @opendir($src)))
 			{
@@ -164,7 +163,6 @@ abstract class JFolder
 	 */
 	public static function create($path = '', $mode = 0755)
 	{
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		static $nested = 0;
 
@@ -206,7 +204,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path to FTP path
 			$path = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
@@ -292,7 +290,6 @@ abstract class JFolder
 			return false;
 		}
 
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
@@ -341,7 +338,7 @@ abstract class JFolder
 		if ($FTPOptions['enabled'] == 1)
 		{
 			// Connect the FTP client
-			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+			$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 		}
 
 		// In case of restricted permissions we zap it one way or the other
@@ -380,7 +377,6 @@ abstract class JFolder
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
-		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
 		if ($path)
@@ -411,7 +407,7 @@ abstract class JFolder
 			if ($FTPOptions['enabled'] == 1)
 			{
 				// Connect the FTP client
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
 				$src = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
@@ -559,7 +555,6 @@ abstract class JFolder
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
-		// Initialise variables.
 		$arr = array();
 
 		// Read the source directory
@@ -596,7 +591,7 @@ abstract class JFolder
 				if ($isDir && $recurse)
 				{
 					// Search recursively
-					if (is_integer($recurse))
+					if (is_int($recurse))
 					{
 						// Until depth 0 is reached
 						$arr = array_merge($arr, self::_items($fullpath, $filter, $recurse - 1, $full, $exclude, $excludefilter_string, $findfiles));

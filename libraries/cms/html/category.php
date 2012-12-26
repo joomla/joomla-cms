@@ -68,6 +68,23 @@ abstract class JHtmlCategory
 				}
 			}
 
+			// Filter on the language
+			if (isset($config['filter.language']))
+			{
+				if (is_string($config['filter.language']))
+				{
+					$query->where('a.language = ' . $db->quote($config['filter.language']));
+				}
+				elseif (is_array($config['filter.language']))
+				{
+					foreach ($config['filter.language'] as &$language)
+					{
+						$language = $db->quote($language);
+					}
+					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
+				}
+			}
+
 			$query->order('a.lft');
 
 			$db->setQuery($query);

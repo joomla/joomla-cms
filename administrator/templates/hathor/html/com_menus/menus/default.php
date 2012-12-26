@@ -16,7 +16,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
-$uri		= JFactory::getUri();
+$uri		= JUri::getInstance();
 $return		= base64_encode($uri);
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
@@ -31,6 +31,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=menus');?>" method="post" name="adminForm" id="adminForm">
+<?php if(!empty( $this->sidebar)): ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<table class="adminlist">
 		<thead>
 			<tr>
@@ -38,7 +46,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
 				<th rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<th class="width-30" colspan="3">
 					<?php echo JText::_('COM_MENUS_HEADING_NUMBER_MENU_ITEMS'); ?>
@@ -47,7 +55,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo JText::_('COM_MENUS_HEADING_LINKED_MODULES'); ?>
 				</th>
 				<th class="nowrap id-col" rowspan="2">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 			<tr>
@@ -65,9 +73,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_menus');
-			$canEdit	= $user->authorise('core.edit',			'com_menus');
-			$canChange	= $user->authorise('core.edit.state',	'com_menus');
+			$canCreate = $user->authorise('core.create',     'com_menus');
+			$canEdit   = $user->authorise('core.edit',       'com_menus');
+			$canChange = $user->authorise('core.edit.state', 'com_menus');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
@@ -132,4 +140,5 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

@@ -10,13 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_stats
+ *
  * @package     Joomla.Site
  * @subpackage  mod_stats
  * @since       1.5
  */
 class modStatsHelper
 {
-	static function &getList(&$params)
+	public static function &getList(&$params)
 	{
 		$app	= JFactory::getApplication();
 		$db		= JFactory::getDbo();

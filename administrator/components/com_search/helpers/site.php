@@ -14,13 +14,16 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_search
+ * @since       1.5
  */
 class JSite extends JObject
 {
 	/**
 	 * False method to fool the frontend search plugins
+	 *
+	 * @since  1.5
 	 */
-	function getMenu()
+	public function getMenu()
 	{
 		$result = new JSite;
 		return $result;
@@ -28,8 +31,10 @@ class JSite extends JObject
 
 	/**
 	 * False method to fool the frontend search plugins
+	 *
+	 * @since  1.5
 	 */
-	function getItems()
+	public function getItems()
 	{
 		return array();
 	}

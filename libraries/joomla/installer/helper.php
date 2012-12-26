@@ -46,13 +46,18 @@ abstract class JInstallerHelper
 
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
-		if (200 != $response->code)
+
+		if (302 == $response->code && isset($response->headers['Location']))
+		{
+			return self::downloadPackage($response->headers['Location']);
+		}
+		elseif (200 != $response->code)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
-		if ($response->headers['wrapper_data']['Content-Disposition'])
+		if (isset($response->headers['wrapper_data']['Content-Disposition']))
 		{
 			$contentfilename = explode("\"", $response->headers['wrapper_data']['Content-Disposition']);
 			$target = $contentfilename[1];
@@ -87,7 +92,7 @@ abstract class JInstallerHelper
 	 *
 	 * @param   string  $p_filename  The uploaded package filename or install directory
 	 *
-	 * @return  array  Two elements: extractdir and packagefile
+	 * @return  mixed  Array on success or boolean false on failure
 	 *
 	 * @since   11.1
 	 */
@@ -186,7 +191,7 @@ abstract class JInstallerHelper
 				continue;
 			}
 
-			if ($xml->getName() != 'install' && $xml->getName() != 'extension')
+			if ($xml->getName() != 'extension')
 			{
 				unset($xml);
 				continue;
@@ -266,9 +271,11 @@ abstract class JInstallerHelper
 	 * @return  array  Array of queries
 	 *
 	 * @since   11.1
+	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
 	 */
 	public static function splitSql($sql)
 	{
+		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 		$db = JFactory::getDbo();
 		return $db->splitSql($sql);
 	}

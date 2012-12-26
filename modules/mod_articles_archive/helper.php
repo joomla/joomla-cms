@@ -10,27 +10,35 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_articles_archive
+ *
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
+ * @since       1.5
  */
 class modArchiveHelper
 {
-	static function getList(&$params)
+	/*
+	 * @since  1.5
+	 */
+	public static function getList(&$params)
 	{
 		//get database
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
-		$query->select('MONTH(created) AS created_month, created, id, title, YEAR(created) AS created_year');
+		$query->select($query->month($query->quoteName('created')) . ' AS created_month');
+		$query->select('created, id, title');
+		$query->select($query->year($query->quoteName('created')) . ' AS created_year');
 		$query->from('#__content');
 		$query->where('state = 2 AND checked_out = 0');
-		$query->group('created_year DESC, created_month DESC');
+		$query->group('created_year, created_month, id, title, created');
 
 		// Filter by language
 		if (JFactory::getApplication()->getLanguageFilter()) {
 			$query->where('language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 		}
 
-		$db->setQuery($query, 0, intval($params->get('count')));
+		$db->setQuery($query, 0, (int) $params->get('count'));
 		$rows = (array) $db->loadObjectList();
 
 		$app	= JFactory::getApplication();

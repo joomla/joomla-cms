@@ -10,8 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
+ * Installer Database Controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
+ * @since       2.5
  */
 class InstallerControllerDatabase extends JControllerLegacy
 {
@@ -22,7 +25,7 @@ class InstallerControllerDatabase extends JControllerLegacy
 	 *
 	 * @since   2.5
 	 */
-	function fix()
+	public function fix()
 	{
 		$model = $this->getModel('database');
 		$model->fix();

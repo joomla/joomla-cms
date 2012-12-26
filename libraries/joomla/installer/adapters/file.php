@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.installer.filemanifest');
 jimport('joomla.base.adapterinstance');
+jimport('joomla.filesystem.folder');
 
 /**
  * File installer
@@ -99,7 +100,15 @@ class JInstallerFile extends JAdapterInstance
 			}
 		}
 		// Set the file root path
-		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/files/' . $this->get('element'));
+		if ($name == 'files_joomla')
+		{
+			// If we are updating the Joomla core, set the root path to the root of Joomla
+			$this->parent->setPath('extension_root', JPATH_ROOT);
+		}
+		else
+		{
+			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/files/' . $this->get('element'));
+		}
 
 		/**
 		 * ---------------------------------------------------------------------------------------------
@@ -427,7 +436,6 @@ class JInstallerFile extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		// Initialise variables.
 		$row = JTable::getInstance('extension');
 		if (!$row->load($id))
 		{

@@ -33,7 +33,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 * @return	JModel
 	 * @since	1.6
 	 */
-	public function getModel($name = 'Tracks', $prefix = 'BannersModel')
+	public function getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array())
 	{
 		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
 		return $model;
@@ -97,7 +97,7 @@ class BannersControllerTracks extends JControllerLegacy
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 
 			$view->display();
 		}

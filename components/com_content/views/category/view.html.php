@@ -19,17 +19,24 @@ defined('_JEXEC') or die;
 class ContentViewCategory extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $children;
+
 	protected $pagination;
 
 	protected $lead_items = array();
+
 	protected $intro_items = array();
+
 	protected $link_items = array();
+
 	protected $columns = 1;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
@@ -81,11 +88,15 @@ class ContentViewCategory extends JViewLegacy
 			$item = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
+			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
 			// No link for ROOT category
-			if ($item->parent_alias == 'root') {
+			if ($item->parent_alias == 'root')
+			{
 				$item->parent_slug = null;
 			}
 
+			$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
 			$item->event = new stdClass;
 
 			$dispatcher = JEventDispatcher::getInstance();
@@ -157,14 +168,18 @@ class ContentViewCategory extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->maxLevel = $params->get('maxLevel', -1);
-		$this->assignRef('state', $state);
-		$this->assignRef('items', $items);
-		$this->assignRef('category', $category);
-		$this->assignRef('children', $children);
-		$this->assignRef('params', $params);
-		$this->assignRef('parent', $parent);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('user', $user);
+		$this->state      = &$state;
+		$this->items      = &$items;
+		$this->category   = &$category;
+		$this->children   = &$children;
+		$this->params     = &$params;
+		$this->parent     = &$parent;
+		$this->pagination = &$pagination;
+		$this->user       = &$user;
+
+		// Increment the category hit counter
+		$model = $this->getModel();
+		$model->hit();
 
 		$this->_prepareDocument();
 
@@ -213,7 +228,6 @@ class ContentViewCategory extends JViewLegacy
 		}
 
 		$title = $this->params->get('page_title', '');
-
 		if (empty($title)) {
 			$title = $app->getCfg('sitename');
 		}

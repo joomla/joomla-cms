@@ -19,23 +19,26 @@ defined('_JEXEC') or die;
 class ContentViewArticle extends JViewLegacy
 {
 	protected $item;
+
 	protected $params;
+
 	protected $print;
+
 	protected $state;
+
 	protected $user;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 		$dispatcher	= JEventDispatcher::getInstance();
 
-		$this->item		= $this->get('Item');
-		$this->print	= JRequest::getBool('print');
-		$this->state	= $this->get('State');
-		$this->user		= $user;
+		$this->item  = $this->get('Item');
+		$this->print = $app->input->getBool('print');
+		$this->state = $this->get('State');
+		$this->user  = $user;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -50,7 +53,13 @@ class ContentViewArticle extends JViewLegacy
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-		$item->parent_slug	= $item->category_alias ? ($item->parent_id.':'.$item->parent_alias) : $item->parent_id;
+		$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
+		// No link for ROOT category
+		if ($item->parent_alias == 'root')
+		{
+			$item->parent_slug = null;
+		}
 
 		// TODO: Change based on shownoauth
 		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
@@ -109,7 +118,8 @@ class ContentViewArticle extends JViewLegacy
 
 		}
 
-		if ($item->params->get('show_intro', '1')=='1') {
+		if ($item->params->get('show_intro', '1') == '1')
+		{
 			$item->text = $item->introtext.' '.$item->fulltext;
 		}
 		elseif ($item->fulltext) {

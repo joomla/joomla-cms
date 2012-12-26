@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="2.5"
+	version="3.0"
 	client="installation">
 	<name>Slovak (Slovenčina)</name>
-	<version>2.5</version>
-	<creationDate>2011-06-01</creationDate>
-	<author>Peter Michnica</author>
+	<version>3.0</version>
+	<creationDate>September 2012</creationDate>
+	<author>Joomla! Project</author>
+	<authorUrl>www.joomla.org</authorUrl>
 	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description>Slovak language file for Joomla! 1.7 installation</description>
+	<description>Slovak language file for Joomla! 3.0 installation</description>
 	<files>
 		<filename>sk-SK.ini</filename>
 	</files>

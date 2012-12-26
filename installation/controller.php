@@ -26,43 +26,74 @@ class InstallationController extends JControllerLegacy
 	 *
 	 * @since   1.5
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the current URI to redirect to.
-		$uri		= JURI::getInstance();
-		$redirect	= base64_encode($uri);
+		$uri      = JUri::getInstance();
+		$redirect = base64_encode($uri);
 
 		// Get the document object.
-		$document	= JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
 		if (file_exists(JPATH_CONFIGURATION . '/configuration.php') && (filesize(JPATH_CONFIGURATION . '/configuration.php') > 10)
 			&& file_exists(JPATH_INSTALLATION . '/index.php'))
 		{
-			$default_view	= 'remove';
+			$default_view = 'remove';
 		}
 		else
 		{
-			$default_view	= 'language';
+			$default_view = 'site';
 		}
 
-		$vName		= JRequest::getWord('view', $default_view);
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getWord('layout', 'default');
+		$vName   = $this->input->getWord('view', $default_view);
+		$vFormat = $document->getType();
+		$lName   = $this->input->getWord('layout', 'default');
 
 		if (strcmp($vName, $default_view) == 0)
 		{
-			JRequest::setVar('view', $default_view);
+			$this->input->set('view', $default_view);
 		}
 
-		if ($view = $this->getView($vName, $vFormat))
-		{
+		$view = $this->getView($vName, $vFormat);
 
+		if ($view)
+		{
+			$checkOptions = null;
 			switch ($vName)
 			{
-				default:
-					$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
+				case 'preinstall':
+					$model        = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
+					$sufficient   = $model->getPhpOptionsSufficient();
+					$checkOptions = false;
+
+					if ($sufficient)
+					{
+						$this->setRedirect('index.php');
+					}
 					break;
+
+				case 'languages':
+				case 'defaultlanguage':
+					$model = $this->getModel('Languages', 'InstallationModel', array('dbo' => null));
+					break;
+
+				default:
+					$model        = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
+					$sufficient   = $model->getPhpOptionsSufficient();
+					$checkOptions = true;
+					if (!$sufficient)
+					{
+						$this->setRedirect('index.php?view=preinstall');
+					}
+					break;
+			}
+
+			$options = $model->getOptions();
+
+			if ($vName != $default_view && ($checkOptions && empty($options)))
+			{
+				$this->setRedirect('index.php');
 			}
 
 			// Push the model into the view (as default).
@@ -71,6 +102,9 @@ class InstallationController extends JControllerLegacy
 
 			// Push document object into the view.
 			$view->document = $document;
+
+			// Include the component HTML helpers.
+			JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 			$view->display();
 		}

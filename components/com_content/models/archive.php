@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/articles.php';
+require_once __DIR__ . '/articles.php';
 
 /**
  * Content Component Archive Model
@@ -38,6 +38,8 @@ class ContentModelArchive extends ContentModelArticles
 	{
 		parent::populateState();
 
+		$app = JFactory::getApplication();
+
 		// Add archive properties
 		$params = $this->state->params;
 
@@ -45,15 +47,14 @@ class ContentModelArchive extends ContentModelArticles
 		$this->setState('filter.published', 2);
 
 		// Filter on month, year
-		$this->setState('filter.month', JRequest::getInt('month'));
-		$this->setState('filter.year', JRequest::getInt('year'));
+		$this->setState('filter.month', $app->input->getInt('month'));
+		$this->setState('filter.year', $app->input->getInt('year'));
 
 		// Optional filter text
-		$this->setState('list.filter', JRequest::getString('filter-search'));
+		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		// Get list limit
-		$app = JFactory::getApplication();
-		$itemid = JRequest::getInt('Itemid', 0);
+		$itemid = $app->input->get('Itemid', 0, 'int');
 		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		$this->setState('list.limit', $limit);
 	}
@@ -61,7 +62,7 @@ class ContentModelArchive extends ContentModelArticles
 	/**
 	 * @return	JDatabaseQuery
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		// Set the archive ordering
 		$params = $this->state->params;
@@ -82,7 +83,7 @@ class ContentModelArchive extends ContentModelArticles
 			// Add routing for archive
 			//sqlsrv changes
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('a.alias');
+		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
 		$a_id = $query->castAsChar('a.id');
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -92,7 +93,7 @@ class ContentModelArchive extends ContentModelArticles
 		$query->select($case_when);
 
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('c.alias');
+		$case_when .= $query->charLength('c.alias', '!=', '0');
 		$case_when .= ' THEN ';
 		$c_id = $query->castAsChar('c.id');
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -128,13 +129,14 @@ class ContentModelArchive extends ContentModelArticles
 		$app = JFactory::getApplication();
 
 		// Lets load the content if it doesn't already exist
-		if (empty($this->_data)) {
+		if (empty($this->_data))
+		{
 			// Get the page/component configuration
 			$params = $app->getParams();
 
 			// Get the pagination request variables
-			$limit		= JRequest::getUInt('limit', $params->get('display_num', 20));
-			$limitstart	= JRequest::getUInt('limitstart', 0);
+			$limit		= $app->input->get('limit', $params->get('display_num', 20), 'uint');
+			$limitstart	= $app->input->get('limitstart', 0, 'uint');
 
 			$query = $this->_buildQuery();
 

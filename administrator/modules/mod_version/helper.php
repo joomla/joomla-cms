@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_version
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_version
  * @since       1.6
@@ -31,7 +33,8 @@ abstract class modVersionHelper
 		$instance = new JVersion;
 		$version = call_user_func(array($instance, $method));//$instance->{$method};
 
-		if ($format=='short' && !empty($product)) {
+		if ($format == 'short' && !empty($product))
+		{
 			//add the product name to short format only (in long format it's included)
 			$version = $instance->PRODUCT . ' ' . $version;
 		}

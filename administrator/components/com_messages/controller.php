@@ -31,9 +31,9 @@ class MessagesController extends JControllerLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/messages.php';
 
-		$view		= JRequest::getCmd('view', 'messages');
-		$layout 	= JRequest::getCmd('layout', 'default');
-		$id			= JRequest::getInt('id');
+		$view   = $this->input->get('view', 'messages');
+		$layout = $this->input->get('layout', 'default');
+		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
 		if ($view == 'message' && $layout == 'edit' && !$this->checkEditId('com_messages.edit.message', $id)) {
@@ -45,9 +45,9 @@ class MessagesController extends JControllerLegacy
 			return false;
 		}
 
+		// Load the submenu.
+		MessagesHelper::addSubmenu($this->input->get('view', 'messages'));
 		parent::display();
 
-		// Load the submenu.
-		MessagesHelper::addSubmenu(JRequest::getCmd('view', 'messages'));
 	}
 }

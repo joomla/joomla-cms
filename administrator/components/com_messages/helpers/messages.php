@@ -26,13 +26,13 @@ class MessagesHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_MESSAGES_ADD'),
 			'index.php?option=com_messages&view=message&layout=edit',
 			$vName == 'message'
 		);
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_MESSAGES_READ'),
 			'index.php?option=com_messages',
 			$vName == 'messages'
@@ -63,7 +63,7 @@ class MessagesHelper
 	 *
 	 * @return	array	An array of JHtmlOption elements.
 	 */
-	static function getStateOptions()
+	public static function getStateOptions()
 	{
 		// Build the filter options.
 		$options	= array();

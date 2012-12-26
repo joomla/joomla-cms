@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_ADMIN_RELEVANT_PHP_SETTINGS'); ?></legend>
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
 				<th width="250">

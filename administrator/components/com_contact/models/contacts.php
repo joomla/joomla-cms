@@ -35,7 +35,7 @@ class ContactModelContacts extends JModelList
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'user_id', 'a.user_id',
-				'state', 'a.state',
+				'published', 'a.published',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -61,11 +61,11 @@ class ContactModelContacts extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout')) {
+		if ($layout = $app->input->get('layout'))
+		{
 			$this->context .= '.'.$layout;
 		}
 

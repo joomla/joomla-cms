@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models', 'ContentModel');
 
 /**
+ * Helper for mod_popular
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  * @since       1.6
@@ -27,7 +29,6 @@ abstract class modPopularHelper
 	 */
 	public static function getList($params)
 	{
-		// Initialise variables
 		$user = JFactory::getuser();
 
 		// Get an instance of the generic articles model

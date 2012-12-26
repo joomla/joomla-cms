@@ -40,13 +40,14 @@ class MediaControllerFile extends JControllerLegacy
 		}
 
 		// Get the user
-		$user		= JFactory::getUser();
+		$user  = JFactory::getUser();
+		$input = JFactory::getApplication()->input;
 		JLog::addLogger(array('text_file' => 'upload.error.php'), JLog::ALL, array('upload'));
 
 		// Get some data from the request
-		$file		= JRequest::getVar('Filedata', '', 'files', 'array');
-		$folder		= JRequest::getVar('folder', '', '', 'path');
-		$return		= JRequest::getVar('return-url', null, 'post', 'base64');
+		$file   = JRequest::getVar('Filedata', '', 'files', 'array');
+		$folder = $input->get('folder', '', 'path');
+		$return = $input->post->get('return-url', null, 'base64');
 
 		if (
 			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
