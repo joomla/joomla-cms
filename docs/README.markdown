@@ -20,5 +20,6 @@ Requirements
 
  * publican 2.8
 
+ * Simple test
 
 
