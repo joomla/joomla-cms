@@ -130,6 +130,6 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function getReturnPage()
 	{
-		return base64_encode(urldecode($this->getState('return_page')));
+		return base64_encode(urlencode($this->getState('return_page')));
 	}
 }
