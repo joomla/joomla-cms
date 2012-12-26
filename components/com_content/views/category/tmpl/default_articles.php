@@ -122,7 +122,7 @@ if (!empty($this->items)) {
 							$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
 							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
 							$fullURL = new JURI($link);
-							$fullURL->setVar('return', base64_encode($returnURL));
+							$fullURL->setVar('return', base64_encode(urlencode($returnURL)));
 							?>
 							<a href="<?php echo $fullURL; ?>" class="register">
 								<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>

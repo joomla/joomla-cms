@@ -32,7 +32,7 @@ abstract class JHtmlIcon
 	{
 		$uri = JURI::getInstance();
 
-		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
+		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode(urlencode($uri)) . '&a_id=0&catid=' . $category->id;
 
 		if ($params->get('show_icons'))
 		{
@@ -157,7 +157,7 @@ abstract class JHtmlIcon
 			return '<span class="hasTip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $button . '</span>';
 		}
 
-		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
+		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode(urlencode($uri));
 
 		if ($article->state == 0)
 		{
