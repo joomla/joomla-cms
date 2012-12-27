@@ -76,13 +76,19 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 					$components = parse_url($v);
 					self::$_options['host'] = $components['host'];
 					self::$_options['port'] = $components['port'];
-					self::$_options['database'] = $components['path'];
+					self::$_options['database'] = ltrim($components['path'], '/');
 					break;
 				case 'user':
 					self::$_options['user'] = $v;
 					break;
 				case 'pass':
 					self::$_options['password'] = $v;
+					break;
+				case 'dbschema':
+					self::$_options['schema'] = $v;
+					break;
+				case 'prefix':
+					self::$_options['prefix'] = $v;
 					break;
 			}
 		}
@@ -136,7 +142,7 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 	{
 		// Compile the connection DSN.
 		$dsn = 'oci:dbname=//' . self::$_options['host'] . ':' . self::$_options['port'] . '/' . self::$_options['database'];
-		$dsn .= ';charset=' . self::$_options['host'];
+		$dsn .= ';charset=' . self::$_options['charset'];
 
 		// Create the PDO object from the DSN and options.
 		$pdo = new PDO($dsn, self::$_options['user'], self::$_options['password']);
