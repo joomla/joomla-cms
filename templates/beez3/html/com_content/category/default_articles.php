@@ -165,7 +165,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <?php // Code to add a link to submit an article. ?>
 <?php if ($this->category->getParams()->get('access-create')) : ?>
-	<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
+	<?php echo JHtml::_('icon.create', $this->category, $this->category->params, array(), true); ?>
 <?php  endif; ?>
 
 <?php // Add pagination links ?>

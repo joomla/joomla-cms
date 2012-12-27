@@ -32,7 +32,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 				</span>
 			<?php endif; ?>
 			<?php if (count($item->getChildren()) > 0) : ?>
-				<a href="#category-<?php echo $item->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><i class="icon-plus"></i></a>
+				<a href="#category-<?php echo $item->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
 			<?php endif;?>
 		</h3>
 		<?php if ($this->params->get('show_subcat_desc_cat') == 1) :?>

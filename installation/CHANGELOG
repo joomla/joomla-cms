@@ -12,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6, 1.7 and 2.5, including alpha and beta versions.
+Joomla! 1.6, 1.7, 2.5 and 3.0.x, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -25,6 +25,35 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+26-Dec-2012 Jean-Marie Simonet
+ # [#29210] Help page restricted to small window at top of screen. Thanks Chris.
+ # [#29849] *RTL: Wrong display of Subcategories titles in Content Category List menu item
+ # [#29860] *Wrong display of Search and Clear buttons in Insert Article modal + RTL
+ # [#29838] the registration-mail does not contain username and password if activation is set to "none". Even if "send password" is set to yes. Thanks Yannick Spang
+ # [#29727] Pagebreak plugin generates same ID for tabs and slides. Thanks Dennis.
+
+25-Dec-2012 Jean-Marie Simonet
+ # [#29833] *Beez3 does not display Print, Mail, Edit, New icons Thanks Michael
+ # [#29834] *Beez3 edit article wrong display
+ # [#29824] Smart search saves * in language field. Thanks Elin
+
+24-Dec-2012 Jean-Marie Simonet
+ $ Adding Missing strings #29852 and +
+ $ Adding missing front-end strings
+
+21-Dec-2012 Jean-Marie Simonet
+ # [#29827] Semantic & Accessibility fixes frontend. Thanks Angie
+
+19-Dec-2012 Jean-Marie Simonet
+ $+ Adding Catalan ca-ES installation files
+
+19-Dec-2012 Jean-Marie Simonet
+ $ Full alpha display of installation languages
+
+18-Dec-2012 Mark Dexter
+ # [#29651] Removing try/catch clauses in 'dispatch' methods. Thanks Patrick Alt.
+ # [#29771] Inconsistent usage of module suffix at mod_menu and mod_breadcrumbs. Thanks Kevin Griffiths.
 
 13-Dec-2012 Jean-Marie Simonet
  # [#29819] *Correcting Hathor admin login

@@ -196,7 +196,7 @@ class MenuItemEditPage extends AdminEditPage
 		$d->findElement(By::xPath("//a[@class = 'modal btn'][contains(@rel, 'iframe')]"))->click();
 		$frameElement = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'layout=modal')]"));
 		$d->switchTo()->getFrameByWebElement($frameElement);
-		$filter = $d->findElement(By::id('filter_search'));
+		$filter = $d->waitForElementUntilIsPresent(By::id('filter_search'));
 		$filter->clear();
 		$filter->sendKeys($value);
 		$d->findElement(By::xPath("//button[@data-original-title = 'Search']"))->click();

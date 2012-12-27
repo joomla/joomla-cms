@@ -85,7 +85,7 @@ abstract class AdminEditPage extends AdminPage
 		// Skip non-visible fields (affects permissions)
 		if ($object->labelText == '')
 		{
-			continue;
+			return false;
 		}
 		$inputId = $label->getAttribute('for');
 		$testInput = $this->driver->findElements(By::id($inputId));

@@ -179,7 +179,7 @@ class plgContentPagebreak extends JPlugin
 			else {
 				$t[] = $text[0];
 
-				$t[] = (string) JHtml::_($style.'.start');
+				$t[] = (string) JHtml::_($style.'.start', 'article'.$row->id.'-'.$style);
 
 				foreach ($text as $key => $subtext) {
 
@@ -193,7 +193,7 @@ class plgContentPagebreak extends JPlugin
 						} else {
 							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key);
 						}
-						$t[] = (string) JHtml::_($style.'.panel', $match['title'], 'basic-details');
+						$t[] = (string) JHtml::_($style.'.panel', $match['title'], 'article'.$row->id.'-'.$style.$key);
 					}
 					$t[] = (string) $subtext;
 				}

@@ -29,7 +29,13 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function checkAll()
 	{
-		$this->driver->findElement(By::xPath("//thead//input[@name='checkall-toggle' or @name='toggle']"))->click();
+ 		$el = $this->driver->findElement(By::xPath("//thead//input[@name='checkall-toggle' or @name='toggle']"));
+
+ 		// Work-around for intermittant bug with click() on checkboxes -- click until checked
+ 		while (!$el->isSelected())
+ 		{
+ 				$el->click();
+ 		}
 	}
 
 	public function clickItem($name)
@@ -143,7 +149,6 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function setFilter($idOrLabel, $value)
 	{
-		$result = false;
 		$filters = array_change_key_case($this->filters, CASE_LOWER);
 		$idOrLabel = strtolower($idOrLabel);
 		$filterId = '';
@@ -169,9 +174,8 @@ abstract class AdminManagerPage extends AdminPage
 			$this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']/a"))->click();
 			$this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-			$result =  true;
 		}
-		return $result;
+		return $this->test->getPageObject(get_class($this));
 	}
 
 	public function deleteItem($name)
