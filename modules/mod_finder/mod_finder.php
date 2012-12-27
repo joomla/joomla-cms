@@ -42,7 +42,7 @@ This code intentionally commented
 $params->def('field_size', 20);
 
 // Get the route.
-$route = FinderHelperRoute::getSearchRoute($params->get('f', null));
+$route = FinderHelperRoute::getSearchRoute($params->get('searchfilter', null));
 
 // Load component language file.
 FinderHelperLanguage::loadComponentLanguage();
