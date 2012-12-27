@@ -74,6 +74,9 @@ class ContentViewCategory extends JViewLegacy
 		$numIntro	= $params->def('num_intro_articles', 4);
 		$numLinks	= $params->def('num_links', 4);
 
+		$dispatcher = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+		
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
@@ -87,10 +90,9 @@ class ContentViewCategory extends JViewLegacy
 
 			$item->event = new stdClass();
 
-			$dispatcher = JDispatcher::getInstance();
-
-			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'com_content.category');
-
+			$item->text	 = $item->introtext;
+			$dispatcher->trigger('onContentPrepare', array('com_content.category', &$item, &$item->params, 0));
+			
 			$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$item->params, 0));
 			$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
