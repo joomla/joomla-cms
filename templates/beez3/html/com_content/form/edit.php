@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Templates.beez3
+ *
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // no direct access
@@ -313,10 +314,10 @@ endif;
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
-		<?php if($this->params->get('enable_category', 0) == 1) :?>
+		<?php if ($this->params->get('enable_category', 0) == 1) : ?>
 			<input type="hidden" name="jform[catid]" value="<?php echo $this->params->get('catid', 1);?>"/>
 		<?php endif;?>
-		<?php echo JHtml::_( 'form.token' ); ?>
+		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 </form>
 </div>

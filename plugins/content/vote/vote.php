@@ -30,7 +30,7 @@ class plgContentVote extends JPlugin
 	{
 		parent::__construct($subject, $config);
 		$this->loadLanguage();
-    }
+	}
 
 	/**
 	 * @since	1.6
