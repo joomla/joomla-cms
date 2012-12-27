@@ -145,7 +145,6 @@ class JFormFieldGroupedList extends JFormField
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
 		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
 
-
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
