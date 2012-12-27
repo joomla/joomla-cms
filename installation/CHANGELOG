@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Dec-2012 Michael Babker
+ + [#28616] Add French language stemmer to Smart Search.  Thanks Chris.
+
 26-Dec-2012 Jean-Marie Simonet
  # [#29210] Help page restricted to small window at top of screen. Thanks Chris.
  # [#29849] *RTL: Wrong display of Subcategories titles in Content Category List menu item
@@ -211,7 +214,7 @@ $ -> Language fix or change
  # [#29519] *Edit Menu Item layout usability
  # [#29401] Repeated htmlspecialchars() Applied When Multiple Breadcrumbs Active. Thanks Peter and Roland
  $# [#29521] Missing lang string in installation + correcting wrong constant in InstallationModelDatabase
- # Category title display ommitted in Details column #29494 
+ # Category title display ommitted in Details column #29494
 
 17-Oct-2012 Jean-Marie Simonet
  # [#29470] *Hathor submenus broken. Thanks Yannick
@@ -264,7 +267,7 @@ $ -> Language fix or change
 06-Oct-2012 Jean-Marie Simonet
  # [#29262] Wrong file name in garbagecoro cli app
  # [#29446] One character too much in JFeedPerson
- 
+
 05-Oct-2012 Jean-Marie Simonet
  $ Updating pt-BR.ini
  # [#29387] unpublish button don't work. Thanks Roberto
