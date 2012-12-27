@@ -32,6 +32,12 @@ class JLayoutFile extends JLayoutBase
 	protected $basePath = null;
 
 	/**
+	 * @var    string  Full path to actual layout files, after possible template override check
+	 * @since  3.0.3
+	 */
+	private $fullPath = null;
+
+	/**
 	 * Method to instantiate the file-based layout.
 	 *
 	 * @param   string  $layoutId  Dot separated path to the layout file, relative to base path
@@ -82,21 +88,18 @@ class JLayoutFile extends JLayoutBase
 	 */
 	protected function getPath()
 	{
-		static $fullPath = null;
-
-		if (is_null($fullPath) && !empty($this->layoutId))
+		if (is_null($this->fullPath) && !empty($this->layoutId))
 		{
-			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+			$rawPath = str_replace('.', '/', $this->layoutId) . '.php';
 			$fileName = basename($rawPath);
 			$filePath = dirname($rawPath);
 
-			$possiblePaths = array(
-				JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $filePath, $this->basePath . '/' . $filePath
-			);
+			$possiblePaths = array(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $filePath,
+				$this->basePath . '/' . $filePath);
 
-			$fullPath = JPath::find($possiblePaths, $fileName);
+			$this->fullPath = JPath::find($possiblePaths, $fileName);
 		}
 
-		return $fullPath;
+		return $this->fullPath;
 	}
 }
