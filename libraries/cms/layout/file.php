@@ -35,7 +35,7 @@ class JLayoutFile extends JLayoutBase
 	 * @var    string  Full path to actual layout files, after possible template override check
 	 * @since  3.0.3
 	 */
-	private $fullPath = null;
+	protected $fullPath = null;
 
 	/**
 	 * Method to instantiate the file-based layout.
