@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 27-Dec-2012 Michael Babker
  ^ Sync core test framework to the Platform
+ + Add tests for Editor and Layout packages
 
 22-Dec-2012 Mark Dexter
  # Fix failing system tests caused by markup changes
