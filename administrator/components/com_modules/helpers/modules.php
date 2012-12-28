@@ -84,7 +84,7 @@ abstract class ModulesHelper
 	 *
 	 * @return  array  A list of positions
 	 */
-	public static function getPositions($clientId)
+	public static function getPositions($clientId, $editPositions=false)
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
@@ -111,7 +111,7 @@ abstract class ModulesHelper
 		$options = array();
 		foreach ($positions as $position)
 		{
-			if (!$position)
+			if (!$position && !$editPositions)
 			{
 				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
 
