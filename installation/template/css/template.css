@@ -13,6 +13,9 @@
 	height: 15px;
 	width: 128px;
 }
+.container{
+	max-width: 900px;
+}
 .thumbnail {
 	margin-bottom:9px;
 }
