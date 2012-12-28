@@ -44,11 +44,10 @@ foreach ($templates as $template)
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
-if (!empty($this->item->position) && !$isTemplatePosition)
-{
-	$option = ModulesHelper::createOption($this->item->position);
-	$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, array($option));
-}
+
+$editPositions = true;
+$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
+$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 
 // Build field
 $attr = array(
