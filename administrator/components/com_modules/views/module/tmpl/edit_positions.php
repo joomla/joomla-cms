@@ -46,7 +46,7 @@ foreach ($templates as $template)
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 
 $editPositions = true;
-$customPositions = ModulesHelper::getPositions($clientId,$editPositions);
+$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
 $templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 
 // Build field
