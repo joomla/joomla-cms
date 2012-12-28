@@ -488,6 +488,15 @@ class JInstallerTemplate extends JAdapterInstance
 				continue;
 			}
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
+    	
+			if ($template != $manifest_details['name']) 
+			{
+				JError::raiseWarning(100, JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_NAMES_DIFFERENT'));
+			
+				continue;
+				// Ignore if directory name is different than the templateDetails.xml <name> tag
+			}
+            
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'template');
 			$extension->set('client_id', $site_info->id);
