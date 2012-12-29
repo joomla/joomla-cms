@@ -24,6 +24,7 @@ class modBreadCrumbsHelper
 		$app		= JFactory::getApplication();
 		$pathway	= $app->getPathway();
 		$items		= $pathway->getPathWay();
+		$lang		= JFactory::getLanguage();
 
 		$count = count($items);
 
@@ -40,7 +41,7 @@ class modBreadCrumbsHelper
 		{
 			$item = new stdClass;
 			$item->name = htmlspecialchars($params->get('homeText', JText::_('MOD_BREADCRUMBS_HOME')));
-			$item->link = JRoute::_('index.php?Itemid=' . $app->getMenu()->getDefault()->id);
+			$item->link = JRoute::_('index.php?Itemid=' . $app->getMenu()->getDefault($lang->getTag())->id);
 			array_unshift($crumbs, $item);
 		}
 
