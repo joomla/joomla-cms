@@ -428,6 +428,7 @@ function checkAll_button(n, task) {
  * Links:
  * 	https://groups.google.com/d/topic/joomla-dev-platform/dWUbRsOAtNw/discussion
  * 	http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28119
+ *  https://groups.google.com/d/topic/joomla-dev-cms/jyKt5VE5PWw/discussion
  *
  */
 
@@ -451,6 +452,7 @@ Joomla.eventsStorage = {};
  * 		Joomla.addEvent('domready domchanged.extension_name', callback);
  * 		Joomla.addEvent(['domready', 'domchanged.extension_name'], callback);
  *
+ *		domchanged - important for keep the script working after DOM manipulation by other scripts
  * 		instead of "domready" can be "load"/"unload" if need
  */
 
@@ -490,9 +492,7 @@ Joomla.addEvent = function (event, fn) {
 	        }
         }
 
-        window.addEvent(nameBase, function(event){
-        	Joomla.fireEvent(event, document);
-        }.bind(this, nameBase));
+        window.addEvent(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
 
 	}
 };
@@ -525,7 +525,7 @@ Joomla.removeEvent = function (event, fn) {
         	if( index !== -1) delete Joomla.eventsStorage[events[i]][index];
         }
 
-		window.removeEvent(nameBase, Joomla.fireEvent);
+		window.removeEvent(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
 	}
 };
 
@@ -546,7 +546,7 @@ Joomla.fireEvent = function(event, element) {
 	for (var i = 0; i < Joomla.eventsStorage[event].length; i++) {
 		//try do not break site if some script is buggy
 		try {
-			Joomla.eventsStorage[event][i].call(this, event, element);
+			Joomla.eventsStorage[event][i].call(window, event, element);
 		} catch (e) {
 			if(window.console){ console.log(e); console.log(e.stack);}
 		}
