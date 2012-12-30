@@ -26,7 +26,8 @@ abstract class JHtmlUsers
 		if (empty($value)) {
 			return JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 		}
-		else {
+		elseif (!is_array($value))
+		{
 			return htmlspecialchars($value);
 		}
 	}

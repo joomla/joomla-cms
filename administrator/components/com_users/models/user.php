@@ -56,6 +56,9 @@ class UsersModelUser extends JModelAdmin
 		// Trigger the data preparation event.
 		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.user', $result));
 
+			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
+			$result->tags = TagsHelper::getTagIds($result->id, 'com_users.user');
+
 		return $result;
 	}
 

@@ -103,6 +103,7 @@ class ContactControllerContact extends JControllerForm
 
 		return parent::batch($model);
 	}
+
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
@@ -117,7 +118,7 @@ class ContactControllerContact extends JControllerForm
 		$task = $this->getTask();
 
 		$item = $model->getItem(); 
-		$id = $item->get('id');var_dump($item);
+		$id = $item->get('id');
 		$tags = $validData['tags'];
 
 		if ($tags)

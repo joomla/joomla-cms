@@ -195,6 +195,9 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 		}
 
+			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
+			$result->tags = TagsHelper::getTagIds($result->id, $result->extension . '.category');
+
 		return $result;
 	}
 

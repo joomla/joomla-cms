@@ -24,6 +24,9 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT '1',
+  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+
   PRIMARY KEY (`id`),
   KEY `tag_idx` (`published`,`access`),
   KEY `idx_access` (`access`),
@@ -64,6 +67,7 @@ INSERT INTO `#__content_types` (`type_id`, `title`, `alias`, `table`, `rules`) V
 (0, 'Weblink', 'weblink', '#__weblinks', ''),
 (0, 'Contact', 'contact', '#__contact_details', ''),
 (0, 'Newsfeed', 'newsfeed', '#__newsfeeds', ''),
+(0, 'User', 'user', '#__users', ''),
 (0, 'Category', 'category', '#__categories', '');
 
 CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (

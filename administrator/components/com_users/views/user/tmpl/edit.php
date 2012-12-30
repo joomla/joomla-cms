@@ -61,6 +61,7 @@ $fieldsets = $this->form->getFieldsets();
 							</div>
 						</div>
 					<?php endforeach; ?>
+
 				</div>
 				<?php if ($this->grouplist) : ?>
 					<div class="tab-pane" id="groups">
@@ -94,6 +95,17 @@ $fieldsets = $this->form->getFieldsets();
 					<?php endforeach; ?>
 				</div>
 			<?php endforeach; ?>
+
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('tags'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('tags'); ?>
+				</div>
+			</div>
+
+
 		</div>
 	</fieldset>
 	<input type="hidden" name="task" value="" />

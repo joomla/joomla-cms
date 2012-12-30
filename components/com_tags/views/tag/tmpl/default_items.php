@@ -33,7 +33,7 @@ $n = count($this->items);
 		<ul class="category list-striped list-condensed">
 			<?php foreach ($this->items as $i => $item) : ?>
 				<?php
-				if (in_array($item->itemData['access'], $this->user->getAuthorisedViewLevels())) : ?>
+				if ((!empty($item->itemData['access'])) && in_array($item->itemData['access'], $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($item->itemData['published'] == 0) : ?>
 						<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else: ?>
