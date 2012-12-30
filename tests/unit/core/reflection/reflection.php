@@ -17,8 +17,8 @@ class TestReflection
 	/**
 	 * Helper method that gets a protected or private property in a class by relfection.
 	 *
-	 * @param   object  $object
-	 * @param   string  $propertyName
+	 * @param   object  $object        The object from which to return the property value.
+	 * @param   string  $propertyName  The name of the property to return.
 	 *
 	 * @return  mixed  The value of the property.
 	 *
@@ -57,8 +57,8 @@ class TestReflection
 	 *
 	 * $this->asserTrue(TestCase::invoke('methodName', $this->object, 123));
 	 *
-	 * @param   object  $object
-	 * @param   string  $methodName
+	 * @param   object  $object      The object on which to invoke the method.
+	 * @param   string  $methodName  The name of the method to invoke.
 	 *
 	 * @return  mixed
 	 *
@@ -84,9 +84,9 @@ class TestReflection
 	/**
 	 * Helper method that sets a protected or private property in a class by relfection.
 	 *
-	 * @param   object  $object
-	 * @param   string  $propertyName
-	 * @param   mixed   $value
+	 * @param   object  $object        The object for which to set the property.
+	 * @param   string  $propertyName  The name of the property to set.
+	 * @param   mixed   $value         The value to set for the property.
 	 *
 	 * @return  void
 	 *
@@ -105,7 +105,7 @@ class TestReflection
 			$property->setValue($object, $value);
 		}
 		// Hrm, maybe dealing with a private property in the parent class.
-		else if (get_parent_class($object))
+		elseif (get_parent_class($object))
 		{
 			$property = new \ReflectionProperty(get_parent_class($object), $propertyName);
 			$property->setAccessible(true);

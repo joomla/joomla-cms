@@ -38,7 +38,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), NULL, true);
+				$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
 			}
 			else
 			{
@@ -93,7 +93,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), NULL, true);
+				$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true);
 			}
 			else
 			{
@@ -214,7 +214,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), NULL, true);
+				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
 			}
 			else
 			{
@@ -250,7 +250,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), NULL, true);
+				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
 			}
 			else
 			{
