@@ -422,13 +422,71 @@ function checkAll_button(n, task) {
 }
 
 /**
+ * Extend Objects function
+ */
+Joomla.extend = function(destination, source) {
+	for(var p in source) {
+		destination[p] = source[p];
+	}
+	return destination;
+}
+
+/**
+ * fallbacks
+ */
+if (!Function.prototype.bind) {
+	Function.prototype.bind = function(bind) {
+		var self = this;
+		var args = Array.prototype.slice.call(arguments, 1);
+		return function(){
+			return self.apply(bind, args);
+		};
+	};
+}
+//https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Array/IndexOf#Compatibility
+if (!Array.prototype.indexOf) {
+	Array.prototype.indexOf = function(searchElement /* , fromIndex */) {
+		"use strict";
+		if (this == null) {
+			throw new TypeError();
+		}
+		var t = Object(this);
+		var len = t.length >>> 0;
+		if (len === 0) {
+			return -1;
+		}
+		var n = 0;
+		if (arguments.length > 1) {
+			n = Number(arguments[1]);
+			if (n != n) { // shortcut for verifying if it's NaN
+				n = 0;
+			} else if (n != 0 && n != Infinity && n != -Infinity) {
+				n = (n > 0 || -1) * Math.floor(Math.abs(n));
+			}
+		}
+		if (n >= len) {
+			return -1;
+		}
+		var k = n >= 0 ? n : Math.max(len - Math.abs(n), 0);
+		for (; k < len; k++) {
+			if (k in t && t[k] === searchElement) {
+				return k;
+			}
+		}
+		return -1;
+	}
+}
+
+/**
  * One way scripts initialisation.
- * For current implementation need a MooTools.
+ *
+ * For current implementation NOT required a MooTools or other js framework. So in theory also need make
+ * "core" behavior JHtml::_('behavior.core') and then 'behavior.framework' can change for load needed framework.
  *
  * Links:
- * 	https://groups.google.com/d/topic/joomla-dev-platform/dWUbRsOAtNw/discussion
- * 	http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28119
- *  https://groups.google.com/d/topic/joomla-dev-cms/jyKt5VE5PWw/discussion
+ * https://groups.google.com/d/topic/joomla-dev-platform/dWUbRsOAtNw/discussion
+ * http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28119
+ * https://groups.google.com/d/topic/joomla-dev-cms/jyKt5VE5PWw/discussion
  *
  */
 
@@ -443,6 +501,46 @@ Joomla.optionsStorage = {};
  */
 
 Joomla.eventsStorage = {};
+
+/**
+ * domready listener
+ * 	based on contentloaded.js http://javascript.nwbox.com/ContentLoaded/
+ * 	written by Diego Perini (diego.perini at gmail.com)
+ */
+
+Joomla.contentLoaded = function(win, fn) {
+
+	var done = false, top = true,
+
+	doc = win.document, root = doc.documentElement,
+
+	add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
+	rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
+	pre = doc.addEventListener ? '' : 'on',
+
+	init = function(e) {
+		if (e.type == 'readystatechange' && doc.readyState != 'complete') return;
+		(e.type == 'load' ? win : doc)[rem](pre + e.type, init, false);
+		if (!done && (done = true)) fn.call(win, e.type || e);
+	},
+
+	poll = function() {
+		try { root.doScroll('left'); } catch(e) { setTimeout(poll, 50); return; }
+		init('poll');
+	};
+
+	if (doc.readyState == 'complete') fn.call(win, 'lazy');
+	else {
+		if (doc.createEventObject && root.doScroll) {
+			try { top = !win.frameElement; } catch(e) { }
+			if (top) poll();
+		}
+		doc[add](pre + 'DOMContentLoaded', init, false);
+		doc[add](pre + 'readystatechange', init, false);
+		win[add](pre + 'load', init, false);
+	}
+
+}
 
 /**
  * add events for init
@@ -469,31 +567,37 @@ Joomla.addEvent = function (event, fn) {
 
 	for (var i = 0; i < events.length; i++) {
 		// Get event type and namespace
-        var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
+		var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
 
-        // store in Joomla.eventsStorage by the base event name
-        if (!Joomla.eventsStorage[nameBase]) {
-        	Joomla.eventsStorage[nameBase] = [];
-        }
-        //add only once
-        if (Joomla.eventsStorage[nameBase].indexOf(fn) === -1) {
-        	Joomla.eventsStorage[nameBase].push(fn);
-        }
+		// store in Joomla.eventsStorage by the base event name
+		if (!Joomla.eventsStorage[nameBase]) {
+			Joomla.eventsStorage[nameBase] = [];
+		}
+		//add only once
+		if (Joomla.eventsStorage[nameBase].indexOf(fn) === -1) {
+			Joomla.eventsStorage[nameBase].push(fn);
+		}
 
-        // store in Joomla.eventsStorage by the full name (with namespace)
-        // add only if namespace exist, otherwise will be same atachment twice
-        if (nameSpace) {
-	        if (!Joomla.eventsStorage[events[i]]) {
-	        	Joomla.eventsStorage[events[i]] = [];
-	        }
-	        //add only once
-	        if (Joomla.eventsStorage[events[i]].indexOf(fn) === -1) {
-	        	Joomla.eventsStorage[events[i]].push(fn);
-	        }
-        }
+		// store in Joomla.eventsStorage by the full name (with namespace)
+		// add only if namespace exist, otherwise will be same atachment twice
+		if (nameSpace) {
+			if (!Joomla.eventsStorage[events[i]]) {
+				Joomla.eventsStorage[events[i]] = [];
+			}
+			//add only once
+			if (Joomla.eventsStorage[events[i]].indexOf(fn) === -1) {
+				Joomla.eventsStorage[events[i]].push(fn);
+			}
+		}
 
-        window.addEvent(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
-
+		if (nameBase.indexOf('ready') !== -1) {
+			Joomla.contentLoaded(window, Joomla.fireEvent.bind(window, nameBase, document));
+		} else if (window.addEventListener) { // W3C DOM
+			window.addEventListener(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
+		}
+		else if (window.attachEvent) { // IE DOM
+			window.attachEvent("on" + nameBase, Joomla.fireEvent.bind(window, nameBase, document));
+		}
 	}
 };
 
@@ -513,19 +617,24 @@ Joomla.removeEvent = function (event, fn) {
 
 	for (var i = 0; i < events.length; i++) {
 		// Get event type and namespace
-        var names = events[i].split('.'), nameBase = names[0];//, nameSpace = names[1];
-        //remove from storage
-        if (Joomla.eventsStorage[nameBase]) {
-        	var index = Joomla.eventsStorage[nameBase].indexOf(fn);
-        	if( index !== -1) delete Joomla.eventsStorage[nameBase][index];
-        }
+		var names = events[i].split('.'), nameBase = names[0];//, nameSpace = names[1];
+		//remove from storage
+		if (Joomla.eventsStorage[nameBase]) {
+			var index = Joomla.eventsStorage[nameBase].indexOf(fn);
+			if( index !== -1) delete Joomla.eventsStorage[nameBase][index];
+		}
 
-        if (Joomla.eventsStorage[events[i]]) {
-        	var index = Joomla.eventsStorage[events[i]].indexOf(fn);
-        	if( index !== -1) delete Joomla.eventsStorage[events[i]][index];
-        }
+		if (Joomla.eventsStorage[events[i]]) {
+			var index = Joomla.eventsStorage[events[i]].indexOf(fn);
+			if( index !== -1) delete Joomla.eventsStorage[events[i]][index];
+		}
 
-		window.removeEvent(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
+		if (window.removeEventListener) { // W3C DOM
+			window.removeEventListener(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
+		}
+		else if (window.detachEvent) { // IE DOM
+			window.detachEvent("on" + nameBase, Joomla.fireEvent.bind(window, nameBase, document));
+		}
 	}
 };
 
