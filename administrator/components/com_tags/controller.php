@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_tags
- * @since       1.6
+ * @since       3.1
  */
 class TagsController extends JControllerLegacy
 {
@@ -22,11 +22,12 @@ class TagsController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JControllerLegacy  This object to support chaining.
+	 *
+	 * @since   3.1
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{

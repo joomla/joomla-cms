@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_tags
- * @since       1.6
+ * @since       3.1
  */
 class TagsModelTag extends JModelAdmin
 {
 	/**
 	 * @var    string  The prefix to use with controller messages.
-	 * @since  1.6
+	 * @since  3.1
 	 */
 	protected $text_prefix = 'COM_TAGS';
 
@@ -31,7 +31,7 @@ class TagsModelTag extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
-	 * @since	1.6
+	 * @since   3.1
 	 */
 	protected function canDelete($record)
 	{
@@ -54,7 +54,7 @@ class TagsModelTag extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 *
-	 * @since   1.6
+	 * @since   3.1
 	 */
 	protected function canEditState($record)
 	{
@@ -86,7 +86,7 @@ class TagsModelTag extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.1
 	 */
 	protected function populateState()
 	{

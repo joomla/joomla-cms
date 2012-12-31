@@ -21,11 +21,11 @@ class TagsControllerTags extends JControllerAdmin
 	/**
 	 * Proxy for getModel
 	 *
-	 * @param	string	$name	The model name. Optional.
-	 * @param	string	$prefix	The class prefix. Optional.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
 	 *
-	 * @return	object	The model.
-	 * @since	1.6
+	 * @return  JModelLegacy  The model.
+	 * @since   3.1
 	 */
 	public function getModel($name = 'Tags', $prefix = 'TagsModel', $config = array('ignore_request' => true))
 	{
@@ -36,8 +36,9 @@ class TagsControllerTags extends JControllerAdmin
 	/**
 	 * Rebuild the nested set tree.
 	 *
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.6
+	 * @return  boolean  False on failure or error, true on success.
+	 *
+	 * @since   3.1
 	 */
 	public function rebuild()
 	{

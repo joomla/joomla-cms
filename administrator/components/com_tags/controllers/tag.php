@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_tags
- * @since       1.6
+ * @since       3.1
  */
 class TagsControllerTag extends JControllerForm
 {
@@ -26,7 +26,7 @@ class TagsControllerTag extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since   3.1
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -42,7 +42,7 @@ class TagsControllerTag extends JControllerForm
 	 *
 	 * @return  boolean
 	 *
-	 * @since   1.6
+	 * @since   3.1
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -61,7 +61,7 @@ class TagsControllerTag extends JControllerForm
 	 *
 	 * @return  boolean	 True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   1.6
+	 * @since   3.1
 	 */
 	public function batch($model = null)
 	{
