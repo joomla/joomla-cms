@@ -183,8 +183,8 @@ class WeblinksModelWeblink extends JModelAdmin
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
 
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			$item->tags = TagsHelper::getTagIds($item->id, 'com_weblinks.weblink');
+			$item->tags = new JTagsHelper;
+			$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
 		}
 
 		return $item;

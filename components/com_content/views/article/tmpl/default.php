@@ -18,7 +18,9 @@ $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
+$this->item->tagLayout      = new JLayoutFile('joomla.content.tags');
 JHtml::_('behavior.caption');
+
 
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
@@ -252,7 +254,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && $this->item->p
 	<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '1')) || ($params->get('urls_position') == '1'))): ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php //optional teaser intro text for guests ?>
+	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo $this->item->introtext; ?>
 	<?php //Optional link to let them register to see the whole article. ?>

@@ -183,14 +183,14 @@ class CategoriesControllerCategory extends JControllerForm
 	{
 		$task = $this->getTask();
 
-		$item = $model->getItem(); 
+		$item = $model->getItem();
 		$id = $item->get('id');
 		$tags = $validData['tags'];
 
 		if ($tags)
 		{
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			TagsHelper::tagItem($id, $item->get('extension') . '.category', $tags);
+			$tagsHelper = new JTagsHelper;
+			$tagsHelper->tagItem($id, $item->get('extension') . '.category', $tags);
 		}
 	}
 }

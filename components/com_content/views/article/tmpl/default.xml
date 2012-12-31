@@ -223,6 +223,16 @@
 		</field>
 
 		<field
+			name="show_tags"
+			type="list"
+			label="JGLOBAL_SHOW_TAGS_LABEL"
+			description="JGLOBAL_SHOW_TAGS_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
+		</field>
+
+		<field
 			name="show_noauth"
 			type="list"
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"

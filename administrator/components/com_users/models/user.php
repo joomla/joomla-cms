@@ -49,15 +49,15 @@ class UsersModelUser extends JModelAdmin
 	{
 		$result = parent::getItem($pk);
 
+		$result->tags = new JTagsHelper;
+		$result->tags->getTagIds($result->id, 'com_users.user');
+
 		// Get the dispatcher and load the users plugins.
 		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
 		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.user', $result));
-
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			$result->tags = TagsHelper::getTagIds($result->id, 'com_users.user');
 
 		return $result;
 	}

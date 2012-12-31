@@ -81,7 +81,7 @@ class ContentModelForm extends ContentModelArticle
 		// Compute selected asset permissions.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
-		$asset	= 'com_content.article.'.$value->id;
+		$asset	= 'com_content.article.'. $value->id;
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $asset))

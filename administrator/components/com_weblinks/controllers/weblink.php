@@ -123,8 +123,8 @@ class WeblinksControllerWeblink extends JControllerForm
 		// Store the tag data if the weblink data was saved.
 		if ($tags )
 		{
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			TagsHelper::tagItem($id, 'com_weblinks.weblink', $tags);
+			$tagsHelper = new JTagsHelper;
+			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $tags);
 		}
 
 		if ($task == 'save')

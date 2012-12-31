@@ -178,6 +178,9 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$result->modified_time = null;
 			}
+
+			$result->tags = new JTagsHelper;
+			$result->tags->getTagIds($result->id, $result->extension . '.category');
 		}
 
 		$app = JFactory::getApplication();
@@ -194,9 +197,6 @@ class CategoriesModelCategory extends JModelAdmin
 				$result->associations = array();
 			}
 		}
-
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			$result->tags = TagsHelper::getTagIds($result->id, $result->extension . '.category');
 
 		return $result;
 	}

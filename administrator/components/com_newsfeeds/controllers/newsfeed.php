@@ -125,8 +125,8 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		// Store the tag data if the news data was saved.
 		if ($tags )
 		{
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			TagsHelper::tagItem($id, 'com_newsfeeds.newsfeed', $tags);
+			$tagsHelper = new JTagsHelper;
+			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $tags);
 		}
 
 	}

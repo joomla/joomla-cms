@@ -122,8 +122,8 @@ class UsersControllerUser extends JControllerForm
 
 		if ($tags)
 		{
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			TagsHelper::tagItem($id, 'com_users.user', $tags);
+			$tagsHelper = new JTagsHelper;
+			$tagsHelper->tagItem($id, 'com_users.user', $tags);
 		}
 	}
 }

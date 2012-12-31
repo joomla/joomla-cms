@@ -381,7 +381,8 @@ class ContactModelContact extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk)) {
+		if ($item = parent::getItem($pk))
+		{
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
@@ -407,9 +408,9 @@ class ContactModelContact extends JModelAdmin
 		if ($item = parent::getItem($pk))
 		{
 			$db = JFactory::getDbo();
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			$item->tags = TagsHelper::getTagIds($item->id, 'com_contact.contact');
 
+			$item->tags = new JTagsHelper;
+			$item->tags->getTagIds($item->id, 'com_contact.contact');
 		}
 
 		return $item;
@@ -526,47 +527,6 @@ class ContactModelContact extends JModelAdmin
 	}
 
 	/**
-	 * Prepare and sanitise the table prior to saving.
-	 *
-	 * @param	JTable	$table
-	 *
-	 * @return	void
-	 * @since	1.6
-	 */
-	protected function prepareTable($table)
-	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
-
-		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias		= JApplication::stringURLSafe($table->alias);
-
-		if (empty($table->alias)) {
-			$table->alias = JApplication::stringURLSafe($table->name);
-		}
-
-		if (empty($table->id)) {
-			// Set the values
-			$table->created	= $date->toSql();
-
-			// Set ordering to the last item if not set
-			if (empty($table->ordering)) {
-				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
-				$max = $db->loadResult();
-
-				$table->ordering = $max + 1;
-			}
-		}
-		else {
-			// Set the values
-			$table->modified	= $date->toSql();
-			$table->modified_by	= $user->get('id');
-		}
-		// Increment the content version number.
-		$table->version++;
-
-	}
 
 	/**
 	 * A protected method to get a set of ordering conditions.

@@ -162,8 +162,8 @@ class ContentControllerArticle extends JControllerForm
 		// Store the tag data if the article data was saved.
 		if ($tags )
 		{
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			TagsHelper::tagItem($id, 'com_content.article', $tags);
+			$tagsHelper = new JTagsHelper;
+			$tagsHelper->tagItem($id, 'com_content.article', $tags);
 		}
 	}
 

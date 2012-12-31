@@ -64,6 +64,23 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$this->setState('params', $params);
 
 		$this->setState('layout', $app->input->get('layout'));
+	}
 
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param	integer	The id of the primary key.
+	 *
+	 * @return	mixed	Object on success, false on failure.
+	 * @since	1.6
+	 */
+	public function getItem($pk = null)
+	{
+		if ($item = parent::getItem($pk))
+		{
+			$item->tags = new JTagsHelper;
+			$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
+		}
+		return $item;
 	}
 }

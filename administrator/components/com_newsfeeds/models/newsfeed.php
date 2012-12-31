@@ -396,8 +396,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			}
 		}
 
-			require_once JPATH_ADMINISTRATOR .'/components/com_tags/helpers/tags.php';
-			$item->tags = TagsHelper::getTagIds($item->id, 'com_contact.contact');
+			$item->tags = new JTagsHelper;
+			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 		}
 
 		return $item;
