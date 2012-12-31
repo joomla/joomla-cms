@@ -34,18 +34,16 @@ class TagsHelperTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('m.tag_id'));
+		$query->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') .'.*'));
 		$query->from($db->quoteName('#__contentitem_tag_map') . ' AS m ');
-		$query->where($db->quoteName('item_name') . ' = ' . $db->quote($contentItemName));
+		$query->where($db->quoteName('m.item_name') . ' = ' . $db->quote($contentItemName),
+			$db->quoteName('t.published') . ' =  1' );
 
 		if ($getTagData)
 		{
-			$query->join($db->quoteName('#__tags') . ' AS t ' . ' ON ' .
-				$db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.tag_id'));
+			$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' .
+				$db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 		}
-		
-		$db->setQuery($query);
-		$this->itemTags = $db->loadObjectList();
 
 		return $this->itemTags;
 	}
