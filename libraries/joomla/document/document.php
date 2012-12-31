@@ -905,7 +905,7 @@ class JDocument
 	 */
 	public function loadRenderer($type)
 	{
-		$class = 'JDocumentRenderer' . $type;
+		$class = 'JDocumentRenderer' . ucfirst($type);
 
 		if (!class_exists($class))
 		{
