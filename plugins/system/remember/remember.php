@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  System.remember
  * @since       1.5
  */
-class plgSystemRemember extends JPlugin
+class PlgSystemRemember extends JPlugin
 {
 	public function onAfterInitialise()
 	{

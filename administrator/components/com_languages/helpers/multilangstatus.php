@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_languages
  * @since       1.7.1
  */
-abstract class multilangstatusHelper
+abstract class MultilangstatusHelper
 {
 	public static function getHomes()
 	{

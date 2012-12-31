@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Newsfeeds
  * @since       2.5
  */
-class plgFinderNewsfeeds extends FinderIndexerAdapter
+class PlgFinderNewsfeeds extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.

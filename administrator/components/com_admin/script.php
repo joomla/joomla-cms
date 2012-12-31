@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_admin
  * @since       1.6.4
  */
-class joomlaInstallerScript
+class JoomlaInstallerScript
 {
 	/**
 	 * Method to update Joomla!
