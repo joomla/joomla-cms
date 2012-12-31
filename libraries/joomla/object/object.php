@@ -27,7 +27,7 @@ class JObject
 	 * @var              array
 	 * @since            11.1
 	 * @see              JError
-	 * @deprecated       13.1
+	 * @deprecated       13.3
 	 */
 	protected $_errors = array();
 
@@ -124,7 +124,7 @@ class JObject
 	 *
 	 * @since       11.1
 	 * @see         JError
-	 * @deprecated  13.1
+	 * @deprecated  13.3
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -160,7 +160,7 @@ class JObject
 	 *
 	 * @since       11.1
 	 * @see         JError
-	 * @deprecated  13.1
+	 * @deprecated  13.3
 	 */
 	public function getErrors()
 	{
@@ -220,7 +220,7 @@ class JObject
 	 *
 	 * @since       11.1
 	 * @see         JError
-	 * @deprecated  13.1
+	 * @deprecated  13.3
 	 */
 	public function setError($error)
 	{

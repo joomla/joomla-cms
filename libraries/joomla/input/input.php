@@ -20,6 +20,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @property-read    JInput        $get
  * @property-read    JInput        $post
+ * @property-read    JInput        $request
  * @property-read    JInput        $server
  * @property-read    JInputFiles   $files
  * @property-read    JInputCookie  $cookie

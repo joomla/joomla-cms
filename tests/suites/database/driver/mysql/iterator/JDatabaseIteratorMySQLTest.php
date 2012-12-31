@@ -7,13 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/log/log.php';
-require_once JPATH_PLATFORM . '/joomla/database/iterator.php';
-require_once JPATH_PLATFORM . '/joomla/database/iterator/mysql.php';
-require_once JPATH_PLATFORM . '/joomla/database/driver.php';
-require_once JPATH_PLATFORM . '/joomla/database/driver/mysql.php';
-require_once JPATH_PLATFORM . '/joomla/database/query.php';
-
 /**
  * Test class for JDatabaseResults using MySQL engine.
  *

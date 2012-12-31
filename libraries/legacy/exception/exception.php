@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Exception
  * @since       11.1
- * @deprecated  13.1
+ * @deprecated  13.3
  */
 class JException extends Exception
 {
@@ -110,7 +110,7 @@ class JException extends Exception
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 */
 	public function __construct($msg, $code = 0, $level = null, $info = null, $backtrace = false)
 	{
@@ -177,7 +177,7 @@ class JException extends Exception
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 */
 	public function __toString()
 	{
@@ -192,7 +192,7 @@ class JException extends Exception
 	 * @return  string   Error message
 	 *
 	 * @since   11.1
-	 * @deprecated    12.1
+	 * @deprecated    13.3
 	 */
 	public function toString()
 	{
@@ -209,7 +209,7 @@ class JException extends Exception
 	 *
 	 * @return  mixed  The value of the property or null
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 * @see         getProperties()
 	 * @since       11.1
 	 */
@@ -231,7 +231,7 @@ class JException extends Exception
 	 *
 	 * @return  array  Object properties
 	 *
-	 * @deprecated    12.1
+	 * @deprecated    13.3
 	 * @see     get()
 	 * @since   11.1
 	 */
@@ -264,7 +264,7 @@ class JException extends Exception
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -302,7 +302,7 @@ class JException extends Exception
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 */
 	public function getErrors()
 	{
@@ -319,7 +319,7 @@ class JException extends Exception
 	 *
 	 * @return  mixed  Previous value of the property
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 * @see         setProperties()
 	 * @since       11.1
 	 */
@@ -340,7 +340,7 @@ class JException extends Exception
 	 *
 	 * @return  boolean
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 * @see         set()
 	 * @since       11.1
 	 */
@@ -373,7 +373,7 @@ class JException extends Exception
 	 *
 	 * @since   11.1
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3
 	 */
 	public function setError($error)
 	{
