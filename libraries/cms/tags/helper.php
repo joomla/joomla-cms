@@ -251,6 +251,28 @@ class JTagsHelper
 	}
 
 	/**
+	 * Returns the url segment for a tag map record.
+	 *
+	 * @param   string  $tagItemName  The tag item name.
+	 *
+	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
+	 *
+	 * @since   3.1
+	 */
+	public function getTagUrl($tagItemName)
+	{
+		if (!isset($item->explodedItemName))
+		{
+			$explodedItemName = self::explodeTagItemName($tagItemName);
+		}
+
+		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
+
+		return $this->url;
+	}
+
+
+	/**
 	 * Method to get the table name for a type.
 	 *
 	 * @param   string  $tagItemName  Name of an item.

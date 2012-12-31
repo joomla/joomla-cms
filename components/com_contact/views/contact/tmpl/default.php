@@ -42,6 +42,10 @@ jimport('joomla.html.html.bootstrap');
 			</span>
 		</h3>
 	<?php endif; ?>
+
+	<?php $this->contact->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+	<?php echo $this->contact->tagLayout->render($this->contact->tags); ?>
+
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
 			<?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?>

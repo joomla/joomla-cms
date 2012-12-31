@@ -153,6 +153,9 @@ class ContactViewContact extends JViewLegacy
 		$this->user     = &$user;
 		$this->contacts = &$contacts;
 
+		$item->tags = new JTagsHelper;
+		$item->tags->getItemTags('com_contact.contact.' . $this->item->id); 
+
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match
 		$active	= $app->getMenu()->getActive();

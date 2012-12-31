@@ -59,6 +59,10 @@ else
 		<a href="<?php echo $this->item->link; ?>" target="_blank">
 		<?php echo str_replace('&apos;', "'", $this->item->name); ?></a>
 	</h2>
+
+	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+	<?php echo $this->item->tagLayout->render($this->item->tags); ?>
+
 	<!-- Show Images from Component -->
 	<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
 	<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>

@@ -18,7 +18,6 @@ $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
-$this->item->tagLayout      = new JLayoutFile('joomla.content.tags');
 JHtml::_('behavior.caption');
 
 
@@ -146,6 +145,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			</dl>
 		</div>
 	<?php endif; ?>
+
+	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+	<?php echo $this->item->tagLayout->render($this->item->tags); ?>
 
 	<?php if (!$params->get('show_intro')) : echo $this->item->event->afterDisplayTitle; endif; ?>
 	<?php echo $this->item->event->beforeDisplayContent; ?>

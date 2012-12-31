@@ -91,6 +91,19 @@ class TagsModelTag extends JModelList
 				{
 					$item->itemData['published'] = $item->itemData['state'];
 				}
+
+				// Convert parameter fields to objects.
+				/*$registry = new JRegistry;
+				$registry->loadString($item->itemData->params);
+
+				$data->params = clone $this->getState('params');
+				$data->params->merge($registry);
+
+				$registry = new JRegistry;
+				$registry->loadString($item->itemData->metadata);
+				$item->metadata = $registry;*/
+
+
 			}
 
 		return $items;

@@ -67,35 +67,7 @@ function TagsBuildRoute(&$query)
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
 			if ($view == 'tag') {
-				$tagid = $query['tagid'];
-			}
-			elseif (isset($query['id'])) {
-				$catid = $query['id'];
-			}
-
-			$menuCatid = $mId;
-			$categories = JCategories::getInstance('Weblinks');
-			$category = $categories->get($catid);
-
-			if ($category) {
-				//TODO Throw error that the category either not exists or is unpublished
-				$path = $category->getPath();
-				$path = array_reverse($path);
-
-				$array = array();
-				foreach($path as $id)
-				{
-					if ((int) $id == (int) $menuCatid) {
-						break;
-					}
-
-					if ($advanced) {
-						list($tmp, $id) = explode(':', $id, 2);
-					}
-
-					$array[] = $id;
-				}
-				$segments = array_merge($segments, array_reverse($array));
+				$tagid = $query['id'];
 			}
 
 			if ($view == 'tag') {

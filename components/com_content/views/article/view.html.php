@@ -47,15 +47,15 @@ class ContentViewArticle extends JViewLegacy
 			return false;
 		}
 
-//$this->tagLayout      = new JLayoutFile('joomla.content.tags');
 
 		// Create a shortcut for $item.
 		$item = $this->item;
+		$item->tagLayout      = new JLayoutFile('joomla.content.tags');
 
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-		$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 		// No link for ROOT category
 		if ($item->parent_alias == 'root')
