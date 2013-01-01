@@ -118,6 +118,9 @@ class ContactViewCategory extends JViewLegacy
 			$this->setLayout($active->query['layout']);
 		}
 
+		$this->category->tags = new JTagsHelper;
+		$this->category->tags->getItemTags('com_contact.category.' . $this->category->id); 
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);

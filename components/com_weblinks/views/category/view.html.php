@@ -47,11 +47,13 @@ class WeblinksViewCategory extends JViewLegacy
 			return false;
 		}
 
-		if ($category == false) {
+		if ($category == false)
+		{
 			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
-		if ($parent == false) {
+		if ($parent == false)
+		{
 			return JError::raiseWarning(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
@@ -115,6 +117,9 @@ class WeblinksViewCategory extends JViewLegacy
 			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
 			$this->setLayout($active->query['layout']);
 		}
+
+		$this->category->tags = new JTagsHelper;
+		$this->category->tags->getItemTags('com_weblinks.category.' . $this->category->id); 
 
 		$this->_prepareDocument();
 
