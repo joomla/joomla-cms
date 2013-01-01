@@ -21,10 +21,11 @@ $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
+$canOrder	= $user->authorise('core.edit.state',	'com_tags');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax';
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 $sortFields = $this->getSortFields();
@@ -86,7 +87,7 @@ $sortFields = $this->getSortFields();
 		<table class="table table-striped" id="categoryList">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap center hidden-phone">
+					<th width="1%" class="hidden-phone">
 						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 					</th>
 					<th width="1%" class="hidden-phone">
@@ -122,41 +123,40 @@ $sortFields = $this->getSortFields();
 				</tr>
 			</tfoot>
 			<tbody>
-				<?php
-				$originalOrders = array();
-				foreach ($this->items as $i => $item) :
-						//$orderkey   = array_search($item->id, $ordering[$item->parent_id]);
-						$canEdit    = $user->authorise('core.edit',  'com_tags' . $item->id);
-						$canCheckin = $user->authorise('core.admin',  'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-						
-						$canChange  = $user->authorise('core.edit.state', 'com_tags' . $item->id) && $canCheckin;
-
-						// Get the parents of item for sorting
-						if ($item->level > 1)
+			<?php
+			$originalOrders = array();
+			foreach ($this->items as $i => $item) :
+				$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
+				$canCreate  = $user->authorise('core.create',     'com_tags');
+				$canEdit    = $user->authorise('core.edit',       'com_tags');
+				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
+				$canChange  = $user->authorise('core.edit.state', 'com_tags') && $canCheckin;
+				// Get the parents of item for sorting
+				if ($item->level > 1)
+				{
+					$parentsStr = "";
+					$_currentParentId = $item->parent_id;
+					$parentsStr = " ".$_currentParentId;
+					for ($j = 0; $j < $item->level; $j++)
+					{
+						foreach ($this->ordering as $k => $v)
 						{
-							$parentsStr = "";
-							$_currentParentId = $item->parent_id;
-							$parentsStr = " " . $_currentParentId;
-							for ($i2 = 0; $i2 < $item->level; $i2++)
+							$v = implode("-", $v);
+							$v = "-" . $v . "-";
+							if (strpos($v, "-" . $_currentParentId . "-") !== false)
 							{
-								foreach ($this->ordering as $k => $v)
-								{
-									$v = implode("-", $v);
-									$v = "-".$v."-";
-									if (strpos($v, "-" . $_currentParentId . "-") !== false)
-									{
-										$parentsStr .= " " . $k;
-										$_currentParentId = $k;
-										break;
-									}
-								}
+								$parentsStr .= " " . $k;
+								$_currentParentId = $k;
+								break;
 							}
 						}
-						else
-						{
-							$parentsStr = "";
-						}
-						?>
+					}
+				}
+				else
+				{
+					$parentsStr = "";
+				}
+				?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
 						<td class="order nowrap center hidden-phone">
 						<?php if ($canChange) :

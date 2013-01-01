@@ -20,7 +20,7 @@
 
 	<field
 		name="parent_id"
-		type="tagparent"
+		type="tag"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
 		description="COM_TAGS_FIELD_PARENT_DESC"
 		class="span12 small">
