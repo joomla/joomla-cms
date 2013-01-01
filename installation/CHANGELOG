@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Dec-2012 Michael Babker
+ # [#29620] *Creating new position when editing module broken in master.  Thanks David.
+ # [#29363] Responsive layout during installation breaks.  Thanks David.
+
 27-Dec-2012 Michael Babker
  + [#28616] Add French language stemmer to Smart Search.  Thanks Chris.
 

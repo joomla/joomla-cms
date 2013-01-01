@@ -14,7 +14,7 @@
 	width: 128px;
 }
 .container{
-	width: 900px;
+	max-width: 900px;
 }
 .thumbnail {
 	margin-bottom:9px;
