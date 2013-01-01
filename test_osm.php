@@ -61,7 +61,7 @@ class OsmApp extends JApplicationWeb
 		// $osm=new JOpenstreetmap();
 
 		// New changeset object obtained
-		$changeset = $osm ->changesets;
+		$changeset = $osm->changesets;
 
 		// New element object obtained
 		$element = $osm->elements;
@@ -71,12 +71,14 @@ class OsmApp extends JApplicationWeb
 
 		$changesets = array
 		(
-				"comment" => "my changeset comment",
-				"created_by" => "JOSM/1.0 (5581 en)"
+				array(
+						"comment" => "my changeset comment",
+						"created_by" => "JOSM/1.0 (5581 en)"
+				)
 		);
 
 		// Creates a new changeset
-		$result = $changeset ->createChangeset($changesets);
+		$result = $changeset->createChangeset($changesets);
 
 		// Prints the number of newly created changeset
 		print_r($result);
