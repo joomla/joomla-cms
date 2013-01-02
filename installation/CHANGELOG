@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Jan-2013 Jean-Marie Simonet
+ # [#27903] invalid call to parent::getStoreId in getStoreId of NewsfeedsModelCategories (unused). Thanks Michael and Peter
+
 21-Dec-2012 Jean-Marie Simonet
  $^ Porting installation language list alpha ordering from 3.0
  # [#29567] UTF8 SEF URLs are causing browser too many redirects failures. Thanks Dennis and Nicholas

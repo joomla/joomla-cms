@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @subpackage	com_contact
  * @since		1.6
  */
-class ContactModelCategories extends JModelLegacy
+class ContactModelCategories extends JModelList
 {
 	/**
 	 * Model context string.

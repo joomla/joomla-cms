@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * @subpackage	com_content
  * @since		1.6
  */
-class ContentModelCategories extends JModelLegacy
+class ContentModelCategories extends JModelList
 {
 	/**
 	 * Model context string.
