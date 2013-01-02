@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.6
  */
-class WeblinksModelCategories extends JModelLegacy
+class WeblinksModelCategories extends JModelList
 {
 	/**
 	 * Model context string.

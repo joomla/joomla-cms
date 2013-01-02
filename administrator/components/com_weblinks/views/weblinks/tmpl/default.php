@@ -88,7 +88,7 @@ $sortFields = $this->getSortFields();
 					<th width="1%" class="hidden-phone">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
-					<th width="1%" class="nowrap center">
+					<th width="1%" style="min-width:55px" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 					</th>
 					<th class="title">
@@ -146,10 +146,10 @@ $sortFields = $this->getSortFields();
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
-					<td class="center hidden-phone">
+					<td class="center">
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 					</td>
-					<td class="nowrap">
+					<td class="nowrap has-context">
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'weblinks.', $canCheckin); ?>
 						<?php endif; ?>

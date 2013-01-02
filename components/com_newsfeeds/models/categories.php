@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_newsfeeds
  * @since       1.6
  */
-class NewsfeedsModelCategories extends JModelLegacy
+class NewsfeedsModelCategories extends JModelList
 {
 	/**
 	 * Model context string.
