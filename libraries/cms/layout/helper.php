@@ -31,7 +31,7 @@ class JLayoutHelper
 	 */
 	public static function renderFile($layoutFile, $displayData, $basePath = '')
 	{
-		$layout = new JLayout($layoutFile, $basePath);
+		$layout = new JLayoutFile($layoutFile, $basePath);
 		$renderedLayout = $layout->render($displayData);
 
 		return $renderedLayout;
