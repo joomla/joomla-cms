@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 02-Jan-2013 Jean-Marie Simonet
  # [#29870] *Beez3 wrong messages display
+ # [#29217] *Status column missing in weblinks mobile view. Thanks Tim
 
 31-Dec-2012 Michael Babker
  # [#29620] *Creating new position when editing module broken in master.  Thanks David.
