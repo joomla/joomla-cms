@@ -162,17 +162,6 @@ div.toggle-editor {
 	padding:0 0 0 0px !important
 }
 
-#system-message-container
-{
-	margin:10px 0 20px 0;
-	background-color: #F2DEDE;
-	border-color: #B94A48;
-}
-#system-message p{
-	border: solid 1px #B94A48;
-	border-radius: 3px 3px;
-	padding: 3px; 
-}
 #system-message dt
 {
 	font-weight: bold;
