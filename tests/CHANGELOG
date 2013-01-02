@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jan-2013 Mark Dexter
+ # Fix failing webdriver test due to change in Module edit UI
+
 27-Dec-2012 Michael Babker
  ^ Sync core test framework to the Platform
  + Add tests for Editor and Layout packages
