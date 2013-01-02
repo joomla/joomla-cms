@@ -45,7 +45,7 @@ class WeblinksModelCategories extends JModelList
 	 */
 	protected function populateState()
 	{
-		$app = JFactory::getApplication();
+		$app = JFactory::getApplication($ordering = null, $direction = null);
 		$this->setState('filter.extension', $this->_extension);
 
 		// Get the parent id if defined.
