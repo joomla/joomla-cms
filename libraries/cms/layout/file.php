@@ -16,6 +16,7 @@ defined('JPATH_BASE') or die;
  * @package     Joomla.Libraries
  * @subpackage  Layout
  * @since       3.0
+ * @see http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
  */
 class JLayoutFile extends JLayoutBase
 {
