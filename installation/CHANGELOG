@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jan-2013 Jean-Marie Simonet
+ # [#29836] *Weblinks, Newsfeeds, Contacts Search Filter (frontend). Thanks Glenn Arkell
+
 02-Jan-2013 Jean-Marie Simonet
  # [#29870] *Beez3 wrong messages display
  # [#29217] *Status column missing in weblinks mobile view. Thanks Tim
