@@ -122,8 +122,8 @@ class ContentModelForm extends ContentModelArticle
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php';
-		$value->tags = TagsHelper::getTagIds($value->id, 'com_content.article');
+		$value->tags = new JTagsHelper;
+		$value->tags->getTagIds($value->id, 'com_content.article');
 
 		return $value;
 	}
