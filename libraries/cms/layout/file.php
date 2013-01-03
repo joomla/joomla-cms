@@ -16,6 +16,7 @@ defined('JPATH_BASE') or die;
  * @package     Joomla.Libraries
  * @subpackage  Layout
  * @since       3.0
+ * @see http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
  */
 class JLayoutFile extends JLayoutBase
 {
@@ -30,6 +31,12 @@ class JLayoutFile extends JLayoutBase
 	 * @since  3.0
 	 */
 	protected $basePath = null;
+
+	/**
+	 * @var    string  Full path to actual layout files, after possible template override check
+	 * @since  3.0.3
+	 */
+	protected $fullPath = null;
 
 	/**
 	 * Method to instantiate the file-based layout.
@@ -82,21 +89,18 @@ class JLayoutFile extends JLayoutBase
 	 */
 	protected function getPath()
 	{
-		static $fullPath = null;
-
-		if (is_null($fullPath) && !empty($this->layoutId))
+		if (is_null($this->fullPath) && !empty($this->layoutId))
 		{
-			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+			$rawPath = str_replace('.', '/', $this->layoutId) . '.php';
 			$fileName = basename($rawPath);
 			$filePath = dirname($rawPath);
 
-			$possiblePaths = array(
-				JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $filePath, $this->basePath . '/' . $filePath
-			);
+			$possiblePaths = array(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $filePath,
+				$this->basePath . '/' . $filePath);
 
-			$fullPath = JPath::find($possiblePaths, $fileName);
+			$this->fullPath = JPath::find($possiblePaths, $fileName);
 		}
 
-		return $fullPath;
+		return $this->fullPath;
 	}
 }

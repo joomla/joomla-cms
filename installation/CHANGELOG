@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 03-Jan-2013 Mark Dexter
  # [#29743] heading menu type renders bad html code. Thanks M Cedric Keiflin.
+ [#29865] JLayoutFile keeps rendering same layout. Thanks Yannick Gaultier.
 
 03-Jan-2013 Jean-Marie Simonet
  # [#29836] *Weblinks, Newsfeeds, Contacts Search Filter (frontend). Thanks Glenn Arkell
