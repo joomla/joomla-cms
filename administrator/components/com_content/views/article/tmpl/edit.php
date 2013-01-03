@@ -94,12 +94,14 @@ endif;
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
-			</ul>
-
+				
+				<li><?php echo $this->form->getLabel('copete'); ?>
+				<?php echo $this->form->getInput('copete'); ?></li>
+			</ul>			
 			<div class="clr"></div>
 			<?php echo $this->form->getLabel('articletext'); ?>
 			<div class="clr"></div>
-			<?php echo $this->form->getInput('articletext'); ?>
+			<?php echo $this->form->getInput('articletext'); ?>			
 		</fieldset>
 	</div>
 
