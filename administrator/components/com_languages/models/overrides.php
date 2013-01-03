@@ -150,7 +150,7 @@ class LanguagesModelOverrides extends JModelList
 		else
 		{
 			$client		= $app->getUserState('com_languages.overrides.filter.client', 0);
-			$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+			$language	= $app->getUserState('com_languages.overrides.filter.language', 'es-LA');
 		}
 
 		$this->setState('filter.language_client', $language.$client);

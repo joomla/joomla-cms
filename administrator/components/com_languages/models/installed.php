@@ -181,7 +181,7 @@ class LanguagesModelInstalled extends JModelList
 
 				// if current than set published
 				$params = JComponentHelper::getParams('com_languages');
-				if ($params->get($client->name, 'en-GB') == $row->language) {
+				if ($params->get($client->name, 'es-LA') == $row->language) {
 					$row->published	= 1;
 				}
 				else {

@@ -40,7 +40,7 @@ class LanguagesModelOverride extends JModelAdmin
 		}
 
 		$client		= $this->getState('filter.client', 'site');
-		$language	= $this->getState('filter.language', 'en-GB');
+		$language	= $this->getState('filter.language', 'es-LA');
 		$langName	= JLanguage::getInstance($language)->getName();
 		if (!$langName)
 		{
@@ -89,7 +89,7 @@ class LanguagesModelOverride extends JModelAdmin
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
 		$pk	= (!empty($pk)) ? $pk : JRequest::getCmd('id');
-		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language', 'en-GB').'.override.ini';
+		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language', 'es-LA').'.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
 		$result = new stdClass();
@@ -120,7 +120,7 @@ class LanguagesModelOverride extends JModelAdmin
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
 		$client		= $app->getUserState('com_languages.overrides.filter.client', 0);
-		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+		$language	= $app->getUserState('com_languages.overrides.filter.language', 'es-LA');
 
 		// If the override should be created for both
 		if($opposite_client)
@@ -195,7 +195,7 @@ class LanguagesModelOverride extends JModelAdmin
 		$client = $app->getUserStateFromRequest('com_languages.overrides.filter.client', 'filter_client', 0, 'int') ? 'administrator' : 'site';
 		$this->setState('filter.client', $client);
 
-		$language = $app->getUserStateFromRequest('com_languages.overrides.filter.language', 'filter_language', 'en-GB', 'cmd');
+		$language = $app->getUserStateFromRequest('com_languages.overrides.filter.language', 'filter_language', 'es-LA', 'cmd');
 		$this->setState('filter.language', $language);
 	}
 }
