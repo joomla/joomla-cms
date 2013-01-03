@@ -137,6 +137,14 @@ class NewsfeedsModelCategory extends JModelList
 			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 
+		// Filter by search in title
+		$search = $this->getState('list.filter');
+		if (!empty($search))
+		{
+			$search = $db->Quote('%' . $db->escape($search, true) . '%');
+			$query->where('(a.name LIKE ' . $search . ')');
+		}
+
 		// Filter by language
 		if ($this->getState('filter.language')) {
 			$query->where('a.language in ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')');
@@ -166,6 +174,9 @@ class NewsfeedsModelCategory extends JModelList
 
 		$limitstart = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $limitstart);
+
+		// Optional filter text
+		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		$orderCol	= $app->input->get('filter_order', 'ordering');
 		if (!in_array($orderCol, $this->filter_fields)) {

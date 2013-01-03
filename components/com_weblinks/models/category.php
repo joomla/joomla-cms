@@ -156,6 +156,14 @@ class WeblinksModelCategory extends JModelList
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
+		// Filter by search in title
+		$search = $this->getState('list.filter');
+		if (!empty($search))
+		{
+			$search = $db->Quote('%' . $db->escape($search, true) . '%');
+			$query->where('(a.title LIKE ' . $search . ')');
+		}
+
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 		return $query;
@@ -179,6 +187,9 @@ class WeblinksModelCategory extends JModelList
 
 		$limitstart = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $limitstart);
+
+		// Optional filter text
+		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		$orderCol = $app->input->get('filter_order', 'ordering');
 		if (!in_array($orderCol, $this->filter_fields)) {
