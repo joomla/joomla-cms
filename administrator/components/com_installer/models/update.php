@@ -31,13 +31,13 @@ class InstallerModelUpdate extends JModelList
 	{
 		if (empty($config['filter_fields'])) {
 			$config['filter_fields'] = array(
-				'name',
-				'client_id',
-				'type',
-				'folder',
-				'extension_id',
-				'update_id',
-				'update_site_id',
+				'u.name',
+				'u.client_id',
+				'u.type',
+				'u.folder',
+				'u.extension_id',
+				'u.update_id',
+				'u.update_site_id',
 			);
 		}
 
@@ -58,7 +58,7 @@ class InstallerModelUpdate extends JModelList
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
-		parent::populateState('name', 'asc');
+		parent::populateState('u.name', 'asc');
 	}
 
 	/**
@@ -68,6 +68,28 @@ class InstallerModelUpdate extends JModelList
 	 * @since	1.6
 	 */
 	protected function getListQuery()
+	{
+		$db		= $this->getDbo();
+		$query	= $db->getQuery(true);
+		// grab updates ignoring new installs
+		$query->select('u.*, e.manifest_cache AS params')->from('#__updates AS u');
+		// Join
+		$query->join('LEFT', '#__extensions AS e ON e.element = u.element');
+		$query->where('u.extension_id != 0');
+		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
+
+		// Filter by extension_id
+		if ($eid = $this->getState('filter.extension_id')) {
+			$query->where($db->nq('u.extension_id') . ' = ' . $db->q((int) $eid));
+		} else {
+			$query->where($db->nq('u.extension_id').' != '.$db->q(0));
+			//$query->where($db->nq('extension_id').' != '.$db->q(700));
+		}
+
+		return $query;
+	}
+	 
+	protected function ____getListQuery()
 	{
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
@@ -82,7 +104,7 @@ class InstallerModelUpdate extends JModelList
 			$query->where($db->nq('extension_id').' != '.$db->q(0));
 			//$query->where($db->nq('extension_id').' != '.$db->q(700));
 		}
-
+		var_dump($query->__toString());
 		return $query;
 	}
 
