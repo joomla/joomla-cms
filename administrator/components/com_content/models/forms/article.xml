@@ -13,6 +13,10 @@
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC" class="inputbox" size="45" />
+			
+		<field name="copete" type="textarea"
+			label="JFIELD_COPETE_LABEL" description="JFIELD_COPETE_DESC"
+			class="inputbox" rows="3" cols="30" />
 
 		<field name="articletext" type="editor" class="inputbox"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
