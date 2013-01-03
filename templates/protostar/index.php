@@ -132,8 +132,7 @@ else
 	<![endif]-->
 </head>
 
-<body class="site 
-<?php echo $option 
+<body class="site <?php echo $option
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
