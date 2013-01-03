@@ -66,7 +66,19 @@
 			<option
 				value="1">JYES</option>
 		</field>
-
+		
+		<field
+			name="show_copete"
+			type="radio"
+			default="1"
+			label="JGLOBAL_SHOW_COPETE_LABEL"
+			description="JGLOBAL_SHOW_COPETE_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
+		
 		<field
 			name="show_intro"
 			type="radio"
