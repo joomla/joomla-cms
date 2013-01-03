@@ -33,33 +33,38 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<thead>
 			<tr>
 				<th width="20"><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" /></th>
-				<th class="nowrap"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>
-				<th class="nowrap"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_INSTALLTYPE', 'extension_id', $listDirn, $listOrder); ?></th>
-				<th ><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?></th>
-				<th width="2%" colspan="2" class="center"><?php echo JText::_('JOKTE_FIX_RANGETYPE'); ?></th>				
-				<th width="10%" class="center"><?php echo JText::_('JVERSION'); ?></th>
-				<th><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder', $listDirn, $listOrder); ?></th>
-				<th><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'client_id', $listDirn, $listOrder); ?></th>
+				<th class="nowrap"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?></th>
+				<th class="nowrap"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_INSTALLTYPE', 'u.extension_id', $listDirn, $listOrder); ?></th>
+				<th ><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'u.type', $listDirn, $listOrder); ?></th>
+				<th width="2%" colspan="2" class="center"><?php echo JText::_('JOKTE_FIX_RANGETYPE'); ?></th>	
+				<th width="5%" class="center"><?php echo JText::_('JVERSION_ANT'); ?></th>
+				<th width="5%" class="center"><?php echo JText::_('JVERSION_ACT'); ?></th>
+				<th><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_FOLDER', 'u.folder', $listDirn, $listOrder); ?></th>
+				<th><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_CLIENT', 'u.client_id', $listDirn, $listOrder); ?></th>
 				<th width="25%"><?php echo JText::_('COM_INSTALLER_HEADING_DETAILSURL'); ?></th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="10"><?php echo JTEXT::_(JOKTE_UPGRADE_RAZON); ?></td>
+				<td colspan="11"><?php echo JTEXT::_(JOKTE_UPGRADE_RAZON); ?></td>
 			</tr>
 			<tr>
-				<td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="11"><?php echo JTEXT::_(JVERSION_ANT_DESC); ?></td>
 			</tr>
+			<tr>
+				<td colspan="11"><?php echo $this->pagination->getListFooter(); ?></td>
+			</tr>			
 		</tfoot>
 		<tbody>
 		<?php foreach($this->items as $i=>$item):
 			$client	= $item->client_id ? JText::_('JADMINISTRATOR') : JText::_('JSITE');
+			$version = json_decode($item->params);	
 		?>
 			<tr class="row<?php echo $i%2; ?>">
 				<td><?php echo JHtml::_('grid.id', $i, $item->update_id); ?></td>
 				<td>
 					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_DESCRIPTION');?>::<?php echo $item->description ? $this->escape($item->description) : JText::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
-					<?php echo $this->escape($item->name); ?>
+						<?php echo $this->escape($item->name); ?>
 					</span>
 				</td>
 				<td class="center">
@@ -71,6 +76,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php if ($item->rangetype != 0): ?>
 						<a href="<?php echo $item->rangeurl; ?>" class="modal" rel="{handler: 'iframe', size: {x: 750, y: 600}}"> [ver]</a>
 					<?php endif; ?>					
+				</td>
+				<td class="center">
+					<span class="editlinktip hasTip" title="<?php echo JText::_('VER_XML_DESCRIPTION');?>::<?php echo $version->description ? htmlentities($version->description) : JText::_('NO_VER_XML_DESCRIPTION'); ?>">
+						<b><?php echo $version->version ?></b>
+					</span>			
 				</td>
 				<td class="center"><?php echo $item->version ?></td>
 				<td class="center"><?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?></td>
