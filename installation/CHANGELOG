@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Jan-2013 Mark Dexter
+ # [#29743] heading menu type renders bad html code. Thanks M Cedric Keiflin.
+
 03-Jan-2013 Jean-Marie Simonet
  # [#29836] *Weblinks, Newsfeeds, Contacts Search Filter (frontend). Thanks Glenn Arkell
 
