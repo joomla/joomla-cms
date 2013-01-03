@@ -60,8 +60,10 @@ else
 		<?php echo str_replace('&apos;', "'", $this->item->name); ?></a>
 	</h2>
 
-	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-	<?php echo $this->item->tagLayout->render($this->item->tags); ?>
+	<?php if ($this->params->get('show_tags')) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->item->tagLayout->render($this->item->tags); ?>
+	<?php endif; ?>
 
 	<!-- Show Images from Component -->
 	<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
@@ -82,7 +84,8 @@ else
 	src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
 	<?php endif; ?>
 	<!-- Show Description from Component -->
-<?php echo $this->item->description; ?>
+	<?php echo $this->item->description; ?>
+
 	<!-- Show Feed's Description -->
 
 	<?php if ($this->params->get('show_feed_description')) : ?>

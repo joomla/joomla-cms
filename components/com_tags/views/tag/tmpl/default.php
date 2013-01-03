@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
-var_dump($this->item->get('show_page_heading'));
+
 ?>
 <div class="tag-category<?php echo $this->pageclass_sfx;?>">
 <?php  if ($this->item->get('show_page_heading')) : ?>

@@ -448,6 +448,18 @@
 				<option value="none">COM_CONTENT_NONE</option>
 		</field>
 
+		<field
+			id="show_tags"
+			name="show_tags"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
+			description="COM_CONTENT_FIELD_SHOW_TAGS_DESC">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="category"
@@ -552,6 +564,17 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
+
+		<field name="show_tags" type="radio"
+			label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
+			description="COM_CONTENT_FIELD_SHOW_CAT_TAGS_DESC"
+			class="btn-group"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="categories"
