@@ -27,6 +27,13 @@ $one = (isset($one)) ? $one : NULL;
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
 <?php endif; ?>
+
+<?php if ($params->get('show_copete')) : ?>	
+	<h4>
+	<?php echo $this->item->copete; ?>	
+	</h4>
+<?php endif; ?>
+
 <div id="cabecera-articulo">
 <?php if ($params->get('show_publish_date')) : ?>
 	<dd class="published">

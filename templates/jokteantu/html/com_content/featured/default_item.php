@@ -32,6 +32,12 @@ $canEdit	= $this->item->params->get('access-edit');
 		</dd>
 <?php endif; ?>
 
+<?php if ($params->get('show_copete')) : ?>	
+	<h4>
+	<?php echo $this->item->copete; ?>	
+	</h4>
+<?php endif; ?>
+
 <?php if ($params->get('show_title')) : ?>
 	<h2>
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
