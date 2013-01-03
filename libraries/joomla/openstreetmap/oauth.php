@@ -49,7 +49,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 		*/
 
 		// Call the JOauth1Client constructor to setup the object.
-		parent::__construct('1.0', $this->options, $client, $input);
+		parent::__construct($this->options, $client, $input, null, '1.0');
 	}
 
 	/**
