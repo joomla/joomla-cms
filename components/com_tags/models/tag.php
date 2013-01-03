@@ -18,19 +18,6 @@ defined('_JEXEC') or die;
  */
 class TagsModelTag extends JModelList
 {
-	/**
-	 * Tag items data
-	 *
-	 * @var array
-	 */
-	protected $_item = null;
-
-	protected $_items = null;
-
-	protected $_children = null;
-
-	protected $_parent = null;
-
 
 	/**
 	 * The tag that applies.
@@ -41,17 +28,17 @@ class TagsModelTag extends JModelList
 	protected $tag = null;
 
 	/**
-	 * The list of other tags.
+	 * The list of items associated with the tag.
 	 *
 	 * @access  protected
 	 * @var     array
 	 */
-	protected $tags = null;
+	protected $items = null;
 
 	/**
-	 * Method to get a list of items.
+	 * Method to get a list of items for a tag.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 * 
 	 * @since   3.1
 	 */
@@ -82,6 +69,7 @@ class TagsModelTag extends JModelList
 				$db->setQuery($query);
 				$item->itemData = $db->loadAssoc();
 
+				// Deal with alternative field names.
 				if (array_key_exists('name', $item->itemData) && !array_key_exists('title', $item->itemData))
 				{
 					$item->itemData['title'] = $item->itemData['name'];
@@ -102,15 +90,13 @@ class TagsModelTag extends JModelList
 				$registry = new JRegistry;
 				$registry->loadString($item->itemData->metadata);
 				$item->metadata = $registry;*/
-
-
 			}
 
 		return $items;
 	}
 
 	/**
-	 * Method to build an SQL query to load the list data.
+	 * Method to build an SQL query to load the list data of all items with a given tag.
 	 *
 	 * @return  string  An SQL query
 	 * 
@@ -119,17 +105,23 @@ class TagsModelTag extends JModelList
 	protected function getListQuery()
 	{
 		$user	= JFactory::getUser();
+		// Need to decide on a model for access .. maybe just do an access IN groups condition
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$tagId = $this->getState('tag.id');
+		$tagTreeArray = implode(',', $this->getTagTreeArray($tagId));
 
 		// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('a.tag_id, a.item_name ');
-		$query->from($db->quoteName('#__contentitem_tag_map').' AS a ');
-		$query->where($db->quoteName('a.tag_id') . ' = '. (int) $tagId);
+		$query->select('*');
+		$query->group($db->quoteName('a.item_name'));
+		$query->from($db->quoteName('#__contentitem_tag_map') . ' AS a ');
+		$query->where($db->quoteName('a.tag_id') . ' IN (' . $tagTreeArray . ')');
+
+		// If we ever wanted not to do the nesting we could use the below instead.
+		// $query->where($db->quoteName('a.tag_id') . ' = ' . (int) $tagId);
 
 		return $query;
 	}
@@ -143,7 +135,6 @@ class TagsModelTag extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-
 		$app    = JFactory::getApplication('site');
 
 		// Load state from the request.
@@ -156,14 +147,13 @@ class TagsModelTag extends JModelList
 		// Load the parameters.
 		$params = $app->getParams();
 		$this->setState('params', $params);
-		
+
 		$user = JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags')))
 		{
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
 		}
-
 	}
 
 	/**
@@ -176,11 +166,12 @@ class TagsModelTag extends JModelList
 	 */
 	public function getItem($pk = null)
 	{
-		if ($this->_item === null)
+		if (!isset($this->item) ||$this->item === null)
 		{
-			$this->_item = false;
+			$this->item = false;
 
-			if (empty($id)) {
+			if (empty($id))
+			{
 				$id = $this->getState('tag.id');
 			}
 
@@ -194,13 +185,13 @@ class TagsModelTag extends JModelList
 				if ($published = $this->getState('filter.published'))
 				{
 					if ($table->published != $published) {
-						return $this->_item;
+						return $this->item;
 					}
 				}
 
 				// Convert the JTable to a clean JObject.
 				$properties = $table->getProperties(1);
-				$this->_item = JArrayHelper::toObject($properties, 'JObject');
+				$this->item = JArrayHelper::toObject($properties, 'JObject');
 			}
 			elseif ($error = $table->getError())
 			{
@@ -208,40 +199,48 @@ class TagsModelTag extends JModelList
 			}
 		}
 
-		return $this->_item;
+		return $this->item;
 	}
 
 	/**
-	 * Get the parent tag
+	 * Method to get an array of tag ids for the current tag and its children
 	 *
-	 * @param   integer   An optional id. If not supplied, the model state 'category.id' will be used.
+	 * @param   integer $id  An optional ID
 	 *
-	 * @return  mixed     An array of categories or false if an error occurs.
+	 * @return  object
 	 * @since   3.1
 	 */
-	public function getParent()
+	public function getTagTreeArray($id = null)
 	{
-		if(!is_object($this->_item))
-		{
-			$this->getItem();
-		}
-		return $this->_parent;
-	}
+			if (empty($id))
+			{
+				$id = $this->getState('tag.id');
+			}
 
+			// Get a level row instance.
+			$table = JTable::getInstance('Tag', 'TagsTable');
 
-	/**
-	 * Get the child tags.
-	 *
-	 * @param	int		An optional tag id. If not supplied, the model state 'tag.id' will be used.
-	 *
-	 * @return	mixed	An array of tagss or false if an error occurs.
-	 */
-	function &getChildren()
-	{
-		if(!is_object($this->_item))
-		{
-			$this->getItem();
-		}
-		return $this->children;
+			$tagTree = $table->getTree($id);
+			// Attempt to load the tree
+			if ($tagTree)
+			{
+				foreach ($tagTree as $tag)
+				{
+					// Check published state.
+					if ($published = $this->getState('filter.published'))
+					{
+						if ($tag->published == $published)
+						{
+							$this->tagTreeArray[] = $tag->id;
+						}
+					}
+				}
+			}
+			elseif ($error = $table->getError())
+			{
+				$this->setError($error);
+			}
+
+		return $this->tagTreeArray;
 	}
 }
