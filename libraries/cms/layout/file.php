@@ -15,8 +15,8 @@ defined('JPATH_BASE') or die;
  *
  * @package     Joomla.Libraries
  * @subpackage  Layout
+ * @see         http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since       3.0
- * @see http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
  */
 class JLayoutFile extends JLayoutBase
 {
@@ -95,8 +95,10 @@ class JLayoutFile extends JLayoutBase
 			$fileName = basename($rawPath);
 			$filePath = dirname($rawPath);
 
-			$possiblePaths = array(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $filePath,
-				$this->basePath . '/' . $filePath);
+			$possiblePaths = array(
+				JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $filePath,
+				$this->basePath . '/' . $filePath
+			);
 
 			$this->fullPath = JPath::find($possiblePaths, $fileName);
 		}
