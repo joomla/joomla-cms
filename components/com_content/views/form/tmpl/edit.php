@@ -67,7 +67,7 @@ endif;
 				<?php echo JText::_('JCANCEL') ?>
 			</button>
 			</div>
-
+			<?php echo $this->form->getInput('copete'); ?> <br />
 			<?php echo $this->form->getInput('articletext'); ?>
 
 	</fieldset>

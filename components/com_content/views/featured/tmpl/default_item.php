@@ -18,6 +18,13 @@ $canEdit	= $this->item->params->get('access-edit');
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
+
+<?php if ($params->get('show_copete')) : ?>	
+	<h4>
+	<?php echo $this->item->copete; ?>	
+	</h4>
+<?php endif; ?>
+
 <?php if ($params->get('show_title')) : ?>
 	<h2>
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
