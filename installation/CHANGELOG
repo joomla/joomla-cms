@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29875] Protostar invalid class names for itemid, layout and task.  Thanks Cristina
  # [#29895] Strict errors in categories models.  Thanks Elin
  # [#29862] *Filter_field Option missing in category list layout for Contact, Newsfeeds, Weblinks.  Thanks JM
+ # [#29887] *Disable System redirect breaks 404.  Thanks Yannick
 
 03-Jan-2013 Mark Dexter
  # [#29743] heading menu type renders bad html code. Thanks M Cedric Keiflin.
