@@ -751,7 +751,7 @@ class MenusModelItem extends JModelAdmin
 		$query->select('a.id, a.title, a.position, a.published, map.menuid');
 		$query->from('#__modules AS a');
 		$query->join('LEFT', sprintf('#__modules_menu AS map ON map.moduleid = a.id AND map.menuid IN (0, %1$d, -%1$d)', $this->getState('item.id')));
-		$query->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->qn('except'));
+		$query->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS showsome');
 
 		// Join on the asset groups table.
 		$query->select('ag.title AS access_title');
