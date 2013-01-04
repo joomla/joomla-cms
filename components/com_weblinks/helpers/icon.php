@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  * @since       1.5
+ * @deprecated  3.1  Use JHtmlIcon from the html package instead.
  */
 class JHtmlIcon
 {
