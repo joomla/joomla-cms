@@ -105,6 +105,10 @@ class modMenuHelper
 							if ($router->getMode() == JROUTER_MODE_SEF)
 							{
 								$item->flink = 'index.php?Itemid=' . $item->id;
+								if (isset($item->query['format']) && $app->getCfg('sef_suffix'))
+								{
+									$item->flink .= '&format='.$item->query['format'];
+								}
 							}
 							else
 							{
