@@ -29,6 +29,7 @@ $ -> Language fix or change
 05-Jan-2013 Jean-Marie Simonet
  # [#29905] Issue 29895 broke weblinks categories. Thanks Mark
  # [#29903] Fix a reference in jDatabaseDriver. Thanks Elin
+ # [#29842] Display error by the contactform with IE 8 and 9. Thanks Constantin.
 
 03-Jan-2013 Michael Babker
  # [#29875] Protostar invalid class names for itemid, layout and task.  Thanks Cristina
