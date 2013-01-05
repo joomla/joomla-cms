@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Jan-2013 Jean-Marie Simonet
+ # [#29905] Issue 29895 broke weblinks categories. Thanks Mark
+
 03-Jan-2013 Michael Babker
  # [#29875] Protostar invalid class names for itemid, layout and task.  Thanks Cristina
  # [#29895] Strict errors in categories models.  Thanks Elin
