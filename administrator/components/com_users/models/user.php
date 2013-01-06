@@ -703,4 +703,18 @@ class UsersModelUser extends JModelAdmin
 
 		return $result;
 	}
+	
+	/**
+	 * Method to check-out a row for editing.
+	 *
+	 * @param   integer  $pk  The numeric id of the primary key.
+	 *
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
+	 * @since   3.0
+	 */
+	public function checkout($pk = null)
+	{
+		return true;
+	}
 }
