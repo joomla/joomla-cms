@@ -106,7 +106,7 @@ else
 	?>
 			<li>
 				<?php if (!empty($uri)) : ?>
-					<a href="<?php echo $uri; ?>" target="_blank">
+					<a href="<?php echo $this->rssDoc[$i]->uri; ?>" target="_blank">
 					<?php  echo $this->rssDoc[$i]->title; ?></a>
 				<?php else : ?>
 					<h3><?php  echo $this->rssDoc[$i]->title; ?></h3>
