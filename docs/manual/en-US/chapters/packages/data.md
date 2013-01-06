@@ -2,11 +2,11 @@
 
 ### JData
 
-`JData` is a class that is used to store data but allowing you to access the data by mimicking the way PHP handles class properties. Rather than explicitly declaring properties in the class, `JData` stores virtual properties of the class in a private internal array. Concrete properties can still be defined but these a separate from the data.
+`JData` is a class that is used to store data but allowing you to access the data by mimicking the way PHP handles class properties. Rather than explicitly declaring properties in the class, `JData` stores virtual properties of the class in a private internal array. Concrete properties can still be defined but these are separate from the data.
 
 #### Construction
 
-The constructor for a new `JData` object can optionally take an array or an object. The keys of the array, or the properties of the object will be bound to the properties of the `JData` object.
+The constructor for a new `JData` object can optionally take an array or an object. The keys of the array or the properties of the object will be bound to the properties of the `JData` object.
 
 ```php
 // Create an empty object.
