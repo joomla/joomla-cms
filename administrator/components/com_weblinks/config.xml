@@ -220,6 +220,18 @@
 	>
 
 		<field
+			name="filter_field"
+			type="radio"
+			class="btn-group"
+			default="1"
+			description="JGLOBAL_FILTER_FIELD_DESC"
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			>
+				<option value="hide">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field
 			name="show_pagination_limit"
 			type="radio" default="1"
 			class="btn-group"
