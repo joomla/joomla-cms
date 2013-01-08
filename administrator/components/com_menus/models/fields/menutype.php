@@ -55,6 +55,10 @@ class JFormFieldMenutype extends JFormFieldList
 				$value = JText::_('COM_MENUS_TYPE_ALIAS');
 				break;
 
+			case 'logout':
+				$value = JText::_('COM_MENUS_TYPE_LOGOUT');
+				break;
+
 			case 'separator':
 				$value = JText::_('COM_MENUS_TYPE_SEPARATOR');
 				break;

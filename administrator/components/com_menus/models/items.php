@@ -192,6 +192,7 @@ class MenusModelItems extends JModelList
 			' WHEN ' . $db->quote('alias') . ' THEN a.published+4 ' .
 			' WHEN ' . $db->quote('separator') . ' THEN a.published+6 ' .
 			' WHEN ' . $db->quote('heading') . ' THEN a.published+8 ' .
+			' WHEN ' . $db->quote('logout') . ' THEN a.published+10 ' .
 			' END AS published');
 		$query->from($db->quoteName('#__menu').' AS a');
 
