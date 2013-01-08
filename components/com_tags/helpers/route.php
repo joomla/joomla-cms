@@ -22,7 +22,9 @@ abstract class TagsHelperRoute
 	protected static $lookup;
 
 	/**
-	 * @param	int	The route of the tag
+	 * @paramn  integer   The route of the tag
+	 *
+	 * @since  3.1
 	 */
 	public static function getItemRoute($id)
 	{
