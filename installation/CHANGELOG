@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Jan-2013 Jean-Marie Simonet
+ # [#29914] *Login module wrong display in beez3 RTL
+ 
 06-Jan-2013 Michael Babker
  # [#27699] Only text gets passed to content events in blog view.  Thanks Peter
 

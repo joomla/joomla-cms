@@ -332,7 +332,6 @@ padding:4px 0;
 #login-form label
 {
 	margin-right:0px;
-	float:right
 }
 
 #form-login-remember label
@@ -352,7 +351,7 @@ button.validate
 #modlgn-username,
 #modlgn-passwd
 {
-	margin-right:-30px;
+	margin-right: 0;
 }
 
 .module_content #form-login-username label,
