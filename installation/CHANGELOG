@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 10-Jan-2013 Jean-Marie Simonet
  # [#29917] *Beez3 RTL wrong display of items in category list
+ # [#29904] *With plugin Language Filter enabled, user articles parameter in frontend shows all articles
 
 08-Jan-2013 Jean-Marie Simonet
  # [#29914] *Login module wrong display in beez3 RTL
