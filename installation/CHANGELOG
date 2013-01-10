@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jan-2013 Jean-Marie Simonet
+ # [#29917] *Beez3 RTL wrong display of items in category list
+
 08-Jan-2013 Jean-Marie Simonet
  # [#29914] *Login module wrong display in beez3 RTL
  # [#29906] *Viewing Access Levels order numbering is not shown

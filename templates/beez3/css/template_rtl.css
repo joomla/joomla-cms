@@ -240,6 +240,10 @@ table.weblinks th, table.category th {
 	text-align: right;
 }
 
+table th, table td {
+	text-align: right;
+}
+
 dl.tabs {
 	float: right;
 	margin: 50px 0 0 0;
