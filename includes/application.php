@@ -483,10 +483,18 @@ final class JSite extends JApplication
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
 			JError::raiseWarning(0, JText::_('JERROR_ALERTNOTEMPLATE'));
-			$template->template = 'beez3';
 			if (!file_exists(JPATH_THEMES . '/beez3/index.php')) {
-				$template->template = '';
+				$error = JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template);
+				// Load the catch-all error page
+				if (!file_exists(JPATH_SITE . '/includes/error.php')) {
+					throw new InvalidArgumentException($error);
+				}
+				else {
+					require(JPATH_SITE  . '/includes/error.php');
+					JFactory::getApplication()->close();
+				}
 			}
+			else $template->template = 'beez3';
 		}
 
 		// Cache the result
