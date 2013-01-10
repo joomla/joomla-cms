@@ -122,6 +122,10 @@ class JOAuth1ClientTest extends TestCase
 	/**
 	 * Tests the authenticate method
 	 *
+	 * @param   array    $token    The passed token.
+	 * @param   boolean  $fail     Mark if should fail or not.
+	 * @param   string   $version  Specify oauth version 1.0 or 1.0a.
+	 *
 	 * @return  void
 	 *
 	 * @dataProvider seedAuthenticate
@@ -168,6 +172,7 @@ class JOAuth1ClientTest extends TestCase
 
 			// Access token.
 			$input = TestReflection::getValue($this->object, 'input');
+
 			if (strcmp($version, '1.0a') === 0)
 			{
 				TestReflection::setValue($this->object, 'version', $version);
@@ -195,23 +200,23 @@ class JOAuth1ClientTest extends TestCase
 							->with('secret', null, 'oauth_token')
 							->will($this->returnValue('session'));
 
-	    		JFactory::$session = $mockSession;
+				JFactory::$session = $mockSession;
 
 				$this->setExpectedException('DomainException');
 				$result = $this->object->authenticate();
 			}
 
-    		$mockSession->expects($this->at(0))
-    					->method('get')
-    					->with('key', null, 'oauth_token')
-    					->will($this->returnValue('token'));
+			$mockSession->expects($this->at(0))
+						->method('get')
+						->with('key', null, 'oauth_token')
+						->will($this->returnValue('token'));
 
-    		$mockSession->expects($this->at(1))
-    					->method('get')
-    					->with('secret', null, 'oauth_token')
-    					->will($this->returnValue('secret'));
+			$mockSession->expects($this->at(1))
+						->method('get')
+						->with('secret', null, 'oauth_token')
+						->will($this->returnValue('secret'));
 
-    		JFactory::$session = $mockSession;
+			JFactory::$session = $mockSession;
 
 			$returnData = new stdClass;
 			$returnData->code = 200;
@@ -252,7 +257,6 @@ class JOAuth1ClientTest extends TestCase
 
 		TestReflection::invoke($this->object, '_generateRequestToken');
 	}
-
 
 	/**
 	* Provides test data.
