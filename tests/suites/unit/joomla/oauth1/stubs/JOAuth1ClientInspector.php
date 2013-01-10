@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  *
- * @since       12.3
+ * @since       13.1
  */
 class JOAuth1ClientInspector extends JOAuth1Client
 {
@@ -22,7 +22,7 @@ class JOAuth1ClientInspector extends JOAuth1Client
 	 *
 	 * @return void
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function verifyCredentials()
 	{
@@ -42,7 +42,7 @@ class JOAuth1ClientInspector extends JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since  12.3
+	 * @since  13.1
 	 * @throws DomainException
 	 */
 	public function validateResponse($url, $response)
