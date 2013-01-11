@@ -380,7 +380,6 @@ final class JSite extends JApplication
 				$title = $temp->get('page_title', $title);
 			}
 
-			$params[$hash]->def('page_title', $title);
 			$params[$hash]->def('page_description', $description);
 			$params[$hash]->def('page_rights', $rights);
 			$params[$hash]->def('robots', $robots);
