@@ -442,7 +442,7 @@ class UsersModelRegistration extends JModelForm
 			else
 			{
 				$emailBody = JText::sprintf(
-					'COM_USERS_EMAIL_REGISTERED_BODY',
+					'COM_USERS_EMAIL_REGISTERED_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
 					$data['siteurl']
