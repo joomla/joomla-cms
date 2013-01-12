@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Tags helper class, provides static methods to perform various tasks relevant
+ * Tags helper class, provides methods to perform various tasks relevant
  * tagging of content.
  *
  * @since       3.1
@@ -58,11 +58,12 @@ class JTagsHelper
 	}
 
 	/**
-	 * Method to get a lit of tags for a given item.
+	 * Method to get a list of tags for a given item.
+	 * Normally used for displaying a list of tags within a layout
 	 *
 	 * @param   integer  $id      The id (primary key) of the item to be tagged.
-	 * @param   string   $prefix  Dot separated string with the option and view for a url.
-	 * 
+	 * @param   string   $prefix  Dot separated string with the option and view to be used for a url.
+	 *
 	 * @return  string    Comma separated list of tag Ids.
 	 *
 	 * @return  void
@@ -200,9 +201,9 @@ class JTagsHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getTypeName($tagItemName)
+	public function getTypeName($tagItemName, $explodedItemName = null)
 	{
-		if (!isset($this->explodedItemName))
+		if (!isset($explodedItemName))
 		{
 			$this->explodedItemName = $this->explodeTagItemName();
 		}
@@ -219,14 +220,14 @@ class JTagsHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getContentItemId($tagItemName)
+	public function getContentItemId($tagItemName, $explodedItemName = array())
 	{
-		if (!isset($item->explodedItemName))
+		if (!isset($explodedItemName))
 		{
-			$explodedItemName = self::explodeTagItemName($tagItemName);
+			$this->explodedItemName = self::explodeTagItemName($tagItemName);
 		}
 
-		return $item->explodedItemName[2];
+		return $this->explodedItemName[2];
 	}
 
 	/**
@@ -238,9 +239,9 @@ class JTagsHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getContentItemUrl($tagItemName)
+	public function getContentItemUrl($tagItemName, $explodedItemName = null)
 	{
-		if (!isset($item->explodedItemName))
+		if (!isset($explodedItemName))
 		{
 			$explodedItemName = self::explodeTagItemName($tagItemName);
 		}
@@ -259,9 +260,9 @@ class JTagsHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getTagUrl($tagItemName)
+	public function getTagUrl($tagItemName, $explodedItemName = null)
 	{
-		if (!isset($item->explodedItemName))
+		if (!isset($explodedItemName))
 		{
 			$explodedItemName = self::explodeTagItemName($tagItemName);
 		}
@@ -281,9 +282,9 @@ class JTagsHelper
 	 *
 	 * @since   3.1
 	 */
-	public function getTableName($tagItemName)
+	public function getTableName($tagItemName, $explodedItemName = null)
 	{
-		if (!isset($item->explodedItemName))
+		if (!isset($explodedItemName))
 		{
 			$explodedItemName = self::explodeTagItemName($tagItemName);
 		}
@@ -295,8 +296,43 @@ class JTagsHelper
 		$query->from($db->quoteName('#__content_types'));
 		$query->where($db->quoteName('alias') . ' = ' .  $db->quote($explodedItemName[1]));
 		$db->setQuery($query);
-		$table = $db->loadResult();
+		$this->table = $db->loadResult();
 
 		return $this->table;
 	}
+	/**
+	 * Method to get a list of types.
+	 *
+	 * @param   string  $arrayType  Optionally specify that the returned list consist of objects, associative arrays, or arrays.
+	 *                              Options are: rowList, assocList, and objectList
+	 *
+	 * @return  array   Array of of types
+	 *
+	 * @since   3.1
+	 */
+	public static function getTypes($arrayType = 'objectList')
+	{
+		// Initialize some variables.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('*');
+		$query->from($db->quoteName('#__content_types'));
+		$db->setQuery($query);
+		if (empty($arrayType) || $arrayType == 'objectList')
+		{
+			$types = $db->loadObjectList();
+		}
+		elseif ($arrayType == 'assocList')
+		{
+					$types = $db->loadAssocList();
+		}
+		else
+		{
+			$types = $db->loadRowList();
+		}
+
+		return $types;
+	}
+
 }

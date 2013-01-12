@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT.'/helpers/route.php';
-require_once JPATH_COMPONENT.'/helpers/tags.php';
 
 $controller	= JControllerLegacy::getInstance('Tags');
 $controller->execute(JFactory::getApplication()->input->get('task'));

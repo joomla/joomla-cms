@@ -39,7 +39,7 @@ class TagsModelTag extends JModelList
 	 * Method to get a list of items for a tag.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
-	 * 
+	 *
 	 * @since   3.1
 	 */
 	public function getItems()
@@ -47,14 +47,27 @@ class TagsModelTag extends JModelList
 		// Invoke the parent getItems method to get the main list
 		$items = parent::getItems();
 
+			$contentTypes = new JTagsHelper;
+			$types = $contentTypes->getTypes('objectList');
+			$tableArray[] = '';
+			foreach ($types as $type)
+			{
+				$tableArray[$type->table] = '';
+			}
+
 			$query = '';
 			// Get the data from the content item source table.
 			foreach ($items as $item)
 			{
-				$explodedItemName = TagsHelperTags::explodeTagItemName($item->item_name);
+				$tagsHelper = new JTagsHelper;
+
+				$explodedItemName = $tagsHelper->explodeTagItemName($item->item_name);
 				$item->link = 'index.php?option=' . $explodedItemName[0] . '&view=' . $explodedItemName[1] . '&id=' . $explodedItemName[2] ;
-				$item_id = TagsHelperTags::getContentItemId($item->item_name);
-				$table = TagsHelperTags::getTableName($item->item_name);
+				$item_id = $explodedItemName[2];
+				$table = $tagsHelper->getTableName($item->item_name, $explodedItemName);
+
+				// Keep track of the items we want from each table.
+				$tableArray[$table] .= $item_id . ',';
 
 				// Initialize some variables.
 				$db = JFactory::getDbo();
@@ -91,7 +104,7 @@ class TagsModelTag extends JModelList
 				$registry->loadString($item->itemData->metadata);
 				$item->metadata = $registry;*/
 			}
-
+var_dump($tableArray);die;
 		return $items;
 	}
 
@@ -99,7 +112,7 @@ class TagsModelTag extends JModelList
 	 * Method to build an SQL query to load the list data of all items with a given tag.
 	 *
 	 * @return  string  An SQL query
-	 * 
+	 *
 	 * @since   3.1
 	 */
 	protected function getListQuery()
