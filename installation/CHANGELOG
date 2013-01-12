@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jan-2013 Jean-Marie Simonet
+ # [#25337] site on unc path, path.php removes
+ 
 03-Jan-2013 Michael Babker
  # [#29887] *Disable System redirect breaks 404.  Thanks Yannick
 
