@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Jan-2013 Jean-Marie Simonet
+ # [#29469] CodeMirror looks a little bad. Thanks Elijah
+
 10-Jan-2013 Jean-Marie Simonet
  # [#29917] *Beez3 RTL wrong display of items in category list
  # [#29904] *With plugin Language Filter enabled, user articles parameter in frontend shows all articles
