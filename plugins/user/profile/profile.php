@@ -186,6 +186,7 @@ class plgUserProfile extends JPlugin
 			'favoritebook',
 			'aboutme',
 			'dob',
+			'tos',
 		);
 
 		$tosarticle = $this->params->get('register_tos_article');

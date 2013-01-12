@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#28895] Missing closing </div>. Thanks Janich
  # [#29921] *Com_content category list filter field wrong Options
  # [#29923] *Ordering in Featured Articles doesn't work with isis administrator template
+ # [#29927] *User Profile Plugin - Required TOS field not enforced
 
 10-Jan-2013 Jean-Marie Simonet
  # [#29917] *Beez3 RTL wrong display of items in category list
