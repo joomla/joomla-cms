@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 12-Jan-2013 Jean-Marie Simonet
  # [#29469] CodeMirror looks a little bad. Thanks Elijah
+ # [#28895] Missing closing </div>. Thanks Janich
 
 10-Jan-2013 Jean-Marie Simonet
  # [#29917] *Beez3 RTL wrong display of items in category list
