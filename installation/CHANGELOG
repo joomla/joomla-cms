@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#29921] *Com_content category list filter field wrong Options
  # [#29923] *Ordering in Featured Articles doesn't work with isis administrator template
  # [#29927] *User Profile Plugin - Required TOS field not enforced
+ # [#29929] mod_custom with wrong client attribute Thanks Martin
 
 10-Jan-2013 Jean-Marie Simonet
  # [#29917] *Beez3 RTL wrong display of items in category list
