@@ -29,6 +29,7 @@ $ -> Language fix or change
 13-Jan-2013 Jean-Marie Simonet
  # [#29913] *Com_content feed read more links broken. Thanks Jurian
  # [#29908] Allow use of text instead of icons in the login module. Thanks Elin
+ # [#28577] User Notes Search not working. Thanks Panayiotis
 
 12-Jan-2013 Jean-Marie Simonet
  # [#29469] CodeMirror looks a little bad. Thanks Elijah
