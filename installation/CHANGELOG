@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jan-2013 Jean-Marie Simonet
+ # [#29939] *Fatal error when displaying any Categories Menu item
+
 12-Jan-2013 Jean-Marie Simonet
  # [#25337] site on unc path, path.php removes
  # [#29919] User Profile Plugin - Required field not enforced
