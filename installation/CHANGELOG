@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Jan-2013 Jean-Marie Simonet
+ #  [#29913] *Com_content feed read more links broken. Thanks Jurian
+
 12-Jan-2013 Jean-Marie Simonet
  # [#29469] CodeMirror looks a little bad. Thanks Elijah
  # [#28895] Missing closing </div>. Thanks Janich
