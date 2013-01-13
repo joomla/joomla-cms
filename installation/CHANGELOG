@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 13-Jan-2013 Jean-Marie Simonet
  # [#29939] *Fatal error when displaying any Categories Menu item
+ # [#29911] *Com_content feed read more links broken. Thanks Jurian
 
 12-Jan-2013 Jean-Marie Simonet
  # [#25337] site on unc path, path.php removes
