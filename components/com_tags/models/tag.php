@@ -170,11 +170,16 @@ class TagsModelTag extends JModelList
 		$query->select('*');
 		$query->group($db->quoteName('a.item_name'));
 		$query->from($db->quoteName('#__contentitem_tag_map') . ' AS a ');
-		$query->where($db->quoteName('a.tag_id') . ' IN (' . $tagTreeArray . ')');
 
-		// If we ever wanted not to do the nesting we could use the below instead.
-		// $query->where($db->quoteName('a.tag_id') . ' = ' . (int) $tagId);
-
+		// Modify the query based on whether or not items with child tags should be included.
+		if ($this->state->params->get('include_children') == 1)
+		{
+			$query->where($db->quoteName('a.tag_id') . ' IN (' . $tagTreeArray . ')');
+		}
+		else
+		{
+			$query->where($db->quoteName('a.tag_id') . ' = ' . (int) $tagId);
+		}
 		return $query;
 	}
 

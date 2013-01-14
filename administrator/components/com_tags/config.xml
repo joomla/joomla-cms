@@ -5,6 +5,15 @@
 		label="JGLOBAL_TAGS"
 		description="COM_TAGS_CONFIG_TAG_SETTINGS_DESC">
 
+		<field name="include_children" type="list"
+			description="COM_TAGS_INCLUDE_CHILDREN_DESC"
+			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
+			default="1"
+		>
+			<option value="0">COM_TAGS_EXCLUDE</option>
+			<option value="1">COM_TAGS_INCLUDE</option>
+		</field>
+
 		<field
 			name="tag_layout" type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
@@ -34,6 +43,17 @@
 			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 		</field>
 
+		<field name="list_show_date"
+			type="list"
+			default="0"
+			label="JGLOBAL_SHOW_DATE_LABEL"
+			description="JGLOBAL_SHOW_DATE_DESC">
+				<option value="0">JHIDE</option>
+				<option value="created_date">JGLOBAL_CREATED</option>
+				<option value="modified_date">JGLOBAL_MODIFIED</option>
+				<option value="publish_up">JPUBLISHED</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -51,4 +71,5 @@
 			component="com_tags"
 			section="component" />
 	</fieldset>
+
 </config>

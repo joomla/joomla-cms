@@ -147,6 +147,16 @@
 				<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
 			</field>
 
+		<field name="include_children" type="list"
+			description="COM_TAGS_INCLUDE_CHILDREN_DESC"
+			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
+			default="1"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">COM_TAGS_EXCLUDE</option>
+			<option value="1">COM_TAGS_INCLUDE</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="integration"

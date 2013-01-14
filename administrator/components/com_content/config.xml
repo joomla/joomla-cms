@@ -743,8 +743,6 @@
 				<option value="1">JSHOW</option>
 		</field>
 
-
-
 		<field name="list_show_date"
 			type="list"
 			default="0"
