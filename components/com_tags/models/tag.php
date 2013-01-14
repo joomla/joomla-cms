@@ -49,63 +49,101 @@ class TagsModelTag extends JModelList
 
 			$contentTypes = new JTagsHelper;
 			$types = $contentTypes->getTypes('objectList');
-			$tableArray[] = '';
+
 			foreach ($types as $type)
 			{
-				$tableArray[$type->table] = '';
+
+				$tableLookup[$type->alias] = $type->table;
+
+				// We need to create the SELECT clause that correctly maps differently named fields to the common names.
+				$fieldsArray = json_decode($type->field_mappings);
+				$type->fieldlist = '';
+
+				foreach ($fieldsArray as $common => $specific)
+				{
+					$newstring = $specific . ' AS ' . $common . ',';
+					$type->fieldlist .= $newstring;
+				}
+				$fieldQuery[$type->table] = $type->fieldlist;
+
+				$tableArray[$type->table][0] = $type->fieldlist;
+
 			}
 
-			$query = '';
 			// Get the data from the content item source table.
 			foreach ($items as $item)
 			{
 				$tagsHelper = new JTagsHelper;
 
 				$explodedItemName = $tagsHelper->explodeTagItemName($item->item_name);
-				$item->link = 'index.php?option=' . $explodedItemName[0] . '&view=' . $explodedItemName[1] . '&id=' . $explodedItemName[2] ;
-				$item_id = $explodedItemName[2];
-				$table = $tagsHelper->getTableName($item->item_name, $explodedItemName);
+				$item->content_id = $explodedItemName[2];
+				$item->option = $explodedItemName[0];
+				$linkPrefix = 'index.php?option=' . $explodedItemName[0] . '&view=' . $explodedItemName[1] . '&id=' ;
 
 				// Keep track of the items we want from each table.
-				$tableArray[$table] .= $item_id . ',';
+				$item->table = $tableLookup[$explodedItemName[1]];
 
-				// Initialize some variables.
-				$db = JFactory::getDbo();
-
-				$query = $db->getQuery(true);
-				$query->clear();
-
-				$query->select('*');
-				$query->from($db->quoteName($table));
-				$query->where($db->quoteName('id') . ' = ' . (int) $item_id);
-
-				$db->setQuery($query);
-				$item->itemData = $db->loadAssoc();
-
-				// Deal with alternative field names.
-				if (array_key_exists('name', $item->itemData) && !array_key_exists('title', $item->itemData))
+				// For each view we build up an array of the base link, table, fields for the table, ids from rows in that table which have the tag.
+				// These are used to creat the query for that view.
+				if (empty($linkArray[$linkPrefix]))
 				{
-					$item->itemData['title'] = $item->itemData['name'];
+					$linkArray[$linkPrefix][0] = $item->table;
+					$linkArray[$linkPrefix][1] = $tableArray[$item->table][0];
+					$linkArray[$linkPrefix][2] = $item->content_id . ',';
+				}
+				else
+				{
+					$linkArray[$linkPrefix][2] .= $item->content_id . ',';
 				}
 
-				if (array_key_exists('state', $item->itemData) && !array_key_exists('published', $item->itemData))
-				{
-					$item->itemData['published'] = $item->itemData['state'];
-				}
-
-				// Convert parameter fields to objects.
-				/*$registry = new JRegistry;
-				$registry->loadString($item->itemData->params);
-
-				$data->params = clone $this->getState('params');
-				$data->params->merge($registry);
-
-				$registry = new JRegistry;
-				$registry->loadString($item->itemData->metadata);
-				$item->metadata = $registry;*/
 			}
-var_dump($tableArray);die;
-		return $items;
+
+			// Initialize some variables.
+			$db = JFactory::getDbo();
+
+			$queryt = $db->getQuery(true);
+
+			// Let's get the select query we need for each view and add it to the array.
+			foreach ($linkArray as $link => $values)
+			{
+
+				$idlist = (string) rtrim($values[2], ',');
+				$fieldlist = (string) rtrim($values[1], ',');
+
+				$queryt->clear();
+				if (!empty($idlist) && !empty($fieldlist))
+				{
+					$queryt->select($fieldlist . ',' . $db->quote($link) . ' AS ' . $db->quoteName('urlprefix'));
+					$queryt->from($db->quoteName($values[0]) . ' WHERE ' . $db->quoteName('id') . ' IN ( ' . $idlist . ' )');
+
+					$queryString = $queryt->__toString();
+					$tablequeries[] = $queryString;
+				}
+			}
+
+			// Now we want to put the queries for each table together using Union.
+			$queryu = $db->getQuery(true);
+
+			foreach ($tablequeries as $i => $uquery)
+			{
+				if ($i > 0)
+				{
+					$queryu->union($uquery);
+				}
+			}
+			$unionString  = $queryu->union->__toString();
+			// Need to make order by a variable.
+			$queryStringu = $tablequeries[0] . $unionString . 'ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC');
+
+			// Initialize some variables.
+			$dbf = JFactory::getDbo();
+
+			$queryf =  $dbf->getQuery(true);
+			//$query->orderby('create_date');
+			$dbf->setQuery($queryStringu);
+			$itemsData = $dbf->loadObjectList();
+
+		return $itemsData;
 	}
 
 	/**
@@ -118,6 +156,7 @@ var_dump($tableArray);die;
 	protected function getListQuery()
 	{
 		$user	= JFactory::getUser();
+
 		// Need to decide on a model for access .. maybe just do an access IN groups condition
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$tagId = $this->getState('tag.id');
@@ -165,7 +204,6 @@ var_dump($tableArray);die;
 		if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags')))
 		{
 			$this->setState('filter.published', 1);
-			$this->setState('filter.archived', 2);
 		}
 	}
 

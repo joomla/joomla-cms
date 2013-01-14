@@ -26,24 +26,24 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 $n = count($this->items);
 ?>
 
-<?php if (empty($this->items)) : ?>
+<?php if ($n == 0) : ?>
 	<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 <?php else : ?>
 
 		<ul class="category list-striped list-condensed">
-			<?php foreach ($this->items as $i => $item) : ?>
+			<?php foreach ($this->items as $item) : ?>
 				<?php
-				if ((!empty($item->itemData['access'])) && in_array($item->itemData['access'], $this->user->getAuthorisedViewLevels())) : ?>
-					<?php if ($item->itemData['published'] == 0) : ?>
+				if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
+					<?php if ($item->published == 0) : ?>
 						<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else: ?>
 						<li class="cat-list-row<?php echo $i % 2; ?>" >
-						<?php  echo '<a href="'. JRoute::_($item->link) .'">'
-							. $item->itemData['title'] . '</a>';  ?>
+						<?php  echo '<a href="'. JRoute::_($item->urlprefix . $item->id) .'">'
+							. $item->title . '</a>';  ?>
 					<?php endif; ?>
 					<?php  if ($this->item->get('show_link_hits', 1)) : ?>
 						<span class="list-hits badge badge-info pull-right">
-							<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->itemData['hits']); ?>
+							<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
 						</span>
 					<?php endif; ?>
 

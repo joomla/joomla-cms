@@ -13,6 +13,26 @@
 			extension="com_tags"
 			view="tag"
 		/>
+		<field name="orderby"
+			type="list"
+			default="title"
+			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
+			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
+				<option value="title">JGLOBAL_TITLE</option>
+				<option value="hits">JGLOBAL_HITS</option>
+				<option value="created_date">JGLOBAL_CREATED_DATE</option>
+				<option value="modified_date">JGLOBAL_MODIFIED_DATE</option>
+				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
+		</field>
+
+		<field name="orderby_direction" type="list"
+			description="JGLOBAL_ORDER_DIRECTION_DESC"
+			label="JGLOBAL_ORDER_DIRECTION_LABEL"
+			default="ASC"
+		>
+			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
+			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
+		</field>
 
 	</fieldset>
 

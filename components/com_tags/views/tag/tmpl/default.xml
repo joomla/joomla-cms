@@ -24,6 +24,45 @@
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
 
+<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+
+			<field name="show_category_title" type="list"
+				label="JGLOBAL_SHOW_CATEGORY_TITLE"
+				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_description" type="list"
+				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_description_image" type="list"
+				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
+				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field name="show_tag_num_itemss" type="list"
+				label="COM_TAGS_NUMBER_TAG_ITEMS_LABEL"
+				description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
+
+
 	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 			<field name="spacer2" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
@@ -87,6 +126,27 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
+			<field name="orderby" type="list"
+				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
+				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="title">JGLOBAL_TITLE</option>
+				<option value="hits">JGLOBAL_HITS</option>
+				<option value="created_date">JGLOBAL_CREATED_DATE</option>
+				<option value="modified_date">JGLOBAL_MODIFIED_DATE</option>
+				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
+			</field>
+
+			<field name="orderby_direction" type="list"
+				description="JGLOBAL_ORDER_DIRECTION_DESC"
+				label="JGLOBAL_ORDER_DIRECTION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
+				<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
+			</field>
+
 	</fieldset>
 
 	<fieldset name="integration"
