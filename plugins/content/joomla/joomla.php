@@ -71,11 +71,11 @@ class plgContentJoomla extends JPlugin
 					'message'		=> sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
 				$model_message = JModelLegacy::getInstance('Message', 'MessagesModel');
-				$model_message->save($message);
+				$result = $model_message->save($message);
 			}
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
