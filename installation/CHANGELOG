@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jan-2013 Jean-Marie Simonet
+ #$ [#29941] *User Profile frontend tooltips same as backend ones
+
 13-Jan-2013 Jean-Marie Simonet
  # [#29913] *Com_content feed read more links broken. Thanks Jurian
  # [#29908] Allow use of text instead of icons in the login module. Thanks Elin
