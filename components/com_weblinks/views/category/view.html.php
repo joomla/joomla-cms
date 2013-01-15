@@ -66,7 +66,7 @@ class WeblinksViewCategory extends JViewLegacy
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 
 			if ($item->params->get('count_clicks', $params->get('count_clicks')) == 1) {
-				$item->link = JRoute::_('index.php?option=com_weblinks&task=weblink.go&&id='. $item->id);
+				$item->link = JRoute::_('index.php?option=com_weblinks&task=weblink.go&id='. $item->id);
 			}
 			else {
 				$item->link = $item->url;
