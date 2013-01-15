@@ -21,8 +21,7 @@
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_search.ini
-		</language>
+		<language tag="en-GB">language/en-GB.com_search.ini</language>
 	</languages>
 	<administration>
 		<menu link="option=com_search" img="class:search">Search</menu>
