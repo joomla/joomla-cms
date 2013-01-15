@@ -45,6 +45,33 @@ defined('_JEXEC') or die;
 			form.submit();
 		}
 	}
+
+	jQuery.noConflict();
+
+	(function ($) {
+		$(function () {
+			var input = $('#install_package');
+
+			input.hide();
+
+			var iclass = input.attr('class'),
+				isize = input.attr('size'),
+				iname = input.attr('name');
+
+			$('#file').addClass(iclass).attr('size', isize).attr('name', iname);
+
+			$('#file, #button').on('click', function (e) {
+				input.trigger('click');
+			});
+
+			input.on('change', function (e) {
+				var val = $(this).val();
+				var file = val.split(/[\/]/);
+
+				$('#file').val(file[file.length - 1]);
+			});
+		});
+	})(jQuery);
 </script>
 
 <div id="installer-install">
@@ -79,6 +106,10 @@ defined('_JEXEC') or die;
   					<label for="install_package" class="control-label"><?php echo JText::_('COM_INSTALLER_PACKAGE_FILE'); ?></label>
   					<div class="controls">
   						<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
+						<div class="input-append">
+							<input id="file" type="text" class="input-xlarge disabled" name="" readonly="true" />
+							<a id="button" class="btn"><?php echo JText::_('COM_INSTALLER_BROWSER'); ?></a>
+						</div>
   					</div>
   				</div>
   				<div class="form-actions">
