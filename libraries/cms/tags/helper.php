@@ -46,10 +46,10 @@ class JTagsHelper
 			$query2 = $db->getQuery(true);
 
 			$query2->insert($db->quoteName('#__contentitem_tag_map'));
-			$query2->columns(array($db->quoteName('item_name'), $db->quoteName('tag_id')));
+			$query2->columns(array($db->quoteName('item_name'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
 
 			$query2->clear('values');
-			$query2->values($db->quote($prefix . '.' . $id) . ', ' . $tag);
+			$query2->values($db->quote($prefix . '.' . $id) . ', ' . $tag . ', ' . $query->currentTimestamp());
 			$db->setQuery($query2);
 			$db->execute();
 		}
@@ -64,9 +64,8 @@ class JTagsHelper
 	 * @param   integer  $id      The id (primary key) of the item to be tagged.
 	 * @param   string   $prefix  Dot separated string with the option and view to be used for a url.
 	 *
-	 * @return  string    Comma separated list of tag Ids.
+	 * @return  string   Comma separated list of tag Ids.
 	 *
-	 * @return  void
 	 * @since   3.1
 	 */
 
@@ -246,7 +245,7 @@ class JTagsHelper
 			$explodedItemName = self::explodeTagItemName($tagItemName);
 		}
 
-		$this->url = 'index.php&option=' . $explodedItemName[0] . '&view=' .  $explodedItemName[1] . '&id=' . $explodedItemName[2];
+		$this->url = 'index.php?option=' . $explodedItemName[0] . '&view=' .  $explodedItemName[1] . '&id=' . $explodedItemName[2];
 
 		return $this->url;
 	}
@@ -288,6 +287,7 @@ class JTagsHelper
 		{
 			$explodedItemName = self::explodeTagItemName($tagItemName);
 		}
+
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -325,7 +325,7 @@ class JTagsHelper
 		}
 		elseif ($arrayType == 'assocList')
 		{
-					$types = $db->loadAssocList();
+			$types = $db->loadAssocList();
 		}
 		else
 		{
