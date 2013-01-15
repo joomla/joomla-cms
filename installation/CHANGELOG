@@ -30,6 +30,7 @@ $ -> Language fix or change
  #$ [#29941] *User Profile frontend tooltips same as backend ones
  # [#29289] *No admin private message when an author submit a new content in frontend
  # [#29933] *'Article' string above the TOS article and print icon not working with Protostar
+ # [#28778] Incorrect Rendering of Breadcrumb Trail for Home Page Sub-Items. Thanks James and Peter
 
 13-Jan-2013 Jean-Marie Simonet
  # [#29913] *Com_content feed read more links broken. Thanks Jurian
