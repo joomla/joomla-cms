@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Jan-2013 Jean-Marie Simonet
+ # [#28778] Incorrect Rendering of Breadcrumb Trail for Home Page Sub-Items. Thanks James and Peter
+
 13-Jan-2013 Jean-Marie Simonet
  # [#29939] *Fatal error when displaying any Categories Menu item
  # [#29911] *Com_content feed read more links broken. Thanks Jurian
