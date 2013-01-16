@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 16-Jan-2013 Jean-Marie Simonet
  # [#28778] Incorrect Rendering of Breadcrumb Trail for Home Page Sub-Items. Thanks James and Peter
+ # [#29962] *303 when not using URL Language code in multilanguage - again. Thanks Yannick
 
 13-Jan-2013 Jean-Marie Simonet
  # [#29939] *Fatal error when displaying any Categories Menu item
