@@ -71,7 +71,9 @@ INSERT INTO `#__content_types` (`type_id`, `title`, `alias`, `table`, `rules`, `
 (0, 'User', 'user', '#__users', '', '{"id":"id","title":"name","published":null,"alias":"username","created_date":"registerdate","modified_date":"null","body":"null", "hits":"hits","publish_up":"null","publish_down":"null","access":"null"}'),
 (0, 'Category', 'category', '#__categories', '', '{"id":"id","title":"title","published":"published","alias":"alias","created_date":"created_time","modified_date":"modified_time","body":"description", "hits":"hits","publish_up":"null","publish_down":"null","access":"access"}');
 
-CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
+
+CREATE TABLE IF NOT EXISTS `rbg48_contentitem_tag_map` (
   `item_name` varchar(50) NOT NULL,
-  `tag_id` int(11) NOT NULL
+  `tag_id` int(11) NOT NULL,
+  `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
