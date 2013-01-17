@@ -39,10 +39,21 @@ abstract class CategoryHelperAssociation
 
 		if ($id)
 		{
+			// Load route helper
+			jimport('helper.route', JPATH_COMPONENT_SITE);
+			$helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
+
 			$associations = CategoriesHelper::getAssociations($id, $extension);
 			foreach ($associations as $tag => $item)
 			{
-				$return[$tag] = ContentHelperRoute::getCategoryRoute($item, $tag);
+				if (class_exists($helperClassname) && is_callable(array($helperClassname, 'getCategoryRoute')))
+				{
+					$return[$tag] = $helperClassname::getCategoryRoute($item, $tag);
+				}
+				else
+				{
+					$return[$tag] = 'index.php?option='.$extension.'&view=category&id='.$item;
+				}
 			}
 		}
 

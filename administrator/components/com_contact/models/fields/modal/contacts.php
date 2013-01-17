@@ -73,6 +73,11 @@ class JFormFieldModal_Contacts extends JFormField
 
 		$link = 'index.php?option=com_contact&amp;view=contacts&amp;layout=modal&amp;tmpl=component&amp;function=jSelectChart_'.$this->id;
 
+		if (isset($this->element['language']))
+		{
+			$link .= '&amp;forcedLanguage='.$this->element['language'];
+		}
+
 		$html = "\n".'<div class="input-append"><input type="text" class="input-medium" id="'.$this->id.'_name" value="'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'" disabled="disabled" /><a class="modal btn" title="'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'"  href="'.$link.'" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-address hasTooltip" title="'.JText::_('COM_CONTACT_CHANGE_CONTACT_BUTTON').'"></i> '.JText::_('JSELECT').'</a></div>'."\n";
 		// The active contact id field.
 		if (0 == (int) $this->value)

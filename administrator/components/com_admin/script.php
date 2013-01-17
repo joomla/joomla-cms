@@ -301,6 +301,7 @@ class joomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.4-2011-12-12.sql',
 			'/administrator/components/com_admin/views/sysinfo/tmpl/default_navigation.php',
 			'/administrator/components/com_categories/config.xml',
+			'/administrator/components/com_categories/helpers/categoriesadministrator.php',
 			'/administrator/components/com_contact/elements/contact.php',
 			'/administrator/components/com_contact/elements/index.html',
 			'/administrator/components/com_content/elements/article.php',

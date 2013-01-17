@@ -208,7 +208,7 @@ $sortFields = $this->getSortFields();
 				<?php if ($this->assoc): ?>
 				<td class="center hidden-phone">
 					<?php if ($item->association):?>
-						<?php echo JHtml::_('CategoriesAdministrator.association', $item->id); ?>
+						<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
 					<?php endif;?>
 				</td>
 				<?php endif;?>

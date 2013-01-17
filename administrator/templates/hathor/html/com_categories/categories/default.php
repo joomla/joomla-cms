@@ -165,7 +165,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<?php if ($assoc): ?>
 					<td class="center">
 						<?php if ($item->association):?>
-							<?php echo JHtml::_('CategoriesAdministrator.association', $item->id);?>
+							<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension);?>
 						<?php endif;?>
 					</td>
 					<?php endif;?>

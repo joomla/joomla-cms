@@ -13,6 +13,12 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -155,6 +161,11 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->loadTemplate('params'); ?>
 
 			<?php echo $this->loadTemplate('metadata'); ?>
+
+			<?php if ($assoc) : ?>
+				<?php echo $this->loadTemplate('associations'); ?>
+			<?php endif; ?>
+
 		<?php echo JHtml::_('sliders.end'); ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>

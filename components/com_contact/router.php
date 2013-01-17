@@ -26,9 +26,12 @@ function ContactBuildRoute(&$query)
 	$params	= JComponentHelper::getParams('com_contact');
 	$advanced = $params->get('sef_advanced_link', 0);
 
-	if (empty($query['Itemid'])) {
+	if (empty($query['Itemid']))
+	{
 		$menuItem = $menu->getActive();
-	} else {
+	}
+	else
+	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 	$mView	= (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
@@ -38,22 +41,26 @@ function ContactBuildRoute(&$query)
 	if (isset($query['view']))
 	{
 		$view = $query['view'];
-		if (empty($query['Itemid'])) {
+		if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_contact')
+		{
 			$segments[] = $query['view'];
 		}
 		unset($query['view']);
 	};
 
 	// are we dealing with a contact that is attached to a menu item?
-	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == (int) $query['id'])) {
+	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == (int) $query['id']))
+	{
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
 		return $segments;
 	}
 
-	if (isset($view) and ($view == 'category' or $view == 'contact')) {
-		if ($mId != (int) $query['id'] || $mView != $view) {
+	if (isset($view) and ($view == 'category' or $view == 'contact'))
+	{
+		if ($mId != (int) $query['id'] || $mView != $view)
+		{
 			if($view == 'contact' && isset($query['catid']))
 			{
 				$catid = $query['catid'];
@@ -88,7 +95,9 @@ function ContactBuildRoute(&$query)
 				if($advanced)
 				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
-				} else {
+				}
+				else
+				{
 					$id = $query['id'];
 				}
 				$segments[] = $id;
@@ -102,14 +111,16 @@ function ContactBuildRoute(&$query)
 	{
 		if (!empty($query['Itemid']) && isset($menuItem->query['layout']))
 		{
-			if ($query['layout'] == $menuItem->query['layout']) {
+			if ($query['layout'] == $menuItem->query['layout'])
+			{
 
 				unset($query['layout']);
 			}
 		}
 		else
 		{
-			if ($query['layout'] == 'default') {
+			if ($query['layout'] == 'default')
+			{
 				unset($query['layout']);
 			}
 		}
@@ -178,7 +189,9 @@ function ContactParseRoute($segments)
 				$query = 'SELECT id FROM #__contact_details WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
 				$db->setQuery($query);
 				$nid = $db->loadResult();
-			} else {
+			}
+			else
+			{
 				$nid = $segment;
 			}
 			$vars['id'] = $nid;

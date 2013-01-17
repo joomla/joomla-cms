@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contact/helpers/contact.php');
+
 /**
  * Item Model for a Contact.
  *
@@ -386,6 +388,24 @@ class ContactModelContact extends JModelAdmin
 			$item->metadata = $registry->toArray();
 		}
 
+		// Load associated contact items
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
+		if ($assoc)
+		{
+			$item->associations = array();
+
+			if ($item->id != null) {
+				$associations = ContactHelper::getAssociations($item->id);
+
+				foreach ($associations as $tag => $association) {
+					$item->associations[$tag] = $association->id;
+				}
+
+			}
+		}
+
 		return $item;
 	}
 
@@ -411,6 +431,92 @@ class ContactModelContact extends JModelAdmin
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param	array	The form data.
+	 *
+	 * @return	boolean	True on success.
+	 * @since	3.0
+	 */
+	public function save($data)
+	{
+		$app = JFactory::getApplication();
+
+		if (parent::save($data))
+		{
+
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			if ($assoc)
+			{
+				$id = (int) $this->getState($this->getName() . '.id');
+				$item = $this->getItem($id);
+
+				// Adding self to the association
+				$associations = $data['associations'];
+
+				foreach ($associations as $tag => $id)
+				{
+					if (empty($id))
+					{
+						unset($associations[$tag]);
+					}
+				}
+
+				// Detecting all item menus
+				$all_language = $item->language == '*';
+
+				if ($all_language && !empty($associations))
+				{
+					JError::raiseNotice(403, JText::_('COM_CONTACT_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+				}
+
+				$associations[$item->language] = $item->id;
+
+				// Deleting old association for these items
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true);
+				$query->delete('#__associations');
+				$query->where('context='.$db->quote('com_contact.item'));
+				$query->where('id IN ('.implode(',', $associations).')');
+				$db->setQuery($query);
+				$db->execute();
+
+				if ($error = $db->getErrorMsg())
+				{
+					$this->setError($error);
+					return false;
+				}
+
+				if (!$all_language && count($associations))
+				{
+					// Adding new association for these items
+					$key = md5(json_encode($associations));
+					$query->clear();
+					$query->insert('#__associations');
+
+					foreach ($associations as $tag => $id)
+					{
+						$query->values($id.','.$db->quote('com_contact.item') . ',' . $db->quote($key));
+					}
+
+					$db->setQuery($query);
+					$db->execute();
+
+					if ($error = $db->getErrorMsg())
+					{
+						$this->setError($error);
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -470,6 +576,44 @@ class ContactModelContact extends JModelAdmin
 		$condition[] = 'catid = '.(int) $table->catid;
 
 		return $condition;
+	}
+
+	protected function preprocessForm(JForm $form, $data, $group = 'content')
+	{
+		// Association content items
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc) {
+			$languages = JLanguageHelper::getLanguages('lang_code');
+
+			// force to array (perhaps move to $this->loadFormData())
+			$data = (array) $data;
+
+			$addform = new SimpleXMLElement('<form />');
+			$fields = $addform->addChild('fields');
+			$fields->addAttribute('name', 'associations');
+			$fieldset = $fields->addChild('fieldset');
+			$fieldset->addAttribute('name', 'item_associations');
+			$fieldset->addAttribute('description', 'COM_CONTACT_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+			$add = false;
+			foreach ($languages as $tag => $language)
+			{
+				if (empty($data['language']) || $tag != $data['language']) {
+					$add = true;
+					$field = $fieldset->addChild('field');
+					$field->addAttribute('name', $tag);
+					$field->addAttribute('type', 'modal_contacts');
+					$field->addAttribute('language', $tag);
+					$field->addAttribute('label', $language->title);
+					$field->addAttribute('translate_label', 'false');
+				}
+			}
+			if ($add) {
+				$form->load($addform, false);
+			}
+		}
+
+		parent::preprocessForm($form, $data, $group);
 	}
 
 	/**

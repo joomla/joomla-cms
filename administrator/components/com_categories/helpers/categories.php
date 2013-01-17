@@ -30,14 +30,16 @@ class CategoriesHelper
 	public static function addSubmenu($extension)
 	{
 		// Avoid nonsense situation.
-		if ($extension == 'com_categories') {
+		if ($extension == 'com_categories')
+		{
 			return;
 		}
 
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 
-		if (count($parts) > 1) {
+		if (count($parts) > 1)
+		{
 			$section = $parts[1];
 		}
 
@@ -45,15 +47,18 @@ class CategoriesHelper
 		$eName	= str_replace('com_', '', $component);
 		$file	= JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component.'/helpers/'.$eName.'.php');
 
-		if (file_exists($file)) {
+		if (file_exists($file))
+		{
 			require_once $file;
 
 			$prefix	= ucfirst(str_replace('com_', '', $component));
 			$cName	= $prefix.'Helper';
 
-			if (class_exists($cName)) {
+			if (class_exists($cName))
+			{
 
-				if (is_callable(array($cName, 'addSubmenu'))) {
+				if (is_callable(array($cName, 'addSubmenu')))
+				{
 					$lang = JFactory::getLanguage();
 					// loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
@@ -84,18 +89,21 @@ class CategoriesHelper
 		$parts		= explode('.', $extension);
 		$component	= $parts[0];
 
-		if (empty($categoryId)) {
+		if (empty($categoryId))
+		{
 			$assetName = $component;
 			$level = 'component';
 		}
-		else {
+		else
+		{
 			$assetName = $component.'.category.'.(int) $categoryId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions($component, $level);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
@@ -122,12 +130,14 @@ class CategoriesHelper
 		$contentitems = $db->loadObjectList('language');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
-		foreach ($contentitems as $tag => $item) {
+		foreach ($contentitems as $tag => $item)
+		{
 			$associations[$tag] = $item->id;
 		}
 

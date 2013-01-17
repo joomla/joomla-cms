@@ -26,10 +26,12 @@ function NewsfeedsBuildRoute(&$query)
 	$params = JComponentHelper::getParams('com_newsfeeds');
 	$advanced = $params->get('sef_advanced_link', 0);
 
-	if (empty($query['Itemid'])) {
+	if (empty($query['Itemid']))
+	{
 		$menuItem = $menu->getActive();
 	}
-	else {
+	else
+	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
@@ -38,11 +40,12 @@ function NewsfeedsBuildRoute(&$query)
 	if (isset($query['view']))
 	{
 		$view = $query['view'];
-		if (empty($query['Itemid'])) {
+		if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_newsfeeds')
+		{
 			$segments[] = $query['view'];
 		}
 		unset($query['view']);
-	};
+	}
 
 	// are we dealing with an newsfeed that is attached to a menu item?
 	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id'])) {
@@ -52,19 +55,23 @@ function NewsfeedsBuildRoute(&$query)
 		return $segments;
 	}
 
-	if (isset($view) and ($view == 'category' or $view == 'newsfeed')) {
+	if (isset($view) and ($view == 'category' or $view == 'newsfeed'))
+	{
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
-			if($view == 'newsfeed' && isset($query['catid']))
+			if ($view == 'newsfeed' && isset($query['catid']))
 			{
 				$catid = $query['catid'];
-			} elseif(isset($query['id'])) {
+			}
+			elseif (isset($query['id']))
+			{
 				$catid = $query['id'];
 			}
 			$menuCatid = $mId;
 			$categories = JCategories::getInstance('Newsfeeds');
 			$category = $categories->get($catid);
-			if ($category) {
+			if ($category)
+			{
 				$path = $category->getPath();
 				$path = array_reverse($path);
 
@@ -88,7 +95,9 @@ function NewsfeedsBuildRoute(&$query)
 				if ($advanced)
 				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
-				} else {
+				}
+				else
+				{
 					$id = $query['id'];
 				}
 				$segments[] = $id;
@@ -102,18 +111,19 @@ function NewsfeedsBuildRoute(&$query)
 	{
 		if (!empty($query['Itemid']) && isset($menuItem->query['layout']))
 		{
-			if ($query['layout'] == $menuItem->query['layout']) {
-
+			if ($query['layout'] == $menuItem->query['layout'])
+			{
 				unset($query['layout']);
 			}
 		}
 		else
 		{
-			if ($query['layout'] == 'default') {
+			if ($query['layout'] == 'default')
+			{
 				unset($query['layout']);
 			}
 		}
-	};
+	}
 
 	return $segments;
 }
@@ -169,13 +179,15 @@ function NewsfeedsParseRoute($segments)
 		}
 		if ($found == 0)
 		{
-			if($advanced)
+			if ($advanced)
 			{
 				$db = JFactory::getDBO();
 				$query = 'SELECT id FROM #__newsfeeds WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
 				$db->setQuery($query);
 				$nid = $db->loadResult();
-			} else {
+			}
+			else
+			{
 				$nid = $segment;
 			}
 			$vars['id'] = $nid;

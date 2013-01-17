@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
+
 /**
  * Utility class for creating HTML Grids
  *
@@ -58,5 +60,48 @@ class JHtmlNewsfeed
 				'list.select' => $selected
 			)
 		);
+	}
+
+	/**
+	 * @param	int $newsfeedid	The newsfeed item id
+	 */
+	public static function association($newsfeedid)
+	{
+		// Get the associations
+		$associations = NewsfeedsHelper::getAssociations($newsfeedid);
+
+		foreach ($associations as $tag => $associated) {
+			$associations[$tag] = (int) $associated->id;
+		}
+
+		// Get the associated newsfeed items
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select('c.*');
+		$query->from('#__newsfeeds as c');
+		$query->select('cat.title as category_title');
+		$query->leftJoin('#__categories as cat ON cat.id=c.catid');
+		$query->where('c.id IN ('.implode(',', array_values($associations)).')');
+		$query->leftJoin('#__languages as l ON c.language=l.lang_code');
+		$query->select('l.image');
+		$query->select('l.title as language_title');
+		$db->setQuery($query);
+		$items = $db->loadObjectList('id');
+
+		// Check for a database error.
+		if ($error = $db->getErrorMsg()) {
+			JError::raiseWarning(500, $error);
+			return false;
+		}
+
+		// Construct html
+		$text = array();
+		foreach ($associations as $tag => $associated)
+		{
+			if ($associated != $newsfeedid) {
+				$text[] = JText::sprintf('COM_NEWSFEEDS_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->name, $items[$associated]->category_title);
+			}
+		}
+		return JHtml::_('tooltip', implode('<br />', $text), JText::_('COM_NEWSFEEDS_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
 	}
 }

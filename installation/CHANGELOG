@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+ #$+ [#29897] *Multilanguage: adding items associations in remaining core components. Thanks Benjamin
+
 16-Jan-2013 Jean-Marie Simonet
  # [#29962] *303 when not using URL Language code in multilanguage - again. Thanks Yannick
 

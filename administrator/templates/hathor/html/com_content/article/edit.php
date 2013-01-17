@@ -254,7 +254,7 @@ endif;
 						<?php endforeach; ?>
 					</ul>
 				</fieldset>
-		<?php endforeach;?>
+			<?php endforeach;?>
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 

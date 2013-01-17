@@ -46,6 +46,13 @@ class ContactModelContacts extends JModelList
 				'publish_down', 'a.publish_down',
 				'ul.name', 'linked_user',
 			);
+
+			$app = JFactory::getApplication();
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			if ($assoc)
+			{
+				$config['filter_fields'][] = 'association';
+			}
 		}
 
 		parent::__construct($config);
@@ -83,6 +90,13 @@ class ContactModelContacts extends JModelList
 
 		$language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
+
+		// force a language
+		$forcedLanguage = $app->input->get('forcedLanguage');
+		if (!empty($forcedLanguage)) {
+			$this->setState('filter.language', $forcedLanguage);
+			$this->setState('filter.forcedLanguage', $forcedLanguage);
+		}
 
 		// List state information.
 		parent::populateState('a.name', 'asc');
@@ -124,6 +138,7 @@ class ContactModelContacts extends JModelList
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
+		$app	= JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -155,6 +170,16 @@ class ContactModelContacts extends JModelList
 		// Join over the categories.
 		$query->select('c.title AS category_title');
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		// Join over the associations.
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc)
+		{
+			$query->select('COUNT(asso2.id)>1 as association');
+			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_contact.item'));
+			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
+			$query->group('a.id');
+		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {

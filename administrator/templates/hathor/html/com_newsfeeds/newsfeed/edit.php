@@ -15,6 +15,11 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -108,6 +113,10 @@ JHtml::_('behavior.keepalive');
 			<?php echo $this->loadTemplate('params'); ?>
 
 			<?php echo $this->loadTemplate('metadata'); ?>
+
+			<?php if ($assoc) : ?>
+				<?php echo $this->loadTemplate('associations'); ?>
+			<?php endif; ?>
 
 		<?php echo JHtml::_('sliders.end'); ?>
 		<input type="hidden" name="task" value="" />

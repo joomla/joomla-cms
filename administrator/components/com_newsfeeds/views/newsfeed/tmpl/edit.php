@@ -15,6 +15,11 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
+
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -46,6 +51,9 @@ JHtml::_('formbehavior.chosen', 'select');
 		?>
 		<li><a href="#metadata-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
 		<?php endforeach; ?>
+		<?php if ($assoc): ?>
+			<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
+		<?php endif; ?>
 	</ul>
 
 	<div class="tab-content">
@@ -177,6 +185,11 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php echo $this->loadTemplate('params'); ?>
 
 		<?php echo $this->loadTemplate('metadata'); ?>
+
+		<?php if ($assoc) : ?>
+			<?php echo $this->loadTemplate('associations'); ?>
+		<?php endif; ?>
+
 		</div>
 		</fieldset>
 
