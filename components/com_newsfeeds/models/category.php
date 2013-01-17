@@ -58,7 +58,8 @@ class NewsfeedsModelCategory extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'name', 'a.name',
@@ -82,9 +83,11 @@ class NewsfeedsModelCategory extends JModelList
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++) {
+		for ($i = 0, $n = count($items); $i < $n; $i++)
+		{
 			$item = &$items[$i];
-			if (!isset($this->_params)) {
+			if (!isset($this->_params))
+			{
 				$params = new JRegistry;
 				$item->params = $params;
 				$params->loadString($item->params);
@@ -115,7 +118,8 @@ class NewsfeedsModelCategory extends JModelList
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
-		if ($categoryId = $this->getState('category.id')) {
+		if ($categoryId = $this->getState('category.id'))
+		{
 			$query->where('a.catid = '.(int) $categoryId);
 			$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 			$query->where('c.access IN ('.$groups.')');
@@ -123,7 +127,8 @@ class NewsfeedsModelCategory extends JModelList
 
 		// Filter by state
 		$state = $this->getState('filter.published');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.published = '.(int) $state);
 		}
 
@@ -146,7 +151,8 @@ class NewsfeedsModelCategory extends JModelList
 		}
 
 		// Filter by language
-		if ($this->getState('filter.language')) {
+		if ($this->getState('filter.language'))
+		{
 			$query->where('a.language in ('.$db->Quote(JFactory::getLanguage()->getTag()).','.$db->Quote('*').')');
 		}
 
@@ -179,13 +185,15 @@ class NewsfeedsModelCategory extends JModelList
 		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		$orderCol	= $app->input->get('filter_order', 'ordering');
-		if (!in_array($orderCol, $this->filter_fields)) {
+		if (!in_array($orderCol, $this->filter_fields))
+		{
 			$orderCol = 'ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder	= $app->input->get('filter_order_Dir', 'ASC');
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		{
 			$listOrder = 'ASC';
 		}
 		$this->setState('list.direction', $listOrder);

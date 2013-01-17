@@ -58,18 +58,23 @@ class ContactControllerContacts extends JControllerAdmin
 		foreach ($ids as $i => $id)
 		{
 			$item = $model->getItem($id);
-			if (!$user->authorise('core.edit.state', 'com_contact.category.'.(int) $item->catid)) {
+			if (!$user->authorise('core.edit.state', 'com_contact.category.'.(int) $item->catid))
+			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
 				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			}
 		}
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
-		} else {
+		}
+		else
+		{
 			// Publish the items.
-			if (!$model->featured($ids, $value)) {
+			if (!$model->featured($ids, $value))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 		}

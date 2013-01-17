@@ -51,7 +51,8 @@ class MessagesHelper
 
 		$actions = JAccess::getActions('com_messages');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, 'com_messages'));
 		}
 

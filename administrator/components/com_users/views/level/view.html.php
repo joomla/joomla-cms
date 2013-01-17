@@ -34,7 +34,8 @@ class UsersViewLevel extends JViewLegacy
 		$this->state	= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -58,11 +59,13 @@ class UsersViewLevel extends JViewLegacy
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'levels-add');
 
-		if ($canDo->get('core.edit')||$canDo->get('core.create')) {
+		if ($canDo->get('core.edit')||$canDo->get('core.create'))
+		{
 			JToolbarHelper::apply('level.apply');
 			JToolbarHelper::save('level.save');
 		}
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::save2new('level.save2new');
 		}
 		// If an existing item, can save to a copy.
@@ -71,7 +74,9 @@ class UsersViewLevel extends JViewLegacy
 			}
 		if (empty($this->item->id)){
 				JToolbarHelper::cancel('level.cancel');
-		} else {
+		}
+		else
+		{
 				JToolbarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
 		}
 

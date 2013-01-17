@@ -49,7 +49,8 @@ class TemplatesHelper
 
 		$actions = JAccess::getActions('com_templates');
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
 		}
 
@@ -82,7 +83,8 @@ class TemplatesHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if ($clientId != '*') {
+		if ($clientId != '*')
+		{
 			$query->where('client_id='.(int) $clientId);
 		}
 
@@ -107,11 +109,13 @@ class TemplatesHelper
 		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);
 
-			if ($xml['type'] != 'template') {
+			if ($xml['type'] != 'template')
+			{
 				return false;
 			}
 
-			foreach ($xml as $key => $value) {
+			foreach ($xml as $key => $value)
+			{
 				$data->set($key, $value);
 			}
 		}

@@ -36,12 +36,14 @@ class UsersModelProfile extends JModelForm
 		// Get the user id.
 		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
-		if ($userId) {
+		if ($userId)
+		{
 			// Initialise the table with JUser.
 			$table = JTable::getInstance('User');
 
 			// Attempt to check the row in.
-			if (!$table->checkin($userId)) {
+			if (!$table->checkin($userId))
+			{
 				$this->setError($table->getError());
 				return false;
 			}
@@ -62,7 +64,8 @@ class UsersModelProfile extends JModelForm
 		// Get the user id.
 		$userId = (!empty($userId)) ? $userId : (int) $this->getState('user.id');
 
-		if ($userId) {
+		if ($userId)
+		{
 			// Initialise the table with JUser.
 			$table = JTable::getInstance('User');
 
@@ -70,7 +73,8 @@ class UsersModelProfile extends JModelForm
 			$user = JFactory::getUser();
 
 			// Attempt to check the row out.
-			if (!$table->checkout($user->get('id'), $userId)) {
+			if (!$table->checkout($user->get('id'), $userId))
+			{
 				$this->setError($table->getError());
 				return false;
 			}
@@ -103,7 +107,8 @@ class UsersModelProfile extends JModelForm
 
 			// Override the base user data with any data in the session.
 			$temp = (array) JFactory::getApplication()->getUserState('com_users.edit.profile.data', array());
-			foreach ($temp as $k => $v) {
+			foreach ($temp as $k => $v)
+			{
 				$this->data->$k = $v;
 			}
 
@@ -122,7 +127,8 @@ class UsersModelProfile extends JModelForm
 			$results = $dispatcher->trigger('onContentPrepareData', array('com_users.profile', $this->data));
 
 			// Check for errors encountered while preparing the data.
-			if (count($results) && in_array(false, $results, true)) {
+			if (count($results) && in_array(false, $results, true))
+			{
 				$this->setError($dispatcher->getError());
 				$this->data = false;
 			}
@@ -146,7 +152,8 @@ class UsersModelProfile extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
@@ -187,7 +194,8 @@ class UsersModelProfile extends JModelForm
 		if (JComponentHelper::getParams('com_users')->get('frontend_userparams'))
 		{
 			$form->loadFile('frontend', false);
-			if (JFactory::getUser()->authorise('core.login.admin')) {
+			if (JFactory::getUser()->authorise('core.login.admin'))
+			{
 				$form->loadFile('frontend_admin', false);
 			}
 		}
@@ -244,7 +252,8 @@ class UsersModelProfile extends JModelForm
 		unset($data['sendEmail']);
 
 		// Bind the data.
-		if (!$user->bind($data)) {
+		if (!$user->bind($data))
+		{
 			$this->setError(JText::sprintf('USERS PROFILE BIND FAILED', $user->getError()));
 			return false;
 		}
@@ -256,7 +265,8 @@ class UsersModelProfile extends JModelForm
 		$user->groups = null;
 
 		// Store the data.
-		if (!$user->save()) {
+		if (!$user->save())
+		{
 			$this->setError($user->getError());
 			return false;
 		}

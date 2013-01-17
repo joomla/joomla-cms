@@ -56,7 +56,8 @@ class ContentModelFeatured extends ContentModelArticles
 			// filter on published for those who do not have edit or edit.state rights.
 			$this->setState('filter.published', 1);
 		}
-		else {
+		else
+		{
 			$this->setState('filter.published', array(0, 1, 2));
 		}
 
@@ -131,7 +132,8 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// Filter by categories
-		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories'))) {
+		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories')))
+		{
 			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
 		}
 

@@ -115,9 +115,11 @@ class ModulesModelSelect extends JModelList
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			$path = JPath::clean($client->path.'/modules/'.$item->module.'/'.$item->module.'.xml');
-			if (file_exists($path)) {
+			if (file_exists($path))
+			{
 				$item->xml = simplexml_load_file($path);
 			} else {
 				$item->xml = null;
@@ -131,7 +133,8 @@ class ModulesModelSelect extends JModelList
 			||	$lang->load($item->module.'.sys', $client->path.'/modules/'.$item->module, $lang->getDefault(), false, false);
 			$item->name	= JText::_($item->name);
 
-			if (isset($item->xml) && $text = trim($item->xml->description)) {
+			if (isset($item->xml) && $text = trim($item->xml->description))
+			{
 				$item->desc = JText::_($text);
 			}
 			else {

@@ -207,7 +207,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		if (($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 			&& (isset($row) && !isset($options[0])) && isset($this->element['show_root']))
 			{
-				if ($row->parent_id == '1') {
+				if ($row->parent_id == '1')
+				{
 					$parent = new stdClass;
 					$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 					array_unshift($options, $parent);

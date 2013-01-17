@@ -83,25 +83,31 @@ abstract class ModMenuHelper
 		$components	= $db->loadObjectList();
 
 		// Parse the list of extensions.
-		foreach ($components as &$component) {
+		foreach ($components as &$component)
+		{
 			// Trim the menu link.
 			$component->link = trim($component->link);
 
-			if ($component->parent_id == 1) {
+			if ($component->parent_id == 1)
+			{
 				// Only add this top level if it is authorised and enabled.
-				if ($authCheck == false || ($authCheck && $user->authorise('core.manage', $component->element))) {
+				if ($authCheck == false || ($authCheck && $user->authorise('core.manage', $component->element)))
+				{
 					// Root level.
 					$result[$component->id] = $component;
-					if (!isset($result[$component->id]->submenu)) {
+					if (!isset($result[$component->id]->submenu))
+					{
 						$result[$component->id]->submenu = array();
 					}
 
 					// If the root menu link is empty, add it in.
-					if (empty($component->link)) {
+					if (empty($component->link))
+					{
 						$component->link = 'index.php?option='.$component->element;
 					}
 
-					if (!empty($component->element)) {
+					if (!empty($component->element))
+					{
 						// Load the core file then
 						// Load extension-local file.
 						$lang->load($component->element.'.sys', JPATH_BASE, null, false, false)
@@ -113,9 +119,11 @@ abstract class ModMenuHelper
 				}
 			} else {
 				// Sub-menu level.
-				if (isset($result[$component->parent_id])) {
+				if (isset($result[$component->parent_id]))
+				{
 					// Add the submenu link if it is defined.
-					if (isset($result[$component->parent_id]->submenu) && !empty($component->link)) {
+					if (isset($result[$component->parent_id]->submenu) && !empty($component->link))
+					{
 						$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 						$result[$component->parent_id]->submenu[] = &$component;
 					}

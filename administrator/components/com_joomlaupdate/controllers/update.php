@@ -147,7 +147,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat))
+		{
 			// Get the model for the view.
 			$model = $this->getModel('Default');
 

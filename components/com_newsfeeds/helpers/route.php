@@ -37,7 +37,8 @@ abstract class NewsfeedsHelperRoute
 			$categories = JCategories::getInstance('Newsfeeds');
 			$category = $categories->get((int) $catid);
 
-			if ($category) {
+			if ($category)
+			{
 				//TODO Throw error that the category either not exists or is unpublished
 				$needles['category'] = array_reverse($category->getPath());
 				$needles['categories'] = $needles['category'];

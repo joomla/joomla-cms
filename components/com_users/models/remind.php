@@ -30,7 +30,8 @@ class UsersModelRemind extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.remind', 'remind', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -76,7 +77,8 @@ class UsersModelRemind extends JModelForm
 		$form = $this->getForm();
 
 		// Check for an error.
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -84,14 +86,17 @@ class UsersModelRemind extends JModelForm
 		$data = $this->validate($form, $data);
 
 		// Check for an error.
-		if ($data instanceof Exception) {
+		if ($data instanceof Exception)
+		{
 			return $return;
 		}
 
 		// Check the validation results.
-		if ($data === false) {
+		if ($data === false)
+		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
+			foreach ($form->getErrors() as $message)
+			{
 				$this->setError($message);
 			}
 			return false;
@@ -118,13 +123,15 @@ class UsersModelRemind extends JModelForm
 		}
 
 		// Check for a user.
-		if (empty($user)) {
+		if (empty($user))
+		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 			return false;
 		}
 
 		// Make sure the user isn't blocked.
-		if ($user->block) {
+		if ($user->block)
+		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
 			return false;
 		}
@@ -160,7 +167,8 @@ class UsersModelRemind extends JModelForm
 		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
-		if ($return !== true) {
+		if ($return !== true)
+		{
 			$this->setError(JText::_('COM_USERS_MAIL_FAILED'), 500);
 			return false;
 		}

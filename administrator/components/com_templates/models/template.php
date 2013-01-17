@@ -30,7 +30,8 @@ class TemplatesModelTemplate extends JModelLegacy
 	{
 		$temp = new stdClass;
 
-		if ($template = $this->getTemplate()) {
+		if ($template = $this->getTemplate())
+		{
 			$temp->name = $name;
 			$temp->exists = file_exists($path.$name);
 			$temp->id = urlencode(base64_encode($template->extension_id.':'.$name));
@@ -48,7 +49,8 @@ class TemplatesModelTemplate extends JModelLegacy
 	{
 		$result	= array();
 
-		if ($template = $this->getTemplate()) {
+		if ($template = $this->getTemplate())
+		{
 			jimport('joomla.filesystem.folder');
 
 			$client = JApplicationHelper::getClientInfo($template->client_id);
@@ -63,7 +65,8 @@ class TemplatesModelTemplate extends JModelLegacy
 
 			// Check if the template path exists.
 
-			if (is_dir($path)) {
+			if (is_dir($path))
+			{
 				$result['main'] = array();
 				$result['css'] = array();
 				$result['clo'] = array();
@@ -79,7 +82,8 @@ class TemplatesModelTemplate extends JModelLegacy
 				// Handle the CSS files.
 				$files = JFolder::files($path.'/css', '\.css$', false, false);
 
-				foreach ($files as $file) {
+				foreach ($files as $file)
+				{
 					$result['css'][] = $this->getFile($path.'/css/', 'css/'.$file);
 				}
 			} else {
@@ -119,7 +123,8 @@ class TemplatesModelTemplate extends JModelLegacy
 	 */
 	public function &getTemplate()
 	{
-		if (empty($this->template)) {
+		if (empty($this->template))
+		{
 			$pk		= $this->getState('extension.id');
 			$db		= $this->getDbo();
 			$result	= false;
@@ -143,7 +148,8 @@ class TemplatesModelTemplate extends JModelLegacy
 				return false;
 			}
 
-			if (empty($result)) {
+			if (empty($result))
+			{
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 				$this->template = false;
 			} else {

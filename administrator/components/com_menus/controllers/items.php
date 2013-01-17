@@ -47,11 +47,14 @@ class MenusControllerItems extends JControllerAdmin
 
 		$model = $this->getModel();
 
-		if ($model->rebuild()) {
+		if ($model->rebuild())
+		{
 			// Reorder succeeded.
 			$this->setMessage(JText::_('COM_MENUS_ITEMS_REBUILD_SUCCESS'));
 			return true;
-		} else {
+		}
+		else
+		{
 			// Rebuild failed.
 			$this->setMessage(JText::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'));
 			return false;
@@ -95,9 +98,12 @@ class MenusControllerItems extends JControllerAdmin
 		$task  = $this->getTask();
 		$value = JArrayHelper::getValue($data, $task, 0, 'int');
 
-		if (empty($cid)) {
+		if (empty($cid))
+		{
 			JError::raiseWarning(500, JText::_($this->text_prefix.'_NO_ITEM_SELECTED'));
-		} else {
+		}
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
@@ -105,10 +111,12 @@ class MenusControllerItems extends JControllerAdmin
 			JArrayHelper::toInteger($cid);
 
 			// Publish the items.
-			if (!$model->setHome($cid, $value)) {
+			if (!$model->setHome($cid, $value))
+			{
 				JError::raiseWarning(500, $model->getError());
 			} else {
-				if ($value == 1) {
+				if ($value == 1)
+				{
 					$ntext = 'COM_MENUS_ITEMS_SET_HOME';
 				}
 				else {
@@ -138,7 +146,8 @@ class MenusControllerItems extends JControllerAdmin
 		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
-		if (!($order === $originalOrder)) {
+		if (!($order === $originalOrder))
+		{
 			// Get the model
 			$model = $this->getModel();
 			// Save the ordering

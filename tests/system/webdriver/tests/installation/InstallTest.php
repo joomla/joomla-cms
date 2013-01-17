@@ -31,7 +31,8 @@ class InstallTest extends JoomlaWebdriverTestCase
 	protected function deleteConfigurationFile()
 	{
 		$configFile = $this->cfg->folder . $this->cfg->path . "configuration.php";
-		if (file_exists($configFile)) {
+		if (file_exists($configFile))
+		{
 			chmod($configFile, 0777);
 			unlink($configFile);
 		}

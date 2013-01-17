@@ -93,11 +93,13 @@ class JAdminCssMenu extends JObject
 	{
 		$depth = 1;
 
-		if (!empty($id)) {
+		if (!empty($id))
+		{
 			$id = 'id="' . $id . '"';
 		}
 
-		if (!empty($class)) {
+		if (!empty($class))
+		{
 			$class = 'class="' . $class . '"';
 		}
 
@@ -115,7 +117,8 @@ class JAdminCssMenu extends JObject
 			echo "</ul>\n";
 		}
 
-		if ($this->_css) {
+		if ($this->_css)
+		{
 			// Add style to document head
 			$doc = JFactory::getDocument();
 			$doc->addStyleDeclaration($this->_css);
@@ -161,7 +164,8 @@ class JAdminCssMenu extends JObject
 		$dataToggle = '';
 		$dropdownCaret = '';
 
-		if ($this->_current->hasChildren()) {
+		if ($this->_current->hasChildren())
+			{
 				$linkClass = ' class="dropdown-toggle"';
 				$dataToggle = ' data-toggle="dropdown"';
 				if(!$this->_current->getParent()->hasParent())
@@ -170,13 +174,18 @@ class JAdminCssMenu extends JObject
 				}
 		}
 
-		if ($this->_current->link != null && $this->_current->target != null) {
+		if ($this->_current->link != null && $this->_current->target != null)
+		{
 			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title.$dropdownCaret."</a>";
-		} elseif ($this->_current->link != null && $this->_current->target == null) {
+		} elseif ($this->_current->link != null && $this->_current->target == null)
+		{
 			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\">".$this->_current->title.$dropdownCaret."</a>";
-		} elseif ($this->_current->title != null) {
+		} elseif ($this->_current->title != null)
+		{
 			echo "<a".$linkClass." ".$dataToggle.">".$this->_current->title.$dropdownCaret."</a>";
-		} else {
+		}
+		else
+		{
 			echo "<span></span>";
 		}
 
@@ -185,9 +194,11 @@ class JAdminCssMenu extends JObject
 		 */
 		while ($this->_current->hasChildren())
 		{
-			if ($this->_current->class) {
+			if ($this->_current->class)
+			{
 				$id = '';
-				if (!empty($this->_current->id)) {
+				if (!empty($this->_current->id))
+				{
 					$id = ' id="menu-'.strtolower($this->_current->id).'"';
 				}
 				echo '<ul'.$id.' class="dropdown-menu menu-component">'."\n";
@@ -218,7 +229,8 @@ class JAdminCssMenu extends JObject
 		static $classes;
 
 		// Initialise the known classes array if it does not exist
-		if (!is_array($classes)) {
+		if (!is_array($classes))
+		{
 			$classes = array();
 		}
 
@@ -226,13 +238,16 @@ class JAdminCssMenu extends JObject
 		 * If we don't already know about the class... build it and mark it
 		 * known so we don't have to build it again
 		 */
-		if (!isset($classes[$identifier])) {
-			if (substr($identifier, 0, 6) == 'class:') {
+		if (!isset($classes[$identifier]))
+		{
+			if (substr($identifier, 0, 6) == 'class:')
+			{
 				// We were passed a class name
 				$class = substr($identifier, 6);
 				$classes[$identifier] = "icon-16-$class";
 			} else {
-				if ($identifier == null) {
+				if ($identifier == null)
+				{
 					return null;
 				}
 				// Build the CSS class for the icon
@@ -311,7 +326,8 @@ class JMenuNode extends JObject
 		$this->active	= $active;
 
 		$this->id = null;
-		if (!empty($link) && $link !== '#') {
+		if (!empty($link) && $link !== '#')
+		{
 			$uri = new JURI($link);
 			$params = $uri->getQuery(true);
 			$parts = array();

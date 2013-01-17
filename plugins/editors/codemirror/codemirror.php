@@ -89,7 +89,8 @@ class plgEditorCodemirror extends JPlugin
 		{
 			$done = true;
 			$doc = JFactory::getDocument();
-			$js = "\tfunction jInsertEditorText(text, editor) {
+			$js = "\tfunction jInsertEditorText(text, editor)
+				{
 					Joomla.editors.instances[editor].replaceSelection(text);\n
 			}";
 			$doc->addScriptDeclaration($js);
@@ -117,16 +118,19 @@ class plgEditorCodemirror extends JPlugin
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
-		if (empty($id)) {
+		if (empty($id))
+		{
 			$id = $name;
 		}
 
 		// Only add "px" to width and height if they are not given as a percentage
-		if (is_numeric($width)) {
+		if (is_numeric($width))
+		{
 			$width .= 'px';
 		}
 
-		if (is_numeric($height)) {
+		if (is_numeric($height))
+		{
 			$height .= 'px';
 		}
 
@@ -142,7 +146,8 @@ class plgEditorCodemirror extends JPlugin
 		// Look if we need special syntax coloring.
 		$syntax = JFactory::getApplication()->getUserState('editor.source.syntax');
 
-		if ($syntax) {
+		if ($syntax)
+		{
 			switch($syntax)
 			{
 				case 'css':
@@ -185,12 +190,14 @@ class plgEditorCodemirror extends JPlugin
 		$options->width			= $width;
 		$options->continuousScanning = 500;
 
-		if ($this->params->get('linenumbers', 0)) {
+		if ($this->params->get('linenumbers', 0))
+		{
 			$options->lineNumbers	= true;
 			$options->textWrapping	= false;
 		}
 
-		if ($this->params->get('tabmode', '') == 'shift') {
+		if ($this->params->get('tabmode', '') == 'shift')
+		{
 			$options->tabMode = 'shift';
 		}
 
@@ -228,12 +235,14 @@ class plgEditorCodemirror extends JPlugin
 
 		foreach ($results as $result)
 		{
-			if (is_string($result) && trim($result)) {
+			if (is_string($result) && trim($result))
+			{
 				$html[] = $result;
 			}
 		}
 
-		if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
+		if (is_array($buttons) || (is_bool($buttons) && $buttons))
+		{
 			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
@@ -243,7 +252,8 @@ class plgEditorCodemirror extends JPlugin
 			foreach ($results as $button)
 			{
 				// Results should be an object
-				if ($button->get('name')) {
+				if ($button->get('name'))
+				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
 					$href		= ($button->get('link')) ? ' class="btn" href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;

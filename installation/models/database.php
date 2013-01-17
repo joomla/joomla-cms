@@ -246,8 +246,10 @@ class InstallationModelDatabase extends JModelLegacy
 
 		$options = (array) $options;
 		// remove *_errors value
-		foreach($options as $i => $option) {
-			if (isset($i['1']) && $i['1'] == '*') {
+		foreach($options as $i => $option)
+		{
+			if (isset($i['1']) && $i['1'] == '*')
+			{
 				unset($options[$i]);
 				break;
 			}
@@ -268,7 +270,8 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function handleOldDatabase($options)
 	{
-		if (!isset($options['db_created']) || !$options['db_created']) {
+		if (!isset($options['db_created']) || !$options['db_created'])
+		{
 			return $this->createDatabase($options);
 		}
 
@@ -311,7 +314,8 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function createTables($options)
 	{
-		if (!isset($options['db_created']) || !$options['db_created']) {
+		if (!isset($options['db_created']) || !$options['db_created'])
+		{
 			return $this->createDatabase($options);
 		}
 
@@ -510,7 +514,8 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function installSampleData($options)
 	{
-		if (!isset($options['db_created']) || !$options['db_created']) {
+		if (!isset($options['db_created']) || !$options['db_created'])
+		{
 			return $this->createDatabase($options);
 		}
 

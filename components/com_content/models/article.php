@@ -66,7 +66,8 @@ class ContentModelArticle extends JModelItem
 	{
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
-		if ($this->_item === null) {
+		if ($this->_item === null)
+		{
 			$this->_item = array();
 		}
 
@@ -140,7 +141,8 @@ class ContentModelArticle extends JModelItem
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
 
-				if (is_numeric($published)) {
+				if (is_numeric($published))
+				{
 					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
 				}
 
@@ -148,12 +150,14 @@ class ContentModelArticle extends JModelItem
 
 				$data = $db->loadObject();
 
-				if (empty($data)) {
+				if (empty($data))
+				{
 					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived))) {
+				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived)))
+				{
 					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
@@ -172,25 +176,30 @@ class ContentModelArticle extends JModelItem
 				$user	= JFactory::getUser();
 
 				// Technically guest could edit an article, but lets not check that to improve performance a little.
-				if (!$user->get('guest')) {
+				if (!$user->get('guest'))
+				{
 					$userId	= $user->get('id');
 					$asset	= 'com_content.article.'.$data->id;
 
 					// Check general edit permission first.
-					if ($user->authorise('core.edit', $asset)) {
+					if ($user->authorise('core.edit', $asset))
+					{
 						$data->params->set('access-edit', true);
 					}
 					// Now check if edit.own is available.
-					elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+					elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+					{
 						// Check for a valid user and that they are the owner.
-						if ($userId == $data->created_by) {
+						if ($userId == $data->created_by)
+						{
 							$data->params->set('access-edit', true);
 						}
 					}
 				}
 
 				// Compute view access permissions.
-				if ($access = $this->getState('filter.access')) {
+				if ($access = $this->getState('filter.access'))
+				{
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
@@ -199,7 +208,8 @@ class ContentModelArticle extends JModelItem
 					$user = JFactory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 
-					if ($data->catid == 0 || $data->category_access === null) {
+					if ($data->catid == 0 || $data->category_access === null)
+					{
 						$data->params->set('access-view', in_array($data->access, $groups));
 					}
 					else {
@@ -211,7 +221,8 @@ class ContentModelArticle extends JModelItem
 			}
 			catch (Exception $e)
 			{
-				if ($e->getCode() == 404) {
+				if ($e->getCode() == 404)
+				{
 					// Need to go thru the error handler to allow Redirect to work.
 					JError::raiseError(404, $e->getMessage());
 				}

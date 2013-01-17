@@ -36,13 +36,15 @@ class ConfigViewApplication extends JViewLegacy
 		$user = JFactory::getUser();
 
 		// Check for model errors.
-		if ($errors = $this->get('Errors')) {
+		if ($errors = $this->get('Errors'))
+		{
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
 
 		// Bind the form to the data.
-		if ($form && $data) {
+		if ($form && $data)
+		{
 			$form->bind($data);
 		}
 

@@ -194,7 +194,8 @@ class plgExtensionJoomla extends JPlugin
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
-		if ($eid) {
+		if ($eid)
+		{
 			$this->installer = $installer;
 			$this->eid = $eid;
 
@@ -213,9 +214,12 @@ class plgExtensionJoomla extends JPlugin
 		$manifest		= $this->installer->getManifest();
 		$updateservers	= $manifest->updateservers;
 
-		if($updateservers) {
+		if($updateservers)
+		{
 			$children = $updateservers->children();
-		} else {
+		}
+		else
+		{
 			$children = array();
 		}
 

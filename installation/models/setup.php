@@ -47,7 +47,8 @@ class InstallationModelSetup extends JModelLegacy
 		$old = $session->get('setup.options', array());
 
 		// Ensure that we have language
-		if (!isset($options['language']) || empty($options['language'])) {
+		if (!isset($options['language']) || empty($options['language']))
+		{
 			$options['language'] = JFactory::getLanguage()->getTag();
 		}
 
@@ -205,7 +206,9 @@ class InstallationModelSetup extends JModelLegacy
 			}
 
 			$result = !in_array('parse_ini_string', $disabled_functions);
-		} else {
+		}
+		else
+		{
 			// Attempt to detect their existence; even pure PHP implementation of them will trigger a positive response, though.
 			$result = function_exists('parse_ini_string');
 		}

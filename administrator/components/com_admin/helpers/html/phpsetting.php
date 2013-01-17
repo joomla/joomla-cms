@@ -27,10 +27,12 @@ abstract class JHtmlPhpSetting
 	 */
 	public static function boolean($val)
 	{
-		if ($val) {
+		if ($val)
+		{
 			return JText::_('JON');
 		}
-		else {
+		else
+		{
 			return JText::_('JOFF');
 		}
 	}
@@ -44,15 +46,18 @@ abstract class JHtmlPhpSetting
 	 */
 	public static function set($val)
 	{
-		if ($val) {
+		if ($val)
+		{
 			return JText::_('JYES');
-		} else {
+		}
+		else
+		{
 			return JText::_('JNO');
 		}
 	}
 
 	/**
-	 * method to generate a string message for a value
+	 * Method to generate a string message for a value
 	 *
 	 * @param string $val a php ini value
 	 *
@@ -60,9 +65,12 @@ abstract class JHtmlPhpSetting
 	 */
 	public static function string($val)
 	{
-		if (empty($val)) {
+		if (empty($val))
+		{
 			return JText::_('JNONE');
-		} else {
+		}
+		else
+		{
 			return $val;
 		}
 	}

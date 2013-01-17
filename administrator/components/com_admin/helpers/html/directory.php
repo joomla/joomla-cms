@@ -27,10 +27,12 @@ abstract class JHtmlDirectory
 	 */
 	public static function writable($writable)
 	{
-		if ($writable) {
+		if ($writable)
+		{
 			return '<span class="badge badge-success">'. JText::_('COM_ADMIN_WRITABLE') .'</span>';
 		}
-		else {
+		else
+		{
 			return '<span class="badge badge-important">'. JText::_('COM_ADMIN_UNWRITABLE') .'</span>';
 		}
 	}
@@ -46,16 +48,20 @@ abstract class JHtmlDirectory
 	 */
 	public static function message($dir, $message, $visible=true)
 	{
-		if ($visible) {
+		if ($visible)
+		{
 			$output = $dir;
 		}
-		else {
+		else
+		{
 			$output = '';
 		}
-		if (empty($message)) {
+		if (empty($message))
+		{
 			return $output;
 		}
-		else {
+		else
+		{
 			return $output.' <strong>'.JText::_($message).'</strong>';
 		}
 	}

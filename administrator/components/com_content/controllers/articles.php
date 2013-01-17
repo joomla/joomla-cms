@@ -61,22 +61,26 @@ class ContentControllerArticles extends JControllerAdmin
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
-			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id)) {
+			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
+			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
 				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			}
 		}
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
 			// Publish the items.
-			if (!$model->featured($ids, $value)) {
+			if (!$model->featured($ids, $value))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 		}

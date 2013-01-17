@@ -70,7 +70,8 @@ class JHtmlNewsfeed
 		// Get the associations
 		$associations = NewsfeedsHelper::getAssociations($newsfeedid);
 
-		foreach ($associations as $tag => $associated) {
+		foreach ($associations as $tag => $associated)
+		{
 			$associations[$tag] = (int) $associated->id;
 		}
 
@@ -89,7 +90,8 @@ class JHtmlNewsfeed
 		$items = $db->loadObjectList('id');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}
@@ -98,7 +100,8 @@ class JHtmlNewsfeed
 		$text = array();
 		foreach ($associations as $tag => $associated)
 		{
-			if ($associated != $newsfeedid) {
+			if ($associated != $newsfeedid)
+			{
 				$text[] = JText::sprintf('COM_NEWSFEEDS_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->name, $items[$associated]->category_title);
 			}
 		}

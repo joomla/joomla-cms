@@ -37,13 +37,15 @@ class TemplatesViewStyles extends JViewLegacy
 		TemplatesHelper::addSubmenu('styles');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 			// Check if there are no matching items
-		if(!count($this->items)) {
+		if(!count($this->items))
+		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_STYLES'),
 				'warning'
@@ -68,25 +70,30 @@ class TemplatesViewStyles extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('style.edit');
 		}
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'styles.delete');
 			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
 		}

@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 $ver = new JVersion;
 ?>
 <script type="text/javascript">
-	function installLanguages() {
+	function installLanguages()
+	{
 		document.id(install_languages_desc).hide();
 		document.id(wait_installing).show();
 		document.id(wait_installing_spinner).show();

@@ -507,16 +507,19 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->jClick('Options');
 			$this->click("//li/a[contains(., 'Permissions')]");
 		}
-		if (!is_array($actions)) {
+		if (!is_array($actions))
+		{
 			$actions = array($actions);
 		}
-		if (!is_array($permissions)) {
+		if (!is_array($permissions))
+		{
 			$permissions = array($permissions);
 		}
 		$this->jPrint ( "Open panel for group '$group'\n");
 		$this->click("//div[@id='permissions-sliders']//li[contains(.,'$group')]/a");
 
-		for ($i = 0; $i < count($actions); $i++) {
+		for ($i = 0; $i < count($actions); $i++)
+		{
 			$action = $actions[$i];
 			$permission = $permissions[$i];
 			$this->jPrint ( "Setting $action action for $group to $permission in $component.\n");
@@ -558,14 +561,16 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jPrint ( "Close panel for group '$group'\n");
 		$this->click("//div[@id='permissions-sliders']//li[contains(., 'Public')]/a");
 
-		if ($component == 'Global Configuration') {
+		if ($component == 'Global Configuration')
+		{
 			$this->click("//div[@id='toolbar-save']/button");
 			$this->waitForPageToLoad('3000');
 
 			$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 
 		}
-		else {
+		else
+		{
 			// Need to click the Save & Close button
 			$this->click("//div[@id='toolbar-save']/button");
 			$this->waitForPageToLoad('3000');
@@ -740,13 +745,16 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->click("//table/tbody//a[contains(text(), '" . $template . "')]/../../td/a[contains(@onclick, 'setDefault')]");
 			$this->waitForPageToLoad("30000");
 		}
-		catch (Exception $e) {
+		catch (Exception $e)
+	{
 		} // ignore if already set
 		$this->doAdminLogout();
 	}
 
-	function waitforElement($element, $time = 30, $present = true) {
-		for ($second = 0; ; $second++) {
+	function waitforElement($element, $time = 30, $present = true)
+	{
+		for ($second = 0; ; $second++)
+		{
 			if ($second >= $time) $this->fail("timeout");
 			try {
 			$condition = ($present) ? $this->isElementPresent($element) : !$this->isElementPresent($element);
@@ -765,7 +773,8 @@ function checkNotices()
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Notice:')]", "**Warning: PHP Notice found on page!");
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Warning:')]", "**Warning: PHP Warning found on page!");
 	}
-	catch (PHPUnit_Framework_AssertionFailedError $e) {
+	catch (PHPUnit_Framework_AssertionFailedError $e)
+	{
 		$this->jPrint ( "**Warning: PHP Notice found on page\n");
 		array_push($this->verificationErrors, $this->getTraceFiles($e));
 	}
@@ -789,7 +798,8 @@ public function __call($command, $arguments)
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Notice:')]", "**Warning: PHP Notice found on page!");
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Warning:')]", "**Warning: PHP Warning found on page!");
 	}
-	catch (PHPUnit_Framework_AssertionFailedError $e) {
+	catch (PHPUnit_Framework_AssertionFailedError $e)
+	{
 		$this->jPrint ( "**Warning: PHP Notice found on page\n");
 		array_push($this->verificationErrors, $this->getTraceFiles($e));
 	}
@@ -804,15 +814,18 @@ return $return;
  * @param PHPUnit_Framework_AssertionFailedError $e
  * @return string with selected files based on path
  */
-public function getTraceFiles($e) {
+public function getTraceFiles($e)
+{
 	$trace = $e->getTrace();
 	$path = $this->cfg->folder . $this->cfg->path;
 	$path = str_replace('\\', '/', $path);
 	$message = '';
-	foreach ($trace as $traceLine) {
+	foreach ($trace as $traceLine)
+	{
 		if (isset($traceLine['file'])){
 			$file = str_replace('\\', '/', $traceLine['file']);
-			if (stripos($file, $path) !== false) {
+			if (stripos($file, $path) !== false)
+			{
 				$message .= "\n" . $traceLine['file'] . '(' . $traceLine['line'] . '): ' .
 						$traceLine['class'] . $traceLine['type'] . $traceLine['function'] ;
 			}

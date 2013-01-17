@@ -27,7 +27,8 @@ class SearchModelSearches extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'search_term', 'a.search_term',
 				'hits', 'a.hits',
@@ -104,7 +105,8 @@ class SearchModelSearches extends JModelList
 		$query->from($db->quoteName('#__core_log_searches').' AS a');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = '.(int) $access);
 		}
 
@@ -134,19 +136,23 @@ class SearchModelSearches extends JModelList
 
 		// Determine if number of results for search item should be calculated
 		// by default it is `off` as it is highly query intensive
-		if ($this->getState('filter.results')) {
+		if ($this->getState('filter.results'))
+		{
 			JPluginHelper::importPlugin('search');
 			$app = JFactory::getApplication();
 
-			if (!class_exists('JSite')) {
+			if (!class_exists('JSite'))
+			{
 				// This fools the routers in the search plugins into thinking it's in the frontend
 				JLoader::register('JSite', JPATH_COMPONENT.'/helpers/site.php');
 			}
 
-			foreach ($items as &$item) {
+			foreach ($items as &$item)
+			{
 				$results = $app->triggerEvent('onContentSearch', array($item->search_term));
 				$item->returns = 0;
-				foreach ($results as $result) {
+				foreach ($results as $result)
+				{
 					$item->returns += count($result);
 				}
 			}

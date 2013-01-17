@@ -37,13 +37,16 @@ class UsersController extends JControllerLegacy
 		$vFormat = $document->getType();
 		$lName   = $this->input->getCmd('layout', 'default');
 
-		if ($view = $this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat))
+		{
 			// Do any specific processing by view.
-			switch ($vName) {
+			switch ($vName)
+			{
 				case 'registration':
 					// If the user is already logged in, redirect to the profile page.
 					$user = JFactory::getUser();
-					if ($user->get('guest') != 1) {
+					if ($user->get('guest') != 1)
+					{
 						// Redirect to profile page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
 						return;
@@ -66,7 +69,8 @@ class UsersController extends JControllerLegacy
 
 					// If the user is a guest, redirect to the login page.
 					$user = JFactory::getUser();
-					if ($user->get('guest') == 1) {
+					if ($user->get('guest') == 1)
+					{
 						// Redirect to login page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 						return;
@@ -82,7 +86,8 @@ class UsersController extends JControllerLegacy
 				case 'reset':
 					// If the user is already logged in, redirect to the profile page.
 					$user = JFactory::getUser();
-					if ($user->get('guest') != 1) {
+					if ($user->get('guest') != 1)
+					{
 						// Redirect to profile page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
 						return;
@@ -94,7 +99,8 @@ class UsersController extends JControllerLegacy
 				case 'remind':
 					// If the user is already logged in, redirect to the profile page.
 					$user = JFactory::getUser();
-					if ($user->get('guest') != 1) {
+					if ($user->get('guest') != 1)
+					{
 						// Redirect to profile page.
 						$this->setRedirect(JRoute::_('index.php?option=com_users&view=profile', false));
 						return;

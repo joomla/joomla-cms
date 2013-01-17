@@ -45,9 +45,11 @@ class AdminControllerProfile extends JControllerForm
 		$data = $this->input->post->get('jform', array(), 'array');
 
 		// TODO: JForm should really have a validation handler for this.
-		if (isset($data['password']) && isset($data['password2'])) {
+		if (isset($data['password']) && isset($data['password2']))
+		{
 			// Check the passwords match.
-			if ($data['password'] != $data['password2']) {
+			if ($data['password'] != $data['password2'])
+			{
 				$this->setMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'warning');
 				$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id='.JFactory::getUser()->id, false));
 				return false;
@@ -58,7 +60,8 @@ class AdminControllerProfile extends JControllerForm
 
 		$return = parent::save();
 
-		if ($this->getTask() != 'apply') {
+		if ($this->getTask() != 'apply')
+		{
 			// Redirect to the main page.
 			$this->setRedirect(JRoute::_('index.php', false));
 		}

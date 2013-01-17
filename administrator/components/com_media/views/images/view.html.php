@@ -29,11 +29,13 @@ class MediaViewImages extends JViewLegacy
 		JHtml::_('script', 'media/popup-imagemanager.js', true, true);
 		JHtml::_('stylesheet', 'media/popup-imagemanager.css', array(), true);
 
-		if ($lang->isRTL()) {
+		if ($lang->isRTL())
+		{
 			JHtml::_('stylesheet', 'media/popup-imagemanager_rtl.css', array(), true);
 		}
 
-		if ($config->get('enable_flash', 1)) {
+		if ($config->get('enable_flash', 1))
+		{
 			$fileTypes = $config->get('image_extensions', 'bmp,gif,jpg,png,jpeg');
 			$types = explode(',', $fileTypes);
 			$displayTypes = '';		// this is what the user sees
@@ -42,7 +44,8 @@ class MediaViewImages extends JViewLegacy
 
 			foreach($types as $type)
 			{
-				if(!$firstType) {
+				if(!$firstType)
+				{
 					$displayTypes .= ', ';
 					$filterTypes .= '; ';
 				}

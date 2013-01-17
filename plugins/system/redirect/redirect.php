@@ -48,7 +48,8 @@ class plgSystemRedirect extends JPlugin
 			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
 
 			// Attempt to ignore idiots.
-			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false)) {
+			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
+			{
 				// Render the error page.
 				JError::customErrorPage($error);
 			}
@@ -64,7 +65,8 @@ class plgSystemRedirect extends JPlugin
 			$link = $db->loadObject();
 
 			// If a redirect exists and is published, permanently redirect.
-			if ($link and ($link->published == 1)) {
+			if ($link and ($link->published == 1))
+			{
 				$app->redirect($link->new_url, null, null, true, false);
 			}
 			else
@@ -109,7 +111,8 @@ class plgSystemRedirect extends JPlugin
 				JError::customErrorPage($error);
 			}
 		}
-		else {
+		else
+		{
 			// Render the error page.
 			JError::customErrorPage($error);
 		}

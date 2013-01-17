@@ -148,27 +148,31 @@ class UsersModelNote extends JModelAdmin
 		$table	= $this->getTable();
 		$isNew	= empty($pk);
 
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 
 			return false;
 		}
 
 		// JTableCategory doesn't bind the params, so we need to do that by hand.
-		if (isset($data['params']) && is_array($data['params'])) {
+		if (isset($data['params']) && is_array($data['params']))
+		{
 			$registry = new JRegistry();
 			$registry->loadArray($data['params']);
 			$table->params = $registry->toString();
 			// This will give us INI format.
 		}
 
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 
 			return false;
 		}
 
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 
 			return false;

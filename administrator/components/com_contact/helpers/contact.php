@@ -61,22 +61,26 @@ class ContactHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($contactId) && empty($categoryId)) {
+		if (empty($contactId) && empty($categoryId))
+		{
 			$assetName = 'com_contact';
 			$level = 'component';
 		}
-		elseif (empty($contactId)) {
+		elseif (empty($contactId))
+		{
 			$assetName = 'com_contact.category.'.(int) $categoryId;
 			$level = 'category';
 		}
-		else {
+		else
+		{
 			$assetName = 'com_contact.contact.'.(int) $contactId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_contact', $level);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -104,12 +108,14 @@ class ContactHelper
 		$contactitems = $db->loadObjectList('language');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
-		foreach ($contactitems as $tag => $item) {
+		foreach ($contactitems as $tag => $item)
+		{
 			$associations[$tag] = $item;
 		}
 

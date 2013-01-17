@@ -54,9 +54,11 @@ class UsersControllerGroup extends JControllerForm
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		// Check if this group is a Super Admin
-		if (JAccess::checkGroup($data[$key], 'core.admin')) {
+		if (JAccess::checkGroup($data[$key], 'core.admin'))
+		{
 			// If I'm not a Super Admin, then disallow the edit.
-			if (!JFactory::getUser()->authorise('core.admin')) {
+			if (!JFactory::getUser()->authorise('core.admin'))
+			{
 				return false;
 			}
 		}

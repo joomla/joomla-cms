@@ -35,10 +35,12 @@ class CheckinController extends JControllerLegacy
 
 		$ids = $this->input->get('cid', array(), 'array');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 

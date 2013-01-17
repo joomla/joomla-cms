@@ -51,7 +51,8 @@ class BannersModelDownload extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_banners.download', 'download', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 

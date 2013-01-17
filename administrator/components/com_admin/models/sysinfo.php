@@ -90,7 +90,8 @@ class AdminModelSysInfo extends JModelLegacy
 			$registry = new JRegistry(new JConfig);
 			$this->config = $registry->toArray();
 			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
-			foreach($hidden as $key) {
+			foreach($hidden as $key)
+			{
 				$this->config[$key] = 'xxxxxx';
 			}
 		}
@@ -110,7 +111,8 @@ class AdminModelSysInfo extends JModelLegacy
 			$version = new JVersion;
 			$platform = new JPlatform;
 			$db = JFactory::getDBO();
-			if (isset($_SERVER['SERVER_SOFTWARE'])) {
+			if (isset($_SERVER['SERVER_SOFTWARE']))
+			{
 				$sf = $_SERVER['SERVER_SOFTWARE'];
 			}
 			else {

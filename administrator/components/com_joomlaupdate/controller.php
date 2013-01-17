@@ -38,7 +38,8 @@ class JoomlaupdateController extends JControllerLegacy
 		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat))
+		{
 			$ftp = JClientHelper::setCredentialsFromRequest('ftp');
 			$view->ftp = &$ftp;
 

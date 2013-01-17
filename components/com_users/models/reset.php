@@ -30,7 +30,8 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.reset_request', 'reset_request', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -49,7 +50,8 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.reset_complete', 'reset_complete', $options = array('control' => 'jform'));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -68,7 +70,8 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.reset_confirm', 'reset_confirm', $options = array('control' => 'jform'));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -113,7 +116,8 @@ class UsersModelReset extends JModelForm
 		$form = $this->getResetCompleteForm();
 
 		// Check for an error.
-		if ($form instanceof Exception) {
+		if ($form instanceof Exception)
+		{
 			return $form;
 		}
 
@@ -122,14 +126,17 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception) {
+		if ($return instanceof Exception)
+		{
 			return $return;
 		}
 
 		// Check the validation results.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
+			foreach ($form->getErrors() as $message)
+			{
 				$this->setError($message);
 			}
 			return false;
@@ -141,7 +148,8 @@ class UsersModelReset extends JModelForm
 		$userId	= $app->getUserState('com_users.reset.user', null);
 
 		// Check the token and user id.
-		if (empty($token) || empty($userId)) {
+		if (empty($token) || empty($userId))
+		{
 			return new JException(JText::_('COM_USERS_RESET_COMPLETE_TOKENS_MISSING'), 403);
 		}
 
@@ -149,13 +157,15 @@ class UsersModelReset extends JModelForm
 		$user = JUser::getInstance($userId);
 
 		// Check for a user and that the tokens match.
-		if (empty($user) || $user->activation !== $token) {
+		if (empty($user) || $user->activation !== $token)
+		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 			return false;
 		}
 
 		// Make sure the user isn't blocked.
-		if ($user->block) {
+		if ($user->block)
+		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
 			return false;
 		}
@@ -171,7 +181,8 @@ class UsersModelReset extends JModelForm
 		$user->password_clear	= $data['password1'];
 
 		// Save the user to the database.
-		if (!$user->save(true)) {
+		if (!$user->save(true))
+		{
 			return new JException(JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
@@ -191,7 +202,8 @@ class UsersModelReset extends JModelForm
 		$form = $this->getResetConfirmForm();
 
 		// Check for an error.
-		if ($form instanceof Exception) {
+		if ($form instanceof Exception)
+		{
 			return $form;
 		}
 
@@ -200,14 +212,17 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception) {
+		if ($return instanceof Exception)
+		{
 			return $return;
 		}
 
 		// Check the validation results.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
+			foreach ($form->getErrors() as $message)
+			{
 				$this->setError($message);
 			}
 			return false;
@@ -235,14 +250,16 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Check for a user.
-		if (empty($user)) {
+		if (empty($user))
+		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 			return false;
 		}
 
 		$parts	= explode(':', $user->activation);
 		$crypt	= $parts[0];
-		if (!isset($parts[1])) {
+		if (!isset($parts[1]))
+		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 			return false;
 		}
@@ -257,7 +274,8 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Make sure the user isn't blocked.
-		if ($user->block) {
+		if ($user->block)
+		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
 			return false;
 		}
@@ -283,7 +301,8 @@ class UsersModelReset extends JModelForm
 		$form = $this->getForm();
 
 		// Check for an error.
-		if ($form instanceof Exception) {
+		if ($form instanceof Exception)
+		{
 			return $form;
 		}
 
@@ -292,14 +311,17 @@ class UsersModelReset extends JModelForm
 		$return	= $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception) {
+		if ($return instanceof Exception)
+		{
 			return $return;
 		}
 
 		// Check the validation results.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message) {
+			foreach ($form->getErrors() as $message)
+			{
 				$this->setError($message);
 			}
 			return false;
@@ -326,7 +348,8 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Check for a user.
-		if (empty($userId)) {
+		if (empty($userId))
+		{
 			$this->setError(JText::_('COM_USERS_INVALID_EMAIL'));
 			return false;
 		}
@@ -335,19 +358,22 @@ class UsersModelReset extends JModelForm
 		$user = JUser::getInstance($userId);
 
 		// Make sure the user isn't blocked.
-		if ($user->block) {
+		if ($user->block)
+		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
 			return false;
 		}
 
 		// Make sure the user isn't a Super Admin.
-		if ($user->authorise('core.admin')) {
+		if ($user->authorise('core.admin'))
+		{
 			$this->setError(JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
 			return false;
 		}
 
 		// Make sure the user has not exceeded the reset limit
-		if (!$this->checkResetLimit($user)) {
+		if (!$this->checkResetLimit($user))
+		{
 			$resetLimit = (int) JFactory::getApplication()->getParams()->get('reset_time');
 			$this->setError(JText::plural('COM_USERS_REMIND_LIMIT_ERROR_N_HOURS', $resetLimit));
 			return false;
@@ -360,7 +386,8 @@ class UsersModelReset extends JModelForm
 		$user->activation = $hashedToken;
 
 		// Save the user to the database.
-		if (!$user->save(true)) {
+		if (!$user->save(true))
+		{
 			return new JException(JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
 		}
 
@@ -394,7 +421,8 @@ class UsersModelReset extends JModelForm
 		// Send the password reset request email.
 		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 		// Check for an error.
-		if ($return !== true) {
+		if ($return !== true)
+		{
 			return new JException(JText::_('COM_USERS_MAIL_FAILED'), 500);
 		}
 

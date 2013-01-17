@@ -31,13 +31,15 @@ class ModulesControllerModules extends JControllerAdmin
 		JArrayHelper::toInteger($pks);
 
 		try {
-			if (empty($pks)) {
+			if (empty($pks))
+			{
 				throw new Exception(JText::_('COM_MODULES_ERROR_NO_MODULES_SELECTED'));
 			}
 			$model = $this->getModel();
 			$model->duplicate($pks);
 			$this->setMessage(JText::plural('COM_MODULES_N_MODULES_DUPLICATED', count($pks)));
-		} catch (Exception $e) {
+		} catch (Exception $e)
+		{
 			JError::raiseWarning(500, $e->getMessage());
 		}
 

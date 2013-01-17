@@ -108,7 +108,8 @@ function WeblinksBuildRoute(&$query)
 
 			if ($view == 'weblink')
 			{
-				if ($advanced) {
+				if ($advanced)
+				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				}
 				else {
@@ -197,7 +198,8 @@ function WeblinksParseRoute($segments)
 
 		if ($found == 0)
 		{
-			if ($advanced) {
+			if ($advanced)
+			{
 				$db = JFactory::getDBO();
 				$query = 'SELECT id FROM #__weblinks WHERE catid = '.$vars['id'].' AND alias = '.$db->Quote(str_replace(':', '-', $segment));
 				$db->setQuery($query);

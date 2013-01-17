@@ -64,7 +64,8 @@ function ContactBuildRoute(&$query)
 			if($view == 'contact' && isset($query['catid']))
 			{
 				$catid = $query['catid'];
-			} elseif(isset($query['id'])) {
+			} elseif(isset($query['id']))
+			{
 				$catid = $query['id'];
 			}
 			$menuCatid = $mId;

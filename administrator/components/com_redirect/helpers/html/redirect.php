@@ -36,7 +36,8 @@ class JHtmlRedirect
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), null, true);
-		if ($canChange) {
+		if ($canChange)
+		{
 			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';
 		}

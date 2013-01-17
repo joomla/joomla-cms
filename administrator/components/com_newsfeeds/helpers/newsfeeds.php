@@ -57,18 +57,21 @@ class NewsfeedsHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($categoryId)) {
+		if (empty($categoryId))
+		{
 			$assetName = 'com_newsfeeds';
 			$level = 'component';
 		}
-		else {
+		else
+		{
 			$assetName = 'com_newsfeeds.category.'.(int) $categoryId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_newsfeeds', $level);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -96,12 +99,14 @@ class NewsfeedsHelper
 		$contactitems = $db->loadObjectList('language');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
-		foreach ($contactitems as $tag => $item) {
+		foreach ($contactitems as $tag => $item)
+		{
 			$associations[$tag] = $item;
 		}
 

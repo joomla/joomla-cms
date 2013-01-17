@@ -47,7 +47,8 @@ class UsersModelRegistration extends JModelForm
 		$userId = (int) $db->loadResult();
 
 		// Check for a valid user id.
-		if (!$userId) {
+		if (!$userId)
+		{
 			$this->setError(JText::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
 			return false;
 		}
@@ -106,7 +107,8 @@ class UsersModelRegistration extends JModelForm
 					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
 
 					// Check for an error.
-					if ($return !== true) {
+					if ($return !== true)
+					{
 						$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 						return false;
 					}
@@ -145,7 +147,8 @@ class UsersModelRegistration extends JModelForm
 			$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
 			// Check for an error.
-			if ($return !== true) {
+			if ($return !== true)
+			{
 				$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 				return false;
 			}
@@ -157,7 +160,8 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		// Store the user object.
-		if (!$user->save()) {
+		if (!$user->save())
+		{
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_ACTIVATION_SAVE_FAILED', $user->getError()));
 			return false;
 		}
@@ -184,7 +188,8 @@ class UsersModelRegistration extends JModelForm
 
 			// Override the base user data with any data in the session.
 			$temp = (array) $app->getUserState('com_users.registration.data', array());
-			foreach ($temp as $k => $v) {
+			foreach ($temp as $k => $v)
+			{
 				$this->data->$k = $v;
 			}
 
@@ -208,7 +213,8 @@ class UsersModelRegistration extends JModelForm
 			$results = $dispatcher->trigger('onContentPrepareData', array('com_users.registration', $this->data));
 
 			// Check for errors encountered while preparing the data.
-			if (count($results) && in_array(false, $results, true)) {
+			if (count($results) && in_array(false, $results, true))
+			{
 				$this->setError($dispatcher->getError());
 				$this->data = false;
 			}
@@ -232,7 +238,8 @@ class UsersModelRegistration extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.registration', 'registration', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -306,7 +313,8 @@ class UsersModelRegistration extends JModelForm
 		$data = (array) $this->getData();
 
 		// Merge in the registration data.
-		foreach ($temp as $k => $v) {
+		foreach ($temp as $k => $v)
+		{
 			$data[$k] = $v;
 		}
 
@@ -317,13 +325,15 @@ class UsersModelRegistration extends JModelForm
 		$sendpassword = $params->get('sendpassword', 1);
 
 		// Check if the user needs to activate their account.
-		if (($useractivation == 1) || ($useractivation == 2)) {
+		if (($useractivation == 1) || ($useractivation == 2))
+		{
 			$data['activation'] = JApplication::getHash(JUserHelper::genRandomPassword());
 			$data['block'] = 1;
 		}
 
 		// Bind the data.
-		if (!$user->bind($data)) {
+		if (!$user->bind($data))
+		{
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_BIND_FAILED', $user->getError()));
 			return false;
 		}
@@ -332,7 +342,8 @@ class UsersModelRegistration extends JModelForm
 		JPluginHelper::importPlugin('user');
 
 		// Store the data.
-		if (!$user->save()) {
+		if (!$user->save())
+		{
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 			return false;
 		}
@@ -454,7 +465,8 @@ class UsersModelRegistration extends JModelForm
 		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
 		//Send Notification mail to administrators
-		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1)) {
+		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
+		{
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
 				$data['name'],
@@ -482,14 +494,16 @@ class UsersModelRegistration extends JModelForm
 				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
 
 				// Check for an error.
-				if ($return !== true) {
+				if ($return !== true)
+				{
 					$this->setError(JText::_('COM_USERS_REGISTRATION_ACTIVATION_NOTIFY_SEND_MAIL_FAILED'));
 					return false;
 				}
 			}
 		}
 		// Check for an error.
-		if ($return !== true) {
+		if ($return !== true)
+		{
 			$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 			// Send a system message to administrators receiving system mails
@@ -500,7 +514,8 @@ class UsersModelRegistration extends JModelForm
 				AND sendEmail = 1";
 			$db->setQuery($q);
 			$sendEmail = $db->loadColumn();
-			if (count($sendEmail) > 0) {
+			if (count($sendEmail) > 0)
+			{
 				$jdate = new JDate;
 				// Build the query to add the messages
 				$q = "INSERT INTO ".$db->quoteName('#__messages')." (".$db->quoteName('user_id_from').
@@ -508,7 +523,8 @@ class UsersModelRegistration extends JModelForm
 				", ".$db->quoteName('subject').", ".$db->quoteName('message').") VALUES ";
 				$messages = array();
 
-				foreach ($sendEmail as $userid) {
+				foreach ($sendEmail as $userid)
+				{
 					$messages[] = "(".$userid.", ".$userid.", '".$jdate->toSql()."', '".JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')."', '".JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])."')";
 				}
 				$q .= implode(',', $messages);

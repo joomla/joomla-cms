@@ -54,13 +54,15 @@ class TemplatesViewTemplates extends JViewLegacy
 		TemplatesHelper::addSubmenu('templates');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		// Check if there are no matching items
-		if(!count($this->items)) {
+		if(!count($this->items))
+		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'),
 				'warning'
@@ -83,7 +85,8 @@ class TemplatesViewTemplates extends JViewLegacy
 		$canDo	= TemplatesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'thememanager');
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
 		}

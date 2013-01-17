@@ -53,10 +53,12 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		$query->where('a.published >= 0');
 		$query->where('a.parent_id =' . (int) $parent_id);
-		if ($menuType = $this->form->getValue('menutype')) {
+		if ($menuType = $this->form->getValue('menutype'))
+		{
 			$query->where('a.menutype = '.$db->quote($menuType));
 		}
-		else {
+		else
+		{
 			$query->where('a.menutype != '.$db->quote(''));
 		}
 

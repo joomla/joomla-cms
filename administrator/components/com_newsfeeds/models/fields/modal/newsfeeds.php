@@ -76,7 +76,8 @@ class JFormFieldModal_Newsfeeds extends JFormField
 			JError::raiseWarning(500, $e->getMessage);
 		}
 
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = JText::_('COM_NEWSFEEDS_SELECT_A_FEED');
 		}
 
@@ -102,7 +103,8 @@ class JFormFieldModal_Newsfeeds extends JFormField
 
 		// class='required' for client side validation
 		$class = '';
-		if ($this->required) {
+		if ($this->required)
+		{
 			$class = ' class="required modal-value"';
 		}
 

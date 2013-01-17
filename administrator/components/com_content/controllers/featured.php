@@ -39,15 +39,18 @@ class ContentControllerFeatured extends ContentControllerArticles
 			}
 		}
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
 			// Remove the items.
-			if (!$model->featured($ids, 0)) {
+			if (!$model->featured($ids, 0))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 		}

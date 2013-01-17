@@ -31,17 +31,20 @@ class plgContentJoomla extends JPlugin
 	public function onContentAfterSave($context, $article, $isNew)
 	{
 		// Check we are handling the frontend edit form.
-		if ($context != 'com_content.form') {
+		if ($context != 'com_content.form')
+		{
 			return true;
 		}
 
 		// Check if this function is enabled.
-		if (!$this->params->def('email_new_fe', 1)) {
+		if (!$this->params->def('email_new_fe', 1))
+		{
 			return true;
 		}
 
 		// Check this is a new article.
-		if (!$isNew) {
+		if (!$isNew)
+		{
 			return true;
 		}
 
@@ -60,7 +63,8 @@ class plgContentJoomla extends JPlugin
 
 		foreach ($users as $user_id)
 		{
-			if ($user_id != $user->id) {
+			if ($user_id != $user->id)
+			{
 				// Load language for messaging
 				$receiver = JUser::getInstance($user_id);
 				$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
@@ -89,12 +93,14 @@ class plgContentJoomla extends JPlugin
 	public function onContentBeforeDelete($context, $data)
 	{
 		// Skip plugin if we are deleting something other than categories
-		if ($context != 'com_categories.category') {
+		if ($context != 'com_categories.category')
+		{
 			return true;
 		}
 
 		// Check if this function is enabled.
-		if (!$this->params->def('check_categories', 1)) {
+		if (!$this->params->def('check_categories', 1))
+		{
 			return true;
 		}
 
@@ -126,14 +132,16 @@ class plgContentJoomla extends JPlugin
 			else
 			{
 				// Show error if items are found in the category
-				if ($count > 0 ) {
+				if ($count > 0 )
+				{
 					$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title')) .
 					JText::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
 					JError::raiseWarning(403, $msg);
 					$result = false;
 				}
 				// Check for items in any child categories (if it is a leaf, there are no child categories)
-				if (!$data->isLeaf()) {
+				if (!$data->isLeaf())
+				{
 					$count = $this->_countItemsInChildren($table, $data->get('id'), $data);
 					if ($count === false)
 					{
@@ -200,7 +208,8 @@ class plgContentJoomla extends JPlugin
 		// First element in tree is the current category, so we can skip that one
 		unset($childCategoryTree[0]);
 		$childCategoryIds = array();
-		foreach ($childCategoryTree as $node) {
+		foreach ($childCategoryTree as $node)
+		{
 			$childCategoryIds[] = $node->id;
 		}
 

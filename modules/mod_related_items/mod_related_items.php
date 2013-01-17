@@ -21,7 +21,8 @@ $cacheparams->modeparams = array('id' => 'int', 'Itemid' => 'int');
 
 $list = JModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list)) {
+if (!count($list))
+{
 	return;
 }
 

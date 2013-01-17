@@ -73,7 +73,8 @@ class JFormFieldModal_Article extends JFormField
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = JText::_('COM_CONTENT_SELECT_AN_ARTICLE');
 		}
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -84,15 +85,19 @@ class JFormFieldModal_Article extends JFormField
 		$html[] = '</span>';
 
 		// The active article id field.
-		if (0 == (int) $this->value) {
+		if (0 == (int) $this->value)
+		{
 			$value = '';
-		} else {
+		}
+		else
+		{
 			$value = (int) $this->value;
 		}
 
 		// class='required' for client side validation
 		$class = '';
-		if ($this->required) {
+		if ($this->required)
+		{
 			$class = ' class="required modal-value"';
 		}
 

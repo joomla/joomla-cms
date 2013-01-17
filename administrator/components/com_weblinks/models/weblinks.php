@@ -27,7 +27,8 @@ class WeblinksModelWeblinks extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -152,7 +153,8 @@ class WeblinksModelWeblinks extends JModelList
 		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = '.(int) $access);
 		}
 
@@ -165,22 +167,27 @@ class WeblinksModelWeblinks extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.state = '.(int) $published);
-		} elseif ($published === '') {
+		} elseif ($published === '')
+		{
 			$query->where('(a.state IN (0, 1))');
 		}
 
 		// Filter by category.
 		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId)) {
+		if (is_numeric($categoryId))
+		{
 			$query->where('a.catid = '.(int) $categoryId);
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
@@ -189,14 +196,16 @@ class WeblinksModelWeblinks extends JModelList
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
 			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
 		$query->order($db->escape($orderCol.' '.$orderDirn));

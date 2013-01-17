@@ -103,7 +103,8 @@ class TemplatesTableStyle extends JTable
 	{
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
-		if (!is_null($pk)) {
+		if (!is_null($pk))
+		{
 			$query = $this->_db->getQuery(true);
 			$query->from('#__template_styles');
 			$query->select('id');

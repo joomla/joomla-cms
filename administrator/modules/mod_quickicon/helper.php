@@ -39,7 +39,8 @@ abstract class modQuickIconHelper
 	public static function &getButtons($params)
 	{
 		$key = (string) $params;
-		if (!isset(self::$buttons[$key])) {
+		if (!isset(self::$buttons[$key]))
+		{
 			$context = $params->get('context', 'mod_quickicon');
 			if ($context == 'mod_quickicon')
 			{
@@ -131,8 +132,10 @@ abstract class modQuickIconHelper
 			$app = JFactory::getApplication();
 			$arrays = (array) $app->triggerEvent('onGetIcons', array($context));
 
-			foreach ($arrays as $response) {
-				foreach ($response as $icon) {
+			foreach ($arrays as $response)
+			{
+				foreach ($response as $icon)
+				{
 					$default = array(
 						'link' => null,
 						'image' => 'cog',
@@ -140,7 +143,8 @@ abstract class modQuickIconHelper
 						'access' => true
 					);
 					$icon = array_merge($default, $icon);
-					if (!is_null($icon['link']) && !is_null($icon['text'])) {
+					if (!is_null($icon['link']) && !is_null($icon['text']))
+					{
 						self::$buttons[$key][] = $icon;
 					}
 				}

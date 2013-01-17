@@ -46,7 +46,8 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testPathDisclosure() {
+	function testPathDisclosure()
+	{
 		$this->jPrint("Start testPathDisclosure" . "\n");
 		$this->setUp();
 		$this->gotoSite();

@@ -61,14 +61,16 @@ class UsersController extends JControllerLegacy
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
-		if (!$this->canView($view)) {
+		if (!$this->canView($view))
+		{
 			JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return;
 		}
 
 		// Check for edit form.
-		if ($view == 'user' && $layout == 'edit' && !$this->checkEditId('com_users.edit.user', $id)) {
+		if ($view == 'user' && $layout == 'edit' && !$this->checkEditId('com_users.edit.user', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');
@@ -76,7 +78,8 @@ class UsersController extends JControllerLegacy
 
 			return false;
 		}
-		elseif ($view == 'group' && $layout == 'edit' && !$this->checkEditId('com_users.edit.group', $id)) {
+		elseif ($view == 'group' && $layout == 'edit' && !$this->checkEditId('com_users.edit.group', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');
@@ -84,7 +87,8 @@ class UsersController extends JControllerLegacy
 
 			return false;
 		}
-		elseif ($view == 'level' && $layout == 'edit' && !$this->checkEditId('com_users.edit.level', $id)) {
+		elseif ($view == 'level' && $layout == 'edit' && !$this->checkEditId('com_users.edit.level', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');
@@ -92,7 +96,8 @@ class UsersController extends JControllerLegacy
 
 			return false;
 		}
-		elseif ($view == 'note' && $layout == 'edit' && !$this->checkEditId('com_users.edit.note', $id)) {
+		elseif ($view == 'note' && $layout == 'edit' && !$this->checkEditId('com_users.edit.note', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');

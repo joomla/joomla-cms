@@ -66,7 +66,8 @@ class ContentModelForm extends ContentModelArticle
 		$return = $table->load($itemId);
 
 		// Check for a table object error.
-		if ($return === false && $table->getError()) {
+		if ($return === false && $table->getError())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -84,27 +85,33 @@ class ContentModelForm extends ContentModelArticle
 		$asset	= 'com_content.article.'.$value->id;
 
 		// Check general edit permission first.
-		if ($user->authorise('core.edit', $asset)) {
+		if ($user->authorise('core.edit', $asset))
+		{
 			$value->params->set('access-edit', true);
 		}
 		// Now check if edit.own is available.
-		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+		{
 			// Check for a valid user and that they are the owner.
-			if ($userId == $value->created_by) {
+			if ($userId == $value->created_by)
+			{
 				$value->params->set('access-edit', true);
 			}
 		}
 
 		// Check edit state permission.
-		if ($itemId) {
+		if ($itemId)
+		{
 			// Existing item
 			$value->params->set('access-change', $user->authorise('core.edit.state', $asset));
 		}
-		else {
+		else
+		{
 			// New item.
 			$catId = (int) $this->getState('article.catid');
 
-			if ($catId) {
+			if ($catId)
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
 				$value->catid = $catId;
 			}
@@ -114,7 +121,8 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		$value->articletext = $value->introtext;
-		if (!empty($value->fulltext)) {
+		if (!empty($value->fulltext))
+		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
 

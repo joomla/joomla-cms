@@ -32,7 +32,8 @@ class plgAuthenticationJoomla extends JPlugin
 	{
 		$response->type = 'Joomla';
 		// Joomla does not like blank passwords
-		if (empty($credentials['password'])) {
+		if (empty($credentials['password']))
+		{
 			$response->status = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 			return false;
@@ -49,17 +50,20 @@ class plgAuthenticationJoomla extends JPlugin
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
-		if ($result) {
+		if ($result)
+		{
 			$parts	= explode(':', $result->password);
 			$crypt	= $parts[0];
 			$salt	= @$parts[1];
 			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
 
-			if ($crypt == $testcrypt) {
+			if ($crypt == $testcrypt)
+			{
 				$user = JUser::getInstance($result->id); // Bring this in line with the rest of the system
 				$response->email = $user->email;
 				$response->fullname = $user->name;
-				if (JFactory::getApplication()->isAdmin()) {
+				if (JFactory::getApplication()->isAdmin())
+				{
 					$response->language = $user->getParam('admin_language');
 				}
 				else {
@@ -71,7 +75,9 @@ class plgAuthenticationJoomla extends JPlugin
 				$response->status = JAuthentication::STATUS_FAILURE;
 				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 			}
-		} else {
+		}
+		else
+		{
 			$response->status = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
 		}

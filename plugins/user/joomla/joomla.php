@@ -32,7 +32,8 @@ class plgUserJoomla extends JPlugin
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
-		if (!$succes) {
+		if (!$succes)
+		{
 			return false;
 		}
 
@@ -65,10 +66,12 @@ class plgUserJoomla extends JPlugin
 		$config	= JFactory::getConfig();
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
-		if ($isnew) {
+		if ($isnew)
+		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 
-			if ($app->isAdmin()) {
+			if ($app->isAdmin())
+			{
 				if ($mail_to_user) {
 
 					// Load user_joomla plugin language (not done automatically).
@@ -104,14 +107,16 @@ class plgUserJoomla extends JPlugin
 						->setSubject($emailSubject)
 						->setBody($emailBody);
 
-					if (!$mail->Send()) {
+					if (!$mail->Send())
+					{
 						// TODO: Probably should raise a plugin error but this event is not error checked.
 						JError::raiseWarning(500, JText::_('ERROR_SENDING_EMAIL'));
 					}
 				}
 			}
 		}
-		else {
+		else
+		{
 			// Existing user - nothing to do...yet.
 		}
 	}
@@ -130,18 +135,21 @@ class plgUserJoomla extends JPlugin
 		$instance = $this->_getUser($user, $options);
 
 		// If _getUser returned an error, then pass it back.
-		if ($instance instanceof Exception) {
+		if ($instance instanceof Exception)
+		{
 			return false;
 		}
 
 		// If the user is blocked, redirect with an error
-		if ($instance->get('block') == 1) {
+		if ($instance->get('block') == 1)
+		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_NOLOGIN_BLOCKED'));
 			return false;
 		}
 
 		// Authorise the user based on the group information
-		if (!isset($options['group'])) {
+		if (!isset($options['group']))
+		{
 			$options['group'] = 'USERS';
 		}
 
@@ -198,12 +206,14 @@ class plgUserJoomla extends JPlugin
 		$app 		= JFactory::getApplication();
 
 		// Make sure we're a valid user first
-		if ($user['id'] == 0 && !$my->get('tmp_user')) {
+		if ($user['id'] == 0 && !$my->get('tmp_user'))
+		{
 			return true;
 		}
 
 		// Check to see if we're deleting the current session
-		if ($my->get('id') == $user['id'] && $options['clientid'] == $app->getClientId()) {
+		if ($my->get('id') == $user['id'] && $options['clientid'] == $app->getClientId())
+		{
 			// Hit the user last visit field
 			$my->setLastVisit();
 
@@ -260,12 +270,15 @@ class plgUserJoomla extends JPlugin
 		//If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
 
-		if ($autoregister) {
-			if (!$instance->save()) {
+		if ($autoregister)
+		{
+			if (!$instance->save())
+			{
 				return JError::raiseWarning('SOME_ERROR_CODE', $instance->getError());
 			}
 		}
-		else {
+		else
+		{
 			// No existing user and autoregister off, this is a temporary user.
 			$instance->set('tmp_user', true);
 		}

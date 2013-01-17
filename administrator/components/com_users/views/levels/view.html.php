@@ -36,7 +36,8 @@ class UsersViewLevels extends JViewLegacy
 		UsersHelper::addSubmenu('levels');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -57,18 +58,22 @@ class UsersViewLevels extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('level.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('level.edit');
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'level.delete');
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}

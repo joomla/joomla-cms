@@ -27,7 +27,8 @@ class ModulesModelModules extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -131,7 +132,8 @@ class ModulesModelModules extends JModelList
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
 		$ordering = $this->getState('list.ordering', 'ordering');
-		if (in_array($ordering, array('pages', 'name'))) {
+		if (in_array($ordering, array('pages', 'name')))
+		{
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
@@ -139,22 +141,27 @@ class ModulesModelModules extends JModelList
 			JArrayHelper::sortObjects($result, $ordering, $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
-			if ($total < $limitstart) {
+			if ($total < $limitstart)
+			{
 				$limitstart = 0;
 				$this->setState('list.start', 0);
 			}
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
-		else {
-			if ($ordering == 'ordering') {
+		else
+		{
+			if ($ordering == 'ordering')
+			{
 				$query->order('a.position ASC');
 				$ordering = 'a.ordering';
 			}
-			if ($ordering == 'language_title') {
+			if ($ordering == 'language_title')
+			{
 				$ordering = 'l.title';
 			}
 			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-			if ($ordering == 'position') {
+			if ($ordering == 'position')
+			{
 				$query->order('a.ordering ASC');
 			}
 			$result = parent::_getList($query, $limitstart, $limit);
@@ -173,7 +180,8 @@ class ModulesModelModules extends JModelList
 	{
 		$lang = JFactory::getLanguage();
 		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
-		foreach($items as $item) {
+		foreach($items as $item)
+		{
 			$extension = $item->module;
 			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
 				$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, false)
@@ -181,11 +189,14 @@ class ModulesModelModules extends JModelList
 			||	$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)
 			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 			$item->name = JText::_($item->name);
-			if (is_null($item->pages)) {
+			if (is_null($item->pages))
+			{
 				$item->pages = JText::_('JNONE');
-			} elseif ($item->pages < 0) {
+			} elseif ($item->pages < 0)
+			{
 				$item->pages = JText::_('COM_MODULES_ASSIGNED_VARIES_EXCEPT');
-			} elseif ($item->pages > 0) {
+			} elseif ($item->pages > 0)
+			{
 				$item->pages = JText::_('COM_MODULES_ASSIGNED_VARIES_ONLY');
 			} else {
 				$item->pages = JText::_('JALL');
@@ -238,38 +249,45 @@ class ModulesModelModules extends JModelList
 						'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down,e.enabled');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = '.(int) $access);
 		}
 
 		// Filter by published state
 		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.published = '.(int) $state);
 		}
-		elseif ($state === '') {
+		elseif ($state === '')
+		{
 			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by position
 		$position = $this->getState('filter.position');
-		if ($position && $position != 'none') {
+		if ($position && $position != 'none')
+		{
 			$query->where('a.position = '.$db->Quote($position));
 		}
 
-		elseif ($position == 'none') {
+		elseif ($position == 'none')
+		{
 			$query->where('a.position = '.$db->Quote(''));
 		}
 
 		// Filter by module
 		$module = $this->getState('filter.module');
-		if ($module) {
+		if ($module)
+		{
 			$query->where('a.module = '.$db->Quote($module));
 		}
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
-		if (is_numeric($clientId)) {
+		if (is_numeric($clientId))
+		{
 			$query->where('a.client_id = ' . (int) $clientId . ' AND e.client_id ='. (int) $clientId);
 		}
 
@@ -277,7 +295,8 @@ class ModulesModelModules extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			if (stripos($search, 'id:') === 0) {
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
 			else
@@ -288,7 +307,8 @@ class ModulesModelModules extends JModelList
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = ' . $db->quote($language));
 		}
 

@@ -29,9 +29,11 @@ if ($files):
 endif;
 
 $doc->addStyleSheet('templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css');
-if ($this->direction == 'rtl') {
+if ($this->direction == 'rtl')
+{
 	$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/template_rtl.css');
-	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) {
+	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css'))
+	{
 		$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/'.htmlspecialchars($color).'_rtl.css');
 	}
 }

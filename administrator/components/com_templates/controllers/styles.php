@@ -30,7 +30,8 @@ class TemplatesControllerStyles extends JControllerAdmin
 
 		try
 		{
-			if (empty($pks)) {
+			if (empty($pks))
+			{
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
@@ -73,7 +74,8 @@ class TemplatesControllerStyles extends JControllerAdmin
 
 		try
 		{
-			if (empty($pks)) {
+			if (empty($pks))
+			{
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
@@ -108,7 +110,8 @@ class TemplatesControllerStyles extends JControllerAdmin
 
 		try
 		{
-			if (empty($pks)) {
+			if (empty($pks))
+			{
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 

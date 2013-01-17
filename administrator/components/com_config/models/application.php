@@ -103,7 +103,8 @@ class ConfigModelApplication extends JModelForm
 			$myGroups = JAccess::getGroupsByUser(JFactory::getUser()->get('id'));
 			$myRules = $rules->getData();
 			$hasSuperAdmin = $myRules['core.admin']->allow($myGroups);
-			if (!$hasSuperAdmin) {
+			if (!$hasSuperAdmin)
+			{
 				$this->setError(JText::_('COM_CONFIG_ERROR_REMOVING_SUPER_ADMIN'));
 				return false;
 			}

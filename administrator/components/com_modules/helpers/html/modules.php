@@ -23,7 +23,8 @@ abstract class JHtmlModules
 	static public function templates($clientId = 0, $state = '')
 	{
 		$templates = ModulesHelper::getTemplates($clientId, $state);
-		foreach ($templates as $template) {
+		foreach ($templates as $template)
+		{
 			$options[]	= JHtml::_('select.option', $template->element, $template->name);
 		}
 		return $options;
@@ -176,7 +177,8 @@ abstract class JHtmlModules
 		}
 
 		// Pop the first item off the array if it's blank
-		if(count($options)) {
+		if(count($options))
+		{
 			if (strlen($options[0]->text) < 1)
 			{
 				array_shift($options);

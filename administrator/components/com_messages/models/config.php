@@ -66,7 +66,8 @@ class MessagesModelConfig extends JModelForm
 			return false;
 		}
 
-		foreach ($rows as $row) {
+		foreach ($rows as $row)
+		{
 			$item->set($row->cfg_name, $row->cfg_value);
 		}
 
@@ -85,7 +86,8 @@ class MessagesModelConfig extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_messages.config', 'config', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -102,7 +104,8 @@ class MessagesModelConfig extends JModelForm
 	{
 		$db = $this->getDbo();
 
-		if ($userId = (int) $this->getState('user.id')) {
+		if ($userId = (int) $this->getState('user.id'))
+		{
 			$db->setQuery(
 				'DELETE FROM #__messages_cfg'.
 				' WHERE user_id = '. $userId
@@ -119,11 +122,13 @@ class MessagesModelConfig extends JModelForm
 			}
 
 			$tuples = array();
-			foreach ($data as $k => $v) {
+			foreach ($data as $k => $v)
+			{
 				$tuples[] = '(' . $userId.', ' . $db->Quote($k) . ', ' . $db->Quote($v) . ')';
 			}
 
-			if ($tuples) {
+			if ($tuples)
+			{
 				$db->setQuery(
 					'INSERT INTO #__messages_cfg'.
 					' (user_id, cfg_name, cfg_value)'.
@@ -141,7 +146,9 @@ class MessagesModelConfig extends JModelForm
 				}
 			}
 			return true;
-		} else {
+		}
+		else
+		{
 			$this->setError('COM_MESSAGES_ERR_INVALID_USER');
 			return false;
 		}

@@ -30,7 +30,8 @@ class SearchControllerSearches extends JControllerLegacy
 
 		$model = $this->getModel('Searches');
 
-		if (!$model->reset()) {
+		if (!$model->reset())
+		{
 			JError::raiseWarning(500, $model->getError());
 		}
 

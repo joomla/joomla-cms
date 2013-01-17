@@ -51,21 +51,25 @@ class UsersControllerLevel extends JControllerForm
 		$user = JFactory::getUser();
 		$ids  = $this->input->get('cid', array(), 'array');
 
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
-		elseif (empty($ids)) {
+		elseif (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('COM_USERS_NO_LEVELS_SELECTED'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
 			JArrayHelper::toInteger($ids);
 
 			// Remove the items.
-			if (!$model->delete($ids)) {
+			if (!$model->delete($ids))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {

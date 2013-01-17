@@ -35,7 +35,8 @@ class RedirectModelLink extends JModelAdmin
 	protected function canDelete($record)
 	{
 
-			if ($record->published != -2) {
+			if ($record->published != -2)
+			{
 				return false;
 			}
 			$user = JFactory::getUser();
@@ -86,12 +87,14 @@ class RedirectModelLink extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_redirect.link', 'link', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
 		// Modify the form based on access controls.
-		if ($this->canEditState((object) $data) != true) {
+		if ($this->canEditState((object) $data) != true)
+		{
 			// Disable fields for display.
 			$form->setFieldAttribute('published', 'disabled', 'true');
 
@@ -114,7 +117,8 @@ class RedirectModelLink extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_redirect.edit.link.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
 
@@ -143,13 +147,15 @@ class RedirectModelLink extends JModelAdmin
 		$comment = (!empty($comment)) ? $comment : JText::sprintf('COM_REDIRECT_REDIRECTED_ON', JHtml::_('date', time()));
 
 		// Access checks.
-		if (!$user->authorise('core.admin', 'com_redirect')) {
+		if (!$user->authorise('core.admin', 'com_redirect'))
+		{
 			$pks = array();
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 			return false;
 		}
 
-		if (!empty($pks)) {
+		if (!empty($pks))
+		{
 			// Update the link rows.
 			$db->setQuery(
 				'UPDATE '.$db->quoteName('#__redirect_links') .

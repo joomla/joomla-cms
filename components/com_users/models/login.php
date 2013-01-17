@@ -33,7 +33,8 @@ class UsersModelLogin extends JModelForm
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.login', 'login', array('load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -53,15 +54,18 @@ class UsersModelLogin extends JModelForm
 		$data	= $app->getUserState('users.login.form.data', array());
 
 		// check for return URL from the request first
-		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
+		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
+		{
 			$data['return'] = base64_decode($return);
-			if (!JURI::isInternal($data['return'])) {
+			if (!JURI::isInternal($data['return']))
+			{
 				$data['return'] = '';
 			}
 		}
 
 		// Set the return URL if empty.
-		if (!isset($data['return']) || empty($data['return'])) {
+		if (!isset($data['return']) || empty($data['return']))
+		{
 			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
 		$app->setUserState('users.login.form.data', $data);
@@ -106,12 +110,14 @@ class UsersModelLogin extends JModelForm
 		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
 
 		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true)) {
+		if (count($results) && in_array(false, $results, true))
+		{
 			// Get the last error.
 			$error = $dispatcher->getError();
 
 			// Convert to a JException if necessary.
-			if (!($error instanceof Exception)) {
+			if (!($error instanceof Exception))
+			{
 				throw new Exception($error);
 			}
 		}

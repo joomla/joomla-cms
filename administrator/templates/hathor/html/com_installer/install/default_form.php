@@ -10,37 +10,46 @@
 defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
-	Joomla.submitbutton = function(pressbutton) {
+	Joomla.submitbutton = function(pressbutton)
+	{
 		var form = document.getElementById('adminForm');
 
 		// do field validation
 		if (form.install_package.value == ""){
 			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true); ?>");
-		} else {
+		}
+		else
+		{
 			form.installtype.value = 'upload';
 			form.submit();
 		}
 	}
 
-	Joomla.submitbutton3 = function(pressbutton) {
+	Joomla.submitbutton3 = function(pressbutton)
+	{
 		var form = document.getElementById('adminForm');
 
 		// do field validation
 		if (form.install_directory.value == ""){
 			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true); ?>");
-		} else {
+		}
+		else
+		{
 			form.installtype.value = 'folder';
 			form.submit();
 		}
 	}
 
-	Joomla.submitbutton4 = function(pressbutton) {
+	Joomla.submitbutton4 = function(pressbutton)
+	{
 		var form = document.getElementById('adminForm');
 
 		// do field validation
 		if (form.install_url.value == "" || form.install_url.value == "http://"){
 			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true); ?>");
-		} else {
+		}
+		else
+		{
 			form.installtype.value = 'url';
 			form.submit();
 		}

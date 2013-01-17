@@ -27,13 +27,16 @@ class BannersModelClient extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id)) {
-				if ($record->state != -2) {
+		if (!empty($record->id))
+			{
+				if ($record->state != -2)
+				{
 					return;
 				}
 			$user = JFactory::getUser();
 
-			if (!empty($record->catid)) {
+			if (!empty($record->catid))
+			{
 				return $user->authorise('core.delete', 'com_banners.category.'.(int) $record->catid);
 			}
 			else {
@@ -53,10 +56,12 @@ class BannersModelClient extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if (!empty($record->catid)) {
+		if (!empty($record->catid))
+		{
 			return $user->authorise('core.edit.state', 'com_banners.category.'.(int) $record->catid);
 		}
-		else {
+		else
+		{
 			return $user->authorise('core.edit.state', 'com_banners');
 		}
 	}
@@ -87,7 +92,8 @@ class BannersModelClient extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_banners.client', 'client', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -105,7 +111,8 @@ class BannersModelClient extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_banners.edit.client.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
 

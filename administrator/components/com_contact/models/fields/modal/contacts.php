@@ -67,7 +67,8 @@ class JFormFieldModal_Contacts extends JFormField
 			JError::raiseWarning(500, $e->getMessage);
 		}
 
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = JText::_('COM_CONTACT_SELECT_A_CONTACT');
 		}
 
@@ -91,7 +92,8 @@ class JFormFieldModal_Contacts extends JFormField
 
 		// class='required' for client side validation
 		$class = '';
-		if ($this->required) {
+		if ($this->required)
+		{
 			$class = ' class="required modal-value"';
 		}
 

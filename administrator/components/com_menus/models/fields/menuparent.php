@@ -45,15 +45,18 @@ class JFormFieldMenuParent extends JFormFieldList
 		$query->from('#__menu AS a');
 		$query->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
-		if ($menuType = $this->form->getValue('menutype')) {
+		if ($menuType = $this->form->getValue('menutype'))
+		{
 			$query->where('a.menutype = '.$db->quote($menuType));
 		}
-		else {
+		else
+		{
 			$query->where('a.menutype != '.$db->quote(''));
 		}
 
 		// Prevent parenting to children of this item.
-		if ($id = $this->form->getValue('id')) {
+		if ($id = $this->form->getValue('id'))
+		{
 			$query->join('LEFT', $db->quoteName('#__menu').' AS p ON p.id = '.(int) $id);
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
@@ -75,7 +78,8 @@ class JFormFieldMenuParent extends JFormFieldList
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($options); $i < $n; $i++) {
+		for ($i = 0, $n = count($options); $i < $n; $i++)
+		{
 			$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 		}
 

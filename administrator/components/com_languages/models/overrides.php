@@ -241,7 +241,8 @@ class LanguagesModelOverrides extends JModelList
 			}
 		}
 
-		foreach ($strings as $key => $string) {
+		foreach ($strings as $key => $string)
+		{
 			$strings[$key] = str_replace('"', '"_QQ_"', $string);
 		}
 

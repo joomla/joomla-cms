@@ -42,7 +42,8 @@ class SearchHelper
 
 		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -60,7 +61,8 @@ class SearchHelper
 
 		// Deprecated in 1.6 use $lang->getIgnoredSearchWords instead
 		$ignoreFile		= $lang->getLanguagePath() . '/' . $tag . '/' . $tag.'.ignore.php';
-		if (file_exists($ignoreFile)) {
+		if (file_exists($ignoreFile))
+		{
 			include $ignoreFile;
 		}
 
@@ -68,20 +70,24 @@ class SearchHelper
 		$aterms = explode(' ', JString::strtolower($searchword));
 
 		// first case is single ignored word
-		if (count($aterms) == 1 && in_array(JString::strtolower($searchword), $search_ignore)) {
+		if (count($aterms) == 1 && in_array(JString::strtolower($searchword), $search_ignore))
+		{
 			$ignored = true;
 		}
 
 		// filter out search terms that are too small
 		$lower_limit = $lang->getLowerLimitSearchWord();
-		foreach($aterms as $aterm) {
-			if (JString::strlen($aterm) < $lower_limit) {
+		foreach($aterms as $aterm)
+		{
+			if (JString::strlen($aterm) < $lower_limit)
+			{
 				$search_ignore[] = $aterm;
 			}
 		}
 
 		// next is to remove ignored words from type 'all' or 'any' (not exact) searches with multiple words
-		if (count($aterms) > 1 && $searchphrase != 'exact') {
+		if (count($aterms) > 1 && $searchphrase != 'exact')
+		{
 			$pruned = array_diff($aterms, $search_ignore);
 			$searchword = implode(' ', $pruned);
 		}
@@ -100,13 +106,15 @@ class SearchHelper
 
 		// limit searchword to a maximum of characters
 		$upper_limit = $lang->getUpperLimitSearchWord();
-		if (JString::strlen($searchword) > $upper_limit) {
+		if (JString::strlen($searchword) > $upper_limit)
+		{
 			$searchword		= JString::substr($searchword, 0, $upper_limit - 1);
 			$restriction	= true;
 		}
 
 		// searchword must contain a minimum of characters
-		if ($searchword && JString::strlen($searchword) < $lang->getLowerLimitSearchWord()) {
+		if ($searchword && JString::strlen($searchword) < $lang->getLowerLimitSearchWord())
+		{
 			$searchword		= '';
 			$restriction	= true;
 		}
@@ -169,19 +177,25 @@ class SearchHelper
 				'#<[^>]*>#i'
 				);
 		$terms = explode(' ', $searchTerm);
-		if (empty($fields)) {
+		if (empty($fields))
+		{
 			return false;
 		}
-		foreach($fields as $field) {
-			if (!isset($object->$field)) {
+		foreach($fields as $field)
+		{
+			if (!isset($object->$field))
+			{
 				continue;
 			}
 			$text = $object->$field;
-			foreach($searchRegex as $regex) {
+			foreach($searchRegex as $regex)
+			{
 				$text = preg_replace($regex, '', $text);
 			}
-			foreach($terms as $term) {
-				if (JString::stristr($text, $term) !== false) {
+			foreach($terms as $term)
+			{
+				if (JString::stristr($text, $term) !== false)
+				{
 					return true;
 				}
 			}
@@ -207,23 +221,30 @@ class SearchHelper
 		$lsearchword = JString::strtolower($searchword);
 		$wordfound = false;
 		$pos = 0;
-		while ($wordfound === false && $pos < $textlen) {
-			if (($wordpos = @JString::strpos($text, ' ', $pos + $length)) !== false) {
+		while ($wordfound === false && $pos < $textlen)
+		{
+			if (($wordpos = @JString::strpos($text, ' ', $pos + $length)) !== false)
+			{
 				$chunk_size = $wordpos - $pos;
 			} else {
 				$chunk_size = $length;
 			}
 			$chunk = JString::substr($text, $pos, $chunk_size);
 			$wordfound = JString::strpos(JString::strtolower($chunk), $lsearchword);
-			if ($wordfound === false) {
+			if ($wordfound === false)
+			{
 				$pos += $chunk_size + 1;
 			}
 		}
 
-		if ($wordfound !== false) {
+		if ($wordfound !== false)
+		{
 			return (($pos > 0) ? '...&#160;' : '') . $chunk . '&#160;...';
-		} else {
-			if (($wordpos = @JString::strpos($text, ' ', $length)) !== false) {
+		}
+		else
+		{
+			if (($wordpos = @JString::strpos($text, ' ', $length)) !== false)
+			{
 				return JString::substr($text, 0, $wordpos) . '&#160;...';
 			} else {
 				return JString::substr($text, 0, $length);

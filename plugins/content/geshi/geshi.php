@@ -26,7 +26,8 @@ class plgContentGeshi extends JPlugin
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
 		// Simple performance check to determine whether bot should process further.
-		if (JString::strpos($article->text, 'pre>') === false) {
+		if (JString::strpos($article->text, 'pre>') === false)
+		{
 			return true;
 		}
 
@@ -68,7 +69,8 @@ class plgContentGeshi extends JPlugin
 		$text = str_replace("\t", '  ', $text);
 
 		$geshi = new GeSHi($text, $lang);
-		if ($lines == 'true') {
+		if ($lines == 'true')
+		{
 			$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
 		}
 		$text = $geshi->parse_code();

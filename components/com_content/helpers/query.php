@@ -156,18 +156,21 @@ class ContentHelperQuery
 	 */
 	public static function buildVotingQuery($params=null)
 	{
-		if (!$params) {
+		if (!$params)
+		{
 			$params = JComponentHelper::getParams('com_content');
 		}
 
 		$voting = $params->get('show_vote');
 
-		if ($voting) {
+		if ($voting)
+		{
 			// calculate voting count
 			$select = ' , ROUND(v.rating_sum / v.rating_count) AS rating, v.rating_count';
 			$join = ' LEFT JOIN #__content_rating AS v ON a.id = v.content_id';
 		}
-		else {
+		else
+		{
 			$select = '';
 			$join = '';
 		}
@@ -196,7 +199,8 @@ class ContentHelperQuery
 		$count = count($articles);
 
 		// just return the same array if there is nothing to change
-		if ($numColumns == 1 || !is_array($articles) || $count <= $numColumns) {
+		if ($numColumns == 1 || !is_array($articles) || $count <= $numColumns)
+		{
 			$return = $articles;
 		}
 		// we need to re-order the intro articles array
@@ -218,7 +222,8 @@ class ContentHelperQuery
 			{
 				for ($col = 1; $col <= $numColumns; $col++)
 				{
-					if ($numEmpty > ($numCells - $i)) {
+					if ($numEmpty > ($numCells - $i))
+					{
 						// put -1 in empty cells
 						$index[$row][$col] = -1;
 					}
@@ -236,7 +241,8 @@ class ContentHelperQuery
 			{
 				for ($row = 1; ($row <= $maxRows) && ($i < $count); $row++)
 				{
-					if ($index[$row][$col] != - 1) {
+					if ($index[$row][$col] != - 1)
+					{
 						$index[$row][$col] = $keys[$i];
 						$i++;
 					}

@@ -17,7 +17,8 @@ function SearchBuildRoute(&$query)
 {
 	$segments = array();
 
-	if (isset($query['view'])) {
+	if (isset($query['view']))
+	{
 		unset($query['view']);
 	}
 	return $segments;

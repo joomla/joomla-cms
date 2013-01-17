@@ -68,41 +68,50 @@ final class JSite extends JApplication
 		// otherwise use user or default language settings
 		JPluginHelper::importPlugin('system', 'languagefilter');
 
-		if (empty($options['language'])) {
+		if (empty($options['language']))
+		{
 			$lang = $this->input->getString('language', null);
-			if ($lang && JLanguage::exists($lang)) {
+			if ($lang && JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			}
 		}
 
-		if ($this->_language_filter && empty($options['language'])) {
+		if ($this->_language_filter && empty($options['language']))
+		{
 			// Detect cookie language
 			$lang = $this->input->getString(self::getHash('language'), null, 'cookie');
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang)) {
+			if ($lang && JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			}
 		}
 
-		if (empty($options['language'])) {
+		if (empty($options['language']))
+		{
 			// Detect user language
 			$lang = $user->getParam('language');
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang)) {
+			if ($lang && JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			}
 		}
 
-		if ($this->_detect_browser && empty($options['language'])) {
+		if ($this->_detect_browser && empty($options['language']))
+		{
 			// Detect browser language
 			$lang = JLanguageHelper::detectLanguage();
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang)) {
+			if ($lang && JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			}
 		}
 
-		if (empty($options['language'])) {
+		if (empty($options['language']))
+		{
 			// Detect default language
 			$params = JComponentHelper::getParams('com_languages');
 			$client	= JApplicationHelper::getClientInfo($this->getClientId());
@@ -110,9 +119,11 @@ final class JSite extends JApplication
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language'])) {
+		if (!JLanguage::exists($options['language']))
+		{
 			$lang = $config->get('language', 'en-GB');
-			if (JLanguage::exists($lang)) {
+			if (JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			}
 			else {
@@ -155,7 +166,8 @@ final class JSite extends JApplication
 	{
 
 		// Get the component if not set.
-		if (!$component) {
+		if (!$component)
+		{
 			$component = $this->input->get('option');
 		}
 
@@ -172,13 +184,15 @@ final class JSite extends JApplication
 				$languages = JLanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
-				if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey) {
+				if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey)
+				{
 					$document->setMetaData('keywords', $languages[$lang_code]->metakey);
 				} else {
 					$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
 				}
 				$document->setMetaData('rights', $this->getCfg('MetaRights'));
-				if ($router->getMode() == JROUTER_MODE_SEF) {
+				if ($router->getMode() == JROUTER_MODE_SEF)
+				{
 					$document->setBase(htmlspecialchars(JURI::current()));
 				}
 				break;
@@ -232,18 +246,21 @@ final class JSite extends JApplication
 				$template	= $this->getTemplate(true);
 				$file		= $this->input->get('tmpl', 'index');
 
-				if (!$this->getCfg('offline') && ($file == 'offline')) {
+				if (!$this->getCfg('offline') && ($file == 'offline'))
+				{
 					$file = 'index';
 				}
 
-				if ($this->getCfg('offline') && !$user->authorise('core.login.offline')) {
+				if ($this->getCfg('offline') && !$user->authorise('core.login.offline'))
+				{
 					$uri    = JURI::getInstance();
 					$return = (string) $uri;
 					$this->setUserState('users.login.form.data', array('return' => $return));
 					$file = 'offline';
 					JResponse::setHeader('Status', '503 Service Temporarily Unavailable', 'true');
 				}
-				if (!is_dir(JPATH_THEMES . '/' . $template->template) && !$this->getCfg('offline')) {
+				if (!is_dir(JPATH_THEMES . '/' . $template->template) && !$this->getCfg('offline'))
+				{
 					$file = 'component';
 				}
 				$params = array(
@@ -264,7 +281,8 @@ final class JSite extends JApplication
 		$this->triggerEvent('onBeforeRender');
 
 		$caching = false;
-		if ($this->getCfg('caching') && $this->getCfg('caching', 2) == 2 && !$user->get('id')) {
+		if ($this->getCfg('caching') && $this->getCfg('caching', 2) == 2 && !$user->get('id'))
+		{
 			$caching = true;
 		}
 
@@ -338,13 +356,15 @@ final class JSite extends JApplication
 		static $params = array();
 
 		$hash = '__default';
-		if (!empty($option)) {
+		if (!empty($option))
+		{
 			$hash = $option;
 		}
 		if (!isset($params[$hash]))
 		{
 			// Get component parameters
-			if (!$option) {
+			if (!$option)
+			{
 				$option = $this->input->get('option');
 			}
 			// Get new instance of component global parameters
@@ -359,7 +379,8 @@ final class JSite extends JApplication
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
 			$title = $this->getCfg('sitename');
-			if (isset($languages[$lang_code]) && $languages[$lang_code]->metadesc) {
+			if (isset($languages[$lang_code]) && $languages[$lang_code]->metadesc)
+			{
 				$description = $languages[$lang_code]->metadesc;
 			} else {
 				$description = $this->getCfg('MetaDesc');
@@ -367,7 +388,8 @@ final class JSite extends JApplication
 			$rights = $this->getCfg('MetaRights');
 			$robots = $this->getCfg('robots');
 			// Lets cascade the parameters if we have menu item parameters
-			if (is_object($menu)) {
+			if (is_object($menu))
+			{
 				$temp = new JRegistry;
 				$temp->loadString($menu->params);
 				$params[$hash]->merge($temp);
@@ -412,7 +434,8 @@ final class JSite extends JApplication
 	{
 		if(is_object($this->template))
 		{
-			if ($params) {
+			if ($params)
+			{
 				return $this->template;
 			}
 			return $this->template->template;
@@ -420,7 +443,8 @@ final class JSite extends JApplication
 		// Get the id of the active menu item
 		$menu = $this->getMenu();
 		$item = $menu->getActive();
-		if (!$item) {
+		if (!$item)
+		{
 			$item = $menu->getItem($this->input->getInt('Itemid'));
 		}
 
@@ -437,13 +461,16 @@ final class JSite extends JApplication
 		}
 
 		$cache = JFactory::getCache('com_templates', '');
-		if ($this->_language_filter) {
+		if ($this->_language_filter)
+		{
 			$tag = JFactory::getLanguage()->getTag();
 		}
-		else {
+		else
+		{
 			$tag = '';
 		}
-		if (!$templates = $cache->get('templates0'.$tag)) {
+		if (!$templates = $cache->get('templates0'.$tag))
+		{
 			// Load styles
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -455,24 +482,28 @@ final class JSite extends JApplication
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');
-			foreach($templates as &$template) {
+			foreach($templates as &$template)
+			{
 				$registry = new JRegistry;
 				$registry->loadString($template->params);
 				$template->params = $registry;
 
 				// Create home element
 				//sqlsrv change
-				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag) {
+				if ($template->home == 1 && !isset($templates[0]) || $this->_language_filter && $template->home == $tag)
+				{
 					$templates[0] = clone $template;
 				}
 			}
 			$cache->store($templates, 'templates0'.$tag);
 		}
 
-		if (isset($templates[$id])) {
+		if (isset($templates[$id]))
+		{
 			$template = $templates[$id];
 		}
-		else {
+		else
+		{
 			$template = $templates[0];
 		}
 
@@ -481,17 +512,20 @@ final class JSite extends JApplication
 		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well
 
 		// Fallback template
-		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php')) {
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		{
 			JError::raiseWarning(0, JText::_('JERROR_ALERTNOTEMPLATE'));
 			$template->template = 'beez3';
-			if (!file_exists(JPATH_THEMES . '/beez3/index.php')) {
+			if (!file_exists(JPATH_THEMES . '/beez3/index.php'))
+			{
 				$template->template = '';
 			}
 		}
 
 		// Cache the result
 		$this->template = $template;
-		if ($params) {
+		if ($params)
+		{
 			return $template;
 		}
 		return $template->template;
@@ -505,10 +539,12 @@ final class JSite extends JApplication
 	 */
 	public function setTemplate($template, $styleParams=null)
 	{
-		if (is_dir(JPATH_THEMES . '/' . $template)) {
+		if (is_dir(JPATH_THEMES . '/' . $template))
+		{
 			$this->template = new stdClass;
 			$this->template->template = $template;
-			if ($styleParams instanceof JRegistry) {
+			if ($styleParams instanceof JRegistry)
+			{
 				$this->template->params = $styleParams;
 			}
 			else {
@@ -633,7 +669,8 @@ final class JSite extends JApplication
 	 */
 	public function redirect($url, $msg='', $msgType='message', $moved = false, $persistMsg = true)
 	{
-		if (!$persistMsg) {
+		if (!$persistMsg)
+		{
 			$this->_messageQueue = array();
 		}
 		parent::redirect($url, $msg, $msgType, $moved);

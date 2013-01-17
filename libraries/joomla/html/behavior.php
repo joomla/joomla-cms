@@ -88,7 +88,8 @@ abstract class JHtmlBehavior
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('load', function() {
+			"window.addEvent('load', function()
+			{
 				new JCaption('" . $selector . "');
 			});"
 		);
@@ -153,7 +154,8 @@ abstract class JHtmlBehavior
 			window.addEvent('domready', function(){
 				toggler = document.id('submenu');
 				element = document.id('config-document');
-				if (element) {
+				if (element)
+				{
 					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getProperty('class')});
 				}
 			});";
@@ -239,10 +241,13 @@ abstract class JHtmlBehavior
 
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
-			$$('$selector').each(function(el) {
+			"window.addEvent('domready', function()
+		{
+			$$('$selector').each(function(el)
+			{
 				var title = el.get('title');
-				if (title) {
+				if (title)
+				{
 					var parts = title.split('::', 2);
 					el.store('tip:title', parts[0]);
 					el.store('tip:text', parts[1]);
@@ -369,7 +374,8 @@ abstract class JHtmlBehavior
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
+			"window.addEvent('domready', function()
+			{
 				new Joomla.JMultiSelect('" . $id . "');
 			});"
 		);
@@ -431,10 +437,12 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$onFileSuccess = '\\function(file, response) {
+		$onFileSuccess = '\\function(file, response)
+		{
 			var json = new Hash(JSON.decode(response, true) || {});
 
-			if (json.get(\'status\') == \'1\') {
+			if (json.get(\'status\') == \'1\')
+			{
 				file.element.addClass(\'file-success\');
 				file.info.set(\'html\', \'<strong>\' + Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_FILE_SUCCESSFULLY_UPLOADED\') + \'</strong>\');
 			} else {
@@ -494,24 +502,29 @@ abstract class JHtmlBehavior
 			$params['clearButton'] = 'upload-clear';
 		}
 
-		$opt['onLoad'] = '\\function() {
+		$opt['onLoad'] = '\\function()
+			{
 				document.id(\'' . $id
 			. '\').removeClass(\'hide\'); // we show the actual UI
 				document.id(\'upload-noflash\').destroy(); // ... and hide the plain form
 
 				// We relay the interactions with the overlayed flash to the link
 				this.target.addEvents({
-					click: function() {
+					click: function()
+					{
 						return false;
 					},
-					mouseenter: function() {
+					mouseenter: function()
+					{
 						this.addClass(\'hover\');
 					},
-					mouseleave: function() {
+					mouseleave: function()
+					{
 						this.removeClass(\'hover\');
 						this.blur();
 					},
-					mousedown: function() {
+					mousedown: function()
+					{
 						this.focus();
 					}
 				});
@@ -519,13 +532,15 @@ abstract class JHtmlBehavior
 				// Interactions for the 2 other buttons
 
 				document.id(\'' . $params['clearButton']
-			. '\').addEvent(\'click\', function() {
+			. '\').addEvent(\'click\', function()
+				{
 					Uploader.remove(); // remove all files
 					return false;
 				});
 
 				document.id(\'' . $params['startButton']
-			. '\').addEvent(\'click\', function() {
+			. '\').addEvent(\'click\', function()
+				{
 					Uploader.start(); // start upload
 					return false;
 				});
@@ -664,17 +679,20 @@ abstract class JHtmlBehavior
 			->addScriptDeclaration(
 			"window.addEvent('domready', function(){
 				var nativeColorUi = false;
-				if (Browser.opera && (Browser.version >= 11.5)) {
+				if (Browser.opera && (Browser.version >= 11.5))
+				{
 					nativeColorUi = true;
 				}
 				$$('.input-colorpicker').each(function(item){
-					if (nativeColorUi) {
+					if (nativeColorUi)
+					{
 						item.type = 'color';
 					} else {
 						new MooRainbow(item, {
 							id: item.id,
 							imgPath: '" . JURI::root(true) . "/media/system/images/mooRainbow/',
-							onComplete: function(color) {
+							onComplete: function(color)
+							{
 								this.element.value = color.hex;
 							},
 							startColor: item.value.hexToRgb(true) ? item.value.hexToRgb(true) : [0, 0, 0]
@@ -761,10 +779,12 @@ abstract class JHtmlBehavior
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
-			window.addEvent('domready', function () {
+			window.addEvent('domready', function ()
+			{
 				var start = document.id('" . $start . "');
 				var end = document.id('" . $end . "');
-				if (!start || !end || !Joomla.Highlighter) {
+				if (!start || !end || !Joomla.Highlighter)
+				{
 					return true;
 				}
 				highlighter = new Joomla.Highlighter({

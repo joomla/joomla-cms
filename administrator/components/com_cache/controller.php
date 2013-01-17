@@ -72,9 +72,12 @@ class CacheController extends JControllerLegacy
 
 		$model = $this->getModel('cache');
 
-		if(empty($cid)) {
+		if(empty($cid))
+		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
-		} else {
+		}
+		else
+		{
 			$model->cleanlist($cid);
 		}
 
@@ -92,7 +95,8 @@ class CacheController extends JControllerLegacy
 		$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED');
 		$msgType = 'message';
 
-		if ($ret === false) {
+		if ($ret === false)
+		{
 			$msg = JText::_('Error purging expired items');
 			$msgType = 'error';
 		}

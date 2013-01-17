@@ -31,7 +31,8 @@ class MessagesViewMessage extends JViewLegacy
 		$this->state	= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -47,15 +48,19 @@ class MessagesViewMessage extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		if ($this->getLayout() == 'edit') {
+		if ($this->getLayout() == 'edit')
+		{
 			JToolbarHelper::title(JText::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'new-privatemessage.png');
 			JToolbarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
 			JToolbarHelper::cancel('message.cancel');
 			JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
-		} else {
+		}
+		else
+		{
 			JToolbarHelper::title(JText::_('COM_MESSAGES_VIEW_PRIVATE_MESSAGE'), 'inbox.png');
 			$sender = JUser::getInstance($this->item->user_id_from);
-			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin')) {
+			if ($sender->authorise('core.admin') || $sender->authorise('core.manage', 'com_messages') && $sender->authorise('core.login.admin'))
+			{
 				JToolbarHelper::custom('message.reply', 'redo', null, 'COM_MESSAGES_TOOLBAR_REPLY', false);
 			}
 			JToolbarHelper::cancel('message.cancel');

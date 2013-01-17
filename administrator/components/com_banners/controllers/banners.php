@@ -61,17 +61,22 @@ class BannersControllerBanners extends JControllerAdmin
 		$task   = $this->getTask();
 		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));
-		} else {
+		}
+		else
+		{
 			// Get the model.
 			$model	= $this->getModel();
 
 			// Change the state of the records.
-			if (!$model->stick($ids, $value)) {
+			if (!$model->stick($ids, $value))
+			{
 				JError::raiseWarning(500, $model->getError());
 			} else {
-				if ($value == 1) {
+				if ($value == 1)
+				{
 					$ntext = 'COM_BANNERS_N_BANNERS_STUCK';
 				} else {
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';

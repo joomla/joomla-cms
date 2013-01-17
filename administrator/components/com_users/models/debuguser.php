@@ -57,7 +57,8 @@ class UsersModelDebugUser extends JModelList
 					$level	= $action[1];
 
 					// Check that we check this action for the level of the asset.
-					if ($action[1] === null || $action[1] >= $asset->level) {
+					if ($action[1] === null || $action[1] >= $asset->level)
+					{
 						// We need to test this action.
 						$asset->checks[$name] = JAccess::check($userId, $action[0], $asset->name);
 					}
@@ -102,7 +103,8 @@ class UsersModelDebugUser extends JModelList
 		$this->setState('filter.level_start', $levelStart);
 
 		$value = $this->getUserStateFromRequest($this->context.'.filter.level_end', 'filter_level_end', 0, 'int');
-		if ($value > 0 && $value < $levelStart) {
+		if ($value > 0 && $value < $levelStart)
+		{
 			$value = $levelStart;
 		}
 		$this->setState('filter.level_end', $value);
@@ -177,13 +179,15 @@ class UsersModelDebugUser extends JModelList
 		$query->from($db->quoteName('#__assets').' AS a');
 
 		// Filter the items over the group id if set.
-		if ($groupId = $this->getState('filter.group_id')) {
+		if ($groupId = $this->getState('filter.group_id'))
+		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
 			$query->where('map2.group_id = '.(int) $groupId);
 		}
 
 		// Filter the items over the search string if set.
-		if ($this->getState('filter.search')) {
+		if ($this->getState('filter.search'))
+		{
 			// Escape the search token.
 			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
 
@@ -199,18 +203,22 @@ class UsersModelDebugUser extends JModelList
 		// Filter on the start and end levels.
 		$levelStart	= (int) $this->getState('filter.level_start');
 		$levelEnd	= (int) $this->getState('filter.level_end');
-		if ($levelEnd > 0 && $levelEnd < $levelStart) {
+		if ($levelEnd > 0 && $levelEnd < $levelStart)
+		{
 			$levelEnd = $levelStart;
 		}
-		if ($levelStart > 0) {
+		if ($levelStart > 0)
+		{
 			$query->where('a.level >= '.$levelStart);
 		}
-		if ($levelEnd > 0) {
+		if ($levelEnd > 0)
+		{
 			$query->where('a.level <= '.$levelEnd);
 		}
 
 		// Filter the items over the component if set.
-		if ($this->getState('filter.component')) {
+		if ($this->getState('filter.component'))
+		{
 			$component = $this->getState('filter.component');
 			$query->where('(a.name = '.$db->quote($component).' OR a.name LIKE '.$db->quote($component.'.%').')');
 		}

@@ -91,13 +91,16 @@ class ConfigControllerComponent extends JControllerLegacy
 		$return = $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if ($errors[$i] instanceof Exception) {
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');

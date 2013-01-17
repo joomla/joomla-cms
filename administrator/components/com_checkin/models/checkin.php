@@ -51,22 +51,26 @@ class CheckinModelCheckin extends JModelList
 		$db			= $this->_db;
 		$nullDate	= $db->getNullDate();
 
-		if (!is_array($ids)) {
+		if (!is_array($ids))
+		{
 			return;
 		}
 
 		// this int will hold the checked item count
 		$results = 0;
 
-		foreach ($ids as $tn) {
+		foreach ($ids as $tn)
+		{
 			// make sure we get the right tables based on prefix
-			if (stripos($tn, $app->getCfg('dbprefix')) !== 0) {
+			if (stripos($tn, $app->getCfg('dbprefix')) !== 0)
+			{
 				continue;
 			}
 
 			$fields = $db->getTableColumns($tn);
 
-			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
+			{
 				continue;
 			}
 
@@ -75,12 +79,14 @@ class CheckinModelCheckin extends JModelList
 				->set('checked_out = 0')
 				->set('checked_out_time = '.$db->Quote($nullDate))
 				->where('checked_out > 0');
-			if (isset($fields[$tn]['editor'])) {
+			if (isset($fields[$tn]['editor']))
+			{
 				$query->set('editor = NULL');
 			}
 
 			$db->setQuery($query);
-			if ($db->execute()) {
+			if ($db->execute())
+			{
 				$results = $results + $db->getAffectedRows();
 			}
 		}
@@ -149,7 +155,8 @@ class CheckinModelCheckin extends JModelList
 					->where('checked_out > 0');
 
 				$db->setQuery($query);
-				if ($db->execute()) {
+				if ($db->execute())
+				{
 					$results[$tn] = $db->loadResult();
 				} else {
 					continue;

@@ -27,7 +27,8 @@ class LanguagesModelLanguages extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'lang_id', 'a.lang_id',
 				'lang_code', 'a.lang_code',
@@ -123,22 +124,26 @@ class LanguagesModelLanguages extends JModelList
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.published = '.(int) $published);
 		}
-		elseif ($published === '') {
+		elseif ($published === '')
+		{
 			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
+		if (!empty($search))
+		{
 			$search = $db->Quote('%'.$db->escape($search, true).'%', false);
 			$query->where('(a.title LIKE '.$search.')');
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = '.(int) $access);
 		}
 
@@ -181,7 +186,8 @@ class LanguagesModelLanguages extends JModelList
 		// Iterate the items to delete each one.
 		foreach ($pks as $itemId)
 		{
-			if (!$table->delete((int) $itemId)) {
+			if (!$table->delete((int) $itemId))
+			{
 				$this->setError($table->getError());
 
 				return false;

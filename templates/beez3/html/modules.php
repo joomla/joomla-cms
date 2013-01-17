@@ -64,12 +64,14 @@ function modChrome_beezTabs($module, $params, $attribs)
 	static $modulecount;
 	static $modules;
 
-	if ($modulecount < 1) {
+	if ($modulecount < 1)
+	{
 		$modulecount = count(JModuleHelper::getModules($attribs['name']));
 		$modules = array();
 	}
 
-	if ($modulecount == 1) {
+	if ($modulecount == 1)
+	{
 		$temp = new stdClass;
 		$temp->content = $module->content;
 		$temp->title = $module->title;
@@ -80,13 +82,15 @@ function modChrome_beezTabs($module, $params, $attribs)
 		// list of moduletitles
 		echo '<div id="'. $area.'" class="tabouter"><ul class="tabs">';
 
-		foreach($modules as $rendermodule) {
+		foreach($modules as $rendermodule)
+		{
 			echo '<li class="tab"><a href="#" id="link_'.$rendermodule->id.'" class="linkopen" onclick="tabshow(\'module_'. $rendermodule->id.'\');return false">'.$rendermodule->title.'</a></li>';
 		}
 		echo '</ul>';
 		$counter = 0;
 		// modulecontent
-		foreach($modules as $rendermodule) {
+		foreach($modules as $rendermodule)
+		{
 			$counter ++;
 
 			echo '<div tabindex="-1" class="tabcontent tabopen" id="module_'.$rendermodule->id.'">';

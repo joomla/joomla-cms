@@ -56,17 +56,21 @@ class WeblinksHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($categoryId)) {
+		if (empty($categoryId))
+		{
 			$assetName = 'com_weblinks';
 			$level = 'component';
-		} else {
+		}
+		else
+		{
 			$assetName = 'com_weblinks.category.'.(int) $categoryId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_weblinks', $level);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -94,12 +98,14 @@ class WeblinksHelper
 		$weblinksitems = $db->loadObjectList('language');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
-		foreach ($weblinksitems as $tag => $item) {
+		foreach ($weblinksitems as $tag => $item)
+		{
 			$associations[$tag] = $item;
 		}
 

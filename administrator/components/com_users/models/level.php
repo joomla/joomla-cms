@@ -35,7 +35,8 @@ class UsersModelLevel extends JModelAdmin
 	protected function canDelete($record)
 	{
 		// Check if the access level is being used by any content.
-		if ($this->levelsInUse === null) {
+		if ($this->levelsInUse === null)
+		{
 			// Populate the list once.
 			$this->levelsInUse = array();
 
@@ -57,7 +58,8 @@ class UsersModelLevel extends JModelAdmin
 				// We are looking for the access field.  If custom tables are using something other
 				// than the 'access' field they are on their own unfortunately.
 				// Also make sure the table prefix matches the live db prefix (eg, it is not a "bak_" table)
-				if ((strpos($table, $prefix) === 0) && (isset($fields['access']))) {
+				if ((strpos($table, $prefix) === 0) && (isset($fields['access'])))
+				{
 					// Lookup the distinct values of the field.
 					$query->clear('from')
 						->from($db->quoteName($table));
@@ -86,7 +88,8 @@ class UsersModelLevel extends JModelAdmin
 			// Ok, after all that we are ready to check the record :)
 		}
 
-		if (in_array($record->id, $this->levelsInUse)) {
+		if (in_array($record->id, $this->levelsInUse))
+		{
 			$this->setError(JText::sprintf('COM_USERS_ERROR_VIEW_LEVEL_IN_USE', $record->id, $record->title));
 
 			return false;
@@ -143,7 +146,8 @@ class UsersModelLevel extends JModelAdmin
 		// Get the form.
 		$form = $this->loadForm('com_users.level', 'level', array('control' => 'jform', 'load_data' => $loadData));
 
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -161,7 +165,8 @@ class UsersModelLevel extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_users.edit.level.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
 
@@ -190,7 +195,8 @@ class UsersModelLevel extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		if (!isset($data['rules'])) {
+		if (!isset($data['rules']))
+		{
 			$data['rules'] = array();
 		}
 

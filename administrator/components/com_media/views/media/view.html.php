@@ -40,7 +40,8 @@ class MediaViewMedia extends JViewLegacy
 		*/
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
-		window.addEvent('domready', function() {
+		window.addEvent('domready', function()
+		{
 			document.preview = SqueezeBox;
 		});");
 
@@ -50,14 +51,17 @@ class MediaViewMedia extends JViewLegacy
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
 
-		if ($config->get('enable_flash', 1)) {
+		if ($config->get('enable_flash', 1))
+		{
 			$fileTypes = $config->get('upload_extensions', 'bmp,gif,jpg,png,jpeg');
 			$types = explode(',', $fileTypes);
 			$displayTypes = '';		// this is what the user sees
 			$filterTypes = '';		// this is what controls the logic
 			$firstType = true;
-			foreach($types as $type) {
-				if(!$firstType) {
+			foreach($types as $type)
+			{
+				if(!$firstType)
+				{
 					$displayTypes .= ', ';
 					$filterTypes .= '; ';
 				} else {
@@ -82,7 +86,9 @@ class MediaViewMedia extends JViewLegacy
 		if (DIRECTORY_SEPARATOR == '\\')
 		{
 			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
-		} else {
+		}
+		else
+		{
 			$base = COM_MEDIA_BASE;
 		}
 
@@ -173,7 +179,8 @@ class MediaViewMedia extends JViewLegacy
 	{
 		$this->folders_id = null;
 		$txt = null;
-		if (isset($folder['children']) && count($folder['children'])) {
+		if (isset($folder['children']) && count($folder['children']))
+		{
 			$tmp = $this->folders;
 			$this->folders = $folder;
 			$txt = $this->loadTemplate('folders');

@@ -27,7 +27,8 @@ class RedirectModelLinks extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'old_url', 'a.old_url',
@@ -112,16 +113,20 @@ class RedirectModelLinks extends JModelList
 
 		// Filter by published state
 		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.published = '.(int) $state);
-		} elseif ($state === '') {
+		} elseif ($state === '')
+		{
 			$query->where('(a.published IN (0,1,2))');
 		}
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');

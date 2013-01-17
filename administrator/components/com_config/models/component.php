@@ -54,11 +54,13 @@ class ConfigModelComponent extends JModelForm
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		if ($path = $this->getState('component.path')) {
+		if ($path = $this->getState('component.path'))
+		{
 			// Add the search path for the admin component config.xml file.
 			JForm::addFormPath($path);
 		}
-		else {
+		else
+		{
 			// Add the search path for the admin component config.xml file.
 			JForm::addFormPath(JPATH_ADMINISTRATOR.'/components/'.$this->getState('component.option'));
 		}
@@ -72,7 +74,8 @@ class ConfigModelComponent extends JModelForm
 				'/config'
 			);
 
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -114,11 +117,13 @@ class ConfigModelComponent extends JModelForm
 		$table	= JTable::getInstance('extension');
 
 		// Save the rules.
-		if (isset($data['params']) && isset($data['params']['rules'])) {
+		if (isset($data['params']) && isset($data['params']['rules']))
+		{
 			$rules	= new JAccessRules($data['params']['rules']);
 			$asset	= JTable::getInstance('asset');
 
-			if (!$asset->loadByName($data['option'])) {
+			if (!$asset->loadByName($data['option']))
+			{
 				$root	= JTable::getInstance('asset');
 				$root->loadByName('root.1');
 				$asset->name = $data['option'];
@@ -127,7 +132,8 @@ class ConfigModelComponent extends JModelForm
 			}
 			$asset->rules = (string) $rules;
 
-			if (!$asset->check() || !$asset->store()) {
+			if (!$asset->check() || !$asset->store())
+			{
 				$this->setError($asset->getError());
 				return false;
 			}
@@ -138,7 +144,8 @@ class ConfigModelComponent extends JModelForm
 		}
 
 		// Load the previous Data
-		if (!$table->load($data['id'])) {
+		if (!$table->load($data['id']))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -146,19 +153,22 @@ class ConfigModelComponent extends JModelForm
 		unset($data['id']);
 
 		// Bind the data.
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Check the data.
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Store the data.
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 			return false;
 		}

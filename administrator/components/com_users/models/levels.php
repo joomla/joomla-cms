@@ -27,7 +27,8 @@ class UsersModelLevels extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -105,8 +106,10 @@ class UsersModelLevels extends JModelList
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
@@ -140,7 +143,8 @@ class UsersModelLevels extends JModelList
 		$table = JTable::getInstance('viewlevel');
 
 		// Load the row.
-		if (!$table->load($pk)) {
+		if (!$table->load($pk))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -173,7 +177,8 @@ class UsersModelLevels extends JModelList
 		$user 		= JFactory::getUser();
 		$conditions	= array();
 
-		if (empty($pks)) {
+		if (empty($pks))
+		{
 			return JError::raiseWarning(500, JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'));
 		}
 

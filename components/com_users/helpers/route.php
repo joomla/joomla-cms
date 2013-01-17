@@ -29,7 +29,8 @@ class UsersHelperRoute
 		static $items;
 
 		// Get the menu items for this component.
-		if (!isset($items)) {
+		if (!isset($items))
+		{
 			// Include the site app in case we are loading this from the admin.
 			require_once JPATH_SITE.'/includes/application.php';
 
@@ -39,7 +40,8 @@ class UsersHelperRoute
 			$items	= $menu->getItems('component_id', $com->id);
 
 			// If no items found, set to empty array.
-			if (!$items) {
+			if (!$items)
+			{
 				$items = array();
 			}
 		}
@@ -61,8 +63,10 @@ class UsersHelperRoute
 		$itemid	= null;
 
 		// Search for a suitable menu id.
-		foreach ($items as $item) {
-			if (isset($item->query['view']) && $item->query['view'] === 'login') {
+		foreach ($items as $item)
+		{
+			if (isset($item->query['view']) && $item->query['view'] === 'login')
+			{
 				$itemid = $item->id;
 				break;
 			}
@@ -86,8 +90,10 @@ class UsersHelperRoute
 		// Search for a suitable menu id.
 		//Menu link can only go to users own profile.
 
-		foreach ($items as $item) {
-			if (isset($item->query['view']) && $item->query['view'] === 'profile') {
+		foreach ($items as $item)
+		{
+			if (isset($item->query['view']) && $item->query['view'] === 'profile')
+			{
 				$itemid = $item->id;
 				break;
 			}
@@ -109,8 +115,10 @@ class UsersHelperRoute
 		$itemid	= null;
 
 		// Search for a suitable menu id.
-		foreach ($items as $item) {
-			if (isset($item->query['view']) && $item->query['view'] === 'registration') {
+		foreach ($items as $item)
+		{
+			if (isset($item->query['view']) && $item->query['view'] === 'registration')
+			{
 				$itemid = $item->id;
 				break;
 			}
@@ -132,8 +140,10 @@ class UsersHelperRoute
 		$itemid	= null;
 
 		// Search for a suitable menu id.
-		foreach ($items as $item) {
-			if (isset($item->query['view']) && $item->query['view'] === 'remind') {
+		foreach ($items as $item)
+		{
+			if (isset($item->query['view']) && $item->query['view'] === 'remind')
+			{
 				$itemid = $item->id;
 				break;
 			}
@@ -155,8 +165,10 @@ class UsersHelperRoute
 		$itemid	= null;
 
 		// Search for a suitable menu id.
-		foreach ($items as $item) {
-			if (isset($item->query['view']) && $item->query['view'] === 'resend') {
+		foreach ($items as $item)
+		{
+			if (isset($item->query['view']) && $item->query['view'] === 'resend')
+			{
 				$itemid = $item->id;
 				break;
 			}
@@ -178,8 +190,10 @@ class UsersHelperRoute
 		$itemid	= null;
 
 		// Search for a suitable menu id.
-		foreach ($items as $item) {
-			if (isset($item->query['view']) && $item->query['view'] === 'reset') {
+		foreach ($items as $item)
+		{
+			if (isset($item->query['view']) && $item->query['view'] === 'reset')
+			{
 				$itemid = $item->id;
 				break;
 			}

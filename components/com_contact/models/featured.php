@@ -55,7 +55,8 @@ class ContactModelFeatured extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'name', 'a.name',
@@ -81,9 +82,11 @@ class ContactModelFeatured extends JModelList
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++) {
+		for ($i = 0, $n = count($items); $i < $n; $i++)
+		{
 			$item = &$items[$i];
-			if (!isset($this->_params)) {
+			if (!isset($this->_params))
+			{
 				$params = new JRegistry;
 				$params->loadString($item->params);
 				$item->params = $params;
@@ -116,7 +119,8 @@ class ContactModelFeatured extends JModelList
 		$query->join('INNER', '#__categories AS c ON c.id = a.catid');
 		$query->where('c.access IN ('.$groups.')');
 		// Filter by category.
-		if ($categoryId = $this->getState('category.id')) {
+		if ($categoryId = $this->getState('category.id'))
+		{
 			$query->where('a.catid = '.(int) $categoryId);
 		}
 		//sqlsrv change... aliased c.published to cat_published
@@ -134,7 +138,8 @@ class ContactModelFeatured extends JModelList
 
 		// Filter by state
 		$state = $this->getState('filter.published');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.published = '.(int) $state);
 
 			// Filter by start and end dates.
@@ -147,7 +152,8 @@ class ContactModelFeatured extends JModelList
 		}
 
 		// Filter by language
-		if ($this->getState('filter.language')) {
+		if ($this->getState('filter.language'))
+		{
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 

@@ -39,7 +39,8 @@ class BannersHelper
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
 		);
-		if ($vName == 'categories') {
+		if ($vName == 'categories')
+		{
 			JToolbarHelper::title(
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
 				'banners-categories');
@@ -71,17 +72,21 @@ class BannersHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($categoryId)) {
+		if (empty($categoryId))
+		{
 			$assetName = 'com_banners';
 			$level = 'component';
-		} else {
+		}
+		else
+		{
 			$assetName = 'com_banners.category.'.(int) $categoryId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_banners', $level);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -118,21 +123,25 @@ class BannersHelper
 
 		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
-		foreach ($rows as $row) {
+		foreach ($rows as $row)
+		{
 			$purchase_type = $row->purchase_type;
 
-			if ($purchase_type < 0 && $row->cid) {
+			if ($purchase_type < 0 && $row->cid)
+			{
 				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($row->cid);
 				$purchase_type = $client->purchase_type;
 			}
 
-			if ($purchase_type < 0) {
+			if ($purchase_type < 0)
+			{
 				$params = JComponentHelper::getParams('com_banners');
 				$purchase_type = $params->get('purchase_type');
 			}
 
-			switch($purchase_type) {
+			switch($purchase_type)
+			{
 				case 1:
 					$reset = $nullDate;
 					break;

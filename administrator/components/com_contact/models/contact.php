@@ -289,8 +289,10 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id)) {
-			if ($record->published != -2) {
+		if (!empty($record->id))
+		{
+			if ($record->published != -2)
+			{
 				return;
 			}
 			$user = JFactory::getUser();
@@ -311,7 +313,8 @@ class ContactModelContact extends JModelAdmin
 		$user = JFactory::getUser();
 
 		// Check against the category.
-		if (!empty($record->catid)) {
+		if (!empty($record->catid))
+		{
 			return $user->authorise('core.edit.state', 'com_contact.category.'.(int) $record->catid);
 		}
 		// Default to component settings if category not known.
@@ -350,12 +353,14 @@ class ContactModelContact extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data)) {
+		if (!$this->canEditState((object) $data))
+		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
@@ -381,7 +386,8 @@ class ContactModelContact extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk)) {
+		if ($item = parent::getItem($pk))
+		{
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
@@ -396,10 +402,12 @@ class ContactModelContact extends JModelAdmin
 		{
 			$item->associations = array();
 
-			if ($item->id != null) {
+			if ($item->id != null)
+			{
 				$associations = ContactHelper::getAssociations($item->id);
 
-				foreach ($associations as $tag => $association) {
+				foreach ($associations as $tag => $association)
+				{
 					$item->associations[$tag] = $association->id;
 				}
 
@@ -420,11 +428,13 @@ class ContactModelContact extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_contact.edit.contact.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 
 			// Prime some default values.
-			if ($this->getState('contact.id') == 0) {
+			if ($this->getState('contact.id') == 0)
+			{
 				$app = JFactory::getApplication();
 				$data->set('catid', $app->input->get('catid', $app->getUserState('com_contact.contacts.filter.category_id'), 'int'));
 			}
@@ -535,16 +545,19 @@ class ContactModelContact extends JModelAdmin
 		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
 		$table->alias		= JApplication::stringURLSafe($table->alias);
 
-		if (empty($table->alias)) {
+		if (empty($table->alias))
+		{
 			$table->alias = JApplication::stringURLSafe($table->name);
 		}
 
-		if (empty($table->id)) {
+		if (empty($table->id))
+		{
 			// Set the values
 			$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
-			if (empty($table->ordering)) {
+			if (empty($table->ordering))
+			{
 				$db = JFactory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
 				$max = $db->loadResult();
@@ -552,7 +565,8 @@ class ContactModelContact extends JModelAdmin
 				$table->ordering = $max + 1;
 			}
 		}
-		else {
+		else
+		{
 			// Set the values
 			$table->modified	= $date->toSql();
 			$table->modified_by	= $user->get('id');
@@ -583,7 +597,8 @@ class ContactModelContact extends JModelAdmin
 		// Association content items
 		$app = JFactory::getApplication();
 		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		if ($assoc) {
+		if ($assoc)
+		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
 			// force to array (perhaps move to $this->loadFormData())
@@ -598,7 +613,8 @@ class ContactModelContact extends JModelAdmin
 			$add = false;
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data['language']) || $tag != $data['language']) {
+				if (empty($data['language']) || $tag != $data['language'])
+				{
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
@@ -608,7 +624,8 @@ class ContactModelContact extends JModelAdmin
 					$field->addAttribute('translate_label', 'false');
 				}
 			}
-			if ($add) {
+			if ($add)
+			{
 				$form->load($addform, false);
 			}
 		}
@@ -631,7 +648,8 @@ class ContactModelContact extends JModelAdmin
 		$pks = (array) $pks;
 		JArrayHelper::toInteger($pks);
 
-		if (empty($pks)) {
+		if (empty($pks))
+		{
 			$this->setError(JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
 			return false;
 		}

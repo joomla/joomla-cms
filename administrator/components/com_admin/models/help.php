@@ -49,7 +49,8 @@ class AdminModelHelp extends JModelLegacy
 	 */
 	public function &getHelpSearch()
 	{
-		if (is_null($this->help_search)) {
+		if (is_null($this->help_search))
+		{
 			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
 		}
 		return $this->help_search;
@@ -113,14 +114,16 @@ class AdminModelHelp extends JModelLegacy
 				if (preg_match('#<title>(.*?)</title>#', $buffer, $m))
 				{
 					$title = trim($m[1]);
-					if ($title) {
+					if ($title)
+					{
 						// Translate the page title
 						$title = JText::_($title);
 						// strip the extension
 						$file = preg_replace('#\.xml$|\.html$#', '', $file);
 						if ($help_search)
 						{
-							if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false) {
+							if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false)
+							{
 								// Add an item in the Table of Contents
 								$this->toc[$file] = $title;
 							}
@@ -145,7 +148,8 @@ class AdminModelHelp extends JModelLegacy
 	 */
 	public function &getLatestVersionCheck()
 	{
-		if (!$this->latest_version_check) {
+		if (!$this->latest_version_check)
+		{
 			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}

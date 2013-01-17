@@ -152,7 +152,8 @@ class CategoriesViewCategories extends JViewLegacy
 		{
 			JToolbarHelper::deleteList('', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state')) {
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('categories.trash');
 		}
 
@@ -189,7 +190,8 @@ class CategoriesViewCategories extends JViewLegacy
 			$url = JText::_($lang_help_url);
 			$lang->setDebug($debug);
 		}
-		else {
+		else
+		{
 			$url = null;
 		}
 		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);

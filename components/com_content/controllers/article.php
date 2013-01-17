@@ -33,7 +33,8 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function add()
 	{
-		if (!parent::add()) {
+		if (!parent::add())
+		{
 			// Redirect to the return page.
 			$this->setRedirect($this->getReturnPage());
 		}
@@ -53,16 +54,19 @@ class ContentControllerArticle extends JControllerForm
 		$categoryId	= JArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
 		$allow		= null;
 
-		if ($categoryId) {
+		if ($categoryId)
+		{
 			// If the category has been passed in the data or URL check it.
 			$allow	= $user->authorise('core.create', 'com_content.category.'.$categoryId);
 		}
 
-		if ($allow === null) {
+		if ($allow === null)
+		{
 			// In the absense of better information, revert to the component permissions.
 			return parent::allowAdd();
 		}
-		else {
+		else
+		{
 			return $allow;
 		}
 	}
@@ -84,20 +88,24 @@ class ContentControllerArticle extends JControllerForm
 		$asset		= 'com_content.article.'.$recordId;
 
 		// Check general edit permission first.
-		if ($user->authorise('core.edit', $asset)) {
+		if ($user->authorise('core.edit', $asset))
+		{
 			return true;
 		}
 
 		// Fallback on edit.own.
 		// First test if the permission is available.
-		if ($user->authorise('core.edit.own', $asset)) {
+		if ($user->authorise('core.edit.own', $asset))
+		{
 			// Now test the owner is the user.
 			$ownerId	= (int) isset($data['created_by']) ? $data['created_by'] : 0;
-			if (empty($ownerId) && $recordId) {
+			if (empty($ownerId) && $recordId)
+			{
 				// Need to do a lookup from the model.
 				$record		= $this->getModel()->getItem($recordId);
 
-				if (empty($record)) {
+				if (empty($record))
+				{
 					return false;
 				}
 
@@ -105,7 +113,8 @@ class ContentControllerArticle extends JControllerForm
 			}
 
 			// If the owner matches 'me' then do the test.
-			if ($ownerId == $userId) {
+			if ($ownerId == $userId)
+			{
 				return true;
 			}
 		}
@@ -181,7 +190,8 @@ class ContentControllerArticle extends JControllerForm
 		$append = '';
 
 		// Setup redirect info.
-		if ($tmpl) {
+		if ($tmpl)
+		{
 			$append .= '&tmpl='.$tmpl;
 		}
 
@@ -191,7 +201,8 @@ class ContentControllerArticle extends JControllerForm
 //		}
 		$append .= '&layout=edit';
 
-		if ($recordId) {
+		if ($recordId)
+		{
 			$append .= '&'.$urlVar.'='.$recordId;
 		}
 
@@ -199,15 +210,18 @@ class ContentControllerArticle extends JControllerForm
 		$return	= $this->getReturnPage();
 		$catId  = $this->input->getInt('catid', null, 'get');
 
-		if ($itemId) {
+		if ($itemId)
+		{
 			$append .= '&Itemid='.$itemId;
 		}
 
-		if($catId) {
+		if($catId)
+		{
 			$append .= '&catid='.$catId;
 		}
 
-		if ($return) {
+		if ($return)
+		{
 			$append .= '&return='.base64_encode($return);
 		}
 
@@ -226,10 +240,12 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$return = $this->input->get('return', null, 'base64');
 
-		if (empty($return) || !JUri::isInternal(base64_decode($return))) {
+		if (empty($return) || !JUri::isInternal(base64_decode($return)))
+		{
 			return JURI::base();
 		}
-		else {
+		else
+		{
 			return base64_decode($return);
 		}
 	}
@@ -247,7 +263,8 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$task = $this->getTask();
 
-		if ($task == 'save') {
+		if ($task == 'save')
+		{
 			$this->setRedirect(JRoute::_('index.php?option=com_content&view=category&id='.$validData['catid'], false));
 		}
 	}
@@ -269,7 +286,8 @@ class ContentControllerArticle extends JControllerForm
 		$result = parent::save($key, $urlVar);
 
 		// If ok, redirect to the return page.
-		if ($result) {
+		if ($result)
+		{
 			$this->setRedirect($this->getReturnPage());
 		}
 
@@ -289,13 +307,15 @@ class ContentControllerArticle extends JControllerForm
 
 		$user_rating = $this->input->getInt('user_rating', -1);
 
-		if ( $user_rating > -1 ) {
+		if ( $user_rating > -1 )
+		{
 			$url = $this->input->getString('url', '');
 			$id = $this->input->getInt('id', 0);
 			$viewName = $this->input->getString('view', $this->default_view);
 			$model = $this->getModel($viewName);
 
-			if ($model->storeVote($id, $user_rating)) {
+			if ($model->storeVote($id, $user_rating))
+			{
 				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
 			} else {
 				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));

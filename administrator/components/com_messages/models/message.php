@@ -71,7 +71,8 @@ class MessagesModelMessage extends JModelAdmin
 	{
 		if (!isset($this->item))
 		{
-			if ($this->item = parent::getItem($pk)) {
+			if ($this->item = parent::getItem($pk))
+			{
 				// Prime required properties.
 				if (empty($this->item->message_id))
 				{
@@ -98,7 +99,8 @@ class MessagesModelMessage extends JModelAdmin
 
 						$this->item->set('user_id_to', $message->user_id_from);
 						$re = JText::_('COM_MESSAGES_RE');
-						if (stripos($message->subject, $re) !== 0) {
+						if (stripos($message->subject, $re) !== 0)
+						{
 							$this->item->set('subject', $re.$message->subject);
 						}
 					}
@@ -120,7 +122,8 @@ class MessagesModelMessage extends JModelAdmin
 			}
 
 			// Get the user name for an existing messasge.
-			if ($this->item->user_id_from && $fromUser = new JUser($this->item->user_id_from)) {
+			if ($this->item->user_id_from && $fromUser = new JUser($this->item->user_id_from))
+			{
 				$this->item->set('from_user_name', $fromUser->name);
 			}
 		}
@@ -139,7 +142,8 @@ class MessagesModelMessage extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_messages.message', 'message', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -157,7 +161,8 @@ class MessagesModelMessage extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_messages.edit.message.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
 
@@ -176,21 +181,25 @@ class MessagesModelMessage extends JModelAdmin
 		$table = $this->getTable();
 
 		// Bind the data.
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Assign empty values.
-		if (empty($table->user_id_from)) {
+		if (empty($table->user_id_from))
+		{
 			$table->user_id_from = JFactory::getUser()->get('id');
 		}
-		if ((int) $table->date_time == 0) {
+		if ((int) $table->date_time == 0)
+		{
 			$table->date_time = JFactory::getDate()->toSql();
 		}
 
 		// Check the data.
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -199,23 +208,27 @@ class MessagesModelMessage extends JModelAdmin
 		$model = JModelLegacy::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
-		if (empty($config)) {
+		if (empty($config))
+		{
 			$this->setError($model->getError());
 			return false;
 		}
 
-		if ($config->get('locked', false)) {
+		if ($config->get('locked', false))
+		{
 			$this->setError(JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
 			return false;
 		}
 
 		// Store the data.
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
-		if ($config->get('mail_on_new', true)) {
+		if ($config->get('mail_on_new', true))
+		{
 			// Load the user details (already valid from table check).
 			$fromUser = JUser::getInstance($table->user_id_from);
 			$toUser = JUser::getInstance($table->user_id_to);

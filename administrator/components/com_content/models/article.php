@@ -170,8 +170,10 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id)) {
-			if ($record->state != -2) {
+		if (!empty($record->id))
+		{
+			if ($record->state != -2)
+			{
 				return;
 			}
 			$user = JFactory::getUser();
@@ -192,11 +194,13 @@ class ContentModelArticle extends JModelAdmin
 		$user = JFactory::getUser();
 
 		// Check for existing article.
-		if (!empty($record->id)) {
+		if (!empty($record->id))
+		{
 			return $user->authorise('core.edit.state', 'com_content.article.'.(int) $record->id);
 		}
 		// New article, so check against the category.
-		elseif (!empty($record->catid)) {
+		elseif (!empty($record->catid))
+		{
 			return $user->authorise('core.edit.state', 'com_content.category.'.(int) $record->catid);
 		}
 		// Default to component settings if neither article nor category known.
@@ -217,7 +221,8 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();
-		if($table->state == 1 && (int) $table->publish_up == 0) {
+		if($table->state == 1 && (int) $table->publish_up == 0)
+		{
 			$table->publish_up = JFactory::getDate()->toSql();
 		}
 
@@ -230,7 +235,8 @@ class ContentModelArticle extends JModelAdmin
 		$table->version++;
 
 		// Reorder the articles within the category so the new article is first
-		if (empty($table->id)) {
+		if (empty($table->id))
+		{
 			$table->reorder('catid = '.(int) $table->catid.' AND state >= 0');
 		}
 	}
@@ -258,7 +264,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk)) {
+		if ($item = parent::getItem($pk))
+		{
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->attribs);
@@ -290,10 +297,12 @@ class ContentModelArticle extends JModelAdmin
 		{
 			$item->associations = array();
 
-			if ($item->id != null) {
+			if ($item->id != null)
+			{
 				$associations = ContentHelper::getAssociations($item->id);
 
-				foreach ($associations as $tag => $association) {
+				foreach ($associations as $tag => $association)
+				{
 					$item->associations[$tag] = $association->id;
 				}
 
@@ -316,7 +325,8 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 		$jinput = JFactory::getApplication()->input;
@@ -386,11 +396,13 @@ class ContentModelArticle extends JModelAdmin
 		$app  = JFactory::getApplication();
 		$data = $app->getUserState('com_content.edit.article.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 
 			// Prime some default values.
-			if ($this->getState('article.id') == 0) {
+			if ($this->getState('article.id') == 0)
+			{
 				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
 			}
 		}
@@ -434,7 +446,8 @@ class ContentModelArticle extends JModelAdmin
 
 		if (parent::save($data)) {
 
-			if (isset($data['featured'])) {
+			if (isset($data['featured']))
+			{
 				$this->featured($this->getState($this->getName().'.id'), $data['featured']);
 			}
 
@@ -449,7 +462,8 @@ class ContentModelArticle extends JModelAdmin
 
 				foreach ($associations as $tag => $id)
 				{
-					if (empty($id)) {
+					if (empty($id))
+					{
 						unset($associations[$tag]);
 					}
 				}
@@ -457,7 +471,8 @@ class ContentModelArticle extends JModelAdmin
 				// Detecting all item menus
 				$all_language = $item->language == '*';
 
-				if ($all_language && !empty($associations)) {
+				if ($all_language && !empty($associations))
+				{
 					JError::raiseNotice(403, JText::_('COM_CONTENT_ERROR_ALL_LANGUAGE_ASSOCIATED'));
 				}
 
@@ -472,25 +487,29 @@ class ContentModelArticle extends JModelAdmin
 				$db->setQuery($query);
 				$db->execute();
 
-				if ($error = $db->getErrorMsg()) {
+				if ($error = $db->getErrorMsg())
+				{
 					$this->setError($error);
 					return false;
 				}
 
-				if (!$all_language && count($associations)) {
+				if (!$all_language && count($associations))
+				{
 					// Adding new association for these items
 					$key = md5(json_encode($associations));
 					$query->clear();
 					$query->insert('#__associations');
 
-					foreach ($associations as $tag => $id) {
+					foreach ($associations as $tag => $id)
+					{
 						$query->values($id.','.$db->quote('com_content.item') . ',' . $db->quote($key));
 					}
 
 					$db->setQuery($query);
 					$db->execute();
 
-					if ($error = $db->getErrorMsg()) {
+					if ($error = $db->getErrorMsg())
+					{
 						$this->setError($error);
 						return false;
 					}
@@ -517,7 +536,8 @@ class ContentModelArticle extends JModelAdmin
 		$pks = (array) $pks;
 		JArrayHelper::toInteger($pks);
 
-		if (empty($pks)) {
+		if (empty($pks))
+		{
 			$this->setError(JText::_('COM_CONTENT_NO_ITEM_SELECTED'));
 			return false;
 		}
@@ -559,10 +579,12 @@ class ContentModelArticle extends JModelAdmin
 
 				// Featuring.
 				$tuples = array();
-				foreach ($new_featured as $pk) {
+				foreach ($new_featured as $pk)
+				{
 					$tuples[] = '('.$pk.', 0)';
 				}
-				if (count($tuples)) {
+				if (count($tuples))
+				{
 					$db->setQuery(
 						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
@@ -571,7 +593,8 @@ class ContentModelArticle extends JModelAdmin
 				}
 			}
 
-		} catch (Exception $e) {
+		} catch (Exception $e)
+		{
 			$this->setError($e->getMessage());
 			return false;
 		}
@@ -611,7 +634,8 @@ class ContentModelArticle extends JModelAdmin
 		// Association content items
 		$app = JFactory::getApplication();
 		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		if ($assoc) {
+		if ($assoc)
+		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
 			// force to array (perhaps move to $this->loadFormData())
@@ -626,7 +650,8 @@ class ContentModelArticle extends JModelAdmin
 			$add = false;
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data['language']) || $tag != $data['language']) {
+				if (empty($data['language']) || $tag != $data['language'])
+				{
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
@@ -636,7 +661,8 @@ class ContentModelArticle extends JModelAdmin
 					$field->addAttribute('translate_label', 'false');
 				}
 			}
-			if ($add) {
+			if ($add)
+			{
 				$form->load($addform, false);
 			}
 		}

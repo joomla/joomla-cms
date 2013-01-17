@@ -65,8 +65,10 @@ class JFormFieldFilters extends JFormField
 		// The table body.
 		$html[] = '	<tbody>';
 
-		foreach ($groups as $group) {
-			if (!isset($this->value[$group->value])) {
+		foreach ($groups as $group)
+		{
+			if (!isset($this->value[$group->value]))
+			{
 				$this->value[$group->value] = array('filter_type' => 'BL', 'filter_tags' => '', 'filter_attributes' => '');
 			}
 			$group_filter = $this->value[$group->value];

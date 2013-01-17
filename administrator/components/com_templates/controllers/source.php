@@ -103,12 +103,14 @@ class TemplatesControllerSource extends JControllerLegacy
 		$recordId	= JRequest::getVar('id');
 		$context	= 'com_templates.edit.source';
 
-		if (preg_match('#\.\.#', base64_decode($recordId))) {
+		if (preg_match('#\.\.#', base64_decode($recordId)))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 		}
 
 		// Access check.
-		if (!$this->allowEdit()) {
+		if (!$this->allowEdit())
+		{
 			return JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 		}
 
@@ -155,18 +157,22 @@ class TemplatesControllerSource extends JControllerLegacy
 		$model   = $this->getModel();
 
 		// Access check.
-		if (!$this->allowSave()) {
+		if (!$this->allowSave())
+		{
 			return JError::raiseWarning(403, JText::_('JERROR_SAVE_NOT_PERMITTED'));
 		}
 
 		// Match the stored id's with the submitted.
-		if (empty($data['extension_id']) || empty($data['filename'])) {
+		if (empty($data['extension_id']) || empty($data['filename']))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		elseif ($data['extension_id'] != $model->getState('extension.id')) {
+		elseif ($data['extension_id'] != $model->getState('extension.id'))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		elseif ($data['filename'] != $model->getState('filename')) {
+		elseif ($data['filename'] != $model->getState('filename'))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
 
@@ -188,7 +194,8 @@ class TemplatesControllerSource extends JControllerLegacy
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if ($errors[$i] instanceof Exception) {
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else {

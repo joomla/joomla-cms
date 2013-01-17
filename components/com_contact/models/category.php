@@ -56,7 +56,8 @@ class ContactModelCategory extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'name', 'a.name',
@@ -86,9 +87,11 @@ class ContactModelCategory extends JModelList
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++) {
+		for ($i = 0, $n = count($items); $i < $n; $i++)
+		{
 			$item = &$items[$i];
-			if (!isset($this->_params)) {
+			if (!isset($this->_params))
+			{
 				$params = new JRegistry;
 				$params->loadString($item->params);
 				$item->params = $params;
@@ -138,7 +141,8 @@ class ContactModelCategory extends JModelList
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
-		if ($categoryId = $this->getState('category.id')) {
+		if ($categoryId = $this->getState('category.id'))
+		{
 			$query->where('a.catid = '.(int) $categoryId);
 			$query->where('c.access IN ('.$groups.')');
 		}
@@ -152,7 +156,8 @@ class ContactModelCategory extends JModelList
 
 		// Filter by state
 		$state = $this->getState('filter.published');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.published = '.(int) $state);
 		}
 		// Filter by start and end dates.
@@ -173,16 +178,20 @@ class ContactModelCategory extends JModelList
 		}
 
 		// Filter by language
-		if ($this->getState('filter.language')) {
+		if ($this->getState('filter.language'))
+		{
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
 		// Set sortname ordering if selected
-		if ($this->getState('list.ordering') == 'sortname') {
+		if ($this->getState('list.ordering') == 'sortname')
+		{
 			$query->order($db->escape('a.sortname1').' '.$db->escape($this->getState('list.direction', 'ASC')));
 			$query->order($db->escape('a.sortname2').' '.$db->escape($this->getState('list.direction', 'ASC')));
 			$query->order($db->escape('a.sortname3').' '.$db->escape($this->getState('list.direction', 'ASC')));
-		} else {
+		}
+		else
+		{
 			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 		}
 
@@ -222,20 +231,23 @@ class ContactModelCategory extends JModelList
 
 		// Get list ordering default from the parameters
 		$menuParams = new JRegistry;
-		if ($menu = $app->getMenu()->getActive()) {
+		if ($menu = $app->getMenu()->getActive())
+		{
 			$menuParams->loadString($menu->params);
 		}
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
 
 		$orderCol	= $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
-		if (!in_array($orderCol, $this->filter_fields)) {
+		if (!in_array($orderCol, $this->filter_fields))
+		{
 			$orderCol = 'ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder	= $app->input->get('filter_order_Dir', 'ASC');
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		{
 			$listOrder = 'ASC';
 		}
 		$this->setState('list.direction', $listOrder);

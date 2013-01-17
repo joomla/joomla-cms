@@ -43,7 +43,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
@@ -60,7 +61,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 */
 	public function publish()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
@@ -77,7 +79,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 */
 	public function reorder()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
@@ -94,7 +97,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
@@ -111,7 +115,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 */
 	public function checkin()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}

@@ -70,7 +70,8 @@ class LanguagesModelLanguage extends JModelAdmin
 		$return = $table->load($langId);
 
 		// Check for a table object error.
-		if ($return === false && $table->getError()) {
+		if ($return === false && $table->getError())
+		{
 			$this->setError($table->getError());
 			return $false;
 		}
@@ -94,7 +95,8 @@ class LanguagesModelLanguage extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_languages.language', 'language', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -112,7 +114,8 @@ class LanguagesModelLanguage extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_languages.edit.language.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
 
@@ -138,19 +141,22 @@ class LanguagesModelLanguage extends JModelAdmin
 		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
-		if ($langId > 0) {
+		if ($langId > 0)
+		{
 			$table->load($langId);
 			$isNew = false;
 		}
 
 		// Bind the data
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Check the data
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -159,13 +165,15 @@ class LanguagesModelLanguage extends JModelAdmin
 		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_languages.language', &$table, $isNew));
 
 		// Check the event responses.
-		if (in_array(false, $result, true)) {
+		if (in_array(false, $result, true))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Store the data
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 			return false;
 		}

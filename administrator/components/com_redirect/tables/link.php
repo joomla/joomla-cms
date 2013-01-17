@@ -43,19 +43,22 @@ class RedirectTableLink extends JTable
 		$this->new_url = trim($this->new_url);
 
 		// Check for valid name.
-		if (empty($this->old_url)) {
+		if (empty($this->old_url))
+		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_SOURCE_URL_REQUIRED'));
 			return false;
 		}
 
 		// Check for valid name.
-		if (empty($this->new_url)) {
+		if (empty($this->new_url))
+		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DESTINATION_URL_REQUIRED'));
 			return false;
 		}
 
 		// Check for duplicates
-		if ($this->old_url == $this->new_url) {
+		if ($this->old_url == $this->new_url)
+		{
 			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_URLS'));
 			return false;
 		}
@@ -90,10 +93,13 @@ class RedirectTableLink extends JTable
 	{
 		$date = JFactory::getDate()->toSql();
 
-		if ($this->id) {
+		if ($this->id)
+		{
 			// Existing item
 			$this->modified_date = $date;
-		} else {
+		}
+		else
+		{
 			// New record.
 			$this->created_date = $date;
 		}

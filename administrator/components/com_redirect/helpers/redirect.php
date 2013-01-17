@@ -43,7 +43,8 @@ class RedirectHelper
 
 		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 

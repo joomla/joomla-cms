@@ -63,7 +63,8 @@ class JAdministrator extends JApplication
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang)) {
+			if ($lang && JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			} else {
 				$params = JComponentHelper::getParams('com_languages');
@@ -73,9 +74,11 @@ class JAdministrator extends JApplication
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language'])) {
+		if (!JLanguage::exists($options['language']))
+		{
 			$lang = $config->get('language', 'en-GB');
-			if (JLanguage::exists($lang)) {
+			if (JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			} else {
 				$options['language'] = 'en-GB'; // as a last ditch fail to english
@@ -100,7 +103,8 @@ class JAdministrator extends JApplication
 	{
 		$uri = JURI::getInstance();
 
-		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') {
+		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
+		{
 			//forward to https
 			$uri->setScheme('https');
 			$this->redirect((string) $uri);
@@ -133,14 +137,16 @@ class JAdministrator extends JApplication
 	 */
 	public function dispatch($component = null)
 	{
-		if ($component === null) {
+		if ($component === null)
+		{
 			$component = JAdministratorHelper::findOption();
 		}
 
 		$document	= JFactory::getDocument();
 		$user		= JFactory::getUser();
 
-		switch ($document->getType()) {
+		switch ($document->getType())
+		{
 			case 'html':
 				$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
 				break;
@@ -173,7 +179,8 @@ class JAdministrator extends JApplication
 		$template	= $this->getTemplate(true);
 		$file		= $this->input->get('tmpl', 'index');
 
-		if ($component == 'com_login') {
+		if ($component == 'com_login')
+		{
 			$file = 'login';
 		}
 
@@ -181,7 +188,8 @@ class JAdministrator extends JApplication
 		$config		= JFactory::getConfig();
 		$rootUser	= $config->get('root_user');
 		if (property_exists('JConfig', 'root_user') &&
-				(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)) {
+				(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+		{
 			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}
 
@@ -220,7 +228,8 @@ class JAdministrator extends JApplication
 		$options['autoregister'] = false;
 
 		//Set the application login entry point
-		if (!array_key_exists('entry_url', $options)) {
+		if (!array_key_exists('entry_url', $options))
+		{
 			$options['entry_url'] = JURI::base().'index.php?option=com_users&task=login';
 		}
 
@@ -278,7 +287,8 @@ class JAdministrator extends JApplication
 				$template->template = 'isis';
 			}
 		}
-		if ($params) {
+		if ($params)
+		{
 			return $template;
 		}
 
@@ -307,16 +317,20 @@ class JAdministrator extends JApplication
 		$config = $db->loadObject();
 
 		// check if auto_purge value set
-		if (is_object($config) and $config->cfg_name == 'auto_purge') {
+		if (is_object($config) and $config->cfg_name == 'auto_purge')
+		{
 			$purge	= $config->cfg_value;
-		} else {
+		}
+		else
+		{
 			// if no value set, default is 7 days
 			$purge	= 7;
 		}
 		// calculation of past date
 
 		// if purge value is not 0, then allow purging of old messages
-		if ($purge > 0) {
+		if ($purge > 0)
+		{
 			// purge old messages at day set in message configuration
 			$past = JFactory::getDate(time() - $purge * 86400);
 			$pastStamp = $past->toSql();

@@ -59,9 +59,12 @@ class MenusControllerMenus extends JControllerLegacy
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
-		if (!is_array($cid) || count($cid) < 1) {
+		if (!is_array($cid) || count($cid) < 1)
+		{
 			JError::raiseWarning(500, JText::_('COM_MENUS_NO_MENUS_SELECTED'));
-		} else {
+		}
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
@@ -70,7 +73,8 @@ class MenusControllerMenus extends JControllerLegacy
 			JArrayHelper::toInteger($cid);
 
 			// Remove the items.
-			if (!$model->delete($cid)) {
+			if (!$model->delete($cid))
+			{
 				$this->setMessage($model->getError());
 			} else {
 			$this->setMessage(JText::plural('COM_MENUS_N_MENUS_DELETED', count($cid)));
@@ -93,11 +97,14 @@ class MenusControllerMenus extends JControllerLegacy
 
 		$model = $this->getModel('Item');
 
-		if ($model->rebuild()) {
+		if ($model->rebuild())
+		{
 			// Reorder succeeded.
 			$this->setMessage(JText::_('JTOOLBAR_REBUILD_SUCCESS'));
 			return true;
-		} else {
+		}
+		else
+		{
 			// Rebuild failed.
 			$this->setMessage(JText::sprintf('JTOOLBAR_REBUILD_FAILED', $model->getMessage()));
 			return false;
@@ -140,16 +147,19 @@ class MenusControllerMenus extends JControllerLegacy
 			return JError::raiseWarning(500, $e->getMessage());
 		}
 
-		foreach ($items as $item) {
+		foreach ($items as $item)
+		{
 			// Parse the link.
 			parse_str(parse_url($item->link, PHP_URL_QUERY), $parts);
 
 			// Tease out the option.
-			if (isset($parts['option'])) {
+			if (isset($parts['option']))
+			{
 				$option = $parts['option'];
 
 				// Lookup the component ID
-				if (isset($components[$option])) {
+				if (isset($components[$option]))
+				{
 					$componentId = $components[$option];
 				} else {
 					// Mismatch. Needs human intervention.
@@ -157,7 +167,8 @@ class MenusControllerMenus extends JControllerLegacy
 				}
 
 				// Check for mis-matched component id's in the menu link.
-				if ($item->component_id != $componentId) {
+				if ($item->component_id != $componentId)
+				{
 					// Update the menu table.
 					$log = "Link $item->id refers to $item->component_id, converting to $componentId ($item->link)";
 					echo "<br/>$log";

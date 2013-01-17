@@ -80,7 +80,8 @@ class BannersModelBanners extends JModelList
 		$query->where('('.$query->currentTimestamp().' <= a.publish_down OR a.publish_down = '.$nullDate.')');
 		$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 
-		if ($cid) {
+		if ($cid)
+		{
 			$query->join('LEFT', '#__categories as cat ON a.catid = cat.id');
 			$query->where('a.cid = ' . (int) $cid);
 			$query->where('cl.state = 1');
@@ -90,14 +91,16 @@ class BannersModelBanners extends JModelList
 		$categoryId = $this->getState('filter.category_id');
 		$catid		= $this->getState('filter.category_id', array());
 
-		if (is_numeric($categoryId)) {
+		if (is_numeric($categoryId))
+		{
 			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
 
 			// Add subcategory check
 			$includeSubcategories = $this->getState('filter.subcategories', false);
 			$categoryEquals = 'a.catid '.$type.(int) $categoryId;
 
-			if ($includeSubcategories) {
+			if ($includeSubcategories)
+			{
 				$levels = (int) $this->getState('filter.max_category_levels', '1');
 				// Create a subquery for the subcategory list
 				$subQuery = $db->getQuery(true);
@@ -114,17 +117,21 @@ class BannersModelBanners extends JModelList
 				$query->where($categoryEquals);
 			}
 		}
-		elseif ((is_array($categoryId)) && (count($categoryId) > 0)) {
+		elseif ((is_array($categoryId)) && (count($categoryId) > 0))
+		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
-			if($categoryId != '0') {
+			if($categoryId != '0')
+			{
 				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
 				$query->where('a.catid '.$type.' ('.$categoryId.')');
 			}
 		}
 
-		if ($tagSearch) {
-			if (count($keywords) == 0) {
+		if ($tagSearch)
+		{
+			if (count($keywords) == 0)
+			{
 				$query->where('0');
 			}
 			else {
@@ -139,11 +146,13 @@ class BannersModelBanners extends JModelList
 
 					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
-					if ($cid) {
+					if ($cid)
+					{
 						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
-					if ($catid) {
+					if ($catid)
+					{
 						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
@@ -155,7 +164,8 @@ class BannersModelBanners extends JModelList
 		}
 
 		// Filter by language
-		if ($this->getState('filter.language')) {
+		if ($this->getState('filter.language'))
+		{
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
@@ -171,7 +181,8 @@ class BannersModelBanners extends JModelList
 	 */
 	public function getItems()
 	{
-		if (!isset($this->cache['items'])) {
+		if (!isset($this->cache['items']))
+		{
 			$this->cache['items'] = parent::getItems();
 
 			foreach ($this->cache['items'] as &$item)
@@ -218,16 +229,19 @@ class BannersModelBanners extends JModelList
 
 			// track impressions
 			$trackImpressions = $item->track_impressions;
-			if ($trackImpressions < 0 && $item->cid) {
+			if ($trackImpressions < 0 && $item->cid)
+			{
 				$trackImpressions = $item->client_track_impressions;
 			}
 
-			if ($trackImpressions < 0) {
+			if ($trackImpressions < 0)
+			{
 				$config = JComponentHelper::getParams('com_banners');
 				$trackImpressions = $config->get('track_impressions');
 			}
 
-			if ($trackImpressions > 0) {
+			if ($trackImpressions > 0)
+			{
 				// is track already created ?
 				$query->clear();
 				$query->select($db->quoteName('count'));
@@ -251,7 +265,8 @@ class BannersModelBanners extends JModelList
 
 				$query->clear();
 
-				if ($count) {
+				if ($count)
+				{
 					// update count
 					$query->update('#__banner_tracks');
 					$query->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)');

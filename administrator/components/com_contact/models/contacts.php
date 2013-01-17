@@ -26,7 +26,8 @@ class ContactModelContacts extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'name', 'a.name',
@@ -93,7 +94,8 @@ class ContactModelContacts extends JModelList
 
 		// force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
-		if (!empty($forcedLanguage)) {
+		if (!empty($forcedLanguage))
+		{
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
@@ -182,7 +184,8 @@ class ContactModelContacts extends JModelList
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = ' . (int) $access);
 		}
 
@@ -195,19 +198,23 @@ class ContactModelContacts extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.published = ' . (int) $published);
 		}
-		elseif ($published === '') {
+		elseif ($published === '')
+		{
 			$query->where('(a.published = 0 OR a.published = 1)');
 		}
 
 		// Filter by a single or group of categories.
 		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId)) {
+		if (is_numeric($categoryId))
+		{
 			$query->where('a.catid = '.(int) $categoryId);
 		}
-		elseif (is_array($categoryId)) {
+		elseif (is_array($categoryId))
+		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN ('.$categoryId.')');
@@ -215,11 +222,14 @@ class ContactModelContacts extends JModelList
 
 		// Filter by search in name.
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0) {
+			elseif (stripos($search, 'author:') === 0)
+			{
 				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
@@ -230,14 +240,16 @@ class ContactModelContacts extends JModelList
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'a.name');
 		$orderDirn	= $this->state->get('list.direction', 'asc');
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
 			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
 		$query->order($db->escape($orderCol.' '.$orderDirn));

@@ -59,7 +59,8 @@ class LoginController extends JControllerLegacy
 
 		$result = $app->login($credentials, array('action' => 'core.login.admin'));
 
-		if (!($result instanceof Exception)) {
+		if (!($result instanceof Exception))
+		{
 			$app->redirect($return);
 		}
 
@@ -85,7 +86,8 @@ class LoginController extends JControllerLegacy
 
 		$result = $app->logout($userid, $options);
 
-		if (!($result instanceof Exception)) {
+		if (!($result instanceof Exception))
+		{
 			$model 	= $this->getModel('login');
 			$return = $model->getState('return');
 			$app->redirect($return);

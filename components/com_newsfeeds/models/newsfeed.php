@@ -68,11 +68,13 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	{
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
 
-		if ($this->_item === null) {
+		if ($this->_item === null)
+		{
 			$this->_item = array();
 		}
 
-		if (!isset($this->_item[$pk])) {
+		if (!isset($this->_item[$pk]))
+		{
 			try
 			{
 				$db = $this->getDbo();
@@ -102,7 +104,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
-				if (is_numeric($published)) {
+				if (is_numeric($published))
+				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')');
 					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 					$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
@@ -119,7 +122,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived))) {
+				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
+				{
 					JError::raiseError(404, JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'));
 				}
 
@@ -134,7 +138,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				$data->metadata = $registry;
 
 				// Compute access permissions.
-				if ($access = $this->getState('filter.access')) {
+				if ($access = $this->getState('filter.access'))
+				{
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}

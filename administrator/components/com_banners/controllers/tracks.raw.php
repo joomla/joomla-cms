@@ -57,7 +57,8 @@ class BannersControllerTracks extends JControllerLegacy
 		$vFormat	= 'raw';
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat))
+		{
 			// Get the model for the view.
 			$model = $this->getModel($vName);
 

@@ -33,13 +33,16 @@ class WeblinksModelWeblink extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id)) {
-			if ($record->state != -2) {
+		if (!empty($record->id))
+		{
+			if ($record->state != -2)
+			{
 				return;
 			}
 			$user = JFactory::getUser();
 
-			if ($record->catid) {
+			if ($record->catid)
+			{
 				return $user->authorise('core.delete', 'com_weblinks.category.'.(int) $record->catid);
 			}
 			else {
@@ -59,10 +62,12 @@ class WeblinksModelWeblink extends JModelAdmin
 	{
 		$user = JFactory::getUser();
 
-		if (!empty($record->catid)) {
+		if (!empty($record->catid))
+		{
 			return $user->authorise('core.edit.state', 'com_weblinks.category.'.(int) $record->catid);
 		}
-		else {
+		else
+		{
 			return parent::canEditState($record);
 		}
 	}
@@ -94,21 +99,26 @@ class WeblinksModelWeblink extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_weblinks.weblink', 'weblink', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
 		// Determine correct permissions to check.
-		if ($this->getState('weblink.id')) {
+		if ($this->getState('weblink.id'))
+		{
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		} else {
+		}
+		else
+		{
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data)) {
+		if (!$this->canEditState((object) $data))
+		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('state', 'disabled', 'true');
@@ -137,7 +147,8 @@ class WeblinksModelWeblink extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_weblinks.edit.weblink.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 
 			// Prime some default values.
@@ -193,7 +204,8 @@ class WeblinksModelWeblink extends JModelAdmin
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
 		$table->alias		= JApplication::stringURLSafe($table->alias);
 
-		if (empty($table->alias)) {
+		if (empty($table->alias))
+		{
 			$table->alias = JApplication::stringURLSafe($table->title);
 		}
 
@@ -202,7 +214,8 @@ class WeblinksModelWeblink extends JModelAdmin
 			// Set the values
 
 			// Set ordering to the last item if not set
-			if (empty($table->ordering)) {
+			if (empty($table->ordering))
+			{
 				$db = JFactory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks');
 				$max = $db->loadResult();

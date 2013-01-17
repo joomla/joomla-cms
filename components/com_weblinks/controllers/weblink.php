@@ -34,7 +34,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	public function add()
 	{
-		if (!parent::add()) {
+		if (!parent::add())
+		{
 			// Redirect to the return page.
 			$this->setRedirect($this->getReturnPage());
 		}
@@ -53,15 +54,19 @@ class WeblinksControllerWeblink extends JControllerForm
 		$categoryId	= JArrayHelper::getValue($data, 'catid', $this->input->getInt('id'), 'int');
 		$allow		= null;
 
-		if ($categoryId) {
+		if ($categoryId)
+		{
 			// If the category has been passed in the URL check it.
 			$allow	= $user->authorise('core.create', $this->option.'.category.'.$categoryId);
 		}
 
-		if ($allow === null) {
+		if ($allow === null)
+		{
 			// In the absense of better information, revert to the component permissions.
 			return parent::allowAdd($data);
-		} else {
+		}
+		else
+		{
 			return $allow;
 		}
 	}
@@ -80,14 +85,18 @@ class WeblinksControllerWeblink extends JControllerForm
 		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
 		$categoryId = 0;
 
-		if ($recordId) {
+		if ($recordId)
+		{
 			$categoryId = (int) $this->getModel()->getItem($recordId)->catid;
 		}
 
-		if ($categoryId) {
+		if ($categoryId)
+		{
 			// The category has been set. Check the category permissions.
 			return JFactory::getUser()->authorise('core.edit', $this->option.'.category.'.$categoryId);
-		} else {
+		}
+		else
+		{
 			// Since there is no asset tracking, revert to the component permissions.
 			return parent::allowEdit($data, $key);
 		}
@@ -157,11 +166,13 @@ class WeblinksControllerWeblink extends JControllerForm
 		$itemId	= $this->input->getInt('Itemid');
 		$return	= $this->getReturnPage();
 
-		if ($itemId) {
+		if ($itemId)
+		{
 			$append .= '&Itemid='.$itemId;
 		}
 
-		if ($return) {
+		if ($return)
+		{
 			$append .= '&return='.base64_encode($return);
 		}
 
@@ -180,10 +191,12 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 		$return = $this->input->get('return', null, 'base64');
 
-		if (empty($return) || !JUri::isInternal(base64_decode($return))) {
+		if (empty($return) || !JUri::isInternal(base64_decode($return)))
+		{
 			return JURI::base();
 		}
-		else {
+		else
+		{
 			return base64_decode($return);
 		}
 	}
@@ -201,7 +214,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 		$task = $this->getTask();
 
-		if ($task == 'save') {
+		if ($task == 'save')
+		{
 			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=category&id='.$validData['catid'], false));
 		}
 	}
@@ -220,7 +234,8 @@ class WeblinksControllerWeblink extends JControllerForm
 		$result = parent::save($key, $urlVar);
 
 		// If ok, redirect to the return page.
-		if ($result) {
+		if ($result)
+		{
 			$this->setRedirect($this->getReturnPage());
 		}
 
@@ -246,7 +261,8 @@ class WeblinksControllerWeblink extends JControllerForm
 		$link	= $modelLink->getItem($id);
 
 		// Make sure the item was found.
-		if (empty($link)) {
+		if (empty($link))
+		{
 			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_NOT_FOUND'));
 		}
 
@@ -254,7 +270,8 @@ class WeblinksControllerWeblink extends JControllerForm
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
 
-		if (!in_array($link->access, $groups)) {
+		if (!in_array($link->access, $groups))
+		{
 			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
@@ -266,22 +283,26 @@ class WeblinksControllerWeblink extends JControllerForm
 		$category = $modelCat->getCategory($link->catid);
 
 		// Make sure the category was found.
-		if (empty($category)) {
+		if (empty($category))
+		{
 			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_NOT_FOUND'));
 		}
 
 		// Check whether item access level allows access.
-		if (!in_array($category->access, $groups)) {
+		if (!in_array($category->access, $groups))
+		{
 			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// Redirect to the URL
 		// TODO: Probably should check for a valid http link
-		if ($link->url) {
+		if ($link->url)
+		{
 			$modelLink->hit($id);
 			JFactory::getApplication()->redirect($link->url);
 		}
-		else {
+		else
+		{
 			return JError::raiseWarning(404, JText::_('COM_WEBLINKS_ERROR_WEBLINK_URL_INVALID'));
 		}
 	}

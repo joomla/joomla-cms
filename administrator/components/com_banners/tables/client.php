@@ -48,7 +48,8 @@ class BannersTableClient extends JTable
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
 		{
-			if ($this->$k) {
+			if ($this->$k)
+			{
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
@@ -62,10 +63,12 @@ class BannersTableClient extends JTable
 		$where = $k.'='.implode(' OR '.$k.'=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time')) {
+		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		{
 			$checkin = '';
 		}
-		else {
+		else
+		{
 			$checkin = ' AND (checked_out = 0 OR checked_out = '.(int) $userId.')';
 		}
 
@@ -98,7 +101,8 @@ class BannersTableClient extends JTable
 		}
 
 		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks)) {
+		if (in_array($this->$k, $pks))
+		{
 			$this->state = $state;
 		}
 

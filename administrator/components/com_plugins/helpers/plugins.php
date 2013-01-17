@@ -43,7 +43,8 @@ class PluginsHelper
 
 		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -100,14 +101,17 @@ class PluginsHelper
 
 		// Check of the xml file exists
 		$filePath = JPath::clean($templateBaseDir.'/templates/'.$templateDir.'/templateDetails.xml');
-		if (is_file($filePath)) {
+		if (is_file($filePath))
+		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);
 
-			if ($xml['type'] != 'template') {
+			if ($xml['type'] != 'template')
+			{
 				return false;
 			}
 
-			foreach ($xml as $key => $value) {
+			foreach ($xml as $key => $value)
+			{
 				$data->set($key, $value);
 			}
 		}

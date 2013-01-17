@@ -38,7 +38,8 @@ abstract class modLatestHelper
 				' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state');
 
 		// Set Ordering filter
-		switch ($params->get('ordering')) {
+		switch ($params->get('ordering'))
+		{
 			case 'm_dsc':
 				$model->setState('list.ordering', 'modified DESC, created');
 				$model->setState('list.direction', 'DESC');
@@ -59,7 +60,8 @@ abstract class modLatestHelper
 
 		// Set User Filter.
 		$userId = $user->get('id');
-		switch ($params->get('user_id')) {
+		switch ($params->get('user_id'))
+		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
 				break;
@@ -76,13 +78,15 @@ abstract class modLatestHelper
 
 		$items = $model->getItems();
 
-		if ($error = $model->getError()) {
+		if ($error = $model->getError())
+		{
 			JError::raiseError(500, $error);
 			return false;
 		}
 
 		// Set the links
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			if ($user->authorise('core.edit', 'com_content.article.'.$item->id)){
 				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);
 			} else {
@@ -107,7 +111,8 @@ abstract class modLatestHelper
 		if ($catid)
 		{
 			$category = JCategories::getInstance('Content')->get($catid);
-			if ($category) {
+			if ($category)
+			{
 				$title = $category->title;
 			}
 			else {

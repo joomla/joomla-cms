@@ -27,7 +27,8 @@ class PluginsModelPlugins extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'extension_id', 'a.extension_id',
 				'name', 'a.name',
@@ -116,14 +117,17 @@ class PluginsModelPlugins extends JModelList
 	{
 		$search = $this->getState('filter.search');
 		$ordering = $this->getState('list.ordering', 'ordering');
-		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0)) {
+		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
+		{
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
-			if (!empty($search)) {
+			if (!empty($search))
+			{
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$search/i", $item->name)) {
+					if (!preg_match("/$search/i", $item->name))
+					{
 						unset($result[$i]);
 					}
 				}
@@ -132,19 +136,23 @@ class PluginsModelPlugins extends JModelList
 			JArrayHelper::sortObjects($result, 'name', $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
-			if ($total < $limitstart) {
+			if ($total < $limitstart)
+			{
 				$limitstart = 0;
 				$this->setState('list.start', 0);
 			}
 			return array_slice($result, $limitstart, $limit ? $limit : null);
 		}
-		else {
-			if ($ordering == 'ordering') {
+		else
+		{
+			if ($ordering == 'ordering')
+			{
 				$query->order('a.folder ASC');
 				$ordering = 'a.ordering';
 			}
 			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
-			if($ordering == 'folder') {
+			if($ordering == 'folder')
+			{
 				$query->order('a.ordering ASC');
 			}
 			$result = parent::_getList($query, $limitstart, $limit);
@@ -162,7 +170,8 @@ class PluginsModelPlugins extends JModelList
 	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
-		foreach($items as &$item) {
+		foreach($items as &$item)
+		{
 			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
 			$extension = 'plg_' . $item->folder . '_' . $item->element;
 				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
@@ -204,15 +213,18 @@ class PluginsModelPlugins extends JModelList
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = '.(int) $access);
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.enabled');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.enabled = '.(int) $published);
-		} elseif ($published === '') {
+		} elseif ($published === '')
+		{
 			$query->where('(a.enabled IN (0, 1))');
 		}
 
@@ -220,13 +232,15 @@ class PluginsModelPlugins extends JModelList
 		$query->where('a.state >= 0');
 
 		// Filter by folder.
-		if ($folder = $this->getState('filter.folder')) {
+		if ($folder = $this->getState('filter.folder'))
+		{
 			$query->where('a.folder = '.$db->quote($folder));
 		}
 
 		// Filter by search in id
 		$search = $this->getState('filter.search');
-		if (!empty($search) && stripos($search, 'id:') === 0) {
+		if (!empty($search) && stripos($search, 'id:') === 0)
+			{
 				$query->where('a.extension_id = '.(int) substr($search, 3));
 		}
 

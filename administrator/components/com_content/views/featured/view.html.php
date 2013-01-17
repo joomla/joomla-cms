@@ -34,7 +34,8 @@ class ContentViewFeatured extends JViewLegacy
 		$this->authors    = $this->get('Authors');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -71,14 +72,17 @@ class ContentViewFeatured extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'featured.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('article.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('article.edit');
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
@@ -86,13 +90,16 @@ class ContentViewFeatured extends JViewLegacy
 			JToolbarHelper::checkin('articles.checkin');
 		}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('articles.trash');
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_content');
 		}
 		JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');

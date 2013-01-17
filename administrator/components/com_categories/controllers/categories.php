@@ -48,11 +48,14 @@ class CategoriesControllerCategories extends JControllerAdmin
 
 		$model = $this->getModel();
 
-		if ($model->rebuild()) {
+		if ($model->rebuild())
+		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
 			return true;
-		} else {
+		}
+		else
+		{
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
 			return false;
@@ -74,9 +77,12 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
-		if (!($order === $originalOrder)) {
+		if (!($order === $originalOrder))
+		{
 			parent::saveorder();
-		} else {
+		}
+		else
+		{
 			// Nothing to reorder
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 			return true;
@@ -100,7 +106,8 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
-		if (!($order === $originalOrder)) {
+		if (!($order === $originalOrder))
+		{
 			// Get the model
 			$model = $this->getModel();
 			// Save the ordering

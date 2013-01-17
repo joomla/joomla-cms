@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-if (!isset($this->error)) {
+if (!isset($this->error))
+{
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 	$this->debug = false;
 }

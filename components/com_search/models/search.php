@@ -84,19 +84,23 @@ class SearchModelSearch extends JModelLegacy
 	 */
 	public function setSearch($keyword, $match = 'all', $ordering = 'newest')
 	{
-		if (isset($keyword)) {
+		if (isset($keyword))
+		{
 			$this->setState('origkeyword', $keyword);
-			if($match !== 'exact') {
+			if($match !== 'exact')
+			{
 				$keyword = preg_replace('#\xE3\x80\x80#s', ' ', $keyword);
 			}
 			$this->setState('keyword', $keyword);
 		}
 
-		if (isset($match)) {
+		if (isset($match))
+		{
 			$this->setState('match', $match);
 		}
 
-		if (isset($ordering)) {
+		if (isset($ordering))
+		{
 			$this->setState('ordering', $ordering);
 		}
 	}
@@ -137,12 +141,14 @@ class SearchModelSearch extends JModelLegacy
 			);
 
 			$rows = array();
-			foreach ($results as $result) {
+			foreach ($results as $result)
+			{
 				$rows = array_merge((array) $rows, (array) $result);
 			}
 
 			$this->_total	= count($rows);
-			if ($this->getState('limit') > 0) {
+			if ($this->getState('limit') > 0)
+			{
 				$this->_data	= array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
 			} else {
 				$this->_data = $rows;
@@ -196,8 +202,10 @@ class SearchModelSearch extends JModelLegacy
 			$dispatcher = JEventDispatcher::getInstance();
 			$searchareas = $dispatcher->trigger('onContentSearchAreas');
 
-			foreach ($searchareas as $area) {
-				if (is_array($area)) {
+			foreach ($searchareas as $area)
+			{
+				if (is_array($area))
+				{
 					$areas = array_merge($areas, $area);
 				}
 			}

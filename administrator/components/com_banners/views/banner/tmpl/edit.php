@@ -17,11 +17,13 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		document.id('jform_type0').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'block');
 			document.id('url').setStyle('display', 'block');
@@ -32,9 +34,12 @@ JHtml::_('formbehavior.chosen', 'select');
 			document.id('url').setStyle('display', 'block');
 			document.id('custom').setStyle('display', 'block');
 		});
-		if(document.id('jform_type0').checked==true) {
+		if(document.id('jform_type0').checked==true)
+		{
 			document.id('jform_type0').fireEvent('click');
-		} else {
+		}
+		else
+		{
 			document.id('jform_type1').fireEvent('click');
 		}
 	});

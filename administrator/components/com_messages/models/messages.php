@@ -27,7 +27,8 @@ class MessagesModelMessages extends JModelList
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'message_id', 'a.id',
 				'subject', 'a.subject',
@@ -112,17 +113,20 @@ class MessagesModelMessages extends JModelList
 
 		// Filter by published state.
 		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.state = '.(int) $state);
 		}
-		elseif ($state === '') {
+		elseif ($state === '')
+		{
 			$query->where('(a.state IN (0, 1))');
 		}
 
 		// Filter by search in subject or message.
 		$search = $this->getState('filter.search');
 
-		if (!empty($search)) {
+		if (!empty($search))
+		{
 			$search = $db->Quote('%'.$db->escape($search, true).'%', false);
 			$query->where('a.subject LIKE '.$search.' OR a.message LIKE '.$search);
 		}

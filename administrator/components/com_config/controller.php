@@ -44,13 +44,16 @@ class ConfigController extends JControllerLegacy
 		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
-			if ($vName != 'close') {
+		if ($view = $this->getView($vName, $vFormat))
+		{
+			if ($vName != 'close')
+			{
 				// Get the model for the view.
 				$model = $this->getModel($vName);
 
 				// Access check.
-				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option'))) {
+				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
+				{
 					return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 				}
 

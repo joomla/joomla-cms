@@ -25,13 +25,16 @@ abstract class en_GBLocalise
 	 */
 	public static function getPluralSuffixes($count)
 	{
-		if ($count == 0) {
+		if ($count == 0)
+		{
 			$return = array('0');
 		}
-		elseif($count == 1) {
+		elseif($count == 1)
+		{
 			$return = array('1');
 		}
-		else {
+		else
+		{
 			$return = array('MORE');
 		}
 		return $return;

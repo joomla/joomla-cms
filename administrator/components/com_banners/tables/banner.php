@@ -54,21 +54,25 @@ class BannersTableBanner extends JTable
 
 		// Set alias
 		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (empty($this->alias)) {
+		if (empty($this->alias))
+		{
 			$this->alias = JApplication::stringURLSafe($this->name);
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
+		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
+		{
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 			return false;
 		}
 
 		// Set ordering
-		if ($this->state < 0) {
+		if ($this->state < 0)
+		{
 			// Set ordering to 0 if state is archived or trashed
 			$this->ordering = 0;
-		} elseif (empty($this->ordering)) {
+		} elseif (empty($this->ordering))
+		{
 			// Set ordering to last if ordering was 0
 			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->Quote($this->catid).' AND state>=0');
 		}
@@ -86,7 +90,8 @@ class BannersTableBanner extends JTable
 	 */
 	public function bind($array, $ignore = array())
 	{
-		if (isset($array['params']) && is_array($array['params'])) {
+		if (isset($array['params']) && is_array($array['params']))
+		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 
@@ -111,7 +116,8 @@ class BannersTableBanner extends JTable
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['imptotal'])) {
+		if (isset($array['imptotal']))
+		{
 			$array['imptotal'] = abs((int) $array['imptotal']);
 		}
 
@@ -218,7 +224,8 @@ class BannersTableBanner extends JTable
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
 		{
-			if ($this->$k) {
+			if ($this->$k)
+			{
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
@@ -285,7 +292,8 @@ class BannersTableBanner extends JTable
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
 		{
-			if ($this->$k) {
+			if ($this->$k)
+			{
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.

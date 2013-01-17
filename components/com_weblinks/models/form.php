@@ -53,7 +53,8 @@ class WeblinksModelForm extends WeblinksModelWeblink
 
 		$return = $app->input->get('return', null, 'base64');
 
-		if (!JUri::isInternal(base64_decode($return))) {
+		if (!JUri::isInternal(base64_decode($return)))
+		{
 			$return = null;
 		}
 

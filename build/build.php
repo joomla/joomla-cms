@@ -137,7 +137,8 @@ for($num=$release-1; $num >= 0; $num--) {
 	file_put_contents('diffconvert/'.$version.'.'.$num.'-deleted', $deletedFiles);
 
 	// Only create archives for 0 and most recent versions. Skip other update versions.
-	if ($num != 0 && ($num != $release - 1)) {
+	if ($num != 0 && ($num != $release - 1))
+	{
 		echo "Skipping create archive for version $version.$num\n";
 		continue;
 	}

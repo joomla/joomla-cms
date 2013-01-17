@@ -32,7 +32,8 @@ class AdminModelProfile extends UsersModelUser
 	{
 		// Get the form.
 		$form = $this->loadForm('com_admin.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
@@ -56,7 +57,8 @@ class AdminModelProfile extends UsersModelUser
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_users.edit.user.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
 
@@ -69,7 +71,8 @@ class AdminModelProfile extends UsersModelUser
 		$results = $dispatcher->trigger('onContentPrepareData', array('com_admin.profile', $data));
 
 		// Check for errors encountered while preparing the data.
-		if (count($results) && in_array(false, $results, true)) {
+		if (count($results) && in_array(false, $results, true))
+		{
 			$this->setError($dispatcher->getError());
 		}
 
@@ -107,7 +110,8 @@ class AdminModelProfile extends UsersModelUser
 		unset($data['block']);
 
 		// Bind the data.
-		if (!$user->bind($data)) {
+		if (!$user->bind($data))
+		{
 			$this->setError($user->getError());
 			return false;
 		}
@@ -115,7 +119,8 @@ class AdminModelProfile extends UsersModelUser
 		$user->groups = null;
 
 		// Store the data.
-		if (!$user->save()) {
+		if (!$user->save())
+		{
 			$this->setError($user->getError());
 			return false;
 		}

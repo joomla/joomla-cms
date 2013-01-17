@@ -49,7 +49,8 @@ class AdminViewSysinfo extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!JFactory::getUser()->authorise('core.admin')) {
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 

@@ -76,11 +76,13 @@ class plgSystemLogout extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 and $app->isSite()) {
+		if ($error->getCode() == 403 and $app->isSite())
+		{
 			// Redirect to the home page
 			$app->redirect('index.php', JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), null, true, false);
 		}
-		else {
+		else
+		{
 			// Render the error page.
 			JError::customErrorPage($error);
 		}

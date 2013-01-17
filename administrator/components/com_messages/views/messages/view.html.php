@@ -35,7 +35,8 @@ class MessagesViewMessages extends JViewLegacy
 		$this->state		= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -57,20 +58,24 @@ class MessagesViewMessages extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('message.add');
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
 			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::trash('messages.trash');
 		}
@@ -85,7 +90,8 @@ class MessagesViewMessages extends JViewLegacy
 					<i class=\"icon-cog\" title=\"$title\"></i>$title</a>";
 		$bar->appendButton('Custom', $dhtml, 'config');
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_messages');
 		}
 
