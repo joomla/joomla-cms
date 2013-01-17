@@ -55,7 +55,7 @@ class TemplatesModelStyles extends JModelList
 		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$template = $this->getUserStateFromRequest($this->context.'.filter.template', 'filter_template', '0', 'cmd');
+		$template = $this->getUserStateFromRequest($this->context.'.filter.template', 'filter_template');
 		$this->setState('filter.template', $template);
 
 		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', null);
