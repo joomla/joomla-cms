@@ -28,6 +28,7 @@ defined('_JEXEC') or die;
 		else
 		{
 			echo JHtml::_('sliders.start', 'warning-sliders', array('useCookie' => 1));
+
 			foreach ($this->messages as $message)
 			{
 				echo JHtml::_('sliders.panel', $message['message'], str_replace(' ', '', $message['message']));

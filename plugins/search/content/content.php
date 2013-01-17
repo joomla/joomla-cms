@@ -262,6 +262,7 @@ class plgSearchContent extends JPlugin
 			foreach ($rows as $row)
 			{
 				$new_row = array();
+
 				foreach ($row as $key => $article)
 				{
 					if (searchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))

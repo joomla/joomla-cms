@@ -189,7 +189,7 @@ class BannersModelBanner extends JModelLegacy
 		$item = $this->getItem();
 		$url = $item->clickurl;
 
-		// check for links
+		// Check for links
 		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
 		{
 			$url = "http://$url";

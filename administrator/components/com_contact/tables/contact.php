@@ -202,6 +202,7 @@ class ContactTableContact extends JTable
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
+
 			foreach ($keys as $key)
 			{
 				if (trim($key)) {  // ignore blank keywords
@@ -211,10 +212,17 @@ class ContactTableContact extends JTable
 			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
 		}
 
+<<<<<<< Upstream, based on master
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
 			// Only process if not empty
+=======
+		// clean up description -- eliminate quotes and <> brackets
+		if (!empty($this->metadesc))
+		{
+			// only process if not empty
+>>>>>>> 5350d15 Some codestyle work.
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}

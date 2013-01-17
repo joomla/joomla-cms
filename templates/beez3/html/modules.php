@@ -82,14 +82,22 @@ function modChrome_beezTabs($module, $params, $attribs)
 		// list of moduletitles
 		echo '<div id="'. $area.'" class="tabouter"><ul class="tabs">';
 
+<<<<<<< Upstream, based on master
 		foreach ($modules as $rendermodule)
+=======
+		foreach($modules as $rendermodule)
+>>>>>>> 5350d15 Some codestyle work.
 		{
 			echo '<li class="tab"><a href="#" id="link_'.$rendermodule->id.'" class="linkopen" onclick="tabshow(\'module_'. $rendermodule->id.'\');return false">'.$rendermodule->title.'</a></li>';
 		}
 		echo '</ul>';
 		$counter = 0;
 		// modulecontent
+<<<<<<< Upstream, based on master
 		foreach ($modules as $rendermodule)
+=======
+		foreach($modules as $rendermodule)
+>>>>>>> 5350d15 Some codestyle work.
 		{
 			$counter ++;
 

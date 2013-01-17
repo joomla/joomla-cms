@@ -105,6 +105,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$registry = new JRegistry(new JConfig);
 			$this->config = $registry->toArray();
 			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
+
 			foreach ($hidden as $key)
 			{
 				$this->config[$key] = 'xxxxxx';

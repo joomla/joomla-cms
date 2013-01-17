@@ -245,7 +245,8 @@ class InstallationModelDatabase extends JModelLegacy
 		}
 
 		$options = (array) $options;
-		// remove *_errors value
+
+		// Remove *_errors value
 		foreach ($options as $i => $option)
 		{
 			if (isset($i['1']) && $i['1'] == '*')

@@ -180,7 +180,11 @@ class ModulesModelModules extends JModelList
 	{
 		$lang = JFactory::getLanguage();
 		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
+<<<<<<< Upstream, based on master
 		foreach ($items as $item)
+=======
+		foreach($items as $item)
+>>>>>>> 5350d15 Some codestyle work.
 		{
 			$extension = $item->module;
 			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
