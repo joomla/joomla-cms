@@ -71,7 +71,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
 		</div>
 	<?php endif; ?>
-<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date')
+<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author')); ?>
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 		<div class="article-info muted">

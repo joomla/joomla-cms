@@ -40,7 +40,7 @@ $params = $this->params;
 					</small>
 				<?php endif; ?>
 			</div>
-		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date')
+		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 			|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')); ?>
 		<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 			<div class="article-info muted">
