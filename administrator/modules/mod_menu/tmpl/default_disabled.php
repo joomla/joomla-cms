@@ -47,7 +47,8 @@ if ($user->authorise('core.manage', 'com_content'))
 $components = ModMenuHelper::getComponents(true);
 
 // Check if there are any components, otherwise, don't display the components menu item
-if ($components) {
+if ($components)
+{
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
 }
 
