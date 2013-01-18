@@ -38,12 +38,12 @@ class plgUserContactCreator extends JPlugin
 	{
 		if(!$success)
 		{
-			return false; // if the user wasn't stored we don't resync
+			return false; // if the user wasn't stored we do not resync
 		}
 
 		if(!$isnew)
 		{
-			return false; // if the user isn't new we don't sync
+			return false; // if the user is not new we do not sync
 		}
 
 		// ensure the user id is really an int
@@ -59,7 +59,7 @@ class plgUserContactCreator extends JPlugin
 		if (empty($category))
 		{
 			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
-			return false; // bail out if we don't have a category
+			return false; // bail out if we do not have a category
 		}
 
 		$dbo = JFactory::getDBO();

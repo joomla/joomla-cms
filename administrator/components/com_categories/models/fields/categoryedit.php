@@ -23,8 +23,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	/**
 	 * A flexible category list that respects access controls
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	public $type = 'CategoryEdit';
 
@@ -77,7 +77,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		{
 			$query->where('(a.extension = '.$db->quote($extension).')');
 		}
-		// If parent isn't explicitly stated but we are in com_categories assume we want parents
+		// If parent is not explicitly stated but we are in com_categories assume we want parents
 		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
 		{
 			// Prevent parenting to children of this item.
@@ -158,7 +158,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 			{
 				// To take save or create in a category you need to have create rights for that category
 				// unless the item is already in that category.
-				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				// Unset the option if the user is not authorised for it. In this field assets are always categories.
 				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true )
 				{
 					unset($options[$i]);

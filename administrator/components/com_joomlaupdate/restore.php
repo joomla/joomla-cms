@@ -89,7 +89,7 @@ function getQueryParam( $key, $default = null )
  * On systems where json_encode and json_decode are not available, Akeeba
  * Backup will attempt to use PEAR's Services_JSON library to emulate them.
  * A copy of this library is included in this file and will be used if and
- * only if it isn't already loaded, e.g. due to PEAR's auto-loading, or a
+ * only if it is not already loaded, e.g. due to PEAR's auto-loading, or a
  * 3PD extension loading it for its own purposes.
  */
 
@@ -994,8 +994,13 @@ abstract class AKAbstractObject
 
 	/**
 	 * Get the most recent error message
+<<<<<<< Upstream, based on master
 	 * @param	integer	$i Optional error index
 	 * @return	string	Error message
+=======
+	 * @param   integer	$i Optional error index
+	 * @return  string  Error message
+>>>>>>> 57b3ebf Codestyle work part 3
 	 */
 	public function getError($i = null)
 	{
@@ -1037,8 +1042,13 @@ abstract class AKAbstractObject
 
 	/**
 	 * Get the most recent warning message
+<<<<<<< Upstream, based on master
 	 * @param	integer	$i Optional warning index
 	 * @return	string	Error message
+=======
+	 * @param   integer	$i Optional warning index
+	 * @return  string  Error message
+>>>>>>> 57b3ebf Codestyle work part 3
 	 */
 	public function getWarning($i = null)
 	{
@@ -1533,7 +1543,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 		$basename = basename($this->filename, $base_extension);
 		$this->totalSize = 0;
 
-		// Scan for multiple parts until we don't find any more of them
+		// Scan for multiple parts until we do not find any more of them
 		$count = 0;
 		$found = true;
 		$this->archiveList = array();
@@ -1612,7 +1622,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 
 		if(!$eof)
 		{
-			// Border case: right at the part's end (eeeek!!!). For the life of me, I don't understand why
+			// Border case: right at the part's end (eeeek!!!). For the life of me, I do not understand why
 			// feof() doesn't report true. It expects the fp to be positioned *beyond* the EOF to report
 			// true. Incredible! :(
 			$position = @ftell($this->fp);
@@ -1809,8 +1819,13 @@ abstract class AKAbstractPart extends AKAbstractObject
 	/**
 	 * Sets the engine part's internal state, in an easy to use manner
 	 *
+<<<<<<< Upstream, based on master
 	 * @param	string	$state			One of init, prepared, running, postrun, finished, error
 	 * @param	string	$errorMessage	The reported error message, should the state be set to error
+=======
+	 * @param   string  $state			One of init, prepared, running, postrun, finished, error
+	 * @param   string  $errorMessage	The reported error message, should the state be set to error
+>>>>>>> 57b3ebf Codestyle work part 3
 	 */
 	protected function setState($state = 'init', $errorMessage='Invalid setState argument')
 	{
@@ -1911,7 +1926,7 @@ abstract class AKAbstractPart extends AKAbstractObject
 	{
 		if( $this->isPrepared )
 		{
-			$this->setState('error', "Can't modify configuration after the preparation of " . $this->active_domain);
+			$this->setState('error', "Cannot modify configuration after the preparation of " . $this->active_domain);
 		}
 		else
 		{
@@ -5479,7 +5494,7 @@ class AKEncryptionAES
 
 	/**
 	 * AES decryption in CBC mode. This is the standard mode (the CTR methods
-	 * actually use Rijndael-128 in CTR mode, which - technically - isn't AES).
+	 * actually use Rijndael-128 in CTR mode, which - technically - is not AES).
 	 *
 	 * Supports AES-128, AES-192 and AES-256. It supposes that the last 4 bytes
 	 * contained a little-endian unsigned long integer representing the unpadded

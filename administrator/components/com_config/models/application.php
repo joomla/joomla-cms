@@ -21,7 +21,7 @@ class ConfigModelApplication extends JModelForm
 	 * Method to get a form object.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
@@ -239,7 +239,7 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @return  bool	   True on success, false on failure.
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	private function writeConfigFile(JRegistry $config)
 	{

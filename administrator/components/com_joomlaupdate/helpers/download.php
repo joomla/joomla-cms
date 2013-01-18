@@ -363,7 +363,7 @@ class AdmintoolsHelperDownload
 
 	/**
 	 * Detect and return available download "adapters" (not really adapters, as
-	 * we don't follow the Adapter pattern, yet)
+	 * we do not follow the Adapter pattern, yet)
 	 *
 	 * @return  array
 	 *

@@ -160,7 +160,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		// We only want to handle categories here
 		if ($context == 'com_categories.category')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level if the item is not new
 			if (!$isNew)
 			{
 				$this->checkItemAccess($row);

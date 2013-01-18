@@ -112,7 +112,7 @@ define('GESHI_ACTIVE', 2);
 define('GESHI_VISITED', 3);
 
 // Important string starter/finisher
-// Note that if you change these, they should be as-is: i.e., don't
+// Note that if you change these, they should be as-is: i.e., do not
 // write them as if they had been run through htmlentities()
 /** The starter for important parts of the source */
 define('GESHI_START_IMPORTANT', '<BEGIN GeSHi>');
@@ -1561,7 +1561,7 @@ class GeSHi {
         if (!in_array($word, $this->language_data['KEYWORDS'][$key])) {
             $this->language_data['KEYWORDS'][$key][] = $word;
 
-            //NEW in 1.0.8 don't recompile the whole optimized regexp, simply append it
+            //NEW in 1.0.8 do not recompile the whole optimized regexp, simply append it
             if ($this->parse_cache_built) {
                 $subkey = count($this->language_data['CACHED_KEYWORD_LISTS'][$key]) - 1;
                 $this->language_data['CACHED_KEYWORD_LISTS'][$key][$subkey] .= '|' . preg_quote($word, '/');
@@ -1855,7 +1855,7 @@ class GeSHi {
      * <b>Warning:</b> Using this method will add the "start"
      * attribute to the &lt;ol&gt; that is used for line numbering.
      * This is <b>not</b> valid XHTML strict, so if that's what you
-     * care about then don't use this method. Firefox is getting
+     * care about then do not use this method. Firefox is getting
      * support for the CSS method of doing this in 1.1 and Opera
      * has support for the CSS method, but (of course) IE doesn't
      * so it's not worth doing it the CSS way yet.
@@ -1977,7 +1977,7 @@ class GeSHi {
                                 $symbol_preg_multi[] = preg_quote($sym, '/');
                             } else { // single char
                                 if ($sym == '-') {
-                                    // don't trigger range out of order error
+                                    // do not trigger range out of order error
                                     $symbol_preg_single[] = '\-';
                                 } else {
                                     $symbol_preg_single[] = preg_quote($sym, '/');
@@ -1992,7 +1992,7 @@ class GeSHi {
                         if (isset($symbols[1])) { // multiple chars
                             $symbol_preg_multi[] = preg_quote($symbols, '/');
                         } elseif ($symbols == '-') {
-                            // don't trigger range out of order error
+                            // do not trigger range out of order error
                             $symbol_preg_single[] = '\-';
                         } else { // single char
                             $symbol_preg_single[] = preg_quote($symbols, '/');
@@ -2296,7 +2296,7 @@ class GeSHi {
                         }
                         if ($code[$i] == $next_match_pointer['open'][0] && ($next_match_pointer['open_strlen'] == 1 ||
                             substr($code, $i, $next_match_pointer['open_strlen']) == $next_match_pointer['open'])) {
-                            // merge adjacent but make sure we don't merge things like <tag><!-- comment -->
+                            // merge adjacent but make sure we do not merge things like <tag><!-- comment -->
                             foreach ($matches as $submatches) {
                                 foreach ($submatches as $match) {
                                     if ($match['next_match'] == $i) {
@@ -2328,7 +2328,7 @@ class GeSHi {
             $num_parts = $k;
 
             if ($num_parts == 1 && $this->strict_mode == GESHI_MAYBE) {
-                // when we have only one part, we don't have anything to highlight at all.
+                // when we have only one part, we do not have anything to highlight at all.
                 // if we have a "maybe" strict language, this should be handled as highlightable code
                 $parts = array(
                     0 => array(
@@ -2656,7 +2656,7 @@ class GeSHi {
                                 //Get the byte AFTER the ESCAPE_CHAR we just found
                                 $es_char = $part[$es_pos + 1];
                                 if ($es_char == "\n") {
-                                    // don't put a newline around newlines
+                                    // do not put a newline around newlines
                                     $string .= "</span>\n";
                                     $start = $es_pos + 2;
                                 } elseif (ord($es_char) >= 128) {
@@ -2928,7 +2928,7 @@ class GeSHi {
                                             $attributes = ' class="imp"';
                                         }
 
-                                        // We don't include the start of the comment if it's an
+                                        // We do not include the start of the comment if it's an
                                         // "important" part
                                         $test_str = "<span$attributes>";
                                     }
@@ -3186,7 +3186,7 @@ class GeSHi {
                 }
             }
             $result = implode("\n", $lines);
-            unset($lines);//We don't need the lines separated beyond this --- free them!
+            unset($lines);//We do not need the lines separated beyond this --- free them!
         }
         // Other whitespace
         // BenBE: Fix to reduce the number of replacements to be done
@@ -3283,7 +3283,7 @@ class GeSHi {
     /**
      * handles regular expressions highlighting-definitions with callback functions
      *
-     * @note this is a callback, don't use it directly
+     * @note this is a callback, do not use it directly
      *
      * @param array the matches array
      * @return The highlighted string
@@ -3298,7 +3298,7 @@ class GeSHi {
     /**
      * handles newlines in REGEXPS matches. Set the _hmr_* vars before calling this
      *
-     * @note this is a callback, don't use it directly
+     * @note this is a callback, do not use it directly
      *
      * @param array the matches array
      * @return string
@@ -3393,11 +3393,11 @@ class GeSHi {
                 $this->_kw_replace_group = $k;
 
                 //NEW in 1.0.8, the cached regexp list
-                // since we don't want PHP / PCRE to crash due to too large patterns we split them into smaller chunks
+                // since we do not want PHP / PCRE to crash due to too large patterns we split them into smaller chunks
                 for ($set = 0, $set_length = count($this->language_data['CACHED_KEYWORD_LISTS'][$k]); $set <  $set_length; ++$set) {
                     $keywordset =& $this->language_data['CACHED_KEYWORD_LISTS'][$k][$set];
                     // Might make a more unique string for putting the number in soon
-                    // Basically, we don't put the styles in yet because then the styles themselves will
+                    // Basically, we do not put the styles in yet because then the styles themselves will
                     // get highlighted if the language has a CSS keyword in it (like CSS, for example ;))
                     $stuff_to_parse = preg_replace_callback(
                         "/$disallowed_before_local({$keywordset})(?!\<DOT\>(?:htm|php|aspx?))$disallowed_after_local/$modifiers",
@@ -3852,7 +3852,7 @@ class GeSHi {
         $parsed_code = $this->header();
 
         // If we're using line numbers, we insert <li>s and appropriate
-        // markup to style them (otherwise we don't need to do anything)
+        // markup to style them (otherwise we do not need to do anything)
         if ($this->line_numbers != GESHI_NO_LINE_NUMBERS && $this->header_type != GESHI_HEADER_PRE_TABLE) {
             // If we're using the <pre> header, we shouldn't add newlines because
             // the <pre> will line-break them (and the <li>s already do this for us)
@@ -3884,7 +3884,7 @@ class GeSHi {
                         //$attr = ' style="' . $this->line_style2 . '"';
                         $attrs['style'][] = $this->line_style2;
                         // This style "covers up" the special styles set for special lines
-                        // so that styles applied to special lines don't apply to the actual
+                        // so that styles applied to special lines do not apply to the actual
                         // code on that line
                         $def_attr = ' style="' . $this->code_style . '"';
                     }
@@ -3957,7 +3957,7 @@ class GeSHi {
                     }
                     $parsed_code .= '<td'.$attrs.'><pre'.$attributes.'>';
                     // get linenumbers
-                    // we don't merge it with the for below, since it should be better for
+                    // we do not merge it with the for below, since it should be better for
                     // memory consumption this way
                     // @todo: but... actually it would still be somewhat nice to merge the two loops
                     //        the mem peaks are at different positions
@@ -3971,7 +3971,7 @@ class GeSHi {
                                 $parsed_code .= '<span class="xtra li2"><span class="de2">';
                             } else {
                                 // This style "covers up" the special styles set for special lines
-                                // so that styles applied to special lines don't apply to the actual
+                                // so that styles applied to special lines do not apply to the actual
                                 // code on that line
                                 $parsed_code .= '<span style="display:block;' . $this->line_style2 . '">'
                                                   .'<span style="' . $this->code_style .'">';
@@ -4019,7 +4019,7 @@ class GeSHi {
                         $parsed_code .= '<span class="xtra li2"><span class="de2">';
                     } else {
                         // This style "covers up" the special styles set for special lines
-                        // so that styles applied to special lines don't apply to the actual
+                        // so that styles applied to special lines do not apply to the actual
                         // code on that line
                         $parsed_code .= '<span style="display:block;' . $this->line_style2 . '">'
                                           .'<span style="' . $this->code_style .'">';
@@ -4310,7 +4310,7 @@ class GeSHi {
             );                      // ENT_COMPAT set
 
         switch ($quote_style) {
-            case ENT_NOQUOTES: // don't convert double quotes
+            case ENT_NOQUOTES: // do not convert double quotes
                 unset($aTransSpecchar['"']);
                 break;
             case ENT_QUOTES: // convert single quotes as well

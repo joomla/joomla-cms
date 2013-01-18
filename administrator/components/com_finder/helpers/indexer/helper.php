@@ -25,8 +25,8 @@ class FinderIndexerHelper
 	 * The token stemmer object. The stemmer is set by whatever class
 	 * wishes to use it but it must be an instance of FinderIndexerStemmer.
 	 *
-	 * @var		FinderIndexerStemmer
-	 * @since	2.5
+	 * @var    FinderIndexerStemmer
+	 * @since   2.5
 	 */
 	public static $stemmer;
 
@@ -138,7 +138,7 @@ class FinderIndexerHelper
 		}
 
 		/*
-		 * If we have to handle the input as a phrase, that means we don't
+		 * If we have to handle the input as a phrase, that means we do not
 		 * tokenize the individual terms and we do not create the two and three
 		 * term combinations. The phrase must contain more than one word!
 		 */
@@ -445,7 +445,7 @@ class FinderIndexerHelper
 			// Trigger the event.
 			$results = $dispatcher->trigger('onPrepareFinderContent', array(&$item));
 
-			// Check the returned results. This is for plugins that don't throw
+			// Check the returned results. This is for plugins that do not throw
 			// exceptions when they encounter serious errors.
 			if (in_array(false, $results))
 			{

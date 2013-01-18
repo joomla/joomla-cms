@@ -126,7 +126,8 @@ final class JSite extends JApplication
 			{
 				$options['language'] = $lang;
 			}
-			else {
+			else
+			{
 				$options['language'] = 'en-GB'; // as a last ditch fail to english
 			}
 		}
@@ -338,7 +339,8 @@ final class JSite extends JApplication
 
 				$this->redirect($url, JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
 			}
-			else {
+			else
+			{
 				JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			}
 		}
@@ -347,7 +349,7 @@ final class JSite extends JApplication
 	/**
 	 * Get the appliaction parameters
 	 *
-	 * @param   string	The component option
+	 * @param   string  The component option
 	 * @return  object  The parameters object
 	 * @since   1.5
 	 */
@@ -414,7 +416,7 @@ final class JSite extends JApplication
 	/**
 	 * Get the application parameters
 	 *
-	 * @param   string	The component option
+	 * @param   string  The component option
 	 *
 	 * @return  object  The parameters object
 	 * @since   1.5
@@ -548,7 +550,8 @@ final class JSite extends JApplication
 			{
 				$this->template->params = $styleParams;
 			}
-			else {
+			else
+			{
 				$this->template->params = new JRegistry($styleParams);
 			}
 		}
@@ -557,7 +560,7 @@ final class JSite extends JApplication
 	/**
 	 * Return a reference to the JPathway object.
 	 *
-	 * @param   string	$name		The name of the application/client.
+	 * @param   string  $name		The name of the application/client.
 	 * @param   array  $options	An optional associative array of configuration settings.
 	 *
 	 * @return  object  JMenu.
@@ -573,7 +576,7 @@ final class JSite extends JApplication
 	/**
 	 * Return a reference to the JPathway object.
 	 *
-	 * @param   string	$name		The name of the application.
+	 * @param   string  $name		The name of the application.
 	 * @param   array  $options	An optional associative array of configuration settings.
 	 *
 	 * @return  object JPathway.
@@ -589,7 +592,7 @@ final class JSite extends JApplication
 	/**
 	 * Return a reference to the JRouter object.
 	 *
-	 * @param   string	$name		The name of the application.
+	 * @param   string  $name		The name of the application.
 	 * @param   array  $options	An optional associative array of configuration settings.
 	 *
 	 * @return  JRouter
@@ -659,11 +662,11 @@ final class JSite extends JApplication
 	 * code in the header pointing to the new location. If the headers have already been
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
-	 * @param   string	The URL to redirect to. Can only be http/https URL
-	 * @param   string	An optional message to display on redirect.
+	 * @param   string  The URL to redirect to. Can only be http/https URL
+	 * @param   string  An optional message to display on redirect.
 	 * @param   string  An optional message type.
-	 * @param   boolean	True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
-	 * @param   boolean	True if the enqueued messages are passed to the redirection, false else.
+	 * @param   boolean  True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
+	 * @param   boolean  True if the enqueued messages are passed to the redirection, false else.
 	 * @return  none; calls exit().
 	 * @since   1.5
 	 * @see     JApplication::enqueueMessage()

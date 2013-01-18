@@ -154,7 +154,7 @@ class InstallationModelConfiguration extends JModelLegacy
 		}
 
 		/*
-		 * If the file exists but isn't writable OR if the file doesn't exist and the parent directory
+		 * If the file exists but is not writable OR if the file doesn't exist and the parent directory
 		 * is not writable we need to use FTP
 		 */
 		$useFTP = false;
@@ -245,7 +245,7 @@ class InstallationModelConfiguration extends JModelLegacy
 		JLoader::register('InstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
 		$userId = InstallationModelDatabase::getUserId();
 
-		// We don't need the randUserId in the session any longer, let's remove it
+		// We do not need the randUserId in the session any longer, let's remove it
 		InstallationModelDatabase::resetRandUserId();
 
 		// Create the admin user

@@ -103,7 +103,8 @@ class BannersModelBanner extends JModelLegacy
 				$query->where('banner_id=' . (int) $id);
 				$query->where('track_date='.$db->Quote($trackDate));
 			}
-			else {
+			else
+			{
 				// insert new count
 				//sqlsrv change
 				$query->insert('#__banner_tracks');

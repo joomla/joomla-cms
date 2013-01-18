@@ -22,7 +22,7 @@ class CategoriesHelper
 	/**
 	 * Configure the Submenu links.
 	 *
-	 * @param   string	The extension being used for the categories.
+	 * @param   string  The extension being used for the categories.
 	 *
 	 * @return  void
 	 * @since   1.6
@@ -76,7 +76,7 @@ class CategoriesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   string	$extension	The extension.
+	 * @param   string  $extension	The extension.
 	 * @param   integer  $categoryId	The category ID.
 	 *
 	 * @return  JObject

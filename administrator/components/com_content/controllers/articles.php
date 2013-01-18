@@ -91,8 +91,8 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string	$name	The name of the model.
-	 * @param   string	$prefix	The prefix for the PHP class name.
+	 * @param   string  $name	The name of the model.
+	 * @param   string  $prefix	The prefix for the PHP class name.
 	 *
 	 * @return  JModel
 	 * @since   1.6

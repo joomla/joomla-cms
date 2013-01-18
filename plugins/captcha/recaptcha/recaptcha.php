@@ -32,7 +32,7 @@ class plgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Initialise the captcha
 	 *
-	 * @param   string	$id	The id of the field.
+	 * @param   string  $id	The id of the field.
 	 *
 	 * @return  Boolean	True on success, false otherwise
 	 *

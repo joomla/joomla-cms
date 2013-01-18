@@ -147,7 +147,7 @@ class MenusModelItems extends JModelList
 	 *
 	 * In the absence of better information, this is the first menu ordered by title.
 	 *
-	 * @return  string	The default menu type
+	 * @return  string  The default menu type
 	 * @since   1.6
 	 */
 	protected function getDefaultMenuType()

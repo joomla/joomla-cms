@@ -78,7 +78,8 @@ class WeblinksViewCategory extends JViewLegacy
 			{
 				$item->link = JRoute::_('index.php?option=com_weblinks&task=weblink.go&id='. $item->id);
 			}
-			else {
+			else
+			{
 				$item->link = $item->url;
 			}
 

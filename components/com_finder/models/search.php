@@ -708,7 +708,7 @@ class FinderModelSearch extends JModelList
 					// Store this set in cache.
 					$this->store($setId, $temp);
 
-					// The data is keyed by link_id to ease caching, we don't need it till later.
+					// The data is keyed by link_id to ease caching, we do not need it till later.
 					$temp = array_values($temp);
 				}
 

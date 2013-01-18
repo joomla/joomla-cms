@@ -134,7 +134,8 @@ class AdminModelSysInfo extends JModelLegacy
 			{
 				$sf = $_SERVER['SERVER_SOFTWARE'];
 			}
-			else {
+			else
+			{
 				$sf = getenv('SERVER_SOFTWARE');
 			}
 			$this->info['php']			= php_uname();

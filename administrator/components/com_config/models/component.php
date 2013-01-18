@@ -47,7 +47,7 @@ class ConfigModelComponent extends JModelForm
 	 * Method to get a form object.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 * @since   1.6
@@ -138,7 +138,7 @@ class ConfigModelComponent extends JModelForm
 				return false;
 			}
 
-			// We don't need this anymore
+			// We do not need this anymore
 			unset($data['option']);
 			unset($data['params']['rules']);
 		}

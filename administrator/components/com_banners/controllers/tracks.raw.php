@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class BannersControllerTracks extends JControllerLegacy
 {
 	/**
-	 * @var		string	The context for persistent state.
+	 * @var    string	The context for persistent state.
 	 * @since   1.6
 	 */
 	protected $context = 'com_banners.tracks';
@@ -27,8 +27,8 @@ class BannersControllerTracks extends JControllerLegacy
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string	$name	The name of the model.
-	 * @param   string	$prefix	The prefix for the model class name.
+	 * @param   string  $name	The name of the model.
+	 * @param   string  $prefix	The prefix for the model class name.
 	 *
 	 * @return  JModel
 	 * @since   1.6
@@ -42,7 +42,7 @@ class BannersControllerTracks extends JControllerLegacy
 	/**
 	 * Display method for the raw track data.
 	 *
-	 * @param   boolean			If true, the view output will be cached
+	 * @param   boolean  If true, the view output will be cached
 	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.

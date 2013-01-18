@@ -21,7 +21,7 @@ class BannersHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vname  The name of the active view.
 	 *
 	 * @return  void
 	 * @since   1.6

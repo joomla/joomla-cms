@@ -338,7 +338,8 @@ class ContentModelArticles extends JModelList
 				// Add the subquery to the main query
 				$query->where('('.$categoryEquals.' OR a.catid IN ('.$subQuery->__toString().'))');
 			}
-			else {
+			else
+			{
 				$query->where($categoryEquals);
 			}
 		}
@@ -413,7 +414,7 @@ class ContentModelArticles extends JModelList
 		}
 		elseif (empty($authorWhere) && empty($authorAliasWhere))
 		{
-			// If both are empty we don't want to add to the query
+			// If both are empty we do not want to add to the query
 		}
 		else
 		{
@@ -549,7 +550,8 @@ class ContentModelArticles extends JModelList
 							// get the value from the article
 							$articleArray[$key] = $articleParams->get($key);
 						}
-						else {
+						else
+			{
 							// otherwise, use the global value
 							$articleArray[$key] = $globalParams->get($key);
 						}
@@ -564,7 +566,8 @@ class ContentModelArticles extends JModelList
 					$item->params->merge($articleParams);
 				}
 			}
-			else {
+			else
+			{
 				// For non-blog layouts, merge all of the article params
 				$item->params->merge($articleParams);
 			}
@@ -615,13 +618,15 @@ class ContentModelArticles extends JModelList
 				// If the access filter has been set, we already have only the articles this user can view.
 				$item->params->set('access-view', true);
 			}
-			else {
+			else
+			{
 				// If no access filter is set, the layout takes some responsibility for display of limited information.
 				if ($item->catid == 0 || $item->category_access === null)
 				{
 					$item->params->set('access-view', in_array($item->access, $groups));
 				}
-				else {
+				else
+			{
 					$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
 				}
 			}

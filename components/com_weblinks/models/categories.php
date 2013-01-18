@@ -21,14 +21,14 @@ class WeblinksModelCategories extends JModelList
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	public $_context = 'com_weblinks.categories';
 
 	/**
 	 * The category context (allows other extensions to derived from this model).
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_extension = 'com_weblinks';
 

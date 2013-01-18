@@ -101,7 +101,7 @@ abstract class modLatestHelper
 	 * Get the alternate title for the module
 	 *
 	 * @param   JObject	The module parameters.
-	 * @return  string	The alternate title for the module.
+	 * @return  string  The alternate title for the module.
 	 */
 	public static function getTitle($params)
 	{
@@ -115,7 +115,8 @@ abstract class modLatestHelper
 			{
 				$title = $category->title;
 			}
-			else {
+			else
+			{
 				$title = JText::_('MOD_POPULAR_UNEXISTING');
 			}
 		}

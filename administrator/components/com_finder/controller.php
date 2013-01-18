@@ -32,7 +32,7 @@ class FinderController extends JControllerLegacy
 	 *
 	 * @return  JController  A JController object to support chaining.
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -45,7 +45,7 @@ class FinderController extends JControllerLegacy
 		// Check for edit form.
 		if ($view == 'filter' && $layout == 'edit' && !$this->checkEditId('com_finder.edit.filter', $f_id))
 		{
-			// Somehow the person just went to the form - we don't allow that.
+			// Somehow the person just went to the form - we do not allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $f_id));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_finder&view=filters', false));

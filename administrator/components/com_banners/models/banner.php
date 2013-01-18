@@ -33,7 +33,7 @@ class BannersModelBanner extends JModelAdmin
 	 *
 	 * @return  boolean   Returns true on success, false on failure.
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function batch($commands, $pks, $contexts)
 	{
@@ -163,7 +163,7 @@ class BannersModelBanner extends JModelAdmin
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{

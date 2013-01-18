@@ -22,6 +22,7 @@ class BannersModelTracks extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -43,6 +44,7 @@ class BannersModelTracks extends JModelList
 	}
 
 	/**
+	 * @var     string  Filename
 	 * @since   1.6
 	 */
 	protected $basename;
@@ -51,6 +53,11 @@ class BannersModelTracks extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -250,7 +257,8 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Get file name
 	 *
-	 * @return  string	The file name
+	 * @return  string  The file name
+	 *
 	 * @since   1.6
 	 */
 	public function getBaseName()
@@ -331,7 +339,8 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Get the category name.
 	 *
-	 * @return  string	The category name
+	 * @return  string  The category name
+	 *
 	 * @since   1.6
 	 */
 	protected function getCategoryName()
@@ -368,7 +377,8 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Get the category name
 	 *
-	 * @return  string	The category name.
+	 * @return  string  The category name.
+	 *
 	 * @since   1.6
 	 */
 	protected function getClientName()
@@ -405,7 +415,8 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Get the file type.
 	 *
-	 * @return  string	The file type
+	 * @return  string  The file type
+	 *
 	 * @since   1.6
 	 */
 	public function getFileType()
@@ -416,7 +427,8 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Get the mime type.
 	 *
-	 * @return  string	The mime type.
+	 * @return  string  The mime type.
+	 *
 	 * @since   1.6
 	 */
 	public function getMimeType()
@@ -427,7 +439,8 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Get the content
 	 *
-	 * @return  string	The content.
+	 * @return  string  The content.
+	 *
 	 * @since   1.6
 	 */
 	public function getContent()

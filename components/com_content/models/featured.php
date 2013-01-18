@@ -23,7 +23,7 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	public $_context = 'com_content.frontpage';
 

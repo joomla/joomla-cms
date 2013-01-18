@@ -24,7 +24,7 @@ class plgContentJoomla extends JPlugin
 	 * Method is called right after the content is saved
 	 *
 	 * @param   string  The context of the content passed to the plugin (added in 1.6)
-	 * @param   object		A JTableContent object
+	 * @param   object  	A JTableContent object
 	 * @param   bool		If the content is just about to be created
 	 * @since   1.6
 	 */
@@ -85,8 +85,8 @@ class plgContentJoomla extends JPlugin
 	/**
 	 * Don't allow categories to be deleted if they contain items or subcategories with items
 	 *
-	 * @param   string	The context for the content passed to the plugin.
-	 * @param   object	The data relating to the content that was deleted.
+	 * @param   string  The context for the content passed to the plugin.
+	 * @param   object  The data relating to the content that was deleted.
 	 * @return  boolean
 	 * @since   1.6
 	 */
@@ -164,7 +164,7 @@ class plgContentJoomla extends JPlugin
 	/**
 	 * Get count of items in a category
 	 *
-	 * @param   string	table name of component table (column is catid)
+	 * @param   string  table name of component table (column is catid)
 	 * @param   integer  id of the category to check
 	 *
 	 * @return  mixed  count of items found or false if db error
@@ -196,7 +196,7 @@ class plgContentJoomla extends JPlugin
 	/**
 	 * Get count of items in a category's child categories
 	 *
-	 * @param   string	table name of component table (column is catid)
+	 * @param   string  table name of component table (column is catid)
 	 * @param   integer  id of the category to check
 	 *
 	 * @return  mixed  count of items found or false if db error

@@ -23,7 +23,7 @@ class ContentHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	$vName	The name of the active view.
+	 * @param   string  $vName	The name of the active view.
 	 *
 	 * @return  void
 	 * @since   1.6
@@ -139,7 +139,8 @@ class ContentHelper
 				// No HTML filtering.
 				$unfiltered = true;
 			}
-			else {
+			else
+			{
 				// Black, white or custom list.
 				// Preprocess the tags and attributes.
 				$tags			= explode(',', $filterData->filter_tags);
@@ -256,7 +257,8 @@ class ContentHelper
 				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
 			}
 			// No HTML takes last place.
-			else {
+			else
+			{
 				$filter = JFilterInput::getInstance();
 			}
 

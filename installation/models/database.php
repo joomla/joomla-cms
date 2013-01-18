@@ -299,7 +299,7 @@ class InstallationModelDatabase extends JModelLegacy
 		}
 		else
 		{
-			// If the database isn't being deleted, back it up.
+			// If the database is not being deleted, back it up.
 			if (!$this->backupDatabase($db, $options->db_name, $options->db_prefix))
 			{
 				$this->setError(JText::_('INSTL_DATABASE_ERROR_BACKINGUP'));
@@ -750,7 +750,7 @@ class InstallationModelDatabase extends JModelLegacy
 			// Trim any whitespace.
 			$query = trim($query);
 
-			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
+			// If the query is not empty and is not a MySQL or PostgreSQL comment, execute it.
 			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
 			{
 				// Execute the query.

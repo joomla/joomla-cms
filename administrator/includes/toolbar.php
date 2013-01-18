@@ -619,8 +619,8 @@ abstract class JSubMenuHelper
 	/**
 	 * Method to add a menu item to submenu.
 	 *
-	 * @param   string	$name	 Name of the menu item.
-	 * @param   string	$link	 URL of the menu item.
+	 * @param   string  $name	 Name of the menu item.
+	 * @param   string  $link	 URL of the menu item.
 	 * @param   bool	$active  True if the item is active, false otherwise.
 	 *
 	 * @return  void
@@ -651,9 +651,9 @@ abstract class JSubMenuHelper
 	/**
 	 * Method to add a filter to the submenu
 	 *
-	 * @param   string	$label      Label for the menu item.
-	 * @param   string	$name       name for the filter. Also used as id.
-	 * @param   string	$options    options for the select field.
+	 * @param   string  $label      Label for the menu item.
+	 * @param   string  $name       name for the filter. Also used as id.
+	 * @param   string  $options    options for the select field.
 	 * @param   bool	$noDefault  Don't the label as the empty option
 	 *
 	 * @return  void

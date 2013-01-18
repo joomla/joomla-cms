@@ -47,7 +47,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		// Log the start
 		JLog::add('Starting the indexer', JLog::INFO);
 
-		// We don't want this form to be cached.
+		// We do not want this form to be cached.
 		header('Pragma: no-cache');
 		header('Cache-Control: no-cache');
 		header('Expires: -1');
@@ -114,7 +114,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		// Log the start
 		JLog::add('Starting the indexer batch process', JLog::INFO);
 
-		// We don't want this form to be cached.
+		// We do not want this form to be cached.
 		header('Pragma: no-cache');
 		header('Cache-Control: no-cache');
 		header('Expires: -1');
@@ -142,7 +142,7 @@ class FinderControllerIndexer extends JControllerLegacy
 
 		/*
 		 * We are going to swap out the raw document object with an HTML document
-		 * in order to work around some plugins that don't do proper environment
+		 * in order to work around some plugins that do not do proper environment
 		 * checks before trying to use HTML document functions.
 		 */
 		$raw = clone(JFactory::getDocument());
@@ -218,7 +218,7 @@ class FinderControllerIndexer extends JControllerLegacy
 	 */
 	public function optimize()
 	{
-		// We don't want this form to be cached.
+		// We do not want this form to be cached.
 		header('Pragma: no-cache');
 		header('Cache-Control: no-cache');
 		header('Expires: -1');

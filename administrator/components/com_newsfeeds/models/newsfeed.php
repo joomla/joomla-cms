@@ -21,7 +21,7 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
 class NewsfeedsModelNewsfeed extends JModelAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var    string	The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_NEWSFEEDS';
@@ -148,7 +148,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	A record object.
+	 * @param   object  A record object.
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
@@ -166,7 +166,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			{
 				return $user->authorise('core.delete', 'com_newsfeed.category.'.(int) $record->catid);
 			}
-			else {
+			else
+			{
 				return parent::canDelete($record);
 			}
 		}
@@ -175,7 +176,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state changed.
 	 *
-	 * @param   object	A record object.
+	 * @param   object  A record object.
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
@@ -196,8 +197,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param   type	The table type to instantiate
-	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   type    The table type to instantiate
+	 * @param   string  A prefix for the table class name. Optional.
 	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	*/
@@ -210,7 +211,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * Method to get the record form.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -480,7 +481,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object	A record object.
+	 * @param   object  A record object.
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 * @since   1.6
 	 */

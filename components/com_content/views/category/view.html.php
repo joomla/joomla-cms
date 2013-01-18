@@ -138,7 +138,7 @@ class ContentViewCategory extends JViewLegacy
 				$this->setLayout($layout);
 			}
 		}
-		// At this point, we are in a menu item, so we don't override the layout
+		// At this point, we are in a menu item, so we do not override the layout
 		elseif (isset($active->query['layout']))
 		{
 			// We need to set the layout from the query in case this is an alternative menu item (with an alternative layout)

@@ -31,7 +31,7 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_context = 'com_installer.install';
 

@@ -21,8 +21,8 @@ class JJsonResponse
 	/**
 	 * Determines whether the request was successful
 	 *
-	 * @var		boolean
-	 * @since	2.5
+	 * @var    boolean
+	 * @since   2.5
 	 */
 	public $success = true;
 
@@ -31,24 +31,24 @@ class JJsonResponse
 	 * This is always the negation of $this->success,
 	 * so you can use both flags equivalently.
 	 *
-	 * @var		boolean
-	 * @since	2.5
+	 * @var    boolean
+	 * @since   2.5
 	 */
 	public $error = false;
 
 	/**
 	 * The main response message
 	 *
-	 * @var		string
-	 * @since	2.5
+	 * @var    string
+	 * @since   2.5
 	 */
 	public $message = null;
 
 	/**
 	 * Array of messages gathered in the JApplication object
 	 *
-	 * @var		array
-	 * @since	2.5
+	 * @var    array
+	 * @since   2.5
 	 */
 	public $messages = null;
 
@@ -56,7 +56,7 @@ class JJsonResponse
 	 * The response data
 	 *
 	 * var		array/object
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public $data = null;
 
@@ -116,7 +116,7 @@ class JJsonResponse
 	/**
 	 * Magic toString method for sending the response in JSON format
 	 *
-	 * @return  string	The response in JSON format
+	 * @return  string  The response in JSON format
 	 *
 	 * @since		2.5
 	 */

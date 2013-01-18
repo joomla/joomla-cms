@@ -21,7 +21,7 @@ class MenusControllerMenu extends JControllerForm
 	/**
 	 * Dummy method to redirect back to standard controller
 	 *
-	 * @param   boolean			If true, the view output will be cached
+	 * @param   boolean  If true, the view output will be cached
 	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
@@ -50,7 +50,7 @@ class MenusControllerMenu extends JControllerForm
 
 		if (!$this->checkEditId($context, $recordId))
 		{
-			// Somehow the person just went to the form and saved it - we don't allow that.
+			// Somehow the person just went to the form and saved it - we do not allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));

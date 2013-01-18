@@ -21,8 +21,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $_context = 'com_newsfeeds.newsfeed';
 

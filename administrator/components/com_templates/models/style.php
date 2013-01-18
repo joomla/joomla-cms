@@ -19,13 +19,13 @@ defined('_JEXEC') or die;
 class TemplatesModelStyle extends JModelAdmin
 {
 	/**
-	 * @var		string	The help screen key for the module.
+	 * @var    string	The help screen key for the module.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
 
 	/**
-	 * @var		string	The help screen base URL for the module.
+	 * @var    string	The help screen base URL for the module.
 	 * @since   1.6
 	 */
 	protected $helpURL;
@@ -90,7 +90,8 @@ class TemplatesModelStyle extends JModelAdmin
 					return false;
 				}
 			}
-			else {
+			else
+			{
 				$this->setError($table->getError());
 				return false;
 			}
@@ -130,7 +131,7 @@ class TemplatesModelStyle extends JModelAdmin
 				// Reset the id to create a new record.
 				$table->id = 0;
 
-				// Reset the home (don't want dupes of that field).
+				// Reset the home (do not want dupes of that field).
 				$table->home = 0;
 
 				// Alter the title.
@@ -142,7 +143,8 @@ class TemplatesModelStyle extends JModelAdmin
 					throw new Exception($table->getError());
 				}
 			}
-			else {
+			else
+			{
 				throw new Exception($table->getError());
 			}
 		}
@@ -179,7 +181,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 * Method to get the record form.
 	 *
 	 * @param   array  $data		An optional array of data for the form to interogate.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -289,7 +291,8 @@ class TemplatesModelStyle extends JModelAdmin
 			{
 				$this->_cache[$pk]->xml = simplexml_load_file($path);
 			}
-			else {
+			else
+			{
 				$this->_cache[$pk]->xml = null;
 			}
 		}
@@ -300,8 +303,8 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type	The table type to instantiate
-	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   type    The table type to instantiate
+	 * @param   string  A prefix for the table class name. Optional.
 	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	*/
@@ -311,7 +314,7 @@ class TemplatesModelStyle extends JModelAdmin
 	}
 
 	/**
-	 * @param   object	A form object.
+	 * @param   object  A form object.
 	 * @param   mixed	The data expected for the form.
 	 * @throws	Exception if there is an error in the form event.
 	 * @since   1.6

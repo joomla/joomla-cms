@@ -19,13 +19,13 @@ defined('_JEXEC') or die;
 class PluginsModelPlugin extends JModelAdmin
 {
 	/**
-	 * @var		string	The help screen key for the module.
+	 * @var    string	The help screen key for the module.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_PLUGIN_MANAGER_EDIT';
 
 	/**
-	 * @var		string	The help screen base URL for the module.
+	 * @var    string	The help screen base URL for the module.
 	 * @since   1.6
 	 */
 	protected $helpURL;
@@ -33,13 +33,13 @@ class PluginsModelPlugin extends JModelAdmin
 	protected $_cache;
 
 	/**
-	 * @var		string	The event to trigger after saving the data.
+	 * @var    string	The event to trigger after saving the data.
 	 * @since   1.6
 	 */
 	protected $event_after_save = 'onExtensionAfterSave';
 
 	/**
-	 * @var		string	The event to trigger after before the data.
+	 * @var    string	The event to trigger after before the data.
 	 * @since   1.6
 	 */
 	protected $event_before_save = 'onExtensionBeforeSave';
@@ -48,7 +48,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * Method to get the record form.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -167,8 +167,8 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type	The table type to instantiate
-	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   type    The table type to instantiate
+	 * @param   string  A prefix for the table class name. Optional.
 	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	*/
@@ -198,7 +198,7 @@ class PluginsModelPlugin extends JModelAdmin
 	}
 
 	/**
-	 * @param   object	A form object.
+	 * @param   object  A form object.
 	 * @param   mixed	The data expected for the form.
 	 * @return  mixed  True if successful.
 	 * @throws	Exception if there is an error in the form event.
@@ -280,7 +280,7 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object	A record object.
+	 * @param   object  A record object.
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 * @since   1.6
 	 */

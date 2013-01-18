@@ -68,7 +68,7 @@ abstract class JHtmlContact
 	 * @param   int $i
 	 * @param   bool $canChange Whether the value can be changed or not
 	 *
-	 * @return  string	The anchor tag to toggle featured/unfeatured contacts.
+	 * @return  string  The anchor tag to toggle featured/unfeatured contacts.
 	 * @since   1.6
 	 */
 	public static function featured($value = 0, $i, $canChange = true)

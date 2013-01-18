@@ -1342,7 +1342,7 @@ class FinderIndexerQuery
 				// Get the levenshtein distance between terms.
 				$distance = levenshtein($st->term, $token->term);
 
-				// Make sure the levenshtein distance isn't over 50.
+				// Make sure the levenshtein distance is not over 50.
 				if ($distance < 50)
 				{
 					$suggestions[$sk] = $distance;

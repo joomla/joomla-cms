@@ -193,7 +193,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		// We only want to handle news feeds here
 		if ($context == 'com_newsfeeds.newsfeed')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level if the item is not new
 			if (!$isNew)
 			{
 				$this->checkItemAccess($row);
@@ -203,7 +203,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		// Check for access levels from the category
 		if ($context == 'com_categories.category')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level if the item is not new
 			if (!$isNew)
 			{
 				$this->checkCategoryAccess($row);

@@ -57,7 +57,7 @@ class WeblinksViewWeblink extends JViewLegacy
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		// Since we don't track these assets at the item level, use the category id.
+		// Since we do not track these assets at the item level, use the category id.
 		$canDo		= WeblinksHelper::getActions($this->item->catid, 0);
 
 		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINK'), 'weblinks.png');

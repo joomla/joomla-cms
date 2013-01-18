@@ -22,7 +22,7 @@ class WeblinksModelWeblink extends JModelItem
 	 * Model context string.
 	 *
 	 * @access	protected
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_context = 'com_weblinks.weblink';
 
