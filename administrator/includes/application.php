@@ -216,7 +216,7 @@ class JAdministrator extends JApplication
 	 * @param   array  Array('remember' => boolean)
 	 *
 	 * @return  boolean True on success.
-	 * @see		JApplication::login
+	 * @see     JApplication::login
 	 * @since   1.5
 	 */
 	public function login($credentials, $options = array())

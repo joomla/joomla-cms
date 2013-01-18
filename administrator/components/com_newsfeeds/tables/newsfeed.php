@@ -30,7 +30,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 *
 	 * @param   array  Named array
 	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see		JTable:bind
+	 * @see     JTable:bind
 	 * @since   1.5
 	 */
 	public function bind($array, $ignore = '')

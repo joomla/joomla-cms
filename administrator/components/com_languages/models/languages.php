@@ -22,7 +22,7 @@ class LanguagesModelLanguages extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -51,7 +51,11 @@ class LanguagesModelLanguages extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
