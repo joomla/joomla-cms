@@ -29,6 +29,7 @@ $ -> Language fix or change
 18-Jan-2013 Jean-Marie Simonet
  # [#29979] Codestyle pass 1. Thanks Elin.
  ^ Updating copyright
+ # [#29952] template manager pagination broken. Thanks Yannick
 
 17-Jan-2013 Jean-Marie Simonet
  #$+ [#29897] *Multilanguage: adding items associations in remaining core components. Thanks Benjamin
