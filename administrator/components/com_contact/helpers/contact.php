@@ -21,10 +21,10 @@ class ContactHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	$vName	The name of the active view.
+	 * @param   string	$vName	The name of the active view.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -50,33 +50,37 @@ class ContactHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param	int		The category ID.
-	 * @param	int		The contact ID.
+	 * @param   integer  The category ID.
+	 * @param   integer  The contact ID.
 	 *
-	 * @return	JObject
-	 * @since	1.6
+	 * @return  JObject
+	 * @since   1.6
 	 */
 	public static function getActions($categoryId = 0, $contactId = 0)
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($contactId) && empty($categoryId)) {
+		if (empty($contactId) && empty($categoryId))
+		{
 			$assetName = 'com_contact';
 			$level = 'component';
 		}
-		elseif (empty($contactId)) {
+		elseif (empty($contactId))
+		{
 			$assetName = 'com_contact.category.'.(int) $categoryId;
 			$level = 'category';
 		}
-		else {
+		else
+		{
 			$assetName = 'com_contact.contact.'.(int) $contactId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_contact', $level);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -104,12 +108,14 @@ class ContactHelper
 		$contactitems = $db->loadObjectList('language');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}
 
-		foreach ($contactitems as $tag => $item) {
+		foreach ($contactitems as $tag => $item)
+		{
 			$associations[$tag] = $item;
 		}
 

@@ -185,7 +185,8 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 			/*
 			 * @todo: On hold
-			 * if ($data->items[$i]->source!="") {
+			 * if ($data->items[$i]->source!="")
+		{
 			 *   $data.= "			<source>".htmlspecialchars($data->items[$i]->source, ENT_COMPAT, 'UTF-8')."</source>\n";
 			 * }
 			 */

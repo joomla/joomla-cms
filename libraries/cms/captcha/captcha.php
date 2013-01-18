@@ -87,7 +87,7 @@ class JCaptcha extends JObject
 	 * @param   string  $captcha  The plugin to use.
 	 * @param   array   $options  Associative array of options.
 	 *
-	 * @return	JCaptcha  Instance of this class.
+	 * @return  JCaptcha  Instance of this class.
 	 *
 	 * @since 2.5
 	 */

@@ -51,7 +51,7 @@ class JSessionStorageWincache extends JSessionStorage
 	/**
 	 * Test to see if the SessionHandler is available.
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   12.1
 	 */

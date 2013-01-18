@@ -44,7 +44,8 @@ else
 }
 
 // Set the inbox class.
-if ($unread) {
+if ($unread)
+{
 	$inboxClass = 'unread-messages';
 } else {
 	$inboxClass = 'no-unread-messages';

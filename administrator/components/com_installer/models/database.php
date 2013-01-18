@@ -33,7 +33,7 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{

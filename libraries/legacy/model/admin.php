@@ -273,7 +273,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	12.2
+	 * @since   12.2
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -437,7 +437,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since	12.2
+	 * @since   12.2
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
@@ -709,9 +709,9 @@ abstract class JModelAdmin extends JModelForm
 	 * @param   string   $alias        The alias.
 	 * @param   string   $title        The title.
 	 *
-	 * @return	array  Contains the modified title and alias.
+	 * @return  array  Contains the modified title and alias.
 	 *
-	 * @since	12.2
+	 * @since   12.2
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{

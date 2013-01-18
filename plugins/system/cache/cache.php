@@ -26,9 +26,9 @@ class plgSystemCache extends JPlugin
 	 * Constructor
 	 *
 	 * @access	protected
-	 * @param	object	$subject The object to observe
-	 * @param	array	$config  An array that holds the plugin configuration
-	 * @since	1.0
+	 * @param   object	$subject The object to observe
+	 * @param   array  $config  An array that holds the plugin configuration
+	 * @since   1.0
 	 */
 	function __construct(& $subject, $config)
 	{
@@ -56,15 +56,18 @@ class plgSystemCache extends JPlugin
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		if ($app->isAdmin() || JDEBUG) {
+		if ($app->isAdmin() || JDEBUG)
+		{
 			return;
 		}
 
-		if (count($app->getMessageQueue())) {
+		if (count($app->getMessageQueue()))
+		{
 			return;
 		}
 
-		if ($user->get('guest') && $app->input->getMethod() == 'GET') {
+		if ($user->get('guest') && $app->input->getMethod() == 'GET')
+		{
 			$this->_cache->setCaching(true);
 		}
 
@@ -90,16 +93,19 @@ class plgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin() || JDEBUG) {
+		if ($app->isAdmin() || JDEBUG)
+		{
 			return;
 		}
 
-		if (count($app->getMessageQueue())) {
+		if (count($app->getMessageQueue()))
+		{
 			return;
 		}
 
 		$user = JFactory::getUser();
-		if ($user->get('guest')) {
+		if ($user->get('guest'))
+		{
 			//We need to check again here, because auto-login plugins have not been fired before the first aid check
 			$this->_cache->store($this->_cache_key);
 		}

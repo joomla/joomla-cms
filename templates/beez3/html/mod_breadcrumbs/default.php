@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 
-<div class="breadcrumbs<?php echo $moduleclass_sfx; ?>">
+<div class = "breadcrumbs<?php echo $moduleclass_sfx; ?>">
 <?php if ($params->get('showHere', 1))
 	{
 		echo '<span class="showHere">' .JText::_('MOD_BREADCRUMBS_HERE').'</span>';
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 	// Get rid of duplicated entries on trail including home page when using multilanguage
 	for ($i = 0; $i < $count; $i ++)
 	{
-		if ($i == 1 && !empty($list[$i]->link) && !empty($list[$i-1]->link) && $list[$i]->link == $list[$i-1]->link)
+		if ($i == 1 && !empty($list[$i]->link) && !empty($list[$i - 1]->link) && $list[$i]->link == $list[$i-1]->link)
 		{
 			unset($list[$i]);
 		}
@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 	$penult_item_key = key($list);
 
 	// Generate the trail
-	foreach ($list as $key=>$item) :
+	foreach ($list as $key => $item) :
 	// Make a link if not the last item in the breadcrumbs
 	$show_last = $params->get('showLast', 1);
 	if ($key != $last_item_key)

@@ -623,7 +623,7 @@ class JForm
 	 * form definition then the behavior or load will vary depending upon the replace flag.  If it
 	 * is set to true, then the existing field will be replaced in its exact location by the new
 	 * field being loaded.  If it is false, then the new field being loaded will be ignored and the
-	 * method will move on to the next field to load.
+	 * Method will move on to the next field to load.
 	 *
 	 * @param   string  $data     The name of an XML string or object.
 	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field

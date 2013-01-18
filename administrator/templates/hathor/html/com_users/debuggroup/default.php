@@ -41,7 +41,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="selectlabel" for="filter_component"><?php echo JText::_('COM_USERS_OPTION_SELECT_COMPONENT'); ?></label>
 			<select name="filter_component" class="inputbox" id="filter_component">
 				<option value=""><?php echo JText::_('COM_USERS_OPTION_SELECT_COMPONENT');?></option>
-				<?php if (!empty($this->components)) {
+				<?php if (!empty($this->components))
+				{
 					echo JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));
 				}?>
 			</select>

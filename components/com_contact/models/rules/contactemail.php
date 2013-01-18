@@ -41,7 +41,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 		$params = JComponentHelper::getParams('com_contact');
 		$banned = $params->get('banned_email');
 
-		foreach(explode(';', $banned) as $item){
+		foreach (explode(';', $banned) as $item){
 			if (JString::stristr($item, $value) !== false)
 					return false;
 		}

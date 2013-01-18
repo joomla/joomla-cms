@@ -16,7 +16,8 @@
  */
 
 
-function com_install() {
+function com_install()
+{
 	echo '<p>'. JText::_('COM_DELTA_LEGACY_INSTALLATION_SCRIPT') .'</p>';
 }
 

@@ -17,13 +17,14 @@ defined('_JEXEC') or die;
 abstract class JHtmlModules
 {
 	/**
-	 * @param	int $clientId	The client id
-	 * @param	string $state 	The state of the template
+	 * @param   int $clientId	The client id
+	 * @param   string $state 	The state of the template
 	 */
 	static public function templates($clientId = 0, $state = '')
 	{
 		$templates = ModulesHelper::getTemplates($clientId, $state);
-		foreach ($templates as $template) {
+		foreach ($templates as $template)
+		{
 			$options[]	= JHtml::_('select.option', $template->element, $template->name);
 		}
 		return $options;
@@ -176,7 +177,8 @@ abstract class JHtmlModules
 		}
 
 		// Pop the first item off the array if it's blank
-		if(count($options)) {
+		if(count($options))
+		{
 			if (strlen($options[0]->text) < 1)
 			{
 				array_shift($options);

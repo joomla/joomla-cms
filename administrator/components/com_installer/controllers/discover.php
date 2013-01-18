@@ -23,7 +23,7 @@ class InstallerControllerDiscover extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function refresh()
 	{
@@ -37,7 +37,7 @@ class InstallerControllerDiscover extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function install()
 	{
@@ -51,7 +51,7 @@ class InstallerControllerDiscover extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function purge()
 	{

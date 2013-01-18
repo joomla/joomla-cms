@@ -21,7 +21,7 @@ abstract class NewsfeedsHelperRoute
 	protected static $lookup;
 
 	/**
-	 * @param	int	The route of the newsfeed
+	 * @param   integer  The route of the newsfeed
 	 */
 	public static function getNewsfeedRoute($id, $catid, $language = 0)
 	{
@@ -37,7 +37,8 @@ abstract class NewsfeedsHelperRoute
 			$categories = JCategories::getInstance('Newsfeeds');
 			$category = $categories->get((int) $catid);
 
-			if ($category) {
+			if ($category)
+			{
 				//TODO Throw error that the category either not exists or is unpublished
 				$needles['category'] = array_reverse($category->getPath());
 				$needles['categories'] = $needles['category'];
@@ -204,7 +205,7 @@ abstract class NewsfeedsHelperRoute
 			{
 				if (isset(self::$lookup[$language][$view]))
 				{
-					foreach($ids as $id)
+					foreach ($ids as $id)
 					{
 						if (isset(self::$lookup[$language][$view][(int) $id]))
 						{

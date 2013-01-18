@@ -32,8 +32,10 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 <?php foreach ($this->items as $i => $item):?>
 <?php if ($item->user_count > 0):?>
 			cb = f['cb'+<?php echo $i;?>];
-			if (cb && cb.checked) {
-				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE'))) {
+			if (cb && cb.checked)
+			{
+				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE')))
+				{
 					Joomla.submitform(task);
 				}
 				return;
@@ -87,7 +89,8 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 			$canCreate = $user->authorise('core.create', 'com_users');
 			$canEdit   = $user->authorise('core.edit',   'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin'))) {
+			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
+			{
 				$canEdit = false;
 			}
 			$canChange	= $user->authorise('core.edit.state',	'com_users');

@@ -418,7 +418,7 @@ class JGrid
 	 * @param   string  $area  Name of the area to render. Valid: tbody, tfoot, thead
 	 * @param   string  $cell  Name of the cell to render. Valid: td, th
 	 *
-	 * @return string The rendered table area
+	 * @return  string The rendered table area
 	 *
 	 * @since 11.3
 	 */

@@ -22,15 +22,15 @@ class JFormFieldModal_Contacts extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $type = 'Modal_Contacts';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string	The field input markup.
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -67,7 +67,8 @@ class JFormFieldModal_Contacts extends JFormField
 			JError::raiseWarning(500, $e->getMessage);
 		}
 
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = JText::_('COM_CONTACT_SELECT_A_CONTACT');
 		}
 
@@ -91,7 +92,8 @@ class JFormFieldModal_Contacts extends JFormField
 
 		// class='required' for client side validation
 		$class = '';
-		if ($this->required) {
+		if ($this->required)
+		{
 			$class = ' class="required modal-value"';
 		}
 

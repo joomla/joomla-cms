@@ -64,7 +64,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @since	12.1
+	 * @since   12.1
 	 */
 	public function __construct( $options )
 	{
@@ -179,9 +179,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Determines if the connection to the server is active.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 *
-	 * @since	12.1
+	 * @since   12.1
 	 */
 	public function connected()
 	{
@@ -201,7 +201,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  boolean	true
+	 * @return  boolean  true
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -219,7 +219,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the number of affected rows for the previous executed SQL statement.
 	 *
-	 * @return int The number of affected rows in the previous operation
+	 * @return  int The number of affected rows in the previous operation
 	 *
 	 * @since 12.1
 	 */
@@ -1040,7 +1040,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Returns an array containing database's table list.
 	 *
-	 * @return	array	The database's table list.
+	 * @return  array  The database's table list.
 	 */
 	public function showTables()
 	{
@@ -1065,7 +1065,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string  $substring  The string being sought
 	 * @param   string  $string     The string/column being searched
 	 *
-	 * @return int   The position of $substring in $string
+	 * @return  int   The position of $substring in $string
 	 */
 	public function getStringPositionSQL( $substring, $string )
 	{

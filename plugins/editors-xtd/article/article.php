@@ -46,9 +46,11 @@ class plgButtonArticle extends JPlugin
 		 * and closes the select frame.
 		 */
 		$js = "
-		function jSelectArticle(id, title, catid, object, link, lang) {
+		function jSelectArticle(id, title, catid, object, link, lang)
+		{
 			var hreflang = '';
-			if (lang !== '') {
+			if (lang !== '')
+			{
 				var hreflang = ' hreflang = \"' + lang + '\"';
 			}
 			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';

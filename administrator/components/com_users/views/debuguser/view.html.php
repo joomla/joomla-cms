@@ -40,7 +40,8 @@ class UsersViewDebugUser extends JViewLegacy
 		$this->components	= UsersHelperDebug::getComponents();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -53,7 +54,7 @@ class UsersViewDebugUser extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{

@@ -31,7 +31,7 @@ abstract class ModulesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
+	 * @return  JObject
 	 */
 	public static function getActions()
 	{
@@ -51,7 +51,7 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of filter options for the state of a module.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getStateOptions()
 	{
@@ -66,7 +66,7 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getClientOptions()
 	{

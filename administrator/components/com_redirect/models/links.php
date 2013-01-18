@@ -21,13 +21,14 @@ class RedirectModelLinks extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'old_url', 'a.old_url',
@@ -47,7 +48,7 @@ class RedirectModelLinks extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -75,10 +76,10 @@ class RedirectModelLinks extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string	A prefix for the store id.
+	 * @param   string	A prefix for the store id.
 	 *
-	 * @return	string	A store id.
-	 * @since	1.6
+	 * @return  string	A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -92,8 +93,8 @@ class RedirectModelLinks extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.6
+	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -112,16 +113,20 @@ class RedirectModelLinks extends JModelList
 
 		// Filter by published state
 		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.published = '.(int) $state);
-		} elseif ($state === '') {
+		} elseif ($state === '')
+		{
 			$query->where('(a.published IN (0,1,2))');
 		}
 
 		// Filter the items over the search string if set.
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');

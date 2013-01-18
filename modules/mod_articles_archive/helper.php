@@ -34,7 +34,8 @@ class modArchiveHelper
 		$query->group('created_year, created_month, id, title, created');
 
 		// Filter by language
-		if (JFactory::getApplication()->getLanguageFilter()) {
+		if (JFactory::getApplication()->getLanguageFilter())
+		{
 			$query->where('language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 		}
 
@@ -48,7 +49,8 @@ class modArchiveHelper
 
 		$i		= 0;
 		$lists	= array();
-		foreach ($rows as $row) {
+		foreach ($rows as $row)
+		{
 			$date = JFactory::getDate($row->created);
 
 			$created_month	= $date->format('n');

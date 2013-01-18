@@ -216,7 +216,7 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @param   int  $uid  the id of the language in the #__updates table
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   2.5.7
 	 */

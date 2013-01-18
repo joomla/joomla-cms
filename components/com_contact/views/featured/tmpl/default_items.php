@@ -94,7 +94,7 @@ $params = &$this->item->params;
 		<?php endif; ?>
 
 		<tbody>
-			<?php foreach($this->items as $i => $item) : ?>
+			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="<?php echo ($i % 2) ? "odd" : "even"; ?>">
 					<td class="item-num">
 						<?php echo $i; ?>

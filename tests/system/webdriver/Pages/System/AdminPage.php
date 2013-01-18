@@ -277,7 +277,8 @@ abstract class AdminPage
 		$menuContainer = $this->driver->findElement(By::id('menu'));
 		$menus = $menuContainer->findElements(By::tagName('a'));
 		$return = array();
-		foreach ($menus as $menu) {
+		foreach ($menus as $menu)
+		{
 			$menuObject = new stdClass;
 			$menuObject->href = $menu->getAttribute('href');
 			$menuObject->text = $menu->getText();
@@ -308,7 +309,8 @@ abstract class AdminPage
 		$menuContainer = $this->driver->findElement(By::id('menu'));
 		$menus = $menuContainer->findElements(By::tagName('a'));
 		$return = array();
-		foreach ($menus as $menu) {
+		foreach ($menus as $menu)
+		{
 			if ($text = $menu->getText())
 			{
 				$menuObject = new stdClass();

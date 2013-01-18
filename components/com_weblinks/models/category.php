@@ -36,13 +36,14 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -73,7 +74,7 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Method to get a list of items.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function getItems()
 	{
@@ -81,8 +82,10 @@ class WeblinksModelCategory extends JModelList
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++) {
-			if (!isset($this->_params)) {
+		for ($i = 0, $n = count($items); $i < $n; $i++)
+		{
+			if (!isset($this->_params))
+			{
 				$params = new JRegistry;
 				$params->loadString($items[$i]->params);
 				$items[$i]->params = $params;
@@ -95,8 +98,8 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return	string	An SQL query
-	 * @since	1.6
+	 * @return  string	An SQL query
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -113,14 +116,16 @@ class WeblinksModelCategory extends JModelList
 		$query->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
-		if ($categoryId = $this->getState('category.id')) {
+		if ($categoryId = $this->getState('category.id'))
+		{
 			$query->where('a.catid = '.(int) $categoryId);
 			$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
 			$query->where('c.access IN ('.$groups.')');
 
 			//Filter by published category
 			$cpublished = $this->getState('filter.c.published');
-			if (is_numeric($cpublished)) {
+			if (is_numeric($cpublished))
+			{
 				$query->where('c.published = '.(int) $cpublished);
 			}
 		}
@@ -135,7 +140,8 @@ class WeblinksModelCategory extends JModelList
 		// Filter by state
 
 		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.state = '.(int) $state);
 		}
 		// do not show trashed links on the front-end
@@ -152,7 +158,8 @@ class WeblinksModelCategory extends JModelList
 		}
 
 		// Filter by language
-		if ($this->getState('filter.language')) {
+		if ($this->getState('filter.language'))
+		{
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
@@ -174,7 +181,7 @@ class WeblinksModelCategory extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -192,13 +199,15 @@ class WeblinksModelCategory extends JModelList
 		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		$orderCol = $app->input->get('filter_order', 'ordering');
-		if (!in_array($orderCol, $this->filter_fields)) {
+		if (!in_array($orderCol, $this->filter_fields))
+		{
 			$orderCol = 'ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		{
 			$listOrder = 'ASC';
 		}
 		$this->setState('list.direction', $listOrder);
@@ -224,10 +233,10 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Method to get category data for the current category
 	 *
-	 * @param	int		An optional ID
+	 * @param   integer  An optional ID
 	 *
-	 * @return	object
-	 * @since	1.5
+	 * @return  object
+	 * @since   1.5
 	 */
 	public function getCategory()
 	{
@@ -269,9 +278,9 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Get the parent category
 	 *
-	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
+	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	public function getParent()
 	{
@@ -285,7 +294,7 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Get the sibling (adjacent) categories.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	function &getLeftSibling()
 	{
@@ -308,9 +317,9 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Get the child categories.
 	 *
-	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
+	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	function &getChildren()
 	{

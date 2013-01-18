@@ -49,7 +49,8 @@ class AdminViewSysinfo extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!JFactory::getUser()->authorise('core.admin')) {
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
@@ -88,7 +89,7 @@ class AdminViewSysinfo extends JViewLegacy
 	/**
 	 * Setup the Toolbar
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{

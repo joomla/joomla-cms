@@ -113,19 +113,22 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 	 * Takes screenshot of current screen, saves it in specified default directory or as specified in parameter
 	 * @param String $folder
 	 * @throws \Exception
-	 * @return string
+	 * @return  string
 	 */
 	public function helpScreenshot($fileName, $folder = null)
 	{
 		$this->driver->setCurrentWindowSize(1280, 1024);
 		$screenshotsDirectory = null;
-		if (isset($folder)) {
+		if (isset($folder))
+		{
 			$screenshotsDirectory = $folder;
 		}
-		else if ($this->driver->getScreenShotsDirectory()) {
+		else if ($this->driver->getScreenShotsDirectory())
+		{
 			$screenshotsDirectory = $this->driver->getScreenShotsDirectory();
 		}
-		else { throw new \Exception("Must Specify Screenshot Directory");
+		else
+		{ throw new \Exception("Must Specify Screenshot Directory");
 		}
 
 		$command = "screenshot";
@@ -136,7 +139,8 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 
 		if (isset($results["value"]) && trim($results["value"]) != "")
 		{
-			if (!file_exists($screenshotsDirectory)) {
+			if (!file_exists($screenshotsDirectory))
+			{
 				mkdir($screenshotsDirectory, 0777, true);
 			}
 

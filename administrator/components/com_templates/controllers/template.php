@@ -58,7 +58,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			JClientHelper::setCredentialsFromRequest('ftp');
 
 			// Check that new name is valid
-			if (($newNameRaw !== null) && ($newName !== $newNameRaw)) {
+			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
+			{
 				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'));
 				return false;
 			}

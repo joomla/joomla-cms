@@ -20,7 +20,7 @@ class ControlPanel0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(is_a($cpPage, 'ControlPanelPage'));
 		$visibleMenus = $cpPage->getVisibleMenuLinks();
 		$actualVisibleMenus = array();
-		foreach($visibleMenus as $menu)
+		foreach ($visibleMenus as $menu)
 		{
 			$actualVisibleMenus[] = $menu->text;
 		}

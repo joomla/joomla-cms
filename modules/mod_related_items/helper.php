@@ -59,7 +59,8 @@ abstract class modRelatedItemsHelper
 				foreach ($keys as $key)
 				{
 					$key = trim($key);
-					if ($key) {
+					if ($key)
+					{
 						$likes[] = $db->escape($key);
 					}
 				}
@@ -105,7 +106,8 @@ abstract class modRelatedItemsHelper
 					$query->where('(a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')');
 
 					// Filter by language
-					if ($app->getLanguageFilter()) {
+					if ($app->getLanguageFilter())
+					{
 						$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 					}
 

@@ -48,7 +48,7 @@ $this->direction = $doc->direction;
 		if (!is_array($files)):
 			$files = array($files);
 		endif;
-		foreach($files as $file):
+		foreach ($files as $file):
 ?>
 		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
 <?php
@@ -195,7 +195,8 @@ $this->direction = $doc->direction;
 </html>
 <?php } else { ?>
 <?php
-if (!isset($this->error)) {
+if (!isset($this->error))
+{
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 	$this->debug = false;
 }

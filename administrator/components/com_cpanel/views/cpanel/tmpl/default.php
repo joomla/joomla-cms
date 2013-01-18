@@ -49,7 +49,8 @@ $user = JFactory::getUser();
 		<?php
 		// Display the submenu position modules
 		$this->iconmodules = JModuleHelper::getModules('icon');
-		foreach ($this->iconmodules as $iconmodule) {
+		foreach ($this->iconmodules as $iconmodule)
+		{
 			$output = JModuleHelper::renderModule($iconmodule, array('style' => 'well'));
 			$params = new JRegistry;
 			$params->loadString($iconmodule->params);

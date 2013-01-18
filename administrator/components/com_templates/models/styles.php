@@ -21,13 +21,14 @@ class TemplatesModelStyles extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -45,7 +46,7 @@ class TemplatesModelStyles extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -76,9 +77,9 @@ class TemplatesModelStyles extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -93,7 +94,7 @@ class TemplatesModelStyles extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -125,20 +126,24 @@ class TemplatesModelStyles extends JModelList
 		$query->where($db->quoteName('e.type') . '=' . $db->quote('template'));
 
 		// Filter by template.
-		if ($template = $this->getState('filter.template')) {
+		if ($template = $this->getState('filter.template'))
+		{
 			$query->where('a.template = '.$db->quote($template));
 		}
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
-		if (is_numeric($clientId)) {
+		if (is_numeric($clientId))
+		{
 			$query->where('a.client_id = '.(int) $clientId);
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');

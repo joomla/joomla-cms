@@ -15,7 +15,7 @@ $lang	= JFactory::getLanguage();
 
 if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) : ?>
 
-	<?php foreach($this->children[$this->category->id] as $id => $child) : ?>
+	<?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 		<?php
 		if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
 			if (!isset($this->children[$this->category->id][$id + 1])) :
