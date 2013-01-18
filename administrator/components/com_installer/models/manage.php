@@ -151,7 +151,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @param   int  $eid  extension identifier (key in #__extensions)
 	 *
-	 * @return  boolean	result of refresh
+	 * @return  boolean  result of refresh
 	 *
 	 * @since   1.6
 	 */
@@ -179,7 +179,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @param   array  $eid  An array of identifiers
 	 *
-	 * @return  boolean	True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
 	 */

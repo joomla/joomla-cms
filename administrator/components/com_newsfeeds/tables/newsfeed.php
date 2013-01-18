@@ -28,7 +28,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Overloaded bind function to pre-process the params.
 	 *
-	 * @param   array		Named array
+	 * @param   array  Named array
 	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see		JTable:bind
 	 * @since   1.5
@@ -62,7 +62,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Overloaded check method to ensure data integrity.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 */
 	public function check()
 	{
@@ -122,7 +122,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 * Overriden JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean	True to update fields even if they are null.
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
 	public function store($updateNulls = false)

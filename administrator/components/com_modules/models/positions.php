@@ -21,7 +21,7 @@ class ModulesModelPositions extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -76,7 +76,7 @@ class ModulesModelPositions extends JModelList
 	/**
 	 * Method to get an array of data items.
 	 *
-	 * @return  mixed	An array of data items on success, false on failure.
+	 * @return  mixed  An array of data items on success, false on failure.
 	 * @since   1.6
 	 */
 	public function getItems()

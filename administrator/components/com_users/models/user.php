@@ -41,7 +41,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */

@@ -31,7 +31,7 @@ class WeblinksTableWeblink extends JTable
 	/**
 	 * Overloaded bind function to pre-process the params.
 	 *
-	 * @param   array		Named array
+	 * @param   array  Named array
 	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see		JTable:bind
 	 * @since   1.5
@@ -66,7 +66,7 @@ class WeblinksTableWeblink extends JTable
 	 * Overload the store method for the Weblinks table.
 	 *
 	 * @param   boolean	Toggle whether null values should be updated.
-	 * @return  boolean	True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
@@ -119,7 +119,7 @@ class WeblinksTableWeblink extends JTable
 	/**
 	 * Overloaded check method to ensure data integrity.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 */
 	public function check()
 	{
@@ -194,7 +194,7 @@ class WeblinksTableWeblink extends JTable
 	 *					set the instance property value is used.
 	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer The user id of the user performing the operation.
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since   1.0.4
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)

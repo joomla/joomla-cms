@@ -85,7 +85,7 @@ class RedirectTableLink extends JTable
 	 *
 	 * @param   boolean	True to update fields even if they are null.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @see		JTable::store
 	 * @since   1.6
 	 */

@@ -296,8 +296,8 @@ final class JSite extends JApplication
 	/**
 	 * Login authentication function
 	 *
-	 * @param   array	Array('username' => string, 'password' => string)
-	 * @param   array	Array('remember' => boolean)
+	 * @param   array  Array('username' => string, 'password' => string)
+	 * @param   array  Array('remember' => boolean)
 	 *
 	 * @see JApplication::login
 	 */
@@ -348,7 +348,7 @@ final class JSite extends JApplication
 	 * Get the appliaction parameters
 	 *
 	 * @param   string	The component option
-	 * @return  object	The parameters object
+	 * @return  object  The parameters object
 	 * @since   1.5
 	 */
 	public function getParams($option = null)
@@ -416,7 +416,7 @@ final class JSite extends JApplication
 	 *
 	 * @param   string	The component option
 	 *
-	 * @return  object	The parameters object
+	 * @return  object  The parameters object
 	 * @since   1.5
 	 */
 	public function getPageParameters($option = null)
@@ -557,9 +557,9 @@ final class JSite extends JApplication
 	 * Return a reference to the JPathway object.
 	 *
 	 * @param   string	$name		The name of the application/client.
-	 * @param   array	$options	An optional associative array of configuration settings.
+	 * @param   array  $options	An optional associative array of configuration settings.
 	 *
-	 * @return  object	JMenu.
+	 * @return  object  JMenu.
 	 * @since   1.5
 	 */
 	public function getMenu($name = null, $options = array())
@@ -573,7 +573,7 @@ final class JSite extends JApplication
 	 * Return a reference to the JPathway object.
 	 *
 	 * @param   string	$name		The name of the application.
-	 * @param   array	$options	An optional associative array of configuration settings.
+	 * @param   array  $options	An optional associative array of configuration settings.
 	 *
 	 * @return  object JPathway.
 	 * @since   1.5
@@ -589,7 +589,7 @@ final class JSite extends JApplication
 	 * Return a reference to the JRouter object.
 	 *
 	 * @param   string	$name		The name of the application.
-	 * @param   array	$options	An optional associative array of configuration settings.
+	 * @param   array  $options	An optional associative array of configuration settings.
 	 *
 	 * @return  JRouter
 	 * @since   1.5
@@ -616,7 +616,7 @@ final class JSite extends JApplication
 	/**
 	 * Set the current state of the language filter.
 	 *
-	 * @return  boolean	The old state
+	 * @return  boolean  The old state
 	 * @since   1.6
 	 */
 	public function setLanguageFilter($state=false)
@@ -639,7 +639,7 @@ final class JSite extends JApplication
 	/**
 	 * Set the current state of the detect browser option.
 	 *
-	 * @return  boolean	The old state
+	 * @return  boolean  The old state
 	 * @since   1.6
 	 */
 	public function setDetectBrowser($state=false)

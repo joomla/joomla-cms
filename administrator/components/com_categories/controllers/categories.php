@@ -24,7 +24,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 * @param   string	$name	The model name. Optional.
 	 * @param   string	$prefix	The class prefix. Optional.
 	 *
-	 * @return  object	The model.
+	 * @return  object  The model.
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))

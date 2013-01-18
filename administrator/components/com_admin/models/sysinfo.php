@@ -19,32 +19,42 @@ defined('_JEXEC') or die;
 class AdminModelSysInfo extends JModelLegacy
 {
 	/**
-	 * @var array some php settings
+	 * @var array Some PHP settings
+	 * @since  1.6
 	 */
 	protected $php_settings = null;
 
 	/**
-	 * @var array config values
+	 * @var array Config values
+	 * @since  1.6
 	 */
 	protected $config = null;
 
 	/**
-	 * @var array somme system values
+	 * @var array Some system values
+	 * @since  1.6
 	 */
 	protected $info = null;
 
 	/**
-	 * @var string php info
+	 * @var string PHP info
+	 * @since  1.6
 	 */
 	protected $php_info = null;
 
 	/**
-	 * @var array informations about writable state of directories
+	 * Information about writable state of directories
+	 *
+	 * @var array
+	 * @since  1.6
 	 */
 	protected $directories = null;
 
 	/**
-	 * @var string The current editor.
+	 * The current editor.
+	 *
+	 * @var string
+	 * @since  1.6
 	 */
 	protected $editor = null;
 
@@ -52,6 +62,8 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Method to get the ChangeLog
 	 *
 	 * @return array some php settings
+	 *
+	 * @since  1.6
 	 */
 	public function &getPhpSettings()
 	{
@@ -75,13 +87,16 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->php_settings['mbstring']				= extension_loaded('mbstring');
 			$this->php_settings['iconv']				= function_exists('iconv');
 		}
+
 		return $this->php_settings;
 	}
 
 	/**
 	 * Method to get the config
 	 *
-	 * @return array config values
+	 * @return  array  config values
+	 *
+	 * @since  1.6
 	 */
 	public function &getConfig()
 	{
@@ -95,13 +110,16 @@ class AdminModelSysInfo extends JModelLegacy
 				$this->config[$key] = 'xxxxxx';
 			}
 		}
+
 		return $this->config;
 	}
 
 	/**
 	 * Method to get the system information
 	 *
-	 * @return array system information values
+	 * @return  array system information values
+	 *
+	 * @since   1.6
 	 */
 	public function &getInfo()
 	{
@@ -135,6 +153,8 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Method to get the PHP info
 	 *
 	 * @return  string PHP info
+	 *
+	 * @since  1.6
 	 */
 	public function &getPHPInfo()
 	{
@@ -162,7 +182,9 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get the directory states
 	 *
-	 * @return array states of directories
+	 * @return array States of directories
+	 *
+	 * @since  1.6
 	 */
 	public function getDirectory()
 	{
@@ -271,6 +293,12 @@ class AdminModelSysInfo extends JModelLegacy
 		return $this->directories;
 	}
 
+	/**
+	 * Method to add a directory
+	 *
+	 * @return void
+	 * @since  1.6
+	 */
 	private function _addDirectory($name, $path, $message = '')
 	{
 		$this->directories[$name] = array('writable' => is_writable($path), 'message' => $message);
@@ -279,9 +307,11 @@ class AdminModelSysInfo extends JModelLegacy
 	/**
 	 * Method to get the editor
 	 *
-	 * @return  string the default editor
+	 * @return  string The default editor
 	 *
-	 * has to be removed (it is present in the config...)
+	 * @note: has to be removed (it is present in the config...)
+	 *
+	 * @since  1.6
 	 */
 	public function &getEditor()
 	{

@@ -109,8 +109,8 @@ class SearchModelSearch extends JModelLegacy
 	 * Method to set the search areas
 	 *
 	 * @access	public
-	 * @param   array	Active areas
-	 * @param   array	Search areas
+	 * @param   array  Active areas
+	 * @param   array  Search areas
 	 */
 	public function setAreas($active = array(), $search = array())
 	{

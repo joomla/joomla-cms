@@ -47,7 +47,7 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array	$data		Data for the form.
+	 * @param   array  $data		Data for the form.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -97,7 +97,7 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed	The data for the form.
+	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -118,7 +118,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 *
 	 * @param   integer	The id of the primary key.
 	 *
-	 * @return  mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 */
 	public function getItem($pk = null)
 	{
@@ -169,7 +169,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 *
 	 * @param   type	The table type to instantiate
 	 * @param   string	A prefix for the table class name. Optional.
-	 * @param   array	Configuration array for model. Optional.
+	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	*/
 	public function getTable($type = 'Extension', $prefix = 'JTable', $config = array())
@@ -200,7 +200,7 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * @param   object	A form object.
 	 * @param   mixed	The data expected for the form.
-	 * @return  mixed	True if successful.
+	 * @return  mixed  True if successful.
 	 * @throws	Exception if there is an error in the form event.
 	 * @since   1.6
 	 */
@@ -295,8 +295,8 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Override method to save the form data.
 	 *
-	 * @param   array	The form data.
-	 * @return  boolean	True on success.
+	 * @param   array  The form data.
+	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
 	public function save($data)
@@ -313,7 +313,7 @@ class PluginsModelPlugin extends JModelAdmin
 	/**
 	 * Get the necessary data to load an item help screen.
 	 *
-	 * @return  object	An object with key, url, and local properties for loading the item help screen.
+	 * @return  object  An object with key, url, and local properties for loading the item help screen.
 	 * @since   1.6
 	 */
 	public function getHelp()

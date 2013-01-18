@@ -52,7 +52,7 @@ class NewsfeedsModelCategory extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -75,7 +75,7 @@ class NewsfeedsModelCategory extends JModelList
 	/**
 	 * Method to get a list of items.
 	 *
-	 * @return  mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function getItems()
 	{
@@ -266,7 +266,7 @@ class NewsfeedsModelCategory extends JModelList
 	 *
 	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	public function getParent()
 	{
@@ -280,7 +280,7 @@ class NewsfeedsModelCategory extends JModelList
 	/**
 	 * Get the sibling (adjacent) categories.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	function &getLeftSibling()
 	{
@@ -305,7 +305,7 @@ class NewsfeedsModelCategory extends JModelList
 	 *
 	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	function &getChildren()
 	{

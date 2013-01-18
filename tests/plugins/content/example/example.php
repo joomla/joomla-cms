@@ -141,7 +141,7 @@ class plgContentExample extends JPlugin
 	 * Example after delete method.
 	 *
 	 * @param   string	The context for the content passed to the plugin.
-	 * @param   array	A list of primary key ids of the content that has changed state.
+	 * @param   array  A list of primary key ids of the content that has changed state.
 	 * @param   integer  The value of the state that the content has been changed to.
 	 * @return  boolean
 	 * @since   1.6

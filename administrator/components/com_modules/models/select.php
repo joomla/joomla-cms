@@ -103,7 +103,7 @@ class ModulesModelSelect extends JModelList
 	/**
 	 * Method to get a list of items.
 	 *
-	 * @return  mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function &getItems()
 	{

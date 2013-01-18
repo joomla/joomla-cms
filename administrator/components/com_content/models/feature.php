@@ -24,7 +24,7 @@ class ContentModelFeature extends ContentModelArticle
 	 *
 	 * @param   type	The table type to instantiate
 	 * @param   string	A prefix for the table class name. Optional.
-	 * @param   array	Configuration array for model. Optional.
+	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	*/
 	public function getTable($type = 'Featured', $prefix = 'ContentTable', $config = array())

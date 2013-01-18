@@ -35,7 +35,7 @@ class UsersModelGroup extends JModelAdmin
 	 *
 	 * @param   type	The table type to instantiate
 	 * @param   string	A prefix for the table class name. Optional.
-	 * @param   array	Configuration array for model. Optional.
+	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	 * @since   1.6
 	*/
@@ -48,7 +48,7 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array	$data		An optional array of data for the form to interogate.
+	 * @param   array  $data		An optional array of data for the form to interogate.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -70,7 +70,7 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed	The data for the form.
+	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -108,8 +108,8 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array	The form data.
-	 * @return  boolean	True on success.
+	 * @param   array  The form data.
+	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
 	public function save($data)
@@ -192,8 +192,8 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to delete rows.
 	 *
-	 * @param   array	An array of item ids.
-	 * @return  boolean	Returns true on success, false on failure.
+	 * @param   array  An array of item ids.
+	 * @return  boolean  Returns true on success, false on failure.
 	 * @since   1.6
 	 */
 	public function delete(&$pks)

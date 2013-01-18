@@ -29,7 +29,7 @@ class ContactViewCategories extends JViewLegacy
 	/**
 	 * Display the view
 	 *
-	 * @return  mixed	False on error, null otherwise.
+	 * @return  mixed  False on error, null otherwise.
 	 */
 	public function display($tpl = null)
 	{

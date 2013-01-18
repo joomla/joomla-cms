@@ -61,7 +61,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	 *
 	 * @param   integer	The id of the newsfeed.
 	 *
-	 * @return  mixed	Menu item data object on success, false on failure.
+	 * @return  mixed  Menu item data object on success, false on failure.
 	 * @since   1.6
 	 */
 	public function &getItem($pk = null)

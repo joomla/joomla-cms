@@ -18,7 +18,8 @@ class ContactTableContact extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param object Database connector object
+	 * @param  JDatabase  Database connector object
+	 *
 	 * @since 1.0
 	 */
 	public function __construct(& $db)
@@ -29,8 +30,10 @@ class ContactTableContact extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array		Named array
-	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   array  $array   Named array to bind
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 * @since   1.6
 	 */
 	public function bind($array, $ignore = '')
@@ -56,7 +59,9 @@ class ContactTableContact extends JTable
 	 * Stores a contact
 	 *
 	 * @param   boolean	True to update fields even if they are null.
-	 * @return  boolean	True on success, false on failure.
+	 *
+	 * @return  boolean  True on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
@@ -71,6 +76,7 @@ class ContactTableContact extends JTable
 
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
+
 		if ($this->id)
 		{
 			// Existing item
@@ -114,6 +120,7 @@ class ContactTableContact extends JTable
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
+
 			return false;
 		}
 
@@ -124,7 +131,8 @@ class ContactTableContact extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return  boolean
+	 * @return  boolean  True on success, false on failure
+	 *
 	 * @see JTable::check
 	 * @since 1.5
 	 */
@@ -135,6 +143,7 @@ class ContactTableContact extends JTable
 		if (JFilterInput::checkAttribute(array ('href', $this->webpage)))
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_URL'));
+
 			return false;
 		}
 
@@ -142,6 +151,7 @@ class ContactTableContact extends JTable
 		if (trim($this->name) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 				/** check for existing name */
@@ -152,6 +162,7 @@ class ContactTableContact extends JTable
 		if ($xid && $xid != (int) $this->id)
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_SAME_NAME'));
+
 			return false;
 		}
 
@@ -168,6 +179,7 @@ class ContactTableContact extends JTable
 		if (trim($this->catid) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));
+
 			return false;
 		}
 
@@ -175,15 +187,17 @@ class ContactTableContact extends JTable
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+
 			return false;
 		}
 
 		return true;
-		// clean up keywords -- eliminate extra spaces between phrases
+
+		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey))
 		{
-			// only process if not empty
+			// Only process if not empty
 			$bad_characters = array("\n", "\r", "\"", "<", ">"); // array of characters to remove
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
@@ -197,13 +211,14 @@ class ContactTableContact extends JTable
 			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
 		}
 
-		// clean up description -- eliminate quotes and <> brackets
+		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
-			// only process if not empty
+			// Only process if not empty
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}
+
 		return true;
 	}
 }

@@ -188,7 +188,7 @@ class ContentHelperQuery
 	 * across columns in the layout, the result is that the
 	 * desired article ordering is achieved down the columns.
 	 *
-	 * @param   array	$articles	Array of intro text articles
+	 * @param   array  $articles	Array of intro text articles
 	 * @param   integer	$numColumns	Number of columns in the layout
 	 *
 	 * @return  array  Reordered array to achieve desired ordering down columns

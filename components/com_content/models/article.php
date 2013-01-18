@@ -60,7 +60,7 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @param   integer	The id of the article.
 	 *
-	 * @return  mixed	Menu item data object on success, false on failure.
+	 * @return  mixed  Menu item data object on success, false on failure.
 	 */
 	public function &getItem($pk = null)
 	{
@@ -241,7 +241,7 @@ class ContentModelArticle extends JModelItem
 	 *
 	 * @param   integer  Optional primary key of the article to increment.
 	 *
-	 * @return  boolean	True if successful; false otherwise and internal error set.
+	 * @return  boolean  True if successful; false otherwise and internal error set.
 	 */
 	public function hit($pk = 0)
 	{

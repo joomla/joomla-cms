@@ -22,7 +22,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Class constructor
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	 *
 	 * @since   1.5
@@ -39,7 +39,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Initialise the application.
 	 *
-	 * @param   array	$options	An optional associative array of configuration settings.
+	 * @param   array  $options	An optional associative array of configuration settings.
 	 *
 	 * @return  void
 	 * @since   1.5
@@ -212,8 +212,8 @@ class JAdministrator extends JApplication
 	/**
 	 * Login authentication function
 	 *
-	 * @param   array	Array('username' => string, 'password' => string)
-	 * @param   array	Array('remember' => boolean)
+	 * @param   array  Array('username' => string, 'password' => string)
+	 * @param   array  Array('remember' => boolean)
 	 *
 	 * @return  boolean True on success.
 	 * @see		JApplication::login

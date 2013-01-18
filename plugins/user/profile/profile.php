@@ -150,7 +150,7 @@ class plgUserProfile extends JPlugin
 
 	/**
 	 * @param   JForm	$form	The form to be altered.
-	 * @param   array	$data	The associated data for the form.
+	 * @param   array  $data	The associated data for the form.
 	 *
 	 * @return  boolean
 	 * @since   1.6
@@ -313,7 +313,7 @@ class plgUserProfile extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param   array		$user		Holds the user data
+	 * @param   array  $user		Holds the user data
 	 * @param   boolean		$success	True if user was succesfully stored in the database
 	 * @param   string  $msg		Message
 	 */

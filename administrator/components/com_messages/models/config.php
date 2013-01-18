@@ -42,7 +42,7 @@ class MessagesModelConfig extends JModelForm
 	 *
 	 * @param   integer	The id of the primary key.
 	 *
-	 * @return  mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 */
 	public function &getItem()
 	{
@@ -77,7 +77,7 @@ class MessagesModelConfig extends JModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array	$data		Data for the form.
+	 * @param   array  $data		Data for the form.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -97,8 +97,8 @@ class MessagesModelConfig extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array	The form data.
-	 * @return  boolean	True on success.
+	 * @param   array  The form data.
+	 * @return  boolean  True on success.
 	 */
 	public function save($data)
 	{

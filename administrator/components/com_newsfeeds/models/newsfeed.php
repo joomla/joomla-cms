@@ -149,7 +149,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object	A record object.
-	 * @return  boolean	True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
@@ -176,7 +176,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object	A record object.
-	 * @return  boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -198,7 +198,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 *
 	 * @param   type	The table type to instantiate
 	 * @param   string	A prefix for the table class name. Optional.
-	 * @param   array	Configuration array for model. Optional.
+	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	*/
 	public function getTable($type = 'Newsfeed', $prefix = 'NewsfeedsTable', $config = array())
@@ -209,7 +209,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array	$data		Data for the form.
+	 * @param   array  $data		Data for the form.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -258,7 +258,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed	The data for the form.
+	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -284,9 +284,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array	The form data.
+	 * @param   array  The form data.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since	3.0
 	 */
 	public function save($data)
@@ -372,7 +372,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 *
 	 * @param   integer	The id of the primary key.
 	 *
-	 * @return  mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 * @since   1.6
 	 */
 	public function getItem($pk = null)
@@ -461,10 +461,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array	$pks	A list of the primary keys to change.
+	 * @param   array  $pks	A list of the primary keys to change.
 	 * @param   integer  $value	The value of the published state.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
 	public function publish(&$pks, $value = 1)

@@ -251,7 +251,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   JUpdate  $update  An update definition
 	 *
-	 * @return  boolean	 Result of install
+	 * @return  boolean   Result of install
 	 *
 	 * @since   1.6
 	 */

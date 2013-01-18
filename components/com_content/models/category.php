@@ -60,7 +60,7 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -205,7 +205,7 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the articles in the category
 	 *
-	 * @return  mixed	An array of articles or false if an error occurs.
+	 * @return  mixed  An array of articles or false if an error occurs.
 	 * @since   1.5
 	 */
 	function getItems()
@@ -365,7 +365,7 @@ class ContentModelCategory extends JModelList
 	 *
 	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 * @since   1.6
 	 */
 	public function getParent()
@@ -381,7 +381,7 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the left sibling (adjacent) categories.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 * @since   1.6
 	 */
 	function &getLeftSibling()
@@ -397,7 +397,7 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the right sibling (adjacent) categories.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 * @since   1.6
 	 */
 	function &getRightSibling()
@@ -415,7 +415,7 @@ class ContentModelCategory extends JModelList
 	 *
 	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 * @since   1.6
 	 */
 	function &getChildren()

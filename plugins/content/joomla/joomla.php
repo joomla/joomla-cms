@@ -166,7 +166,7 @@ class plgContentJoomla extends JPlugin
 	 *
 	 * @param   string	table name of component table (column is catid)
 	 * @param   integer  id of the category to check
-	 * @return  mixed	count of items found or false if db error
+	 * @return  mixed  count of items found or false if db error
 	 * @since   1.6
 	 */
 	private function _countItemsInCategory($table, $catid)
@@ -197,7 +197,7 @@ class plgContentJoomla extends JPlugin
 	 *
 	 * @param   string	table name of component table (column is catid)
 	 * @param   integer  id of the category to check
-	 * @return  mixed	count of items found or false if db error
+	 * @return  mixed  count of items found or false if db error
 	 * @since   1.6
 	 */
 	private function _countItemsInChildren($table, $catid, $data)

@@ -242,7 +242,7 @@ class JControllerForm extends JControllerLegacy
 	 *
 	 * @param   JModelLegacy  $model  The model of the component being processed.
 	 *
-	 * @return  boolean	 True if successful, false otherwise and internal error is set.
+	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   12.2
 	 */

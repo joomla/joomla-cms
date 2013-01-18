@@ -29,7 +29,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  boolean	True if the article can be added, false if not.
+	 * @return  boolean  True if the article can be added, false if not.
 	 * @since   1.6
 	 */
 	public function add()
@@ -44,7 +44,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method override to check if you can add a new record.
 	 *
-	 * @param   array	$data	An array of input data.
+	 * @param   array  $data	An array of input data.
 	 * @return  boolean
 	 * @since   1.6
 	 */
@@ -74,7 +74,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	/**
 	 * Method to check if you can add a new record.
 	 *
-	 * @param   array	$data	An array of input data.
+	 * @param   array  $data	An array of input data.
 	 * @param   string	$key	The name of the key for the primary key.
 	 *
 	 * @return  boolean
@@ -139,9 +139,9 @@ class WeblinksControllerWeblink extends JControllerForm
 	 *
 	 * @param   string	$name	The model name. Optional.
 	 * @param   string	$prefix	The class prefix. Optional.
-	 * @param   array	$config	Configuration array for model. Optional.
+	 * @param   array  $config	Configuration array for model. Optional.
 	 *
-	 * @return  object	The model.
+	 * @return  object  The model.
 	 * @since   1.5
 	 */
 	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))

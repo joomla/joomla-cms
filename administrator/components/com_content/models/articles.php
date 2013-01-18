@@ -20,7 +20,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -321,7 +321,7 @@ class ContentModelArticles extends JModelList
 	 * Method to get a list of articles.
 	 * Overridden to add a check for access levels.
 	 *
-	 * @return  mixed	An array of data items on success, false on failure.
+	 * @return  mixed  An array of data items on success, false on failure.
 	 * @since   1.6.1
 	 */
 	public function getItems()

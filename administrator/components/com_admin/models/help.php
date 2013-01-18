@@ -19,33 +19,51 @@ defined('_JEXEC') or die;
 class AdminModelHelp extends JModelLegacy
 {
 	/**
-	 * @var string the search string
+	 * The search string
+	 * @var    string
+	 *
+	 * @since  1.6
 	 */
 	protected $help_search = null;
 
 	/**
-	 * @var string the page to be viewed
+	 * The page to be viewed
+	 * @var    string
+	 *
+	 * @since  1.6
 	 */
 	protected $page = null;
 
 	/**
-	 * @var string the iso language tag
+	 * The iso language tag
+	 * @var    string
+	 *
+	 * @since  1.6
 	 */
 	protected $lang_tag = null;
 
 	/**
-	 * @var array Table of contents
+	 * Table of contents
+	 *
+	 * @var    array
+	 * @since  1.6
 	 */
 	protected $toc = null;
 
 	/**
-	 * @var string url for the latest version check
+	 * URL for the latest version check
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $latest_version_check = null;
 
 	/**
 	 * Method to get the help search string
-	 * @return  string Help search string
+	 *
+	 * @return  string  Help search string
+	 *
+	 * @since  1.6
 	 */
 	public function &getHelpSearch()
 	{
@@ -58,7 +76,10 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * Method to get the page
-	 * @return  string page
+	 *
+	 * @return  string  The page
+	 *
+	 * @since  1.6
 	 */
 	public function &getPage()
 	{
@@ -74,6 +95,8 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the lang tag
 	 *
 	 * @return  string  lang iso tag
+	 *
+	 * @since  1.6
 	 */
 	public function getLangTag()
 	{
@@ -89,12 +112,14 @@ class AdminModelHelp extends JModelLegacy
 			}
 
 		}
+
 		return $this->lang_tag;
 	}
 
 	/**
 	 * Method to get the toc
-	 * @return array Table of contents
+	 *
+	 * @return  array  Table of contents
 	 */
 	public function &getToc()
 	{
@@ -139,12 +164,14 @@ class AdminModelHelp extends JModelLegacy
 			// Sort the Table of Contents
 			asort($this->toc);
 		}
+
 		return $this->toc;
 	}
 
 	/**
-	 * Method to get the latest version check;
-	 * @return  string Latest Version Check URL
+	 * Method to get the latest version check
+	 *
+	 * @return  string  Latest Version Check URL
 	 */
 	public function &getLatestVersionCheck()
 	{
@@ -153,7 +180,7 @@ class AdminModelHelp extends JModelLegacy
 			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}
+
 		return $this->latest_version_check;
 	}
-
 }

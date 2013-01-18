@@ -83,7 +83,7 @@ class plgSystemLanguagecode extends JPlugin
 
 	/**
 	 * @param   JForm	$form	The form to be altered.
-	 * @param   array	$data	The associated data for the form.
+	 * @param   array  $data	The associated data for the form.
 	 *
 	 * @return  boolean
 	 * @since	2.5

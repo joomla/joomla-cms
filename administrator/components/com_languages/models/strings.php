@@ -21,7 +21,7 @@ class LanguagesModelStrings extends JModelLegacy
 	/**
 	 * Method for refreshing the cache in the database with the known language strings
 	 *
-	 * @return  boolean	True on success, Exception object otherwise
+	 * @return  boolean  True on success, Exception object otherwise
 	 *
 	 * @since		2.5
 	 */

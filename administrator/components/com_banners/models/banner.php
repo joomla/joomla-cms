@@ -31,7 +31,7 @@ class BannersModelBanner extends JModelAdmin
 	 * @param   array   $pks        An array of item ids.
 	 * @param   array   $contexts   An array of item contexts.
 	 *
-	 * @return  boolean	 Returns true on success, false on failure.
+	 * @return  boolean   Returns true on success, false on failure.
 	 *
 	 * @since	2.5
 	 */

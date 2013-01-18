@@ -118,7 +118,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Method to get the template information.
 	 *
-	 * @return  mixed	Object if successful, false if not and internal error is set.
+	 * @return  mixed  Object if successful, false if not and internal error is set.
 	 * @since   1.6
 	 */
 	public function &getTemplate()

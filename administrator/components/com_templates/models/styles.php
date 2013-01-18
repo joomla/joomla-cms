@@ -21,7 +21,7 @@ class TemplatesModelStyles extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */

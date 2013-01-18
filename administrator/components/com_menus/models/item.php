@@ -50,7 +50,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @param   object	A record object.
 	 *
-	 * @return  boolean	True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
@@ -72,7 +72,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @param   object	A record object.
 	 *
-	 * @return  boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -520,7 +520,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to check if you can save a record.
 	 *
-	 * @param   array	$data	An array of input data.
+	 * @param   array  $data	An array of input data.
 	 * @param   string	$key	The name of the key for the primary key.
 	 *
 	 * @return  boolean
@@ -534,9 +534,9 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array	$data		Data for the form.
+	 * @param   array  $data		Data for the form.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return  mixed	A JForm object on success, false on failure
+	 * @return  mixed  A JForm object on success, false on failure
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -580,7 +580,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed	The data for the form.
+	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -592,7 +592,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Get the necessary data to load an item help screen.
 	 *
-	 * @return  object	An object with key, url, and local properties for loading the item help screen.
+	 * @return  object  An object with key, url, and local properties for loading the item help screen.
 	 * @since   1.6
 	 */
 	public function getHelp()
@@ -605,7 +605,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @param   integer	$pk	An optional id of the object to get, otherwise the id from the model state is used.
 	 *
-	 * @return  mixed	Menu item data object on success, false on failure.
+	 * @return  mixed  Menu item data object on success, false on failure.
 	 * @since   1.6
 	 */
 	public function getItem($pk = null)
@@ -755,7 +755,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Get the list of modules not in trash.
 	 *
-	 * @return  mixed	An array of module records (id, title, position), or false on error.
+	 * @return  mixed  An array of module records (id, title, position), or false on error.
 	 * @since   1.6
 	 */
 	public function getModules()
@@ -812,7 +812,7 @@ class MenusModelItem extends JModelAdmin
 	 *
 	 * @param   type	$type	The table type to instantiate
 	 * @param   string	$prefix	A prefix for the table class name. Optional.
-	 * @param   array	$config	Configuration array for model. Optional.
+	 * @param   array  $config	Configuration array for model. Optional.
 	 *
 	 * @return  JTable	A database object
 	 * @since   1.6
@@ -1057,7 +1057,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method rebuild the entire nested set tree.
 	 *
-	 * @return  boolean	False on failure or error, true otherwise.
+	 * @return  boolean  False on failure or error, true otherwise.
 	 * @since   1.6
 	 */
 	public function rebuild()
@@ -1119,9 +1119,9 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array	$data	The form data.
+	 * @param   array  $data	The form data.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
 	public function save($data)
@@ -1306,8 +1306,8 @@ class MenusModelItem extends JModelAdmin
 	 * First we save the new order values in the lft values of the changed ids.
 	 * Then we invoke the table rebuild to implement the new ordering.
 	 *
-	 * @param   array	$idArray	id's of rows to be reordered
-	 * @param   array	$lft_array	lft values of rows to be reordered
+	 * @param   array  $idArray	id's of rows to be reordered
+	 * @param   array  $lft_array	lft values of rows to be reordered
 	 *
 	 * @return  boolean false on failuer or error, true otherwise
 	 * @since   1.6
@@ -1332,10 +1332,10 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array	$pks	A list of the primary keys to change.
+	 * @param   array  $pks	A list of the primary keys to change.
 	 * @param   integer  $value	The value of the home state.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
 	public function setHome(&$pks, $value = 1)
@@ -1412,7 +1412,7 @@ class MenusModelItem extends JModelAdmin
 	 * @param   array  &$pks   A list of the primary keys to change.
 	 * @param   integer     $value  The value of the published state.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   1.6
 	 */

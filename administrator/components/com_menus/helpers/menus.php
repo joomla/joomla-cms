@@ -79,7 +79,7 @@ class MenusHelper
 	 *
 	 * @param   mixed	A link string or array of request variables.
 	 *
-	 * @return  mixed	A link in standard option-view-layout form, or false if the supplied response is invalid.
+	 * @return  mixed  A link in standard option-view-layout form, or false if the supplied response is invalid.
 	 */
 	public static function getLinkKey($request)
 	{
@@ -136,7 +136,7 @@ class MenusHelper
 	 * @param   string	An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
 	 * @param   integer  An optional parent ID to pivot results around.
 	 * @param   integer  An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
-	 * @param   array	An optional array of states
+	 * @param   array  An optional array of states
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array(), $languages=array())
 	{

@@ -21,7 +21,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset request form.
 	 *
-	 * @param   array	$data		Data for the form.
+	 * @param   array  $data		Data for the form.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -41,7 +41,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset complete form.
 	 *
-	 * @param   array	$data		Data for the form.
+	 * @param   array  $data		Data for the form.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -61,7 +61,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset confirm form.
 	 *
-	 * @param   array	$data		Data for the form.
+	 * @param   array  $data		Data for the form.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6

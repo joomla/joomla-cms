@@ -23,7 +23,7 @@ class AdminControllerProfile extends JControllerForm
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param   array	An array of input data.
+	 * @param   array  An array of input data.
 	 * @param   string	The name of the key for the primary key.
 	 *
 	 * @return  boolean
@@ -37,7 +37,7 @@ class AdminControllerProfile extends JControllerForm
 	/**
 	 * Overrides parent save method to check the submitted passwords match.
 	 *
-	 * @return  mixed	Boolean or JError.
+	 * @return  mixed  Boolean or JError.
 	 * @since   1.6
 	 */
 	public function save($key = null, $urlVar = null)

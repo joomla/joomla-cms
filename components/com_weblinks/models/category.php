@@ -36,7 +36,7 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -74,7 +74,7 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Method to get a list of items.
 	 *
-	 * @return  mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function getItems()
 	{
@@ -280,7 +280,7 @@ class WeblinksModelCategory extends JModelList
 	 *
 	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	public function getParent()
 	{
@@ -294,7 +294,7 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Get the sibling (adjacent) categories.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	function &getLeftSibling()
 	{
@@ -319,7 +319,7 @@ class WeblinksModelCategory extends JModelList
 	 *
 	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @return  mixed  An array of categories or false if an error occurs.
 	 */
 	function &getChildren()
 	{

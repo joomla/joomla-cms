@@ -50,8 +50,8 @@ class plgSystemLogout extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param   array	$user		Holds the user data.
-	 * @param   array	$options	Array holding options (client, ...).
+	 * @param   array  $user		Holds the user data.
+	 * @param   array  $options	Array holding options (client, ...).
 	 *
 	 * @return  boolean Always returns true
 	 * @since   1.6

@@ -21,7 +21,7 @@ class UsersModelGroups extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -86,7 +86,7 @@ class UsersModelGroups extends JModelList
 	/**
 	 * Gets the list of groups and adds expensive joins to the result set.
 	 *
-	 * @return  mixed	An array of data items on success, false on failure.
+	 * @return  mixed  An array of data items on success, false on failure.
 	 * @since   1.6
 	 */
 	public function getItems()

@@ -43,7 +43,7 @@ class plgContentGeshi extends JPlugin
 	/**
 	 * Replaces the matched tags.
 	 *
-	 * @param   array	An array of matches (see preg_match_all)
+	 * @param   array  An array of matches (see preg_match_all)
 	 * @return  string
 	 */
 	protected function _replace(&$matches)

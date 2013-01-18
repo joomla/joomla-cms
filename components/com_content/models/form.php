@@ -53,7 +53,7 @@ class ContentModelForm extends ContentModelArticle
 	 *
 	 * @param   integer	The id of the article.
 	 *
-	 * @return  mixed	Content item data object on success, false on failure.
+	 * @return  mixed  Content item data object on success, false on failure.
 	 */
 	public function getItem($itemId = null)
 	{

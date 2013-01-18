@@ -72,7 +72,7 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * @return  mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function getItems()
 	{

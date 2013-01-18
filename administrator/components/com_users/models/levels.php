@@ -21,7 +21,7 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -131,7 +131,7 @@ class UsersModelLevels extends JModelList
 	 *
 	 * @param   integer  The ID of the primary key to move.
 	 * @param   integer	Increment, usually +1 or -1
-	 * @return  boolean	False on failure or error, true otherwise.
+	 * @return  boolean  False on failure or error, true otherwise.
 	 */
 	public function reorder($pk, $direction = 0)
 	{
@@ -168,7 +168,7 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Saves the manually set order of records.
 	 *
-	 * @param   array	An array of primary key ids.
+	 * @param   array  An array of primary key ids.
 	 * @param   integer  +/-1
 	 */
 	public function saveorder($pks, $order)

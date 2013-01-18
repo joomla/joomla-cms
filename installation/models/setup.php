@@ -62,7 +62,7 @@ class InstallationModelSetup extends JModelLegacy
 	/**
 	 * Method to get the link form.
 	 *
-	 * @return  mixed	JForm object on success, false on failure.
+	 * @return  mixed  JForm object on success, false on failure.
 	 *
 	 * @since	3.0
 	 */

@@ -24,7 +24,7 @@ class LanguagesModelOverride extends JModelAdmin
 	 * @param   	array		$data			Data for the form.
 	 * @param   	boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed		A JForm object on success, false on failure
+	 * @return  mixed  	A JForm object on success, false on failure
 	 *
 	 * @since		2.5
 	 */
@@ -78,7 +78,7 @@ class LanguagesModelOverride extends JModelAdmin
 	 *
 	 * @param   	string	$pk	The key name.
 	 *
-	 * @return  mixed		Object on success, false otherwise.
+	 * @return  mixed  	Object on success, false otherwise.
 	 *
 	 * @since		2.5
 	 */
@@ -109,7 +109,7 @@ class LanguagesModelOverride extends JModelAdmin
 	 * @param   	array		$data							The form data.
 	 * @param   	boolean	$opposite_client	Indicates whether the override should not be created for the current client
 	 *
-	 * @return  boolean	True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since		2.5
 	 */

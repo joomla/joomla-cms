@@ -28,7 +28,7 @@ class UsersModelProfile extends JModelForm
 	 * Method to check in a user.
 	 *
 	 * @param   integer		The id of the row to check out.
-	 * @return  boolean		True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 * @since   1.6
 	 */
 	public function checkin($userId = null)
@@ -56,7 +56,7 @@ class UsersModelProfile extends JModelForm
 	 * Method to check out a user for editing.
 	 *
 	 * @param   integer		The id of the row to check out.
-	 * @return  boolean		True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 * @since   1.6
 	 */
 	public function checkout($userId = null)
@@ -89,7 +89,7 @@ class UsersModelProfile extends JModelForm
 	 * The base form data is loaded and then an event is fired
 	 * for users plugins to extend the data.
 	 *
-	 * @return  mixed		Data object on success, false on failure.
+	 * @return  mixed  	Data object on success, false on failure.
 	 * @since   1.6
 	 */
 	public function getData()
@@ -143,7 +143,7 @@ class UsersModelProfile extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array	$data		An optional array of data for the form to interogate.
+	 * @param   array  $data		An optional array of data for the form to interogate.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -173,7 +173,7 @@ class UsersModelProfile extends JModelForm
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed	The data for the form.
+	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -228,8 +228,8 @@ class UsersModelProfile extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array		The form data.
-	 * @return  mixed		The user id on success, false on failure.
+	 * @param   array  The form data.
+	 * @return  mixed  	The user id on success, false on failure.
 	 * @since   1.6
 	 */
 	public function save($data)

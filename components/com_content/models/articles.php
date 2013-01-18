@@ -21,7 +21,7 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -502,7 +502,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * Overriden to inject convert the attribs field into a JParameter object.
 	 *
-	 * @return  mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 * @since   1.6
 	 */
 	public function getItems()

@@ -58,9 +58,9 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to delete rows.
 	 *
-	 * @param   array	An array of item ids.
+	 * @param   array  An array of item ids.
 	 *
-	 * @return  boolean	Returns true on success, false on failure.
+	 * @return  boolean  Returns true on success, false on failure.
 	 */
 	public function delete(&$pks)
 	{
@@ -105,9 +105,9 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to duplicate styles.
 	 *
-	 * @param   array	An array of primary key IDs.
+	 * @param   array  An array of primary key IDs.
 	 *
-	 * @return  boolean	True if successful.
+	 * @return  boolean  True if successful.
 	 * @throws	Exception
 	 */
 	public function duplicate(&$pks)
@@ -178,7 +178,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array	$data		An optional array of data for the form to interogate.
+	 * @param   array  $data		An optional array of data for the form to interogate.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -228,7 +228,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed	The data for the form.
+	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -249,7 +249,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @param   integer	The id of the primary key.
 	 *
-	 * @return  mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 */
 	public function getItem($pk = null)
 	{
@@ -302,7 +302,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @param   type	The table type to instantiate
 	 * @param   string	A prefix for the table class name. Optional.
-	 * @param   array	Configuration array for model. Optional.
+	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	*/
 	public function getTable($type = 'Style', $prefix = 'TemplatesTable', $config = array())
@@ -378,8 +378,8 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array	The form data.
-	 * @return  boolean	True on success.
+	 * @param   array  The form data.
+	 * @return  boolean  True on success.
 	 */
 	public function save($data)
 	{
@@ -506,7 +506,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @param   integer  The primary key ID for the style.
 	 *
-	 * @return  boolean	True if successful.
+	 * @return  boolean  True if successful.
 	 * @throws	Exception
 	 */
 	public function setHome($id = 0)
@@ -561,7 +561,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * @param   integer  The primary key ID for the style.
 	 *
-	 * @return  boolean	True if successful.
+	 * @return  boolean  True if successful.
 	 * @throws	Exception
 	 */
 	public function unsetHome($id = 0)
@@ -609,7 +609,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Get the necessary data to load an item help screen.
 	 *
-	 * @return  object	An object with key, url, and local properties for loading the item help screen.
+	 * @return  object  An object with key, url, and local properties for loading the item help screen.
 	 * @since   1.6
 	 */
 	public function getHelp()

@@ -83,7 +83,7 @@ class BannersTableBanner extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array		$hash named array
+	 * @param   array  $hash named array
 	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see JTable:bind
 	 * @since 1.5
@@ -209,7 +209,7 @@ class BannersTableBanner extends JTable
 	 *					set the instance property value is used.
 	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
 	 * @param   integer The user id of the user performing the operation.
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -277,7 +277,7 @@ class BannersTableBanner extends JTable
 	 *					set the instance property value is used.
 	 * @param   integer The sticky state. eg. [0 = unsticked, 1 = sticked]
 	 * @param   integer The user id of the user performing the operation.
-	 * @return  boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
 	public function stick($pks = null, $state = 1, $userId = 0)

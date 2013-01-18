@@ -28,7 +28,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object	A record object.
-	 * @return  boolean	True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
@@ -55,7 +55,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	 * Method to test whether a record can have its state changed.
 	 *
 	 * @param   object	A record object.
-	 * @return  boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -76,7 +76,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	 *
 	 * @param   type	The table type to instantiate
 	 * @param   string	A prefix for the table class name. Optional.
-	 * @param   array	Configuration array for model. Optional.
+	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	 * @since   1.6
 	 */
@@ -88,7 +88,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array	$data		An optional array of data for the form to interogate.
+	 * @param   array  $data		An optional array of data for the form to interogate.
 	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
@@ -139,7 +139,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed	The data for the form.
+	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -167,7 +167,7 @@ class WeblinksModelWeblink extends JModelAdmin
 	 *
 	 * @param   integer	The id of the primary key.
 	 *
-	 * @return  mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 * @since   1.6
 	 */
 	public function getItem($pk = null)

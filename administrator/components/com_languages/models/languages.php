@@ -21,7 +21,7 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
 	 * @since   1.6
 	 */
@@ -156,10 +156,10 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Set the published language(s)
 	 *
-	 * @param   array	$cid	An array of language IDs.
+	 * @param   array  $cid	An array of language IDs.
 	 * @param   integer  $value	The value of the published state.
 	 *
-	 * @return  boolean	True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 * @since   1.6
 	 */
 	public function setPublished($cid, $value = 0)
@@ -170,9 +170,9 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Method to delete records.
 	 *
-	 * @param   array	An array of item primary keys.
+	 * @param   array  An array of item primary keys.
 	 *
-	 * @return  boolean	Returns true on success, false on failure.
+	 * @return  boolean  Returns true on success, false on failure.
 	 * @since   1.6
 	 */
 	public function delete($pks)
