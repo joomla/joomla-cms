@@ -22,10 +22,10 @@ class plgAuthenticationGMail extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param   array	$credentials Array holding the user credentials
-	 * @param	array   $options	Array of extra options
-	 * @param	object	$response	Authentication response object
-	 * @return	boolean
+	 * @param   array  $credentials Array holding the user credentials
+	 * @param   array   $options	Array of extra options
+	 * @param   object	$response	Authentication response object
+	 * @return  boolean
 	 * @since 1.5
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
@@ -33,18 +33,23 @@ class plgAuthenticationGMail extends JPlugin
 		$message = '';
 		$success = 0;
 		// check if we have curl or not
-		if (function_exists('curl_init')) {
+		if (function_exists('curl_init'))
+		{
 			// check if we have a username and password
-			if (strlen($credentials['username']) && strlen($credentials['password'])) {
+			if (strlen($credentials['username']) && strlen($credentials['password']))
+			{
 				$blacklist = explode(',', $this->params->get('user_blacklist', ''));
 				// check if the username isn't blacklisted
-				if (!in_array($credentials['username'], $blacklist)) {
+				if (!in_array($credentials['username'], $blacklist))
+				{
 				$suffix = $this->params->get('suffix', '');
 				$applysuffix = $this->params->get('applysuffix', 0);
 				// check if we want to do suffix stuff, typically for Google Apps for Your Domain
-				if($suffix && $applysuffix) {
+				if($suffix && $applysuffix)
+				{
 					$offset = strpos($credentials['username'], '@');
-					if($offset && $applysuffix == 2) {
+					if($offset && $applysuffix == 2)
+					{
 						// if we already have an @, get rid of it and replace it
 						$credentials['username'] = substr($credentials['username'], 0, $offset);
 					}
@@ -60,7 +65,8 @@ class plgAuthenticationGMail extends JPlugin
 				$result = curl_exec($curl);
 				$code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 
-					switch ($code) {
+					switch ($code)
+					{
 					case 200:
 						$message = JText::_('JGLOBAL_AUTH_ACCESS_GRANTED');
 						$success = 1;
@@ -79,14 +85,18 @@ class plgAuthenticationGMail extends JPlugin
 			} else {
 				$message = JText::_('JGLOBAL_AUTH_USER_BLACKLISTED');
 			}
-		} else {
+		}
+		else
+		{
 			$message = 'curl isn\'t insalled';
 		}
 		$response->type = 'GMail';
-		if ($success) {
+		if ($success)
+		{
 			$response->status		= JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
-			if (strpos($credentials['username'], '@') === false) {
+			if (strpos($credentials['username'], '@') === false)
+			{
 				if ($suffix) { // if there is a suffix then we want to apply it
 					$response->email = $credentials['username'] . '@' . $suffix;
 				} else { // if there isn't a suffix just use the default gmail one
@@ -98,7 +108,9 @@ class plgAuthenticationGMail extends JPlugin
 			// reset the username to what we ended up using
 			$response->username = $credentials['username'];
 			$response->fullname = $credentials['username'];
-		} else {
+		}
+		else
+		{
 			$response->status		= JAuthentication::STATUS_FAILURE;
 			$response->error_message	= JText::sprintf('JGLOBAL_AUTH_FAILED', $message);
 		}

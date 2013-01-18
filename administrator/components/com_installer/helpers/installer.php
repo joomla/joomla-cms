@@ -120,7 +120,7 @@ class InstallerHelper
 	 *
 	 * @return  JObject
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public static function getActions()
 	{

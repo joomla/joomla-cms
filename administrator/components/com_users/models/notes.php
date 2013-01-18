@@ -108,9 +108,11 @@ class UsersModelNotes extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.state = '.(int) $published);
-		} elseif ($published === '') {
+		} elseif ($published === '')
+		{
 			$query->where('(a.state IN (0, 1))');
 		}
 

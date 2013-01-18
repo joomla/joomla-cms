@@ -18,7 +18,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 abstract class MenusHtmlMenus
 {
 	/**
-	 * @param	int $itemid	The menu item id
+	 * @param   int $itemid	The menu item id
 	 */
 	public static function association($itemid)
 	{

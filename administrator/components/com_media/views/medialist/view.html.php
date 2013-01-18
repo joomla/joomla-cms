@@ -38,10 +38,13 @@ class MediaViewMediaList extends JViewLegacy
 		endif;
 		*/
 		$document->addScriptDeclaration("
-		window.addEvent('domready', function() {
+		window.addEvent('domready', function()
+		{
 			window.parent.document.updateUploader();
-			$$('a.img-preview').each(function(el) {
-				el.addEvent('click', function(e) {
+			$$('a.img-preview').each(function(el)
+			{
+				el.addEvent('click', function(e)
+				{
 					new Event(e).stop();
 					window.top.document.preview.fromElement(el);
 				});
@@ -64,27 +67,36 @@ class MediaViewMediaList extends JViewLegacy
 
 	function setFolder($index = 0)
 	{
-		if (isset($this->folders[$index])) {
+		if (isset($this->folders[$index]))
+		{
 			$this->_tmp_folder = &$this->folders[$index];
-		} else {
+		}
+		else
+		{
 			$this->_tmp_folder = new JObject;
 		}
 	}
 
 	function setImage($index = 0)
 	{
-		if (isset($this->images[$index])) {
+		if (isset($this->images[$index]))
+		{
 			$this->_tmp_img = &$this->images[$index];
-		} else {
+		}
+		else
+		{
 			$this->_tmp_img = new JObject;
 		}
 	}
 
 	function setDoc($index = 0)
 	{
-		if (isset($this->documents[$index])) {
+		if (isset($this->documents[$index]))
+		{
 			$this->_tmp_doc = &$this->documents[$index];
-		} else {
+		}
+		else
+		{
 			$this->_tmp_doc = new JObject;
 		}
 	}

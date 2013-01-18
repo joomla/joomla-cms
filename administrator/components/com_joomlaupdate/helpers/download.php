@@ -247,7 +247,7 @@ class AdmintoolsHelperDownload
 	/**
 	 * Does the server support URL fopen() wrappers?
 	 *
-	 * @return bool
+	 * @return  bool
 	 *
 	 * @since   2.5.4
 	 */

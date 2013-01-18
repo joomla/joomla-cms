@@ -23,7 +23,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function update()
 	{
@@ -61,7 +61,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function find()
 	{
@@ -87,7 +87,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function purge()
 	{

@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 // Activate the highlighter if enabled.
-if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) {
+if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1))
+{
 	JHtml::_('behavior.highlighter', $this->query->highlight);
 }
 
@@ -37,7 +38,8 @@ if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($thi
 			echo JText::sprintf('COM_FINDER_SEARCH_SIMILAR', $link);
 		}
 		// Display the explained search query.
-		elseif ($this->explained && $this->params->get('show_explained_query', 1)) {
+		elseif ($this->explained && $this->params->get('show_explained_query', 1))
+		{
 			echo $this->explained;
 		}
 		?>

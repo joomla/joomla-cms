@@ -26,7 +26,7 @@ if ($this->params->get('presentation_style') == 'sliders'):?>
 			<div class="contact-links">
 				<ul class="nav nav-list">
 					<?php
-					foreach(range('a', 'e') as $char) :// letters 'a' to 'e'
+					foreach (range('a', 'e') as $char) :// letters 'a' to 'e'
 						$link = $this->contact->params->get('link'.$char);
 						$label = $this->contact->params->get('link'.$char.'_name');
 

@@ -98,7 +98,8 @@ class ConfigHelperComponent
 
 		foreach ($components as $component)
 		{
-			if (!empty($component)) {
+			if (!empty($component))
+				{
 					// Load the core file then
 					// Load extension-local file.
 					$lang->load($component . '.sys', JPATH_BASE, null, false, false)

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 
 <dl class="search-results<?php echo $this->pageclass_sfx; ?>">
-<?php foreach($this->results as $result) : ?>
+<?php foreach ($this->results as $result) : ?>
 	<dt class="result-title">
 		<?php echo $this->pagination->limitstart + $result->count.'. ';?>
 		<?php if ($result->href) :?>

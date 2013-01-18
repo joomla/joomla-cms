@@ -21,13 +21,14 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'name', 'a.name',
@@ -63,7 +64,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -87,7 +88,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
-		if (!empty($forcedLanguage)) {
+		if (!empty($forcedLanguage))
+		{
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
@@ -107,9 +109,9 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string	A prefix for the store id.
+	 * @param   string	A prefix for the store id.
 	 *
-	 * @return	string	A store id.
+	 * @return  string	A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -126,7 +128,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -174,7 +176,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = '.(int) $access);
 		}
 
@@ -187,16 +190,19 @@ class NewsfeedsModelNewsfeeds extends JModelList
 
 		// Filter by published state.
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.published = '.(int) $published);
 		}
-		elseif ($published === '') {
+		elseif ($published === '')
+		{
 			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by category.
 		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId)) {
+		if (is_numeric($categoryId))
+		{
 			$query->where('a.catid = ' . (int) $categoryId);
 		}
 
@@ -204,7 +210,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			if (stripos($search, 'id:') === 0) {
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
 			else
@@ -215,14 +222,16 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering');
 		$orderDirn	= $this->state->get('list.direction');
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
 			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
 		$query->order($db->escape($orderCol.' '.$orderDirn));

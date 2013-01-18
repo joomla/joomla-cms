@@ -88,12 +88,14 @@ abstract class JHtmlSortablelist
 					var saveOrderButton = $('.saveorder');
 					saveOrderButton.css({'opacity':'0.2', 'cursor':'default'}).attr('onclick','return false;');
 					var oldOrderingValue = '';
-					$('.text-area-order').focus(function () {
+					$('.text-area-order').focus(function ()
+					{
 						oldOrderingValue = $(this).attr('value');
 					})
 					.keyup(function (){
 						var newOrderingValue = $(this).attr('value');
-						if(oldOrderingValue != newOrderingValue) {
+						if(oldOrderingValue != newOrderingValue)
+						{
 							saveOrderButton.css({'opacity':'1', 'cursor':'pointer'}).removeAttr('onclick')
 						}
 					});

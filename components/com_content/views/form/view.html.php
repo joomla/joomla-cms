@@ -37,19 +37,23 @@ class ContentViewForm extends JViewLegacy
 		$this->form			= $this->get('Form');
 		$this->return_page	= $this->get('ReturnPage');
 
-		if (empty($this->item->id)) {
+		if (empty($this->item->id))
+		{
 			$authorised = $user->authorise('core.create', 'com_content') || (count($user->getAuthorisedCategories('com_content', 'core.create')));
 		}
-		else {
+		else
+		{
 			$authorised = $this->item->params->get('access-edit');
 		}
 
-		if ($authorised !== true) {
+		if ($authorised !== true)
+		{
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 
-		if (!empty($this->item) && isset($this->item->id)) {
+		if (!empty($this->item) && isset($this->item->id))
+		{
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 
@@ -61,7 +65,8 @@ class ContentViewForm extends JViewLegacy
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
@@ -75,7 +80,8 @@ class ContentViewForm extends JViewLegacy
 		$this->params = $params;
 		$this->user   = $user;
 
-		if ($params->get('enable_category') == 1) {
+		if ($params->get('enable_category') == 1)
+		{
 			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
@@ -99,15 +105,19 @@ class ContentViewForm extends JViewLegacy
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		} else {
+		}
+		else
+		{
 			$this->params->def('page_heading', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 		}
 
 		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
-		if ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		if ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);

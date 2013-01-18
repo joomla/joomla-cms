@@ -14,7 +14,8 @@ require_once __DIR__ . '/helper.php';
 
 $list = modWeblinksHelper::getList($params);
 
-if (!count($list)) {
+if (!count($list))
+{
 	return;
 }
 

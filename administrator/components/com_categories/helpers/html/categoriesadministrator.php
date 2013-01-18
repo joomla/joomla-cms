@@ -18,7 +18,7 @@ JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_cat
 abstract class JHtmlCategoriesAdministrator
 {
 	/**
-	 * @param	int $catid	The category item id
+	 * @param   int $catid	The category item id
 	 */
 	public static function association($catid, $extension = 'com_content')
 	{

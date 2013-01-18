@@ -86,7 +86,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 *
 	 * @param   object  $model  The model.
 	 *
-	 * @return  boolean	 True if successful, false otherwise and internal error is set.
+	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   1.7
 	 */

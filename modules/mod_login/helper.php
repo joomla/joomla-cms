@@ -34,8 +34,10 @@ class modLoginHelper
 			$query->where($db->quoteName('id') . '=' . $db->quote($itemid));
 
 			$db->setQuery($query);
-			if ($link = $db->loadResult()) {
-				if ($router->getMode() == JROUTER_MODE_SEF) {
+			if ($link = $db->loadResult())
+			{
+				if ($router->getMode() == JROUTER_MODE_SEF)
+				{
 					$url = 'index.php?Itemid='.$itemid;
 				}
 				else {
@@ -57,7 +59,8 @@ class modLoginHelper
 					$menu = $app->getMenu();
 					$item = $menu->getItem($itemid);
 					unset($vars['Itemid']);
-					if (isset($item) && $vars == $item->query) {
+					if (isset($item) && $vars == $item->query)
+					{
 						$url = 'index.php?Itemid='.$itemid;
 					}
 					else {

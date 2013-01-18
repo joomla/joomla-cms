@@ -79,7 +79,7 @@ class JMenuSite extends JMenu
 	 * @param   string   $values      The value of the field
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
