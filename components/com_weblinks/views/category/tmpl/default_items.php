@@ -89,7 +89,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							$link = $item->link;
 							$width	= $item->params->get('width');
 							$height	= $item->params->get('height');
-							if ($width == null || $height == null) {
+							if ($width == null || $height == null)
+							{
 								$width	= 600;
 								$height	= 500;
 							}

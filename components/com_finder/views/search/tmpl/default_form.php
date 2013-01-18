@@ -16,14 +16,16 @@ defined('_JEXEC') or die;
 		/*
 		 * This segment of code adds the slide effect to the advanced search box.
 		 */
-		if (document.id('advanced-search') != null) {
+		if (document.id('advanced-search') != null)
+		{
 			var searchSlider = new Fx.Slide('advanced-search');
 
 			<?php if (!$this->params->get('expand_advanced', 0)): ?>
 			searchSlider.hide();
 			<?php endif; ?>
 
-			document.id('advanced-search-toggle').addEvent('click', function(e) {
+			document.id('advanced-search-toggle').addEvent('click', function(e)
+			{
 				e = new Event(e);
 				e.stop();
 				searchSlider.toggle();
@@ -34,15 +36,18 @@ defined('_JEXEC') or die;
 		 * This segment of code disables select boxes that have no value when the
 		 * form is submitted so that the URL doesn't get blown up with null values.
 		 */
-		if (document.id('finder-search') != null) {
+		if (document.id('finder-search') != null)
+		{
 			document.id('finder-search').addEvent('submit', function(e){
 				e = new Event(e);
 				e.stop();
 
-				if (document.id('advanced-search') != null) {
+				if (document.id('advanced-search') != null)
+				{
 					// Disable select boxes with no value selected.
 					document.id('advanced-search').getElements('select').each(function(s){
-						if (!s.getProperty('value')) {
+						if (!s.getProperty('value'))
+						{
 							s.setProperty('disabled', 'disabled');
 						}
 					});

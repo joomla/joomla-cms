@@ -51,8 +51,10 @@ endif;
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task) {
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
@@ -108,7 +110,7 @@ endif;
 										<?php echo $this->form->getInput('images'); ?>
 									</div>
 								</div>
-								<?php foreach($this->form->getGroup('images') as $field): ?>
+								<?php foreach ($this->form->getGroup('images') as $field) : ?>
 									<div class="control-group">
 										<?php if (!$field->hidden): ?>
 											<?php echo $field->label; ?>
@@ -120,7 +122,7 @@ endif;
 								<?php endforeach; ?>
 							</div>
 							<div class="span6">
-								<?php foreach($this->form->getGroup('urls') as $field): ?>
+								<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 									<div class="control-group">
 										<?php if (!$field->hidden): ?>
 												<?php echo $field->label; ?>

@@ -50,10 +50,10 @@ class modBreadCrumbsHelper
 	/**
 	 * Set the breadcrumbs separator for the breadcrumbs display.
 	 *
-	 * @param	string	$custom	Custom xhtml complient string to separate the
+	 * @param   string	$custom	Custom xhtml complient string to separate the
 	 * items of the breadcrumbs
-	 * @return	string	Separator string
-	 * @since	1.5
+	 * @return  string	Separator string
+	 * @since   1.5
 	 */
 	public static function setSeparator($custom = null)
 	{

@@ -116,7 +116,7 @@ function pagination_list_render($list)
 	$html .= $list['start']['data'];
 	$html .= $list['previous']['data'];
 
-	foreach($list['pages'] as $k => $page)
+	foreach ($list['pages'] as $k => $page)
 	{
 		if (in_array($k, range($range * $step - ($step + 1), $range * $step)))
 		{

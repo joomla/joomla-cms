@@ -22,15 +22,15 @@ class JFormFieldOrdering extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $type = 'Ordering';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string	The field input markup.
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -57,7 +57,8 @@ class JFormFieldOrdering extends JFormField
 				' ORDER BY ordering';
 
 		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->element['readonly'] == 'true') {
+		if ((string) $this->element['readonly'] == 'true')
+		{
 			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $pluginId ? 0 : 1);
 			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
 		}

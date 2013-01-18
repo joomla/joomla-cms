@@ -22,7 +22,7 @@ abstract class ContentHelperRoute
 	protected static $lookup = array();
 
 	/**
-	 * @param	int	The route of the content item
+	 * @param   integer  The route of the content item
 	 */
 	public static function getArticleRoute($id, $catid = 0, $language = 0)
 	{
@@ -215,7 +215,7 @@ abstract class ContentHelperRoute
 			{
 				if (isset(self::$lookup[$language][$view]))
 				{
-					foreach($ids as $id)
+					foreach ($ids as $id)
 					{
 						if (isset(self::$lookup[$language][$view][(int) $id]))
 						{

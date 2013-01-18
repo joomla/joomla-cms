@@ -61,7 +61,7 @@ defined('_JEXEC') or die;
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_UPDATEVERSION_ERROR', $this->updateVersion, JVERSION); ?></li>
 						<?php endif; ?>
 
-						<?php foreach($this->errors as $line => $error) : ?>
+						<?php foreach ($this->errors as $line => $error) : ?>
 							<?php $key = 'COM_INSTALLER_MSG_DATABASE_' . $error->queryType;
 							$msgs = $error->msgElements;
 							$file = basename($error->file);

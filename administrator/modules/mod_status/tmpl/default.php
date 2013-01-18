@@ -44,7 +44,8 @@ endif;
 
 
 // Print the logout link.
-if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu')) {
+if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu'))
+{
 	$logoutLink = '';
 } else {
 	$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');

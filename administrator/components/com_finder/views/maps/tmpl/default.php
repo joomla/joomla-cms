@@ -20,11 +20,16 @@ JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-Joomla.submitbutton = function(pressbutton) {
-	if (pressbutton == 'map.delete') {
-		if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT'))) {
+Joomla.submitbutton = function(pressbutton)
+{
+	if (pressbutton == 'map.delete')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}

@@ -24,7 +24,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.7
+	 * @since   1.7
 	 */
 	protected $type = 'MenuOrdering';
 
@@ -32,8 +32,8 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	 * Method to get the list of siblings in a menu.
 	 * The method requires that parent be set.
 	 *
-	 * @return	array	The field option objects or false if the parent field has not been set
-	 * @since	1.7
+	 * @return  array  The field option objects or false if the parent field has not been set
+	 * @since   1.7
 	 */
 	protected function getOptions()
 	{
@@ -53,10 +53,12 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		$query->where('a.published >= 0');
 		$query->where('a.parent_id =' . (int) $parent_id);
-		if ($menuType = $this->form->getValue('menutype')) {
+		if ($menuType = $this->form->getValue('menutype'))
+		{
 			$query->where('a.menutype = '.$db->quote($menuType));
 		}
-		else {
+		else
+		{
 			$query->where('a.menutype != '.$db->quote(''));
 		}
 

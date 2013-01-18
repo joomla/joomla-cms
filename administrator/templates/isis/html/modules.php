@@ -28,7 +28,8 @@ defined('_JEXEC') or die;
  */
 function modChrome_title($module, &$params, &$attribs)
 {
-	if ($module->content) {
+	if ($module->content)
+	{
 		echo "<div class=\"module-title\"><h6>".$module->title."</h6></div>";
 		echo $module->content;
 	}
@@ -36,14 +37,16 @@ function modChrome_title($module, &$params, &$attribs)
 
 function modChrome_no($module, &$params, &$attribs)
 {
-	if ($module->content) {
+	if ($module->content)
+	{
 		echo $module->content;
 	}
 }
 
 function modChrome_well($module, &$params, &$attribs)
 {
-	if ($module->content) {
+	if ($module->content)
+	{
 		echo "<div class=\"well well-small\">";
 		echo "<div class=\"module-title nav-header\">".$module->title."</div>";
 		echo $module->content;

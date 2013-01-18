@@ -21,7 +21,7 @@ class SearchControllerSearches extends JControllerLegacy
 	/**
 	 * Method to reset the seach log table.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	public function reset()
 	{
@@ -30,7 +30,8 @@ class SearchControllerSearches extends JControllerLegacy
 
 		$model = $this->getModel('Searches');
 
-		if (!$model->reset()) {
+		if (!$model->reset())
+		{
 			JError::raiseWarning(500, $model->getError());
 		}
 

@@ -21,13 +21,14 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'search_term', 'a.search_term',
 				'hits', 'a.hits',
@@ -42,7 +43,7 @@ class SearchModelSearches extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -70,9 +71,9 @@ class SearchModelSearches extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -86,7 +87,7 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -104,7 +105,8 @@ class SearchModelSearches extends JModelList
 		$query->from($db->quoteName('#__core_log_searches').' AS a');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = '.(int) $access);
 		}
 
@@ -126,7 +128,7 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Override the parnet getItems to inject optional data.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function getItems()
 	{
@@ -134,19 +136,23 @@ class SearchModelSearches extends JModelList
 
 		// Determine if number of results for search item should be calculated
 		// by default it is `off` as it is highly query intensive
-		if ($this->getState('filter.results')) {
+		if ($this->getState('filter.results'))
+		{
 			JPluginHelper::importPlugin('search');
 			$app = JFactory::getApplication();
 
-			if (!class_exists('JSite')) {
+			if (!class_exists('JSite'))
+			{
 				// This fools the routers in the search plugins into thinking it's in the frontend
 				JLoader::register('JSite', JPATH_COMPONENT.'/helpers/site.php');
 			}
 
-			foreach ($items as &$item) {
+			foreach ($items as &$item)
+			{
 				$results = $app->triggerEvent('onContentSearch', array($item->search_term));
 				$item->returns = 0;
-				foreach ($results as $result) {
+				foreach ($results as $result)
+				{
 					$item->returns += count($result);
 				}
 			}
@@ -158,7 +164,7 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Method to reset the seach log table.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	public function reset()
 	{

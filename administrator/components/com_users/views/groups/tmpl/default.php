@@ -32,8 +32,10 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 <?php foreach ($this->items as $i => $item):?>
 <?php if ($item->user_count > 0):?>
 			cb = f['cb'+<?php echo $i;?>];
-			if (cb && cb.checked) {
-				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE'))) {
+			if (cb && cb.checked)
+			{
+				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE')))
+				{
 					Joomla.submitform(task);
 				}
 				return;

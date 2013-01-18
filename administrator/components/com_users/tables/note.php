@@ -134,7 +134,7 @@ class UsersTableNote extends JTable
 		if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
 		{
 			// Checkin the rows.
-			foreach($pks as $pk)
+			foreach ($pks as $pk)
 			{
 				$this->checkin($pk);
 			}

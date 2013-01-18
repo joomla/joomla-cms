@@ -10,18 +10,20 @@
 defined('_JEXEC') or die;
 
 /**
- * @param	array	A named array
- * @return	array
+ * @return  array  A named array
+ * @return  array
  */
 function BannersBuildRoute(&$query)
 {
 	$segments = array();
 
-	if (isset($query['task'])) {
+	if (isset($query['task']))
+	{
 		$segments[] = $query['task'];
 		unset($query['task']);
 	}
-	if (isset($query['id'])) {
+	if (isset($query['id']))
+	{
 		$segments[] = $query['id'];
 		unset($query['id']);
 	}
@@ -30,8 +32,8 @@ function BannersBuildRoute(&$query)
 }
 
 /**
- * @param	array	A named array
- * @param	array
+ * @return  array  A named array
+ * @param   array
  *
  * Formats:
  *
@@ -50,9 +52,12 @@ function BannersParseRoute($segments)
 	{
 		$count--;
 		$segment = array_shift($segments);
-		if (is_numeric($segment)) {
+		if (is_numeric($segment))
+		{
 			$vars['id'] = $segment;
-		} else {
+		}
+		else
+		{
 			$vars['task'] = $segment;
 		}
 	}

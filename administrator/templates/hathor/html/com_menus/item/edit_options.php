@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 <?php
 	$fieldSets = $this->form->getFieldsets('request');
 
-	if (!empty($fieldSets)) {
+	if (!empty($fieldSets))
+	{
 		$fieldSet = array_shift($fieldSets);
 		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$fieldSet->name.'_FIELDSET_LABEL';
 		echo JHtml::_('sliders.panel', JText::_($label), 'request-options');

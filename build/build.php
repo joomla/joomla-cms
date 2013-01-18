@@ -112,7 +112,7 @@ for($num=$release-1; $num >= 0; $num--) {
 	$files = file('diffdocs/'.$version.'.'.$num);
 
 	// Loop through and add all files except: tests, installation, build, .git, or docs
-	foreach($files AS $file)
+	foreach ($files AS $file)
 	{
 		if(substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file,2,5) != 'build'
 		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' )
@@ -137,7 +137,8 @@ for($num=$release-1; $num >= 0; $num--) {
 	file_put_contents('diffconvert/'.$version.'.'.$num.'-deleted', $deletedFiles);
 
 	// Only create archives for 0 and most recent versions. Skip other update versions.
-	if ($num != 0 && ($num != $release - 1)) {
+	if ($num != 0 && ($num != $release - 1))
+	{
 		echo "Skipping create archive for version $version.$num\n";
 		continue;
 	}

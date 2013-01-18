@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jan-2013 Jean-Marie Simonet
+ # [#29979] Codestyle pass 1. Thanks Elin.
+ 
 17-Jan-2013 Jean-Marie Simonet
  #$+ [#29897] *Multilanguage: adding items associations in remaining core components. Thanks Benjamin
  # [#29959] *Show Create Date global article option does not work when it is the only option selected

@@ -33,15 +33,18 @@ class modWhosonlineHelper
 		$db->setQuery($query);
 		$sessions = (array) $db->loadObjectList();
 
-		if (count($sessions)) {
-			foreach ($sessions as $session) {
+		if (count($sessions))
+		{
+			foreach ($sessions as $session)
+			{
 				// if guest increase guest count by 1
 				if ($session->guest == 1)
 				{
 					$guest_array ++;
 				}
 				// if member increase member count by 1
-				if ($session->guest == 0) {
+				if ($session->guest == 0)
+				{
 					$user_array ++;
 				}
 			}

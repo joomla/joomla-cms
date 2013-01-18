@@ -50,7 +50,8 @@ class MediaModelManager extends JModelLegacy
 	function getFolderList($base = null)
 	{
 		// Get some paths from the request
-		if (empty($base)) {
+		if (empty($base))
+		{
 			$base = COM_MEDIA_BASE;
 		}
 		//corrections for windows paths
@@ -76,7 +77,8 @@ class MediaModelManager extends JModelLegacy
 		}
 
 		// Sort the folder list array
-		if (is_array($options)) {
+		if (is_array($options))
+		{
 			sort($options);
 		}
 
@@ -94,7 +96,8 @@ class MediaModelManager extends JModelLegacy
 	function getFolderTree($base = null)
 	{
 		// Get some paths from the request
-		if (empty($base)) {
+		if (empty($base))
+		{
 			$base = COM_MEDIA_BASE;
 		}
 
@@ -118,7 +121,8 @@ class MediaModelManager extends JModelLegacy
 			$tmp = &$tree;
 			for ($i = 0, $n = count($path); $i < $n; $i++)
 			{
-				if (!isset($tmp['children'])) {
+				if (!isset($tmp['children']))
+				{
 					$tmp['children'] = array();
 				}
 

@@ -63,11 +63,11 @@ class JJsonResponse
 	/**
 	 * Constructor
 	 *
-	 * @param		array/object	$response	The Response data
-	 * @param		string				$message	The main response message
-	 * @param		boolean				$error		True, if the success flag shall be set to false, defaults to false
+	 * @param   	array/object	$response	The Response data
+	 * @param   	string				$message	The main response message
+	 * @param   	boolean				$error		True, if the success flag shall be set to false, defaults to false
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -116,7 +116,7 @@ class JJsonResponse
 	/**
 	 * Magic toString method for sending the response in JSON format
 	 *
-	 * @return	string	The response in JSON format
+	 * @return  string	The response in JSON format
 	 *
 	 * @since		2.5
 	 */

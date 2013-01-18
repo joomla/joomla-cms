@@ -41,7 +41,7 @@ class NewsfeedsModelCategories extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -66,9 +66,9 @@ class NewsfeedsModelCategories extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{

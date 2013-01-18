@@ -1087,7 +1087,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

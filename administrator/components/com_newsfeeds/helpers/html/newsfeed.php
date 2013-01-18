@@ -22,8 +22,8 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
 class JHtmlNewsfeed
 {
 	/**
-	 * @param	int $value	The state value
-	 * @param	int $i
+	 * @param   int $value	The state value
+	 * @param   int $i
 	 */
 	public static function state($value = 0, $i)
 	{
@@ -42,9 +42,9 @@ class JHtmlNewsfeed
 	/**
 	 * Display an HTML select list of state filters
 	 *
-	 * @param	int $selected	The selected value of the list
-	 * @return	string			The HTML code for the select tag
-	 * @since	1.6
+	 * @param   int $selected	The selected value of the list
+	 * @return  string  	The HTML code for the select tag
+	 * @since   1.6
 	 */
 	public static function filterstate($selected)
 	{
@@ -63,14 +63,15 @@ class JHtmlNewsfeed
 	}
 
 	/**
-	 * @param	int $newsfeedid	The newsfeed item id
+	 * @param   int $newsfeedid	The newsfeed item id
 	 */
 	public static function association($newsfeedid)
 	{
 		// Get the associations
 		$associations = NewsfeedsHelper::getAssociations($newsfeedid);
 
-		foreach ($associations as $tag => $associated) {
+		foreach ($associations as $tag => $associated)
+		{
 			$associations[$tag] = (int) $associated->id;
 		}
 
@@ -89,7 +90,8 @@ class JHtmlNewsfeed
 		$items = $db->loadObjectList('id');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}
@@ -98,7 +100,8 @@ class JHtmlNewsfeed
 		$text = array();
 		foreach ($associations as $tag => $associated)
 		{
-			if ($associated != $newsfeedid) {
+			if ($associated != $newsfeedid)
+			{
 				$text[] = JText::sprintf('COM_NEWSFEEDS_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->name, $items[$associated]->category_title);
 			}
 		}

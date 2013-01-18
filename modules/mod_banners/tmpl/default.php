@@ -17,7 +17,7 @@ $baseurl = JURI::base();
 	<?php echo $headerText; ?>
 <?php endif; ?>
 
-<?php foreach($list as $item):?>
+<?php foreach ($list as $item) : ?>
 	<div class="banneritem">
 		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id='. $item->id);?>
 		<?php if($item->type == 1) :?>

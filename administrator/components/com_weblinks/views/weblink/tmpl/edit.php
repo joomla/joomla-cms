@@ -18,7 +18,8 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('weblink-form'))) {
+		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('weblink-form')))
+		{
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('weblink-form'));
 		}
@@ -78,7 +79,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('images'); ?>
 					</div>
 				</div>
-				<?php foreach($this->form->getGroup('images') as $field): ?>
+				<?php foreach ($this->form->getGroup('images') as $field) : ?>
 					<div class="control-group">
 						<?php if (!$field->hidden): ?>
 							<div class="control-label">

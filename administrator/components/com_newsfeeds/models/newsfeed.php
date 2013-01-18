@@ -22,7 +22,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 {
 	/**
 	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_NEWSFEEDS';
 
@@ -35,7 +35,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -148,19 +148,22 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param	object	A record object.
-	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @param   object	A record object.
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id)) {
-			if ($record->published != -2) {
+		if (!empty($record->id))
+		{
+			if ($record->published != -2)
+			{
 				return;
 			}
 			$user = JFactory::getUser();
 
-			if (!empty($record->catid)) {
+			if (!empty($record->catid))
+			{
 				return $user->authorise('core.delete', 'com_newsfeed.category.'.(int) $record->catid);
 			}
 			else {
@@ -172,18 +175,20 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state changed.
 	 *
-	 * @param	object	A record object.
-	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @param   object	A record object.
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @since   1.6
 	 */
 	protected function canEditState($record)
 	{
 		$user = JFactory::getUser();
 
-		if (!empty($record->catid)) {
+		if (!empty($record->catid))
+		{
 			return $user->authorise('core.edit.state', 'com_newsfeeds.category.'.(int) $record->catid);
 		}
-		else {
+		else
+		{
 			return parent::canEditState($record);
 		}
 	}
@@ -191,10 +196,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
+	 * @param   type	The table type to instantiate
+	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   array  Configuration array for model. Optional.
+	 * @return  JTable	A database object
 	*/
 	public function getTable($type = 'Newsfeed', $prefix = 'NewsfeedsTable', $config = array())
 	{
@@ -204,30 +209,35 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array  $data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_newsfeeds.newsfeed', 'newsfeed', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
 		// Determine correct permissions to check.
-		if ($this->getState('newsfeed.id')) {
+		if ($this->getState('newsfeed.id'))
+		{
 			// Existing record. Can only edit in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		} else {
+		}
+		else
+		{
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data)) {
+		if (!$this->canEditState((object) $data))
+		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('published', 'disabled', 'true');
@@ -248,19 +258,21 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_newsfeeds.edit.newsfeed.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 
 			// Prime some default values.
-			if ($this->getState('newsfeed.id') == 0) {
+			if ($this->getState('newsfeed.id') == 0)
+			{
 				$app = JFactory::getApplication();
 				$data->set('catid', $app->input->get('catid', $app->getUserState('com_newsfeeds.newsfeeds.filter.category_id'), 'int'));
 			}
@@ -272,9 +284,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
+	 * @param   array  The form data.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
 	 * @since	3.0
 	 */
 	public function save($data)
@@ -358,14 +370,15 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	integer	The id of the primary key.
+	 * @param   integer	The id of the primary key.
 	 *
-	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  Object on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItem($pk = null)
 	{
-		if ($item = parent::getItem($pk)) {
+		if ($item = parent::getItem($pk))
+		{
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
@@ -388,10 +401,12 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		{
 			$item->associations = array();
 
-			if ($item->id != null) {
+			if ($item->id != null)
+			{
 				$associations = NewsfeedsHelper::getAssociations($item->id);
 
-				foreach ($associations as $tag => $association) {
+				foreach ($associations as $tag => $association)
+				{
 					$item->associations[$tag] = $association->id;
 				}
 
@@ -412,16 +427,19 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
 		$table->alias		= JApplication::stringURLSafe($table->alias);
 
-		if (empty($table->alias)) {
+		if (empty($table->alias))
+		{
 			$table->alias = JApplication::stringURLSafe($table->name);
 		}
 
-		if (empty($table->id)) {
+		if (empty($table->id))
+		{
 			// Set the values
 			$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
-			if (empty($table->ordering)) {
+			if (empty($table->ordering))
+			{
 				$db = JFactory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__newsfeeds');
 				$max = $db->loadResult();
@@ -429,7 +447,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				$table->ordering = $max + 1;
 			}
 		}
-		else {
+		else
+		{
 			// Set the values
 			$table->modified	= $date->toSql();
 			$table->modified_by	= $user->get('id');
@@ -442,11 +461,11 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param	array	$pks	A list of the primary keys to change.
-	 * @param	int		$value	The value of the published state.
+	 * @param   array  $pks	A list of the primary keys to change.
+	 * @param   integer  $value	The value of the published state.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @return  boolean  True on success.
+	 * @since   1.6
 	 */
 	public function publish(&$pks, $value = 1)
 	{
@@ -461,9 +480,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param	object	A record object.
-	 * @return	array	An array of conditions to add to add to ordering queries.
-	 * @since	1.6
+	 * @param   object	A record object.
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
@@ -477,7 +496,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		// Association newsfeeds items
 		$app = JFactory::getApplication();
 		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		if ($assoc) {
+		if ($assoc)
+		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
 			// force to array (perhaps move to $this->loadFormData())
@@ -492,7 +512,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$add = false;
 			foreach ($languages as $tag => $language)
 			{
-				if (empty($data['language']) || $tag != $data['language']) {
+				if (empty($data['language']) || $tag != $data['language'])
+				{
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
@@ -502,7 +523,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$field->addAttribute('translate_label', 'false');
 				}
 			}
-			if ($add) {
+			if ($add)
+			{
 				$form->load($addform, false);
 			}
 		}

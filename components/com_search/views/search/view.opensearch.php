@@ -33,7 +33,8 @@ class SearchViewSearch extends JViewLegacy
 		// Find the menu item for the search
 		$menu	= $app->getMenu();
 		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
-		if (isset($items[0])) {
+		if (isset($items[0]))
+		{
 			$searchUri .= '&Itemid='.$items[0]->id;
 		}
 
