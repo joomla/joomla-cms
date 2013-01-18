@@ -36,14 +36,12 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->waitForPageToLoad("30000");
 		try {
 	        $this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 	    try {
 	        $this->assertTrue($this->isTextPresent($testText));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 
@@ -68,14 +66,12 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->jPrint ("Check for success message\n");
 	    try {
 	    	$this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 		try {
 	        $this->assertFalse($this->isTextPresent($testText));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 	    $this->jPrint ("Check that new text shows on page\n");
