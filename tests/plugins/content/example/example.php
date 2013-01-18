@@ -71,21 +71,12 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view and the results are imploded and displayed in a placeholder
 	 *
-<<<<<<< Upstream, based on master
-	 * @param	string		The context for the content passed to the plugin.
-	 * @param	object		The content object.  Note $article->text is also available
-	 * @param	object		The content params
-	 * @param	int			The 'page' number
-	 * @return	string
-	 * @since	1.6
-=======
 	 * @param   string  The context for the content passed to the plugin.
 	 * @param   object		The content object.  Note $article->text is also available
 	 * @param   object		The content params
 	 * @param   integer  	The 'page' number
 	 * @return  string
 	 * @since   1.6
->>>>>>> 9252ac1 Some more clean up plus the issues currently causing scans to fail.
 	 */
 	public function onContentAfterTitle($context, &$article, &$params, $limitstart)
 	{
@@ -112,21 +103,12 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view and the results are imploded and displayed in a placeholder
 	 *
-<<<<<<< Upstream, based on master
-	 * @param	string		The context for the content passed to the plugin.
-	 * @param	object		The content object.  Note $article->text is also available
-	 * @param	object		The content params
-	 * @param	int			The 'page' number
-	 * @return	string
-	 * @since	1.6
-=======
 	 * @param   string  The context for the content passed to the plugin.
 	 * @param   object		The content object.  Note $article->text is also available
 	 * @param   object		The content params
 	 * @param   integer  	The 'page' number
 	 * @return  string
 	 * @since   1.6
->>>>>>> 9252ac1 Some more clean up plus the issues currently causing scans to fail.
 	 */
 	public function onContentBeforeDisplay($context, &$article, &$params, $limitstart)
 	{
@@ -159,19 +141,11 @@ class plgContentExample extends JPlugin
 	/**
 	 * Example after delete method.
 	 *
-<<<<<<< Upstream, based on master
-	 * @param	string	The context for the content passed to the plugin.
-	 * @param	array	A list of primary key ids of the content that has changed state.
-	 * @param	int		The value of the state that the content has been changed to.
-	 * @return	boolean
-	 * @since	1.6
-=======
 	 * @param   string	The context for the content passed to the plugin.
 	 * @param   array	A list of primary key ids of the content that has changed state.
 	 * @param   integer  The value of the state that the content has been changed to.
 	 * @return  boolean
 	 * @since   1.6
->>>>>>> 9252ac1 Some more clean up plus the issues currently causing scans to fail.
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
@@ -183,19 +157,11 @@ class plgContentExample extends JPlugin
 	 *
 	 * Method is called by the view
 	 *
-<<<<<<< Upstream, based on master
-	 * @param	string	The context of the content being passed to the plugin.
-	 * @param	object	The content object.  Note $article->text is also available
-	 * @param	object	The content params
-	 * @param	int		The 'page' number
-	 * @since	1.6
-=======
 	 * @param   string	The context of the content being passed to the plugin.
 	 * @param   object	The content object.  Note $article->text is also available
 	 * @param   object	The content params
 	 * @param   integer  The 'page' number
 	 * @since   1.6
->>>>>>> 9252ac1 Some more clean up plus the issues currently causing scans to fail.
 	 */
 	public function onContentPrepare($context, &$article, &$params, $limitstart)
 	{

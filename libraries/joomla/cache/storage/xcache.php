@@ -184,8 +184,7 @@ class JCacheStorageXcache extends JCacheStorage
 
 				foreach($keys as $key) {
 
-					if (strstr($key['name'], $this->_hash))
-					{
+					if (strstr($key['name'], $this->_hash)) {
 						if (($key['ctime'] + $this->_lifetime ) < $this->_now) xcache_unset($key['name']);
 					}
 				}

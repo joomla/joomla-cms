@@ -55,8 +55,7 @@ class JFormFieldPassword extends JFormField
 			$script = '<script type="text/javascript">new Form.PasswordStrength("' . $this->id . '",
 				{
 					threshold: ' . $threshold . ',
-					onUpdate: function(element, strength, threshold)
-					{
+					onUpdate: function(element, strength, threshold) {
 						element.set("data-passwordstrength", strength);
 					}
 				}

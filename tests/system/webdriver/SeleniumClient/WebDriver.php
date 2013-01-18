@@ -58,8 +58,7 @@ class WebDriver
 	 * Get current Selenium environment
 	 * @return String
 	 */
-	public function getEnvironment()
-	{
+	public function getEnvironment() {
 		return $this->_environment;
 	}
 
@@ -315,8 +314,12 @@ class WebDriver
 		$screenshotsDirectory = null;
 		if (isset($overrideScreenshotsDirectory)) { $screenshotsDirectory = $overrideScreenshotsDirectory; }
 		else if (isset($this->_screenshotsDirectory)) { $screenshotsDirectory = $this->_screenshotsDirectory; }
+<<<<<<< Upstream, based on master
 		else
 		{ throw new \Exception("Must Specify Screenshot Directory"); }
+=======
+		else { throw new \Exception("Must Specify Screenshot Directory"); }
+>>>>>>> 23e1d8c We're not touching /libraries/joomla or tests.
 		
 		$command = "screenshot";
 		$urlHubFormatted = $this->_hubUrl . "/session/{$this->_sessionId}/{$command}";
@@ -468,8 +471,7 @@ class WebDriver
 		$encoding = \mb_detect_encoding($text);
 		$len = \mb_strlen($text, $encoding);
 		$ret = array();
-		while($len)
-		{
+		while($len) {
 			$ret[] = \mb_substr($text, 0, 1, $encoding);
 			$text = \mb_substr($text, 1, $len, $encoding);
 			$len = \mb_strlen($text, $encoding);
@@ -727,8 +729,7 @@ class WebDriver
 		$results = $httpClient->setUrl($urlHubFormatted)->setHttpMethod(HttpClient::GET)->execute();
 	
 		$result = null;
-		if (isset($results["value"]) && is_array($results["value"]))
-		{
+		if (isset($results["value"]) && is_array($results["value"])) {
 			$result = $results ["value"];
 		}
 		return $result;
