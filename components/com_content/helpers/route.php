@@ -22,7 +22,7 @@ abstract class ContentHelperRoute
 	protected static $lookup = array();
 
 	/**
-	 * @param   int	The route of the content item
+	 * @param   integer  The route of the content item
 	 */
 	public static function getArticleRoute($id, $catid = 0, $language = 0)
 	{

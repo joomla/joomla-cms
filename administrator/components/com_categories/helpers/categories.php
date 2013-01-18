@@ -77,7 +77,7 @@ class CategoriesHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @param   string	$extension	The extension.
-	 * @param   int		$categoryId	The category ID.
+	 * @param   integer  $categoryId	The category ID.
 	 *
 	 * @return  JObject
 	 * @since   1.6

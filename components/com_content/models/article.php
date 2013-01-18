@@ -239,7 +239,7 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Increment the hit counter for the article.
 	 *
-	 * @param   int		Optional primary key of the article to increment.
+	 * @param   integer  Optional primary key of the article to increment.
 	 *
 	 * @return  boolean	True if successful; false otherwise and internal error set.
 	 */

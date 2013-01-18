@@ -95,7 +95,7 @@ class WeblinksModelWeblink extends JModelItem
 	/**
 	 * Method to increment the hit counter for the weblink
 	 *
-	 * @param   int		Optional ID of the weblink.
+	 * @param   integer  Optional ID of the weblink.
 	 * @return  boolean	True on success
 	 * @since   1.5
 	 */

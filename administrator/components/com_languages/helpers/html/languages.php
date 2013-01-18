@@ -40,7 +40,7 @@ abstract class JHtmlLanguages
 	/**
 	 * Method to generate an input radio button
 	 *
-	 * @param   int		$rowNum the row number
+	 * @param   integer  $rowNum the row number
 	 * @param   string	language tag
 	 *
 	 * @return  string	html code

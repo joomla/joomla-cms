@@ -29,7 +29,7 @@ class plgContentLoadmodule extends JPlugin
 	 * @param   string	The context of the content being passed to the plugin.
 	 * @param   object	The article object.  Note $article->text is also available
 	 * @param   object	The article params
-	 * @param   int		The 'page' number
+	 * @param   integer  The 'page' number
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{

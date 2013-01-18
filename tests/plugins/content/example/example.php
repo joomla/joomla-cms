@@ -37,7 +37,7 @@ class plgContentExample extends JPlugin
 	 * @param   string  The context for the content passed to the plugin.
 	 * @param   object		The content object.  Note $article->text is also available
 	 * @param   object		The content params
-	 * @param   int			The 'page' number
+	 * @param   integer  	The 'page' number
 	 * @return  string
 	 * @since   1.6
 	 */
@@ -73,7 +73,7 @@ class plgContentExample extends JPlugin
 	 * @param   string  The context for the content passed to the plugin.
 	 * @param   object		The content object.  Note $article->text is also available
 	 * @param   object		The content params
-	 * @param   int			The 'page' number
+	 * @param   integer  	The 'page' number
 	 * @return  string
 	 * @since   1.6
 	 */
@@ -105,7 +105,7 @@ class plgContentExample extends JPlugin
 	 * @param   string  The context for the content passed to the plugin.
 	 * @param   object		The content object.  Note $article->text is also available
 	 * @param   object		The content params
-	 * @param   int			The 'page' number
+	 * @param   integer  	The 'page' number
 	 * @return  string
 	 * @since   1.6
 	 */
@@ -142,7 +142,7 @@ class plgContentExample extends JPlugin
 	 *
 	 * @param   string	The context for the content passed to the plugin.
 	 * @param   array	A list of primary key ids of the content that has changed state.
-	 * @param   int		The value of the state that the content has been changed to.
+	 * @param   integer  The value of the state that the content has been changed to.
 	 * @return  boolean
 	 * @since   1.6
 	 */
@@ -159,7 +159,7 @@ class plgContentExample extends JPlugin
 	 * @param   string	The context of the content being passed to the plugin.
 	 * @param   object	The content object.  Note $article->text is also available
 	 * @param   object	The content params
-	 * @param   int		The 'page' number
+	 * @param   integer  The 'page' number
 	 * @since   1.6
 	 */
 	public function onContentPrepare($context, &$article, &$params, $limitstart)

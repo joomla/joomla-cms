@@ -33,7 +33,7 @@ function BannersBuildRoute(&$query)
 
 /**
  * @return  array  A named array
- * @param	array
+ * @param   array
  *
  * Formats:
  *

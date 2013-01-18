@@ -233,7 +233,7 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Method to get category data for the current category
 	 *
-	 * @param   int		An optional ID
+	 * @param   integer  An optional ID
 	 *
 	 * @return  object
 	 * @since   1.5
@@ -278,7 +278,7 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Get the parent category
 	 *
-	 * @param   int		An optional category id. If not supplied, the model state 'category.id' will be used.
+	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
 	 * @return  mixed	An array of categories or false if an error occurs.
 	 */
@@ -317,7 +317,7 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Get the child categories.
 	 *
-	 * @param   int		An optional category id. If not supplied, the model state 'category.id' will be used.
+	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
 	 * @return  mixed	An array of categories or false if an error occurs.
 	 */

@@ -50,8 +50,8 @@ class ContactHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   int		The category ID.
-	 * @param   int		The contact ID.
+	 * @param   integer  The category ID.
+	 * @param   integer  The contact ID.
 	 *
 	 * @return  JObject
 	 * @since   1.6

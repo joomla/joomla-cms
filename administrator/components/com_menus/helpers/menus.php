@@ -45,7 +45,7 @@ class MenusHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   int		The menu ID.
+	 * @param   integer  The menu ID.
 	 *
 	 * @return  JObject
 	 * @since   1.6
@@ -134,8 +134,8 @@ class MenusHelper
 	 * Get a list of menu links for one or all menus.
 	 *
 	 * @param   string	An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
-	 * @param   int		An optional parent ID to pivot results around.
-	 * @param   int		An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
+	 * @param   integer  An optional parent ID to pivot results around.
+	 * @param   integer  An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
 	 * @param   array	An optional array of states
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array(), $languages=array())

@@ -48,7 +48,7 @@ class NewsfeedsHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   int		The category ID.
+	 * @param   integer  The category ID.
 	 *
 	 * @return  JObject
 	 */

@@ -35,7 +35,7 @@ class plgUserProfile extends JPlugin
 
 	/**
 	 * @param   string	$context	The context for the data
-	 * @param   int		$data		The user id
+	 * @param   integer  $data		The user id
 	 * @param   object
 	 *
 	 * @return  boolean

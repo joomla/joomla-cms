@@ -49,8 +49,8 @@ class ContentHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   int		The category ID.
-	 * @param   int		The article ID.
+	 * @param   integer  The category ID.
+	 * @param   integer  The article ID.
 	 *
 	 * @return  JObject
 	 * @since   1.6

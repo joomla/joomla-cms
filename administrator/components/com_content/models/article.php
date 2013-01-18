@@ -526,7 +526,7 @@ class ContentModelArticle extends JModelAdmin
 	 * Method to toggle the featured setting of articles.
 	 *
 	 * @param   array	The ids of the items to toggle.
-	 * @param   int		The value to toggle to.
+	 * @param   integer  The value to toggle to.
 	 *
 	 * @return  boolean	True on success.
 	 */

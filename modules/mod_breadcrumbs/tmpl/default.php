@@ -22,7 +22,7 @@ JHtml::_('bootstrap.tooltip');
 	// Get rid of duplicated entries on trail including home page when using multilanguage
 	for ($i = 0; $i < $count; $i ++)
 	{
-		if ($i == 1 && !empty($list[$i]->link) && !empty($list[$i-1]->link) && $list[$i]->link == $list[$i-1]->link)
+		if ($i == 1 && !empty($list[$i]->link) && !empty($list[$i - 1]->link) && $list[$i]->link == $list[$i-1]->link)
 		{
 			unset($list[$i]);
 		}
@@ -35,7 +35,7 @@ JHtml::_('bootstrap.tooltip');
 	$penult_item_key = key($list);
 
 	// Generate the trail
-	foreach ($list as $key=>$item) :
+	foreach ($list as $key => $item) :
 	// Make a link if not the last item in the breadcrumbs
 	$show_last = $params->get('showLast', 1);
 	if ($key != $last_item_key)

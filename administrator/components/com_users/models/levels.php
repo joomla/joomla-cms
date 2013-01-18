@@ -129,7 +129,7 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Method to adjust the ordering of a row.
 	 *
-	 * @param   int		The ID of the primary key to move.
+	 * @param   integer  The ID of the primary key to move.
 	 * @param   integer	Increment, usually +1 or -1
 	 * @return  boolean	False on failure or error, true otherwise.
 	 */
@@ -169,7 +169,7 @@ class UsersModelLevels extends JModelList
 	 * Saves the manually set order of records.
 	 *
 	 * @param   array	An array of primary key ids.
-	 * @param   int		+/-1
+	 * @param   integer  +/-1
 	 */
 	public function saveorder($pks, $order)
 	{

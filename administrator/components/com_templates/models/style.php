@@ -504,7 +504,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to set a template style as home.
 	 *
-	 * @param   int		The primary key ID for the style.
+	 * @param   integer  The primary key ID for the style.
 	 *
 	 * @return  boolean	True if successful.
 	 * @throws	Exception
@@ -559,7 +559,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to unset a template style as default for a language.
 	 *
-	 * @param   int		The primary key ID for the style.
+	 * @param   integer  The primary key ID for the style.
 	 *
 	 * @return  boolean	True if successful.
 	 * @throws	Exception

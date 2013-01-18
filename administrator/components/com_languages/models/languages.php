@@ -157,7 +157,7 @@ class LanguagesModelLanguages extends JModelList
 	 * Set the published language(s)
 	 *
 	 * @param   array	$cid	An array of language IDs.
-	 * @param   int		$value	The value of the published state.
+	 * @param   integer  $value	The value of the published state.
 	 *
 	 * @return  boolean	True on success, false otherwise.
 	 * @since   1.6

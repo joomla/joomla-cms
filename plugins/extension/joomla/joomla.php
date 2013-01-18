@@ -104,7 +104,7 @@ class plgExtensionJoomla extends JPlugin
 	 * Handle post extension install update sites
 	 *
 	 * @param   JInstaller	Installer object
-	 * @param   int			Extension Identifier
+	 * @param   integer  	Extension Identifier
 	 * @since   1.6
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
@@ -123,8 +123,8 @@ class plgExtensionJoomla extends JPlugin
 	 * Handle extension uninstall
 	 *
 	 * @param   JInstaller	Installer instance
-	 * @param   int			extension id
-	 * @param   int			installation result
+	 * @param   integer  	extension id
+	 * @param   integer  	installation result
 	 * @since   1.6
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
@@ -189,7 +189,7 @@ class plgExtensionJoomla extends JPlugin
 	 * After update of an extension
 	 *
 	 * @param   JInstaller	Installer object
-	 * @param   int			Extension identifier
+	 * @param   integer  	Extension identifier
 	 * @since   1.6
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
