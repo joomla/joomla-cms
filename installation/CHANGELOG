@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -28,7 +28,8 @@ $ -> Language fix or change
 
 18-Jan-2013 Jean-Marie Simonet
  # [#29979] Codestyle pass 1. Thanks Elin.
- 
+ ^ Updating copyright
+
 17-Jan-2013 Jean-Marie Simonet
  #$+ [#29897] *Multilanguage: adding items associations in remaining core components. Thanks Benjamin
  # [#29959] *Show Create Date global article option does not work when it is the only option selected

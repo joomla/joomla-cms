@@ -18,7 +18,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package		Joomla.Build
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
 
  */
@@ -75,25 +75,39 @@ echo "Create list of changed files from git repository.\n";
 // Note: If we add new top-level directories or files, be sure to include them here.
 $filesArray = array(
 		"administrator/index.php\n" => true,
+
 		"cache/index.html\n" => true,
+
 		"cli/index.html\n" => true,
+
 		"components/index.html\n" => true,
+
 		"images/index.html\n" => true,
+
 		"includes/index.html\n" => true,
+
 		"language/index.html\n" => true,
 		"layouts/index.html\n" => true,
 		"libraries/index.html\n" => true,
+
 		"logs/index.html\n" => true,
+
 		"media/index.html\n" => true,
+
 		"modules/index.html\n" => true,
+
 		"plugins/index.html\n" => true,
+
 		"templates/index.html\n" => true,
+
 		"tmp/index.html\n" => true,
+
 		"htaccess.txt\n" => true,
 		"index.php\n" => true,
 		"LICENSE.txt\n" => true,
 		"README.txt\n" => true,
 		"robots.txt\n" => true,
+
 		"web.config.txt\n" => true,
 		"joomla.xml\n" => true,
 );
@@ -137,10 +151,13 @@ for($num=$release-1; $num >= 0; $num--) {
 	file_put_contents('diffconvert/'.$version.'.'.$num.'-deleted', $deletedFiles);
 
 	// Only create archives for 0 and most recent versions. Skip other update versions.
+
 	if ($num != 0 && ($num != $release - 1))
 	{
 		echo "Skipping create archive for version $version.$num\n";
+
 		continue;
+
 	}
 
 	// Create the diff archive packages using the file name list.
