@@ -27,7 +27,7 @@ class InstallerViewInstall extends InstallerViewDefault
 	 *
 	 * @return  void
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
@@ -46,7 +46,7 @@ class InstallerViewInstall extends InstallerViewDefault
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{

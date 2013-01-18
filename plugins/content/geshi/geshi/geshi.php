@@ -1662,7 +1662,7 @@ class GeSHi {
             }
         }
         if($space_as_whitespace) {
-            foreach($this->language_data['CACHED_KEYWORD_LISTS'][$key] as $rxk => $rxv) {
+            foreach ($this->language_data['CACHED_KEYWORD_LISTS'][$key] as $rxk => $rxv) {
                 $this->language_data['CACHED_KEYWORD_LISTS'][$key][$rxk] =
                     str_replace(" ", "\\s+", $rxv);
             }
@@ -2100,7 +2100,7 @@ class GeSHi {
             //At this step we have an associative array with flag groups for a
             //specific style or an string denoting a regexp given its index.
             $this->language_data['NUMBERS_RXCACHE'] = array();
-            foreach($this->language_data['NUMBERS_CACHE'] as $key => $rxdata) {
+            foreach ($this->language_data['NUMBERS_CACHE'] as $key => $rxdata) {
                 if(is_string($rxdata)) {
                     $regexp = $rxdata;
                 } else {
@@ -3452,7 +3452,7 @@ class GeSHi {
             $numbers_found = true;
 
             //For each of the formats ...
-            foreach($this->language_data['NUMBERS_RXCACHE'] as $id => $regexp) {
+            foreach ($this->language_data['NUMBERS_RXCACHE'] as $id => $regexp) {
                 //Check if it should be highlighted ...
                 $stuff_to_parse = preg_replace($regexp, "<|/NUM!$id/>\\1|>", $stuff_to_parse);
             }
@@ -3474,7 +3474,7 @@ class GeSHi {
 
         if ($numbers_found) {
             // Put number styles in
-            foreach($this->language_data['NUMBERS_RXCACHE'] as $id => $regexp) {
+            foreach ($this->language_data['NUMBERS_RXCACHE'] as $id => $regexp) {
                 //Commented out for now, as this needs some review ...
                 //                if ($numbers_permissions & $id) {
                 //Get the appropriate style ...

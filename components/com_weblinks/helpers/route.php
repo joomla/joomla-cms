@@ -22,7 +22,7 @@ abstract class WeblinksHelperRoute
 	protected static $lookup;
 
 	/**
-	 * @param	int	The route of the weblink
+	 * @param   integer  The route of the weblink
 	 */
 	public static function getWeblinkRoute($id, $catid, $language = 0)
 	{
@@ -79,8 +79,8 @@ abstract class WeblinksHelperRoute
 	}
 
 	/**
-	 * @param	int		$id		The id of the weblink.
-	 * @param	string	$return	The return page variable.
+	 * @param   integer  $id		The id of the weblink.
+	 * @param   string	$return	The return page variable.
 	 */
 	public static function getFormRoute($id, $return = null)
 	{
@@ -232,7 +232,7 @@ abstract class WeblinksHelperRoute
 			{
 				if (isset(self::$lookup[$language][$view]))
 				{
-					foreach($ids as $id)
+					foreach ($ids as $id)
 					{
 						if (isset(self::$lookup[$language][$view][(int) $id]))
 						{

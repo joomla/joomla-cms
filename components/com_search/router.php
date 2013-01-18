@@ -10,22 +10,23 @@
 defined('_JEXEC') or die;
 
 /**
- * @param	array
- * @return	array
+ * @param   array
+ * @return  array
  */
 function SearchBuildRoute(&$query)
 {
 	$segments = array();
 
-	if (isset($query['view'])) {
+	if (isset($query['view']))
+	{
 		unset($query['view']);
 	}
 	return $segments;
 }
 
 /**
- * @param	array
- * @return	array
+ * @param   array
+ * @return  array
  */
 function SearchParseRoute($segments)
 {

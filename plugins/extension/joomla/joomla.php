@@ -20,13 +20,13 @@ class plgExtensionJoomla extends JPlugin
 {
 	/**
 	 * @var		integer Extension Identifier
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private $eid = 0;
 
 	/**
 	 * @var		JInstaller Installer object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private $installer = null;
 
@@ -47,11 +47,11 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param	string	The friendly name of the site
-	 * @param	string	The type of site (e.g. collection or extension)
-	 * @param	string	The URI for the site
-	 * @param	boolean	If this site is enabled
-	 * @since	1.6
+	 * @param   string	The friendly name of the site
+	 * @param   string	The type of site (e.g. collection or extension)
+	 * @param   string	The URI for the site
+	 * @param   boolean	If this site is enabled
+	 * @since   1.6
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
@@ -103,9 +103,9 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param	JInstaller	Installer object
-	 * @param	int			Extension Identifier
-	 * @since	1.6
+	 * @param   JInstaller	Installer object
+	 * @param   integer  	Extension Identifier
+	 * @since   1.6
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
@@ -122,10 +122,10 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Handle extension uninstall
 	 *
-	 * @param	JInstaller	Installer instance
-	 * @param	int			extension id
-	 * @param	int			installation result
-	 * @since	1.6
+	 * @param   JInstaller	Installer instance
+	 * @param   integer  	extension id
+	 * @param   integer  	installation result
+	 * @since   1.6
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
@@ -188,13 +188,14 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * After update of an extension
 	 *
-	 * @param	JInstaller	Installer object
-	 * @param	int			Extension identifier
-	 * @since	1.6
+	 * @param   JInstaller	Installer object
+	 * @param   integer  	Extension identifier
+	 * @since   1.6
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
-		if ($eid) {
+		if ($eid)
+		{
 			$this->installer = $installer;
 			$this->eid = $eid;
 
@@ -206,16 +207,19 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Processes the list of update sites for an extension.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private function processUpdateSites()
 	{
 		$manifest		= $this->installer->getManifest();
 		$updateservers	= $manifest->updateservers;
 
-		if($updateservers) {
+		if($updateservers)
+		{
 			$children = $updateservers->children();
-		} else {
+		}
+		else
+		{
 			$children = array();
 		}
 

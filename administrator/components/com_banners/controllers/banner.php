@@ -95,7 +95,7 @@ class BannersControllerBanner extends JControllerForm
 	 *
 	 * @param   string  $model  The model
 	 *
-	 * @return	boolean  True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since	2.5
 	 */

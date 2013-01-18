@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 	?>
 	<li class="nav-header"><?php echo JText::_('COM_CONFIG_COMPONENT_FIELDSET_LABEL'); ?></li>
 	<?php
-		foreach($this->components as $component):
+		foreach ($this->components as $component) :
 		$active = '';
 		if ($this->currentComponent === $component):
 			$active = ' class="active"';

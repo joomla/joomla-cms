@@ -90,7 +90,8 @@ class modWeblinksHelper
 		for ($i = 0, $count = count($items); $i < $count; $i++)
 		{
 			$item = &$items[$i];
-			if ($item->params->get('count_clicks', $params->get('count_clicks')) == 1) {
+			if ($item->params->get('count_clicks', $params->get('count_clicks')) == 1)
+			{
 				$item->link	= JRoute::_('index.php?option=com_weblinks&task=weblink.go&catid='.$item->catslug.'&id='. $item->slug);
 			} else {
 				$item->link = $item->url;

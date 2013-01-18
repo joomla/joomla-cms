@@ -39,7 +39,8 @@ class MediaControllerFolder extends JControllerLegacy
 		$folder = $this->input->get('folder', '', 'path');
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
-		if ($tmpl == 'component') {
+		if ($tmpl == 'component')
+		{
 			// We are inside the iframe
 			$redirect .= '&view=mediaList&tmpl=component';
 		}
@@ -82,7 +83,8 @@ class MediaControllerFolder extends JControllerLegacy
 				{
 					// Trigger the onContentBeforeDelete event.
 					$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.file', &$object_file));
-					if (in_array(false, $result, true)) {
+					if (in_array(false, $result, true))
+					{
 						// There are some errors in the plugins
 						JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
 						continue;
@@ -101,7 +103,8 @@ class MediaControllerFolder extends JControllerLegacy
 					{
 						// Trigger the onContentBeforeDelete event.
 						$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.folder', &$object_file));
-						if (in_array(false, $result, true)) {
+						if (in_array(false, $result, true))
+						{
 							// There are some errors in the plugins
 							JError::raiseWarning(100, JText::plural('COM_MEDIA_ERROR_BEFORE_DELETE', count($errors = $object_file->getErrors()), implode('<br />', $errors)));
 							continue;

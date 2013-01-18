@@ -51,7 +51,7 @@ class UsersControllerUsers extends JControllerAdmin
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getModel($name = 'User', $prefix = 'UsersModel', $config = array('ignore_request' => true))
 	{

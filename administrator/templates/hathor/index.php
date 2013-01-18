@@ -120,7 +120,8 @@ else
 			<?php
 			//Display an harcoded logout
 			$task = $app->input->get('task');
-			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu')) {
+			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
+			{
 				$logoutLink = '';
 			} else {
 				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');

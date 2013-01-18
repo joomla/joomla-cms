@@ -131,7 +131,8 @@ else
 						<?php
 						// Display position-0 modules
 						$this->searchmodules = JModuleHelper::getModules('position-0');
-						foreach ($this->searchmodules as $searchmodule) {
+						foreach ($this->searchmodules as $searchmodule)
+						{
 							$output = JModuleHelper::renderModule($searchmodule, array('style' => 'none'));
 							$params = new JRegistry;
 							$params->loadString($searchmodule->params);
@@ -145,7 +146,8 @@ else
 				<?php
 				// Display position-1 modules
 				$this->navmodules = JModuleHelper::getModules('position-1');
-				foreach ($this->navmodules as $navmodule) {
+				foreach ($this->navmodules as $navmodule)
+				{
 					$output = JModuleHelper::renderModule($navmodule, array('style' => 'none'));
 					$params = new JRegistry;
 					$params->loadString($navmodule->params);

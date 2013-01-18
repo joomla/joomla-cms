@@ -21,7 +21,7 @@ abstract class ContactHelperRoute
 {
 	protected static $lookup;
 	/**
-	 * @param	int	The route of the contact
+	 * @param   integer  The route of the contact
 	 */
 	public static function getContactRoute($id, $catid, $language = 0)
 	{
@@ -199,7 +199,7 @@ abstract class ContactHelperRoute
 			{
 				if (isset(self::$lookup[$language][$view]))
 				{
-					foreach($ids as $id)
+					foreach ($ids as $id)
 					{
 						if (isset(self::$lookup[$language][$view][(int) $id]))
 						{

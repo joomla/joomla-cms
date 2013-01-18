@@ -17,8 +17,10 @@ JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 <script type="text/javascript">
-		window.addEvent('domready', function() {
-			document.id('jform_searchstring').addEvent('focus', function() {
+		window.addEvent('domready', function()
+		{
+			document.id('jform_searchstring').addEvent('focus', function()
+			{
 				if(!Joomla.overrider.states.refreshed)
 				{
 					<?php if($this->state->get('cache_expired')): ?>
@@ -31,7 +33,8 @@ JHtml::_('formbehavior.chosen', 'select');
 		});
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'override.cancel' || document.formvalidator.isValid(document.id('override-form'))) {
+		if (task == 'override.cancel' || document.formvalidator.isValid(document.id('override-form')))
+		{
 			Joomla.submitform(task, document.getElementById('override-form'));
 		}
 	}

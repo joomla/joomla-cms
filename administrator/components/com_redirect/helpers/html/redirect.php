@@ -20,10 +20,10 @@ defined('_JEXEC') or die;
 class JHtmlRedirect
 {
 	/**
-	 * @param	int $value	The state value.
-	 * @param	int $i
-	 * @param	string		An optional prefix for the task.
-	 * @param	boolean		An optional setting for access control on the action.
+	 * @param   int $value	The state value.
+	 * @param   int $i
+	 * @param   string  An optional prefix for the task.
+	 * @param   boolean		An optional setting for access control on the action.
 	 */
 	public static function published($value = 0, $i, $canChange = true)
 	{
@@ -36,7 +36,8 @@ class JHtmlRedirect
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$html	= JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), null, true);
-		if ($canChange) {
+		if ($canChange)
+		{
 			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
 					. $html.'</a>';
 		}

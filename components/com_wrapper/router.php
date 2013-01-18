@@ -10,14 +10,15 @@
 defined('_JEXEC') or die;
 
 /**
- * @param	array
- * @return	array
+ * @param   array
+ * @return  array
  */
 function WrapperBuildRoute(&$query)
 {
 	$segments = array();
 
-	if (isset($query['view'])) {
+	if (isset($query['view']))
+	{
 		unset($query['view']);
 	}
 
@@ -25,8 +26,8 @@ function WrapperBuildRoute(&$query)
 }
 
 /**
- * @param	array
- * @return	array
+ * @param   array
+ * @return  array
  */
 function WrapperParseRoute($segments)
 {

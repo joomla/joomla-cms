@@ -20,7 +20,7 @@ class RedirectControllerLinks extends JControllerAdmin
 {
 	/**
 	 * Method to update a record.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function activate()
 	{
@@ -31,17 +31,20 @@ class RedirectControllerLinks extends JControllerAdmin
 		$newUrl  = $this->input->getString('new_url');
 		$comment = $this->input->getString('comment');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('COM_REDIRECT_NO_ITEM_SELECTED'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
 			JArrayHelper::toInteger($ids);
 
 			// Remove the items.
-			if (!$model->activate($ids, $newUrl, $comment)) {
+			if (!$model->activate($ids, $newUrl, $comment))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {
@@ -54,7 +57,7 @@ class RedirectControllerLinks extends JControllerAdmin
 
 	/**
 	 * Proxy for getModel.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Link', $prefix = 'RedirectModel', $config = array('ignore_request' => true))
 	{

@@ -79,11 +79,13 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 
 <script type="text/javascript">
 //<![CDATA[
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		var value;
 
 		// Set the input value if not already set.
-		if (!document.id('mod-finder-searchword').getProperty('value')) {
+		if (!document.id('mod-finder-searchword').getProperty('value'))
+		{
 			document.id('mod-finder-searchword').setProperty('value', '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>');
 		}
 
@@ -91,15 +93,19 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		value = document.id('mod-finder-searchword').getProperty('value');
 
 		// If the current value equals the default value, clear it.
-		document.id('mod-finder-searchword').addEvent('focus', function() {
-			if (this.getProperty('value') == '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>') {
+		document.id('mod-finder-searchword').addEvent('focus', function()
+		{
+			if (this.getProperty('value') == '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>')
+			{
 				this.setProperty('value', '');
 			}
 		});
 
 		// If the current value is empty, set the previous value.
-		document.id('mod-finder-searchword').addEvent('blur', function() {
-			if (!this.getProperty('value')) {
+		document.id('mod-finder-searchword').addEvent('blur', function()
+		{
+			if (!this.getProperty('value'))
+			{
 				this.setProperty('value', value);
 			}
 		});
@@ -109,9 +115,11 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 			e.stop();
 
 			// Disable select boxes with no value selected.
-			if (document.id('mod-finder-advanced') != null) {
+			if (document.id('mod-finder-advanced') != null)
+			{
 				document.id('mod-finder-advanced').getElements('select').each(function(s){
-					if (!s.getProperty('value')) {
+					if (!s.getProperty('value'))
+					{
 						s.setProperty('disabled', 'disabled');
 					}
 				});

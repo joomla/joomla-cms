@@ -20,7 +20,8 @@ defined('_JEXEC') or die;
 
 if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CONFIGURATION.'/configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION.'/index.php')*/) {
 
-	if (file_exists(JPATH_INSTALLATION.'/index.php')) {
+	if (file_exists(JPATH_INSTALLATION.'/index.php'))
+	{
 		header('Location: '.substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')).'installation/index.php');
 		exit();
 	} else {
@@ -93,6 +94,7 @@ unset($config);
 //
 
 // System profiler.
-if (JDEBUG) {
+if (JDEBUG)
+{
 	$_PROFILER = JProfiler::getInstance('Application');
 }

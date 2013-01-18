@@ -410,7 +410,7 @@ class InstallationModelLanguages extends JModelLegacy
 	 * @param   integer  $language_id  The Id of the language to be set as default
 	 * @param   string   $cms_client   The name of the CMS client
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 *
 	 * @since   3.0
 	 */

@@ -29,7 +29,7 @@ class InstallerModelWarnings extends JModelList
 	 *
 	 * @param   string  $val  String optionally with G, M or K suffix
 	 *
-	 * @return	int		size in bytes
+	 * @return  int		size in bytes
 	 *
 	 * @since 1.6
 	 */
@@ -56,7 +56,7 @@ class InstallerModelWarnings extends JModelList
 	 *
 	 * @return  array  Messages
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getItems()
 	{

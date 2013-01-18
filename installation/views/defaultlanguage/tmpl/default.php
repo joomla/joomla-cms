@@ -93,7 +93,7 @@ defined('_JEXEC') or die;
 		</tr>
 		</tbody>
 		<tbody>
-		<?php foreach($this->items->frontend as $lang) : ?>
+		<?php foreach ($this->items->frontend as $lang) : ?>
 		<tr>
 			<td>
 				<input

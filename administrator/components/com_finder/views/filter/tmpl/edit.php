@@ -44,7 +44,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 			</div>
 			<div class="tab-pane active" id="params">
-				<?php foreach($this->form->getGroup('params') as $field): ?>
+				<?php foreach ($this->form->getGroup('params') as $field) : ?>
 					<div class="control-group">
 						<?php if (!$field->hidden): ?>
 							<div class="control-label"><?php echo $field->label; ?></div>

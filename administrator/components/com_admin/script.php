@@ -19,9 +19,9 @@ defined('_JEXEC') or die;
 class joomlaInstallerScript
 {
 	/**
-	 * method to update Joomla!
+	 * Method to update Joomla!
 	 *
-	 * @param	JInstallerFile	$installer	The class calling this method
+	 * @param   JInstallerFile	$installer	The class calling this method
 	 *
 	 * @return void
 	 */
@@ -205,7 +205,8 @@ class joomlaInstallerScript
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__extensions');
-		foreach ($extensions as $extension) {
+		foreach ($extensions as $extension)
+		{
 			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
 		}
 		$db->setQuery($query);
@@ -217,8 +218,10 @@ class joomlaInstallerScript
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
 			return;
 		}
-		foreach ($extensions as $extension) {
-			if (!$installer->refreshManifestCache($extension->extension_id)) {
+		foreach ($extensions as $extension)
+		{
+			if (!$installer->refreshManifestCache($extension->extension_id))
+			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id).'<br />';
 			}
 		}
@@ -568,15 +571,19 @@ class joomlaInstallerScript
 		);
 
 		jimport('joomla.filesystem.file');
-		foreach ($files as $file) {
-			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file)) {
+		foreach ($files as $file)
+		{
+			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file).'<br />';
 			}
 		}
 
 		jimport('joomla.filesystem.folder');
-		foreach ($folders as $folder) {
-			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder)) {
+		foreach ($folders as $folder)
+		{
+			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
+			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder).'<br />';
 			}
 		}

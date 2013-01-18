@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 $ver = new JVersion;
 ?>
 <script type="text/javascript">
-	function installLanguages() {
+	function installLanguages()
+	{
 		document.id(install_languages_desc).hide();
 		document.id(wait_installing).show();
 		document.id(wait_installing_spinner).show();
@@ -76,7 +77,7 @@ $ver = new JVersion;
 					</tr>
 			</thead>
 			<tbody>
-				<?php foreach($this->items as $i => $language) : ?>
+				<?php foreach ($this->items as $i => $language) : ?>
 					<?php
 					// Checks that the language package is valid for current Joomla version
 					if(substr($language->version, 0, 3) == $ver->RELEASE) :
