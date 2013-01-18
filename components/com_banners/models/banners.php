@@ -27,10 +27,10 @@ class BannersModelBanners extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -47,8 +47,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Gets a list of banners
 	 *
-	 * @return	array	An array of banner objects.
-	 * @since	1.6
+	 * @return  array  An array of banner objects.
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -113,7 +113,8 @@ class BannersModelBanners extends JModelList
 				// Add the subquery to the main query
 				$query->where('('.$categoryEquals.' OR a.catid IN ('.$subQuery->__toString().'))');
 			}
-			else {
+			else
+			{
 				$query->where($categoryEquals);
 			}
 		}
@@ -134,7 +135,8 @@ class BannersModelBanners extends JModelList
 			{
 				$query->where('0');
 			}
-			else {
+			else
+			{
 				$temp = array();
 				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
@@ -176,8 +178,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Get a list of banners.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -198,8 +200,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Makes impressions on a list of banners
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function impress()
 	{

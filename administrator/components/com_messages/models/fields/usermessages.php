@@ -24,15 +24,15 @@ class JFormFieldUserMessages extends JFormFieldUser
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public $type = 'UserMessages';
 
 	/**
 	 * Method to get the filtering groups (null means no filtering)
 	 *
-	 * @return	array|null	array of filtering groups or null.
-	 * @since	1.6
+	 * @return  array|null	array of filtering groups or null.
+	 * @since   1.6
 	 */
 	protected function getGroups()
 	{
@@ -76,8 +76,8 @@ class JFormFieldUserMessages extends JFormFieldUser
 	/**
 	 * Method to get the users to exclude from the list of users
 	 *
-	 * @return	array|null array of users to exclude or null to to not exclude them
-	 * @since	1.6
+	 * @return  array|null array of users to exclude or null to to not exclude them
+	 * @since   1.6
 	 */
 	protected function getExcluded()
 	{

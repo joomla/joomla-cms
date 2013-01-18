@@ -49,7 +49,7 @@ class BannersViewClient extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -78,7 +78,8 @@ class BannersViewClient extends JViewLegacy
 			JToolbarHelper::save2copy('client.save2copy');
 		}
 
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('client.cancel');
 		}
 		else

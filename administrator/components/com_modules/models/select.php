@@ -23,7 +23,7 @@ class ModulesModelSelect extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -51,9 +51,9 @@ class ModulesModelSelect extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string	A prefix for the store id.
+	 * @param   string	A prefix for the store id.
 	 *
-	 * @return	string	A store id.
+	 * @return  string	A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -66,7 +66,7 @@ class ModulesModelSelect extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -103,7 +103,7 @@ class ModulesModelSelect extends JModelList
 	/**
 	 * Method to get a list of items.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return  mixed	An array of objects on success, false on failure.
 	 */
 	public function &getItems()
 	{

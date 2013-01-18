@@ -18,7 +18,7 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
 abstract class JHtmlContact
 {
 	/**
-	 * @param	int $contactid	The contact item id
+	 * @param   int $contactid	The contact item id
 	 */
 	public static function association($contactid)
 	{
@@ -64,12 +64,12 @@ abstract class JHtmlContact
 	}
 
 	/**
-	 * @param	int $value	The featured value
-	 * @param	int $i
-	 * @param	bool $canChange Whether the value can be changed or not
+	 * @param   int $value	The featured value
+	 * @param   int $i
+	 * @param   bool $canChange Whether the value can be changed or not
 	 *
-	 * @return	string	The anchor tag to toggle featured/unfeatured contacts.
-	 * @since	1.6
+	 * @return  string	The anchor tag to toggle featured/unfeatured contacts.
+	 * @since   1.6
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{

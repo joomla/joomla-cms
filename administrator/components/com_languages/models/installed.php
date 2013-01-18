@@ -63,8 +63,8 @@ class LanguagesModelInstalled extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -89,10 +89,10 @@ class LanguagesModelInstalled extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -105,8 +105,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the client object
 	 *
-	 * @return	object
-	 * @since	1.6
+	 * @return  object
+	 * @since   1.6
 	 */
 	public function &getClient()
 	{
@@ -121,8 +121,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the ftp credentials
 	 *
-	 * @return	object
-	 * @since	1.6
+	 * @return  object
+	 * @since   1.6
 	 */
 	public function &getFtp()
 	{
@@ -137,8 +137,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the option
 	 *
-	 * @return	object
-	 * @since	1.6
+	 * @return  object
+	 * @since   1.6
 	 */
 	public function &getOption()
 	{
@@ -150,8 +150,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get Languages item data
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public function &getData()
 	{
@@ -165,7 +165,7 @@ class LanguagesModelInstalled extends JModelList
 			// Compute all the languages
 			$data	= array ();
 
-			foreach($langlist as $lang){
+			foreach ($langlist as $lang){
 				$file = $path . '/' . $lang . '/' . $lang.'.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
 				$row = new JObject;
@@ -176,7 +176,7 @@ class LanguagesModelInstalled extends JModelList
 					continue;
 				}
 
-				foreach($info as $key => $value)
+				foreach ($info as $key => $value)
 				{
 					$row->$key = $value;
 				}
@@ -233,8 +233,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get installed languages data.
 	 *
-	 * @return	string	An SQL query
-	 * @since	1.6
+	 * @return  string	An SQL query
+	 * @since   1.6
 	 */
 	protected function getLanguageList()
 	{
@@ -266,8 +266,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the total number of Languages items
 	 *
-	 * @return	integer
-	 * @since	1.6
+	 * @return  integer
+	 * @since   1.6
 	 */
 	public function getTotal()
 	{
@@ -283,8 +283,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to set the default language
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function publish($cid)
 	{
@@ -336,8 +336,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the folders
 	 *
-	 * @return	array	Languages folders
-	 * @since	1.6
+	 * @return  array  Languages folders
+	 * @since   1.6
 	 */
 	protected function getFolders()
 	{
@@ -354,8 +354,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the path
 	 *
-	 * @return	string	The path to the languages folders
-	 * @since	1.6
+	 * @return  string	The path to the languages folders
+	 * @since   1.6
 	 */
 	protected function getPath()
 	{
@@ -371,11 +371,11 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to compare two languages in order to sort them
 	 *
-	 * @param	object	$lang1 the first language
-	 * @param	object	$lang2 the second language
+	 * @param   object	$lang1 the first language
+	 * @param   object	$lang2 the second language
 	 *
-	 * @return	integer
-	 * @since	1.6
+	 * @return  integer
+	 * @since   1.6
 	 */
 	protected function compareLanguages($lang1, $lang2)
 	{

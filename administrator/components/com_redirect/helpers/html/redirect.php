@@ -20,10 +20,10 @@ defined('_JEXEC') or die;
 class JHtmlRedirect
 {
 	/**
-	 * @param	int $value	The state value.
-	 * @param	int $i
-	 * @param	string		An optional prefix for the task.
-	 * @param	boolean		An optional setting for access control on the action.
+	 * @param   int $value	The state value.
+	 * @param   int $i
+	 * @param   string  An optional prefix for the task.
+	 * @param   boolean		An optional setting for access control on the action.
 	 */
 	public static function published($value = 0, $i, $canChange = true)
 	{

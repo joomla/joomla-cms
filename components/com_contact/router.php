@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Build the route for the com_contact component
  *
- * @param	array	An array of URL arguments
+ * @return  array  An array of URL arguments
  *
- * @return	array	The URL arguments to use to assemble the subsequent URL.
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
  */
 function ContactBuildRoute(&$query)
 {
@@ -77,7 +77,7 @@ function ContactBuildRoute(&$query)
 				$path = array_reverse($category->getPath());
 
 				$array = array();
-				foreach($path as $id)
+				foreach ($path as $id)
 				{
 					if((int) $id == (int) $menuCatid)
 					{
@@ -132,9 +132,9 @@ function ContactBuildRoute(&$query)
 /**
  * Parse the segments of a URL.
  *
- * @param	array	The segments of the URL to parse.
+ * @return  array  The segments of the URL to parse.
  *
- * @return	array	The URL attributes to be used by the application.
+ * @return  array  The URL attributes to be used by the application.
  */
 function ContactParseRoute($segments)
 {
@@ -167,10 +167,10 @@ function ContactParseRoute($segments)
 	$vars['catid'] = $id;
 	$vars['id'] = $id;
 	$found = 0;
-	foreach($segments as $segment)
+	foreach ($segments as $segment)
 	{
 		$segment = $advanced ? str_replace(':', '-', $segment) : $segment;
-		foreach($categories as $category)
+		foreach ($categories as $category)
 		{
 			if ($category->slug == $segment || $category->alias == $segment)
 			{

@@ -20,24 +20,24 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 {
 	/**
 	 * @var		object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $state;
 
 	/**
 	 * @var		object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $item;
 
 	/**
 	 * @var		boolean
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $print;
 
 	/**
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -205,8 +205,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	/**
 	 * Prepares the document
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function _prepareDocument()
 	{
@@ -248,7 +248,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 				$category = $category->getParent();
 			}
 			$path = array_reverse($path);
-			foreach($path as $item)
+			foreach ($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);
 			}

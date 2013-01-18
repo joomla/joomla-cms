@@ -31,7 +31,7 @@ class WeblinksModelWeblink extends JModelItem
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -49,9 +49,9 @@ class WeblinksModelWeblink extends JModelItem
 	/**
 	 * Method to get an object.
 	 *
-	 * @param	integer	The id of the object to get.
+	 * @param   integer	The id of the object to get.
 	 *
-	 * @return	mixed	Object on success, false on failure.
+	 * @return  mixed	Object on success, false on failure.
 	 */
 	public function &getItem($id = null)
 	{
@@ -95,9 +95,9 @@ class WeblinksModelWeblink extends JModelItem
 	/**
 	 * Method to increment the hit counter for the weblink
 	 *
-	 * @param	int		Optional ID of the weblink.
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @param   int		Optional ID of the weblink.
+	 * @return  boolean	True on success
+	 * @since   1.5
 	 */
 	public function hit($id = null)
 	{

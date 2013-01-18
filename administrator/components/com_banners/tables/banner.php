@@ -21,7 +21,7 @@ class BannersTableBanner extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function __construct(&$_db)
 	{
@@ -43,9 +43,9 @@ class BannersTableBanner extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 * @see		JTable::check
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -83,8 +83,8 @@ class BannersTableBanner extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param	array		$hash named array
-	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   array		$hash named array
+	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see JTable:bind
 	 * @since 1.5
 	 */
@@ -124,7 +124,7 @@ class BannersTableBanner extends JTable
 		return parent::bind($array, $ignore);
 	}
 	/**
-	 * method to store a row
+	 * Method to store a row
 	 *
 	 * @param boolean $updateNulls True to update fields even if they are null.
 	 */
@@ -205,12 +205,12 @@ class BannersTableBanner extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * @param   mixed	An optional array of primary key values to update.  If not
 	 *					set the instance property value is used.
-	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
-	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
+	 * @param   integer The user id of the user performing the operation.
+	 * @return  boolean	True on success.
+	 * @since   1.6
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -273,12 +273,12 @@ class BannersTableBanner extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * @param   mixed	An optional array of primary key values to update.  If not
 	 *					set the instance property value is used.
-	 * @param	integer The sticky state. eg. [0 = unsticked, 1 = sticked]
-	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @param   integer The sticky state. eg. [0 = unsticked, 1 = sticked]
+	 * @param   integer The user id of the user performing the operation.
+	 * @return  boolean	True on success.
+	 * @since   1.6
 	 */
 	public function stick($pks = null, $state = 1, $userId = 0)
 	{

@@ -21,7 +21,7 @@ class ContentControllerArticle extends JControllerForm
 	 *
 	 * @param   array  $config  A named array of configuration variables.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{

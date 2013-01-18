@@ -25,7 +25,7 @@ class BannersModelDownload extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -41,11 +41,11 @@ class BannersModelDownload extends JModelForm
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array	$data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return	mixed	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @return  mixed	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -62,8 +62,8 @@ class BannersModelDownload extends JModelForm
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed	The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{

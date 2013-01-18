@@ -44,7 +44,7 @@ class CacheModelCache extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -130,7 +130,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Get the number of current Cache Groups
 	 *
-	 * @return int
+	 * @return  int
 	 */
 	public function getTotal()
 	{
@@ -145,7 +145,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get a pagination object for the cache
 	 *
-	 * @return integer
+	 * @return  integer
 	 */
 	public function getPagination()
 	{

@@ -27,7 +27,7 @@ class CheckinModelCheckin extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -41,9 +41,9 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Checks in requested tables
 	 *
-	 * @param	array	An array of table names. Optional.
-	 * @return	int		Checked in item count
-	 * @since	1.6
+	 * @param   array	An array of table names. Optional.
+	 * @return  int		Checked in item count
+	 * @since   1.6
 	 */
 	public function checkin($ids = array())
 	{
@@ -96,8 +96,8 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Get total of tables
 	 *
-	 * @return	int	Total to check-in tables
-	 * @since	1.6
+	 * @return  int	Total to check-in tables
+	 * @since   1.6
 	 */
 	public function getTotal()
 	{
@@ -110,8 +110,8 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Get tables
 	 *
-	 * @return	array	Checked in table names as keys and checked in item count as values
-	 * @since	1.6
+	 * @return  array  Checked in table names as keys and checked in item count as values
+	 * @since   1.6
 	 */
 	public function getItems()
 	{

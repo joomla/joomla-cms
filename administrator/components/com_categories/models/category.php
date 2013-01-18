@@ -31,7 +31,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
@@ -978,7 +978,7 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Custom clean the cache of com_content and content modules
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
@@ -1009,7 +1009,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
-	 * @since	1.7
+	 * @since   1.7
 	 */
 	protected function generateNewTitle($parent_id, $alias, $title)
 	{

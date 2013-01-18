@@ -44,7 +44,7 @@ interface JHttpTransport
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null);
 
 	/**
-	 * method to check if http transport layer available for using
+	 * Method to check if http transport layer available for using
 	 * 
 	 * @return bool true if available else false
 	 * 

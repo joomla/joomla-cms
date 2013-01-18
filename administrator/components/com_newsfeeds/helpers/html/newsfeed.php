@@ -22,8 +22,8 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
 class JHtmlNewsfeed
 {
 	/**
-	 * @param	int $value	The state value
-	 * @param	int $i
+	 * @param   int $value	The state value
+	 * @param   int $i
 	 */
 	public static function state($value = 0, $i)
 	{
@@ -42,9 +42,9 @@ class JHtmlNewsfeed
 	/**
 	 * Display an HTML select list of state filters
 	 *
-	 * @param	int $selected	The selected value of the list
-	 * @return	string			The HTML code for the select tag
-	 * @since	1.6
+	 * @param   int $selected	The selected value of the list
+	 * @return  string  	The HTML code for the select tag
+	 * @since   1.6
 	 */
 	public static function filterstate($selected)
 	{
@@ -63,7 +63,7 @@ class JHtmlNewsfeed
 	}
 
 	/**
-	 * @param	int $newsfeedid	The newsfeed item id
+	 * @param   int $newsfeedid	The newsfeed item id
 	 */
 	public static function association($newsfeedid)
 	{

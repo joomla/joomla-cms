@@ -24,10 +24,10 @@ class LoginController extends JControllerLegacy
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -44,7 +44,7 @@ class LoginController extends JControllerLegacy
 	/**
 	 * Method to log in a user.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function login()
 	{
@@ -70,7 +70,7 @@ class LoginController extends JControllerLegacy
 	/**
 	 * Method to log out a user.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function logout()
 	{

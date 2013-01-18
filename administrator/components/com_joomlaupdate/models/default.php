@@ -26,7 +26,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * Detects if the Joomla! update site currently in use matches the one
 	 * configured in this component. If they don't match, it changes it.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since	2.5.4
 	 */
@@ -101,7 +101,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 *
 	 * @param   boolean  $force  Force reload, ignoring the cache timeout
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since	2.5.4
 	 */

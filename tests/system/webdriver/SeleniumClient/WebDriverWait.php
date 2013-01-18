@@ -69,7 +69,7 @@ class WebDriverWait
 					if($args != null && count($args) > 0)
 					{
 						$stringArgs = Array();
-						foreach($args as $arg)
+						foreach ($args as $arg)
 						{
 							if(is_object($arg) && method_exists( $arg, '__toString' ))
 							{

@@ -21,9 +21,9 @@ class ModulesModelPositions extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array	An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -43,7 +43,7 @@ class ModulesModelPositions extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -76,8 +76,8 @@ class ModulesModelPositions extends JModelList
 	/**
 	 * Method to get an array of data items.
 	 *
-	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed	An array of data items on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -205,8 +205,8 @@ class ModulesModelPositions extends JModelList
 	/**
 	 * Method to get the total number of items.
 	 *
-	 * @return	int	The total number of items.
-	 * @since	1.6
+	 * @return  int	The total number of items.
+	 * @since   1.6
 	 */
 	public function getTotal()
 	{

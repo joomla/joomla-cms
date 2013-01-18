@@ -21,10 +21,10 @@ class UsersModelRemind extends JModelForm
 	/**
 	 * Method to get the username remind request form.
 	 *
-	 * @param	array	$data		An optional array of data for the form to interogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		An optional array of data for the form to interogate.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -41,10 +41,10 @@ class UsersModelRemind extends JModelForm
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * @param   object	A form object.
+	 * @param   mixed	The data expected for the form.
 	 * @throws	Exception if there is an error in the form event.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
@@ -56,7 +56,7 @@ class UsersModelRemind extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -69,7 +69,7 @@ class UsersModelRemind extends JModelForm
 	}
 
 	/**
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function processRemindRequest($data)
 	{

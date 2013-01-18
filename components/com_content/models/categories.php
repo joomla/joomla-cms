@@ -41,7 +41,7 @@ class ContentModelCategories extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -66,9 +66,9 @@ class ContentModelCategories extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -84,10 +84,10 @@ class ContentModelCategories extends JModelList
 	/**
 	 * Redefine the function an add some properties to make the styling more easy
 	 *
-	 * @param	bool	$recursive	True if you want to return children recursively.
+	 * @param   bool	$recursive	True if you want to return children recursively.
 	 *
-	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed	An array of data items on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItems($recursive = false)
 	{

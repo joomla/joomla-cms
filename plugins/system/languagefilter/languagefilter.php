@@ -322,12 +322,12 @@ class plgSystemLanguageFilter extends JPlugin
 	 *
 	 * Method is called before user data is stored in the database
 	 *
-	 * @param	array		$user	Holds the old user data.
-	 * @param	boolean		$isnew	True if a new user is stored.
-	 * @param	array		$new	Holds the new user data.
+	 * @param   array		$user	Holds the old user data.
+	 * @param   boolean		$isnew	True if a new user is stored.
+	 * @param   array		$new	Holds the new user data.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
@@ -348,13 +348,13 @@ class plgSystemLanguageFilter extends JPlugin
 	 *
 	 * Method is called after user data is stored in the database
 	 *
-	 * @param	array		$user		Holds the new user data.
-	 * @param	boolean		$isnew		True if a new user is stored.
-	 * @param	boolean		$success	True if user was succesfully stored in the database.
-	 * @param	string		$msg		Message.
+	 * @param   array		$user		Holds the new user data.
+	 * @param   boolean		$isnew		True if a new user is stored.
+	 * @param   boolean		$success	True if user was succesfully stored in the database.
+	 * @param   string  $msg		Message.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
@@ -394,11 +394,11 @@ class plgSystemLanguageFilter extends JPlugin
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data
-	 * @param	array	$options	Array holding options (remember, autoregister, group)
+	 * @param   array	$user		Holds the user data
+	 * @param   array	$options	Array holding options (remember, autoregister, group)
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean	True on success
+	 * @since   1.5
 	 */
 	public function onUserLogin($user, $options = array())
 	{
@@ -455,8 +455,8 @@ class plgSystemLanguageFilter extends JPlugin
 	/**
 	 * This method adds alternate meta tags for associated menu items
 	 *
-	 * @return	nothing
-	 * @since	1.7
+	 * @return  nothing
+	 * @since   1.7
 	 */
 	public function onAfterDispatch()
 	{

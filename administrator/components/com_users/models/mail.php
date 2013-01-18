@@ -21,10 +21,10 @@ class UsersModelMail extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param	array	$data		An optional array of data for the form to interogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		An optional array of data for the form to interogate.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -43,8 +43,8 @@ class UsersModelMail extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed	The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
@@ -57,10 +57,10 @@ class UsersModelMail extends JModelAdmin
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * @param   object	A form object.
+	 * @param   mixed	The data expected for the form.
 	 * @throws	Exception if there is an error in the form event.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{

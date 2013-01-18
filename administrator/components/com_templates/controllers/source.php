@@ -21,7 +21,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
+	 * @param   array An optional associative array of configuration settings.
 	 * @see		JController
 	 */
 	public function __construct($config = array())
@@ -37,10 +37,10 @@ class TemplatesControllerSource extends JControllerLegacy
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array	An array of input data.
+	 * @param   string	The name of the key for the primary key.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	protected function allowEdit()
 	{
@@ -52,10 +52,10 @@ class TemplatesControllerSource extends JControllerLegacy
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array	An array of input data.
+	 * @param   string	The name of the key for the primary key.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	protected function allowSave()
 	{
@@ -65,11 +65,11 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string	The model name. Optional.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Configuration array for model. Optional (note, the empty array is atypical compared to other models).
+	 * @param   string	The model name. Optional.
+	 * @param   string	The class prefix. Optional.
+	 * @param   array	Configuration array for model. Optional (note, the empty array is atypical compared to other models).
 	 *
-	 * @return	object	The model.
+	 * @return  object	The model.
 	 */
 	public function getModel($name = 'Source', $prefix = 'TemplatesModel', $config = array())
 	{
@@ -80,11 +80,11 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * This controller does not have a display method. Redirect back to the list view of the component.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -94,7 +94,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function edit()
 	{
@@ -124,7 +124,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Method to cancel an edit
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function cancel()
 	{

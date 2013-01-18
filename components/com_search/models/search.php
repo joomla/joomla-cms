@@ -109,8 +109,8 @@ class SearchModelSearch extends JModelLegacy
 	 * Method to set the search areas
 	 *
 	 * @access	public
-	 * @param	array	Active areas
-	 * @param	array	Search areas
+	 * @param   array	Active areas
+	 * @param   array	Search areas
 	 */
 	public function setAreas($active = array(), $search = array())
 	{
@@ -162,7 +162,7 @@ class SearchModelSearch extends JModelLegacy
 	 * Method to get the total number of weblink items for the category
 	 *
 	 * @access public
-	 * @return integer
+	 * @return  integer
 	 */
 	public function getTotal()
 	{
@@ -173,7 +173,7 @@ class SearchModelSearch extends JModelLegacy
 	 * Method to get a pagination object of the weblink items for the category
 	 *
 	 * @access public
-	 * @return integer
+	 * @return  integer
 	 */
 	public function getPagination()
 	{

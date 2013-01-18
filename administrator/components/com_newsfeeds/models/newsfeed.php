@@ -22,7 +22,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 {
 	/**
 	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_NEWSFEEDS';
 
@@ -35,7 +35,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	11.1
+	 * @since   11.1
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -148,9 +148,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param	object	A record object.
-	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @param   object	A record object.
+	 * @return  boolean	True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
@@ -175,9 +175,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state changed.
 	 *
-	 * @param	object	A record object.
-	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @param   object	A record object.
+	 * @return  boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @since   1.6
 	 */
 	protected function canEditState($record)
 	{
@@ -196,10 +196,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
+	 * @param   type	The table type to instantiate
+	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   array	Configuration array for model. Optional.
+	 * @return  JTable	A database object
 	*/
 	public function getTable($type = 'Newsfeed', $prefix = 'NewsfeedsTable', $config = array())
 	{
@@ -209,10 +209,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -258,8 +258,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed	The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
@@ -284,9 +284,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
+	 * @param   array	The form data.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean	True on success.
 	 * @since	3.0
 	 */
 	public function save($data)
@@ -370,10 +370,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	integer	The id of the primary key.
+	 * @param   integer	The id of the primary key.
 	 *
-	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed	Object on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItem($pk = null)
 	{
@@ -461,11 +461,11 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param	array	$pks	A list of the primary keys to change.
-	 * @param	int		$value	The value of the published state.
+	 * @param   array	$pks	A list of the primary keys to change.
+	 * @param   int		$value	The value of the published state.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @return  boolean	True on success.
+	 * @since   1.6
 	 */
 	public function publish(&$pks, $value = 1)
 	{
@@ -480,9 +480,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param	object	A record object.
-	 * @return	array	An array of conditions to add to add to ordering queries.
-	 * @since	1.6
+	 * @param   object	A record object.
+	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{

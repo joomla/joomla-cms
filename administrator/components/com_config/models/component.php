@@ -23,8 +23,8 @@ class ConfigModelComponent extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -46,11 +46,11 @@ class ConfigModelComponent extends JModelForm
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array	$data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return	mixed	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @return  mixed	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -85,8 +85,8 @@ class ConfigModelComponent extends JModelForm
 	/**
 	 * Get the component information.
 	 *
-	 * @return	object
-	 * @since	1.6
+	 * @return  object
+	 * @since   1.6
 	 */
 	function getComponent()
 	{
@@ -107,10 +107,10 @@ class ConfigModelComponent extends JModelForm
 	/**
 	 * Method to save the configuration data.
 	 *
-	 * @param	array	An array containing all global config data.
+	 * @param   array	An array containing all global config data.
 	 *
-	 * @return	bool	True on success, false on failure.
-	 * @since	1.6
+	 * @return  bool	True on success, false on failure.
+	 * @since   1.6
 	 */
 	public function save($data)
 	{

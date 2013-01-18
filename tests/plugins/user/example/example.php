@@ -21,12 +21,12 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called before user data is stored in the database
 	 *
-	 * @param	array		$user	Holds the old user data.
-	 * @param	boolean		$isnew	True if a new user is stored.
-	 * @param	array		$new	Holds the new user data.
+	 * @param   array		$user	Holds the old user data.
+	 * @param   boolean		$isnew	True if a new user is stored.
+	 * @param   array		$new	Holds the new user data.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 * @throws	Exception on error.
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
@@ -41,13 +41,13 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called after user data is stored in the database
 	 *
-	 * @param	array		$user		Holds the new user data.
-	 * @param	boolean		$isnew		True if a new user is stored.
-	 * @param	boolean		$success	True if user was succesfully stored in the database.
-	 * @param	string		$msg		Message.
+	 * @param   array		$user		Holds the new user data.
+	 * @param   boolean		$isnew		True if a new user is stored.
+	 * @param   boolean		$success	True if user was succesfully stored in the database.
+	 * @param   string  $msg		Message.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 * @throws	Exception on error.
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
@@ -80,10 +80,10 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called before user data is deleted from the database
 	 *
-	 * @param	array		$user	Holds the user data.
+	 * @param   array		$user	Holds the user data.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function onUserBeforeDelete($user)
 	{
@@ -95,12 +95,12 @@ class plgUserExample extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param	array		$user	Holds the user data.
-	 * @param	boolean		$succes	True if user was succesfully stored in the database.
-	 * @param	string		$msg	Message.
+	 * @param   array		$user	Holds the user data.
+	 * @param   boolean		$succes	True if user was succesfully stored in the database.
+	 * @param   string  $msg	Message.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
@@ -115,11 +115,11 @@ class plgUserExample extends JPlugin
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data.
-	 * @param	array	$options	Extra options.
+	 * @param   array	$user		Holds the user data.
+	 * @param   array	$options	Extra options.
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean	True on success
+	 * @since   1.5
 	 */
 	public function onUserLogin($user, $options)
 	{
@@ -143,10 +143,10 @@ class plgUserExample extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param	array	$user	Holds the user data.
+	 * @param   array	$user	Holds the user data.
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean	True on success
+	 * @since   1.5
 	 */
 	public function onUserLogout($user)
 	{

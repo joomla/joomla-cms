@@ -21,11 +21,11 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	$config	An optional associative array of configuration settings.
+	 * @param   array	$config	An optional associative array of configuration settings.
 
-	 * @return	ContentControllerArticles
+	 * @return  ContentControllerArticles
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -44,8 +44,8 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Method to toggle the featured setting of a list of articles.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function featured()
 	{
@@ -91,11 +91,11 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param	string	$name	The name of the model.
-	 * @param	string	$prefix	The prefix for the PHP class name.
+	 * @param   string	$name	The name of the model.
+	 * @param   string	$prefix	The prefix for the PHP class name.
 	 *
-	 * @return	JModel
-	 * @since	1.6
+	 * @return  JModel
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
@@ -107,7 +107,7 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   3.0
 	 */

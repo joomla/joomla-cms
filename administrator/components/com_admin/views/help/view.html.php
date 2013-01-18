@@ -65,7 +65,7 @@ class AdminViewHelp extends JViewLegacy
 	/**
 	 * Setup the Toolbar
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{

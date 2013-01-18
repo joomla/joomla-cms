@@ -20,7 +20,7 @@ class BannersControllerTracks extends JControllerLegacy
 {
 	/**
 	 * @var		string	The context for persistent state.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $context = 'com_banners.tracks';
 
@@ -44,8 +44,8 @@ class BannersControllerTracks extends JControllerLegacy
 	/**
 	 * Method to remove a record.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function delete()
 	{

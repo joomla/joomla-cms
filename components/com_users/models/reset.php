@@ -21,10 +21,10 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset request form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -41,10 +41,10 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset complete form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getResetCompleteForm($data = array(), $loadData = true)
 	{
@@ -61,10 +61,10 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to get the password reset confirm form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getResetConfirmForm($data = array(), $loadData = true)
 	{
@@ -81,10 +81,10 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * @param   object	A form object.
+	 * @param   mixed	The data expected for the form.
 	 * @throws	Exception if there is an error in the form event.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
@@ -96,7 +96,7 @@ class UsersModelReset extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -108,7 +108,7 @@ class UsersModelReset extends JModelForm
 	}
 
 	/**
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	function processResetComplete($data)
 	{
@@ -194,7 +194,7 @@ class UsersModelReset extends JModelForm
 	}
 
 	/**
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	function processResetConfirm($data)
 	{
@@ -291,7 +291,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Method to start the password reset process.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function processResetRequest($data)
 	{

@@ -21,9 +21,9 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array	An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -51,8 +51,8 @@ class LanguagesModelLanguages extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -83,10 +83,10 @@ class LanguagesModelLanguages extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -101,8 +101,8 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return	string	An SQL query
-	 * @since	1.6
+	 * @return  string	An SQL query
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -156,11 +156,11 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Set the published language(s)
 	 *
-	 * @param	array	$cid	An array of language IDs.
-	 * @param	int		$value	The value of the published state.
+	 * @param   array	$cid	An array of language IDs.
+	 * @param   int		$value	The value of the published state.
 	 *
-	 * @return	boolean	True on success, false otherwise.
-	 * @since	1.6
+	 * @return  boolean	True on success, false otherwise.
+	 * @since   1.6
 	 */
 	public function setPublished($cid, $value = 0)
 	{
@@ -170,10 +170,10 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Method to delete records.
 	 *
-	 * @param	array	An array of item primary keys.
+	 * @param   array	An array of item primary keys.
 	 *
-	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.6
+	 * @return  boolean	Returns true on success, false on failure.
+	 * @since   1.6
 	 */
 	public function delete($pks)
 	{
@@ -203,7 +203,7 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Custom clean cache method, 2 places for 2 clients
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

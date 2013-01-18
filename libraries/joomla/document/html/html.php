@@ -667,7 +667,7 @@ class JDocumentHTML extends JDocument
 	/**
 	 * Render pre-parsed template
 	 *
-	 * @return string rendered template
+	 * @return  string rendered template
 	 *
 	 * @since   11.1
 	 */

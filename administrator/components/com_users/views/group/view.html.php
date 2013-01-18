@@ -47,7 +47,7 @@ class UsersViewGroup extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -74,7 +74,8 @@ class UsersViewGroup extends JViewLegacy
 			JToolbarHelper::save2copy('group.save2copy');
 		}
 
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('group.cancel');
 		}
 		else

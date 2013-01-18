@@ -246,7 +246,7 @@ class InstallationModelDatabase extends JModelLegacy
 
 		$options = (array) $options;
 		// remove *_errors value
-		foreach($options as $i => $option)
+		foreach ($options as $i => $option)
 		{
 			if (isset($i['1']) && $i['1'] == '*')
 			{
@@ -561,7 +561,7 @@ class InstallationModelDatabase extends JModelLegacy
 	}
 
 	/**
-	 * method to update the user id of the sample data content to the new rand user id
+	 * Method to update the user id of the sample data content to the new rand user id
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*
 	 *

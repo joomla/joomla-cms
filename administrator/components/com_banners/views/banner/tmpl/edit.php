@@ -92,7 +92,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				</div>
 				<div id="image">
-						<?php foreach($this->form->getFieldset('image') as $field): ?>
+						<?php foreach ($this->form->getFieldset('image') as $field): ?>
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $field->label; ?>
@@ -137,7 +137,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 			</div>
 			<div class="tab-pane" id="publishing">
-				<?php foreach($this->form->getFieldset('publish') as $field): ?>
+				<?php foreach ($this->form->getFieldset('publish') as $field): ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>
@@ -149,7 +149,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endforeach; ?>
 			</div>
 			<div class="tab-pane" id="otherparams">
-				<?php foreach($this->form->getFieldset('otherparams') as $field): ?>
+				<?php foreach ($this->form->getFieldset('otherparams') as $field): ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>
@@ -162,7 +162,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 			<div class="tab-pane" id="metadata">
 
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+				<?php foreach ($this->form->getFieldset('metadata') as $field): ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>

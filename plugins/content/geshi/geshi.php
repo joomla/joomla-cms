@@ -18,10 +18,10 @@ defined('_JEXEC') or die;
 class plgContentGeshi extends JPlugin
 {
 	/**
-	 * @param	string	The context of the content being passed to the plugin.
-	 * @param	object	The article object.  Note $article->text is also available
-	 * @param	object	The article params
-	 * @param	int		The 'page' number
+	 * @param   string	The context of the content being passed to the plugin.
+	 * @param   object	The article object.  Note $article->text is also available
+	 * @param   object	The article params
+	 * @param   int		The 'page' number
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
@@ -43,8 +43,8 @@ class plgContentGeshi extends JPlugin
 	/**
 	 * Replaces the matched tags.
 	 *
-	 * @param	array	An array of matches (see preg_match_all)
-	 * @return	string
+	 * @param   array	An array of matches (see preg_match_all)
+	 * @return  string
 	 */
 	protected function _replace(&$matches)
 	{

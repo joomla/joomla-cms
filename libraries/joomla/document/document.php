@@ -713,7 +713,7 @@ class JDocument
 	/**
 	 * Returns the document base url
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   11.1
 	 */

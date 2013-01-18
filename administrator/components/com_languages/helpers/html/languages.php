@@ -19,11 +19,11 @@ defined('_JEXEC') or die;
 abstract class JHtmlLanguages
 {
 	/**
-	 * method to generate an information about the default language
+	 * Method to generate an information about the default language
 	 *
-	 * @param	boolean	$published is the language the default?
+	 * @param   boolean	$published is the language the default?
 	 *
-	 * @return	string	html code
+	 * @return  string	html code
 	 */
 	public static function published($published)
 	{
@@ -38,12 +38,12 @@ abstract class JHtmlLanguages
 	}
 
 	/**
-	 * method to generate an input radio button
+	 * Method to generate an input radio button
 	 *
-	 * @param	int		$rowNum the row number
-	 * @param	string	language tag
+	 * @param   int		$rowNum the row number
+	 * @param   string	language tag
 	 *
-	 * @return	string	html code
+	 * @return  string	html code
 	 */
 	public static function id($rowNum, $language)
 	{
@@ -61,8 +61,8 @@ abstract class JHtmlLanguages
 	/**
 	 * Returns an array of published state filter options.
 	 *
-	 * @return	string			The HTML code for the select tag
-	 * @since	1.6
+	 * @return  string  	The HTML code for the select tag
+	 * @since   1.6
 	 */
 	public static function publishedOptions()
 	{

@@ -77,7 +77,7 @@ $ver = new JVersion;
 					</tr>
 			</thead>
 			<tbody>
-				<?php foreach($this->items as $i => $language) : ?>
+				<?php foreach ($this->items as $i => $language) : ?>
 					<?php
 					// Checks that the language package is valid for current Joomla version
 					if(substr($language->version, 0, 3) == $ver->RELEASE) :

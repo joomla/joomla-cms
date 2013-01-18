@@ -34,12 +34,12 @@ class plgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param	string	$context	The context for the data
-	 * @param	int		$data		The user id
-	 * @param	object
+	 * @param   string	$context	The context for the data
+	 * @param   int		$data		The user id
+	 * @param   object
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function onContentPrepareData($context, $data)
 	{
@@ -149,11 +149,11 @@ class plgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param	JForm	$form	The form to be altered.
-	 * @param	array	$data	The associated data for the form.
+	 * @param   JForm	$form	The form to be altered.
+	 * @param   array	$data	The associated data for the form.
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
@@ -313,9 +313,9 @@ class plgUserProfile extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param	array		$user		Holds the user data
-	 * @param	boolean		$success	True if user was succesfully stored in the database
-	 * @param	string		$msg		Message
+	 * @param   array		$user		Holds the user data
+	 * @param   boolean		$success	True if user was succesfully stored in the database
+	 * @param   string  $msg		Message
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{

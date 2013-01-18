@@ -53,7 +53,7 @@ class LanguagesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
+	 * @return  JObject
 	 */
 	public static function getActions()
 	{
@@ -103,9 +103,9 @@ class LanguagesHelper
 	 * Filter method for language keys.
 	 * This method will be called by JForm while filtering the form data.
 	 *
-	 * @param		string	$value	The language key to filter
+	 * @param   	string	$value	The language key to filter
 	 *
-	 * @return	string	The filtered language key
+	 * @return  string	The filtered language key
 	 *
 	 * @since		2.5
 	 */
@@ -120,9 +120,9 @@ class LanguagesHelper
 	 * Filter method for language strings.
 	 * This method will be called by JForm while filtering the form data.
 	 *
-	 * @param		string	$value	The language string to filter
+	 * @param   	string	$value	The language string to filter
 	 *
-	 * @return	string	The filtered language string
+	 * @return  string	The filtered language string
 	 *
 	 * @since		2.5
 	 */

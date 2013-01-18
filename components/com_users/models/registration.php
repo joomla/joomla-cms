@@ -20,16 +20,16 @@ class UsersModelRegistration extends JModelForm
 {
 	/**
 	 * @var		object	The user registration data.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $data;
 
 	/**
 	 * Method to activate a user account.
 	 *
-	 * @param	string		The activation token.
-	 * @return	mixed		False on failure, user object on success.
-	 * @since	1.6
+	 * @param   string  The activation token.
+	 * @return  mixed		False on failure, user object on success.
+	 * @since   1.6
 	 */
 	public function activate($token)
 	{
@@ -99,7 +99,7 @@ class UsersModelRegistration extends JModelForm
 			$rows = $db->loadObjectList();
 
 			// Send mail to all users with users creating permissions and receiving system emails
-			foreach( $rows as $row )
+			foreach ( $rows as $row )
 			{
 				$usercreator = JFactory::getUser($row->id);
 				if ($usercreator->authorise('core.create', 'com_users'))
@@ -175,8 +175,8 @@ class UsersModelRegistration extends JModelForm
 	 * The base form data is loaded and then an event is fired
 	 * for users plugins to extend the data.
 	 *
-	 * @return	mixed		Data object on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed		Data object on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getData()
 	{
@@ -229,10 +229,10 @@ class UsersModelRegistration extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param	array	$data		An optional array of data for the form to interogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		An optional array of data for the form to interogate.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -249,8 +249,8 @@ class UsersModelRegistration extends JModelForm
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed	The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
@@ -260,10 +260,10 @@ class UsersModelRegistration extends JModelForm
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * @param   object	A form object.
+	 * @param   mixed	The data expected for the form.
 	 * @throws	Exception if there is an error in the form event.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
@@ -283,7 +283,7 @@ class UsersModelRegistration extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -298,9 +298,9 @@ class UsersModelRegistration extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array		The form data.
-	 * @return	mixed		The user id on success, false on failure.
-	 * @since	1.6
+	 * @param   array		The form data.
+	 * @return  mixed		The user id on success, false on failure.
+	 * @since   1.6
 	 */
 	public function register($temp)
 	{
@@ -489,7 +489,7 @@ class UsersModelRegistration extends JModelForm
 			$rows = $db->loadObjectList();
 
 			// Send mail to all superadministrators id
-			foreach( $rows as $row )
+			foreach ( $rows as $row )
 			{
 				$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
 

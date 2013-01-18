@@ -32,7 +32,7 @@ class ContentModelArchive extends ContentModelArticles
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -60,7 +60,7 @@ class ContentModelArchive extends ContentModelArticles
 	}
 
 	/**
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

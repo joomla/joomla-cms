@@ -25,7 +25,7 @@ class modMenuHelper
 	 *
 	 * @return  array
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public static function getList(&$params)
 	{

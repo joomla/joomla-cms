@@ -67,7 +67,7 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
 
-				<?php foreach($this->form->getFieldset('image') as $field): ?>
+				<?php foreach ($this->form->getFieldset('image') as $field): ?>
 					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>
@@ -105,7 +105,7 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('publish') as $field): ?>
+			<?php foreach ($this->form->getFieldset('publish') as $field): ?>
 				<li><?php echo $field->label; ?>
 					<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
@@ -116,7 +116,7 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 			<ul class="adminformlist">
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+				<?php foreach ($this->form->getFieldset('metadata') as $field): ?>
 					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>

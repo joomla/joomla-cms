@@ -52,7 +52,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Style', $prefix = 'TemplatesModel', $config = array())
 	{
@@ -63,7 +63,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	/**
 	 * Method to set the home template for a client.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function setDefault()
 	{
@@ -98,7 +98,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	/**
 	 * Method to unset the default template for a client and for a language
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function unsetDefault()
 	{

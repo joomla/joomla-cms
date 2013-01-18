@@ -23,7 +23,7 @@ class UsersControllerRemind extends UsersController
 	/**
 	 * Method to request a username reminder.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function remind()
 	{

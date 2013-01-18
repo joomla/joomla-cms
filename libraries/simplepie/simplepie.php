@@ -1833,7 +1833,7 @@ class SimplePie
 	 * Return the error message for the occured error
 	 *
 	 * @access public
-	 * @return string Error message
+	 * @return  string Error message
 	 */
 	function error()
 	{
@@ -6936,7 +6936,7 @@ class SimplePie_Enclosure
 		else
 		{
 			$options = explode(',', $options);
-			foreach($options as $option)
+			foreach ($options as $option)
 			{
 				$opt = explode(':', $option, 2);
 				if (isset($opt[0], $opt[1]))
@@ -9365,7 +9365,7 @@ class SimplePie_Misc
 	 * @author Geoffrey Sneddon
 	 * @see http://www.w3.org/International/questions/qa-forms-utf-8
 	 * @param string $str String to remove bad UTF-8 bytes from
-	 * @return string UTF-8 string
+	 * @return  string UTF-8 string
 	 */
 	function utf8_bad_replace($str)
 	{
@@ -9397,7 +9397,7 @@ class SimplePie_Misc
 	 * @static
 	 * @access public
 	 * @param string $string Windows-1252 encoded string
-	 * @return string UTF-8 encoded string
+	 * @return  string UTF-8 encoded string
 	 */
 	function windows_1252_to_utf8($string)
 	{
@@ -10823,7 +10823,7 @@ class SimplePie_Misc
 	 *
 	 * @access public
 	 * @param string $data Data to strip comments from
-	 * @return string Comment stripped string
+	 * @return  string Comment stripped string
 	 */
 	function strip_comments($data)
 	{
@@ -10855,7 +10855,7 @@ class SimplePie_Misc
 	 * @static
 	 * @access public
 	 * @param string $data Input data
-	 * @return string Output data
+	 * @return  string Output data
 	 */
 	function entities_decode($data)
 	{
@@ -10868,7 +10868,7 @@ class SimplePie_Misc
 	 *
 	 * @access public
 	 * @param string $data Data to strip comments from
-	 * @return string Comment stripped string
+	 * @return  string Comment stripped string
 	 */
 	function uncomment_rfc822($string)
 	{
@@ -11109,7 +11109,7 @@ class SimplePie_Misc
 	 * @static
 	 * @access public
 	 * @param int $codepoint Unicode codepoint
-	 * @return string UTF-8 character
+	 * @return  string UTF-8 character
 	 */
 	function codepoint_to_utf8($codepoint)
 	{
@@ -11410,7 +11410,7 @@ class SimplePie_Decode_HTML_Entities
 	 * Parse the input data
 	 *
 	 * @access public
-	 * @return string Output data
+	 * @return  string Output data
 	 */
 	function parse()
 	{
@@ -11641,7 +11641,7 @@ class SimplePie_IRI
 	 * Return the entire IRI when you try and read the object as a string
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function __toString()
 	{
@@ -11772,7 +11772,7 @@ class SimplePie_IRI
 	 *
 	 * @access private
 	 * @param string $input
-	 * @return string
+	 * @return  string
 	 */
 	function remove_dot_segments($input)
 	{
@@ -11835,7 +11835,7 @@ class SimplePie_IRI
 	 * @param string $string Input string
 	 * @param string $valid_chars Valid characters
 	 * @param int $case Normalise case
-	 * @return string
+	 * @return  string
 	 */
 	function replace_invalid_with_pct_encoding($string, $valid_chars, $case = SIMPLEPIE_SAME_CASE)
 	{
@@ -12161,7 +12161,7 @@ class SimplePie_IRI
 	 * Get the complete IRI
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_iri()
 	{
@@ -12201,7 +12201,7 @@ class SimplePie_IRI
 	 * Get the scheme
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_scheme()
 	{
@@ -12212,7 +12212,7 @@ class SimplePie_IRI
 	 * Get the complete authority
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_authority()
 	{
@@ -12244,7 +12244,7 @@ class SimplePie_IRI
 	 * Get the user information
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_userinfo()
 	{
@@ -12255,7 +12255,7 @@ class SimplePie_IRI
 	 * Get the host
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_host()
 	{
@@ -12266,7 +12266,7 @@ class SimplePie_IRI
 	 * Get the port
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_port()
 	{
@@ -12277,7 +12277,7 @@ class SimplePie_IRI
 	 * Get the path
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_path()
 	{
@@ -12288,7 +12288,7 @@ class SimplePie_IRI
 	 * Get the query
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_query()
 	{
@@ -12299,7 +12299,7 @@ class SimplePie_IRI
 	 * Get the fragment
 	 *
 	 * @access public
-	 * @return string
+	 * @return  string
 	 */
 	function get_fragment()
 	{
@@ -12325,7 +12325,7 @@ class SimplePie_Net_IPv6
 	 * Removes a possible existing netmask specification of an IP address.
 	 *
 	 * @param string $ip the (compressed) IP as Hex representation
-	 * @return string the IP the without netmask
+	 * @return  string the IP the without netmask
 	 * @since 1.1.0
 	 * @access public
 	 * @static
@@ -12356,7 +12356,7 @@ class SimplePie_Net_IPv6
 	 * @access public
 	 * @static
 	 * @param string $ip a valid IPv6-address (hex format)
-	 * @return string the uncompressed IPv6-address (hex format)
+	 * @return  string the uncompressed IPv6-address (hex format)
 	 */
 	function Uncompress($ip)
 	{
@@ -13060,7 +13060,7 @@ class SimplePie_Parse_Date
 	 * @final
 	 * @access public
 	 * @param string $date Date to parse
-	 * @return int Timestamp corresponding to date string, or false on failure
+	 * @return  int Timestamp corresponding to date string, or false on failure
 	 */
 	function parse($date)
 	{
@@ -13108,7 +13108,7 @@ class SimplePie_Parse_Date
 	 * spaces to be used as the time seperator (including more than one))
 	 *
 	 * @access protected
-	 * @return int Timestamp
+	 * @return  int Timestamp
 	 */
 	function date_w3cdtf($date)
 	{
@@ -13180,7 +13180,7 @@ class SimplePie_Parse_Date
 	 *
 	 * @access protected
 	 * @param string $data Data to strip comments from
-	 * @return string Comment stripped string
+	 * @return  string Comment stripped string
 	 */
 	function remove_rfc2822_comments($string)
 	{
@@ -13240,7 +13240,7 @@ class SimplePie_Parse_Date
 	 * Parse RFC2822's date format
 	 *
 	 * @access protected
-	 * @return int Timestamp
+	 * @return  int Timestamp
 	 */
 	function date_rfc2822($date)
 	{
@@ -13333,7 +13333,7 @@ class SimplePie_Parse_Date
 	 * Parse RFC850's date format
 	 *
 	 * @access protected
-	 * @return int Timestamp
+	 * @return  int Timestamp
 	 */
 	function date_rfc850($date)
 	{
@@ -13398,7 +13398,7 @@ class SimplePie_Parse_Date
 	 * Parse C99's asctime()'s date format
 	 *
 	 * @access protected
-	 * @return int Timestamp
+	 * @return  int Timestamp
 	 */
 	function date_asctime($date)
 	{
@@ -13440,7 +13440,7 @@ class SimplePie_Parse_Date
 	 * Parse dates using strtotime()
 	 *
 	 * @access protected
-	 * @return int Timestamp
+	 * @return  int Timestamp
 	 */
 	function date_strtotime($date)
 	{
@@ -13486,7 +13486,7 @@ class SimplePie_Content_Type_Sniffer
 	 * Get the Content-Type of the specified file
 	 *
 	 * @access public
-	 * @return string Actual Content-Type
+	 * @return  string Actual Content-Type
 	 */
 	function get_type()
 	{
@@ -13551,7 +13551,7 @@ class SimplePie_Content_Type_Sniffer
 	 * Sniff text or binary
 	 *
 	 * @access private
-	 * @return string Actual Content-Type
+	 * @return  string Actual Content-Type
 	 */
 	function text_or_binary()
 	{
@@ -13576,7 +13576,7 @@ class SimplePie_Content_Type_Sniffer
 	 * Sniff unknown
 	 *
 	 * @access private
-	 * @return string Actual Content-Type
+	 * @return  string Actual Content-Type
 	 */
 	function unknown()
 	{
@@ -13622,7 +13622,7 @@ class SimplePie_Content_Type_Sniffer
 	 * Sniff images
 	 *
 	 * @access private
-	 * @return string Actual Content-Type
+	 * @return  string Actual Content-Type
 	 */
 	function image()
 	{
@@ -13653,7 +13653,7 @@ class SimplePie_Content_Type_Sniffer
 	 * Sniff HTML
 	 *
 	 * @access private
-	 * @return string Actual Content-Type
+	 * @return  string Actual Content-Type
 	 */
 	function feed_or_html()
 	{
@@ -13848,7 +13848,7 @@ class SimplePie_XML_Declaration_Parser
 	/**
 	 * Advance past any whitespace
 	 *
-	 * @return int Number of whitespace characters passed
+	 * @return  int Number of whitespace characters passed
 	 */
 	function skip_whitespace()
 	{

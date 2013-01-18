@@ -21,10 +21,10 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Internal method to get file properties.
 	 *
-	 * @param	string The base path.
-	 * @param	string The file name.
-	 * @return	object
-	 * @since	1.6
+	 * @param   string The base path.
+	 * @param   string The file name.
+	 * @return  object
+	 * @since   1.6
 	 */
 	protected function getFile($path, $name)
 	{
@@ -42,8 +42,8 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Method to get a list of all the files to edit in a template.
 	 *
-	 * @return	array	A nested array of relevant files.
-	 * @since	1.6
+	 * @return  array  A nested array of relevant files.
+	 * @since   1.6
 	 */
 	public function getFiles()
 	{
@@ -100,7 +100,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -118,8 +118,8 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Method to get the template information.
 	 *
-	 * @return	mixed	Object if successful, false if not and internal error is set.
-	 * @since	1.6
+	 * @return  mixed	Object if successful, false if not and internal error is set.
+	 * @since   1.6
 	 */
 	public function &getTemplate()
 	{
@@ -163,7 +163,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Method to check if new template name already exists
 	 *
-	 * @return	boolean   true if name is not used, false otherwise
+	 * @return  boolean   true if name is not used, false otherwise
 	 * @since	2.5
 	 */
 	public function checkNewName()
@@ -180,7 +180,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Method to check if new template name already exists
 	 *
-	 * @return	string     name of current template
+	 * @return  string     name of current template
 	 * @since	2.5
 	 */
 	public function getFromName()
@@ -191,7 +191,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Method to check if new template name already exists
 	 *
-	 * @return	boolean   true if name is not used, false otherwise
+	 * @return  boolean   true if name is not used, false otherwise
 	 * @since	2.5
 	 */
 	public function copy()
@@ -231,7 +231,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Method to delete tmp folder
 	 *
-	 * @return	boolean   true if delete successful, false otherwise
+	 * @return  boolean   true if delete successful, false otherwise
 	 * @since	2.5
 	 */
 	public function cleanup()
@@ -249,7 +249,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	/**
 	 * Method to rename the template in the XML files and rename the language files
 	 *
-	 * @return	boolean   true if successful, false otherwise
+	 * @return  boolean   true if successful, false otherwise
 	 * @since	2.5
 	 */
 	protected function fixTemplateName()

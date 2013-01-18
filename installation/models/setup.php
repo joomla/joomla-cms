@@ -19,7 +19,7 @@ class InstallationModelSetup extends JModelLegacy
 	/**
 	 * Get the current setup options from the session.
 	 *
-	 * @return	array
+	 * @return  array
 	 *
 	 * @since	3.0
 	 */
@@ -62,7 +62,7 @@ class InstallationModelSetup extends JModelLegacy
 	/**
 	 * Method to get the link form.
 	 *
-	 * @return	mixed	JForm object on success, false on failure.
+	 * @return  mixed	JForm object on success, false on failure.
 	 *
 	 * @since	3.0
 	 */
@@ -102,7 +102,7 @@ class InstallationModelSetup extends JModelLegacy
 
 	/**
 	 *
-	 * @return	array
+	 * @return  array
 	 *
 	 * @since   3.0
 	 */
@@ -148,7 +148,7 @@ class InstallationModelSetup extends JModelLegacy
 	/**
 	 * Generate a panel of language choices for the user to select their language
 	 *
-	 * @return	boolean True if successful
+	 * @return  boolean True if successful
 	 *
 	 * @since	3.0
 	 */
@@ -186,7 +186,7 @@ class InstallationModelSetup extends JModelLegacy
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 *
 	 * @since	3.0
 	 */
@@ -219,7 +219,7 @@ class InstallationModelSetup extends JModelLegacy
 	/**
 	 * Gets PHP options.
 	 *
-	 * @return	array
+	 * @return  array
 	 *
 	 * @since   3.0
 	 */

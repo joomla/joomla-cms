@@ -23,10 +23,10 @@ class plgContentJoomla extends JPlugin
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 * @param	string		The context of the content passed to the plugin (added in 1.6)
-	 * @param	object		A JTableContent object
-	 * @param	bool		If the content is just about to be created
-	 * @since	1.6
+	 * @param   string  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object		A JTableContent object
+	 * @param   bool		If the content is just about to be created
+	 * @since   1.6
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
@@ -85,10 +85,10 @@ class plgContentJoomla extends JPlugin
 	/**
 	 * Don't allow categories to be deleted if they contain items or subcategories with items
 	 *
-	 * @param	string	The context for the content passed to the plugin.
-	 * @param	object	The data relating to the content that was deleted.
-	 * @return	boolean
-	 * @since	1.6
+	 * @param   string	The context for the content passed to the plugin.
+	 * @param   object	The data relating to the content that was deleted.
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function onContentBeforeDelete($context, $data)
 	{
@@ -164,10 +164,10 @@ class plgContentJoomla extends JPlugin
 	/**
 	 * Get count of items in a category
 	 *
-	 * @param	string	table name of component table (column is catid)
-	 * @param	int		id of the category to check
-	 * @return	mixed	count of items found or false if db error
-	 * @since	1.6
+	 * @param   string	table name of component table (column is catid)
+	 * @param   int		id of the category to check
+	 * @return  mixed	count of items found or false if db error
+	 * @since   1.6
 	 */
 	private function _countItemsInCategory($table, $catid)
 	{
@@ -195,10 +195,10 @@ class plgContentJoomla extends JPlugin
 	/**
 	 * Get count of items in a category's child categories
 	 *
-	 * @param	string	table name of component table (column is catid)
-	 * @param	int		id of the category to check
-	 * @return	mixed	count of items found or false if db error
-	 * @since	1.6
+	 * @param   string	table name of component table (column is catid)
+	 * @param   int		id of the category to check
+	 * @return  mixed	count of items found or false if db error
+	 * @since   1.6
 	 */
 	private function _countItemsInChildren($table, $catid, $data)
 	{

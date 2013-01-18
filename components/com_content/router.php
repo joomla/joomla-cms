@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Build the route for the com_content component
  *
- * @param	array	An array of URL arguments
- * @return	array	The URL arguments to use to assemble the subsequent URL.
+ * @return  array  An array of URL arguments
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
  * @since	1.5
  */
 function ContentBuildRoute(&$query)
@@ -143,7 +143,7 @@ function ContentBuildRoute(&$query)
 
 		$array = array();
 
-		foreach($path as $id)
+		foreach ($path as $id)
 		{
 			if ((int) $id == (int) $mCatid)
 			{
@@ -235,9 +235,9 @@ function ContentBuildRoute(&$query)
 /**
  * Parse the segments of a URL.
  *
- * @param	array	The segments of the URL to parse.
+ * @return  array  The segments of the URL to parse.
  *
- * @return	array	The URL attributes to be used by the application.
+ * @return  array  The URL attributes to be used by the application.
  * @since	1.5
  */
 function ContentParseRoute($segments)
@@ -349,11 +349,11 @@ function ContentParseRoute($segments)
 	$vars['id'] = $id;
 	$found = 0;
 
-	foreach($segments as $segment)
+	foreach ($segments as $segment)
 	{
 		$segment = str_replace(':', '-', $segment);
 
-		foreach($categories as $category)
+		foreach ($categories as $category)
 		{
 			if ($category->alias == $segment)
 			{

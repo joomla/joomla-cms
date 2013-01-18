@@ -48,7 +48,7 @@ $this->direction = $doc->direction;
 		if (!is_array($files)):
 			$files = array($files);
 		endif;
-		foreach($files as $file):
+		foreach ($files as $file):
 ?>
 		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
 <?php

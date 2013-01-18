@@ -184,7 +184,7 @@ class plgSearchContent extends JPlugin
 
 			if (isset($list))
 			{
-				foreach($list as $key => $item)
+				foreach ($list as $key => $item)
 				{
 					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 				}
@@ -242,7 +242,7 @@ class plgSearchContent extends JPlugin
 
 			if (isset($list3))
 			{
-				foreach($list3 as $key => $item)
+				foreach ($list3 as $key => $item)
 				{
 					$date = JFactory::getDate($item->created);
 
@@ -259,10 +259,10 @@ class plgSearchContent extends JPlugin
 		$results = array();
 		if (count($rows))
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$new_row = array();
-				foreach($row as $key => $article)
+				foreach ($row as $key => $article)
 				{
 					if (searchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
 					{

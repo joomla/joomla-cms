@@ -61,8 +61,8 @@ class ContentControllerFeatured extends ContentControllerArticles
 	/**
 	 * Method to publish a list of articles.
 	 *
-	 * @return	void
-	 * @since	1.0
+	 * @return  void
+	 * @since   1.0
 	 */
 	public function publish()
 	{

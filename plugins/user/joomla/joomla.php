@@ -23,12 +23,12 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param	array		$user	Holds the user data
-	 * @param	boolean		$succes	True if user was succesfully stored in the database
-	 * @param	string		$msg	Message
+	 * @param   array		$user	Holds the user data
+	 * @param   boolean		$succes	True if user was succesfully stored in the database
+	 * @param   string  $msg	Message
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
@@ -52,13 +52,13 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * This method sends a registration email to new users created in the backend.
 	 *
-	 * @param	array		$user		Holds the new user data.
-	 * @param	boolean		$isnew		True if a new user is stored.
-	 * @param	boolean		$success	True if user was succesfully stored in the database.
-	 * @param	string		$msg		Message.
+	 * @param   array		$user		Holds the new user data.
+	 * @param   boolean		$isnew		True if a new user is stored.
+	 * @param   boolean		$success	True if user was succesfully stored in the database.
+	 * @param   string  $msg		Message.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
@@ -124,11 +124,11 @@ class plgUserJoomla extends JPlugin
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data
-	 * @param	array	$options	Array holding options (remember, autoregister, group)
+	 * @param   array	$user		Holds the user data
+	 * @param   array	$options	Array holding options (remember, autoregister, group)
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean	True on success
+	 * @since   1.5
 	 */
 	public function onUserLogin($user, $options = array())
 	{
@@ -193,11 +193,11 @@ class plgUserJoomla extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data.
-	 * @param	array	$options	Array holding options (client, ...).
+	 * @param   array	$user		Holds the user data.
+	 * @param   array	$options	Array holding options (client, ...).
 	 *
-	 * @return	object	True on success
-	 * @since	1.5
+	 * @return  object	True on success
+	 * @since   1.5
 	 */
 	public function onUserLogout($user, $options = array())
 	{
@@ -238,11 +238,11 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * If options['autoregister'] is true, if the user doesn't exist yet he will be created
 	 *
-	 * @param	array	$user		Holds the user data.
-	 * @param	array	$options	Array holding options (remember, autoregister, group).
+	 * @param   array	$user		Holds the user data.
+	 * @param   array	$options	Array holding options (remember, autoregister, group).
 	 *
-	 * @return	object	A JUser object
-	 * @since	1.5
+	 * @return  object	A JUser object
+	 * @since   1.5
 	 */
 	protected function _getUser($user, $options = array())
 	{

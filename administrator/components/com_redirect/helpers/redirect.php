@@ -23,7 +23,7 @@ class RedirectHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -33,7 +33,7 @@ class RedirectHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
+	 * @return  JObject
 	 */
 	public static function getActions()
 	{
@@ -54,7 +54,7 @@ class RedirectHelper
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @return	string			The HTML code for the select tag
+	 * @return  string  	The HTML code for the select tag
 	 */
 	public static function publishedOptions()
 	{
@@ -72,7 +72,7 @@ class RedirectHelper
 	/**
 	 * Determines if the plugin for Redirect to work is enabled.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	public static function isEnabled()
 	{

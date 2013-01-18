@@ -21,7 +21,7 @@ abstract class modQuickIconHelper
 	/**
 	 * Stack to hold buttons
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected static $buttons = array();
 
@@ -31,10 +31,10 @@ abstract class modQuickIconHelper
 	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
-	 * @param	JRegistry	The module parameters.
+	 * @param   JRegistry	The module parameters.
 	 *
-	 * @return	array	An array of buttons
-	 * @since	1.6
+	 * @return  array  An array of buttons
+	 * @since   1.6
 	 */
 	public static function &getButtons($params)
 	{
@@ -157,10 +157,10 @@ abstract class modQuickIconHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param	JRegistry	The module parameters.
-	 * @param	object		The module.
+	 * @param   JRegistry	The module parameters.
+	 * @param   object		The module.
 	 *
-	 * @return	string	The alternate title for the module.
+	 * @return  string	The alternate title for the module.
 	 */
 	public static function getTitle($params, $module)
 	{

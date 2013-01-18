@@ -58,7 +58,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @param   JException  $error  The JException object from JError
 	 *
-	 * @return	bool	To not continue with JError processing
+	 * @return  bool	To not continue with JError processing
 	 *
 	 * @since   12.1
 	 */

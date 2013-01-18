@@ -17,8 +17,8 @@ defined('_JEXEC') or die;
 class JHtmlMessages
 {
 	/**
-	 * @param	int $value	The state value
-	 * @param	int $i
+	 * @param   int $value	The state value
+	 * @param   int $i
 	 */
 	public static function state($value = 0, $i, $canChange)
 	{

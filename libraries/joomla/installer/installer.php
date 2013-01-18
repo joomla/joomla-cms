@@ -1909,7 +1909,7 @@ class JInstaller extends JAdapter
 	/**
 	 * Generates a manifest cache
 	 *
-	 * @return string serialised manifest data
+	 * @return  string serialised manifest data
 	 *
 	 * @since   11.1
 	 */

@@ -22,7 +22,7 @@ class JFormFieldFilters extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public $type = 'Filters';
 
@@ -31,8 +31,8 @@ class JFormFieldFilters extends JFormField
 	 *
 	 * TODO: Add access check.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string	The field input markup.
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -112,8 +112,8 @@ class JFormFieldFilters extends JFormField
 	/**
 	 * A helper to get the list of user groups.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	protected function getUserGroups()
 	{

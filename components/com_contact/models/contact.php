@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class ContactModelContact extends JModelForm
 {
 	/**
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $view_item = 'contact';
 
@@ -35,7 +35,7 @@ class ContactModelContact extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -62,10 +62,10 @@ class ContactModelContact extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 *
 	 *
-	 * @param	array	$data		An optional array of data for the form to interrogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		An optional array of data for the form to interrogate.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{

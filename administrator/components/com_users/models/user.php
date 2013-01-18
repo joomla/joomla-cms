@@ -540,7 +540,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function batchUser($group_id, $user_ids, $action)
 	{

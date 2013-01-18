@@ -182,7 +182,7 @@ class JCacheStorageXcache extends JCacheStorage
 				$allinfo  = xcache_list(XC_TYPE_VAR, $i);
 				$keys = $allinfo ['cache_list'];
 
-				foreach($keys as $key) {
+				foreach ($keys as $key) {
 
 					if (strstr($key['name'], $this->_hash))
 					{

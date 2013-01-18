@@ -20,13 +20,13 @@ class TemplatesModelStyle extends JModelAdmin
 {
 	/**
 	 * @var		string	The help screen key for the module.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
 
 	/**
 	 * @var		string	The help screen base URL for the module.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $helpURL;
 
@@ -40,7 +40,7 @@ class TemplatesModelStyle extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -58,9 +58,9 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to delete rows.
 	 *
-	 * @param	array	An array of item ids.
+	 * @param   array	An array of item ids.
 	 *
-	 * @return	boolean	Returns true on success, false on failure.
+	 * @return  boolean	Returns true on success, false on failure.
 	 */
 	public function delete(&$pks)
 	{
@@ -105,9 +105,9 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to duplicate styles.
 	 *
-	 * @param	array	An array of primary key IDs.
+	 * @param   array	An array of primary key IDs.
 	 *
-	 * @return	boolean	True if successful.
+	 * @return  boolean	True if successful.
 	 * @throws	Exception
 	 */
 	public function duplicate(&$pks)
@@ -160,8 +160,8 @@ class TemplatesModelStyle extends JModelAdmin
 	 * @param   string   $alias        The alias.
 	 * @param   string   $title        The title.
 	 *
-	 * @return	string  New title.
-	 * @since	1.7.1
+	 * @return  string  New title.
+	 * @since   1.7.1
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -178,10 +178,10 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		An optional array of data for the form to interogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array	$data		An optional array of data for the form to interogate.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -228,8 +228,8 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed	The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
@@ -247,9 +247,9 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	integer	The id of the primary key.
+	 * @param   integer	The id of the primary key.
 	 *
-	 * @return	mixed	Object on success, false on failure.
+	 * @return  mixed	Object on success, false on failure.
 	 */
 	public function getItem($pk = null)
 	{
@@ -300,10 +300,10 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
+	 * @param   type	The table type to instantiate
+	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   array	Configuration array for model. Optional.
+	 * @return  JTable	A database object
 	*/
 	public function getTable($type = 'Style', $prefix = 'TemplatesTable', $config = array())
 	{
@@ -311,10 +311,10 @@ class TemplatesModelStyle extends JModelAdmin
 	}
 
 	/**
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * @param   object	A form object.
+	 * @param   mixed	The data expected for the form.
 	 * @throws	Exception if there is an error in the form event.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
@@ -378,8 +378,8 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
-	 * @return	boolean	True on success.
+	 * @param   array	The form data.
+	 * @return  boolean	True on success.
 	 */
 	public function save($data)
 	{
@@ -504,9 +504,9 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to set a template style as home.
 	 *
-	 * @param	int		The primary key ID for the style.
+	 * @param   int		The primary key ID for the style.
 	 *
-	 * @return	boolean	True if successful.
+	 * @return  boolean	True if successful.
 	 * @throws	Exception
 	 */
 	public function setHome($id = 0)
@@ -559,9 +559,9 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Method to unset a template style as default for a language.
 	 *
-	 * @param	int		The primary key ID for the style.
+	 * @param   int		The primary key ID for the style.
 	 *
-	 * @return	boolean	True if successful.
+	 * @return  boolean	True if successful.
 	 * @throws	Exception
 	 */
 	public function unsetHome($id = 0)
@@ -609,8 +609,8 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Get the necessary data to load an item help screen.
 	 *
-	 * @return	object	An object with key, url, and local properties for loading the item help screen.
-	 * @since	1.6
+	 * @return  object	An object with key, url, and local properties for loading the item help screen.
+	 * @since   1.6
 	 */
 	public function getHelp()
 	{
@@ -620,7 +620,7 @@ class TemplatesModelStyle extends JModelAdmin
 	/**
 	 * Custom clean cache method
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

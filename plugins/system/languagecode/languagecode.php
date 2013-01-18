@@ -82,10 +82,10 @@ class plgSystemLanguagecode extends JPlugin
 	}
 
 	/**
-	 * @param	JForm	$form	The form to be altered.
-	 * @param	array	$data	The associated data for the form.
+	 * @param   JForm	$form	The form to be altered.
+	 * @param   array	$data	The associated data for the form.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 * @since	2.5
 	 */
 	public function onContentPrepareForm($form, $data)

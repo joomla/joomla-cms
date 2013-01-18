@@ -50,7 +50,7 @@ class MenusViewItem extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -93,7 +93,8 @@ class MenusViewItem extends JViewLegacy
 			JToolbarHelper::save2copy('item.save2copy');
 		}
 
-		if ($isNew)  {
+		if ($isNew)
+		{
 			JToolbarHelper::cancel('item.cancel');
 		}
 		else

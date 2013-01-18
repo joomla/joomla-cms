@@ -28,7 +28,7 @@ abstract class modLanguagesHelper
 
 		// Get menu home items
 		$homes = array();
-		foreach($menu->getMenu() as $item)
+		foreach ($menu->getMenu() as $item)
 		{
 			if ($item->home)
 			{
@@ -61,7 +61,7 @@ abstract class modLanguagesHelper
 		$languages	= JLanguageHelper::getLanguages();
 
 		// Filter allowed languages
-		foreach($languages as $i => &$language) {
+		foreach ($languages as $i => &$language) {
 
 			// Do not display language without frontend UI
 			if (!JLanguage::exists($language->lang_code))

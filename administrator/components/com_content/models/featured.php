@@ -22,9 +22,9 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array	An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -56,9 +56,9 @@ class ContentModelFeatured extends ContentModelArticles
 	}
 
 	/**
-	 * @param	boolean	True to join selected foreign information
+	 * @param   boolean	True to join selected foreign information
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	protected function getListQuery($resolveFKs = true)
 	{

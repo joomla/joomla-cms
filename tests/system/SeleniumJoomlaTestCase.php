@@ -257,7 +257,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 * Tests for the presence of a Go button and clicks it if present.
 	 * Used for the hathor accessible template when filtering on lists in back end.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	function clickGo()
 	{

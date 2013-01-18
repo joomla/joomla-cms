@@ -73,7 +73,7 @@ abstract class AdminManagerPage extends AdminPage
 		$elements = $container->findElements(By::tagName('select'));
 		$result = array();
 		// @var WebdriverElement $el
-		foreach($elements as $el)
+		foreach ($elements as $el)
 		{
 			$result[] = $el->getAttribute('id');
 		}

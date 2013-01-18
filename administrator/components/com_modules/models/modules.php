@@ -21,9 +21,9 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array	An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -56,7 +56,7 @@ class ModulesModelModules extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -104,9 +104,9 @@ class ModulesModelModules extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string	A prefix for the store id.
+	 * @param   string	A prefix for the store id.
 	 *
-	 * @return	string	A store id.
+	 * @return  string	A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -124,10 +124,10 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Returns an object list
 	 *
-	 * @param	string The query
-	 * @param	int Offset
-	 * @param	int The number of records
-	 * @return	array
+	 * @param   string The query
+	 * @param   int Offset
+	 * @param   int The number of records
+	 * @return  array
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
 	{
@@ -173,14 +173,14 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Translate a list of objects
 	 *
-	 * @param	array The array of objects
-	 * @return	array The array of translated objects
+	 * @param   array The array of objects
+	 * @return  array The array of translated objects
 	 */
 	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
-		foreach($items as $item)
+		foreach ($items as $item)
 		{
 			$extension = $item->module;
 			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
@@ -207,7 +207,7 @@ class ModulesModelModules extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{

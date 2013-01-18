@@ -28,8 +28,8 @@ class TemplatesTableStyle extends JTable
 	/**
 	 * Overloaded bind function to pre-process the params.
 	 *
-	 * @param	array		Named array
-	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   array		Named array
+	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see JTable:bind
 	 * @since 1.5
 	 */
@@ -55,7 +55,7 @@ class TemplatesTableStyle extends JTable
 	/**
 	 * Overloaded check method to ensure data integrity.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean	True on success.
 	 */
 	public function check()
 	{
@@ -70,9 +70,9 @@ class TemplatesTableStyle extends JTable
 	/**
 	 * Overloaded store method to ensure unicity of default style.
 	 *
-	 * @param	boolean True to update fields even if they are null.
-	 * @return	boolean	True on success.
-	 * @since	1.0
+	 * @param   boolean True to update fields even if they are null.
+	 * @return  boolean	True on success.
+	 * @since   1.0
 	 * @link	http://docs.joomla.org/JTable/store
 	 */
 	public function store($updateNulls = false)
@@ -93,10 +93,10 @@ class TemplatesTableStyle extends JTable
 	/**
 	 * Overloaded store method to unsure existence of a default style for a template.
 	 *
-	 * @param	mixed	An optional primary key value to delete.  If not set the
+	 * @param   mixed	An optional primary key value to delete.  If not set the
 	 *					instance property value is used.
-	 * @return	boolean	True on success.
-	 * @since	1.0
+	 * @return  boolean	True on success.
+	 * @since   1.0
 	 * @link	http://docs.joomla.org/JTable/delete
 	 */
 	public function delete($pk = null)

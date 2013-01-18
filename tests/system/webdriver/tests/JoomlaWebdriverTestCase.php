@@ -113,7 +113,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 	 * Takes screenshot of current screen, saves it in specified default directory or as specified in parameter
 	 * @param String $folder
 	 * @throws \Exception
-	 * @return string
+	 * @return  string
 	 */
 	public function helpScreenshot($fileName, $folder = null)
 	{

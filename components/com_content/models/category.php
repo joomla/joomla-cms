@@ -60,9 +60,9 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array	An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -99,7 +99,7 @@ class ContentModelCategory extends JModelList
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * return	void
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -205,8 +205,8 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the articles in the category
 	 *
-	 * @return	mixed	An array of articles or false if an error occurs.
-	 * @since	1.5
+	 * @return  mixed	An array of articles or false if an error occurs.
+	 * @since   1.5
 	 */
 	function getItems()
 	{
@@ -253,8 +253,8 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Build the orderby for the query
 	 *
-	 * @return	string	$orderby portion of query
-	 * @since	1.5
+	 * @return  string	$orderby portion of query
+	 * @since   1.5
 	 */
 	protected function _buildContentOrderBy()
 	{
@@ -304,10 +304,10 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Method to get category data for the current category
 	 *
-	 * @param	int		An optional ID
+	 * @param   int		An optional ID
 	 *
-	 * @return	object
-	 * @since	1.5
+	 * @return  object
+	 * @since   1.5
 	 */
 	public function getCategory()
 	{
@@ -363,10 +363,10 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the parent categorie.
 	 *
-	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
+	 * @param   int		An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
-	 * @since	1.6
+	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @since   1.6
 	 */
 	public function getParent()
 	{
@@ -381,8 +381,8 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the left sibling (adjacent) categories.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
-	 * @since	1.6
+	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @since   1.6
 	 */
 	function &getLeftSibling()
 	{
@@ -397,8 +397,8 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the right sibling (adjacent) categories.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
-	 * @since	1.6
+	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @since   1.6
 	 */
 	function &getRightSibling()
 	{
@@ -413,10 +413,10 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the child categories.
 	 *
-	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
+	 * @param   int		An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
-	 * @since	1.6
+	 * @return  mixed	An array of categories or false if an error occurs.
+	 * @since   1.6
 	 */
 	function &getChildren()
 	{
@@ -444,7 +444,7 @@ class ContentModelCategory extends JModelList
 	 *
 	 * @param   int  $pk  Optional primary key of the category to increment.
 	 *
-	 * @return boolean True if successful; false otherwise and internal error set.
+	 * @return  boolean True if successful; false otherwise and internal error set.
 	 */
 	public function hit($pk = 0)
 	{

@@ -22,7 +22,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	 * Model context string.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $_context = 'com_newsfeeds.newsfeed';
 
@@ -31,8 +31,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -59,10 +59,10 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	/**
 	 * Method to get newsfeed data.
 	 *
-	 * @param	integer	The id of the newsfeed.
+	 * @param   integer	The id of the newsfeed.
 	 *
-	 * @return	mixed	Menu item data object on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed	Menu item data object on success, false on failure.
+	 * @since   1.6
 	 */
 	public function &getItem($pk = null)
 	{

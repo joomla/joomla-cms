@@ -25,7 +25,7 @@ class BannersModelBanner extends JModelLegacy
 	/**
 	 * Clicks the URL, incrementing the counter
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
@@ -130,7 +130,7 @@ class BannersModelBanner extends JModelLegacy
 	/**
 	 * Get the data for a banner.
 	 *
-	 * @return	object
+	 * @return  object
 	 */
 	public function &getItem()
 	{
@@ -180,7 +180,7 @@ class BannersModelBanner extends JModelLegacy
 	/**
 	 * Get the URL for a banner
 	 *
-	 * @return	string
+	 * @return  string
 	 *
 	 * @since   1.5
 	 */
@@ -190,7 +190,7 @@ class BannersModelBanner extends JModelLegacy
 		$url = $item->clickurl;
 
 		// check for links
-		if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) 
+		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
 		{
 			$url = "http://$url";
 		}

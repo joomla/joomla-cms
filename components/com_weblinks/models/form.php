@@ -23,8 +23,8 @@ class WeblinksModelForm extends WeblinksModelWeblink
 	/**
 	 * Get the return URL.
 	 *
-	 * @return	string	The return URL.
-	 * @since	1.6
+	 * @return  string	The return URL.
+	 * @since   1.6
 	 */
 	public function getReturnPage()
 	{
@@ -36,7 +36,7 @@ class WeblinksModelForm extends WeblinksModelWeblink
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{

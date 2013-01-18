@@ -174,7 +174,7 @@ class plgSearchNewsfeeds extends JPlugin
 
 			if ($rows)
 			{
-				foreach($rows as $key => $row)
+				foreach ($rows as $key => $row)
 				{
 					$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid='.$row->catslug.'&id='.$row->slug;
 				}

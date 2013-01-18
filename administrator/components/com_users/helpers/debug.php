@@ -21,8 +21,8 @@ class UsersHelperDebug
 	/**
 	 * Get a list of the components.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public static function getComponents()
 	{
@@ -65,10 +65,10 @@ class UsersHelperDebug
 	/**
 	 * Get a list of the actions for the component or code actions.
 	 *
-	 * @param	string	The name of the component.
+	 * @param   string	The name of the component.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public static function getDebugActions($component = null)
 	{
@@ -81,7 +81,7 @@ class UsersHelperDebug
 
 			if (!empty($component_actions))
 			{
-				foreach($component_actions as &$action)
+				foreach ($component_actions as &$action)
 				{
 					$actions[$action->title] = array($action->name, $action->description);
 				}
@@ -97,7 +97,7 @@ class UsersHelperDebug
 			{
 				$xml = simplexml_load_file($filename);
 
-				foreach($xml->children()->fieldset as $fieldset)
+				foreach ($xml->children()->fieldset as $fieldset)
 				{
 					if ('permissions' == (string) $fieldset['name'])
 					{
@@ -138,7 +138,7 @@ class UsersHelperDebug
 	/**
 	 * Get a list of filter options for the levels.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getLevelsOptions()
 	{

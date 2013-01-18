@@ -47,7 +47,7 @@ class ModulesViewModule extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -76,7 +76,8 @@ class ModulesViewModule extends JViewLegacy
 		{
 			JToolbarHelper::save2copy('module.save2copy');
 		}
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('module.cancel');
 		}
 		else

@@ -73,7 +73,7 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 		<tbody>
 		<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages');
 		$i = 0;
-		foreach($this->items as $key => $text): ?>
+		foreach ($this->items as $key => $text): ?>
 			<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $key); ?>

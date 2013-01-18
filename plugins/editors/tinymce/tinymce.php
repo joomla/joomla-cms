@@ -632,7 +632,7 @@ class plgEditorTinymce extends JPlugin
 	 *
 	 * @param  string  The name of the editor
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public function onGetContent($editor)
 	{

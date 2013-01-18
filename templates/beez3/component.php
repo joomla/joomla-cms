@@ -23,7 +23,7 @@ if ($files):
 	if (!is_array($files)):
 		$files = array($files);
 	endif;
-	foreach($files as $file):
+	foreach ($files as $file):
 		$doc->addStyleSheet($file);
 	endforeach;
 endif;

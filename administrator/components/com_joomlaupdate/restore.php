@@ -489,7 +489,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	                                            array_keys($var),
 	                                            array_values($var));
 
-	                    foreach($properties as $property)
+	                    foreach ($properties as $property)
 {
 	                        if(Akeeba_Services_JSON::isError($property))
 {
@@ -503,7 +503,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	                // treat it like a regular array
 	                $elements = array_map(array($this, 'encode'), $var);
 
-	                foreach($elements as $element)
+	                foreach ($elements as $element)
 {
 	                    if(Akeeba_Services_JSON::isError($element))
 {
@@ -520,7 +520,7 @@ if(!class_exists('Akeeba_Services_JSON'))
 	                                        array_keys($vars),
 	                                        array_values($vars));
 
-	                foreach($properties as $property)
+	                foreach ($properties as $property)
 {
 	                    if(Akeeba_Services_JSON::isError($property))
 {
@@ -994,8 +994,8 @@ abstract class AKAbstractObject
 
 	/**
 	 * Get the most recent error message
-	 * @param	integer	$i Optional error index
-	 * @return	string	Error message
+	 * @param   integer	$i Optional error index
+	 * @return  string	Error message
 	 */
 	public function getError($i = null)
 	{
@@ -1004,7 +1004,7 @@ abstract class AKAbstractObject
 
 	/**
 	 * Return all errors, if any
-	 * @return	array	Array of error messages
+	 * @return  array  Array of error messages
 	 */
 	public function getErrors()
 	{
@@ -1013,7 +1013,7 @@ abstract class AKAbstractObject
 
 	/**
 	 * Add an error message
-	 * @param	string $error Error message
+	 * @param   string $error Error message
 	 */
 	public function setError($error)
 	{
@@ -1037,8 +1037,8 @@ abstract class AKAbstractObject
 
 	/**
 	 * Get the most recent warning message
-	 * @param	integer	$i Optional warning index
-	 * @return	string	Error message
+	 * @param   integer	$i Optional warning index
+	 * @return  string	Error message
 	 */
 	public function getWarning($i = null)
 	{
@@ -1047,7 +1047,7 @@ abstract class AKAbstractObject
 
 	/**
 	 * Return all warnings, if any
-	 * @return	array	Array of error messages
+	 * @return  array  Array of error messages
 	 */
 	public function getWarnings()
 	{
@@ -1056,7 +1056,7 @@ abstract class AKAbstractObject
 
 	/**
 	 * Add an error message
-	 * @param	string $error Error message
+	 * @param   string $error Error message
 	 */
 	public function setWarning($warning)
 	{
@@ -1095,7 +1095,7 @@ abstract class AKAbstractObject
 		{
 			if(!empty($this->_errors))
 			{
-				foreach($this->_errors as $error)
+				foreach ($this->_errors as $error)
 				{
 					$object->setError($error);
 				}
@@ -1107,7 +1107,7 @@ abstract class AKAbstractObject
 		{
 			if(!empty($this->_warnings))
 			{
-				foreach($this->_warnings as $warning)
+				foreach ($this->_warnings as $warning)
 				{
 					$object->setWarning($warning);
 				}
@@ -1129,7 +1129,7 @@ abstract class AKAbstractObject
 			$errors = $object->getErrors();
 			if(!empty($errors))
 			{
-				foreach($errors as $error)
+				foreach ($errors as $error)
 				{
 					$this->setError($error);
 				}
@@ -1145,7 +1145,7 @@ abstract class AKAbstractObject
 			$warnings = $object->getWarnings();
 			if(!empty($warnings))
 			{
-				foreach($warnings as $warning)
+				foreach ($warnings as $warning)
 				{
 					$this->setWarning($warning);
 				}
@@ -1233,7 +1233,7 @@ abstract class AKAbstractPostproc extends AKAbstractObject
 	 * a different path instead.
 	 * @param string $filename The path to the real file
 	 * @param int $perms The permissions we need the file to have
-	 * @return string The path to the temporary file
+	 * @return  string The path to the temporary file
 	 */
 	abstract public function processFilename($filename, $perms = 0755);
 
@@ -1350,7 +1350,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 
 		if( count($this->_parametersArray) > 0 )
 		{
-			foreach($this->_parametersArray as $key => $value)
+			foreach ($this->_parametersArray as $key => $value)
 			{
 				switch($key)
 				{
@@ -1504,7 +1504,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 
 	/**
 	 * Returns the base extension of the file, e.g. '.jpa'
-	 * @return string
+	 * @return  string
 	 */
 	private function getBaseExtension()
 	{
@@ -1604,7 +1604,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	/**
 	 * Returns true if we have reached the end of file
 	 * @param $local bool True to return EOF of the local file, false (default) to return if we have reached the end of the archive set
-	 * @return bool True if we have reached End Of File
+	 * @return  bool True if we have reached End Of File
 	 */
 	protected function isEOF($local = false)
 	{
@@ -1663,14 +1663,14 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 
 	/**
 	 * Concrete classes must use this method to read the file header
-	 * @return bool True if reading the file was successful, false if an error occured or we reached end of archive
+	 * @return  bool True if reading the file was successful, false if an error occured or we reached end of archive
 	 */
 	protected abstract function readFileHeader();
 
 	/**
 	 * Concrete classes must use this method to process file data. It must set $runState to AK_STATE_DATAREAD when
 	 * it's finished processing the file data.
-	 * @return bool True if processing the file data was successful, false if an error occured
+	 * @return  bool True if processing the file data was successful, false if an error occured
 	 */
 	protected abstract function processFileData();
 
@@ -1809,8 +1809,8 @@ abstract class AKAbstractPart extends AKAbstractObject
 	/**
 	 * Sets the engine part's internal state, in an easy to use manner
 	 *
-	 * @param	string	$state			One of init, prepared, running, postrun, finished, error
-	 * @param	string	$errorMessage	The reported error message, should the state be set to error
+	 * @param   string	$state			One of init, prepared, running, postrun, finished, error
+	 * @param   string	$errorMessage	The reported error message, should the state be set to error
 	 */
 	protected function setState($state = 'init', $errorMessage='Invalid setState argument')
 	{
@@ -1862,7 +1862,7 @@ abstract class AKAbstractPart extends AKAbstractObject
 	 * The public interface to an engine part. This method takes care for
 	 * calling the correct method in order to perform the initialisation -
 	 * run - finalisation cycle of operation and return a proper reponse array.
-	 * @return	array	A Reponse Array
+	 * @return  array  A Reponse Array
 	 */
 	final public function tick()
 	{
@@ -1926,7 +1926,7 @@ abstract class AKAbstractPart extends AKAbstractObject
 	/**
 	 * Returns the state of this engine part.
 	 *
-	 * @return string The state of this engine part. It can be one of
+	 * @return  string The state of this engine part. It can be one of
 	 * error, init, prepared, running, postrun, finished.
 	 */
 	final public function getState()
@@ -2126,7 +2126,7 @@ class AKPostprocDirect extends AKAbstractPostproc
 
 		$dirArray = explode('/', $dir);
 		$path = '';
-		foreach( $dirArray as $dir )
+		foreach ( $dirArray as $dir )
 		{
 			$path .= $dir . '/';
 			$ret = is_dir($root.$path) ? true : @mkdir($root.$path);
@@ -2518,7 +2518,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 
 		$alldirs = explode('/', $dirName);
 		$previousDir = '/'.trim($this->dir);
-		foreach($alldirs as $curdir)
+		foreach ($alldirs as $curdir)
 		{
 			$check = $previousDir.'/'.$curdir;
 			if(!$this->is_dir($check))
@@ -2582,7 +2582,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 			$relPath = substr($relPath,strlen($basePath));
 		$dirArray = explode('/', $relPath);
 		$pathBuilt = rtrim($basePath,'/');
-		foreach( $dirArray as $dir )
+		foreach ( $dirArray as $dir )
 		{
 			if(empty($dir)) continue;
 			$oldPath = $pathBuilt;
@@ -2745,7 +2745,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 			'unknowndata' => 		$junk
 		);
 		// Array-to-object conversion
-		foreach($temp as $key => $value)
+		foreach ($temp as $key => $value)
 		{
 			$this->archiveHeaderData->{$key} = $value;
 		}
@@ -2759,7 +2759,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 
 	/**
 	 * Concrete classes must use this method to read the file header
-	 * @return bool True if reading the file was successful, false if an error occured or we reached end of archive
+	 * @return  bool True if reading the file was successful, false if an error occured or we reached end of archive
 	 */
 	protected function readFileHeader()
 	{
@@ -3002,7 +3002,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 	/**
 	 * Concrete classes must use this method to process file data. It must set $runState to AK_STATE_DATAREAD when
 	 * it's finished processing the file data.
-	 * @return bool True if processing the file data was successful, false if an error occured
+	 * @return  bool True if processing the file data was successful, false if an error occured
 	 */
 	protected function processFileData()
 	{
@@ -3196,7 +3196,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 
 	/**
 	 * Process the file data of a link entry
-	 * @return bool
+	 * @return  bool
 	 */
 	private function processTypeLink()
 	{
@@ -3244,7 +3244,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 
 	/**
 	 * Process the file data of a directory entry
-	 * @return bool
+	 * @return  bool
 	 */
 	private function processTypeDir()
 	{
@@ -3328,7 +3328,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 
 	/**
 	 * Concrete classes must use this method to read the file header
-	 * @return bool True if reading the file was successful, false if an error occured or we reached end of archive
+	 * @return  bool True if reading the file was successful, false if an error occured or we reached end of archive
 	 */
 	protected function readFileHeader()
 	{
@@ -3797,7 +3797,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 			'spanned' => 			$header_data['spanned']
 		);
 		// Array-to-object conversion
-		foreach($temp as $key => $value)
+		foreach ($temp as $key => $value)
 		{
 			$this->archiveHeaderData->{$key} = $value;
 		}
@@ -3811,7 +3811,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 
 	/**
 	 * Concrete classes must use this method to read the file header
-	 * @return bool True if reading the file was successful, false if an error occured or we reached end of archive
+	 * @return  bool True if reading the file was successful, false if an error occured or we reached end of archive
 	 */
 	protected function readFileHeader()
 	{
@@ -4039,7 +4039,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 	/**
 	 * Concrete classes must use this method to process file data. It must set $runState to AK_STATE_DATAREAD when
 	 * it's finished processing the file data.
-	 * @return bool True if processing the file data was successful, false if an error occured
+	 * @return  bool True if processing the file data was successful, false if an error occured
 	 */
 	protected function processFileData()
 	{
@@ -4268,7 +4268,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 
 	/**
 	 * Process the file data of a link entry
-	 * @return bool
+	 * @return  bool
 	 */
 	private function processTypeLink()
 	{
@@ -4369,7 +4369,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 
 	/**
 	 * Process the file data of a directory entry
-	 * @return bool
+	 * @return  bool
 	 */
 	private function processTypeDir()
 	{
@@ -4651,7 +4651,7 @@ class AKText extends AKAbstractObject
 	public function dumpLanguage()
 	{
 		$out = '';
-		foreach($this->strings as $key => $value)
+		foreach ($this->strings as $key => $value)
 		{
 			$out .= "$key=$value\n";
 		}
@@ -4661,7 +4661,7 @@ class AKText extends AKAbstractObject
 	public function asJavascript()
 	{
 		$out = '';
-		foreach($this->strings as $key => $value)
+		foreach ($this->strings as $key => $value)
 		{
 			$key = addcslashes($key, '\\\'"');
 			$value = addcslashes($value, '\\\'"');
@@ -4725,7 +4725,7 @@ class AKText extends AKAbstractObject
 		}
 		if (is_array($iniFiles))
 		{
-			foreach($user_languages as $languageStruct)
+			foreach ($user_languages as $languageStruct)
 			{
 				if(is_null($this->language))
 				{
@@ -4746,7 +4746,7 @@ class AKText extends AKAbstractObject
 		if(is_null($this->language))
 		{
 			// Try to find a full language match
-			foreach($user_languages as $languageStruct)
+			foreach ($user_languages as $languageStruct)
 			{
 				if (@file_exists($languageStruct[0].'.'.$basename) && is_null($this->language))
 				{
@@ -4759,7 +4759,7 @@ class AKText extends AKAbstractObject
 		else
 		{
 			// Do we have an exact match?
-			foreach($user_languages as $languageStruct)
+			foreach ($user_languages as $languageStruct)
 			{
 				if(substr($this->language,0,strlen($languageStruct[1])) == $languageStruct[1])
 				{
@@ -4965,7 +4965,7 @@ class AKFactory {
 
 	/**
 	 * Gets a serialized snapshot of the Factory for safekeeping (hibernate)
-	 * @return string The serialized snapshot of the Factory
+	 * @return  string The serialized snapshot of the Factory
 	 */
 	public static function serialize()
 	{
@@ -4999,7 +4999,7 @@ class AKFactory {
 	public static function nuke()
 	{
 		$self = self::getInstance();
-		foreach($self->objectlist as $key => $object)
+		foreach ($self->objectlist as $key => $object)
 		{
 			$self->objectlist[$key] = null;
 		}
@@ -5126,7 +5126,7 @@ class AKFactory {
 
 			if(!empty($configOverride))
 			{
-				foreach($configOverride as $key => $value)
+				foreach ($configOverride as $key => $value)
 				{
 					$config[$key] = $value;
 				}
@@ -5491,7 +5491,7 @@ class AKEncryptionAES
 	 * @param string $ciphertext The data to encrypt
 	 * @param string $password Encryption password
 	 * @param int $nBits Encryption key size. Can be 128, 192 or 256
-	 * @return string The plaintext
+	 * @return  string The plaintext
 	 */
 	public static function AESDecryptCBC($ciphertext, $password, $nBits = 128)
 	{
@@ -5515,7 +5515,7 @@ class AKEncryptionAES
 			$key = self::Cipher($pwBytes, self::KeyExpansion($pwBytes));
 			$key = array_merge($key, array_slice($key, 0, $nBytes-16));  // expand key to 16/24/32 bytes long
 			$newKey = '';
-			foreach($key as $int) { $newKey .= chr($int); }
+			foreach ($key as $int) { $newKey .= chr($int); }
 			$key = $newKey;
 
 			// Create an Initialization Vector (IV) based on the password, using the same technique as for the key
@@ -5524,7 +5524,7 @@ class AKEncryptionAES
 			for ($i=0; $i<$nBytes; $i++) $pwBytes[$i] = ord(substr($password,$i,1)) & 0xff;
 			$iv = self::Cipher($pwBytes, self::KeyExpansion($pwBytes));
 			$newIV = '';
-			foreach($iv as $int) { $newIV .= chr($int); }
+			foreach ($iv as $int) { $newIV .= chr($int); }
 			$iv = $newIV;
 
 			self::$passwords[$lookupKey]['key'] = $key;
@@ -5605,7 +5605,7 @@ function masterSetup()
 	// Import any data from $restoration_setup
 	if(!empty($ini_data))
 	{
-		foreach($ini_data as $key => $value)
+		foreach ($ini_data as $key => $value)
 		{
 			AKFactory::set($key, $value);
 		}
@@ -5625,7 +5625,7 @@ function masterSetup()
 	// Remove everything from the request array
 	if(!empty($_REQUEST))
 	{
-		foreach($_REQUEST as $key => $value)
+		foreach ($_REQUEST as $key => $value)
 		{
 			unset($_REQUEST[$key]);
 		}
@@ -5644,7 +5644,7 @@ function masterSetup()
 		// Pass all JSON data to the request array
 		if(!empty($raw))
 		{
-			foreach($raw as $key => $value)
+			foreach ($raw as $key => $value)
 			{
 				$_REQUEST[$key] = $value;
 			}
@@ -5695,7 +5695,7 @@ function masterSetup()
 		// Import any INI data we might have from other sources
 		if(!empty($ini_data))
 		{
-			foreach($ini_data as $key => $value)
+			foreach ($ini_data as $key => $value)
 			{
 				AKFactory::set($key, $value);
 			}

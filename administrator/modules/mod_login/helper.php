@@ -21,7 +21,7 @@ abstract class modLoginHelper
 	/**
 	 * Get an HTML select list of the available languages.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public static function getLanguageList()
 	{
@@ -34,7 +34,7 @@ abstract class modLoginHelper
 	/**
 	 * Get the redirect URI after login.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public static function getReturnURI()
 	{

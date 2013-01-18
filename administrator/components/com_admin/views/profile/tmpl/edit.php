@@ -45,7 +45,7 @@ $fieldsets = $this->form->getFieldsets();
 
 	<div class="tab-content">
 		<div class="tab-pane active" id="account">
-		<?php foreach($this->form->getFieldset('user_details') as $field) :?>
+		<?php foreach ($this->form->getFieldset('user_details') as $field) :?>
 			<div class="control-group">
 				<div class="control-label"><?php echo $field->label; ?></div>
 				<div class="controls"><?php echo $field->input; ?></div>
@@ -59,7 +59,7 @@ $fieldsets = $this->form->getFieldsets();
 			endif;
 			?>
 			<div class="tab-pane" id="settings-<?php echo $fieldset->name;?>">
-			<?php foreach($this->form->getFieldset($fieldset->name) as $field): ?>
+			<?php foreach ($this->form->getFieldset($fieldset->name) as $field): ?>
 				<?php if ($field->hidden): ?>
 				<div class="control-group">
 					<div class="controls"><?php echo $field->input; ?></div>

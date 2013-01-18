@@ -27,8 +27,8 @@ class UsersViewRemind extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param	string	$tpl	The template file to include
-	 * @since	1.5
+	 * @param   string	$tpl	The template file to include
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
@@ -62,7 +62,7 @@ class UsersViewRemind extends JViewLegacy
 	/**
 	 * Prepares the document.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function prepareDocument()
 	{

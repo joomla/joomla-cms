@@ -29,7 +29,7 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	/**
 	 * Method for deleting one or more overrides
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */

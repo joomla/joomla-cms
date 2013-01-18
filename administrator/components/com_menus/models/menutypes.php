@@ -30,8 +30,8 @@ class MenusModelMenutypes extends JModelLegacy
 	/**
 	 * Method to get the reverse lookup of the base link URL to Title
 	 *
-	 * @return	array	Array of reverse lookup of the base link URL to Title
-	 * @since	1.6
+	 * @return  array  Array of reverse lookup of the base link URL to Title
+	 * @since   1.6
 	 */
 	public function getReverseLookup()
 	{
@@ -45,8 +45,8 @@ class MenusModelMenutypes extends JModelLegacy
 	/**
 	 * Method to get the available menu item type options.
 	 *
-	 * @return	array	Array of groups with menu item types.
-	 * @since	1.6
+	 * @return  array  Array of groups with menu item types.
+	 * @since   1.6
 	 */
 	public function getTypeOptions()
 	{
@@ -322,7 +322,7 @@ class MenusModelMenutypes extends JModelLegacy
 		$folders = JFolder::folders(JPATH_SITE . '/templates', '', false, true);
 		// Array to hold association between template file names and templates
 		$templateName = array();
-		foreach($folders as $folder)
+		foreach ($folders as $folder)
 		{
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
 			{

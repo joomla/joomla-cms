@@ -79,7 +79,7 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
-	 * method to get the config
+	 * Method to get the config
 	 *
 	 * @return array config values
 	 */
@@ -90,7 +90,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$registry = new JRegistry(new JConfig);
 			$this->config = $registry->toArray();
 			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
-			foreach($hidden as $key)
+			foreach ($hidden as $key)
 			{
 				$this->config[$key] = 'xxxxxx';
 			}
@@ -99,7 +99,7 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
-	 * method to get the system information
+	 * Method to get the system information
 	 *
 	 * @return array system information values
 	 */
@@ -132,9 +132,9 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
-	 * method to get the PHP info
+	 * Method to get the PHP info
 	 *
-	 * @return string PHP info
+	 * @return  string PHP info
 	 */
 	public function &getPHPInfo()
 	{
@@ -155,11 +155,12 @@ class AdminModelSysInfo extends JModelLegacy
 			$output = str_replace('</div>', '', $output);
 			$this->php_info = $output;
 		}
+
 		return $this->php_info;
 	}
 
 	/**
-	 * method to get the directory states
+	 * Method to get the directory states
 	 *
 	 * @return array states of directories
 	 */
@@ -276,9 +277,9 @@ class AdminModelSysInfo extends JModelLegacy
 	}
 
 	/**
-	 * method to get the editor
+	 * Method to get the editor
 	 *
-	 * @return string the default editor
+	 * @return  string the default editor
 	 *
 	 * has to be removed (it is present in the config...)
 	 */

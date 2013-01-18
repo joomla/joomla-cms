@@ -20,29 +20,29 @@ class TemplatesViewTemplates extends JViewLegacy
 {
 	/**
 	 * @var		array
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $items;
 
 	/**
 	 * @var		object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $pagination;
 
 	/**
 	 * @var		object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $state;
 
 	/**
 	 * Display the view.
 	 *
-	 * @param	string
+	 * @param   string
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -76,8 +76,8 @@ class TemplatesViewTemplates extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{

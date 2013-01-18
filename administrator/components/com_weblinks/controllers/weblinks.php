@@ -20,7 +20,7 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 {
 	/**
 	 * Proxy for getModel.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Weblink', $prefix = 'WeblinksModel', $config = array('ignore_request' => true))
 	{

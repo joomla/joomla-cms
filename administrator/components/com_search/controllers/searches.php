@@ -21,7 +21,7 @@ class SearchControllerSearches extends JControllerLegacy
 	/**
 	 * Method to reset the seach log table.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	public function reset()
 	{

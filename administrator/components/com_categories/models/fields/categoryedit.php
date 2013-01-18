@@ -24,7 +24,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 * A flexible category list that respects access controls
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public $type = 'CategoryEdit';
 
@@ -33,8 +33,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 * either category assignment or parent category assignment in edit screens.
 	 * Use the parent element to indicate that the field will be used for assigning parent categories.
 	 *
-	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @return  array  The field option objects.
+	 * @since   1.6
 	 */
 	protected function getOptions()
 	{

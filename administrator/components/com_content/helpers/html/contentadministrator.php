@@ -18,7 +18,7 @@ JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_conten
 abstract class JHtmlContentAdministrator
 {
 	/**
-	 * @param	int $articleid	The article item id
+	 * @param   int $articleid	The article item id
 	 */
 	public static function association($articleid)
 	{
@@ -64,8 +64,8 @@ abstract class JHtmlContentAdministrator
 	}
 
 	/**
-	 * @param	int $value	The state value
-	 * @param	int $i
+	 * @param   int $value	The state value
+	 * @param   int $i
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{

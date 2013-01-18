@@ -156,7 +156,7 @@ class plgSearchContacts extends JPlugin
 
 			if ($rows)
 			{
-				foreach($rows as $key => $row)
+				foreach ($rows as $key => $row)
 				{
 					$rows[$key]->href = 'index.php?option=com_contact&view=contact&id='.$row->slug.'&catid='.$row->catslug;
 					$rows[$key]->text = $row->title;

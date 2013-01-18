@@ -26,7 +26,7 @@ class MenusHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -45,10 +45,10 @@ class MenusHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param	int		The menu ID.
+	 * @param   int		The menu ID.
 	 *
-	 * @return	JObject
-	 * @since	1.6
+	 * @return  JObject
+	 * @since   1.6
 	 */
 	public static function getActions($parentId = 0)
 	{
@@ -77,9 +77,9 @@ class MenusHelper
 	/**
 	 * Gets a standard form of a link for lookups.
 	 *
-	 * @param	mixed	A link string or array of request variables.
+	 * @param   mixed	A link string or array of request variables.
 	 *
-	 * @return	mixed	A link in standard option-view-layout form, or false if the supplied response is invalid.
+	 * @return  mixed	A link in standard option-view-layout form, or false if the supplied response is invalid.
 	 */
 	public static function getLinkKey($request)
 	{
@@ -120,7 +120,7 @@ class MenusHelper
 	/**
 	 * Get the menu list for create a menu module
 	 *
-	 * @return		array	The menu array list
+	 * @return  	array	The menu array list
 	 * @since		1.6
 	 */
 	public static function getMenuTypes()
@@ -133,10 +133,10 @@ class MenusHelper
 	/**
 	 * Get a list of menu links for one or all menus.
 	 *
-	 * @param	string	An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
-	 * @param	int		An optional parent ID to pivot results around.
-	 * @param	int		An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
-	 * @param	array	An optional array of states
+	 * @param   string	An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
+	 * @param   int		An optional parent ID to pivot results around.
+	 * @param   int		An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
+	 * @param   array	An optional array of states
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array(), $languages=array())
 	{

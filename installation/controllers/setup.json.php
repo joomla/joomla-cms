@@ -389,7 +389,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		}
 
 		$max = 0;
-		foreach($body as $line)
+		foreach ($body as $line)
 		{
 			if (is_array($line))
 			{
@@ -397,7 +397,7 @@ class InstallationControllerSetup extends JControllerLegacy
 			}
 		}
 
-		foreach($body as $i => $line)
+		foreach ($body as $i => $line)
 		{
 			if (is_array($line))
 			{

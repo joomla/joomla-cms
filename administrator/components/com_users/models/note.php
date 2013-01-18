@@ -121,7 +121,7 @@ class UsersModelNote extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */

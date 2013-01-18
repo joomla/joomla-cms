@@ -123,7 +123,7 @@ $canDo = LanguagesHelper::getActions();
 			</div>
 		</div>
 		<div class="tab-pane" id="metadata">
-			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+			<?php foreach ($this->form->getFieldset('metadata') as $field): ?>
 				<div class="control-group">
 					<?php if (!$field->hidden): ?>
 						<div class="control-label">
@@ -137,7 +137,7 @@ $canDo = LanguagesHelper::getActions();
 			<?php endforeach; ?>
 		</div>
 		<div class="tab-pane" id="site_name">
-			<?php foreach($this->form->getFieldset('site_name') as $field): ?>
+			<?php foreach ($this->form->getFieldset('site_name') as $field): ?>
 				<div class="control-group">
 					<?php if (!$field->hidden): ?>
 						<div class="control-label">

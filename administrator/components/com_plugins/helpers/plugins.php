@@ -23,7 +23,7 @@ class PluginsHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -33,7 +33,7 @@ class PluginsHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
+	 * @return  JObject
 	 */
 	public static function getActions()
 	{
@@ -54,7 +54,7 @@ class PluginsHelper
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @return	string			The HTML code for the select tag
+	 * @return  string  	The HTML code for the select tag
 	 */
 	public static function publishedOptions()
 	{
@@ -69,7 +69,7 @@ class PluginsHelper
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @return	string			The HTML code for the select tag
+	 * @return  string  	The HTML code for the select tag
 	 */
 	public static function folderOptions()
 	{

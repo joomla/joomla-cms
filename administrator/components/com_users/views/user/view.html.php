@@ -56,7 +56,7 @@ class UsersViewUser extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -78,7 +78,8 @@ class UsersViewUser extends JViewLegacy
 		{
 			JToolbarHelper::save2new('user.save2new');
 		}
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('user.cancel');
 		}
 		else

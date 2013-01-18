@@ -24,7 +24,7 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 			array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
 			array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
 			);
-			foreach($urlarray as $url) :
+			foreach ($urlarray as $url) :
 				$link = $url[0];
 				$label = $url[1];
 				$target = $url[2];

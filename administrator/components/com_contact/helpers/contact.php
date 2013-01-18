@@ -21,10 +21,10 @@ class ContactHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	$vName	The name of the active view.
+	 * @param   string	$vName	The name of the active view.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -50,11 +50,11 @@ class ContactHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param	int		The category ID.
-	 * @param	int		The contact ID.
+	 * @param   int		The category ID.
+	 * @param   int		The contact ID.
 	 *
-	 * @return	JObject
-	 * @since	1.6
+	 * @return  JObject
+	 * @since   1.6
 	 */
 	public static function getActions($categoryId = 0, $contactId = 0)
 	{

@@ -27,7 +27,7 @@ class ContactViewContacts extends JViewLegacy
 	/**
 	 * Display the view
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -60,7 +60,7 @@ class ContactViewContacts extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{

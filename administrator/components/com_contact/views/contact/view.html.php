@@ -48,7 +48,7 @@ class ContactViewContact extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -64,7 +64,8 @@ class ContactViewContact extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
 
 		// Build the actions for new and existing records.
-		if ($isNew)  {
+		if ($isNew)
+		{
 			// For new records, check the create permission.
 			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
 			{

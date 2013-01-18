@@ -19,11 +19,11 @@ defined('_JEXEC') or die;
 abstract class JHtmlPhpSetting
 {
 	/**
-	 * method to generate a boolean message for a value
+	 * Method to generate a boolean message for a value
 	 *
 	 * @param boolean $val is the value set?
 	 *
-	 * @return string html code
+	 * @return  string html code
 	 */
 	public static function boolean($val)
 	{
@@ -38,11 +38,11 @@ abstract class JHtmlPhpSetting
 	}
 
 	/**
-	 * method to generate a boolean message for a value
+	 * Method to generate a boolean message for a value
 	 *
 	 * @param boolean $val is the value set?
 	 *
-	 * @return string html code
+	 * @return  string html code
 	 */
 	public static function set($val)
 	{
@@ -61,7 +61,7 @@ abstract class JHtmlPhpSetting
 	 *
 	 * @param string $val a php ini value
 	 *
-	 * @return string html code
+	 * @return  string html code
 	 */
 	public static function string($val)
 	{
@@ -76,11 +76,11 @@ abstract class JHtmlPhpSetting
 	}
 
 	/**
-	 * method to generate an integer from a value
+	 * Method to generate an integer from a value
 	 *
 	 * @param string $val a php ini value
 	 *
-	 * @return string html code
+	 * @return  string html code
 	 *
 	 * @deprecated  4.0  Use intval() or casting instead.
 	 */

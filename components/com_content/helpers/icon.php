@@ -124,8 +124,8 @@ abstract class JHtmlIcon
 	 * @param   array      $attribs  Optional attributes for the link
 	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
-	 * @return	string	The HTML for the article edit icon.
-	 * @since	1.6
+	 * @return  string	The HTML for the article edit icon.
+	 * @since   1.6
 	 */
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{

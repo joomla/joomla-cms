@@ -30,7 +30,7 @@ if ($this->options['summary_email'])
 
 	<table class="table">
 		<tbody>
-		<?php foreach($tasks as $task) : ?>
+		<?php foreach ($tasks as $task) : ?>
 		<tr id="install_<?php echo $task; ?>">
 			<td class="item" nowrap="nowrap" width="10%">
 				<?php

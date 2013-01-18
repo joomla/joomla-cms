@@ -48,7 +48,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -86,7 +86,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
@@ -276,7 +276,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @return  JDatabaseQuery  The database query
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{

@@ -21,7 +21,7 @@ abstract class NewsfeedsHelperRoute
 	protected static $lookup;
 
 	/**
-	 * @param	int	The route of the newsfeed
+	 * @param   int	The route of the newsfeed
 	 */
 	public static function getNewsfeedRoute($id, $catid, $language = 0)
 	{
@@ -205,7 +205,7 @@ abstract class NewsfeedsHelperRoute
 			{
 				if (isset(self::$lookup[$language][$view]))
 				{
-					foreach($ids as $id)
+					foreach ($ids as $id)
 					{
 						if (isset(self::$lookup[$language][$view][(int) $id]))
 						{

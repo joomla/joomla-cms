@@ -101,9 +101,9 @@ class ModulesControllerModule extends JControllerForm
 	 *
 	 * @param   string  $model  The model
 	 *
-	 * @return	boolean  True on success.
+	 * @return  boolean  True on success.
 	 *
-	 * @since	1.7
+	 * @since   1.7
 	 */
 	public function batch($model = null)
 	{

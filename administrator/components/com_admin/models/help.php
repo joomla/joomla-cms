@@ -45,7 +45,7 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * Method to get the help search string
-	 * @return string Help search string
+	 * @return  string Help search string
 	 */
 	public function &getHelpSearch()
 	{
@@ -58,7 +58,7 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * Method to get the page
-	 * @return string page
+	 * @return  string page
 	 */
 	public function &getPage()
 	{
@@ -108,7 +108,7 @@ class AdminModelHelp extends JModelLegacy
 			jimport('joomla.filesystem.folder');
 			$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 			$this->toc = array();
-			foreach($files as $file)
+			foreach ($files as $file)
 			{
 				$buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
 				if (preg_match('#<title>(.*?)</title>#', $buffer, $m))
@@ -144,7 +144,7 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * Method to get the latest version check;
-	 * @return string Latest Version Check URL
+	 * @return  string Latest Version Check URL
 	 */
 	public function &getLatestVersionCheck()
 	{

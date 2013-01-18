@@ -21,9 +21,9 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array	An optional associative array of configuration settings.
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -44,7 +44,7 @@ class UsersModelLevels extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -69,9 +69,9 @@ class UsersModelLevels extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -84,7 +84,7 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -129,9 +129,9 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Method to adjust the ordering of a row.
 	 *
-	 * @param	int		The ID of the primary key to move.
-	 * @param	integer	Increment, usually +1 or -1
-	 * @return	boolean	False on failure or error, true otherwise.
+	 * @param   int		The ID of the primary key to move.
+	 * @param   integer	Increment, usually +1 or -1
+	 * @return  boolean	False on failure or error, true otherwise.
 	 */
 	public function reorder($pk, $direction = 0)
 	{
@@ -168,8 +168,8 @@ class UsersModelLevels extends JModelList
 	/**
 	 * Saves the manually set order of records.
 	 *
-	 * @param	array	An array of primary key ids.
-	 * @param	int		+/-1
+	 * @param   array	An array of primary key ids.
+	 * @param   int		+/-1
 	 */
 	public function saveorder($pks, $order)
 	{

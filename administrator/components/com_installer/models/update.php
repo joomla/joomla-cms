@@ -26,7 +26,7 @@ class InstallerModelUpdate extends JModelList
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see		JController
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -56,7 +56,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -86,7 +86,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  JDatabaseQuery  The database query
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -141,7 +141,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  boolean Result
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0)
 	{
@@ -153,9 +153,9 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Removes all of the updates from the table.
 	 *
-	 * @return	boolean result of operation
+	 * @return  boolean result of operation
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function purge()
 	{
@@ -185,9 +185,9 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Enables any disabled rows in #__update_sites table
 	 *
-	 * @return	boolean result of operation
+	 * @return  boolean result of operation
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function enableSites()
 	{
@@ -219,7 +219,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function update($uids)
 	{
@@ -253,7 +253,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  boolean	 Result of install
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private function install($update)
 	{

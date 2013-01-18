@@ -123,7 +123,7 @@ abstract class modArticlesCategoryHelper
 				$categories->setState('filter.access', $access);
 				$additional_catids = array();
 
-				foreach($catids as $catid)
+				foreach ($catids as $catid)
 				{
 					$categories->setState('filter.parentId', $catid);
 					$recursive = true;
@@ -131,7 +131,7 @@ abstract class modArticlesCategoryHelper
 
 					if ($items)
 					{
-						foreach($items as $category)
+						foreach ($items as $category)
 						{
 							$condition = (($category->level - $categories->getParent()->level) <= $levels);
 							if ($condition)
@@ -338,7 +338,7 @@ abstract class modArticlesCategoryHelper
 			$list = array($list);
 		}
 
-		foreach($list as $key => $item)
+		foreach ($list as $key => $item)
 		{
 			if (!isset($grouped[$item->$fieldName]))
 			{
@@ -375,7 +375,7 @@ abstract class modArticlesCategoryHelper
 			$list = array($list);
 		}
 
-		foreach($list as $key => $item)
+		foreach ($list as $key => $item)
 		{
 			switch($type)
 			{
@@ -410,7 +410,7 @@ abstract class modArticlesCategoryHelper
 
 		if ($type === 'month_year')
 		{
-			foreach($grouped as $group => $items)
+			foreach ($grouped as $group => $items)
 			{
 				$date = new JDate($group);
 				$formatted_group = $date->format($month_year_format);

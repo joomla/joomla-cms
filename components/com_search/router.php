@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * @param	array
- * @return	array
+ * @return  array
  */
 function SearchBuildRoute(&$query)
 {
@@ -26,7 +26,7 @@ function SearchBuildRoute(&$query)
 
 /**
  * @param	array
- * @return	array
+ * @return  array
  */
 function SearchParseRoute($segments)
 {

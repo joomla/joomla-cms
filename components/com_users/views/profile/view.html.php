@@ -29,8 +29,8 @@ class UsersViewProfile extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param	string	$tpl	The template file to include
-	 * @since	1.6
+	 * @param   string	$tpl	The template file to include
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -72,7 +72,7 @@ class UsersViewProfile extends JViewLegacy
 	/**
 	 * Prepares the document
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function prepareDocument()
 	{

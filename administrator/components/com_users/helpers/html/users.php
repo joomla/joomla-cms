@@ -66,7 +66,7 @@ class JHtmlUsers
 	 * @param   integer  $count   The number of notes for the user
 	 * @param   integer  $userId  The user ID
 	 *
-	 * @return	string  A link to apply a filter
+	 * @return  string  A link to apply a filter
 	 *
 	 * @since   2.5
 	 */
@@ -89,7 +89,7 @@ class JHtmlUsers
 	 * @param   integer  $count   The number of notes for the user
 	 * @param   integer  $userId  The user ID
 	 *
-	 * @return	string  A link to a modal window with the user notes
+	 * @return  string  A link to a modal window with the user notes
 	 *
 	 * @since   2.5
 	 */

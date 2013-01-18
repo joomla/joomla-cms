@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
- * @param	array	A named array
- * @return	array
+ * @return  array  A named array
+ * @return  array
  */
 function BannersBuildRoute(&$query)
 {
@@ -32,7 +32,7 @@ function BannersBuildRoute(&$query)
 }
 
 /**
- * @param	array	A named array
+ * @return  array  A named array
  * @param	array
  *
  * Formats:

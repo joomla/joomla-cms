@@ -29,9 +29,9 @@ class ContactTableContact extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param	array		Named array
-	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
-	 * @since	1.6
+	 * @param   array		Named array
+	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 * @since   1.6
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -55,9 +55,9 @@ class ContactTableContact extends JTable
 	/**
 	 * Stores a contact
 	 *
-	 * @param	boolean	True to update fields even if they are null.
-	 * @return	boolean	True on success, false on failure.
-	 * @since	1.6
+	 * @param   boolean	True to update fields even if they are null.
+	 * @return  boolean	True on success, false on failure.
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{
@@ -124,7 +124,7 @@ class ContactTableContact extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 * @see JTable::check
 	 * @since 1.5
 	 */
@@ -188,7 +188,7 @@ class ContactTableContact extends JTable
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
-			foreach($keys as $key)
+			foreach ($keys as $key)
 			{
 				if (trim($key)) {  // ignore blank keywords
 					$clean_keys[] = trim($key);

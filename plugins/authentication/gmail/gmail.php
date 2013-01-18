@@ -23,9 +23,9 @@ class plgAuthenticationGMail extends JPlugin
 	 *
 	 * @access	public
 	 * @param   array	$credentials Array holding the user credentials
-	 * @param	array   $options	Array of extra options
-	 * @param	object	$response	Authentication response object
-	 * @return	boolean
+	 * @param   array   $options	Array of extra options
+	 * @param   object	$response	Authentication response object
+	 * @return  boolean
 	 * @since 1.5
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)

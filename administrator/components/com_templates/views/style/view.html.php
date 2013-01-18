@@ -47,7 +47,7 @@ class TemplatesViewStyle extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -75,7 +75,8 @@ class TemplatesViewStyle extends JViewLegacy
 			JToolbarHelper::save2copy('style.save2copy');
 		}
 
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('style.cancel');
 		}
 		else

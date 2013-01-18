@@ -23,7 +23,7 @@ class UsersControllerProfile extends UsersController
 	/**
 	 * Method to check out a user for editing and redirect to the edit form.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function edit()
 	{
@@ -67,8 +67,8 @@ class UsersControllerProfile extends UsersController
 	/**
 	 * Method to save a user's profile data.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function save()
 	{

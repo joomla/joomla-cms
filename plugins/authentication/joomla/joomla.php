@@ -22,10 +22,10 @@ class plgAuthenticationJoomla extends JPlugin
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param	array	Array holding the user credentials
-	 * @param	array	Array of extra options
-	 * @param	object	Authentication response object
-	 * @return	boolean
+	 * @param   array	Array holding the user credentials
+	 * @param   array	Array of extra options
+	 * @param   object	Authentication response object
+	 * @return  boolean
 	 * @since 1.5
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)

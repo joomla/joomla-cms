@@ -85,7 +85,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 										<?php echo $this->form->getInput('images'); ?>
 									</div>
 								</div>
-								<?php foreach($this->form->getGroup('images') as $field): ?>
+								<?php foreach ($this->form->getGroup('images') as $field): ?>
 									<div class="control-group">
 										<?php if (!$field->hidden): ?>
 											<div class="control-label">

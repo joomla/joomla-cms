@@ -21,8 +21,8 @@ abstract class ModMenuHelper
 	/**
 	 * Get a list of the available menus.
 	 *
-	 * @return	array	An array of the available menus (from the menu types table).
-	 * @since	1.6
+	 * @return  array  An array of the available menus (from the menu types table).
+	 * @since   1.6
 	 */
 	public static function getMenus()
 	{
@@ -51,10 +51,10 @@ abstract class ModMenuHelper
 	/**
 	 * Get a list of the authorised, non-special components to display in the components menu.
 	 *
-	 * @param	boolean	$authCheck	An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
+	 * @param   boolean	$authCheck	An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
 	 *
-	 * @return	array	A nest array of component objects and submenus
-	 * @since	1.6
+	 * @return  array  A nest array of component objects and submenus
+	 * @since   1.6
 	 */
 	public static function getComponents($authCheck = true)
 	{

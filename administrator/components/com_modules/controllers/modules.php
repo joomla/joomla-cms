@@ -20,7 +20,7 @@ class ModulesControllerModules extends JControllerAdmin
 {
 	/**
 	 * Method to clone an existing module.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function duplicate()
 	{

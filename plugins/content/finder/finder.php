@@ -23,9 +23,9 @@ class plgContentFinder extends JPlugin
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 * @param	string		The context of the content passed to the plugin (added in 1.6)
-	 * @param	object		A JTableContent object
-	 * @param	bool		If the content has just been created
+	 * @param   string  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object		A JTableContent object
+	 * @param   bool		If the content has just been created
 	 * @since	2.5
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
@@ -42,9 +42,9 @@ class plgContentFinder extends JPlugin
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 * @param	string		The context of the content passed to the plugin (added in 1.6)
-	 * @param	object		A JTableContent object
-	 * @param	bool		If the content is just about to be created
+	 * @param   string  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object		A JTableContent object
+	 * @param   bool		If the content is just about to be created
 	 * @since   2.5
 	 */
 	public function onContentBeforeSave($context, $article, $isNew)
@@ -61,8 +61,8 @@ class plgContentFinder extends JPlugin
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 * @param	string		The context of the content passed to the plugin (added in 1.6)
-	 * @param	object		A JTableContent object
+	 * @param   string  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object		A JTableContent object
 	 * @since   2.5
 	 */
 	public function onContentAfterDelete($context, $article)

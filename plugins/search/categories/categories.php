@@ -169,7 +169,7 @@ class plgSearchCategories extends JPlugin
 					$rows[$i]->section	= JText::_('JCATEGORY');
 				}
 
-				foreach($rows as $key => $category)
+				foreach ($rows as $key => $category)
 				{
 					if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
 					{

@@ -22,16 +22,16 @@ class JFormFieldLanguage extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $type = 'Language';
 
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return	array	The field option objects.
+	 * @return  array  The field option objects.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function getOptions()
 	{

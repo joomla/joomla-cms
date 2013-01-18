@@ -267,7 +267,7 @@ class JHttpTransportSocket implements JHttpTransport
 	}
 
 	/**
-	 * method to check if http transport socket available for using
+	 * Method to check if http transport socket available for using
 	 *
 	 * @return bool true if available else false
 	 *

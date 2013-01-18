@@ -26,9 +26,9 @@ class plgSystemCache extends JPlugin
 	 * Constructor
 	 *
 	 * @access	protected
-	 * @param	object	$subject The object to observe
-	 * @param	array	$config  An array that holds the plugin configuration
-	 * @since	1.0
+	 * @param   object	$subject The object to observe
+	 * @param   array	$config  An array that holds the plugin configuration
+	 * @since   1.0
 	 */
 	function __construct(& $subject, $config)
 	{

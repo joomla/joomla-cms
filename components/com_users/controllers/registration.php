@@ -23,8 +23,8 @@ class UsersControllerRegistration extends UsersController
 	/**
 	 * Method to activate a user.
 	 *
-	 * @return	boolean		True on success, false on failure.
-	 * @since	1.6
+	 * @return  boolean		True on success, false on failure.
+	 * @since   1.6
 	 */
 	public function activate()
 	{
@@ -97,8 +97,8 @@ class UsersControllerRegistration extends UsersController
 	/**
 	 * Method to register a user.
 	 *
-	 * @return	boolean		True on success, false on failure.
-	 * @since	1.6
+	 * @return  boolean		True on success, false on failure.
+	 * @since   1.6
 	 */
 	public function register()
 	{
