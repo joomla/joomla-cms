@@ -95,8 +95,12 @@ class TagsModelTag extends JModelList
 				{
 					$linkArray[$linkPrefix][2] .= $item->content_id . ',';
 				}
-
 			}
+			if (empty($linkArray))
+			{
+				return false;
+			}
+			var_dump($linkArray);die;
 
 			// Initialize some variables.
 			$db = JFactory::getDbo();
@@ -131,9 +135,14 @@ class TagsModelTag extends JModelList
 					$queryu->union($uquery);
 				}
 			}
-			$unionString  = $queryu->union->__toString();
+			if (!empty($queryu->union))
+			{
+				$unionString  = $queryu->union->__toString();
+				$queryStringu = $tablequeries[0] . $unionString . 'ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC');
+			}
+
 			// Need to make order by a variable.
-			$queryStringu = $tablequeries[0] . $unionString . 'ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC');
+			$queryStringu = $tablequeries[0] . 'ORDER BY' . $db->qn($this->state->params->get('orderby', 'title')) . ' ' . $this->state->params->get('orderby_direction', 'ASC');
 
 			// Initialize some variables.
 			$dbf = JFactory::getDbo();

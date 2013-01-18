@@ -26,7 +26,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 $n = count($this->items);
 ?>
 
-<?php if ($n == 0) : ?>
+<?php if ($this->items == false || $n == 0) : ?>
 	<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 <?php else : ?>
 
