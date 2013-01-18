@@ -203,7 +203,7 @@ class JHttpTransportStream implements JHttpTransport
 	}
 
 	/**
-	 * Method to check if http transport stream available for using
+	 * method to check if http transport stream available for using
 	 *
 	 * @return bool true if available else false
 	 *

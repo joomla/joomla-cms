@@ -40,8 +40,7 @@ class plgSearchExample extends JPlugin
 	 * Sets the checkbox(es) to be diplayed in the Search Only box:
 	 * @return array An array of search areas
 	 */
-	function onContentSearchAreas()
-	{
+	function onContentSearchAreas() {
 		static $areas = array(
 			'Example' => 'PLG_SEARCH_EXAMPLE_BANNERS'
 			);
@@ -73,10 +72,8 @@ class plgSearchExample extends JPlugin
 		$limit = 50;
 
 		//Check that the this search area has been selected:
-		if (is_array($areas))
-		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
+		if (is_array($areas)) {
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
 				return array();
 			}
 		}
@@ -85,8 +82,7 @@ class plgSearchExample extends JPlugin
 		$searchText = trim($text);
 
 		//If no search text, exit:
-		if ($searchText == '')
-		{
+		if ($searchText == '') {
 			return array();
 		}
 
@@ -175,14 +171,11 @@ class plgSearchExample extends JPlugin
 		$return = array();
 
 		//If there's data...
-		if ($rows)
-		{
+		if ($rows) {
 			//For each row of data...
-			foreach ($rows AS $key => $banner)
-			{
+			foreach($rows AS $key => $banner) {
 				//If the search text can be found even after stripping HTML
-				if (searchHelper::checkNoHTML($banner, $text, array('text')))
-				{
+				if (searchHelper::checkNoHTML($banner, $text, array('text'))) {
 					//Append to the return array:
 					$return[] = $banner;
 				}

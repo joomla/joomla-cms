@@ -24,16 +24,13 @@ class Cookie {
 	private $_secure = false;
 	private $_expiry = 0;
 	
-	public function __construct($name, $value, $path = null, $domain = null, $secure = null, $expiry = null)
-	{
+	public function __construct($name, $value, $path = null, $domain = null, $secure = null, $expiry = null) {
 		
-		if (isset ( $secure ) && ! is_bool ( $secure ))
-		{
+		if (isset ( $secure ) && ! is_bool ( $secure )) {
 			throw new \Exception ( "'Secure' property must be boolean" );
 		}
 		
-		if (isset ( $expiry ) && ! is_numeric ( $expiry ))
-		{
+		if (isset ( $expiry ) && ! is_numeric ( $expiry )) {
 			throw new \Exception ( "'Expiry' property must be numeric" );
 		}
 		
@@ -56,8 +53,7 @@ class Cookie {
 		$this->_expiry = $expiry;
 	}
 	
-	public function getArray()
-	{
+	public function getArray() {
 		
 		$array = array ();
 		

@@ -34,7 +34,7 @@ abstract class JHtmlJGrid
 	 * @param   boolean       $translate       An optional setting for translation.
 	 * @param   string        $checkbox	       An optional prefix for checkboxes.
 	 *
-	 * @return  string         The Html code
+	 * @return string         The Html code
 	 *
 	 * @since   11.1
 	 */

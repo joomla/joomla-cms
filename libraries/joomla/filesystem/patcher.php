@@ -124,7 +124,7 @@ class JFilesystemPatcher
 	 *
 	 * @throw  RuntimeException
 	 *
-	 * @return  integer the number of files patched
+	 * @return integer the number of files patched
 	 */
 	public function apply()
 	{
@@ -213,7 +213,7 @@ class JFilesystemPatcher
 	 * @param   string  $root      The files root path
 	 * @param   string  $strip     The number of '/' to strip
 	 *
-	 * @return  JFilesystemPatch $this for chaining
+	 * @return	JFilesystemPatch $this for chaining
 	 *
 	 * @since   12.1
 	 */
@@ -229,7 +229,7 @@ class JFilesystemPatcher
 	 * @param   string  $root   The files root path
 	 * @param   string  $strip  The number of '/' to strip
 	 *
-	 * @return  JFilesystemPatch $this for chaining
+	 * @return	JFilesystemPatch $this for chaining
 	 *
 	 * @since   12.1
 	 */

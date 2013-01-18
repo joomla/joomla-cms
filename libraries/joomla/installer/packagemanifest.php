@@ -95,7 +95,7 @@ class JPackageManifest extends JObject
 	 *
 	 * @param   string  $xmlfile  Path to XML manifest file
 	 *
-	 * @return  boolean  Result of load
+	 * @return  boolean	Result of load
 	 *
 	 * @since   11.1
 	 */

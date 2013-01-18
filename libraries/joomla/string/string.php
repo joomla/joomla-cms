@@ -473,7 +473,7 @@ abstract class JString
 	 * @param   string  $str     The haystack
 	 * @param   string  $search  The needle
 	 *
-	 * @return  string the sub string
+	 * @return string the sub string
 	 *
 	 * @see     http://www.php.net/stristr
 	 * @since   11.1

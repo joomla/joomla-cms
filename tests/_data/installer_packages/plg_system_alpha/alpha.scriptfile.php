@@ -18,28 +18,23 @@
 
 class plgSystemAlphaInstallerScript {
 
-	function install($parent)
-	{
+	function install($parent) {
 		echo '<p>'. JText::_('1.6 Custom install script') . '</p>';
 	}
 
-	function uninstall($parent)
-	{
+	function uninstall($parent) {
 		echo '<p>'. JText::_('1.6 Custom uninstall script') .'</p>';
 	}
 
-	function update($parent)
-	{
+	function update($parent) {
 		echo '<p>'. JText::_('1.6 Custom update script') .'</p>';
 	}
 
-	function preflight($type, $parent)
-	{
+	function preflight($type, $parent) {
 		echo '<p>'. JText::sprintf('1.6 Preflight for %s', $type) .'</p>';
 	}
 
-	function postflight($type, $parent)
-	{
+	function postflight($type, $parent) {
 		echo '<p>'. JText::sprintf('1.6 Postflight for %s', $type) .'</p>';
 	}
 }

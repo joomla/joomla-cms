@@ -432,9 +432,9 @@ class JImage
 	/**
 	 * Method to return the path
 	 *
-	 * @return  string
+	 * @return	string
 	 *
-	 * @since   11.3
+	 * @since	11.3
 	 */
 	public function getPath()
 	{

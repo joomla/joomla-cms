@@ -45,7 +45,7 @@ class SelectElement
 		$options = $this->_element->findElements(By::xPath(".//option[@value = '" . $value . "']"));
 		
 		$matched = false;
-		foreach ($options as $option)
+		foreach($options as $option)
 		{
 			
 			if(!$option->isSelected())
@@ -72,7 +72,7 @@ class SelectElement
 		$options = $this->_element->findElements(By::xPath(".//option[contains(text(), '" . $text . "')]"));
 
 		$matched = false;
-		foreach ($options as $option)
+		foreach($options as $option)
 		{
 
 			if(!$option->isSelected())

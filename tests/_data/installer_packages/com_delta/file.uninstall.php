@@ -15,7 +15,6 @@
  * @copyright 2009 Developer Name
  */
 
-function com_uninstall()
-{
+function com_uninstall() {
 	echo '<p>'. JText::_('COM_DELTA_LEGACY_UNINSTALLATION_SCRIPT') .'</p>';
 }
