@@ -666,7 +666,7 @@ final class JSite extends JApplication
 	 * @param   boolean	True if the enqueued messages are passed to the redirection, false else.
 	 * @return  none; calls exit().
 	 * @since   1.5
-	 * @see		JApplication::enqueueMessage()
+	 * @see     JApplication::enqueueMessage()
 	 */
 	public function redirect($url, $msg='', $msgType='message', $moved = false, $persistMsg = true)
 	{
