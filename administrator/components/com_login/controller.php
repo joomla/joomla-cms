@@ -24,7 +24,7 @@ class LoginController extends JControllerLegacy
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param   boolean			If true, the view output will be cached
+	 * @param   boolean  If true, the view output will be cached
 	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 * @return  JController		This object to support chaining.
 	 * @since   1.5

@@ -24,7 +24,7 @@ class plgUserJoomla extends JPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array  $user	Holds the user data
-	 * @param   boolean		$succes	True if user was succesfully stored in the database
+	 * @param   boolean  $succes	True if user was succesfully stored in the database
 	 * @param   string  $msg	Message
 	 *
 	 * @return  boolean
@@ -53,8 +53,8 @@ class plgUserJoomla extends JPlugin
 	 * This method sends a registration email to new users created in the backend.
 	 *
 	 * @param   array  $user		Holds the new user data.
-	 * @param   boolean		$isnew		True if a new user is stored.
-	 * @param   boolean		$success	True if user was succesfully stored in the database.
+	 * @param   boolean  $isnew		True if a new user is stored.
+	 * @param   boolean  $success	True if user was succesfully stored in the database.
 	 * @param   string  $msg		Message.
 	 *
 	 * @return  void

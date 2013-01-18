@@ -58,7 +58,7 @@ class ContactViewContact extends JViewLegacy
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		// Since we don't track these assets at the item level, use the category id.
+		// Since we do not track these assets at the item level, use the category id.
 		$canDo		= ContactHelper::getActions($this->item->catid, 0);
 
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
@@ -78,7 +78,7 @@ class ContactViewContact extends JViewLegacy
 		}
 		else
 		{
-			// Can't save the record if it's checked out.
+			// Cannot save the record if it's checked out.
 			if (!$checkedOut)
 			{
 				// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
@@ -95,7 +95,7 @@ class ContactViewContact extends JViewLegacy
 				}
 			}
 
-			// If checked out, we can still save
+			// If checked out, we can still save.
 			if ($canDo->get('core.create'))
 			{
 				JToolbarHelper::save2copy('contact.save2copy');

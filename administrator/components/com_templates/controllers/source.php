@@ -38,7 +38,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	 * Extended classes can override this if necessary.
 	 *
 	 * @param   array  An array of input data.
-	 * @param   string	The name of the key for the primary key.
+	 * @param   string  The name of the key for the primary key.
 	 *
 	 * @return  boolean
 	 */
@@ -53,7 +53,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	 * Extended classes can override this if necessary.
 	 *
 	 * @param   array  An array of input data.
-	 * @param   string	The name of the key for the primary key.
+	 * @param   string  The name of the key for the primary key.
 	 *
 	 * @return  boolean
 	 */
@@ -65,8 +65,8 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string	The model name. Optional.
-	 * @param   string	The class prefix. Optional.
+	 * @param   string  The model name. Optional.
+	 * @param   string  The class prefix. Optional.
 	 * @param   array  Configuration array for model. Optional (note, the empty array is atypical compared to other models).
 	 *
 	 * @return  object  The model.
@@ -80,7 +80,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * This controller does not have a display method. Redirect back to the list view of the component.
 	 *
-	 * @param   boolean			If true, the view output will be cached
+	 * @param   boolean  If true, the view output will be cached
 	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.

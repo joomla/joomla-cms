@@ -66,7 +66,7 @@ class FinderViewMaps extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		// For whatever reason, the helper isn't being found
+		// For whatever reason, the helper is not being found
 		include_once JPATH_COMPONENT . '/helpers/finder.php';
 		$canDo	= FinderHelper::getActions();
 

@@ -25,7 +25,7 @@ class UsersModelLogin extends JModelForm
 	 * for users plugins to extend the form with extra fields.
 	 *
 	 * @param   array  $data		An optional array of data for the form to interogate.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -92,9 +92,9 @@ class UsersModelLogin extends JModelForm
 	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
-	 * @param   object	A form object.
+	 * @param   object  A form object.
 	 * @param   mixed	The data expected for the form.
-	 * @param   string	The name of the plugin group to import (defaults to "content").
+	 * @param   string  The name of the plugin group to import (defaults to "content").
 	 * @throws	Exception if there is an error in the form event.
 	 * @since   1.6
 	 */

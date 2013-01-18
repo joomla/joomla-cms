@@ -26,7 +26,7 @@ class ContactModelContact extends JModelForm
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_context = 'com_contact.contact';
 
@@ -63,7 +63,7 @@ class ContactModelContact extends JModelForm
 	 *
 	 *
 	 * @param   array  $data		An optional array of data for the form to interrogate.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */

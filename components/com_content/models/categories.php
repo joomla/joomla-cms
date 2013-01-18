@@ -21,14 +21,14 @@ class ContentModelCategories extends JModelList
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	public $_context = 'com_content.categories';
 
 	/**
 	 * The category context (allows other extensions to derived from this model).
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_extension = 'com_content';
 
@@ -112,7 +112,8 @@ class ContentModelCategories extends JModelList
 			{
 				$this->_items = $this->_parent->getChildren($recursive);
 			}
-			else {
+			else
+			{
 				$this->_items = false;
 			}
 		}

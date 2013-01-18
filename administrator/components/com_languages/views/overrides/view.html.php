@@ -21,24 +21,24 @@ class LanguagesViewOverrides extends JViewLegacy
 	/**
 	 * The items to list
 	 *
-	 * @var		array
-	 * @since	2.5
+	 * @var    array
+	 * @since   2.5
 	 */
 	protected $items;
 
 	/**
 	 * The pagination object
 	 *
-	 * @var		object
-	 * @since	2.5
+	 * @var    object
+	 * @since   2.5
 	 */
 	protected $pagination;
 
 	/**
 	 * The model state
 	 *
-	 * @var		object
-	 * @since	2.5
+	 * @var    object
+	 * @since   2.5
 	 */
 	protected $state;
 

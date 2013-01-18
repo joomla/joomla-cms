@@ -19,19 +19,19 @@ defined('_JEXEC') or die;
 class TemplatesViewTemplates extends JViewLegacy
 {
 	/**
-	 * @var		array
+	 * @var    array
 	 * @since   1.6
 	 */
 	protected $items;
 
 	/**
-	 * @var		object
+	 * @var    object
 	 * @since   1.6
 	 */
 	protected $pagination;
 
 	/**
-	 * @var		object
+	 * @var    object
 	 * @since   1.6
 	 */
 	protected $state;

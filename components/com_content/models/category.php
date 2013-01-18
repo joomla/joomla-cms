@@ -37,7 +37,7 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_context = 'com_content.category';
 
@@ -45,7 +45,7 @@ class ContentModelCategory extends JModelList
 	 * The category that applies.
 	 *
 	 * @access	protected
-	 * @var		object
+	 * @var    object
 	 */
 	protected $_category = null;
 
@@ -53,7 +53,7 @@ class ContentModelCategory extends JModelList
 	 * The list of other newfeed categories.
 	 *
 	 * @access	protected
-	 * @var		array
+	 * @var    array
 	 */
 	protected $_categories = null;
 
@@ -240,7 +240,8 @@ class ContentModelCategory extends JModelList
 					$this->setError($model->getError());
 				}
 			}
-			else {
+			else
+			{
 				$this->_articles = array();
 			}
 
@@ -253,7 +254,7 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Build the orderby for the query
 	 *
-	 * @return  string	$orderby portion of query
+	 * @return  string  $orderby portion of query
 	 * @since   1.5
 	 */
 	protected function _buildContentOrderBy()
@@ -319,7 +320,8 @@ class ContentModelCategory extends JModelList
 				$options = array();
 				$options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
 			}
-			else {
+			else
+			{
 				$options['countItems'] = 0;
 			}
 
@@ -351,7 +353,8 @@ class ContentModelCategory extends JModelList
 				$this->_rightsibling = $this->_item->getSibling();
 				$this->_leftsibling = $this->_item->getSibling(false);
 			}
-			else {
+			else
+			{
 				$this->_children = false;
 				$this->_parent = false;
 			}

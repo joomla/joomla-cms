@@ -63,7 +63,7 @@ class WeblinksViewCategory extends JViewLegacy
 			$feeditem->category    = $category->title;
 			$feeditem->author      = $author;
 
-			// We don't have the author email so we have to use site in both cases.
+			// We do not have the author email so we have to use site in both cases.
 			if ($feedEmail == 'site')
 			{
 				$feeditem->authorEmail = $siteEmail;

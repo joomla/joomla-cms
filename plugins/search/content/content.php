@@ -236,7 +236,7 @@ class plgSearchContent extends JPlugin
 			$db->setQuery($query, 0, $limit);
 			$list3 = $db->loadObjectList();
 
-			// find an itemid for archived to use if there isn't another one
+			// find an itemid for archived to use if there is not another one
 			$item	= $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
 			$itemid = isset($item->id) ? '&Itemid='.$item->id : '';
 

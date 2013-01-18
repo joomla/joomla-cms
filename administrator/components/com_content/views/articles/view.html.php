@@ -63,7 +63,7 @@ class ContentViewArticles extends JViewLegacy
 
 		$this->f_levels = $options;
 
-		// We don't need toolbar in the modal window.
+		// We do not need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();

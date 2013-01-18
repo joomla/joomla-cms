@@ -23,8 +23,8 @@ class JFormFieldCategoryParent extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'CategoryParent';
 
@@ -121,7 +121,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 			{
 				// To take save or create in a category you need to have create rights for that category
 				// unless the item is already in that category.
-				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
+				// Unset the option if the user is not authorised for it. In this field assets are always categories.
 				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true )
 				{
 					unset($options[$i]);

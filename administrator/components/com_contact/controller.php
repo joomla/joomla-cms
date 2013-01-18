@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 class ContactController extends JControllerLegacy
 {
 	/**
-	 * @var		string	The default view.
+	 * @var    string	The default view.
 	 * @since   1.6
 	 */
 	protected $default_view = 'contacts';
@@ -26,7 +26,7 @@ class ContactController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
+	 * @param   boolean  If true, the view output will be cached
 	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
@@ -43,7 +43,7 @@ class ContactController extends JControllerLegacy
 		// Check for edit form.
 		if ($view == 'contact' && $layout == 'edit' && !$this->checkEditId('com_contact.edit.contact', $id)) {
 
-			// Somehow the person just went to the form - we don't allow that.
+			// Somehow the person just went to the form - we do not allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contacts', false));

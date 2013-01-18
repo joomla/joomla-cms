@@ -56,7 +56,7 @@ class ContentModelFeatured extends ContentModelArticles
 	}
 
 	/**
-	 * @param   boolean	True to join selected foreign information
+	 * @param   boolean  True to join selected foreign information
 	 *
 	 * @return  string
 	 */

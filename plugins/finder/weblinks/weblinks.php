@@ -186,7 +186,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		// We only want to handle web links here
 		if ($context == 'com_weblinks.weblink' || $context == 'com_weblinks.form')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level if the item is not new
 			if (!$isNew)
 			{
 				$this->checkItemAccess($row);
@@ -196,7 +196,7 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 		// Check for access levels from the category
 		if ($context == 'com_categories.category')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level if the item is not new
 			if (!$isNew)
 			{
 				$this->checkCategoryAccess($row);

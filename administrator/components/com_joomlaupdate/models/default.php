@@ -24,11 +24,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 {
 	/**
 	 * Detects if the Joomla! update site currently in use matches the one
-	 * configured in this component. If they don't match, it changes it.
+	 * configured in this component. If they do not match, it changes it.
 	 *
 	 * @return  void
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public function applyUpdateSite()
 	{
@@ -103,7 +103,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public function refreshUpdates($force = false)
 	{
@@ -545,7 +545,7 @@ ENDDATA;
 		// Check to see if a file extension by the same name is already installed
 		// If it is, then update the table because if the files aren't there
 		// we can assume that it was (badly) uninstalled
-		// If it isn't, add an entry to extensions
+		// If it is not, add an entry to extensions
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))
 			->from($query->qn('#__extensions'));

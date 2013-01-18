@@ -104,7 +104,7 @@ function ContentBuildRoute(&$query)
 			}
 			else
 			{
-				// we should have these two set for this view.  If we don't, it is an error
+				// we should have these two set for this view.  If we do not, it is an error
 				return $segments;
 			}
 		}
@@ -116,7 +116,7 @@ function ContentBuildRoute(&$query)
 			}
 			else
 			{
-				// we should have id set for this view.  If we don't, it is an error
+				// we should have id set for this view.  If we do not, it is an error
 				return $segments;
 			}
 		}
@@ -255,7 +255,7 @@ function ContentParseRoute($segments)
 	// Count route segments
 	$count = count($segments);
 
-	// Standard routing for articles.  If we don't pick up an Itemid then we get the view from the segments
+	// Standard routing for articles.  If we do not pick up an Itemid then we get the view from the segments
 	// the first segment is the view and the last segment is the id of the article or category.
 	if (!isset($item))
 	{
@@ -267,7 +267,7 @@ function ContentParseRoute($segments)
 
 	// if there is only one segment, then it points to either an article or a category
 	// we test it first to see if it is a category.  If the id and alias match a category
-	// then we assume it is a category.  If they don't we assume it is an article
+	// then we assume it is a category.  If they do not we assume it is an article
 	if ($count == 1)
 	{
 		// we check to see if an alias is given.  If not, we assume it is an article

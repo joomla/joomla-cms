@@ -22,7 +22,7 @@ class UsersModelReset extends JModelForm
 	 * Method to get the password reset request form.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -42,7 +42,7 @@ class UsersModelReset extends JModelForm
 	 * Method to get the password reset complete form.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -62,7 +62,7 @@ class UsersModelReset extends JModelForm
 	 * Method to get the password reset confirm form.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  JForm	A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -81,7 +81,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   object	A form object.
+	 * @param   object  A form object.
 	 * @param   mixed	The data expected for the form.
 	 * @throws	Exception if there is an error in the form event.
 	 * @since   1.6
@@ -163,7 +163,7 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
-		// Make sure the user isn't blocked.
+		// Make sure the user is not blocked.
 		if ($user->block)
 		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
@@ -273,7 +273,7 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
-		// Make sure the user isn't blocked.
+		// Make sure the user is not blocked.
 		if ($user->block)
 		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
@@ -357,14 +357,14 @@ class UsersModelReset extends JModelForm
 		// Get the user object.
 		$user = JUser::getInstance($userId);
 
-		// Make sure the user isn't blocked.
+		// Make sure the user is not blocked.
 		if ($user->block)
 		{
 			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
 			return false;
 		}
 
-		// Make sure the user isn't a Super Admin.
+		// Make sure the user is not a Super Admin.
 		if ($user->authorise('core.admin'))
 		{
 			$this->setError(JText::_('COM_USERS_REMIND_SUPERADMIN_ERROR'));
@@ -435,7 +435,7 @@ class UsersModelReset extends JModelForm
 	 *
 	 * @return  boolean true if user can do the reset, false if limit exceeded
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function checkResetLimit($user)
 	{

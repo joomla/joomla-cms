@@ -59,7 +59,7 @@ class FinderControllerFilter extends JControllerForm
 
 		if (!$this->checkEditId($context, $recordId))
 		{
-			// Somehow the person just went to the form and tried to save it. We don't allow that.
+			// Somehow the person just went to the form and tried to save it. We do not allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 			$this->setMessage($this->getError(), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false));

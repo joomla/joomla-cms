@@ -171,7 +171,7 @@ function pagination_item_active(&$item)
 		$display = '<i class="icon-last"></i>';
 	}
 
-	// If the display object isn't set already, just render the item with its text
+	// If the display object is not set already, just render the item with its text
 	if (!isset($display))
 	{
 		$display = $item->text;

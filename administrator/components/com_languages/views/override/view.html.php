@@ -21,24 +21,24 @@ class LanguagesViewOverride extends JViewLegacy
 	/**
 	 * The form to use for the view
 	 *
-	 * @var		object
-	 * @since	2.5
+	 * @var    object
+	 * @since   2.5
 	 */
 	protected $form;
 
 	/**
 	 * The item to edit
 	 *
-	 * @var		object
-	 * @since	2.5
+	 * @var    object
+	 * @since   2.5
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var		object
-	 * @since	2.5
+	 * @var    object
+	 * @since   2.5
 	 */
 	protected $state;
 
@@ -88,7 +88,7 @@ class LanguagesViewOverride extends JViewLegacy
 	 *
 	 * @return void
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	protected function addToolbar()
 	{

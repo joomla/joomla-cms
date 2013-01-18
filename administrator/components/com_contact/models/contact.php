@@ -282,7 +282,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	$record	A record object.
+	 * @param   object  $record	A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
@@ -303,7 +303,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state edited.
 	 *
-	 * @param   object	$record	A record object.
+	 * @param   object  $record	A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since   1.6
@@ -326,8 +326,8 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type	$type	The table type to instantiate
-	 * @param   string	$prefix	A prefix for the table class name. Optional.
+	 * @param   type    $type	The table type to instantiate
+	 * @param   string  $prefix	A prefix for the table class name. Optional.
 	 * @param   array  $config	Configuration array for model. Optional.
 	 *
 	 * @return  JTable	A database object
@@ -342,7 +342,7 @@ class ContactModelContact extends JModelAdmin
 	 * Method to get the row form.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 * @since   1.6
@@ -532,7 +532,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   JTable	$table
+	 * @param   JTable  $table
 	 *
 	 * @return  void
 	 * @since   1.6
@@ -579,7 +579,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable	$table	A record object.
+	 * @param   JTable  $table	A record object.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 * @since   1.6

@@ -87,7 +87,8 @@ class ContentViewArticle extends JViewLegacy
 					$this->setLayout($active->query['layout']);
 				}
 			}
-			else {
+			else
+			{
 				// Current view is not a single article, so the article params take priority here
 				// Merge the menu item params with the article params so that the article params take priority
 				$temp->merge($item->params);

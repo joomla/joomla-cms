@@ -26,7 +26,7 @@ class MenusHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vname  The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -96,7 +96,8 @@ class MenusHelper
 			{
 				parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
 			}
-			else {
+			else
+			{
 				parse_str($request, $args);
 			}
 			$request = $args;
@@ -133,7 +134,7 @@ class MenusHelper
 	/**
 	 * Get a list of menu links for one or all menus.
 	 *
-	 * @param   string	An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
+	 * @param   string  An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
 	 * @param   integer  An optional parent ID to pivot results around.
 	 * @param   integer  An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
 	 * @param   array  An optional array of states

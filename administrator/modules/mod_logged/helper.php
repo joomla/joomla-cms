@@ -67,7 +67,7 @@ abstract class modLoggedHelper
 	 * Get the alternate title for the module
 	 *
 	 * @param   JObject	The module parameters.
-	 * @return  string	The alternate title for the module.
+	 * @return  string  The alternate title for the module.
 	 */
 	public static function getTitle($params)
 	{

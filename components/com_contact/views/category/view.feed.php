@@ -67,7 +67,7 @@ class ContactViewCategory extends JViewLegacy
 			$item->category    = $category->title;
 			$item->author      = $author;
 
-			// We don't have the author email so we have to use site in both cases.
+			// We do not have the author email so we have to use site in both cases.
 			if ($feedEmail == 'site')
 			{
 				$item->authorEmail = $siteEmail;

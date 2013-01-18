@@ -130,7 +130,7 @@ class InstallerModelDatabase extends InstallerModel
 		$db = JFactory::getDbo();
 		$result = false;
 
-		// Check value. If ok, don't do update
+		// Check value. If ok, do not do update
 		$version = $this->getSchemaVersion();
 		if ($version == $schema)
 		{

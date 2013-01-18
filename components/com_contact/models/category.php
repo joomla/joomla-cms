@@ -35,7 +35,7 @@ class ContactModelCategory extends JModelList
 	 * The category that applies.
 	 *
 	 * @access	protected
-	 * @var		object
+	 * @var    object
 	 */
 	protected $_category = null;
 
@@ -43,7 +43,7 @@ class ContactModelCategory extends JModelList
 	 * The list of other newfeed categories.
 	 *
 	 * @access	protected
-	 * @var		array
+	 * @var    array
 	 */
 	protected $_categories = null;
 
@@ -104,7 +104,7 @@ class ContactModelCategory extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string	An SQL query
+	 * @return  string  An SQL query
 	 * @since   1.6
 	 */
 	protected function getListQuery()

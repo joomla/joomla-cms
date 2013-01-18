@@ -118,7 +118,7 @@ class JCaptcha extends JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function initialise($id)
 	{
@@ -178,7 +178,7 @@ class JCaptcha extends JObject
 	 *
 	 * @return  mixed   The return value of the function "onCheckAnswer" of the selected Plugin.
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function checkAnswer($code)
 	{
@@ -201,7 +201,7 @@ class JCaptcha extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 * @throws  RuntimeException
 	 */
 	private function _load(array $options = array())

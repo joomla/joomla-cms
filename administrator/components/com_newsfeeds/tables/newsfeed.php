@@ -121,7 +121,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Overriden JTable::store to set modified data and user id.
 	 *
-	 * @param   boolean	True to update fields even if they are null.
+	 * @param   boolean  True to update fields even if they are null.
 	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
@@ -138,7 +138,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		else
 		{
 			// New newsfeed. A feed created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
+			// so we do not touch either of these if they are set.
 			if (!(int) $this->created)
 			{
 				$this->created = $date->toSql();

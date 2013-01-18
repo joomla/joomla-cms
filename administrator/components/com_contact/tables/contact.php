@@ -58,7 +58,7 @@ class ContactTableContact extends JTable
 	/**
 	 * Stores a contact
 	 *
-	 * @param   boolean	True to update fields even if they are null.
+	 * @param   boolean  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -86,7 +86,7 @@ class ContactTableContact extends JTable
 		else
 		{
 			// New newsfeed. A feed created and created_by field can be set by the user,
-			// so we don't touch either of these if they are set.
+			// so we do not touch either of these if they are set.
 			if (!(int) $this->created)
 			{
 				$this->created = $date->toSql();
@@ -175,7 +175,8 @@ class ContactTableContact extends JTable
 		{
 			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
 		}
-		/** check for valid category */
+
+		// Check for valid category
 		if (trim($this->catid) == '')
 		{
 			$this->setError(JText::_('COM_CONTACT_WARNING_CATEGORY'));

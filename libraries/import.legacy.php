@@ -54,7 +54,7 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 // Import the Joomla Factory.
 JLoader::import('joomla.factory');
 
-// Register classes that don't follow one file per class naming conventions.
+// Register classes that do not follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 

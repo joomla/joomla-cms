@@ -56,7 +56,7 @@ class JToolbarButtonHelp extends JToolbarButton
 	 *
 	 * Redefined from JButton class
 	 *
-	 * @return  string	Button CSS Id
+	 * @return  string  Button CSS Id
 	 *
 	 * @since   3.0
 	 */

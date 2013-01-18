@@ -126,7 +126,7 @@ class BannersTableBanner extends JTable
 	/**
 	 * Method to store a row
 	 *
-	 * @param boolean $updateNulls True to update fields even if they are null.
+	 * @param  boolean  $updateNulls  True to update fields even if they are null.
 	 */
 	public function store($updateNulls = false)
 	{
@@ -197,6 +197,7 @@ class BannersTableBanner extends JTable
 				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
 			}
 		}
+
 		return count($this->getErrors()) == 0;
 	}
 
@@ -205,11 +206,13 @@ class BannersTableBanner extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
-	 * @param   integer The user id of the user performing the operation.
+	 * @param   mixed    An optional array of primary key values to update.  If not
+	 *                   set the instance property value is used.
+	 * @param   integer  The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
+	 * @param   integer  The user id of the user performing the operation.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -229,7 +232,8 @@ class BannersTableBanner extends JTable
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else {
+			else
+			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}
@@ -273,11 +277,13 @@ class BannersTableBanner extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param   integer The sticky state. eg. [0 = unsticked, 1 = sticked]
-	 * @param   integer The user id of the user performing the operation.
+	 * @param   mixed    An optional array of primary key values to update.  If not
+	 *                   set the instance property value is used.
+	 * @param   integer  The sticky state. eg. [0 = unsticked, 1 = sticked]
+	 * @param   integer  The user id of the user performing the operation.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function stick($pks = null, $state = 1, $userId = 0)
@@ -297,7 +303,8 @@ class BannersTableBanner extends JTable
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else {
+			else
+			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}

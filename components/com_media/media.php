@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-// Load the com_media language files, default to the admin file and fall back to site if one isn't found
+// Load the com_media language files, default to the admin file and fall back to site if one is not found
 $lang = JFactory::getLanguage();
 $lang->load('com_media', JPATH_ADMINISTRATOR, null, false, false)
 ||	$lang->load('com_media', JPATH_SITE, null, false, false)

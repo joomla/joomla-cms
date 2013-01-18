@@ -55,8 +55,8 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param   string	An optional ordering field.
-	 * @param   string	An optional direction (asc|desc).
+	 * @param   string  An optional ordering field.
+	 * @param   string  An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 * @since   1.6

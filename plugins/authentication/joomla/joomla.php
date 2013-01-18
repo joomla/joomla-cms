@@ -24,7 +24,7 @@ class plgAuthenticationJoomla extends JPlugin
 	 * @access	public
 	 * @param   array  Array holding the user credentials
 	 * @param   array  Array of extra options
-	 * @param   object	Authentication response object
+	 * @param   object  Authentication response object
 	 * @return  boolean
 	 * @since 1.5
 	 */

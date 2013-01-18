@@ -164,7 +164,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	 * Method to check if new template name already exists
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function checkNewName()
 	{
@@ -181,7 +181,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	 * Method to check if new template name already exists
 	 *
 	 * @return  string     name of current template
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function getFromName()
 	{
@@ -192,7 +192,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	 * Method to check if new template name already exists
 	 *
 	 * @return  boolean   true if name is not used, false otherwise
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function copy()
 	{
@@ -232,7 +232,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	 * Method to delete tmp folder
 	 *
 	 * @return  boolean   true if delete successful, false otherwise
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function cleanup()
 	{
@@ -250,7 +250,7 @@ class TemplatesModelTemplate extends JModelLegacy
 	 * Method to rename the template in the XML files and rename the language files
 	 *
 	 * @return  boolean   true if successful, false otherwise
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	protected function fixTemplateName()
 	{

@@ -157,6 +157,7 @@ class BannersModelClients extends JModelList
 		$query->order($db->escape($ordering_o).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
+
 		return $query;
 	}
 }

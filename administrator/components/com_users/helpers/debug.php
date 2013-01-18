@@ -65,7 +65,7 @@ class UsersHelperDebug
 	/**
 	 * Get a list of the actions for the component or code actions.
 	 *
-	 * @param   string	The name of the component.
+	 * @param   string  The name of the component.
 	 *
 	 * @return  array
 	 * @since   1.6

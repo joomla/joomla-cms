@@ -67,7 +67,8 @@ abstract class JHtmlUsers
 			{
 				return '<a href="'.$value.'">'.$text.'</a>';
 			}
-			else {
+			else
+			{
 				return '<a href="http://'.$value.'">'.$text.'</a>';
 			}
 		}
@@ -92,7 +93,8 @@ abstract class JHtmlUsers
 			{
 				return htmlspecialchars($title);
 			}
-			else {
+			else
+			{
 				return self::value('');
 			}
 		}
@@ -119,7 +121,8 @@ abstract class JHtmlUsers
 			{
 				return htmlspecialchars($result['name']);
 			}
-			else {
+			else
+			{
 				return self::value('');
 			}
 		}
@@ -146,7 +149,8 @@ abstract class JHtmlUsers
 			{
 				return htmlspecialchars($result['name']);
 			}
-			else {
+			else
+			{
 				return self::value('');
 			}
 		}

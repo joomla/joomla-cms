@@ -24,9 +24,9 @@ class plgContentFinder extends JPlugin
 	 * Method is called right after the content is saved
 	 *
 	 * @param   string  The context of the content passed to the plugin (added in 1.6)
-	 * @param   object		A JTableContent object
+	 * @param   object  	A JTableContent object
 	 * @param   bool		If the content has just been created
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
@@ -43,7 +43,7 @@ class plgContentFinder extends JPlugin
 	 * Method is called right after the content is saved
 	 *
 	 * @param   string  The context of the content passed to the plugin (added in 1.6)
-	 * @param   object		A JTableContent object
+	 * @param   object  	A JTableContent object
 	 * @param   bool		If the content is just about to be created
 	 * @since   2.5
 	 */
@@ -62,7 +62,7 @@ class plgContentFinder extends JPlugin
 	 * Method is called right after the content is saved
 	 *
 	 * @param   string  The context of the content passed to the plugin (added in 1.6)
-	 * @param   object		A JTableContent object
+	 * @param   object  	A JTableContent object
 	 * @since   2.5
 	 */
 	public function onContentAfterDelete($context, $article)

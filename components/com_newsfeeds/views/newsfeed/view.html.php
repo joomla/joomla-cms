@@ -19,19 +19,19 @@ defined('_JEXEC') or die;
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
 	/**
-	 * @var		object
+	 * @var    object
 	 * @since   1.6
 	 */
 	protected $state;
 
 	/**
-	 * @var		object
+	 * @var    object
 	 * @since   1.6
 	 */
 	protected $item;
 
 	/**
-	 * @var		boolean
+	 * @var    boolean
 	 * @since   1.6
 	 */
 	protected $print;

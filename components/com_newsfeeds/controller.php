@@ -21,7 +21,7 @@ class NewsfeedsController extends JControllerLegacy
 	/**
 	 * Method to show a newsfeeds view
 	 *
-	 * @param   boolean			If true, the view output will be cached
+	 * @param   boolean  If true, the view output will be cached
 	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.

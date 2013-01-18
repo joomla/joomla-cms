@@ -21,9 +21,9 @@ abstract class JHtmlLanguages
 	/**
 	 * Method to generate an information about the default language
 	 *
-	 * @param   boolean	$published is the language the default?
+	 * @param   boolean  $published is the language the default?
 	 *
-	 * @return  string	html code
+	 * @return  string  html code
 	 */
 	public static function published($published)
 	{
@@ -41,9 +41,9 @@ abstract class JHtmlLanguages
 	 * Method to generate an input radio button
 	 *
 	 * @param   integer  $rowNum the row number
-	 * @param   string	language tag
+	 * @param   string  language tag
 	 *
-	 * @return  string	html code
+	 * @return  string  html code
 	 */
 	public static function id($rowNum, $language)
 	{

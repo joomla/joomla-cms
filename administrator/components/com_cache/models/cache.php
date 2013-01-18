@@ -21,21 +21,24 @@ class CacheModelCache extends JModelList
 	/**
 	 * An Array of CacheItems indexed by cache group ID
 	 *
-	 * @var Array
+	 * @var     array
+	 * @since   1.6
 	 */
 	protected $_data = array();
 
 	/**
 	 * Group total
 	 *
-	 * @var integer
+	 * @var     integer
+	 * @since   1.6
 	 */
 	protected $_total = null;
 
 	/**
 	 * Pagination object
 	 *
-	 * @var object
+	 * @var     JPaginationObject
+	 * @since   1.6
 	 */
 	protected $_pagination = null;
 
@@ -43,6 +46,11 @@ class CacheModelCache extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -61,6 +69,7 @@ class CacheModelCache extends JModelList
 	 * Method to get cache data
 	 *
 	 * @return array
+	 * @since   1.6
 	 */
 	public function getData()
 	{
@@ -93,13 +102,16 @@ class CacheModelCache extends JModelList
 				$this->_data = array();
 			}
 		}
+
 		return $this->_data;
 	}
 
 	/**
 	 * Method to get cache instance
 	 *
-	 * @return object
+	 * @return JCache
+	 *
+	 * @since   1.6
 	 */
 	public function getCache()
 	{
@@ -121,6 +133,8 @@ class CacheModelCache extends JModelList
 	 * Method to get client data
 	 *
 	 * @return array
+	 *
+	 * @since   1.6
 	 */
 	public function getClient()
 	{
@@ -130,7 +144,9 @@ class CacheModelCache extends JModelList
 	/**
 	 * Get the number of current Cache Groups
 	 *
-	 * @return  int
+	 * @return  integer
+	 *
+	 * @since   1.6
 	 */
 	public function getTotal()
 	{
@@ -146,6 +162,8 @@ class CacheModelCache extends JModelList
 	 * Method to get a pagination object for the cache
 	 *
 	 * @return  integer
+	 *
+	 * @since   1.6
 	 */
 	public function getPagination()
 	{
@@ -161,7 +179,12 @@ class CacheModelCache extends JModelList
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
 	 *
-	 * @param String $group
+	 * @param String $group  A specific cache group name.
+	 *
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function clean($group = '')
 	{
@@ -169,6 +192,15 @@ class CacheModelCache extends JModelList
 		$cache->clean($group);
 	}
 
+	/**
+	 * Clean out an array of cache groups as named by param.
+	 *
+	 * @param String $group  A specific cache group name.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public function cleanlist($array)
 	{
 		foreach ($array as $group)
@@ -177,6 +209,15 @@ class CacheModelCache extends JModelList
 		}
 	}
 
+	/**
+	 * Purge the cache.
+	 *
+	 * @param String $group  A specific cache group name.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   1.6
+	 */
 	public function purge()
 	{
 		$cache = JFactory::getCache('');

@@ -92,7 +92,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 * @param   string  $type  Button type
 	 * @param   string  $name  Button name
 	 *
-	 * @return  string	Button CSS Id
+	 * @return  string  Button CSS Id
 	 *
 	 * @since   3.0
 	 */

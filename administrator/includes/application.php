@@ -130,7 +130,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Dispatch the application
 	 *
-	 * @param   string	$component	The component to dispatch.
+	 * @param   string  $component	The component to dispatch.
 	 *
 	 * @return  void
 	 * @since   1.5
@@ -253,7 +253,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Get the template
 	 *
-	 * @return  string	The template name
+	 * @return  string  The template name
 	 * @since   1.0
 	 */
 	public function getTemplate($params = false)

@@ -19,13 +19,13 @@ defined('_JEXEC') or die;
 class plgExtensionJoomla extends JPlugin
 {
 	/**
-	 * @var		integer Extension Identifier
+	 * @var    integer Extension Identifier
 	 * @since   1.6
 	 */
 	private $eid = 0;
 
 	/**
-	 * @var		JInstaller Installer object
+	 * @var    JInstaller Installer object
 	 * @since   1.6
 	 */
 	private $installer = null;
@@ -47,10 +47,10 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param   string	The friendly name of the site
-	 * @param   string	The type of site (e.g. collection or extension)
-	 * @param   string	The URI for the site
-	 * @param   boolean	If this site is enabled
+	 * @param   string  The friendly name of the site
+	 * @param   string  The type of site (e.g. collection or extension)
+	 * @param   string  The URI for the site
+	 * @param   boolean  If this site is enabled
 	 * @since   1.6
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)

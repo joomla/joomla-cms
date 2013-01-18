@@ -23,7 +23,7 @@ class PluginsHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vname  The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{

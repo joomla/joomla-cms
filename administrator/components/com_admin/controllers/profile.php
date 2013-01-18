@@ -24,7 +24,7 @@ class AdminControllerProfile extends JControllerForm
 	 * Extended classes can override this if necessary.
 	 *
 	 * @param   array  An array of input data.
-	 * @param   string	The name of the key for the primary key.
+	 * @param   string  The name of the key for the primary key.
 	 *
 	 * @return  boolean
 	 * @since   1.6
@@ -72,7 +72,7 @@ class AdminControllerProfile extends JControllerForm
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
+	 * @param   string  $key	The name of the primary key of the URL variable.
 	 *
 	 * @return  Boolean	True if access level checks pass, false otherwise.
 	 * @since   1.6

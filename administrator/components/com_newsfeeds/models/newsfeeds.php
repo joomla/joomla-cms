@@ -114,9 +114,9 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string	A prefix for the store id.
+	 * @param   string  A prefix for the store id.
 	 *
-	 * @return  string	A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{

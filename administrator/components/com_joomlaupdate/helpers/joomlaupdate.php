@@ -23,7 +23,7 @@ class JoomlaupdateHelper
 	 *
 	 * @return  JObject
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public static function getActions()
 	{

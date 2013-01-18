@@ -85,7 +85,7 @@ class FinderViewFilter extends JViewLegacy
 		}
 		else
 		{
-			// Can't save the record if it's checked out.
+			// Cannot save the record if it's checked out.
 			if (!$checkedOut)
 			{
 				// Since it's an existing record, check the edit permission.

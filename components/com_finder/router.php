@@ -31,7 +31,7 @@ function FinderBuildRoute(&$query)
 
 	/*
 	 * First, handle menu item routes first. When the menu system builds a
-	 * route, it only provides the option and the menu item id. We don't have
+	 * route, it only provides the option and the menu item id. We do not have
 	 * to do anything to these routes.
 	 */
 	if (count($query) === 2 && isset($query['Itemid']) && isset($query['option']))

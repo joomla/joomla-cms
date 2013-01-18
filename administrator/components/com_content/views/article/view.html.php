@@ -84,7 +84,7 @@ class ContentViewArticle extends JViewLegacy
 		}
 		else
 		{
-			// Can't save the record if it's checked out.
+			// Cannot save the record if it's checked out.
 			if (!$checkedOut)
 			{
 				// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.

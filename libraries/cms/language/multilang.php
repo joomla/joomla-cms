@@ -44,7 +44,7 @@ class JLanguageMultilang
 			return $enabled;
 		}
 
-		// If already tested, don't test again.
+		// If already tested, do not test again.
 		if (!$tested)
 		{
 			// Determine status of language filter plug-in.

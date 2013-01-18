@@ -21,8 +21,8 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Proxy for getModel
 	 *
-	 * @param   string	$name	The model name. Optional.
-	 * @param   string	$prefix	The class prefix. Optional.
+	 * @param   string  $name	The model name. Optional.
+	 * @param   string  $prefix	The class prefix. Optional.
 	 *
 	 * @return  object  The model.
 	 * @since   1.6

@@ -158,9 +158,9 @@ abstract class modQuickIconHelper
 	 * Get the alternate title for the module
 	 *
 	 * @param   JRegistry	The module parameters.
-	 * @param   object		The module.
+	 * @param   object  	The module.
 	 *
-	 * @return  string	The alternate title for the module.
+	 * @return  string  The alternate title for the module.
 	 */
 	public static function getTitle($params, $module)
 	{

@@ -366,7 +366,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since	2.5.2
+	 * @since   2.5.2
 	 */
 	protected function loadFormData()
 	{

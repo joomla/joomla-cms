@@ -258,9 +258,9 @@ abstract class JHtmlBootstrap
 	 *                                                  content into the dom.
 	 *                      placement  string|function  how to position the tooltip - top | bottom | left | right
 	 *                      selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
-	 *                      title      string|function  default title value if `title` tag isn't present
+	 *                      title      string|function  default title value if `title` tag is not present
 	 *                      trigger    string           how tooltip is triggered - hover | focus | manual
-	 *                      content    string|function  default content value if `data-content` attribute isn't present
+	 *                      content    string|function  default content value if `data-content` attribute is not present
 	 *                      delay      number|object    delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
 	 *                                                  If a number is supplied, delay is applied to both hide/show
 	 *                                                  Object structure is: delay: { show: 500, hide: 100 }
@@ -357,7 +357,7 @@ abstract class JHtmlBootstrap
 	 *                                                           content into the dom.
 	 *                             - placement  string|function  How to position the tooltip - top | bottom | left | right
 	 *                             - selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
-	 *                             - title      string|function  Default title value if `title` tag isn't present
+	 *                             - title      string|function  Default title value if `title` tag is not present
 	 *                             - trigger    string           How tooltip is triggered - hover | focus | manual
 	 *                             - delay      number           Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
 	 *                                                           If a number is supplied, delay is applied to both hide/show

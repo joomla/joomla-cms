@@ -23,8 +23,8 @@ class JFormFieldSample extends JFormFieldRadio
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $type = 'Sample';
 
@@ -75,7 +75,7 @@ class JFormFieldSample extends JFormFieldRadio
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string	The field input markup.
+	 * @return  string  The field input markup.
 	 *
 	 * @since   1.6
 	 */

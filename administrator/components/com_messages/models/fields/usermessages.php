@@ -23,8 +23,8 @@ class JFormFieldUserMessages extends JFormFieldUser
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	public $type = 'UserMessages';
 

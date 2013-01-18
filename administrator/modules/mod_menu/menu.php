@@ -220,8 +220,8 @@ class JAdminCssMenu extends JObject
 	 * a custom image path is passed as the identifier
 	 *
 	 * @access	public
-	 * @param   string	$identifier	Icon identification string
-	 * @return  string	CSS class name
+	 * @param   string  $identifier	Icon identification string
+	 * @return  string  CSS class name
 	 * @since   1.5
 	 */
 	public function getIconClass($identifier)
@@ -235,8 +235,8 @@ class JAdminCssMenu extends JObject
 		}
 
 		/*
-		 * If we don't already know about the class... build it and mark it
-		 * known so we don't have to build it again
+		 * If we do not already know about the class... build it and mark it
+		 * known so we do not have to build it again
 		 */
 		if (!isset($classes[$identifier]))
 		{

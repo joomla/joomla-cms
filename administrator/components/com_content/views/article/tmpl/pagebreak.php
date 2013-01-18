@@ -16,7 +16,7 @@ $script .= 'if (title != \'\') {'."\n\t\t";
 $script .= 'title = "title=\""+title+"\" ";'."\n\t";
 $script .= '}'."\n\t";
 // Get the pagebreak toc alias -- not inserting for now
-// don't know which attribute to use...
+// do not know which attribute to use...
 $script .= 'var alt = document.getElementById("alt").value;'."\n\t";
 $script .= 'if (alt != \'\') {'."\n\t\t";
 $script .= 'alt = "alt=\""+alt+"\" ";'."\n\t";

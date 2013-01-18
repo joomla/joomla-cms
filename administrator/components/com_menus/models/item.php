@@ -22,25 +22,25 @@ require_once JPATH_COMPONENT.'/helpers/menus.php';
 class MenusModelItem extends JModelAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var    string	The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
 
 	/**
-	 * @var		string	The help screen key for the menu item.
+	 * @var    string	The help screen key for the menu item.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
 
 	/**
-	 * @var		string	The help screen base URL for the menu item.
+	 * @var    string	The help screen base URL for the menu item.
 	 * @since   1.6
 	 */
 	protected $helpURL;
 
 	/**
-	 * @var		boolean	True to use local lookup for the help screen.
+	 * @var    boolean	True to use local lookup for the help screen.
 	 * @since   1.6
 	 */
 	protected $helpLocal = false;
@@ -48,7 +48,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	A record object.
+	 * @param   object  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
@@ -70,7 +70,7 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state edited.
 	 *
-	 * @param   object	A record object.
+	 * @param   object  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since   1.6
@@ -521,7 +521,7 @@ class MenusModelItem extends JModelAdmin
 	 * Method to check if you can save a record.
 	 *
 	 * @param   array  $data	An array of input data.
-	 * @param   string	$key	The name of the key for the primary key.
+	 * @param   string  $key	The name of the key for the primary key.
 	 *
 	 * @return  boolean
 	 * @since   1.6
@@ -535,7 +535,7 @@ class MenusModelItem extends JModelAdmin
 	 * Method to get the row form.
 	 *
 	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   boolean  $loadData	True if the form is to load its own data (default case), false if not.
 	 * @return  mixed  A JForm object on success, false on failure
 	 * @since   1.6
 	 */
@@ -743,7 +743,8 @@ class MenusModelItem extends JModelAdmin
 			{
 				$result->associations = MenusHelper::getAssociations($pk);
 			}
-			else {
+			else
+			{
 				$result->associations = array();
 			}
 		}
@@ -810,8 +811,8 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type	$type	The table type to instantiate
-	 * @param   string	$prefix	A prefix for the table class name. Optional.
+	 * @param   type    $type	The table type to instantiate
+	 * @param   string  $prefix	A prefix for the table class name. Optional.
 	 * @param   array  $config	Configuration array for model. Optional.
 	 *
 	 * @return  JTable	A database object
@@ -870,7 +871,7 @@ class MenusModelItem extends JModelAdmin
 	}
 
 	/**
-	 * @param   object	$form	A form object.
+	 * @param   object  $form	A form object.
 	 * @param   mixed	$data	The data expected for the form.
 	 *
 	 * @return  void
@@ -913,7 +914,8 @@ class MenusModelItem extends JModelAdmin
 				{
 					$layout = $args['layout'];
 				}
-				else {
+				else
+			{
 					$layout = 'default';
 				}
 
@@ -1164,7 +1166,8 @@ class MenusModelItem extends JModelAdmin
 				}
 			}
 			// Set the new parent id if parent id not matched and put in last position
-			else {
+			else
+			{
 				$table->setLocation($data['parent_id'], 'last-child');
 
 			}
@@ -1362,7 +1365,8 @@ class MenusModelItem extends JModelAdmin
 						unset($pks[$i]);
 						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
 					}
-					else {
+					else
+			{
 						$table->home = $value;
 						if ($table->language == '*')
 						{
@@ -1389,7 +1393,8 @@ class MenusModelItem extends JModelAdmin
 						}
 					}
 				}
-				else {
+				else
+			{
 					unset($pks[$i]);
 					if (!$onehome)
 					{

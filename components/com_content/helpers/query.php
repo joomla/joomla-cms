@@ -22,9 +22,9 @@ class ContentHelperQuery
 	/**
 	 * Translate an order code to a field for primary category ordering.
 	 *
-	 * @param   string	$orderby	The ordering code.
+	 * @param   string  $orderby	The ordering code.
 	 *
-	 * @return  string	The SQL field(s) to order by.
+	 * @return  string  The SQL field(s) to order by.
 	 * @since   1.5
 	 */
 	public static function orderbyPrimary($orderby)
@@ -54,10 +54,10 @@ class ContentHelperQuery
 	/**
 	 * Translate an order code to a field for secondary category ordering.
 	 *
-	 * @param   string	$orderby	The ordering code.
-	 * @param   string	$orderDate	The ordering code for the date.
+	 * @param   string  $orderby	The ordering code.
+	 * @param   string  $orderDate	The ordering code for the date.
 	 *
-	 * @return  string	The SQL field(s) to order by.
+	 * @return  string  The SQL field(s) to order by.
 	 * @since   1.5
 	 */
 	public static function orderbySecondary($orderby, $orderDate = 'created')
@@ -117,9 +117,9 @@ class ContentHelperQuery
 	/**
 	 * Translate an order code to a field for primary category ordering.
 	 *
-	 * @param   string	$orderDate	The ordering code.
+	 * @param   string  $orderDate	The ordering code.
 	 *
-	 * @return  string	The SQL field(s) to order by.
+	 * @return  string  The SQL field(s) to order by.
 	 * @since   1.6
 	 */
 	public static function getQueryDate($orderDate)
