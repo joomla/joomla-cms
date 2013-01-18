@@ -1332,7 +1332,11 @@ class MenusModelItem extends JModelAdmin
 	/**
 	 * Method to change the home state of one or more items.
 	 *
+<<<<<<< Upstream, based on master
 	 * @param   array  $pks	A list of the primary keys to change.
+=======
+	 * @param   array	$pks	A list of the primary keys to change.
+>>>>>>> 9252ac1 Some more clean up plus the issues currently causing scans to fail.
 	 * @param   integer  $value	The value of the home state.
 	 *
 	 * @return  boolean  True on success.
