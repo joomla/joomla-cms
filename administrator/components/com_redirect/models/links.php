@@ -22,7 +22,7 @@ class RedirectModelLinks extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -47,6 +47,11 @@ class RedirectModelLinks extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

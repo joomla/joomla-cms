@@ -211,7 +211,7 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * @param   	array		Array of keys to delete
 	 *
-	 * @return  int			Number of successfully deleted overrides, boolean false if an error occured
+	 * @return  integer   	Number of successfully deleted overrides, boolean false if an error occured
 	 *
 	 * @since		2.5
 	 */

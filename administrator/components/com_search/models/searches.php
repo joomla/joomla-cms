@@ -22,7 +22,7 @@ class SearchModelSearches extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -42,6 +42,11 @@ class SearchModelSearches extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -74,6 +79,7 @@ class SearchModelSearches extends JModelList
 	 * @param   string  $id	A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -88,6 +94,7 @@ class SearchModelSearches extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -129,6 +136,7 @@ class SearchModelSearches extends JModelList
 	 * Override the parnet getItems to inject optional data.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -165,6 +173,7 @@ class SearchModelSearches extends JModelList
 	 * Method to reset the seach log table.
 	 *
 	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function reset()
 	{

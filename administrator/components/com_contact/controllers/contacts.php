@@ -24,7 +24,7 @@ class ContactControllerContacts extends JControllerAdmin
 	 * @param   array  $config	An optional associative array of configuration settings.
 	 *
 	 * @return  ContactControllerContacts
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
