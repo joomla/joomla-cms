@@ -105,8 +105,8 @@ else
 		$text = !empty($this->rssDoc[$i]->content) ||  !is_null($this->rssDoc[$i]->content) ? $this->rssDoc[$i]->content : $this->rssDoc[$i]->description;
 	?>
 			<li>
-				<?php if (!empty($uri)) : ?>
-					<a href="<?php echo $uri; ?>" target="_blank">
+				<?php if (!empty($this->rssDoc[$i]->uri)) : ?>
+					<a href="<?php echo $this->rssDoc[$i]->uri; ?>" target="_blank">
 					<?php  echo $this->rssDoc[$i]->title; ?></a>
 				<?php else : ?>
 					<h3><?php  echo $this->rssDoc[$i]->title; ?></h3>
