@@ -180,6 +180,7 @@ class ModulesModelModules extends JModelList
 	{
 		$lang = JFactory::getLanguage();
 		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
+
 		foreach ($items as $item)
 		{
 			$extension = $item->module;

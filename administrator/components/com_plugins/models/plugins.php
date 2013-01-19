@@ -151,6 +151,7 @@ class PluginsModelPlugins extends JModelList
 				$ordering = 'a.ordering';
 			}
 			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+
 			if ($ordering == 'folder')
 			{
 				$query->order('a.ordering ASC');
@@ -170,6 +171,7 @@ class PluginsModelPlugins extends JModelList
 	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
+
 		foreach ($items as &$item)
 		{
 			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;

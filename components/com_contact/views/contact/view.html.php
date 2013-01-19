@@ -141,7 +141,11 @@ class ContactViewContact extends JViewLegacy
 		// Add links to contacts
 		if ($params->get('show_contact_list') && count($contacts) > 1)
 		{
+<<<<<<< Upstream, based on master
 			foreach ($contacts as &$contact)
+=======
+			foreach($contacts as &$contact)
+>>>>>>> 5350d15 Some codestyle work.
 			{
 				$contact->link = JRoute::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid));
 			}

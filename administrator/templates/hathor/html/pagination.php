@@ -108,7 +108,11 @@ function pagination_list_render($list)
 	}
 
 	$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
+<<<<<<< Upstream, based on master
 	foreach ($list['pages'] as $page)
+=======
+	foreach($list['pages'] as $page)
+>>>>>>> 5350d15 Some codestyle work.
 	{
 		$html .= $page['data'];
 	}

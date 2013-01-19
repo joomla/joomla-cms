@@ -202,7 +202,8 @@ class ContactTableContact extends JTable
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
-			foreach ($keys as $key)
+
+			foreach($keys as $key)
 			{
 				if (trim($key)) {  // ignore blank keywords
 					$clean_keys[] = trim($key);

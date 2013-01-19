@@ -28,6 +28,7 @@ abstract class modLanguagesHelper
 
 		// Get menu home items
 		$homes = array();
+
 		foreach ($menu->getMenu() as $item)
 		{
 			if ($item->home)

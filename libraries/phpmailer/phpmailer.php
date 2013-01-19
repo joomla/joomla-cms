@@ -2231,9 +2231,11 @@ class PHPMailer {
     }
     $this->IsHTML(true);
     $this->Body = $message;
-	if (empty($this->AltBody)) {
+	if (empty($this->AltBody))
+	{
 		$textMsg = trim(strip_tags(preg_replace('/<(head|title|style|script)[^>]*>.*?<\/\\1>/s', '', $message)));
-		if (!empty($textMsg)) {
+		if (!empty($textMsg))
+		{
 			$this->AltBody = html_entity_decode($textMsg, ENT_QUOTES, $this->CharSet);
 		}
 	}

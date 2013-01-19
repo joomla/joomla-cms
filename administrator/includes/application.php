@@ -188,7 +188,11 @@ class JAdministrator extends JApplication
 		$config		= JFactory::getConfig();
 		$rootUser	= $config->get('root_user');
 		if (property_exists('JConfig', 'root_user') &&
+<<<<<<< Upstream, based on master
 			(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+=======
+				(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+>>>>>>> 5350d15 Some codestyle work.
 		{
 			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}

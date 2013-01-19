@@ -172,7 +172,11 @@ class plgSearchContent extends JPlugin
 			$query->order($order);
 
 			// Filter by language
+<<<<<<< Upstream, based on master
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
+=======
+			if ($app->isSite() && $app->getLanguageFilter())
+>>>>>>> 5350d15 Some codestyle work.
 			{
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
@@ -227,7 +231,11 @@ class plgSearchContent extends JPlugin
 			$query->order($order);
 
 			// Filter by language
+<<<<<<< Upstream, based on master
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
+=======
+			if ($app->isSite() && $app->getLanguageFilter())
+>>>>>>> 5350d15 Some codestyle work.
 			{
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
@@ -262,7 +270,11 @@ class plgSearchContent extends JPlugin
 			foreach ($rows as $row)
 			{
 				$new_row = array();
+<<<<<<< Upstream, based on master
 				foreach ($row as $key => $article)
+=======
+				foreach($row as $key => $article)
+>>>>>>> 5350d15 Some codestyle work.
 				{
 					if (searchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
 					{
