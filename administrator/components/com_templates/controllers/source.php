@@ -22,7 +22,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	 * Constructor.
 	 *
 	 * @param   array An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{

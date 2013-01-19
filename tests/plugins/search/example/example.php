@@ -173,7 +173,8 @@ class plgSearchExample extends JPlugin
 		//If there's data...
 		if ($rows) {
 			//For each row of data...
-			foreach($rows AS $key => $banner) {
+			foreach($rows AS $key => $banner)
+			{
 				//If the search text can be found even after stripping HTML
 				if (searchHelper::checkNoHTML($banner, $text, array('text'))) {
 					//Append to the return array:
