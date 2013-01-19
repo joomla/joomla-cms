@@ -2313,8 +2313,7 @@ class lessc_parser {
 		$this->seenComments = array();
 
 		// trim whitespace on head
-		// if (preg_match('/^\s+/', $this->buffer, $m))
-	{
+		// if (preg_match('/^\s+/', $this->buffer, $m)){
 		// 	$this->line += substr_count($m[0], "\n");
 		// 	$this->buffer = ltrim($this->buffer);
 		// }
