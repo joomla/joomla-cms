@@ -95,13 +95,9 @@ class WeblinksModelWeblink extends JModelItem
 	/**
 	 * Method to increment the hit counter for the weblink
 	 *
-	 * @param   integer  Optional ID of the weblink.
-<<<<<<< Upstream, based on master
+	 * @param   integer  $id  Optional ID of the weblink.
+	 *
 	 * @return  boolean  True on success
-=======
-	 * @return  boolean	True on success
->>>>>>> 9252ac1 Some more clean up plus the issues currently causing scans to fail.
-	 * @since   1.5
 	 */
 	public function hit($id = null)
 	{
