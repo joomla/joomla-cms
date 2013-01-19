@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jan-2013 Jean-Marie Simonet
+ # [#29964] Files upload problem
+
 16-Jan-2013 Jean-Marie Simonet
  # [#28778] Incorrect Rendering of Breadcrumb Trail for Home Page Sub-Items. Thanks James and Peter
  # [#29962] *303 when not using URL Language code in multilanguage - again. Thanks Yannick
