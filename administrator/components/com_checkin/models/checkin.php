@@ -25,7 +25,11 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @Note. Calling getState in this method will result in recursion.
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -41,8 +45,9 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Checks in requested tables
 	 *
-	 * @param   array  An array of table names. Optional.
-	 * @return  int		Checked in item count
+	 * @param   array  $ids  An array of table names. Optional.
+	 *
+	 * @return  integer   Checked in item count
 	 * @since   1.6
 	 */
 	public function checkin($ids = array())

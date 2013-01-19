@@ -23,7 +23,7 @@ class plgContentEmailcloak extends JPlugin
 	 *
 	 * @param   string	The context of the content being passed to the plugin.
 	 * @param   mixed	An object with a "text" property or the string to be cloaked.
-	 * @param   array  Additional parameters. See {@see plgEmailCloak()}.
+	 * @param   array     Additional parameters. See {@see plgEmailCloak()}.
 	 * @param   integer  Optional page number. Unused. Defaults to zero.
 	 * @return  boolean  True on success.
 	 */
@@ -59,9 +59,9 @@ class plgContentEmailcloak extends JPlugin
 	/**
 	 * Cloak all emails in text from spambots via Javascript.
 	 *
-	 * @param   string	The string to be cloaked.
-	 * @param   array  Additional parameters. Parameter "mode" (integer, default 1)
-	 * replaces addresses with "mailto:" links if nonzero.
+	 * @param   string  The string to be cloaked.
+	 * @param   array   Additional parameters. Parameter "mode" (integer, default 1)
+	 *                  replaces addresses with "mailto:" links if nonzero.
 	 * @return  boolean  True on success.
 	 */
 	protected function _cloak(&$text, &$params)
