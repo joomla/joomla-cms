@@ -26,6 +26,22 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Jan-2013 Jean-Marie Simonet
+ # [#29964] Files upload problem
+
+16-Jan-2013 Jean-Marie Simonet
+ # [#28778] Incorrect Rendering of Breadcrumb Trail for Home Page Sub-Items. Thanks James and Peter
+ # [#29962] *303 when not using URL Language code in multilanguage - again. Thanks Yannick
+
+13-Jan-2013 Jean-Marie Simonet
+ # [#29939] *Fatal error when displaying any Categories Menu item
+ # [#29911] *Com_content feed read more links broken. Thanks Jurian
+
+12-Jan-2013 Jean-Marie Simonet
+ # [#25337] site on unc path, path.php removes
+ # [#29919] User Profile Plugin - Required field not enforced
+ # [#29799] com_contacts - FormField Modal . Thanks Mark
+ 
 03-Jan-2013 Michael Babker
  # [#29887] *Disable System redirect breaks 404.  Thanks Yannick
 
