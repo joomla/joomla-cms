@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,9 +19,9 @@ class plgExtensionExample extends JPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param   JInstaller	Installer object
-	 * @param   integer  	Extension Identifier
-	 * @since   1.6
+	 * @param	JInstaller	Installer object
+	 * @param	int			Extension Identifier
+	 * @since	1.6
 	 */
 	function onExtensionAfterInstall($installer, $eid)
 	{
@@ -31,9 +31,9 @@ class plgExtensionExample extends JPlugin
 	/**
 	 * Allow to processing of extension data after it is saved.
 	 *
-	 * @param   object	The data representing the extension.
-	 * @param   boolean	True is this is new data, false if it is existing data.
-	 * @since   1.6
+	 * @param	object	The data representing the extension.
+	 * @param	boolean	True is this is new data, false if it is existing data.
+	 * @since	1.6
 	 */
 	function onExtensionAfterSave($data, $isNew)
 	{
@@ -42,10 +42,10 @@ class plgExtensionExample extends JPlugin
 	/**
 	 * Handle extension uninstall
 	 *
-	 * @param   JInstaller	Installer instance
-	 * @param   integer  	extension id
-	 * @param   integer  	installation result
-	 * @since   1.6
+	 * @param	JInstaller	Installer instance
+	 * @param	int			extension id
+	 * @param	int			installation result
+	 * @since	1.6
 	 */
 	function onExtensionAfterUninstall($installer, $eid, $result)
 	{
@@ -55,9 +55,9 @@ class plgExtensionExample extends JPlugin
 	/**
 	 * After update of an extension
 	 *
-	 * @param   JInstaller	Installer object
-	 * @param   integer  	Extension identifier
-	 * @since   1.6
+	 * @param	JInstaller	Installer object
+	 * @param	int			Extension identifier
+	 * @since	1.6
 	 */
 	function onExtensionAfterUpdate($installer, $eid)
 	{
@@ -65,7 +65,7 @@ class plgExtensionExample extends JPlugin
 	}
 
 	/**
-	 * @since   1.6
+	 * @since	1.6
 	 */
 	function onExtensionBeforeInstall($method, $type, $manifest, $eid)
 	{
@@ -75,17 +75,17 @@ class plgExtensionExample extends JPlugin
 	/**
 	 * Allow to processing of extension data before it is saved.
 	 *
-	 * @param   object	The data representing the extension.
-	 * @param   boolean	True is this is new data, false if it is existing data.
-	 * @since   1.6
+	 * @param	object	The data representing the extension.
+	 * @param	boolean	True is this is new data, false if it is existing data.
+	 * @since	1.6
 	 */
 	function onExtensionBeforeSave($data, $isNew)
 	{
 	}
 
 	/**
-	 * @param   integer  	extension id
-	 * @since   1.6
+	 * @param	int			extension id
+	 * @since	1.6
 	 */
 	function onExtensionBeforeUninstall($eid)
 	{
@@ -93,7 +93,7 @@ class plgExtensionExample extends JPlugin
 	}
 
 	/**
-	 * @since   1.6
+	 * @since	1.6
 	 */
 	function onExtensionBeforeUpdate($type, $manifest)
 	{

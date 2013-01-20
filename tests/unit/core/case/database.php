@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,7 +58,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @param   JException  $error  The JException object from JError
 	 *
-	 * @return  bool	To not continue with JError processing
+	 * @return	bool	To not continue with JError processing
 	 *
 	 * @since   12.1
 	 */

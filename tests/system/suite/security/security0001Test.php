@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -42,12 +42,12 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//link[contains(@href,\"<script>\")]"));
+
 		$this->jPrint("Finish testXSS" . "\n");
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testPathDisclosure()
-	{
+	function testPathDisclosure() {
 		$this->jPrint("Start testPathDisclosure" . "\n");
 		$this->setUp();
 		$this->gotoSite();
@@ -57,8 +57,11 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isTextPresent("Fatal error"));
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list?start=-10';
+
 		$this->open($link, "true");
+
 		$this->waitForPageToLoad("30000");
+
 		$this->assertFalse($this->isElementPresent("//div[@class='error']"));
 		$this->jPrint("Finish testPathDisclosure" . "\n");
 		$this->deleteAllVisibleCookies();

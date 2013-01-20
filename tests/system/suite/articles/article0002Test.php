@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests editing an article on the front end
  */
@@ -30,19 +30,18 @@ class Article0002 extends SeleniumJoomlaTestCase
 // 	    $this->setTinyText($testText);
 	    $this->type("id=jform_articletext", "<p>$testText</p>");
 
+
 	    $this->jPrint ("Save article\n");
 	    $this->click("//button[@type='button']");
 	    $this->waitForPageToLoad("30000");
 		try {
 	        $this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 	    try {
 	        $this->assertTrue($this->isTextPresent($testText));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 
@@ -67,18 +66,17 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->jPrint ("Check for success message\n");
 	    try {
 	    	$this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 		try {
 	        $this->assertFalse($this->isTextPresent($testText));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e)
-		{
+	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 	    $this->jPrint ("Check that new text shows on page\n");
 	    $this->assertTrue($this->isElementPresent("//div[@class='items-leading']/div[@class='leading-0']//p[contains(text(), 'Congratulations!')]"));
+
 
 	    $this->doFrontEndLogout();
 	    $this->gotoAdmin();
