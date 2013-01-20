@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class BannersControllerTracks extends JControllerLegacy
 {
 	/**
-	 * @var    string	The context for persistent state.
+	 * @var    string  The context for persistent state.
 	 * @since   1.6
 	 */
 	protected $context = 'com_banners.tracks';
@@ -31,7 +31,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  BannersModelTracks  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -45,6 +45,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 * Method to remove a record.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function delete()

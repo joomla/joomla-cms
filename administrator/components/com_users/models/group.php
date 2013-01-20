@@ -19,13 +19,13 @@ defined('_JEXEC') or die;
 class UsersModelGroup extends JModelAdmin
 {
 	/**
-	 * @var    string	The event to trigger after saving the data.
+	 * @var    string  The event to trigger after saving the data.
 	 * @since   1.6
 	 */
 	protected $event_after_save = 'onUserAfterSaveGroup';
 
 	/**
-	 * @var    string	The event to trigger after before the data.
+	 * @var    string  The event to trigger after before the data.
 	 * @since   1.6
 	 */
 	protected $event_before_save = 'onUserBeforeSaveGroup';

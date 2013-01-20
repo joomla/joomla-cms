@@ -40,6 +40,10 @@ abstract class JFormField
 	 * @var    JForm
 	 * @since  11.1
 	 */
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
+	 */
 	protected $form;
 
 	/**

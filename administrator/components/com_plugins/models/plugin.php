@@ -19,13 +19,13 @@ defined('_JEXEC') or die;
 class PluginsModelPlugin extends JModelAdmin
 {
 	/**
-	 * @var    string	The help screen key for the module.
+	 * @var    string  The help screen key for the module.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_PLUGIN_MANAGER_EDIT';
 
 	/**
-	 * @var    string	The help screen base URL for the module.
+	 * @var    string  The help screen base URL for the module.
 	 * @since   1.6
 	 */
 	protected $helpURL;
@@ -33,13 +33,13 @@ class PluginsModelPlugin extends JModelAdmin
 	protected $_cache;
 
 	/**
-	 * @var    string	The event to trigger after saving the data.
+	 * @var    string  The event to trigger after saving the data.
 	 * @since   1.6
 	 */
 	protected $event_after_save = 'onExtensionAfterSave';
 
 	/**
-	 * @var    string	The event to trigger after before the data.
+	 * @var    string  The event to trigger after before the data.
 	 * @since   1.6
 	 */
 	protected $event_before_save = 'onExtensionBeforeSave';
@@ -68,8 +68,8 @@ class PluginsModelPlugin extends JModelAdmin
 		}
 
 		// These variables are used to add data from the plugin XML files.
-		$this->setState('item.folder',	$folder);
-		$this->setState('item.element',	$element);
+		$this->setState('item.folder', $folder);
+		$this->setState('item.element', $element);
 
 		// Get the form.
 		$form = $this->loadForm('com_plugins.plugin', 'plugin', array('control' => 'jform', 'load_data' => $loadData));

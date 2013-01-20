@@ -43,9 +43,10 @@ abstract class JHtmlBanner
 	}
 
 	/**
-	 * Method to get the field options.
+	 * Method to get the field options for the client list field.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   1.6
 	 */
 	public static function clientlist()
@@ -75,12 +76,12 @@ abstract class JHtmlBanner
 	/**
 	 * Returns a pinned state on a grid
 	 *
-	 * @param   integer       $value			The state value.
-	 * @param   integer       $i				The row index
-	 * @param   boolean       $enabled		An optional setting for access control on the action.
-	 * @param   string        $checkbox		An optional prefix for checkboxes.
+	 * @param   integer       $value     The state value.
+	 * @param   integer       $i         The row index
+	 * @param   boolean       $enabled   An optional setting for access control on the action.
+	 * @param   string        $checkbox  An optional prefix for checkboxes.
 	 *
-	 * @return  string        The Html code
+	 * @return  string        The HTML code
 	 *
 	 * @see JHtmlJGrid::state
 	 *

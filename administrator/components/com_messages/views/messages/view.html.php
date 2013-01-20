@@ -23,10 +23,20 @@ class MessagesViewMessages extends JViewLegacy
 
 	protected $pagination;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view
+	 *
+	 * @param  string  $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since  1.6
 	 */
 	public function display($tpl = null)
 	{

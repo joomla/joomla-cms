@@ -18,14 +18,32 @@ defined('_JEXEC') or die;
  */
 class TemplatesViewStyle extends JViewLegacy
 {
+	/*
+	 * @var    JObject  The JObject holding data for this view
+	 * @since  1.6
+	 */
 	protected $item;
 
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
+	 */
 	protected $form;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view
+	 *
+	 * @param  string  $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since  1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -46,6 +64,8 @@ class TemplatesViewStyle extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

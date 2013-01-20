@@ -48,12 +48,12 @@ class SearchViewSearch extends JViewLegacy
 			$menu_params->loadString($menu->params);
 			if (!$menu_params->get('page_title'))
 			{
-				$params->set('page_title',	JText::_('COM_SEARCH_SEARCH'));
+				$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
 			}
 		}
 		else
 		{
-			$params->set('page_title',	JText::_('COM_SEARCH_SEARCH'));
+			$params->set('page_title', JText::_('COM_SEARCH_SEARCH'));
 		}
 
 		$title = $params->get('page_title');

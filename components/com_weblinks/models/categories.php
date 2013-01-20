@@ -55,8 +55,8 @@ class WeblinksModelCategories extends JModelList
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('filter.published',	1);
-		$this->setState('filter.access',	true);
+		$this->setState('filter.published', 1);
+		$this->setState('filter.access', true);
 	}
 
 	/**

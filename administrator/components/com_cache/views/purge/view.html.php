@@ -28,6 +28,8 @@ class CacheViewPurge extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()

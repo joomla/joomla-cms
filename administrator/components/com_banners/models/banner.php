@@ -335,7 +335,7 @@ class BannersModelBanner extends JModelAdmin
 	 * @param   string  $prefix  A prefix for the table class name. [optional]
 	 * @param   array   $config  Configuration array for model. [optional]
 	 *
-	 * @return  JTable  A database object
+	 * @return  BannersTableBanner  A JTable object
 	 *
 	 * @since   1.6
 	 */
@@ -482,6 +482,12 @@ class BannersModelBanner extends JModelAdmin
 	}
 
 	/**
+	 * A protected method to prepare a table.
+	 *
+	 * @param   JTable  $table  A record object.
+	 *
+	 * @return  void
+	 *
 	 * @since  3.0
 	 */
 	protected function prepareTable($table)
@@ -510,6 +516,7 @@ class BannersModelBanner extends JModelAdmin
 			$table->modified	= $date->toSql();
 			$table->modified_by	= $user->get('id');
 		}
+
 		// Increment the content version number.
 		$table->version++;
 	}

@@ -21,6 +21,10 @@ class MessagesModelMessage extends JModelAdmin
 	/**
 	 * message
 	 */
+	/*
+	 * @var    JObject  The JObject holding data for this view
+	 * @since  1.6
+	 */
 	protected $item;
 
 	/**

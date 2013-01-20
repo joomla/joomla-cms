@@ -19,13 +19,13 @@ defined('_JEXEC') or die;
 class TemplatesModelStyle extends JModelAdmin
 {
 	/**
-	 * @var    string	The help screen key for the module.
+	 * @var    string  The help screen key for the module.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
 
 	/**
-	 * @var    string	The help screen base URL for the module.
+	 * @var    string  The help screen base URL for the module.
 	 * @since   1.6
 	 */
 	protected $helpURL;
@@ -203,8 +203,8 @@ class TemplatesModelStyle extends JModelAdmin
 		}
 
 		// These variables are used to add data from the plugin XML files.
-		$this->setState('item.client_id',	$clientId);
-		$this->setState('item.template',	$template);
+		$this->setState('item.client_id', $clientId);
+		$this->setState('item.template', $template);
 
 		// Get the form.
 		$form = $this->loadForm('com_templates.style', 'style', array('control' => 'jform', 'load_data' => $loadData));

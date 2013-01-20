@@ -21,7 +21,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -56,6 +57,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Method to get the maximum ordering value for each category.
 	 *
+	 * @return  integer  Maximum ordering value
+	 *
 	 * @since   1.6
 	 */
 	public function &getCategoryOrders()
@@ -78,6 +81,7 @@ class BannersModelBanners extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -206,7 +210,9 @@ class BannersModelBanners extends JModelList
 	 * @param   type    The table type to instantiate
 	 * @param   string  A prefix for the table class name. Optional.
 	 * @param   array  Configuration array for model. Optional.
-	 * @return  JTable	A database object
+	 *
+	 * @return  BannersTableBanner  A JTable object
+	 *
 	 * @since   1.6
 	 */
 	public function getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())

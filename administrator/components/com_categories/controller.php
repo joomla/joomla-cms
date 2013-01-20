@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class CategoriesController extends JControllerLegacy
 {
 	/**
-	 * @var    string	The extension for which the categories apply.
+	 * @var    string  The extension for which the categories apply.
 	 * @since   1.6
 	 */
 	protected $extension;
@@ -45,10 +45,10 @@ class CategoriesController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean  If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)

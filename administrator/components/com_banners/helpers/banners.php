@@ -87,14 +87,17 @@ class BannersHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
 	}
 
 	/**
+	 * Method to reset some data for a banner
+	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public static function updateReset()
@@ -186,6 +189,13 @@ class BannersHelper
 		return true;
 	}
 
+	/**
+	 * Method to get client options data.
+	 *
+	 * @return  object  Client options data as stdClass
+	 *
+	 * @since   1.6
+	 */
 	public static function getClientOptions()
 	{
 		$options = array();
@@ -210,7 +220,7 @@ class BannersHelper
 		}
 
 		// Merge any additional options in the XML definition.
-		//$options = array_merge(parent::getOptions(), $options);
+		// $options = array_merge(parent::getOptions(), $options);
 
 		array_unshift($options, JHtml::_('select.option', '0', JText::_('COM_BANNERS_NO_CLIENT')));
 

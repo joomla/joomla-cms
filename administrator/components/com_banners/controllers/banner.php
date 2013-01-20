@@ -111,5 +111,4 @@ class BannersControllerBanner extends JControllerForm
 
 		return parent::batch($model);
 	}
-
 }

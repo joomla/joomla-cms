@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/content.php';
 class ContentModelArticle extends JModelAdmin
 {
 	/**
-	 * @var    string	The prefix to use with controller messages.
+	 * @var    string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_CONTENT';

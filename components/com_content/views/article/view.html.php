@@ -18,12 +18,20 @@ defined('_JEXEC') or die;
  */
 class ContentViewArticle extends JViewLegacy
 {
+	/*
+	 * @var    JObject  The JObject holding data for this view
+	 * @since  1.6
+	 */
 	protected $item;
 
 	protected $params;
 
 	protected $print;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	protected $user;

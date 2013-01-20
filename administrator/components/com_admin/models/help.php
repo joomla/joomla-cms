@@ -28,16 +28,16 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * The page to be viewed
-	 * @var    string
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $page = null;
 
 	/**
 	 * The iso language tag
-	 * @var    string
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $lang_tag = null;
@@ -62,8 +62,8 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the help search string
 	 *
 	 * @return  string  Help search string
-	 *
 	 * @since  1.6
+	 *
 	 */
 	public function &getHelpSearch()
 	{
@@ -120,6 +120,8 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the toc
 	 *
 	 * @return  array  Table of contents
+	 *
+	 * @since  1.6
 	 */
 	public function &getToc()
 	{
@@ -172,6 +174,8 @@ class AdminModelHelp extends JModelLegacy
 	 * Method to get the latest version check
 	 *
 	 * @return  string  Latest Version Check URL
+	 *
+	 * @since  1.6
 	 */
 	public function &getLatestVersionCheck()
 	{

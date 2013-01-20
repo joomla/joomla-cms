@@ -139,7 +139,7 @@ class ConfigControllerApplication extends JControllerLegacy
 
 		// Clean the session data.
 		$app = JFactory::getApplication();
-		$app->setUserState('com_config.config.global.data',	null);
+		$app->setUserState('com_config.config.global.data', null);
 
 		$this->setRedirect('index.php');
 	}

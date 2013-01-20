@@ -22,19 +22,19 @@ require_once JPATH_COMPONENT.'/helpers/menus.php';
 class MenusModelItem extends JModelAdmin
 {
 	/**
-	 * @var    string	The prefix to use with controller messages.
+	 * @var    string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
 
 	/**
-	 * @var    string	The help screen key for the menu item.
+	 * @var    string  The help screen key for the menu item.
 	 * @since   1.6
 	 */
 	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
 
 	/**
-	 * @var    string	The help screen base URL for the menu item.
+	 * @var    string  The help screen base URL for the menu item.
 	 * @since   1.6
 	 */
 	protected $helpURL;

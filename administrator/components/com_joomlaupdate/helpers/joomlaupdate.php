@@ -36,7 +36,7 @@ class JoomlaupdateHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

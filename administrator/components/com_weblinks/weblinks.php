@@ -14,6 +14,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_weblinks'))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$controller	= JControllerLegacy::getInstance('Weblinks');
+$controller = JControllerLegacy::getInstance('Weblinks');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

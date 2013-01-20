@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class BannersControllerBanners extends JControllerAdmin
 {
 	/**
-	 * @var    string	The prefix to use with controller messages.
+	 * @var    string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_BANNERS';
@@ -35,7 +35,7 @@ class BannersControllerBanners extends JControllerAdmin
 	{
 		parent::__construct($config);
 
-		$this->registerTask('sticky_unpublish',	'sticky_publish');
+		$this->registerTask('sticky_unpublish', 'sticky_publish');
 	}
 
 	/**
@@ -49,6 +49,8 @@ class BannersControllerBanners extends JControllerAdmin
 	}
 
 	/**
+	 * Method to mark a banner as sticky
+	 *
 	 * @since   1.6
 	 */
 	public function sticky_publish()

@@ -155,7 +155,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 			}
 		}
 		$menu->addChild(
-			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
+			new JMenuNode($menuType->title, 'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
 		);
 		if ($createMenu)
 		{
