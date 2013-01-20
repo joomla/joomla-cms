@@ -213,17 +213,10 @@ class ContactTableContact extends JTable
 			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
 		}
 
-<<<<<<< Upstream, based on master
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
 			// Only process if not empty
-=======
-		// clean up description -- eliminate quotes and <> brackets
-		if (!empty($this->metadesc))
-		{
-			// only process if not empty
->>>>>>> 5350d15 Some codestyle work.
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
 		}

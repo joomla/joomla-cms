@@ -416,15 +416,10 @@ ENDDATA;
 					$tmpfile = @tempnam("dummy", "");
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
-<<<<<<< Upstream, based on master
-					if (!empty($systemp))
-					{
-						if (@is_dir($systemp) && @is_writable($systemp))
-=======
+
 					if(!empty($systemp))
 					{
 						if(@is_dir($systemp) && @is_writable($systemp))
->>>>>>> 5350d15 Some codestyle work.
 						{
 							$tempdir = $systemp;
 						}
@@ -456,26 +451,18 @@ ENDDATA;
 
 		// Write new file. First try with JFile.
 		$result = JFile::write($configpath, $data);
+
 		// In case JFile used FTP but direct access could help
-<<<<<<< Upstream, based on master
 		if (!$result)
 		{
 			if (function_exists('file_put_contents'))
-=======
-		if(!$result)
-		{
-			if(function_exists('file_put_contents'))
->>>>>>> 5350d15 Some codestyle work.
 			{
 				$result = @file_put_contents($configpath, $data);
 				if($result !== false) $result = true;
 			} else {
 				$fp = @fopen($configpath, 'wt');
-<<<<<<< Upstream, based on master
+
 				if ($fp !== false)
-=======
-				if($fp !== false)
->>>>>>> 5350d15 Some codestyle work.
 				{
 					$result = @fwrite($fp, $data);
 					if($result !== false) $result = true;

@@ -637,12 +637,8 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to toggle the featured setting of contacts.
 	 *
-<<<<<<< Upstream, based on master
-	 * @param   array  $pks	The ids of the items to toggle.
-=======
-	 * @param   array	$pks	The ids of the items to toggle.
->>>>>>> 9252ac1 Some more clean up plus the issues currently causing scans to fail.
-	 * @param   integer  $value	The value to toggle to.
+	 * @param   array    $pks    The ids of the items to toggle.
+	 * @param   integer  $value  The value to toggle to.
 	 *
 	 * @return  boolean  True on success.
 	 * @since   1.6

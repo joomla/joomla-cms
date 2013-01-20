@@ -69,11 +69,7 @@ else
 		}
 		// feed description
 		if ($params->get('rssdesc', 1))
-<<<<<<< Upstream, based on master
 		{
-=======
-	{
->>>>>>> 5350d15 Some codestyle work.
 		?>
 			<?php echo $feed->description; ?>
 			<?php
