@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class ConfigController extends JControllerLegacy
 {
 	/**
-	 * @var    string	The default view.
+	 * @var    string  The default view.
 	 * @since   1.6
 	 */
 	protected $default_view = 'application';
@@ -27,10 +27,10 @@ class ConfigController extends JControllerLegacy
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   boolean  If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)

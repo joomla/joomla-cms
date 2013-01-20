@@ -83,7 +83,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	 * @param   boolean  If true, the view output will be cached
 	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -115,7 +115,7 @@ class TemplatesControllerSource extends JControllerLegacy
 		}
 
 		// Check-out succeeded, push the new record id into the session.
-		$app->setUserState($context.'.id',	$recordId);
+		$app->setUserState($context.'.id', $recordId);
 		$app->setUserState($context.'.data', null);
 		$this->setRedirect('index.php?option=com_templates&view=source&layout=edit');
 		return true;
@@ -230,7 +230,7 @@ class TemplatesControllerSource extends JControllerLegacy
 		{
 			case 'apply':
 				// Reset the record data in the session.
-				$app->setUserState($context.'.data',	null);
+				$app->setUserState($context.'.data', null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_templates&view=source&layout=edit', false));

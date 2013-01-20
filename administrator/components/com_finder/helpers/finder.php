@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class FinderHelper
 {
 	/**
-	 * @var    string	The extension name.
+	 * @var    string  The extension name.
 	 * @since   2.5
 	 */
 	public static $extension = 'com_finder';

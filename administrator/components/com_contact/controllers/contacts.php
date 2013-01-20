@@ -31,7 +31,7 @@ class ContactControllerContacts extends JControllerAdmin
 	{
 		parent::__construct($config);
 
-		$this->registerTask('unfeatured',	'featured');
+		$this->registerTask('unfeatured', 'featured');
 	}
 
 	/**

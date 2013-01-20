@@ -20,10 +20,22 @@ require_once JPATH_COMPONENT.'/models/category.php';
  */
 class ContactViewContact extends JViewLegacy
 {
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
+	 */
 	protected $form;
 
+	/*
+	 * @var    JObject  The JObject holding data for this view
+	 * @since  1.6
+	 */
 	protected $item;
 
 	protected $return_page;

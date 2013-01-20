@@ -218,7 +218,7 @@ class WeblinksModelCategory extends JModelList
 		$user = JFactory::getUser();
 		if ((!$user->authorise('core.edit.state', 'com_weblinks')) &&  (!$user->authorise('core.edit', 'com_weblinks'))){
 			// limit to published for people who can't edit or edit.state.
-			$this->setState('filter.state',	1);
+			$this->setState('filter.state', 1);
 
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);

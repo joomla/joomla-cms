@@ -21,9 +21,9 @@ abstract class JHtmlDirectory
 	/**
 	 * Method to generate a (un)writable message for directory
 	 *
-	 * @param   boolean  $writable is the directory writable?
+	 * @param   boolean  $writable  True if the directory is writable.
 	 *
-	 * @return  string  html code
+	 * @return  string  HTML translatable message surrounded by a <span>.
 	 */
 	public static function writable($writable)
 	{
@@ -40,11 +40,11 @@ abstract class JHtmlDirectory
 	/**
 	 * Method to generate a message for a directory
 	 *
-	 * @param   string  $dir the directory
-	 * @param   boolean  $message the message
-	 * @param   boolean  $visible is the $dir visible?
+	 * @param   string   $dir      The directory
+	 * @param   boolean  $message  The text message
+	 * @param   boolean  $visible  True if the $dir is visible
 	 *
-	 * @return  string  html code
+	 * @return  string  Translatable HTML message surrounded by a <strong>.
 	 */
 	public static function message($dir, $message, $visible=true)
 	{

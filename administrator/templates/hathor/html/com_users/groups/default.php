@@ -93,7 +93,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 			{
 				$canEdit = false;
 			}
-			$canChange	= $user->authorise('core.edit.state',	'com_users');
+			$canChange	= $user->authorise('core.edit.state', 'com_users');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>

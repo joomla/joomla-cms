@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class CheckinController extends JControllerLegacy
 {
+	/**
+	 * Method to display the view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  JController  This object to support chaining.
+	 * @since   1.5
+	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Load the submenu.
@@ -72,6 +81,7 @@ class CheckinController extends JControllerLegacy
 			'index.php?option=com_cache',
 			$vName == 'cache'
 		);
+
 		JHtmlSidebar::addEntry(
 			JText::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
 			'index.php?option=com_cache&view=purge',

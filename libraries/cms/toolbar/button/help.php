@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JToolbarButtonHelp extends JToolbarButton
 {
 	/**
-	 * @var    string	Button type
+	 * @var    string  Button type
 	 */
 	protected $_name = 'Help';
 

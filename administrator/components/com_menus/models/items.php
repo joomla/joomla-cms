@@ -80,7 +80,7 @@ class MenusModelItems extends JModelList
 		$this->setState('filter.access', $access);
 
 		$parentId = $this->getUserStateFromRequest($this->context.'.filter.parent_id', 'filter_parent_id', 0, 'int');
-		$this->setState('filter.parent_id',	$parentId);
+		$this->setState('filter.parent_id', $parentId);
 
 		$level = $this->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);

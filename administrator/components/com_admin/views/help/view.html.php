@@ -20,36 +20,48 @@ class AdminViewHelp extends JViewLegacy
 {
 	/**
 	 * @var string the search string
+	 * @since  1.6
 	 */
 	protected $help_search = null;
 
 	/**
 	 * @var string the page to be viewed
+	 * @since  1.6
 	 */
 	protected $page = null;
 
 	/**
 	 * @var string the iso language tag
+	 * @since  1.6
 	 */
 	protected $lang_tag = null;
 
 	/**
 	 * @var array Table of contents
+	 * @since  1.6
 	 */
 	protected $toc = null;
 
 	/**
 	 * @var string url for the latest version check
+	 * @since  1.6
 	 */
 	protected $latest_version_check = 'http://www.joomla.org/download.html';
 
 	/**
 	 * @var string url for the start here link.
+	 * @since  1.6
 	 */
 	protected $start_here = null;
 
 	/**
-	 * Display the view
+	 * Method to display the view
+	 *
+	 * @param  string  $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since  1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -63,7 +75,9 @@ class AdminViewHelp extends JViewLegacy
 		parent::display($tpl);
 	}
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

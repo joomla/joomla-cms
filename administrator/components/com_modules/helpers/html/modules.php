@@ -134,7 +134,7 @@ abstract class JHtmlModules
 			'<option value="">' . JText::_('JSELECT') . '</option>',
 			'<option value="nochange">' . JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE') . '</option>',
 			'<option value="noposition">' . JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION') . '</option>',
-			JHtml::_('select.options',	self::positionList($clientId)),
+			JHtml::_('select.options', self::positionList($clientId)),
 			'</select>',
 			'</div>', '<div id="batch-move-copy" class="control-group radio">',
 			JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'),

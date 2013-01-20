@@ -24,6 +24,10 @@ class RedirectViewLinks extends JViewLegacy
 
 	protected $pagination;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
@@ -52,6 +56,8 @@ class RedirectViewLinks extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

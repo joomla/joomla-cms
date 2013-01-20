@@ -68,7 +68,7 @@ class JInstallation extends JApplication
 		require_once JPATH_COMPONENT . '/controller.php';
 
 		// Execute the task.
-		$controller	= JControllerLegacy::getInstance('Installation');
+		$controller = JControllerLegacy::getInstance('Installation');
 		$controller->execute($this->input->get('task'));
 		$controller->redirect();
 
