@@ -27,6 +27,9 @@ $ -> Language fix or change
 ! -> Note
 
 19-Jan-2013 Jean-Marie Simonet
+ # [#29987] Code Style Part 2. Thanks Elin
+
+19-Jan-2013 Jean-Marie Simonet
  # [#29989] *Media manager can't upload is memory_limit is set to -1
 
 18-Jan-2013 Jean-Marie Simonet

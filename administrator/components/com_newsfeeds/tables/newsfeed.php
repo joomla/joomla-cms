@@ -30,7 +30,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	 *
 	 * @param   array  Named array
 	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see		JTable:bind
+	 * @see     JTable:bind
 	 * @since   1.5
 	 */
 	public function bind($array, $ignore = '')
@@ -99,6 +99,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey); // remove bad characters
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
+
 			foreach ($keys as $key)
 			{
 				if (trim($key)) {  // ignore blank keywords

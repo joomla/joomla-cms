@@ -77,7 +77,5 @@ class CheckinController extends JControllerLegacy
 			'index.php?option=com_cache&view=purge',
 			$vName == 'purge'
 		);
-
 	}
-
 }

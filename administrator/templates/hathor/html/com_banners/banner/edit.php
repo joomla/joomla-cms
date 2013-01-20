@@ -33,6 +33,7 @@ JHtml::_('behavior.formvalidation');
 			document.id('url').setStyle('display', 'none');
 			document.id('custom').setStyle('display', 'block');
 		});
+
 		if (document.id('jform_type0').checked==true)
 		{
 			document.id('jform_type0').fireEvent('click');

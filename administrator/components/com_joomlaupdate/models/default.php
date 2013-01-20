@@ -405,6 +405,7 @@ ENDDATA;
 
 			// If we still have no writable directory, we'll try /tmp and the system's temp-directory
 			$writable = @is_writeable($tempdir);
+
 			if (!$writable)
 			{
 				if (@is_dir('/tmp') && @is_writable('/tmp'))
@@ -415,6 +416,7 @@ ENDDATA;
 					$tmpfile = @tempnam("dummy", "");
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
+
 					if (!empty($systemp))
 					{
 						if (@is_dir($systemp) && @is_writable($systemp))
@@ -458,6 +460,7 @@ ENDDATA;
 				if($result !== false) $result = true;
 			} else {
 				$fp = @fopen($configpath, 'wt');
+
 				if ($fp !== false)
 				{
 					$result = @fwrite($fp, $data);
