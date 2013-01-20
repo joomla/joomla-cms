@@ -49,7 +49,11 @@ class MenusControllerMenus extends JControllerLegacy
 	}
 
 	/**
-	 * Removes an item
+	 * Method to remove a record.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function delete()
 	{

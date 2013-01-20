@@ -270,7 +270,7 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed  The data for the form.
+	 * @return  JObject  The data for the form or default values if it is new.
 	 *
 	 * @since   1.6
 	 */

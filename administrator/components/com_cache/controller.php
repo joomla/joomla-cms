@@ -64,7 +64,13 @@ class CacheController extends JControllerLegacy
 			$view->display();
 		}
 	}
-
+	/**
+	 * Method to delete rows.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since 1.6
+	 */
 	public function delete()
 	{
 		// Check for request forgeries

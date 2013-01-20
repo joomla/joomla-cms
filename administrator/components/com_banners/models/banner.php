@@ -400,7 +400,7 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed  The data for the form.
+	 * @return  JObject  The data for the form or default values if it is new.
 	 *
 	 * @since   1.6
 	 */
@@ -467,7 +467,7 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable  $table  A record object.
+	 * @param   JTable  $table  A JTable instance.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *
@@ -478,13 +478,14 @@ class BannersModelBanner extends JModelAdmin
 		$condition = array();
 		$condition[] = 'catid = '. (int) $table->catid;
 		$condition[] = 'state >= 0';
+
 		return $condition;
 	}
 
 	/**
 	 * A protected method to prepare a table.
 	 *
-	 * @param   JTable  $table  A record object.
+	 * @param   BannersTableBanner  $table  A JTable object.
 	 *
 	 * @return  void
 	 *

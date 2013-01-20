@@ -18,7 +18,13 @@ require_once __DIR__ . '/articles.php';
 class ContentControllerFeatured extends ContentControllerArticles
 {
 	/**
-	 * Removes an item
+	 * Removes an item or array of items.
+	 *
+	 * Overrides JControllerAdmin::delete to check the core.delete permission.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function delete()
 	{

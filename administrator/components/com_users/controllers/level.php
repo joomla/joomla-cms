@@ -41,7 +41,13 @@ class UsersControllerLevel extends JControllerForm
 	}
 
 	/**
-	 * Method to remove a record.
+	 * Removes an item or array of items.
+	 *
+	 * Overrides JControllerAdmin::delete to check the core.admin permission.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function delete()
 	{

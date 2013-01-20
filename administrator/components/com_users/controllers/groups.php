@@ -39,6 +39,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * Overrides JControllerAdmin::delete to check the core.admin permission.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function delete()

@@ -215,6 +215,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @param   JTable  A JTable object.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareTable($table)

@@ -112,5 +112,4 @@ abstract class JHtmlBanner
 
 		return JHtml::_('jgrid.state', $states, $value, $i, 'banners.', $enabled, true, $checkbox);
 	}
-
 }

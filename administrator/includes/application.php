@@ -22,7 +22,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	 *
 	 * @since   1.5

@@ -53,7 +53,8 @@ class BannersModelClient extends JModelAdmin
 	 *
 	 * @param   object  $record  A record object.
 	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @return  boolean  True if allowed to change the state of the record.
+	 *                   Defaults to the permission set in the component.
 	 *
 	 * @since   1.6
 	 */
@@ -112,7 +113,7 @@ class BannersModelClient extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed  The data for the form.
+	 * @return  JObject  The data for the form or default values if it is new.
 	 *
 	 * @since   1.6
 	 */

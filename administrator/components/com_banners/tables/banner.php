@@ -83,10 +83,13 @@ class BannersTableBanner extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array  $hash named array
-	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
-	 * @see JTable:bind
+	 * @param   array  $array   Named array
+	 * @params  array  $ignore
+	 *
+	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
+	 *
 	 * @since 1.5
+	 * @see JTable:bind
 	 */
 	public function bind($array, $ignore = array())
 	{
@@ -123,10 +126,13 @@ class BannersTableBanner extends JTable
 
 		return parent::bind($array, $ignore);
 	}
+
 	/**
 	 * Method to store a row
 	 *
 	 * @param  boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
 	{

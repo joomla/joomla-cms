@@ -192,7 +192,7 @@ class BannersHelper
 	/**
 	 * Method to get client options data.
 	 *
-	 * @return  object  Client options data as stdClass
+	 * @return  object  Client options data
 	 *
 	 * @since   1.6
 	 */

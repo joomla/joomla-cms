@@ -192,6 +192,8 @@ class MediaControllerFile extends JControllerLegacy
 	/**
 	 * Deletes paths from the current path
 	 *
+	 * @return  boolean  True on success
+	 *
 	 * @since 1.5
 	 */
 	public function delete()
