@@ -58,6 +58,7 @@ class plgSearchContacts extends JPlugin
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$tag = JFactory::getLanguage()->getTag();
 
 		if (is_array($areas))
 		{

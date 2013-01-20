@@ -61,10 +61,10 @@ $debug  = (boolean) $config->get('debug');
 		/* Responsive Styles */
 		@media (max-width: 480px)
 		{
-			.view-login .container{
+			.view-login .container {
 				margin-top: -170px;
 			}
-			.btn{
+			.btn {
 				font-size: 13px;
 				padding: 4px 10px 4px;
 			}
