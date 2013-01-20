@@ -314,12 +314,7 @@ class WebDriver
 		$screenshotsDirectory = null;
 		if (isset($overrideScreenshotsDirectory)) { $screenshotsDirectory = $overrideScreenshotsDirectory; }
 		else if (isset($this->_screenshotsDirectory)) { $screenshotsDirectory = $this->_screenshotsDirectory; }
-<<<<<<< Upstream, based on master
-		else
-		{ throw new \Exception("Must Specify Screenshot Directory"); }
-=======
 		else { throw new \Exception("Must Specify Screenshot Directory"); }
->>>>>>> 23e1d8c We're not touching /libraries/joomla or tests.
 		
 		$command = "screenshot";
 		$urlHubFormatted = $this->_hubUrl . "/session/{$this->_sessionId}/{$command}";
