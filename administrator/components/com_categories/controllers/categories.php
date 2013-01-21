@@ -21,10 +21,10 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Proxy for getModel
 	 *
-	 * @param   string	$name	The model name. Optional.
-	 * @param   string	$prefix	The class prefix. Optional.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  CategoriesModelCategory  The model.
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
@@ -52,6 +52,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
+
 			return true;
 		}
 		else
@@ -66,6 +67,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 * Save the manual order inputs from the categories list page.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function saveorder()
@@ -85,6 +87,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		{
 			// Nothing to reorder
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+
 			return true;
 		}
 	}
@@ -117,8 +120,8 @@ class CategoriesControllerCategories extends JControllerAdmin
 				echo "1";
 			}
 		}
+
 		// Close the application
 		JFactory::getApplication()->close();
-
 	}
 }

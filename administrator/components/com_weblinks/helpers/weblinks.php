@@ -21,7 +21,7 @@ class WeblinksHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vname  The name of the active view.
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName = 'weblinks')
@@ -71,7 +71,7 @@ class WeblinksHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

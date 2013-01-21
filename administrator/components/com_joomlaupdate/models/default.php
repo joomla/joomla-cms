@@ -412,12 +412,13 @@ ENDDATA;
 					$tempdir = '/tmp';
 				} else {
 					// Try to find the system temp path
-					$tmpfile = @tempnam("dummy", "");
+									$tmpfile = @tempnam("dummy", "");
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
-					if (!empty($systemp))
+
+					if(!empty($systemp))
 					{
-						if (@is_dir($systemp) && @is_writable($systemp))
+						if(@is_dir($systemp) && @is_writable($systemp))
 						{
 							$tempdir = $systemp;
 						}
@@ -447,8 +448,10 @@ ENDDATA;
 			JFile::delete($configpath);
 		}
 
+
 		// Write new file. First try with JFile.
 		$result = JFile::write($configpath, $data);
+
 		// In case JFile used FTP but direct access could help
 		if (!$result)
 		{
@@ -458,6 +461,7 @@ ENDDATA;
 				if($result !== false) $result = true;
 			} else {
 				$fp = @fopen($configpath, 'wt');
+
 				if ($fp !== false)
 				{
 					$result = @fwrite($fp, $data);

@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class BannersControllerClients extends JControllerAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var    string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_CLIENTS';
@@ -31,13 +31,14 @@ class BannersControllerClients extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  BannersModelClient  The model.
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Client', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 }

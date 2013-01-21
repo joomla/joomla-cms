@@ -60,7 +60,8 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache data
 	 *
-	 * @return array
+	 * @return  array
+	 * @since   1.6
 	 */
 	public function getData()
 	{
@@ -99,7 +100,9 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache instance
 	 *
-	 * @return object
+	 * @return  JCache
+	 *
+	 * @since   1.6
 	 */
 	public function getCache()
 	{
@@ -161,14 +164,24 @@ class CacheModelCache extends JModelList
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
 	 *
-	 * @param String $group
+	 * @param   string  $group  A specific cache group name.
+	 *
+	 * @return  void
+	 *
 	 */
 	public function clean($group = '')
 	{
 		$cache = $this->getCache();
 		$cache->clean($group);
 	}
-
+	/**
+	 * Clean out an array of cache groups as named by param.
+	 *
+	 * @param string $group  A specific cache group name.
+	 *
+	 * @return  void
+	 *
+	 */
 	public function cleanlist($array)
 	{
 		foreach ($array as $group)
@@ -177,6 +190,13 @@ class CacheModelCache extends JModelList
 		}
 	}
 
+	/**
+	 * Purge the cache.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   1.6
+	 */
 	public function purge()
 	{
 		$cache = JFactory::getCache('');

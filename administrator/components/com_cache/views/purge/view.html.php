@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class CacheViewPurge extends JViewLegacy
 {
+	/**
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  The template file to include
+	 *
+	 * @since   1.6
+	 */
 	public function display($tpl = null)
 	{
 		$this->addToolbar();
@@ -27,6 +34,8 @@ class CacheViewPurge extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

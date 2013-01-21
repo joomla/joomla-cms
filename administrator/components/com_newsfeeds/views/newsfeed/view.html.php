@@ -18,14 +18,32 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
+	/*
+	 * @var    JObject  The JObject holding data for this view
+	 * @since  1.6
+	 */
 	protected $item;
 
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
+	 */
 	protected $form;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view
+	 *
+	 * @param  string  $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since  1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -57,7 +75,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		// Since we don't track these assets at the item level, use the category id.
+		// Since we do not track these assets at the item level, use the category id.
 		$canDo		= NewsfeedsHelper::getActions($this->item->catid, 0);
 
 		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'), 'newsfeeds.png');

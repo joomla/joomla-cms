@@ -24,14 +24,14 @@ class ContactControllerContacts extends JControllerAdmin
 	 * @param   array  $config	An optional associative array of configuration settings.
 	 *
 	 * @return  ContactControllerContacts
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
-		$this->registerTask('unfeatured',	'featured');
+		$this->registerTask('unfeatured', 'featured');
 	}
 
 	/**
@@ -85,8 +85,8 @@ class ContactControllerContacts extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string	$name	The name of the model.
-	 * @param   string	$prefix	The prefix for the PHP class name.
+	 * @param   string  $name	The name of the model.
+	 * @param   string  $prefix	The prefix for the PHP class name.
 	 *
 	 * @return  JModel
 	 * @since   1.6

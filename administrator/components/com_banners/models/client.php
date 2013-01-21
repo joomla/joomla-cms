@@ -48,8 +48,11 @@ class BannersModelClient extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	A record object.
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record.
+	 *                   Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -103,7 +106,8 @@ class BannersModelClient extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed  The data for the form.
+	 * @return  JObject  The data for the form or default values if it is new.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()

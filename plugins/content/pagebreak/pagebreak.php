@@ -45,9 +45,9 @@ class plgContentPagebreak extends JPlugin
 	}
 
 	/**
-	 * @param   string	The context of the content being passed to the plugin.
-	 * @param   object	The article object.  Note $article->text is also available
-	 * @param   object	The article params
+	 * @param   string  The context of the content being passed to the plugin.
+	 * @param   object  The article object.  Note $article->text is also available
+	 * @param   object  The article params
 	 * @param   integer  The 'page' number
 	 *
 	 * @return  void
@@ -191,7 +191,8 @@ class plgContentPagebreak extends JPlugin
 				$row->text .= '</div>';
 
 			}
-			else {
+			else
+			{
 				$t[] = $text[0];
 
 				$t[] = (string) JHtml::_($style.'.start', 'article'.$row->id.'-'.$style);

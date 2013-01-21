@@ -323,7 +323,7 @@ class plgSystemLanguageFilter extends JPlugin
 	 * Method is called before user data is stored in the database
 	 *
 	 * @param   array  $user	Holds the old user data.
-	 * @param   boolean		$isnew	True if a new user is stored.
+	 * @param   boolean  $isnew	True if a new user is stored.
 	 * @param   array  $new	Holds the new user data.
 	 *
 	 * @return  void
@@ -349,8 +349,8 @@ class plgSystemLanguageFilter extends JPlugin
 	 * Method is called after user data is stored in the database
 	 *
 	 * @param   array  $user		Holds the new user data.
-	 * @param   boolean		$isnew		True if a new user is stored.
-	 * @param   boolean		$success	True if user was succesfully stored in the database.
+	 * @param   boolean  $isnew		True if a new user is stored.
+	 * @param   boolean  $success	True if user was succesfully stored in the database.
 	 * @param   string  $msg		Message.
 	 *
 	 * @return  void

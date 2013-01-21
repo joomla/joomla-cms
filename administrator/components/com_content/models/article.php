@@ -212,9 +212,10 @@ class ContentModelArticle extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table data prior to saving.
 	 *
-	 * @param   JTable	A JTable object.
+	 * @param   JTable  A JTable object.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareTable($table)

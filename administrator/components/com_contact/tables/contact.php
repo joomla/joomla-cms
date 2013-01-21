@@ -18,11 +18,11 @@ class ContactTableContact extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabase  Database connector object
+	 * @param  JDatabase  $db  Database connector object
 	 *
 	 * @since 1.0
 	 */
-	public function __construct(& $db)
+	public function __construct($db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
 	}

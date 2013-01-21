@@ -105,6 +105,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$registry = new JRegistry(new JConfig);
 			$this->config = $registry->toArray();
 			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
+
 			foreach ($hidden as $key)
 			{
 				$this->config[$key] = 'xxxxxx';
@@ -133,7 +134,8 @@ class AdminModelSysInfo extends JModelLegacy
 			{
 				$sf = $_SERVER['SERVER_SOFTWARE'];
 			}
-			else {
+			else
+			{
 				$sf = getenv('SERVER_SOFTWARE');
 			}
 			$this->info['php']			= php_uname();

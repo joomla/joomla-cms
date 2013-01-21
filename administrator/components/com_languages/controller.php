@@ -19,8 +19,8 @@ defined('_JEXEC') or die;
 class LanguagesController extends JControllerLegacy
 {
 	/**
-	 * @var		string	The default view.
-	 * @since   1.6
+	 * @var    string  The default view.
+	 * @since  1.6
 	 */
 	protected $default_view = 'installed';
 

@@ -34,7 +34,7 @@ class plgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param   string	$context	The context for the data
+	 * @param   string  $context	The context for the data
 	 * @param   integer  $data		The user id
 	 * @param   object
 	 *
@@ -314,7 +314,7 @@ class plgUserProfile extends JPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array  $user		Holds the user data
-	 * @param   boolean		$success	True if user was succesfully stored in the database
+	 * @param   boolean  $success	True if user was succesfully stored in the database
 	 * @param   string  $msg		Message
 	 */
 	public function onUserAfterDelete($user, $success, $msg)

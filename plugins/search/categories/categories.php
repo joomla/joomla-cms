@@ -152,6 +152,7 @@ class plgSearchCategories extends JPlugin
 						.'AND a.access IN ('. $groups .')' );
 			$query->group('a.id');
 			$query->order($order);
+
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
@@ -169,7 +170,7 @@ class plgSearchCategories extends JPlugin
 					$rows[$i]->section	= JText::_('JCATEGORY');
 				}
 
-				foreach ($rows as $key => $category)
+				foreach ($rows as $key => $category).
 				{
 					if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
 					{

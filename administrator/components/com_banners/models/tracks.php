@@ -19,10 +19,12 @@ defined('_JEXEC') or die;
 class BannersModelTracks extends JModelList
 {
 	/**
+	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -162,9 +164,10 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Method to delete rows.
 	 *
-	 * @param   array  An array of item ids.
-	 *
 	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since  1.6
+	 * @deprecated 3.2 use BannersControllerTracks delete() instead.
 	 */
 	public function delete()
 	{

@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class UsersControllerGroups extends JControllerAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var    string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_USERS_GROUPS';
@@ -38,6 +38,8 @@ class UsersControllerGroups extends JControllerAdmin
 	 * Removes an item.
 	 *
 	 * Overrides JControllerAdmin::delete to check the core.admin permission.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

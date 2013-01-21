@@ -25,7 +25,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -366,7 +366,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since	2.5.2
+	 * @since   2.5.2
 	 */
 	protected function loadFormData()
 	{

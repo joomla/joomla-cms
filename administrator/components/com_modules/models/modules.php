@@ -174,16 +174,14 @@ class ModulesModelModules extends JModelList
 	 * Translate a list of objects
 	 *
 	 * @param   array The array of objects
+	 *
 	 * @return  array The array of translated objects
 	 */
 	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
 		$client = $this->getState('filter.client_id') ? 'administrator' : 'site';
-		foreach ($items as $item)
-		{
-			$extension = $item->module;
-			$source = constant('JPATH_' . strtoupper($client)) . "/modules/$extension";
+
 				$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), null, false, false)
 			||	$lang->load("$extension.sys", $source, null, false, false)
 			||	$lang->load("$extension.sys", constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false)

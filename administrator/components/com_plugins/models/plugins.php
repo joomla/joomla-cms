@@ -22,7 +22,7 @@ class PluginsModelPlugins extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -51,6 +51,11 @@ class PluginsModelPlugins extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -89,9 +94,9 @@ class PluginsModelPlugins extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string	A prefix for the store id.
+	 * @param   string  A prefix for the store id.
 	 *
-	 * @return  string	A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -151,12 +156,14 @@ class PluginsModelPlugins extends JModelList
 				$ordering = 'a.ordering';
 			}
 			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+
 			if ($ordering == 'folder')
 			{
 				$query->order('a.ordering ASC');
 			}
 			$result = parent::_getList($query, $limitstart, $limit);
 			$this->translate($result);
+
 			return $result;
 		}
 	}
@@ -170,6 +177,7 @@ class PluginsModelPlugins extends JModelList
 	protected function translate(&$items)
 	{
 		$lang = JFactory::getLanguage();
+
 		foreach ($items as &$item)
 		{
 			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;

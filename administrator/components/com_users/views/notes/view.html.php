@@ -32,6 +32,10 @@ class UsersViewNotes extends JViewLegacy
 	 * @var    JPagination
 	 * @since  2.5
 	 */
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	/**
@@ -39,6 +43,10 @@ class UsersViewNotes extends JViewLegacy
 	 *
 	 * @var    JObject
 	 * @since  2.5
+	 */
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
 	 */
 	protected $state;
 

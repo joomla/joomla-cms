@@ -21,7 +21,7 @@ class SearchHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vname  The name of the active view.
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -44,7 +44,7 @@ class SearchHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -75,8 +75,9 @@ class SearchHelper
 			$ignored = true;
 		}
 
-		// filter out search terms that are too small
+		// Filter out search terms that are too small
 		$lower_limit = $lang->getLowerLimitSearchWord();
+
 		foreach ($aterms as $aterm)
 		{
 			if (JString::strlen($aterm) < $lower_limit)
@@ -181,6 +182,7 @@ class SearchHelper
 		{
 			return false;
 		}
+
 		foreach ($fields as $field)
 		{
 			if (!isset($object->$field))
@@ -188,10 +190,12 @@ class SearchHelper
 				continue;
 			}
 			$text = $object->$field;
+
 			foreach ($searchRegex as $regex)
 			{
 				$text = preg_replace($regex, '', $text);
 			}
+
 			foreach ($terms as $term)
 			{
 				if (JString::stristr($text, $term) !== false)
@@ -209,6 +213,7 @@ class SearchHelper
 	 * @param string The source string
 	 * @param int Number of chars to return
 	 * @param string The searchword to select around
+	 *
 	 * @return  string
 	 *
 	 * @since  1.5

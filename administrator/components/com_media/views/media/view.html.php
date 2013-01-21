@@ -58,6 +58,7 @@ class MediaViewMedia extends JViewLegacy
 			$displayTypes = '';		// this is what the user sees
 			$filterTypes = '';		// this is what controls the logic
 			$firstType = true;
+
 			foreach ($types as $type)
 			{
 				if(!$firstType)
@@ -122,6 +123,8 @@ class MediaViewMedia extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

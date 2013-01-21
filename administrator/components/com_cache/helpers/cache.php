@@ -22,6 +22,8 @@ class CacheHelper
 	 * Get a list of filter options for the application clients.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
+	 *
+	 * @since   1.6
 	 */
 	public static function getClientOptions()
 	{
@@ -29,15 +31,17 @@ class CacheHelper
 		$options	= array();
 		$options[]	= JHtml::_('select.option', '0', JText::_('JSITE'));
 		$options[]	= JHtml::_('select.option', '1', JText::_('JADMINISTRATOR'));
+
 		return $options;
 	}
 
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vname  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -53,6 +57,7 @@ class CacheHelper
 			'index.php?option=com_cache',
 			$vName == 'cache'
 		);
+
 		JHtmlSidebar::addEntry(
 			JText::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
 			'index.php?option=com_cache&view=purge',

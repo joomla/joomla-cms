@@ -21,7 +21,7 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_context = 'com_content.article';
 

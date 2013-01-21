@@ -563,7 +563,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return  mixed  The data for the form.
+	 * @return  JObject  The data for the form or default values if it is new.
 	 *
 	 * @since   1.6
 	 */
@@ -754,7 +754,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   JTable  $table  The database object
+	 * @param   JTable  A JTable object.
 	 *
 	 * @return  void
 	 *
@@ -1064,7 +1064,7 @@ class ModulesModelModule extends JModelAdmin
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object  $table  A record object.
+	 * @param   JTable  $table  A JTable instance.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 *

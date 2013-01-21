@@ -78,8 +78,8 @@ function modChrome_beezTabs($module, $params, $attribs)
 		$temp->params = $module->params;
 		$temp->id = $module->id;
 		$modules[] = $temp;
-		// list of moduletitles
-		// list of moduletitles
+
+		// List of moduletitles
 		echo '<div id="'. $area.'" class="tabouter"><ul class="tabs">';
 
 		foreach ($modules as $rendermodule)
@@ -88,11 +88,11 @@ function modChrome_beezTabs($module, $params, $attribs)
 		}
 		echo '</ul>';
 		$counter = 0;
+
 		// modulecontent
 		foreach ($modules as $rendermodule)
 		{
 			$counter ++;
-
 			echo '<div tabindex="-1" class="tabcontent tabopen" id="module_'.$rendermodule->id.'">';
 			echo $rendermodule->content;
 			if ($counter != count($modules))

@@ -191,7 +191,7 @@ class LanguagesControllerOverride extends JControllerForm
 		$app     = JFactory::getApplication();
 		$context = "$this->option.edit.$this->context";
 
-		$app->setUserState($context.'.data',	null);
+		$app->setUserState($context.'.data', null);
 		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));
 	}
 }

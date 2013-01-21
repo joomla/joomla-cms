@@ -73,7 +73,7 @@ $language_data = array (
         GESHI_NUMBER_FLT_SCI_ZERO,
     'KEYWORDS' => array(
         1 => array(
-            // Mix: statement keywords and keywords that don't fit in any other
+            // Mix: statement keywords and keywords that do not fit in any other
             // category, or have multiple usage/meanings
             'ACTION','ADD','AFTER','ALGORITHM','ALL','ALTER','ANALYZE','ANY',
             'ASC','AS','BDB','BEGIN','BERKELEYDB','BINARY','BTREE','CALL',

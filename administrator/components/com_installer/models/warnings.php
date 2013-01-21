@@ -29,7 +29,7 @@ class InstallerModelWarnings extends JModelList
 	 *
 	 * @param   string  $val  String optionally with G, M or K suffix
 	 *
-	 * @return  int		size in bytes
+	 * @return  integer   size in bytes
 	 *
 	 * @since 1.6
 	 */

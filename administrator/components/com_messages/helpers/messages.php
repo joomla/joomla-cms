@@ -19,7 +19,7 @@ class MessagesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vname  The name of the active view.
 	 *
 	 * @return  void
 	 * @since   1.6
@@ -53,7 +53,7 @@ class MessagesHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, 'com_messages'));
+			$result->set($action->name, $user->authorise($action->name, 'com_messages'));
 		}
 
 		return $result;
@@ -68,9 +68,9 @@ class MessagesHelper
 	{
 		// Build the filter options.
 		$options	= array();
-		$options[]	= JHtml::_('select.option',	'1',	JText::_('COM_MESSAGES_OPTION_READ'));
-		$options[]	= JHtml::_('select.option',	'0',	JText::_('COM_MESSAGES_OPTION_UNREAD'));
-		$options[]	= JHtml::_('select.option',	'-2',	JText::_('JTRASHED'));
+		$options[]	= JHtml::_('select.option', '1', JText::_('COM_MESSAGES_OPTION_READ'));
+		$options[]	= JHtml::_('select.option', '0', JText::_('COM_MESSAGES_OPTION_UNREAD'));
+		$options[]	= JHtml::_('select.option', '-2', JText::_('JTRASHED'));
 		return $options;
 	}
 }

@@ -65,7 +65,7 @@ class LanguagesHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -105,7 +105,7 @@ class LanguagesHelper
 	 *
 	 * @param   	string	$value	The language key to filter
 	 *
-	 * @return  string	The filtered language key
+	 * @return  string  The filtered language key
 	 *
 	 * @since		2.5
 	 */
@@ -122,7 +122,7 @@ class LanguagesHelper
 	 *
 	 * @param   	string	$value	The language string to filter
 	 *
-	 * @return  string	The filtered language string
+	 * @return  string  The filtered language string
 	 *
 	 * @since		2.5
 	 */

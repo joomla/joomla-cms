@@ -32,12 +32,20 @@ class InstallerViewUpdate extends InstallerViewDefault
 	 *
 	 * @var  object
 	 */
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
 	 * List pagination
 	 *
 	 * @var JPagination
+	 */
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
 	 */
 	protected $pagination;
 

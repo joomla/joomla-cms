@@ -20,16 +20,24 @@ class UsersViewRegistration extends JViewLegacy
 {
 	protected $data;
 
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
+	 */
 	protected $form;
 
 	protected $params;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string	The template file to include
+	 * @param   string  The template file to include
 	 * @since   1.6
 	 */
 	public function display($tpl = null)

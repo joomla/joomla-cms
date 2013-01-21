@@ -97,7 +97,7 @@ class BannersControllerBanner extends JControllerForm
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function batch($model = null)
 	{
@@ -111,5 +111,4 @@ class BannersControllerBanner extends JControllerForm
 
 		return parent::batch($model);
 	}
-
 }

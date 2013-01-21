@@ -21,7 +21,7 @@ class RedirectTableLink extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   object	Database object
+	 * @param   object  Database object
 	 *
 	 * @return  void
 	 * @since   1.6
@@ -83,10 +83,10 @@ class RedirectTableLink extends JTable
 	/**
 	 * Overriden store method to set dates.
 	 *
-	 * @param   boolean	True to update fields even if they are null.
+	 * @param   boolean  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
-	 * @see		JTable::store
+	 * @see     JTable::store
 	 * @since   1.6
 	 */
 	public function store($updateNulls = false)

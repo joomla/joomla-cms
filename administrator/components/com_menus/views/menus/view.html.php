@@ -22,6 +22,10 @@ class MenusViewMenus extends JViewLegacy
 
 	protected $modules;
 
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	protected $state;

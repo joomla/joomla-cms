@@ -22,7 +22,7 @@ class WeblinksModelWeblink extends JModelItem
 	 * Model context string.
 	 *
 	 * @access	protected
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_context = 'com_weblinks.weblink';
 
@@ -96,6 +96,7 @@ class WeblinksModelWeblink extends JModelItem
 	 * Method to increment the hit counter for the weblink
 	 *
 	 * @param   integer  Optional ID of the weblink.
+	 *
 	 * @return  boolean  True on success
 	 * @since   1.5
 	 */

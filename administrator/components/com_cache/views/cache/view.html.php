@@ -18,11 +18,39 @@ defined('_JEXEC') or die;
  */
 class CacheViewCache extends JViewLegacy
 {
+	/*
+	 * @var   object  Object holding information about the client.
+	 * @since  1.6
+	 */
 	protected $client;
+
+	/*
+	 * @var   object  Object holding information about the client.
+	 * @since  1.6
+	 */
 	protected $data;
+
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
+
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
+	/**
+	 * Method to display the view
+	 *
+	 * @param   string  $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since  1.6
+	 */
 	public function display($tpl = null)
 	{
 		$this->data			= $this->get('Data');
@@ -39,7 +67,7 @@ class CacheViewCache extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+		parent::display($tpl);var_dump($this->pagination);
 	}
 
 	/**
@@ -55,6 +83,7 @@ class CacheViewCache extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'clear.png');
 		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
 		JToolbarHelper::divider();
+
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))
 		{
 			JToolbarHelper::preferences('com_cache');
@@ -65,7 +94,8 @@ class CacheViewCache extends JViewLegacy
 		JHtmlSidebar::setAction('index.php?option=com_cache');
 
 		JHtmlSidebar::addFilter(
-			// @todo We need an actual label here
+
+		// @todo We need an actual label here
 			'',
 			'filter_client_id',
 			JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'))

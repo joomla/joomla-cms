@@ -22,7 +22,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Class constructor
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 * Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	 *
 	 * @since   1.5
@@ -130,7 +130,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Dispatch the application
 	 *
-	 * @param   string	$component	The component to dispatch.
+	 * @param   string  $component	The component to dispatch.
 	 *
 	 * @return  void
 	 * @since   1.5
@@ -187,8 +187,8 @@ class JAdministrator extends JApplication
 		// Safety check for when configuration.php root_user is in use.
 		$config		= JFactory::getConfig();
 		$rootUser	= $config->get('root_user');
-		if (property_exists('JConfig', 'root_user') &&
-			(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+		if (property_exists('JConfig', 'root_user')
+			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
 		{
 			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}
@@ -216,7 +216,7 @@ class JAdministrator extends JApplication
 	 * @param   array  Array('remember' => boolean)
 	 *
 	 * @return  boolean True on success.
-	 * @see		JApplication::login
+	 * @see     JApplication::login
 	 * @since   1.5
 	 */
 	public function login($credentials, $options = array())
@@ -253,7 +253,7 @@ class JAdministrator extends JApplication
 	/**
 	 * Get the template
 	 *
-	 * @return  string	The template name
+	 * @return  string  The template name
 	 * @since   1.0
 	 */
 	public function getTemplate($params = false)

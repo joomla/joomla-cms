@@ -26,7 +26,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return  string	JavaScript Initialization string.
+	 * @return  string  JavaScript Initialization string.
 	 */
 	public function onInit()
 	{
@@ -41,7 +41,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param   string	$id	The id of the editor field.
+	 * @param   string  $id	The id of the editor field.
 	 *
 	 * @return  string Javascript
 	 */
@@ -53,7 +53,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param   string	$id	The id of the editor field.
+	 * @param   string  $id	The id of the editor field.
 	 *
 	 * @return  string Javascript
 	 */
@@ -65,8 +65,8 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param   string	$id			The id of the editor field.
-	 * @param   string	$content	The content to set.
+	 * @param   string  $id			The id of the editor field.
+	 * @param   string  $content	The content to set.
 	 *
 	 * @return  string Javascript
 	 */
@@ -102,16 +102,16 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param   string	$name		The control name.
-	 * @param   string	$html		The contents of the text area.
-	 * @param   string	$width		The width of the text area (px or %).
-	 * @param   string	$height		The height of the text area (px or %).
+	 * @param   string  $name		The control name.
+	 * @param   string  $html		The contents of the text area.
+	 * @param   string  $width		The width of the text area (px or %).
+	 * @param   string  $height		The height of the text area (px or %).
 	 * @param   integer  $col		The number of columns for the textarea.
 	 * @param   integer  $row		The number of rows for the textarea.
-	 * @param   boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param   string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param   string	$asset
-	 * @param   object	$author
+	 * @param   boolean  $buttons	True and the editor buttons will be displayed.
+	 * @param   string  $id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string  $asset
+	 * @param   object  $author
 	 * @param   array  $params		Associative array of editor parameters.
 	 *
 	 * @return  string HTML

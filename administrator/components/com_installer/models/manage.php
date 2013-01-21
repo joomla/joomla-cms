@@ -97,7 +97,7 @@ class InstallerModelManage extends InstallerModel
 
 			/*
 			 * Ensure eid is an array of extension ids
-			 * TODO: If it isn't an array do we want to set an error and fail?
+			 * TODO: If it is not an array do we want to set an error and fail?
 			 */
 			if (!is_array($eid))
 			{
@@ -193,7 +193,7 @@ class InstallerModelManage extends InstallerModel
 
 			/*
 			 * Ensure eid is an array of extension ids in the form id => client_id
-			 * TODO: If it isn't an array do we want to set an error and fail?
+			 * TODO: If it is not an array do we want to set an error and fail?
 			 */
 			if (!is_array($eid))
 			{

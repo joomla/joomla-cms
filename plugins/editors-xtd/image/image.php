@@ -46,16 +46,15 @@ class plgButtonImage extends JPlugin
 		{
 			$asset = $extension;
 		}
-		if (	$user->authorise('core.edit', $asset)
-			||	$user->authorise('core.create', $asset)
-			||	(count($user->getAuthorisedCategories($asset, 'core.create')) > 0)
-			||	($user->authorise('core.edit.own', $asset) && $author == $user->id)
-			||	(count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
-			||	(count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id)
+		if ( $user->authorise('core.edit', $asset)
+			|| $user->authorise('core.create', $asset)
+			|| (count($user->getAuthorisedCategories($asset, 'core.create')) > 0)
+			|| ($user->authorise('core.edit.own', $asset) && $author == $user->id)
+			|| (count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
+			|| (count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id)
 		)
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
-			JHtml::_('behavior.modal');
 			$button = new JObject;
 			$button->modal = true;
 			$button->link = $link;

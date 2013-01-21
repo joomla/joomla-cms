@@ -155,7 +155,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 			}
 		}
 		$menu->addChild(
-			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
+			new JMenuNode($menuType->title, 'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
 		);
 		if ($createMenu)
 		{
@@ -215,7 +215,7 @@ if ($user->authorise('core.manage', 'com_content'))
 // Get the authorised components and sub-menus.
 $components = ModMenuHelper::getComponents(true);
 
-// Check if there are any components, otherwise, don't render the menu
+// Check if there are any components, otherwise, do not render the menu
 if ($components)
 {
 	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), '#'), true);

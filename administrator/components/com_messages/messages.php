@@ -16,6 +16,6 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_messages'))
 
 $task = JFactory::getApplication()->input->get('task');
 
-$controller	= JControllerLegacy::getInstance('Messages');
+$controller = JControllerLegacy::getInstance('Messages');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

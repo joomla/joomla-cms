@@ -87,7 +87,7 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @param   array  An array containing all global config data.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -237,9 +237,9 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @param   JRegistry  $config	A JRegistry object containing all global config data.
 	 *
-	 * @return  bool	   True on success, false on failure.
+	 * @return  boolean     True on success, false on failure.
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	private function writeConfigFile(JRegistry $config)
 	{

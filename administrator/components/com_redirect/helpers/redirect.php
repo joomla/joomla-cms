@@ -23,7 +23,7 @@ class RedirectHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vname  The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -45,7 +45,7 @@ class RedirectHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

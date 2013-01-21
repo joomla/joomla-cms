@@ -68,7 +68,7 @@ class JInstallation extends JApplication
 		require_once JPATH_COMPONENT . '/controller.php';
 
 		// Execute the task.
-		$controller	= JControllerLegacy::getInstance('Installation');
+		$controller = JControllerLegacy::getInstance('Installation');
 		$controller->execute($this->input->get('task'));
 		$controller->redirect();
 
@@ -380,7 +380,7 @@ class JInstallation extends JApplication
 	}
 
 	/**
-	 * Overload parent method because we don't have menu
+	 * Overload parent method because we do not have menu
 	 *
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.

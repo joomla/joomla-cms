@@ -186,6 +186,13 @@ class BannersHelper
 		return true;
 	}
 
+	/**
+	 * Method to get client options data.
+	 *
+	 * @return  object  Client options data
+	 *
+	 * @since   1.6
+	 */
 	public static function getClientOptions()
 	{
 		$options = array();

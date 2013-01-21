@@ -26,11 +26,9 @@ class LanguagesViewOverrides extends JViewLegacy
 	 */
 	protected $items;
 
-	/**
-	 * The pagination object
-	 *
-	 * @var		object
-	 * @since	2.5
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
 	 */
 	protected $pagination;
 

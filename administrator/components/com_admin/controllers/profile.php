@@ -21,12 +21,14 @@ class AdminControllerProfile extends JControllerForm
 	/**
 	 * Method to check if you can add a new record.
 	 *
+	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param   array  An array of input data.
-	 * @param   string	The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
-	 * @return  boolean
+	 * @return  boolean  True if allowed to edit.
+	 *
 	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
@@ -35,9 +37,13 @@ class AdminControllerProfile extends JControllerForm
 	}
 
 	/**
-	 * Overrides parent save method to check the submitted passwords match.
+	 * Overrides parent save method to check that the submitted passwords match.
+	 *
+	 * @param    $key
+	 * @param    $urlVar
 	 *
 	 * @return  mixed  Boolean or JError.
+	 *
 	 * @since   1.6
 	 */
 	public function save($key = null, $urlVar = null)
@@ -72,13 +78,13 @@ class AdminControllerProfile extends JControllerForm
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
+	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return  Boolean	True if access level checks pass, false otherwise.
+	 * @return  Boolean  True if access level checks pass, false otherwise.
 	 * @since   1.6
 	 */
 	public function cancel($key = null)
-	{
+		{
 		$return = parent::cancel($key);
 
 		// Redirect to the main page.

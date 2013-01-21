@@ -134,7 +134,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  JoomlaupdateControllerUpdate  This object to support chaining.
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -169,7 +169,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	protected function _applyCredentials()
 	{

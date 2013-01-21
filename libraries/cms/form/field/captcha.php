@@ -21,7 +21,7 @@ class JFormFieldCaptcha extends JFormField
 	/**
 	 * The field type.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $type = 'Captcha';
 

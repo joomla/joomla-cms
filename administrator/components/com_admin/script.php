@@ -21,9 +21,11 @@ class joomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile	$installer	The class calling this method
+	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
 	 * @return void
+	 *
+	 * @since  1.6
 	 */
 	public function update($installer)
 	{
@@ -32,6 +34,15 @@ class joomlaInstallerScript
 		$this->updateDatabase();
 	}
 
+	/**
+	 * Method to update the Database
+	 *
+	 * @param   JInstallerFile  $installer  The class calling this method
+	 *
+	 * @return void
+	 *
+	 * @since  1.6
+	 */
 	protected function updateDatabase()
 	{
 		$db = JFactory::getDbo();
@@ -63,6 +74,13 @@ class joomlaInstallerScript
 		}
 	}
 
+	/**
+	 * Method to update the Manifest Caches
+	 *
+	 * @return void
+	 *
+	 * @since  1.6
+	 */
 	protected function updateManifestCaches()
 	{
 		$extensions = array();
@@ -227,6 +245,13 @@ class joomlaInstallerScript
 		}
 	}
 
+	/**
+	 * Method to delete files that are no longer in the package
+	 *
+	 * @return void
+	 *
+	 * @since  1.6
+	 */
 	public function deleteUnexistingFiles()
 	{
 		$files = array(

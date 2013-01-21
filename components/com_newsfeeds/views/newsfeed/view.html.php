@@ -18,14 +18,14 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsViewNewsfeed extends JViewLegacy
 {
-	/**
-	 * @var		object
-	 * @since   1.6
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
 	 */
 	protected $state;
 
 	/**
-	 * @var		object
+	 * @var    object
 	 * @since   1.6
 	 */
 	protected $item;

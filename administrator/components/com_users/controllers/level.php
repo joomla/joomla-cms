@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class UsersControllerLevel extends JControllerForm
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var    string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_USERS_LEVEL';
@@ -41,7 +41,13 @@ class UsersControllerLevel extends JControllerForm
 	}
 
 	/**
-	 * Method to remove a record.
+	 * Removes an item or array of items.
+	 *
+	 * Overrides JControllerAdmin::delete to check the core.admin permission.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function delete()
 	{

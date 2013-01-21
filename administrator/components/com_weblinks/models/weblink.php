@@ -194,6 +194,10 @@ class WeblinksModelWeblink extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
+	 * @param   JTable  A JTable object.
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareTable($table)
@@ -233,11 +237,14 @@ class WeblinksModelWeblink extends JModelAdmin
 			$table->version++;
 		}
 	}
+
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   object	A record object.
+	 * @param   JTable  $table  A JTable instance.
+	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
+	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)

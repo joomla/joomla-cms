@@ -23,7 +23,7 @@ class JoomlaupdateHelper
 	 *
 	 * @return  JObject
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	public static function getActions()
 	{
@@ -36,7 +36,7 @@ class JoomlaupdateHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

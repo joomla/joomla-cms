@@ -115,7 +115,8 @@ class ContentModelForm extends ContentModelArticle
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
 				$value->catid = $catId;
 			}
-			else {
+			else
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
 			}
 		}
@@ -132,7 +133,7 @@ class ContentModelForm extends ContentModelArticle
 	/**
 	 * Get the return URL.
 	 *
-	 * @return  string	The return URL.
+	 * @return  string  The return URL.
 	 * @since   1.6
 	 */
 	public function getReturnPage()

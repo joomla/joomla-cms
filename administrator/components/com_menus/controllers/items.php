@@ -21,7 +21,7 @@ class MenusControllerItems extends JControllerAdmin
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
-		$this->registerTask('unsetDefault',	'setDefault');
+		$this->registerTask('unsetDefault', 'setDefault');
 	}
 
 	/**
@@ -36,7 +36,7 @@ class MenusControllerItems extends JControllerAdmin
 	/**
 	 * Rebuild the nested set tree.
 	 *
-	 * @return  bool	False on failure or error, true on success.
+	 * @return  boolean  False on failure or error, true on success.
 	 * @since   1.6
 	 */
 	public function rebuild()

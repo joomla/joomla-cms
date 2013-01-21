@@ -21,14 +21,14 @@ class WeblinksModelCategories extends JModelList
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	public $_context = 'com_weblinks.categories';
 
 	/**
 	 * The category context (allows other extensions to derived from this model).
 	 *
-	 * @var		string
+	 * @var    string
 	 */
 	protected $_extension = 'com_weblinks';
 
@@ -55,8 +55,8 @@ class WeblinksModelCategories extends JModelList
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('filter.published',	1);
-		$this->setState('filter.access',	true);
+		$this->setState('filter.published', 1);
+		$this->setState('filter.access', true);
 	}
 
 	/**

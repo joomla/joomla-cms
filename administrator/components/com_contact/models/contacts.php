@@ -20,8 +20,9 @@ class ContactModelContacts extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see		JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -64,7 +65,11 @@ class ContactModelContacts extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -233,7 +238,8 @@ class ContactModelContacts extends JModelList
 				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
-			else {
+			else
+			{
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.name LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}

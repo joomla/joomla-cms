@@ -26,9 +26,9 @@ class plgContentLoadmodule extends JPlugin
 	/**
 	 * Plugin that loads module positions within content
 	 *
-	 * @param   string	The context of the content being passed to the plugin.
-	 * @param   object	The article object.  Note $article->text is also available
-	 * @param   object	The article params
+	 * @param   string  The context of the content being passed to the plugin.
+	 * @param   object  The article object.  Note $article->text is also available
+	 * @param   object  The article params
 	 * @param   integer  The 'page' number
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
@@ -136,7 +136,7 @@ class plgContentLoadmodule extends JPlugin
 			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');
 			$mod		= JModuleHelper::getModule($module, $title);
-			// If the module without the mod_ isn't found, try it with mod_.
+			// If the module without the mod_ is not found, try it with mod_.
 			// This allows people to enter it either way in the content
 			if (!isset($mod)){
 				$name = 'mod_'.$module;

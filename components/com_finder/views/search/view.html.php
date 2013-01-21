@@ -22,6 +22,10 @@ class FinderViewSearch extends JViewLegacy
 
 	protected $params;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	protected $user;

@@ -69,6 +69,7 @@ else
 		}
 		// feed description
 		if ($params->get('rssdesc', 1))
+
 		{
 		?>
 			<?php echo $feed->description; ?>

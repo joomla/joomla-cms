@@ -14,6 +14,6 @@ if (!JFactory::getUser()->authorise('core.admin'))
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$controller	= JControllerLegacy::getInstance('Checkin');
+$controller = JControllerLegacy::getInstance('Checkin');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

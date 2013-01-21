@@ -233,7 +233,7 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get installed languages data.
 	 *
-	 * @return  string	An SQL query
+	 * @return  string  An SQL query
 	 * @since   1.6
 	 */
 	protected function getLanguageList()
@@ -354,7 +354,7 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to get the path
 	 *
-	 * @return  string	The path to the languages folders
+	 * @return  string  The path to the languages folders
 	 * @since   1.6
 	 */
 	protected function getPath()
@@ -371,8 +371,8 @@ class LanguagesModelInstalled extends JModelList
 	/**
 	 * Method to compare two languages in order to sort them
 	 *
-	 * @param   object	$lang1 the first language
-	 * @param   object	$lang2 the second language
+	 * @param   object  $lang1 the first language
+	 * @param   object  $lang2 the second language
 	 *
 	 * @return  integer
 	 * @since   1.6

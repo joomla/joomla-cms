@@ -18,16 +18,24 @@ defined('_JEXEC') or die;
  */
 class UsersViewRemind extends JViewLegacy
 {
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
+	 */
 	protected $form;
 
 	protected $params;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string	$tpl	The template file to include
+	 * @param   string  $tpl	The template file to include
 	 * @since   1.5
 	 */
 	public function display($tpl = null)

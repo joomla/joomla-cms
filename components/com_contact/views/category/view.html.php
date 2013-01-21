@@ -18,6 +18,10 @@ defined('_JEXEC') or die;
  */
 class ContactViewCategory extends JViewLegacy
 {
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	protected $items;
@@ -26,6 +30,10 @@ class ContactViewCategory extends JViewLegacy
 
 	protected $categories;
 
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	public function display($tpl = null)

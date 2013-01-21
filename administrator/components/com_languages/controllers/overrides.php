@@ -21,8 +21,8 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	/**
 	 * The prefix to use with controller messages
 	 *
-	 * @var		string
-	 * @since	2.5
+	 * @var    string
+	 * @since   2.5
 	 */
 	protected $text_prefix = 'COM_LANGUAGES_VIEW_OVERRIDES';
 
@@ -31,14 +31,14 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since  2.5
 	 */
 	public function delete()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		// Get items to dlete from the request
+		// Get items to delete from the request
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)

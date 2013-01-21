@@ -18,10 +18,22 @@ defined('_JEXEC') or die;
  */
 class MessagesViewMessage extends JViewLegacy
 {
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
+	 */
 	protected $form;
 
+	/*
+	 * @var    JObject  The JObject holding data for this view
+	 * @since  1.6
+	 */
 	protected $item;
 
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	public function display($tpl = null)
@@ -43,6 +55,8 @@ class MessagesViewMessage extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

@@ -91,13 +91,13 @@ class TemplatesTableStyle extends JTable
 	}
 
 	/**
-	 * Overloaded store method to unsure existence of a default style for a template.
+	 * Overloaded delete method to unsure existence of a default style for a template.
 	 *
-	 * @param   mixed	An optional primary key value to delete.  If not set the
-	 *					instance property value is used.
+	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the
+	 *                      instance property value is used.
 	 * @return  boolean  True on success.
 	 * @since   1.0
-	 * @link	http://docs.joomla.org/JTable/delete
+	 * @link    http://docs.joomla.org/JTable/delete
 	 */
 	public function delete($pk = null)
 	{

@@ -20,10 +20,20 @@ class UsersViewMail extends JViewLegacy
 	/**
 	 * @var object form object
 	 */
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
+	 */
 	protected $form;
 
 	/**
-	 * Display the view
+	 * Method to display the view
+	 *
+	 * @param  string  $tpl The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since  1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -36,6 +46,8 @@ class UsersViewMail extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

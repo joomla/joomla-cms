@@ -24,7 +24,7 @@ class ContentControllerArticles extends JControllerAdmin
 	 * @param   array  $config	An optional associative array of configuration settings.
 
 	 * @return  ContentControllerArticles
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -38,7 +38,7 @@ class ContentControllerArticles extends JControllerAdmin
 			$this->view_list = 'featured';
 		}
 
-		$this->registerTask('unfeatured',	'featured');
+		$this->registerTask('unfeatured', 'featured');
 	}
 
 	/**
@@ -91,8 +91,8 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string	$name	The name of the model.
-	 * @param   string	$prefix	The prefix for the PHP class name.
+	 * @param   string  $name	The name of the model.
+	 * @param   string  $prefix	The prefix for the PHP class name.
 	 *
 	 * @return  JModel
 	 * @since   1.6

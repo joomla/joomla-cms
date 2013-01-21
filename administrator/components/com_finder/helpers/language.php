@@ -70,7 +70,7 @@ class FinderHelperLanguage
 	{
 		static $loaded = false;
 
-		// If already loaded, don't load again.
+		// If already loaded, do not load again.
 		if ($loaded)
 		{
 			return;

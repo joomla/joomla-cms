@@ -86,7 +86,7 @@ class plgSystemLanguagecode extends JPlugin
 	 * @param   array  $data	The associated data for the form.
 	 *
 	 * @return  boolean
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	public function onContentPrepareForm($form, $data)
 	{

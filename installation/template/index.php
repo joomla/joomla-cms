@@ -102,10 +102,13 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				            if(input.val()== '')
 							{
 				                    label.addClass('active btn-primary');
-				             } else if(input.val()==0 || input.val()=='remove')
+				             }
+				             else if (input.val()==0 || input.val()=='remove')
 							{
 				                    label.addClass('active btn-danger');
-				             } else {
+				             }
+				             else
+				             {
 				            label.addClass('active btn-success');
 				             }
 				            input.prop('checked', true);
@@ -116,7 +119,8 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 						if($(this).val()== '')
 						{
 				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-				        } else if($(this).val()==0 || $(this).val()=='remove')
+				        }
+				        else if($(this).val()==0 || $(this).val()=='remove')
 						{
 				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
 				        } else {

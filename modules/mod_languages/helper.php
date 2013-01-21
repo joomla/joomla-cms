@@ -28,6 +28,7 @@ abstract class modLanguagesHelper
 
 		// Get menu home items
 		$homes = array();
+
 		foreach ($menu->getMenu() as $item)
 		{
 			if ($item->home)
@@ -78,7 +79,8 @@ abstract class modLanguagesHelper
 			{
 				unset($languages[$i]);
 			}
-			else {
+			else
+			{
 				$language->active = $language->lang_code == $lang->getTag();
 				if (JLanguageMultilang::isEnabled())
 				{
@@ -93,22 +95,26 @@ abstract class modLanguagesHelper
 						{
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
-						else {
+						else
+			{
 							$language->link = 'index.php?lang='.$language->sef.'&amp;Itemid='.$itemid;
 						}
 					}
-					else {
+					else
+			{
 						if ($app->getCfg('sef') == '1')
 						{
 							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
-						else {
+						else
+			{
 							$language->link = 'index.php?lang='.$language->sef;
 						}
 					}
 				}
-				else {
+				else
+			{
 					$language->link = JRoute::_('&Itemid='.$homes['*']->id);
 				}
 			}

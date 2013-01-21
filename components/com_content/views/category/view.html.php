@@ -18,6 +18,10 @@ defined('_JEXEC') or die;
  */
 class ContentViewCategory extends JViewLegacy
 {
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
+	 */
 	protected $state;
 
 	protected $items;
@@ -26,6 +30,10 @@ class ContentViewCategory extends JViewLegacy
 
 	protected $children;
 
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	protected $lead_items = array();
@@ -138,7 +146,7 @@ class ContentViewCategory extends JViewLegacy
 				$this->setLayout($layout);
 			}
 		}
-		// At this point, we are in a menu item, so we don't override the layout
+		// At this point, we are in a menu item, so we do not override the layout
 		elseif (isset($active->query['layout']))
 		{
 			// We need to set the layout from the query in case this is an alternative menu item (with an alternative layout)

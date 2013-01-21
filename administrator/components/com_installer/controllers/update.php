@@ -110,7 +110,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	public function ajax()
 	{
 		/*
-		 * Note: we don't do a token check as we're fetching information
+		 * Note: we do not do a token check as we're fetching information
 		 * asynchronously. This means that between requests the token might
 		 * change, making it impossible for AJAX to work.
 		 */

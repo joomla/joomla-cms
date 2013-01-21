@@ -103,7 +103,8 @@ class BannersModelBanner extends JModelLegacy
 				$query->where('banner_id=' . (int) $id);
 				$query->where('track_date='.$db->Quote($trackDate));
 			}
-			else {
+			else
+			{
 				// insert new count
 				//sqlsrv change
 				$query->insert('#__banner_tracks');
@@ -189,7 +190,7 @@ class BannersModelBanner extends JModelLegacy
 		$item = $this->getItem();
 		$url = $item->clickurl;
 
-		// check for links
+		// Check for links
 		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
 		{
 			$url = "http://$url";

@@ -21,7 +21,7 @@ class ContactHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	$vName	The name of the active view.
+	 * @param   string  $vName	The name of the active view.
 	 *
 	 * @return  void
 	 * @since   1.6
@@ -81,7 +81,7 @@ class ContactHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

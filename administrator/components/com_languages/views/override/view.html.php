@@ -18,27 +18,21 @@ defined('_JEXEC') or die;
  */
 class LanguagesViewOverride extends JViewLegacy
 {
-	/**
-	 * The form to use for the view
-	 *
-	 * @var		object
-	 * @since	2.5
+	/*
+	 * @var    JForm  The JForm for this view
+	 * @since  1.6
 	 */
 	protected $form;
 
-	/**
-	 * The item to edit
-	 *
-	 * @var		object
-	 * @since	2.5
+	/*
+	 * @var    JObject  The JObject holding data for this view
+	 * @since  1.6
 	 */
 	protected $item;
 
-	/**
-	 * The model state
-	 *
-	 * @var		object
-	 * @since	2.5
+	/*
+	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
+	 * @since  1.6
 	 */
 	protected $state;
 

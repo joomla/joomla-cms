@@ -22,6 +22,10 @@ class MenusViewItems extends JViewLegacy
 
 	protected $items;
 
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	protected $state;
@@ -124,7 +128,7 @@ class MenusViewItems extends JViewLegacy
 											{
 												if (!empty($layout[0]['title']))
 												{
-													$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
+													$value .= ' Â» ' . JText::_(trim((string) $layout[0]['title']));
 												}
 											}
 											if (!empty($layout[0]->message[0]))
@@ -138,7 +142,7 @@ class MenusViewItems extends JViewLegacy
 							}
 							else {
 								// Special case for absent views
-								$value .= ' » ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
+								$value .= ' Â» ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
 							}
 						}
 					}

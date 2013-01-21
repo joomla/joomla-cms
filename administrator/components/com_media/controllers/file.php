@@ -143,18 +143,16 @@ class MediaControllerFile extends JControllerLegacy
 		return true;
 	}
 
-	/**
 	 * Used as a callback for array_map, turns the multi-file input array into a sensible array of files
 	 * Also, removes illegal characters from the 'name' and sets a 'filepath' as the final destination of the file
 	 *
-	 * @param   string	- file name			($files['name'])
-	 * @param   string	- file type			($files['type'])
-	 * @param   string	- temporary name	($files['tmp_name'])
-	 * @param   string	- error info		($files['error'])
-	 * @param   string	- file size			($files['size'])
+	 * @param   string  - file name       ($files['name'])
+	 * @param   string  - file type       ($files['type'])
+	 * @param   string  - temporary name  ($files['tmp_name'])
+	 * @param   string  - error info      ($files['error'])
+	 * @param   string  - file size       ($files['size'])
 	 *
 	 * @return  array
-	 * @access	protected
 	 */
 	protected function reformatFilesArray($name, $type, $tmp_name, $error, $size)
 	{

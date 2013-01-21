@@ -20,7 +20,8 @@ class BannersViewDownload extends JViewLegacy
 {
 	protected $form;
 	/**
-	 * Display the view
+	 * Method to display the view
+	 *
 	 */
 	public function display($tpl = null)
 	{

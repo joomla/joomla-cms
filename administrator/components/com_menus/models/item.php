@@ -1362,7 +1362,8 @@ class MenusModelItem extends JModelAdmin
 						unset($pks[$i]);
 						JError::raiseNotice(403, JText::_('COM_MENUS_ERROR_ALREADY_HOME'));
 					}
-					else {
+					else
+					{
 						$table->home = $value;
 						if ($table->language == '*')
 						{
@@ -1389,7 +1390,8 @@ class MenusModelItem extends JModelAdmin
 						}
 					}
 				}
-				else {
+				else
+				{
 					unset($pks[$i]);
 					if (!$onehome)
 					{
