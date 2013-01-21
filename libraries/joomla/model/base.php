@@ -24,10 +24,6 @@ abstract class JModelBase implements JModel
 	 * @var    JRegistry
 	 * @since  12.1
 	 */
-	/*
-	 * @var   JObject  The JObject holding state data for this view such as parameters, paths and filters.
-	 * @since  1.6
-	 */
 	protected $state;
 
 	/**

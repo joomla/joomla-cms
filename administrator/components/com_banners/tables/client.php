@@ -14,11 +14,18 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_banners
- * @since       1.6
+ * @since       1.5
  */
 class BannersTableClient extends JTable
 {
-	public function __construct(&$_db)
+	/**
+	 * Constructor
+	 *
+	 * @param  JDatabase  $db  Database connector object
+	 *
+	 * @since 1.5
+	 */
+	public function __construct($_db)
 	{
 		$this->checked_out_time = $_db->getNullDate();
 		parent::__construct('#__banner_clients', 'id', $_db);

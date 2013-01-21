@@ -59,8 +59,7 @@ $debug  = (boolean) $config->get('debug');
 	</script>
 	<style type="text/css">
 		/* Responsive Styles */
-		@media (max-width: 480px)
-		{
+		@media (max-width: 480px){
 			.view-login .container{
 				margin-top: -170px;
 			}

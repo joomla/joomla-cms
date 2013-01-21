@@ -91,7 +91,7 @@ class MenusControllerMenus extends JControllerLegacy
 	/**
 	 * Rebuild the menu tree.
 	 *
-	 * @return  bool	False on failure or error, true on success.
+	 * @return  boolean  False on failure or error, true on success.
 	 */
 	public function rebuild()
 	{

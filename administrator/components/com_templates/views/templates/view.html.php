@@ -28,6 +28,10 @@ class TemplatesViewTemplates extends JViewLegacy
 	 * @var    object
 	 * @since   1.6
 	 */
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	/**

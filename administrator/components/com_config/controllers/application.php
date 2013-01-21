@@ -36,7 +36,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	/**
 	 * Method to save the configuration.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 * @since   1.5
 	 */
 	public function save()
@@ -167,7 +167,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	/**
 	 * Method to remove the root property from the configuration.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 * @since   1.5
 	 */
 	public function removeroot()

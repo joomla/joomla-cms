@@ -30,6 +30,10 @@ class ContentViewCategory extends JViewLegacy
 
 	protected $children;
 
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	protected $lead_items = array();

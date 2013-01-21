@@ -24,7 +24,7 @@ class AdmintoolsHelperDownload
 	 * @param   string  $url     The URL to download from
 	 * @param   string  $target  The file path to download to
 	 *
-	 * @return  bool	True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   2.5.4
 	 */

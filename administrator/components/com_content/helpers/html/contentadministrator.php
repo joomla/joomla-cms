@@ -72,9 +72,9 @@ abstract class JHtmlContentAdministrator
 		JHtml::_('bootstrap.tooltip');
 
 		// Array of image, task, title, action
-		$states	= array(
-			0	=> array('star-empty', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'COM_CONTENT_TOGGLE_TO_FEATURE'),
-			1	=> array('star', 	'articles.unfeatured', 'COM_CONTENT_FEATURED', 	'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
+		$states = array(
+			0 => array('star-empty', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'COM_CONTENT_TOGGLE_TO_FEATURE'),
+			1=> array('star', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon	= $state[0];

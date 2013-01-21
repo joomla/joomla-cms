@@ -43,6 +43,10 @@ class InstallerViewUpdate extends InstallerViewDefault
 	 *
 	 * @var JPagination
 	 */
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	/**

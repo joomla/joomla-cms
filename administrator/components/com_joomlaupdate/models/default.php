@@ -417,9 +417,9 @@ ENDDATA;
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
 
-					if(!empty($systemp))
+					if (!empty($systemp))
 					{
-						if(@is_dir($systemp) && @is_writable($systemp))
+						if (@is_dir($systemp) && @is_writable($systemp))
 						{
 							$tempdir = $systemp;
 						}

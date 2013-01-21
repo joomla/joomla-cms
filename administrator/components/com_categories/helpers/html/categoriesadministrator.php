@@ -18,7 +18,8 @@ JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_cat
 abstract class JHtmlCategoriesAdministrator
 {
 	/**
-	 * @param   int $catid	The category item id
+	 * @param   integer  $catid      The category item id
+	 * @param   string   $extension  The extension with which the categories are associated.
 	 */
 	public static function association($catid, $extension = 'com_content')
 	{
@@ -57,5 +58,4 @@ abstract class JHtmlCategoriesAdministrator
 		}
 		return JHtml::_('tooltip', implode('<br />', $text), JText::_('COM_CATEGORIES_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
 	}
-
 }

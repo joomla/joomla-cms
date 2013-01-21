@@ -68,7 +68,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache data
 	 *
-	 * @return array
+	 * @return  array
 	 * @since   1.6
 	 */
 	public function getData()
@@ -109,7 +109,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache instance
 	 *
-	 * @return JCache
+	 * @return  JCache
 	 *
 	 * @since   1.6
 	 */
@@ -179,8 +179,7 @@ class CacheModelCache extends JModelList
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
 	 *
-	 * @param String $group  A specific cache group name.
-	 *
+	 * @param   string  $group  A specific cache group name.
 	 *
 	 * @return  void
 	 *
@@ -195,7 +194,7 @@ class CacheModelCache extends JModelList
 	/**
 	 * Clean out an array of cache groups as named by param.
 	 *
-	 * @param String $group  A specific cache group name.
+	 * @param string $group  A specific cache group name.
 	 *
 	 * @return  void
 	 *
@@ -211,8 +210,6 @@ class CacheModelCache extends JModelList
 
 	/**
 	 * Purge the cache.
-	 *
-	 * @param String $group  A specific cache group name.
 	 *
 	 * @return  boolean  True on success
 	 *

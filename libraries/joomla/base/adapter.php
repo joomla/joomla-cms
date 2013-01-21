@@ -36,7 +36,7 @@ class JAdapter extends JObject
 	protected $_adapterfolder = 'adapters';
 
 	/**
-	 * @var    string  Adapter Class Prefix
+	 * @var    string	Adapter Class Prefix
 	 * @since  11.1
 	 */
 	protected $_classprefix = 'J';

@@ -23,6 +23,7 @@ class BannersViewDownload extends JViewLegacy
 	 * @since  1.6
 	 */
 	protected $form;
+
 	/**
 	 * Method to display the view
 	 *

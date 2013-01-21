@@ -63,7 +63,7 @@ class UsersModelDebugUser extends JModelList
 						$asset->checks[$name] = JAccess::check($userId, $action[0], $asset->name);
 					}
 					else
-			{
+					{
 						// We ignore this action.
 						$asset->checks[$name] = 'skip';
 					}

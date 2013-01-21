@@ -30,6 +30,10 @@ class ContactViewFeatured extends JViewLegacy
 
 	protected $categories;
 
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	/**

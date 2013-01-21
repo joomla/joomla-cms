@@ -21,15 +21,26 @@ class BannersTableBanner extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @since   1.5
+	 * @param  JDatabase  $db  Database connector object
+	 *
+	 * @since 1.5
 	 */
-	public function __construct(&$_db)
+	public function __construct($_db)
 	{
 		parent::__construct('#__banners', 'id', $_db);
 		$date = JFactory::getDate();
 		$this->created = $date->toSql();
 	}
 
+
+	/**
+	 * Method to update the clicks on a banner
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 *
+	 */
 	public function clicks()
 	{
 		$query = 'UPDATE #__banners'
@@ -44,8 +55,9 @@ class BannersTableBanner extends JTable
 	 * Overloaded check function
 	 *
 	 * @return  boolean
-	 * @see     JTable::check
+	 *
 	 * @since   1.5
+	 * @see     JTable::check
 	 */
 	public function check()
 	{
@@ -63,6 +75,7 @@ class BannersTableBanner extends JTable
 		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+
 			return false;
 		}
 
@@ -105,6 +118,7 @@ class BannersTableBanner extends JTable
 
 			if((int) $registry->get('height', 0) < 0){
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
+
 				return false;
 			}
 
@@ -130,9 +144,12 @@ class BannersTableBanner extends JTable
 	/**
 	 * Method to store a row
 	 *
-	 * @param  boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  Boolean true on success, false or the count of database errors on failure.
 	 *
 	 * @since   1.6
+	 * @see     JTable:Store
 	 */
 	public function store($updateNulls = false)
 	{
@@ -190,6 +207,7 @@ class BannersTableBanner extends JTable
 			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 			{
 				$this->setError(JText::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
+
 				return false;
 			}
 
@@ -209,7 +227,7 @@ class BannersTableBanner extends JTable
 
 	/**
 	 * Method to set the publishing state for a row or list of rows in the database
-	 * table.  The method respects checked out rows by other users and will attempt
+	 * table.  The method respects rows checked out by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
 	 * @param   mixed    An optional array of primary key values to update.  If not
@@ -241,6 +259,7 @@ class BannersTableBanner extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -275,6 +294,7 @@ class BannersTableBanner extends JTable
 				}
 			}
 		}
+
 		return count($this->getErrors()) == 0;
 	}
 
@@ -312,6 +332,7 @@ class BannersTableBanner extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -346,6 +367,7 @@ class BannersTableBanner extends JTable
 				}
 			}
 		}
+
 		return count($this->getErrors()) == 0;
 	}
 }

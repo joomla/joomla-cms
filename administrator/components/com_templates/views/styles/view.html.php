@@ -20,6 +20,10 @@ class TemplatesViewStyles extends JViewLegacy
 {
 	protected $items;
 
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	/*

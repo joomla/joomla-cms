@@ -32,6 +32,10 @@ class UsersViewNotes extends JViewLegacy
 	 * @var    JPagination
 	 * @since  2.5
 	 */
+	/*
+	 * @var   JPagination  Pagination object.
+	 * @since  1.6
+	 */
 	protected $pagination;
 
 	/**
