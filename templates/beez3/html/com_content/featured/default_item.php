@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,18 +36,18 @@ $templateparams = $app->getTemplate(true)->params;
 	<ul class="actions">
 		<?php if ($params->get('show_print_icon')) : ?>
 		<li class="print-icon">
-			<?php echo JHtml::_('icon.print_popup', $this->item, $params); ?>
+			<?php echo JHtml::_('icon.print_popup', $this->item, $params, array(), true); ?>
 		</li>
 		<?php endif; ?>
 		<?php if ($params->get('show_email_icon')) : ?>
 		<li class="email-icon">
-			<?php echo JHtml::_('icon.email', $this->item, $params); ?>
+			<?php echo JHtml::_('icon.email', $this->item, $params, array(), true); ?>
 		</li>
 		<?php endif; ?>
 
 		<?php if ($canEdit) : ?>
 		<li class="edit-icon">
-			<?php echo JHtml::_('icon.edit', $this->item, $params); ?>
+			<?php echo JHtml::_('icon.edit', $this->item, $params, array(), true); ?>
 		</li>
 		<?php endif; ?>
 	</ul>

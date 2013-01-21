@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,8 +32,10 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 <?php foreach ($this->items as $i => $item):?>
 <?php if ($item->user_count > 0):?>
 			cb = f['cb'+<?php echo $i;?>];
-			if (cb && cb.checked) {
-				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE'))) {
+			if (cb && cb.checked)
+			{
+				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE')))
+				{
 					Joomla.submitform(task);
 				}
 				return;

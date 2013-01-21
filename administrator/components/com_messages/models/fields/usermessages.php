@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,15 +24,15 @@ class JFormFieldUserMessages extends JFormFieldUser
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public $type = 'UserMessages';
 
 	/**
 	 * Method to get the filtering groups (null means no filtering)
 	 *
-	 * @return	array|null	array of filtering groups or null.
-	 * @since	1.6
+	 * @return  array|null	array of filtering groups or null.
+	 * @since   1.6
 	 */
 	protected function getGroups()
 	{
@@ -55,14 +55,17 @@ class JFormFieldUserMessages extends JFormFieldUser
 
 		foreach ($groups as $i => $group)
 		{
-			if (JAccess::checkGroup($group, 'core.admin')) {
+			if (JAccess::checkGroup($group, 'core.admin'))
+			{
 				continue;
 			}
-			if (!JAccess::checkGroup($group, 'core.manage', 'com_messages')) {
+			if (!JAccess::checkGroup($group, 'core.manage', 'com_messages'))
+			{
 				unset($groups[$i]);
 				continue;
 			}
-			if (!JAccess::checkGroup($group, 'core.login.admin')) {
+			if (!JAccess::checkGroup($group, 'core.login.admin'))
+			{
 				unset($groups[$i]);
 				continue;
 			}
@@ -73,8 +76,8 @@ class JFormFieldUserMessages extends JFormFieldUser
 	/**
 	 * Method to get the users to exclude from the list of users
 	 *
-	 * @return	array|null array of users to exclude or null to to not exclude them
-	 * @since	1.6
+	 * @return  array|null array of users to exclude or null to to not exclude them
+	 * @since   1.6
 	 */
 	protected function getExcluded()
 	{

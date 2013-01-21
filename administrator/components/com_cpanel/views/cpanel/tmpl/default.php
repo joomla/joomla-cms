@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,8 @@ $user = JFactory::getUser();
 		<?php
 		// Display the submenu position modules
 		$this->iconmodules = JModuleHelper::getModules('icon');
-		foreach ($this->iconmodules as $iconmodule) {
+		foreach ($this->iconmodules as $iconmodule)
+		{
 			$output = JModuleHelper::renderModule($iconmodule, array('style' => 'well'));
 			$params = new JRegistry;
 			$params->loadString($iconmodule->params);

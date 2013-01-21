@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -165,7 +165,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <?php // Code to add a link to submit an article. ?>
 <?php if ($this->category->getParams()->get('access-create')) : ?>
-	<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
+	<?php echo JHtml::_('icon.create', $this->category, $this->category->params, array(), true); ?>
 <?php  endif; ?>
 
 <?php // Add pagination links ?>

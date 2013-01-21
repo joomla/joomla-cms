@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,11 +15,17 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
+
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form'))) {
+		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form')))
+		{
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
 	}
@@ -46,6 +52,9 @@ JHtml::_('formbehavior.chosen', 'select');
 		?>
 		<li><a href="#metadata-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
 		<?php endforeach; ?>
+		<?php if ($assoc): ?>
+			<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
+		<?php endif; ?>
 	</ul>
 
 	<div class="tab-content">
@@ -76,7 +85,7 @@ JHtml::_('formbehavior.chosen', 'select');
 										<?php echo $this->form->getInput('images'); ?>
 									</div>
 								</div>
-								<?php foreach($this->form->getGroup('images') as $field): ?>
+								<?php foreach ($this->form->getGroup('images') as $field) : ?>
 									<div class="control-group">
 										<?php if (!$field->hidden): ?>
 											<div class="control-label">
@@ -177,6 +186,11 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php echo $this->loadTemplate('params'); ?>
 
 		<?php echo $this->loadTemplate('metadata'); ?>
+
+		<?php if ($assoc) : ?>
+			<?php echo $this->loadTemplate('associations'); ?>
+		<?php endif; ?>
+
 		</div>
 		</fieldset>
 

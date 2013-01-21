@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,7 +51,8 @@ $debug  = (boolean) $config->get('debug');
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<jdoc:include type="head" />
 	<script type="text/javascript">
-		window.addEvent('domready', function () {
+		window.addEvent('domready', function ()
+		{
 			document.getElementById('form-login').username.select();
 			document.getElementById('form-login').username.focus();
 		});
@@ -59,10 +60,10 @@ $debug  = (boolean) $config->get('debug');
 	<style type="text/css">
 		/* Responsive Styles */
 		@media (max-width: 480px) {
-			.view-login .container{
+			.view-login .container {
 				margin-top: -170px;
 			}
-			.btn{
+			.btn {
 				font-size: 13px;
 				padding: 4px 10px 4px;
 			}

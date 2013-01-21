@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,9 +32,9 @@ class plgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Initialise the captcha
 	 *
-	 * @param	string	$id	The id of the field.
+	 * @param   string	$id	The id of the field.
 	 *
-	 * @return	Boolean	True on success, false otherwise
+	 * @return  Boolean	True on success, false otherwise
 	 *
 	 * @since  2.5
 	 */
@@ -59,7 +59,8 @@ class plgCaptchaRecaptcha extends JPlugin
 		}
 
 		JHtml::_('script', $server.'/js/recaptcha_ajax.js');
-		$document->addScriptDeclaration('window.addEvent(\'domready\', function() {
+		$document->addScriptDeclaration('window.addEvent(\'domready\', function()
+		{
 			Recaptcha.create("'.$pubkey.'", "dynamic_recaptcha_1", {theme: "'.$theme.'",'.$lang.'tabindex: 0});});'
 		);
 
@@ -126,7 +127,8 @@ class plgCaptchaRecaptcha extends JPlugin
 
 		$answers = explode("\n", $response[1]);
 
-		if (trim($answers[0]) == 'true') {
+		if (trim($answers[0]) == 'true')
+			{
 				return true;
 		}
 		else
@@ -206,7 +208,7 @@ class plgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Get the language tag or a custom translation
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since  2.5
 	 */

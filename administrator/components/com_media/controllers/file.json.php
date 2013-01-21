@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,8 @@ class MediaControllerFile extends JControllerLegacy
 	{
 		$params = JComponentHelper::getParams('com_media');
 		// Check for request forgeries
-		if (!JSession::checkToken('request')) {
+		if (!JSession::checkToken('request'))
+		{
 			$response = array(
 				'status' => '0',
 				'error' => JText::_('JINVALID_TOKEN')
@@ -94,7 +95,8 @@ class MediaControllerFile extends JControllerLegacy
 			$object_file = new JObject($file);
 			$object_file->filepath = $filepath;
 			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file));
-			if (in_array(false, $result, true)) {
+			if (in_array(false, $result, true))
+			{
 				// There are some errors in the plugins
 				JLog::add('Errors before save: ' . $filepath . ' : ' . implode(', ', $object_file->getErrors()), JLog::INFO, 'upload');
 				$response = array(

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,7 +73,7 @@ $listDirn		= $this->escape($this->state->get('list.direction')); ?>
 		<tbody>
 		<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages');
 		$i = 0;
-		foreach($this->items as $key => $text): ?>
+		foreach ($this->items as $key => $text): ?>
 			<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $key); ?>

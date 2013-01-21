@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ abstract class modQuickIconHelper
 	/**
 	 * Stack to hold buttons
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected static $buttons = array();
 
@@ -31,15 +31,16 @@ abstract class modQuickIconHelper
 	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
-	 * @param	JRegistry	The module parameters.
+	 * @param   JRegistry	The module parameters.
 	 *
-	 * @return	array	An array of buttons
-	 * @since	1.6
+	 * @return  array  An array of buttons
+	 * @since   1.6
 	 */
 	public static function &getButtons($params)
 	{
 		$key = (string) $params;
-		if (!isset(self::$buttons[$key])) {
+		if (!isset(self::$buttons[$key]))
+		{
 			$context = $params->get('context', 'mod_quickicon');
 			if ($context == 'mod_quickicon')
 			{
@@ -131,8 +132,10 @@ abstract class modQuickIconHelper
 			$app = JFactory::getApplication();
 			$arrays = (array) $app->triggerEvent('onGetIcons', array($context));
 
-			foreach ($arrays as $response) {
-				foreach ($response as $icon) {
+			foreach ($arrays as $response)
+			{
+				foreach ($response as $icon)
+				{
 					$default = array(
 						'link' => null,
 						'image' => 'cog',
@@ -140,7 +143,8 @@ abstract class modQuickIconHelper
 						'access' => true
 					);
 					$icon = array_merge($default, $icon);
-					if (!is_null($icon['link']) && !is_null($icon['text'])) {
+					if (!is_null($icon['link']) && !is_null($icon['text']))
+					{
 						self::$buttons[$key][] = $icon;
 					}
 				}
@@ -153,10 +157,10 @@ abstract class modQuickIconHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param	JRegistry	The module parameters.
-	 * @param	object		The module.
+	 * @param   JRegistry	The module parameters.
+	 * @param   object		The module.
 	 *
-	 * @return	string	The alternate title for the module.
+	 * @return  string	The alternate title for the module.
 	 */
 	public static function getTitle($params, $module)
 	{

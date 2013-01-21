@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,9 +21,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 // check for at least one editable article
 $isEditable = false;
-if (!empty($this->items)) {
-	foreach ($this->items as $article) {
-		if ($article->params->get('access-edit')) {
+if (!empty($this->items))
+{
+	foreach ($this->items as $article)
+	{
+		if ($article->params->get('access-edit'))
+		{
 			$isEditable = true;
 			break;
 		}
@@ -72,7 +75,7 @@ if (!empty($this->items)) {
 		<thead>
 			<tr>
 				<th id="categorylist_header_title">
-					<?php  echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder) ; ?>
+					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 				</th>
 				<?php if ($date = $this->params->get('list_show_date')) : ?>
 					<th id="categorylist_header_date">

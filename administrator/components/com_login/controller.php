@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,10 +24,10 @@ class LoginController extends JControllerLegacy
 	 * This function is provide as a default implementation, in most cases
 	 * you will need to override it in your own controllers.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -44,7 +44,7 @@ class LoginController extends JControllerLegacy
 	/**
 	 * Method to log in a user.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function login()
 	{
@@ -59,7 +59,8 @@ class LoginController extends JControllerLegacy
 
 		$result = $app->login($credentials, array('action' => 'core.login.admin'));
 
-		if (!($result instanceof Exception)) {
+		if (!($result instanceof Exception))
+		{
 			$app->redirect($return);
 		}
 
@@ -69,7 +70,7 @@ class LoginController extends JControllerLegacy
 	/**
 	 * Method to log out a user.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function logout()
 	{
@@ -85,7 +86,8 @@ class LoginController extends JControllerLegacy
 
 		$result = $app->logout($userid, $options);
 
-		if (!($result instanceof Exception)) {
+		if (!($result instanceof Exception))
+		{
 			$model 	= $this->getModel('login');
 			$return = $model->getState('return');
 			$app->redirect($return);

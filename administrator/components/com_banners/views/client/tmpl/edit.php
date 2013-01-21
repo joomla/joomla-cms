@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,8 @@ $canDo	= BannersHelper::getActions();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form'))) {
+		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form')))
+		{
 			Joomla.submitform(task, document.getElementById('client-form'));
 		}
 	}
@@ -105,7 +106,7 @@ $canDo	= BannersHelper::getActions();
 						</div>
 					</div>
 					<div class="span6">
-						<?php foreach($this->form->getFieldset('extra') as $field): ?>
+						<?php foreach ($this->form->getFieldset('extra') as $field) : ?>
 							<div class="control-group">
 								<?php if (!$field->hidden): ?>
 									<div class="control-label">
@@ -121,7 +122,7 @@ $canDo	= BannersHelper::getActions();
 				</div>
 			</div>
 			<div class="tab-pane" id="metadata">
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 					<div class="control-group">
 						<?php if (!$field->hidden): ?>
 							<div class="control-label">

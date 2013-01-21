@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,7 +119,8 @@ class plgEditorTinymce extends JPlugin
 				$content_css = 'content_css : "'. JURI::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
-				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom)) {
+				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
+				{
 					$msg = sprintf(JText::_('PLG_TINY_ERR_CUSTOMCSSFILENOTPRESENT'), $content_css_custom);
 					JError::raiseNotice('SOME_ERROR_CODE', $msg);
 				}
@@ -631,7 +632,7 @@ class plgEditorTinymce extends JPlugin
 	 *
 	 * @param  string  The name of the editor
 	 *
-	 * @return string
+	 * @return  string
 	 */
 	public function onGetContent($editor)
 	{
@@ -671,13 +672,17 @@ class plgEditorTinymce extends JPlugin
 		$doc = JFactory::getDocument();
 
 		$js = "
-			function isBrowserIE() {
+			function isBrowserIE()
+			{
 				return navigator.appName==\"Microsoft Internet Explorer\";
 			}
 
-			function jInsertEditorText( text, editor ) {
-				if (isBrowserIE()) {
-					if (window.parent.tinyMCE) {
+			function jInsertEditorText( text, editor )
+			{
+				if (isBrowserIE())
+				{
+					if (window.parent.tinyMCE)
+					{
 						window.parent.tinyMCE.selectedInstance.selection.moveToBookmark(window.parent.global_ie_bookmark);
 					}
 				}
@@ -686,8 +691,10 @@ class plgEditorTinymce extends JPlugin
 
 			var global_ie_bookmark = false;
 
-			function IeCursorFix() {
-				if (isBrowserIE()) {
+			function IeCursorFix()
+			{
+				if (isBrowserIE())
+				{
 					tinyMCE.execCommand('mceInsertContent', false, '');
 					global_ie_bookmark = tinyMCE.activeEditor.selection.getBookmark(false);
 				}
@@ -776,7 +783,8 @@ class plgEditorTinymce extends JPlugin
 				/*
 				 * Results should be an object
 				 */
-				if ( $button->get('name') ) {
+				if ( $button->get('name') )
+				{
 					$modal		= ($button->get('modal')) ? ' class="modal-button btn"' : null;
 					$href		= ($button->get('link')) ? ' class="btn" href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : 'onclick="IeCursorFix(); return false;"';

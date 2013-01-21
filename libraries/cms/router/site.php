@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -413,6 +413,7 @@ class JRouterSite extends JRouter
 		 */
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
 		$tmp       = '';
+		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 
 		// Use the component routing handler if it exists
 		$path = JPATH_SITE . '/components/' . $component . '/router.php';
@@ -450,7 +451,7 @@ class JRouterSite extends JRouter
 		 * Build the application route
 		 */
 		$built = false;
-		if (isset($query['Itemid']) && !empty($query['Itemid']))
+		if (!empty($query['Itemid']))
 		{
 			$item = $menu->getItem($query['Itemid']);
 			if (is_object($item) && $query['option'] == $item->component)
@@ -461,6 +462,11 @@ class JRouterSite extends JRouter
 				}
 				$built = true;
 			}
+		}
+
+		if (empty($query['Itemid']) && !empty($itemID))
+		{
+			$query['Itemid'] = $itemID;
 		}
 
 		if (!$built)

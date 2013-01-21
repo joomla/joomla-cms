@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -113,13 +113,13 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->jPrint ("Go to Home and check that edit icon is visible" . "\n");
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
+		$this->assertTrue($this->isElementPresent("//span[contains(@class, 'icon-edit')]"));
 		$this->jPrint ("Drill to Sample Data article and check that edit icon is visible" . "\n");
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Sample Sites");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
+		$this->assertTrue($this->isElementPresent("//span[contains(@class, 'icon-edit')]"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		$this->jPrint ("Logout of front end." . "\n");
@@ -127,11 +127,11 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->jPrint ("Go to home and check that edit icon is not visible." . "\n");
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-		$this->assertFalse($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
+		$this->assertFalse($this->isElementPresent("//span[contains(@class, 'icon-edit')]"));
 		$this->jPrint ("Drill to Sample Data article and check that edit icon is not visible." . "\n");
 		$this->click("link=Sample Sites");
 		$this->waitForPageToLoad("30000");
-		$this->assertFalse($this->isElementPresent("//i[contains(@class, 'icon-edit')]"));
+		$this->assertFalse($this->isElementPresent("//span[contains(@class, 'icon-edit')]"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		$this->deleteAllVisibleCookies();

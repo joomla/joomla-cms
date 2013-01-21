@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,18 +20,27 @@ JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-Joomla.submitbutton = function(pressbutton) {
-	if (pressbutton == 'index.purge') {
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT'))) {
+Joomla.submitbutton = function(pressbutton)
+{
+	if (pressbutton == 'index.purge')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
-	if (pressbutton == 'index.delete') {
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT'))) {
+	if (pressbutton == 'index.delete')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -106,7 +115,8 @@ Joomla.submitbutton = function(pressbutton) {
 			<tr class="row0">
 				<td align="center" colspan="7">
 					<?php
-					if ($this->total == 0) {
+					if ($this->total == 0)
+					{
 						echo JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP');
 					} else {
 						echo JText::_('COM_FINDER_INDEX_NO_CONTENT');
@@ -138,7 +148,8 @@ Joomla.submitbutton = function(pressbutton) {
 				</td>
 				<td class="nowrap">
 					<?php
-					if (strlen($item->url) > 80) {
+					if (strlen($item->url) > 80)
+					{
 						echo substr($item->url, 0, 70) . '...';
 					} else {
 						echo $item->url;

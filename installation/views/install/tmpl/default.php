@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,11 +10,13 @@ defined('_JEXEC') or die;
 $tasks = array();
 $tasks[] = ($this->options['db_old'] == 'remove') ? "database_remove" : "database_backup";
 $tasks[] = "database";
-if ($this->options['sample_file']) {
+if ($this->options['sample_file'])
+{
 	$tasks[] = "sample";
 }
 $tasks[] = "config";
-if ($this->options['summary_email']) {
+if ($this->options['summary_email'])
+{
 	$tasks[] = "email";
 }
 ?>
@@ -28,11 +30,12 @@ if ($this->options['summary_email']) {
 
 	<table class="table">
 		<tbody>
-		<?php foreach($tasks as $task) : ?>
+		<?php foreach ($tasks as $task) : ?>
 		<tr id="install_<?php echo $task; ?>">
 			<td class="item" nowrap="nowrap" width="10%">
 				<?php
-					if ($task == 'email') {
+					if ($task == 'email')
+					{
 						echo JText::sprintf('INSTL_INSTALLING_EMAIL', '<span class="label">'.$this->options['admin_email'].'</span>');
 					} else {
 						echo JText::_('INSTL_INSTALLING_'.strtoupper($task));
@@ -55,14 +58,18 @@ if ($this->options['summary_email']) {
 </form>
 
 <script type="text/javascript">
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		doInstall();
 	});
 	function doInstall()
 	{
-		if(document.id('install_progress') != null) {
+		if(document.id('install_progress') != null)
+		{
 			Install.install(['<?php echo implode("','", $tasks); ?>']);
-		} else {
+		}
+		else
+		{
 			(function(){doInstall();}).delay(500);
 		}
 	}

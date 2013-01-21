@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ if (isset($this->error)) : ?>
 			     <?php foreach ($this->form->getFieldsets() as $fieldset): ?>
 			          <?php if ($fieldset->name != 'contact'):?>
 			               <?php $fields = $this->form->getFieldset($fieldset->name);?>
-			               <?php foreach($fields as $field): ?>
+			               <?php foreach ($fields as $field) : ?>
 			               	<div class="control-group">
 			                    <?php if ($field->hidden): ?>
 			                    	<div class="controls">

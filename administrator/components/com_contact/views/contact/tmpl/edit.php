@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,11 +14,17 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form'))) {
+		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
+		{
 			<?php echo $this->form->getField('misc')->save(); ?>
 			Joomla.submitform(task, document.getElementById('contact-form'));
 		}
@@ -46,6 +52,9 @@ JHtml::_('formbehavior.chosen', 'select');
 			?>
 			<li><a href="#metadata-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
 			<?php endforeach; ?>
+			<?php if ($assoc): ?>
+				<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
+			<?php endif; ?>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane active" id="details">
@@ -200,6 +209,10 @@ JHtml::_('formbehavior.chosen', 'select');
 			<?php echo $this->loadTemplate('params'); ?>
 
 			<?php echo $this->loadTemplate('metadata'); ?>
+
+			<?php if ($assoc) : ?>
+				<?php echo $this->loadTemplate('associations'); ?>
+			<?php endif; ?>
 
 			</div>
 			</fieldset>

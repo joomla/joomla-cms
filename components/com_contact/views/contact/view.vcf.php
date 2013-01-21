@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,8 @@ class ContactViewContact extends JViewLegacy
 		$item = $this->get('Item');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
@@ -45,13 +46,15 @@ class ContactViewContact extends JViewLegacy
 		// "Lastname, Firstname Midlename" format support
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
-		if (count($namearray) > 1 ) {
+		if (count($namearray) > 1 )
+		{
 			$lastname = $namearray[0];
 			$card_name = $lastname;
 			$name_and_midname = trim($namearray[1]);
 
 			$firstname = '';
-			if (!empty($name_and_midname)) {
+			if (!empty($name_and_midname))
+			{
 				$namearray = explode(' ', $name_and_midname);
 
 				$firstname = $namearray[0];

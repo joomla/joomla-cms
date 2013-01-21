@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logout
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,10 +22,10 @@ class plgSystemLogout extends JPlugin
 	 * Object Constructor.
 	 *
 	 * @access	public
-	 * @param	object	The object to observe -- event dispatcher.
-	 * @param	object	The configuration object for the plugin.
-	 * @return	void
-	 * @since	1.6
+	 * @param   object	The object to observe -- event dispatcher.
+	 * @param   object	The configuration object for the plugin.
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -50,11 +50,11 @@ class plgSystemLogout extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data.
-	 * @param	array	$options	Array holding options (client, ...).
+	 * @param   array  $user		Holds the user data.
+	 * @param   array  $options	Array holding options (client, ...).
 	 *
-	 * @return	boolean Always returns true
-	 * @since	1.6
+	 * @return  boolean Always returns true
+	 * @since   1.6
 	 */
 	public function onUserLogout($user, $options = array())
 	{
@@ -76,11 +76,13 @@ class plgSystemLogout extends JPlugin
 		$app = JFactory::getApplication();
 
 		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 and $app->isSite()) {
+		if ($error->getCode() == 403 and $app->isSite())
+		{
 			// Redirect to the home page
 			$app->redirect('index.php', JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), null, true, false);
 		}
-		else {
+		else
+		{
 			// Render the error page.
 			JError::customErrorPage($error);
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,8 @@ $loggeduser = JFactory::getUser();
 			$canEdit	= $canDo->get('core.edit');
 			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin')) {
+			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin'))
+			{
 				$canEdit	= false;
 				$canChange	= false;
 			}

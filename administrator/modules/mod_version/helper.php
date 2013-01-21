@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_version
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ abstract class modVersionHelper
 	/**
 	 * Get the member items of the submenu.
 	 *
-	 * @return	mixed	An arry of menu items, or false on error.
+	 * @return  mixed	An arry of menu items, or false on error.
 	 */
 	public static function getVersion(&$params)
 	{

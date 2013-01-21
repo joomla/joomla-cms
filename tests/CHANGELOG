@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -25,6 +25,16 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+01-Jan-2013 Mark Dexter
+ # Fix failing webdriver test due to change in Module edit UI
+
+27-Dec-2012 Michael Babker
+ ^ Sync core test framework to the Platform
+ + Add tests for Editor and Layout packages
+
+22-Dec-2012 Mark Dexter
+ # Fix failing system tests caused by markup changes
 
 21-Dec-2012 Mark Dexter
  + Add tests for module manager.

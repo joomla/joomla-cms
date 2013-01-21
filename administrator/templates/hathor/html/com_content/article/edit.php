@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,8 +47,10 @@ endif;
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task) {
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
@@ -210,7 +212,7 @@ endif;
 					<?php echo $this->form->getLabel('images'); ?>
 					<?php echo $this->form->getInput('images'); ?></li>
 
-					<?php foreach($this->form->getGroup('images') as $field): ?>
+					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<li>
 							<?php if (!$field->hidden): ?>
 								<?php echo $field->label; ?>
@@ -218,7 +220,7 @@ endif;
 							<?php echo $field->input; ?>
 						</li>
 					<?php endforeach; ?>
-						<?php foreach($this->form->getGroup('urls') as $field): ?>
+						<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 						<li>
 							<?php if (!$field->hidden): ?>
 								<?php echo $field->label; ?>
@@ -254,7 +256,7 @@ endif;
 						<?php endforeach; ?>
 					</ul>
 				</fieldset>
-		<?php endforeach;?>
+			<?php endforeach;?>
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 

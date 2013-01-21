@@ -1,33 +1,33 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/categories.php');
+JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_categories
  */
 abstract class JHtmlCategoriesAdministrator
 {
 	/**
-	 * @param	int $articleid	The article item id
+	 * @param   int $catid	The category item id
 	 */
-	public static function association($catid)
+	public static function association($catid, $extension = 'com_content')
 	{
 		// Get the associations
-		$associations = CategoriesHelper::getAssociations($catid);
+		$associations = CategoriesHelper::getAssociations($catid, $extension);
 
 		JArrayHelper::toInteger($associations);
 
-		// Get the associated menu items
+		// Get the associated categories
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('c.*');
@@ -40,7 +40,8 @@ abstract class JHtmlCategoriesAdministrator
 		$items = $db->loadObjectList('id');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}

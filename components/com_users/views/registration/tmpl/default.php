@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ JHtml::_('behavior.noframes');
 		?>
 			<legend><?php echo JText::_($fieldset->label);?></legend>
 		<?php endif;?>
-		<?php foreach($fields as $field):// Iterate through the fields in the set and display them.?>
+		<?php foreach ($fields as $field) :// Iterate through the fields in the set and display them.?>
 			<?php if ($field->hidden):// If the field is hidden, just display the input.?>
 				<?php echo $field->input;?>
 			<?php else:?>

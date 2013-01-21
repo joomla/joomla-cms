@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,11 +21,16 @@ defined('_JEXEC') or die;
 	<?php endif;?>
 	<?php
 
-		if (!count($this->messages)) {
+		if (!count($this->messages))
+		{
 			echo '<div class="alert alert-info"><a class="close" data-dismiss="alert" href="#">&times;</a>'. JText::_('COM_INSTALLER_MSG_WARNINGS_NONE').'</div>';
-		} else {
+		}
+		else
+		{
 			echo JHtml::_('sliders.start', 'warning-sliders', array('useCookie' => 1));
-			foreach($this->messages as $message) {
+
+			foreach($this->messages as $message)
+			{
 				echo JHtml::_('sliders.panel', $message['message'], str_replace(' ', '', $message['message']));
 				echo '<div style="padding: 5px;" >'.$message['description'].'</div>';
 			}

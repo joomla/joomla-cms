@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,8 +79,8 @@ class FinderIndexerHelper
 		 * Parsing the string input into terms is a multi-step process.
 		 *
 		 * Regexes:
-		 *	1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
-		 *	2. Remove plus, dash, period, and comma characters located before letter characters.
+		 *  1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
+		 *  2. Remove plus, dash, period, and comma characters located before letter characters.
 		 *  3. Remove plus, dash, period, and comma characters located after other characters.
 		 *  4. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
 		 *  5. Remove orphaned apostrophe, plus, dash, period, and comma characters.
@@ -348,7 +348,7 @@ class FinderIndexerHelper
 	{
 		static $lang;
 
-		// Get the default language.
+		// We need to go to com_languages to get the site default language, it's the best we can guess.
 		if (empty($lang))
 		{
 			$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');

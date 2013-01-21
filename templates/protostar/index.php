@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+// Getting params from template
+$params = JFactory::getApplication()->getTemplate(true)->params;
 
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
@@ -129,10 +132,17 @@ else
 	<![endif]-->
 </head>
 
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?> <?php if ($this->params->get('fluidContainer')) { echo "fluid"; } ?>">
+<body class="site <?php echo $option
+	. ' view-' . $view
+	. ($layout ? ' layout-' . $layout : ' no-layout')
+	. ($task ? ' task-' . $task : ' no-task')
+	. ($itemid ? ' itemid-' . $itemid : '')
+	. ($params->get('fluidContainer') ? ' fluid' : '');
+?>">
+
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? ' fluid' : '');?>">
 			<!-- Header -->
 			<div class="header">
 				<div class="header-inner clearfix">
@@ -180,7 +190,7 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? ' fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>

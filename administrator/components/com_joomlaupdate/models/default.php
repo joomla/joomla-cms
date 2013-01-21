@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 * Detects if the Joomla! update site currently in use matches the one
 	 * configured in this component. If they don't match, it changes it.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since	2.5.4
 	 */
@@ -101,7 +101,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 *
 	 * @param   boolean  $force  Force reload, ignoring the cache timeout
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since	2.5.4
 	 */
@@ -162,9 +162,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$update->loadFromXML($updateObject->detailsurl);
 
 		// Pass the update object
-		if($ret['latest'] == JVERSION) {
+		if($ret['latest'] == JVERSION)
+		{
 			$ret['object'] = null;
-		} else {
+		}
+		else
+		{
 			$ret['object'] = $update;
 		}
 
@@ -349,10 +352,12 @@ ENDDATA;
 
 			// Is the tempdir really writable?
 			$writable = @is_writeable($tempdir);
-			if($writable) {
+			if($writable)
+			{
 				// Let's be REALLY sure
 				$fp = @fopen($tempdir . '/test.txt', 'w');
-				if($fp === false) {
+				if($fp === false)
+				{
 					$writable = false;
 				} else {
 					fclose($fp);
@@ -361,7 +366,8 @@ ENDDATA;
 			}
 
 			// If the tempdir is not writable, create a new writable subdirectory
-			if(!$writable) {
+			if(!$writable)
+			{
 				$FTPOptions = JClientHelper::getCredentials('ftp');
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
@@ -373,7 +379,8 @@ ENDDATA;
 
 			// Just in case the temp-directory was off-root, try using the default tmp directory
 			$writable = @is_writeable($tempdir);
-			if(!$writable) {
+			if(!$writable)
+			{
 				$tempdir = JPATH_ROOT.'/tmp';
 
 				// Does the JPATH_ROOT/tmp directory exist?
@@ -384,7 +391,8 @@ ENDDATA;
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory
-				if(!is_writable($tempdir)) {
+				if(!is_writable($tempdir))
+				{
 					$FTPOptions = JClientHelper::getCredentials('ftp');
 					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
@@ -397,16 +405,22 @@ ENDDATA;
 
 			// If we still have no writable directory, we'll try /tmp and the system's temp-directory
 			$writable = @is_writeable($tempdir);
-			if(!$writable) {
-				if(@is_dir('/tmp') && @is_writable('/tmp')) {
+
+			if (!$writable)
+			{
+				if (@is_dir('/tmp') && @is_writable('/tmp'))
+				{
 					$tempdir = '/tmp';
 				} else {
 					// Try to find the system temp path
 					$tmpfile = @tempnam("dummy", "");
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
-					if(!empty($systemp)) {
-						if(@is_dir($systemp) && @is_writable($systemp)) {
+
+					if (!empty($systemp))
+					{
+						if (@is_dir($systemp) && @is_writable($systemp))
+						{
 							$tempdir = $systemp;
 						}
 					}
@@ -438,13 +452,17 @@ ENDDATA;
 		// Write new file. First try with JFile.
 		$result = JFile::write($configpath, $data);
 		// In case JFile used FTP but direct access could help
-		if(!$result) {
-			if(function_exists('file_put_contents')) {
+		if (!$result)
+		{
+			if (function_exists('file_put_contents'))
+			{
 				$result = @file_put_contents($configpath, $data);
 				if($result !== false) $result = true;
 			} else {
 				$fp = @fopen($configpath, 'wt');
-				if($fp !== false) {
+
+				if ($fp !== false)
+				{
 					$result = @fwrite($fp, $data);
 					if($result !== false) $result = true;
 					@fclose($fp);
