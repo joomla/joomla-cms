@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jan-2013 Jean-Marie Simonet
+ # [#29848] UTF8 SEF URLs are causing browser too many redirects failures - additional patch. Thanks Nicholas
+
 19-Jan-2013 Jean-Marie Simonet
  # [#29964] Files upload problem
 
