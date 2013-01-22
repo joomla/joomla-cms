@@ -99,7 +99,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	{
 		$bytes = ceil($length * 6 / 8);
 
-		$randomData = str_replace('+', '.', base64_encode(JCrypt::getRandomBytes($bytes)));
+		$randomData = str_replace('+', '.', base64_encode(JCrypt::genRandomBytes($bytes)));
 
 		return substr($randomData, 0, $length);
 	}
