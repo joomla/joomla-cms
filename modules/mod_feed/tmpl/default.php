@@ -81,11 +81,10 @@ else
 
 		<?php endif; ?>
 
-	<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 	<!-- Show items -->
 	<?php if (!empty($feed))
 	{ ?>
-	<ul>
+	<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 		<?php for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
 		{  ?>
 			<?php
@@ -95,6 +94,7 @@ else
 				$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
 
 			?>
+				<?php if (!empty($feed[$i])) : ?>
 				<li>
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
@@ -116,9 +116,11 @@ else
 
 						</div>
 					<?php endif; ?>
-					</li>
+				</li>
+				<?php endif; ?> 
 			<?php } ?>
 			</ul>
-	<?php }
-	}
-}
+	<?php } 
+	} ?>
+	</div>
+<?php }
