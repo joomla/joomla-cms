@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,31 +62,6 @@ abstract class JString
 			array(' (%d)', '(%d)'),
 		),
 	);
-
-	/**
-	 * Split a string in camel case format
-	 *
-	 * "FooBarABCDef"            becomes  array("Foo", "Bar", "ABC", "Def");
-	 * "JFooBar"                 becomes  array("J", "Foo", "Bar");
-	 * "J001FooBar002"           becomes  array("J001", "Foo", "Bar002");
-	 * "abcDef"                  becomes  array("abc", "Def");
-	 * "abc_defGhi_Jkl"          becomes  array("abc_def", "Ghi_Jkl");
-	 * "ThisIsA_NASAAstronaut"   becomes  array("This", "Is", "A_NASA", "Astronaut")),
-	 * "JohnFitzgerald_Kennedy"  becomes  array("John", "Fitzgerald_Kennedy")),
-	 *
-	 * @param   string  $string  The source string.
-	 *
-	 * @return  array   The splitted string.
-	 *
-	 * @deprecated  12.3 Use JStringNormalise::fromCamelCase()
-	 * @since   11.3
-	 */
-	public static function splitCamelCase($string)
-	{
-		JLog::add('JString::splitCamelCase has been deprecated. Use JStringNormalise::fromCamelCase.', JLog::WARNING, 'deprecated');
-
-		return JStringNormalise::fromCamelCase($string, true);
-	}
 
 	/**
 	 * Increments a trailing number in a string.
@@ -289,6 +264,7 @@ abstract class JString
 	public static function str_ireplace($search, $replace, $str, $count = null)
 	{
 		jimport('phputf8.str_ireplace');
+
 		if ($count === false)
 		{
 			return utf8_ireplace($search, $replace, $str);
@@ -339,6 +315,7 @@ abstract class JString
 		{
 			// Get current locale
 			$locale0 = setlocale(LC_COLLATE, 0);
+
 			if (!$locale = setlocale(LC_COLLATE, $locale))
 			{
 				$locale = $locale0;
@@ -398,6 +375,7 @@ abstract class JString
 		{
 			// Get current locale
 			$locale0 = setlocale(LC_COLLATE, 0);
+
 			if (!$locale = setlocale(LC_COLLATE, $locale))
 			{
 				$locale = $locale0;
@@ -450,6 +428,7 @@ abstract class JString
 	public static function strcspn($str, $mask, $start = null, $length = null)
 	{
 		jimport('phputf8.strcspn');
+
 		if ($start === false && $length === false)
 		{
 			return utf8_strcspn($str, $mask);
@@ -481,6 +460,7 @@ abstract class JString
 	public static function stristr($str, $search)
 	{
 		jimport('phputf8.stristr');
+
 		return utf8_stristr($str, $search);
 	}
 
@@ -519,6 +499,7 @@ abstract class JString
 	public static function strspn($str, $mask, $start = null, $length = null)
 	{
 		jimport('phputf8.strspn');
+
 		if ($start === null && $length === null)
 		{
 			return utf8_strspn($str, $mask);
@@ -584,6 +565,7 @@ abstract class JString
 		}
 
 		jimport('phputf8.trim');
+
 		if ($charlist === false)
 		{
 			return utf8_ltrim($str);
@@ -617,6 +599,7 @@ abstract class JString
 		}
 
 		jimport('phputf8.trim');
+
 		if ($charlist === false)
 		{
 			return utf8_rtrim($str);
@@ -650,6 +633,7 @@ abstract class JString
 		}
 
 		jimport('phputf8.trim');
+
 		if ($charlist === false)
 		{
 			return utf8_trim($str);
@@ -678,6 +662,7 @@ abstract class JString
 	public static function ucfirst($str, $delimiter = null, $newDelimiter = null)
 	{
 		jimport('phputf8.ucfirst');
+
 		if ($delimiter === null)
 		{
 			return utf8_ucfirst($str);
@@ -706,6 +691,7 @@ abstract class JString
 	public static function ucwords($str)
 	{
 		jimport('phputf8.ucwords');
+
 		return utf8_ucwords($str);
 	}
 
