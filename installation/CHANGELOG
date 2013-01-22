@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jan-2013 Mathieu Gauthier-Lafaye
+ # [#30010] Few problems with the mod_feed default template.
+
 21-Jan-2013 Jean-Marie Simonet
  $ Updating installation lang file: ca-ES, ckb-IQ, da-DK, fr-FR, it-IT, ja-JP, mk-MK, sk-SK, ta-IN, th-TH, tr-TR
  
