@@ -521,6 +521,7 @@ class JInstallerFile extends JAdapterInstance
 			}
 
 			// Let's run the uninstall queries for the extension
+			$db = JFactory::getDbo();
 			$result = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 
 			if ($result === false)
@@ -531,7 +532,7 @@ class JInstallerFile extends JAdapterInstance
 			}
 
 			// Remove the schema version
-			$db = JFactory::getDbo();
+
 			$query = $db->getQuery(true);
 			$query->delete()
 				->from('#__schemas')
