@@ -52,10 +52,10 @@ jimport('joomla.language.language');
  * but can be overritten by a calling argument e.g.:
  * 
  * Without mail override:
- * /path/to/php /path/to/site/cli/update_cron_extended.php
+ * /path/to/php /path/to/site/cli/updatesnotifier_cron.php
  * 
  * With mail-override (depends on the server-os):
- * /path/to/php /path/to/site/cli/update_cron_extended.php example@example.org
+ * /path/to/php /path/to/site/cli/updatesnotifier_cron.php example@example.org
  * 
  * Is the override mail address invalid (JMailHelper::isEmailAddress())
  * it switches back to global conf. address
