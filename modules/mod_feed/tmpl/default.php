@@ -70,7 +70,7 @@ defined('_JEXEC') or die;
 		<!-- Show items -->
 		<?php if (!empty($feed)): ?>
 			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
-				<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++) : ?>
+				<?php for ($i = 0; ! empty($feed[$i]) && $i < $params->get('rssitems', 5); $i++) : ?>
 					<?php
 						$uri = (!empty($feed[$i]->guid) || !is_null($feed[$i]->guid)) ? $feed[$i]->guid : $feed[$i]->uri;
 						$uri = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
