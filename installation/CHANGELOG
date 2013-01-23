@@ -29,7 +29,7 @@ $ -> Language fix or change
 23-Jan-2013 Jean-Marie Simonet
  # [#29994] Clear tooltips at template hathor
  # [#29995] No language tooltip at the Joomla Login. Thanks Tobias.
- # [#29871] email cloaking stripping class attribute. Thanks Andy Tash.
+ # [#30015] *Isis tooltip text is always centered
 
 22-Jan-2013 Jean-Marie Simonet
  # [#29960] Correct language specification in components' XML files. Thanks Alex B.
