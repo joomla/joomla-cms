@@ -615,8 +615,8 @@ button:focus {
 	color: #999999;
 }
 .tip {
-	background: #ffffff;
-	border: 1px solid #000000;
+	background: #000000;
+	border: 1px solid #FFFFFF;
 }
 .tip-title {
 	background: url(../images/selector-arrow-std.png) no-repeat;

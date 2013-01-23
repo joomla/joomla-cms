@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Jan-2013 Jean-Marie Simonet
+ # [#29994] Clear tooltips at template hathor
+
 22-Jan-2013 Jean-Marie Simonet
  # [#29960] Correct language specification in components' XML files. Thanks Alex B.
  # [#29907] *Protostar template does not display page break tab feature in a page.

@@ -766,8 +766,9 @@ div.toggle-editor {
 /**
  * Tooltips
  */
-.tip {
-	float: right;
+
+.tip-text {
+	text-align: right;
 }
 
 /**

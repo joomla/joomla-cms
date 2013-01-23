@@ -225,9 +225,6 @@ a.saveorder.inactive {
  * Tooltips
  */
 
-.tip-title { /* @TODO is there a different image */
-	background: url(../images/selector-arrow-hc.png) no-repeat right top;
-}
 
 /**
  * System Standard Messages
