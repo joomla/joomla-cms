@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Jan-2013 Jean-Marie Simonet
+ # [#29960] Correct language specification in components' XML files. Thanks Alex B.
+
 21-Jan-2013 Jean-Marie Simonet
  $ Updating installation lang file: id-ID, sr-RS, sr-YU, sv-SE, sw-KE, uk-UA
 
