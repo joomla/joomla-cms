@@ -67,10 +67,9 @@ defined('_JEXEC') or die;
 			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
 		<?php endif; ?>
 
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 		<!-- Show items -->
 		<?php if (!empty($feed)): ?>
-			<ul>
+			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 				<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++) : ?>
 					<?php
 						$uri = (!empty($feed[$i]->guid) || !is_null($feed[$i]->guid)) ? $feed[$i]->guid : $feed[$i]->uri;
@@ -103,5 +102,6 @@ defined('_JEXEC') or die;
 				<?php endfor; ?>
 			</ul>
 		<?php endif; ?>
+		</div>
 	<?php endif; ?>
 <?php endif;
