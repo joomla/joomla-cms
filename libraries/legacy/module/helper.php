@@ -134,6 +134,11 @@ abstract class JModuleHelper
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
+		if (!isset($module->module))
+		{
+			return;
+		}
+
 		static $chrome;
 
 		if (constant('JDEBUG'))
