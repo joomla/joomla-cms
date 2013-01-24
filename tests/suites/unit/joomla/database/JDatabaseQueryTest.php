@@ -1834,4 +1834,40 @@ class JDatabaseQueryTest extends TestCase
 
 		$this->_instance = new JDatabaseQueryInspector($this->dbo);
 	}
+	/**
+	 * Data for the testAddDate test.
+	 *
+	 * @return  array
+	 *
+	 * @since   11.1
+	 */
+	public function seedAddDate()
+	{
+		return array(
+				// date, interval, datepart, expected
+				'Add date'		=> array('2008-12-31', '1', 'day', "DATE_ADD('2008-12-31', INTERVAL 1 DAY)"),
+				'Subtract date'	=> array('2008-12-31', '-1', 'day', "DATE_ADD('2008-12-31', INTERVAL -1 DAY)"),
+				'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'day', "DATE_ADD('2008-12-31 23:59:59', INTERVAL -1 DAY)"),
+		);
+	}
+	/**
+	 * Tests the JHtmlString::truncateComplex method.
+	 *
+	 * @param   string   $html       The text to truncate.
+	 * @param   integer  $maxLength  The maximum length of the text.
+	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true)
+	 * @param   string   $expected   The expected result.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  seedAddDate
+	 * @since   12.2
+	 */
+	public function testDateAdd($date, $interval, $dataPart, $expected)
+	{
+		$this->assertThat(
+				$this->DateAdd($date, $interval, $dataPart),
+				$this->equalTo($expected)
+		);
+	}
 }
