@@ -178,24 +178,22 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 
 	/**
 	 * Add to the current date and time.
-	 *
 	 * Usage:
 	 * $query->select($query->dateAdd());
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 *
-	 * Note: Not all drivers support all units.
-	 * @see http://msdn.microsoft.com/en-us/library/ms186819.aspx for more information
-	 *
-	 * @param   datetime or date  $date      The date to add to
-	 * @param   string            $interval  The string representation of the appropriate number of units
-	 * @param   string            $datePart  The part of the date to perform the addition on
+	 * @param   datetime  $date      The date to add to; type may be time or datetime.
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  sring  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
+	 * @note Not all drivers support all units.
+	 * @link http://msdn.microsoft.com/en-us/library/ms186819.aspx for more information
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return ' ADD_DATE(' . $datePart . ', ' .  $interval . ', ' . $date .  ') ';
+		return 'DATEADD(' . $datePart . ', ' . $interval . ', ' . $date . ')';
 	}
 }

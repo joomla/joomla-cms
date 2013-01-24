@@ -182,32 +182,34 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	}
 	/**
 	 * Add to the current date and time.
-	 *
 	 * Usage:
 	 * $query->select($query->dateAdd());
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 *
-	 * Note: Not all drivers may support all units.
-	 * For a list of common units:
-	 * @see http://www.sqlite.org/lang_datefunc.html
-	 *
-	 * @param   datetime or date  $date      The date to add to
-	 * @param   string            $interval  The string representation of the appropriate number of units
-	 * @param   string            $datePart  The part of the date to perform the addition on
+	 * @param   datetime  $date      The date or datetime to add to
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  sring  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
+	 * @link http://www.sqlite.org/lang_datefunc.html
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		if (substr($date,0,1) != '-')
+		// SQLite does not support microseconds as a separate unit. Convert the interval to seconds
+		if (strcasecmp($datePart, 'microseconds'))
 		{
-			return ' datetime(' . $date . ' + ' . $interval . ' ' . $datePart . ') ';
+			$datePart = $datePart / 1000;
+			$interval = 'seconds';
+		}
+		if (substr($date, 0, 1) != '-')
+		{
+			return "datetime('" . $date . "', +'" . $interval . ' ' . $datePart . "')'";
 		}
 		else
 		{
-			return ' datetime(' . $date . ' ' . $interval . ' ' . $datePart . ') ';
+			return "datetime('" . $date . "', '" . $interval . ' ' . $datePart . "')'";
 
 		}
 	}
