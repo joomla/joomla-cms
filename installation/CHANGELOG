@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 24-Jan-2013 Jean-Marie Simonet
  $ Updating installation lang file: aa-AA, de-DE, es-ES, hr-HR, lv-LV, ug-CN, vi-VN, zh-TW
+ #  [#30018] *Isis calendar display issue
 
 23-Jan-2013 Jean-Marie Simonet
  # [#29994] Clear tooltips at template hathor
