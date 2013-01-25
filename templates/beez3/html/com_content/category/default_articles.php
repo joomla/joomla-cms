@@ -184,7 +184,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<div>
-		<!-- @TODO add hidden inputs -->
+		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="filter_order" value="" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
