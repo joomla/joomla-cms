@@ -43,6 +43,14 @@ abstract class JPlugin extends JEvent
 	protected $_type = null;
 
 	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  12.3
+	 */
+	protected $autoloadLanguage = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   object  &$subject  The object to observe
@@ -78,6 +86,12 @@ abstract class JPlugin extends JEvent
 		if (isset($config['type']))
 		{
 			$this->_type = $config['type'];
+		}
+
+		// Load the language files if needed.
+		if ($this->autoloadLanguage)
+		{
+			$this->loadLanguage();
 		}
 
 		parent::__construct($subject);
