@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 25-Jan-2013 Jean-Marie Simonet
  # [#29998] Problem with grid sort. Thanks Zhevron
+ # [#28841] Username modification in frontend (Profile Edit) is not saved. Thanks Jisse Reitsma
 
 24-Jan-2013 Jean-Marie Simonet
  # [#29904] *With plugin Language Filter enabled, user articles parameter in frontend shows all articles
