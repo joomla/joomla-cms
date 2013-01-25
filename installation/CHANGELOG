@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Jan-2013 Jean-Marie Simonet
+ # [#29998] Problem with grid sort. Thanks Zhevron
+
 24-Jan-2013 Jean-Marie Simonet
  # [#29904] *With plugin Language Filter enabled, user articles parameter in frontend shows all articles
 
