@@ -228,7 +228,7 @@ class JGithubUsersTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('get')
-			->with('/user', 0, 0)
+			->with('/users', 0, 0)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
