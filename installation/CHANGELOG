@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29998] Problem with grid sort. Thanks Zhevron
  # [#30021] *Wrong parameters for Articles Category List layout
  # [#30023] Faster sorting for languages. Thanks Gary.
+ # [#28841] Username modification in frontend (Profile Edit) is not saved. Thanks Jisse Reitsma
 
 24-Jan-2013 Jean-Marie Simonet
  $ Updating installation lang file: aa-AA, de-DE, es-ES, hr-HR, lv-LV, ug-CN, vi-VN, zh-TW
