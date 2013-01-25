@@ -701,13 +701,14 @@
 		</field>
 
 		<field name="filter_field"
-			type="radio"
-			class="btn-group"
+			type="list"
 			default="hide"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			description="JGLOBAL_FILTER_FIELD_DESC">
 				<option value="hide">JHIDE</option>
-				<option value="1">JSHOW</option>
+				<option value="title">JGLOBAL_TITLE</option>
+				<option value="author">JAUTHOR</option>
+				<option value="hits">JGLOBAL_HITS</option>
 		</field>
 
 		<field name="show_headings"

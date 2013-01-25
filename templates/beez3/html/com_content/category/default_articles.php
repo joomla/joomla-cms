@@ -32,7 +32,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') != 'hide') : ?>
 	<fieldset class="filters">
-		<legend class="element-invisible">
+		<legend class="hidelabeltxt">
 			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
 		</legend>
 
