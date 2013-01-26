@@ -79,7 +79,7 @@ class plgUserContactCreator extends JPlugin
 		{
 			$contact->load($id);
 		}
-		elseif($this->params->get('autopublish', 0))
+		elseif ($this->params->get('autopublish', 0))
 		{
 			$contact->published = 1;
 		}

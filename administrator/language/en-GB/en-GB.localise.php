@@ -29,7 +29,7 @@ abstract class en_GBLocalise
 		{
 			$return = array('0');
 		}
-		elseif($count == 1)
+		elseif ($count == 1)
 		{
 			$return = array('1');
 		}
