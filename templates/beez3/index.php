@@ -117,7 +117,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 					<ul class="skiplinks">
 						<li><a href="#main" class="u2"><?php echo JText::_('TPL_BEEZ3_SKIP_TO_CONTENT'); ?></a></li>
 						<li><a href="#nav" class="u2"><?php echo JText::_('TPL_BEEZ3_JUMP_TO_NAV'); ?></a></li>
-						<?php if($showRightColumn ):?>
+						<?php if ($showRightColumn ):?>
 							<li><a href="#additional" class="u2"><?php echo JText::_('TPL_BEEZ3_JUMP_TO_INFO'); ?></a></li>
 						<?php endif; ?>
 					</ul>

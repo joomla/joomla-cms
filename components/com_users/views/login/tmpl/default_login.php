@@ -25,7 +25,7 @@ JHtml::_('behavior.noframes');
 	<div class="login-description">
 	<?php endif; ?>
 
-		<?php if($this->params->get('logindescription_show') == 1) : ?>
+		<?php if ($this->params->get('logindescription_show') == 1) : ?>
 			<?php echo $this->params->get('login_description'); ?>
 		<?php endif; ?>
 

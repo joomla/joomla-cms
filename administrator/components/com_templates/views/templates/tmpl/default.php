@@ -22,7 +22,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if(!empty( $this->sidebar)) : ?>
+  <?php if (!empty( $this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
     </div>  
@@ -81,7 +81,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id); ?>">
   						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
   					<p>
-  					<?php if($this->preview && $item->client_id == '0') : ?>
+  					<?php if ($this->preview && $item->client_id == '0') : ?>
   						<a href="<?php echo JURI::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">
   							<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
   					<?php elseif ($item->client_id == '1') : ?>

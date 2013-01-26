@@ -116,7 +116,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
 					<td class="list-author">
-						<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
+						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
 							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
 

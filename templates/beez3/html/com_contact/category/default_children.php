@@ -40,7 +40,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 				<dd><?php echo $child->numitems; ?></dd>
 			</dl>
 		<?php endif; ?>
-            <?php if(count($child->getChildren()) > 0 ) :
+            <?php if (count($child->getChildren()) > 0 ) :
 				$this->children[$child->id] = $child->getChildren();
 				$this->category = $child;
 				$this->maxLevel--;

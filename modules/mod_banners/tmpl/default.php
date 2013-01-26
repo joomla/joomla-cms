@@ -20,7 +20,7 @@ $baseurl = JURI::base();
 <?php foreach ($list as $item) : ?>
 	<div class="banneritem">
 		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id='. $item->id);?>
-		<?php if($item->type == 1) :?>
+		<?php if ($item->type == 1) :?>
 			<?php // Text based banners ?>
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode);?>
 		<?php else:?>

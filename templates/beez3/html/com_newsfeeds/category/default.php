@@ -17,7 +17,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<?php if($this->params->get('show_category_title', 1)) : ?>
+<?php if ($this->params->get('show_category_title', 1)) : ?>
 <h2>
 	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_newsfeeds.category'); ?>
 </h2>

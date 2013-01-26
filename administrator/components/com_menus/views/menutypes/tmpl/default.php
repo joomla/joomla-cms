@@ -18,7 +18,7 @@ $document = JFactory::getDocument();
 <script type="text/javascript">
 	setmenutype = function(type)
 	{
-		<?php if($tmpl) : ?>
+		<?php if ($tmpl) : ?>
 			window.parent.Joomla.submitbutton('item.setType', type);
 			window.parent.SqueezeBox.close();
 		<?php else : ?>

@@ -71,7 +71,7 @@ if (!empty($this->items))
 	<?php endif; ?>
 
 	<table class="category table table-striped table-bordered table-hover">
-		<?php if($this->params->get('show_headings')) : ?>
+		<?php if ($this->params->get('show_headings')) : ?>
 		<thead>
 			<tr>
 				<th id="categorylist_header_title">
@@ -131,7 +131,7 @@ if (!empty($this->items))
 								<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 							</a>
 						<?php endif; ?>
-						<?php if($article->state == 0) : ?>
+						<?php if ($article->state == 0) : ?>
 							<span class="list-published label label-warning">
 								<?php echo JText::_('JUNPUBLISHED'); ?>
 							</span>
@@ -148,7 +148,7 @@ if (!empty($this->items))
 					<?php endif; ?>
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
 						<td headers="categorylist_header_author" class="list-author">
-							<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
+							<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 								<?php $author = $article->author ?>
 								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
 
