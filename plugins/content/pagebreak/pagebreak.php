@@ -192,9 +192,9 @@ class plgContentPagebreak extends JPlugin
 						} elseif (isset($match['title'])) {
 							$title	= stripslashes($match['title']);
 						} else {
-							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key);
+							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
-						$t[] = (string) JHtml::_($style.'.panel', $match['title'], 'basic-details');
+						$t[] = (string) JHtml::_($style.'.panel', $title, 'basic-details');
 					}
 					$t[] = (string) $subtext;
 				}
