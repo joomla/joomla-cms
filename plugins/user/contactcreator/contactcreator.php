@@ -36,12 +36,12 @@ class plgUserContactCreator extends JPlugin
 
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if(!$success)
+		if (!$success)
 		{
 			return false; // if the user wasn't stored we don't resync
 		}
 
-		if(!$isnew)
+		if (!$isnew)
 		{
 			return false; // if the user isn't new we don't sync
 		}

@@ -94,7 +94,7 @@ abstract class JHtmlSortablelist
 					})
 					.keyup(function (){
 						var newOrderingValue = $(this).attr('value');
-						if(oldOrderingValue != newOrderingValue)
+						if (oldOrderingValue != newOrderingValue)
 						{
 							saveOrderButton.css({'opacity':'1', 'cursor':'pointer'}).removeAttr('onclick')
 						}

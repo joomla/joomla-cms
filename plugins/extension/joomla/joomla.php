@@ -87,7 +87,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->where('update_site_id = '. $update_site_id)->where('extension_id = '. $this->eid);
 			$dbo->setQuery($query);
 			$tmpid = (int) $dbo->loadResult();
-			if(!$tmpid)
+			if (!$tmpid)
 			{
 				// link this extension to the relevant update site
 				$query->clear();
@@ -144,7 +144,7 @@ class plgExtensionJoomla extends JPlugin
 			$db->setQuery($query);
 			$results = $db->loadColumn();
 
-			if(is_array($results))
+			if (is_array($results))
 			{
 				// so we need to delete the update sites and their associated updates
 				$updatesite_delete = $db->getQuery(true);
@@ -153,7 +153,7 @@ class plgExtensionJoomla extends JPlugin
 				$updatesite_query->select('update_site_id')->from('#__update_sites');
 
 				// if we get results back then we can exclude them
-				if(count($results))
+				if (count($results))
 				{
 					$updatesite_query->where('update_site_id NOT IN ('. implode(',', $results) .')');
 					$updatesite_delete->where('update_site_id NOT IN ('. implode(',', $results) .')');
@@ -161,7 +161,7 @@ class plgExtensionJoomla extends JPlugin
 				// so lets find what update sites we're about to nuke and remove their associated extensions
 				$db->setQuery($updatesite_query);
 				$update_sites_pending_delete = $db->loadColumn();
-				if(is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
+				if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
 					// nuke any pending updates with this site before we delete it
 					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
@@ -214,7 +214,7 @@ class plgExtensionJoomla extends JPlugin
 		$manifest		= $this->installer->getManifest();
 		$updateservers	= $manifest->updateservers;
 
-		if($updateservers)
+		if ($updateservers)
 		{
 			$children = $updateservers->children();
 		}

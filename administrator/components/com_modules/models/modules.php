@@ -80,7 +80,7 @@ class ModulesModelModules extends JModelList
 
 		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', 0, 'int', false);
 		$previousId = $app->getUserState($this->context.'.filter.client_id_previous', null);
-		if($previousId != $clientId || $previousId === null){
+		if ($previousId != $clientId || $previousId === null){
 			$this->getUserStateFromRequest($this->context.'.filter.client_id_previous', 'filter_client_id_previous', 0, 'int', true);
 			$app->setUserState($this->context.'.filter.client_id_previous', $clientId);
 		}

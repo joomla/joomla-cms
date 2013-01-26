@@ -8621,7 +8621,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 	},
 
 	restore: function(tableState){
-		if(this.options.sortable && tableState.sortIndex){
+		if (this.options.sortable && tableState.sortIndex){
 			this.sort(tableState.sortIndex, tableState.sortReverse);
 		}
 		this.previous.apply(this, arguments);
@@ -9323,7 +9323,7 @@ HtmlTable = Class.refactor(HtmlTable, {
 	},
 
 	restore: function(tableState){
-		if(this.options.selectable && tableState.selectedRows){
+		if (this.options.selectable && tableState.selectedRows){
 			tableState.selectedRows.each(function(index){
 				this.selectRow(this.body.rows[index]);
 			}.bind(this));

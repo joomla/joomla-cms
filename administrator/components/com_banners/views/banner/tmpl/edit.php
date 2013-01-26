@@ -34,7 +34,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			document.id('url').setStyle('display', 'block');
 			document.id('custom').setStyle('display', 'block');
 		});
-		if(document.id('jform_type0').checked==true)
+		if (document.id('jform_type0').checked==true)
 		{
 			document.id('jform_type0').fireEvent('click');
 		}

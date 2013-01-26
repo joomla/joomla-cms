@@ -432,7 +432,7 @@ final class JSite extends JApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if(is_object($this->template))
+		if (is_object($this->template))
 		{
 			if ($params)
 			{

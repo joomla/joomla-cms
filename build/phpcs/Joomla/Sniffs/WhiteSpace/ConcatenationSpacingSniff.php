@@ -55,7 +55,7 @@ class Joomla_Sniffs_WhiteSpace_ConcatenationSpacingSniff implements PHP_CodeSnif
 	{
 		$tokens = $phpcsFile->getTokens();
 
-		if($tokens[($stackPtr + 1)]['code'] != T_WHITESPACE)
+		if ($tokens[($stackPtr + 1)]['code'] != T_WHITESPACE)
 		{
 			// space after
 			$message = 'Concat operator must be followed by one space';
@@ -65,14 +65,14 @@ class Joomla_Sniffs_WhiteSpace_ConcatenationSpacingSniff implements PHP_CodeSnif
 		{
 			$found = strlen($tokens[($stackPtr + 1)]['content']);
 
-			if($found > 1)
+			if ($found > 1)
 			{
 				$error = sprintf('Expected 1 space after concat operator; %s found', $found);
 				$phpcsFile->addError($error, $stackPtr, 'Too much');
 			}
 		}
 
-		if($tokens[($stackPtr - 1)]['code'] != T_WHITESPACE)
+		if ($tokens[($stackPtr - 1)]['code'] != T_WHITESPACE)
 		{
 			// space before
 			$message = 'Concat operator must be preceeded by one space';
@@ -80,7 +80,7 @@ class Joomla_Sniffs_WhiteSpace_ConcatenationSpacingSniff implements PHP_CodeSnif
 		}
 		else
 		{
-			if(strpos($tokens[($stackPtr - 2)]['content'], $phpcsFile->eolChar) !== false
+			if (strpos($tokens[($stackPtr - 2)]['content'], $phpcsFile->eolChar) !== false
 			|| strpos($tokens[($stackPtr - 1)]['content'], $phpcsFile->eolChar) !== false)
 			{
 				// the dot is on a new line
@@ -89,7 +89,7 @@ class Joomla_Sniffs_WhiteSpace_ConcatenationSpacingSniff implements PHP_CodeSnif
 
 			$found = strlen($tokens[($stackPtr - 1)]['content']);
 
-			if($found > 1)
+			if ($found > 1)
 			{
 				$error = sprintf('Expected 1 space before concat operator; %s found', $found);
 				$phpcsFile->addError($error, $stackPtr, 'Too much');

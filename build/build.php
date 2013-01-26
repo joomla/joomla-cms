@@ -114,7 +114,7 @@ for($num=$release-1; $num >= 0; $num--) {
 	// Loop through and add all files except: tests, installation, build, .git, or docs
 	foreach ($files AS $file)
 	{
-		if(substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file,2,5) != 'build'
+		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file,2,5) != 'build'
 		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' )
 		{
 			// Don't add deleted files to the list

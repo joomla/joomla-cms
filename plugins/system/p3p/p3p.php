@@ -27,7 +27,7 @@ class plgSystemP3p extends JPlugin
 		$header = $this->params->get('header', 'NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM');
 		$header = trim($header);
 		// Bail out on empty header (why would anyone do that?!)
-		if( empty($header) )
+		if ( empty($header) )
 		{
 			return;
 		}

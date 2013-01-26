@@ -265,7 +265,7 @@ var Installation = new Class({
  	 */
 	removeFolder: function(el) {
 		el = document.id(el);
-		if(document.getElementById("languages"))
+		if (document.getElementById("languages"))
 		{
 			document.id(languages).fade('out');
 		}
@@ -326,7 +326,7 @@ var Installation = new Class({
 
 	toggle: function(id, el, value) {
 		var val = document.getElement('input[name=jform['+el+']]:checked').value;
-		if(val == value) {
+		if (val == value) {
 			document.id(id).setStyle('display', '');
 		} else {
 			document.id(id).setStyle('display', 'none');

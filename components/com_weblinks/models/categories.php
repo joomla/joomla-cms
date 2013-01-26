@@ -88,13 +88,13 @@ class WeblinksModelCategories extends JModelList
 	 */
 	public function getItems()
 	{
-		if(!count($this->_items))
+		if (!count($this->_items))
 		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new JRegistry;
-			if($active)
+			if ($active)
 			{
 				$params->loadString($active->params);
 			}
@@ -102,7 +102,7 @@ class WeblinksModelCategories extends JModelList
 			$options['countItems'] = $params->get('show_cat_num_links', 1) || !$params->get('show_empty_categories_cat', 0);
 			$categories = JCategories::getInstance('Weblinks', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
-			if(is_object($this->_parent))
+			if (is_object($this->_parent))
 			{
 				$this->_items = $this->_parent->getChildren();
 			} else {
@@ -115,7 +115,7 @@ class WeblinksModelCategories extends JModelList
 
 	public function getParent()
 	{
-		if(!is_object($this->_parent))
+		if (!is_object($this->_parent))
 		{
 			$this->getItems();
 		}

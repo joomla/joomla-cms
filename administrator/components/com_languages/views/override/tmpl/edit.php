@@ -21,7 +21,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		{
 			document.id('jform_searchstring').addEvent('focus', function()
 			{
-				if(!Joomla.overrider.states.refreshed)
+				if (!Joomla.overrider.states.refreshed)
 				{
 					<?php if ($this->state->get('cache_expired')) : ?>
 					Joomla.overrider.refreshCache();

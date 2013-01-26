@@ -75,7 +75,7 @@ class plgSystemRedirect extends JPlugin
 
 				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
 				$res = $db->loadResult();
-				if(!$res) {
+				if (!$res) {
 
 					// If not, add the new url to the database.
 					$query = $db->getQuery(true);
