@@ -346,6 +346,22 @@ class JDatabaseQueryTest extends TestCase
 	}
 
 	/**
+	 * Tests the unionAll element of __toString.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::__toString
+	 * @since   13.1
+	 */
+	public function test__toStringUnionAll()
+	{
+		$this->markTestIncomplete('This test does not work!');
+		$this->_instance->select('*')
+		->unionAll('SELECT id FROM a');
+
+		$this->assertEquals("UNION ALL (SELECT id FROM a)", trim($this->_instance));
+	}
+	/**
 	 * Tests the JDatabaseQuery::call method.
 	 *
 	 * @return  void
@@ -442,6 +458,7 @@ class JDatabaseQueryTest extends TestCase
 			'columns',
 			'values',
 			'union',
+			'unionAll',
 			'exec',
 			'call',
 		);
@@ -492,6 +509,7 @@ class JDatabaseQueryTest extends TestCase
 			'columns',
 			'values',
 			'union',
+			'unionAll',
 			'exec',
 			'call',
 		);
@@ -547,6 +565,7 @@ class JDatabaseQueryTest extends TestCase
 			'update',
 			'insert',
 			'union',
+			'unionAll',
 		);
 
 		$clauses = array(
@@ -1870,6 +1889,67 @@ class JDatabaseQueryTest extends TestCase
 		$this->assertThat(
 				$this->_instance->dateAdd($date, $interval, $datePart),
 				$this->equalTo($expected)
+		);
+	}
+
+	/*
+	 * Tests the JDatabaseQuery::unionAll method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::unionAll
+	 * @since   13.1
+	 */
+	public function testUnionAllUnion()
+	{
+		$this->_instance->unionAll = null;
+		$this->_instance->unionAll('SELECT name FROM foo');
+		$teststring = (string) $this->_instance->unionAll;
+		$this->assertThat(
+				$teststring,
+				$this->equalTo(PHP_EOL . "UNION ALL (SELECT name FROM foo)"),
+				'Tests rendered query with unionAll.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::unionAll method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::unionAll
+	 * @since   13.1
+	 */
+	public function testUnionAllArray()
+	{
+		$this->_instance->unionAll = null;
+		$this->_instance->unionAll(array('SELECT name FROM foo', 'SELECT name FROM bar'));
+		$teststring = (string) $this->_instance->unionAll;
+		$this->assertThat(
+				$teststring,
+				$this->equalTo(PHP_EOL . "UNION ALL (SELECT name FROM foo)" . PHP_EOL . "UNION ALL (SELECT name FROM bar)"),
+				'Tests rendered query with two union alls as an array.'
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::unionAll method.
+	 *
+	 * @return  void
+	 *
+	 * @covers  JDatabaseQuery::unionAll
+	 * @since   13.1
+	 */
+	public function testUnionAllTwo()
+	{
+		$this->_instance->unionAll = null;
+		$this->_instance->unionAll('SELECT name FROM foo');
+		$this->_instance->unionAll('SELECT name FROM bar');
+		$teststring = (string) $this->_instance->unionAll;
+		$this->assertThat(
+				$teststring,
+				$this->equalTo(PHP_EOL . "UNION ALL (SELECT name FROM foo)" . PHP_EOL . "UNION ALL (SELECT name FROM bar)"),
+				'Tests rendered query with two union alls sequentially.'
 		);
 	}
 }
