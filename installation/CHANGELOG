@@ -26,6 +26,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jan-2013 Jean-Marie Simonet
+# [#30031] *Notice: Undefined index: title in /plugins/content/pagebreak/pagebreak.php on line 197. Thanks Bernard
+
+25-Jan-2013 Jean-Marie Simonet
+ # [#29731] RSS feed gets corrupted when ampersand (&) or other escapable characters exist in Site Meta Description. Thanks Jan
+
+25-Jan-2013 Jean-Marie Simonet
+ # [#29998] Problem with grid sort. Thanks Zhevron
+ # [#28841] Username modification in frontend (Profile Edit) is not saved. Thanks Jisse Reitsma
+
+24-Jan-2013 Jean-Marie Simonet
+ # [#29904] *With plugin Language Filter enabled, user articles parameter in frontend shows all articles
+
 21-Jan-2013 Jean-Marie Simonet
  # [#29848] UTF8 SEF URLs are causing browser too many redirects failures - additional patch. Thanks Nicholas
 
