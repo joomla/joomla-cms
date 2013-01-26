@@ -25,7 +25,7 @@ $params = &$this->params;
 	<li class="row<?php echo $i % 2; ?>">
 
 		<h2>
-		<?php if ($params->get('link_titles')): ?>
+		<?php if ($params->get('link_titles')) : ?>
 			<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($item->slug)); ?>">
 				<?php echo $this->escape($item->title); ?></a>
 		<?php else: ?>

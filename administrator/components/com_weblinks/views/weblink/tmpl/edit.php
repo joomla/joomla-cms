@@ -81,7 +81,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 				<?php foreach ($this->form->getGroup('images') as $field) : ?>
 					<div class="control-group">
-						<?php if (!$field->hidden): ?>
+						<?php if (!$field->hidden) : ?>
 							<div class="control-label">
 								<?php echo $field->label; ?>
 							</div>

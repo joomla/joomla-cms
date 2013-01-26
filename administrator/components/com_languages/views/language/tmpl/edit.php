@@ -123,9 +123,9 @@ $canDo = LanguagesHelper::getActions();
 			</div>
 		</div>
 		<div class="tab-pane" id="metadata">
-			<?php foreach ($this->form->getFieldset('metadata') as $field): ?>
+			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 				<div class="control-group">
-					<?php if (!$field->hidden): ?>
+					<?php if (!$field->hidden) : ?>
 						<div class="control-label">
 							<?php echo $field->label; ?>
 						</div>
@@ -139,7 +139,7 @@ $canDo = LanguagesHelper::getActions();
 		<div class="tab-pane" id="site_name">
 			<?php foreach ($this->form->getFieldset('site_name') as $field) : ?>
 				<div class="control-group">
-					<?php if (!$field->hidden): ?>
+					<?php if (!$field->hidden) : ?>
 						<div class="control-label">
 							<?php echo $field->label; ?>
 						</div>

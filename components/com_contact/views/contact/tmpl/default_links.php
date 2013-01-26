@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 ?>
 
-<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
         <?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
-<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
         <?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-links'); ?>
 <?php endif; ?>
 <?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -46,9 +46,9 @@ defined('_JEXEC') or die;
 				</ul>
 			</div>
 
-<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
         <?php echo JHtml::_('bootstrap.endSlide'); ?>
 <?php endif; ?>
-<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
         <?php echo JHtml::_('bootstrap.endPanel'); ?>
 <?php endif; ?>

@@ -27,7 +27,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		<?php endif; ?>
 		</h2>
 	<?php endif; ?>
-	<?php if ($this->item->state == 0): ?>
+	<?php if ($this->item->state == 0) : ?>
 		<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 	<?php endif; ?>
 
@@ -103,7 +103,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 				</dd>
 			<?php endif; ?>
 
-			<?php if ($info == 0): ?>
+			<?php if ($info == 0) : ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd class="modified">
 					<span class="icon-calendar"></span>
@@ -145,7 +145,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 			<dt class="article-info-term">
 				<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
 			</dt>
-			<?php if ($info == 1): ?>
+			<?php if ($info == 1) : ?>
 		<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 			<dd class="createdby">
 				<?php $author = $this->item->author; ?>

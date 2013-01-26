@@ -52,7 +52,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		?>
 		<li><a href="#metadata-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
 		<?php endforeach; ?>
-		<?php if ($assoc): ?>
+		<?php if ($assoc) : ?>
 			<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
 		<?php endif; ?>
 	</ul>
@@ -87,7 +87,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								</div>
 								<?php foreach ($this->form->getGroup('images') as $field) : ?>
 									<div class="control-group">
-										<?php if (!$field->hidden): ?>
+										<?php if (!$field->hidden) : ?>
 											<div class="control-label">
 												<?php echo $field->label; ?>
 											</div>

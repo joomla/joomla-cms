@@ -40,8 +40,8 @@ JHtml::_('behavior.noframes');
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-horizontal">
 
 		<fieldset class="well">
-			<?php foreach ($this->form->getFieldset('credentials') as $field): ?>
-				<?php if (!$field->hidden): ?>
+			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
+				<?php if (!$field->hidden) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>

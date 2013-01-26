@@ -30,10 +30,10 @@ $document = JFactory::getDocument();
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php
 		$i = 0;
-		foreach ($this->types as $name => $list): ?>
+		foreach ($this->types as $name => $list) : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($name), 'collapse' . $i++); ?>
 			<ul class="nav nav-tabs nav-stacked">
-				<?php foreach ($list as $item): ?>
+				<?php foreach ($list as $item) : ?>
 					<li>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
 							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => $item->title, 'request' => $item->request))); ?>')">

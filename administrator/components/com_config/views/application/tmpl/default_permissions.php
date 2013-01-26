@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 <fieldset class="form-vertical">
 	<legend><?php echo JText::_('COM_CONFIG_PERMISSION_SETTINGS'); ?></legend>
-	<?php foreach ($this->form->getFieldset('permissions') as $field): ?>
+	<?php foreach ($this->form->getFieldset('permissions') as $field) : ?>
 		<div class="control-group">
 			<div class="controls"><?php echo $field->input; ?></div>
 		</div>

@@ -42,7 +42,7 @@ $canDo = UsersHelper::getActions();
 		</div>
 		<div class="control-group">
 			<?php $parent_id = $this->form->getField('parent_id');?>
-			<?php if (!$parent_id->hidden): ?>
+			<?php if (!$parent_id->hidden) : ?>
 				<div class="control-label">
 					<?php echo $parent_id->label; ?>
 				</div>

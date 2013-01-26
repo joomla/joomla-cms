@@ -111,7 +111,7 @@ JHtml::_('behavior.framework');
 				</dd>
 			<?php endif; ?>
 
-			<?php if ($info == 0): ?>
+			<?php if ($info == 0) : ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd  class="modified">
 					<span class="icon-calendar"></span>
@@ -155,7 +155,7 @@ JHtml::_('behavior.framework');
 			<dl class="article-info muted">
 			<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-			<?php if ($info == 1): ?>
+			<?php if ($info == 1) : ?>
 				<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 					<dd class="createdby">
 						<?php $author = $this->item->author; ?>

@@ -53,7 +53,7 @@ else
 	</h1>
 	<?php endif; ?>
 	<h2 class="<?php echo $direction; ?>">
-		<?php if ($this->item->published == 0): ?>
+		<?php if ($this->item->published == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<a href="<?php echo $this->item->link; ?>" target="_blank">

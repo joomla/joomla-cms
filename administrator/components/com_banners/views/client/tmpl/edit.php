@@ -108,7 +108,7 @@ $canDo	= BannersHelper::getActions();
 					<div class="span6">
 						<?php foreach ($this->form->getFieldset('extra') as $field) : ?>
 							<div class="control-group">
-								<?php if (!$field->hidden): ?>
+								<?php if (!$field->hidden) : ?>
 									<div class="control-label">
 										<?php echo $field->label; ?>
 									</div>
@@ -124,7 +124,7 @@ $canDo	= BannersHelper::getActions();
 			<div class="tab-pane" id="metadata">
 				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 					<div class="control-group">
-						<?php if (!$field->hidden): ?>
+						<?php if (!$field->hidden) : ?>
 							<div class="control-label">
 								<?php echo $field->label; ?>
 							</div>

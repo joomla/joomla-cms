@@ -60,7 +60,7 @@ $fieldsets = $this->form->getFieldsets();
 			?>
 			<div class="tab-pane" id="settings-<?php echo $fieldset->name;?>">
 			<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
-				<?php if ($field->hidden): ?>
+				<?php if ($field->hidden) : ?>
 				<div class="control-group">
 					<div class="controls"><?php echo $field->input; ?></div>
 				</div>

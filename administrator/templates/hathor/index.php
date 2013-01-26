@@ -150,7 +150,7 @@ else
 
 		<!-- Sub Menu Navigation -->
 		<div class="subheader">
-			<?php if (!$app->input->getInt('hidemainmenu')): ?>
+			<?php if (!$app->input->getInt('hidemainmenu')) : ?>
 				<h3 class="element-invisible"><?php echo JText::_('TPL_HATHOR_SUB_MENU'); ?></h3>
 				<jdoc:include type="modules" name="submenu" style="xhtmlid" id="submenu-box" />
 			<?php echo " " ?>

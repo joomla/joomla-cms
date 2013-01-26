@@ -70,7 +70,7 @@ endif;
 				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_CONTENT_FIELDSET_PUBLISHING');?></a></li>
 				<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
 					<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-					<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))): ?>
+					<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))) : ?>
 						<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
 							<li><a href="#attrib-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
 						<?php endif ?>
@@ -80,10 +80,10 @@ endif;
 					<li><a href="#editor" data-toggle="tab"><?php echo JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG');?></a></li>
 				<?php endif ?>
 				<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
-				<?php if ($assoc): ?>
+				<?php if ($assoc) : ?>
 					<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
 				<?php endif; ?>
-				<?php if ($this->canDo->get('core.admin')): ?>
+				<?php if ($this->canDo->get('core.admin')) : ?>
 					<li><a href="#permissions" data-toggle="tab"><?php echo JText::_('COM_CONTENT_FIELDSET_RULES');?></a></li>
 				<?php endif ?>
 			</ul>
@@ -100,7 +100,7 @@ endif;
 					<?php
 						// The url and images fields only show if the configuration is set to allow them. This is for legacy reasons.
 					?>
-					<?php if ($params['show_urls_images_backend']): ?>
+					<?php if ($params['show_urls_images_backend']) : ?>
 						<div class="row-fluid">
 							<div class="span6">
 								<h4><?php echo JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES');?></h4>
@@ -112,7 +112,7 @@ endif;
 								</div>
 								<?php foreach ($this->form->getGroup('images') as $field) : ?>
 									<div class="control-group">
-										<?php if (!$field->hidden): ?>
+										<?php if (!$field->hidden) : ?>
 											<?php echo $field->label; ?>
 										<?php endif; ?>
 										<div class="controls">
@@ -124,7 +124,7 @@ endif;
 							<div class="span6">
 								<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 									<div class="control-group">
-										<?php if (!$field->hidden): ?>
+										<?php if (!$field->hidden) : ?>
 												<?php echo $field->label; ?>
 										<?php endif; ?>
 										<div class="controls">
@@ -138,7 +138,7 @@ endif;
 				</div>
 
 				<?php // Do not show the publishing options if the edit form is configured not to. ?>
-					<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ): ?>
+					<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ) : ?>
 						<div class="tab-pane" id="publishing">
 							<div class="row-fluid">
 								<div class="span6">
@@ -288,7 +288,7 @@ endif;
 					</div>
 					<?php endif; ?>
 
-					<?php if ($this->canDo->get('core.admin')): ?>
+					<?php if ($this->canDo->get('core.admin')) : ?>
 						<div class="tab-pane" id="permissions">
 							<fieldset>
 								<?php echo $this->form->getInput('rules'); ?>

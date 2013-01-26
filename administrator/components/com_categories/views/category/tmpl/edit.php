@@ -46,7 +46,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php if ($this->assoc) : ?>
 					<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
 				<?php endif; ?>
-				<?php if ($this->canDo->get('core.admin')): ?>
+				<?php if ($this->canDo->get('core.admin')) : ?>
 					<li><a href="#permissions" data-toggle="tab"><?php echo JText::_('COM_CATEGORIES_FIELDSET_RULES');?></a></li>
 				<?php endif; ?>
 			</ul>
@@ -160,7 +160,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						</fieldset>
 					</div>
 				<?php endif; ?>
-				<?php if ($this->canDo->get('core.admin')): ?>
+				<?php if ($this->canDo->get('core.admin')) : ?>
 					<div class="tab-pane" id="permissions">
 						<fieldset>
 							<?php echo $this->form->getInput('rules'); ?>

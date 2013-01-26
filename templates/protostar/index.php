@@ -154,14 +154,14 @@ else
 					</div>
 				</div>
 			</div>
-			<?php if ($this->countModules('position-1')): ?>
+			<?php if ($this->countModules('position-1')) : ?>
 			<div class="navigation">
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
 			<?php endif; ?>
 			<jdoc:include type="modules" name="banner" style="xhtml" />
 			<div class="row-fluid">
-				<?php if ($this->countModules('position-8')): ?>
+				<?php if ($this->countModules('position-8')) : ?>
 				<!-- Begin Sidebar -->
 				<div id="sidebar" class="span3">
 					<div class="sidebar-nav">
