@@ -29,6 +29,7 @@ $ -> Language fix or change
 26-Jan-2013 Jean-Marie Simonet
  # [#30028] Ordering is not working in Beez3 article Category List. Thanks Roberto
  $ Updating installation lang file: be-BY, fi-FI, ko-KR, pl-PL
+ # [#29731] RSS feed gets corrupted when ampersand (&) or other escapable characters exist in Site Meta Description. Thanks Jan
 
 25-Jan-2013 Jean-Marie Simonet
  # [#29998] Problem with grid sort. Thanks Zhevron
