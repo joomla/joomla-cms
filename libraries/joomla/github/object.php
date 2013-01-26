@@ -95,4 +95,27 @@ abstract class JGithubObject
 
 		return (string) $uri;
 	}
+
+	/**
+	 * Process the response and decode it.
+	 *
+	 * @param   JHttpResponse  $response      The response.
+	 * @param   integer        $expectedCode  The expected "good" code.
+	 *
+	 * @throws DomainException
+	 *
+	 * @return mixed
+	 */
+	protected function processResponse(JHttpResponse $response, $expectedCode = 200)
+	{
+		// Validate the response code.
+		if ($response->code != $expectedCode)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
 }

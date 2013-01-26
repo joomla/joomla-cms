@@ -43,6 +43,7 @@ class JGithubHooks extends JGithubObject
 	 *
 	 * @since   12.3
 	 * @throws  DomainException
+	 * @throws  RuntimeException
 	 */
 	public function create($user, $repo, $name, array $config, array $events = array('push'), $active = true)
 	{
@@ -62,18 +63,10 @@ class JGithubHooks extends JGithubObject
 			array('name' => $name, 'config' => $config, 'events' => $events, 'active' => $active)
 		);
 
-		// Send the request.
-		$response = $this->client->post($this->fetchUrl($path), $data);
-
-		// Validate the response code.
-		if ($response->code != 201)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
+		return $this->processResponse(
+			$this->client->post($this->fetchUrl($path), $data),
+			201
+		);
 	}
 
 	/**
@@ -93,18 +86,10 @@ class JGithubHooks extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/hooks/' . $id;
 
-		// Send the request.
-		$response = $this->client->delete($this->fetchUrl($path));
-
-		// Validate the response code.
-		if ($response->code != 204)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
+		return $this->processResponse(
+			$this->client->delete($this->fetchUrl($path)),
+			204
+		);
 	}
 
 	/**
@@ -166,18 +151,9 @@ class JGithubHooks extends JGithubObject
 				'active' => $active)
 		);
 
-		// Send the request.
-		$response = $this->client->patch($this->fetchUrl($path), $data);
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
+		return $this->processResponse(
+			$this->client->patch($this->fetchUrl($path), $data)
+		);
 	}
 
 	/**
@@ -197,18 +173,9 @@ class JGithubHooks extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/hooks/' . $id;
 
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
+		return $this->processResponse(
+			$this->client->get($this->fetchUrl($path))
+		);
 	}
 
 	/**
@@ -229,18 +196,9 @@ class JGithubHooks extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/hooks';
 
-		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path));
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
+		return $this->processResponse(
+			$this->client->get($this->fetchUrl($path))
+		);
 	}
 
 	/**
@@ -260,17 +218,9 @@ class JGithubHooks extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/hooks/' . $id . '/test';
 
-		// Send the request.
-		$response = $this->client->post($this->fetchUrl($path), json_encode(''));
-
-		// Validate the response code.
-		if ($response->code != 204)
-		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
-		}
-
-		return json_decode($response->body);
+		return $this->processResponse(
+			$this->client->post($this->fetchUrl($path), json_encode('')),
+			204
+		);
 	}
 }
