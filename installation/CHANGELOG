@@ -27,6 +27,9 @@ $ -> Language fix or change
 ! -> Note
 
 25-Jan-2013 Jean-Marie Simonet
+ # [#29731] RSS feed gets corrupted when ampersand (&) or other escapable characters exist in Site Meta Description. Thanks Jan
+
+25-Jan-2013 Jean-Marie Simonet
  # [#29998] Problem with grid sort. Thanks Zhevron
  # [#28841] Username modification in frontend (Profile Edit) is not saved. Thanks Jisse Reitsma
 
