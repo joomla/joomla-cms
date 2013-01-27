@@ -6585,3 +6585,9 @@ ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
 }
+.sbox-content-iframe#sbox-content {
+	width: 810px;
+}
+.sbox-content-iframe#sbox-content iframe {
+	width:808px;
+}
