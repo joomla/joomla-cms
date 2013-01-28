@@ -194,6 +194,6 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return "DATEADD('" . $datePart . "', '" . $interval . "', '" . $date . "'".')';
+		return "DATEADD('" . $datePart . "', '" . $interval . "', '" . $date . "'" . ')';
 	}
 }
