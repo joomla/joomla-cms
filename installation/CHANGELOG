@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jan-2013 Jean-Marie Simonet
+ # [#30026] *Reverting parts of tracker #29875 which breaks container-fluid class in Protostar- regression
+
 26-Jan-2013 Jean-Marie Simonet
  # [#30028] Ordering is not working in Beez3 article Category List. Thanks Roberto
  $ Updating installation lang file: be-BY, fi-FI, ko-KR, pl-PL
