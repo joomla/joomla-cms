@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 28-Jan-2013 Jean-Marie Simonet
  # [#30026] *Reverting parts of tracker #29875 which breaks container-fluid class in Protostar- regression
+ #^ [#29997] Email validation fails with longer top level domains. Thanks Elin
 
 26-Jan-2013 Jean-Marie Simonet
  # [#30028] Ordering is not working in Beez3 article Category List. Thanks Roberto
