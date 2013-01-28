@@ -6,6 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+require_once __DIR__ . '/JDatabaseQueryPostgresqlInspector.php';
+require_once JPATH_PLATFORM . '/joomla/database/query/postgresql.php';
 
 /**
  * Test class for JDatabasePostgresqlQuery.
@@ -25,7 +27,7 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	/**
 	 * The instance of the object to test.
 	 *
-	 * @var    JDatabaseQueryPostgresql
+	 * @var    JDatabasePostgresqlQuery
 	 * @since  12.3
 	 */
 	private $_instance;
@@ -125,6 +127,8 @@ class JDatabasePostgresqlQueryTest extends TestCase
 		parent::setUp();
 
 		$this->dbo = TestMockDatabaseDriver::create($this, '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+
+		$this->_instance = new JDatabaseQueryPostgresqlInspector($this->dbo);
 
 		// Mock the escape method to ensure the API is calling the DBO's escape method.
 		$this->assignMockCallbacks(
@@ -1265,9 +1269,9 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	{
 		return array(
 				// date, interval, datepart, expected
-				'Add date'		=> array('2008-12-31', '1', 'day', "timestamp '2008-12-31' + 1 day"),
-				'Subtract date'	=> array('2008-12-31', '-1', 'day', "timestamp '2008-12-31' - 1 day"),
-				'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'day', "timestamp '2008-12-31' - 1 day"),
+				'Add date'		=> array('2008-12-31', '1', 'day', "timestamp '2008-12-31' + interval '1 day'"),
+				'Subtract date'	=> array('2008-12-31', '-1', 'day', "timestamp '2008-12-31' - interval '1 day'"),
+				'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'day', "timestamp '2008-12-31 23:59:59' + interval '1 day'"),
 		);
 	}
 

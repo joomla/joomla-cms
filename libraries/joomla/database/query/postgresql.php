@@ -617,13 +617,13 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		if (substr($date, 0, 1) != '-')
+		if (substr($interval, 0, 1) != '-')
 		{
-			return "date '" . $date . "' + INTERVAL " . $interval . ' ' . $datePart;
+			return "timestamp '" . $date . "' + interval '" . $interval . " " . $datePart . "'";
 		}
 		else
 		{
-			return "date '" . $date . "' - INTERVAL " . $interval . ' ' . $datePart;
+			return "timestamp '" . $date . "' - interval '" . ltrim($interval, '-') . " " . $datePart . "'";
 		}
 	}
 }

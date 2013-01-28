@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+require_once __DIR__ . '/JDatabaseQuerySqliteInspector.php';
+require_once JPATH_PLATFORM . '/joomla/database/query/sqlite.php';
+
 /**
  * Test class for JDatabaseSqliteQuery.
  *
@@ -30,6 +33,25 @@ class JDatabaseSqliteQueryTest extends TestCase
 	 */
 	private $_instance;
 
+
+	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   13.1
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->dbo = $this->getMockDatabase();
+
+		$this->_instance = new JDatabaseQuerySqliteInspector($this->dbo);
+	}
+
 /**
 	 * Data for the testDateAdd test.
 	 *
@@ -41,10 +63,10 @@ class JDatabaseSqliteQueryTest extends TestCase
 	{
 		return array(
 				// date, interval, datepart, expected
-				'Add date'			=> array('2008-12-31', '1', 'day', "dateime('2008-12-31','+1 DAY')"),
-				'Subtract date'		=> array('2008-12-31', '-1', 'day', "datetime('2008-12-31','-1 DAY')"),
-				'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'day', "datetime('2008-12-31 23:59:59',' +1 DAY')"),
-				'Add microseconds'	=> array('2008-12-31 23:59:59', '53', 'microseconds', "datetime('2008-12-31 23:59:59', '+.053 seconds')"),
+				'Add date'			=> array('2008-12-31', '1', 'DAY', "datetime('2008-12-31', '+1 DAY')"),
+				'Subtract date'		=> array('2008-12-31', '-1', 'DAY', "datetime('2008-12-31', '-1 DAY')"),
+				'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'DAY', "datetime('2008-12-31 23:59:59', '+1 DAY')"),
+				'Add microseconds'	=> array('2008-12-31 23:59:59', '53', 'microseconds', "datetime('2008-12-31 23:59:59', '+0.053 seconds')"),
 				);
 	}
 
