@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese. 
  # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto Segura.
  # [#28714] Authentication - Gmail: Apply Username suffix does not allow user to login with suffix already applied. Thanks Janich Rasmussen.
+ # [#29345] MySQLi does not display SQL errors messages anymore. Thanks Jérôme Glatigny.
 
 28-Jan-2013 Jean-Marie Simonet
  # [#30026] *Reverting parts of tracker #29875 which breaks container-fluid class in Protostar- regression
