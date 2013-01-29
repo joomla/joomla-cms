@@ -30,6 +30,7 @@ $ -> Language fix or change
  ^ [#29776] com_media/plugin interaction. Thanks Elijah Madden.
  # [#30007] Fix broken module installation in Postgresql because of NULL constraint. Thanks Elin.
  + [#30006] Add totally new classes and methods from the platform. Thanks Elin.
+ # [#30000] Division by 0 problem in JCrypt. Thanks Elin.
 
 28-Jan-2013 Jean-Marie Simonet
  # [#30026] *Reverting parts of tracker #29875 which breaks container-fluid class in Protostar- regression
