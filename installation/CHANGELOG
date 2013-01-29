@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jan-2013 Mark Dexter
+ # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese.
+
 26-Jan-2013 Jean-Marie Simonet
 # [#30031] *Notice: Undefined index: title in /plugins/content/pagebreak/pagebreak.php on line 197. Thanks Bernard
 

@@ -481,6 +481,7 @@ class JInstallerFile extends JAdapterInstance
 			// Second argument is the utf compatible version attribute
 			$utfresult = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 
+			$db = JFactory::getDbo();
 			if ($utfresult === false)
 			{
 				// Install failed, rollback changes
@@ -488,8 +489,7 @@ class JInstallerFile extends JAdapterInstance
 				$retval = false;
 			}
 
-			// Remove the schema version
-			$db = JFactory::getDbo();
+ 			// Remove the schema version
 			$query = $db->getQuery(true);
 			$query->delete()
 				->from('#__schemas')
