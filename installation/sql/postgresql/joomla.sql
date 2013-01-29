@@ -84,7 +84,7 @@ SELECT setval('#__assets_id_seq', 34, false);
 --
 CREATE TABLE "#__associations" (
   -- A reference to the associated item.
-  "id" character varying(50) NOT NULL,
+  "id" serial NOT NULL,
   -- The context of the associated item.
   "context" character varying(50) NOT NULL,
   -- The key for the association computed from an md5 on associated ids.

@@ -73,7 +73,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 --
 
 CREATE TABLE IF NOT EXISTS `#__associations` (
-  `id` varchar(50) NOT NULL COMMENT 'A reference to the associated item.',
+  `id` INT(11) NOT NULL COMMENT 'A reference to the associated item.',
   `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
   `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
   PRIMARY KEY (`context`,`id`),

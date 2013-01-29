@@ -108,7 +108,7 @@ SET IDENTITY_INSERT #__assets OFF;
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__associations](
-	[id] [nvarchar](50) NOT NULL,
+	[id] [int] IDENTITY(1,1) NOT NULL,
 	[context] [nvarchar](50) NOT NULL,
 	[key] [nchar](32) NOT NULL,
  CONSTRAINT [PK_#__associations_context] PRIMARY KEY CLUSTERED
