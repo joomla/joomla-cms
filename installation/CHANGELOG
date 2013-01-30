@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: bg=BG, pt-BR, sy-IQ
+
 29-Jan-2013 Mark Dexter
  ^ [#29776] com_media/plugin interaction. Thanks Elijah Madden.
  # [#30007] Fix broken module installation in Postgresql because of NULL constraint. Thanks Elin.
