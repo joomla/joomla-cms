@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30043] *Correcting a few Hathor css issues
  $ Updating installation lang file: bs-BA, he-IL
  # Updating en-GB to 3.0.3
+ $ Updating installation lang file: sw-KE
 
 30-Jan-2013 Mark Dexter
  # [#27709] Saving in backend very slow when many user groups. Thanks Elin.
