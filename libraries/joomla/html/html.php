@@ -551,7 +551,7 @@ abstract class JHtml
 		else
 		{
 			return	'<img src="' . $file . '" alt="' . $alt . '" ' .
-				(is_array($attribs)?JArrayHelper::toString($attribs):$attribs) .
+				(is_array($attribs) ? JArrayHelper::toString($attribs) : $attribs) .
 				' />';
 		}
 	}
