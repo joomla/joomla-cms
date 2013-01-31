@@ -1333,6 +1333,10 @@ table#acl-config th.acl-groups {
 #jform_sef_rewrite-lbl {
 	background: url(../images/admin/icon-16-notice-note.png) right top no-repeat;
 }
+#permissions-sliders .tip {
+	background: #ffffff;
+	border: 1px solid #c7c8b2;
+}
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
 	border: solid 0 #c7c8b2;

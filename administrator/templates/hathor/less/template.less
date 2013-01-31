@@ -406,9 +406,14 @@ div.toolbar-box h3 {
 	margin: 0;
 }
 
+.btn-toolbar {
+	margin-bottom: 3px;
+	margin-top: 14px;
+}
+
 div.btn-toolbar {
 	float: left;
-	text-align: right;
+	text-align: left;
 	padding: 0;
 }
 
@@ -435,7 +440,6 @@ div.btn-toolbar div.btn-group button {
 	white-space: nowrap;
 	padding: 1px 5px;
 	cursor: pointer;
-	font-weight: bold;
 	text-align: center;
 }
 
@@ -748,7 +752,6 @@ p.tab-description {
 	height: 2.2em;
 	line-height: 2.2em;
 	font-size: 1.5em;
-	font-weight: bold;
 	cursor: default;
 	padding: 0 15px 0 15px;
 }
@@ -1071,6 +1074,8 @@ fieldset ul.checklist input:focus {
 fieldset#filter-bar {
 	margin: 0;
 	padding: 5px 10px 5px 10px;
+	float: left;
+	width: 98%
 }
 
 fieldset#filter-bar ol, fieldset#filter-bar ul {
@@ -1417,6 +1422,7 @@ th.home-col {
  */
 table.adminlist {
 	width: 100%;
+	float: left;
 }
 
 table.adminlist td, table.adminlist th {
@@ -1484,6 +1490,11 @@ table.adminlist td.order input {
 /**
  * Tree indentation & nesting - Up to 10 levels deep so don't go crazy :
  */
+#media-tree_tree ul {
+	list-style: none outside none;
+    margin: 0 10px;
+}
+	
 table.adminlist td.indent-4 {
 	padding-left: 4px;
 }
@@ -1769,7 +1780,7 @@ div.pagination {
 /* The Go submittal button */
 .pagination button {
 	font-size: 100%;
-	height: 1.8em;
+	height: 2.0em;
 	line-height: 1.8em;
 	margin-right: 20px;
 }
@@ -2485,6 +2496,10 @@ ul.config-option-list fieldset {
 /* *
 * Permission Rules
 */
+#permissions-sliders {
+    margin-top: 15px;
+}
+
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
 	margin: 0 !important;
@@ -2745,6 +2760,14 @@ ul.helpmenu li {
 }
 
 /**
+ * Sidebar styling
+ */
+#sidebar {
+	float:left;
+	margin: 15px 5px;
+}
+
+/**
  * Submenu styling
  */
 #submenu {
@@ -2868,6 +2891,10 @@ fieldset.uploadform {
 /* Installer Database */
 #installer-database, #installer-discover, #installer-update, #installer-warnings {
 	margin-top: 10px;
+}
+
+#installer-database #sidebar {
+	float: none
 }
 
 #installer-database p.warning {
@@ -3096,9 +3123,7 @@ table {
 	padding: 5px 5px 6px;
 }
 
-/*
- * Bootstrap Labels & Badges
- */
+ /* Bootstrap Labels & Badges */
 .label, .badge {
 	font-size: 10.998px;
 	font-weight: bold;
@@ -3168,4 +3193,22 @@ a.label:hover, a.badge:hover {
 
 .label-inverse[href], .badge-inverse[href] {
 	background-color: #1a1a1a;
+}
+
+/**
+ * Media
+ */
+.media .btn {
+	margin: 10px 20px;
+}
+
+.thumbnails > li {
+	list-style: none outside none;
+	float: left;
+	margin-bottom: 18px;
+	margin-left: 20px;
+}
+
+#mediamanager-form {
+	margin: 10px;
 }
