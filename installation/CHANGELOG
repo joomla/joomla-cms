@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-28-Jan-2013 Mark Dexter
+30-Jan-2013 Mark Dexter
+ # [#27709] Saving in backend very slow when many user groups. Thanks Elin.
+
+29-Jan-2013 Mark Dexter
  # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese.
  # [#28714] Authentication - Gmail: Apply Username suffix does not allow user to login with suffix already applied. Thanks Janich Rasmussen.
 
