@@ -456,7 +456,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
 		foreach (get_object_vars($object) as $k => $v)
 		{
-			if (is_array($v) or is_object($v))
+			if (is_array($v) or is_object($v) or $v === null)
 			{
 				continue;
 			}
@@ -815,7 +815,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$this->setQuery('START TRANSACTION');
+		$this->setQuery('BEGIN TRANSACTION');
 		$this->execute();
 	}
 
