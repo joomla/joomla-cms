@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jan-2013 Mark Dexter
+ # [#27709] Saving in backend very slow when many user groups. Thanks Elin.
+
 30-Jan-2013 Jean-Marie Simonet
  $ Updating installation lang file: bg=BG, pt-BR, sy-IQ
 
