@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: ru-RU
+
 30-Jan-2013 Mark Dexter
  # [#27709] Saving in backend very slow when many user groups. Thanks Elin.
  # [#29705] blank login page J3.x beez3.
