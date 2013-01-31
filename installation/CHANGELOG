@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 30-Jan-2013 Mark Dexter
  # [#27709] Saving in backend very slow when many user groups. Thanks Elin.
+ # [#29705] blank login page J3.x beez3.
 
 30-Jan-2013 Jean-Marie Simonet
  $ Updating installation lang file: bg=BG, pt-BR, sy-IQ
