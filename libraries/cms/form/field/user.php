@@ -69,9 +69,14 @@ class JFormFieldUser extends JFormField
 
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
-		if ($this->value)
+		if (is_numeric($this->value))
 		{
 			$table->load($this->value);
+		}
+		// Handle the special case for "current".
+		elseif (strtoupper($this->value) == 'CURRENT')
+		{
+			$table->load(JFactory::getUser()->id);
 		}
 		else
 		{
