@@ -23,6 +23,18 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isElementPresent("//form/script[contains(text(), 'alert')]"));
+		$link = $this->cfg->path . 'index.php?option=com_content&view=category&catid=26&id=36&Itemid=-1"><script>alert(/XSS/)</script>';
+		$this->open($link);
+		$this->waitForPageToLoad("30000");
+		$this->assertFalse($this->isElementPresent("//form/script[contains(text(), 'alert')]"));
+		$link = $this->cfg->path . 'index.php?option=com_newsfeeds&view=category&catid=26&id=36&Itemid=-1"><script>alert(/XSS/)</script>';
+		$this->open($link);
+		$this->waitForPageToLoad("30000");
+		$this->assertFalse($this->isElementPresent("//form/script[contains(text(), 'alert')]"));
+		$link = $this->cfg->path . 'index.php?option=com_xxxinvalid&view=category&catid=26&id=36&Itemid=-1"><script>alert(/XSS/)</script>';
+		$this->open($link);
+		$this->waitForPageToLoad("30000");
+		$this->assertFalse($this->isElementPresent("//form/script[contains(text(), 'alert')]"));
 		$link = $this->cfg->path . 'index.php?option=com_contact&view=featured&id=16&Itemid=452&whateverehere="><script>alert(/XSS/)</script>';
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
