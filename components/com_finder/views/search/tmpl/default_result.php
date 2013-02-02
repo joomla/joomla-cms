@@ -17,7 +17,7 @@ $base = JURI::getInstance()->toString(array('scheme', 'host', 'port'));
 
 // Get the route with highlighting information.
 if (!empty($this->query->highlight) && empty($this->result->mime) && $this->params->get('highlight_terms', 1) && JPluginHelper::isEnabled('system', 'highlight')) {
-	$route = $this->result->route . '&highlight=' . base64_encode(serialize($this->query->highlight));
+	$route = $this->result->route . '&highlight=' . base64_encode(json_encode($this->query->highlight));
 } else {
 	$route = $this->result->route;
 }
