@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,6 @@ class JFormFieldRadio extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 
 		// Initialize some field attributes.
@@ -83,7 +82,6 @@ class JFormFieldRadio extends JFormField
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		foreach ($this->element->children() as $option)

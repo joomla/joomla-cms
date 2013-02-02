@@ -1,29 +1,27 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_checkin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_checkin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Checkin Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_checkin
- * @since 1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_checkin
+ * @since       1.6
  */
-class CheckinController extends JController
+class CheckinController extends JControllerLegacy
 {
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Load the submenu.
-		$this->addSubmenu(JRequest::getWord('option', 'com_checkin'));
+		$this->addSubmenu($this->input->getWord('option', 'com_checkin'));
 
 		parent::display();
 
@@ -35,13 +33,14 @@ class CheckinController extends JController
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		// Initialise variables.
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$ids = $this->input->get('cid', array(), 'array');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
@@ -55,30 +54,28 @@ class CheckinController extends JController
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('JGLOBAL_SUBMENU_CHECKIN'),
 			'index.php?option=com_checkin',
 			$vName == 'com_checkin'
 		);
 
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
 			'index.php?option=com_cache',
 			$vName == 'cache'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
 			'index.php?option=com_cache&view=purge',
 			$vName == 'purge'
 		);
-
 	}
-
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ JLoader::register('FinderIndexer', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/ind
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderControllerIndexer extends JController
+class FinderControllerIndexer extends JControllerLegacy
 {
 	/**
 	 * Method to start the indexer.
@@ -32,11 +32,16 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// Log the start
@@ -67,7 +72,7 @@ class FinderControllerIndexer extends JController
 		try
 		{
 			// Trigger the onStartIndex event.
-			JDispatcher::getInstance()->trigger('onStartIndex');
+			JEventDispatcher::getInstance()->trigger('onStartIndex');
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
@@ -94,11 +99,16 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// Log the start
@@ -169,10 +179,10 @@ class FinderControllerIndexer extends JController
 		try
 		{
 			// Trigger the onBeforeIndex event.
-			JDispatcher::getInstance()->trigger('onBeforeIndex');
+			JEventDispatcher::getInstance()->trigger('onBeforeIndex');
 
 			// Trigger the onBuildIndex event.
-			JDispatcher::getInstance()->trigger('onBuildIndex');
+			JEventDispatcher::getInstance()->trigger('onBuildIndex');
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
@@ -224,8 +234,8 @@ class FinderControllerIndexer extends JController
 
 		try
 		{
-			// Optimize the index.
-			FinderIndexer::optimize();
+			// Optimize the index
+			FinderIndexer::getInstance()->optimize();
 
 			// Get the indexer state.
 			$state = FinderIndexer::getState();
@@ -257,14 +267,17 @@ class FinderControllerIndexer extends JController
 	{
 		static $log;
 
-		if ($log == null)
-		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
-		}
+		$params = JComponentHelper::getParams('com_finder');
 
-		$backtrace = null;
+		if ($params->get('enable_logging', '0'))
+		{
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
+		}
 
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)
@@ -308,11 +321,16 @@ class FinderIndexerResponse
 	{
 		static $log;
 
-		if ($log == null)
+		$params = JComponentHelper::getParams('com_finder');
+
+		if ($params->get('enable_logging', '0'))
 		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			$log = JLog::addLogger($options);
+			if ($log == null)
+			{
+				$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+				$options['text_file'] = 'indexer.php';
+				$log = JLog::addLogger($options);
+			}
 		}
 
 		// The old token is invalid so send a new one.

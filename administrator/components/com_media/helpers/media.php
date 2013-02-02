@@ -1,21 +1,25 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_media
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ * @since       1.5
  */
 abstract class MediaHelper
 {
 	/**
 	 * Checks if the file is an image
 	 * @param string The filename
-	 * @return boolean
+	 * @return  boolean
 	 */
 	public static function isImage($fileName)
 	{
@@ -26,7 +30,7 @@ abstract class MediaHelper
 	/**
 	 * Checks if the file is an image
 	 * @param string The filename
-	 * @return boolean
+	 * @return  boolean
 	 */
 	public static function getTypeIcon($fileName)
 	{
@@ -39,19 +43,21 @@ abstract class MediaHelper
 	 *
 	 * @param array File information
 	 * @param string An error message to be returned
-	 * @return boolean
+	 * @return  boolean
 	 */
 	public static function canUpload($file, &$err)
 	{
 		$params = JComponentHelper::getParams('com_media');
 
-		if (empty($file['name'])) {
+		if (empty($file['name']))
+		{
 			$err = 'COM_MEDIA_ERROR_UPLOAD_INPUT';
 			return false;
 		}
 
 		jimport('joomla.filesystem.file');
-		if ($file['name'] !== JFile::makesafe($file['name'])) {
+		if ($file['name'] !== JFile::makesafe($file['name']))
+		{
 			$err = 'COM_MEDIA_ERROR_WARNFILENAME';
 			return false;
 		}
@@ -75,12 +81,15 @@ abstract class MediaHelper
 
 		$user = JFactory::getUser();
 		$imginfo = null;
-		if ($params->get('restrict_uploads', 1)) {
+		if ($params->get('restrict_uploads', 1))
+		{
 			$images = explode(',', $params->get('image_extensions'));
 			if (in_array($format, $images)) { // if its an image run it through getimagesize
 				// if tmp_name is empty, then the file was bigger than the PHP limit
-				if (!empty($file['tmp_name'])) {
-					if (($imginfo = getimagesize($file['tmp_name'])) === FALSE) {
+				if (!empty($file['tmp_name']))
+				{
+					if (($imginfo = getimagesize($file['tmp_name'])) === false)
+					{
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
 						return false;
 					}
@@ -88,38 +97,47 @@ abstract class MediaHelper
 					$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
 					return false;
 				}
-			} elseif (!in_array($format, $ignored)) {
+			} elseif (!in_array($format, $ignored))
+			{
 				// if its not an image...and we're not ignoring it
 				$allowed_mime = explode(',', $params->get('upload_mime'));
 				$illegal_mime = explode(',', $params->get('upload_mime_illegal'));
-				if (function_exists('finfo_open') && $params->get('check_mime', 1)) {
+				if (function_exists('finfo_open') && $params->get('check_mime', 1))
+				{
 					// We have fileinfo
 					$finfo = finfo_open(FILEINFO_MIME);
 					$type = finfo_file($finfo, $file['tmp_name']);
-					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime)) {
+					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
+					{
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
 						return false;
 					}
 					finfo_close($finfo);
-				} elseif (function_exists('mime_content_type') && $params->get('check_mime', 1)) {
+				} elseif (function_exists('mime_content_type') && $params->get('check_mime', 1))
+				{
 					// we have mime magic
 					$type = mime_content_type($file['tmp_name']);
-					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime)) {
+					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
+					{
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
 						return false;
 					}
-				} elseif (!$user->authorise('core.manage')) {
+				} elseif (!$user->authorise('core.manage'))
+				{
 					$err = 'COM_MEDIA_ERROR_WARNNOTADMIN';
 					return false;
 				}
 			}
 		}
 
-		$xss_check =  JFile::read($file['tmp_name'], false, 256);
+		$xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
 		$html_tags = array('abbr', 'acronym', 'address', 'applet', 'area', 'audioscope', 'base', 'basefont', 'bdo', 'bgsound', 'big', 'blackface', 'blink', 'blockquote', 'body', 'bq', 'br', 'button', 'caption', 'center', 'cite', 'code', 'col', 'colgroup', 'comment', 'custom', 'dd', 'del', 'dfn', 'dir', 'div', 'dl', 'dt', 'em', 'embed', 'fieldset', 'fn', 'font', 'form', 'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'hr', 'html', 'iframe', 'ilayer', 'img', 'input', 'ins', 'isindex', 'keygen', 'kbd', 'label', 'layer', 'legend', 'li', 'limittext', 'link', 'listing', 'map', 'marquee', 'menu', 'meta', 'multicol', 'nobr', 'noembed', 'noframes', 'noscript', 'nosmartquotes', 'object', 'ol', 'optgroup', 'option', 'param', 'plaintext', 'pre', 'rt', 'ruby', 's', 'samp', 'script', 'select', 'server', 'shadow', 'sidebar', 'small', 'spacer', 'span', 'strike', 'strong', 'style', 'sub', 'sup', 'table', 'tbody', 'td', 'textarea', 'tfoot', 'th', 'thead', 'title', 'tr', 'tt', 'ul', 'var', 'wbr', 'xml', 'xmp', '!DOCTYPE', '!--');
-		foreach($html_tags as $tag) {
+
+		foreach ($html_tags as $tag)
+		{
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stristr($xss_check, '<'.$tag.' ') || stristr($xss_check, '<'.$tag.'>')) {
+			if (stristr($xss_check, '<'.$tag.' ') || stristr($xss_check, '<'.$tag.'>'))
+			{
 				$err = 'COM_MEDIA_ERROR_WARNIEXSS';
 				return false;
 			}
@@ -127,17 +145,20 @@ abstract class MediaHelper
 		return true;
 	}
 
+	/**
+	 * Method to parse a file size
+	 *
+	 * @param   integer  $size  The file size in bytes
+	 *
+	 * @return  string  The converted file size
+	 *
+	 * @since   1.6
+	 * @deprecated  4.0  Use JHtmlNumber::bytes() instead
+	 */
 	public static function parseSize($size)
 	{
-		if ($size < 1024) {
-			return JText::sprintf('COM_MEDIA_FILESIZE_BYTES', $size);
-		}
-		elseif ($size < 1024 * 1024) {
-			return JText::sprintf('COM_MEDIA_FILESIZE_KILOBYTES', sprintf('%01.2f', $size / 1024.0));
-		}
-		else {
-			return JText::sprintf('COM_MEDIA_FILESIZE_MEGABYTES', sprintf('%01.2f', $size / (1024.0 * 1024)));
-		}
+		JLog::add('MediaHelper::parseSize() is deprecated. Use JHtmlNumber::bytes() instead.', JLog::WARNING, 'deprecated');
+		return JHtml::_('number.bytes', $size);
 	}
 
 	public static function imageResize($width, $height, $target)
@@ -145,9 +166,12 @@ abstract class MediaHelper
 		//takes the larger size of the width and height and applies the
 		//formula accordingly...this is so this script will work
 		//dynamically with any size image
-		if ($width > $height) {
+		if ($width > $height)
+		{
 			$percentage = ($target / $width);
-		} else {
+		}
+		else
+		{
 			$percentage = ($target / $height);
 		}
 
@@ -163,14 +187,18 @@ abstract class MediaHelper
 		$total_file = 0;
 		$total_dir = 0;
 
-		if (is_dir($dir)) {
+		if (is_dir($dir))
+		{
 			$d = dir($dir);
 
-			while (false !== ($entry = $d->read())) {
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false) {
+			while (false !== ($entry = $d->read()))
+			{
+				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false)
+				{
 					$total_file++;
 				}
-				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry)) {
+				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
+				{
 					$total_dir++;
 				}
 			}

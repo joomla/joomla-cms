@@ -1,34 +1,36 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Templates component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
 class TemplatesHelper
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_TEMPLATES_SUBMENU_STYLES'),
 			'index.php?option=com_templates&view=styles',
 			$vName == 'styles'
 		);
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
 			'index.php?option=com_templates&view=templates',
 			$vName == 'templates'
@@ -38,19 +40,18 @@ class TemplatesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
+	 * @return  JObject
 	 */
 	public static function getActions()
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.state', 'core.delete'
-		);
+		$actions = JAccess::getActions('com_templates');
 
-		foreach ($actions as $action) {
-			$result->set($action, $user->authorise($action, 'com_templates'));
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
 		}
 
 		return $result;
@@ -59,7 +60,7 @@ class TemplatesHelper
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getClientOptions()
 	{
@@ -74,7 +75,7 @@ class TemplatesHelper
 	/**
 	 * Get a list of filter options for the templates with styles.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getTemplateOptions($clientId = '*')
 	{
@@ -82,7 +83,8 @@ class TemplatesHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		if ($clientId != '*') {
+		if ($clientId != '*')
+		{
 			$query->where('client_id='.(int) $clientId);
 		}
 
@@ -105,17 +107,63 @@ class TemplatesHelper
 		$filePath = JPath::clean($templateBaseDir.'/templates/'.$templateDir.'/templateDetails.xml');
 		if (is_file($filePath))
 		{
-			$xml = JApplicationHelper::parseXMLInstallFile($filePath);
+			$xml = JInstaller::parseXMLInstallFile($filePath);
 
-			if ($xml['type'] != 'template') {
+			if ($xml['type'] != 'template')
+			{
 				return false;
 			}
 
-			foreach ($xml as $key => $value) {
+			foreach ($xml as $key => $value)
+			{
 				$data->set($key, $value);
 			}
 		}
 
 		return $data;
+	}
+
+	/**
+	 * @since   3.0
+	 */
+	public static function getPositions($clientId, $templateDir)
+	{
+		$positions = array();
+
+		$templateBaseDir = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+
+		if (is_file($filePath))
+		{
+			// Read the file to see if it's a valid component XML file
+			$xml = simplexml_load_file($filePath);
+			if (!$xml)
+			{
+				return false;
+			}
+
+			// Check for a valid XML root tag.
+
+			// Extensions use 'extension' as the root tag.  Languages use 'metafile' instead
+
+			if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
+			{
+				unset($xml);
+				return false;
+			}
+
+			$positions = (array) $xml->positions;
+
+			if (isset($positions['position']))
+			{
+				$positions = $positions['position'];
+			}
+			else
+			{
+				$positions = array();
+			}
+		}
+
+		return $positions;
 	}
 }

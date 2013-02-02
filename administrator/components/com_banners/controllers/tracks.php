@@ -1,26 +1,26 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Tracks list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ * @since       1.6
  */
-class BannersControllerTracks extends JController
+class BannersControllerTracks extends JControllerLegacy
 {
 	/**
 	 * @var		string	The context for persistent state.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $context = 'com_banners.tracks';
 
@@ -44,8 +44,8 @@ class BannersControllerTracks extends JController
 	/**
 	 * Method to remove a record.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function delete()
 	{
@@ -78,9 +78,12 @@ class BannersControllerTracks extends JController
 
 		$count = $model->getTotal();
 		// Remove the items.
-		if (!$model->delete()) {
+		if (!$model->delete())
+		{
 			JError::raiseWarning(500, $model->getError());
-		} else {
+		}
+		else
+		{
 			$this->setMessage(JText::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
 		}
 

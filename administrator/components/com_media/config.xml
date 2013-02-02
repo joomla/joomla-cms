@@ -48,6 +48,7 @@
 		<field
 			name="restrict_uploads"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC">
@@ -60,6 +61,7 @@
 		<field
 			name="check_mime"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC">
@@ -103,6 +105,7 @@
 		<field
 			name="enable_flash"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_MEDIA_FIELD_ENABLE_FLASH_UPLOADER_LABEL"
 			description="COM_MEDIA_FIELD_ENABLE_FLASH_UPLOADER_DESC">
@@ -126,23 +129,6 @@
 			filter="rules"
 			validate="rules"
 			component="com_media"
-			section="component">
-			<action
-				name="core.admin"
-				title="JACTION_ADMIN"
-				description="JACTION_ADMIN_COMPONENT_DESC" />
-			<action
-				name="core.manage"
-				title="JACTION_MANAGE"
-				description="JACTION_MANAGE_COMPONENT_DESC" />
-			<action
-				name="core.create"
-				title="JACTION_CREATE"
-				description="JACTION_CREATE_COMPONENT_DESC" />
-			<action
-				name="core.delete"
-				title="JACTION_DELETE"
-				description="JACTION_DELETE_COMPONENT_DESC" />
-		</field>
+			section="component" />
 	</fieldset>
 </config>

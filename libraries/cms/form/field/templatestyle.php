@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,21 +12,20 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
- * Form Field class for the Joomla Platform.
+ * Form Field class for the Joomla CMS.
  * Supports a select grouped list of template styles
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Form
- * @since       11.1
+ * @since       1.6
  */
-class JFormFieldTemplateStyle extends JFormFieldGroupedList
+class JFormFieldTemplatestyle extends JFormFieldGroupedList
 {
-
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	public $type = 'TemplateStyle';
 
@@ -38,11 +37,10 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 		$lang = JFactory::getLanguage();
 
@@ -86,6 +84,7 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 					|| $lang->load('tpl_' . $template . '.sys', $client->path, $lang->getDefault(), false, false)
 					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, $lang->getDefault(), false, false);
 				$name = JText::_($style->name);
+
 				// Initialize the group if necessary.
 				if (!isset($groups[$name]))
 				{

@@ -1,23 +1,25 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_categories
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-// Access check.
-if (!JFactory::getUser()->authorise('core.manage', JRequest::getCmd('extension'))) {
+$input = JFactory::getApplication()->input;
+
+if (!JFactory::getUser()->authorise('core.manage', $input->get('extension')))
+{
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-// Include dependancies
-jimport('joomla.application.component.controller');
+JLoader::register('JHtmlCategoriesAdministrator', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/html/categoriesadministrator.php');
 
-// Execute the task.
-$controller	= JController::getInstance('Categories');
-$controller->execute(JRequest::getVar('task'));
+$task = $input->get('task');
+
+$controller	= JControllerLegacy::getInstance('Categories');
+$controller->execute($input->get('task'));
 $controller->redirect();

@@ -1,55 +1,59 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Sysinfo View class for the Admin component
  *
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ * @since       1.6
  */
-class AdminViewSysinfo extends JView
+class AdminViewSysinfo extends JViewLegacy
 {
 	/**
 	 * @var array some php settings
 	 */
-	protected $php_settings=null;
+	protected $php_settings = null;
+
 	/**
 	 * @var array config values
 	 */
-	protected $config=null;
+	protected $config = null;
+
 	/**
 	 * @var array somme system values
 	 */
-	protected $info=null;
+	protected $info = null;
+
 	/**
 	 * @var string php info
 	 */
-	protected $php_info=null;
+	protected $php_info = null;
+
 	/**
 	 * @var array informations about writable state of directories
 	 */
-	protected $directory=null;
+	protected $directory = null;
 
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		// Access check.
-		if (!JFactory::getUser()->authorise('core.admin')) {
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
-		// Initialise variables.
 		$this->php_settings	= $this->get('PhpSettings');
 		$this->config		= $this->get('config');
 		$this->info			= $this->get('info');
@@ -64,23 +68,32 @@ class AdminViewSysinfo extends JView
 	/**
 	 * Setup the SubMenu
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
+	 * @note    Necessary for Hathor compatibility
 	 */
 	protected function _setSubMenu()
 	{
-		$contents = $this->loadTemplate('navigation');
-		$document = JFactory::getDocument();
-		$document->setBuffer($contents, 'modules', 'submenu');
+		try
+		{
+			$contents = $this->loadTemplate('navigation');
+			$document = JFactory::getDocument();
+			$document->setBuffer($contents, 'modules', 'submenu');
+		}
+		catch (Exception $e)
+		{
+		}
 	}
 
 	/**
 	 * Setup the Toolbar
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'systeminfo.png');
-		JToolBarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
+		JToolbarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'systeminfo.png');
+		JToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
 	}
 }

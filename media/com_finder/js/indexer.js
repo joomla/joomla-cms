@@ -1,74 +1,3 @@
-var FinderProgressBar = new Class({
-	Implements: [Events, Options],
-	options: {
-		container: document.body,
-		boxID: 'progress-bar-box-id',
-		percentageID: 'progress-bar-percentage-id',
-		displayID: 'progress-bar-display-id',
-		startPercentage: 0,
-		displayText: false,
-		speed: 10,
-		step: 1,
-		allowMore: false,
-		onComplete: function () {},
-		onChange: function () {}
-	},
-	initialize: function (options) {
-		this.setOptions(options);
-		this.options.container = document.id(this.options.container);
-		this.createElements();
-	},
-	createElements: function () {
-		var box = new Element('div', {
-			id: this.options.boxID
-		});
-		var perc = new Element('div', {
-			id: this.options.percentageID,
-			'style': 'width:0px;'
-		});
-		perc.inject(box);
-		box.inject(this.options.container);
-		if (this.options.displayText) {
-			var text = new Element('div', {
-				id: this.options.displayID
-			});
-			text.inject(this.options.container);
-		}
-		this.set(this.options.startPercentage);
-	},
-	calculate: function (percentage) {
-		return (document.id(this.options.boxID).getStyle('width').replace('px', '') * (percentage / 100)).toInt();
-	},
-	animate: function (go) {
-		var run = false;
-		var self = this;
-		if (!self.options.allowMore && go > 100) {
-			go = 100;
-		}
-		self.to = go.toInt();
-		document.id(self.options.percentageID).set('morph', {
-			duration: this.options.speed,
-			link: 'cancel',
-			onComplete: function () {
-				self.fireEvent('change', [self.to]);
-				if (go >= 100) {
-					self.fireEvent('complete', [self.to]);
-				}
-			}
-		}).morph({
-			width: self.calculate(go)
-		});
-		if (self.options.displayText) {
-			document.id(self.options.displayID).set('text', self.to + '%');
-		}
-	},
-	set: function (to) {
-		this.animate(to);
-	},
-	step: function () {
-		this.set(this.to + this.options.step);
-	}
-});
 var FinderIndexer = new Class({
 	totalItems: null,
 	batchSize: null,
@@ -79,15 +8,7 @@ var FinderIndexer = new Class({
 	initialize: function () {
 		this.offset = 0;
 		this.progress = 0;
-		this.pb = new FinderProgressBar({
-			container: document.id('finder-progress-container'),
-			startPercentage: 0,
-			speed: 600,
-			boxID: 'finder-progress-box',
-			percentageID: 'finder-progress-perc',
-			displayID: 'finder-progress-status',
-			displayText: true
-		});
+		this.pb = new Fx.ProgressBar(document.id('finder-progress-container'));
 		this.path = this.path + '&' + document.id('finder-indexer-token').get('name') + '=1';
 		this.getRequest('indexer.start').send()
 	},
@@ -118,7 +39,7 @@ var FinderIndexer = new Class({
 				this.getRequest('indexer.optimize').send();
 			}
 		} catch (error) {
-			if (this.pb) document.id(this.pb.options.container).dispose();
+			if (this.pb) document.id(this.pb.element).dispose();
 			try {
 				if (json.error) {
 					document.id('finder-progress-header').set('text', json.header).addClass('finder-error');
@@ -137,7 +58,7 @@ var FinderIndexer = new Class({
 	handleFailure: function (xhr) {
 		json = (typeof xhr == 'object' && xhr.responseText) ? xhr.responseText : null;
 		json = json ? JSON.decode(json, true) : null;
-		if (this.pb) document.id(this.pb.options.container).dispose();
+		if (this.pb) document.id(this.pb.element).dispose();
 		if (json) {
 			json = json.responseText != null ? Json.evaluate(json.responseText, true) : json;
 		}
@@ -153,11 +74,12 @@ var FinderIndexer = new Class({
 		if (this.pb && this.progress < 100) {
 			this.pb.set(this.progress);
 		} else if (this.pb) {
-			document.id(this.pb.options.container).dispose();
+			document.id(this.pb.element).dispose();
 			this.pb = false;
 		}
 	}
 });
+
 window.addEvent('domready', function () {
 	Indexer = new FinderIndexer();
 	if (typeof window.parent.SqueezeBox == 'object') {

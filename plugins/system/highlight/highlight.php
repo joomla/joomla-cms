@@ -3,13 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_BASE') or die;
-
-jimport('joomla.application.component.helper');
 
 /**
  * System plugin to highlight terms.
@@ -64,7 +62,7 @@ class PlgSystemHighlight extends JPlugin
 		{
 			return true;
 		}
-		
+
 		// Clean the terms array
 		$filter = JFilterInput::getInstance();
 

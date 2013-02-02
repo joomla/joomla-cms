@@ -1,28 +1,30 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
 require_once JPATH_COMPONENT.'/helpers/debug.php';
 
 /**
  * Methods supporting a list of user records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersModelDebugGroup extends JModelList
 {
 	/**
 	 * Get a list of the actions.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public function getDebugActions()
 	{
@@ -34,8 +36,8 @@ class UsersModelDebugGroup extends JModelList
 	/**
 	 * Override getItems method.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -55,7 +57,8 @@ class UsersModelDebugGroup extends JModelList
 					$level	= $action[1];
 
 					// Check that we check this action for the level of the asset.
-					if ($action[1] === null || $action[1] >= $asset->level) {
+					if ($action[1] === null || $action[1] >= $asset->level)
+					{
 						// We need to test this action.
 						$asset->checks[$name] = JAccess::checkGroup($groupId, $action[0], $asset->name);
 					}
@@ -75,16 +78,17 @@ class UsersModelDebugGroup extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout', 'default')) {
+		$layout = $app->input->get('layout', 'default');
+		if ($layout)
+		{
 			$this->context .= '.'.$layout;
 		}
 
@@ -99,7 +103,8 @@ class UsersModelDebugGroup extends JModelList
 		$this->setState('filter.level_start', $levelStart);
 
 		$value = $this->getUserStateFromRequest($this->context.'.filter.level_end', 'filter_level_end', 0, 'int');
-		if ($value > 0 && $value < $levelStart) {
+		if ($value > 0 && $value < $levelStart)
+		{
 			$value = $levelStart;
 		}
 		$this->setState('filter.level_end', $value);
@@ -108,7 +113,7 @@ class UsersModelDebugGroup extends JModelList
 		$this->setState('filter.component', $component);
 
 		// Load the parameters.
-		$params		= JComponentHelper::getParams('com_users');
+		$params = JComponentHelper::getParams('com_users');
 		$this->setState('params', $params);
 
 		// List state information.
@@ -122,10 +127,10 @@ class UsersModelDebugGroup extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -141,8 +146,8 @@ class UsersModelDebugGroup extends JModelList
 	/**
 	 * Get the group being debugged.
 	 *
-	 * @return	JObject
-	 * @since	1.6
+	 * @return  JObject
+	 * @since   1.6
 	 */
 	public function getGroup()
 	{
@@ -155,13 +160,14 @@ class UsersModelDebugGroup extends JModelList
 			->where('id = '.$groupId);
 
 		$db->setQuery($query);
-		$group = $db->loadObject();
 
-		// Check for DB error.
-		$error	= $db->getErrorMsg();
-		if ($error) {
-			$this->setError($error);
-
+		try
+		{
+			$group = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -171,8 +177,8 @@ class UsersModelDebugGroup extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.6
+	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -190,7 +196,8 @@ class UsersModelDebugGroup extends JModelList
 		$query->from($db->quoteName('#__assets').' AS a');
 
 		// Filter the items over the search string if set.
-		if ($this->getState('filter.search')) {
+		if ($this->getState('filter.search'))
+		{
 			// Escape the search token.
 			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
 
@@ -206,18 +213,22 @@ class UsersModelDebugGroup extends JModelList
 		// Filter on the start and end levels.
 		$levelStart	= (int) $this->getState('filter.level_start');
 		$levelEnd	= (int) $this->getState('filter.level_end');
-		if ($levelEnd > 0 && $levelEnd < $levelStart) {
+		if ($levelEnd > 0 && $levelEnd < $levelStart)
+		{
 			$levelEnd = $levelStart;
 		}
-		if ($levelStart > 0) {
+		if ($levelStart > 0)
+		{
 			$query->where('a.level >= '.$levelStart);
 		}
-		if ($levelEnd > 0) {
+		if ($levelEnd > 0)
+		{
 			$query->where('a.level <= '.$levelEnd);
 		}
 
 		// Filter the items over the component if set.
-		if ($this->getState('filter.component')) {
+		if ($this->getState('filter.component'))
+		{
 			$component = $this->getState('filter.component');
 			$query->where('(a.name = '.$db->quote($component).' OR a.name LIKE '.$db->quote($component.'.%').')');
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,7 +37,6 @@ class JFormFieldPlugins extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialise variables
 		$folder	= $this->element['folder'];
 
 		if (!empty($folder))
@@ -65,17 +64,10 @@ class JFormFieldPlugins extends JFormFieldList
 				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
 				$options[$i]->text = JText::_($item->text);
 			}
-
-			if ($db->getErrorMsg())
-			{
-				JError::raiseWarning(500, JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'));
-				return '';
-			}
-
 		}
 		else
 		{
-			JError::raiseWarning(500, JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'));
+			JLog::add(JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), JLog::WARNING, 'jerror');
 		}
 
 		// Merge any additional options in the XML definition.

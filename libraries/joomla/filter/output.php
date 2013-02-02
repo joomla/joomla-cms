@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -85,7 +85,7 @@ class JFilterOutput
 	 */
 	public static function stringURLSafe($string)
 	{
-		// remove any '-' from the string since they will be used as concatenaters
+		// Remove any '-' from the string since they will be used as concatenaters
 		$str = str_replace('-', ' ', $string);
 
 		$lang = JFactory::getLanguage();
@@ -212,5 +212,19 @@ class JFilterOutput
 	public static function stripImages($string)
 	{
 		return preg_replace('#(<[/]?img.*>)#U', '', $string);
+	}
+
+	/**
+	 * Strip iframe-tags from string
+	 *
+	 * @param   string  $string  Sting to be cleaned.
+	 *
+	 * @return  string  Cleaned string
+	 *
+	 * @since   12.2
+	 */
+	public static function stripIframes($string)
+	{
+		return preg_replace('#(<[/]?iframe.*>)#U', '', $string);
 	}
 }

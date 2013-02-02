@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Quickicon.Joomlaupdate
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -9,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Joomla! udpate notification plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Quickicon.Joomla
- * @since		2.5
+ * @package     Joomla.Plugin
+ * @subpackage  Quickicon.Joomlaupdate
+ * @since       2.5
  */
 class plgQuickiconJoomlaupdate extends JPlugin
 {
@@ -43,9 +46,12 @@ class plgQuickiconJoomlaupdate extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context != $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer')) {
+		if ($context != $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
+		{
 			return;
 		}
+
+		JHtml::_('jquery.framework');
 
 		$cur_template = JFactory::getApplication()->getTemplate();
 		$ajax_url = JURI::base().'index.php?option=com_installer&view=update&task=update.ajax';
@@ -61,11 +67,11 @@ class plgQuickiconJoomlaupdate extends JPlugin
 			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-updatefound.png'."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
-		$document->addScript(JURI::base().'../media/plg_quickicon_joomlaupdate/jupdatecheck.js');
+		JHtml::script('plg_quickicon_joomlaupdate/jupdatecheck.js', false, true);
 
 		return array(array(
-			'link' => 'index.php?option=com_installer&view=update',
-			'image' => 'header/icon-48-download.png',
+			'link' => 'index.php?option=com_joomlaupdate',
+			'image' => 'download',
 			'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 			'id' => 'plg_quickicon_joomlaupdate'
 		));

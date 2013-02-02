@@ -15,7 +15,7 @@
 
 		<field name="published" type="list"
 			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
-			class="inputbox" size="1" default="1"
+			class="inputbox span12 small" size="1" default="1"
 		>
 			<option value="1">
 				JPUBLISHED</option>
@@ -34,10 +34,14 @@
 		</field>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox"
+			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
 		>
 			<option value="*">JALL</option>
 		</field>
+		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
+			class="inputbox"
+			filter="JComponentHelper::filterText"
+			label="JGLOBAL_DESCRIPTION" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="link" type="url" filter="url" class="inputbox"
 			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
@@ -84,11 +88,12 @@
 			label="JGLOBAL_FIELD_Modified_Label" description="COM_NEWSFEEDS_FIELD_MODIFIED_DESC"
 			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
 
-		<field name="modified_by" type="user"
-		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
-		class="readonly"
-		readonly="true"
-		filter="unset"  />
+		<field name="modified_by" type="user" label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+			class="readonly" readonly="true" filter="unset"  />
+
+		<field name="version" type="text" class="readonly"
+			label="COM_NEWSFEEDS_FIELD_VERSION_LABEL" size="6" description="COM_NEWSFEEDS_FIELD_VERSION_DESC"
+			readonly="true" filter="unset" />
 
 
 		<field name="checked_out" type="Text" class="inputbox"
@@ -112,7 +117,7 @@
 			filter="user_utc" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox span12 small" size="1" />
 
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
@@ -127,6 +132,67 @@
 			class="inputbox" size="20" />
 
 	</fieldset>
+	<fields name="images">
+			<field
+				name="image_first"
+				type="media"
+				label="COM_NEWSFEEDS_FIELD_FIRST_LABEL"
+				description="COM_NEWSFEEDS_FIELD_FIRST_DESC" />
+			<field
+				name="float_first"
+				type="list"
+				label="COM_NEWSFEEDS_FLOAT_LABEL"
+				description="COM_NEWSFEEDS_FLOAT_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="right">COM_NEWSFEEDS_RIGHT</option>
+					<option value="left">COM_NEWSFEEDS_LEFT</option>
+					<option value="none">COM_NEWSFEEDS_NONE</option>
+			</field>
+			<field name="image_first_alt"
+				type="text"
+				label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_DESC"
+				class="inputbox"
+				size="20" />
+			<field name="image_first_caption"
+				type="text"
+				label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
+				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
+				class="inputbox"
+				size="20" />
+			<field
+				name="spacer1"
+				type="spacer"
+				hr="true"
+				/>
+			<field
+				name="image_second"
+				type="media"
+				label="COM_NEWSFEEDS_FIELD_SECOND_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SECOND_DESC" />
+			<field
+				name="float_second"
+				type="list"
+				label="COM_NEWSFEEDS_FLOAT_LABEL"
+				description="COM_NEWSFEEDS_FLOAT_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="right">COM_NEWSFEEDS_RIGHT</option>
+					<option value="left">COM_NEWSFEEDS_LEFT</option>
+					<option value="none">COM_NEWSFEEDS_NONE</option>
+			</field>
+			<field name="image_second_alt"
+				type="text"
+				label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_DESC"
+				class="inputbox"
+				size="20" />
+			<field name="image_second_caption"
+				type="text"
+				label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
+				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
+				class="inputbox"
+				size="20" />
+	</fields>
 
 	<fields name="params">
 		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
@@ -202,5 +268,14 @@
 				label="JFIELD_META_RIGHTS_LABEL" description="JFIELD_META_RIGHTS_DESC"
 				required="false" filter="string" cols="30" rows="2" />
 		</fieldset>
+
+		<field name="hits"
+			type="text"
+			class="readonly"
+			size="6" label="JGLOBAL_HITS"
+			description="COM_WEBLINKS_HITS_DESC"
+			readonly="true"
+			filter="unset" />
+
 	</fields>
 </form>

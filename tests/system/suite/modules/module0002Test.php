@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -16,22 +16,22 @@ class Module0002 extends SeleniumJoomlaTestCase
 	function testModuleDisplay()
 	{
 		$this->setUp();
-		echo ("Starting ". __FUNCTION__ . "\n");
+		$this->jPrint("Starting ". __FUNCTION__ . "\n");
 		$this->gotoSite();
-		echo ("Check that login form is present"."\n");
+		$this->jPrint("Check that login form is present"."\n");
 		$this->assertTrue($this->isTextPresent("Login Form"));
 
-		echo "Check navigation modules.\n";
+		$this->jPrint ("Check navigation modules.\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/modules';
 		$this->open($link);
 		$this->click("link=Navigation Modules");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Breadcrumbs Module");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//div[@class='breadcrumbs']/a[contains(text(),'Home')]"));
-		$this->assertTrue($this->isElementPresent("//div[@class='breadcrumbs']/a[contains(text(),'Navigation Modules')]"));
+		$this->assertTrue($this->isElementPresent("//ul[contains(@class, 'breadcrumb')]//li/a[contains(text(),'Home')]"));
+		$this->assertTrue($this->isElementPresent("//ul[contains(@class, 'breadcrumb')]//li/a[contains(text(),'Navigation Modules')]"));
 
-		echo "Check content modules.\n";
+		$this->jPrint ("Check content modules.\n");
 		$this->click("link=Content Modules");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Most Read Content");
@@ -61,7 +61,7 @@ class Module0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Koala"));
 		$this->assertTrue($this->isElementPresent("link=Wobbegone"));
 
-		echo "Check user modules.\n";
+		$this->jPrint ("Check user modules.\n");
 		$this->click("link=User Modules");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Who's Online");

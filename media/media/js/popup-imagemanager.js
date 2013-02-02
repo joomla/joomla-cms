@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ var ImageManager = this.ImageManager = {
 		var folder = this.getImageFolder();
 		for(var i = 0; i < this.folderlist.length; i++)
 		{
-			if(folder == this.folderlist.options[i].value) {
+			if (folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
 				break;
 			}
@@ -128,7 +128,7 @@ var ImageManager = this.ImageManager = {
 
 		for(var i = 0; i < this.folderlist.length; i++)
 		{
-			if(folder == this.folderlist.options[i].value) {
+			if (folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
 				break;
 			}
@@ -144,7 +144,7 @@ var ImageManager = this.ImageManager = {
 	{
 		var currentFolder = this.getFolder();
 
-		if(currentFolder.length < 2) {
+		if (currentFolder.length < 2) {
 			return false;
 		}
 
@@ -163,7 +163,7 @@ var ImageManager = this.ImageManager = {
 		{
 			var thisFolder = this.folderlist.options[i].value;
 
-			if(thisFolder == search)
+			if (thisFolder == search)
 			{
 				this.folderlist.selectedIndex = i;
 				var newFolder = this.folderlist.options[i].value;
@@ -183,7 +183,7 @@ var ImageManager = this.ImageManager = {
 		var message  = document.id('message');
 		var messages = document.id('messages');
 
-		if(message.firstChild)
+		if (message.firstChild)
 			message.removeChild(message.firstChild);
 
 		message.appendChild(document.createTextNode(text));

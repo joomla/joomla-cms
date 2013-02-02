@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -110,21 +110,33 @@ class JUpdate extends JObject
 
 	/**
 	 * @var    string
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_xml_parser;
+	protected $xmlParser;
 
 	/**
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_stack = array('base');
+	protected $stack = array('base');
 
 	/**
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	protected $_state_store = array();
+	protected $stateStore = array();
+
+	/**
+	 * @var    stdClass
+	 * @since  12.1
+	 */
+	protected $currentUpdate;
+
+	/**
+	 * @var    stdClass
+	 * @since  12.1
+	 */
+	protected $latest;
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -135,7 +147,7 @@ class JUpdate extends JObject
 	 */
 	protected function _getStackLocation()
 	{
-		return implode('->', $this->_stack);
+		return implode('->', $this->stack);
 	}
 
 	/**
@@ -147,7 +159,7 @@ class JUpdate extends JObject
 	 */
 	protected function _getLastTag()
 	{
-		return $this->_stack[count($this->_stack) - 1];
+		return $this->stack[count($this->stack) - 1];
 	}
 
 	/**
@@ -164,28 +176,40 @@ class JUpdate extends JObject
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
-		array_push($this->_stack, $name);
+		array_push($this->stack, $name);
 		$tag = $this->_getStackLocation();
+
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
+		if (isset($this->$tag))
+		{
+			$this->$tag->_data = "";
+		}
 
 		switch ($name)
 		{
 			// This is a new update; create a current update
 			case 'UPDATE':
-				$this->_current_update = new stdClass;
+				$this->currentUpdate = new stdClass;
 				break;
+
 			// Don't do anything
 			case 'UPDATES':
 				break;
+
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
-				$this->_current_update->$name->_data = '';
+
+				if (!isset($this->currentUpdate->$name))
+				{
+					$this->currentUpdate->$name = new stdClass;
+				}
+				$this->currentUpdate->$name->_data = '';
+
 				foreach ($attrs as $key => $data)
 				{
 					$key = strtolower($key);
-					$this->_current_update->$name->$key = $data;
+					$this->currentUpdate->$name->$key = $data;
 				}
 				break;
 		}
@@ -204,44 +228,49 @@ class JUpdate extends JObject
 	 */
 	public function _endElement($parser, $name)
 	{
-		array_pop($this->_stack);
+		array_pop($this->stack);
 		switch ($name)
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
-				if ($product == $this->_current_update->targetplatform->name
-					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
+
+				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
+				if (isset($this->currentUpdate->targetplatform->name)
+					&& $product == $this->currentUpdate->targetplatform->name
+					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE)
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
-					if (isset($this->_latest))
+					if (isset($this->latest))
 					{
-						if (version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1)
+						if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
 						{
-							$this->_latest = $this->_current_update;
+							$this->latest = $this->currentUpdate;
 						}
 					}
 					else
 					{
-						$this->_latest = $this->_current_update;
+						$this->latest = $this->currentUpdate;
 					}
 				}
 				break;
 			case 'UPDATES':
 				// If the latest item is set then we transfer it to where we want to
-				if (isset($this->_latest))
+				if (isset($this->latest))
 				{
-					foreach (get_object_vars($this->_latest) as $key => $val)
+					foreach (get_object_vars($this->latest) as $key => $val)
 					{
 						$this->$key = $val;
 					}
-					unset($this->_latest);
-					unset($this->_current_update);
+					unset($this->latest);
+					unset($this->currentUpdate);
 				}
-				elseif (isset($this->_current_update))
+				elseif (isset($this->currentUpdate))
 				{
 					// The update might be for an older version of j!
-					unset($this->_current_update);
+					unset($this->currentUpdate);
 				}
 				break;
 		}
@@ -261,11 +290,16 @@ class JUpdate extends JObject
 	public function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		//$this->$tag->_data .= $data;
+
+		// @todo remove code: if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		// @todo remove code: $this->$tag->_data .= $data;
+
 		// Throw the data for this item together
 		$tag = strtolower($tag);
-		$this->_current_update->$tag->_data .= $data;
+		if (isset($this->currentUpdate->$tag))
+		{
+			$this->currentUpdate->$tag->_data .= $data;
+		}
 	}
 
 	/**
@@ -279,31 +313,30 @@ class JUpdate extends JObject
 	 */
 	public function loadFromXML($url)
 	{
-		if (!($fp = @fopen($url, 'r')))
+		$http = JHttpFactory::getHttp();
+		$response = $http->get($url);
+		if (200 != $response->code)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
-			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));
+			JLog::add(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), JLog::WARNING, 'jerror');
 			return false;
 		}
 
-		$this->xml_parser = xml_parser_create('');
-		xml_set_object($this->xml_parser, $this);
-		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');
-		xml_set_character_data_handler($this->xml_parser, '_characterData');
+		$this->xmlParser = xml_parser_create('');
+		xml_set_object($this->xmlParser, $this);
+		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
+		xml_set_character_data_handler($this->xmlParser, '_characterData');
 
-		while ($data = fread($fp, 8192))
+		if (!xml_parse($this->xmlParser, $response->body))
 		{
-			if (!xml_parse($this->xml_parser, $data, feof($fp)))
-			{
-				die(
-					sprintf(
-						"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xml_parser)),
-						xml_get_current_line_number($this->xml_parser)
-					)
-				);
-			}
+			die(
+				sprintf(
+					"XML error: %s at line %d", xml_error_string(xml_get_error_code($this->xmlParser)),
+					xml_get_current_line_number($this->xmlParser)
+				)
+			);
 		}
-		xml_parser_free($this->xml_parser);
+		xml_parser_free($this->xmlParser);
 		return true;
 	}
 }

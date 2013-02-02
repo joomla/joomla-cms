@@ -1,13 +1,12 @@
 <?php
 /**
- * @version
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Create shortcut
@@ -18,20 +17,20 @@ $params = $this->item->params;
 if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))) :
 ?>
 <div class="content-links">
-	<ul>
+	<ul class="nav nav-tabs nav-stacked">
 		<?php
 			$urlarray = array(
 			array($urls->urla, $urls->urlatext, $urls->targeta, 'a'),
 			array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
 			array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
 			);
-			foreach($urlarray as $url) :
+			foreach ($urlarray as $url) :
 				$link = $url[0];
 				$label = $url[1];
 				$target = $url[2];
 				$id = $url[3];
 
-				if( ! $link) :
+				if ( ! $link) :
 					continue;
 				endif;
 

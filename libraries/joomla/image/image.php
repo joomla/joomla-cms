@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,6 +35,12 @@ class JImage
 	 * @since  11.3
 	 */
 	const SCALE_OUTSIDE = 3;
+
+	/**
+	 * @const  integer
+	 * @since  12.2
+	 */
+	const CROP = 4;
 
 	/**
 	 * @var    resource  The image resource handle.
@@ -70,6 +76,7 @@ class JImage
 			// @codeCoverageIgnoreStart
 			JLog::add('The GD extension for PHP is not available.', JLog::ERROR);
 			throw new RuntimeException('The GD extension for PHP is not available.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -101,7 +108,7 @@ class JImage
 	 *
 	 * @param   string  $path  The filesystem path to the image for which to get properties.
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
@@ -117,10 +124,12 @@ class JImage
 
 		// Get the image file information.
 		$info = getimagesize($path);
+
 		if (!$info)
 		{
 			// @codeCoverageIgnoreStart
 			throw new RuntimeException('Unable to get properties for the image.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -139,6 +148,137 @@ class JImage
 	}
 
 	/**
+	 * Method to generate thumbnails from the current image. It allows creation by resizing
+	 * or croppping the original image.
+	 *
+	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
+	 *
+	 * @return array
+	 *
+	 * @throws  LogicException
+	 * @throws  InvalidArgumentException
+	 *
+	 * @since 12.2
+	 */
+	public function generateThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new LogicException('No valid image was loaded.');
+		}
+
+		// Accept a single thumbsize string as parameter
+		if (!is_array($thumbSizes))
+		{
+			$thumbSizes = array($thumbSizes);
+		}
+
+		// Process thumbs
+		$generated = array();
+
+		if (!empty($thumbSizes))
+		{
+			foreach ($thumbSizes as $thumbSize)
+			{
+				// Desired thumbnail size
+				$size = explode('x', strtolower($thumbSize));
+
+				if (count($size) != 2)
+				{
+					throw new InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
+				}
+				$thumbWidth 	= $size[0];
+				$thumbHeight	= $size[1];
+
+				// Generate thumb cropping image
+				if ($creationMethod == 4)
+				{
+					$thumb = $this->crop($thumbWidth, $thumbHeight, null, null, true);
+				}
+				// Generate thumb resizing image
+				else
+				{
+					$thumb = $this->resize($thumbWidth, $thumbHeight, true, $creationMethod);
+				}
+
+				// Store the thumb in the results array
+				$generated[] = $thumb;
+			}
+		}
+		return $generated;
+	}
+
+	/**
+	 * Method to create thumbnails from the current image and save them to disk. It allows creation by resizing
+	 * or croppping the original image.
+	 *
+	 * @param   mixed    $thumbSizes      string or array of strings. Example: $thumbSizes = array('150x75','250x150');
+	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
+	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
+	 *
+	 * @return array
+	 *
+	 * @throws  LogicException
+	 * @throws  InvalidArgumentException
+	 *
+	 * @since 12.2
+	 */
+	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
+	{
+		// Make sure the resource handle is valid.
+		if (!$this->isLoaded())
+		{
+			throw new LogicException('No valid image was loaded.');
+		}
+
+		// No thumbFolder set -> we will create a thumbs folder in the current image folder
+		if (is_null($thumbsFolder))
+		{
+			$thumbsFolder = dirname($this->getPath()) . '/thumbs';
+		}
+
+		// Check destination
+		if (!is_dir($thumbsFolder) && (!is_dir(dirname($thumbsFolder)) || !@mkdir($thumbsFolder)))
+		{
+			throw new InvalidArgumentException('Folder does not exist and cannot be created: ' . $thumbsFolder);
+		}
+
+		// Process thumbs
+		$thumbsCreated = array();
+
+		if ($thumbs = $this->generateThumbs($thumbSizes, $creationMethod))
+		{
+			// Parent image properties
+			$imgProperties = self::getImageFileProperties($this->getPath());
+
+			foreach ($thumbs as $thumb)
+			{
+				// Get thumb properties
+				$thumbWidth 	= $thumb->getWidth();
+				$thumbHeight 	= $thumb->getHeight();
+
+				// Generate thumb name
+				$filename 		= pathinfo($this->getPath(), PATHINFO_FILENAME);
+				$fileExtension 	= pathinfo($this->getPath(), PATHINFO_EXTENSION);
+				$thumbFileName 	= $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+
+				// Save thumb file to disk
+				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
+
+				if ($thumb->toFile($thumbFileName, $imgProperties->type))
+				{
+					// Return JImage object with thumb path to ease further manipulation
+					$thumb->path = $thumbFileName;
+					$thumbsCreated[] = $thumb;
+				}
+			}
+		}
+		return $thumbsCreated;
+	}
+
+	/**
 	 * Method to crop the current image.
 	 *
 	 * @param   mixed    $width      The width of the image section to crop in pixels or a percentage.
@@ -153,7 +293,7 @@ class JImage
 	 * @since   11.3
 	 * @throws  LogicException
 	 */
-	public function crop($width, $height, $left, $top, $createNew = true)
+	public function crop($width, $height, $left = null, $top = null, $createNew = true)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -166,6 +306,16 @@ class JImage
 
 		// Sanitize height.
 		$height = $this->sanitizeHeight($height, $width);
+
+		// Autocrop offsets
+		if (is_null($left))
+		{
+			$left = round(($this->getWidth() - $width) / 2);
+		}
+		if (is_null($top))
+		{
+			$top = round(($this->getHeight() - $height) / 2);
+		}
 
 		// Sanitize left.
 		$left = $this->sanitizeOffset($left);
@@ -204,11 +354,15 @@ class JImage
 			$new = new JImage($handle);
 
 			return $new;
+
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -345,6 +499,9 @@ class JImage
 	 */
 	public function loadFile($path)
 	{
+		// Destroy the current image handle if it exists
+		$this->destroy();
+
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
@@ -364,15 +521,18 @@ class JImage
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type GIF.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type GIF.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process GIF image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -385,15 +545,18 @@ class JImage
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type JPG.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type JPG.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process JPG image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -406,15 +569,18 @@ class JImage
 					// @codeCoverageIgnoreStart
 					JLog::add('Attempting to load an image of unsupported type PNG.', JLog::ERROR);
 					throw new RuntimeException('Attempting to load an image of unsupported type PNG.');
+
 					// @codeCoverageIgnoreEnd
 				}
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
 					throw new RuntimeException('Unable to process PNG image.');
+
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
@@ -436,7 +602,7 @@ class JImage
 	 * @param   mixed    $width        The width of the resized image in pixels or a percentage.
 	 * @param   mixed    $height       The height of the resized image in pixels or a percentage.
 	 * @param   bool     $createNew    If true the current image will be cloned, resized and returned; else
-	 * the current image will be resized and returned.
+	 *                                 the current image will be resized and returned.
 	 * @param   integer  $scaleMethod  Which method to use for scaling
 	 *
 	 * @return  JImage
@@ -444,7 +610,7 @@ class JImage
 	 * @since   11.3
 	 * @throws  LogicException
 	 */
-	public function resize($width, $height, $createNew = true, $scaleMethod = JImage::SCALE_INSIDE)
+	public function resize($width, $height, $createNew = true, $scaleMethod = self::SCALE_INSIDE)
 	{
 		// Make sure the resource handle is valid.
 		if (!$this->isLoaded())
@@ -492,11 +658,15 @@ class JImage
 			$new = new JImage($handle);
 
 			return $new;
+
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -509,7 +679,7 @@ class JImage
 	 * @param   mixed    $angle       The angle of rotation for the image
 	 * @param   integer  $background  The background color to use when areas are added due to rotation
 	 * @param   bool     $createNew   If true the current image will be cloned, rotated and returned; else
-	 * the current image will be rotated and returned.
+	 *                                the current image will be rotated and returned.
 	 *
 	 * @return  JImage
 	 *
@@ -525,7 +695,7 @@ class JImage
 		}
 
 		// Sanitize input
-		$angle = floatval($angle);
+		$angle = (float) $angle;
 
 		// Create the new truecolor image handle.
 		$handle = imagecreatetruecolor($this->getWidth(), $this->getHeight());
@@ -547,11 +717,15 @@ class JImage
 			$new = new JImage($handle);
 
 			return $new;
+
 			// @codeCoverageIgnoreEnd
 		}
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -565,7 +739,7 @@ class JImage
 	 * @param   integer  $type     The image type to save the file as.
 	 * @param   array    $options  The image type options to use in saving the file.
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @see     http://www.php.net/manual/image.constants.php
 	 * @since   11.3
@@ -582,16 +756,16 @@ class JImage
 		switch ($type)
 		{
 			case IMAGETYPE_GIF:
-				imagegif($this->handle, $path);
+				return imagegif($this->handle, $path);
 				break;
 
 			case IMAGETYPE_PNG:
-				imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
+				return imagepng($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 0);
 				break;
 
 			case IMAGETYPE_JPEG:
 			default:
-				imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
+				return imagejpeg($this->handle, $path, (array_key_exists('quality', $options)) ? $options['quality'] : 100);
 		}
 	}
 
@@ -612,6 +786,7 @@ class JImage
 
 		// Verify that the filter type exists.
 		$className = 'JImageFilter' . ucfirst($type);
+
 		if (!class_exists($className))
 		{
 			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
@@ -627,6 +802,7 @@ class JImage
 			// @codeCoverageIgnoreStart
 			JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', JLog::ERROR);
 			throw new RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
+
 			// @codeCoverageIgnoreEnd
 		}
 
@@ -640,10 +816,10 @@ class JImage
 	 * @param   integer  $height       The height of the resized image in pixels.
 	 * @param   integer  $scaleMethod  The method to use for scaling
 	 *
-	 * @return  object
+	 * @return  stdClass
 	 *
 	 * @since   11.3
-	 * @throws  InvalidArgumentException
+	 * @throws  InvalidArgumentException  If width, height or both given as zero
 	 */
 	protected function prepareDimensions($width, $height, $scaleMethod)
 	{
@@ -652,17 +828,28 @@ class JImage
 
 		switch ($scaleMethod)
 		{
-			case JImage::SCALE_FILL:
-				$dimensions->width = intval(round($width));
-				$dimensions->height = intval(round($height));
+			case self::SCALE_FILL:
+				$dimensions->width = (int) round($width);
+				$dimensions->height = (int) round($height);
 				break;
 
-			case JImage::SCALE_INSIDE:
-			case JImage::SCALE_OUTSIDE:
-				$rx = $this->getWidth() / $width;
-				$ry = $this->getHeight() / $height;
+			case self::SCALE_INSIDE:
+			case self::SCALE_OUTSIDE:
 
-				if ($scaleMethod == JImage::SCALE_INSIDE)
+				// Both $height or $width cannot be zero
+				if ($width == 0 || $height == 0)
+				{
+					throw new InvalidArgumentException(' Width or height cannot be zero with this scale method ');
+				}
+
+				// If both $width and $height are not equals to zero
+				else
+				{
+					$rx = $this->getWidth() / $width;
+					$ry = $this->getHeight() / $height;
+				}
+
+				if ($scaleMethod == self::SCALE_INSIDE)
 				{
 					$ratio = ($rx > $ry) ? $rx : $ry;
 				}
@@ -671,8 +858,8 @@ class JImage
 					$ratio = ($rx < $ry) ? $rx : $ry;
 				}
 
-				$dimensions->width = intval(round($this->getWidth() / $ratio));
-				$dimensions->height = intval(round($this->getHeight() / $ratio));
+				$dimensions->width = (int) round($this->getWidth() / $ratio);
+				$dimensions->height = (int) round($this->getHeight() / $ratio);
 				break;
 
 			default:
@@ -701,12 +888,12 @@ class JImage
 		// If we were given a percentage, calculate the integer value.
 		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $height))
 		{
-			$height = intval(round($this->getHeight() * floatval(str_replace('%', '', $height)) / 100));
+			$height = (int) round($this->getHeight() * (float) str_replace('%', '', $height) / 100);
 		}
 		// Else do some rounding so we come out with a sane integer value.
 		else
 		{
-			$height = intval(round(floatval($height)));
+			$height = (int) round((float) $height);
 		}
 
 		return $height;
@@ -723,7 +910,7 @@ class JImage
 	 */
 	protected function sanitizeOffset($offset)
 	{
-		return intval(round(floatval($offset)));
+		return (int) round((float) $offset);
 	}
 
 	/**
@@ -744,14 +931,43 @@ class JImage
 		// If we were given a percentage, calculate the integer value.
 		if (preg_match('/^[0-9]+(\.[0-9]+)?\%$/', $width))
 		{
-			$width = intval(round($this->getWidth() * floatval(str_replace('%', '', $width)) / 100));
+			$width = (int) round($this->getWidth() * (float) str_replace('%', '', $width) / 100);
 		}
 		// Else do some rounding so we come out with a sane integer value.
 		else
 		{
-			$width = intval(round(floatval($width)));
+			$width = (int) round((float) $width);
 		}
 
 		return $width;
+	}
+
+	/**
+	 * Method to destroy an image handle and
+	 * free the memory associated with the handle
+	 *
+	 * @return  boolean  True on success, false on failure or if no image is loaded
+	 *
+	 * @since 12.3
+	 */
+	public function destroy()
+	{
+		if ($this->isLoaded())
+		{
+			return imagedestroy($this->handle);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to call the destroy() method one last time
+	 * to free any memory when the object is unset
+	 *
+	 * @see     JImage::destroy()
+	 */
+	public function __destruct()
+	{
+		$this->destroy();
 	}
 }

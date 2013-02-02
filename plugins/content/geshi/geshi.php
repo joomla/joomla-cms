@@ -1,26 +1,33 @@
 <?php
 /**
- * @package		Joomla.Plugin
- * @subpackage	Content.geshi
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Content.geshi
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
+/**
+ * GeSHi Content Plugin
+ *
+ * @package     Joomla.Plugin
+ * @subpackage  Content.geshi
+ */
 class plgContentGeshi extends JPlugin
 {
 	/**
-	 * @param	string	The context of the content being passed to the plugin.
-	 * @param	object	The article object.  Note $article->text is also available
-	 * @param	object	The article params
-	 * @param	int		The 'page' number
+	 * @param   string	The context of the content being passed to the plugin.
+	 * @param   object	The article object.  Note $article->text is also available
+	 * @param   object	The article params
+	 * @param   integer  The 'page' number
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
 		// Simple performance check to determine whether bot should process further.
-		if (JString::strpos($article->text, 'pre>') === false) {
+		if (JString::strpos($article->text, 'pre>') === false)
+		{
 			return true;
 		}
 
@@ -36,14 +43,14 @@ class plgContentGeshi extends JPlugin
 	/**
 	 * Replaces the matched tags.
 	 *
-	 * @param	array	An array of matches (see preg_match_all)
-	 * @return	string
+	 * @param   array  An array of matches (see preg_match_all)
+	 * @return  string
 	 */
 	protected function _replace(&$matches)
 	{
 		jimport('joomla.utilities.utility');
 
-		require_once dirname(__FILE__).'/geshi/geshi.php';
+		require_once __DIR__ . '/geshi/geshi.php';
 
 		$args = JUtility::parseAttributes($matches[1]);
 		$text = $matches[2];
@@ -62,7 +69,8 @@ class plgContentGeshi extends JPlugin
 		$text = str_replace("\t", '  ', $text);
 
 		$geshi = new GeSHi($text, $lang);
-		if ($lines == 'true') {
+		if ($lines == 'true')
+		{
 			$geshi->enable_line_numbers(GESHI_NORMAL_LINE_NUMBERS);
 		}
 		$text = $geshi->parse_code();
