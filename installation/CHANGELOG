@@ -25,6 +25,10 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+ 02-February-2013 Jean-Marie Simonet
+ $ Updating installation lang file: et-EE, zh-CN
+
  01-February-2013 Jean-Marie Simonet
  $ Updating installation lang file: nl-NL
 
