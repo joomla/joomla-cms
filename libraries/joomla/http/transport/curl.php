@@ -122,7 +122,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// If an explicit user agent is given use it.
 		if (isset($userAgent))
 		{
-			$headers[CURLOPT_USERAGENT] = $userAgent;
+			$options[CURLOPT_USERAGENT] = $userAgent;
 		}
 
 		// Set the request URL.
@@ -174,7 +174,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 * Method to get a response object from a server response.
 	 *
 	 * @param   string  $content  The complete server response, including headers
-	 *                            as a string if the response has no errors. 
+	 *                            as a string if the response has no errors.
 	 * @param   array   $info     The cURL request information.
 	 *
 	 * @return  JHttpResponse
