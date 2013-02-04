@@ -894,6 +894,7 @@ Calendar.prototype.create = function (_par) {
 	(this.weekNumbers) && ++title_length;
 
 	var help = '<a href="#" data-action="help" style="padding:0"><span class="icon-help icon-question-sign"></span></a>';
+	help += '<a href="#" data-action="help" style="display:block" class="nav element-invisible">?</a>'
 	hh(help, 1, 400, 'td', { 'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["INFO"];
 	var helpa = document.id(row).getElement('a[data-action=help]');
 	Calendar.addEvent(helpa, "click", function (e) {
@@ -907,6 +908,7 @@ Calendar.prototype.create = function (_par) {
 		this.title.style.cursor = "move";
 		
 		var close = '<a href="#" data-action="close" style="padding:0"><span class="icon-cancel"></span></a>';
+		close += '<a href="#" data-action="close" style="display:block" class="nav element-invisible">&#x00d7;</a>'
 		hh(close, 1, 200, 'td', {'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["CLOSE"];
 		var closea = document.id(row).getElement('a[data-action=close]');
 		Calendar.addEvent(closea, 'click', function (e) {
@@ -1080,6 +1082,7 @@ Calendar.prototype.create = function (_par) {
 	var tfoot = Calendar.createElement('div', this.element);
 	tfoot.className = 'modal-footer';
 	row = tfoot;
+
 	cell = hh(Calendar._TT["SEL_DATE"], this.weekNumbers ? 8 : 7, 300, 'div', '', 'pull-left');
 	cell.className = "ttip";
 	if (this.isPopup) {
@@ -1396,6 +1399,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 			} else {
 				cell.otherMonth = false;
 				hasdays = true;
+				cell.style.cursor = "pointer";
 			}
 			cell.disabled = false;
 			cell.innerHTML = this.getDateText ? this.getDateText(date, iday) : this.convertNumbers(iday);
