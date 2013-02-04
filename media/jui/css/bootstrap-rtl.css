@@ -501,7 +501,22 @@ body, input, button, select, textarea, .calendar, .calendar table {
 	margin-bottom: 9px;
 }
 .form-search .radio input[type="radio"], .form-search .checkbox input[type="checkbox"], .form-inline .radio input[type="radio"], .form-inline .checkbox input[type="checkbox"] {
-    float: right;
-    margin-left: 3px;
-    margin-right: 0;
+	float: right;
+	margin-left: 3px;
+	margin-right: 0;
+}
+.com_media .container-main, #mediamanager-form {
+	direction: ltr;
+}
+.com_media .container-main .row-fluid [class*="span"], .com_media .container-main .pull-left, #mediamanager-form .pull-left {
+	float: left;
+}
+.com_media .container-main .icon-folder-2 {
+	padding-left: 0;
+}
+.com_media .container-main .media {
+	display: inline-block;
+}
+#mediamanager-form .table th, .table td {
+	text-align: left;
 }
