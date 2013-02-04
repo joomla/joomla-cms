@@ -32,7 +32,7 @@ class plgSystemDebug extends JPlugin
 	 * Holds log entries handled by the plugin.
 	 *
 	 * @var    array
-	 * @since  3.0
+	 * @since  3.1
 	 */
 	private $logEntries = array();
 
@@ -69,18 +69,21 @@ class plgSystemDebug extends JPlugin
 		if ($this->params->get('logs', 1))
 		{
 			$priority = 0;
+
 			foreach ($this->params->get('log_priorities', array()) as $p)
 			{
 				$const = 'JLog::'.strtoupper($p);
+
 				if (!defined($const))
 				{
 					continue;
 				}
+
 				$priority |= constant($const);
 			}
 
-			// Split into an array and remove any empties.
-			$categories = array_filter(explode(' ', $this->params->get('log_categories', '')));
+			// Split into an array at any character other than alphabet, numbers, _, ., or -
+			$categories = preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', ''), PREG_SPLIT_NO_EMPTY);
 			$mode = $this->params->get('log_category_mode', 0);
 
 			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
@@ -904,6 +907,7 @@ class plgSystemDebug extends JPlugin
 			JLog::DEBUG => 'DEBUG');
 
 		$out = array();
+
 		foreach ($this->logEntries as $entry)
 		{
 			$out[] = '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . ' </h5><code>' . $entry->message . '</code>';
