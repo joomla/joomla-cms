@@ -517,6 +517,21 @@ body, input, button, select, textarea, .calendar, .calendar table {
 .com_media .container-main .media {
 	display: inline-block;
 }
-#mediamanager-form .table th, .table td {
+#mediamanager-form .table th {
 	text-align: left;
+}
+.close {
+	float: left;
+}
+.alert .close {
+	left: -21px;
+	right: auto;
+}
+.nav-stacked > li {
+	float: none;
+}
+#refresh-status {
+	background-position: right center;
+	padding-left: 0;
+	padding-right: 25px;
 }
