@@ -46,10 +46,20 @@ class plgSystemSef extends JPlugin
 		$link = 'index.php' . $uri->toString(array('query', 'fragment'));
 		$link = $domain . JRoute::_($link);
 
-		if ($current !== $link)
+		$doc->addHeadLink($doc->getBase(), 'canonical', 'rel');
+		
+		$pagdata = $this->pagination->getData();
+
+		if ($pagdata->next->link)
 		{
-			$doc->addHeadLink($link, 'canonical');
+		 $doc->addHeadLink($pagdata->next->link, 'next', 'rel');
 		}
+
+		if ($pagdata->previous->link)
+		{
+		 $doc->addHeadLink($pagdata->previous->link, 'prev', 'rel');
+		}
+		
 	}
 
 	/**
