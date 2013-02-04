@@ -2,20 +2,22 @@
  * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-
+div.j-calendar  {
+	width: 250px;
+}
 div.j-calendar a.nav {
 	color: #000000;
 	text-decoration: none;
 }
+
 /* The main calendar widget.  DIV containing a table. */
-div.calendar,
 div.j-calendar {
 	position: relative;
 	z-index: 10000;
 	width: 226px;
 }
 
-.calendar, .calendar table {
+.j-calendar, .j-calendar table {
 	border: 1px solid #cccccc;
 	font-size: 11px;
 	color: #000;
@@ -26,12 +28,12 @@ div.j-calendar {
 
 /* Header part -- contains navigation buttons and day names. */
 
-.calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
+.j-calendar .button { /* "<<", "<", ">", ">>" buttons have this class */
 	text-align: center;    /* They are the navigation buttons */
 	padding: 2px;          /* Make the buttons seem like they're pressing */
 }
 
-.calendar thead .title { /* This holds the current "month, year" */
+.j-calendar thead .title { /* This holds the current "month, year" */
 	font-weight: bold;      /* Pressing it will take you to the current date */
 	text-align: center;
 	background: #333333;
@@ -39,73 +41,74 @@ div.j-calendar {
 	padding: 2px;
 }
 
-.calendar thead .headrow { /* Row <TR> containing navigation buttons */
+.j-calendar thead .headrow { /* Row <TR> containing navigation buttons */
 	background: #dedede;
 	color: #000;
 }
 
-.calendar thead .name { /* Cells <TD> containing the day names */
+.j-calendar thead .name { /* Cells <TD> containing the day names */
 	border-bottom: 1px solid #cccccc;
 	padding: 2px;
 	text-align: center;
 	color: #000;
 }
 
-.calendar thead .weekend { /* How a weekend day name shows in header */
+.j-calendar thead .weekend { /* How a weekend day name shows in header */
 	color: #999;
 }
 
-.calendar thead .hilite { /* How do the buttons in header appear when hover */
+.j-calendar thead .hilite,
+.calendar thead .hilte a  { /* How do the buttons in header appear when hover */
 	background: #bbbbbb;
 	color: #000000;
 	border: 1px solid #cccccc;
 	padding: 1px;
 }
 
-.calendar thead .active { /* Active (pressed) buttons in header */
+.j-calendar thead .active { /* Active (pressed) buttons in header */
 	background: #c77;
 	padding: 2px 0px 0px 2px;
 }
 
-.calendar thead .daynames { /* Row <TR> containing the day names */
+.j-calendar thead .daynames { /* Row <TR> containing the day names */
 	background: #dddddd;
 }
 
 /* The body part -- contains all the days in month. */
 
-.calendar tbody .day { /* Cells <TD> containing month days dates */
+.j-calendar tbody .day { /* Cells <TD> containing month days dates */
 	width: 2em;
 	text-align: right;
 	padding: 2px 4px 2px 2px;
 }
 
-.calendar table .wn {
+.j-calendar table .wn {
 	padding: 2px 3px 2px 2px;
 	border-right: 1px solid #cccccc;
 	background: #dddddd;
 }
 
-.calendar tbody .rowhilite td {
+.j-calendar tbody .rowhilite td {
 	background: #666666;
 	color: #ffffff;
 }
 
-.calendar tbody .rowhilite td.wn {
+.j-calendar tbody .rowhilite td.wn {
 	background: #666666;
 	color: #ffffff;
 }
 
-.calendar tbody td.active { /* Active (pressed) cells <TD> */
+.j-calendar tbody td.active { /* Active (pressed) cells <TD> */
 	background: #000000;
 	color: #ffffff;
 	padding: 2px 2px 0px 2px;
 }
 
-.calendar tbody td.weekend { /* Cells showing weekend days */
+.j-calendar tbody td.weekend { /* Cells showing weekend days */
 	color: #999;
 }
 
-.calendar tbody td.selected { /* Cell showing today date */
+.j-calendar tbody td.selected { /* Cell showing today date */
 	font-weight: bold;
 	border: 1px solid #000;
 	padding: 1px 3px 1px 1px;
@@ -113,57 +116,57 @@ div.j-calendar {
 	color: #ffffff;
 }
 
-.calendar tbody td.hilite { /* Hovered cells <TD> */
+.j-calendar tbody td.hilite { /* Hovered cells <TD> */
 	background: #999999;
 	padding: 1px 3px 1px 1px;
 	border: 1px solid #666666;
 	color: #ffffff;
 }
 
-.calendar tbody td.today {
+.j-calendar tbody td.today {
 	font-weight: bold;
 }
 
-.calendar tbody .disabled {
+.j-calendar tbody .disabled {
 	color: #999;
 }
 
-.calendar tbody .emptycell { /* Empty cells (the best is to hide them) */
+.j-calendar tbody .emptycell { /* Empty cells (the best is to hide them) */
 	visibility: hidden;
 }
 
-.calendar tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
+.j-calendar tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
 	display: none;
 }
 
 /* The footer part -- status bar and "Close" button */
 
-.calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
+.j-calendar tfoot .footrow { /* The <TR> in footer (only one right now) */
 	text-align: center;
 	background: #cccccc;
 	color: #000;
 }
 
-.calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
+.j-calendar tfoot .ttip { /* Tooltip (status bar) cell <TD> */
 	border-top: 1px solid #cccccc;
 	background: #efefef;
 	color: #000000;
 }
 
-.calendar tfoot .hilite { /* Hover style for buttons in footer */
+.j-calendar tfoot .hilite { /* Hover style for buttons in footer */
 	background: #666666;
 	border: 1px solid #f40;
 	padding: 1px;
 }
 
-.calendar tfoot .active { /* Active (pressed) style for buttons in footer */
+.j-calendar tfoot .active { /* Active (pressed) style for buttons in footer */
 	background: #999999;
 	padding: 2px 0px 0px 2px;
 }
 
 /* Combo boxes (menus that display months/years for direct selection) */
 
-.combo {
+.j-calendar .combo {
 	position: absolute;
 	display: none;
 	top: 0px;
@@ -176,18 +179,63 @@ div.j-calendar {
 	font-size: smaller;
 }
 
-.combo .label {
+.j-calendar .combo .label {
 	width: 100%;
 	text-align: center;
 }
 
-.combo .hilite {
+.j-calendar .combo .hilite {
 	background: #fc8;
 }
 
-.combo .active {
+.j-calendar .combo .active {
 	border-top: 1px solid #cccccc;
 	border-bottom: 1px solid #cccccc;
 	background: #efefef;
 	font-weight: bold;
+}
+
+/* Make compatible with bootstrap classes */
+
+.j-calendar.dropdown-menu .itemContentPadder {
+	padding: 0;
+}
+
+.j-calendar.dropdown-menu thead tr.headrow td.button {
+	padding: 0;
+}
+
+.j-calendar.dropdown-menu thead .title:hover,
+.j-calendar.dropdown-menu thead .title {
+	background-color: #333333 !important;
+}
+.j-calendar.dropdown-menu ul.combo {
+	list-style:none;
+	padding: 0;
+	margin:0;
+}
+.j-calendar.dropdown-menu ul.combo a {
+	display: block;
+	text-align:center;
+}
+
+.j-calendar.dropdown-menu thead tr.headrow  a {
+	display: block !important;
+}
+
+.j-calendar.dropdown-menu table thead tr:hover td {
+	background: inherit;
+}
+
+.j-calendar.dropdown-menu table td {
+	padding: 0;
+}
+
+.j-calendar.dropdown-menu thead .hilite,
+.j-calendar.dropdown-menu tbody .hilite{
+	padding: 0px;
+}
+
+.j-calendar.dropdown-menu td.alert{
+	border-radius: 0;
 }

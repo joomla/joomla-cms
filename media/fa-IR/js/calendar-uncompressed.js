@@ -1,15 +1,11 @@
-/*  Copyright Mihai Bazon, 2002-2005  |  www.bazon.net/mishoo
- * -----------------------------------------------------------
+/* JalaliJSCalendar v1.4
+ * Copyright (c) 2008 Ali Farhadi (http://farhadi.ir/)
+ * 
+ * Released under the terms of the GNU General Public License.
+ * See the GPL for details (http://www.gnu.org/licenses/gpl.html).
  *
- * The DHTML Calendar, version 1.0 "It is happening again"
- *
- * Details and latest version at:
- * www.dynarch.com/projects/calendar
- *
- * This script is developed by Dynarch.com.  Visit us at www.dynarch.com.
- *
- * This script is distributed under the GNU Lesser General Public License.
- * Read the entire license text here: http://www.gnu.org/licenses/lgpl.html
+ * Based on "The DHTML Calendar" developed by Dynarch.com. (http://www.dynarch.com/projects/calendar/)
+ * Copyright Mihai Bazon, 2002-2005 (www.bazon.net/mishoo)
  */
 
 /** The Calendar object constructor. */
@@ -25,8 +21,10 @@ Calendar = function (firstDayOfWeek, dateStr, onSelected, onClose) {
 	this.onClose = onClose || null;
 	this.dragging = false;
 	this.hidden = false;
-	this.minYear = 1970;
-	this.maxYear = 2050;
+	this.minYear = 1000;
+	this.maxYear = 3000;
+	this.langNumbers = false;
+	this.dateType = 'gregorian';
 	this.dateFormat = Calendar._TT["DEF_DATE_FORMAT"];
 	this.ttDateFormat = Calendar._TT["TT_DATE_FORMAT"];
 	this.isPopup = true;
@@ -71,11 +69,20 @@ Calendar = function (firstDayOfWeek, dateStr, onSelected, onClose) {
 		// table of short month names
 		if (typeof Calendar._SMN_len == "undefined")
 			Calendar._SMN_len = 3;
+		if (typeof Calendar._JSMN_len == "undefined")
+			Calendar._JSMN_len = 3;
+			
 		ar = new Array();
 		for (var i = 12; i > 0;) {
 			ar[--i] = Calendar._MN[i].substr(0, Calendar._SMN_len);
 		}
 		Calendar._SMN = ar;
+		
+		ar = new Array();
+		for (var i = 12; i > 0;) {
+			ar[--i] = Calendar._JMN[i].substr(0, Calendar._JSMN_len);
+		}
+		Calendar._JSMN = ar;
 	}
 };
 
@@ -215,6 +222,33 @@ Calendar.createElement = function(type, parent) {
 	return el;
 };
 
+Calendar.prototype.convertNumbers = function(str) {
+	str = str.toString();
+	if (this.langNumbers) str = str.convertNumbers();
+	return str;
+}
+
+String.prototype.toEnglish = function() {
+	str = this.toString();
+	if (Calendar._NUMBERS) {
+		for (var i = 0; i < Calendar._NUMBERS.length; i++) {
+			str = str.replace(new RegExp(Calendar._NUMBERS[i], 'g'), i);
+		}
+	}
+	return str;
+}
+
+String.prototype.convertNumbers = function() {
+	str = this.toString();
+	if (Calendar._NUMBERS) {
+		for (var i = 0; i < Calendar._NUMBERS.length; i++) {
+			str = str.replace(new RegExp(i, 'g'), Calendar._NUMBERS[i]);
+		}
+	}
+	return str;
+}
+
+
 // END: UTILITY FUNCTIONS
 
 // BEGIN: CALENDAR STATIC FUNCTIONS
@@ -264,7 +298,7 @@ Calendar.showMonthsCombo = function () {
 	if (cal.activeMonth) {
 		Calendar.removeClass(cal.activeMonth, cal.activeClass);
 	}
-	var mon = cal.monthsCombo.getElementsByTagName("a")[cal.date.getMonth()];
+	var mon = cal.monthsCombo.getElementsByTagName("a")[cal.date.getLocalMonth(true, cal.dateType)];
 	Calendar.addClass(mon, cal.activeClass);
 	cal.activeMonth = mon;
 	var s = mc.style;
@@ -296,12 +330,12 @@ Calendar.showYearsCombo = function (fwd) {
 		Calendar.removeClass(cal.activeYear, cal.activeClass);
 	}
 	cal.activeYear = null;
-	var Y = cal.date.getFullYear() + (fwd ? 1 : -1);
+	var Y = cal.date.getLocalFullYear(true, cal.dateType) + (fwd ? 1 : -1);
 	var yr = yc.firstChild;
 	var show = false;
 	for (var i = 12; i > 0; --i) {
 		if (Y >= cal.minYear && Y <= cal.maxYear) {
-			yr.getElementsByTagName('a')[0].innerHTML = Y;
+			yr.getElementsByTagName('a')[0].innerHTML = cal.convertNumbers(Y);
 			yr.year = Y;
 			yr.style.display = "block";
 			show = true;
@@ -351,8 +385,8 @@ Calendar.tableMouseUp = function(ev) {
 	var date = null;
 	if (mon) {
 		date = new Date(cal.date);
-		if (mon.month != date.getMonth()) {
-			date.setMonth(mon.month);
+		if (mon.month != date.getLocalMonth(true, cal.dateType)) {
+			date.setLocalMonth(true, cal.dateType, mon.month);
 			cal.setDate(date);
 			cal.dateClicked = false;
 			cal.callHandler();
@@ -361,8 +395,8 @@ Calendar.tableMouseUp = function(ev) {
 		var year = Calendar.findYear(target);
 		if (year) {
 			date = new Date(cal.date);
-			if (year.year != date.getFullYear()) {
-				date.setFullYear(year.year);
+			if (year.year != date.getLocalFullYear(true, cal.dateType)) {
+				date._calSetLocalFullYear(cal.dateType, year.year);
 				cal.setDate(date);
 				cal.dateClicked = false;
 				cal.callHandler();
@@ -422,13 +456,13 @@ Calendar.tableMouseOver = function (ev) {
 			} else if ( ++i >= range.length )
 				i = 0;
 		var newval = range[i];
-		el.innerHTML = newval;
+		el.innerHTML = cal.convertNumbers(newval);
 
 		cal.onUpdateTime();
 	}
 	var mon = Calendar.findMonth(target);
 	if (mon) {
-		if (mon.month != cal.date.getMonth()) {
+		if (mon.month != cal.date.getLocalMonth(true, cal.dateType)) {
 			if (cal.hilitedMonth) {
 				Calendar.removeClass(cal.hilitedMonth, cal.hiliteClass);
 			}
@@ -443,7 +477,7 @@ Calendar.tableMouseOver = function (ev) {
 		}
 		var year = Calendar.findYear(target);
 		if (year) {
-			if (year.year != cal.date.getFullYear()) {
+			if (year.year != cal.date.getLocalFullYear(true, cal.dateType)) {
 				if (cal.hilitedYear) {
 					Calendar.removeClass(cal.hilitedYear, cal.hiliteClass);
 				}
@@ -541,7 +575,7 @@ Calendar.dayMouseDown = function(ev) {
 	Calendar._C = cal;
 	if (el.navtype != 300) with (Calendar) {
 		if (el.navtype == 50) {
-			el._current = el.innerHTML;
+			el._current = el.innerHTML.toEnglish();
 			addEvent(document, "mousemove", tableMouseOver);
 		} else
 			addEvent(document, Calendar.is_ie5 ? "mousemove" : "mouseover", tableMouseOver);
@@ -589,7 +623,7 @@ Calendar.dayMouseOver = function(ev) {
 	}
 	if (el.ttip) {
 		if (el.ttip.substr(0, 1) == "_") {
-			el.ttip = el.caldate.print(el.calendar.ttDateFormat) + el.ttip.substr(1);
+			el.ttip = el.caldate.print(el.calendar.ttDateFormat, el.calendar.dateType, el.calendar.langNumbers) + el.ttip.substr(1);
 		}
 		el.calendar.tooltips.innerHTML = el.ttip;
 	}
@@ -598,14 +632,8 @@ Calendar.dayMouseOver = function(ev) {
 		if (typeof(el.navtype) === 'undefined') {
 			Calendar.addClass(el, 'alert-info')
 		}
-		if (el.caldate) {
+		if (el.caldate || el.navtype == 501) {
 			Calendar.addClass(el.parentNode, "rowhilite");
-			var cal = el.calendar;
-			if (cal && cal.getDateToolTip) {
-				var d = el.caldate;
-				window.status = d;
-				el.title = cal.getDateToolTip(d, d.getFullYear(), d.getMonth(), d.getDate());
-			}
 		}
 	}
 	return Calendar.stopEvent(ev);
@@ -662,10 +690,10 @@ Calendar.cellClick = function(el, ev) {
 				cal.currentDateEl = el;
 			}
 		}
-		cal.date.setDateOnly(el.caldate);
+		cal.date.setUTCDateOnly(el.caldate);
 		date = cal.date;
 		var other_month = !(cal.dateClicked = !el.otherMonth);
-		if (!other_month && !cal.currentDateEl && cal.multiple)
+		if (!other_month && !cal.currentDateEl)
 			cal._toggleMultipleDate(new Date(date));
 		else
 			newdate = !el.disabled;
@@ -680,21 +708,21 @@ Calendar.cellClick = function(el, ev) {
 		}
 		date = new Date(cal.date);
 		if (el.navtype == 0)
-			date.setDateOnly(new Date()); // TODAY
+			date.setUTCDateOnly(new Date()); // TODAY
 		// unless "today" was clicked, we assume no date was clicked so
 		// the selected handler will know not to close the calenar when
 		// in single-click mode.
 		// cal.dateClicked = (el.navtype == 0);
 		cal.dateClicked = false;
-		var year = date.getFullYear();
-		var mon = date.getMonth();
+		var year = date.getLocalFullYear(true, cal.dateType);
+		var mon = date.getLocalMonth(true, cal.dateType);
 		function setMonth(m) {
-			var day = date.getDate();
-			var max = date.getMonthDays(m);
+			var day = date.getLocalDate(true, cal.dateType);
+			var max = date.getLocalMonthDays(cal.dateType, m);
 			if (day > max) {
-				date.setDate(max);
+				date.setLocalDate(true, cal.dateType, max);
 			}
-			date.setMonth(m);
+			date.setLocalMonth(true, cal.dateType, m);
 		};
 		switch (el.navtype) {
 		    case 400:
@@ -702,14 +730,14 @@ Calendar.cellClick = function(el, ev) {
 			return;
 		    case -2:
 			if (year > cal.minYear) {
-				date.setFullYear(year - 1);
+				date._calSetLocalFullYear(cal.dateType, year - 1);
 			}
 			break;
 		    case -1:
 			if (mon > 0) {
 				setMonth(mon - 1);
 			} else if (year-- > cal.minYear) {
-				date.setFullYear(year);
+				date._calSetLocalFullYear(cal.dateType, year);
 				setMonth(11);
 			}
 			break;
@@ -717,21 +745,27 @@ Calendar.cellClick = function(el, ev) {
 			if (mon < 11) {
 				setMonth(mon + 1);
 			} else if (year < cal.maxYear) {
-				date.setFullYear(year + 1);
 				setMonth(0);
+				date._calSetLocalFullYear(cal.dateType, year + 1);
 			}
 			break;
 		    case 2:
 			if (year < cal.maxYear) {
-				date.setFullYear(year + 1);
+				date._calSetLocalFullYear(cal.dateType, year + 1);
 			}
 			break;
 		    case 100:
 			cal.setFirstDayOfWeek(el.fdow);
 			return;
+		    case 500:
+			cal.toggleColumn(el.fdow);
+			break;
+		    case 501:
+			cal.toggleRow(el.weekIndex);
+			break;
 		    case 50:
 			var range = el._range;
-			var current = el.innerHTML;
+			var current = el.innerHTML.toEnglish();
 			for (var i = range.length; --i >= 0;)
 				if (range[i] == current)
 					break;
@@ -741,13 +775,15 @@ Calendar.cellClick = function(el, ev) {
 			} else if ( ++i >= range.length )
 				i = 0;
 			var newval = range[i];
-			el.innerHTML = newval;
+			el.innerHTML = cal.convertNumbers(newval);
 			cal.onUpdateTime();
 			return;
 		    case 0:
 			// TODAY will bring us here
 			if ((typeof cal.getDateStatus == "function") &&
-			    cal.getDateStatus(date, date.getFullYear(), date.getMonth(), date.getDate())) {
+			    cal.getDateStatus(date, date.getLocalFullYear(true, cal.dateType), 
+			    	date.getLocalMonth(true, cal.dateType), 
+			    	date.getLocalDate(true, cal.dateType))) {
 				return false;
 			}
 			break;
@@ -758,7 +794,7 @@ Calendar.cellClick = function(el, ev) {
 		} else if (el.navtype == 0)
 			newdate = closing = true;
 	}
-	if (newdate) {
+	if (newdate || (cal.multiple && !el.disabled)) {
 		ev && cal.callHandler();
 	}
 	if (closing) {
@@ -788,7 +824,7 @@ Calendar.prototype.create = function (_par) {
 		parent = _par;
 		this.isPopup = false;
 	}
-	this.date = this.dateStr ? new Date(this.dateStr) : new Date();
+	if (!this.date) this.date = this.dateStr ? new Date(this.dateStr) : new Date();
 
 	var table = Calendar.createElement("table");
 	this.table = table;
@@ -858,7 +894,6 @@ Calendar.prototype.create = function (_par) {
 	(this.weekNumbers) && ++title_length;
 
 	var help = '<a href="#" data-action="help" style="padding:0"><span class="icon-help icon-question-sign"></span></a>';
-	help += '<a href="#" data-action="help" style="display:block" class="nav element-invisible">?</a>'
 	hh(help, 1, 400, 'td', { 'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["INFO"];
 	var helpa = document.id(row).getElement('a[data-action=help]');
 	Calendar.addEvent(helpa, "click", function (e) {
@@ -872,7 +907,6 @@ Calendar.prototype.create = function (_par) {
 		this.title.style.cursor = "move";
 		
 		var close = '<a href="#" data-action="close" style="padding:0"><span class="icon-cancel"></span></a>';
-		close += '<a href="#" data-action="close" style="display:block" class="nav element-invisible">&#x00d7;</a>'
 		hh(close, 1, 200, 'td', {'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["CLOSE"];
 		var closea = document.id(row).getElement('a[data-action=close]');
 		Calendar.addEvent(closea, 'click', function (e) {
@@ -934,6 +968,13 @@ Calendar.prototype.create = function (_par) {
 		row = Calendar.createElement("tr", tbody);
 		if (this.weekNumbers) {
 			cell = Calendar.createElement("td", row);
+			if (this.multiple) {
+				cell.ttip = Calendar._TT["SELECT_ROW"];
+				cell.calendar = this;
+				cell.navtype = 501;
+				cell.weekIndex = 7-i;
+				Calendar._add_evs(cell);
+			}
 		}
 		for (var j = 7; j > 0; --j) {
 			cell = Calendar.createElement("td", row);
@@ -949,7 +990,7 @@ Calendar.prototype.create = function (_par) {
 		cell = Calendar.createElement("td", row);
 		cell.className = "time";
 		cell.colSpan = 2;
-		cell.innerHTML = Calendar._TT["TIME"] || "&#160;";
+		cell.innerHTML = Calendar._TT["TIME"] || "&nbsp;";
 
 		cell = Calendar.createElement("td", row);
 		cell.className = "time";
@@ -959,7 +1000,7 @@ Calendar.prototype.create = function (_par) {
 			function makeTimePart(className, init, range_start, range_end) {
 				var part = Calendar.createElement("span", cell);
 				part.className = className;
-				part.innerHTML = init;
+				part.innerHTML = cal.convertNumbers(init);
 				part.calendar = cal;
 				part.ttip = Calendar._TT["TIME_PART"];
 				part.navtype = 50;
@@ -977,8 +1018,8 @@ Calendar.prototype.create = function (_par) {
 				Calendar._add_evs(part);
 				return part;
 			};
-			var hrs = cal.date.getHours();
-			var mins = cal.date.getMinutes();
+			var hrs = cal.date.getUTCHours();
+			var mins = cal.date.getUTCMinutes();
 			var t12 = !cal.time24;
 			var pm = (hrs > 12);
 			if (t12 && pm) hrs -= 12;
@@ -992,40 +1033,42 @@ Calendar.prototype.create = function (_par) {
 			cell.className = "time";
 			cell.colSpan = 2;
 			if (t12)
-				AP = makeTimePart("ampm", pm ? "pm" : "am", ["am", "pm"]);
+				AP = makeTimePart("ampm", pm ? Calendar._TT["LPM"] : Calendar._TT["LAM"], [Calendar._TT["LAM"], Calendar._TT["LPM"]]);
 			else
-				cell.innerHTML = "&#160;";
+				cell.innerHTML = "&nbsp;";
 
 			cal.onSetTime = function() {
-				var pm, hrs = this.date.getHours(),
-					mins = this.date.getMinutes();
+				var pm, hrs = this.date.getUTCHours(),
+					mins = this.date.getUTCMinutes();
 				if (t12) {
 					pm = (hrs >= 12);
 					if (pm) hrs -= 12;
 					if (hrs == 0) hrs = 12;
-					AP.innerHTML = pm ? "pm" : "am";
+					AP.innerHTML = pm ? Calendar._TT["LPM"] : Calendar._TT["LAM"];
 				}
-				H.innerHTML = (hrs < 10) ? ("0" + hrs) : hrs;
-				M.innerHTML = (mins < 10) ? ("0" + mins) : mins;
+				hrs = (hrs < 10) ? ("0" + hrs) : hrs;
+				mins = (mins < 10) ? ("0" + mins) : mins;
+				H.innerHTML = cal.convertNumbers(hrs);
+				M.innerHTML = cal.convertNumbers(mins);
 			};
 
 			cal.onUpdateTime = function() {
 				var date = this.date;
-				var h = parseInt(H.innerHTML, 10);
+				var h = parseInt(H.innerHTML.toEnglish(), 10);
 				if (t12) {
-					if (/pm/i.test(AP.innerHTML) && h < 12)
+					if ((AP.innerHTML == Calendar._TT["LPM"] || AP.innerHTML == Calendar._TT["PM"]) && h < 12)
 						h += 12;
-					else if (/am/i.test(AP.innerHTML) && h == 12)
+					else if ((AP.innerHTML == Calendar._TT["LAM"] || AP.innerHTML == Calendar._TT["AM"]) && h == 12)
 						h = 0;
 				}
-				var d = date.getDate();
-				var m = date.getMonth();
-				var y = date.getFullYear();
-				date.setHours(h);
-				date.setMinutes(parseInt(M.innerHTML, 10));
-				date.setFullYear(y);
-				date.setMonth(m);
-				date.setDate(d);
+				var d = date.getLocalDate(true, this.dateType);
+				var m = date.getLocalMonth(true, this.dateType);
+				var y = date.getLocalFullYear(true, this.dateType);
+				date.setUTCHours(h);
+				date.setUTCMinutes(parseInt(M.innerHTML.toEnglish(), 10));
+				date._calSetLocalFullYear(this.dateType, y);
+				date.setLocalMonth(true, this.dateType, m);
+				date.setLocalDate(true, this.dateType, d);
 				this.dateClicked = false;
 				this.callHandler();
 			};
@@ -1037,7 +1080,6 @@ Calendar.prototype.create = function (_par) {
 	var tfoot = Calendar.createElement('div', this.element);
 	tfoot.className = 'modal-footer';
 	row = tfoot;
-
 	cell = hh(Calendar._TT["SEL_DATE"], this.weekNumbers ? 8 : 7, 300, 'div', '', 'pull-left');
 	cell.className = "ttip";
 	if (this.isPopup) {
@@ -1054,7 +1096,7 @@ Calendar.prototype.create = function (_par) {
 		var mn = Calendar.createElement('a');
 		mn.className = Calendar.is_ie ? "label-IEfix" : "label-ok";
 		mn.month = i;
-		mn.innerHTML = Calendar._SMN[i];
+		mn.innerHTML = (this.dateType == 'jalali' ? Calendar._JSMN[i] : Calendar._SMN[i]);
 		var li = Calendar.createElement('li');
 		li.appendChild(mn);
 		div.appendChild(li);
@@ -1219,12 +1261,12 @@ Calendar._keyEvent = function(ev) {
 			};setVars();
 			function prevMonth() {
 				var date = new Date(cal.date);
-				date.setDate(date.getDate() - step);
+				date.setLocalDate(true, cal.dateType, date.getLocalDate(true, cal.dateType) - step);
 				cal.setDate(date);
 			};
 			function nextMonth() {
 				var date = new Date(cal.date);
-				date.setDate(date.getDate() + step);
+				date.setLocalDate(true, cal.dateType, date.getLocalDate(true, cal.dateType) + step);
 				cal.setDate(date);
 			};
 			while (1) {
@@ -1291,36 +1333,36 @@ Calendar._keyEvent = function(ev) {
  */
 Calendar.prototype._init = function (firstDayOfWeek, date) {
 	var today = new Date(),
-		TY = today.getFullYear(),
-		TM = today.getMonth(),
-		TD = today.getDate();
+		TY = today.getLocalFullYear(false, this.dateType),
+		TM = today.getLocalMonth(false, this.dateType),
+		TD = today.getLocalDate(false, this.dateType);
 	this.table.style.visibility = "hidden";
-	var year = date.getFullYear();
+	var year = date.getLocalFullYear(true, this.dateType);
 	if (year < this.minYear) {
 		year = this.minYear;
-		date.setFullYear(year);
+		date._calSetLocalFullYear(this.dateType, year); 
+		
 	} else if (year > this.maxYear) {
 		year = this.maxYear;
-		date.setFullYear(year);
+		date._calSetLocalFullYear(this.dateType, year);
 	}
 	this.firstDayOfWeek = firstDayOfWeek;
 	this.date = new Date(date);
-	var month = date.getMonth();
-	var mday = date.getDate();
-	var no_days = date.getMonthDays();
-
+	var month = date.getLocalMonth(true, this.dateType);
+	var mday = date.getLocalDate(true, this.dateType);
+	var no_days = date.getLocalMonthDays(this.dateType);
 	// calendar voodoo for computing the first day that would actually be
 	// displayed in the calendar, even if it's from the previous month.
 	// WARNING: this is magic. ;-)
-	date.setDate(1);
-	var day1 = (date.getDay() - this.firstDayOfWeek) % 7;
+	date.setLocalDate(true, this.dateType, 1);
+	var day1 = (date.getUTCDay() - this.firstDayOfWeek) % 7;
 	if (day1 < 0)
 		day1 += 7;
-	date.setDate(-day1);
-	date.setDate(date.getDate() + 1);
+	date.setLocalDate(true, this.dateType, -day1);
+	date.setLocalDate(true, this.dateType, date.getLocalDate(true, this.dateType) + 1);
 
 	var row = this.tbody.firstChild;
-	var MN = Calendar._SMN[month];
+	var MN = (this.dateType == 'jalali' ? Calendar._JSMN[month] : Calendar._SMN[month]);
 	var ar_days = this.ar_days = new Array();
 	var weekend = Calendar._TT["WEEKEND"];
 	var dates = this.multiple ? (this.datesCells = {}) : null;
@@ -1328,19 +1370,19 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 		var cell = row.firstChild;
 		if (this.weekNumbers) {
 			cell.className = "day wn";
-			cell.innerHTML = date.getWeekNumber();
+			cell.innerHTML = this.convertNumbers(date.getLocalWeekNumber(this.dateType));
 			cell = cell.nextSibling;
 		}
 		row.className = "daysrow";
 		var hasdays = false, iday, dpos = ar_days[i] = [];
-		for (var j = 0; j < 7; ++j, cell = cell.nextSibling, date.setDate(iday + 1)) {
-			iday = date.getDate();
-			var wday = date.getDay();
+		for (var j = 0; j < 7; ++j, cell = cell.nextSibling, date.setLocalDate(true, this.dateType, iday + 1)) {
+			iday = date.getLocalDate(true, this.dateType);
+			var wday = date.getUTCDay();
 			cell.className = "day";
-			cell.style['textAlign'] = 'right';
+			cell.style['textAlign'] = 'left';
 			cell.pos = i << 4 | j;
 			dpos[j] = cell;
-			var current_month = (date.getMonth() == month);
+			var current_month = (date.getLocalMonth(true, this.dateType) == month);
 			if (!current_month) {
 				if (this.showsOtherMonths) {
 					cell.className += " othermonth";
@@ -1354,14 +1396,18 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 			} else {
 				cell.otherMonth = false;
 				hasdays = true;
-				cell.style.cursor = "pointer";
 			}
 			cell.disabled = false;
-			cell.innerHTML = this.getDateText ? this.getDateText(date, iday) : iday;
+			cell.innerHTML = this.getDateText ? this.getDateText(date, iday) : this.convertNumbers(iday);
 			if (dates)
-				dates[date.print("%Y%m%d")] = cell;
+				dates[date.print("%Y%m%d", this.dateType)] = cell;
 			if (this.getDateStatus) {
 				var status = this.getDateStatus(date, year, month, iday);
+				if (this.getDateToolTip) {
+					var toolTip = this.getDateToolTip(date, year, month, iday);
+					if (toolTip)
+						cell.title = toolTip;
+				}
 				if (status === true) {
 					cell.className += " disabled";
 					cell.disabled = true;
@@ -1379,7 +1425,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 					cell.className += ' alert alert-success';
 					this.currentDateEl = cell;
 				}
-				if (date.getFullYear() == TY &&  date.getMonth() == TM && iday == TD) {
+				if (date.getLocalFullYear(true, this.dateType) == TY && date.getLocalMonth(true, this.dateType) == TM && iday == TD) {
 					cell.className += " today";
 					cell.className += ' alert alert-block';
 					cell.ttip += Calendar._TT["PART_TODAY"];
@@ -1396,7 +1442,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 		}
 			
 	}
-	this.title.getElementsByTagName('span')[1].innerHTML = Calendar._MN[month] + ", " + year;
+	this.title.getElementsByTagName('span')[1].innerHTML = (this.dateType == 'jalali' ? Calendar._JMN[month] : Calendar._MN[month]) + ", " + this.convertNumbers(year);
 	this.onSetTime();
 	this.table.style.visibility = "visible";
 	this._initMultipleDates();
@@ -1406,7 +1452,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 
 Calendar.prototype._initMultipleDates = function() {
 	if (this.multiple) {
-		for (var i in this.multiple) {
+		for (var i in this.multiple) if (this.multiple[i] instanceof Date) {
 			var cell = this.datesCells[i];
 			var d = this.multiple[i];
 			if (!d)
@@ -1421,7 +1467,7 @@ Calendar.prototype._initMultipleDates = function() {
 
 Calendar.prototype._toggleMultipleDate = function(date) {
 	if (this.multiple) {
-		var ds = date.print("%Y%m%d");
+		var ds = date.print("%Y%m%d", this.dateType);
 		var cell = this.datesCells[ds];
 		if (cell) {
 			var d = this.multiple[ds];
@@ -1448,7 +1494,8 @@ Calendar.prototype.setDateToolTipHandler = function (unaryFunction) {
  */
 Calendar.prototype.setDate = function (date) {
 	if (!date.equalsTo(this.date)) {
-		this._init(this.firstDayOfWeek, date);
+		this.date = date;
+		this.refresh();
 	}
 };
 
@@ -1459,10 +1506,12 @@ Calendar.prototype.setDate = function (date) {
  *  should * change.
  */
 Calendar.prototype.refresh = function () {
-	this._init(this.firstDayOfWeek, this.date);
+	if (this.element) {
+		this._init(this.firstDayOfWeek, this.date);
+	} else this.create(); 
 };
 
-/** Modifies the "firstDayOfWeek" parameter (pass 0 for Synday, 1 for Monday, etc.). */
+/** Modifies the "firstDayOfWeek" parameter (pass 0 for Sunday, 1 for Monday, etc.). */
 Calendar.prototype.setFirstDayOfWeek = function (firstDayOfWeek) {
 	this._init(firstDayOfWeek, this.date);
 	this._displayWeekdays();
@@ -1487,14 +1536,16 @@ Calendar.prototype.setRange = function (a, z) {
 /** Calls the first user handler (selectedHandler). */
 Calendar.prototype.callHandler = function () {
 	if (this.onSelected) {
-		this.onSelected(this, this.date.print(this.dateFormat));
+		this.onSelected(this, this.date.print(this.dateFormat, this.dateType, this.langNumbers));
 	}
 };
 
 /** Calls the second user handler (closeHandler). */
 Calendar.prototype.callCloseHandler = function () {
 	if (this.onClose) {
-		this.onClose(this);
+		if (this.onClose(this)) this.hide();
+	} else if (this.isPopup) {
+		this.hide();
 	}
 	this.hideShowCovered();
 };
@@ -1536,6 +1587,10 @@ Calendar._checkCalendar = function(ev) {
 
 /** Shows the calendar. */
 Calendar.prototype.show = function () {
+	if (this.isPopup) {
+		//always keep calendar on top
+		this.element.parentNode.appendChild(this.element);
+	}
 	var rows = this.table.getElementsByTagName("tr");
 	for (var i = rows.length; i > 0;) {
 		var row = rows[--i];
@@ -1606,7 +1661,9 @@ Calendar.prototype.showAtElement = function (el, opts) {
 		var br = Calendar.getAbsolutePos(cp);
 		document.body.removeChild(cp);
 		if (Calendar.is_ie) {
-			br.y += document.body.scrollTop;
+			br.y += typeof window.pageYOffset != 'undefined' ? window.pageYOffset : 
+				document.documentElement && document.documentElement.scrollTop ? document.documentElement.scrollTop : 
+				document.body.scrollTop ? document.body.scrollTop : 0;
 			br.x += document.body.scrollLeft;
 		} else {
 			br.y += window.scrollY;
@@ -1669,10 +1726,10 @@ Calendar.prototype.setTtDateFormat = function (str) {
  *  Tries to identify the date represented in a string.  If successful it also
  *  calls this.setDate which moves the calendar to the given date.
  */
-Calendar.prototype.parseDate = function(str, fmt) {
-	if (!fmt)
-		fmt = this.dateFormat;
-	this.setDate(Date.parseDate(str, fmt));
+Calendar.prototype.parseDate = function(str, fmt, dateType) {
+	if (!fmt) fmt = this.dateFormat;
+	if (!dateType) dateType = this.dateType;
+	this.setDate(Date.parseDate(str, fmt, dateType));
 };
 
 Calendar.prototype.hideShowCovered = function () {
@@ -1741,9 +1798,9 @@ Calendar.prototype._displayWeekdays = function () {
 		cell.className = "day name";
 		cell.style.textAlign = 'center';
 		var realday = (i + fdow) % 7;
-		if (i) {
-			cell.ttip = Calendar._TT["DAY_FIRST"].replace("%s", Calendar._DN[realday]);
-			cell.navtype = 100;
+		if (i || this.multiple) {
+			cell.ttip = (this.multiple ? Calendar._TT["SELECT_COLUMN"] : Calendar._TT["DAY_FIRST"]).replace("%s", Calendar._DN[realday]);
+			cell.navtype = this.multiple ? 500 : 100;
 			cell.calendar = this;
 			cell.fdow = realday;
 			Calendar._add_evs(cell);
@@ -1791,6 +1848,8 @@ Calendar.prototype._dragStart = function (ev) {
 /** Adds the number of days array to the Date object. */
 Date._MD = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
 
+Date._JMD = new Array(31,31,31,31,31,31,30,30,30,30,30,29);
+
 /** Constants used for time computations */
 Date.SECOND = 1000 /* milliseconds */;
 Date.MINUTE = 60 * Date.SECOND;
@@ -1798,103 +1857,188 @@ Date.HOUR   = 60 * Date.MINUTE;
 Date.DAY    = 24 * Date.HOUR;
 Date.WEEK   =  7 * Date.DAY;
 
-Date.parseDate = function(str, fmt) {
+Date.parseDate = function(str, format, dateType) {
+	str = str.toEnglish();
 	var today = new Date();
-	var y = 0;
-	var m = -1;
-	var d = 0;
-	var a = str.split(/\W+/);
-	var b = fmt.match(/%./g);
-	var i = 0, j = 0;
+	var result = new Date();
+	var y = null;
+	var m = null;
+	var d = null;
 	var hr = 0;
 	var min = 0;
-	for (i = 0; i < a.length; ++i) {
-		if (!a[i])
-			continue;
-		switch (b[i]) {
-		    case "%d":
-		    case "%e":
-			d = parseInt(a[i], 10);
-			break;
-
-		    case "%m":
-			m = parseInt(a[i], 10) - 1;
-			break;
-
-		    case "%Y":
-		    case "%y":
-			y = parseInt(a[i], 10);
-			(y < 100) && (y += (y > 29) ? 1900 : 2000);
-			break;
-
-		    case "%b":
-		    case "%B":
-			for (j = 0; j < 12; ++j) {
-				if (Calendar._MN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { m = j; break; }
+	var sec = 0;
+	var msec = 0;
+	
+	var a = format.match(/%.|[^%]+/g);
+	for (var i = 0; i < a.length; i++) {
+		if (a[i].charAt(0) == '%') {
+			switch (a[i]) {
+				case '%%':
+				
+				case '%t':
+				case '%n':
+				
+				case '%u':
+				case '%w':
+					str = str.substr(1);
+					break;
+					
+				
+					str = str.substr(1);
+					break;
+					
+				case '%U':
+				case '%W':
+				case '%V':
+					var wn
+					if (wn = str.match(/^[0-5]?\d/)) {
+			    		str = str.substr(wn[0].length);
+			    	}
+					break;
+				
+				case '%C':
+					var century;
+					if (century = str.match(/^\d{1,2}/)) {
+						str = str.substr(century[0].length);
+					}
+					break;
+					
+				case '%A':
+				case '%a':
+			    	var weekdayNames = (a[i] == '%a') ? Calendar._SDN : Calendar._DN;
+					for (j = 0; j < 7; ++j) {
+						if (str.substr(0, weekdayNames[j].length).toLowerCase() == weekdayNames[j].toLowerCase()) {
+							str = str.substr(weekdayNames[j].length);
+							break; 
+						}
+					}
+					break;
+					
+				case "%d":
+				case "%e":
+			    	if (d = str.match(/^[0-3]?\d/)) {
+			    		str = str.substr(d[0].length);
+			    		d = parseInt(d[0], 10);
+			    	}
+					break;
+	
+			    case "%m":
+		    		if (m = str.match(/^[01]?\d/)) {
+			    		str = str.substr(m[0].length);
+			    		m = parseInt(m[0], 10) - 1;
+			    	}
+					break;
+		
+			    case "%Y":
+			    case "%y":
+			    	if (y = str.match(/^\d{2,4}/)) {
+			    		str = str.substr(y[0].length);
+			    		y = parseInt(y[0], 10);
+			    		if (y < 100) {
+							if (dateType == 'jalali') y += (y > 29) ? 1300 : 1400;
+							else y += (y > 29) ? 1900 : 2000;
+						}
+			    	}
+				break;
+	
+			    case "%b":
+			    case "%B":
+			    	if (dateType == 'jalali') {
+			    		var monthNames = (a[i] == '%b') ? Calendar._JSMN : Calendar._JMN;
+			    	} else {
+			    		var monthNames = (a[i] == '%b') ? Calendar._SMN : Calendar._MN;
+			    	}
+					for (j = 0; j < 12; ++j) {
+						if (str.substr(0, monthNames[j].length).toLowerCase() == monthNames[j].toLowerCase()) {
+							str = str.substr(monthNames[j].length);
+							m = j;
+							break; 
+						}
+					}
+					break;
+	
+			    case "%H":
+			    case "%I":
+			    case "%k":
+			    case "%l":
+			    	if (hr = str.match(/^[0-2]?\d/)) {
+			    		str = str.substr(hr[0].length);
+			    		hr = parseInt(hr[0], 10);
+			    	}
+				break;
+	
+			    case "%P":
+			    case "%p":
+			    	if (str.substr(0, Calendar._TT["LPM"].length) == Calendar._TT["LPM"]) {
+						str = str.substr(Calendar._TT["LPM"].length);
+						if (hr < 12) hr += 12;
+			    	}
+			    	
+			    	if (str.substr(0, Calendar._TT["PM"].length) == Calendar._TT["PM"]) {
+			    		str = str.substr(Calendar._TT["PM"].length);
+						if (hr < 12) hr += 12;
+			    	}
+			    	
+			    	if (str.substr(0, Calendar._TT["LAM"].length) == Calendar._TT["LAM"]) {
+			    		str = str.substr(Calendar._TT["LAM"].length);
+						if (hr >= 12) hr -= 12;
+			    	}
+			    	
+			    	if (str.substr(0, Calendar._TT["AM"].length) == Calendar._TT["AM"]) {
+			    		str = str.substr(Calendar._TT["AM"].length);
+						if (hr >= 12) hr -= 12;
+			    	}
+					break;
+	
+			    case "%M":
+			    	if (min = str.match(/^[0-5]?\d/)) {
+			    		str = str.substr(min[0].length);
+			    		min = parseInt(min[0], 10);
+			    	}
+					break;
+					
+				case "%S":
+			    	if (sec = str.match(/^[0-5]?\d/)) {
+			    		str = str.substr(sec[0].length);
+			    		sec = parseInt(sec[0], 10);
+			    	}
+					break;
+					
+				case "%s":
+					var time;
+					if (time = str.match(/^-?\d+/)) {
+						return new Date(parseInt(time[0], 10) * 1000);
+					}
+					break;
+				
+				default :
+					str = str.substr(2);
+					break;
 			}
-			break;
-
-		    case "%H":
-		    case "%I":
-		    case "%k":
-		    case "%l":
-			hr = parseInt(a[i], 10);
-			break;
-
-		    case "%P":
-		    case "%p":
-			if (/pm/i.test(a[i]) && hr < 12)
-				hr += 12;
-			else if (/am/i.test(a[i]) && hr >= 12)
-				hr -= 12;
-			break;
-
-		    case "%M":
-			min = parseInt(a[i], 10);
-			break;
+		} else {
+			str = str.substr(a[i].length);
 		}
 	}
-	if (isNaN(y)) y = today.getFullYear();
-	if (isNaN(m)) m = today.getMonth();
-	if (isNaN(d)) d = today.getDate();
-	if (isNaN(hr)) hr = today.getHours();
-	if (isNaN(min)) min = today.getMinutes();
-	if (y != 0 && m != -1 && d != 0)
-		return new Date(y, m, d, hr, min, 0);
-	y = 0; m = -1; d = 0;
-	for (i = 0; i < a.length; ++i) {
-		if (a[i].search(/[a-zA-Z]+/) != -1) {
-			var t = -1;
-			for (j = 0; j < 12; ++j) {
-				if (Calendar._MN[j].substr(0, a[i].length).toLowerCase() == a[i].toLowerCase()) { t = j; break; }
-			}
-			if (t != -1) {
-				if (m != -1) {
-					d = m+1;
-				}
-				m = t;
-			}
-		} else if (parseInt(a[i], 10) <= 12 && m == -1) {
-			m = a[i]-1;
-		} else if (parseInt(a[i], 10) > 31 && y == 0) {
-			y = parseInt(a[i], 10);
-			(y < 100) && (y += (y > 29) ? 1900 : 2000);
-		} else if (d == 0) {
-			d = a[i];
-		}
-	}
-	if (y == 0)
-		y = today.getFullYear();
-	if (m != -1 && d != 0)
-		return new Date(y, m, d, hr, min, 0);
-	return today;
-};
+	
+	if (y == null || isNaN(y)) y = today.getLocalFullYear(false, dateType); 
+	if (m == null || isNaN(m)) m = today.getLocalMonth(false, dateType);
+	if (d == null || isNaN(d)) d = today.getLocalDate(false, dateType);
+	if (hr == null || isNaN(hr)) hr = today.getHours();
+	if (min == null || isNaN(min)) min = today.getMinutes();
+	if (sec == null || isNaN(sec)) sec = today.getSeconds();
+	
+	result.setLocalFullYear(true, dateType, y, m, d);
+	
+	result.setUTCHours(hr, min, sec, msec);
+	
+	return result;
+}
 
 /** Returns the number of days in the current month */
-Date.prototype.getMonthDays = function(month) {
-	var year = this.getFullYear();
+Date.prototype.getUTCMonthDays = function(month) {
+	var year = this.getUTCFullYear();
 	if (typeof month == "undefined") {
-		month = this.getMonth();
+		month = this.getUTCMonth();
 	}
 	if (((0 == (year%4)) && ( (0 != (year%100)) || (0 == (year%400)))) && month == 1) {
 		return 29;
@@ -1903,63 +2047,135 @@ Date.prototype.getMonthDays = function(month) {
 	}
 };
 
+/** Returns the number of days in the current Jalali month */
+Date.prototype.getJalaliUTCMonthDays = function(month) {
+	var year = this.getJalaliUTCFullYear();
+	if (typeof month == "undefined") {
+		month = this.getJalaliUTCMonth();
+	}
+	if (month == 11 && JalaliDate.checkDate(year, month+1, 30)) {
+		return 30;
+	} else {
+		return Date._JMD[month];
+	}
+};
+
+Date.prototype.getLocalMonthDays = function(dateType, month) {
+	if (dateType == 'jalali') {
+		return this.getJalaliUTCMonthDays(month);
+	} else {
+		return this.getUTCMonthDays(month);
+	}
+};
+
 /** Returns the number of day in the year. */
-Date.prototype.getDayOfYear = function() {
-	var now = new Date(this.getFullYear(), this.getMonth(), this.getDate(), 0, 0, 0);
-	var then = new Date(this.getFullYear(), 0, 0, 0, 0, 0);
+Date.prototype.getUTCDayOfYear = function() {
+	var now = new Date(Date.UTC(this.getUTCFullYear(), this.getUTCMonth(), this.getUTCDate(), 0, 0, 0));
+	var then = new Date(Date.UTC(this.getUTCFullYear(), 0, 0, 0, 0, 0));
 	var time = now - then;
 	return Math.floor(time / Date.DAY);
 };
 
+/** Returns the number of day in the jalali year. */
+Date.prototype.getJalaliUTCDayOfYear = function() {
+	var now = new Date(Date.UTC(this.getUTCFullYear(), this.getUTCMonth(), this.getUTCDate(), 0, 0, 0));
+	var j = JalaliDate.jalaliToGregorian(this.getJalaliUTCFullYear(), 1, 0);
+	var then = new Date(Date.UTC(j[0], j[1]-1, j[2], 0, 0, 0));
+	var time = now - then;
+	return Math.floor(time / Date.DAY);
+};
+
+Date.prototype.getLocalDayOfYear = function(dateType) {
+	if (dateType == 'jalali') {
+		return this.getJalaliUTCDayOfYear();
+	} else {
+		return this.getUTCDayOfYear();
+	}
+};
+
 /** Returns the number of the week in year, as defined in ISO 8601. */
-Date.prototype.getWeekNumber = function() {
-	var d = new Date(this.getFullYear(), this.getMonth(), this.getDate(), 0, 0, 0);
-	var DoW = d.getDay();
-	d.setDate(d.getDate() - (DoW + 6) % 7 + 3); // Nearest Thu
+Date.prototype.getUTCWeekNumber = function() {
+	var d = new Date(Date.UTC(this.getUTCFullYear(), this.getUTCMonth(), this.getUTCDate(), 0, 0, 0));
+	var DoW = d.getUTCDay();
+	d.setUTCDate(d.getUTCDate() - (DoW + 6) % 7 + 3); // Nearest Thu
 	var ms = d.valueOf(); // GMT
-	d.setMonth(0);
-	d.setDate(4); // Thu in Week 1
+	d.setUTCMonth(0);
+	d.setUTCDate(4); // Thu in Week 1
 	return Math.round((ms - d.valueOf()) / (7 * 864e5)) + 1;
 };
 
+/**
+ * Returns the number of the week in jalali year.
+ * 
+ * Note that the result of this function may be incorrect.
+ * I couldn't find the official defination of week number in Jalali calendar.
+ * I have implemented this function with the assumption that "the week that contains 
+ * the first Saturday of the year is the first week of that year."
+ * if you know any official defination, please let me know.
+ */
+Date.prototype.getJalaliUTCWeekNumber = function() {
+	var j = JalaliDate.jalaliToGregorian(this.getJalaliUTCFullYear(), 1, 1);
+	
+	//First Saturday of the year
+	var d = new Date(Date.UTC(j[0], j[1]-1, j[2], 0, 0, 0));
+	
+	//Number of days after the first Saturday of the year
+	var days = this.getJalaliUTCDayOfYear() - ((7 - d.getJalaliUTCDay()) % 7) - 1;
+	
+	if (days < 0) return new Date(this - this.getJalaliUTCDay()*Date.DAY).getJalaliUTCWeekNumber();
+	return Math.floor(days / 7) + 1;
+};
+
+
+Date.prototype.getLocalWeekNumber = function(dateType) {
+	if (dateType == 'jalali') {
+		return this.getJalaliUTCWeekNumber();
+	} else {
+		return this.getUTCWeekNumber();
+	}
+};
+
+
 /** Checks date and time equality */
 Date.prototype.equalsTo = function(date) {
-	return ((this.getFullYear() == date.getFullYear()) &&
-		(this.getMonth() == date.getMonth()) &&
-		(this.getDate() == date.getDate()) &&
-		(this.getHours() == date.getHours()) &&
-		(this.getMinutes() == date.getMinutes()));
+	return (date &&
+		(this.getUTCFullYear() == date.getUTCFullYear()) &&
+		(this.getUTCMonth() == date.getUTCMonth()) &&
+		(this.getUTCDate() == date.getUTCDate()) &&
+		(this.getUTCHours() == date.getUTCHours()) &&
+		(this.getUTCMinutes() == date.getUTCMinutes()));
 };
 
 /** Set only the year, month, date parts (keep existing time) */
-Date.prototype.setDateOnly = function(date) {
+Date.prototype.setUTCDateOnly = function(date) {
 	var tmp = new Date(date);
-	this.setDate(1);
-	this.setFullYear(tmp.getFullYear());
-	this.setMonth(tmp.getMonth());
-	this.setDate(tmp.getDate());
+	this.setUTCDate(1);
+	this._calSetFullYear(tmp.getUTCFullYear());
+	this.setUTCMonth(tmp.getUTCMonth());
+	this.setUTCDate(tmp.getUTCDate());
 };
 
 /** Prints the date in a string according to the given format. */
-Date.prototype.print = function (str) {
-	var m = this.getMonth();
-	var d = this.getDate();
-	var y = this.getFullYear();
-	var wn = this.getWeekNumber();
-	var w = this.getDay();
+Date.prototype.print = function (str, dateType, useLangNumbers) {
+	var m = this.getLocalMonth(true, dateType);
+	var d = this.getLocalDate(true, dateType);
+	var y = this.getLocalFullYear(true, dateType);
+	var wn = this.getLocalWeekNumber(true, dateType);
+	
+	var w = this.getUTCDay();
 	var s = {};
-	var hr = this.getHours();
+	var hr = this.getUTCHours();
 	var pm = (hr >= 12);
 	var ir = (pm) ? (hr - 12) : hr;
-	var dy = this.getDayOfYear();
+	var dy = this.getLocalDayOfYear(dateType);
 	if (ir == 0)
 		ir = 12;
-	var min = this.getMinutes();
-	var sec = this.getSeconds();
+	var min = this.getUTCMinutes();
+	var sec = this.getUTCSeconds();
 	s["%a"] = Calendar._SDN[w]; // abbreviated weekday name [FIXME: I18N]
 	s["%A"] = Calendar._DN[w]; // full weekday name
-	s["%b"] = Calendar._SMN[m]; // abbreviated month name [FIXME: I18N]
-	s["%B"] = Calendar._MN[m]; // full month name
+	s["%b"] = (dateType == 'jalali' ? Calendar._JSMN[m] : Calendar._SMN[m]); // abbreviated month name [FIXME: I18N]
+	s["%B"] = (dateType == 'jalali' ? Calendar._JMN[m] : Calendar._MN[m]); // full month name
 	// FIXME: %c : preferred date and time representation for the current locale
 	s["%C"] = 1 + Math.floor(y / 100); // the century number
 	s["%d"] = (d < 10) ? ("0" + d) : d; // the day of the month (range 01 to 31)
@@ -1974,8 +2190,9 @@ Date.prototype.print = function (str) {
 	s["%m"] = (m < 9) ? ("0" + (1+m)) : (1+m); // month, range 01 to 12
 	s["%M"] = (min < 10) ? ("0" + min) : min; // minute, range 00 to 59
 	s["%n"] = "\n";		// a newline character
-	s["%p"] = pm ? "PM" : "AM";
-	s["%P"] = pm ? "pm" : "am";
+	s["%p"] = pm ? Calendar._TT["PM"] : Calendar._TT["AM"];
+	s["%P"] = pm ? Calendar._TT["LPM"] : Calendar._TT["LAM"];
+	
 	// FIXME: %r : the time in am/pm notation %I:%M:%S %p
 	// FIXME: %R : the time in 24-hour notation %H:%M
 	s["%s"] = Math.floor(this.getTime() / 1000);
@@ -1983,8 +2200,8 @@ Date.prototype.print = function (str) {
 	s["%t"] = "\t";		// a tab character
 	// FIXME: %T : the time in 24-hour notation (%H:%M:%S)
 	s["%U"] = s["%W"] = s["%V"] = (wn < 10) ? ("0" + wn) : wn;
-	s["%u"] = w + 1;	// the day of the week (range 1 to 7, 1 = MON)
-	s["%w"] = w;		// the day of the week (range 0 to 6, 0 = SUN)
+	s["%u"] = this.getLocalDay(true, dateType) + 1;	// the day of the week (range 1 to 7, 1 = MON)
+	s["%w"] = this.getLocalDay(true, dateType);		// the day of the week (range 0 to 6, 0 = SUN)
 	// FIXME: %x : preferred date representation for the current locale without the time
 	// FIXME: %X : preferred time representation for the current locale without the date
 	s["%y"] = ('' + y).substr(2, 2); // year without the century (range 00 to 99)
@@ -1992,29 +2209,107 @@ Date.prototype.print = function (str) {
 	s["%%"] = "%";		// a literal '%' character
 
 	var re = /%./g;
-	if (!Calendar.is_ie5 && !Calendar.is_khtml)
-		return str.replace(re, function (par) { return s[par] || par; });
-
-	var a = str.match(re);
-	for (var i = 0; i < a.length; i++) {
-		var tmp = s[a[i]];
-		if (tmp) {
-			re = new RegExp(a[i], 'g');
-			str = str.replace(re, tmp);
+	if (!Calendar.is_ie5 && !Calendar.is_khtml) {
+		str = str.replace(re, function (par) { return s[par] || par; });
+	} else {
+		var a = str.match(re);
+		for (var i = 0; i < a.length; i++) {
+			var tmp = s[a[i]];
+			if (tmp) {
+				re = new RegExp(a[i], 'g');
+				str = str.replace(re, tmp);
+			}
 		}
 	}
+	
+	if (useLangNumbers) str = str.convertNumbers();
 
 	return str;
 };
 
-Date.prototype.__msh_oldSetFullYear = Date.prototype.setFullYear;
-Date.prototype.setFullYear = function(y) {
-	var d = new Date(this);
-	d.__msh_oldSetFullYear(y);
-	if (d.getMonth() != this.getMonth())
-		this.setDate(28);
-	this.__msh_oldSetFullYear(y);
+Date.prototype._calSetFullYear = function(y) {
+	var date = new Date(this);
+	date.setUTCFullYear(y);
+	if (date.getUTCMonth() != this.getUTCMonth()) this.setUTCDate(28);
+	return this.setUTCFullYear(y);
 };
+
+Date.prototype._calSetJalaliFullYear = function(y) {
+	var date = new Date(this);
+	date.setJalaliUTCFullYear(y);
+	if (date.getJalaliUTCMonth() != this.getJalaliUTCMonth()) this.setJalaliUTCDate(29);
+	return this.setJalaliUTCFullYear(y);
+};
+
+Date.prototype._calSetLocalFullYear = function(dateType, y) {
+	if (dateType == 'jalali') {
+		return this._calSetJalaliFullYear(y);
+	} else {
+		return this._calSetFullYear(y);
+	}
+};
+
+Date.prototype.setLocalFullYear = function(UTC, dateType, y, m, d) {
+	if (dateType == 'jalali') {
+		if (m == undefined) m = UTC ? this.getJalaliUTCMonth() : this.getJalaliMonth();
+		if (d == undefined) d = UTC ? this.getJalaliUTCDate() : this.getJalaliDate();
+ 		return UTC ? this.setJalaliUTCFullYear(y, m, d) : this.setJalaliFullYear(y, m, d);
+	} else {
+		if (m == undefined) m = UTC ? this.getUTCMonth() : this.getMonth();
+		if (d == undefined) d = UTC ? this.getUTCDate() : this.getDate();
+ 		return UTC ? this.setUTCFullYear(y, m, d) : this.setFullYear(y, m, d);
+	}
+}
+
+Date.prototype.setLocalMonth = function(UTC, dateType, m, d) {
+	if (dateType == 'jalali') {
+		if (d == undefined) d = UTC ? this.getJalaliUTCDate() : this.getJalaliDate();
+ 		return UTC ? this.setJalaliUTCMonth(m, d) : this.setJalaliMonth(m, d);
+	} else {
+		if (d == undefined) d = UTC ? this.getUTCDate() : this.getDate();
+ 		return UTC ? this.setUTCMonth(m, d) : this.setMonth(m, d);
+	}
+}
+
+Date.prototype.setLocalDate = function(UTC, dateType, d) {
+	if (dateType == 'jalali') {
+ 		return UTC ? this.setJalaliUTCDate(d) : this.setJalaliDate(d);
+	} else {
+ 		return UTC ? this.setUTCDate(d) : this.setDate(d);
+	}
+}
+
+Date.prototype.getLocalFullYear = function(UTC, dateType) {
+	if (dateType == 'jalali') {
+ 		return UTC ? this.getJalaliUTCFullYear() : this.getJalaliFullYear();
+	} else {
+ 		return UTC ? this.getUTCFullYear() : this.getFullYear();
+	}
+}
+
+Date.prototype.getLocalMonth = function(UTC, dateType) {
+	if (dateType == 'jalali') {
+ 		return UTC ? this.getJalaliUTCMonth() : this.getJalaliMonth();
+	} else {
+ 		return UTC ? this.getUTCMonth() : this.getMonth();
+	}
+}
+
+Date.prototype.getLocalDate = function(UTC, dateType) {
+	if (dateType == 'jalali') {
+ 		return UTC ? this.getJalaliUTCDate() : this.getJalaliDate();
+	} else {
+ 		return UTC ? this.getUTCDate() : this.getDate();
+	}
+}
+
+Date.prototype.getLocalDay = function(UTC, dateType) {
+	if (dateType == 'jalali') {
+ 		return UTC ? this.getJalaliUTCDay() : this.getJalaliDay();
+	} else {
+ 		return UTC ? this.getUTCDay() : this.getDay();
+	}
+}
 
 // END: DATE OBJECT PATCHES
 
