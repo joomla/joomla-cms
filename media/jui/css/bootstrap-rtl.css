@@ -71,7 +71,6 @@
 .form-horizontal .control-label {
 	float: right;
 	width: auto;
-	padding-top: 10px;
 	text-align: right;
 	padding-left: 5px;
 	padding-right: 0;
@@ -264,9 +263,6 @@
 }
 body {
 	direction: rtl;
-}
-body, input, button, select, textarea, .calendar, .calendar table {
-	font-family: Tahoma, Geneva, sans-serif;
 }
 .pager .next a {
 	float: left;
@@ -505,20 +501,18 @@ body, input, button, select, textarea, .calendar, .calendar table {
 	margin-left: 3px;
 	margin-right: 0;
 }
-.com_media .container-main, #mediamanager-form {
-	direction: ltr;
-}
-.com_media .container-main .row-fluid [class*="span"], .com_media .container-main .pull-left, #mediamanager-form .pull-left {
-	float: left;
-}
-.com_media .container-main .icon-folder-2 {
-	padding-left: 0;
-}
 .com_media .container-main .media {
 	display: inline-block;
 }
-#mediamanager-form .table th {
-	text-align: left;
+.thumbnails > li {
+	float: right;
+	margin-bottom: 18px;
+	margin-right: 20px;
+}
+#mediamanager-form .description,
+#mediamanager-form .filesize,
+#mediamanager-form .dimensions {
+	direction: ltr;
 }
 .close {
 	float: left;
