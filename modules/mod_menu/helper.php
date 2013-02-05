@@ -186,8 +186,9 @@ class modMenuHelper
 	public static function getActive(&$params)
 	{
 		$menu = JFactory::getApplication()->getMenu();
+		$lang = JFactory::getLanguage();
 
-		return $menu->getActive() ? $menu->getActive() : $menu->getDefault();
+		return $menu->getActive() ? $menu->getActive() : $menu->getDefault($lang->getTag());
 	}
 
 }

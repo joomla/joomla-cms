@@ -107,7 +107,16 @@ class JFormFieldUser extends JFormField
 	 */
 	protected function getGroups()
 	{
-		return null;
+		$groups = explode(',', $this->element['groups']);
+
+		var_dump($groups);
+
+		if (empty($groups))
+		{
+			return null;
+		}
+
+		return $groups;
 	}
 
 	/**
