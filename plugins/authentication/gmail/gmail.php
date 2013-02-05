@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,12 +41,18 @@ class plgAuthenticationGMail extends JPlugin {
 				// check if we want to do suffix stuff, typically for Google Apps for Your Domain
 				if($suffix && $applysuffix) {
 					$offset = strpos($credentials['username'], '@');
-					if($offset && $applysuffix == 2) {
-						// if we already have an @, get rid of it and replace it
-						$credentials['username'] = substr($credentials['username'], 0, $offset);
+					if($applysuffix == 1 && $offset === false) {
+						// Apply suffix if missing
+						$credentials['username'] .= '@'.$suffix;
 					}
-					// apply the suffix
-					$credentials['username'] .= '@'.$suffix;
+					else if($applysuffix == 2) {
+						// Always use suffix
+						if ($offset) {
+							// if we already have an @, get rid of it and replace it
+							$credentials['username'] = substr($credentials['username'], 0, $offset);
+						}
+						$credentials['username'] .= '@'. $suffix;
+					}
 				}
 				$curl = curl_init('https://mail.google.com/mail/feed/atom');
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);

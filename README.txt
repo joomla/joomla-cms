@@ -64,7 +64,7 @@
     * Are you a Web designer? http://docs.joomla.org/Web_designers
 
 Copyright:
-    * Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+    * Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
     * Credits: http://docs.joomla.org/Joomla_1.6_Credits
     * Distributed under the GNU General Public License version 2 or later
     * See Licenses details at http://docs.joomla.org/Joomla_Licenses
