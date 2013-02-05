@@ -26,14 +26,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
- 03-February-2013 Jean-Marie Simonet
+-------------------- 3.0.3 Stable Release [4-Feb-2013] ------------------
+
+03-February-2013 Jean-Marie Simonet
  $ Updating installation lang file: he-IL
 
- 02-February-2013 Jean-Marie Simonet
+02-February-2013 Jean-Marie Simonet
  $ Updating installation lang file: et-EE, zh-CN
  $ Updating installation lang file: fa-IR, nb-NO
 
- 01-February-2013 Jean-Marie Simonet
+01-February-2013 Jean-Marie Simonet
  $ Updating installation lang file: nl-NL
 
 31-Jan-2013 Jean-Marie Simonet
