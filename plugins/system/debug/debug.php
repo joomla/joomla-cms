@@ -34,7 +34,7 @@ class plgSystemDebug extends JPlugin
 	 * @var    array
 	 * @since  3.1
 	 */
-	private $logEntries = array();
+	private $_logEntries = array();
 
 	/**
 	 * Constructor.
@@ -184,7 +184,7 @@ class plgSystemDebug extends JPlugin
 				$html .= $this->display('queries');
 			}
 
-			if ($this->params->get('logs', 1) && !empty($this->logEntries))
+			if ($this->params->get('logs', 1) && !empty($this->_logEntries))
 			{
 				$html .= $this->display('logs');
 			}
@@ -884,7 +884,7 @@ class plgSystemDebug extends JPlugin
 	 */
 	public function logger(JLogEntry $entry)
 	{
-		$this->logEntries[] = $entry;
+		$this->_logEntries[] = $entry;
 	}
 
 	/**
@@ -908,7 +908,7 @@ class plgSystemDebug extends JPlugin
 
 		$out = array();
 
-		foreach ($this->logEntries as $entry)
+		foreach ($this->_logEntries as $entry)
 		{
 			$out[] = '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . ' </h5><code>' . $entry->message . '</code>';
 		}
