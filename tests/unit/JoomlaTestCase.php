@@ -7,7 +7,9 @@
  * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
-require_once 'PHPUnit/Framework.php';
+
+// require_once 'PHPUnit/Framework.php';
+
 /**
  * Test case class for Joomla Unit Testing
  *
