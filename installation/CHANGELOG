@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-February-2013 Jean-Marie Simonet
+ # [#29965] Add pagination in COM_SEARCH component
+
 -------------------- 3.0.3 Stable Release [4-Feb-2013] ------------------
 
 03-February-2013 Jean-Marie Simonet
