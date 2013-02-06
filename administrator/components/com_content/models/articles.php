@@ -1,35 +1,34 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Methods supporting a list of article records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  */
 class ContentModelArticles extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   1.6
+	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -41,6 +40,7 @@ class ContentModelArticles extends JModelList
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
+				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
 				'language', 'a.language',
@@ -48,6 +48,13 @@ class ContentModelArticles extends JModelList
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 			);
+
+			$app = JFactory::getApplication();
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			if ($assoc)
+			{
+				$config['filter_fields'][] = 'association';
+			}
 		}
 
 		parent::__construct($config);
@@ -58,17 +65,20 @@ class ContentModelArticles extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
-		$session = JFactory::getSession();
 
 		// Adjust the context to support modal layouts.
-		if ($layout = JRequest::getVar('layout')) {
+		if ($layout = $app->input->get('layout'))
+		{
 			$this->context .= '.'.$layout;
 		}
 
@@ -87,8 +97,19 @@ class ContentModelArticles extends JModelList
 		$categoryId = $this->getUserStateFromRequest($this->context.'.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
 
+		$level = $this->getUserStateFromRequest($this->context.'.filter.level', 'filter_level', 0, 'int');
+		$this->setState('filter.level', $level);
+
 		$language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
+
+		// force a language
+		$forcedLanguage = $app->input->get('forcedLanguage');
+		if (!empty($forcedLanguage))
+		{
+			$this->setState('filter.language', $forcedLanguage);
+			$this->setState('filter.forcedLanguage', $forcedLanguage);
+		}
 
 		// List state information.
 		parent::populateState('a.title', 'asc');
@@ -101,10 +122,10 @@ class ContentModelArticles extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -122,8 +143,8 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.6
+	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -131,13 +152,14 @@ class ContentModelArticles extends JModelList
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
+		$app	= JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.ordering, a.featured, a.language, a.hits' .
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits' .
 				', a.publish_up, a.publish_down'
 			)
 		);
@@ -145,7 +167,7 @@ class ContentModelArticles extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -163,73 +185,112 @@ class ContentModelArticles extends JModelList
 		$query->select('ua.name AS author_name');
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join over the associations.
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc)
+		{
+			$query->select('COUNT(asso2.id)>1 as association');
+			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_content.item'));
+			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
+			$query->group('a.id');
+		}
+
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = ' . (int) $access);
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-		    $groups	= implode(',', $user->getAuthorisedViewLevels());
+			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.state = ' . (int) $published);
 		}
-		elseif ($published === '') {
+		elseif ($published === '')
+		{
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 
 		// Filter by a single or group of categories.
+		$baselevel = 1;
 		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId)) {
-			$query->where('a.catid = '.(int) $categoryId);
+		if (is_numeric($categoryId))
+		{
+			$cat_tbl = JTable::getInstance('Category', 'JTable');
+			$cat_tbl->load($categoryId);
+			$rgt = $cat_tbl->rgt;
+			$lft = $cat_tbl->lft;
+			$baselevel = (int) $cat_tbl->level;
+			$query->where('c.lft >= '.(int) $lft);
+			$query->where('c.rgt <= '.(int) $rgt);
 		}
-		elseif (is_array($categoryId)) {
+		elseif (is_array($categoryId))
+		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN ('.$categoryId.')');
 		}
 
+		// Filter on the level.
+		if ($level = $this->getState('filter.level'))
+		{
+			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));
+		}
+
 		// Filter by author
 		$authorId = $this->getState('filter.author_id');
-		if (is_numeric($authorId)) {
+		if (is_numeric($authorId))
+		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
 			$query->where('a.created_by '.$type.(int) $authorId);
 		}
 
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0) {
-				$search = $db->Quote('%'.$db->getEscaped(substr($search, 7), true).'%');
+			elseif (stripos($search, 'author:') === 0)
+			{
+				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
 			else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
 			}
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.
-		$orderCol	= $this->state->get('list.ordering');
-		$orderDirn	= $this->state->get('list.direction');
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title') {
-			$orderCol = 'category_title '.$orderDirn.', a.ordering';
+		$orderCol	= $this->state->get('list.ordering', 'a.title');
+		$orderDirn	= $this->state->get('list.direction', 'asc');
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
+			$orderCol = 'c.title '.$orderDirn.', a.ordering';
 		}
-		$query->order($db->getEscaped($orderCol.' '.$orderDirn));
+		//sqlsrv change
+		if ($orderCol == 'language')
+			$orderCol = 'l.title';
+		if ($orderCol == 'access_level')
+			$orderCol = 'ag.title';
+		$query->order($db->escape($orderCol.' '.$orderDirn));
 
 		// echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -238,10 +299,11 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Build a list of authors
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.6
+	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
-	public function getAuthors() {
+	public function getAuthors()
+	{
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -250,7 +312,7 @@ class ContentModelArticles extends JModelList
 		$query->select('u.id AS value, u.name AS text');
 		$query->from('#__users AS u');
 		$query->join('INNER', '#__content AS c ON c.created_by = u.id');
-		$query->group('u.id');
+		$query->group('u.id, u.name');
 		$query->order('u.name');
 
 		// Setup the query
@@ -264,20 +326,23 @@ class ContentModelArticles extends JModelList
 	 * Method to get a list of articles.
 	 * Overridden to add a check for access levels.
 	 *
-	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	1.6.1
+	 * @return  mixed  An array of data items on success, false on failure.
+	 * @since   1.6.1
 	 */
 	public function getItems()
 	{
 		$items	= parent::getItems();
 		$app	= JFactory::getApplication();
-		if ($app->isSite()) {
+		if ($app->isSite())
+		{
 			$user	= JFactory::getUser();
 			$groups	= $user->getAuthorisedViewLevels();
 
-			for ($x = 0, $count = count($items); $x < $count; $x++) {
+			for ($x = 0, $count = count($items); $x < $count; $x++)
+			{
 				//Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups)) {
+				if (!in_array($items[$x]->access, $groups))
+				{
 					unset($items[$x]);
 				}
 			}

@@ -1,10 +1,9 @@
 @charset "UTF-8";
 
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
@@ -23,36 +22,6 @@
 	border-right: 1px solid #738498;
 }
 
-/**
- * Status layout
- */
-#module-status .preview {
-	background: url(../images/menu/icon-16-media.png) right 3px no-repeat;
-}
-
-#module-status .viewsite {
-	background: url(../images/menu/icon-16-viewsite.png) right 3px no-repeat;
-}
-
-#module-status .unread-messages,#module-status .no-unread-messages {
-	background: url(../images/menu/icon-16-messages.png) right 3px no-repeat;
-}
-
-#module-status .loggedin-users {
-	background: url(../images/menu/icon-16-user.png) right 3px no-repeat;
-}
-
-#module-status .backloggedin-users {
-	background: url(../images/menu/icon-16-back-user.png) right 3px no-repeat;
-}
-
-#module-status .multilanguage {
-	background: url(../images/menu/icon-16-language.png) right 3px no-repeat;
-}
-
-#module-status .logout {
-	background: url(../images/menu/icon-16-logout.png) right 3px no-repeat;
-}
 
 /**
  * Various Styles
@@ -224,10 +193,6 @@ a.saveorder.inactive {
  * Tooltips
  */
 
-.tip-title { /* @TODO is there a different image */
-	background: url(../images/selector-arrow-rtl.png) no-repeat right top;
-}
-
 /**
  * System Standard Messages
  */
@@ -397,4 +362,13 @@ span.icon-16-locked {
 
 #menu li li li a:focus {
 	border-right: 1px solid #fafafa;
+}
+
+/* Installer Database */
+#installer-database p.warning {
+	background-position: center right;
+}
+
+#installer-database p.nowarning {
+	background-position: center right;
 }

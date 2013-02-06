@@ -1,10 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,25 +12,28 @@ defined('_JEXEC') or die;
 /**
  * Users Html Helper
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
-
 abstract class JHtmlUsers
 {
 	public static function value($value)
 	{
-		if (is_string($value)) {
+		if (is_string($value))
+		{
 			$value = trim($value);
 		}
-		if (empty($value)) {
+		if (empty($value))
+		{
 			return JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 		}
-		else {
+		else
+		{
 			return htmlspecialchars($value);
 		}
 	}
+
 	public static function spacer($value)
 	{
 		return '';
@@ -44,26 +47,24 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$version = new JVersion();
-			$jver = explode( '.', $version->getShortVersion() );
-
 			$pathToXml = JPATH_ADMINISTRATOR.'/help/helpsites.xml';
 
 			$text = $value;
-			if (!empty($pathToXml) && $xml = JFactory::getXML($pathToXml))
+			if (!empty($pathToXml) && $xml = simplexml_load_file($pathToXml))
 			{
 				foreach ($xml->sites->site as $site)
 				{
-					if ((string)$site->attributes()->url == $value)
+					if ((string) $site->attributes()->url == $value)
 					{
-						$text = (string)$site;
+						$text = (string) $site;
 						break;
 					}
 				}
 			}
 
 			$value = htmlspecialchars($value);
-			if (substr ($value, 0, 4) == "http") {
+			if (substr($value, 0, 4) == "http")
+			{
 				return '<a href="'.$value.'">'.$text.'</a>';
 			}
 			else {
@@ -87,7 +88,8 @@ abstract class JHtmlUsers
 			$query->where('id = '.$db->quote($value));
 			$db->setQuery($query);
 			$title = $db->loadResult();
-			if ($title) {
+			if ($title)
+			{
 				return htmlspecialchars($title);
 			}
 			else {
@@ -108,11 +110,13 @@ abstract class JHtmlUsers
 			$file = "$value.xml";
 
 			$result = null;
-			if (is_file("$path/$file")) {
+			if (is_file("$path/$file"))
+			{
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
 			}
 
-			if ($result) {
+			if ($result)
+			{
 				return htmlspecialchars($result['name']);
 			}
 			else {
@@ -133,11 +137,13 @@ abstract class JHtmlUsers
 			$file = "$value.xml";
 
 			$result = null;
-			if (is_file("$path/$file")) {
+			if (is_file("$path/$file"))
+			{
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
 			}
 
-			if ($result) {
+			if ($result)
+			{
 				return htmlspecialchars($result['name']);
 			}
 			else {

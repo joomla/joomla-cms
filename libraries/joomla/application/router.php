@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Set the available masks for the routing mode
  */
-define('JROUTER_MODE_RAW', 0);
-define('JROUTER_MODE_SEF', 1);
+const JROUTER_MODE_RAW = 0;
+const JROUTER_MODE_SEF = 1;
 
 /**
  * Class to create and parse routes
@@ -22,13 +22,22 @@ define('JROUTER_MODE_SEF', 1);
  * @subpackage  Application
  * @since       11.1
  */
-class JRouter extends JObject
+class JRouter
 {
 	/**
 	 * The rewrite mode
 	 *
 	 * @var    integer
 	 * @since  11.1
+	 */
+	protected $mode = null;
+
+	/**
+	 * The rewrite mode
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 * @deprecated use $mode declare as private
 	 */
 	protected $_mode = null;
 
@@ -38,6 +47,15 @@ class JRouter extends JObject
 	 * @var     array
 	 * @since   11.1
 	 */
+	protected $vars = array();
+
+	/**
+	 * An array of variables
+	 *
+	 * @var     array
+	 * @since   11.1
+	 * @deprecated use $vars declare as private
+	 */
 	protected $_vars = array();
 
 	/**
@@ -45,6 +63,18 @@ class JRouter extends JObject
 	 *
 	 * @var    array
 	 * @since  11.1
+	 */
+	protected $rules = array(
+		'build' => array(),
+		'parse' => array()
+	);
+
+	/**
+	 * An array of rules
+	 *
+	 * @var    array
+	 * @since  11.1
+	 * @deprecated use $rules declare as private
 	 */
 	protected $_rules = array(
 		'build' => array(),
@@ -86,30 +116,40 @@ class JRouter extends JObject
 	 * @return  JRouter A JRouter object.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
 	{
 		if (empty(self::$instances[$client]))
 		{
-			// Load the router object
-			$info = JApplicationHelper::getClientInfo($client, true);
+			// Create a JRouter object
+			$classname = 'JRouter' . ucfirst($client);
 
-			$path = $info->path . '/includes/router.php';
-			if (file_exists($path))
+			if (!class_exists($classname))
 			{
-				include_once $path;
+				JLog::add('Non-autoloadable JRouter subclasses are deprecated.', JLog::WARNING, 'deprecated');
 
-				// Create a JRouter object
-				$classname = 'JRouter' . ucfirst($client);
-				$instance = new $classname($options);
+				// Load the router object
+				$info = JApplicationHelper::getClientInfo($client, true);
+
+				if (is_object($info))
+				{
+					$path = $info->path . '/includes/router.php';
+					if (file_exists($path))
+					{
+						include_once $path;
+					}
+				}
+			}
+
+			if (class_exists($classname))
+			{
+				self::$instances[$client] = new $classname($options);
 			}
 			else
 			{
-				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client));
-				return $error;
+				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
 			}
-
-			self::$instances[$client] = & $instance;
 		}
 
 		return self::$instances[$client];
@@ -118,13 +158,13 @@ class JRouter extends JObject
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JURI  &$uri  The uri.
+	 * @param   JURI  $uri  The uri.
 	 *
 	 * @return  array
 	 *
 	 * @since   11.1
 	 */
-	public function parse(&$uri)
+	public function parse($uri)
 	{
 		$vars = array();
 
@@ -307,13 +347,13 @@ class JRouter extends JObject
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
-	 * @param   JURI  &$uri  The raw route
+	 * @param   JURI  $uri  The raw route
 	 *
 	 * @return  boolean
 	 *
 	 * @since   11.1
 	 */
-	protected function _parseRawRoute(&$uri)
+	protected function _parseRawRoute($uri)
 	{
 		return false;
 	}
@@ -321,13 +361,13 @@ class JRouter extends JObject
 	/**
 	 * Function to convert a sef route to an internal URI
 	 *
-	 * @param   JURI  &$uri  The sef URI
+	 * @param   JURI  $uri  The sef URI
 	 *
 	 * @return  string  Internal URI
 	 *
 	 * @since   11.1
 	 */
-	protected function _parseSefRoute(&$uri)
+	protected function _parseSefRoute($uri)
 	{
 		return false;
 	}
@@ -335,39 +375,39 @@ class JRouter extends JObject
 	/**
 	 * Function to build a raw route
 	 *
-	 * @param   JURI  &$uri  The internal URL
+	 * @param   JURI  $uri  The internal URL
 	 *
 	 * @return  string  Raw Route
 	 *
 	 * @since   11.1
 	 */
-	protected function _buildRawRoute(&$uri)
+	protected function _buildRawRoute($uri)
 	{
 	}
 
 	/**
 	 * Function to build a sef route
 	 *
-	 * @param   JURI  &$uri  The uri
+	 * @param   JURI  $uri  The uri
 	 *
 	 * @return  string  The SEF route
 	 *
 	 * @since   11.1
 	 */
-	protected function _buildSefRoute(&$uri)
+	protected function _buildSefRoute($uri)
 	{
 	}
 
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   JURI  &$uri  The URI to parse
+	 * @param   JURI  $uri  The URI to parse
 	 *
 	 * @return  array  The array of processed URI variables
 	 *
 	 * @since   11.1
 	 */
-	protected function _processParseRules(&$uri)
+	protected function _processParseRules($uri)
 	{
 		$vars = array();
 
@@ -382,13 +422,13 @@ class JRouter extends JObject
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   JURI  &$uri  The URI
+	 * @param   JURI  $uri  The URI
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function _processBuildRules(&$uri)
+	protected function _processBuildRules($uri)
 	{
 		foreach ($this->_rules['build'] as $rule)
 		{

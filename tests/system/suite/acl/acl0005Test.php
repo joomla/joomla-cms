@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests admin login permissions per global configuration permission settings.
  */
@@ -28,13 +27,13 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 		$login = 'acltestuser' . $salt;
 		$email = $login . '@test.com';
 		$group = 'Public';
-		echo "Create $username and add to $group group.\n";
+		$this->jPrint ("Create $username and add to $group group.\n");
 	    $this->createUser($username, $login, $password, $email, $group);
 
-	    echo "Removing $username from Registered group.\n";
+	    $this->jPrint ("Removing $username from Registered group.\n");
 	    $this->changeAssignedGroup($username,$group="Registered");
 
-        echo "Setting all roles to inherit.\n";
+        $this->jPrint ("Setting all roles to inherit.\n");
 		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
 		$permissions = array('Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited', 'Inherited');
 		$this->setPermissions('Global Configuration', $group, $actions, $permissions);
@@ -48,7 +47,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			 $this->assertTrue($this->isElementPresent("link=Log out"));
+			 $this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -85,7 +84,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -121,7 +120,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -156,7 +155,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -168,11 +167,11 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 		$this->setPermissions('Global Configuration', $group, $action, $permission);
 	    $this->doAdminLogout();
 
-	    echo "Logging in to front end.\n";
+	    $this->jPrint ("Logging in to front end.\n");
 	    $this->doAdminLogin($login,$password);
 		    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -186,7 +185,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -216,7 +215,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -252,7 +251,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -287,7 +286,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -323,7 +322,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -359,7 +358,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
@@ -394,7 +393,7 @@ class Acl0005Test extends SeleniumJoomlaTestCase
 
 	    $this->doAdminLogin($login,$password);
 		try {
-			$this->assertTrue($this->isElementPresent("link=Log out"));
+			$this->assertTrue($this->isElementPresent("//li/a[contains(@href, 'option=com_login&task=logout')]"));
 	    } catch (PHPUnit_Framework_AssertionFailedError $e){
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }

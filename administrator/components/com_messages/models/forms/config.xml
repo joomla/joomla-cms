@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset>
 		<field
 			name="lock"
 			type="radio"
+			class="btn-group"
 			label="COM_MESSAGES_FIELD_LOCK_LABEL"
 			description="COM_MESSAGES_FIELD_LOCK_DESC"
 			default="0">
@@ -17,6 +17,7 @@
 		<field
 			name="mail_on_new"
 			type="radio"
+			class="btn-group"
 			label="COM_MESSAGES_FIELD_MAIL_ON_NEW_LABEL"
 			description="COM_MESSAGES_FIELD_MAIL_ON_NEW_DESC"
 			default="1">

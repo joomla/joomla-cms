@@ -1,21 +1,18 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 
 
 <div class="items-more">
-
-<h3><?php echo JText::_('COM_CONTENT_MORE_ARTICLES'); ?></h3>
-<ol>
+<ol class="nav nav-tabs nav-stacked">
 <?php
 	foreach ($this->link_items as &$item) :
 ?>

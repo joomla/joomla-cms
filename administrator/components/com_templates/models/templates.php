@@ -1,33 +1,34 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modellist');
-
 /**
  * Methods supporting a list of template extension records.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
 class TemplatesModelTemplates extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'name', 'a.name',
@@ -49,13 +50,14 @@ class TemplatesModelTemplates extends JModelList
 	/**
 	 * Override parent getItems to add extra XML metadata.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
 
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			$client = JApplicationHelper::getClientInfo($item->client_id);
 			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
 		}
@@ -65,8 +67,8 @@ class TemplatesModelTemplates extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.6
+	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -81,30 +83,33 @@ class TemplatesModelTemplates extends JModelList
 				'a.extension_id, a.name, a.element, a.client_id'
 			)
 		);
-		$query->from('`#__extensions` AS a');
+		$query->from($db->quoteName('#__extensions').' AS a');
 
 		// Filter by extension type.
-		$query->where('`type` = '.$db->quote('template'));
+		$query->where($db->quoteName('type').' = '.$db->quote('template'));
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
-		if (is_numeric($clientId)) {
+		if (is_numeric($clientId))
+		{
 			$query->where('a.client_id = '.(int) $clientId);
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
-				$query->where('(a.element LIKE '.$search.' OR a.name LIKE '.$search.')');
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$query->where('a.element LIKE '.$search.' OR a.name LIKE '.$search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.folder')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.folder')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -116,9 +121,9 @@ class TemplatesModelTemplates extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @param   string  $id	A prefix for the store id.
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -134,11 +139,10 @@ class TemplatesModelTemplates extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.

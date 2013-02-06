@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -86,27 +84,27 @@ class JFormFieldCalendar extends JFormField
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
-				if (intval($this->value))
+				if ((int) $this->value)
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
 					$date->setTimezone(new DateTimeZone($config->get('offset')));
 
 					// Transform the date string.
-					$this->value = $date->toMySQL(true);
+					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
 				break;
 
 			case 'USER_UTC':
 				// Convert a date to UTC based on the user timezone.
-				if (intval($this->value))
+				if ((int) $this->value)
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
 					// Transform the date string.
-					$this->value = $date->toMySQL(true);
+					$this->value = $date->format('Y-m-d H:i:s', true, false);
 				}
 				break;
 		}

@@ -1,21 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controlleradmin');
 
 /**
  * Template styles list controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
 class TemplatesControllerStyles extends JControllerAdmin
 {
@@ -25,14 +24,14 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function duplicate()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$pks = JRequest::getVar('cid', array(), 'post', 'array');
+		$pks = $this->input->post->get('cid', array(), 'array');
 
 		try
 		{
-			if (empty($pks)) {
+			if (empty($pks))
+			{
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
@@ -53,7 +52,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Style', $prefix = 'TemplatesModel', $config = array())
 	{
@@ -64,19 +63,19 @@ class TemplatesControllerStyles extends JControllerAdmin
 	/**
 	 * Method to set the home template for a client.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function setDefault()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$pks = JRequest::getVar('cid', array(), 'post', 'array');
+		$pks = $this->input->post->get('cid', array(), 'array');
 
 		try
 		{
-			if (empty($pks)) {
+			if (empty($pks))
+			{
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
@@ -99,20 +98,20 @@ class TemplatesControllerStyles extends JControllerAdmin
 	/**
 	 * Method to unset the default template for a client and for a language
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function unsetDefault()
 	{
 		// Check for request forgeries
-		JRequest::checkToken('default') or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$pks = JRequest::getVar('cid', array(), 'get', 'array');
+		$pks = $this->input->get->get('cid', array(), 'array');
 		JArrayHelper::toInteger($pks);
 
 		try
 		{
-			if (empty($pks)) {
+			if (empty($pks))
+			{
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 

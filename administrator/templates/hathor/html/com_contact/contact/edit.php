@@ -1,29 +1,32 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form'))) {
+		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
+		{
 			<?php echo $this->form->getField('misc')->save(); ?>
 			Joomla.submitform(task, document.getElementById('contact-form'));
-		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
@@ -71,7 +74,7 @@ JHtml::_('behavior.formvalidation');
 	</div>
     <div class="col options-section">
 		<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
-			<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
 			<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
@@ -102,7 +105,7 @@ JHtml::_('behavior.formvalidation');
 
 				</ul>
 			</fieldset>
-			<?php echo JHtml::_('sliders.panel',JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_CONTACT_DETAILS'), 'basic-options'); ?>
 
 			<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_('COM_CONTACT_CONTACT_DETAILS'); ?></legend>
@@ -159,6 +162,11 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->loadTemplate('params'); ?>
 
 			<?php echo $this->loadTemplate('metadata'); ?>
+
+			<?php if ($assoc) : ?>
+				<?php echo $this->loadTemplate('associations'); ?>
+			<?php endif; ?>
+
 		<?php echo JHtml::_('sliders.end'); ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>

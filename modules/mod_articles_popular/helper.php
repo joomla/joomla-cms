@@ -1,27 +1,30 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	mod_articles_popular
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_popular
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_content/helpers/route.php';
 
-jimport('joomla.application.component.model');
+JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
 
-JModel::addIncludePath(JPATH_SITE.'/components/com_content/models', 'ContentModel');
-
+/**
+ * Helper for mod_articles_popular
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_articles_popular
+ */
 abstract class modArticlesPopularHelper
 {
 	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
-		$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
 		// Set application parameters in model
 		$app = JFactory::getApplication();
@@ -32,6 +35,7 @@ abstract class modArticlesPopularHelper
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
+		$model->setState('filter.featured', $params->get('show_front', 1) == 1 ? 'show' : 'hide');
 
 		// Access filter
 		$access = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -42,7 +46,7 @@ abstract class modArticlesPopularHelper
 		$model->setState('filter.category_id', $params->get('catid', array()));
 
 		// Filter by language
-		$model->setState('filter.language',$app->getLanguageFilter());
+		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Ordering
 		$model->setState('list.ordering', 'a.hits');
@@ -50,11 +54,13 @@ abstract class modArticlesPopularHelper
 
 		$items = $model->getItems();
 
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			$item->slug = $item->id.':'.$item->alias;
 			$item->catslug = $item->catid.':'.$item->category_alias;
 
-			if ($access || in_array($item->access, $authorised)) {
+			if ($access || in_array($item->access, $authorised))
+			{
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
 			} else {

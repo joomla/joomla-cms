@@ -1,20 +1,19 @@
 <?php
 /**
- * @version		$Id:mod_menu.php 2463 2006-02-18 06:05:38Z webImagery $
- * @package		Joomla.Administrator
- * @subpackage	mod_menu
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  mod_menu
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-$showhelp 	= $params->get('showhelp', 1);
+$showhelp = $params->get('showhelp', 1);
 //
 // Site SubMenu
 //
-$menu->addChild(new JMenuNode(JText::_('JSITE'), null, 'disabled'));
+$menu->addChild(new JMenuNode(JText::_('MOD_MENU_SYSTEM'), null, 'disabled'));
 
 //
 // Users Submenu
@@ -45,11 +44,12 @@ if ($user->authorise('core.manage', 'com_content'))
 //
 
 // Get the authorised components and sub-menus.
-$components = ModMenuHelper::getComponents( true );
+$components = ModMenuHelper::getComponents(true);
 
 // Check if there are any components, otherwise, don't display the components menu item
-if ($components) {
-	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'),  null, 'disabled'));
+if ($components)
+{
+	$menu->addChild(new JMenuNode(JText::_('MOD_MENU_COMPONENTS'), null, 'disabled'));
 }
 
 //
@@ -70,5 +70,5 @@ if ($im || $mm || $pm || $tm || $lm)
 // Help Submenu
 //
 if ($showhelp == 1) {
-$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null,'disabled'));
+$menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'disabled'));
 }

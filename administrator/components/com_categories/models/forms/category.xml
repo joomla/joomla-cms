@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<field
 		name="id"
@@ -7,6 +6,15 @@
 		default="0"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		description ="JGLOBAL_FIELD_ID_DESC"
+		class="readonly"
+		readonly="true"/>
+		
+	<field
+		name="hits"
+		type="text"
+		default="0"
+		label="JGLOBAL_HITS"
+		description ="COM_CATEGORIES_FIELD_HITS_DESC"
 		class="readonly"
 		readonly="true"/>
 
@@ -17,10 +25,10 @@
 
 	<field
 		name="parent_id"
-		type="categoryparent"
+		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
 		description="COM_CATEGORIES_FIELD_PARENT_DESC"
-		class="inputbox"/>
+		class="span12 small"/>
 
 	<field
 		name="lft"
@@ -81,14 +89,14 @@
 		label="JGLOBAL_DESCRIPTION"
 		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		class="inputbox"
-		filter="safehtml"
+		filter="JComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"/>
 
 	<field
 		name="published"
 		type="list"
-		class="inputbox"
+		class="span12 small"
 		default="1"
 		size="1"
 		label="JSTATUS"
@@ -126,7 +134,7 @@
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"
-		class="inputbox"/>
+		class="span12 small"/>
 
 	<field
 		name="metadesc"
@@ -180,7 +188,7 @@
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
-		class="inputbox">
+		class="span12 small">
 		<option value="*">JALL</option>
 	</field>
 

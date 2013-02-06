@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset name="default" label="COM_USERS_RESET_COMPLETE_LABEL">
 
@@ -21,7 +20,7 @@
 			description="COM_USERS_FIELD_RESET_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_USERS_FIELD_RESET_PASSWORD2_LABEL"
-			message="COM_USERS_FIELD_RESET_PASSWORD2_MESSAGE"			required="true"
+			required="true"
 			size="30"
 		/>
 	</fieldset>

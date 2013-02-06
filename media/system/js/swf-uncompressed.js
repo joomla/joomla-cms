@@ -115,13 +115,13 @@ Swiff.Uploader = new Class({
 		};
 
 		var path = this.options.path;
-		if (!path.contains('?')) path += '?noCache=' + $time(); // cache in IE
+		if (!path.contains('?')) path += '?noCache=' + Date.now; // cache in IE
 
 		// container options for Swiff class
-		this.options.container = this.box = new Element('span', {'class': 'swiff-uploader-box'}).inject($(this.options.container) || document.body);
+		this.options.container = this.box = new Element('span', {'class': 'swiff-uploader-box'}).inject(document.id(this.options.container) || document.body);
 
 		// target
-		this.target = $(this.options.target);
+		this.target = document.id(this.options.target);
 		if (this.target) {
 			var scroll = window.getScroll();
 			this.box.setStyles({
@@ -204,7 +204,7 @@ Swiff.Uploader = new Class({
 
 	update: function(data) {
 		// the data is saved right to the instance
-		$extend(this, data);
+		Object.append(this, data);
 		this.fireEvent('queue', [this], 10);
 		return this;
 	},
@@ -316,7 +316,7 @@ Swiff.Uploader = new Class({
 
 		var data = this.options.data || {};
 		if ($type(append) == 'string') data[append] = hash;
-		else $extend(data, hash);
+		else Object.append(data, hash);
 
 		this.setOptions({data: data});
 	},
@@ -360,7 +360,7 @@ Swiff.Uploader = new Class({
 
 });
 
-$extend(Swiff.Uploader, {
+Object.append(Swiff.Uploader, {
 
 	STATUS_QUEUED: 0,
 	STATUS_RUNNING: 1,
@@ -430,7 +430,7 @@ Swiff.Uploader.File = new Class({
 	},
 
 	update: function(data) {
-		return $extend(this, data);
+		return Object.append(this, data);
 	},
 
 	validate: function() {

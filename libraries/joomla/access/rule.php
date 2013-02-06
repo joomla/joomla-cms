@@ -3,20 +3,20 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JRule class.
+ * JAccessRule class.
  *
  * @package     Joomla.Platform
  * @subpackage  Access
- * @since       11.1
+ * @since       11.4
  */
-class JRule
+class JAccessRule
 {
 	/**
 	 * A named array
@@ -70,7 +70,7 @@ class JRule
 	 */
 	public function mergeIdentities($identities)
 	{
-		if ($identities instanceof JRule)
+		if ($identities instanceof JAccessRule)
 		{
 			$identities = $identities->getData();
 		}

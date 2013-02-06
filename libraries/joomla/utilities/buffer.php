@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JBuffer
 	 * @var    integer
 	 * @since  11.1
 	 */
-	var $position = 0;
+	public $position = 0;
 
 	/**
 	 * Buffer name
@@ -35,15 +35,15 @@ class JBuffer
 	 * @var    string
 	 * @since  11.1
 	 */
-	var $name = null;
+	public $name = null;
 
 	/**
 	 * Buffer hash
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  12.1
 	 */
-	var $_buffers = array();
+	public $buffers = array();
 
 	/**
 	 * Function to open file or url
@@ -59,11 +59,11 @@ class JBuffer
 	 * @since   11.1
 	 * @see     streamWrapper::stream_open
 	 */
-	function stream_open($path, $mode, $options, &$opened_path)
+	public function stream_open($path, $mode, $options, &$opened_path)
 	{
 		$url = parse_url($path);
-		$this->name = $url["host"];
-		$this->_buffers[$this->name] = null;
+		$this->name = $url['host'];
+		$this->buffers[$this->name] = null;
 		$this->position = 0;
 
 		return true;
@@ -81,9 +81,9 @@ class JBuffer
 	 * @see     streamWrapper::stream_read
 	 * @since   11.1
 	 */
-	function stream_read($count)
+	public function stream_read($count)
 	{
-		$ret = substr($this->_buffers[$this->name], $this->position, $count);
+		$ret = substr($this->buffers[$this->name], $this->position, $count);
 		$this->position += strlen($ret);
 
 		return $ret;
@@ -99,11 +99,11 @@ class JBuffer
 	 * @see     streamWrapper::stream_write
 	 * @since   11.1
 	 */
-	function stream_write($data)
+	public function stream_write($data)
 	{
-		$left = substr($this->_buffers[$this->name], 0, $this->position);
-		$right = substr($this->_buffers[$this->name], $this->position + strlen($data));
-		$this->_buffers[$this->name] = $left . $data . $right;
+		$left = substr($this->buffers[$this->name], 0, $this->position);
+		$right = substr($this->buffers[$this->name], $this->position + strlen($data));
+		$this->buffers[$this->name] = $left . $data . $right;
 		$this->position += strlen($data);
 
 		return strlen($data);
@@ -117,7 +117,7 @@ class JBuffer
 	 * @see     streamWrapper::stream_tell
 	 * @since   11.1
 	 */
-	function stream_tell()
+	public function stream_tell()
 	{
 		return $this->position;
 	}
@@ -130,9 +130,9 @@ class JBuffer
 	 * @see     streamWrapper::stream_eof
 	 * @since   11.1
 	 */
-	function stream_eof()
+	public function stream_eof()
 	{
-		return $this->position >= strlen($this->_buffers[$this->name]);
+		return $this->position >= strlen($this->buffers[$this->name]);
 	}
 
 	/**
@@ -147,12 +147,12 @@ class JBuffer
 	 * @see     streamWrapper::stream_seek
 	 * @since   11.1
 	 */
-	function stream_seek($offset, $whence)
+	public function stream_seek($offset, $whence)
 	{
 		switch ($whence)
 		{
 			case SEEK_SET:
-				if ($offset < strlen($this->_buffers[$this->name]) && $offset >= 0)
+				if ($offset < strlen($this->buffers[$this->name]) && $offset >= 0)
 				{
 					$this->position = $offset;
 					return true;
@@ -176,9 +176,9 @@ class JBuffer
 				break;
 
 			case SEEK_END:
-				if (strlen($this->_buffers[$this->name]) + $offset >= 0)
+				if (strlen($this->buffers[$this->name]) + $offset >= 0)
 				{
-					$this->position = strlen($this->_buffers[$this->name]) + $offset;
+					$this->position = strlen($this->buffers[$this->name]) + $offset;
 					return true;
 				}
 				else
@@ -193,4 +193,4 @@ class JBuffer
 	}
 }
 // Register the stream
-stream_wrapper_register("buffer", "JBuffer");
+stream_wrapper_register('buffer', 'JBuffer');

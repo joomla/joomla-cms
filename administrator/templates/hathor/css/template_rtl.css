@@ -1,10 +1,9 @@
 @charset "UTF-8";
 
 /**
- * @version		$Id$
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
@@ -13,6 +12,10 @@
 
 body {
 	direction: rtl;
+}
+
+h1, h2, h3 {
+	text-align: right;
 }
 
 /**
@@ -52,7 +55,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	margin: 5px 20px 20px 20px;
 }
 
-#element-box.cpanel {
+.cpanel-page div#element-box {
 	padding: 15px;
 }
 
@@ -313,15 +316,18 @@ p.tab-description {
 /**
  * Cpanel Settings
  */
+.cpanel div.icon ,
 #cpanel div.icon {
 	margin-left: 5px;
 	float: right;
 }
 
+.cpanel div.icon a ,
 #cpanel div.icon a {
 	float: right;
 }
 
+.cpanel img ,
 #cpanel img {
 	padding: 10px 0;
 	margin: 0 auto;
@@ -544,7 +550,9 @@ th.ordering-col a img {
 /**
  * Adminlist Table layout
  */
-
+table.adminlist {
+	float: right;
+}
 	/* Table row styles */
 table.adminlist tr {
 	padding-left: 30px;
@@ -695,6 +703,10 @@ div.pagination {
 	margin: 0 auto;
 }
 
+.pagination a {
+	line-height: 1.6em;
+}
+
 .pagination div.limit {
 	float: right;
 	margin: 0 10px;
@@ -754,14 +766,15 @@ table.adminlist .pagination button {
  * MCE Editor
  */
 div.toggle-editor {
-	margin-top: -15px;
+
 }
 
 /**
  * Tooltips
  */
-.tip {
-	float: right;
+
+.tip-text {
+	text-align: right;
 }
 
 /**
@@ -937,28 +950,29 @@ fieldset label#batch-choose-action-lbl {
 	clear: none;
 	clear: right;
 }
-label#batch-language-lbl {
+label#batch-language-lbl,
+label#batch-user-lbl {
 	clear: right;
 	margin-left: 10px;
 	margin-right: 0;
 	margin-top: 15px;
 }
-select#batch-language-id {
+select#batch-language-id,
+select#batch-user-id {
 	margin-top: 15px;
 }
-select#batch-category-id {
+select#batch-category-id,
+select#batch-menu-id,
+select#batch-position-id
+{
 	margin-left: 30px;
 	margin-right: 0;
 }
 fieldset.batch select, fieldset.batch input, fieldset.batch img, fieldset.batch button {
 	float: right;
 }
-
-select#batch-menu-id {
-	margin-right: 0;
-	margin-left: 30px;
-}
-label#batch-access-lbl {
+label#batch-access-lbl,
+label#batch-client-lbl {
 	margin-right: 0;
 	margin-left: 10px;
 }
@@ -1184,4 +1198,91 @@ ul.helpmenu li {
 	-webkit-border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
+}
+
+/* Installer Database */
+#installer-database p.warning {
+	padding-left: 0;
+	padding-right: 20px
+}
+
+#installer-database #sidebar {
+	float: none
+}
+
+#installer-database p.nowarning {
+	padding-left: 0;
+	padding-right: 20px
+}
+
+p.nowarning {
+	float: none;
+	margin-left: 0;
+	margin-right: 15px;
+}
+
+table.adminlist tfoot button {
+	float: right;
+}
+
+/* Spinner */
+.joomlaupdate_spinner {
+	float: right;
+	margin-left: 15px;
+}
+
+/* Various corrections */
+[class*="span"] {
+	float: none;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#sidebar {
+	float:right;
+	margin: 15px 0;
+}
+
+#submenu li, #submenu span.nolink {
+	float: right;
+}
+
+div.btn-toolbar {
+	float: right;
+	text-align: right;
+}
+
+.btn-group {
+	float: right;
+	margin-right: 10px;
+}
+
+#module-status div.btn-group {
+	float: right;
+}
+
+.nav-tabs > li, .nav-pills > li {
+	float: none;
+}
+
+.tabs-left > .nav-tabs {
+	border-right: 0 solid #DDDDDD;
+	float: right;
+	margin-right: 19px;
+}
+
+.list-striped, .row-striped {
+	text-align: right;
+}
+
+.row-fluid [class*="span"] {
+	float: none;
+}
+.media .btn {
+	float: none;
+}
+
+.media {
+	float:none;
+	margin: 10px 20px;
 }

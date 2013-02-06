@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <metadata>
 	<layout title="COM_CONTACT_CATEGORY_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CATEGORY_VIEW_DEFAULT_OPTION">
 		<help
@@ -109,6 +108,18 @@
 			<field name="spacer2" type="spacer" class="text"
 					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 			/>
+
+			<field
+				name="filter_field"
+				type="list"
+				default=""
+				description="JGLOBAL_FILTER_FIELD_DESC"
+				label="JGLOBAL_FILTER_FIELD_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="hide">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
 			<field name="show_pagination_limit" type="list"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"

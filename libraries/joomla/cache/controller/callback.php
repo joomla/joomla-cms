@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.cache.controller');
 
 /**
  * Joomla! Cache callback type object
@@ -96,7 +94,6 @@ class JCacheControllerCallback extends JCacheController
 			$id = $this->_makeId($callback, $args);
 		}
 
-		$data = false;
 		$data = $this->cache->get($id);
 
 		$locktest = new stdClass;
@@ -144,10 +141,10 @@ class JCacheControllerCallback extends JCacheController
 				$locktest = $this->cache->lock($id);
 			}
 
-			if (isset($woptions['modulemode']))
+			if (isset($woptions['modulemode']) && $woptions['modulemode'] == 1)
 			{
 				$document = JFactory::getDocument();
-				$coptions['modulemode'] = $woptions['modulemode'];
+				$coptions['modulemode'] = 1;
 				$coptions['headerbefore'] = $document->getHeadData();
 			}
 			else

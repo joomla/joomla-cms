@@ -3,19 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-//Register the storage class with the loader
-JLoader::register('JCacheStorage', dirname(__FILE__) . '/storage.php');
-
-//Register the controller class with the loader
-JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
-
-// Almost everything must be public here to allow overloading.
 
 /**
  * Joomla! Cache base object
@@ -24,7 +16,7 @@ JLoader::register('JCacheController', dirname(__FILE__) . '/controller.php');
  * @subpackage  Cache
  * @since       11.1
  */
-class JCache extends JObject
+class JCache
 {
 	/**
 	 * @var    object  Storage handler
@@ -99,27 +91,42 @@ class JCache extends JObject
 	 */
 	public static function getStores()
 	{
-		jimport('joomla.filesystem.folder');
-		$handlers = JFolder::files(dirname(__FILE__) . '/storage', '.php');
+		$handlers = array();
 
-		$names = array();
-		foreach ($handlers as $handler)
+		// Get an iterator and loop trough the driver classes.
+		$iterator = new DirectoryIterator(__DIR__ . '/storage');
+
+		foreach ($iterator as $file)
 		{
-			$name = substr($handler, 0, strrpos($handler, '.'));
-			$class = 'JCacheStorage' . $name;
+			$fileName = $file->getFilename();
 
-			if (!class_exists($class))
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if (!$file->isFile()
+				|| substr($fileName, strrpos($fileName, '.') + 1) != 'php'
+				|| $fileName == 'helper.php')
 			{
-				include_once dirname(__FILE__) . '/storage/' . $name . '.php';
+				continue;
 			}
 
-			if (call_user_func_array(array(trim($class), 'test'), array()))
+			// Derive the class name from the type.
+			$class = str_ireplace('.php', '', 'JCacheStorage' . ucfirst(trim($fileName)));
+
+			// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
+			if (!class_exists($class))
 			{
-				$names[] = $name;
+				continue;
+			}
+
+			// Sweet!  Our class exists, so now we just need to know if it passes its test method.
+			if ($class::isSupported())
+			{
+				// Connector names should not have file extensions.
+				$handlers[] = str_ireplace('.php', '', $fileName);
 			}
 		}
 
-		return $names;
+		return $handlers;
 	}
 
 	/**
@@ -179,7 +186,7 @@ class JCache extends JObject
 
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->get($id, $group, $this->_options['checkTime']);
 		}
@@ -197,7 +204,7 @@ class JCache extends JObject
 	{
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			return $handler->getAll();
 		}
@@ -222,7 +229,7 @@ class JCache extends JObject
 
 		// Get the storage and store the cached data
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$handler->_lifetime = $this->_options['lifetime'];
 			return $handler->store($id, $group, $data);
@@ -247,7 +254,7 @@ class JCache extends JObject
 
 		// Get the storage
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
+		if (!($handler instanceof Exception))
 		{
 			return $handler->remove($id, $group);
 		}
@@ -274,7 +281,7 @@ class JCache extends JObject
 
 		// Get the storage handler
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
+		if (!($handler instanceof Exception))
 		{
 			return $handler->clean($group, $mode);
 		}
@@ -292,7 +299,7 @@ class JCache extends JObject
 	{
 		// Get the storage handler
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler))
+		if (!($handler instanceof Exception))
 		{
 			return $handler->gc();
 		}
@@ -314,6 +321,7 @@ class JCache extends JObject
 	{
 		$returning = new stdClass;
 		$returning->locklooped = false;
+
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
@@ -323,7 +331,7 @@ class JCache extends JObject
 		// Allow storage handlers to perform locking on their own
 		// NOTE drivers with lock need also unlock or unlocking will fail because of false $id
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['locking'] == true && $this->_options['caching'] == true)
+		if (!($handler instanceof Exception) && $this->_options['locking'] == true && $this->_options['caching'] == true)
 		{
 			$locked = $handler->lock($id, $group, $locktime);
 			if ($locked !== false)
@@ -332,9 +340,10 @@ class JCache extends JObject
 			}
 		}
 
-		// fallback
+		// Fallback
 		$curentlifetime = $this->_options['lifetime'];
-		// set lifetime to locktime for storing in children
+
+		// Set lifetime to locktime for storing in children
 		$this->_options['lifetime'] = $locktime;
 
 		$looptime = $locktime * 10;
@@ -355,7 +364,8 @@ class JCache extends JObject
 		{
 			$lock_counter = 0;
 
-			// loop until you find that the lock has been released.  that implies that data get from other thread has finished
+			// Loop until you find that the lock has been released.
+			// That implies that data get from other thread has finished
 			while ($data_lock !== false)
 			{
 
@@ -377,7 +387,7 @@ class JCache extends JObject
 			$returning->locked = $this->store(1, $id2, $group);
 		}
 
-		// revert lifetime to previous one
+		// Revert lifetime to previous one
 		$this->_options['lifetime'] = $curentlifetime;
 
 		return $returning;
@@ -396,12 +406,13 @@ class JCache extends JObject
 	public function unlock($id, $group = null)
 	{
 		$unlock = false;
+
 		// Get the default group
 		$group = ($group) ? $group : $this->_options['defaultgroup'];
 
-		//allow handlers to perform unlocking on their own
+		// Allow handlers to perform unlocking on their own
 		$handler = $this->_getStorage();
-		if (!JError::isError($handler) && $this->_options['caching'])
+		if (!($handler instanceof Exception) && $this->_options['caching'])
 		{
 			$unlocked = $handler->unlock($id, $group);
 			if ($unlocked !== false)
@@ -410,7 +421,7 @@ class JCache extends JObject
 			}
 		}
 
-		// fallback
+		// Fallback
 		if ($this->_options['caching'])
 		{
 			$unlock = $this->remove($id . '_lock', $group);
@@ -436,7 +447,6 @@ class JCache extends JObject
 		}
 
 		self::$_handler[$hash] = JCacheStorage::getInstance($this->_options['storage'], $this->_options);
-
 		return self::$_handler[$hash];
 	}
 
@@ -452,7 +462,6 @@ class JCache extends JObject
 	 */
 	public static function getWorkarounds($data, $options = array())
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$body = null;
@@ -490,7 +499,7 @@ class JCache extends JObject
 		{
 			// The following code searches for a token in the cached page and replaces it with the
 			// proper token.
-			$token = JUtility::getToken();
+			$token = JSession::getFormToken();
 			$search = '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
 			$replacement = '<input type="hidden" name="' . $token . '" value="1" />';
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
@@ -539,12 +548,15 @@ class JCache extends JObject
 			$loptions['modulemode'] = $options['modulemode'];
 		}
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
 		// Get the modules buffer before component execution.
 		$buffer1 = $document->getBuffer();
+		if (!is_array($buffer1))
+		{
+			$buffer1 = array();
+		}
 
 		// Make sure the module buffer is an array.
 		if (!isset($buffer1['module']) || !is_array($buffer1['module']))
@@ -572,10 +584,22 @@ class JCache extends JObject
 
 				$cached['head'] = array();
 
-				// only store what this module has added
+				// Only store what this module has added
 				foreach ($headnow as $now => $value)
 				{
-					$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array());
+					if (isset($options['headerbefore'][$now]))
+					{
+						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
+						$nowvalue = array_map('serialize', $headnow[$now]);
+						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
+						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
+						$newvalue = array_map('unserialize', $newvalue);
+					}
+					else
+					{
+						$newvalue = $headnow[$now];
+					}
+
 					if (!empty($newvalue))
 					{
 						$cached['head'][$now] = $newvalue;
@@ -601,6 +625,10 @@ class JCache extends JObject
 			// @todo Check if the following is needed, seems like it should be in page cache
 			// Get the module buffer after component execution.
 			$buffer2 = $document->getBuffer();
+			if (!is_array($buffer2))
+			{
+				$buffer2 = array();
+			}
 
 			// Make sure the module buffer is an array.
 			if (!isset($buffer2['module']) || !is_array($buffer2['module']))
@@ -625,20 +653,10 @@ class JCache extends JObject
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
+
 		// Get url parameters set by plugins
-		$registeredurlparams = $app->get('registeredurlparams');
+		$registeredurlparams = $app->registeredurlparams;
 
-		if (empty($registeredurlparams))
-		{
-			/*
-			$registeredurlparams = new stdClass;
-			$registeredurlparams->Itemid 	= 'INT';
-			$registeredurlparams->catid 	= 'INT';
-			$registeredurlparams->id 		= 'INT';
-			*/
-
-			return md5(serialize(JRequest::getURI())); // provided for backwards compatibility - THIS IS NOT SAFE!!!!
-		}
 		// Platform defaults
 		$registeredurlparams->format = 'WORD';
 		$registeredurlparams->option = 'WORD';
@@ -651,7 +669,7 @@ class JCache extends JObject
 
 		foreach ($registeredurlparams as $key => $value)
 		{
-			$safeuriaddon->$key = JRequest::getVar($key, null, 'default', $value);
+			$safeuriaddon->$key = $app->input->get($key, null, $value);
 		}
 
 		return md5(serialize($safeuriaddon));

@@ -15,7 +15,7 @@
 			id="contact-email"
 			size="30"
 			description="COM_CONTACT_EMAIL_DESC"
-			label="JGLOBAL_EMAIL"
+			label="COM_CONTACT_EMAIL_LABEL"
 			filter="string"
 			validate="contactemail"
 			required="true"
@@ -49,5 +49,15 @@
 			default="0"
 		/>
 
+	</fieldset>
+	<fieldset name="captcha">
+		<field
+			name="captcha"
+			type="captcha"
+			label="COM_CONTACT_CAPTCHA_LABEL"
+			description="COM_CONTACT_CAPTCHA_DESC"
+			validate="captcha"
+			namespace="contact"
+		/>
 	</fieldset>
 </form>

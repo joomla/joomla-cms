@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
@@ -18,7 +17,8 @@ $canDo	= BannersHelper::getActions();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form'))) {
+		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form')))
+		{
 			Joomla.submitform(task, document.getElementById('client-form'));
 		}
 	}
@@ -61,15 +61,15 @@ $canDo	= BannersHelper::getActions();
 </div>
 
 <div class="col options-section">
-	<?php echo JHtml::_('sliders.start','banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+	<?php echo JHtml::_('sliders.start', 'banner-client-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 				<li>
-					<?php if (!$field->hidden): ?>
+					<?php if (!$field->hidden) : ?>
 						<?php echo $field->label; ?>
 					<?php endif; ?>
 					<?php echo $field->input; ?>
@@ -78,12 +78,12 @@ $canDo	= BannersHelper::getActions();
 			</ul>
 		</fieldset>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('COM_BANNERS_EXTRA'); ?></legend>
 		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('extra') as $field): ?>
-				<li><?php if (!$field->hidden): ?>
+			<?php foreach ($this->form->getFieldset('extra') as $field) : ?>
+				<li><?php if (!$field->hidden) : ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
 				<?php echo $field->input; ?></li>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,9 +27,10 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success, Exception on error.
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function addUserToGroup($userId, $groupId)
 	{
@@ -48,26 +49,17 @@ abstract class JUserHelper
 			$db->setQuery($query);
 			$title = $db->loadResult();
 
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				return new Exception($db->getErrorMsg());
-			}
-
 			// If the group does not exist, return an exception.
 			if (!$title)
 			{
-				return new Exception(JText::_('JLIB_USER_EXCEPTION_ACCESS_USERGROUP_INVALID'));
+				throw new RuntimeException('Access Usergroup Invalid');
 			}
 
 			// Add the group data to the user object.
 			$user->groups[$title] = $groupId;
 
 			// Store the user object.
-			if (!$user->save())
-			{
-				return new Exception($user->getError());
-			}
+			$user->save();
 		}
 
 		// Set the group data for any preloaded user objects.
@@ -89,7 +81,7 @@ abstract class JUserHelper
 	 *
 	 * @param   integer  $userId  The id of the user.
 	 *
-	 * @return  mixed  Array on success, JException on error.
+	 * @return  array    List of groups
 	 *
 	 * @since   11.1
 	 */
@@ -107,7 +99,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId   The id of the user.
 	 * @param   integer  $groupId  The id of the group.
 	 *
-	 * @return  mixed  Boolean true on success, JException on error.
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -124,10 +116,7 @@ abstract class JUserHelper
 			unset($user->groups[$key]);
 
 			// Store the user object.
-			if (!$user->save())
-			{
-				return new JException($user->getError());
-			}
+			$user->save();
 		}
 
 		// Set the group data for any preloaded user objects.
@@ -150,7 +139,7 @@ abstract class JUserHelper
 	 * @param   integer  $userId  The id of the user.
 	 * @param   array    $groups  An array of group ids to put the user in.
 	 *
-	 * @return  mixed  Boolean true on success, Exception on error.
+	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
 	 */
@@ -168,27 +157,18 @@ abstract class JUserHelper
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id') . ', ' . $db->quoteName('title'));
 		$query->from($db->quoteName('#__usergroups'));
-		$query->where($db->quoteName('id') . ' = ' . implode(' OR `id` = ', $user->groups));
+		$query->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
 		$db->setQuery($query);
 		$results = $db->loadObjectList();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			return new Exception($db->getErrorMsg());
-		}
 
 		// Set the titles for the user groups.
 		for ($i = 0, $n = count($results); $i < $n; $i++)
 		{
-			$user->groups[$results[$i]->id] = $results[$i]->title;
+			$user->groups[$results[$i]->id] = $results[$i]->id;
 		}
 
 		// Store the user object.
-		if (!$user->save())
-		{
-			return new Exception($user->getError());
-		}
+		$user->save();
 
 		// Set the group data for any preloaded user objects.
 		$temp = JFactory::getUser((int) $userId);
@@ -213,26 +193,23 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	function getProfile($userId = 0)
+	public static function getProfile($userId = 0)
 	{
 		if ($userId == 0)
 		{
-			$user = JFactory::getUser();
-			$userId = $user->id;
-		}
-		else
-		{
-			$user = JFactory::getUser((int) $userId);
+			$user	= JFactory::getUser();
+			$userId	= $user->id;
 		}
 
 		// Get the dispatcher and load the user's plugins.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
 		$data = new JObject;
+		$data->id = $userId;
 
 		// Trigger the data preparation event.
-		$dispatcher->trigger('onPrepareUserProfileData', array($userId, &$data));
+		$dispatcher->trigger('onContentPrepareData', array('com_users.profile', &$data));
 
 		return $data;
 	}
@@ -259,7 +236,7 @@ abstract class JUserHelper
 		$query->where($db->quoteName('block') . ' = 1');
 		$query->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote('0000-00-00 00:00:00'));
 		$db->setQuery($query);
-		$id = intval($db->loadResult());
+		$id = (int) $db->loadResult();
 
 		// Is it a valid user to activate?
 		if ($id)
@@ -272,13 +249,13 @@ abstract class JUserHelper
 			// Time to take care of business.... store the user.
 			if (!$user->save())
 			{
-				JError::raiseWarning("SOME_ERROR_CODE", $user->getError());
+				JLog::add($user->getError(), JLog::WARNING, 'jerror');
 				return false;
 			}
 		}
 		else
 		{
-			JError::raiseWarning("SOME_ERROR_CODE", JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'));
+			JLog::add(JText::_('JLIB_USER_ERROR_UNABLE_TO_FIND_USER'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
@@ -326,7 +303,7 @@ abstract class JUserHelper
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
 		// Get the salt to use.
-		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
+		$salt = self::getSalt($encryption, $salt, $plaintext);
 
 		// Encrypt the password.
 		switch ($encryption)
@@ -359,7 +336,7 @@ abstract class JUserHelper
 			case 'aprmd5':
 				$length = strlen($plaintext);
 				$context = $plaintext . '$apr1$' . $salt;
-				$binary = JUserHelper::_bin(md5($plaintext . $salt . $plaintext));
+				$binary = self::_bin(md5($plaintext . $salt . $plaintext));
 
 				for ($i = $length; $i > 0; $i -= 16)
 				{
@@ -370,7 +347,7 @@ abstract class JUserHelper
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
 				}
 
-				$binary = JUserHelper::_bin(md5($context));
+				$binary = self::_bin(md5($context));
 
 				for ($i = 0; $i < 1000; $i++)
 				{
@@ -384,7 +361,7 @@ abstract class JUserHelper
 						$new .= $plaintext;
 					}
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-					$binary = JUserHelper::_bin(md5($new));
+					$binary = self::_bin(md5($new));
 				}
 
 				$p = array();
@@ -396,10 +373,10 @@ abstract class JUserHelper
 					{
 						$j = 5;
 					}
-					$p[] = JUserHelper::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
+					$p[] = self::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
-				return '$apr1$' . $salt . '$' . implode('', $p) . JUserHelper::_toAPRMD5(ord($binary[11]), 3);
+				return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
 
 			case 'md5-hex':
 			default:
@@ -528,12 +505,22 @@ abstract class JUserHelper
 	public static function genRandomPassword($length = 8)
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		$len = strlen($salt);
+		$base = strlen($salt);
 		$makepass = '';
 
-		for ($i = 0; $i < $length; $i++)
+		/*
+		 * Start with a cryptographic strength random string, then convert it to
+		 * a string with the numeric base of the salt.
+		 * Shift the base conversion on each character so the character
+		 * distribution is even, and randomize the start shift so it's not
+		 * predictable.
+		 */
+		$random = JCrypt::genRandomBytes($length + 1);
+		$shift = ord($random[0]);
+		for ($i = 1; $i <= $length; ++$i)
 		{
-			$makepass .= $salt[mt_rand(0, $len - 1)];
+			$makepass .= $salt[($shift + ord($random[$i])) % $base];
+			$shift += ord($random[$i]);
 		}
 
 		return $makepass;

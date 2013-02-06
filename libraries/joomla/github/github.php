@@ -3,14 +3,21 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
+ *
+ * @property-read  JGithubGists    $gists    GitHub API object for gists.
+ * @property-read  JGithubIssues   $issues   GitHub API object for issues.
+ * @property-read  JGithubPulls    $pulls    GitHub API object for pulls.
+ * @property-read  JGithubRefs     $refs     GitHub API object for referencess.
+ * @property-read  JGithubForks    $forks    GitHub API object for forks.
+ * @property-read  JGithubCommits  $commits  GitHub API object for commits.
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
@@ -53,6 +60,18 @@ class JGithub
 	 * @since  11.3
 	 */
 	protected $refs;
+
+	/**
+	 * @var    JGithubForks  GitHub API object for forks.
+	 * @since  11.3
+	 */
+	protected $forks;
+
+	/**
+	 * @var    JGithubCommits  GitHub API object for commits.
+	 * @since  12.1
+	 */
+	protected $commits;
 
 	/**
 	 * Constructor.
@@ -116,6 +135,24 @@ class JGithub
 				$this->refs = new JGithubRefs($this->options, $this->client);
 			}
 			return $this->refs;
+		}
+
+		if ($name == 'forks')
+		{
+			if ($this->forks == null)
+			{
+				$this->forks = new JGithubForks($this->options, $this->client);
+			}
+			return $this->forks;
+		}
+
+		if ($name == 'commits')
+		{
+			if ($this->commits == null)
+			{
+				$this->commits = new JGithubCommits($this->options, $this->client);
+			}
+			return $this->commits;
 		}
 	}
 

@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -50,9 +48,6 @@ class JFormFieldPassword extends JFormField
 		$meter		= ((string) $this->element['strengthmeter'] == 'true');
 		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
 		$script = '';
 		if ($meter)
 		{
@@ -66,9 +61,6 @@ class JFormFieldPassword extends JFormField
 				}
 			);</script>';
 		}
-
-		// Initialize JavaScript field attributes.
-		$onchange	= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .

@@ -1,5 +1,4 @@
 /**
- * @version		$Id$
  * @package		Hathor
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
@@ -24,7 +23,7 @@ function setFocus() {
  * Opera
  */
 function setSkip() {
-	if (Browser.Engine.webkit || Browser.opera) {
+	if (Browser.chrome || Browser.safari || Browser.opera) {
 		var target = document.id('skiptarget');
 		target.href = "#skiptarget";
 		target.innerText = "Start of main content";
@@ -131,11 +130,3 @@ window.addEvent('domready', function() {
 	setAriaRoleElementsById();
 	setAriaProperties();
 });
-
-/**
- * For IE6 - Background flicker fix
- */
-try {
-	document.execCommand('BackgroundImageCache', false, true);
-} catch (e) {
-}

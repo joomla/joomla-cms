@@ -1,36 +1,34 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_categories
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Categories Component Categories Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_categories
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
+ * @since       1.6
  */
 class CategoriesModelCategories extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -57,27 +55,26 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param	string	An optional ordering field.
-	 * @param	string	An optional direction (asc|desc).
+	 * @param   string	An optional ordering field.
+	 * @param   string	An optional direction (asc|desc).
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$context	= $this->context;
 
 		$extension = $app->getUserStateFromRequest('com_categories.categories.filter.extension', 'extension', 'com_content', 'cmd');
 
 		$this->setState('filter.extension', $extension);
-		$parts = explode('.',$extension);
+		$parts = explode('.', $extension);
 
-		// extract the component name
+		// Extract the component name
 		$this->setState('filter.component', $parts[0]);
 
-		// extract the optional section name
+		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
 		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
@@ -106,10 +103,10 @@ class CategoriesModelCategories extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -123,15 +120,17 @@ class CategoriesModelCategories extends JModelList
 	}
 
 	/**
-	 * @return	string
-	 * @since	1.6
+	 * @return  string
+	 *
+	 * @since   1.6
 	 */
-	function getListQuery()
+	protected function getListQuery()
 	{
 		// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 		$user	= JFactory::getUser();
+		$app	= JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -147,7 +146,7 @@ class CategoriesModelCategories extends JModelList
 
 		// Join over the language
 		$query->select('l.title AS language_title');
-		$query->join('LEFT', '`#__languages` AS l ON l.lang_code = a.language');
+		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor');
@@ -161,62 +160,131 @@ class CategoriesModelCategories extends JModelList
 		$query->select('ua.name AS author_name');
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
+		// Join over the associations.
+		$assoc = $this->getAssoc();
+		if ($assoc)
+		{
+			$query->select('COUNT(asso2.id)>1 as association');
+			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_categories.item'));
+			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
+			$query->group('a.id');
+		}
+
 		// Filter by extension
-		if ($extension = $this->getState('filter.extension')) {
+		if ($extension = $this->getState('filter.extension'))
+		{
 			$query->where('a.extension = '.$db->quote($extension));
 		}
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level')) {
+		if ($level = $this->getState('filter.level'))
+		{
 			$query->where('a.level <= '.(int) $level);
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = ' . (int) $access);
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-		    $groups	= implode(',', $user->getAuthorisedViewLevels());
+			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.published = ' . (int) $published);
 		}
-		elseif ($published === '') {
+		elseif ($published === '')
+		{
 			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			}
-			elseif (stripos($search, 'author:') === 0) {
-				$search = $db->Quote('%'.$db->getEscaped(substr($search, 7), true).'%');
+			elseif (stripos($search, 'author:') === 0)
+			{
+				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
-			else {
-				$search = $db->Quote('%'.$db->getEscaped($search, true).'%');
+			else
+			{
+				$search = $db->Quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = '.$db->quote($language));
 		}
 
-		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.title')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		// Add the list ordering clause
+		$listOrdering = $this->getState('list.ordering', 'a.lft');
+		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+		if ($listOrdering == 'a.access')
+		{
+			$query->order('a.access '.$listDirn.', a.lft '.$listDirn);
+		}
+		else
+		{
+			$query->order($db->escape($listOrdering).' '.$listDirn);
+		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
+	}
+
+	/**
+	 * Method to determine if an association exists
+	 *
+	 * @return  boolean  True if the association exists
+	 *
+	 * @since  3.0
+	 */
+
+	public function getAssoc()
+	{
+		static $assoc = null;
+
+		if (!is_null($assoc))
+		{
+			return $assoc;
+		}
+
+		$app = JFactory::getApplication();
+		$extension = $this->getState('filter.extension');
+
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$extension = explode('.', $extension);
+		$component = array_shift($extension);
+		$cname = str_replace('com_', '', $component);
+
+		if (!$assoc || !$component || !$cname)
+		{
+			$assoc = false;
+		}
+		else
+		{
+			$hname = $cname.'HelperAssociation';
+			JLoader::register($hname, JPATH_SITE . '/components/'.$component.'/helpers/association.php');
+
+			$assoc = class_exists($hname) && !empty($hname::$category_association);
+		}
+
+		return $assoc;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,13 +32,18 @@ class JDocumentRendererAtom extends JDocumentRenderer
 	protected $_mime = "application/atom+xml";
 
 	/**
-	 * Render the feed
+	 * Render the feed.
 	 *
-	 * @return  string
+	 * @param   string  $name     The name of the element to render
+	 * @param   array   $params   Array of values
+	 * @param   string  $content  Override the output of the renderer
 	 *
-	 * @since  11.1
+	 * @return  string  The output of the script
+	 *
+	 * @see JDocumentRenderer::render()
+	 * @since   11.1
 	 */
-	public function render()
+	public function render($name = '', $params = null, $content = null)
 	{
 		$app = JFactory::getApplication();
 
@@ -47,9 +52,9 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$now = JFactory::getDate();
 		$now->setTimeZone($tz);
 
-		$data = &$this->_doc;
+		$data = $this->_doc;
 
-		$uri = JFactory::getURI();
+		$uri = JURI::getInstance();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=atom');
 

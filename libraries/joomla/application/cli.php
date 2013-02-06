@@ -3,31 +3,21 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.application.applicationexception');
-jimport('joomla.application.input');
-jimport('joomla.event.dispatcher');
 
 /**
  * Base class for a Joomla! command line application.
  *
  * @package     Joomla.Platform
  * @subpackage  Application
- * @since       11.1
+ * @since       11.4
  */
-class JCli
+class JApplicationCli extends JApplicationBase
 {
-	/**
-	 * @var    JInputCli  The application input object.
-	 * @since  11.1
-	 */
-	public $input;
-
 	/**
 	 * @var    JRegistry  The application configuration object.
 	 * @since  11.1
@@ -35,13 +25,7 @@ class JCli
 	protected $config;
 
 	/**
-	 * @var    JDispatcher  The application dispatcher object.
-	 * @since  11.1
-	 */
-	protected $dispatcher;
-
-	/**
-	 * @var    JCli  The application instance.
+	 * @var    JApplicationCli  The application instance.
 	 * @since  11.1
 	 */
 	protected static $instance;
@@ -56,14 +40,14 @@ class JCli
 	 *                              config object.  If the argument is a JRegistry object that object will become
 	 *                              the application's config object, otherwise a default config object is created.
 	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JDispatcher object that object will become
+	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
 	 *
 	 * @see     loadDispatcher()
 	 * @since   11.1
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JDispatcher $dispatcher = null)
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
@@ -81,7 +65,7 @@ class JCli
 		// Create the input based on the application logic.
 		else
 		{
-			if (class_exists('Jinput'))
+			if (class_exists('JInput'))
 			{
 				$this->input = new JInputCLI;
 			}
@@ -98,16 +82,7 @@ class JCli
 			$this->config = new JRegistry;
 		}
 
-		// If a dispatcher object is given use it.
-		if ($dispatcher instanceof JDispatcher)
-		{
-			$this->dispatcher = $dispatcher;
-		}
-		// Create the dispatcher based on the application logic.
-		else
-		{
-			$this->loadDispatcher();
-		}
+		$this->loadDispatcher($dispatcher);
 
 		// Load the configuration object.
 		$this->loadConfiguration($this->fetchConfigurationData());
@@ -136,13 +111,13 @@ class JCli
 	}
 
 	/**
-	 * Returns a reference to the global JCli object, only creating it if it doesn't already exist.
+	 * Returns a reference to the global JApplicationCli object, only creating it if it doesn't already exist.
 	 *
-	 * This method must be invoked as: $cli = JCli::getInstance();
+	 * This method must be invoked as: $cli = JApplicationCli::getInstance();
 	 *
-	 * @param   string  $name  The name (optional) of the JCli class to instantiate.
+	 * @param   string  $name  The name (optional) of the JApplicationCli class to instantiate.
 	 *
-	 * @return  JCli
+	 * @return  JApplicationCli
 	 *
 	 * @since   11.1
 	 */
@@ -151,13 +126,13 @@ class JCli
 		// Only create the object if it doesn't exist.
 		if (empty(self::$instance))
 		{
-			if (class_exists($name) && (is_subclass_of($name, 'JCli')))
+			if (class_exists($name) && (is_subclass_of($name, 'JApplicationCli')))
 			{
 				self::$instance = new $name;
 			}
 			else
 			{
-				self::$instance = new JCli;
+				self::$instance = new JApplicationCli;
 			}
 		}
 
@@ -184,40 +159,11 @@ class JCli
 	}
 
 	/**
-	 * Method to run the application routines.  Most likely you will want to instantiate a controller
-	 * and execute it, or perform some sort of task directly.
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.3
-	 */
-	protected function doExecute()
-	{
-		// Your application routines go here.
-	}
-
-	/**
-	 * Exit the application.
-	 *
-	 * @param   integer  $code  The exit code (optional; default is 0).
-	 *
-	 * @return  void
-	 *
-	 * @codeCoverageIgnore
-	 * @since   11.1
-	 */
-	public function close($code = 0)
-	{
-		exit($code);
-	}
-
-	/**
 	 * Load an object or array into the application configuration object.
 	 *
 	 * @param   mixed  $data  Either an array or object to be loaded into the configuration object.
 	 *
-	 * @return  JCli  Instance of $this to allow chaining.
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
 	 *
 	 * @since   11.1
 	 */
@@ -242,7 +188,7 @@ class JCli
 	 * @param   string   $text  The text to display.
 	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
 	 *
-	 * @return  JCli  Instance of $this to allow chaining.
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
 	 *
 	 * @codeCoverageIgnore
 	 * @since   11.1
@@ -265,46 +211,6 @@ class JCli
 	public function in()
 	{
 		return rtrim(fread(STDIN, 8192), "\n");
-	}
-
-	/**
-	 * Registers a handler to a particular event group.
-	 *
-	 * @param   string    $event    The event name.
-	 * @param   callback  $handler  The handler, a function or an instance of a event object.
-	 *
-	 * @return  JCli  Instance of $this to allow chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function registerEvent($event, $handler)
-	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
-			$this->dispatcher->register($event, $handler);
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Calls all handlers associated with an event group.
-	 *
-	 * @param   string  $event  The event name.
-	 * @param   array   $args   An array of arguments (optional).
-	 *
-	 * @return  array   An array of results from each function call, or null if no dispatcher is defined.
-	 *
-	 * @since   11.1
-	 */
-	public function triggerEvent($event, $args = null)
-	{
-		if ($this->dispatcher instanceof JDispatcher)
-		{
-			return $this->dispatcher->trigger($event, $args);
-		}
-
-		return null;
 	}
 
 	/**
@@ -373,16 +279,16 @@ class JCli
 	}
 
 	/**
-	 * Method to create an event dispatcher for the application.  The logic and options for creating
-	 * this object are adequately generic for default cases but for many applications it will make sense
-	 * to override this method and create event dispatchers based on more specific needs.
+	 * Method to run the application routines.  Most likely you will want to instantiate a controller
+	 * and execute it, or perform some sort of task directly.
 	 *
 	 * @return  void
 	 *
+	 * @codeCoverageIgnore
 	 * @since   11.3
 	 */
-	protected function loadDispatcher()
+	protected function doExecute()
 	{
-		$this->dispatcher = JDispatcher::getInstance();
+		// Your application routines go here.
 	}
 }

@@ -3,14 +3,12 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -40,7 +38,6 @@ class JFormFieldSQL extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Initialize some field attributes.
@@ -55,13 +52,6 @@ class JFormFieldSQL extends JFormFieldList
 		// Set the query and get the result list.
 		$db->setQuery($query);
 		$items = $db->loadObjectlist();
-
-		// Check for an error.
-		if ($db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-			return $options;
-		}
 
 		// Build the field options.
 		if (!empty($items))

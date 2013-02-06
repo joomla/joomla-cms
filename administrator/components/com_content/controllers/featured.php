@@ -1,34 +1,32 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-
-require_once dirname(__FILE__).'/articles.php';
+require_once __DIR__ . '/articles.php';
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_content
+ * @package     Joomla.Administrator
+ * @subpackage  com_content
  */
 class ContentControllerFeatured extends ContentControllerArticles
 {
 	/**
 	 * Removes an item
 	 */
-	function delete()
+	public function delete()
 	{
 		// Check for request forgeries
-		JRequest::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$user	= JFactory::getUser();
-		$ids	= JRequest::getVar('cid', array(), '', 'array');
+		$user = JFactory::getUser();
+		$ids  = $this->input->get('cid', array(), 'array');
 
 		// Access checks.
 		foreach ($ids as $i => $id)
@@ -41,15 +39,18 @@ class ContentControllerFeatured extends ContentControllerArticles
 			}
 		}
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
 			// Remove the items.
-			if (!$model->featured($ids, 0)) {
+			if (!$model->featured($ids, 0))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 		}
@@ -60,10 +61,10 @@ class ContentControllerFeatured extends ContentControllerArticles
 	/**
 	 * Method to publish a list of articles.
 	 *
-	 * @return	void
-	 * @since	1.0
+	 * @return  void
+	 * @since   1.0
 	 */
-	function publish()
+	public function publish()
 	{
 		parent::publish();
 
@@ -71,12 +72,50 @@ class ContentControllerFeatured extends ContentControllerArticles
 	}
 
 	/**
-	 * Proxy for getModel.
-	 * @since	1.6
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   1.6
 	 */
-	public function &getModel($name = 'Feature', $prefix = 'ContentModel')
+	public function getModel($name = 'Feature', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, array('ignore_request' => true));
+		$model = parent::getModel($name, $prefix, $config);
 		return $model;
+	}
+
+	/**
+	 * Method to save the submitted ordering values for records via AJAX.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function saveOrderAjax()
+	{
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
+
+		// Sanitize the input
+		JArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($order);
+
+		// Get the model
+		$model = $this->getModel();
+
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+
+		if ($return)
+		{
+			echo "1";
+		}
+
+		// Close the application
+		JFactory::getApplication()->close();
 	}
 }

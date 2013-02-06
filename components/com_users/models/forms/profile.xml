@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset name="core"
 		label="COM_USERS_PROFILE_DEFAULT_LABEL">
@@ -12,7 +11,6 @@
 			description="COM_USERS_PROFILE_NAME_DESC"
 			filter="string"
 			label="COM_USERS_PROFILE_NAME_LABEL"
-			message="COM_USERS_PROFILE_NAME_MESSAGE"
 			required="true"
 			size="30"
 		/>
@@ -26,7 +24,6 @@
 			required="true"
 			size="30"
 			validate="username"
-			readonly="true"
 		/>
 
 		<field name="password1" type="password"
@@ -47,7 +44,6 @@
 			description="COM_USERS_PROFILE_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
-			message="COM_USERS_PROFILE_PASSWORD2_MESSAGE"
 			size="30"
 		/>
 

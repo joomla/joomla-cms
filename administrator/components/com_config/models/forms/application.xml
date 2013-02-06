@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-	<!-- $Id$ -->
 <form>
 	<fieldset
 		name="cache"
@@ -45,6 +44,7 @@
 		<field
 			name="memcache_persist"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
@@ -58,6 +58,7 @@
 		<field
 			name="memcache_compress"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
@@ -95,7 +96,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli"
+			supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
 			filter="string" />
 
 		<field
@@ -139,6 +140,7 @@
 		<field
 			name="debug"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
@@ -152,6 +154,7 @@
 		<field
 			name="debug_lang"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
@@ -169,6 +172,7 @@
 		<field
 			name="ftp_enable"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
@@ -284,6 +288,7 @@
 		<field
 			name="smtpauth"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
@@ -325,6 +330,7 @@
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_DESC"
 			filter="string"
+			autocomplete="off"
 			size="30" />
 
 		<field
@@ -333,6 +339,7 @@
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
 			filter="raw"
+			autocomplete="off"
 			size="30" />
 
 		<field
@@ -366,6 +373,18 @@
 			cols="60"
 			rows="3" />
 
+		<field name="robots"
+			type="list"
+			label="JFIELD_METADATA_ROBOTS_LABEL"
+			description="JFIELD_METADATA_ROBOTS_DESC"
+			default=""
+		>
+			<option value="">JGLOBAL_INDEX_FOLLOW</option>
+			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+		</field>
+
 		<field
 			name="MetaRights"
 			type="textarea"
@@ -378,9 +397,23 @@
 		<field
 			name="MetaAuthor"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
+			filter="integer">
+			<option
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
+		</field>
+		<field
+			name="MetaVersion"
+			type="radio"
+			class="btn-group"
+			default="0"
+			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
+			description="COM_CONFIG_FIELD_METAVERSION_DESC"
 			filter="integer">
 			<option
 				value="1">JYES</option>
@@ -396,6 +429,7 @@
 		<field
 			name="sef"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
@@ -409,6 +443,7 @@
 		<field
 			name="sef_rewrite"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
@@ -422,6 +457,7 @@
 		<field
 			name="sef_suffix"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
@@ -435,6 +471,7 @@
 		<field
 			name="unicodeslugs"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
@@ -477,6 +514,7 @@
 		<field
 			name="gzip"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
@@ -561,6 +599,7 @@
 		<field
 			name="offline"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
@@ -573,7 +612,7 @@
 
 		<field
 			name="display_offline_message"
-			type="radio"
+			type="list"
 			default="1"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
@@ -603,12 +642,26 @@
 
 		<field
 			name="editor"
-			type="editors"
+			type="plugins"
+			folder="editors"
 			default="tinymce"
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
 			required="true"
 			filter="cmd" />
+
+		<field
+			name="captcha"
+			type="plugins"
+			folder="captcha"
+			default="0"
+			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
+			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
+			required="true"
+			filter="cmd" >
+			<option
+				value="0">JOPTION_DO_NOT_USE</option>
+		</field>
 
 		<field
 			name="access"
@@ -680,20 +733,15 @@
 				value="author">COM_CONFIG_FIELD_VALUE_AUTHOR_EMAIL</option>
 			<option
 				value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>
+			<option
+				value="none">COM_CONFIG_FIELD_VALUE_NO_EMAIL</option>
+
 		</field>
 	</fieldset>
 
 	<fieldset
 		name="system"
 		label="CONFIG_SYSTEM_SETTINGS_LABEL">
-		<field
-			name="secret"
-			type="text"
-			label="COM_CONFIG_FIELD_SECRET_LABEL"
-			description="COM_CONFIG_FIELD_SECRET_DESC"
-			required="true"
-			readonly="true"
-			filter="alnum" />
 
 		<field
 			name="log_path"
@@ -788,6 +836,20 @@
 				description="COM_CONFIG_ACTION_EDITOWN_DESC" />
 		</field>
 
+	</fieldset>
+
+	<fieldset
+		name="filters"
+		label="COM_CONFIG_TEXT_FILTERS"
+		description="COM_CONFIG_TEXT_FILTERS_DESC"
+		>
+
+		<field
+			name="filters"
+			type="filters"
+			label="COM_CONFIG_TEXT_FILTERS"
+			class="inputbox"
+			filter="" />
 	</fieldset>
 
 	<fieldset>

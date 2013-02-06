@@ -1,13 +1,12 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
@@ -17,11 +16,13 @@ JHtml::_('behavior.formvalidation');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		document.id('jform_type0').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'block');
 			document.id('url').setStyle('display', 'block');
@@ -32,9 +33,13 @@ JHtml::_('behavior.formvalidation');
 			document.id('url').setStyle('display', 'none');
 			document.id('custom').setStyle('display', 'block');
 		});
-		if(document.id('jform_type0').checked==true) {
+
+		if (document.id('jform_type0').checked==true)
+		{
 			document.id('jform_type0').fireEvent('click');
-		} else {
+		}
+		else
+		{
 			document.id('jform_type1').fireEvent('click');
 		}
 	});
@@ -63,7 +68,7 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
 
-				<?php foreach($this->form->getFieldset('image') as $field): ?>
+				<?php foreach ($this->form->getFieldset('image') as $field) : ?>
 					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>
@@ -95,24 +100,24 @@ JHtml::_('behavior.formvalidation');
 	</div>
 
 <div class="col options-section">
-	<?php echo JHtml::_('sliders.start','banner-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
+	<?php echo JHtml::_('sliders.start', 'banner-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details'); ?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('publish') as $field): ?>
+			<?php foreach ($this->form->getFieldset('publish') as $field) : ?>
 				<li><?php echo $field->label; ?>
 					<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
 			</ul>
 		</fieldset>
 
-	<?php echo JHtml::_('sliders.panel',JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
+	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 			<ul class="adminformlist">
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>

@@ -1,6 +1,5 @@
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -9,14 +8,43 @@
 
 /* Unpublished */
 .system-unpublished, tr.system-unpublished {
-background: #e8edf1;
-border-top: 4px solid #c4d3df;
-border-bottom: 4px solid #c4d3df;
+	background: #e8edf1;
+	border-top: 4px solid #c4d3df;
+	border-bottom: 4px solid #c4d3df;
 }
 
-/* Debug */
-#system-debug     { color: #777; background-color: #eee; padding: 10px; margin: 10px; text-align: left; }
-#system-debug div { font-size: 11px;  font-family: monospace; }
-#system-debug ol  { padding-left: 1.5em; }
-#system-debug ol li { font-size: 11px; margin-bottom: 0.5em; font-family: monospace; }
-#system-debug h4 { margin-bottom: 0.5em; margin-top: 1.0em; }
+span.highlight {
+	background-color:#FFFFCC;
+	font-weight:bold;
+	padding:1px 4px;
+}
+
+.img-fulltext-float-right {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.img-fulltext-float-left {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.img-fulltext-float-none {
+}
+
+.img-intro-float-right {
+	float: right;
+	margin-left: 5px;
+	margin-bottom: 5px;
+}
+
+.img-intro-float-left {
+	float: left;
+	margin-right: 5px;
+	margin-bottom: 5px;
+}
+
+.img-intro-float-none {
+}

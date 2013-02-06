@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.form.formfield');
 
 /**
  * Form Field class for the Joomla Platform.
@@ -48,11 +46,11 @@ class JFormFieldCheckboxes extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="checkboxes ' . (string) $this->element['class'] . '"' : ' class="checkboxes"';
+		$checkedOptions = explode(',', (string) $this->element['checked']);
 
 		// Start the checkbox field output.
 		$html[] = '<fieldset id="' . $this->id . '"' . $class . '>';
@@ -64,9 +62,16 @@ class JFormFieldCheckboxes extends JFormField
 		$html[] = '<ul>';
 		foreach ($options as $i => $option)
 		{
-
 			// Initialize some option attributes.
-			$checked = (in_array((string) $option->value, (array) $this->value) ? ' checked="checked"' : '');
+			if (!isset($this->value) || empty($this->value))
+			{
+				$checked = (in_array((string) $option->value, (array) $checkedOptions) ? ' checked="checked"' : '');
+			}
+			else
+			{
+				$value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
+				$checked = (in_array((string) $option->value, $value) ? ' checked="checked"' : '');
+			}
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
 			$disabled = !empty($option->disable) ? ' disabled="disabled"' : '';
 
@@ -97,7 +102,6 @@ class JFormFieldCheckboxes extends JFormField
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		foreach ($this->element->children() as $option)

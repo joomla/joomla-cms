@@ -3,14 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
 
 /**
  * File system helper
@@ -33,7 +30,7 @@ class JFilesystemHelper
 	 * @see     http://www.php.net/manual/en/function.filesize.php#71098
 	 * @since   11.1
 	 */
-	function remotefsize($url)
+	public static function remotefsize($url)
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
@@ -128,7 +125,7 @@ class JFilesystemHelper
 	 * @see     http://www.php.net/manual/en/function.ftp-chmod.php
 	 * @since   11.1
 	 */
-	function ftpChmod($url, $mode)
+	public static function ftpChmod($url, $mode)
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
@@ -199,7 +196,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	static function getWriteModes()
+	public static function getWriteModes()
 	{
 		return array('w', 'w+', 'a', 'a+', 'r+', 'x', 'x+');
 	}
@@ -214,14 +211,14 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function getSupported()
+	public static function getSupported()
 	{
 		// Really quite cool what php can do with arrays when you let it...
 		static $streams;
 
 		if (!$streams)
 		{
-			$streams = array_merge(stream_get_wrappers(), JFilesystemHelper::getJStreams());
+			$streams = array_merge(stream_get_wrappers(), self::getJStreams());
 		}
 
 		return $streams;
@@ -234,7 +231,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function getTransports()
+	public static function getTransports()
 	{
 		// Is this overkill?
 		return stream_get_transports();
@@ -247,7 +244,7 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function getFilters()
+	public static function getFilters()
 	{
 		// Note: This will look like the getSupported() function with J! filters.
 		// TODO: add user space filter loading like user space stream loading
@@ -261,13 +258,27 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function getJStreams()
+	public static function getJStreams()
 	{
-		static $streams;
+		static $streams = array();
 
 		if (!$streams)
 		{
-			$streams = array_map(array('JFile', 'stripExt'), JFolder::files(dirname(__FILE__) . '/streams', '.php'));
+			$files = new DirectoryIterator(__DIR__ . '/streams');
+
+			foreach ($files as $file)
+			{
+				$filename = $file->getFilename();
+
+				// Only load for php files.
+				// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+				if (!$file->isFile() || substr($filename, strrpos($filename, '.') + 1) != 'php')
+				{
+					continue;
+				}
+
+				$streams[] = $file->getBasename('.php');
+			}
 		}
 
 		return $streams;
@@ -282,8 +293,8 @@ class JFilesystemHelper
 	 *
 	 * @since   11.1
 	 */
-	function isJoomlaStream($streamname)
+	public static function isJoomlaStream($streamname)
 	{
-		return in_array($streamname, JFilesystemHelper::getJStreams());
+		return in_array($streamname, self::getJStreams());
 	}
 }

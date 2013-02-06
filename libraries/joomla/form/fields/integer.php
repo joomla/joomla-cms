@@ -3,14 +3,12 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -41,7 +39,6 @@ class JFormFieldInteger extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Initialize some field attributes.
@@ -65,11 +62,21 @@ class JFormFieldInteger extends JFormFieldList
 			// A position step will never reach the last number.
 			return $options;
 		}
-
-		// Build the options array.
-		for ($i = $first; $i <= $last; $i += $step)
+		elseif ($step < 0)
 		{
-			$options[] = JHtml::_('select.option', $i);
+			// Build the options array backwards.
+			for ($i = $first; $i >= $last; $i += $step)
+			{
+				$options[] = JHtml::_('select.option', $i);
+			}
+		}
+		else
+		{
+			// Build the options array.
+			for ($i = $first; $i <= $last; $i += $step)
+			{
+				$options[] = JHtml::_('select.option', $i);
+			}
 		}
 
 		// Merge any additional options in the XML definition.

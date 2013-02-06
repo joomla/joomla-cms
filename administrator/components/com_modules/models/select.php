@@ -1,23 +1,20 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Module model.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_modules
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_modules
+ * @since       1.6
  */
 class ModulesModelSelect extends JModelList
 {
@@ -26,11 +23,10 @@ class ModulesModelSelect extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -55,9 +51,9 @@ class ModulesModelSelect extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string	A prefix for the store id.
+	 * @param   string	A prefix for the store id.
 	 *
-	 * @return	string	A store id.
+	 * @return  string	A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -70,7 +66,7 @@ class ModulesModelSelect extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -85,7 +81,7 @@ class ModulesModelSelect extends JModelList
 				'a.extension_id, a.name, a.element AS module'
 			)
 		);
-		$query->from('`#__extensions` AS a');
+		$query->from($db->quoteName('#__extensions').' AS a');
 
 		// Filter by module
 		$query->where('a.type = '.$db->Quote('module'));
@@ -98,7 +94,7 @@ class ModulesModelSelect extends JModelList
 		$query->where('a.enabled = 1');
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.ordering')).' '.$db->getEscaped($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -107,22 +103,23 @@ class ModulesModelSelect extends JModelList
 	/**
 	 * Method to get a list of items.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function &getItems()
 	{
 		// Get the list of items from the database.
 		$items = parent::getItems();
 
-		// Initialise variables.
 		$client = JApplicationHelper::getClientInfo($this->getState('filter.client_id', 0));
 		$lang	= JFactory::getLanguage();
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			$path = JPath::clean($client->path.'/modules/'.$item->module.'/'.$item->module.'.xml');
-			if (file_exists($path)) {
+			if (file_exists($path))
+			{
 				$item->xml = simplexml_load_file($path);
 			} else {
 				$item->xml = null;
@@ -136,7 +133,8 @@ class ModulesModelSelect extends JModelList
 			||	$lang->load($item->module.'.sys', $client->path.'/modules/'.$item->module, $lang->getDefault(), false, false);
 			$item->name	= JText::_($item->name);
 
-			if (isset($item->xml) && $text = trim($item->xml->description)) {
+			if (isset($item->xml) && $text = trim($item->xml->description))
+			{
 				$item->desc = JText::_($text);
 			}
 			else {

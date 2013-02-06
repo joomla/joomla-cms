@@ -1,56 +1,58 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Site
- * @subpackage	mod_feed
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_feed
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
+/**
+ * Helper for mod_feed
+ *
+ * @package     Joomla.Site
+ * @subpackage  mod_feed
+ * @since       1.5
+ */
 class modFeedHelper
 {
-	static function getFeed($params)
+	public static function getFeed($params)
 	{
 		// module params
 		$rssurl	= $params->get('rssurl', '');
 
-		//  get RSS parsed object
-		$options = array();
-		$options['rssUrl']		= $rssurl;
-		if ($params->get('cache')) {
-			$options['cache_time']  = $params->get('cache_time', 15) ;
-			$options['cache_time']	*= 60;
-		} else {
-			$options['cache_time'] = null;
-		}
-
-		$rssDoc = JFactory::getXMLParser('RSS', $options);
-
-		$feed = new stdclass();
-
-		if ($rssDoc != false)
+		// get RSS parsed object
+		$cache_time = 0;
+		if ($params->get('cache'))
 		{
-			// channel header and link
-			$feed->title = $rssDoc->get_title();
-			$feed->link = $rssDoc->get_link();
-			$feed->description = $rssDoc->get_description();
-
-			// channel image if exists
-			$feed->image->url = $rssDoc->get_image_url();
-			$feed->image->title = $rssDoc->get_image_title();
-
-			// items
-			$items = $rssDoc->get_items();
-
-			// feed elements
-			$feed->items = array_slice($items, 0, $params->get('rssitems', 5));
-		} else {
-			$feed = false;
+			$cache_time  = $params->get('cache_time', 15) * 60;
 		}
 
-		return $feed;
+		try
+		{
+			$feed = new JFeedFactory;
+			$rssDoc = $feed->getFeed($rssurl);
+		}
+		catch (InvalidArgumentException $e)
+		{
+			$msg = JText::_('MOD_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+		}
+		catch (RunTimeException $e)
+		{
+			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+		}
+
+		if (empty($rssDoc))
+		{
+			$msg = JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return $msg;
+		}
+
+		if ($rssDoc)
+		{
+			return $rssDoc;
+		}
 	}
 }

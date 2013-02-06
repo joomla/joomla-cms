@@ -3,13 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.filesystem.file');
 
 /**
  * Joomla! Library Manifest File
@@ -23,77 +21,77 @@ class JLibraryManifest extends JObject
 	/**
 	 * @var string name Name of Library
 	 */
-	var $name = '';
+	public $name = '';
 
 	/**
 	 * @var string libraryname File system name of the library
 	 */
-	var $libraryname = '';
+	public $libraryname = '';
 
 	/**
 	 * @var string version Version of the library
 	 */
-	var $version = '';
+	public $version = '';
 
 	/**
 	 * @var string description Description of the library
 	 */
-	var $description = '';
+	public $description = '';
 
 	/**
 	 * @var date creationDate Creation Date of the extension
 	 */
-	var $creationDate = '';
+	public $creationDate = '';
 
 	/**
 	 * @var string copyright Copyright notice for the extension
 	 */
-	var $copyright = '';
+	public $copyright = '';
 
 	/**
 	 * @var string license License for the extension
 	 */
-	var $license = '';
+	public $license = '';
 
 	/**
 	 * @var string author Author for the extension
 	 */
-	var $author = '';
+	public $author = '';
 
 	/**
 	 * @var string authoremail Author email for the extension
 	 */
-	var $authoremail = '';
+	public $authoremail = '';
 
 	/**
 	 * @var string authorurl Author url for the extension
 	 */
-	var $authorurl = '';
+	public $authorurl = '';
 
 	/**
 	 * @var string packager Name of the packager for the library (may also be porter)
 	 */
-	var $packager = '';
+	public $packager = '';
 
 	/**
 	 * @var string packagerurl URL of the packager for the library (may also be porter)
 	 */
-	var $packagerurl = '';
+	public $packagerurl = '';
 
 	/**
 	 * @var string update URL of the update site
 	 */
-	var $update = '';
+	public $update = '';
 
 	/**
 	 * @var string[] filelist List of files in the library
 	 */
-	var $filelist = array();
+	public $filelist = array();
 
 	/**
 	 * @var string manifest_file Path to manifest file
 	 */
-	var $manifest_file = '';
+	public $manifest_file = '';
 
 	/**
 	 * Constructor
@@ -102,7 +100,7 @@ class JLibraryManifest extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function __construct($xmlpath = '')
+	public function __construct($xmlpath = '')
 	{
 		if (strlen($xmlpath))
 		{
@@ -119,11 +117,11 @@ class JLibraryManifest extends JObject
 	 *
 	 * @since   11.1
 	 */
-	function loadManifestFromXML($xmlfile)
+	public function loadManifestFromXML($xmlfile)
 	{
-		$this->manifest_file = JFile::stripExt(basename($xmlfile));
+		$this->manifest_file = basename($xmlfile, '.xml');
 
-		$xml = JFactory::getXML($xmlfile);
+		$xml = simplexml_load_file($xmlfile);
 		if (!$xml)
 		{
 			$this->_errors[] = JText::sprintf('JLIB_INSTALLER_ERROR_LOAD_XML', $xmlfile);
@@ -131,17 +129,17 @@ class JLibraryManifest extends JObject
 		}
 		else
 		{
-			$this->name = (string) $xml->name;
-			$this->libraryname = (string) $xml->libraryname;
-			$this->version = (string) $xml->version;
-			$this->description = (string) $xml->description;
+			$this->name         = (string) $xml->name;
+			$this->libraryname  = (string) $xml->libraryname;
+			$this->version      = (string) $xml->version;
+			$this->description  = (string) $xml->description;
 			$this->creationdate = (string) $xml->creationdate;
-			$this->author = (string) $xml->author;
-			$this->authoremail = (string) $xml->authorEmail;
-			$this->authorurl = (string) $xml->authorUrl;
-			$this->packager = (string) $xml->packager;
-			$this->packagerurl = (string) $xml->packagerurl;
-			$this->update = (string) $xml->update;
+			$this->author       = (string) $xml->author;
+			$this->authoremail  = (string) $xml->authorEmail;
+			$this->authorurl    = (string) $xml->authorUrl;
+			$this->packager     = (string) $xml->packager;
+			$this->packagerurl  = (string) $xml->packagerurl;
+			$this->update       = (string) $xml->update;
 
 			if (isset($xml->files) && isset($xml->files->file) && count($xml->files->file))
 			{

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="id"
+			type="hidden"
+			class="readonly"
+			size="6"
+			default="0"
+			readonly="true"
+			label="COM_USERS_FIELD_ID_LABEL"
+			/>
+
+		<field
+			name="user_id"
+			type="user"
+			size="50"
+			class="inputbox"
+			required="true"
+			label="COM_USERS_FIELD_USER_ID_LABEL"
+			/>
+
+		<field
+			name="catid"
+			type="category"
+			class="inputbox"
+			extension="com_users"
+			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
+			description="JFIELD_CATEGORY_DESC" >
+		</field>
+
+		<field
+			name="subject"
+			type="text"
+			class="inputbox"
+			size="80"
+			label="COM_USERS_FIELD_SUBJECT_LABEL"
+			description="COM_USERS_FIELD_SUBJECT_DESC"
+			/>
+
+		<field
+			name="body"
+			type="editor"
+			class="inputbox"
+			rows="10"
+			cols="80"
+			filter="safehtml"
+			label="COM_USERS_FIELD_NOTEBODY_LABEL"
+			description="COM_USERS_FIELD_NOTEBODY_DESC"
+			/>
+
+		<field
+			name="state"
+			type="list"
+			label="JSTATUS"
+			description="COM_USERS_FIELD_STATE_DESC"
+			class="inputbox"
+			size="1"
+			default="1">
+			<option
+				value="1">JPUBLISHED</option>
+			<option
+				value="0">JUNPUBLISHED</option>
+			<option
+				value="2">JARCHIVED</option>
+			<option
+				value="-2">JTRASHED</option>
+		</field>
+
+		<field
+			name="review_time"
+			type="calendar"
+			class="inputbox"
+			label="COM_USERS_FIELD_REVIEW_TIME_LABEL"
+			description="COM_USERS_FIELD_REVIEW_TIME_DESC"
+			default="0000-00-00"
+			format="%Y-%m-%d"
+			/>
+
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"
+			/>
+
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
+			/>
+
+		<field
+			name="created_user_id"
+			type="hidden"
+			filter="unset"
+			/>
+
+		<field
+			name="created_time"
+			type="hidden"
+			filter="unset"
+			/>
+
+		<field
+			name="modified_user_id"
+			type="hidden"
+			filter="unset"
+			/>
+
+		<field
+			name="modified_time"
+			type="hidden"
+			filter="unset"
+			/>
+			
+		<field name="publish_up" type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			filter="user_utc" />
+
+		<field name="publish_down" type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			filter="user_utc" />			
+	</fieldset>
+</form>

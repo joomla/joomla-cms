@@ -1,19 +1,17 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 $fieldSets = $this->form->getFieldsets('metadata');
 foreach ($fieldSets as $name => $fieldSet) :
-	echo JHtml::_('sliders.panel',JText::_($fieldSet->label), $name.'-options');
+	echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-options');
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
 		echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 	endif;

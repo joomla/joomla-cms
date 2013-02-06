@@ -1,8 +1,7 @@
 <?php
 /**
- * @version		$Id$
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  *
  * -------------------------------------------------------------------------
@@ -25,6 +24,7 @@ class JConfig {
 	public $offline_image = '';
 	public $sitename = 'Joomla!';				// Name of Joomla site
 	public $editor = 'tinymce';
+	public $captcha = '0';
 	public $list_limit = '20';
 	public $root_user = '42';
 	public $access = '1';
@@ -32,9 +32,9 @@ class JConfig {
 	/* Database Settings */
 	public $dbtype = 'mysql';					// Normally mysql
 	public $host = 'localhost';					// This is normally set to localhost
-	public $user = '';							// MySQL username
-	public $password = '';						// MySQL password
-	public $db = '';							// MySQL database name
+	public $user = '';							// DB username
+	public $password = '';						// DB password
+	public $db = '';							// DB database name
 	public $dbprefix = 'jos_';					// Do not change unless you need to!
 
 	/* Server Settings */
@@ -55,7 +55,6 @@ class JConfig {
 
 	/* Locale Settings */
 	public $offset = 'UTC';
-	public $offset_user = 'UTC';
 
 	/* Session settings */
 	public $lifetime = '15';					// Session time
@@ -83,7 +82,10 @@ class JConfig {
 	/* Meta Settings */
 	public $MetaDesc = 'Joomla! - the dynamic portal engine and content management system';
 	public $MetaKeys = 'joomla, Joomla';
+	public $MetaTitle = '1';
 	public $MetaAuthor = '1';
+	public $MetaVersion = '0';
+	public $robots = '';
 
 	/* SEO Settings */
 	public $sef = '1';

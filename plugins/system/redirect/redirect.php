@@ -1,8 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  System.redirect
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -10,8 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Plugin class for redirect handling.
  *
- * @package		Joomla.Plugin
- * @subpackage	System.redirect
+ * @package     Joomla.Plugin
+ * @subpackage  System.redirect
+ * @since       1.6
  */
 class plgSystemRedirect extends JPlugin
 {
@@ -19,12 +22,12 @@ class plgSystemRedirect extends JPlugin
 	 * Object Constructor.
 	 *
 	 * @access	public
-	 * @param	object	The object to observe -- event dispatcher.
-	 * @param	object	The configuration object for the plugin.
-	 * @return	void
-	 * @since	1.0
+	 * @param   object	The object to observe -- event dispatcher.
+	 * @param   object	The configuration object for the plugin.
+	 * @return  void
+	 * @since   1.6
 	 */
-	function __construct(&$subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -32,7 +35,7 @@ class plgSystemRedirect extends JPlugin
 		JError::setErrorHandling(E_ERROR, 'callback', array('plgSystemRedirect', 'handleError'));
 	}
 
-	static function handleError(&$error)
+	public static function handleError(&$error)
 	{
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -45,41 +48,71 @@ class plgSystemRedirect extends JPlugin
 			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
 
 			// Attempt to ignore idiots.
-			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false)) {
+			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
+			{
 				// Render the error page.
 				JError::customErrorPage($error);
 			}
 
 			// See if the current url exists in the database as a redirect.
 			$db = JFactory::getDBO();
-			$db->setQuery(
-				'SELECT `new_url`, `published`' .
-				' FROM `#__redirect_links`' .
-				' WHERE `old_url` = '.$db->quote($current),
+				$db->setQuery(
+				'SELECT '.$db->quoteName('new_url').', '.$db->quoteName('published').
+				' FROM '.$db->quoteName('#__redirect_links') .
+				' WHERE '.$db->quoteName('old_url').' = '.$db->quote($current),
 				0, 1
 			);
 			$link = $db->loadObject();
 
 			// If a redirect exists and is published, permanently redirect.
-			if ($link and ($link->published == 1)) {
+			if ($link and ($link->published == 1))
+			{
 				$app->redirect($link->new_url, null, null, true, false);
 			}
 			else
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
-				// If not, add the new url to the database.
-				$db->setQuery(
-					'INSERT IGNORE INTO `#__redirect_links` (`old_url`, `referer`, `published`, `created_date`)' .
-					' VALUES ('.$db->Quote($current).', '.$db->Quote($referer).', 0, '.$db->Quote(JFactory::getDate()->toMySQL()).')'
-				);
-				$db->query();
+				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
+				$res = $db->loadResult();
+				if (!$res) {
 
+					// If not, add the new url to the database.
+					$query = $db->getQuery(true);
+					$query->insert($db->quoteName('#__redirect_links'), false);
+					$columns = array( $db->quoteName('old_url'),
+									$db->quoteName('new_url'),
+									$db->quoteName('referer'),
+									$db->quoteName('comment'),
+									$db->quoteName('hits'),
+									$db->quoteName('published'),
+									$db->quoteName('created_date')
+								);
+					$query->columns($columns);
+					$query->values(
+						$db->Quote($current) . ', '. $db->Quote('') .
+						' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
+						$db->Quote(JFactory::getDate()->toSql())
+					);
+
+					$db->setQuery($query);
+					$db->execute();
+
+				} else {
+					// Existing error url, increase hit counter
+					$query = $db->getQuery(true);
+					$query->update($db->quoteName('#__redirect_links'));
+					$query->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1');
+					$query->where('id = ' . (int) $res);
+					$db->setQuery((string) $query);
+					$db->execute();
+				}
 				// Render the error page.
 				JError::customErrorPage($error);
 			}
 		}
-		else {
+		else
+		{
 			// Render the error page.
 			JError::customErrorPage($error);
 		}

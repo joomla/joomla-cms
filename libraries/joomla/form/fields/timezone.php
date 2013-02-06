@@ -3,14 +3,12 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.form.formfield');
-jimport('joomla.form.helper');
 JFormHelper::loadFieldClass('groupedlist');
 
 /**
@@ -49,13 +47,15 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 
+		$keyField = $this->element['key_field'] ? (string) $this->element['key_field'] : 'id';
+		$keyValue = $this->form->getValue($keyField);
+
 		// If the timezone is not set use the server setting.
-		if (strlen($this->value) == 0)
+		if (strlen($this->value) == 0 && empty($keyValue))
 		{
-			$value = JFactory::getConfig()->get('offset');
+			$this->value = JFactory::getConfig()->get('offset');
 		}
 
 		// Get the list of time zones from the server.

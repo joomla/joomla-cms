@@ -1,34 +1,34 @@
 <?php
 /**
- * @version		$Id$
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Messages Component Messages Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_messages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_messages
+ * @since       1.6
  */
 class MessagesModelMessages extends JModelList
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'message_id', 'a.id',
 				'subject', 'a.subject',
@@ -48,11 +48,10 @@ class MessagesModelMessages extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
@@ -73,9 +72,9 @@ class MessagesModelMessages extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string	A prefix for the store id.
+	 * @param   string	A prefix for the store id.
 	 *
-	 * @return	string	A store id.
+	 * @return  string	A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -89,7 +88,7 @@ class MessagesModelMessages extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -114,23 +113,26 @@ class MessagesModelMessages extends JModelList
 
 		// Filter by published state.
 		$state = $this->getState('filter.state');
-		if (is_numeric($state)) {
+		if (is_numeric($state))
+		{
 			$query->where('a.state = '.(int) $state);
 		}
-		elseif ($state === '') {
+		elseif ($state === '')
+		{
 			$query->where('(a.state IN (0, 1))');
 		}
 
 		// Filter by search in subject or message.
 		$search = $this->getState('filter.search');
 
-		if (!empty($search)) {
-			$search = $db->Quote('%'.$db->getEscaped($search, true).'%', false);
+		if (!empty($search))
+		{
+			$search = $db->Quote('%'.$db->escape($search, true).'%', false);
 			$query->where('a.subject LIKE '.$search.' OR a.message LIKE '.$search);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->getEscaped($this->getState('list.ordering', 'a.date_time')).' '.$db->getEscaped($this->getState('list.direction', 'DESC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.date_time')).' '.$db->escape($this->getState('list.direction', 'DESC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

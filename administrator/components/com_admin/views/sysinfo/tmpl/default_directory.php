@@ -1,18 +1,17 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
-		<table class="adminlist">
+		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th width="650">
@@ -29,13 +28,13 @@ defined('_JEXEC') or die;
 				</tr>
 			</tfoot>
 			<tbody>
-				<?php foreach($this->directory as $dir=>$info):?>
+				<?php foreach ($this->directory as $dir => $info) : ?>
 					<tr>
 						<td>
-							<?php echo JHtml::_('directory.message',$dir,$info['message']);?>
+							<?php echo JHtml::_('directory.message', $dir, $info['message']);?>
 						</td>
 						<td>
-							<?php echo JHtml::_('directory.writable',$info['writable']);?>
+							<?php echo JHtml::_('directory.writable', $info['writable']);?>
 						</td>
 					</tr>
 				<?php endforeach; ?>

@@ -1,9 +1,10 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.system
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -23,16 +24,16 @@ $app = JFactory::getApplication();
 <jdoc:include type="message" />
 	<div id="frame" class="outline">
 		<?php if ($app->getCfg('offline_image')) : ?>
-		<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo $app->getCfg('sitename'); ?>" />
+		<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->getCfg('sitename')); ?>" />
 		<?php endif; ?>
 		<h1>
-			<?php echo $app->getCfg('sitename'); ?>
+			<?php echo htmlspecialchars($app->getCfg('sitename')); ?>
 		</h1>
-	<?php if ($app->getCfg('display_offline_message', 1) == 1 && str_replace(' ', '', $app->getCfg('offline_message')) != ''): ?>
+	<?php if ($app->getCfg('display_offline_message', 1) == 1 && str_replace(' ', '', $app->getCfg('offline_message')) != '') : ?>
 		<p>
 			<?php echo $app->getCfg('offline_message'); ?>
 		</p>
-	<?php elseif ($app->getCfg('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != ''): ?>
+	<?php elseif ($app->getCfg('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != '') : ?>
 		<p>
 			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
 		</p>

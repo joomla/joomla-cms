@@ -1,22 +1,30 @@
 <?php
 /**
- * @version		$Id$
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.multiselect');
+JHtml::_('bootstrap.tooltip');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
+<div id="installer-manage">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage');?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
@@ -41,7 +49,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_id', $listDirn, $listOrder); ?>
 				</th>
 				<th class="width-10 center">
-					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'status', $listDirn, $listOrder); ?>
 				</th>
 				<th class="center">
 					<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?>
@@ -65,8 +73,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</thead>
 
 		<tbody>
-		<?php foreach ($this->items as $i => $item): ?>
-			<tr class="row<?php echo $i%2; if ($item->protected) echo ' protected';?>">
+		<?php foreach ($this->items as $i => $item) : ?>
+			<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected';?>">
 				<td>
 					<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 				</td>
@@ -82,7 +90,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php if (!$item->element) : ?>
 					<strong>X</strong>
 					<?php else : ?>
-						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'manage.');?>
+						<?php echo JHtml::_('InstallerHtml.Manage.state', $item->status, $i, $item->status < 2, 'cb'); ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">
@@ -117,4 +125,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>
+</div>
