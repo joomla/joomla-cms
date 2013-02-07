@@ -29,6 +29,7 @@ $ -> Language fix or change
 06-February-2013 Jean-Marie Simonet
  # [#29965] Add pagination in COM_SEARCH component
  # [#30057] *Implementing search and pagination in Menu Manager: Menus
+ # [#30078] *Adding Note when language pack version is not equal to Joomla version
 
 -------------------- 3.0.3 Stable Release [4-Feb-2013] ------------------
 
