@@ -72,18 +72,8 @@ abstract class JHtmlIcons
 			}
 		}
 
-		$html[] = '<div class="row-fluid"' . (empty($button['id']) ? '' : (' id="' . $button['id'] . '"')) . '>';
-		$html[] = '<div class="span12">';
-		$html[] = '<a href="' . $button['link'] . '"';
-		$html[] = (empty($button['target']) ? '' : (' target="' . $button['target'] . '"'));
-		$html[] = (empty($button['onclick']) ? '' : (' onclick="' . $button['onclick'] . '"'));
-		$html[] = (empty($button['title']) ? '' : (' title="' . htmlspecialchars($button['title']) . '"'));
-		$html[] = '>';
-		$html[] = '<i class="icon-' . $button['image'] . '"></i> ';
-		$html[] = (empty($button['text'])) ? '' : ('<span>' . $button['text'] . '</span>');
-		$html[] = '</a>';
-		$html[] = '</div>';
-		$html[] = '</div>';
-		return implode($html);
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.quickicons.icon');
+		return $layout->render($button);
 	}
 }
