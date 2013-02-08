@@ -52,13 +52,13 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
 				</div>
 			</div>
-			<div class="tab-pane active" id="options">
+			<div class="tab-pane" id="options">
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('published'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('published'); ?></div>
 				</div>
 			</div>
-			<div class="tab-pane active" id="details">
+			<div class="tab-pane" id="details">
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_date'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('created_date'); ?></div>
