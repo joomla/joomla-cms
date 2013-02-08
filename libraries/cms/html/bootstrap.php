@@ -74,6 +74,7 @@ abstract class JHtmlBootstrap
 	public static function carousel($selector = 'carousel', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -83,7 +84,7 @@ abstract class JHtmlBootstrap
 			$opt['interval'] = (isset($params['interval']) && ($params['interval'])) ? (int) $params['interval'] : 5000;
 			$opt['pause'] = (isset($params['pause']) && ($params['pause'])) ? $params['pause'] : 'hover';
 
-			$options = self::_getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			// Attach the carousel to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -184,6 +185,7 @@ abstract class JHtmlBootstrap
 	public static function modal($selector = 'modal', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -319,6 +321,7 @@ abstract class JHtmlBootstrap
 	public static function scrollspy($selector = 'navbar', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -418,6 +421,7 @@ abstract class JHtmlBootstrap
 	public static function startAccordion($selector = 'myAccordian', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -509,6 +513,7 @@ abstract class JHtmlBootstrap
 	public static function startPane($selector = 'myTab', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
