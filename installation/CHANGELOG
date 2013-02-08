@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#29737] If a user is blocked while logged in, he or she stays logged in. Thanks Alexander
  # [#29736] Bootstrap carousel undefined method JHtmlBootstrap::_getJSObject in bootstrap.php. Thanks Michael and Robert.
  # [#30063] Disabled template positions shown in module available positions. Thanks Roberto
+ #$ [#30079] * Improving cookie handling in languagefilter plugin
  ^+ [#29896] Switch JHtmlIcons to render with JLayout, update quickicons module to suit. Thanks Michael.
 
 06-February-2013 Jean-Marie Simonet
