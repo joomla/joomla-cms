@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#29946] Fixing extension install from dynamic URLs. Thanks Thomas
  # [#29737] If a user is blocked while logged in, he or she stays logged in. Thanks Alexander
  # [#29736] Bootstrap carousel undefined method JHtmlBootstrap::_getJSObject in bootstrap.php. Thanks Michael and Robert.
+ # [#30063] Disabled template positions shown in module available positions. Thanks Roberto
 
 06-February-2013 Jean-Marie Simonet
  # [#29965] Add pagination in COM_SEARCH component
