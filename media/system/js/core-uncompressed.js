@@ -545,90 +545,100 @@ Joomla.contentLoaded = function(win, fn) {
 /**
  * add events for init
  * use like:
- * 		Joomla.addEvent('domready domchanged', callback);
- * 		Joomla.addEvent(['domready', 'domchanged'], callback);
- * 		Joomla.addEvent('domready domchanged.extension_name', callback);
- * 		Joomla.addEvent(['domready', 'domchanged.extension_name'], callback);
+ * 		Joomla.addEvent('domready.extension_name', callback); // for domready, domchanged
+ * 		Joomla.addEvent('load.extension_name', callback); // for load, domchanged
+ * 		Joomla.addEvent('unload.extension_name', callback); // for unload only
+ * 		Joomla.addEvent('domchanged.extension_name', callback); // for domchanged only
  *
- *		domchanged - important for keep the script working after DOM manipulation by other scripts
- * 		instead of "domready" can be "load"/"unload" if need
+ *		subscription for domchanged we do automatically - it important for keep
+ *		the script working after DOM manipulation by other scripts, or for init scripts
+ *		that added "on fly"
  */
 
 Joomla.addEvent = function (event, fn) {
-	var events = [];
+	// Get event type and extension name
+	var names = event.split('.'), nameBase = names[0], nameSpace = names[1];
 
-	if(Object.prototype.toString.call(event) === '[object Array]') {
-		events = event;
-	} else if(typeof(event) == 'string' && event.indexOf(' ') !== -1) {
-		events = event.split(' ');
-	} else {
+	//decide which events we will use
+	var events = [];
+	//base event eg: domready
+	events.push(nameBase);
+	//namespaced event eg: domready.extension_name
+	if(nameSpace) {
 		events.push(event);
 	}
+	//if it domready or load then need subscription for domchanged
+	if (nameBase.indexOf('ready') !== -1 || nameBase === 'load') {
+		events.push('domchanged');
+		if(nameSpace) {
+			events.push('domchanged.' + nameSpace);
+		}
+	}
 
+	//do subscription
 	for (var i = 0; i < events.length; i++) {
-		// Get event type and namespace
-		var names = events[i].split('.'), nameBase = names[0], nameSpace = names[1];
-
-		// store in Joomla.eventsStorage by the base event name
-		if (!Joomla.eventsStorage[nameBase]) {
-			Joomla.eventsStorage[nameBase] = [];
-		}
-		//add only once
-		if (Joomla.eventsStorage[nameBase].indexOf(fn) === -1) {
-			Joomla.eventsStorage[nameBase].push(fn);
+		//prepare events storage
+		if (!Joomla.eventsStorage[events[i]]) {
+			Joomla.eventsStorage[events[i]] = [];
 		}
 
-		// store in Joomla.eventsStorage by the full name (with namespace)
-		// add only if namespace exist, otherwise will be same atachment twice
-		if (nameSpace) {
-			if (!Joomla.eventsStorage[events[i]]) {
-				Joomla.eventsStorage[events[i]] = [];
-			}
-			//add only once
-			if (Joomla.eventsStorage[events[i]].indexOf(fn) === -1) {
-				Joomla.eventsStorage[events[i]].push(fn);
-			}
+		//store the callback in the Joomla.eventsStorage
+		//do it only once
+		if (Joomla.eventsStorage[events[i]].indexOf(fn) === -1) {
+			Joomla.eventsStorage[events[i]].push(fn);
 		}
+	}
 
+	//and add to eventlisteners, but only real events
+	if (nameBase.indexOf('domchanged') === -1) { //maybe someone want subscription only for domchanged
 		if (nameBase.indexOf('ready') !== -1) {
 			Joomla.contentLoaded(window, Joomla.fireEvent.bind(window, nameBase, document));
-		} else if (window.addEventListener) { // W3C DOM
+		}
+		else if (window.addEventListener) { // W3C DOM
 			window.addEventListener(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
 		}
 		else if (window.attachEvent) { // IE DOM
 			window.attachEvent("on" + nameBase, Joomla.fireEvent.bind(window, nameBase, document));
 		}
 	}
+	return Joomla;
 };
 
 /**
  * remove events
  */
 Joomla.removeEvent = function (event, fn) {
-	var events = [];
+	// Get event type and extension name
+	var names = event.split('.'), nameBase = names[0], nameSpace = names[1];
 
-	if(Object.prototype.toString.call(event) === '[object Array]') {
-		events = event;
-	} else if(typeof(event) == 'string' && event.indexOf(' ') !== -1) {
-		events = event.split(' ');
-	} else {
+	//decide which events we will use
+	var events = [];
+	//base event eg: domready
+	events.push(nameBase);
+	//namespaced event eg: domready.extension_name
+	if(nameSpace) {
 		events.push(event);
 	}
+	//if it domready or load then need delete domchanged to
+	if (nameBase.indexOf('ready') !== -1 || nameBase === 'load') {
+		events.push('domchanged');
+		if(nameSpace) {
+			events.push('domchanged.' + nameSpace);
+		}
+	}
 
+	//do removing from eventsStorage
 	for (var i = 0; i < events.length; i++) {
-		// Get event type and namespace
-		var names = events[i].split('.'), nameBase = names[0];//, nameSpace = names[1];
-		//remove from storage
-		if (Joomla.eventsStorage[nameBase]) {
-			var index = Joomla.eventsStorage[nameBase].indexOf(fn);
-			if( index !== -1) delete Joomla.eventsStorage[nameBase][index];
-		}
-
-		if (Joomla.eventsStorage[events[i]]) {
+		if (Joomla.eventsStorage[events[i]].length) {
 			var index = Joomla.eventsStorage[events[i]].indexOf(fn);
-			if( index !== -1) delete Joomla.eventsStorage[events[i]][index];
+			if( index !== -1) {
+				delete Joomla.eventsStorage[events[i]][index];
+			}
 		}
+	}
 
+	//and remove from eventlisteners, but only real events
+	if (nameBase.indexOf('domchanged') === -1 && nameBase.indexOf('ready') === -1) {
 		if (window.removeEventListener) { // W3C DOM
 			window.removeEventListener(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
 		}
@@ -636,16 +646,18 @@ Joomla.removeEvent = function (event, fn) {
 			window.detachEvent("on" + nameBase, Joomla.fireEvent.bind(window, nameBase, document));
 		}
 	}
+
+	return Joomla;
 };
 
 /**
  * fire event before/after domchanged
  * use like:
- * 		Joomla.fireEvent('unload', 'unloaded-element');
- * 		Joomla.fireEvent('unload.extension_name', 'unloaded-element');
+ * 		Joomla.fireEvent('unload', 'unloaded-element'); //fires for all unload subscribers
+ * 		Joomla.fireEvent('unload.extension_name', 'unloaded-element'); //fires only for specified exstension
  *
- * 		Joomla.fireEvent('domchanged', 'changed-element');
- * 		Joomla.fireEvent('domchanged.extension_name', 'changed-element');
+ * 		Joomla.fireEvent('domchanged', 'changed-element'); //fires for all domchanged subscribers
+ * 		Joomla.fireEvent('domchanged.extension_name', 'changed-element'); //fires only for specified exstension
  */
 
 Joomla.fireEvent = function(event, element) {
@@ -660,6 +672,8 @@ Joomla.fireEvent = function(event, element) {
 			if(window.console){ console.log(e); console.log(e.stack);}
 		}
 	}
+
+	return Joomla;
 }
 
 
