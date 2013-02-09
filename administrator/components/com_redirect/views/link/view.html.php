@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class RedirectViewLink extends JViewLegacy
 	/**
 	 * Display the view
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -36,7 +36,8 @@ class RedirectViewLink extends JViewLegacy
 		$this->state	= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -48,7 +49,7 @@ class RedirectViewLink extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -61,7 +62,8 @@ class RedirectViewLink extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINK'), 'redirect');
 
 		// If not checked out, can save the item.
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::apply('link.apply');
 			JToolbarHelper::save('link.save');
 		}
@@ -70,13 +72,17 @@ class RedirectViewLink extends JViewLegacy
 		// While it can be done, it causes too much confusion if the user does
 		// not change the Old URL.
 
-		if ($canDo->get('core.edit') && $canDo->get('core.create')) {
+		if ($canDo->get('core.edit') && $canDo->get('core.create'))
+		{
 			JToolbarHelper::save2new('link.save2new');
 		}
 
-		if (empty($this->item->id)) {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('link.cancel');
-		} else {
+		}
+		else
+		{
 			JToolbarHelper::cancel('link.cancel', 'JTOOLBAR_CLOSE');
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -320,7 +320,7 @@ class UsersModelUser extends JModelAdmin
 
 				// Prepare the logout options.
 				$options = array(
-					'clientid' => array(0, 1)
+					'clientid' => 0
 				);
 
 				if ($allow)
@@ -540,7 +540,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function batchUser($group_id, $user_ids, $action)
 	{

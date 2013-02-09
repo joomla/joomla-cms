@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class CacheModelCache extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -64,15 +64,18 @@ class CacheModelCache extends JModelList
 	 */
 	public function getData()
 	{
-		if (empty($this->_data)) {
+		if (empty($this->_data))
+		{
 			$cache = $this->getCache();
 			$data  = $cache->getAll();
 
-			if ($data != false) {
+			if ($data != false)
+			{
 				$this->_data = $data;
 				$this->_total = count($data);
 
-				if ($this->_total) {
+				if ($this->_total)
+				{
 					// Apply custom ordering
 					$ordering 	= $this->getState('list.ordering');
 					$direction 	= ($this->getState('list.direction') == 'asc') ? 1 : -1;
@@ -81,7 +84,8 @@ class CacheModelCache extends JModelList
 					$this->_data = JArrayHelper::sortObjects($data, $ordering, $direction);
 
 					// Apply custom pagination
-					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit')) {
+					if ($this->_total > $this->getState('list.limit') && $this->getState('list.limit'))
+					{
 						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
 					}
 				}
@@ -126,11 +130,12 @@ class CacheModelCache extends JModelList
 	/**
 	 * Get the number of current Cache Groups
 	 *
-	 * @return int
+	 * @return  int
 	 */
 	public function getTotal()
 	{
-		if (empty($this->_total)) {
+		if (empty($this->_total))
+		{
 			$this->_total = count($this->getData());
 		}
 
@@ -140,11 +145,12 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get a pagination object for the cache
 	 *
-	 * @return integer
+	 * @return  integer
 	 */
 	public function getPagination()
 	{
-		if (empty($this->_pagination)) {
+		if (empty($this->_pagination))
+		{
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('list.start'), $this->getState('list.limit'));
 		}
 
@@ -165,7 +171,8 @@ class CacheModelCache extends JModelList
 
 	public function cleanlist($array)
 	{
-		foreach ($array as $group) {
+		foreach ($array as $group)
+		{
 			$this->clean($group);
 		}
 	}

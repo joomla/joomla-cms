@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,11 +17,13 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		document.id('jform_type0').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'block');
 			document.id('url').setStyle('display', 'block');
@@ -32,9 +34,12 @@ JHtml::_('formbehavior.chosen', 'select');
 			document.id('url').setStyle('display', 'block');
 			document.id('custom').setStyle('display', 'block');
 		});
-		if(document.id('jform_type0').checked==true) {
+		if (document.id('jform_type0').checked==true)
+		{
 			document.id('jform_type0').fireEvent('click');
-		} else {
+		}
+		else
+		{
 			document.id('jform_type1').fireEvent('click');
 		}
 	});
@@ -87,7 +92,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				</div>
 				<div id="image">
-						<?php foreach($this->form->getFieldset('image') as $field): ?>
+						<?php foreach ($this->form->getFieldset('image') as $field) : ?>
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $field->label; ?>
@@ -132,7 +137,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 			</div>
 			<div class="tab-pane" id="publishing">
-				<?php foreach($this->form->getFieldset('publish') as $field): ?>
+				<?php foreach ($this->form->getFieldset('publish') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>
@@ -144,7 +149,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endforeach; ?>
 			</div>
 			<div class="tab-pane" id="otherparams">
-				<?php foreach($this->form->getFieldset('otherparams') as $field): ?>
+				<?php foreach ($this->form->getFieldset('otherparams') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>
@@ -157,7 +162,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 			<div class="tab-pane" id="metadata">
 
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>

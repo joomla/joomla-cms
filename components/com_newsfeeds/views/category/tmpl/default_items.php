@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo $item->name; ?></a>
 					</strong>
 				</span>
-				<?php if ($this->items[$i]->published == 0): ?>
+				<?php if ($this->items[$i]->published == 0) : ?>
 					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<br />

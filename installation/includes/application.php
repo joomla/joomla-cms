@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ class JInstallation extends JApplication
 	/**
 	 * Render the application
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function render()
 	{
@@ -161,7 +161,7 @@ class JInstallation extends JApplication
 	}
 
 	/**
-	 * @return	void
+	 * @return  void
 	 */
 	public static function debugLanguage()
 	{
@@ -231,7 +231,7 @@ class JInstallation extends JApplication
 	 * @param   array   $vars       Array of configuration values
 	 * @param   string  $namespace  The namespace
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function setCfg(array $vars = array(), $namespace = 'config')
 	{
@@ -241,7 +241,7 @@ class JInstallation extends JApplication
 	/**
 	 * Create the configuration registry
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function _createConfiguration($file)
 	{
@@ -294,7 +294,7 @@ class JInstallation extends JApplication
 	 * Returns the language code and help url set in the localise.xml file.
 	 * Used for forcing a particular language in localised releases.
 	 *
-	 * @return	bool|array	False on failure, array on success.
+	 * @return  bool|array	False on failure, array on success.
 	 */
 	public function getLocalise()
 	{

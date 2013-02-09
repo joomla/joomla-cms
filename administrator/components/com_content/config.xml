@@ -717,10 +717,8 @@
 			default="1"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			description="JGLOBAL_SHOW_HEADINGS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 		</field>
 
 

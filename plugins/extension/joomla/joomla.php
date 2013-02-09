@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,13 +20,13 @@ class plgExtensionJoomla extends JPlugin
 {
 	/**
 	 * @var		integer Extension Identifier
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private $eid = 0;
 
 	/**
 	 * @var		JInstaller Installer object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private $installer = null;
 
@@ -47,11 +47,11 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param	string	The friendly name of the site
-	 * @param	string	The type of site (e.g. collection or extension)
-	 * @param	string	The URI for the site
-	 * @param	boolean	If this site is enabled
-	 * @since	1.6
+	 * @param   string	The friendly name of the site
+	 * @param   string	The type of site (e.g. collection or extension)
+	 * @param   string	The URI for the site
+	 * @param   boolean	If this site is enabled
+	 * @since   1.6
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
@@ -87,7 +87,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->where('update_site_id = '. $update_site_id)->where('extension_id = '. $this->eid);
 			$dbo->setQuery($query);
 			$tmpid = (int) $dbo->loadResult();
-			if(!$tmpid)
+			if (!$tmpid)
 			{
 				// link this extension to the relevant update site
 				$query->clear();
@@ -103,9 +103,9 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param	JInstaller	Installer object
-	 * @param	int			Extension Identifier
-	 * @since	1.6
+	 * @param   JInstaller	Installer object
+	 * @param   integer  	Extension Identifier
+	 * @since   1.6
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
@@ -122,10 +122,10 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Handle extension uninstall
 	 *
-	 * @param	JInstaller	Installer instance
-	 * @param	int			extension id
-	 * @param	int			installation result
-	 * @since	1.6
+	 * @param   JInstaller	Installer instance
+	 * @param   integer  	extension id
+	 * @param   integer  	installation result
+	 * @since   1.6
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
@@ -144,7 +144,7 @@ class plgExtensionJoomla extends JPlugin
 			$db->setQuery($query);
 			$results = $db->loadColumn();
 
-			if(is_array($results))
+			if (is_array($results))
 			{
 				// so we need to delete the update sites and their associated updates
 				$updatesite_delete = $db->getQuery(true);
@@ -153,7 +153,7 @@ class plgExtensionJoomla extends JPlugin
 				$updatesite_query->select('update_site_id')->from('#__update_sites');
 
 				// if we get results back then we can exclude them
-				if(count($results))
+				if (count($results))
 				{
 					$updatesite_query->where('update_site_id NOT IN ('. implode(',', $results) .')');
 					$updatesite_delete->where('update_site_id NOT IN ('. implode(',', $results) .')');
@@ -161,7 +161,7 @@ class plgExtensionJoomla extends JPlugin
 				// so lets find what update sites we're about to nuke and remove their associated extensions
 				$db->setQuery($updatesite_query);
 				$update_sites_pending_delete = $db->loadColumn();
-				if(is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
+				if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
 					// nuke any pending updates with this site before we delete it
 					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
@@ -188,13 +188,14 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * After update of an extension
 	 *
-	 * @param	JInstaller	Installer object
-	 * @param	int			Extension identifier
-	 * @since	1.6
+	 * @param   JInstaller	Installer object
+	 * @param   integer  	Extension identifier
+	 * @since   1.6
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
-		if ($eid) {
+		if ($eid)
+		{
 			$this->installer = $installer;
 			$this->eid = $eid;
 
@@ -206,16 +207,19 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Processes the list of update sites for an extension.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private function processUpdateSites()
 	{
 		$manifest		= $this->installer->getManifest();
 		$updateservers	= $manifest->updateservers;
 
-		if($updateservers) {
+		if ($updateservers)
+		{
 			$children = $updateservers->children();
-		} else {
+		}
+		else
+		{
 			$children = array();
 		}
 

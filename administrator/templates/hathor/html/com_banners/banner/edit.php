@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,11 +16,13 @@ JHtml::_('behavior.formvalidation');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		document.id('jform_type0').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'block');
 			document.id('url').setStyle('display', 'block');
@@ -31,9 +33,13 @@ JHtml::_('behavior.formvalidation');
 			document.id('url').setStyle('display', 'none');
 			document.id('custom').setStyle('display', 'block');
 		});
-		if(document.id('jform_type0').checked==true) {
+
+		if (document.id('jform_type0').checked==true)
+		{
 			document.id('jform_type0').fireEvent('click');
-		} else {
+		}
+		else
+		{
 			document.id('jform_type1').fireEvent('click');
 		}
 	});
@@ -62,7 +68,7 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
 
-				<?php foreach($this->form->getFieldset('image') as $field): ?>
+				<?php foreach ($this->form->getFieldset('image') as $field) : ?>
 					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>
@@ -100,7 +106,7 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('publish') as $field): ?>
+			<?php foreach ($this->form->getFieldset('publish') as $field) : ?>
 				<li><?php echo $field->label; ?>
 					<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
@@ -111,7 +117,7 @@ JHtml::_('behavior.formvalidation');
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 			<ul class="adminformlist">
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>

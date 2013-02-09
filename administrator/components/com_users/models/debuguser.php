@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,8 +23,8 @@ class UsersModelDebugUser extends JModelList
 	/**
 	 * Get a list of the actions.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public function getDebugActions()
 	{
@@ -36,8 +36,8 @@ class UsersModelDebugUser extends JModelList
 	/**
 	 * Override getItems method.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -57,7 +57,8 @@ class UsersModelDebugUser extends JModelList
 					$level	= $action[1];
 
 					// Check that we check this action for the level of the asset.
-					if ($action[1] === null || $action[1] >= $asset->level) {
+					if ($action[1] === null || $action[1] >= $asset->level)
+					{
 						// We need to test this action.
 						$asset->checks[$name] = JAccess::check($userId, $action[0], $asset->name);
 					}
@@ -77,8 +78,8 @@ class UsersModelDebugUser extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -102,7 +103,8 @@ class UsersModelDebugUser extends JModelList
 		$this->setState('filter.level_start', $levelStart);
 
 		$value = $this->getUserStateFromRequest($this->context.'.filter.level_end', 'filter_level_end', 0, 'int');
-		if ($value > 0 && $value < $levelStart) {
+		if ($value > 0 && $value < $levelStart)
+		{
 			$value = $levelStart;
 		}
 		$this->setState('filter.level_end', $value);
@@ -125,10 +127,10 @@ class UsersModelDebugUser extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -145,8 +147,8 @@ class UsersModelDebugUser extends JModelList
 	/**
 	 * Get the user being debugged.
 	 *
-	 * @return	JUser
-	 * @since	1.6
+	 * @return  JUser
+	 * @since   1.6
 	 */
 	public function getUser()
 	{
@@ -158,8 +160,8 @@ class UsersModelDebugUser extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.6
+	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -177,13 +179,15 @@ class UsersModelDebugUser extends JModelList
 		$query->from($db->quoteName('#__assets').' AS a');
 
 		// Filter the items over the group id if set.
-		if ($groupId = $this->getState('filter.group_id')) {
+		if ($groupId = $this->getState('filter.group_id'))
+		{
 			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
 			$query->where('map2.group_id = '.(int) $groupId);
 		}
 
 		// Filter the items over the search string if set.
-		if ($this->getState('filter.search')) {
+		if ($this->getState('filter.search'))
+		{
 			// Escape the search token.
 			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
 
@@ -199,18 +203,22 @@ class UsersModelDebugUser extends JModelList
 		// Filter on the start and end levels.
 		$levelStart	= (int) $this->getState('filter.level_start');
 		$levelEnd	= (int) $this->getState('filter.level_end');
-		if ($levelEnd > 0 && $levelEnd < $levelStart) {
+		if ($levelEnd > 0 && $levelEnd < $levelStart)
+		{
 			$levelEnd = $levelStart;
 		}
-		if ($levelStart > 0) {
+		if ($levelStart > 0)
+		{
 			$query->where('a.level >= '.$levelStart);
 		}
-		if ($levelEnd > 0) {
+		if ($levelEnd > 0)
+		{
 			$query->where('a.level <= '.$levelEnd);
 		}
 
 		// Filter the items over the component if set.
-		if ($this->getState('filter.component')) {
+		if ($this->getState('filter.component'))
+		{
 			$component = $this->getState('filter.component');
 			$query->where('(a.name = '.$db->quote($component).' OR a.name LIKE '.$db->quote($component.'.%').')');
 		}

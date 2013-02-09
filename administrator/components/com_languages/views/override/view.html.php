@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,9 +45,9 @@ class LanguagesViewOverride extends JViewLegacy
 	/**
 	 * Displays the view
 	 *
-	 * @param		string	$tpl	The name of the template file to parse
+	 * @param   	string	$tpl	The name of the template file to parse
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -70,7 +70,7 @@ class LanguagesViewOverride extends JViewLegacy
 
 		// Check whether the cache has to be refreshed
 		$cached_time = JFactory::getApplication()->getUserState('com_languages.overrides.cachedtime.'.$this->state->get('filter.client').'.'.$this->state->get('filter.language'), 0);
-		if(time() - $cached_time > 60 * 5)
+		if (time() - $cached_time > 60 * 5)
 		{
 			$this->state->set('cache_expired', true);
 		}

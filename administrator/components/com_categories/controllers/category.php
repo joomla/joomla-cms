@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,7 +121,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 *
 	 * @param   object  $model  The model.
 	 *
-	 * @return  boolean	 True if successful, false otherwise and internal error is set.
+	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   1.6
 	 */

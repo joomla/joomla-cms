@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.article
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,9 +46,11 @@ class plgButtonArticle extends JPlugin
 		 * and closes the select frame.
 		 */
 		$js = "
-		function jSelectArticle(id, title, catid, object, link, lang) {
+		function jSelectArticle(id, title, catid, object, link, lang)
+		{
 			var hreflang = '';
-			if (lang !== '') {
+			if (lang !== '')
+			{
 				var hreflang = ' hreflang = \"' + lang + '\"';
 			}
 			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';

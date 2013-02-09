@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,17 +27,22 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 <script type="text/javascript">
 	Joomla.submitbutton = function(task, type)
 	{
-		if (task == 'item.setType' || task == 'item.setMenuType') {
-			if(task == 'item.setType') {
+		if (task == 'item.setType' || task == 'item.setMenuType')
+		{
+			if (task == 'item.setType')
+			{
 				document.id('item-form').elements['jform[type]'].value = type;
 				document.id('fieldtype').value = 'type';
 			} else {
 				document.id('item-form').elements['jform[menutype]'].value = type;
 			}
 			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			Joomla.submitform(task, document.id('item-form'));
-		} else {
+		}
+		else
+		{
 			// special case for modal popups validation response
 			$$('#item-form .modal-value.invalid').each(function(field){
 				var idReversed = field.id.split("").reverse().join("");
@@ -54,7 +59,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_MENUS_ITEM_DETAILS');?></a></li>
 			<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_MENUS_ADVANCED_FIELDSET_LABEL');?></a></li>
-			<?php if ($assoc): ?>
+			<?php if ($assoc) : ?>
 				<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
 			<?php endif; ?>
 			<?php if (!empty($this->modules)) : ?>
@@ -73,7 +78,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								<?php echo $this->form->getInput('type'); ?>
 							</div>
 						</div>
-						<?php if ($this->item->type == 'url'): ?>
+						<?php if ($this->item->type == 'url') : ?>
 							<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
 							<div class="control-group">
 								<div class="control-label">
@@ -85,7 +90,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 							</div>
 						<?php endif; ?>
 
-						<?php if ($this->item->link == 'index.php?option=com_wrapper&view=wrapper'): ?>
+						<?php if ($this->item->link == 'index.php?option=com_wrapper&view=wrapper') : ?>
 							<?php $fieldSets = $this->form->getFieldsets('params'); ?>
 							<?php foreach ($this->form->getFieldset('request') as $field) : ?>
 								<div class="control-group">
@@ -133,14 +138,14 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								<?php echo $this->form->getInput('title'); ?>
 							</div>
 						</div>
-						<?php if ($this->item->type == 'alias'): ?>
+						<?php if ($this->item->type == 'alias') : ?>
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $this->form->getLabel('aliastip'); ?>
 								</div>
 							</div>
 						<?php endif; ?>
-						<?php if ($this->item->type != 'url'): ?>
+						<?php if ($this->item->type != 'url') : ?>
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $this->form->getLabel('alias'); ?>
@@ -159,7 +164,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								<?php echo $this->form->getInput('published'); ?>
 							</div>
 						</div>
-						<?php if ($this->item->type !== 'url'): ?>
+						<?php if ($this->item->type !== 'url') : ?>
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $this->form->getLabel('link'); ?>

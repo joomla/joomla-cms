@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class ContentModelCategories extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -66,9 +66,9 @@ class ContentModelCategories extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -84,20 +84,22 @@ class ContentModelCategories extends JModelList
 	/**
 	 * Redefine the function an add some properties to make the styling more easy
 	 *
-	 * @param	bool	$recursive	True if you want to return children recursively.
+	 * @param   bool	$recursive	True if you want to return children recursively.
 	 *
-	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  An array of data items on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItems($recursive = false)
 	{
-		if (!count($this->_items)) {
+		if (!count($this->_items))
+		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new JRegistry;
 
-			if ($active) {
+			if ($active)
+			{
 				$params->loadString($active->params);
 			}
 
@@ -106,7 +108,8 @@ class ContentModelCategories extends JModelList
 			$categories = JCategories::getInstance('Content', $options);
 			$this->_parent = $categories->get($this->getState('filter.parentId', 'root'));
 
-			if (is_object($this->_parent)) {
+			if (is_object($this->_parent))
+			{
 				$this->_items = $this->_parent->getChildren($recursive);
 			}
 			else {
@@ -119,7 +122,8 @@ class ContentModelCategories extends JModelList
 
 	public function getParent()
 	{
-		if (!is_object($this->_parent)) {
+		if (!is_object($this->_parent))
+		{
 			$this->getItems();
 		}
 

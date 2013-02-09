@@ -42,7 +42,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 	respond.mediaQueriesSupported	= win.matchMedia && win.matchMedia( "only all" ).matches;
 
 	//if media queries are supported, exit here
-	if( respond.mediaQueriesSupported ){ return; }
+	if ( respond.mediaQueriesSupported ){ return; }
 
 	//define vars
 	var doc 			= win.document,
@@ -72,13 +72,13 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				isCSS	= sheet.rel && sheet.rel.toLowerCase() === "stylesheet";
 
 				//only links plz and prevent re-parsing
-				if( !!href && isCSS && !parsedSheets[ href ] ){
+				if ( !!href && isCSS && !parsedSheets[ href ] ){
 					// selectivizr exposes css through the rawCssText expando
 					if (sheet.styleSheet && sheet.styleSheet.rawCssText) {
 						translate( sheet.styleSheet.rawCssText, href, media );
 						parsedSheets[ href ] = true;
 					} else {
-						if( (!/^([a-zA-Z:]*\/\/)/.test( href ) && !base)
+						if ( (!/^([a-zA-Z:]*\/\/)/.test( href ) && !base)
 							|| href.replace( RegExp.$1, "" ).split( "/" )[0] === win.location.host ){
 							requestQueue.push( {
 								href: href,
@@ -93,7 +93,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 		//recurse through request queue, get css text
 		makeRequests	= function(){
-			if( requestQueue.length ){
+			if ( requestQueue.length ){
 				var thisRequest = requestQueue.shift();
 
 				ajax( thisRequest.href, function( styles ){
@@ -119,13 +119,13 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				j, fullq, thisq, eachq, eql;
 
 			//if path exists, tack on trailing slash
-			if( href.length ){ href += "/"; }
+			if ( href.length ){ href += "/"; }
 
 			//if no internal queries exist, but media attr does, use that
 			//note: this currently lacks support for situations where a media attr is specified on a link AND
 				//its associated stylesheet has internal CSS media queries.
 				//In those cases, the media attribute will currently be ignored.
-			if( useMedia ){
+			if ( useMedia ){
 				ql = 1;
 			}
 
@@ -134,7 +134,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				j	= 0;
 
 				//media attr
-				if( useMedia ){
+				if ( useMedia ){
 					fullq = media;
 					rules.push( repUrls( styles ) );
 				}
@@ -175,7 +175,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 			div.style.cssText = "position:absolute;font-size:1em;width:1em";
 
-			if( !body ){
+			if ( !body ){
 				body = fakeUsed = doc.createElement( "body" );
 				body.style.background = "none";
 			}
@@ -186,7 +186,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 			ret = div.offsetWidth;
 
-			if( fakeUsed ){
+			if ( fakeUsed ){
 				docElem.removeChild( body );
 			}
 			else {
@@ -212,7 +212,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				now 		= (new Date()).getTime();
 
 			//throttle resize calls
-			if( fromResize && lastCall && now - lastCall < resizeThrottle ){
+			if ( fromResize && lastCall && now - lastCall < resizeThrottle ){
 				clearTimeout( resizeDefer );
 				resizeDefer = setTimeout( applyMedia, resizeThrottle );
 				return;
@@ -229,16 +229,16 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 					maxnull = max === null,
 					em = "em";
 
-				if( !!min ){
+				if ( !!min ){
 					min = parseFloat( min ) * ( min.indexOf( em ) > -1 ? ( eminpx || getEmValue() ) : 1 );
 				}
-				if( !!max ){
+				if ( !!max ){
 					max = parseFloat( max ) * ( max.indexOf( em ) > -1 ? ( eminpx || getEmValue() ) : 1 );
 				}
 
 				// if there's no media query at all (the () part), or min or max is not null, and if either is present, they're true
-				if( !thisstyle.hasquery || ( !minnull || !maxnull ) && ( minnull || currWidth >= min ) && ( maxnull || currWidth <= max ) ){
-						if( !styleBlocks[ thisstyle.media ] ){
+				if ( !thisstyle.hasquery || ( !minnull || !maxnull ) && ( minnull || currWidth >= min ) && ( maxnull || currWidth <= max ) ){
+						if ( !styleBlocks[ thisstyle.media ] ){
 							styleBlocks[ thisstyle.media ] = [];
 						}
 						styleBlocks[ thisstyle.media ].push( rules[ thisstyle.rules ] );
@@ -247,7 +247,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 			//remove any existing respond style element(s)
 			for( var i in appendedEls ){
-				if( appendedEls[ i ] && appendedEls[ i ].parentNode === head ){
+				if ( appendedEls[ i ] && appendedEls[ i ].parentNode === head ){
 					head.removeChild( appendedEls[ i ] );
 				}
 			}
@@ -317,7 +317,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 	function callMedia(){
 		applyMedia( true );
 	}
-	if( win.addEventListener ){
+	if ( win.addEventListener ){
 		win.addEventListener( "resize", callMedia, false );
 	}
 	else if( win.attachEvent ){

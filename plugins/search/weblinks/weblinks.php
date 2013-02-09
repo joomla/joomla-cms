@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,8 +64,10 @@ class plgSearchWeblinks extends JPlugin
 
 		$searchText = $text;
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -74,15 +76,18 @@ class plgSearchWeblinks extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit     = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent) {
+		if ($sContent)
+		{
 			$state[] = 1;
 		}
-		if ($sArchived) {
+		if ($sArchived)
+		{
 			$state[] = 2;
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 		$section	= JText::_('PLG_SEARCH_WEBLINKS');
@@ -141,7 +146,8 @@ class plgSearchWeblinks extends JPlugin
 		}
 
 		$return = array();
-		if (!empty($state)) {
+		if (!empty($state))
+		{
 			$query	= $db->getQuery(true);
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
@@ -169,7 +175,8 @@ class plgSearchWeblinks extends JPlugin
 			$query->order($order);
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
 				$tag = JFactory::getLanguage()->getTag();
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
@@ -179,13 +186,17 @@ class plgSearchWeblinks extends JPlugin
 			$rows = $db->loadObjectList();
 
 			$return = array();
-			if ($rows) {
-				foreach($rows as $key => $row) {
+			if ($rows)
+			{
+				foreach ($rows as $key => $row)
+				{
 					$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
 				}
 
-				foreach($rows as $key => $weblink) {
-					if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title'))) {
+				foreach ($rows as $key => $weblink)
+				{
+					if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title')))
+					{
 						$return[] = $weblink;
 					}
 				}

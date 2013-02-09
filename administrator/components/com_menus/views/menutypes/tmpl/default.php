@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ $document = JFactory::getDocument();
 <script type="text/javascript">
 	setmenutype = function(type)
 	{
-		<?php if($tmpl) : ?>
+		<?php if ($tmpl) : ?>
 			window.parent.Joomla.submitbutton('item.setType', type);
 			window.parent.SqueezeBox.close();
 		<?php else : ?>
@@ -30,10 +30,10 @@ $document = JFactory::getDocument();
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php
 		$i = 0;
-		foreach ($this->types as $name => $list): ?>
+		foreach ($this->types as $name => $list) : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($name), 'collapse' . $i++); ?>
 			<ul class="nav nav-tabs nav-stacked">
-				<?php foreach ($list as $item): ?>
+				<?php foreach ($list as $item) : ?>
 					<li>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
 							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => $item->title, 'request' => $item->request))); ?>')">

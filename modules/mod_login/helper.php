@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,8 +34,10 @@ class modLoginHelper
 			$query->where($db->quoteName('id') . '=' . $db->quote($itemid));
 
 			$db->setQuery($query);
-			if ($link = $db->loadResult()) {
-				if ($router->getMode() == JROUTER_MODE_SEF) {
+			if ($link = $db->loadResult())
+			{
+				if ($router->getMode() == JROUTER_MODE_SEF)
+				{
 					$url = 'index.php?Itemid='.$itemid;
 				}
 				else {
@@ -57,7 +59,8 @@ class modLoginHelper
 					$menu = $app->getMenu();
 					$item = $menu->getItem($itemid);
 					unset($vars['Itemid']);
-					if (isset($item) && $vars == $item->query) {
+					if (isset($item) && $vars == $item->query)
+					{
 						$url = 'index.php?Itemid='.$itemid;
 					}
 					else {

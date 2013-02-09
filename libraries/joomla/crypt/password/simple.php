@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,6 +25,12 @@ class JCryptPasswordSimple implements JCryptPassword
 	protected $cost = 10;
 
 	/**
+	 * @var    string   The default hash type
+	 * @since  12.3
+	 */
+	protected $defaultType = '$2y$';
+
+	/**
 	 * Creates a password hash
 	 *
 	 * @param   string  $password  The password to hash.
@@ -34,23 +40,28 @@ class JCryptPasswordSimple implements JCryptPassword
 	 *
 	 * @since   12.2
 	 */
-	public function create($password, $type = JCryptPassword::BLOWFISH)
+	public function create($password, $type = null)
 	{
+		if (empty($type))
+		{
+			$type = $this->defaultType;
+		}
 		switch ($type)
 		{
+			case '$2a$':
 			case JCryptPassword::BLOWFISH:
 				$salt = $this->getSalt(22);
 
 				if (version_compare(PHP_VERSION, '5.3.7') >= 0)
 				{
-					$prefix = '$2y$';
+					$type = '$2y$';
 				}
 				else
 				{
-					$prefix = '$2a$';
+					$type = '$2a$';
 				}
 
-				$salt = $prefix . str_pad($this->cost, 2, '0', STR_PAD_LEFT) . '$' . $this->getSalt(22);
+				$salt = $type . str_pad($this->cost, 2, '0', STR_PAD_LEFT) . '$' . $this->getSalt(22);
 
 			return crypt($password, $salt);
 
@@ -99,7 +110,7 @@ class JCryptPasswordSimple implements JCryptPassword
 	{
 		$bytes = ceil($length * 6 / 8);
 
-		$randomData = str_replace('+', '.', base64_encode(JCrypt::getRandomBytes($bytes)));
+		$randomData = str_replace('+', '.', base64_encode(JCrypt::genRandomBytes($bytes)));
 
 		return substr($randomData, 0, $length);
 	}
@@ -121,13 +132,13 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			if (version_compare(PHP_VERSION, '5.3.7') >= 0)
 			{
-				$prefix = '$2y$';
+				$type = '$2y$';
 			}
 			else
 			{
-				$prefix = '$2a$';
+				$type = '$2a$';
 			}
-			$hash = $prefix . substr($hash, 4);
+			$hash = $type . substr($hash, 4);
 
 			return (crypt($password, $hash) === $hash);
 		}
@@ -144,5 +155,33 @@ class JCryptPasswordSimple implements JCryptPassword
 			return md5($password . substr($hash, 33)) == substr($hash, 0, 32);
 		}
 		return false;
+	}
+
+	/**
+	 * Sets a default type
+	 *
+	 * @param   string  $type  The value to set as default.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 */
+	public function setDefaultType($type)
+	{
+		if (!empty($type))
+		{
+			$this->defaultType = $type;
+		}
+	}
+	/**
+	 * Gets the default type
+	 *
+	 * @return   string  $type  The default type
+	 *
+	 * @since   12.3
+	 */
+	public function getDefaultType()
+	{
+		return $this->defaultType;
 	}
 }

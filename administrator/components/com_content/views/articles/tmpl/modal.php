@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,19 +111,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
-			<?php if ($item->language && JLanguageMultilang::isEnabled()) {
+			<?php if ($item->language && JLanguageMultilang::isEnabled())
+			{
 				$tag = strlen($item->language);
-				if ($tag == 5) {
+				if ($tag == 5)
+				{
 					$lang = substr($item->language, 0, 2);
 				}
-				elseif ($tag == 6) {
+				elseif ($tag == 6)
+				{
 					$lang = substr($item->language, 0, 3);
 				}
 				else {
 					$lang = "";
 				}
 			}
-			elseif (!JLanguageMultilang::isEnabled()) {
+			elseif (!JLanguageMultilang::isEnabled())
+			{
 				$lang = "";
 			}
 			?>

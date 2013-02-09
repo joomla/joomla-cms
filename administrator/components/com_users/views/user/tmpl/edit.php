@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,8 @@ $fieldsets = $this->form->getFieldsets();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'user.cancel' || document.formvalidator.isValid(document.id('user-form'))) {
+		if (task == 'user.cancel' || document.formvalidator.isValid(document.id('user-form')))
+		{
 			Joomla.submitform(task, document.getElementById('user-form'));
 		}
 	}
@@ -51,7 +52,7 @@ $fieldsets = $this->form->getFieldsets();
 
 			<div class="tab-content">
 				<div class="tab-pane active" id="details">
-					<?php foreach($this->form->getFieldset('user_details') as $field) : ?>
+					<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $field->label; ?>
@@ -74,7 +75,7 @@ $fieldsets = $this->form->getFieldsets();
 					endif;
 				?>
 				<div class="tab-pane" id="<?php echo $fieldset->name; ?>">
-					<?php foreach($this->form->getFieldset($fieldset->name) as $field) : ?>
+					<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
 						<?php if ($field->hidden) : ?>
 							<div class="control-group">
 								<div class="controls">

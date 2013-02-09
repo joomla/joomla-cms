@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ abstract class modLoginHelper
 	/**
 	 * Get an HTML select list of the available languages.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public static function getLanguageList()
 	{
@@ -34,15 +34,17 @@ abstract class modLoginHelper
 	/**
 	 * Get the redirect URI after login.
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	public static function getReturnURI()
 	{
 		$uri = JURI::getInstance();
 		$return = 'index.php'.$uri->toString(array('query'));
-		if($return != 'index.php?option=com_login'){
+		if ($return != 'index.php?option=com_login'){
 			return base64_encode($return);
-		} else {
+		}
+		else
+		{
 			return base64_encode('index.php');
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,13 +33,17 @@ $sortFields = $this->getSortFields();
 $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
-	Joomla.orderTable = function() {
+	Joomla.orderTable = function()
+	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>') {
+		if (order != '<?php echo $listOrder; ?>')
+		{
 			dirn = 'asc';
-		} else {
+		}
+		else
+		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, '');
@@ -47,7 +51,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if (!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -104,7 +108,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<th width="10%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 				</th>
-				<?php if ($assoc): ?>
+				<?php if ($assoc) : ?>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 				</th>
@@ -225,7 +229,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<td class="small hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<?php if ($assoc): ?>
+					<?php if ($assoc) : ?>
 					<td class="hidden-phone">
 						<?php if ($item->association) : ?>
 							<?php echo JHtml::_('contentadministrator.association', $item->id); ?>

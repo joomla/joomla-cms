@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ $prev = $useftp ? 'ftp' : 'database';
 						<?php echo $this->options['site_name']; ?>
 					</td>
 				</tr>
-				<?php if($this->options['site_metadesc']) : ?>
+				<?php if ($this->options['site_metadesc']) : ?>
 				<tr>
 					<td class="item">
 						<?php echo JText::_('INSTL_SITE_METADESC_LABEL'); ?>
@@ -213,7 +213,7 @@ $prev = $useftp ? 'ftp' : 'database';
 			</table>
 		</div>
 	</div>
-	<?php if($useftp) : ?>
+	<?php if ($useftp) : ?>
 	<div class="row-fluid">
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
@@ -230,7 +230,7 @@ $prev = $useftp ? 'ftp' : 'database';
 						</span>
 					</td>
 				</tr>
-				<?php if($this->options['ftp_enable']) : ?>
+				<?php if ($this->options['ftp_enable']) : ?>
 				<tr>
 					<td class="item">
 						<?php echo JText::_('INSTL_FTP_USER_LABEL'); ?>
@@ -366,7 +366,8 @@ $prev = $useftp ? 'ftp' : 'database';
 </form>
 
 <script type="text/javascript">
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		document.getElements('input[name=jform[summary_email]]').each(function(el){
 			el.addEvent('click', function(){Install.toggle('email_passwords', 'summary_email', 1);});
 		});

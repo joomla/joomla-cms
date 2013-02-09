@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,12 +101,12 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 				<header id="header">
 					<div class="logoheader">
 						<h1 id="logo">
-						<?php if ($logo): ?>
+						<?php if ($logo) : ?>
 						<img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>" />
 						<?php endif;?>
-						<?php if (!$logo AND $templateparams->get('sitetitle')): ?>
+						<?php if (!$logo AND $templateparams->get('sitetitle')) : ?>
 							<?php echo htmlspecialchars($templateparams->get('sitetitle'));?>
-						<?php elseif (!$logo AND $config->get('sitename')): ?>
+						<?php elseif (!$logo AND $config->get('sitename')) : ?>
 							<?php echo htmlspecialchars($config->get('sitename'));?>
 						<?php endif; ?>
 						<span class="header1">
@@ -117,7 +117,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 					<ul class="skiplinks">
 						<li><a href="#main" class="u2"><?php echo JText::_('TPL_BEEZ3_SKIP_TO_CONTENT'); ?></a></li>
 						<li><a href="#nav" class="u2"><?php echo JText::_('TPL_BEEZ3_JUMP_TO_NAV'); ?></a></li>
-						<?php if($showRightColumn ):?>
+						<?php if ($showRightColumn ):?>
 							<li><a href="#additional" class="u2"><?php echo JText::_('TPL_BEEZ3_JUMP_TO_INFO'); ?></a></li>
 						<?php endif; ?>
 					</ul>
@@ -148,7 +148,7 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 					<div id="<?php echo $showRightColumn ? 'wrapper' : 'wrapper2'; ?>" <?php if (isset($showno)){echo 'class="shownocolumns"';}?>>
 						<div id="main">
 
-							<?php if ($this->countModules('position-12')): ?>
+							<?php if ($this->countModules('position-12')) : ?>
 								<div id="top"><jdoc:include type="modules" name="position-12"   />
 								</div>
 							<?php endif; ?>

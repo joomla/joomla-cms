@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,8 @@ $canDo = LanguagesHelper::getActions();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'language.cancel' || document.formvalidator.isValid(document.id('language-form'))) {
+		if (task == 'language.cancel' || document.formvalidator.isValid(document.id('language-form')))
+		{
 			Joomla.submitform(task, document.getElementById('language-form'));
 		}
 	}
@@ -122,9 +123,9 @@ $canDo = LanguagesHelper::getActions();
 			</div>
 		</div>
 		<div class="tab-pane" id="metadata">
-			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 				<div class="control-group">
-					<?php if (!$field->hidden): ?>
+					<?php if (!$field->hidden) : ?>
 						<div class="control-label">
 							<?php echo $field->label; ?>
 						</div>
@@ -136,9 +137,9 @@ $canDo = LanguagesHelper::getActions();
 			<?php endforeach; ?>
 		</div>
 		<div class="tab-pane" id="site_name">
-			<?php foreach($this->form->getFieldset('site_name') as $field): ?>
+			<?php foreach ($this->form->getFieldset('site_name') as $field) : ?>
 				<div class="control-group">
-					<?php if (!$field->hidden): ?>
+					<?php if (!$field->hidden) : ?>
 						<div class="control-label">
 							<?php echo $field->label; ?>
 						</div>

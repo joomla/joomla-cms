@@ -720,8 +720,8 @@ button:focus {
  * Tooltips
  */
 .tip {
-	background: @bodyBackground;
-	border: 1px solid @mainBorder;
+	background: #000000;
+	border: 1px solid #FFFFFF;
 }
 
 .tip-title {
@@ -1724,6 +1724,11 @@ table#acl-config th.acl-groups {
 /**
 * Permission Rules
 */
+
+#permissions-sliders .tip {
+	background: @bodyBackground;
+	border: 1px solid @mainBorder;
+}
 
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {

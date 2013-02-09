@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,8 @@ class BannersViewClient extends JViewLegacy
 		$this->state	= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -48,7 +49,7 @@ class BannersViewClient extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -62,7 +63,8 @@ class BannersViewClient extends JViewLegacy
 		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'banners-clients.png');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create'))) {
+		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create')))
+		{
 			JToolbarHelper::apply('client.apply');
 			JToolbarHelper::save('client.save');
 		}
@@ -71,13 +73,17 @@ class BannersViewClient extends JViewLegacy
 			JToolbarHelper::save2new('client.save2new');
 		}
 		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
+		if (!$isNew && $canDo->get('core.create'))
+		{
 			JToolbarHelper::save2copy('client.save2copy');
 		}
 
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('client.cancel');
-		} else {
+		}
+		else
+		{
 			JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 		}
 

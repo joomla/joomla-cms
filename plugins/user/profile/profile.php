@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,12 +34,12 @@ class plgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param	string	$context	The context for the data
-	 * @param	int		$data		The user id
-	 * @param	object
+	 * @param   string	$context	The context for the data
+	 * @param   integer  $data		The user id
+	 * @param   object
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function onContentPrepareData($context, $data)
 	{
@@ -149,11 +149,11 @@ class plgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param	JForm	$form	The form to be altered.
-	 * @param	array	$data	The associated data for the form.
+	 * @param   JForm	$form	The form to be altered.
+	 * @param   array  $data	The associated data for the form.
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
@@ -186,7 +186,26 @@ class plgUserProfile extends JPlugin
 			'favoritebook',
 			'aboutme',
 			'dob',
+			'tos',
 		);
+
+		//Change fields description when displayed in front-end
+		$app = JFactory::getApplication();
+		if ($app->isSite())
+		{
+			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('city', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('region', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('country', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('postal_code', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('phone', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('website', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('favoritebook', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('aboutme', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('dob', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
+			$form->setFieldAttribute('tos', 'description', 'PLG_USER_PROFILE_FIELD_TOS_DESC_SITE', 'profile');
+		}
 
 		$tosarticle = $this->params->get('register_tos_article');
 		$tosenabled = $this->params->get('register-require_tos', 0);
@@ -294,9 +313,9 @@ class plgUserProfile extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param	array		$user		Holds the user data
-	 * @param	boolean		$success	True if user was succesfully stored in the database
-	 * @param	string		$msg		Message
+	 * @param   array  $user		Holds the user data
+	 * @param   boolean		$success	True if user was succesfully stored in the database
+	 * @param   string  $msg		Message
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,14 +18,15 @@ JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_conten
 abstract class JHtmlContentAdministrator
 {
 	/**
-	 * @param	int $articleid	The article item id
+	 * @param   int $articleid	The article item id
 	 */
 	public static function association($articleid)
 	{
 		// Get the associations
 		$associations = ContentHelper::getAssociations($articleid);
 
-		foreach ($associations as $tag => $associated) {
+		foreach ($associations as $tag => $associated)
+		{
 			$associations[$tag] = (int) $associated->id;
 		}
 
@@ -44,7 +45,8 @@ abstract class JHtmlContentAdministrator
 		$items = $db->loadObjectList('id');
 
 		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
+		if ($error = $db->getErrorMsg())
+		{
 			JError::raiseWarning(500, $error);
 			return false;
 		}
@@ -53,7 +55,8 @@ abstract class JHtmlContentAdministrator
 		$text = array();
 		foreach ($associations as $tag => $associated)
 		{
-			if ($associated != $articleid) {
+			if ($associated != $articleid)
+			{
 				$text[] = JText::sprintf('COM_CONTENT_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->title, $items[$associated]->category_title);
 			}
 		}
@@ -61,8 +64,8 @@ abstract class JHtmlContentAdministrator
 	}
 
 	/**
-	 * @param	int $value	The state value
-	 * @param	int $i
+	 * @param   int $value	The state value
+	 * @param   int $i
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{
@@ -75,7 +78,8 @@ abstract class JHtmlContentAdministrator
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon	= $state[0];
-		if ($canChange) {
+		if ($canChange)
+		{
 			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" class="btn btn-micro hasTooltip' . ($value == 1 ? ' active' : '') . '" title="'.JText::_($state[3]).'"><i class="icon-'
 					. $icon.'"></i></a>';
 		}

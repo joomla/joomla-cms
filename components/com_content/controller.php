@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class ContentController extends JControllerLegacy
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 		// Article frontpage Editor article proxying:
-		elseif($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
+		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
 		{
 			JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
@@ -40,11 +40,11 @@ class ContentController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -61,7 +61,8 @@ class ContentController extends JControllerLegacy
 
 		if ($user->get('id') ||
 			($this->input->getMethod() == 'POST' &&
-				(($vName == 'category' && $this->input->get('layout') != 'blog') || $vName == 'archive' ))) {
+				(($vName == 'category' && $this->input->get('layout') != 'blog') || $vName == 'archive' )))
+		{
 			$cachable = false;
 		}
 
@@ -69,7 +70,8 @@ class ContentController extends JControllerLegacy
 			'showall' => 'INT', 'return' => 'BASE64', 'filter' => 'STRING', 'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'filter-search' => 'STRING', 'print' => 'BOOLEAN', 'lang' => 'CMD', 'Itemid' => 'INT');
 
 		// Check for edit form.
-		if ($vName == 'form' && !$this->checkEditId('com_content.edit.article', $id)) {
+		if ($vName == 'form' && !$this->checkEditId('com_content.edit.article', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -74,6 +74,7 @@ abstract class JHtmlBootstrap
 	public static function carousel($selector = 'carousel', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -83,7 +84,7 @@ abstract class JHtmlBootstrap
 			$opt['interval'] = (isset($params['interval']) && ($params['interval'])) ? (int) $params['interval'] : 5000;
 			$opt['pause'] = (isset($params['pause']) && ($params['pause'])) ? $params['pause'] : 'hover';
 
-			$options = self::_getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			// Attach the carousel to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -184,6 +185,7 @@ abstract class JHtmlBootstrap
 	public static function modal($selector = 'modal', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -293,7 +295,8 @@ abstract class JHtmlBootstrap
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(document).ready(function() {
+			"jQuery(document).ready(function()
+			{
 				jQuery('" . $selector . "').popover(" . $options . ");
 			});"
 		);
@@ -318,6 +321,7 @@ abstract class JHtmlBootstrap
 	public static function scrollspy($selector = 'navbar', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -386,7 +390,8 @@ abstract class JHtmlBootstrap
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function() {
+				"jQuery(document).ready(function()
+				{
 					jQuery('" . $selector . "').tooltip(" . $options . ");
 				});"
 			);
@@ -416,6 +421,7 @@ abstract class JHtmlBootstrap
 	public static function startAccordion($selector = 'myAccordian', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -507,6 +513,7 @@ abstract class JHtmlBootstrap
 	public static function startPane($selector = 'myTab', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -520,7 +527,8 @@ abstract class JHtmlBootstrap
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){
-					$('#$selector a').click(function (e) {
+					$('#$selector a').click(function (e)
+					{
 						e.preventDefault();
 						$(this).tab('show');
 					});

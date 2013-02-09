@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,16 +14,18 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
+$app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_newsfeeds.category');
 $saveOrder	= $listOrder == 'a.ordering';
+$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -57,7 +59,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 
-            <label class="selectlabel" for="filter_access">
+			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" class="inputbox" id="filter_access">
@@ -109,6 +111,11 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_CACHE_TIME_HEADING', 'a.cache_time', $listDirn, $listOrder); ?>
 				</th>
+				<?php if ($assoc) : ?>
+					<th class="width-5">
+						<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif;?>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 				</th>
@@ -175,6 +182,13 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<td class="center">
 					<?php echo (int) $item->cache_time; ?>
 				</td>
+				<?php if ($assoc) : ?>
+					<td class="center">
+						<?php if ($item->association) : ?>
+							<?php echo JHtml::_('newsfeed.association', $item->id); ?>
+						<?php endif; ?>
+					</td>
+				<?php endif;?>
 				<td class="center">
 					<?php if ($item->language == '*'):?>
 						<?php echo JText::alt('JALL', 'language'); ?>

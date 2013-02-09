@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,29 +20,29 @@ class TemplatesViewTemplates extends JViewLegacy
 {
 	/**
 	 * @var		array
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $items;
 
 	/**
 	 * @var		object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $pagination;
 
 	/**
 	 * @var		object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $state;
 
 	/**
 	 * Display the view.
 	 *
-	 * @param	string
+	 * @param   string
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -54,13 +54,15 @@ class TemplatesViewTemplates extends JViewLegacy
 		TemplatesHelper::addSubmenu('templates');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		// Check if there are no matching items
-		if(!count($this->items)) {
+		if (!count($this->items))
+		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'),
 				'warning'
@@ -74,8 +76,8 @@ class TemplatesViewTemplates extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -83,7 +85,8 @@ class TemplatesViewTemplates extends JViewLegacy
 		$canDo	= TemplatesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'thememanager');
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
 		}

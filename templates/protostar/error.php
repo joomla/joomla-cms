@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -120,7 +120,7 @@ else
 
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php echo ($params->get('fluidContainer') ? ' fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<!-- Header -->
 			<div class="header">
 				<div class="header-inner clearfix">
@@ -131,7 +131,8 @@ else
 						<?php
 						// Display position-0 modules
 						$this->searchmodules = JModuleHelper::getModules('position-0');
-						foreach ($this->searchmodules as $searchmodule) {
+						foreach ($this->searchmodules as $searchmodule)
+						{
 							$output = JModuleHelper::renderModule($searchmodule, array('style' => 'none'));
 							$params = new JRegistry;
 							$params->loadString($searchmodule->params);
@@ -145,7 +146,8 @@ else
 				<?php
 				// Display position-1 modules
 				$this->navmodules = JModuleHelper::getModules('position-1');
-				foreach ($this->navmodules as $navmodule) {
+				foreach ($this->navmodules as $navmodule)
+				{
 					$output = JModuleHelper::renderModule($navmodule, array('style' => 'none'));
 					$params = new JRegistry;
 					$params->loadString($navmodule->params);
@@ -199,7 +201,7 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php echo ($params->get('fluidContainer') ? ' fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>

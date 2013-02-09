@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,15 +23,17 @@ if ($files):
 	if (!is_array($files)):
 		$files = array($files);
 	endif;
-	foreach($files as $file):
+	foreach ($files as $file) :
 		$doc->addStyleSheet($file);
 	endforeach;
 endif;
 
 $doc->addStyleSheet('templates/'.$this->template.'/css/'.htmlspecialchars($color).'.css');
-if ($this->direction == 'rtl') {
+if ($this->direction == 'rtl')
+{
 	$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/template_rtl.css');
-	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css')) {
+	if (file_exists(JPATH_SITE . '/templates/' . $this->template . '/css/' . $color . '_rtl.css'))
+	{
 		$doc->addStyleSheet($this->baseurl.'/templates/'.$this->template.'/css/'.htmlspecialchars($color).'_rtl.css');
 	}
 }

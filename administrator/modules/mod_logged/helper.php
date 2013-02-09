@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,8 +20,8 @@ abstract class modLoggedHelper
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param	JObject	The module parameters.
-	 * @return	mixed	An array of articles, or false on error.
+	 * @param   JObject	The module parameters.
+	 * @return  mixed	An array of articles, or false on error.
 	 */
 	public static function getList($params)
 	{
@@ -45,16 +45,17 @@ abstract class modLoggedHelper
 			return false;
 		}
 
-		foreach($results as $k => $result)
+		foreach ($results as $k => $result)
 		{
 			$results[$k]->logoutLink = '';
 
-			if($user->authorise('core.manage', 'com_users'))
+			if ($user->authorise('core.manage', 'com_users'))
 			{
 				$results[$k]->editLink = JRoute::_('index.php?option=com_users&task=user.edit&id='.$result->id);
 				$results[$k]->logoutLink = JRoute::_('index.php?option=com_login&task=logout&uid='.$result->id .'&'. JSession::getFormToken() .'=1');
 			}
-			if($params->get('name', 1) == 0) {
+			if ($params->get('name', 1) == 0)
+			{
 				$results[$k]->name = $results[$k]->username;
 			}
 		}
@@ -65,8 +66,8 @@ abstract class modLoggedHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param	JObject	The module parameters.
-	 * @return	string	The alternate title for the module.
+	 * @param   JObject	The module parameters.
+	 * @return  string	The alternate title for the module.
 	 */
 	public static function getTitle($params)
 	{

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -246,8 +246,11 @@ class InstallationModelDatabase extends JModelLegacy
 
 		$options = (array) $options;
 		// remove *_errors value
-		foreach($options as $i => $option) {
-			if (isset($i['1']) && $i['1'] == '*') {
+
+		foreach ($options as $i => $option)
+		{
+			if (isset($i['1']) && $i['1'] == '*')
+			{
 				unset($options[$i]);
 				break;
 			}
@@ -268,7 +271,8 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function handleOldDatabase($options)
 	{
-		if (!isset($options['db_created']) || !$options['db_created']) {
+		if (!isset($options['db_created']) || !$options['db_created'])
+		{
 			return $this->createDatabase($options);
 		}
 
@@ -311,7 +315,8 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function createTables($options)
 	{
-		if (!isset($options['db_created']) || !$options['db_created']) {
+		if (!isset($options['db_created']) || !$options['db_created'])
+		{
 			return $this->createDatabase($options);
 		}
 
@@ -510,7 +515,8 @@ class InstallationModelDatabase extends JModelLegacy
 	 */
 	public function installSampleData($options)
 	{
-		if (!isset($options['db_created']) || !$options['db_created']) {
+		if (!isset($options['db_created']) || !$options['db_created'])
+		{
 			return $this->createDatabase($options);
 		}
 
@@ -556,7 +562,7 @@ class InstallationModelDatabase extends JModelLegacy
 	}
 
 	/**
-	 * method to update the user id of the sample data content to the new rand user id
+	 * Method to update the user id of the sample data content to the new rand user id
 	 *
 	 * @param   JDatabaseDriver  $db  Database connector object $db*
 	 *

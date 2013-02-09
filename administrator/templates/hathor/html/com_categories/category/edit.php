@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,8 @@ JHtml::_('behavior.keepalive');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
@@ -55,7 +56,7 @@ JHtml::_('behavior.keepalive');
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
 
-				<?php if ($this->canDo->get('core.admin')): ?>
+				<?php if ($this->canDo->get('core.admin')) : ?>
 					<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
       					<button type="button" onclick="document.location.href='#access-rules';">
       					<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?></button>
@@ -117,7 +118,7 @@ JHtml::_('behavior.keepalive');
 	</div>
 	<div class="clr"></div>
 
-	<?php if ($this->canDo->get('core.admin')): ?>
+	<?php if ($this->canDo->get('core.admin')) : ?>
 		<div  class="col rules-section">
 
 			<?php echo JHtml::_('sliders.start', 'permissions-sliders-' . $this->item->id, array('useCookie' => 1)); ?>

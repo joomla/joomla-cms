@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ jimport('joomla.html.html.bootstrap');
 	<?php if ($this->contact->name && $this->params->get('show_name')) : ?>
 		<div class="page-header">
 			<h2>
-				<?php if ($this->item->published == 0): ?>
+				<?php if ($this->item->published == 0) : ?>
 					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
 				<span class="contact-name"><?php echo $this->contact->name; ?></span>
@@ -59,17 +59,17 @@ jimport('joomla.html.html.bootstrap');
                         <?php if ($this->contact->misc && $this->params->get('show_misc')) : ?><li><a data-toggle="tab" href="#display-misc"><?php echo JText::_('COM_CONTACT_OTHER_INFORMATION'); ?></a></li><?php endif; ?>
                 </ul>
 	<?php endif; ?>
- 	<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+ 	<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                 <?php echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'basic-details')); ?>
 	<?php endif; ?>
-	<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                 <?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'basic-details')); ?>
 	<?php endif; ?>
     
-	<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+	<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                 <?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
 	<?php endif; ?>
-	<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                 <?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'basic-details'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -98,19 +98,19 @@ jimport('joomla.html.html.bootstrap');
                             <?php echo JText::_('COM_CONTACT_VCARD');?></a>
                 <?php endif; ?>
     
-	<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+	<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                 <?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endif; ?>
-	<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                 <?php echo JHtml::_('bootstrap.endPanel'); ?>
 	<?php endif; ?>
     
 	<?php if ($this->params->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
 
-                <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+                <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                         <?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
                 <?php endif; ?>
-                <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+                <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                         <?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-form'); ?>
                 <?php endif; ?>
                 <?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -119,10 +119,10 @@ jimport('joomla.html.html.bootstrap');
 
 		<?php  echo $this->loadTemplate('form');  ?>
     
-                <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+                <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                         <?php echo JHtml::_('bootstrap.endSlide'); ?>
                 <?php endif; ?>
-                <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+                <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                         <?php echo JHtml::_('bootstrap.endPanel'); ?>
                 <?php endif; ?>
     
@@ -134,10 +134,10 @@ jimport('joomla.html.html.bootstrap');
 
 	<?php if ($this->params->get('show_articles') && $this->contact->user_id && $this->contact->articles) : ?>
     
-                <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+                <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                         <?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
                 <?php endif; ?>
-                <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+                <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                         <?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-articles'); ?>
                 <?php endif; ?>
                 <?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -146,20 +146,20 @@ jimport('joomla.html.html.bootstrap');
                                             
                 <?php echo $this->loadTemplate('articles'); ?>
                                             
-                <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+                <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                         <?php echo JHtml::_('bootstrap.endSlide'); ?>
                 <?php endif; ?>
-                <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+                <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                         <?php echo JHtml::_('bootstrap.endPanel'); ?>
                 <?php endif; ?>
                                             
 	<?php endif; ?>
         <?php if ($this->params->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
     
-                <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+                <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                         <?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
                 <?php endif; ?>
-                <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+                <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                         <?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-profile'); ?>
                 <?php endif; ?>
                 <?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -168,20 +168,20 @@ jimport('joomla.html.html.bootstrap');
                                             
                 <?php echo $this->loadTemplate('profile'); ?>
                                             
-                <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+                <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                         <?php echo JHtml::_('bootstrap.endSlide'); ?>
                 <?php endif; ?>
-                <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+                <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                         <?php echo JHtml::_('bootstrap.endPanel'); ?>
                 <?php endif; ?>
 
 	<?php endif; ?>
 	<?php if ($this->contact->misc && $this->params->get('show_misc')) : ?>
     
-                <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+                <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                         <?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
                 <?php endif; ?>
-                <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+                <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                         <?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-misc'); ?>
                 <?php endif; ?>
                 <?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -203,19 +203,19 @@ jimport('joomla.html.html.bootstrap');
 					</dl>
 				</div>
     
-                <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+                <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                         <?php echo JHtml::_('bootstrap.endSlide'); ?>
                 <?php endif; ?>
-                <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+                <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                         <?php echo JHtml::_('bootstrap.endPanel'); ?>
                 <?php endif; ?>
     
 	<?php endif; ?>
     
-        <?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+        <?php if ($this->params->get('presentation_style') == 'sliders') : ?>
                 <?php echo JHtml::_('bootstrap.endAccordion'); ?>
         <?php endif; ?>
-        <?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+        <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
                 <?php echo JHtml::_('bootstrap.endPane'); ?>
         <?php endif; ?>
     

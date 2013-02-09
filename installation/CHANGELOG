@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -26,6 +26,137 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-February-2013 Jean-Marie Simonet
+ # [#29946] Fixing extension install from dynamic URLs. Thanks Thomas
+ # [#29737] If a user is blocked while logged in, he or she stays logged in. Thanks Alexander
+ # [#29736] Bootstrap carousel undefined method JHtmlBootstrap::_getJSObject in bootstrap.php. Thanks Michael and Robert.
+ # [#30063] Disabled template positions shown in module available positions. Thanks Roberto
+ #$ [#30079] * Improving cookie handling in languagefilter plugin
+ ^+ [#29896] Switch JHtmlIcons to render with JLayout, update quickicons module to suit. Thanks Michael.
+
+06-February-2013 Jean-Marie Simonet
+ # [#29965] Add pagination in COM_SEARCH component
+ #$ [#30057] *Implementing search and pagination in Menu Manager: Menus
+ #$ [#30078] *Adding Note when language pack version is not equal to Joomla version
+ # [#29377] Image select. Thanks Angelika and Niels
+
+-------------------- 3.0.3 Stable Release [4-Feb-2013] ------------------
+
+03-February-2013 Jean-Marie Simonet
+ $ Updating installation lang file: he-IL
+
+02-February-2013 Jean-Marie Simonet
+ $ Updating installation lang file: et-EE, zh-CN
+ $ Updating installation lang file: fa-IR, nb-NO
+
+01-February-2013 Jean-Marie Simonet
+ $ Updating installation lang file: nl-NL
+
+31-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: ru-RU
+ # [#30043] *Correcting a few Hathor css issues
+ $ Updating installation lang file: bs-BA, he-IL
+ # Updating en-GB to 3.0.3
+ $ Updating installation lang file: sw-KE
+
+30-Jan-2013 Mark Dexter
+ # [#27709] Saving in backend very slow when many user groups. Thanks Elin.
+ # [#29705] blank login page J3.x beez3.
+
+30-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: bg=BG, pt-BR, sy-IQ
+
+29-Jan-2013 Mark Dexter
+ ^ [#29776] com_media/plugin interaction. Thanks Elijah Madden.
+ # [#30007] Fix broken module installation in Postgresql because of NULL constraint. Thanks Elin.
+ + [#30006] Add totally new classes and methods from the platform. Thanks Elin.
+ # [#30000] Division by 0 problem in JCrypt. Thanks Elin.
+ # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese. 
+ # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto Segura.
+ # [#28714] Authentication - Gmail: Apply Username suffix does not allow user to login with suffix already applied. Thanks Janich Rasmussen.
+ # [#29345] MySQLi does not display SQL errors messages anymore. Thanks Jérôme Glatigny.
+ # [#29845] Joomla 3.0.2 Back-end Performance Issue with Item Associations (large #__associations table). Thanks Gary Mort.
+
+28-Jan-2013 Jean-Marie Simonet
+ # [#30026] *Reverting parts of tracker #29875 which breaks container-fluid class in Protostar- regression
+ #^ [#29997] Email validation fails with longer top level domains. Thanks Elin
+
+26-Jan-2013 Jean-Marie Simonet
+ # [#30028] Ordering is not working in Beez3 article Category List. Thanks Roberto
+ $ Updating installation lang file: be-BY, fi-FI, ko-KR, pl-PL
+ # [#30031] *Notice: Undefined index: title in /plugins/content/pagebreak/pagebreak.php on line 197. Thanks Bernard
+
+25-Jan-2013 Jean-Marie Simonet
+ # [#29998] Problem with grid sort. Thanks Zhevron
+ # [#30021] *Wrong parameters for Articles Category List layout
+ # [#30023] Faster sorting for languages. Thanks Gary.
+ # [#28841] Username modification in frontend (Profile Edit) is not saved. Thanks Jisse Reitsma
+
+24-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: aa-AA, de-DE, es-ES, hr-HR, lv-LV, ug-CN, vi-VN, zh-TW
+ # [#30018] *Isis calendar display issue
+
+23-Jan-2013 Jean-Marie Simonet
+ # [#29994] Clear tooltips at template hathor
+ # [#29995] No language tooltip at the Joomla Login. Thanks Tobias.
+ # [#30015] *Isis tooltip text is always centered
+
+22-Jan-2013 Jean-Marie Simonet
+ # [#29960] Correct language specification in components' XML files. Thanks Alex B.
+ # [#29907] *Protostar template does not display page break tab feature in a page.
+
+21-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: id-ID, sr-RS, sr-YU, sv-SE, sw-KE, uk-UA
+
+21-Jan-2013 Jean-Marie Simonet
+ $ Updating installation lang file: ca-ES, ckb-IQ, da-DK, fr-FR, it-IT, ja-JP, mk-MK, sk-SK, ta-IN, th-TH, tr-TR
+ 
+19-Jan-2013 Jean-Marie Simonet
+ # [#29987] Code Style Part 2. Thanks Elin
+
+19-Jan-2013 Jean-Marie Simonet
+ # [#29989] *Media manager can't upload is memory_limit is set to -1
+
+18-Jan-2013 Jean-Marie Simonet
+ # [#29979] Codestyle pass 1. Thanks Elin.
+ ^ Updating copyright
+ # [#29952] template manager pagination broken. Thanks Yannick
+
+17-Jan-2013 Jean-Marie Simonet
+ #$+ [#29897] *Multilanguage: adding items associations in remaining core components. Thanks Benjamin
+ # [#29959] *Show Create Date global article option does not work when it is the only option selected
+ # [#29954] *RTL: Wrong display of Subcategories titles in Content Category Blog and Categories menu items
+
+16-Jan-2013 Jean-Marie Simonet
+ # [#29962] *303 when not using URL Language code in multilanguage - again. Thanks Yannick
+
+15-Jan-2013 Jean-Marie Simonet
+ #$ [#29941] *User Profile frontend tooltips same as backend ones
+ # [#29289] *No admin private message when an author submit a new content in frontend
+ # [#29933] *'Article' string above the TOS article and print icon not working with Protostar
+ # [#28778] Incorrect Rendering of Breadcrumb Trail for Home Page Sub-Items. Thanks James and Peter
+
+13-Jan-2013 Jean-Marie Simonet
+ # [#29913] *Com_content feed read more links broken. Thanks Jurian
+ # [#29908] Allow use of text instead of icons in the login module. Thanks Elin
+ # [#28577] User Notes Search not working. Thanks Panayiotis
+
+12-Jan-2013 Jean-Marie Simonet
+ # [#29469] CodeMirror looks a little bad. Thanks Elijah
+ # [#28895] Missing closing </div>. Thanks Janich
+ # [#29921] *Com_content category list filter field wrong Options
+ # [#29923] *Ordering in Featured Articles doesn't work with isis administrator template
+ # [#29927] *User Profile Plugin - Required TOS field not enforced
+ # [#29929] mod_custom with wrong client attribute Thanks Martin
+
+10-Jan-2013 Jean-Marie Simonet
+ # [#29917] *Beez3 RTL wrong display of items in category list
+ # [#29904] *With plugin Language Filter enabled, user articles parameter in frontend shows all articles
+
+08-Jan-2013 Jean-Marie Simonet
+ # [#29914] *Login module wrong display in beez3 RTL
+ # [#29906] *Viewing Access Levels order numbering is not shown
+ 
 06-Jan-2013 Michael Babker
  # [#27699] Only text gets passed to content events in blog view.  Thanks Peter
 

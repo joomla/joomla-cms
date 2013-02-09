@@ -3,17 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 ?>
 
-<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
         <?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_LINKS'), 'display-links'); ?>
 <?php endif; ?>
-<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
         <?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-links'); ?>
 <?php endif; ?>
 <?php if ($this->params->get('presentation_style') == 'plain'):?>
@@ -23,7 +23,7 @@ defined('_JEXEC') or die;
 			<div class="contact-links">
 				<ul class="nav nav-tabs nav-stacked">
 					<?php
-					foreach(range('a', 'e') as $char) :// letters 'a' to 'e'
+					foreach (range('a', 'e') as $char) :// letters 'a' to 'e'
 						$link = $this->contact->params->get('link'.$char);
 						$label = $this->contact->params->get('link'.$char.'_name');
 
@@ -46,9 +46,9 @@ defined('_JEXEC') or die;
 				</ul>
 			</div>
 
-<?php if ($this->params->get('presentation_style') == 'sliders'): ?>
+<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
         <?php echo JHtml::_('bootstrap.endSlide'); ?>
 <?php endif; ?>
-<?php if ($this->params->get('presentation_style') == 'tabs'): ?>
+<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
         <?php echo JHtml::_('bootstrap.endPanel'); ?>
 <?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Extensionupdate
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,8 @@ class plgQuickiconExtensionupdate extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context != $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer')) {
+		if ($context != $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
+		{
 			return;
 		}
 
@@ -64,6 +65,7 @@ class plgQuickiconExtensionupdate extends JPlugin
 		return array(array(
 			'link' => 'index.php?option=com_installer&view=update',
 			'image' => 'asterisk',
+			'icon' => 'header/icon-48-extension.png',
 			'text' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
 			'id' => 'plg_quickicon_extensionupdate'
 		));

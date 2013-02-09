@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -119,7 +119,8 @@ class plgSystemDebug extends JPlugin
 		$html = '';
 
 		// Some "mousewheel protecting" JS
-		$html .= "<script>function toggleContainer(name) {
+		$html .= "<script>function toggleContainer(name)
+		{
 			var e = document.getElementById(name);// MooTools might not be available ;)
 			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
 		}</script>";

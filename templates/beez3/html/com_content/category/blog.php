@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ $cparams = JComponentHelper::getParams('com_media');
 // It will be a separate class if the user starts it with a space
 ?>
 <section class="blog<?php echo $this->pageclass_sfx;?>">
-<?php if ($this->params->get('show_page_heading') != 0 or $this->params->get('show_category_title')): ?>
+<?php if ($this->params->get('show_page_heading') != 0 or $this->params->get('show_category_title')) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	<?php if ($this->params->get('show_category_title'))
@@ -83,7 +83,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		?>
 	</article>
 	<?php $counter++; ?>
-	<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
+	<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 				<span class="row-separator"></span>
 				</div>
 

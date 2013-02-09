@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,8 +59,10 @@ class plgSearchNewsfeeds extends JPlugin
 		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -69,19 +71,23 @@ class plgSearchNewsfeeds extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit     = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent) {
+		if ($sContent)
+		{
 			$state[] = 1;
 		}
-		if ($sArchived) {
+		if ($sArchived)
+		{
 			$state[] = 2;
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 
-		switch ($phrase) {
+		switch ($phrase)
+		{
 			case 'exact':
 				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
 				$wheres2	= array();
@@ -107,7 +113,8 @@ class plgSearchNewsfeeds extends JPlugin
 				break;
 		}
 
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'alpha':
 				$order = 'a.name ASC';
 				break;
@@ -126,7 +133,8 @@ class plgSearchNewsfeeds extends JPlugin
 		$searchNewsfeeds = JText::_('PLG_SEARCH_NEWSFEEDS_NEWSFEEDS');
 
 		$rows = array();
-		if (!empty($state)) {
+		if (!empty($state))
+		{
 			$query	= $db->getQuery(true);
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
@@ -154,7 +162,8 @@ class plgSearchNewsfeeds extends JPlugin
 			$query->order($order);
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
 				$tag = JFactory::getLanguage()->getTag();
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
@@ -163,8 +172,10 @@ class plgSearchNewsfeeds extends JPlugin
 			$db->setQuery($query, 0, $limit);
 			$rows = $db->loadObjectList();
 
-			if ($rows) {
-				foreach($rows as $key => $row) {
+			if ($rows)
+			{
+				foreach ($rows as $key => $row)
+				{
 					$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid='.$row->catslug.'&id='.$row->slug;
 				}
 			}

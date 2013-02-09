@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,11 +19,11 @@ defined('_JEXEC') or die;
 class CacheController extends JControllerLegacy
 {
 	/**
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -72,9 +72,12 @@ class CacheController extends JControllerLegacy
 
 		$model = $this->getModel('cache');
 
-		if(empty($cid)) {
+		if (empty($cid))
+		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
-		} else {
+		}
+		else
+		{
 			$model->cleanlist($cid);
 		}
 
@@ -92,7 +95,8 @@ class CacheController extends JControllerLegacy
 		$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED');
 		$msgType = 'message';
 
-		if ($ret === false) {
+		if ($ret === false)
+		{
 			$msg = JText::_('Error purging expired items');
 			$msgType = 'error';
 		}

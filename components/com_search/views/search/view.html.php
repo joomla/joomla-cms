@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,22 +42,27 @@ class SearchViewSearch extends JViewLegacy
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
-		if (is_object($menu)) {
+		if (is_object($menu))
+		{
 			$menu_params = new JRegistry;
 			$menu_params->loadString($menu->params);
-			if (!$menu_params->get('page_title')) {
+			if (!$menu_params->get('page_title'))
+			{
 				$params->set('page_title',	JText::_('COM_SEARCH_SEARCH'));
 			}
 		}
-		else {
+		else
+		{
 			$params->set('page_title',	JText::_('COM_SEARCH_SEARCH'));
 		}
 
 		$title = $params->get('page_title');
-		if ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		if ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);
@@ -101,23 +106,27 @@ class SearchViewSearch extends JViewLegacy
 		$lang = JFactory::getLanguage();
 		$upper_limit = $lang->getUpperLimitSearchWord();
 		$lower_limit = $lang->getLowerLimitSearchWord();
-		if (SearchHelper::limitSearchWord($searchword)) {
+		if (SearchHelper::limitSearchWord($searchword))
+		{
 			$error = JText::sprintf('COM_SEARCH_ERROR_SEARCH_MESSAGE', $lower_limit, $upper_limit);
 		}
 
 		// Sanitise searchword
-		if (SearchHelper::santiseSearchWord($searchword, $state->get('match'))) {
+		if (SearchHelper::santiseSearchWord($searchword, $state->get('match')))
+		{
 			$error = JText::_('COM_SEARCH_ERROR_IGNOREKEYWORD');
 		}
 
-		if (!$searchword && !empty($this->input) && count($this->input->post)) {
+		if (!$searchword && !empty($this->input) && count($this->input->post))
+		{
 			// $error = JText::_('COM_SEARCH_ERROR_ENTERKEYWORD');
 		}
 
 		// Put the filtered results back into the model
 		// for next release, the checks should be done in the model perhaps...
 		$state->set('keyword', $searchword);
-		if ($error == null) {
+		if ($error == null)
+		{
 			$results	= $this->get('data');
 			$total		= $this->get('total');
 			$pagination	= $this->get('pagination');
@@ -128,7 +137,8 @@ class SearchViewSearch extends JViewLegacy
 			{
 				$row = &$results[$i]->text;
 
-				if ($state->get('match') == 'exact') {
+				if ($state->get('match') == 'exact')
+				{
 					$searchwords = array($searchword);
 					$needle = $searchword;
 				}
@@ -154,7 +164,8 @@ class SearchViewSearch extends JViewLegacy
 				$row = preg_replace($searchRegex, '<span class="highlight">\0</span>', $row);
 
 				$result = &$results[$i];
-				if ($result->created) {
+				if ($result->created)
+				{
 					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
 				}
 				else {
@@ -169,7 +180,8 @@ class SearchViewSearch extends JViewLegacy
 
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
-		if (isset($active->query['layout'])) {
+		if (isset($active->query['layout']))
+		{
 			$this->setLayout($active->query['layout']);
 		}
 

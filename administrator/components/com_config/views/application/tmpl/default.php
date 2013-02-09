@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,8 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
+		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form')))
+		{
 			Joomla.submitform(task, document.getElementById('application-form'));
 		}
 	}
@@ -32,7 +33,8 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php
 					// Display the submenu position modules
 					$this->submenumodules = JModuleHelper::getModules('submenu');
-					foreach ($this->submenumodules as $submenumodule) {
+					foreach ($this->submenumodules as $submenumodule)
+					{
 						$output = JModuleHelper::renderModule($submenumodule);
 						$params = new JRegistry;
 						$params->loadString($submenumodule->params);

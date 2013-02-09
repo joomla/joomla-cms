@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -165,7 +165,9 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->assertStringStartsWith('Article Categories Module', $this->getTable("//form[@id='adminForm']//table.3.3"));
 		$this->assertStringStartsWith('Articles Category Module', $this->getTable("//form[@id='adminForm']//table.4.3"));
 		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']//table.2.3"), 'Category: Languages') > 0);
+
 		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']//table.3.3"), 'Category: Languages') > 0);
+
 		$this->assertTrue(strpos($this->getTable("//form[@id='adminForm']//table.4.3"), 'Category: Languages') > 0);
 		$this->jPrint ("Move articles back to original category\n");
 		$this->click("cb1");

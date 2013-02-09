@@ -424,3 +424,6 @@ body {
 .badge {
 	margin-left: 10px;
 }
+.tip-text {
+	text-align: right;
+}

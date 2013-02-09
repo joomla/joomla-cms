@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,8 +24,8 @@ class InstallerModel extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see		JController
-	 * @since	1.6
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -51,7 +51,7 @@ class InstallerModel extends JModelList
 	 * @param   int     $limitstart  Offset
 	 * @param   int     $limit       The number of records
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
@@ -102,7 +102,7 @@ class InstallerModel extends JModelList
 	 *
 	 * @param   array  &$items  The array of objects
 	 *
-	 * @return	array The array of translated objects
+	 * @return  array The array of translated objects
 	 */
 	private function translate(&$items)
 	{

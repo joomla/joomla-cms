@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,7 +55,7 @@ JHtml::_('behavior.framework');
 	<?php endif; ?>
 
 	<?php // to do not that elegant would be nice to group the params ?>
-	<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date')
+	<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 		|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')|| $params->get('show_author')); ?>
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 
@@ -111,7 +111,7 @@ JHtml::_('behavior.framework');
 				</dd>
 			<?php endif; ?>
 
-			<?php if ($info == 0): ?>
+			<?php if ($info == 0) : ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd  class="modified">
 					<span class="icon-calendar"></span>
@@ -155,7 +155,7 @@ JHtml::_('behavior.framework');
 			<dl class="article-info muted">
 			<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-			<?php if ($info == 1): ?>
+			<?php if ($info == 1) : ?>
 				<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 					<dd class="createdby">
 						<?php $author = $this->item->author; ?>
