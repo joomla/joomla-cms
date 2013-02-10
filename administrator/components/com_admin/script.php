@@ -532,6 +532,17 @@ class JoomlaInstallerScript
 			'/libraries/joomla/utilities/xmlelement.php',
 			'/media/plg_quickicon_extensionupdate/extensionupdatecheck.js',
 			'/media/plg_quickicon_joomlaupdate/jupdatecheck.js',
+			// Joomla! 3.1
+			'/libraries/joomla/form/rules/boolean.php',
+			'/libraries/joomla/form/rules/color.php',
+			'/libraries/joomla/form/rules/email.php',
+			'/libraries/joomla/form/rules/equals.php',
+			'/libraries/joomla/form/rules/index.html',
+			'/libraries/joomla/form/rules/options.php',
+			'/libraries/joomla/form/rules/rules.php',
+			'/libraries/joomla/form/rules/tel.php',
+			'/libraries/joomla/form/rules/url.php',
+			'/libraries/joomla/form/rules/username.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -568,6 +579,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/html/parameter/element',
 			'/libraries/joomla/image/filters',
 			'/libraries/joomla/log/loggers',
+			// Joomla! 3.1
+			'/libraries/joomla/form/rules',
 		);
 
 		jimport('joomla.filesystem.file');

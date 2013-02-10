@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 09-February-2013 Michael Babker
  # [#29970] Robots.txt check url no more working.  Thanks Brian
+ # [#30049] Move rules for autoloading.  Thanks Elin
 
 08-February-2013 Jean-Marie Simonet
  # [#29946] Fixing extension install from dynamic URLs. Thanks Thomas
