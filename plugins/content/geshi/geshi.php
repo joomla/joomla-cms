@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Plugin
  * @subpackage  Content.geshi
  */
-class plgContentGeshi extends JPlugin
+class PlgContentGeshi extends JPlugin
 {
 	/**
 	 * @param   string	The context of the content being passed to the plugin.

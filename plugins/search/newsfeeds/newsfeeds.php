@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Search.newsfeeds
  * @since       1.6
  */
-class plgSearchNewsfeeds extends JPlugin
+class PlgSearchNewsfeeds extends JPlugin
 {
 	/**
 	 * Constructor
