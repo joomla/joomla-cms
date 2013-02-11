@@ -76,10 +76,6 @@
 
 .sbox-content-iframe#sbox-content {
 	overflow: visible;
-	width: 810px;
-}
-.sbox-content-iframe#sbox-content iframe {
-	width:808px;
 }
 
 /* Hides scrollbars */
