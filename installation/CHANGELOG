@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-February-2013 Jean-Marie Simonet
+# [#30056] * Icomoon issue with some character & More RTL compatibility for Isis template. Thanks Mohammad.
+
 10-February-2013 Jean-Marie Simonet
  +$ Adding af-AZ to installation languages
 
