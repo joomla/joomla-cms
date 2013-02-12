@@ -29,6 +29,7 @@ $ -> Language fix or change
 12-February-2013 Jean-Marie Simonet
  # [#30074] *Front end edit button missing in category blog
  # [#30087] Second scrollbar at the media manager (isis). Thanks Constantin
+ # Added the error file in the Protostar template xml. Thanks Miguel Angel
 
 11-February-2013 Jean-Marie Simonet
  # [#30056] * Icomoon issue with some character & More RTL compatibility for Isis template. Thanks Mohammad.

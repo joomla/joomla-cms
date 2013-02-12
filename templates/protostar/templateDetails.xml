@@ -10,6 +10,7 @@
 	<description>TPL_PROTOSTAR_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>
+		<filename>error.php</filename>
 		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
 		<filename>templateDetails.xml</filename>
