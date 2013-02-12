@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-February-2013 Jean-Marie Simonet
+ # [#30074] *Front end edit button missing in category blog
+
 11-February-2013 Jean-Marie Simonet
  # [#30056] * Icomoon issue with some character & More RTL compatibility for Isis template. Thanks Mohammad.
  + [#30086] * Improving Edit Assignment in Template Edit style
