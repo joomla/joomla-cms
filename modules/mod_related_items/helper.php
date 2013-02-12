@@ -18,7 +18,7 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
  * @subpackage  mod_related_items
  * @since       1.5
  */
-abstract class modRelatedItemsHelper
+abstract class ModRelatedItemsHelper
 {
 	public static function getList($params)
 	{

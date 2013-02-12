@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Quickicon.Joomlaupdate
  * @since       2.5
  */
-class plgQuickiconJoomlaupdate extends JPlugin
+class PlgQuickiconJoomlaupdate extends JPlugin
 {
 	/**
 	 * Constructor

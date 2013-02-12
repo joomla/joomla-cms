@@ -14,8 +14,8 @@ require_once __DIR__ . '/helper.php';
 
 $link	= $params->get('link');
 
-$folder	= modRandomImageHelper::getFolder($params);
-$images	= modRandomImageHelper::getImages($params, $folder);
+$folder	= ModRandomImageHelper::getFolder($params);
+$images	= ModRandomImageHelper::getImages($params, $folder);
 
 if (!count($images))
 {
@@ -23,6 +23,6 @@ if (!count($images))
 	return;
 }
 
-$image = modRandomImageHelper::getRandomImage($params, $images);
+$image = ModRandomImageHelper::getRandomImage($params, $images);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 require JModuleHelper::getLayoutPath('mod_random_image', $params->get('layout', 'default'));

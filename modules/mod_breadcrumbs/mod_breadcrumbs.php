@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 
 // Get the breadcrumbs
-$list	= modBreadCrumbsHelper::getList($params);
+$list	= ModBreadCrumbsHelper::getList($params);
 $count	= count($list);
 
 // Set the default separator
-$separator = modBreadCrumbsHelper::setSeparator($params->get('separator'));
+$separator = ModBreadCrumbsHelper::setSeparator($params->get('separator'));
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 require JModuleHelper::getLayoutPath('mod_breadcrumbs', $params->get('layout', 'default'));
