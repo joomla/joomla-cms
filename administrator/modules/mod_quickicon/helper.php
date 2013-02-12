@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_quickicon
  * @since       1.6
  */
-abstract class modQuickIconHelper
+abstract class ModQuickIconHelper
 {
 	/**
 	 * Stack to hold buttons

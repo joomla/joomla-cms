@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage  User.contactcreator
  * @since       1.6
  */
-class plgUserContactCreator extends JPlugin
+class PlgUserContactCreator extends JPlugin
 {
 	/**
 	 * Constructor

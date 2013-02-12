@@ -18,7 +18,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
  * @subpackage  System.languagefilter
  * @since       1.6
  */
-class plgSystemLanguageFilter extends JPlugin
+class PlgSystemLanguageFilter extends JPlugin
 {
 	protected static $mode_sef;
 

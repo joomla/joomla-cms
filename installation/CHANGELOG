@@ -26,6 +26,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-February-2013 Jean-Marie Simonet
+ # [#30074] *Front end edit button missing in category blog
+ # [#30087] Second scrollbar at the media manager (isis). Thanks Constantin
+ # Added the error file in the Protostar template xml. Thanks Miguel Angel
+
+11-February-2013 Jean-Marie Simonet
+ # [#30056] * Icomoon issue with some character & More RTL compatibility for Isis template. Thanks Mohammad.
+ + [#30086] * Improving Edit Assignment in Template Edit style
+ # Reverting [#29377]
+
+10-February-2013 Jean-Marie Simonet
+ +$ Adding af-AZ to installation languages
+
+09-February-2013 Michael Babker
+ # [#29970] Robots.txt check url no more working.  Thanks Brian
+ # [#30049] Move rules for autoloading.  Thanks Elin
+
 08-February-2013 Jean-Marie Simonet
  # [#29946] Fixing extension install from dynamic URLs. Thanks Thomas
  # [#29737] If a user is blocked while logged in, he or she stays logged in. Thanks Alexander
@@ -71,7 +88,7 @@ $ -> Language fix or change
  # [#30007] Fix broken module installation in Postgresql because of NULL constraint. Thanks Elin.
  + [#30006] Add totally new classes and methods from the platform. Thanks Elin.
  # [#30000] Division by 0 problem in JCrypt. Thanks Elin.
- # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese. 
+ # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese.
  # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto Segura.
  # [#28714] Authentication - Gmail: Apply Username suffix does not allow user to login with suffix already applied. Thanks Janich Rasmussen.
  # [#29345] MySQLi does not display SQL errors messages anymore. Thanks Jérôme Glatigny.
@@ -110,7 +127,7 @@ $ -> Language fix or change
 
 21-Jan-2013 Jean-Marie Simonet
  $ Updating installation lang file: ca-ES, ckb-IQ, da-DK, fr-FR, it-IT, ja-JP, mk-MK, sk-SK, ta-IN, th-TH, tr-TR
- 
+
 19-Jan-2013 Jean-Marie Simonet
  # [#29987] Code Style Part 2. Thanks Elin
 
@@ -156,7 +173,7 @@ $ -> Language fix or change
 08-Jan-2013 Jean-Marie Simonet
  # [#29914] *Login module wrong display in beez3 RTL
  # [#29906] *Viewing Access Levels order numbering is not shown
- 
+
 06-Jan-2013 Michael Babker
  # [#27699] Only text gets passed to content events in blog view.  Thanks Peter
 

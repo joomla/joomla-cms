@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
-JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
+JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
  * Installer Manage Model
@@ -59,7 +59,7 @@ class InstallerModelDatabase extends InstallerModel
 		$changeSet->fix();
 		$this->fixSchemaVersion($changeSet);
 		$this->fixUpdateVersion();
-		$installer = new joomlaInstallerScript;
+		$installer = new JoomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
 	}
