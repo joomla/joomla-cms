@@ -545,14 +545,14 @@ Joomla.contentLoaded = function(win, fn) {
 /**
  * add events for init
  * use like:
- * 		Joomla.addEvent('domready.extension_name', callback); // for domready, domchanged
- * 		Joomla.addEvent('load.extension_name', callback); // for load, domchanged
+ * 		Joomla.addEvent('domready.extension_name', callback); // for domready, and the "load" that comes after first "load"
+ * 		Joomla.addEvent('load.extension_name', callback); // for load
  * 		Joomla.addEvent('unload.extension_name', callback); // for unload only
- * 		Joomla.addEvent('domchanged.extension_name', callback); // for domchanged only
  *
- *		subscription for domchanged we do automatically - it important for keep
+ *		all "domready" have subscription for "load" event automatically - it important for keep
  *		the script working after DOM manipulation by other scripts, or for init scripts
  *		that added "on fly"
+ *
  */
 
 Joomla.addEvent = function (event, fn) {
@@ -561,18 +561,12 @@ Joomla.addEvent = function (event, fn) {
 
 	//decide which events we will use
 	var events = [];
-	//base event eg: domready
+	//base event eg: domready, load
 	events.push(nameBase);
-	//namespaced event eg: domready.extension_name
-	if(nameSpace) {
+	//namespaced event eg: load.extension_name,
+	//but skip domready
+	if(nameSpace && nameBase.indexOf('ready') === -1) {
 		events.push(event);
-	}
-	//if it domready or load then need subscription for domchanged
-	if (nameBase.indexOf('ready') !== -1 || nameBase === 'load') {
-		events.push('domchanged');
-		if(nameSpace) {
-			events.push('domchanged.' + nameSpace);
-		}
 	}
 
 	//do subscription
@@ -589,18 +583,30 @@ Joomla.addEvent = function (event, fn) {
 		}
 	}
 
-	//and add to eventlisteners, but only real events
-	if (nameBase.indexOf('domchanged') === -1) { //maybe someone want subscription only for domchanged
-		if (nameBase.indexOf('ready') !== -1) {
-			Joomla.contentLoaded(window, Joomla.fireEvent.bind(window, nameBase, document));
-		}
-		else if (window.addEventListener) { // W3C DOM
-			window.addEventListener(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
-		}
-		else if (window.attachEvent) { // IE DOM
-			window.attachEvent("on" + nameBase, Joomla.fireEvent.bind(window, nameBase, document));
-		}
+	//callback for execure all fn in event
+	var callback = Joomla.fireEvent.bind(window, nameBase, document);
+
+	//add to eventlisteners, but only real events
+	if (nameBase.indexOf('ready') !== -1) {
+		Joomla.contentLoaded(window, callback);
+
+		//subscrib domredy to "load" event after first "load" fired
+		Joomla.addEvent('load', function(){
+			//remove from "domready" storage
+			Joomla.removeEvent(nameBase, fn);
+			//subscrib to "load", keep nameSpace
+			Joomla.addEvent((!nameSpace ? 'load' : 'load.' + nameSpace), fn);
+			//self destroy (:
+			Joomla.removeEvent('load', arguments.callee);
+		})
 	}
+	else if (window.addEventListener) { // W3C DOM
+		window.addEventListener(nameBase, callback);
+	}
+	else if (window.attachEvent) { // IE DOM
+		window.attachEvent("on" + nameBase, callback);
+	}
+
 	return Joomla;
 };
 
@@ -613,18 +619,11 @@ Joomla.removeEvent = function (event, fn) {
 
 	//decide which events we will use
 	var events = [];
-	//base event eg: domready
+	//base event eg: load
 	events.push(nameBase);
-	//namespaced event eg: domready.extension_name
+	//namespaced event eg: load.extension_name
 	if(nameSpace) {
 		events.push(event);
-	}
-	//if it domready or load then need delete domchanged to
-	if (nameBase.indexOf('ready') !== -1 || nameBase === 'load') {
-		events.push('domchanged');
-		if(nameSpace) {
-			events.push('domchanged.' + nameSpace);
-		}
 	}
 
 	//do removing from eventsStorage
@@ -640,17 +639,19 @@ Joomla.removeEvent = function (event, fn) {
 	}
 
 	//and remove from eventlisteners, but only real events
-	if (nameBase.indexOf('domchanged') === -1 && nameBase.indexOf('ready') === -1) {
+	if (nameBase.indexOf('ready') === -1) {
+		var callback = Joomla.fireEvent.bind(window, nameBase, document);
+
 		if (window.removeEventListener) { // W3C DOM
-			window.removeEventListener(nameBase, Joomla.fireEvent.bind(window, nameBase, document));
+			window.removeEventListener(nameBase, callback);
 		}
 		else if (window.detachEvent) { // IE DOM
-			window.detachEvent("on" + nameBase, Joomla.fireEvent.bind(window, nameBase, document));
+			window.detachEvent("on" + nameBase, callback);
 		}
 	}
 
 	return Joomla;
-};
+}
 
 /**
  * fire event before/after domchanged
@@ -658,8 +659,8 @@ Joomla.removeEvent = function (event, fn) {
  * 		Joomla.fireEvent('unload', 'unloaded-element'); //fires for all unload subscribers
  * 		Joomla.fireEvent('unload.extension_name', 'unloaded-element'); //fires only for specified exstension
  *
- * 		Joomla.fireEvent('domchanged', 'changed-element'); //fires for all domchanged subscribers
- * 		Joomla.fireEvent('domchanged.extension_name', 'changed-element'); //fires only for specified exstension
+ * 		Joomla.fireEvent('load', 'changed-element'); //fires for all domready, load subscribers
+ * 		Joomla.fireEvent('load.extension_name', 'changed-element'); //fires only for specified exstension
  */
 
 Joomla.fireEvent = function(event, element) {
@@ -677,5 +678,3 @@ Joomla.fireEvent = function(event, element) {
 
 	return Joomla;
 }
-
-
