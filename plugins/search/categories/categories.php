@@ -18,7 +18,7 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
  * @subpackage  Search.categories
  * @since       1.6
  */
-class plgSearchCategories extends JPlugin
+class PlgSearchCategories extends JPlugin
 {
 	/**
 	 * Constructor

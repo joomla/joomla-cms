@@ -17,7 +17,7 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
  * @package     Joomla.Site
  * @subpackage  mod_articles_categories
  */
-abstract class modArticlesCategoriesHelper
+abstract class ModArticlesCategoriesHelper
 {
 	public static function getList(&$params)
 	{

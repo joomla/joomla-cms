@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_login
  * @since       1.6
  */
-abstract class modLoginHelper
+abstract class ModLoginHelper
 {
 	/**
 	 * Get an HTML select list of the available languages.

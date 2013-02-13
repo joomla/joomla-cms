@@ -860,11 +860,15 @@ Calendar.prototype.create = function (_par) {
 	var help = '<a href="#" data-action="help" style="padding:0"><span class="icon-help icon-question-sign"></span></a>';
 	help += '<a href="#" data-action="help" style="display:block" class="nav element-invisible">?</a>'
 	hh(help, 1, 400, 'td', { 'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["INFO"];
-	var helpa = document.id(row).getElement('a[data-action=help]');
-	Calendar.addEvent(helpa, "click", function (e) {
-		Calendar.stopEvent(e);
-		Calendar.showHelp();
-	});
+	var helpa = document.id(row).getElement
+	var helpAs = document.id(row).getElements('a[data-action=help]');
+	for (var i = 0; i < helpAs.length; i ++) {
+		var helpa = helpAs[i];
+		Calendar.addEvent(helpa, "click", function (e) {
+			Calendar.stopEvent(e);
+			Calendar.showHelp();
+		});
+	}
 	this.title = hh('<div style="text-align:center"><span class="icon-calendar"></span> <span></span></div>', title_length, 300);
 	this.title.className = "title";
 	if (this.isPopup) {
@@ -874,13 +878,16 @@ Calendar.prototype.create = function (_par) {
 		var close = '<a href="#" data-action="close" style="padding:0"><span class="icon-cancel"></span></a>';
 		close += '<a href="#" data-action="close" style="display:block" class="nav element-invisible">&#x00d7;</a>'
 		hh(close, 1, 200, 'td', {'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["CLOSE"];
-		var closea = document.id(row).getElement('a[data-action=close]');
-		Calendar.addEvent(closea, 'click', function (e) {
-			Calendar.stopEvent(e);
-			var el = closea.getParent('table');
-			var cal = el.calendar;
-			cal.callCloseHandler();
-		});
+		var closeAs = document.id(row).getElements('a[data-action=close]');
+		for (var i = 0; i < closeAs.length; i ++) {
+			var closea = closeAs[i];
+			Calendar.addEvent(closea, 'click', function (e) {
+				Calendar.stopEvent(e);
+				var el = closea.getParent('table');
+				var cal = el.calendar;
+				cal.callCloseHandler();
+			});
+		}
 	}
 
 	row = Calendar.createElement("tr", thead);
