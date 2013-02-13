@@ -6390,6 +6390,9 @@ h6 {
 	body {
 		padding-top: 30px;
 	}
+	body.component {
+		padding-top: 0;
+	}
 }
 @media (max-width: 738px) {
 	.navbar .brand {
