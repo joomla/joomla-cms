@@ -632,7 +632,9 @@ Joomla.removeEvent = function (event, fn) {
 		if (Joomla.eventsStorage[events[i]].length) {
 			var index = Joomla.eventsStorage[events[i]].indexOf(fn);
 			if( index !== -1) {
+				//use splice(k, 1) for keep length
 				delete Joomla.eventsStorage[events[i]][index];
+				Joomla.eventsStorage[events[i]].splice(index, 1)
 			}
 		}
 	}
