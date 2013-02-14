@@ -503,6 +503,12 @@ Joomla.optionsStorage = {};
 Joomla.eventsStorage = {};
 
 /**
+ * marker used for check whether domready was called-in
+ */
+
+Joomla.readyCalled = false;
+
+/**
  * domready listener
  * 	based on contentloaded.js http://javascript.nwbox.com/ContentLoaded/
  * 	written by Diego Perini (diego.perini at gmail.com)
@@ -565,6 +571,13 @@ Joomla.addEvent = function (event, fn) {
 
 	//decide which events we will use
 
+	//if event == "domready"  and "domready" already fired
+	//subscrib it on the "load" event
+	if(nameBase.indexOf('ready') !== -1 && Joomla.readyCalled) {
+		event = event.replace(nameBase, 'load');
+		nameBase = 'load';
+	}
+
 	var events = [];
 	//base event eg: domready, load
 	events.push(nameBase);
@@ -603,6 +616,8 @@ Joomla.addEvent = function (event, fn) {
 			Joomla.addEvent((!nameSpace ? 'load' : 'load.' + nameSpace), fn);
 			//self destroy (:
 			Joomla.removeEvent('load', arguments.callee);
+			//set marker called, here we sure on 100%
+			Joomla.readyCalled = true;
 		})
 	}
 	else if (window.addEventListener) { // W3C DOM
