@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 14-Feb-2013 Jean-Marie Simonet
  # [#30095] *Select menu type modal corrections for Hathor and Isis RTL
+ # [#29786] JHtmlBootstrap tabs broken. Thanks Tim Kramer.
 
 12-Feb-2013 Mark Dexter
  # [#30066] Minor update releases not showing by default for new 3.0.x installs. Thanks Michael.
