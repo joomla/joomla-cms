@@ -14,6 +14,9 @@ JHtml::_('bootstrap.tooltip');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
+
+$version = new JVersion;
+
 ?>
 
 <div id="installer-languages">
