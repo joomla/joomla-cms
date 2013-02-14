@@ -508,11 +508,11 @@ Joomla.eventsStorage = {};
  * 	written by Diego Perini (diego.perini at gmail.com)
  */
 
-Joomla.contentLoaded = function(win, fn) {
-
+Joomla.contentLoaded = function(fn) {
+	//init variables
 	var done = false, top = true,
 
-	doc = win.document, root = doc.documentElement,
+	win = window, doc = win.document, root = doc.documentElement,
 
 	add = doc.addEventListener ? 'addEventListener' : 'attachEvent',
 	rem = doc.addEventListener ? 'removeEventListener' : 'detachEvent',
@@ -529,6 +529,7 @@ Joomla.contentLoaded = function(win, fn) {
 		init('poll');
 	};
 
+	//do action
 	if (doc.readyState == 'complete') fn.call(win, 'lazy');
 	else {
 		if (doc.createEventObject && root.doScroll) {
@@ -553,6 +554,9 @@ Joomla.contentLoaded = function(win, fn) {
  *		the script working after DOM manipulation by other scripts, or for init scripts
  *		that added "on fly"
  *
+ * @param event - string, event name
+ * @param fn - callback function
+ *
  */
 
 Joomla.addEvent = function (event, fn) {
@@ -560,35 +564,36 @@ Joomla.addEvent = function (event, fn) {
 	var names = event.split('.'), nameBase = names[0], nameSpace = names[1];
 
 	//decide which events we will use
+
 	var events = [];
 	//base event eg: domready, load
 	events.push(nameBase);
+
 	//namespaced event eg: load.extension_name,
 	//but skip domready
 	if(nameSpace && nameBase.indexOf('ready') === -1) {
 		events.push(event);
 	}
 
-	//do subscription
+	//store the callbacs in the storage, event => callbacks array
 	for (var i = 0; i < events.length; i++) {
 		//prepare events storage
 		if (!Joomla.eventsStorage[events[i]]) {
 			Joomla.eventsStorage[events[i]] = [];
 		}
 
-		//store the callback in the Joomla.eventsStorage
-		//do it only once
+		//add only once
 		if (Joomla.eventsStorage[events[i]].indexOf(fn) === -1) {
 			Joomla.eventsStorage[events[i]].push(fn);
 		}
 	}
 
-	//callback for execure all fn in event
+	//callback for execure all callbacs in event
 	var callback = Joomla.fireEvent.bind(window, nameBase, document);
 
 	//add to eventlisteners, but only real events
 	if (nameBase.indexOf('ready') !== -1) {
-		Joomla.contentLoaded(window, callback);
+		Joomla.contentLoaded(callback);
 
 		//subscrib domredy to "load" event after first "load" fired
 		Joomla.addEvent('load', function(){
@@ -604,7 +609,7 @@ Joomla.addEvent = function (event, fn) {
 		window.addEventListener(nameBase, callback);
 	}
 	else if (window.attachEvent) { // IE DOM
-		window.attachEvent("on" + nameBase, callback);
+		window.attachEvent('on' + nameBase, callback);
 	}
 
 	return Joomla;
@@ -612,15 +617,21 @@ Joomla.addEvent = function (event, fn) {
 
 /**
  * remove events
+ *
+ * @param event - string, event name
+ * @param fn - callback function that need to remove
+ *
  */
 Joomla.removeEvent = function (event, fn) {
 	// Get event type and extension name
 	var names = event.split('.'), nameBase = names[0], nameSpace = names[1];
 
 	//decide which events we will use
+
 	var events = [];
 	//base event eg: load
 	events.push(nameBase);
+
 	//namespaced event eg: load.extension_name
 	if(nameSpace) {
 		events.push(event);
@@ -640,6 +651,7 @@ Joomla.removeEvent = function (event, fn) {
 
 	//and remove from eventlisteners, but only real events
 	if (nameBase.indexOf('ready') === -1) {
+		//callback in same way as was in addEvent()
 		var callback = Joomla.fireEvent.bind(window, nameBase, document);
 
 		if (window.removeEventListener) { // W3C DOM
@@ -661,6 +673,10 @@ Joomla.removeEvent = function (event, fn) {
  *
  * 		Joomla.fireEvent('load', 'changed-element'); //fires for all domready, load subscribers
  * 		Joomla.fireEvent('load.extension_name', 'changed-element'); //fires only for specified exstension
+ *
+ * @param event - string, event name
+ * @param element - element DOM object or ID of element
+ *
  */
 
 Joomla.fireEvent = function(event, element) {
@@ -678,3 +694,4 @@ Joomla.fireEvent = function(event, element) {
 
 	return Joomla;
 }
+
