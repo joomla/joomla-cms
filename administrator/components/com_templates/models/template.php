@@ -80,11 +80,14 @@ class TemplatesModelTemplate extends JModelLegacy
 				$result['main']['offline'] = $this->getFile($path, 'offline.php');
 
 				// Handle the CSS files.
-				$files = JFolder::files($path.'/css', '\.css$', false, false);
-
-				foreach ($files as $file)
+				if(is_dir($path.'/css'))
 				{
-					$result['css'][] = $this->getFile($path.'/css/', 'css/'.$file);
+					$files = JFolder::files($path.'/css', '\.css$', false, false);
+	
+					foreach ($files as $file)
+					{
+						$result['css'][] = $this->getFile($path.'/css/', 'css/'.$file);
+					}
 				}
 			} else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
