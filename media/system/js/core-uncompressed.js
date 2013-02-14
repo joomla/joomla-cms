@@ -652,9 +652,17 @@ Joomla.removeEvent = function (event, fn) {
 		events.push(event);
 	}
 
+	//also need check "load" if "doomready" because auto subscription
+	if(nameBase.indexOf('ready') !== -1) {
+		events.push('load')
+		if(nameSpace){
+			events.push(event.replace(nameBase, 'load'));
+		}
+	}
+
 	//do removing from eventsStorage
 	for (var i = 0; i < events.length; i++) {
-		if (Joomla.eventsStorage[events[i]].length) {
+		if (Joomla.eventsStorage[events[i]] && Joomla.eventsStorage[events[i]].length) {
 			var index = Joomla.eventsStorage[events[i]].indexOf(fn);
 			if( index !== -1) {
 				//use splice(k, 1) for keep length
