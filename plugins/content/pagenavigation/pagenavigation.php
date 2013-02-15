@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Content.pagenavigation
  * @since       1.5
  */
-class plgContentPagenavigation extends JPlugin
+class PlgContentPagenavigation extends JPlugin
 {
 	/**
 	 * @since   1.6

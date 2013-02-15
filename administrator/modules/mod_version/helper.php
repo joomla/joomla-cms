@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_version
  * @since       1.6
  */
-abstract class modVersionHelper
+abstract class ModVersionHelper
 {
 	/**
 	 * Get the member items of the submenu.

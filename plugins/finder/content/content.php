@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Content
  * @since       2.5
  */
-class plgFinderContent extends FinderIndexerAdapter
+class PlgFinderContent extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.

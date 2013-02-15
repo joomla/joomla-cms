@@ -853,9 +853,13 @@ div.toolbar-box h3 {
 	padding: 0;
 	margin: 0;
 }
+.btn-toolbar {
+	margin-bottom: 3px;
+	margin-top: 14px;
+}
 div.btn-toolbar {
 	float: left;
-	text-align: right;
+	text-align: left;
 	padding: 0;
 }
 div.toolbar-list li.spacer {
@@ -878,7 +882,6 @@ div.btn-toolbar div.btn-group button {
 	white-space: nowrap;
 	padding: 1px 5px;
 	cursor: pointer;
-	font-weight: bold;
 	text-align: center;
 }
 div.btn-toolbar button:hover,
@@ -922,10 +925,10 @@ h3.pane-toggler a:focus {
 .pane-slider.pane-hide {
 	display: none;
 }
-div#position-icon.pane-sliders div.pane-down div.icon-wrapper {
+div#position-icon.pane-sliders div.pane-down div.quickicon-wrapper {
 	margin: 5px 0 5px 0;
 }
-div#position-icon.pane-sliders div.pane-down .icon-wrapper .icon {
+div#position-icon.pane-sliders div.pane-down .quickicon-wrapper .icon {
 	padding: 5px 0 5px 10px;
 	margin: 0;
 }
@@ -1120,7 +1123,6 @@ p.tab-description {
 	height: 2.2em;
 	line-height: 2.2em;
 	font-size: 1.5em;
-	font-weight: bold;
 	cursor: default;
 	padding: 0 15px 0 15px;
 }
@@ -1160,10 +1162,11 @@ p.tab-description {
 	text-align: center;
 }
 div.cpanel-icons {
+	width: 54%;
 	float: left;
 }
 div.cpanel-component {
-	width: 75%;
+	width: 45%;
 	float: right;
 }
 div.col {
@@ -1373,6 +1376,8 @@ fieldset ul.checklist input:focus {
 fieldset#filter-bar {
 	margin: 0;
 	padding: 5px 10px 5px 10px;
+	float: left;
+	width: 98%;
 }
 fieldset#filter-bar ol,
 fieldset#filter-bar ul {
@@ -1641,6 +1646,7 @@ th.home-col {
 }
 table.adminlist {
 	width: 100%;
+	float: left;
 }
 table.adminlist td,
 table.adminlist th {
@@ -1690,6 +1696,10 @@ table.adminlist td.order input {
 	text-align: center;
 	width: 3em;
 	font-size: 100%;
+}
+#media-tree_tree ul {
+	list-style: none outside none;
+	margin: 0 10px;
 }
 table.adminlist td.indent-4 {
 	padding-left: 4px;
@@ -1915,7 +1925,7 @@ div.pagination {
 }
 .pagination button {
 	font-size: 100%;
-	height: 1.8em;
+	height: 2.0em;
 	line-height: 1.8em;
 	margin-right: 20px;
 }
@@ -2483,6 +2493,9 @@ ul.config-option-list fieldset {
 	padding-left: 0;
 	padding-right: 0;
 }
+#permissions-sliders {
+	margin-top: 15px;
+}
 #permissions-sliders ul#rules,
 #permissions-sliders ul#rules ul {
 	margin: 0 !important;
@@ -2665,6 +2678,10 @@ ul.helpmenu li {
 #menu li li.sfhover a.sffocus+ul {
 	margin-left: 16em;
 }
+#sidebar {
+	float: left;
+	margin: 15px 5px;
+}
 #submenu {
 	list-style: none;
 	padding: 0;
@@ -2770,6 +2787,9 @@ fieldset.uploadform {
 #installer-update,
 #installer-warnings {
 	margin-top: 10px;
+}
+#installer-database #sidebar {
+	float: none;
 }
 #installer-database p.warning {
 	padding-left: 20px;
@@ -3029,4 +3049,16 @@ a.badge:hover {
 .label-inverse[href],
 .badge-inverse[href] {
 	background-color: #1a1a1a;
+}
+.media .btn {
+	margin: 10px 20px;
+}
+.thumbnails > li {
+	list-style: none outside none;
+	float: left;
+	margin-bottom: 18px;
+	margin-left: 20px;
+}
+#mediamanager-form {
+	margin: 10px;
 }

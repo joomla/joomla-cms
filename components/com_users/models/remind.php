@@ -95,9 +95,9 @@ class UsersModelRemind extends JModelForm
 		if ($data === false)
 		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message)
+			foreach ($form->getErrors() as $formError)
 			{
-				$this->setError($message);
+				$this->setError($formError->getMessage());
 			}
 			return false;
 		}
