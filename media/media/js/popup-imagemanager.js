@@ -98,7 +98,7 @@ var ImageManager = this.ImageManager = {
 		if (url != '') {
 			// Set alt attribute
 			if (alt != '') {
-				extra = extra + 'alt="'+alt+'" ';
+				extra = extra + 'alt="' + this.htmlEntities(alt) + '" ';
 			} else {
 				extra = extra + 'alt="" ';
 			}
@@ -106,11 +106,11 @@ var ImageManager = this.ImageManager = {
 			if (align != '') {
 				extra = extra + 'align="'+align+'" ';
 			}
-			// Set align attribute
+			// Set title attribute
 			if (title != '') {
-				extra = extra + 'title="'+title+'" ';
+				extra = extra + 'title="' + this.htmlEntities(title) + '" ';
 			}
-			// Set align attribute
+			// Set caption class
 			if (caption != '') {
 				extra = extra + 'class="caption" ';
 			}
@@ -214,7 +214,11 @@ var ImageManager = this.ImageManager = {
 	{
 		this._setFrameUrl();
 	},
-
+	
+	htmlEntities: function (str) {
+		return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+	},
+	
 	_setFrameUrl: function(url)
 	{
 		if (url != null) {
