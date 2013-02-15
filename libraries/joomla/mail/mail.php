@@ -82,7 +82,7 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				throw new RuntimeException(sprintf('%s::Send mail not enabled.'), get_class($this));
+				throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
 			}
 		}
 
@@ -96,7 +96,7 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				throw new RuntimeException(sprintf('%s::Send failed: "%s".'), get_class($this), $this->ErrorInfo);
+				throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
 			}
 		}
 
