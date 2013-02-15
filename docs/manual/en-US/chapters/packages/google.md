@@ -32,7 +32,7 @@ The Google package is still incomplete, but there are five object APIs that have
 
 Data: Google Calendar, Google AdSense, Google Picasa
 
-Data: Google Maps, Google Analytics
+Embed: Google Maps, Google Analytics
 
 Once a JGoogle object has been created, it is simple to use it to create objects for each individual API:
 
