@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -109,7 +109,7 @@ class JFormRuleEmailTest extends TestCase
 	 * @dataProvider emailData1
 	 *
 	 * @return void
-	 * 
+	 *
 	 * @since 11.1
 	 */
 	public function testEmailData($emailAddress, $expectedResult)

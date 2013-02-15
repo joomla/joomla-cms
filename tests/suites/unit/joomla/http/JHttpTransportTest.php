@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Http
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -105,7 +105,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * Tests the request method with a get request with a bad domain
 	 *
 	 * @param   string  $transportClass  The transport class to test
-	 * 
+	 *
 	 * @dataProvider      transportProvider
 	 * @expectedException RuntimeException
 	 *
@@ -121,7 +121,7 @@ class JHttpTransportTest extends PHPUnit_Framework_TestCase
 	 * Tests the request method with a get request for non existant url
 	 *
 	 * @param   string  $transportClass  The transport class to test
-	 * 
+	 *
 	 * @dataProvider  transportProvider
 	 *
 	 * @return void
