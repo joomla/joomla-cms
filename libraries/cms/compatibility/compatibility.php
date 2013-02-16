@@ -41,21 +41,70 @@ class JCompatibility extends JLoader
 	 * "Check the compatibilty of version, $version, with the context, $with". For example:
 	 * "Check the compatibilty of version, '3.0.3' with 'joomla'."
 	 *
-	 * @param   string  $version  The version number to compare against the compatibility specification.
-	 * @param   string  $with     The context of what we are testing compatibility with, for example "joomla".
+	 * @param   string  $checkVersion  The version number to compare against the compatibility specification.
+	 * @param   string  $with          The context of what we are testing compatibility with, for example "joomla".
 	 *
 	 * @return
 	 *
 	 * @since   3.0.3
+	 * @throws  InvalidArgumentException if compatibility nodes are not found, or the 'with' argument does not match.
 	 */
-	public function check($version, $with)
+	public function check($checkVersion, $with = 'joomla')
 	{
+		$with = strtolower($with);
+		$node = $this->compatibilities->xpath("compatibility[@with='$with']");
 
+		if (empty($node))
+		{
+			throw new InvalidArgumentException(sprintf('Compatibility with "%s" not found.', $with));
+		}
+
+		$include = $this->checkRules($node[0]->include, $checkVersion);
+		$exclude = $this->checkRules($node[0]->exclude, $checkVersion);
+
+		return (boolean) ($include ^ $exclude);
 	}
 
-	protected function checkRules(SimpleXMLElement $rules, $version)
+	/**
+	 * Checks a node with a collection <versions> tags against the check-version.
+	 *
+	 * If any matches are found, it will return true.
+	 *
+	 * @param   SimpleXMLElement  $rules
+	 * @param   string            $checkVersion
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.0.3
+	 */
+	protected function checkRules(SimpleXMLElement $rules, $checkVersion)
 	{
+		$results = array();
+		$versions = $rules->xpath('versions');
 
+		foreach ($versions as $version)
+		{
+			$from = (string) $version['from'];
+			$to = (string) $version['to'];
+
+			if ($from && $to)
+			{
+				$results[] = version_compare($checkVersion, $from, 'ge') & version_compare($checkVersion, $to, 'le');
+			}
+			else
+			{
+				if ($from)
+				{
+					$results[] = version_compare($checkVersion, $from, 'ge');
+				}
+				else
+				{
+					$results[] = version_compare($checkVersion, $to, 'le');
+				}
+			}
+		}
+
+		return in_array(true, $results);
 	}
 
 }
