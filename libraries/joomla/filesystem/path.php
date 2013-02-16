@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -205,9 +205,14 @@ class JPath
 		{
 			$path = JPATH_ROOT;
 		}
+		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		// If dealing with a UNC path don't forget to prepend the path with a backslash.
+		elseif (($ds == '\\') && ($path[0] == '\\' ) && ( $path[1] == '\\' ))
+		{
+			$path = "\\" . preg_replace('#[/\\\\]+#', $ds, $path);
+		}
 		else
 		{
-			// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 

@@ -18,7 +18,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package		Joomla.Build
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
 
  */
@@ -32,7 +32,7 @@ $version = '2.5';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '8';
+$release = '9';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -140,13 +140,14 @@ for($num=$release-1; $num >= 0; $num--) {
 		echo "Skipping create archive for version $version.$num\n";
 		continue;
 	}
-
+	
+	$fromName = $num == 0 ? 'x' : $num;
 	// Create the diff archive packages using the file name list.
-	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
-	system('tar --create --gzip  --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.tar.gz  --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('tar --create --gzip  --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.gz  --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
 
 	chdir(''.$full);
-	system('zip ../packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.zip -@ < ../diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('zip ../packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.zip -@ < ../diffconvert/'.$version.'.'.$num . '> /dev/null');
 	chdir('..');
 }
 

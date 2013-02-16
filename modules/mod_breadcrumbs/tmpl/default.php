@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	mod_breadcrumbs
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,31 +15,48 @@ defined('_JEXEC') or die;
 	{
 		echo '<span class="showHere">' .JText::_('MOD_BREADCRUMBS_HERE').'</span>';
 	}
-?>
-<?php for ($i = 0; $i < $count; $i ++) :
-	// Workaround for duplicate Home when using multilanguage
-	if ($i == 1 && !empty($list[$i]->link) && !empty($list[$i-1]->link) && $list[$i]->link == $list[$i-1]->link) {
-		continue;
-	}
-	// If not the last item in the breadcrumbs add the separator
-	if ($i < $count -1) {
-		if (!empty($list[$i]->link)) {
-			echo '<a href="'.$list[$i]->link.'" class="pathway">'.$list[$i]->name.'</a>';
-		} else {
-			echo '<span>';
-			echo $list[$i]->name;
-			echo '</span>';
+
+	// Get rid of duplicated entries on trail including home page when using multilanguage
+	for ($i = 0; $i < $count; $i ++)
+	{
+		if ($i == 1 && !empty($list[$i]->link) && !empty($list[$i-1]->link) && $list[$i]->link == $list[$i-1]->link)
+		{
+			unset($list[$i]);
 		}
-		if($i < $count -2){
+	}
+
+	// Find last and penultimate items in breadcrumbs list
+	end($list);
+	$last_item_key = key($list);
+	prev($list);
+	$penult_item_key = key($list);
+
+	// Generate the trail
+	foreach ($list as $key=>$item) :
+	// Make a link if not the last item in the breadcrumbs
+	$show_last = $params->get('showLast', 1);
+	if ($key != $last_item_key)
+	{
+		// Render all but last item - along with separator
+		if (!empty($item->link))
+		{
+			echo '<a href="' . $item->link . '" class="pathway">' . $item->name . '</a>';
+		}
+		else
+		{
+			echo '<span>' . $item->name . '</span>';
+		}
+
+		if (($key != $penult_item_key) || $show_last)
+		{
 			echo ' '.$separator.' ';
 		}
-	}  elseif ($params->get('showLast', 1)) { // when $i == $count -1 and 'showLast' is true
-		if($i > 0){
-			echo ' '.$separator.' ';
-		}
-		 echo '<span>';
-		echo $list[$i]->name;
-		  echo '</span>';
+
 	}
-endfor; ?>
+	elseif ($show_last)
+	{
+		// Render last item if reqd.
+		echo '<span>' . $item->name . '</span>';
+	}
+	endforeach; ?>
 </div>

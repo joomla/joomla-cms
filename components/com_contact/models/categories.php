@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+jimport('joomla.application.component.modellist');
 
 /**
  * This models supports retrieving lists of contact categories.
@@ -13,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage	com_contact
  * @since		1.6
  */
-class ContactModelCategories extends JModelLegacy
+class ContactModelCategories extends JModelList
 {
 	/**
 	 * Model context string.

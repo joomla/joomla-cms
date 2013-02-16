@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+	<compatibilities>
+		<compatibility with="joomla">
+			<include>
+				<versions from="2.5" to="2.6" />
+			</include>
+			<exclude>
+				<versions from="2.5.1" to="2.5.3" />
+			</exclude>
+		</compatibility>
+		<compatibility with="php">
+			<include>
+				<versions from="5.3" />
+			</include>
+		</compatibility>
+		<compatibility with="com_foo">
+			<include>
+				<versions to="1.2.3" />
+			</include>
+		</compatibility>
+	</compatibilities>
+</extension>

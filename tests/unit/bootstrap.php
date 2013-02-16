@@ -5,7 +5,7 @@
  * Joomla is assumed to include the /unittest/ directory.
  * eg, /path/to/joomla/unittest/
  *
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @link		http://www.phpunit.de/manual/current/en/installation.html
  */
@@ -46,16 +46,18 @@ session_start();
 // Include the base test cases.
 require_once JPATH_TESTS.'/JoomlaTestCase.php';
 require_once JPATH_TESTS.'/JoomlaDatabaseTestCase.php';
+require_once JPATH_TESTS.'/reflection.php';
 
 // Include relative constants, JLoader and the jimport and jexit functions.
 require_once JPATH_BASE.'/includes/defines.php';
 require_once JPATH_LIBRARIES.'/import.php';
+require_once JPATH_LIBRARIES.'/cms.php';
 
 // Include the Joomla session library.
 require_once JPATH_BASE.'/libraries/joomla/session/session.php';
 
 // Exclude all of the tests from code coverage reports
-PHPUnit_Util_Filter::addDirectoryToFilter(JPATH_BASE . '/tests');
+// PHPUnit_Util_Filter::addDirectoryToFilter(JPATH_BASE . '/tests');
 
 // Set error handling.
 JError::setErrorHandling(E_NOTICE, 'ignore');

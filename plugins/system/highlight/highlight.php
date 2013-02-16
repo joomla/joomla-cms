@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,7 +57,7 @@ class PlgSystemHighlight extends JPlugin
 
 		// Get the terms to highlight from the request.
 		$terms = $input->request->get('highlight', null, 'base64');
-		$terms = $terms ? unserialize(base64_decode($terms)) : null;
+		$terms = $terms ? json_decode(base64_decode($terms)) : null;
 
 		// Check the terms.
 		if (empty($terms))

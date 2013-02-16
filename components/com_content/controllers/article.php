@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -210,7 +210,7 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		if ($return) {
-			$append .= '&return='.base64_encode($return);
+			$append .= '&return='.base64_encode(urlencode($return));
 		}
 
 		return $append;
@@ -228,11 +228,11 @@ class ContentControllerArticle extends JControllerForm
 	{
 		$return = JRequest::getVar('return', null, 'default', 'base64');
 
-		if (empty($return) || !JUri::isInternal(base64_decode($return))) {
+		if (empty($return) || !JUri::isInternal(urldecode(base64_decode($return)))) {
 			return JURI::base();
 		}
 		else {
-			return base64_decode($return);
+			return urldecode(base64_decode($return));
 		}
 	}
 

@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ require_once JPATH_LIBRARIES.'/import.php';
 JError::$legacy = true;
 JError::setErrorHandling(E_NOTICE, 'message');
 JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
+JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
 
 // Botstrap the CMS libraries.
 require_once JPATH_LIBRARIES.'/cms.php';

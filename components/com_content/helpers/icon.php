@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class JHtmlIcon
 	{
 		$uri = JFactory::getURI();
 
-		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode($uri).'&a_id=0&catid=' . $category->id;
+		$url = 'index.php?option=com_content&task=article.add&return='.base64_encode(urlencode($uri)).'&a_id=0&catid=' . $category->id;
 
 		if ($params->get('show_icons')) {
 			$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), NULL, true);
@@ -102,7 +102,7 @@ class JHtmlIcon
 			return '<span class="hasTip" title="'.htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8').'">'.$button.'</span>';
 		}
 
-		$url	= 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&return='.base64_encode($uri);
+		$url	= 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&return='.base64_encode(urlencode($uri));
 		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
 		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
 

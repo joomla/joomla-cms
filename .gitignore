@@ -1,5 +1,6 @@
 *~
-/.project
-/.settings
-/.buildpath
+.*
 /configuration.php
+/build/coverage
+/build/logs
+/tests/unit/config.php
