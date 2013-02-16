@@ -76,15 +76,7 @@
   <exclude-pattern>/libraries/cms/*</exclude-pattern>
  </rule>
 
- <rule ref="PEAR.NamingConventions.ValidClassName">
-  <!-- These exceptions are temporary -->
-  <exclude-pattern>/administrator/components/*</exclude-pattern>
-  <exclude-pattern>/administrator/modules/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
- </rule>
+ <rule ref="PEAR.NamingConventions.ValidClassName"/>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>

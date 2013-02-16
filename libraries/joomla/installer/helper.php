@@ -57,9 +57,9 @@ abstract class JInstallerHelper
 			return false;
 		}
 
-		if (isset($response->headers['wrapper_data']['Content-Disposition']))
+		if (isset($response->headers['Content-Disposition']))
 		{
-			$contentfilename = explode("\"", $response->headers['wrapper_data']['Content-Disposition']);
+			$contentfilename = explode("\"", $response->headers['Content-Disposition']);
 			$target = $contentfilename[1];
 		}
 

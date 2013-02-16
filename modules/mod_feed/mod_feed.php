@@ -24,7 +24,7 @@ if (empty ($rssurl))
 	return;
 }
 
-$feed = modFeedHelper::getFeed($params);
+$feed = ModFeedHelper::getFeed($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 require JModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

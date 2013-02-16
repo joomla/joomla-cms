@@ -70,8 +70,9 @@
 }
 .form-horizontal .control-label {
 	float: right;
-	width: 140px;
-	padding-top: 10px;
+	width: auto;
+	padding-left: 5px;
+	padding-right: 0;
 	text-align: right;
 }
 .form-horizontal .controls {
@@ -110,6 +111,9 @@
 .nav-tabs > li,
 .nav-pills > li {
 	float: right;
+}
+.nav-stacked > li {
+	float: none;
 }
 .btn-group > .btn {
 	float: right;
@@ -296,6 +300,11 @@ body {
 .icon-refresh {
 	background-position: -240px -23px;
 }
+#refresh-status {
+	background-position: right center;
+	padding-left: 0;
+	padding-right: 25px;
+}
 .radio input[type="radio"],
 .checkbox input[type="checkbox"] {
 	float: right;
@@ -426,4 +435,111 @@ body {
 }
 .tip-text {
 	text-align: right;
+}
+.icon-file-add:before {
+	content: "(";
+}
+.icon-eye-open:before,
+.icon-eye:before {
+	content: ">";
+}
+.icon-checkin:before,
+.icon-checkbox:before {
+	content: "<";
+}
+.icon-save-new:before,
+.icon-plus-2:before {
+	content: "[";
+}
+.btn-toolbar .btn + .btn,
+.btn-toolbar .btn-group + .btn,
+.btn-toolbar .btn + .btn-group {
+	margin-left: 0;
+	margin-right: 5px;
+}
+.btn-group > .btn + .btn {
+	margin-left: 0;
+	margin-right: -1px;
+}
+.input-append .add-on,
+.input-append .btn,
+.input-prepend .add-on,
+.input-prepend .btn {
+	margin-left: 0;
+	margin-right: -1px;
+}
+.table-bordered {
+	border-right-width: 0;
+	border-left-width: 1px;
+	border-right-style: none;
+	border-left-style: solid;
+	border-right-color: -moz-use-text-color;
+	border-left-color: #DDDDDD;
+}
+.chzn-container-single .chzn-single {
+	padding-right: 8px;
+	padding-left: 0;
+}
+.chzn-container-single .chzn-single span {
+	margin-left: 26px;
+	margin-right: 0;
+}
+.chzn-container-single .chzn-single abbr {
+	left: 26px;
+	right: auto;
+}
+.chzn-container-single .chzn-single div {
+	left: 0;
+	right: auto;
+}
+.chzn-container-multi .chzn-choices li {
+	float: right;
+}
+.chzn-container-multi .chzn-choices .search-choice {
+	margin-right: 5px;
+	margin-left: 0;
+	padding-right: 5px;
+	padding-left: 20px;
+}
+.chzn-container-multi .chzn-choices .search-choice .search-choice-close {
+	left: 3px;
+	right: auto;
+}
+.alert {
+	padding-right: 14px;
+	padding-left: 35px;
+}
+.alert .close {
+	left: -21px;
+	right: auto;
+}
+.close {
+	float: left;
+}
+.form-search .radio,
+.form-search .checkbox,
+.form-inline .radio,
+.form-inline .checkbox {
+	margin-bottom: 9px;
+}
+.form-search .radio input[type="radio"],
+.form-search .checkbox input[type="checkbox"],
+.form-inline .radio input[type="radio"],
+.form-inline .checkbox input[type="checkbox"] {
+	float: right;
+	margin-left: 3px;
+	margin-right: 0;
+}
+.com_media .container-main .media {
+	display: inline-block;
+}
+.thumbnails > li {
+	float: right;
+	margin-bottom: 18px;
+	margin-right: 20px;
+}
+#mediamanager-form .description,
+#mediamanager-form .filesize,
+#mediamanager-form .dimensions {
+	direction: ltr;
 }

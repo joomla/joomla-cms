@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the helper functions only once
 require_once __DIR__ . '/helper.php';
 
-$list = modArticlesCategoriesHelper::getList($params);
+$list = ModArticlesCategoriesHelper::getList($params);
 if (!empty($list))
 {
 	$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));

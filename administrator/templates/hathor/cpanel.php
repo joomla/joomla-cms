@@ -158,7 +158,7 @@ else
 				<div class="adminform">
 
 					<!-- Display the Quick Icon Shortcuts -->
-					<div class="cpanel-icons well">
+					<div class="cpanel-icons">
 						<?php if ($this->countModules('icon') > 1):?>
 							<?php echo JHtml::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
 							<jdoc:include type="modules" name="icon" />

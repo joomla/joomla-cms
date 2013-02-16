@@ -14,8 +14,8 @@ require_once __DIR__ . '/helper.php';
 
 $params->def('greeting', 1);
 
-$type	= modLoginHelper::getType();
-$return	= modLoginHelper::getReturnURL($params, $type);
+$type	= ModLoginHelper::getType();
+$return	= ModLoginHelper::getReturnURL($params, $type);
 $user	= JFactory::getUser();
 $layout = $params->get('layout', 'default');
 

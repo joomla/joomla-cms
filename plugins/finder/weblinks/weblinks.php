@@ -19,7 +19,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Weblinks
  * @since       2.5
  */
-class plgFinderWeblinks extends FinderIndexerAdapter
+class PlgFinderWeblinks extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
