@@ -7,10 +7,6 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once 'PHPUnit/Framework.php';
-require_once 'PHPUnit/Extensions/Database/TestCase.php';
-require_once 'PHPUnit/Extensions/Database/DataSet/XmlDataSet.php';
-
 /**
  * Test case class for Joomla Unit Testing
  *
