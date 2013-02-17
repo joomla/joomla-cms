@@ -624,31 +624,12 @@ Joomla.addEvent = function (event, fn) {
 	var names = event.split('.'), nameBase = names[0]
 		storage = Joomla.eventsStorage;
 
-	//if event == "domready"/"ready"  and "domready" already fired
-//	if(nameBase.indexOf('ready') !== -1 && Joomla.readyCalled) {
-//		names = event.replace(nameBase, 'load').split('.');
-//		nameBase = 'load';
-//	}
-
 	//attache only once, cause we use same callback
 	if(!storage[nameBase]) {
 		//callback for execute all callbacs in the event
 		var callback = Joomla.fireEvent.bind(window, nameBase, document);
 		Joomla.addToListener(nameBase, callback);
 	}
-
-//	if(nameBase == 'load' && !Joomla.readyMoved){
-//		var domreadyToLoad = function() {
-//			var storage = Joomla.eventsStorage;
-//			Joomla.extend(storage['load'], storage['domready']);
-//			delete storage['domready'];
-//			Joomla.removeFromListener('load', domreadyToLoad);
-//			console.log(storage)
-//		}
-//		Joomla.addToListener('load', domreadyToLoad);
-//		Joomla.readyMoved = true;
-//	}
-
 
 	//build the event tree, and store the callback
 	var tmpStore = storage;
@@ -685,14 +666,6 @@ Joomla.removeEvent = function (event, fn) {
 		}
 	}
 
-	//remove from listener
-//@TODO: whether it is realy need?
-//	if(!storage[nameBase].cb.length && nameBase.indexOf('ready') === -1) {
-//		//callback in same way as was in addEvent()
-//		var callback = Joomla.fireEvent.bind(window, nameBase, document);
-//		Joomla.removeFromListener(nameBase, callback)
-//	}
-
 	return Joomla;
 };
 
@@ -704,8 +677,6 @@ Joomla.removeEvent = function (event, fn) {
  *
  * 		Joomla.fireEvent('load', 'changed-element'); //fires for all domready, load subscribers
  * 		Joomla.fireEvent('load.extension_name', 'changed-element'); //fires only for specified exstension
- *
- * @TODO: Move all "domready" events callback to the "load" for allow fire it
  *
  * @param event - string, event name
  * @param element - element DOM object or ID of the element
