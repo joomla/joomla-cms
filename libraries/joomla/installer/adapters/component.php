@@ -821,6 +821,8 @@ class JInstallerComponent extends JAdapterInstance
 
 		if ($this->manifest->update)
 		{
+			// Set the schema version to be the latest update version
+			$this->parent->setSchemaVersion($this->manifest->update->schemas, $eid);
 			$result = $this->parent->parseSchemaUpdates($this->manifest->update->schemas, $eid);
 
 			if ($result === false)
