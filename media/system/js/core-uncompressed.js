@@ -429,7 +429,7 @@ Joomla.extend = function(destination, source) {
 		destination[p] = source[p];
 	}
 	return destination;
-}
+};
 
 /**
  * fallbacks
@@ -509,6 +509,12 @@ Joomla.eventsStorage = {};
 Joomla.readyCalled = false;
 
 /**
+ * marker used for check whether a first load was called-in
+ */
+
+Joomla.initLoadCalled = false;
+
+/**
  * domready listener
  * 	based on contentloaded.js http://javascript.nwbox.com/ContentLoaded/
  * 	written by Diego Perini (diego.perini at gmail.com)
@@ -550,7 +556,7 @@ Joomla.contentLoaded = function(fn) {
 		win[add](pre + 'load', init, false);
 	}
 
-}
+};
 /**
  * add to DOM event listener
  * @param event - string, event name
@@ -573,7 +579,7 @@ Joomla.addToListener = function(event, fn, to) {
 	}
 
 	return Joomla;
-}
+};
 
 /**
  * remove from DOM event listener
@@ -595,7 +601,7 @@ Joomla.removeFromListener = function(event, fn, from){
 	}
 
 	return Joomla;
-}
+};
 
 /**
  * add events for init
@@ -619,11 +625,10 @@ Joomla.addEvent = function (event, fn) {
 		storage = Joomla.eventsStorage;
 
 	//if event == "domready"/"ready"  and "domready" already fired
-	if(nameBase.indexOf('ready') !== -1 && Joomla.readyCalled) {
-		event = event.replace(nameBase, 'load');
-		names = event.split('.');
-		nameBase = 'load';
-	}
+//	if(nameBase.indexOf('ready') !== -1 && Joomla.readyCalled) {
+//		names = event.replace(nameBase, 'load').split('.');
+//		nameBase = 'load';
+//	}
 
 	//attache only once, cause we use same callback
 	if(!storage[nameBase]) {
@@ -631,6 +636,19 @@ Joomla.addEvent = function (event, fn) {
 		var callback = Joomla.fireEvent.bind(window, nameBase, document);
 		Joomla.addToListener(nameBase, callback);
 	}
+
+//	if(nameBase == 'load' && !Joomla.readyMoved){
+//		var domreadyToLoad = function() {
+//			var storage = Joomla.eventsStorage;
+//			Joomla.extend(storage['load'], storage['domready']);
+//			delete storage['domready'];
+//			Joomla.removeFromListener('load', domreadyToLoad);
+//			console.log(storage)
+//		}
+//		Joomla.addToListener('load', domreadyToLoad);
+//		Joomla.readyMoved = true;
+//	}
+
 
 	//build the event tree, and store the callback
 	var tmpStore = storage;
@@ -676,7 +694,7 @@ Joomla.removeEvent = function (event, fn) {
 //	}
 
 	return Joomla;
-}
+};
 
 /**
  * fire event before/after domchanged
@@ -695,11 +713,21 @@ Joomla.removeEvent = function (event, fn) {
  */
 
 Joomla.fireEvent = function(event, element) {
+
 	//Init variables
-	var names = event.split('.'),
+	var names = event.split('.'), nameBase = names[0],
 		storage = Joomla.eventsStorage,
 		element = element || document;
 
+	//if it a custome "load" then fire domready also
+	if(Joomla.initLoadCalled) {
+		if(nameBase === 'load'){
+			Joomla.fireEvent('domready', element).fireEvent('ready', element);
+		} else if(nameBase.indexOf('ready') !== -1) {
+			//tell scripts that it "load" event
+			event = event.replace(nameBase, 'load');
+		}
+	}
 	//get a callback storage for a current event
 	for (var i = 0; i < names.length; i++) {
 		storage = storage[names[i]] || {cb: []};
@@ -715,6 +743,12 @@ Joomla.fireEvent = function(event, element) {
 		}
 	}
 
+	//mark that the init load called
+	if(nameBase === 'load' && !Joomla.initLoadCalled)
+		Joomla.initLoadCalled = true;
+
+
 	return Joomla;
-}
+};
+
 
