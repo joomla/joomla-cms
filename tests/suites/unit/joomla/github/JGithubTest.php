@@ -1,23 +1,20 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Client
+ * @subpackage  Github
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/github/github.php';
 
 /**
  * Test class for JGithub.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Github
- *
  * @since       11.1
  */
-class JGithubTest extends PHPUnit_Framework_TestCase
+class JGithubTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
@@ -32,7 +29,7 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 	protected $client;
 
 	/**
-	 * @var    JGithubIssues  Object under test.
+	 * @var    JGithub  Object under test.
 	 * @since  11.4
 	 */
 	protected $object;
@@ -214,6 +211,21 @@ class JGithubTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->object->hooks,
 			$this->isInstanceOf('JGithubHooks')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - meta
+	 *
+	 * @since  13.1
+	 *
+	 * @return void
+	 */
+	public function test__GetMeta()
+	{
+		$this->assertThat(
+			$this->object->meta,
+			$this->isInstanceOf('JGithubMeta')
 		);
 	}
 
