@@ -895,14 +895,14 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
+			return '<div class="input-append"><input type="text" title="' . (false !== is_numeric($value) ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
 				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' /><button class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
 
 		}
 		else
 		{
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
+			return '<input type="text" title="' . (false !== is_numeric($value) ? self::_('date', $value, null, null) : '')
+				. '" value="' . (false !== is_numeric($value) ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}

@@ -265,10 +265,47 @@ class PlgUserProfile extends JPlugin
 		return true;
 	}
 
+	/**
+	 * Method is called before user data is stored in the database
+	 * 
+	 * @param	array		$user	Holds the old user data.
+	 * @param	boolean		$isnew	True if a new user is stored.
+	 * @param	array		$data	Holds the new user data.
+	 * 
+	 * @throws 	InvalidArgumentException on invalid date.
+	 * 
+	 * @return 	boolean
+	 */
+	public function onUserBeforeSave($user, $isnew, $data)
+	{
+		// Check that the date is valid.
+		if (!empty($data['profile']['dob']))
+		{
+			if (!preg_match('/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/', $data['profile']['dob']))
+			{
+				// Throw an exception if date is not in the YYYY-MM-DD  format.
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+			}
+			else
+			{
+				try
+				{
+					new JDate($data['profile']['dob']);
+				}
+				catch (Exception $e)
+				{
+					// Throw an exception if date is not valid.
+					throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+				}
+			}
+		}
+
+		return true;
+	}
+
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
 		$userId	= JArrayHelper::getValue($data, 'id', 0, 'int');
-
 		if ($userId && $result && isset($data['profile']) && (count($data['profile'])))
 		{
 			try
@@ -276,6 +313,7 @@ class PlgUserProfile extends JPlugin
 				//Sanitize the date
 				if (!empty($data['profile']['dob']))
 				{
+					
 					$date = new JDate($data['profile']['dob']);
 					$data['profile']['dob'] = $date->format('Y-m-d');
 				}
