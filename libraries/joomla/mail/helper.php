@@ -133,8 +133,8 @@ abstract class JMailHelper
 			return false;
 		}
 
-		// No problem if the domain looks like an IPv4 and IPv6 address
-		if (@inet_pton($domain))
+		// No problem if the domain looks like an IPv4 or IPv6 address
+		if (filter_var($domain, FILTER_VALIDATE_IP))
 		{
 			return true;
 		}
