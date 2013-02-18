@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_menus
- * @copyright	Copyright (C) 2005 - 2010 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -20,7 +21,7 @@ defined('_JEXEC') or die;
 <ul class="menu_types">
 	<?php foreach ($this->types as $name => $list): ?>
 	<li><dl class="menu_type">
-			<dt><?php echo JText::_($name) ;?></dt>
+			<dt><?php echo JText::_($name); ?></dt>
 			<dd><ul>
 					<?php foreach ($list as $item): ?>
 					<li><a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
@@ -40,17 +41,17 @@ defined('_JEXEC') or die;
 			<dd>
 				<ul>
 					<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?>"
-							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title'=>'url'))); ?>')">
+							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'url'))); ?>')">
 							<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL'); ?>
 						</a>
 					</li>
 					<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?>"
-							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title'=>'alias'))); ?>')">
+							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'alias'))); ?>')">
 							<?php echo JText::_('COM_MENUS_TYPE_ALIAS'); ?>
 						</a>
 					</li>
 					<li><a class="choose_type" href="#"  title="<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?>"
-							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title'=>'separator'))); ?>')">
+							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'separator'))); ?>')">
 							<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR'); ?>
 						</a>
 					</li>
