@@ -33,16 +33,25 @@ class PluginsModelPlugin extends JModelAdmin
 	protected $_cache;
 
 	/**
-	 * @var		string	The event to trigger after saving the data.
-	 * @since	1.6
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   11.1
 	 */
-	protected $event_after_save = 'onExtensionAfterSave';
+	public function __construct($config = array())
+	{
+		$config = array_merge(array(
+			'event_after_delete'  => 'onExtensionAfterDelete',
+			'event_after_save'    => 'onExtensionAfterSave',
+			'event_before_delete' => 'onExtensionBeforeDelete',
+			'event_before_save'   => 'onExtensionBeforeSave',
+			'plugin_type'         => 'extension',
+			'event_change_state'  => 'onExtensionChangeState'), $config);
 
-	/**
-	 * @var		string	The event to trigger after before the data.
-	 * @since	1.6
-	 */
-	protected $event_before_save = 'onExtensionBeforeSave';
+		parent::__construct($config);
+	}
 
 	/**
 	 * Method to get the record form.
@@ -295,9 +304,6 @@ class PluginsModelPlugin extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Load the extension plugin group.
-		JPluginHelper::importPlugin('extension');
-
 		// Setup type
 		$data['type'] = 'plugin';
 

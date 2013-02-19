@@ -22,6 +22,18 @@ jimport('joomla.access.access');
  */
 class UsersModelUser extends JModelAdmin
 {
+	public function __construct($config = array())
+	{
+		$config = array_merge(array(
+			'event_after_delete'  => 'onUserAfterDelete',
+			'event_after_save'    => 'onUserAfterSave',
+			'event_before_delete' => 'onUserBeforeDelete',
+			'event_before_save'   => 'onUserBeforeSave',
+			'plugin_type'         => 'user'), $config);
+
+		parent::__construct($config);
+	}
+
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -55,10 +67,10 @@ class UsersModelUser extends JModelAdmin
 
 		// Get the dispatcher and load the users plugins.
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->plugin_type);
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.user', $result));
+		$results = $dispatcher->trigger('onContentPrepareData', array($this->option . '.' . $this->name, $result));
 
 		return $result;
 	}
@@ -108,10 +120,10 @@ class UsersModelUser extends JModelAdmin
 		// TODO: Maybe this can go into the parent model somehow?
 		// Get the dispatcher and load the users plugins.
 		$dispatcher	= JDispatcher::getInstance();
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->plugin_type);
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
+		$results = $dispatcher->trigger('onContentPrepareData', array($this->option . '.profile', $data));
 
 		// Check for errors encountered while preparing the data.
 		if (count($results) && in_array(false, $results, true))
@@ -219,7 +231,7 @@ class UsersModelUser extends JModelAdmin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 
 		// Trigger the onUserBeforeSave event.
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->plugin_type);
 		$dispatcher = JDispatcher::getInstance();
 
 		if (in_array($user->id, $pks))
@@ -244,7 +256,7 @@ class UsersModelUser extends JModelAdmin
 					$user_to_delete = JFactory::getUser($pk);
 
 					// Fire the onUserBeforeDelete event.
-					$dispatcher->trigger('onUserBeforeDelete', array($table->getProperties()));
+					$dispatcher->trigger($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk))
 					{
@@ -254,7 +266,7 @@ class UsersModelUser extends JModelAdmin
 					else
 					{
 						// Trigger the onUserAfterDelete event.
-						$dispatcher->trigger('onUserAfterDelete', array($user_to_delete->getProperties(), true, $this->getError()));
+						$dispatcher->trigger($this->event_after_delete, array($user_to_delete->getProperties(), true, $this->getError()));
 					}
 				}
 				else
@@ -295,7 +307,7 @@ class UsersModelUser extends JModelAdmin
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->plugin_type);
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -343,8 +355,8 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Trigger the onUserBeforeSave event.
-						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false, $table->getProperties()));
+						// Trigger the before save event.
+						$result = $dispatcher->trigger($this->event_before_save, array($old, false, $table->getProperties()));
 						if (in_array(false, $result, true))
 						{
 							// Plugin will have to raise it's own error or throw an exception.
@@ -358,8 +370,8 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Trigger the onAftereStoreUser event
-						$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
+						// Trigger the after save event
+						$dispatcher->trigger($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (Exception $e)
 					{
@@ -405,7 +417,7 @@ class UsersModelUser extends JModelAdmin
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
 
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->plugin_type);
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -436,8 +448,8 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Trigger the onUserBeforeSave event.
-						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false, $table->getProperties()));
+						// Trigger the before save event.
+						$result = $dispatcher->trigger($this->event_before_save, array($old, false, $table->getProperties()));
 						if (in_array(false, $result, true))
 						{
 							// Plugin will have to raise it's own error or throw an exception.
@@ -451,8 +463,8 @@ class UsersModelUser extends JModelAdmin
 							return false;
 						}
 
-						// Fire the onAftereStoreUser event
-						$dispatcher->trigger('onUserAfterSave', array($table->getProperties(), false, true, null));
+						// Fire the after save event
+						$dispatcher->trigger($this->event_after_save, array($table->getProperties(), false, true, null));
 					}
 					catch (Exception $e)
 					{

@@ -110,6 +110,10 @@ class ConfigModelComponent extends JModelForm
 	{
 		$table	= JTable::getInstance('extension');
 
+		$dispatcher = JDispatcher::getInstance();
+		$context = $this->option . '.' . $this->name;
+		JPluginHelper::importPlugin('extension');
+
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules'])) {
 			$rules	= new JAccessRules($data['params']['rules']);
@@ -154,11 +158,21 @@ class ConfigModelComponent extends JModelForm
 			return false;
 		}
 
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array($context, &$table, false));
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+
 		// Store the data.
 		if (!$table->store()) {
 			$this->setError($table->getError());
 			return false;
 		}
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onExtensionAfterSave', array($context, &$table, false));
 
 		// Clean the component cache.
 		$this->cleanCache('_system');
