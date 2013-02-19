@@ -268,9 +268,9 @@ class PlgUserProfile extends JPlugin
 	/**
 	 * Method is called before user data is stored in the database
 	 * 
-	 * @param	array		$user	Holds the old user data.
-	 * @param	boolean		$isnew	True if a new user is stored.
-	 * @param	array		$data	Holds the new user data.
+	 * @param   array    $user   Holds the old user data.
+	 * @param   boolean  $isnew  True if a new user is stored.
+	 * @param   array    $data   Holds the new user data.
 	 * 
 	 * @throws 	InvalidArgumentException on invalid date.
 	 * 
@@ -306,6 +306,7 @@ class PlgUserProfile extends JPlugin
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
 		$userId	= JArrayHelper::getValue($data, 'id', 0, 'int');
+
 		if ($userId && $result && isset($data['profile']) && (count($data['profile'])))
 		{
 			try
@@ -313,7 +314,6 @@ class PlgUserProfile extends JPlugin
 				//Sanitize the date
 				if (!empty($data['profile']['dob']))
 				{
-					
 					$date = new JDate($data['profile']['dob']);
 					$data['profile']['dob'] = $date->format('Y-m-d');
 				}
