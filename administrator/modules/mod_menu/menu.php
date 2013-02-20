@@ -160,29 +160,44 @@ class JAdminCssMenu extends JObject
 		 * Print a link if it exists
 		 */
 
-		$linkClass = '';
+		$linkClass = array();
 		$dataToggle = '';
 		$dropdownCaret = '';
 
 		if ($this->_current->hasChildren())
+		{
+			$linkClass[] = 'dropdown-toggle';
+			$dataToggle = ' data-toggle="dropdown"';
+
+			if (!$this->_current->getParent()->hasParent())
 			{
-				$linkClass = ' class="dropdown-toggle"';
-				$dataToggle = ' data-toggle="dropdown"';
-				if (!$this->_current->getParent()->hasParent())
-				{
-					$dropdownCaret = ' <span class="caret"></span>';
-				}
+				$dropdownCaret = ' <span class="caret"></span>';
+			}
 		}
+
+		if ($this->_current->link != null && $this->_current->getParent()->title != 'ROOT')
+		{
+			$iconClass = $this->getIconClass($this->_current->class);
+			if (!empty($iconClass))
+			{
+				$linkClass[] = $iconClass;
+			}
+		}
+
+		// Implode out $linkClass for rendering
+		$linkClass = ' class="' . implode(' ', $linkClass) . '"';
 
 		if ($this->_current->link != null && $this->_current->target != null)
 		{
-			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\" target=\"".$this->_current->target."\" >".$this->_current->title.$dropdownCaret."</a>";
-		} elseif ($this->_current->link != null && $this->_current->target == null)
+			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\" target=\"" . $this->_current->target . "\" >" . $this->_current->title . $dropdownCaret . "</a>";
+		}
+		elseif ($this->_current->link != null && $this->_current->target == null)
 		{
-			echo "<a".$linkClass." ".$dataToggle." href=\"".$this->_current->link."\">".$this->_current->title.$dropdownCaret."</a>";
-		} elseif ($this->_current->title != null)
+			echo "<a" . $linkClass . " " . $dataToggle . " href=\"" . $this->_current->link . "\">" . $this->_current->title . $dropdownCaret . "</a>";
+		}
+		elseif ($this->_current->title != null)
 		{
-			echo "<a".$linkClass." ".$dataToggle.">".$this->_current->title.$dropdownCaret."</a>";
+			echo "<a" . $linkClass . " " . $dataToggle . ">" . $this->_current->title . $dropdownCaret . "</a>";
 		}
 		else
 		{
@@ -244,7 +259,7 @@ class JAdminCssMenu extends JObject
 			{
 				// We were passed a class name
 				$class = substr($identifier, 6);
-				$classes[$identifier] = "icon-16-$class";
+				$classes[$identifier] = "menu-$class";
 			} else {
 				if ($identifier == null)
 				{
@@ -254,11 +269,11 @@ class JAdminCssMenu extends JObject
 				$class = preg_replace('#\.[^.]*$#', '', basename($identifier));
 				$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 
-				$this->_css  .= "\n.icon-16-$class {\n" .
+				$this->_css  .= "\n.menu-$class {\n" .
 						"\tbackground: url($identifier) no-repeat;\n" .
 						"}\n";
 
-				$classes[$identifier] = "icon-16-$class";
+				$classes[$identifier] = "menu-$class";
 			}
 		}
 		return $classes[$identifier];
