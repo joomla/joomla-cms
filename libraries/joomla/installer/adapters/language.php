@@ -528,9 +528,11 @@ class JInstallerLanguage extends JAdapterInstance
 				$extension->set('type', 'language');
 				$extension->set('client_id', 0);
 				$extension->set('element', $language);
+				$extension->set('folder', '');
 				$extension->set('name', $language);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 		}
@@ -543,9 +545,11 @@ class JInstallerLanguage extends JAdapterInstance
 				$extension->set('type', 'language');
 				$extension->set('client_id', 1);
 				$extension->set('element', $language);
+				$extension->set('folder', '');
 				$extension->set('name', $language);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 		}

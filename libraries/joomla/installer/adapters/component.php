@@ -1533,9 +1533,11 @@ class JInstallerComponent extends JAdapterInstance
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
 				$extension->set('element', $component);
+				$extension->set('folder', '');
 				$extension->set('name', $component);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 		}
@@ -1551,9 +1553,11 @@ class JInstallerComponent extends JAdapterInstance
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
 				$extension->set('element', $component);
+				$extension->set('folder', '');
 				$extension->set('name', $component);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 		}
