@@ -17,6 +17,29 @@ require_once __DIR__ . '/articles.php';
  */
 class ContentControllerFeatured extends ContentControllerArticles
 {
+	protected $redirectUrl = 'index.php?option=com_content&view=featured';
+
+	/*
+	 * @var  string Model name
+	*/
+	protected $name = 'Feature';
+	/*
+	 * @var  string   Model prefix
+	*/
+	protected $prefix = 'ContentModel';
+	/*
+	 * @var $contextPrefix  Dot separated context not including the id. Used for featuring.
+	*/
+	protected $contextPrefix = 'com_content.featured.';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_content';
+
 	/**
 	 * Removes an item
 	 */
@@ -55,21 +78,9 @@ class ContentControllerFeatured extends ContentControllerArticles
 			}
 		}
 
-		$this->setRedirect('index.php?option=com_content&view=featured');
+		$this->setRedirect($this->redirectUrl);
 	}
 
-	/**
-	 * Method to publish a list of articles.
-	 *
-	 * @return  void
-	 * @since   1.0
-	 */
-	public function publish()
-	{
-		parent::publish();
-
-		$this->setRedirect('index.php?option=com_content&view=featured');
-	}
 
 	/**
 	 * Method to get a model object, loading it if required.
@@ -87,35 +98,8 @@ class ContentControllerFeatured extends ContentControllerArticles
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
-
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
+	public function featured()
 	{
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
+		parent::featured();
 	}
 }

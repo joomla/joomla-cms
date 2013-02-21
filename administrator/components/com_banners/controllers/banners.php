@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class BannersControllerBanners extends JControllerAdmin
 {
+	/*
+	 * @var  string Model name Example Weblinks
+	*/
+	protected $name = Banners;
+	/*
+	 * @var  string   Model prefix Example: WeblinksModel
+	*/
+	protected $prefix = BannersModel;
+
 	/**
 	 * @var		string	The prefix to use with controller messages.
 	 * @since   1.6
@@ -27,7 +36,7 @@ class BannersControllerBanners extends JControllerAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param   array An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -40,11 +49,18 @@ class BannersControllerBanners extends JControllerAdmin
 
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   string  $config  Array of configuration options
+	 *
+	 * @return  JModel
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Banner', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
@@ -86,37 +102,5 @@ class BannersControllerBanners extends JControllerAdmin
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=banners');
-	}
-
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
 	}
 }

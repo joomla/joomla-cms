@@ -14,8 +14,14 @@ defined('_JEXEC') or die;
  * @subpackage  com_content
  * @since       1.6
  */
-class ContentControllerArticle extends JControllerForm
+class ContentControllerArticle extends JControllerFormcontent
 {
+	/*
+	 * @var  string Model name
+	 * @since  3.1
+	 */
+	protected $modelName = 'Article';
+
 	/**
 	 * Class constructor.
 	 *
@@ -37,39 +43,8 @@ class ContentControllerArticle extends JControllerForm
 	}
 
 	/**
-	 * Method override to check if you can add a new record.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	protected function allowAdd($data = array())
-	{
-		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
-		$allow = null;
-
-		if ($categoryId)
-		{
-			// If the category has been passed in the data or URL check it.
-			$allow = $user->authorise('core.create', 'com_content.category.' . $categoryId);
-		}
-
-		if ($allow === null)
-		{
-			// In the absense of better information, revert to the component permissions.
-			return parent::allowAdd();
-		}
-		else
-		{
-			return $allow;
-		}
-	}
-
-	/**
 	 * Method override to check if you can edit an existing record.
+	 * Articles track assets.
 	 *
 	 * @param   array   $data  An array of input data.
 	 * @param   string  $key   The name of the key for the primary key.

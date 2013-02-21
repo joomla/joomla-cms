@@ -20,9 +20,25 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/content.php';
  */
 class ContentModelArticle extends JModelAdmin
 {
+	/*
+	 * @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Article';
+
 	/**
+<<<<<<< HEAD
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
+=======
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_content';
+	/**
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
+>>>>>>> Start work on controllers
 	 */
 	protected $text_prefix = 'COM_CONTENT';
 
@@ -557,17 +573,28 @@ class ContentModelArticle extends JModelAdmin
 		try
 		{
 			$db = $this->getDbo();
+<<<<<<< HEAD
 			$query = $db->getQuery(true)
 						->update($db->quoteName('#__content'))
 						->set('featured = ' . (int) $value)
 						->where('id IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
+=======
+			$query	= $db->getQuery(true);
+			$db->setQuery(
+				'UPDATE ' . $db->qn('#__content') .
+				' SET ' . $db->qn('featured') . ' = ' .( int) $value .
+				' WHERE ' . $db->qn('id') . ' IN ('. implode(',' , $pks) . ')'
+			);
+>>>>>>> Start work on controllers
 			$db->execute();
-
+			$db2 = $this->getDbo();
+			$query	= $db2->getQuery(true);
 			if ((int) $value == 0)
 			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
+<<<<<<< HEAD
 				$query = $db->getQuery(true)
 							->delete($db->quoteName('#__content_frontpage'))
 							->where('content_id IN (' . implode(',', $pks) . ')');
@@ -583,10 +610,27 @@ class ContentModelArticle extends JModelAdmin
 					->where('content_id IN (' . implode(',', $pks) . ')');
 				//echo $query;
 				$db->setQuery($query);
+=======
+				$db2->setQuery(
+					'DELETE FROM ' . $db2->qn('#__content_frontpage') .
+					' WHERE ' . $db2->qn('content_id') . ' IN ('.implode(',', $pks).')'
+				);var_dump($db2);die;
+				$db2->execute();
+			}
+			 else
+			{
+				// First, we find out which of our new featured articles are already featured.
+				$query = $db2->getQuery(true);
+				$query->select($db2->qn('f.content_id'));
+				$query->from($db2->qn('#__content_frontpage', 'f'));
+				$query->where($db2->qn('content_id') . ' IN ('. implode(',', $pks).')');
 
-				$old_featured = $db->loadColumn();
+				$db2->setQuery($query);
+>>>>>>> Start work on controllers
 
-				// we diff the arrays to get a list of the articles that are newly featured
+				$old_featured = $db2->loadColumn();
+
+				// We diff the arrays to get a list of the articles that are newly featured
 				$new_featured = array_diff($pks, $old_featured);
 
 				// Featuring.
@@ -597,6 +641,7 @@ class ContentModelArticle extends JModelAdmin
 				}
 				if (count($tuples))
 				{
+<<<<<<< HEAD
 					$db = $this->getDbo();
 					$columns = array('content_id', 'ordering');
 					$query = $db->getQuery(true)
@@ -605,12 +650,19 @@ class ContentModelArticle extends JModelAdmin
 						->values($tuples);
 					$db->setQuery($query);
 					$db->execute();
+=======
+					$db->setQuery(
+						' INSERT INTO ' . $db2->qn('#__content_frontpage') . ' (' . $db->quoteName('content_id') . ', '.$db->quoteName('ordering').') ' .
+						' VALUES ' . implode(',', $tuples)
+					);
+					$db2->execute();
+>>>>>>> Start work on controllers
 				}
 			}
 		}
 		catch (Exception $e)
 		{
-			$this->setError($e->getMessage());
+			$this->setError($e->getMessage());var_dump($e); die;
 			return false;
 		}
 

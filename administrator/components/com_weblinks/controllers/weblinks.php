@@ -16,8 +16,25 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.6
  */
-class WeblinksControllerWeblinks extends JControllerAdmin
+class WeblinksControllerWeblinks extends JControllerAdmincontent
 {
+	/*
+	 * @var  string Model
+	 * @since  3.1
+	*/
+	protected $name = 'Weblink';
+	/*
+	 * @var  string   Model prefix
+	 * @since  3.1
+	 */
+	protected $prefix = 'WeblinksModel';
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_weblinks';
 	/**
 	 * Proxy for getModel.
 	 * @since   1.6
@@ -28,50 +45,4 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 		return $model;
 	}
 
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$input = JFactory::getApplication()->input;
-		$pks = $input->post->get('cid', array(), 'array');
-		$order = $input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
-	}
-
-	/**
-	 * Method to provide child classes the opportunity to process after the delete task.
-	 *
-	 * @param   JModelLegacy   $model   The model for the component
-	 * @param   mixed          $ids     array of ids deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-	}
 }

@@ -16,48 +16,38 @@ defined('_JEXEC') or die;
  * @subpackage  com_newsfeeds
  * @since       1.6
  */
-class NewsfeedsControllerNewsfeeds extends JControllerAdmin
+class NewsfeedsControllerNewsfeeds extends JControllerAdmincontent
 {
+	/*
+	 * @var  string Model name
+	 */
+	protected $name = 'Newsfeed';
+	/*
+	 * @var  string   Model prefix
+	 */
+	protected  $prefix = 'NewsfeedsModel';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $option = 'com_newsfeeds';
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   string  $config  Array of configuration options
+	 *
+	 * @return  JModel
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Newsfeed', $prefix = 'NewsfeedsModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
-	}
-
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$input = JFactory::getApplication()->input;
-		$pks = $input->post->get('cid', array(), 'array');
-		$order = $input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
 	}
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{

@@ -950,8 +950,8 @@ class JControllerLegacy extends JObject
 	public function registerTask($task, $method)
 	{
 		if (in_array(strtolower($method), $this->methods))
-		{
-			$this->taskMap[strtolower($task)] = $method;
+		 {
+			 $this->taskMap[strtolower($task)] = $method;
 		}
 
 		return $this;
