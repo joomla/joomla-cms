@@ -624,10 +624,25 @@ Joomla.addEvent = function (event, fn) {
 	var names = event.split('.'), nameBase = names[0]
 		storage = Joomla.eventsStorage;
 
+	// add to .jinit namespace
+	// that we will fire when first "domready" or "load" will fired
+	if(!Joomla.initLoadCalled && names[1] !== 'jinit'
+		&& (nameBase === 'load' || nameBase.indexOf('ready') !== -1)
+	){
+		Joomla.addEvent(nameBase+'.jinit', fn);
+	}
+
+	// subscribe a "ready" event to "load"
+	if(nameBase.indexOf('ready') !== -1 && names[1] !== 'jinit') {
+		names = event.replace(nameBase, 'load').split('.');
+		nameBase = 'load';
+	}
+
 	//attache only once, cause we use same callback
 	if(!storage[nameBase]) {
 		//callback for execute all callbacs in the event
-		var callback = Joomla.fireEvent.bind(window, nameBase, document);
+		var initEvent =  (nameBase === 'load' || nameBase.indexOf('ready') !== -1) ? nameBase + '.jinit' : nameBase;
+		var callback = Joomla.fireEvent.bind(window, initEvent, document);
 		Joomla.addToListener(nameBase, callback);
 	}
 
@@ -635,7 +650,9 @@ Joomla.addEvent = function (event, fn) {
 	var tmpStore = storage;
 	for (var i = 0; i < names.length; i++) {
 		tmpStore[names[i]] = tmpStore[names[i]] || {cb: []};
-		tmpStore[names[i]].cb.push(fn);
+		//add only once
+		if(tmpStore[names[i]].cb.indexOf(fn) === -1)
+			tmpStore[names[i]].cb.push(fn);
 		tmpStore = tmpStore[names[i]];
 	}
 
@@ -690,15 +707,6 @@ Joomla.fireEvent = function(event, element) {
 		storage = Joomla.eventsStorage,
 		element = element || document;
 
-	//if it a custome "load" then fire domready also
-	if(Joomla.initLoadCalled) {
-		if(nameBase === 'load'){
-			Joomla.fireEvent('domready', element).fireEvent('ready', element);
-		} else if(nameBase.indexOf('ready') !== -1) {
-			//tell scripts that it "load" event
-			event = event.replace(nameBase, 'load');
-		}
-	}
 	//get a callback storage for a current event
 	for (var i = 0; i < names.length; i++) {
 		storage = storage[names[i]] || {cb: []};
@@ -714,7 +722,15 @@ Joomla.fireEvent = function(event, element) {
 		}
 	}
 
-	//mark that the init load called
+	//clean up "jinit" storage
+	if(names[1] === 'jinit')
+		delete Joomla.eventsStorage[nameBase].jinit;
+
+	//clean up "domready" storage
+	if(nameBase.indexOf('ready') !== -1)
+		delete Joomla.eventsStorage[nameBase];
+
+	//marker used for check whether a first "load" was fired
 	if(nameBase === 'load' && !Joomla.initLoadCalled)
 		Joomla.initLoadCalled = true;
 
