@@ -133,7 +133,10 @@ JHtml::_('behavior.framework');
 			</dl>
 
 	<?php endif; ?>
-
+	<?php if ($this->params->get('show_tags',1)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+	<?php endif; ?>
 	<?php if (!$params->get('show_intro')) : ?>
 		<?php echo $this->item->event->afterDisplayTitle; ?>
 	<?php endif; ?>

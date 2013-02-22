@@ -141,4 +141,37 @@ class ContentControllerArticle extends JControllerForm
 
 		return parent::batch($model);
 	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   array         $validData   The validated data.
+	 *
+	 * @return	void
+	 * @since	1.6
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+		$id = $item->id;
+		$created_date = $item->created;
+		$modified_date = $item->modified;
+		$publish_up = $item->publish_up;
+		$publish_down = $item->publish_down;
+		$title = $item->title;
+		$language = $item->language;
+
+		$tags = $validData['tags'];
+
+		// Store the tag data if the article data was saved.
+		if ($tags[0] != '')
+		{
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, 'com_content.article', $tags, $created_date, $modified_date, $publish_up, $publish_down, $title);
+		}
+	}
+
 }

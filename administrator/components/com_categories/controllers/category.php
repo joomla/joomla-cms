@@ -170,4 +170,34 @@ class CategoriesControllerCategory extends JControllerForm
 
 		return $append;
 	}
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+		$id = $item->get('id');
+		$created_date = $item->create_timed;
+		$modified_date = $item->modified_time;
+		$publish_up = '';
+		$publish_down = '';
+		$title = $item->title;
+		$language = $item->language;
+
+		$tags = $validData['tags'];
+
+		if ($tags)
+		{
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, $item->get('extension') . '.category', $tags);
+		}
+	}
 }

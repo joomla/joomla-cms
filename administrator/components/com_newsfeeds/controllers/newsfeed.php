@@ -104,4 +104,37 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 
 		return parent::batch($model);
 	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+		$id = $item->get('id');
+		$created_date = $item->created;
+		$modified_date = $item->modified;
+		$publish_up = $item->publish_up;
+		$publish_down = $item->publish_down;
+		$title = $item->name;
+		$language = $item->language;
+
+		$tags = $validData['tags'];
+
+		// Store the tag data if the news data was saved.
+		if ($tags )
+		{
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $tags);
+		}
+
+	}
 }

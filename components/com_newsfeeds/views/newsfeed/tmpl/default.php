@@ -59,6 +59,12 @@ else
 		<a href="<?php echo $this->item->link; ?>" target="_blank">
 		<?php echo str_replace('&apos;', "'", $this->item->name); ?></a>
 	</h2>
+
+	<?php if ($this->params->get('show_tags', 1)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+	<?php endif; ?>
+
 	<!-- Show Images from Component -->
 	<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
 	<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
@@ -78,7 +84,8 @@ else
 	src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
 	<?php endif; ?>
 	<!-- Show Description from Component -->
-<?php echo $this->item->description; ?>
+	<?php echo $this->item->description; ?>
+
 	<!-- Show Feed's Description -->
 
 	<?php if ($this->params->get('show_feed_description')) : ?>

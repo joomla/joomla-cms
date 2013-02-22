@@ -102,4 +102,28 @@ class UsersControllerUser extends JControllerForm
 
 		return parent::save();
 	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+		$id = $item->get('id');
+		$tags = $validData['tags'];
+
+		if ($tags)
+		{
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, 'com_users.user', $tags);
+		}
+	}
 }

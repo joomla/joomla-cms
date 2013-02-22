@@ -82,7 +82,7 @@ class ContentModelForm extends ContentModelArticle
 		// Compute selected asset permissions.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
-		$asset	= 'com_content.article.'.$value->id;
+		$asset	= 'com_content.article.'. $value->id;
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $asset))
@@ -115,7 +115,8 @@ class ContentModelForm extends ContentModelArticle
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
 				$value->catid = $catId;
 			}
-			else {
+			else
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
 			}
 		}
@@ -125,6 +126,9 @@ class ContentModelForm extends ContentModelArticle
 		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
+
+		$value->tags = new JTags;
+		$value->tags->getTagIds($value->id, 'com_content.article');
 
 		return $value;
 	}

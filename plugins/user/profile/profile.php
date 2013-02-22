@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * @subpackage  User.profile
  * @since       1.6
  */
-class plgUserProfile extends JPlugin
+class PlgUserProfile extends JPlugin
 {
 	/**
 	 * Constructor

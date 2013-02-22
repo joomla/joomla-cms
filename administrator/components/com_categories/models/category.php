@@ -178,6 +178,9 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$result->modified_time = null;
 			}
+
+			$result->tags = new JTags;
+			$result->tags->getTagIds($result->id, $result->extension . '.category');
 		}
 
 		$app = JFactory::getApplication();
