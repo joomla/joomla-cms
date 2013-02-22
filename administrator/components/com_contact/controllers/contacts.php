@@ -36,11 +36,6 @@ class ContactControllerContacts extends JControllerAdmincontent
 	protected $option = 'com_contact';
 
 	/*
-	 * @var  string  Dot separateed context without the key for featuring (generally option.model)
-	*/
-	protected $contextPrefix = 'com_contact.contact.';
-
-	/*
 	 * @var  string   Redirection url used after featuring items
 	*/
 	protected $redirectUrl = 'index.php?option=com_contact&view=contacts';
