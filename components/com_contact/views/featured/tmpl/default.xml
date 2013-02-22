@@ -356,6 +356,15 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="additional_recipients" type="textarea"
+				cols="30"
+				description="COM_CONTACT_FIELD_CONFIG_ADDITIONAL_RECIPIENTS_DESC"
+				label="COM_CONTACT_FIELD_CONFIG_ADDITIONAL_RECIPIENTS_LABEL"
+				rows="3"
+				validate="email"
+				multiple="multiple"
+			/>
+
 			<field name="banned_email" type="textarea"
 				cols="30"
 				description="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_DESC"

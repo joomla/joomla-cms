@@ -194,12 +194,18 @@ class ContactControllerContact extends JControllerForm
 			$subject = $data['contact_subject'];
 			$body    = $data['contact_message'];
 
+			// get additional recipients
+			$additional_recipients = explode(',',$params->get('additional_recipients'));
+			$always_copy_to = explode(',',$params->get('always_copy_to'));
+
 			// Prepare email body
 			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JUri::base());
 			$body	= $prefix . "\n" . $name . ' <' . $email . '>' . "\r\n\r\n" . stripslashes($body);
 
 			$mail = JFactory::getMailer();
 			$mail->addRecipient($contact->email_to);
+			$mail->addRecipient($additional_recipients);
+			$mail->addCC($always_copy_to);
 			$mail->addReplyTo(array($email, $name));
 			$mail->setSender(array($mailfrom, $fromname));
 			$mail->setSubject($sitename . ': ' . $subject);

@@ -663,6 +663,13 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="additional_recipients" type="textarea"
+
+				label="COM_CONTACT_FIELD_EMAIL_ADDITIONAL_RECIPIENTS_LABEL" rows="3"
+				cols="30" description="COM_CONTACT_FIELD_EMAIL_ADDITIONAL_RECIPIENTS_DESC" 
+				validate="email"
+				multiple="multiple" />
+
 			<field name="banned_email" type="textarea"
 
 				label="COM_CONTACT_FIELD_EMAIL_BANNED_EMAIL_LABEL" rows="3"
