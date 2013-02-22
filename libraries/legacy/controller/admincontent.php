@@ -30,13 +30,6 @@ class JControllerAdmincontent extends JControllerAdmin
 	protected $prefix;
 
 	/*
-	 * @var $contextPrefix  Dot separated context not including the id. Used for featuring.
-	 *                      Example: com_content.article
-	 * @since  3.1
-	 */
-	protected $contextPrefix;
-
-	/*
 	 * @var  $redirectUrl  Url for redirection after featuring
 	 */
 	protected $redirectUrl;
@@ -47,6 +40,13 @@ class JControllerAdmincontent extends JControllerAdmin
 	 */
 	protected $option;
 
+	/**
+	 * @var    string  The comoponent and section for featuring. This class assumes that
+	 *                 the context is category with and the item has a property of $catid.
+	 *                 To check individual assets or for other structures this must be overriden
+	 * @since  3.1
+	 */
+	protected $featureContext;
 	/**
 	 * Constructor.
 	 *
@@ -131,7 +131,7 @@ class JControllerAdmincontent extends JControllerAdmin
 		{
 			$item = $model->getItem($id);
 
-			if (!$user->authorise('core.edit.state', 'com_contact.category.'.(int) $item->catid))
+			if (!$user->authorise('core.edit.state', $this->featureContext.(int) $item->catid))
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);

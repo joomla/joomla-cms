@@ -40,6 +40,13 @@ class ContactControllerContacts extends JControllerAdmincontent
 	*/
 	protected $redirectUrl = 'index.php?option=com_contact&view=contacts';
 
+	/*
+	 * @var  string   Dot separated string giving the component and section for access checking of
+	 *                featuring.
+	*/
+	protected $featureConext = 'com_contact.category';
+
+
 	/**
 	 * Proxy for getModel.
 	 *

@@ -56,6 +56,7 @@ class ContentControllerArticles extends JControllerAdmincontent
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
+		$this->registerTask('unfeatured', 'featured');
 
 		// Articles default form can come from the articles or featured view.
 		// Adjust the redirect view on the value of 'view' in the request.
