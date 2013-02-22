@@ -545,8 +545,10 @@ Joomla.contentLoaded = function(fn) {
 	};
 
 	//do action
-	if (doc.readyState == 'complete') fn.call(win, 'lazy');
-	else {
+	if (doc.readyState == 'complete'){
+		fn.call(win, 'lazy');
+		Joomla.readyCalled = true;
+	} else {
 		if (doc.createEventObject && root.doScroll) {
 			try { top = !win.frameElement; } catch(e) { }
 			if (top) poll();
@@ -568,7 +570,7 @@ Joomla.addToListener = function(event, fn, to) {
 	to = to || window;
 	//add to eventlisteners, but only real events
 	if (event.indexOf('ready') !== -1) {
-		if(!Joomla.readyCalled)
+		if(!Joomla.initLoadCalled)
 			Joomla.contentLoaded(fn);
 	}
 	else if (to.addEventListener) { // W3C DOM
@@ -671,6 +673,11 @@ Joomla.removeEvent = function (event, fn) {
 	var names = event.split('.'), nameBase = names[0],
 		storage = Joomla.eventsStorage;
 
+	//as we subscribed "domready" to "load", there also need clean up
+	if(nameBase.indexOf('ready') !== -1) {
+		Joomla.removeEvent(event.replace(nameBase, 'load'), fn);
+	}
+
 	//find calback in the event tree
 	var tmpStore = storage;
 	for (var i = 0; i < names.length; i++) {
@@ -732,7 +739,7 @@ Joomla.fireEvent = function(event, element) {
 
 	//marker used for check whether a first "load" was fired
 	if(nameBase === 'load' && !Joomla.initLoadCalled)
-		Joomla.initLoadCalled = true;
+		Joomla.initLoadCalled = Joomla.readyCalled = true;
 
 
 	return Joomla;
