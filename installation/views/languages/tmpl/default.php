@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 // Get version of Joomla! to compare it with the version of the language package
-$ver = new JVersion;
+$version = new JVersion;
 ?>
 <script type="text/javascript">
 	function installLanguages()
