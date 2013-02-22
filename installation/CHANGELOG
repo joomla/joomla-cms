@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 22-Feb-2013 Jean-Marie Simonet
-# [#30126] *wrong alternate when using associations in multilanguage. Thanks Benjamin
+ # [#30126] *wrong alternate when using associations in multilanguage. Thanks Benjamin
+ #$ [#30133] Duplicate quotes in beez3 category blog override. Thanks Babs
 
 16-Feb-2013 Jean-Marie Simonet
  # [#29261] Admin template "super-patch". Thanks Michael
