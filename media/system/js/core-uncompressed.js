@@ -520,7 +520,7 @@ Joomla.initLoadCalled = false;
  * 	written by Diego Perini (diego.perini at gmail.com)
  */
 
-Joomla.contentLoaded = function(fn) {
+Joomla.DOMContentLoaded = function(fn) {
 	//init variables
 	var done = false, top = true,
 
@@ -560,18 +560,18 @@ Joomla.contentLoaded = function(fn) {
 
 };
 /**
- * add to DOM event listener
+ * add DOM event listener
  * @param event - string, event name
  * @param fn - callback function
  * @param to - add to DOM object, default is window,
  * 				"domready" always attached only to the window
  */
-Joomla.addToListener = function(event, fn, to) {
+Joomla.addListener = function(event, fn, to) {
 	to = to || window;
 	//add to eventlisteners, but only real events
 	if (event.indexOf('ready') !== -1) {
 		if(!Joomla.initLoadCalled)
-			Joomla.contentLoaded(fn);
+			Joomla.DOMContentLoaded(fn);
 	}
 	else if (to.addEventListener) { // W3C DOM
 		to.addEventListener(event, fn);
@@ -584,13 +584,13 @@ Joomla.addToListener = function(event, fn, to) {
 };
 
 /**
- * remove from DOM event listener
+ * remove DOM event listener
  * @param event - string, event name
  * @param fn - callback function
  * @param from - remove DOM object, default is window,
  */
 
-Joomla.removeFromListener = function(event, fn, from){
+Joomla.removeListener = function(event, fn, from){
 	from = from || window;
 	//remove from eventlisteners, but only real events
 	if (event.indexOf('ready') === -1) {
@@ -598,7 +598,7 @@ Joomla.removeFromListener = function(event, fn, from){
 			from.removeEventListener(event, fn);
 		}
 		else if (from.detachEvent) { // IE DOM
-			from.detachEvent("on" + event, fn);
+			from.detachEvent('on' + event, fn);
 		}
 	}
 
@@ -623,8 +623,7 @@ Joomla.removeFromListener = function(event, fn, from){
 
 Joomla.addEvent = function (event, fn) {
 	//Init variables
-	var names = event.split('.'), nameBase = names[0]
-		storage = Joomla.eventsStorage;
+	var names = event.split('.'), nameBase = names[0];
 
 	// add to .jinit namespace
 	// that we will fire when first "domready" or "load" will fired
@@ -641,21 +640,22 @@ Joomla.addEvent = function (event, fn) {
 	}
 
 	//attache only once, cause we use same callback
-	if(!storage[nameBase]) {
+	if(!Joomla.eventsStorage[nameBase]) {
 		//callback for execute all callbacs in the event
 		var initEvent =  (nameBase === 'load' || nameBase.indexOf('ready') !== -1) ? nameBase + '.jinit' : nameBase;
 		var callback = Joomla.fireEvent.bind(window, initEvent, document);
-		Joomla.addToListener(nameBase, callback);
+		Joomla.addListener(nameBase, callback);
 	}
 
 	//build the event tree, and store the callback
-	var tmpStore = storage;
+	var storage = Joomla.eventsStorage;
 	for (var i = 0; i < names.length; i++) {
-		tmpStore[names[i]] = tmpStore[names[i]] || {cb: []};
+		storage[names[i]] = storage[names[i]] || {cb: []};
 		//add only once
-		if(tmpStore[names[i]].cb.indexOf(fn) === -1)
-			tmpStore[names[i]].cb.push(fn);
-		tmpStore = tmpStore[names[i]];
+		if(storage[names[i]].cb.indexOf(fn) === -1){
+			storage[names[i]].cb.push(fn);
+		}
+		storage = storage[names[i]];
 	}
 
 	return Joomla;
@@ -670,8 +670,7 @@ Joomla.addEvent = function (event, fn) {
  */
 Joomla.removeEvent = function (event, fn) {
 	//Init variables
-	var names = event.split('.'), nameBase = names[0],
-		storage = Joomla.eventsStorage;
+	var names = event.split('.'), nameBase = names[0];
 
 	//as we subscribed "domready" to "load", there also need clean up
 	if(nameBase.indexOf('ready') !== -1) {
@@ -679,14 +678,14 @@ Joomla.removeEvent = function (event, fn) {
 	}
 
 	//find calback in the event tree
-	var tmpStore = storage;
+	var storage = Joomla.eventsStorage;
 	for (var i = 0; i < names.length; i++) {
-		tmpStore = tmpStore[names[i]] || {cb: []};
-		var index = tmpStore.cb.indexOf(fn);
+		storage = storage[names[i]] || {cb: []};
+		var index = storage.cb.indexOf(fn);
 		if( index !== -1) {
 			//use splice(k, 1) for keep length
-			delete tmpStore.cb[index];
-			tmpStore.cb.splice(index, 1)
+			delete storage.cb[index];
+			storage.cb.splice(index, 1)
 		}
 	}
 
