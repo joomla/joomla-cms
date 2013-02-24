@@ -156,58 +156,33 @@ class ContentControllerArticle extends JControllerForm
 		//Most of this should go into JAdminFormcontent
 		$task = $this->getTask();
 
-		$item = $model->getItem();echo '<br/>';var_dump($item);
-		if (isset($item->params) && is_array($item->params))
+		$item = $model->getItem();
+		if (isset($item->attribs) && is_array($item->atribs))
 		{
 			$registry = new JRegistry;
-			$registry->loadArray($item->params);
-			$item->params = (string) $registry;
+			$registry->loadArray($item->attribs);
+			$item->attribs = (string) $registry;
+		}
+		if (isset($item->imagess) && is_array($item->imagess))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->images);
+			$item->images = (string) $registry;
+		}
+		if (isset($item->urls) && is_array($item->urls))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->urls);
+			$item->urls = (string) $registry;
+		}
+		if (isset($item->metadata) && is_array($item->metadata))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->metadata);
+			$item->metadata = (string) $registry;
 		}
 		$id =  $item->id;
-		/*if (isset($validData['images']) && is_array($validData['images']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($validData['images']);
-			$validData['images'] = (string) $registry;
-		}
 
-		if (isset($validData['urls']) && is_array($validData['urls']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($validData['urls']);
-			$validData['urls'] = (string) $registry;
-		}
-
-		if (isset($validData['params']) && is_array($validData['params']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($validData['params']);
-			$validData['params'] = (string) $registry;
-		}
-		else
-		{
-			$validData['params'] = '{}';
-		}
-
-		if (isset($validData['metadata']) && is_array($validData['metadata']))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($validData['metadata']);
-			$validData['metadata'] = (string) $registry;
-		}
-
-		// Have find a better way to deal with unset variables.
-		if (empty($item->asset_id))
-		{
-			$item->asset_id = '';
-		}
-		if (empty($validData['modified']))
-		{
-			$validData['modified'] = '';
-		}
-		$validData['modified_by'] = 0;
-		$validData['checked_out'] = 0;
-		$validData['checked_out_time'] = '0000-00-00 00:00:00';*/
 		$fieldMap = Array(
 			'core_title' => "'" . $item->title . "'",
 			'core_alias' => "'" . $item->alias . "'",
@@ -216,7 +191,7 @@ class ContentControllerArticle extends JControllerForm
 			'core_checked_out_user_id' => $item->checked_out,
 			'core_checked_out_time' => "'" . $item->checked_out_time  . "'",
 			'core_access' => $item->access,
-			'core_params' => "'" . $item->params . "'",
+			'core_params' => "'" . $item->attribs . "'",
 			'core_featured' => $item->featured,
 			'core_metadata' => "'" . $item->metadata . "'",
 			'core_created_user_id' => $item->created_by,
@@ -231,8 +206,15 @@ class ContentControllerArticle extends JControllerForm
 			'core_type_alias' => "'" . 'com_content.article' . "'",
 			'asset_id' => $item->asset_id,
 			'core_images' => "'" . $item->images . "'",
-			'core_urls' => "'" . $item->urls . "'"
-		);
+			'core_urls' => "'" . $item->urls . "'",
+			'core_hits' => "'" . $item->hits . "'",
+			'core_version' => "'" . $item->version . "'",
+			'core_ordering' => "'" . $item->ordering . "'",
+			'core_metakey' => "'" . $item->metakey . "'",
+			'core_metadesc' => "'" . $item->metadesc . "'",
+			'core_catid' => "'" . $item->catid . "'",
+			'core_xreference' => "'" . $item->xreference . "'",
+			);
 
 		$tags = $validData['tags'];
 		$isNew = $validData['id'] == 0 ? 1 : 0;

@@ -119,13 +119,60 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		$task = $this->getTask();
 
 		$item = $model->getItem();
-		$id = $item->get('id');
-		$created_date = $item->created;
-		$modified_date = $item->modified;
-		$publish_up = $item->publish_up;
-		$publish_down = $item->publish_down;
-		$title = $item->name;
-		$language = $item->language;
+		$item = $model->getItem();
+		if (isset($item->params) && is_array($item->params))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->params);
+			$item->params = (string) $registry;
+		}
+		if (isset($item->images) && is_array($item->images))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->images);
+			$item->images = (string) $registry;
+		}
+
+		if (isset($item->metadata) && is_array($item->metadata))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->metadata);
+			$item->metadata = (string) $registry;
+		}
+		$id =  $item->id;
+
+		$fieldMap = Array(
+			'core_title' => "'" . $item->name . "'",
+			'core_alias' => "'" . $item->alias . "'",
+			'core_body' => "'" . $item->description . "'",
+			'core_state' => $item->published,
+			'core_checked_out_user_id' => $item->checked_out,
+			'core_checked_out_time' => "'" . $item->checked_out_time  . "'",
+			'core_access' => $item->access,
+			'core_params' => "'" . $item->params . "'",
+			'core_featured' => 0,
+			'core_metadata' => "'" . $item->metadata . "'",
+			'core_created_user_id' => $item->created_by,
+			'core_created_by_alias' => "'" . $item->created_by_alias . "'" ,
+			'core_created_time' => "'" . $item->created  . "'",
+			'core_modified_user_id' => $item->modified_by,
+			'core_modified_time' => "'" . $item->modified  . "'",
+			'core_language' => "'" . $item->language . "'",
+			'core_publish_up' => "'" . $item->publish_up . "'",
+			'core_publish_down' => "'" . $item->publish_down . "'",
+			'core_content_item_id' => $item->id,
+			'core_type_alias' => "'" . 'com_newsfeeds.newsfeed' . "'",
+			'asset_id' => 0,
+			'core_images' => "'" . $item->image . "'",
+			'core_urls' => "'" . $item->link . "'",
+			'core_hits' => "'" . $item->hits . "'",
+			'core_version' => "'" . $item->version . "'",
+			'core_ordering' => "'" . $item->ordering . "'",
+			'core_metakey' => "'" . $item->metakey . "'",
+			'core_metadesc' => "'" . $item->metadesc . "'",
+			'core_catid' => "'" . $item->catid . "'",
+			'core_xreference' => "'" . $item->xreference . "'",
+		);
 
 		$tags = $validData['tags'];
 
@@ -133,7 +180,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		if ($tags )
 		{
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $tags);
+			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $tags, $fieldMap, $isNew);
 		}
 
 	}
