@@ -331,7 +331,7 @@ class JDocumentHTML extends JDocument
 	 *
 	 * @param   bool  $state  True when HTML5 should be output
 	 *
-	 * @return  void
+	 * @return  JDocumentHTML instance of $this to allow chaining
 	 *
 	 * @since   12.1
 	 */
@@ -341,6 +341,8 @@ class JDocumentHTML extends JDocument
 		{
 			$this->_html5 = $state;
 		}
+
+		return $this;
 	}
 
 	/**
