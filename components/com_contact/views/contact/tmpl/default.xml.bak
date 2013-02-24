@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CONTACT_CONTACT_VIEW_DEFAULT_TITLE" option="COM_CONTACT_CONTACT_VIEW_DEFAULT_OPTION">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_CONTACT_SINGLE_CONTACT"
+		/>
+		<message>
+			<![CDATA[COM_CONTACT_CONTACT_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the request variables for the layout. -->
+	<fields name="request">
+		<fieldset name="request"
+			addfieldpath="/administrator/components/com_contact/models/fields"
+		>
+			<field name="id"
+				type="modal_contacts"
+				description="COM_CONTACT_SELECT_CONTACT_DESC"
+				label="COM_CONTACT_SELECT_CONTACT_LABEL"
+				required="true"
+			/>
+		</fieldset>
+	</fields>
+
+	<!-- Add fields to the parameters object for the layout. -->
+	<fields name="params">
+
+		<!-- Basic options. -->
+		<fieldset name="params"
+			label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
+		>
+			<field name="presentation_style"
+				type="list"
+				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
+				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
+				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
+			</field>
+			<field name="show_contact_category"
+				type="list"
+				description="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_DESC"
+				label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="hide">JHIDE</option>
+				<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK</option>
+				<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK</option>
+			</field>
+
+			<field name="show_contact_list"
+				type="list"
+				description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
+				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_name"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_position"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+
+			</field>
+
+			<field name="show_email"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
+				label="JGLOBAL_EMAIL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_street_address"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_suburb"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_state"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_postcode"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_country"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_telephone"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_mobile"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_fax"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_webpage"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_misc"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_image"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="allow_vcard"
+				type="list"
+				description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
+				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_articles"
+				type="list"
+				description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC"
+				label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_links"
+				type="list"
+				description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
+				label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="linka_name"
+				type="text"
+				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+				label="COM_CONTACT_FIELD_LINKA_NAME_LABEL"
+				size="30"
+			/>
+
+			<field name="linkb_name"
+				type="text"
+				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+				label="COM_CONTACT_FIELD_LINKB_NAME_LABEL"
+				size="30"
+			/>
+
+			<field name="linkc_name"
+				type="text"
+				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+				label="COM_CONTACT_FIELD_LINKC_NAME_LABEL"
+				size="30"
+			/>
+
+			<field name="linkd_name"
+				type="text"
+				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
+				size="30"
+			/>
+
+			<field name="linke_name"
+				type="text"
+				description="COM_CONTACT_FIELD_LINK_NAME_DESC"
+				label="COM_CONTACT_FIELD_LINKE_NAME_LABEL"
+				size="30"
+			/>
+		</fieldset>
+
+		<!-- Form options. -->
+		<fieldset name="Contact_Form"
+			label="COM_CONTACT_MAIL_FIELDSET_LABEL"
+		>
+
+			<field name="show_email_form" type="list"
+				description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
+				label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_email_copy"
+				type="list"
+				description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
+				label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="banned_email"
+				type="textarea"
+				cols="30"
+				description="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_DESC"
+				label="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_LABEL"
+				rows="3"
+			/>
+
+			<field name="banned_subject"
+				type="textarea"
+				cols="30"
+				description="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_DESC"
+				label="COM_CONTACT_FIELD_CONFIG_BANNED_SUBJECT_LABEL"
+				rows="3"
+			/>
+
+			<field name="banned_text"
+				type="textarea"
+				cols="30"
+				description="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_DESC"
+				label="COM_CONTACT_FIELD_CONFIG_BANNED_TEXT_LABEL"
+				rows="3"
+			/>
+
+			<field name="validate_session"
+				type="list"
+				description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
+				label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="custom_reply"
+				type="list"
+				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
+				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="redirect"
+				type="text"
+				description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC"
+				label="COM_CONTACT_FIELD_CONFIG_REDIRECT_LABEL"
+				size="30"
+			/>
+		</fieldset>
+	</fields>
+</metadata>
