@@ -262,7 +262,7 @@ class ContentControllerArticle extends JControllerForm
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 		$task = $this->getTask();
-die;
+
 		$item = $model->getItem();
 		if (isset($item->attribs) && is_array($item->atribs))
 		{
