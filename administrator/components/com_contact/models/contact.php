@@ -441,7 +441,7 @@ class ContactModelContact extends JModelAdmin
 
 				}
 			}
-			if ($item = parent::getItem($pk))
+			if (!empty($item->id)  && $item = parent::getItem($pk))
 			{
 				$db = JFactory::getDbo();
 

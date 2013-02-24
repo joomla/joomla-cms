@@ -21,38 +21,135 @@ class JTags
 	/**
 	 * Method to add or update tags associated with an item. Generally used as a postSaveHook.
 	 *
-	 * @param   integer  $id      The id (primary key) of the item to be tagged.
-	 * @param   string   $prefix  Dot separated string with the option and view for a url.
-	 * @params  array    $tags    Array of tags to be applied.
+	 * @param   integer  $id        The id (primary key) of the item to be tagged.
+	 * @param   string   $prefix    Dot separated string with the option and view for a url.
+	 * @params  array    $tags      Array of tags to be applied.
+	 * @params  array    $fieldMap  Associative array of values to core_content field.
+	 * @params  array    $isNew     Flag indicating this item is new.
 	 *
 	 * @return  void
 	 * @since   3.1
 	 */
-	 public function tagItem($id, $prefix, $tags)
+	 public function tagItem($id, $prefix, $tags, $fieldMap, $isNew)
 	 {
-		// Delete the old tag maps.
-		$db		= JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->delete();
-		$query->from($db->quoteName('#__contentitem_tag_map'));
-		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
-		$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $id);
-		$db->setQuery($query);
-		$db->execute();
+		$types = $this->getTypes('objectList', $prefix, true );
+		$type = $types[0];
+
+	 	$typeid = $type->type_id;
+	 	if ($id == 0 )
+	 	{
+	 		// We can get the unset data here.
+	 		$db  = JFactory::getDbo();
+	 		$queryid = $db->getQuery(true);
+	 		// Should get alias field name instead of assuming
+	 		$queryid->select($db->qn('type_id'))
+	 			->from($db->qn($type->table))
+	 			->where($db->qn('alias') . ' = '. $db->q($fieldMap['core_alias']));
+	 		$id = $db->loadResult();
+	 	}
+
+	 	if ($isNew == 0)
+	 	{
+			// Delete the old tag maps.
+			$db		= JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->delete();
+			$query->from($db->quoteName('#__contentitem_tag_map'));
+			$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
+			$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $id);
+			$db->setQuery($query);
+			$db->execute();
+	 	}
 
 		// Set the new tag maps.
 		if (!empty($tags))
 		{
+			$db		= JFactory::getDbo();
+			// First we fill in the core_content table.
+			$querycc = $db->getQuery(true);
+
+			// Check if the record is already there in a content table if it is not a new item.
+			// It could be old but never tagged.
+			if ($isNew == 0)
+			{
+				$db		= JFactory::getDbo();
+
+				$querycheck = $db->getQuery(true);
+				$querycheck->select($db->qn('core_content_id'))
+					->from($db->qn('#__core_content'))
+					->where(array( $db->qn('core_content_item_id') . ' = ' . $id,
+							$db->qn('core_type_alias') . ' = ' . $db->q($prefix)));
+				$db->setQuery($querycheck);
+
+				$ccId = $db->loadResult();
+			}
+
+			// For new items we need to get the id.
+			// Throw an exception if there is no matching record
+			if ($id == 0)
+			{
+				$queryid = $db->getQuery(true);
+				$queryid->select($db->qn(id));
+				$queryid->from($db->qn($type->table));
+				$queryid->where($db->qn('alias') . ' = ' . $db->q($fieldMap['core_alias']));
+				$db->setQuery($queryid);
+				$id = $db->loadResult();
+				$fieldMap['core_content_item_id'] = $id;
+			}
+
+			// If there is no record in #__core_content we do an insert. Otherwise an update.
+			if ($isNew == 1 || empty($ccId))
+			{
+				$values = (implode(',', $fieldMap));
+				$values = $values . ',' . $typeid ;
+				$querycc->insert($db->quoteName('#__core_content'))
+					->columns($db->quoteName(array_keys($fieldMap)))
+					->columns($db->qn('core_type_id'))
+					->values($values);
+			}
+			else
+			{
+				$setList = '';
+				foreach ($fieldMap as $fieldname => $value)
+				{
+					$setList .= '`' . $fieldname . '` = ' . $value . ',';
+				}
+
+				$setList = $setList . ' ' . $db->qn('core_type_id')  . '  = ' . $typeid;
+
+				$querycc->update($db->qn('#__core_content'));
+				$querycc->where($db->qn('core_content_item_id') . ' = ' . $id);
+				$querycc->where($db->qn('core_type_alias') . ' = ' . $db->q($prefix));
+
+				$querycc->set($setList);
+			}
+
+			$db->setQuery($querycc);
+			$db->execute();
+
+			// Get the core_core_content_id from the new record if we do not have it.
+			if (empty($ccId))
+			{
+				$queryCcid = $db->getQuery(true);
+				$queryCcid->select($db->qn('core_content_id'));
+				$queryCcid->from($db->qn('#__core_content'));
+				$queryCcid->where($db->qn('core_content_item_id') . ' = ' . $id);
+				$queryCcid->where($db->qn('core_type_alias') . ' = ' . $db->q($prefix));
+
+				$db->setQuery($queryCcid);
+				$ccId = $db->loadResult();
+			}
+
+			$db		= JFactory::getDbo();
 			// Have to break this up into individual queries for cross-database support.
 			foreach ($tags as $tag)
 			{
 				$query2 = $db->getQuery(true);
-
-				$query2->insert($db->quoteName('#__contentitem_tag_map'));
-				$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
+				$query2->insert('#__contentitem_tag_map');
+				$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
 
 				$query2->clear('values');
-				$query2->values($db->quote($prefix) . ', ' . $id . ', ' . $tag . ', ' . $query->currentTimestamp(), $created_date, $modified_date, $publish_up, $publish_down, $title, $language);
+				$query2->values($db->quote($prefix) . ', ' . $id . ', ' . $tag . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
 				$db->setQuery($query2);
 				$db->execute();
 			}
@@ -85,7 +182,7 @@ class JTags
 			$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
 			$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $pk);
 			$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag);
-			$db->setQuery($query);echo $query->dump();
+			$db->setQuery($query);
 			$result = $db->loadResult();
 
 			// If the tag isn't there already add it.
@@ -367,6 +464,30 @@ class JTags
 		return $this->table;
 	}
 	/**
+	 * Method to get the type id for a type alias.
+	 *
+	 * @param   string  $typeAlias  A type alias.
+	 *
+	 * @return  string  Name of the table for a type
+	 *
+	 * @since   3.1
+	 */
+	public function getTypeId($typeAlias)
+	{
+
+		// Initialize some variables.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('type_id'));
+		$query->from($db->quoteName('#__content_types'));
+		$query->where($db->quoteName('alias') . ' = ' .  $db->quote($typeAlias));
+		$db->setQuery($query);
+		$this->type_id = $db->loadResult();
+
+		return $this->type_id;
+	}
+	/**
 	 * Method to get a list of types with associated data.
 	 *
 	 * @param   string   $arrayType     Optionally specify that the returned list consist of objects, associative arrays, or arrays.
@@ -389,15 +510,15 @@ class JTags
 		{
 			if (is_array($selectTypes))
 			{
-				$selectTypes = implode(',', $selectTypes);
+				$selectTypes = implode("','", $selectTypes);
 			}
 			if ($useAlias)
 			{
-				$query->where($db->qn('alias') . ' IN (' . $selectTypes . ')') ;
+				$query->where($db->qn('alias') . ' IN (' . $query->q($selectTypes) . ')') ;
 			}
 			else
 			{
-				$query->where($db->qn('type_id') . ' IN (' . $selectTypes . ')') ;
+				$query->where($db->qn('type_id') . ' IN (' . $query->q($selectTypes) . ')') ;
 			}
 		}
 

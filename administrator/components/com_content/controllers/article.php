@@ -153,25 +153,95 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
+		//Most of this should go into JAdminFormcontent
 		$task = $this->getTask();
 
-		$item = $model->getItem();
-		$id = $item->id;
-		$created_date = $item->created;
-		$modified_date = $item->modified;
-		$publish_up = $item->publish_up;
-		$publish_down = $item->publish_down;
-		$title = $item->title;
-		$language = $item->language;
+		$item = $model->getItem();echo '<br/>';var_dump($item);
+		if (isset($item->params) && is_array($item->params))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->params);
+			$item->params = (string) $registry;
+		}
+		$id =  $item->id;
+		/*if (isset($validData['images']) && is_array($validData['images']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($validData['images']);
+			$validData['images'] = (string) $registry;
+		}
+
+		if (isset($validData['urls']) && is_array($validData['urls']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($validData['urls']);
+			$validData['urls'] = (string) $registry;
+		}
+
+		if (isset($validData['params']) && is_array($validData['params']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($validData['params']);
+			$validData['params'] = (string) $registry;
+		}
+		else
+		{
+			$validData['params'] = '{}';
+		}
+
+		if (isset($validData['metadata']) && is_array($validData['metadata']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($validData['metadata']);
+			$validData['metadata'] = (string) $registry;
+		}
+
+		// Have find a better way to deal with unset variables.
+		if (empty($item->asset_id))
+		{
+			$item->asset_id = '';
+		}
+		if (empty($validData['modified']))
+		{
+			$validData['modified'] = '';
+		}
+		$validData['modified_by'] = 0;
+		$validData['checked_out'] = 0;
+		$validData['checked_out_time'] = '0000-00-00 00:00:00';*/
+		$fieldMap = Array(
+			'core_title' => "'" . $item->title . "'",
+			'core_alias' => "'" . $item->alias . "'",
+			'core_body' => "'" . $item->articletext . "'",
+			'core_state' => $item->state,
+			'core_checked_out_user_id' => $item->checked_out,
+			'core_checked_out_time' => "'" . $item->checked_out_time  . "'",
+			'core_access' => $item->access,
+			'core_params' => "'" . $item->params . "'",
+			'core_featured' => $item->featured,
+			'core_metadata' => "'" . $item->metadata . "'",
+			'core_created_user_id' => $item->created_by,
+			'core_created_by_alias' => "'" . $item->created_by_alias . "'" ,
+			'core_created_time' => "'" . $item->created  . "'",
+			'core_modified_user_id' => $item->modified_by,
+			'core_modified_time' => "'" . $item->modified  . "'",
+			'core_language' => "'" . $item->language . "'",
+			'core_publish_up' => "'" . $item->publish_up . "'",
+			'core_publish_down' => "'" . $item->publish_down . "'",
+			'core_content_item_id' => $item->id,
+			'core_type_alias' => "'" . 'com_content.article' . "'",
+			'asset_id' => $item->asset_id,
+			'core_images' => "'" . $item->images . "'",
+			'core_urls' => "'" . $item->urls . "'"
+		);
 
 		$tags = $validData['tags'];
+		$isNew = $validData['id'] == 0 ? 1 : 0;
 
 		// Store the tag data if the article data was saved.
 		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_content.article', $tags, $created_date, $modified_date, $publish_up, $publish_down, $title);
+			$tagsHelper->tagItem($id, 'com_content.article', $tags, $fieldMap, $isNew);
 		}
 	}
-
 }

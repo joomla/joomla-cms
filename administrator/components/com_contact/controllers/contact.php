@@ -125,6 +125,9 @@ class ContactControllerContact extends JControllerForm
 		$publish_down = $item->publish_down;
 		$title = $item->name;
 		$language = $item->language;
+		var_dump($model);
+
+
 
 		$tags = $validData['tags'];
 
