@@ -1,18 +1,21 @@
 <?php
 /**
- * @package     Joomla.Legacy
- * @subpackage  Table
+ * @package     Joomla.Platform
+ * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.database.table');
+jimport('joomla.database.tableasset');
+
 /**
  * Module table
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Platform
  * @subpackage  Table
  * @since       11.1
  */
@@ -21,11 +24,11 @@ class JTableModule extends JTable
 	/**
 	 * Constructor.
 	 *
-	 * @param   JDatabaseDriver  $db  Database driver object.
+	 * @param   JDatabase  &$db  A database connector object
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__modules', 'id', $db);
 
@@ -112,7 +115,7 @@ class JTableModule extends JTable
 	 */
 	public function check()
 	{
-		// Check for valid name
+		// check for valid name
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_MODULE'));
@@ -120,12 +123,10 @@ class JTableModule extends JTable
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
+		if (intval($this->publish_down) > 0 && $this->publish_down < $this->publish_up)
 		{
-			// Swap the dates.
-			$temp = $this->publish_up;
-			$this->publish_up = $this->publish_down;
-			$this->publish_down = $temp;
+			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+			return false;
 		}
 
 		return true;

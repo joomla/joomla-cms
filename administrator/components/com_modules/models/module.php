@@ -336,7 +336,7 @@ class ModulesModelModule extends JModelAdmin
 			if ($table->load($pk))
 			{
 				// Access checks.
-				if (!$user->authorise('core.delete', 'com_modules') || $table->published != -2)
+				if (!$user->authorise('core.delete', 'com_modules.module.'.(int) $pk) || $table->published != -2)
 				{
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 					return;
@@ -520,11 +520,13 @@ class ModulesModelModule extends JModelAdmin
 			$item		= $this->getItem();
 			$clientId	= $item->client_id;
 			$module		= $item->module;
+			$id			= $item->id;
 		}
 		else
 		{
 			$clientId	= JArrayHelper::getValue($data, 'client_id');
 			$module		= JArrayHelper::getValue($data, 'module');
+			$id			= JArrayHelper::getValue($data, 'id');
 		}
 
 		// These variables are used to add data from the plugin XML files.
@@ -540,8 +542,13 @@ class ModulesModelModule extends JModelAdmin
 
 		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
 
-		// Modify the form based on access controls.
-		if (!$this->canEditState((object) $data))
+		$user = JFactory::getUser();
+
+		// Check for existing module.
+		// Modify the form based on Edit State access controls.
+		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_modules.module.'.(int) $id))
+		|| ($id == 0 && !$user->authorise('core.edit.state', 'com_modules'))
+		)
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
