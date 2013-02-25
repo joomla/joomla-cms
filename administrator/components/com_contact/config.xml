@@ -703,6 +703,22 @@
 			<option value="1">JSHOW</option>
 		</field>
 
+		<field name="always_copy_to"
+			type="text"
+			label="COM_CONTACT_FIELD_ALWAYS_COPY_TO_LABEL"
+			description="COM_CONTACT_FIELD_ALWAYS_COPY_TO_DESC"
+			class="inputbox"
+			size="30"
+		/>
+
+		<field name="additional_recipients"
+			type="textarea"
+			label="COM_CONTACT_FIELD_CONFIG_ADDITIONAL_RECIPIENTS_LABEL"
+			rows="3"
+			cols="30"
+			description="COM_CONTACT_FIELD_CONFIG_ADDITIONAL_RECIPIENTS_GLOBAL_DESC"
+		/>
+
 		<field name="banned_email"
 			type="textarea"
 			label="COM_CONTACT_FIELD_CONFIG_BANNED_EMAIL_LABEL"
