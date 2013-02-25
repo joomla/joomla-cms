@@ -875,7 +875,7 @@ Calendar.prototype.create = function (_par) {
 		this.title.ttip = Calendar._TT["DRAG_TO_MOVE"];
 		this.title.style.cursor = "move";
 		
-		var close = '<a href="#" data-action="close" style="padding:0"><span class="icon-cancel"></span></a>';
+		var close = '<a href="#" data-action="close" style="padding:0"><span class="icon-cancel icon-remove-sign"></span></a>';
 		close += '<a href="#" data-action="close" style="display:block" class="nav element-invisible">&#x00d7;</a>'
 		hh(close, 1, 200, 'td', {'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["CLOSE"];
 		var closeAs = document.id(row).getElements('a[data-action=close]');
