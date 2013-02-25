@@ -3,14 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Banner model.
@@ -34,7 +31,7 @@ class BannersModelBanner extends JModelAdmin
 	 * @param   array   $pks        An array of item ids.
 	 * @param   array   $contexts   An array of item contexts.
 	 *
-	 * @return	boolean	 Returns true on success, false on failure.
+	 * @return  boolean   Returns true on success, false on failure.
 	 *
 	 * @since	2.5
 	 */
@@ -410,7 +407,8 @@ class BannersModelBanner extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_banners.edit.banner.data', array());
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('com_banners.edit.banner.data', array());
 
 		if (empty($data))
 		{
@@ -419,8 +417,7 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$app = JFactory::getApplication();
-				$data->set('catid', JRequest::getInt('catid', $app->getUserState('com_banners.banners.filter.category_id')));
+				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_banners.banners.filter.category_id')));
 			}
 		}
 
@@ -437,9 +434,8 @@ class BannersModelBanner extends JModelAdmin
 	 *
 	 * @since   1.6
 	 */
-	function stick(&$pks, $value = 1)
+	public function stick(&$pks, $value = 1)
 	{
-		// Initialise variables.
 		$user = JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
@@ -483,5 +479,38 @@ class BannersModelBanner extends JModelAdmin
 		$condition[] = 'catid = '. (int) $table->catid;
 		$condition[] = 'state >= 0';
 		return $condition;
+	}
+
+	/**
+	 * @since  3.0
+	 */
+	protected function prepareTable($table)
+	{
+		$date = JFactory::getDate();
+		$user = JFactory::getUser();
+
+		if (empty($table->id))
+		{
+			// Set the values
+			$table->created	= $date->toSql();
+
+			// Set ordering to the last item if not set
+			if (empty($table->ordering))
+			{
+				$db = JFactory::getDbo();
+				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
+				$max = $db->loadResult();
+
+				$table->ordering = $max + 1;
+			}
+		}
+		else
+		{
+			// Set the values
+			$table->modified	= $date->toSql();
+			$table->modified_by	= $user->get('id');
+		}
+		// Increment the content version number.
+		$table->version++;
 	}
 }

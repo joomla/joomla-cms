@@ -1,24 +1,22 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View for language overrides list
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
-class LanguagesViewOverrides extends JView
+class LanguagesViewOverrides extends JViewLegacy
 {
 	/**
 	 * The items to list
@@ -47,26 +45,25 @@ class LanguagesViewOverrides extends JView
 	/**
 	 * Displays the view
 	 *
-	 * @param		string	$tpl	The name of the template file to parse
+	 * @param   	string	$tpl	The name of the template file to parse
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Get data from the model
-		$this->state			= $this->get('State');
-		$this->items			= $this->get('Overrides');
-		$this->languages	= $this->get('Languages');
-		$this->pagination	= $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->items      = $this->get('Overrides');
+		$this->languages  = $this->get('Languages');
+		$this->pagination = $this->get('Pagination');
+
+		LanguagesHelper::addSubmenu('overrides');
 
 		// Check for errors
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors));
-
-			return;
 		}
 
 		$this->addToolbar();
@@ -76,7 +73,7 @@ class LanguagesViewOverrides extends JView
 	/**
 	 * Adds the page title and toolbar
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -85,7 +82,7 @@ class LanguagesViewOverrides extends JView
 		// Get the results for each action
 		$canDo = LanguagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'langmanager');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'langmanager');
 
 		if ($canDo->get('core.create'))
 		{
@@ -104,9 +101,21 @@ class LanguagesViewOverrides extends JView
 
 		if ($canDo->get('core.admin'))
 		{
-			JToolBarHelper::preferences('com_languages');
+			JToolbarHelper::preferences('com_languages');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
+
+		JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
+
+		JHtmlSidebar::addFilter(
+			// @todo need a label here
+			'',
+			'filter_language_client',
+			JHtml::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
+			true
+		);
+
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

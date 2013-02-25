@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ JFormHelper::loadFieldClass('groupedlist');
  * @subpackage  Form
  * @since       1.6
  */
-class JFormFieldTemplateStyle extends JFormFieldGroupedList
+class JFormFieldTemplatestyle extends JFormFieldGroupedList
 {
 	/**
 	 * The form field type.
@@ -41,7 +41,6 @@ class JFormFieldTemplateStyle extends JFormFieldGroupedList
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 		$lang = JFactory::getLanguage();
 

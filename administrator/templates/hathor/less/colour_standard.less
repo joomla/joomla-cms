@@ -1,0 +1,38 @@
+// colour_standard.less
+//
+// Less to compile Hathor in the default colour scheme
+// -----------------------------------------------------
+
+/**
+ * Main colors:
+ * #2c2c2c	Text
+ * #054993	Links
+ * #ffffff	Background, border, text
+ * #f9fade	Background alternate, button/icon/menu background
+ * #e5f0fa	Background (input required)
+ * #e3e4ca	Background Hover, Right/Bottom icon borders
+ * #c7c8b2	Main borders
+ * #868778	Top/Left icon hover borders
+ * #f6f7db	Right/Bottom icon hover borders
+ *
+ * Special Use Colors:
+ * #a20000	Text Error, border invalid
+ * #cccccc	Text (faded)
+ * #005800	Text (success)
+ * #eeeeee	Background (input disabled)
+ * #ffffcf	Background‚ permissions debug
+ * #cfffda	Background‚ permissions debug
+ * #ffcfcf	Background‚ permissions debug
+ */
+
+// Import the variables file first to get common variables loaded
+@import "hathor_variables.less";
+
+// Define variables unique to this colour scheme, as well as override variables already defined in the common file
+@altBackground:      #f9fade;
+@gradientTop:        #f9fade;
+@gradientBottom:     #f9fade;
+@mainBorder:         #c7c8b2;
+
+// Import the baseline to compile the CSS
+@import "colour_baseline.less";

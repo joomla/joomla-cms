@@ -18,18 +18,14 @@
 
 		<field
 			name="enabled"
-			type="list"
+			type="radio"
+			class="btn-group"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
-			class="inputbox"
 			size="1"
 			default="1">
-			<option
-				value="1">
-				JENABLED</option>
-			<option
-				value="0">
-				JDISABLED</option>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
 		</field>
 
 		<field

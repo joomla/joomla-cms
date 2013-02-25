@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,9 +16,17 @@ defined('_JEXEC') or die;
  * @subpackage  System.Debug
  * @since       1.5
  */
-class plgSystemDebug extends JPlugin
+class PlgSystemDebug extends JPlugin
 {
 	protected $linkFormat = '';
+
+	/**
+	 * True if debug lang is on.
+	 *
+	 * @var    boolean
+	 * @since  3.0
+	 */
+	private $debugLang = false;
 
 	/**
 	 * Constructor.
@@ -38,8 +46,10 @@ class plgSystemDebug extends JPlugin
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
+		$this->debugLang = JFactory::getApplication()->getCfg('debug_lang');
+
 		// Only if debugging or language debug is enabled
-		if (JDEBUG || JFactory::getApplication()->getCfg('debug_lang'))
+		if (JDEBUG || $this->debugLang)
 		{
 			JFactory::getConfig()->set('gzip', 0);
 			ob_start();
@@ -60,7 +70,7 @@ class plgSystemDebug extends JPlugin
 	public function onAfterDispatch()
 	{
 		// Only if debugging or language debug is enabled
-		if (JDEBUG || JFactory::getApplication()->getCfg('debug_lang'))
+		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
 			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
 		}
@@ -74,13 +84,22 @@ class plgSystemDebug extends JPlugin
 	public function __destruct()
 	{
 		// Do not render if debugging or language debug is not enabled
-		if (!JDEBUG && !JFactory::getApplication()->getCfg('debug_lang'))
+		if (!JDEBUG && !$this->debugLang)
 		{
 			return;
 		}
 
-		// Load the language
-		$this->loadLanguage();
+		// User has to be authorised to see the debug information
+		if (!$this->isAuthorisedDisplayDebug())
+		{
+			return;
+		}
+
+		// Only render for HTML output
+		if (JFactory::getDocument()->getType() !== 'html')
+		{
+			return;
+		}
 
 		// Capture output
 		$contents = ob_get_contents();
@@ -94,34 +113,14 @@ class plgSystemDebug extends JPlugin
 			return;
 		}
 
-		// Only render for HTML output
-		if ('html' !== JFactory::getDocument()->getType())
-		{
-			echo $contents;
-			return;
-		}
-
-		// If the user is not allowed to view the output then end here
-		$filterGroups = (array) $this->params->get('filter_groups', null);
-
-		if (!empty($filterGroups))
-		{
-			$userGroups = JFactory::getUser()->get('groups');
-
-			if (!array_intersect($filterGroups, $userGroups))
-			{
-				echo $contents;
-				return;
-			}
-		}
-
-		// Load language file
-		$this->loadLanguage('plg_system_debug');
+		// Load language
+		$this->loadLanguage();
 
 		$html = '';
 
 		// Some "mousewheel protecting" JS
-		$html .= "<script>function toggleContainer(name) {
+		$html .= "<script>function toggleContainer(name)
+		{
 			var e = document.getElementById(name);// MooTools might not be available ;)
 			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
 		}</script>";
@@ -155,7 +154,7 @@ class plgSystemDebug extends JPlugin
 			}
 		}
 
-		if (JFactory::getApplication()->getCfg('debug_lang'))
+		if ($this->debugLang)
 		{
 			if ($this->params->get('language_errorfiles', 1))
 			{
@@ -177,6 +176,40 @@ class plgSystemDebug extends JPlugin
 		$html .= '</div>';
 
 		echo str_replace('</body>', $html . '</body>', $contents);
+	}
+
+	/**
+	 * Method to check if the current user is allowed to see the debug information or not.
+	 *
+	 * @return  boolean  True is access is allowed
+	 *
+	 * @since   3.0
+	 */
+	private function isAuthorisedDisplayDebug()
+	{
+		static $result = null;
+
+		if (!is_null($result))
+		{
+			return $result;
+		}
+
+		// If the user is not allowed to view the output then end here
+		$filterGroups = (array) $this->params->get('filter_groups', null);
+
+		if (!empty($filterGroups))
+		{
+			$userGroups = JFactory::getUser()->get('groups');
+
+			if (!array_intersect($filterGroups, $userGroups))
+			{
+				$result = false;
+				return false;
+			}
+		}
+
+		$result = true;
+		return true;
 	}
 
 	/**
@@ -372,11 +405,9 @@ class plgSystemDebug extends JPlugin
 	 */
 	protected function displayMemoryUsage()
 	{
-		$html = '';
+		$bytes = memory_get_usage();
 
-		$bytes = JProfiler::getInstance('Application')->getMemory();
-
-		$html .= '<code>';
+		$html  = '<code>';
 		$html .= JHtml::_('number.bytes', $bytes);
 		$html .= ' (' . number_format($bytes) . ' Bytes)';
 		$html .= '</code>';
@@ -404,7 +435,7 @@ class plgSystemDebug extends JPlugin
 
 		$html = '';
 
-		$html .= '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED',  $db->getCount()) . '</h4>';
+		$html .= '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $db->getCount()) . '</h4>';
 
 		$html .= '<ol>';
 

@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Base controller class for Finder.
@@ -18,7 +16,7 @@ jimport('joomla.application.component.controller');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderController extends JController
+class FinderController extends JControllerLegacy
 {
 	/**
 	 * @var    string  The default view.
@@ -32,7 +30,7 @@ class FinderController extends JController
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController  A JController object to support chaining.
+	 * @return  JController  A JController object to support chaining.
 	 *
 	 * @since	2.5
 	 */
@@ -40,16 +38,9 @@ class FinderController extends JController
 	{
 		include_once JPATH_COMPONENT . '/helpers/finder.php';
 
-		// Set the variables.
-		$input = JFactory::getApplication()->input;
-
-		// Load the submenu.
-		FinderHelper::addSubmenu($input->get('view', 'index', 'word'));
-
-		$view = $input->get('view', 'index', 'word');
-		$layout = $input->get('layout', 'index', 'word');
-		$id = $input->get('id', null, 'int');
-		$f_id = $input->get('filter_id', null, 'int');
+		$view   = $this->input->get('view', 'index', 'word');
+		$layout = $this->input->get('layout', 'index', 'word');
+		$f_id   = $this->input->get('filter_id', null, 'int');
 
 		// Check for edit form.
 		if ($view == 'filter' && $layout == 'edit' && !$this->checkEditId('com_finder.edit.filter', $f_id))

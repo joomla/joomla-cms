@@ -1,20 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modelitem');
 
 /**
  * Weblinks Component Model for a Weblink record
  *
- * @package		Joomla.Site
- * @subpackage	com_weblinks
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_weblinks
+ * @since       1.5
  */
 class WeblinksModelWeblink extends JModelItem
 {
@@ -31,7 +31,7 @@ class WeblinksModelWeblink extends JModelItem
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -39,7 +39,7 @@ class WeblinksModelWeblink extends JModelItem
 		$params	= $app->getParams();
 
 		// Load the object state.
-		$id	= JRequest::getInt('id');
+		$id	= $app->input->getInt('id');
 		$this->setState('weblink.id', $id);
 
 		// Load the parameters.
@@ -47,11 +47,11 @@ class WeblinksModelWeblink extends JModelItem
 	}
 
 	/**
-	 * Method to get an ojbect.
+	 * Method to get an object.
 	 *
-	 * @param	integer	The id of the object to get.
+	 * @param   integer	The id of the object to get.
 	 *
-	 * @return	mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 */
 	public function &getItem($id = null)
 	{
@@ -59,7 +59,8 @@ class WeblinksModelWeblink extends JModelItem
 		{
 			$this->_item = false;
 
-			if (empty($id)) {
+			if (empty($id))
+			{
 				$id = $this->getState('weblink.id');
 			}
 
@@ -72,7 +73,8 @@ class WeblinksModelWeblink extends JModelItem
 				// Check published state.
 				if ($published = $this->getState('filter.published'))
 				{
-					if ($table->state != $published) {
+					if ($table->state != $published)
+					{
 						return $this->_item;
 					}
 				}
@@ -81,7 +83,8 @@ class WeblinksModelWeblink extends JModelItem
 				$properties = $table->getProperties(1);
 				$this->_item = JArrayHelper::toObject($properties, 'JObject');
 			}
-			elseif ($error = $table->getError()) {
+			elseif ($error = $table->getError())
+			{
 				$this->setError($error);
 			}
 		}
@@ -92,13 +95,14 @@ class WeblinksModelWeblink extends JModelItem
 	/**
 	 * Method to increment the hit counter for the weblink
 	 *
-	 * @param	int		Optional ID of the weblink.
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @param   integer  $id  Optional ID of the weblink.
+	 *
+	 * @return  boolean  True on success
 	 */
 	public function hit($id = null)
 	{
-		if (empty($id)) {
+		if (empty($id))
+		{
 			$id = $this->getState('weblink.id');
 		}
 

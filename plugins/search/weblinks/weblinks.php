@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Search.weblinks
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 require_once JPATH_SITE.'/components/com_weblinks/helpers/route.php';
@@ -12,11 +14,11 @@ require_once JPATH_SITE.'/components/com_weblinks/helpers/route.php';
 /**
  * Weblinks Search plugin
  *
- * @package		Joomla.Plugin
- * @subpackage	Search.weblinks
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Search.weblinks
+ * @since       1.6
  */
-class plgSearchWeblinks extends JPlugin
+class PlgSearchWeblinks extends JPlugin
 {
 	/**
 	 * Constructor
@@ -35,7 +37,8 @@ class plgSearchWeblinks extends JPlugin
 	/**
 	 * @return array An array of search areas
 	 */
-	function onContentSearchAreas() {
+	public function onContentSearchAreas()
+	{
 		static $areas = array(
 			'weblinks' => 'PLG_SEARCH_WEBLINKS_WEBLINKS'
 			);
@@ -52,7 +55,7 @@ class plgSearchWeblinks extends JPlugin
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 * @param mixed An array if the search it to be restricted to areas, null if search all
 	 */
-	function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
 	{
 		$db		= JFactory::getDbo();
 		$app	= JFactory::getApplication();
@@ -61,25 +64,30 @@ class plgSearchWeblinks extends JPlugin
 
 		$searchText = $text;
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
 
-		$sContent		= $this->params->get('search_content',		1);
-		$sArchived		= $this->params->get('search_archived',		1);
-		$limit			= $this->params->def('search_limit',		50);
+		$sContent  = $this->params->get('search_content', 1);
+		$sArchived = $this->params->get('search_archived', 1);
+		$limit     = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent) {
-			$state[]=1;
+		if ($sContent)
+		{
+			$state[] = 1;
 		}
-		if ($sArchived) {
-			$state[]=2;
+		if ($sArchived)
+		{
+			$state[] = 2;
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 		$section	= JText::_('PLG_SEARCH_WEBLINKS');
@@ -138,24 +146,25 @@ class plgSearchWeblinks extends JPlugin
 		}
 
 		$return = array();
-		if (!empty($state)) {
+		if (!empty($state))
+		{
 			$query	= $db->getQuery(true);
-	        //sqlsrv changes
-	        $case_when = ' CASE WHEN ';
-	        $case_when .= $query->charLength('a.alias');
-	        $case_when .= ' THEN ';
-	        $a_id = $query->castAsChar('a.id');
-	        $case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-	        $case_when .= ' ELSE ';
-	        $case_when .= $a_id.' END as slug';
+			//sqlsrv changes
+			$case_when = ' CASE WHEN ';
+			$case_when .= $query->charLength('a.alias', '!=', '0');
+			$case_when .= ' THEN ';
+			$a_id = $query->castAsChar('a.id');
+			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+			$case_when .= ' ELSE ';
+			$case_when .= $a_id.' END as slug';
 
-	        $case_when1 = ' CASE WHEN ';
-	        $case_when1 .= $query->charLength('c.alias');
-	        $case_when1 .= ' THEN ';
-	        $c_id = $query->castAsChar('c.id');
-	        $case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-	        $case_when1 .= ' ELSE ';
-	        $case_when1 .= $c_id.' END as catslug';
+			$case_when1 = ' CASE WHEN ';
+			$case_when1 .= $query->charLength('c.alias', '!=', '0');
+			$case_when1 .= ' THEN ';
+			$c_id = $query->castAsChar('c.id');
+			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
+			$case_when1 .= ' ELSE ';
+			$case_when1 .= $c_id.' END as catslug';
 
 			$query->select('a.title AS title, a.description AS text, a.created AS created, a.url, '
 						.$case_when.','.$case_when1.', '
@@ -166,7 +175,8 @@ class plgSearchWeblinks extends JPlugin
 			$query->order($order);
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
 				$tag = JFactory::getLanguage()->getTag();
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
@@ -176,13 +186,17 @@ class plgSearchWeblinks extends JPlugin
 			$rows = $db->loadObjectList();
 
 			$return = array();
-			if ($rows) {
-				foreach($rows as $key => $row) {
+			if ($rows)
+			{
+				foreach ($rows as $key => $row)
+				{
 					$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
 				}
 
-				foreach($rows as $key => $weblink) {
-					if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title'))) {
+				foreach ($rows as $key => $weblink)
+				{
+					if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title')))
+					{
 						$return[] = $weblink;
 					}
 				}

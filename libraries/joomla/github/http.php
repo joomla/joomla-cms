@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTTP client class for connecting to a GitHub instance.
@@ -39,12 +39,12 @@ class JGithubHttp extends JHttp
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       &$options   Client options object.
+	 * @param   JRegistry       $options    Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
 	 * @since   11.3
 	 */
-	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null)
+	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
 		// Call the JHttp constructor to setup the object.
 		parent::__construct($options, $transport);

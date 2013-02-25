@@ -1,30 +1,32 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Extension.Joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Joomla! master extension plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	Extension.Joomla
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Extension.Joomla
+ * @since       1.6
  */
-class plgExtensionJoomla extends JPlugin
+class PlgExtensionJoomla extends JPlugin
 {
 	/**
 	 * @var		integer Extension Identifier
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private $eid = 0;
 
 	/**
 	 * @var		JInstaller Installer object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private $installer = null;
 
@@ -45,11 +47,11 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param	string	The friendly name of the site
-	 * @param	string	The type of site (e.g. collection or extension)
-	 * @param	string	The URI for the site
-	 * @param	boolean	If this site is enabled
-	 * @since	1.6
+	 * @param   string	The friendly name of the site
+	 * @param   string	The type of site (e.g. collection or extension)
+	 * @param   string	The URI for the site
+	 * @param   boolean	If this site is enabled
+	 * @since   1.6
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
@@ -59,7 +61,7 @@ class plgExtensionJoomla extends JPlugin
 		$query = $dbo->getQuery(true);
 		$query->select('update_site_id')->from('#__update_sites')->where('location = '. $dbo->Quote($location));
 		$dbo->setQuery($query);
-		$update_site_id = (int)$dbo->loadResult();
+		$update_site_id = (int) $dbo->loadResult();
 
 		// if it doesn't exist, add it!
 		if (!$update_site_id)
@@ -69,7 +71,7 @@ class plgExtensionJoomla extends JPlugin
 			$query->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')));
 			$query->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
 			$dbo->setQuery($query);
-			if ($dbo->query())
+			if ($dbo->execute())
 			{
 				// link up this extension to the update site
 				$update_site_id = $dbo->insertid();
@@ -84,8 +86,8 @@ class plgExtensionJoomla extends JPlugin
 			$query->select('update_site_id')->from('#__update_sites_extensions');
 			$query->where('update_site_id = '. $update_site_id)->where('extension_id = '. $this->eid);
 			$dbo->setQuery($query);
-			$tmpid = (int)$dbo->loadResult();
-			if(!$tmpid)
+			$tmpid = (int) $dbo->loadResult();
+			if (!$tmpid)
 			{
 				// link this extension to the relevant update site
 				$query->clear();
@@ -93,7 +95,7 @@ class plgExtensionJoomla extends JPlugin
 				$query->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')));
 				$query->values($update_site_id . ', ' . $this->eid);
 				$dbo->setQuery($query);
-				$dbo->query();
+				$dbo->execute();
 			}
 		}
 	}
@@ -101,9 +103,9 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param	JInstaller	Installer object
-	 * @param	int			Extension Identifier
-	 * @since	1.6
+	 * @param   JInstaller	Installer object
+	 * @param   integer  	Extension Identifier
+	 * @since   1.6
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
@@ -120,10 +122,10 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Handle extension uninstall
 	 *
-	 * @param	JInstaller	Installer instance
-	 * @param	int			extension id
-	 * @param	int			installation result
-	 * @since	1.6
+	 * @param   JInstaller	Installer instance
+	 * @param   integer  	extension id
+	 * @param   integer  	installation result
+	 * @since   1.6
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
@@ -134,7 +136,7 @@ class plgExtensionJoomla extends JPlugin
 			$query = $db->getQuery(true);
 			$query->delete()->from('#__update_sites_extensions')->where('extension_id = '. $eid);
 			$db->setQuery($query);
-			$db->Query();
+			$db->execute();
 
 			// delete any unused update sites
 			$query->clear();
@@ -142,7 +144,7 @@ class plgExtensionJoomla extends JPlugin
 			$db->setQuery($query);
 			$results = $db->loadColumn();
 
-			if(is_array($results))
+			if (is_array($results))
 			{
 				// so we need to delete the update sites and their associated updates
 				$updatesite_delete = $db->getQuery(true);
@@ -151,7 +153,7 @@ class plgExtensionJoomla extends JPlugin
 				$updatesite_query->select('update_site_id')->from('#__update_sites');
 
 				// if we get results back then we can exclude them
-				if(count($results))
+				if (count($results))
 				{
 					$updatesite_query->where('update_site_id NOT IN ('. implode(',', $results) .')');
 					$updatesite_delete->where('update_site_id NOT IN ('. implode(',', $results) .')');
@@ -159,19 +161,19 @@ class plgExtensionJoomla extends JPlugin
 				// so lets find what update sites we're about to nuke and remove their associated extensions
 				$db->setQuery($updatesite_query);
 				$update_sites_pending_delete = $db->loadColumn();
-				if(is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
+				if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
 					// nuke any pending updates with this site before we delete it
 					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
 					$query->clear();
 					$query->delete()->from('#__updates')->where('update_site_id IN ('. implode(',', $update_sites_pending_delete) .')');
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 				}
 
 				// note: this might wipe out the entire table if there are no extensions linked
 				$db->setQuery($updatesite_delete);
-				$db->query();
+				$db->execute();
 
 			}
 
@@ -179,20 +181,21 @@ class plgExtensionJoomla extends JPlugin
 			$query->clear();
 			$query->delete()->from('#__updates')->where('extension_id = '. $eid);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 
 	/**
 	 * After update of an extension
 	 *
-	 * @param	JInstaller	Installer object
-	 * @param	int			Extension identifier
-	 * @since	1.6
+	 * @param   JInstaller	Installer object
+	 * @param   integer  	Extension identifier
+	 * @since   1.6
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
-		if ($eid) {
+		if ($eid)
+		{
 			$this->installer = $installer;
 			$this->eid = $eid;
 
@@ -204,16 +207,19 @@ class plgExtensionJoomla extends JPlugin
 	/**
 	 * Processes the list of update sites for an extension.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private function processUpdateSites()
 	{
 		$manifest		= $this->installer->getManifest();
 		$updateservers	= $manifest->updateservers;
 
-		if($updateservers) {
+		if ($updateservers)
+		{
 			$children = $updateservers->children();
-		} else {
+		}
+		else
+		{
 			$children = array();
 		}
 
@@ -227,7 +233,7 @@ class plgExtensionJoomla extends JPlugin
 		}
 		else
 		{
-			$data = (string)$updateservers;
+			$data = (string) $updateservers;
 
 			if (strlen($data))
 			{

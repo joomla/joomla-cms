@@ -1,18 +1,20 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Plugins component helper.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_plugins
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_plugins
+ * @since       1.6
  */
 class PluginsHelper
 {
@@ -21,7 +23,7 @@ class PluginsHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -31,7 +33,7 @@ class PluginsHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
+	 * @return  JObject
 	 */
 	public static function getActions()
 	{
@@ -41,7 +43,8 @@ class PluginsHelper
 
 		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -51,9 +54,9 @@ class PluginsHelper
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @return	string			The HTML code for the select tag
+	 * @return  string  	The HTML code for the select tag
 	 */
-	public static function stateOptions()
+	public static function publishedOptions()
 	{
 		// Build the active state filter options.
 		$options	= array();
@@ -66,7 +69,7 @@ class PluginsHelper
 	/**
 	 * Returns an array of standard published state filter options.
 	 *
-	 * @return	string			The HTML code for the select tag
+	 * @return  string  	The HTML code for the select tag
 	 */
 	public static function folderOptions()
 	{
@@ -79,28 +82,36 @@ class PluginsHelper
 		$query->order('folder');
 
 		$db->setQuery($query);
-		$options = $db->loadObjectList();
 
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
 		}
 
 		return $options;
 	}
-	function parseXMLTemplateFile($templateBaseDir, $templateDir)
+
+	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
 		// Check of the xml file exists
 		$filePath = JPath::clean($templateBaseDir.'/templates/'.$templateDir.'/templateDetails.xml');
-		if (is_file($filePath)) {
-			$xml = JApplicationHelper::parseXMLInstallFile($filePath);
+		if (is_file($filePath))
+		{
+			$xml = JInstaller::parseXMLInstallFile($filePath);
 
-			if ($xml['type'] != 'template') {
+			if ($xml['type'] != 'template')
+			{
 				return false;
 			}
 
-			foreach ($xml as $key => $value) {
+			foreach ($xml as $key => $value)
+			{
 				$data->set($key, $value);
 			}
 		}

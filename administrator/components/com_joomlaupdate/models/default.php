@@ -2,14 +2,15 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.file');
 
 /**
  * Joomla! update overview Model
@@ -19,13 +20,13 @@ jimport('joomla.application.component.model');
  * @author      nikosdion <nicholas@dionysopoulos.me>
  * @since       2.5.4
  */
-class JoomlaupdateModelDefault extends JModel
+class JoomlaupdateModelDefault extends JModelLegacy
 {
 	/**
 	 * Detects if the Joomla! update site currently in use matches the one
 	 * configured in this component. If they don't match, it changes it.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since	2.5.4
 	 */
@@ -64,17 +65,17 @@ class JoomlaupdateModelDefault extends JModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->nq('us') . '.*')
+			->select($db->qn('us') . '.*')
 			->from(
-				$db->nq('#__update_sites_extensions') . ' AS ' . $db->nq('map')
+				$db->qn('#__update_sites_extensions') . ' AS ' . $db->qn('map')
 			)
 			->innerJoin(
-				$db->nq('#__update_sites') . ' AS ' . $db->nq('us') . ' ON (' .
-				$db->nq('us') . '.' . $db->nq('update_site_id') . ' = ' .
-					$db->nq('map') . '.' . $db->nq('update_site_id') . ')'
+				$db->qn('#__update_sites') . ' AS ' . $db->qn('us') . ' ON (' .
+				$db->qn('us') . '.' . $db->qn('update_site_id') . ' = ' .
+					$db->qn('map') . '.' . $db->qn('update_site_id') . ')'
 			)
 			->where(
-				$db->nq('map') . '.' . $db->nq('extension_id') . ' = ' . $db->q(700)
+				$db->qn('map') . '.' . $db->qn('extension_id') . ' = ' . $db->q(700)
 			);
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
@@ -85,22 +86,22 @@ class JoomlaupdateModelDefault extends JModel
 			$update_site->last_check_timestamp = 0;
 			$update_site->location = $updateURL;
 			$db->updateObject('#__update_sites', $update_site, 'update_site_id');
-			
+
 			// Remove cached updates
 			$query = $db->getQuery(true)
-				->delete($db->nq('#__updates'))
-				->where($db->nq('extension_id').' = '.$db->q('700'));
+				->delete($db->qn('#__updates'))
+				->where($db->qn('extension_id').' = '.$db->q('700'));
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 	}
 
 	/**
 	 * Makes sure that the Joomla! update cache is up-to-date
 	 *
-	 * @param   bool  $force  Force reload, ignoring the cache timeout
+	 * @param   boolean  $force  Force reload, ignoring the cache timeout
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since	2.5.4
 	 */
@@ -123,9 +124,9 @@ class JoomlaupdateModelDefault extends JModel
 	/**
 	 * Returns an array with the Joomla! update information
 	 *
-	 * @return array
+	 * @return  array
 	 *
-	 * @since 2.5.4
+	 * @since   2.5.4
 	 */
 	public function getUpdateInformation()
 	{
@@ -140,8 +141,8 @@ class JoomlaupdateModelDefault extends JModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->nq('#__updates'))
-			->where($db->nq('extension_id') . ' = ' . $db->q(700));
+			->from($db->qn('#__updates'))
+			->where($db->qn('extension_id') . ' = ' . $db->q(700));
 		$db->setQuery($query);
 		$updateObject = $db->loadObject();
 
@@ -161,9 +162,12 @@ class JoomlaupdateModelDefault extends JModel
 		$update->loadFromXML($updateObject->detailsurl);
 
 		// Pass the update object
-		if($ret['latest'] == JVERSION) {
+		if ($ret['latest'] == JVERSION)
+		{
 			$ret['object'] = null;
-		} else {
+		}
+		else
+		{
 			$ret['object'] = $update;
 		}
 
@@ -173,9 +177,9 @@ class JoomlaupdateModelDefault extends JModel
 	/**
 	 * Returns an array with the configured FTP options
 	 *
-	 * @return array
+	 * @return  array
 	 *
-	 * @since  2.5.4
+	 * @since   2.5.4
 	 */
 	public function getFTPOptions()
 	{
@@ -191,11 +195,46 @@ class JoomlaupdateModelDefault extends JModel
 	}
 
 	/**
+	 * Removes all of the updates from the table and enable all update streams.
+	 *
+	 * @return  boolean  Result of operation
+	 *
+	 * @since   3.0
+	 */
+	public function purge()
+	{
+		$db = JFactory::getDBO();
+
+		// Modify the database record
+		$update_site = new stdClass;
+		$update_site->last_check_timestamp = 0;
+		$update_site->enabled = 1;
+		$update_site->update_site_id = 1;
+		$db->updateObject('#__update_sites', $update_site, 'update_site_id');
+
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__updates'))
+			->where($db->qn('update_site_id') . ' = ' . $db->q('1'));
+		$db->setQuery($query);
+
+		if ($db->execute())
+		{
+			$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
+			return true;
+		}
+		else
+		{
+			$this->_message = JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
+			return false;
+		}
+	}
+
+	/**
 	 * Downloads the update package to the site
 	 *
-	 * @return bool|string False on failure, basename of the file in any other case
+	 * @return  bool|string False on failure, basename of the file in any other case
 	 *
-	 * @since 2.5.4
+	 * @since   2.5.4
 	 */
 	public function download()
 	{
@@ -204,17 +243,15 @@ class JoomlaupdateModelDefault extends JModel
 		$basename = basename($packageURL);
 
 		// Find the path to the temp directory and the local package
-		$jreg = JFactory::getConfig();
-		$tempdir = $jreg->getValue('config.tmp_path');
+		$config = JFactory::getConfig();
+		$tempdir = $config->get('tmp_path');
 		$target = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
-		jimport('joomla.filesystem.file');
 		$exists = JFile::exists($target);
 
 		if (!$exists)
 		{
-
 			// Not there, let's fetch it
 			return $this->downloadPackage($packageURL, $target);
 		}
@@ -222,7 +259,7 @@ class JoomlaupdateModelDefault extends JModel
 		{
 			// Is it a 0-byte file? If so, re-download please.
 			$filesize = @filesize($target);
-			if(empty($filesize)) return $this->downloadPackage($packageURL, $target);
+			if (empty($filesize)) return $this->downloadPackage($packageURL, $target);
 
 			// Yes, it's there, skip downloading
 			return $basename;
@@ -235,15 +272,16 @@ class JoomlaupdateModelDefault extends JModel
 	 * @param   string  $url     The URL to download from
 	 * @param   string  $target  The directory to store the file
 	 *
-	 * @return boolean True on success
+	 * @return  boolean True on success
 	 *
-	 * @since  2.5.4
+	 * @since   2.5.4
 	 */
 	protected function downloadPackage($url, $target)
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
 		$result = AdmintoolsHelperDownload::download($url, $target);
-		if(!$result)
+
+		if (!$result)
 		{
 			return false;
 		}
@@ -259,12 +297,12 @@ class JoomlaupdateModelDefault extends JModel
 	public function createRestorationFile($basename = null)
 	{
 		// Get a password
-		jimport('joomla.user.helper');
 		$password = JUserHelper::genRandomPassword(32);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.password', $password);
+		$app = JFactory::getApplication();
+		$app->setUserState('com_joomlaupdate.password', $password);
 
 		// Do we have to use FTP?
-		$method = JRequest::getCmd('method', 'direct');
+		$method = $app->input->get('method', 'direct');
 
 		// Get the absolute path to site's root
 		$siteroot = JPATH_SITE;
@@ -278,12 +316,13 @@ class JoomlaupdateModelDefault extends JModel
 		}
 
 		// Get the package name
-		$tempdir = JFactory::getConfig()->getValue('config.tmp_path');
+		$config = JFactory::getConfig();
+		$tempdir = $config->get('tmp_path');
 		$file  = $tempdir . '/' . $basename;
 
 		$filesize = @filesize($file);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.password', $password);
-		JFactory::getApplication()->setUserState('com_joomlaupdate.filesize', $filesize);
+		$app->setUserState('com_joomlaupdate.password', $password);
+		$app->setUserState('com_joomlaupdate.filesize', $filesize);
 
 		$data = "<?php\ndefined('_AKEEBA_RESTORATION') or die('Restricted access');\n";
 		$data .= '$restoration_setup = array('."\n";
@@ -305,18 +344,20 @@ ENDDATA;
 			// Fetch the FTP parameters from the request. Note: The password should be
 			// allowed as raw mode, otherwise something like !@<sdf34>43H% would be
 			// sanitised to !@43H% which is just plain wrong.
-			$ftp_host = JRequest::getVar('ftp_host','');
-			$ftp_port = JRequest::getVar('ftp_port', '21');
-			$ftp_user = JRequest::getVar('ftp_user', '');
-			$ftp_pass = JRequest::getVar('ftp_pass', '', 'default', 'none', 2);
-			$ftp_root = JRequest::getVar('ftp_root', '');
+			$ftp_host = $app->input->get('ftp_host', '');
+			$ftp_port = $app->input->get('ftp_port', '21');
+			$ftp_user = $app->input->get('ftp_user', '');
+			$ftp_pass = $app->input->get('ftp_pass', '', 'default', 'none', 2);
+			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
 			$writable = @is_writeable($tempdir);
-			if($writable) {
+			if ($writable)
+			{
 				// Let's be REALLY sure
-				$fp = @fopen($tempdir.'/test.txt','w');
-				if($fp === false) {
+				$fp = @fopen($tempdir . '/test.txt', 'w');
+				if ($fp === false)
+				{
 					$writable = false;
 				} else {
 					fclose($fp);
@@ -325,44 +366,38 @@ ENDDATA;
 			}
 
 			// If the tempdir is not writable, create a new writable subdirectory
-			if(!$writable) {
-				jimport('joomla.client.ftp');
-				jimport('joomla.client.helper');
-				jimport('joomla.filesystem.folder');
-
+			if (!$writable)
+			{
 				$FTPOptions = JClientHelper::getCredentials('ftp');
-				$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
-				if(!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
-				if(!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
+				if (!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
+				if (!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
 
 				$tempdir .= '/admintools';
 			}
 
 			// Just in case the temp-directory was off-root, try using the default tmp directory
 			$writable = @is_writeable($tempdir);
-			if(!$writable) {
+			if (!$writable)
+			{
 				$tempdir = JPATH_ROOT.'/tmp';
 
 				// Does the JPATH_ROOT/tmp directory exist?
-				if(!is_dir($tempdir)) {
-					jimport('joomla.filesystem.folder');
-					jimport('joomla.filesystem.file');
+				if (!is_dir($tempdir)) {
+
 					JFolder::create($tempdir, 511);
-					JFile::write($tempdir.'/.htaccess',"order deny, allow\ndeny from all\nallow from none\n");
+					JFile::write($tempdir . '/.htaccess', "order deny, allow\ndeny from all\nallow from none\n");
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory
-				if(!is_writable($tempdir)) {
-					jimport('joomla.client.ftp');
-					jimport('joomla.client.helper');
-					jimport('joomla.filesystem.folder');
-
+				if (!is_writable($tempdir))
+				{
 					$FTPOptions = JClientHelper::getCredentials('ftp');
-					$ftp = & JFTP::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
-					if(!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
-					if(!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
+					if (!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
+					if (!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
 
 					$tempdir .= '/admintools';
 				}
@@ -370,23 +405,29 @@ ENDDATA;
 
 			// If we still have no writable directory, we'll try /tmp and the system's temp-directory
 			$writable = @is_writeable($tempdir);
-			if(!$writable) {
-				if(@is_dir('/tmp') && @is_writable('/tmp')) {
+
+			if (!$writable)
+			{
+				if (@is_dir('/tmp') && @is_writable('/tmp'))
+				{
 					$tempdir = '/tmp';
 				} else {
 					// Try to find the system temp path
-					$tmpfile = @tempnam("dummy","");
+					$tmpfile = @tempnam("dummy", "");
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
-					if(!empty($systemp)) {
-						if(@is_dir($systemp) && @is_writable($systemp)) {
+
+					if (!empty($systemp))
+					{
+						if (@is_dir($systemp) && @is_writable($systemp))
+						{
 							$tempdir = $systemp;
 						}
 					}
 				}
 			}
 
-			$data.=<<<ENDDATA
+			$data .= <<<ENDDATA
 	,
 	'kickstart.ftp.ssl' => '0',
 	'kickstart.ftp.passive' => '1',
@@ -402,25 +443,28 @@ ENDDATA;
 		$data .= ');';
 
 		// Remove the old file, if it's there...
-		jimport('joomla.filesystem.file');
 		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
-		if( JFile::exists($configpath) )
+		if ( JFile::exists($configpath) )
 		{
 			JFile::delete($configpath);
 		}
 
 		// Write new file. First try with JFile.
-		$result = JFile::write( $configpath, $data );
+		$result = JFile::write($configpath, $data);
 		// In case JFile used FTP but direct access could help
-		if(!$result) {
-			if(function_exists('file_put_contents')) {
+		if (!$result)
+		{
+			if (function_exists('file_put_contents'))
+			{
 				$result = @file_put_contents($configpath, $data);
-				if($result !== false) $result = true;
+				if ($result !== false) $result = true;
 			} else {
 				$fp = @fopen($configpath, 'wt');
-				if($fp !== false) {
+
+				if ($fp !== false)
+				{
 					$result = @fwrite($fp, $data);
-					if($result !== false) $result = true;
+					if ($result !== false) $result = true;
 					@fclose($fp);
 				}
 			}
@@ -433,9 +477,9 @@ ENDDATA;
 	 * manifest cache and #__extensions entry. Essentially, it is identical to
 	 * JInstallerFile::install() without the file copy.
 	 *
-	 * @return boolean True on success
+	 * @return  boolean True on success
 	 *
-	 * @since  2.5.4
+	 * @since   2.5.4
 	 */
 	public function finaliseUpgrade()
 	{
@@ -513,9 +557,9 @@ ENDDATA;
 		$db->setQuery($query);
 		try
 		{
-			$db->Query();
+			$db->execute();
 		}
-		catch (JException $e)
+		catch (RuntimeException $e)
 		{
 			// Install failed, roll back changes
 			$installer->abort(
@@ -645,29 +689,26 @@ ENDDATA;
 			$installer->set('extension_message', $msg);
 		}
 
-
 		return true;
 	}
 
 	/**
 	 * Removes the extracted package file
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  2.5.4
+	 * @since   2.5.4
 	 */
 	public function cleanUp()
 	{
-		jimport('joomla.filesystem.file');
-
 		// Remove the update package
-		$jreg = JFactory::getConfig();
-		$tempdir = $jreg->getValue('config.tmp_path');
+		$config = JFactory::getConfig();
+		$tempdir = $config->get('tmp_path');
+
 		$file = JFactory::getApplication()->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir.'/'.$file;
 		if (!@unlink($target))
 		{
-			jimport('joomla.filesystem.file');
 			JFile::delete($target);
 		}
 

@@ -3,15 +3,12 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.component.helper');
-
-// Load the base adapter.
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
@@ -21,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Newsfeeds
  * @since       2.5
  */
-class plgFinderNewsfeeds extends FinderIndexerAdapter
+class PlgFinderNewsfeeds extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -263,6 +260,8 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 			return;
 		}
 
+		$item->setLanguage();
+
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
@@ -306,7 +305,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		FinderIndexerHelper::getContentExtras($item);
 
 		// Index the item.
-		FinderIndexer::index($item);
+		$this->indexer->index($item);
 	}
 
 	/**
@@ -319,7 +318,6 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	protected function setup()
 	{
 		// Load dependent classes.
-		require_once JPATH_SITE . '/includes/application.php';
 		require_once JPATH_SITE . '/components/com_newsfeeds/helpers/route.php';
 
 		return true;
@@ -338,7 +336,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
+		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link');
 		$sql->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
@@ -348,7 +346,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias');
+		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
 		$a_id = $sql->castAsChar('a.id');
 		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
@@ -357,7 +355,7 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		$sql->select($case_when_item_alias);
 
 		$case_when_category_alias = ' CASE WHEN ';
-		$case_when_category_alias .= $sql->charLength('c.alias');
+		$case_when_category_alias .= $sql->charLength('c.alias', '!=', '0');
 		$case_when_category_alias .= ' THEN ';
 		$c_id = $sql->castAsChar('c.id');
 		$case_when_category_alias .= $sql->concatenate(array($c_id, 'c.alias'), ':');

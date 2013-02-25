@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -138,7 +138,9 @@ class JLanguageHelper
 				foreach ($knownLangs as $metadata)
 				{
 					// Take off 3 letters iso code languages as they can't match browsers' languages and default them to en
-					$languages[$key][] = new JObject(array('lang_code' => $metadata['tag']));
+					$obj = new stdClass;
+					$obj->lang_code = $metadata['tag'];
+					$languages[$key][] = $obj;
 				}
 			}
 			else

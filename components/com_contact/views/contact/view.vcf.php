@@ -1,18 +1,22 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
 
-class ContactViewContact extends JView
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ */
+class ContactViewContact extends JViewLegacy
 {
 	protected $state;
+
 	protected $item;
 
 	public function display()
@@ -22,7 +26,8 @@ class ContactViewContact extends JView
 		$item = $this->get('Item');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
@@ -30,11 +35,10 @@ class ContactViewContact extends JView
 		$doc = JFactory::getDocument();
 		$doc->setMetaData('Content-Type', 'text/directory', true);
 
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$params 	= $app->getParams();
 		$user		= JFactory::getUser();
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);
@@ -42,13 +46,15 @@ class ContactViewContact extends JView
 		// "Lastname, Firstname Midlename" format support
 		// e.g. "de Gaulle, Charles"
 		$namearray = explode(',', $item->name);
-		if (count($namearray) > 1 ) {
+		if (count($namearray) > 1 )
+		{
 			$lastname = $namearray[0];
 			$card_name = $lastname;
 			$name_and_midname = trim($namearray[1]);
 
 			$firstname = '';
-			if (!empty($name_and_midname)) {
+			if (!empty($name_and_midname))
+			{
 				$namearray = explode(' ', $name_and_midname);
 
 				$firstname = $namearray[0];
@@ -71,20 +77,20 @@ class ContactViewContact extends JView
 		JResponse::setHeader('Content-disposition', 'attachment; filename="'.$card_name.'.vcf"', true);
 
 		$vcard = array();
-		$vcard[].= 'BEGIN:VCARD';
-		$vcard[].= 'VERSION:3.0';
-		$vcard[] = 'N:'.$lastname.';'.$firstname.';'.$middlename;
-		$vcard[] = 'FN:'. $item->name;
-		$vcard[] = 'TITLE:'.$item->con_position;
-		$vcard[] = 'TEL;TYPE=WORK,VOICE:'.$item->telephone;
-		$vcard[] = 'TEL;TYPE=WORK,FAX:'.$item->fax;
-		$vcard[] = 'TEL;TYPE=WORK,MOBILE:'.$item->mobile;
-		$vcard[] = 'ADR;TYPE=WORK:;;'.$item->address.';'.$item->suburb.';'.$item->state.';'.$item->postcode.';'.$item->country;
-		$vcard[] = 'LABEL;TYPE=WORK:'.$item->address."\n".$item->suburb."\n".$item->state."\n".$item->postcode."\n".$item->country;
-		$vcard[] = 'EMAIL;TYPE=PREF,INTERNET:'.$item->email_to;
-		$vcard[] = 'URL:'.$item->webpage;
-		$vcard[] = 'REV:'.$rev.'Z';
-		$vcard[] = 'END:VCARD';
+		$vcard[] .= 'BEGIN:VCARD';
+		$vcard[] .= 'VERSION:3.0';
+		$vcard[]  = 'N:'.$lastname.';'.$firstname.';'.$middlename;
+		$vcard[]  = 'FN:'. $item->name;
+		$vcard[]  = 'TITLE:'.$item->con_position;
+		$vcard[]  = 'TEL;TYPE=WORK,VOICE:'.$item->telephone;
+		$vcard[]  = 'TEL;TYPE=WORK,FAX:'.$item->fax;
+		$vcard[]  = 'TEL;TYPE=WORK,MOBILE:'.$item->mobile;
+		$vcard[]  = 'ADR;TYPE=WORK:;;'.$item->address.';'.$item->suburb.';'.$item->state.';'.$item->postcode.';'.$item->country;
+		$vcard[]  = 'LABEL;TYPE=WORK:'.$item->address."\n".$item->suburb."\n".$item->state."\n".$item->postcode."\n".$item->country;
+		$vcard[]  = 'EMAIL;TYPE=PREF,INTERNET:'.$item->email_to;
+		$vcard[]  = 'URL:'.$item->webpage;
+		$vcard[]  = 'REV:'.$rev.'Z';
+		$vcard[]  = 'END:VCARD';
 
 		echo implode("\n", $vcard);
 		return true;

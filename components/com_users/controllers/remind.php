@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -13,31 +14,31 @@ require_once JPATH_COMPONENT.'/controller.php';
 /**
  * Reset controller class for Users.
  *
- * @package		Joomla.Site
- * @subpackage	com_users
- * @version		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerRemind extends UsersController
 {
 	/**
 	 * Method to request a username reminder.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function remind()
 	{
 		// Check the request token.
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Remind', 'UsersModel');
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
+		$model = $this->getModel('Remind', 'UsersModel');
+		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Submit the password reset request.
 		$return	= $model->processRemindRequest($data);
 
 		// Check for a hard error.
-		if ($return == false) {
+		if ($return == false)
+		{
 			// The request failed.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
@@ -48,7 +49,9 @@ class UsersControllerRemind extends UsersController
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
 			return false;
-		} else {
+		}
+		else
+		{
 			// The request succeeded.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();

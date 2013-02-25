@@ -78,10 +78,10 @@
 			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
 			description="COM_BANNERS_FIELD_CLIENT_METAKEYWORDS_DESC" />
 
-		<field name="own_prefix" type="radio"
+		<field name="own_prefix" type="radio" class="btn-group"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_CLIENTOWNPREFIX_DESC"
-			default="0" class="inputbox"
+			default="0"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

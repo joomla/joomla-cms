@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,9 +49,6 @@ class JCacheControllerPage extends JCacheController
 	 */
 	public function get($id = false, $group = 'page', $wrkarounds = true)
 	{
-		// Initialise variables.
-		$data = false;
-
 		// If an id is not given, generate it from the request
 		if ($id == false)
 		{

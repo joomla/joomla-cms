@@ -1,21 +1,24 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	mod_wrapper
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  mod_wrapper
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
-	function iFrameHeight() {
+	function iFrameHeight()
+	{
 		var h = 0;
-		if (!document.all) {
+		if (!document.all)
+		{
 			h = document.getElementById('blockrandom').contentDocument.height;
 			document.getElementById('blockrandom').style.height = h + 60 + 'px';
-		} else if (document.all) {
+		} else if (document.all)
+		{
 			h = document.frames('blockrandom').document.body.scrollHeight;
 			document.all.blockrandom.style.height = h + 20 + 'px';
 		}
@@ -29,6 +32,7 @@ defined('_JEXEC') or die;
 	width="<?php echo $width ?>"
 	height="<?php echo $height ?>"
 	scrolling="<?php echo $scroll ?>"
+	frameborder="<?php echo $frameborder?>"
 	class="wrapper<?php echo $moduleclass_sfx ?>" >
 	<?php echo JText::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

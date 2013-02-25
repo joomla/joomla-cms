@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
@@ -25,6 +24,14 @@ $loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('COM_USERS_SEARCH_USERS'); ?></legend>
 		<div class="filter-search">
@@ -116,7 +123,8 @@ $loggeduser = JFactory::getUser();
 			$canEdit	= $canDo->get('core.edit');
 			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin')) {
+			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin'))
+			{
 				$canEdit	= false;
 				$canChange	= false;
 			}
@@ -172,7 +180,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->lastvisitDate!='0000-00-00 00:00:00'):?>
+					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00') : ?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>
@@ -200,4 +208,5 @@ $loggeduser = JFactory::getUser();
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+</div>
 </form>

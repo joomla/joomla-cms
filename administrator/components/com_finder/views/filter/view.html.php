@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Filter view class for Finder.
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewFilter extends JView
+class FinderViewFilter extends JViewLegacy
 {
 	/**
 	 * Method to display the view.
@@ -71,7 +69,7 @@ class FinderViewFilter extends JView
 		$canDo = FinderHelper::getActions();
 
 		// Configure the toolbar.
-		JToolBarHelper::title(JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'), 'finder');
+		JToolbarHelper::title(JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'), 'finder');
 
 		// Set the actions for new and existing records.
 		if ($isNew)
@@ -79,34 +77,38 @@ class FinderViewFilter extends JView
 			// For new records, check the create permission.
 			if ($canDo->get('core.create'))
 			{
-				JToolBarHelper::apply('filter.apply');
-				JToolBarHelper::save('filter.save');
-				JToolBarHelper::save2new('filter.save2new');
+				JToolbarHelper::apply('filter.apply');
+				JToolbarHelper::save('filter.save');
+				JToolbarHelper::save2new('filter.save2new');
 			}
-			JToolBarHelper::cancel('filter.cancel');
+			JToolbarHelper::cancel('filter.cancel');
 		}
 		else
 		{
-			// Since it's an existing record, check the edit permission.
-			if ($canDo->get('core.edit'))
+			// Can't save the record if it's checked out.
+			if (!$checkedOut)
 			{
-				JToolBarHelper::apply('filter.apply');
-				JToolBarHelper::save('filter.save');
-
-				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canDo->get('core.create'))
+				// Since it's an existing record, check the edit permission.
+				if ($canDo->get('core.edit'))
 				{
-					JToolBarHelper::save2new('filter.save2new');
+					JToolbarHelper::apply('filter.apply');
+					JToolbarHelper::save('filter.save');
+
+					// We can save this record, but check the create permission to see if we can return to make a new one.
+					if ($canDo->get('core.create'))
+					{
+						JToolbarHelper::save2new('filter.save2new');
+					}
 				}
 			}
 			// If an existing item, can save as a copy
 			if ($canDo->get('core.create'))
 			{
-				JToolBarHelper::save2copy('filter.save2copy');
+				JToolbarHelper::save2copy('filter.save2copy');
 			}
-			JToolBarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
 		}
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS_EDIT');
 	}
 }

@@ -1,96 +1,127 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
-jimport('joomla.language.help');
 
 /**
  * Admin Component Help Model
  *
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ * @since       1.6
  */
-class AdminModelHelp extends JModel
+class AdminModelHelp extends JModelLegacy
 {
 	/**
-	 * @var string the search string
+	 * The search string
+	 * @var    string
+	 *
+	 * @since  1.6
 	 */
 	protected $help_search = null;
 
 	/**
-	 * @var string the page to be viewed
+	 * The page to be viewed
+	 * @var    string
+	 *
+	 * @since  1.6
 	 */
 	protected $page = null;
 
 	/**
-	 * @var string the iso language tag
+	 * The iso language tag
+	 * @var    string
+	 *
+	 * @since  1.6
 	 */
 	protected $lang_tag = null;
 
 	/**
-	 * @var array Table of contents
+	 * Table of contents
+	 *
+	 * @var    array
+	 * @since  1.6
 	 */
 	protected $toc = null;
 
 	/**
-	 * @var string url for the latest version check
+	 * URL for the latest version check
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $latest_version_check = null;
 
 	/**
 	 * Method to get the help search string
-	 * @return string Help search string
+	 *
+	 * @return  string  Help search string
+	 *
+	 * @since  1.6
 	 */
-	function &getHelpSearch()
+	public function &getHelpSearch()
 	{
-		if (is_null($this->help_search)) {
-			$this->help_search = JRequest::getString('helpsearch');
+		if (is_null($this->help_search))
+		{
+			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
 		}
 		return $this->help_search;
 	}
+
 	/**
 	 * Method to get the page
-	 * @return string page
+	 *
+	 * @return  string  The page
+	 *
+	 * @since  1.6
 	 */
-	function &getPage()
+	public function &getPage()
 	{
 		if (is_null($this->page))
 		{
-			$page = JRequest::getCmd('page', 'JHELP_START_HERE');
+			$page = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
 			$this->page = JHelp::createUrl($page);
 		}
 		return $this->page;
 	}
+
 	/**
 	 * Method to get the lang tag
-	 * @return string lang iso tag
+	 *
+	 * @return  string  lang iso tag
+	 *
+	 * @since  1.6
 	 */
-	function &getLangTag()
+	public function getLangTag()
 	{
 		if (is_null($this->lang_tag))
 		{
 			$lang = JFactory::getLanguage();
 			$this->lang_tag = $lang->getTag();
-			jimport('joomla.filesystem.folder');
-			if (!JFolder::exists(JPATH_BASE . '/help/' . $this->lang_tag)) {
-				$this->lang_tag = 'en-GB'; // use english as fallback
+
+			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
+			{
+				// Use english as fallback
+				$this->lang_tag = 'en-GB';
 			}
 
 		}
+
 		return $this->lang_tag;
 	}
+
 	/**
 	 * Method to get the toc
-	 * @return array Table of contents
+	 *
+	 * @return  array  Table of contents
 	 */
-	function &getToc()
+	public function &getToc()
 	{
 		if (is_null($this->toc))
 		{
@@ -99,22 +130,25 @@ class AdminModelHelp extends JModel
 			$help_search = $this->getHelpSearch();
 
 			// Get Help files
+			jimport('joomla.filesystem.folder');
 			$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 			$this->toc = array();
-			foreach($files as $file)
+			foreach ($files as $file)
 			{
 				$buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
 				if (preg_match('#<title>(.*?)</title>#', $buffer, $m))
 				{
 					$title = trim($m[1]);
-					if ($title) {
+					if ($title)
+					{
 						// Translate the page title
 						$title = JText::_($title);
 						// strip the extension
 						$file = preg_replace('#\.xml$|\.html$#', '', $file);
 						if ($help_search)
 						{
-							if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false) {
+							if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false)
+							{
 								// Add an item in the Table of Contents
 								$this->toc[$file] = $title;
 							}
@@ -130,20 +164,23 @@ class AdminModelHelp extends JModel
 			// Sort the Table of Contents
 			asort($this->toc);
 		}
+
 		return $this->toc;
 	}
 
 	/**
-	 * Method to get the latest version check;
-	 * @return string Latest Version Check URL
+	 * Method to get the latest version check
+	 *
+	 * @return  string  Latest Version Check URL
 	 */
-	function &getLatestVersionCheck()
+	public function &getLatestVersionCheck()
 	{
-		if (!$this->latest_version_check) {
+		if (!$this->latest_version_check)
+		{
 			$override = 'http://help.joomla.org/proxy/index.php?option=com_help&keyref=Help{major}{minor}:Joomla_Version_{major}_{minor}_{maintenance}';
 			$this->latest_version_check = JHelp::createUrl('JVERSION', false, $override);
 		}
+
 		return $this->latest_version_check;
 	}
-
 }

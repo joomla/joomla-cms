@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * User note edit view
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_users
  * @since       2.5
  */
-class UsersViewNote extends JView
+class UsersViewNote extends JViewLegacy
 {
 	/**
 	 * The edit form.
@@ -90,35 +88,35 @@ class UsersViewNote extends JView
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= UsersHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
-		JToolBarHelper::title(JText::_('COM_USERS_NOTES'), 'user');
+		JToolbarHelper::title(JText::_('COM_USERS_NOTES'), 'user');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || (count($user->getAuthorisedCategories('com_users', 'core.create')))))
 		{
-			JToolBarHelper::apply('note.apply');
-			JToolBarHelper::save('note.save');
+			JToolbarHelper::apply('note.apply');
+			JToolbarHelper::save('note.save');
 		}
 
 		if (!$checkedOut && (count($user->getAuthorisedCategories('com_users', 'core.create'))))
 		{
-			JToolBarHelper::save2new('note.save2new');
+			JToolbarHelper::save2new('note.save2new');
 		}
 
 		// If an existing item, can save to a copy.
 		if (!$isNew && (count($user->getAuthorisedCategories('com_users', 'core.create')) > 0))
 		{
-			JToolBarHelper::save2copy('note.save2copy');
+			JToolbarHelper::save2copy('note.save2copy');
 		}
 		if (empty($this->item->id))
 		{
-			JToolBarHelper::cancel('note.cancel');
+			JToolbarHelper::cancel('note.cancel');
 		}
 		else
 		{
-			JToolBarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_USERS_USER_NOTES_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_USERS_USER_NOTES_EDIT');
 	}
 }

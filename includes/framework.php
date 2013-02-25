@@ -1,12 +1,11 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	Application
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Site
+ *
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 //
@@ -14,7 +13,6 @@ defined('_JEXEC') or die;
 //
 
 @ini_set('magic_quotes_runtime', 0);
-@ini_set('zend.ze1_compatibility_mode', '0');
 
 //
 // Installation check, and check on removal of the install directory.
@@ -22,7 +20,8 @@ defined('_JEXEC') or die;
 
 if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CONFIGURATION.'/configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION.'/index.php')*/) {
 
-	if (file_exists(JPATH_INSTALLATION.'/index.php')) {
+	if (file_exists(JPATH_INSTALLATION.'/index.php'))
+	{
 		header('Location: '.substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')).'installation/index.php');
 		exit();
 	} else {
@@ -36,13 +35,11 @@ if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CO
 //
 
 // System includes.
-require_once JPATH_LIBRARIES.'/import.php';
+require_once JPATH_LIBRARIES.'/import.legacy.php';
 
-// Force library to be in JError legacy mode
-JError::$legacy = true;
 JError::setErrorHandling(E_NOTICE, 'message');
 JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
+JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
 
 // Botstrap the CMS libraries.
 require_once JPATH_LIBRARIES.'/cms.php';
@@ -53,7 +50,7 @@ require_once JPATH_CONFIGURATION.'/configuration.php';
 ob_end_clean();
 
 // System configuration.
-$config = new JConfig();
+$config = new JConfig;
 
 // Set the error_reporting
 switch ($config->error_reporting)
@@ -97,17 +94,7 @@ unset($config);
 //
 
 // System profiler.
-if (JDEBUG) {
-	jimport('joomla.error.profiler');
+if (JDEBUG)
+{
 	$_PROFILER = JProfiler::getInstance('Application');
 }
-
-//
-// Joomla library imports.
-//
-
-jimport('joomla.application.menu');
-jimport('joomla.environment.uri');
-jimport('joomla.utilities.utility');
-jimport('joomla.event.dispatcher');
-jimport('joomla.utilities.arrayhelper');

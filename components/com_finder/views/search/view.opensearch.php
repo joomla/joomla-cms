@@ -3,15 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
-jimport('joomla.environment.uri');
 
 /**
  * OpenSearch View class for Finder
@@ -20,7 +16,7 @@ jimport('joomla.environment.uri');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewSearch extends JView
+class FinderViewSearch extends JViewLegacy
 {
 	/**
 	 * Method to display the view.

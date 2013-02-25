@@ -3,16 +3,12 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.component.helper');
-jimport('joomla.filesystem.file');
-
-// Load the base adapter.
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php';
 
 /**
@@ -22,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Categories
  * @since       2.5
  */
-class plgFinderCategories extends FinderIndexerAdapter
+class PlgFinderCategories extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -241,10 +237,13 @@ class plgFinderCategories extends FinderIndexerAdapter
 			return;
 		}
 
+		$item->setLanguage();
+
 		// Need to import component route helpers dynamically, hence the reason it's handled here
-		if (JFile::exists(JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php'))
+		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+		if (is_file($path))
 		{
-			include_once JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+			include_once $path;
 		}
 
 		$extension = ucfirst(substr($item->extension, 4));
@@ -258,7 +257,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		$registry->loadString($item->metadata);
 		$item->metadata = $registry;
 
-		 /* Add the meta-data processing instructions based on the categories
+		/* Add the meta-data processing instructions based on the categories
 		 * configuration parameters.
 		 */
 		// Add the meta-author.
@@ -277,15 +276,11 @@ class plgFinderCategories extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
-		if (class_exists($extension . 'HelperRoute') && method_exists($extension . 'HelperRoute', 'getCategoryRoute'))
+
+		$class = $extension . 'HelperRoute';
+		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{
-			$class = $extension . 'HelperRoute';
-
-			// This is necessary for PHP 5.2 compatibility
-			$item->route = call_user_func(array($class, 'getCategoryRoute'), $item->id);
-
-			// Use this when PHP 5.3 is minimum supported
-			//$item->route = $class::getCategoryRoute($item->id);
+			$item->route = $class::getCategoryRoute($item->id);
 		}
 		else
 		{
@@ -315,7 +310,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 		FinderIndexerHelper::getContentExtras($item);
 
 		// Index the item.
-		FinderIndexer::index($item);
+		$this->indexer->index($item);
 	}
 
 	/**
@@ -346,7 +341,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = is_a($sql, 'JDatabaseQuery') ? $sql : $db->getQuery(true);
+		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.title, a.alias, a.description AS summary, a.extension');
 		$sql->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by');
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level');
@@ -354,7 +349,7 @@ class plgFinderCategories extends FinderIndexerAdapter
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias');
+		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
 		$a_id = $sql->castAsChar('a.id');
 		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');

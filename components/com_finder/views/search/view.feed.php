@@ -3,13 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Search feed view class for the Finder package.
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewSearch extends JView
+class FinderViewSearch extends JViewLegacy
 {
 	/**
 	 * Method to display the view.
@@ -44,7 +42,6 @@ class FinderViewSearch extends JView
 
 		// Push out the query data.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$suggested = JHtml::_('query.suggested', $query);
 		$explained = JHtml::_('query.explained', $query);
 
 		// Set the document title.
@@ -82,7 +79,7 @@ class FinderViewSearch extends JView
 			$item->title = $result->title;
 			$item->link = JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date = intval($result->start_date) ? JHtml::date($result->start_date, 'l d F Y') : $result->indexdate;
+			$item->date = (int) $result->start_date ? JHtml::date($result->start_date, 'l d F Y') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();

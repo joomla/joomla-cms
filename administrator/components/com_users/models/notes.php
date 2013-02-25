@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * User notes model class.
@@ -63,7 +61,6 @@ class UsersModelNotes extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		// Initialise variables.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$section = $this->getState('filter.category_id');
@@ -105,17 +102,17 @@ class UsersModelNotes extends JModelList
 			else
 			{
 				$search = $db->Quote('%' . $db->escape($search, true) . '%');
-				$query->where('(a.subject LIKE ' . $search . ')', 'OR');
-				$query->where('(u.name LIKE ' . $search . ')', 'OR');
-				$query->where('(u.username LIKE ' . $search . ')', 'OR');
+				$query->where('((a.subject LIKE ' . $search . ') OR (u.name LIKE ' . $search . ') OR (u.username LIKE ' . $search . '))');
 			}
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.state = '.(int) $published);
-		} elseif ($published === '') {
+		} elseif ($published === '')
+		{
 			$query->where('(a.state IN (0, 1))');
 		}
 
@@ -201,7 +198,6 @@ class UsersModelNotes extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$input = $app->input;
 

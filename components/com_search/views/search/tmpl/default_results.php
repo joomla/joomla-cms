@@ -1,17 +1,17 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_search
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 
 <dl class="search-results<?php echo $this->pageclass_sfx; ?>">
-<?php foreach($this->results as $result) : ?>
+<?php foreach ($this->results as $result) : ?>
 	<dt class="result-title">
 		<?php echo $this->pagination->limitstart + $result->count.'. ';?>
 		<?php if ($result->href) :?>

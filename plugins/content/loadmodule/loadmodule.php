@@ -1,35 +1,47 @@
 <?php
 /**
- * @package		Joomla.Plugin
- * @subpackage	Content.loadmodule
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Content.loadmodule
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-class plgContentLoadmodule extends JPlugin
+/**
+ * Plug-in to enable loading modules into content (e.g. articles)
+ * This uses the {loadmodule} syntax
+ *
+ * @package     Joomla.Plugin
+ * @subpackage  Content.loadmodule
+ * @since       1.5
+ */
+class PlgContentLoadmodule extends JPlugin
 {
 	protected static $modules = array();
+
 	protected static $mods = array();
+
 	/**
 	 * Plugin that loads module positions within content
 	 *
-	 * @param	string	The context of the content being passed to the plugin.
-	 * @param	object	The article object.  Note $article->text is also available
-	 * @param	object	The article params
-	 * @param	int		The 'page' number
+	 * @param   string	The context of the content being passed to the plugin.
+	 * @param   object	The article object.  Note $article->text is also available
+	 * @param   object	The article params
+	 * @param   integer  The 'page' number
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
 		// Don't run this plugin when the content is being indexed
-		if ($context == 'com_finder.indexer') {
+		if ($context == 'com_finder.indexer')
+		{
 			return true;
 		}
 
 		// simple performance check to determine whether bot should process further
-		if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false) {
+		if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false)
+		{
 			return true;
 		}
 
@@ -38,20 +50,21 @@ class plgContentLoadmodule extends JPlugin
 		$style		= $this->params->def('style', 'none');
 		// expression to search for(modules)
 		$regexmod	= '/{loadmodule\s+(.*?)}/i';
-		$title		= null;
 		$stylemod	= $this->params->def('style', 'none');
 
 		// Find all instances of plugin and put in $matches for loadposition
 		// $matches[0] is full pattern match, $matches[1] is the position
 		preg_match_all($regex, $article->text, $matches, PREG_SET_ORDER);
 		// No matches, skip this
-		if ($matches) {
+		if ($matches)
+		{
 			foreach ($matches as $match) {
 
 			$matcheslist = explode(',', $match[1]);
 
 			// We may not have a module style so fall back to the plugin default.
-			if (!array_key_exists(1, $matcheslist)) {
+			if (!array_key_exists(1, $matcheslist))
+			{
 				$matcheslist[1] = $style;
 			}
 
@@ -72,11 +85,13 @@ class plgContentLoadmodule extends JPlugin
 
 				$matchesmodlist = explode(',', $matchmod[1]);
 				//We may not have a specific module so set to null
-				if (!array_key_exists(1, $matchesmodlist)) {
+				if (!array_key_exists(1, $matchesmodlist))
+				{
 					$matchesmodlist[1] = null;
 				}
 				// We may not have a module style so fall back to the plugin default.
-				if (!array_key_exists(2, $matchesmodlist)) {
+				if (!array_key_exists(2, $matchesmodlist))
+				{
 					$matchesmodlist[2] = $stylemod;
 				}
 
@@ -93,7 +108,8 @@ class plgContentLoadmodule extends JPlugin
 
 	protected function _load($position, $style = 'none')
 	{
-		if (!isset(self::$modules[$position])) {
+		if (!isset(self::$modules[$position]))
+		{
 			self::$modules[$position] = '';
 			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');
@@ -101,7 +117,8 @@ class plgContentLoadmodule extends JPlugin
 			$params		= array('style' => $style);
 			ob_start();
 
-			foreach ($modules as $module) {
+			foreach ($modules as $module)
+			{
 				echo $renderer->render($module, $params);
 			}
 
@@ -113,7 +130,8 @@ class plgContentLoadmodule extends JPlugin
 	// there is a title.
 	protected function _loadmod($module, $title, $style = 'none')
 	{
-		if (!isset(self::$mods[$module])) {
+		if (!isset(self::$mods[$module]))
+		{
 			self::$mods[$module] = '';
 			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');

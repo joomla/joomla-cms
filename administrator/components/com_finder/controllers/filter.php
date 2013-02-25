@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controllerform');
 
 /**
  * Indexer controller class for Finder.
@@ -35,7 +33,6 @@ class FinderControllerFilter extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$lang = JFactory::getLanguage();
@@ -59,9 +56,6 @@ class FinderControllerFilter extends JControllerForm
 		}
 
 		$recordId = $input->get($urlVar, '', 'int');
-
-		$session = JFactory::getSession();
-		$registry = $session->get('registry');
 
 		if (!$this->checkEditId($context, $recordId))
 		{

@@ -1,44 +1,48 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * HTML Article View class for the Content component
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
-class ContentViewArticle extends JView
+class ContentViewArticle extends JViewLegacy
 {
 	protected $item;
+
 	protected $params;
+
 	protected $print;
+
 	protected $state;
+
 	protected $user;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
-		$this->item		= $this->get('Item');
-		$this->print	= JRequest::getBool('print');
-		$this->state	= $this->get('State');
-		$this->user		= $user;
+		$this->item  = $this->get('Item');
+		$this->print = $app->input->getBool('print');
+		$this->state = $this->get('State');
+		$this->user  = $user;
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 
 			return false;
@@ -50,7 +54,13 @@ class ContentViewArticle extends JView
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-		$item->parent_slug	= $item->category_alias ? ($item->parent_id.':'.$item->parent_alias) : $item->parent_id;
+		$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
+		// No link for ROOT category
+		if ($item->parent_alias == 'root')
+		{
+			$item->parent_slug = null;
+		}
 
 		// TODO: Change based on shownoauth
 		$item->readmore_link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
@@ -62,15 +72,18 @@ class ContentViewArticle extends JView
 		$temp	= clone ($this->params);
 
 		// Check to see which parameters should take priority
-		if ($active) {
+		if ($active)
+		{
 			$currentLink = $active->link;
 			// If the current view is the active item and an article view for this article, then the menu item params take priority
-			if (strpos($currentLink, 'view=article') && (strpos($currentLink, '&id='.(string) $item->id))) {
+			if (strpos($currentLink, 'view=article') && (strpos($currentLink, '&id='.(string) $item->id)))
+			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$item->params->merge($temp);
 				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout'])) {
+				if (isset($active->query['layout']))
+				{
 					$this->setLayout($active->query['layout']);
 				}
 			}
@@ -82,18 +95,21 @@ class ContentViewArticle extends JView
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
 				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $item->params->get('article_layout')) {
+				if ($layout = $item->params->get('article_layout'))
+				{
 					$this->setLayout($layout);
 				}
 			}
 		}
-		else {
+		else
+		{
 			// Merge so that article params take priority
 			$temp->merge($item->params);
 			$item->params = $temp;
 			// Check for alternative layouts (since we are not in a single-article menu item)
 			// Single-article menu item layout takes priority over alt layout for an article
-			if ($layout = $item->params->get('article_layout')) {
+			if ($layout = $item->params->get('article_layout'))
+			{
 				$this->setLayout($layout);
 			}
 		}
@@ -109,10 +125,12 @@ class ContentViewArticle extends JView
 
 		}
 
-		if ($item->params->get('show_intro', '1')=='1') {
+		if ($item->params->get('show_intro', '1') == '1')
+		{
 			$item->text = $item->introtext.' '.$item->fulltext;
 		}
-		elseif ($item->fulltext) {
+		elseif ($item->fulltext)
+		{
 			$item->text = $item->fulltext;
 		}
 		else  {
@@ -125,7 +143,7 @@ class ContentViewArticle extends JView
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 
-		$item->event = new stdClass();
+		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$this->params, $offset));
 		$item->event->afterDisplayTitle = trim(implode("\n", $results));
 
@@ -136,7 +154,8 @@ class ContentViewArticle extends JView
 		$item->event->afterDisplayContent = trim(implode("\n", $results));
 
 		// Increment the hit counter of the article.
-		if (!$this->params->get('intro_only') && $offset == 0) {
+		if (!$this->params->get('intro_only') && $offset == 0)
+		{
 			$model = $this->getModel();
 			$model->hit();
 		}
@@ -179,7 +198,8 @@ class ContentViewArticle extends JView
 		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
 		{
 			// If this is not a single article menu item, set the page title to the article title
-			if ($this->item->title) {
+			if ($this->item->title)
+			{
 				$title = $this->item->title;
 			}
 			$path = array(array('title' => $this->item->title, 'link' => ''));
@@ -190,23 +210,27 @@ class ContentViewArticle extends JView
 				$category = $category->getParent();
 			}
 			$path = array_reverse($path);
-			foreach($path as $item)
+			foreach ($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);
 			}
 		}
 
 		// Check for empty title and add site name if param is set
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $this->item->title;
 		}
 		$this->document->setTitle($title);

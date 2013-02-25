@@ -86,5 +86,15 @@
 			label="COM_REDIRECT_FIELD_UPDATED_DATE_LABEL"
 			size="20"
 			readonly="true" />
+
+		<field
+			name="hits"
+			type="text"
+			id="hits"
+			class="readonly"
+			label="JGLOBAL_HITS"
+			size="20"
+			readonly="true"
+			filter="unset" />
 	</fieldset>
 </form>

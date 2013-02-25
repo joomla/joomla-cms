@@ -1,26 +1,23 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.modelform');
-jimport('joomla.event.dispatcher');
-
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactModelContact extends JModelForm
 {
 	/**
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $view_item = 'contact';
 
@@ -38,14 +35,14 @@ class ContactModelContact extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
 		$app = JFactory::getApplication('site');
 
 		// Load state from the request.
-		$pk = JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState('contact.id', $pk);
 
 		// Load the parameters.
@@ -65,16 +62,17 @@ class ContactModelContact extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 *
 	 *
-	 * @param	array	$data		An optional array of data for the form to interrogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array  $data		An optional array of data for the form to interrogate.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => true));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -83,7 +81,7 @@ class ContactModelContact extends JModelForm
 		$contact = $this->_item[$id];
 		$params->merge($contact->params);
 
-		if(!$params->get('show_email_copy', 0)){
+		if (!$params->get('show_email_copy', 0)){
 			$form->removeField('contact_email_copy');
 		}
 
@@ -92,7 +90,7 @@ class ContactModelContact extends JModelForm
 
 	protected function loadFormData()
 	{
-		$data = (array)JFactory::getApplication()->getUserState('com_contact.contact.data', array());
+		$data = (array) JFactory::getApplication()->getUserState('com_contact.contact.data', array());
 		return $data;
 	}
 
@@ -103,14 +101,15 @@ class ContactModelContact extends JModelForm
 	 */
 	public function &getItem($pk = null)
 	{
-		// Initialise variables.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
-		if ($this->_item === null) {
+		if ($this->_item === null)
+		{
 			$this->_item = array();
 		}
 
-		if (!isset($this->_item[$pk])) {
+		if (!isset($this->_item[$pk]))
+		{
 			try
 			{
 				$db = $this->getDbo();
@@ -118,7 +117,7 @@ class ContactModelContact extends JModelForm
 
 				//sqlsrv changes
 				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias');
+				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
 				$a_id = $query->castAsChar('a.id');
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -126,7 +125,7 @@ class ContactModelContact extends JModelForm
 				$case_when .= $a_id.' END as slug';
 
 				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias');
+				$case_when1 .= $query->charLength('c.alias', '!=', '0');
 				$case_when1 .= ' THEN ';
 				$c_id = $query->castAsChar('c.id');
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -139,7 +138,6 @@ class ContactModelContact extends JModelForm
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
 				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
-
 
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
@@ -154,7 +152,8 @@ class ContactModelContact extends JModelForm
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
-				if (is_numeric($published)) {
+				if (is_numeric($published))
+				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')');
 					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
 					$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
@@ -164,12 +163,9 @@ class ContactModelContact extends JModelForm
 
 				$data = $db->loadObject();
 
-				if ($error = $db->getErrorMsg()) {
-					throw new JException($error);
-				}
-
-				if (empty($data)) {
-					throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+				if (empty($data))
+				{
+					JError::raiseError(404, JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'));
 				}
 
 				// Check for published state if filter set.
@@ -190,6 +186,7 @@ class ContactModelContact extends JModelForm
 
 				// Compute access permissions.
 				if ($access = $this->getState('filter.access')) {
+
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
@@ -198,33 +195,32 @@ class ContactModelContact extends JModelForm
 					$user = JFactory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 
-					if ($data->catid == 0 || $data->category_access === null) {
+					if ($data->catid == 0 || $data->category_access === null)
+					{
 						$data->params->set('access-view', in_array($data->access, $groups));
 					}
 					else {
 						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 					}
 				}
-
 				$this->_item[$pk] = $data;
 			}
-			catch (JException $e)
+			catch (Exception $e)
 			{
 				$this->setError($e);
 				$this->_item[$pk] = false;
 			}
-
 		}
 
 		if ($this->_item[$pk])
 		{
-			if ($extendedData = $this->getContactQuery($pk)) {
+			if ($extendedData = $this->getContactQuery($pk))
+			{
 				$this->_item[$pk]->articles = $extendedData->articles;
 				$this->_item[$pk]->profile = $extendedData->profile;
 			}
 		}
-  		return $this->_item[$pk];
-
+		return $this->_item[$pk];
 	}
 
 	protected function getContactQuery($pk = null)
@@ -235,10 +231,11 @@ class ContactModelContact extends JModelForm
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
 
 		$query	= $db->getQuery(true);
-		if ($pk) {
+		if ($pk)
+		{
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias');
+			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
@@ -246,14 +243,16 @@ class ContactModelContact extends JModelForm
 			$case_when .= $a_id.' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('cc.alias');
+			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
 			$case_when1 .= ' THEN ';
 			$c_id = $query->castAsChar('cc.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
-			$query->select('a.*, cc.access as category_access, cc.title as category_name, '
-			.$case_when.','.$case_when1);
+			$query->select(
+				'a.*, cc.access as category_access, cc.title as category_name, '
+				. $case_when . ',' . $case_when1
+			);
 
 			$query->from('#__contact_details AS a');
 
@@ -262,38 +261,41 @@ class ContactModelContact extends JModelForm
 			$query->where('a.id = ' . (int) $pk);
 			$published = $this->getState('filter.published');
 			$archived = $this->getState('filter.archived');
-			if (is_numeric($published)) {
+			if (is_numeric($published))
+			{
 				$query->where('a.published IN (1,2)');
 				$query->where('cc.published IN (1,2)');
 			}
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 
-			try {
+			try
+			{
 				$db->setQuery($query);
 				$result = $db->loadObject();
 
-				if ($error = $db->getErrorMsg()) {
-					throw new Exception($error);
-				}
-
-				if (empty($result)) {
-						throw new JException(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
+				if (empty($result))
+				{
+					throw new Exception(JText::_('COM_CONTACT_ERROR_CONTACT_NOT_FOUND'), 404);
 				}
 
 			// If we are showing a contact list, then the contact parameters take priority
 			// So merge the contact parameters with the merged parameters
-				if ($this->getState('params')->get('show_contact_list')) {
+				if ($this->getState('params')->get('show_contact_list'))
+				{
 					$registry = new JRegistry;
 					$registry->loadString($result->params);
 					$this->getState('params')->merge($registry);
 				}
-			} catch (Exception $e) {
+			}
+			catch (Exception $e)
+			{
 				$this->setError($e);
 				return false;
 			}
 
-			if ($result) {
+			if ($result)
+			{
 				$user	= JFactory::getUser();
 				$groups	= implode(',', $user->getAuthorisedViewLevels());
 
@@ -307,14 +309,14 @@ class ContactModelContact extends JModelForm
 
 				// SQL Server changes
 				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias');
+				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
 				$a_id = $query->castAsChar('a.id');
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 				$case_when .= ' ELSE ';
 				$case_when .= $a_id.' END as slug';
 				$case_when1 = ' CASE WHEN ';
-				$case_when1 .= $query->charLength('c.alias');
+				$case_when1 .= $query->charLength('c.alias', '!=', '0');
 				$case_when1 .= ' THEN ';
 				$c_id = $query->castAsChar('c.id');
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
@@ -324,14 +326,16 @@ class ContactModelContact extends JModelForm
 
 				$query->from('#__content as a');
 				$query->leftJoin('#__categories as c on a.catid=c.id');
-				$query->where('a.created_by = '.(int)$result->user_id);
+				$query->where('a.created_by = ' . (int) $result->user_id);
 				$query->where('a.access IN ('. $groups.')');
 				$query->order('a.state DESC, a.created DESC');
 				// filter per language if plugin published
-				if (JFactory::getApplication()->getLanguageFilter()) {
-					$query->where('a.language='.$db->quote(JFactory::getLanguage()->getTag()).' OR a.language='.$db->quote('*'));
+				if (JLanguageMultilang::isEnabled())
+				{
+					$query->where(('a.created_by = ' . (int) $result->user_id) AND ('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*')));
 				}
-				if (is_numeric($published)) {
+				if (is_numeric($published))
+				{
 					$query->where('a.state IN (1,2)');
 				}
 				$db->setQuery($query, 0, 10);
@@ -340,13 +344,13 @@ class ContactModelContact extends JModelForm
 
 				//get the profile information for the linked user
 				require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
-				$userModel = JModel::getInstance('User', 'UsersModel', array('ignore_request' => true));
-					$data = $userModel->getItem((int)$result->user_id);
+				$userModel = JModelLegacy::getInstance('User', 'UsersModel', array('ignore_request' => true));
+				$data = $userModel->getItem((int) $result->user_id);
 
 				JPluginHelper::importPlugin('user');
 				$form = new JForm('com_users.profile');
 				// Get the dispatcher.
-				$dispatcher	= JDispatcher::getInstance();
+				$dispatcher	= JEventDispatcher::getInstance();
 
 				// Trigger the form preparation event.
 				$dispatcher->trigger('onContentPrepareForm', array($form, $data));
@@ -361,5 +365,44 @@ class ContactModelContact extends JModelForm
 				return $result;
 			}
 		}
+	}
+
+	/**
+	 * Increment the hit counter for the contact.
+	 *
+	 * @param   int  $pk  Optional primary key of the article to increment.
+	 *
+	 * @return  boolean  True if successful; false otherwise and internal error set.
+	 *
+	 * @since   3.0
+	 */
+	public function hit($pk = 0)
+	{
+		$input = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
+
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
+			$db = $this->getDbo();
+
+			$db->setQuery(
+				'UPDATE #__contact_details' .
+				' SET hits = hits + 1' .
+				' WHERE id = '.(int) $pk
+			);
+
+			try
+			{
+				$db->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
