@@ -55,6 +55,9 @@ Calendar = function (firstDayOfWeek, dateStr, onSelected, onClose) {
 	// Information
 	this.dateClicked = false;
 
+	this.hiliteClass = 'alert-info';
+	this.activeClass = 'alert-success';
+	
 	// one-time initializations
 	if (typeof Calendar._SDN == "undefined") {
 		// table of short day names
@@ -259,10 +262,10 @@ Calendar.showMonthsCombo = function () {
 		Calendar.removeClass(cal.hilitedMonth, "hilite");
 	}
 	if (cal.activeMonth) {
-		Calendar.removeClass(cal.activeMonth, "active");
+		Calendar.removeClass(cal.activeMonth, cal.activeClass);
 	}
-	var mon = cal.monthsCombo.getElementsByTagName("div")[cal.date.getMonth()];
-	Calendar.addClass(mon, "active");
+	var mon = cal.monthsCombo.getElementsByTagName("a")[cal.date.getMonth()];
+	Calendar.addClass(mon, cal.activeClass);
 	cal.activeMonth = mon;
 	var s = mc.style;
 	s.display = "block";
@@ -290,7 +293,7 @@ Calendar.showYearsCombo = function (fwd) {
 		Calendar.removeClass(cal.hilitedYear, "hilite");
 	}
 	if (cal.activeYear) {
-		Calendar.removeClass(cal.activeYear, "active");
+		Calendar.removeClass(cal.activeYear, cal.activeClass);
 	}
 	cal.activeYear = null;
 	var Y = cal.date.getFullYear() + (fwd ? 1 : -1);
@@ -298,7 +301,7 @@ Calendar.showYearsCombo = function (fwd) {
 	var show = false;
 	for (var i = 12; i > 0; --i) {
 		if (Y >= cal.minYear && Y <= cal.maxYear) {
-			yr.innerHTML = Y;
+			yr.getElementsByTagName('a')[0].innerHTML = Y;
 			yr.year = Y;
 			yr.style.display = "block";
 			show = true;
@@ -340,7 +343,7 @@ Calendar.tableMouseUp = function(ev) {
 	}
 	var target = Calendar.getTargetElement(ev);
 	ev || (ev = window.event);
-	Calendar.removeClass(el, "active");
+	Calendar.removeClass(el, cal.activeClass);
 	if (target == el || target.parentNode == el) {
 		Calendar.cellClick(el, ev);
 	}
@@ -384,11 +387,11 @@ Calendar.tableMouseOver = function (ev) {
 	var el = cal.activeDiv;
 	var target = Calendar.getTargetElement(ev);
 	if (target == el || target.parentNode == el) {
-		Calendar.addClass(el, "hilite active");
+		Calendar.addClass(el, "hilite");
 		Calendar.addClass(el.parentNode, "rowhilite");
 	} else {
 		if (typeof el.navtype == "undefined" || (el.navtype != 50 && (el.navtype == 0 || Math.abs(el.navtype) > 2)))
-			Calendar.removeClass(el, "active");
+			Calendar.removeClass(el, cal.activeClass);
 		Calendar.removeClass(el, "hilite");
 		Calendar.removeClass(el.parentNode, "rowhilite");
 	}
@@ -427,30 +430,30 @@ Calendar.tableMouseOver = function (ev) {
 	if (mon) {
 		if (mon.month != cal.date.getMonth()) {
 			if (cal.hilitedMonth) {
-				Calendar.removeClass(cal.hilitedMonth, "hilite");
+				Calendar.removeClass(cal.hilitedMonth, cal.hiliteClass);
 			}
-			Calendar.addClass(mon, "hilite");
+			Calendar.addClass(mon, cal.hiliteClass);
 			cal.hilitedMonth = mon;
 		} else if (cal.hilitedMonth) {
-			Calendar.removeClass(cal.hilitedMonth, "hilite");
+			Calendar.removeClass(cal.hilitedMonth, cal.hiliteClass);
 		}
 	} else {
 		if (cal.hilitedMonth) {
-			Calendar.removeClass(cal.hilitedMonth, "hilite");
+			Calendar.removeClass(cal.hilitedMonth, cal.hiliteClass);
 		}
 		var year = Calendar.findYear(target);
 		if (year) {
 			if (year.year != cal.date.getFullYear()) {
 				if (cal.hilitedYear) {
-					Calendar.removeClass(cal.hilitedYear, "hilite");
+					Calendar.removeClass(cal.hilitedYear, cal.hiliteClass);
 				}
-				Calendar.addClass(year, "hilite");
+				Calendar.addClass(year, cal.hiliteClass);
 				cal.hilitedYear = year;
 			} else if (cal.hilitedYear) {
-				Calendar.removeClass(cal.hilitedYear, "hilite");
+				Calendar.removeClass(cal.hilitedYear, cal.hiliteClass);
 			}
 		} else if (cal.hilitedYear) {
-			Calendar.removeClass(cal.hilitedYear, "hilite");
+			Calendar.removeClass(cal.hilitedYear, cal.hiliteClass);
 		}
 	}
 	return Calendar.stopEvent(ev);
@@ -498,8 +501,39 @@ Calendar.calDragEnd = function (ev) {
 };
 
 Calendar.dayMouseDown = function(ev) {
-	var el = Calendar.getElement(ev);
-	if (el.disabled) {
+	var el = document.id(Calendar.getElement(ev));
+	var target = ev.target || ev.srcElement;
+	if (document.id(el).get('tag') !== 'td') {
+		
+		// A bootstrap inner button was pressed? 
+		var testel = el.getParent('td');
+		if (testel) {
+			
+			// Yes so use that element's td
+			el = testel;
+		} else {
+			// No - try to find the table this way
+			el = el.getParent('.dropdown-menu');
+			if (el) {
+				el = el.getElement('table');
+			}
+		}
+	} else {
+		// Check that the td doesn't have a bootstrap button in it (and is not a day td) - if so ingore the event
+		if (!(document.id(target).hasClass('btn'))  && !el.hasClass('day') && !el.hasClass('title')) {
+			return;
+		}
+	}
+	// Bottom drag bar wierdness ev possibly the doc body - no idea why!
+	if (!el) {
+		// IE 8 
+		el = document.id(target).getParent('.dropdown-menu');
+		el = el.getElement('table');
+		
+		// Set the element to be a drag navtype.
+		el.navtype = 300; 
+	}
+	if (!el || el.disabled) {
 		return false;
 	}
 	var cal = el.calendar;
@@ -511,7 +545,6 @@ Calendar.dayMouseDown = function(ev) {
 			addEvent(document, "mousemove", tableMouseOver);
 		} else
 			addEvent(document, Calendar.is_ie5 ? "mousemove" : "mouseover", tableMouseOver);
-		addClass(el, "hilite active");
 		addEvent(document, "mouseup", tableMouseUp);
 	} else if (cal.isPopup) {
 		cal._dragStart(ev);
@@ -523,6 +556,10 @@ Calendar.dayMouseDown = function(ev) {
 		if (cal.timeout) clearTimeout(cal.timeout);
 		cal.timeout = setTimeout((el.navtype > 0) ? "Calendar.showYearsCombo(true)" : "Calendar.showYearsCombo(false)", 250);
 	} else {
+		if (typeof(el.navtype) === 'undefined') {
+			$(el).addClass('alert-success');
+			$(el).removeClass('alert-info');
+		}
 		cal.timeout = null;
 	}
 	return Calendar.stopEvent(ev);
@@ -540,6 +577,16 @@ Calendar.dayMouseOver = function(ev) {
 	if (Calendar.isRelated(el, ev) || Calendar._C || el.disabled) {
 		return false;
 	}
+	if (document.id(el).get('tag') !== 'td') {
+		
+		// A bootstrap inner button was mouse over'd? 
+		var testel = el.getParent('td');
+		if (testel) {
+			
+			// Yes so use that element's td
+			el = testel;
+		}
+	}
 	if (el.ttip) {
 		if (el.ttip.substr(0, 1) == "_") {
 			el.ttip = el.caldate.print(el.calendar.ttDateFormat) + el.ttip.substr(1);
@@ -548,6 +595,9 @@ Calendar.dayMouseOver = function(ev) {
 	}
 	if (el.navtype != 300) {
 		Calendar.addClass(el, "hilite");
+		if (typeof(el.navtype) === 'undefined') {
+			Calendar.addClass(el, 'alert-info')
+		}
 		if (el.caldate) {
 			Calendar.addClass(el.parentNode, "rowhilite");
 			var cal = el.calendar;
@@ -566,7 +616,8 @@ Calendar.dayMouseOut = function(ev) {
 		var el = getElement(ev);
 		if (isRelated(el, ev) || _C || el.disabled)
 			return false;
-		removeClass(el, "hilite");
+		removeClass(el, 'hilite');
+		removeClass(el, 'alert-info');
 		if (el.caldate)
 			removeClass(el.parentNode, "rowhilite");
 		if (el.calendar)
@@ -575,6 +626,23 @@ Calendar.dayMouseOut = function(ev) {
 	}
 };
 
+Calendar.showHelp = function (el) {
+	var cal = el ? el.calendar : this;
+	Calendar.removeClass(el, "hilite");
+	var text = Calendar._TT["ABOUT"];
+	if (typeof text != "undefined") {
+		text += cal.showsTime ? Calendar._TT["ABOUT_TIME"] : "";
+	} else {
+		// FIXME: this should be removed as soon as lang files get updated!
+		text = "Help and about box text is not translated into this language.\n" +
+			"If you know this language and you feel generous please update\n" +
+			"the corresponding file in \"lang\" subdir to match calendar-en.js\n" +
+			"and send it back to <mihai_bazon@yahoo.com> to get it into the distribution  ;-)\n\n" +
+			"Thank you!\n" +
+			"http://dynarch.com/mishoo/calendar.epl\n";
+	}
+	alert(text);
+}
 /**
  *  A generic "click" handler :) handles all types of buttons defined in this
  *  calendar.
@@ -587,6 +655,7 @@ Calendar.cellClick = function(el, ev) {
 	if (typeof el.navtype == "undefined") {
 		if (cal.currentDateEl) {
 			Calendar.removeClass(cal.currentDateEl, "selected");
+			Calendar.removeClass(cal.currentDateEl, "alert-success");
 			Calendar.addClass(el, "selected");
 			closing = (cal.currentDateEl == el);
 			if (!closing) {
@@ -629,20 +698,7 @@ Calendar.cellClick = function(el, ev) {
 		};
 		switch (el.navtype) {
 		    case 400:
-			Calendar.removeClass(el, "hilite");
-			var text = Calendar._TT["ABOUT"];
-			if (typeof text != "undefined") {
-				text += cal.showsTime ? Calendar._TT["ABOUT_TIME"] : "";
-			} else {
-				// FIXME: this should be removed as soon as lang files get updated!
-				text = "Help and about box text is not translated into this language.\n" +
-					"If you know this language and you feel generous please update\n" +
-					"the corresponding file in \"lang\" subdir to match calendar-en.js\n" +
-					"and send it back to <mihai_bazon@yahoo.com> to get it into the distribution  ;-)\n\n" +
-					"Thank you!\n" +
-					"http://dynarch.com/mishoo/calendar.epl\n";
-			}
-			alert(text);
+		    	this.showHelp(el);
 			return;
 		    case -2:
 			if (year > cal.minYear) {
@@ -736,35 +792,63 @@ Calendar.prototype.create = function (_par) {
 
 	var table = Calendar.createElement("table");
 	this.table = table;
+	table.className = 'table table-condensed';
 	table.cellSpacing = 0;
 	table.cellPadding = 0;
+	table.style.marginBottom = 0;
 	table.calendar = this;
 	Calendar.addEvent(table, "mousedown", Calendar.tableMouseDown);
 
 	var div = Calendar.createElement("div");
 	this.element = div;
-	div.className = "calendar";
+	if (Calendar._DIR) {
+		this.element.style.direction = Calendar._DIR;
+	}
+	
+	// Good for bootstrap
+	div.className = 'dropdown-menu j-calendar';
 	if (this.isPopup) {
 		div.style.position = "absolute";
 		div.style.display = "none";
+		// Looks good for bootstrap not for non-bootstrap
+		div.style.width = '300px';
+		div.style.padding = '0';
 	}
-	div.appendChild(table);
+	table.style.width = '100%';
+	this.wrapper = Calendar.createElement('div');
+	this.wrapper.className = 'itemContentPadder';
+	div.appendChild(this.wrapper);
+	this.wrapper.appendChild(table);
 
 	var thead = Calendar.createElement("thead", table);
+	thead.className = 'draggable modal-header';
 	var cell = null;
 	var row = null;
 
 	var cal = this;
-	var hh = function (text, cs, navtype) {
-		cell = Calendar.createElement("td", row);
+	var hh = function (text, cs, navtype, node, styles, classes) {
+		node = node ? node : "td";
+		classes = classes ? 'class="' + classes + '"' : '';
+		styles = styles ? styles : {};
+		cell = Calendar.createElement(node, row);
 		cell.colSpan = cs;
-		cell.className = "button";
-		if (navtype != 0 && Math.abs(navtype) <= 2)
+		// cell.className = "button";
+		for (key in styles) {
+			cell.style[key] = styles[key];
+		}
+		if (navtype != 0 && Math.abs(navtype) <= 2) {
 			cell.className += " nav";
+		}
+			
 		Calendar._add_evs(cell);
 		cell.calendar = cal;
 		cell.navtype = navtype;
-		cell.innerHTML = "<div unselectable='on'>" + text + "</div>";
+		if (navtype != 0 && Math.abs(navtype) <= 2) {
+			cell.innerHTML = "<a class='btn btn-small' style='display:inline;padding:2px 6px;' unselectable='on'>" + text + "</a>";
+		} else {
+			cell.innerHTML = "<div unselectable='on'" + classes + ">" + text + "</div>";
+		}
+		
 		return cell;
 	};
 
@@ -773,13 +857,37 @@ Calendar.prototype.create = function (_par) {
 	(this.isPopup) && --title_length;
 	(this.weekNumbers) && ++title_length;
 
-	hh("?", 1, 400).ttip = Calendar._TT["INFO"];
-	this.title = hh("", title_length, 300);
+	var help = '<a href="#" data-action="help" style="padding:0"><span class="icon-help icon-question-sign"></span></a>';
+	help += '<a href="#" data-action="help" style="display:block" class="nav element-invisible">?</a>'
+	hh(help, 1, 400, 'td', { 'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["INFO"];
+	var helpa = document.id(row).getElement
+	var helpAs = document.id(row).getElements('a[data-action=help]');
+	for (var i = 0; i < helpAs.length; i ++) {
+		var helpa = helpAs[i];
+		Calendar.addEvent(helpa, "click", function (e) {
+			Calendar.stopEvent(e);
+			Calendar.showHelp();
+		});
+	}
+	this.title = hh('<div style="text-align:center"><span class="icon-calendar"></span> <span></span></div>', title_length, 300);
 	this.title.className = "title";
 	if (this.isPopup) {
 		this.title.ttip = Calendar._TT["DRAG_TO_MOVE"];
 		this.title.style.cursor = "move";
-		hh("&#x00d7;", 1, 200).ttip = Calendar._TT["CLOSE"];
+		
+		var close = '<a href="#" data-action="close" style="padding:0"><span class="icon-cancel icon-remove-sign"></span></a>';
+		close += '<a href="#" data-action="close" style="display:block" class="nav element-invisible">&#x00d7;</a>'
+		hh(close, 1, 200, 'td', {'textAlign': 'center', 'padding-right': 0, 'margin-right': 0}).ttip = Calendar._TT["CLOSE"];
+		var closeAs = document.id(row).getElements('a[data-action=close]');
+		for (var i = 0; i < closeAs.length; i ++) {
+			var closea = closeAs[i];
+			Calendar.addEvent(closea, 'click', function (e) {
+				Calendar.stopEvent(e);
+				var el = closea.getParent('table');
+				var cal = el.calendar;
+				cal.callCloseHandler();
+			});
+		}
 	}
 
 	row = Calendar.createElement("tr", thead);
@@ -791,7 +899,14 @@ Calendar.prototype.create = function (_par) {
 	this._nav_pm = hh("&#x2039;", 1, -1);
 	this._nav_pm.ttip = Calendar._TT["PREV_MONTH"];
 
-	this._nav_now = hh(Calendar._TT["TODAY"], this.weekNumbers ? 4 : 3, 0);
+	this._nav_now = hh('<a class="btn btn-mini" data-action="today" style="display:inline;padding:2px 6px"><span class="icon-flag"></span> ' + Calendar._TT["TODAY"] + '</a>', this.weekNumbers ? 4 : 3, 0, 'td', {'textAlign': 'center'});
+	var todaya = document.id(row).getElement('a[data-action=today]');
+	Calendar.addEvent(todaya, 'click', function (e) {
+		var el =todaya.getParent('table');
+		var cal = el.calendar;
+		Calendar.cellClick(cal._nav_now);
+	});
+	
 	this._nav_now.ttip = Calendar._TT["GO_TODAY"];
 
 	this._nav_nm = hh("&#x203a;", 1, 1);
@@ -926,12 +1041,11 @@ Calendar.prototype.create = function (_par) {
 		this.onSetTime = this.onUpdateTime = function() {};
 	}
 
-	var tfoot = Calendar.createElement("tfoot", table);
+	var tfoot = Calendar.createElement('div', this.element);
+	tfoot.className = 'modal-footer';
+	row = tfoot;
 
-	row = Calendar.createElement("tr", tfoot);
-	row.className = "footrow";
-
-	cell = hh(Calendar._TT["SEL_DATE"], this.weekNumbers ? 8 : 7, 300);
+	cell = hh(Calendar._TT["SEL_DATE"], this.weekNumbers ? 8 : 7, 300, 'div', '', 'pull-left');
 	cell.className = "ttip";
 	if (this.isPopup) {
 		cell.ttip = Calendar._TT["DRAG_TO_MOVE"];
@@ -939,29 +1053,125 @@ Calendar.prototype.create = function (_par) {
 	}
 	this.tooltips = cell;
 
-	div = Calendar.createElement("div", this.element);
+	div = Calendar.createElement("ul", this.element);
 	this.monthsCombo = div;
-	div.className = "combo";
+	div.className = "combo dropdown-menu";
+	var ul = Calendar.createElement('ul');
 	for (i = 0; i < Calendar._MN.length; ++i) {
-		var mn = Calendar.createElement("div");
-		mn.className = Calendar.is_ie ? "label-IEfix" : "label";
+		var mn = Calendar.createElement('a');
+		mn.className = Calendar.is_ie ? "label-IEfix" : "label-ok";
 		mn.month = i;
 		mn.innerHTML = Calendar._SMN[i];
-		div.appendChild(mn);
+		var li = Calendar.createElement('li');
+		li.appendChild(mn);
+		div.appendChild(li);
 	}
-
-	div = Calendar.createElement("div", this.element);
+	
+	div = Calendar.createElement("ul", this.element);
 	this.yearsCombo = div;
-	div.className = "combo";
+	div.className = "combo dropdown-menu";
 	for (i = 12; i > 0; --i) {
-		var yr = Calendar.createElement("div");
-		yr.className = Calendar.is_ie ? "label-IEfix" : "label";
-		div.appendChild(yr);
+		var yr = Calendar.createElement('a');
+		yr.className = Calendar.is_ie ? "label-IEfix" : "label-ok";
+		var li = Calendar.createElement('li');
+		li.appendChild(yr);
+		div.appendChild(li);
 	}
 
 	this._init(this.firstDayOfWeek, this.date);
 	parent.appendChild(this.element);
 };
+
+Calendar.prototype.recreate = function() {
+	if (this.element) { 
+		var parent = this.element.parentNode;
+		parent.removeChild(this.element);
+		if (parent == document.body) this.create();
+		else {
+			this.create(parent);
+			this.show();
+		}
+	} else this.create();
+}
+
+/** 
+ *  Toggles selection of one column which is specified in weekday (pass 0 for Sunday, 1 for Monday, etc.).
+ *  This method works only in multiple mode
+ */
+Calendar.prototype.toggleColumn = function(weekday) {
+	if (!this.multiple) return;
+	var col = (weekday+7 - this.firstDayOfWeek) % 7;
+	if (this.weekNumbers) col++;
+	var selected = true, nodes = [], cell;
+	for(var i=3; i < this.table.rows.length-1; i++) {
+		cell = this.table.rows[i].cells[col];
+		if (cell && cell.caldate && !cell.otherMonth && !cell.disabled) {
+			ds = cell.caldate.print("%Y%m%d", this.dateType);
+			if (!this.multiple[ds]) selected = false;
+			nodes[i] = !!this.multiple[ds];
+		}
+	}
+	for(i=3; i < this.table.rows.length; i++) {
+		cell = this.table.rows[i].cells[col];
+		if (cell && cell.caldate && !cell.otherMonth && !cell.disabled && (selected || !nodes[i])) this._toggleMultipleDate(cell.caldate);
+	}
+}
+
+/** 
+ *  Toggles selection of one row which is specified in row (starts from 1).
+ *  This method works only in multiple mode
+ */
+Calendar.prototype.toggleRow = function(row) {
+	if (!this.multiple) return;
+	var cells = this.table.rows[row+2].cells;
+	var selected = true, nodes = [];
+	for(var i=0; i < cells.length; i++) {
+		if (cells[i].caldate && !cells[i].otherMonth && !cells[i].disabled) {
+			ds = cells[i].caldate.print("%Y%m%d", this.dateType);
+			if (!this.multiple[ds]) selected = false;
+			nodes[i] = !!this.multiple[ds];
+		}
+	}
+	for(i=0; i < cells.length; i++) {
+		if (cells[i].caldate && !cells[i].otherMonth && !cells[i].disabled && (selected || !nodes[i])) this._toggleMultipleDate(cells[i].caldate);
+	}
+}
+
+/** Dynamically changes weekNumbers property */
+Calendar.prototype.setWeekNumbers = function(weekNumbers) {
+	this.weekNumbers = weekNumbers;
+	this.recreate();
+}
+
+/** Dynamically changes showsOtherMonths property */
+Calendar.prototype.setOtherMonths = function(showsOtherMonths) {
+	this.showsOtherMonths = showsOtherMonths;
+	this.refresh();
+}
+
+/** Dynamically changes langNumbers property */
+Calendar.prototype.setLangNumbers = function(langNumbers) {
+	this.langNumbers = langNumbers;
+	this.refresh();
+}
+
+/** Dynamically changes dateType property */
+Calendar.prototype.setDateType = function(dateType) {
+	this.dateType = dateType;
+	this.recreate();
+}
+
+/** Dynamically changes showsTime property */
+Calendar.prototype.setShowsTime = function(showsTime) {
+	this.showsTime = showsTime;
+	this.recreate();
+}
+
+/** Dynamically changes time24 property */
+Calendar.prototype.setTime24 = function(time24) {
+	this.time24 = time24;
+	this.recreate();
+}
 
 /** keyboard navigation, only for popup calendars */
 Calendar._keyEvent = function(ev) {
@@ -971,6 +1181,10 @@ Calendar._keyEvent = function(ev) {
 	(Calendar.is_ie) && (ev = window.event);
 	var act = (Calendar.is_ie || ev.type == "keypress"),
 		K = ev.keyCode;
+	if (Calendar._DIR == 'rtl') {
+		if (K == 37) K = 39;
+		else if (K == 39) K = 37;
+	}
 	if (ev.ctrlKey) {
 		switch (K) {
 		    case 37: // KEY left
@@ -1130,6 +1344,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 			iday = date.getDate();
 			var wday = date.getDay();
 			cell.className = "day";
+			cell.style['textAlign'] = 'right';
 			cell.pos = i << 4 | j;
 			dpos[j] = cell;
 			var current_month = (date.getMonth() == month);
@@ -1138,7 +1353,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 					cell.className += " othermonth";
 					cell.otherMonth = true;
 				} else {
-					cell.className = "emptycell";
+					cell.className = "day emptycell";
 					cell.innerHTML = "&#160;";
 					cell.disabled = true;
 					continue;
@@ -1146,6 +1361,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 			} else {
 				cell.otherMonth = false;
 				hasdays = true;
+				cell.style.cursor = "pointer";
 			}
 			cell.disabled = false;
 			cell.innerHTML = this.getDateText ? this.getDateText(date, iday) : iday;
@@ -1165,25 +1381,29 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 			if (!cell.disabled) {
 				cell.caldate = new Date(date);
 				cell.ttip = "_";
-				if (!this.multiple && current_month
-				    && iday == mday && this.hiliteToday) {
+				if (!this.multiple && current_month && iday == mday && this.hiliteToday) {
 					cell.className += " selected";
+					cell.className += ' alert alert-success';
 					this.currentDateEl = cell;
 				}
-				if (date.getFullYear() == TY &&
-				    date.getMonth() == TM &&
-				    iday == TD) {
+				if (date.getFullYear() == TY &&  date.getMonth() == TM && iday == TD) {
 					cell.className += " today";
+					cell.className += ' alert alert-block';
 					cell.ttip += Calendar._TT["PART_TODAY"];
 				}
 				if (weekend.indexOf(wday.toString()) != -1)
 					cell.className += cell.otherMonth ? " oweekend" : " weekend";
 			}
 		}
-		if (!(hasdays || this.showsOtherMonths))
+		if (!(hasdays || this.showsOtherMonths)) {
+			row.style.display = 'none';
 			row.className = "emptyrow";
+		} else {
+			row.style.display = '';
+		}
+			
 	}
-	this.title.innerHTML = Calendar._MN[month] + ", " + year;
+	this.title.getElementsByTagName('span')[1].innerHTML = Calendar._MN[month] + ", " + year;
 	this.onSetTime();
 	this.table.style.visibility = "visible";
 	this._initMultipleDates();
@@ -1198,8 +1418,10 @@ Calendar.prototype._initMultipleDates = function() {
 			var d = this.multiple[i];
 			if (!d)
 				continue;
-			if (cell)
+			if (cell) {
 				cell.className += " selected";
+				cell.className += " alert-success";
+			}
 		}
 	}
 };
@@ -1212,9 +1434,11 @@ Calendar.prototype._toggleMultipleDate = function(date) {
 			var d = this.multiple[ds];
 			if (!d) {
 				Calendar.addClass(cell, "selected");
+				Calendar.addClass(cell, "alert-success");
 				this.multiple[ds] = date;
 			} else {
 				Calendar.removeClass(cell, "selected");
+				Calendar.removeClass(cell, "alert-success");
 				delete this.multiple[ds];
 			}
 		}
@@ -1326,8 +1550,8 @@ Calendar.prototype.show = function () {
 		var cells = row.getElementsByTagName("td");
 		for (var j = cells.length; j > 0;) {
 			var cell = cells[--j];
-			Calendar.removeClass(cell, "hilite");
-			Calendar.removeClass(cell, "active");
+			Calendar.removeClass(cell, 'alert-info');
+			Calendar.removeClass(cell, 'alert-success');
 		}
 	}
 	this.element.style.display = "block";
@@ -1522,6 +1746,7 @@ Calendar.prototype._displayWeekdays = function () {
 	var weekend = Calendar._TT["WEEKEND"];
 	for (var i = 0; i < 7; ++i) {
 		cell.className = "day name";
+		cell.style.textAlign = 'center';
 		var realday = (i + fdow) % 7;
 		if (i) {
 			cell.ttip = Calendar._TT["DAY_FIRST"].replace("%s", Calendar._DN[realday]);

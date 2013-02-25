@@ -15,6 +15,8 @@ $lang	= JFactory::getLanguage();
 $input	= $app->input;
 $user	= JFactory::getUser();
 
+JHtml::_('bootstrap.framework');
+
 // Load optional rtl bootstrap css and bootstrap bugfixes
 JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 
