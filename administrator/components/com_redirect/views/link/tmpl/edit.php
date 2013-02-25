@@ -30,8 +30,6 @@ JHtml::_('formbehavior.chosen', 'select');
 	<fieldset>
 		<ul class="nav nav-tabs">
 			<li class="active"><a href="#basic" data-toggle="tab"><?php echo empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK') : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id); ?></a></li>
-			<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_REDIRECT_OPTIONS');?></a></li>
-			<li><a href="#details" data-toggle="tab"><?php echo JText::_('COM_REDIRECT_DETAILS');?></a></li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane active" id="basic">
@@ -51,14 +49,10 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
 				</div>
-			</div>
-			<div class="tab-pane active" id="options">
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('published'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('published'); ?></div>
 				</div>
-			</div>
-			<div class="tab-pane active" id="details">
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_date'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('created_date'); ?></div>
