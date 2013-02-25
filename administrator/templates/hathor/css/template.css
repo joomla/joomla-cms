@@ -826,7 +826,6 @@ tabs-below > .nav-tabs,
 	color: #ffffff;
 	text-align: center;
 	text-decoration: none;
-	background-color: #000000;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -1040,7 +1039,7 @@ p.tab-description {
 	margin-top: 5px;
 }
 #login-page form .inputbox {
-	width: 120px;
+	width: 190px;
 	margin-left: 5px;
 	margin-bottom: 15px;
 }
@@ -1108,7 +1107,7 @@ p.tab-description {
 	display: block;
 	float: left;
 	clear: left;
-	width: 160px;
+	width: 100px;
 	text-align: right;
 	padding: 4px;
 	color: #2c2c2c;
@@ -2656,6 +2655,214 @@ ul.helpmenu li {
 #menu li li.sfhover ul {
 	margin-left: 16em;
 }
+[class^="menu-"],
+[class*=" menu-"] {
+	background-position: 3px 50% !important;
+}
+.menu-archive {
+	background-image: url(../images/menu/icon-16-archive.png);
+}
+.menu-article {
+	background-image: url(../images/menu/icon-16-article.png);
+}
+.menu-banners {
+	background-image: url(../images/menu/icon-16-banner.png);
+}
+.menu-banners-clients {
+	background-image: url(../images/menu/icon-16-banner-client.png);
+}
+.menu-banners-tracks {
+	background-image: url(../images/menu/icon-16-banner-tracks.png);
+}
+.menu-banners-cat {
+	background-image: url(../images/menu/icon-16-banner-categories.png);
+}
+.menu-category {
+	background-image: url(../images/menu/icon-16-category.png);
+}
+.menu-checkin {
+	background-image: url(../images/menu/icon-16-checkin.png);
+}
+.menu-clear {
+	background-image: url(../images/menu/icon-16-clear.png);
+}
+.menu-component {
+	background-image: url(../images/menu/icon-16-component.png);
+}
+.menu-config {
+	background-image: url(../images/menu/icon-16-config.png);
+}
+.menu-contact {
+	background-image: url(../images/menu/icon-16-contacts.png);
+}
+.menu-contact-cat {
+	background-image: url(../images/menu/icon-16-contacts-categories.png);
+}
+.menu-content {
+	background-image: url(../images/menu/icon-16-content.png);
+}
+.menu-cpanel {
+	background-image: url(../images/menu/icon-16-cpanel.png);
+}
+.menu-default {
+	background-image: url(../images/menu/icon-16-default.png);
+}
+.menu-featured {
+	background-image: url(../images/menu/icon-16-featured.png);
+}
+.menu-groups {
+	background-image: url(../images/menu/icon-16-groups.png);
+}
+.menu-help {
+	background-image: url(../images/menu/icon-16-help.png);
+}
+.menu-help-this {
+	background-image: url(../images/menu/icon-16-help-this.png);
+}
+.menu-help-forum {
+	background-image: url(../images/menu/icon-16-help-forum.png);
+}
+.menu-help-docs {
+	background-image: url(../images/menu/icon-16-help-docs.png);
+}
+.menu-help-jed {
+	background-image: url(../images/menu/icon-16-help-jed.png);
+}
+.menu-help-jrd {
+	background-image: url(../images/menu/icon-16-help-jrd.png);
+}
+.menu-help-community {
+	background-image: url(../images/menu/icon-16-help-community.png);
+}
+.menu-help-security {
+	background-image: url(../images/menu/icon-16-help-security.png);
+}
+.menu-help-dev {
+	background-image: url(../images/menu/icon-16-help-dev.png);
+}
+.menu-help-shop {
+	background-image: url(../images/menu/icon-16-help-shop.png);
+}
+.menu-info {
+	background-image: url(../images/menu/icon-16-info.png);
+}
+.menu-install {
+	background-image: url(../images/menu/icon-16-install.png);
+}
+.menu-joomlaupdate {
+	background-image: url(../images/menu/icon-16-install.png);
+}
+.menu-language {
+	background-image: url(../images/menu/icon-16-language.png);
+}
+.menu-levels {
+	background-image: url(../images/menu/icon-16-levels.png);
+}
+.menu-logout {
+	background-image: url(../images/menu/icon-16-logout.png);
+}
+.menu-maintenance {
+	background-image: url(../images/menu/icon-16-maintenance.png);
+}
+.menu-massmail {
+	background-image: url(../images/menu/icon-16-massmail.png);
+}
+.menu-media {
+	background-image: url(../images/menu/icon-16-media.png);
+}
+.menu-menu {
+	background-image: url(../images/menu/icon-16-menu.png);
+}
+.menu-menumgr {
+	background-image: url(../images/menu/icon-16-menumgr.png);
+}
+.menu-messages {
+	background-image: url(../images/menu/icon-16-messaging.png);
+}
+.menu-messages-add {
+	background-image: url(../images/menu/icon-16-new-privatemessage.png);
+}
+.menu-messages-read {
+	background-image: url(../images/menu/icon-16-messages.png);
+}
+.menu-module {
+	background-image: url(../images/menu/icon-16-module.png);
+}
+.menu-newarticle {
+	background-image: url(../images/menu/icon-16-newarticle.png);
+}
+.menu-newcategory {
+	background-image: url(../images/menu/icon-16-newcategory.png);
+}
+.menu-newgroup {
+	background-image: url(../images/menu/icon-16-newgroup.png);
+}
+.menu-newlevel {
+	background-image: url(../images/menu/icon-16-newlevel.png);
+}
+.menu-newuser {
+	background-image: url(../images/menu/icon-16-newuser.png);
+}
+.menu-plugin {
+	background-image: url(../images/menu/icon-16-plugin.png);
+}
+.menu-profile {
+	background-image: url(../images/menu/icon-16-user.png);
+}
+.menu-purge {
+	background-image: url(../images/menu/icon-16-purge.png);
+}
+.menu-readmess {
+	background-image: url(../images/menu/icon-16-readmess.png);
+}
+.menu-section {
+	background-image: url(../images/menu/icon-16-section.png);
+}
+.menu-static {
+	background-image: url(../images/menu/icon-16-static.png);
+}
+.menu-stats {
+	background-image: url(../images/menu/icon-16-stats.png);
+}
+.menu-themes {
+	background-image: url(../images/menu/icon-16-themes.png);
+}
+.menu-trash {
+	background-image: url(../images/menu/icon-16-trash.png);
+}
+.menu-user {
+	background-image: url(../images/menu/icon-16-user.png);
+}
+.menu-user-note {
+	background-image: url(../images/menu/icon-16-user-note.png);
+}
+.menu-delete {
+	background-image: url(../images/menu/icon-16-delete.png);
+}
+.menu-help-trans {
+	background-image: url(../images/menu/icon-16-help-trans.png);
+}
+.menu-newsfeeds {
+	background-image: url(../images/menu/icon-16-newsfeeds.png);
+}
+.menu-newsfeeds-cat {
+	background-image: url(../images/menu/icon-16-newsfeeds-cat.png);
+}
+.menu-redirect {
+	background-image: url(../images/menu/icon-16-redirect.png);
+}
+.menu-search {
+	background-image: url(../images/menu/icon-16-search.png);
+}
+.menu-finder {
+	background-image: url(../images/menu/icon-16-search.png);
+}
+.menu-weblinks {
+	background-image: url(../images/menu/icon-16-links.png);
+}
+.menu-weblinks-cat {
+	background-image: url(../images/menu/icon-16-links-cat.png);
+}
 #menu li a:focus+ul {
 	margin-left: 0;
 }
@@ -2945,13 +3152,6 @@ fieldset.uploadform {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
-[class^="icon-"],
-[class*=" icon-"] {
-	display: inline-block;
-	width: 14px;
-	height: 14px;
-	line-height: 14px;
-}
 table {
 	max-width: 100%;
 	background-color: transparent;
@@ -2980,75 +3180,6 @@ table {
 .navbar .btn-group {
 	margin: 0;
 	padding: 5px 5px 6px;
-}
-.label,
-.badge {
-	font-size: 10.998px;
-	font-weight: bold;
-	line-height: 14px;
-	color: #ffffff;
-	vertical-align: baseline;
-	white-space: nowrap;
-	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
-	background-color: #999999;
-}
-.label {
-	padding: 1px 4px 2px;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-}
-.badge {
-	padding: 1px 9px 2px;
-	-webkit-border-radius: 9px;
-	-moz-border-radius: 9px;
-	border-radius: 9px;
-}
-a.label:hover,
-a.badge:hover {
-	color: #ffffff;
-	text-decoration: none;
-	cursor: pointer;
-}
-.label-important,
-.badge-important {
-	background-color: #b94a48;
-}
-.label-important[href],
-.badge-important[href] {
-	background-color: #953b39;
-}
-.label-warning,
-.badge-warning {
-	background-color: #f89406;
-}
-.label-warning[href],
-.badge-warning[href] {
-	background-color: #c67605;
-}
-.label-success,
-.badge-success {
-	background-color: #468847;
-}
-.label-success[href],
-.badge-success[href] {
-	background-color: #356635;
-}
-.label-info,
-.badge-info {
-	background-color: #3a87ad;
-}
-.label-info[href],
-.badge-info[href] {
-	background-color: #2d6987;
-}
-.label-inverse,
-.badge-inverse {
-	background-color: #333333;
-}
-.label-inverse[href],
-.badge-inverse[href] {
-	background-color: #1a1a1a;
 }
 .media .btn {
 	margin: 10px 20px;

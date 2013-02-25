@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Feb-2013 Michael Babker
+ ^ Remove @covers tags in docblocks due to negative test coverage influence
+ + Add test framework for FinderIndexer** library
+
 01-Jan-2013 Mark Dexter
  # Fix failing webdriver test due to change in Module edit UI
 

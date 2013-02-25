@@ -14,7 +14,6 @@
 class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @covers JHtmlBootstrap::alert
 	 * @todo   Implement testAlert().
 	 */
 	public function testAlert()
@@ -25,7 +24,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::carousel
 	 * @todo   Implement testCarousel().
 	 */
 	public function testCarousel()
@@ -36,7 +34,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::dropdown
 	 * @todo   Implement testDropdown().
 	 */
 	public function testDropdown()
@@ -47,7 +44,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::framework
 	 * @todo   Implement testFramework().
 	 */
 	public function testFramework()
@@ -58,7 +54,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::modal
 	 * @todo   Implement testModal().
 	 */
 	public function testModal()
@@ -69,7 +64,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::renderModal
 	 * @todo   Implement testRenderModal().
 	 */
 	public function testRenderModal()
@@ -80,7 +74,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::popover
 	 * @todo   Implement testPopover().
 	 */
 	public function testPopover()
@@ -91,7 +84,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::scrollspy
 	 * @todo   Implement testScrollspy().
 	 */
 	public function testScrollspy()
@@ -102,7 +94,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::tooltip
 	 * @todo   Implement testTooltip().
 	 */
 	public function testTooltip()
@@ -113,7 +104,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::startAccordion
 	 * @todo   Implement testStartAccordion().
 	 */
 	public function testStartAccordion()
@@ -129,8 +119,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHtmlBootstrap::endAccordion
 	 */
 	public function testEndAccordion()
 	{
@@ -141,7 +129,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::addSlide
 	 * @todo   Implement testAddSlide().
 	 */
 	public function testAddSlide()
@@ -157,8 +144,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHtmlBootstrap::endSlide
 	 */
 	public function testEndSlide()
 	{
@@ -169,7 +154,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::startPane
 	 * @todo   Implement testStartPane().
 	 */
 	public function testStartPane()
@@ -185,8 +169,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHtmlBootstrap::endPane
 	 */
 	public function testEndPane()
 	{
@@ -197,7 +179,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlBootstrap::addPanel
 	 * @todo   Implement testAddPanel().
 	 */
 	public function testAddPanel()
@@ -213,8 +194,6 @@ class JHtmlBootstrapTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHtmlBootstrap::endPanel
 	 */
 	public function testEndPanel()
 	{

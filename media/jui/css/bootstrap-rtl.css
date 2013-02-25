@@ -112,6 +112,9 @@
 .nav-pills > li {
 	float: right;
 }
+.nav-stacked > li {
+	float: none;
+}
 .btn-group > .btn {
 	float: right;
 	margin-right: -1px;

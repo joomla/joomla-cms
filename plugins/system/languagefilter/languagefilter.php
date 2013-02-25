@@ -103,6 +103,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					$cookie_domain 	= $conf->get('config.cookie_domain', '');
 					$cookie_path 	= $conf->get('config.cookie_path', '/');
 					setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
+					$app->input->cookie->set(JApplication::getHash('language'), $lang_code);
 					// set the request var
 					$app->input->set('language', $lang_code);
 				}
@@ -533,7 +534,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				$cassociations = call_user_func(array($cName, 'getAssociations'));
 
-				$lang_code = $app->input->getString(JApplication::getHash('language'), null, 'cookie');
+				$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
 				// No cookie - let's try to detect browser language or use site default
 				if (!$lang_code)
 				{
