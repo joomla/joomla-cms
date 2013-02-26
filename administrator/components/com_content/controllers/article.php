@@ -157,7 +157,7 @@ class ContentControllerArticle extends JControllerForm
 		$task = $this->getTask();
 
 		$item = $model->getItem();
-		if (isset($item->attribs) && is_array($item->atribs))
+		if (isset($item->attribs) && is_array($item->attribs))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($item->attribs);
