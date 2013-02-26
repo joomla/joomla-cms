@@ -264,13 +264,13 @@ class ContentControllerArticle extends JControllerForm
 		$task = $this->getTask();
 
 		$item = $model->getItem();
-		if (isset($item->attribs) && is_array($item->atribs))
+		if (isset($item->attribs) && is_array($item->attribs))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($item->attribs);
 			$item->attribs = (string) $registry;
 		}
-		if (isset($item->imagess) && is_array($item->imagess))
+		if (isset($item->images) && is_array($item->images))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($item->images);
@@ -293,7 +293,7 @@ class ContentControllerArticle extends JControllerForm
 		$fieldMap = Array(
 			'core_title' => "'" . $item->title . "'",
 			'core_alias' => "'" . $item->alias . "'",
-			'core_body' => "'" . $item->articletext . "'",
+			'core_body' => "'" . $item->introtext . "'",
 			'core_state' => $item->state,
 			'core_checked_out_user_id' => $item->checked_out,
 			'core_checked_out_time' => "'" . $item->checked_out_time  . "'",
