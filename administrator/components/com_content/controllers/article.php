@@ -186,7 +186,7 @@ class ContentControllerArticle extends JControllerForm
 		$fieldMap = Array(
 			'core_title' => "'" . $item->title . "'",
 			'core_alias' => "'" . $item->alias . "'",
-			'core_body' => "'" . $item->articletext . "'",
+			'core_body' => "'" . $item->introtext . "'",
 			'core_state' => $item->state,
 			'core_checked_out_user_id' => $item->checked_out,
 			'core_checked_out_time' => "'" . $item->checked_out_time  . "'",
