@@ -163,7 +163,7 @@ class ContentControllerArticle extends JControllerForm
 			$registry->loadArray($item->attribs);
 			$item->attribs = (string) $registry;
 		}
-		if (isset($item->imagess) && is_array($item->imagess))
+		if (isset($item->images) && is_array($item->images))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($item->images);
