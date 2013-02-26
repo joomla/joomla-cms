@@ -215,6 +215,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	{
 			$task = $this->getTask();
 
+		$item = $model->getItem();
 		if (isset($item->params) && is_array($item->params))
 		{
 			$registry = new JRegistry;

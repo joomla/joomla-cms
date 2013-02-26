@@ -77,11 +77,26 @@ class WeblinksModelForm extends WeblinksModelWeblink
 	 */
 	public function getItem($pk = null)
 	{
+
 		if ($item = parent::getItem($pk))
 		{
-			$item->tags = new JTags;
-			$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
+			// Convert the params field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->metadata);
+			$item->metadata = $registry->toArray();
+
+			// Convert the images field to an array.
+			$registry = new JRegistry;
+			$registry->loadString($item->images);
+			$item->images = $registry->toArray();
+
+			if (!empty($item->id))
+			{
+				$item->tags = new JTags;
+				$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
+			}
 		}
+
 		return $item;
 	}
 }
