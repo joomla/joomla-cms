@@ -30,6 +30,7 @@ $ -> Language fix or change
  ^$ [#30157] *Bootstrapping tabs in administration (big patch)
  # [#30159] *Improving multilanguage status module
  + [#30101] Port over JPluginHelper::getLayoutPath() and use it to customize pagenavigation plugin markup. Thanks Roberto and Michael.
+ # [#29396] isis - article editing. Thanks Artur
 
 22-Feb-2013 Jean-Marie Simonet
  # [#30126] *wrong alternate when using associations in multilanguage. Thanks Benjamin
