@@ -518,7 +518,7 @@ class JTags
 		{
 			if (is_array($selectTypes))
 			{
-				$selectTypes = implode("','", $selectTypes);
+				$selectTypes = implode(',', $selectTypes);
 			}
 			if ($useAlias)
 			{
@@ -526,7 +526,7 @@ class JTags
 			}
 			else
 			{
-				$query->where($db->qn('type_id') . ' IN (' . $query->q($selectTypes) . ')') ;
+				$query->where($db->qn('type_id') . ' IN (' . $selectTypes . ')') ;
 			}
 		}
 

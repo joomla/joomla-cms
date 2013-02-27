@@ -103,7 +103,6 @@
 				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="title">JGLOBAL_TITLE</option>
-					<option value="hits">JGLOBAL_HITS</option>
 					<option value="created_date">JGLOBAL_CREATED_DATE</option>
 					<option value="modified_date">JGLOBAL_MODIFIED_DATE</option>
 					<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
@@ -168,15 +167,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_item_hits" type="list"
-				description="COM_TAGS_TAG_LIST_ITEM_HITS_DESC"
-				label="JGLOBAL_HITS"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-	
 			<field name="show_pagination" type="list"
 				description="JGLOBAL_PAGINATION_DESC"
 				label="JGLOBAL_PAGINATION_LABEL"

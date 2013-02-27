@@ -99,7 +99,6 @@
 				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="title">JGLOBAL_TITLE</option>
-					<option value="hits">JGLOBAL_HITS</option>
 					<option value="created_date">JGLOBAL_CREATED_DATE</option>
 					<option value="modified_date">JGLOBAL_MODIFIED_DATE</option>
 					<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>

@@ -21,7 +21,7 @@ $user = JFactory::getUser();
 $canEdit = $user->authorise('core.edit', 'com_tags');
 $canCreate = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
-
+$items = $this->items;
 $n = count($this->items);
 ?>
 
@@ -30,24 +30,20 @@ $n = count($this->items);
 <?php else : ?>
 
 	<ul class="category list-striped list-condensed">
-		<?php foreach ($this->items as $i => $item) : ?>
+		<?php foreach ($items as $i=>$item) : ?>
 			<?php
-			if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-				<?php if ($item->published == 0) : ?>
+			if ((!empty($item->core_access)) && in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
+				<?php if ($item->core_state == 0) : ?>
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else: ?><?php $r = $item->router;?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php  echo '<h3> <a href="' . JRoute::_( $item->link) .'">'
-						 . $this->escape($item->title) . '</a> </h3>';  ?>
+						 . $this->escape($item->core_title) . '</a> </h3>';  ?>
 					<?php endif; ?>
-				<?php  if ($this->params->get('show_item_hits', 1)) : ?>
-					<span class="list-hits badge badge-info pull-right">
-						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
-					</span>
-				<?php endif; ?>
+
 				<?php  if ($this->params->get('tag_list_show_item_description', 1)) : ?>
 					<span class="tag-body">
-						<?php echo JHtmlString::truncate($item->body, $this->params->get('tag_list_item_maximum_characters')); ?>
+						<?php echo JHtmlString::truncate($item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
 					</span>
 				<?php endif; ?>
 

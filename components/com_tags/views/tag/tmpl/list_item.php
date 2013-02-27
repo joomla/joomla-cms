@@ -41,42 +41,37 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<thead>
 				<tr>
 					<th id="categorylist_header_title">
-						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.core_title', $listDirn, $listOrder); ?>
 					</th>
 					<?php if ($date = $this->params->get('list_show_date')) : ?>
 						<th id="categorylist_header_date">
 							<?php if ($date == "created") : ?>
-								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'a.created_date', $listDirn, $listOrder); ?>
+								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'a.core_created_date', $listDirn, $listOrder); ?>
 							<?php elseif ($date == "modified") : ?>
-								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'a.modified_date', $listDirn, $listOrder); ?>
+								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'a.core_modified_date', $listDirn, $listOrder); ?>
 							<?php elseif ($date == "published") : ?>
-								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'a.publish_up', $listDirn, $listOrder); ?>
+								<?php echo JHtml::_('grid.sort', 'COM_TAGS_'.$date.'_DATE', 'a.core_publish_up', $listDirn, $listOrder); ?>
 							<?php endif; ?>
 						</th>
 					<?php endif; ?>
 
-					<?php if ($this->params->get('list_show_hits')) : ?>
-						<th id="categorylist_header_hits">
-							<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-						</th>
-					<?php endif; ?>
 				</tr>
 			</thead>
 			<?php endif; ?>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($this->items[$i]->published == 0) : ?>
+					<?php if ($this->items[$i]->core_state == 0) : ?>
 					 <tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else: ?>
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 						<td headers="categorylist_header_title" class="list-title">
-							<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-								<a href="<?php echo JRoute::_($item->urlprefix . $item->id); ?>">
-									<?php echo $this->escape($item->title); ?>
+							<?php if (in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
+								<a href="<?php echo JRoute::_($item->link); ?>">
+									<?php echo $this->escape($item->core_title); ?>
 								</a>
 							<?php endif; ?>
-							<?php if ($item->published == 0) : ?>
+							<?php if ($item->core_state == 0) : ?>
 								<span class="list-published label label-warning">
 									<?php echo JText::_('JUNPUBLISHED'); ?>
 								</span>
@@ -92,13 +87,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							</td>
 						<?php endif; ?>
 
-						<?php if ($this->params->get('list_show_hits', 1)) : ?>
-							<td headers="categorylist_header_hits" class="list-hits">
-								<span class="badge badge-info">
-									<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
-								</span>
-							</td>
-						<?php endif; ?>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
