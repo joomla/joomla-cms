@@ -41,32 +41,30 @@ class ContentViewCategory extends JViewLegacy
 		$app	= JFactory::getApplication();
 		$user	= JFactory::getUser();
 
-		// Get some data from the models
-		$state		= $this->get('State');
-		$params		= $state->params;
-		$category	= $this->get('Category');
-		$children	= $this->get('Children');
-		$parent		= $this->get('Parent');
-		$pagination = $this->get('Pagination');
+                // Get some data from the models
+                $category       = $this->get('Category');
+                $parent         = $this->get('Parent');
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}
+                // Check for errors.
+                if ($category == false) {
+                        return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+                }
 
-		if ($category == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
+                if ($parent == false) {
+                        return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+                }
 
-		if ($parent == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
+                $state          = $this->get('State');
+                $params         = $state->params;
+                $children       = $this->get('Children');
+                $items          = $this->get('Items');
+                $pagination = $this->get('Pagination');
 
-		$items		= $this->get('Items');
+                // Check for errors.
+                if (count($errors = $this->get('Errors'))) {
+                        JError::raiseError(500, implode("\n", $errors));
+                        return false;
+                }
 
 		// Setup the category parameters.
 		$cparams = $category->getParams();
