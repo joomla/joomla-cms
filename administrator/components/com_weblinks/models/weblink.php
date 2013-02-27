@@ -175,17 +175,17 @@ class WeblinksModelWeblink extends JModelAdmin
 	public function getItem($pk = null)
 	{
 		if ($item = parent::getItem($pk))
-		{
+		{/*
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
-			$item->metadata = $registry->toArray();
-
+			$item->metadata = $registry->toArray();*/
+			/*
 			// Convert the images field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
-
+			*/
 			if (!empty($item->id))
 			{
 				$item->tags = new JTags;

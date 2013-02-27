@@ -57,6 +57,7 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function getItem($itemId = null)
 	{
+
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.
@@ -127,8 +128,11 @@ class ContentModelForm extends ContentModelArticle
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
 
-		$value->tags = new JTags;
-		$value->tags->getTagIds($value->id, 'com_content.article');
+		if (!empty($value->id))
+		{
+			$value->tags = new JTags;
+			$value->tags->getTagIds($value->id, 'com_content.article');
+		}
 
 		return $value;
 	}

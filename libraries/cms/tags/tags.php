@@ -100,8 +100,15 @@ class JTags
 			// If there is no record in #__core_content we do an insert. Otherwise an update.
 			if ($isNew == 1 || empty($ccId))
 			{
-				$values = (implode(',', $fieldMap));
-				$values = $values . ',' . $typeid ;
+				$quotedValues = array();
+				foreach ($fieldMap as $value)
+				{
+					$quotedValues[] = $db->q($value);
+				}
+
+				$values = implode(',', $quotedValues);
+				$values = $values . ',' . (int) $typeid ;
+
 				$querycc->insert($db->quoteName('#__core_content'))
 					->columns($db->quoteName(array_keys($fieldMap)))
 					->columns($db->qn('core_type_id'))
@@ -112,7 +119,7 @@ class JTags
 				$setList = '';
 				foreach ($fieldMap as $fieldname => $value)
 				{
-					$setList .= '`' . $fieldname . '` = ' . $value . ',';
+					$setList .= $db->qn($fieldname) . ' = ' . $db->q($value) . ',';
 				}
 
 				$setList = $setList . ' ' . $db->qn('core_type_id')  . '  = ' . $typeid;
@@ -149,7 +156,7 @@ class JTags
 				$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
 
 				$query2->clear('values');
-				$query2->values($db->quote($prefix) . ', ' . $id . ', ' . $tag . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
+				$query2->values($db->q($prefix) . ', ' . (int) $id . ', ' . $db->q($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
 				$db->setQuery($query2);
 				$db->execute();
 			}
@@ -194,7 +201,7 @@ class JTags
 					$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
 
 					$query2->clear('values');
-					$query2->values($db->quote($prefix) . ', ' . $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
+					$query2->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $db->q($tag) . ', ' . $query->currentTimestamp());
 					$db->setQuery($query2);
 					$db->execute();
 			}
