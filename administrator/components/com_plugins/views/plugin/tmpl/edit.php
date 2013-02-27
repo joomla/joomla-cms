@@ -108,15 +108,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php if (count($this->fieldsets)) : ?>
-				<?php foreach ($this->fieldsets as $fieldset) : ?>
-					<?php $label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_PLUGINS_'.$fieldset->name.'_FIELDSET_LABEL');?>
-					<?php $optionsname = 'options-' . $fieldset->name; ?>
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $optionsname,  $label); ?>
-						<?php echo $this->loadTemplate('options'); ?>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
-				<?php endforeach; ?>
-			<?php endif; ?>
+			<?php echo $this->loadTemplate('options'); ?>
 
 		<?php echo JHtml::_('bootstrap.endPane'); ?>
 	</fieldset>
