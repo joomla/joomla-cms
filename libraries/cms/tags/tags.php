@@ -168,9 +168,9 @@ class JTags
 	/**
 	 * Method to add  tags associated to a list of items. Generally used for batch processing.
 	 *
-	 * @param   integer  $ids     The id (primary key) of the item to be tagged.
-	 * @param   string   $prefix  Dot separated string with the option and view for a url.
-	 * @params  array    $tag     Tag to be applied. Note that his method handles single tags only.
+	 * @params  array    $tag       Tag to be applied. Note that his method handles single tags only.
+	 * @param   integer  $ids       The id (primary key) of the items to be tagged.
+	 * @param   string   $contexts  Dot separated string with the option and view for a url.
 	 *
 	 * @return  void
 	 * @since   3.1
@@ -179,32 +179,33 @@ class JTags
 	{
 		foreach ($contexts as $context)
 		{
-			$prefix =  str_replace(strrchr($context,'.'),'',$context);
+			$prefix =  str_replace(strrchr($context,'.'), '', $context);
 			$pk = ltrim(strrchr($context,'.'), '.');
+
 			// Check whether the tag is present already.
 			$db		= JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->delete();
+			//$query->select($db->qn('core_content_id'));
 			$query->from($db->quoteName('#__contentitem_tag_map'));
 			$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
 			$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $pk);
 			$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag);
-			$db->setQuery($query);
-			$result = $db->loadResult();
+			//$db->setQuery($query);
+			//$result = $db->loadResult();
+			$query->execute();
 
-			// If the tag isn't there already add it.
-			if (empty($result))
-			{
-					$query2 = $db->getQuery(true);
+			$tagItem();
+/*					$query2 = $db->getQuery(true);
 
 					$query2->insert($db->quoteName('#__contentitem_tag_map'));
 					$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
 
 					$query2->clear('values');
-					$query2->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $db->q($tag) . ', ' . $query->currentTimestamp());
+					$query2->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
 					$db->setQuery($query2);
 					$db->execute();
-			}
+			}*/
 		}
 
 		return;
