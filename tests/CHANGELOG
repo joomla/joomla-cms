@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Feb-2013 Mark Dexter
+ # Fix failing system change from markup change in [#30157] *Bootstrapping tabs in administration (big patch)
+
 22-Feb-2013 Michael Babker
  ^ Remove @covers tags in docblocks due to negative test coverage influence
  + Add test framework for FinderIndexer** library
