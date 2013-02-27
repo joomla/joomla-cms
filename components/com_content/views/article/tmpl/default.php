@@ -145,7 +145,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		</div>
 	<?php endif; ?>
 
-	<?php if ($params->get('show_tags') && !empty($this->item->tags)) : ?>
+	<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
 		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 
 		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>

@@ -147,15 +147,6 @@
 				<option value="1">JSHOW</option>
 			</field>
 		
-			<field name="show_item_hits" type="list"
-				description="COM_TAGS_TAG_LIST_ITEM_HITS_DESC"
-				label="JGLOBAL_HITS"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-	
 			<field name="show_pagination" type="list"
 				description="JGLOBAL_PAGINATION_DESC"
 				label="JGLOBAL_PAGINATION_LABEL"
