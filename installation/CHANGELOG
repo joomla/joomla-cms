@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Feb-2013 Jean-Marie Simonet
+ # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian.
+
 26-Feb-2013 Jean-Marie Simonet
  ^$ [#30157] *Bootstrapping tabs in administration (big patch)
  # [#30159] *Improving multilanguage status module

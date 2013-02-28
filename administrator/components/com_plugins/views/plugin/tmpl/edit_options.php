@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-foreach ($this->fieldsets  as $name => $fieldset) :
+foreach ($this->fieldsets as $name => $fieldset) :
 	$label = !empty($fieldset->label) ? JText::_($fieldset->label) : JText::_('COM_PLUGINS_'.$fieldset->name.'_FIELDSET_LABEL');
 	$optionsname = 'options-' . $fieldset->name;
 	echo JHtml::_('bootstrap.addPanel', 'myTab', $optionsname,  $label);
