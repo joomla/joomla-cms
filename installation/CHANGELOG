@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-09-February-2013 Michael Babker
+28-Feb-2013 Jean-Marie Simonet
+# [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian
+
+09-Feb-2013 Michael Babker
  # [#29970] Robots.txt check url no more working.  Thanks Brian
 
 -------------------- 2.5.9 Stable Release [4-February-2013] ------------------
