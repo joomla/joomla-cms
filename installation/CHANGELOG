@@ -29,6 +29,7 @@ $ -> Language fix or change
 28-Feb-2013 Jean-Marie Simonet
  # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian.
  # [#30030] Beez index.php. Thanks Angie.
+ # [#30115] Component Options are not a Modal Pop Up Window - Help screen Language Keys needed. Thanks Mark
 
 26-Feb-2013 Jean-Marie Simonet
  ^$ [#30157] *Bootstrapping tabs in administration (big patch)
