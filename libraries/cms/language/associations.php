@@ -45,21 +45,39 @@ class JLanguageAssociations
 		$query->innerJoin($db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key');
 		$query->innerJoin($db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk));
 
+		// Use alias field ?
 		if (!empty($aliasField))
 		{
-			$query->select($query->concatenate(array('c2.' . $db->quoteName($pk), 'c2.alias'), ':') . ' AS ' . $db->quoteName($pk));
+			$query->select(
+				$query->concatenate(
+					array(
+						$db->quoteName('c2.' . $pk),
+						$db->quoteName('c2.' . $aliasField)
+					),
+					':'
+				) . ' AS ' . $db->quoteName($pk)
+			);
 		}
 		else
 		{
 			$query->select($db->quoteName('c2.' . $pk));
 		}
 
-		// Use alias field ?
+		// Use catid field ?
 		if (!empty($catField))
 		{
-			$query->innerJoin($db->quoteName('#__categories', 'ca') . ' ON c2.catid = ca.id AND ca.extension = ' . $db->quote($extension));
-			$query->select($query->concatenate(array('ca.id', 'ca.alias'), ':') . ' AS catid');
+			$query->innerJoin($db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension));
+			$query->select(
+				$query->concatenate(
+					array(
+						'ca.id',
+						'ca.alias'
+					),
+					':'
+				) . ' AS ' . $db->quoteName($catField)
+			);
 		}
+
 		$query->where('c.id =' . (int) $id);
 
 		$db->setQuery($query);
