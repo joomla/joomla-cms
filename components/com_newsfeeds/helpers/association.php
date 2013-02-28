@@ -45,7 +45,7 @@ abstract class NewsfeedsHelperAssociation extends CategoryHelperAssociation
 		{
 			if ($id)
 			{
-				$associations = NewsfeedsHelper::getAssociations($id);
+				$associations = JLanguageAssociations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
 
 				$return = array();
 
