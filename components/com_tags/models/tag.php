@@ -53,22 +53,22 @@ class TagsModelTag extends JModelList
 			foreach ($items as $item)
 			{
 				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->id .':'. $item->alias ;
+				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->content_item_id .':'. $item->core_alias ;
 
 				// Get display date
 				switch ($this->state->params->get('list_show_date'))
 				{
 					case 'modified':
-						$item->displayDate = $item->modified_date;
+						$item->displayDate = $item->core_modified_time;
 						break;
 
 					case 'created':
-						$item->displayDate = $item->created_date;
+						$item->displayDate = $item->core_created_time;
 						break;
 
 					default:
 					case 'published':
-						$item->displayDate = ($item->publish_up == 0) ? $item->created_date : $item->publish_up;
+						$item->displayDate = ($item->core_publish_up == 0) ? $item->core_created_time : $item->core_publish_up;
 						break;
 				}
 			}
@@ -91,166 +91,84 @@ class TagsModelTag extends JModelList
 	protected function getListQuery()
 	{
 		$typesr = $this->getState('tag.typesr');
-		if (!empty($typesr))
+		// Create a new query object.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
+		$nullDate = $db->q($db->getNullDate());
+		$nowDate = $db->q(JFactory::getDate()->toSql());
+
+		$tagId = $this->getState('tag.id')?:'';
+		$ntagsr =  substr_count($tagId, ',') + 1;
+
+		// If we want to include children we have to adjust the list of tags.
+		if ($this->state->params->get('include_children') == 1)
 		{
-			$typesrlist= implode(',', $typesr);
+			$tagIdArray = explode(',', $tagId);
+			$tagTreeList = '';
+			foreach ($tagIdArray as $tag)
+			{
+					$tagTreeList .= implode(',', $this->getTagTreeArray($tag)) . ',';
+			}
+			$tagId = rtrim($tagTreeList, ',');
 		}
+
+		// M is the mapping table. C is the core_content table. Ct is the content_types table.
+		$query->select('m.type_alias, m.content_item_id, m.core_content_id, count(m.tag_id) AS match_count,  MAX(m.tag_date) as tag_date, MAX(c.core_title) AS core_title');
+		$query->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access');
+		$query->select('MAX(c.core_metadata) AS core_metadata, MAX(c.core_created_user_id) AS core_created_user_id, MAX(c.core_created_by_alias) AS core_created_by_alias');
+		$query->select('MAX(c.core_created_time) as core_created_time');
+		$query->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time');
+		$query->select('MAX(c.core_language) AS core_language');
+		$query->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down');
+		$query->select('MAX(ct.title) AS content_type_title, MAX(ct.router) AS router');
+
+		$query->from('#__contentitem_tag_map AS m');
+		$query->join('INNER', '#__core_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id');
+		$query->join('INNER', '#__content_types AS ct ON ct.alias = m.type_alias');
+		$query->where('m.tag_id IN (' . $tagId . ')');
+
 		$contentTypes = new JTags;
 
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = $contentTypes->getTypes('assocList', $typesr, false);
 
 		$typeAliases = '';
+
 		foreach ($typesarray as $type)
 		{
 			$typeAliases .= "'" . $type['alias'] . "'" . ',';
 		}
 
 		$typeAliases = rtrim($typeAliases, ',');
+		$query->where('m.type_alias IN (' . $typeAliases . ')');
 
-		$tagId = '';
-		$tagId = $this->getState('tag.id');
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$query->where('c.core_access IN ('.$groups.')');
+		$query->group('m.type_alias, m.content_item_id, m.core_content_id');
 
-		// Quick check to cut out types with no results.
-		$db2 = JFactory::getDbo();
-		$queryt2 = $db2->getQuery(true);
-		$queryt2->select($db2->qn('type_alias'));
-		$queryt2->from($db2->qn('#__contentitem_tag_map'));
-		$queryt2->where($db2->qn('tag_id') . ' IN (' . $tagId . ')');
-		if (!empty($typeAliases))
+		// Use HAVING if matching all tags and we are matching more than one tag.
+		if ($ntagsr > 1  && $this->getState('params')->get('return_any_or_all', 1) != 1 )
 		{
-			$queryt2->where('type_alias' . ' IN (' . $typeAliases .')');
-		}
-		$queryt2->group(array($db2->qn('type_alias')));
-		$db2->setQuery($queryt2);
-		$types = $db2->loadObjectList();
-
-		// If we get no types, return.
-		if (empty($types))
-		{
-			return null;
+			// The number of results should equal the number of tags requested.
+			$query->having("COUNT('m.tag_id') = " . $ntagsr);
 		}
 
-		$typeAliases = '';
-
-		foreach ($types as $type)
+		// Set up the order by using the option chosen
+		$orderByOption = $this->getState('params')->get('tag_list_orderby');
+		if ($orderByOption == 'match_count')
 		{
-			$typeAliases .= "'" . $type->type_alias . "',";
-		}
-
-		$typeAliases = rtrim($typeAliases, ',');
-		$typesobject = $contentTypes->getTypes('objectList', $typeAliases);
-
-		// Start a fresh DBo.
-		$db = JFactory::getDbo();
-		$queryt = $db->getQuery(true);
-
-		foreach ($typesobject as $type)
-		{
-			$aliasExplode = explode('.', $type->alias);
-			$type->component = $aliasExplode[0];
-
-			// We need to create the SELECT clause that correctly maps differently named fields to the common names.
-			$fieldsArray = json_decode($type->field_mappings);
-			$type->fieldlist = '';
-
-			foreach ($fieldsArray as $common => $specific)
-			{
-				if ($specific != 'null')
-				{
-					$newstring = $db->qn('CI.' . rtrim($specific), $common) . ',';
-
-				}
-				else
-				{
-					$newstring = 'null' . ' AS ' . $db->qn($common) . ',';
-
-				}
-				$type->fieldlist .= $newstring;
-			}
-
-			$type->fieldlist = rtrim($type->fieldlist, ',');
-
-			// Get the select query we need for each view and add it to the array.
-			$queryt->clear();
-
-			if (!empty($type->fieldlist))
-			{
-				$user	= JFactory::getUser();
-				$groups	= implode(',', $user->getAuthorisedViewLevels());
-				$tagId = '';
-				$tagId = $this->getState('tag.id');
-				$tagCount	= substr_count($tagId, ',') + 1;
-				$tagTreeArray = '';
-
-				if ($this->state->params->get('include_children') == 1)
-				{
-					$tagIdArray = explode(',', $tagId);
-					$tagTreeArray = '';
-					foreach ($tagIdArray as $tag)
-					{
-						$tagTreeArray = implode(',', $this->getTagTreeArray($tag));
-					}
-				}
-
-				// Select required fields from the map table.
-				$queryt->select(array($db->qn('a.type_alias'), $db->qn('a.content_item_id')));
-				$queryt->group(array($db->quoteName('a.type_alias'), $db->quoteName('a.content_item_id')));
-				$queryt->from($db->quoteName('#__contentitem_tag_map','a'));
-
-				// Modify the query based on whether or not items with child tags should be returned.
-				if ($this->state->params->get('include_children') == 1)
-				{
-					$queryt->join('inner', $db->quoteName($type->table,'CI') . ' ON ' . $db->qn('CI.id') . ' = '  . $db->qn('a.content_item_id')
-					. ' AND ' . $db->quoteName('a.tag_id') . ' IN (' . $tagTreeArray . ')'
-					. ' AND ' . $db->qn('a.type_alias') . ' = ' .  $db->q($type->alias));
-				}
-				else
-				{
-					$queryt->join('inner', $db->quoteName($type->table) . ' AS ' . $db->qn('CI')
-						. ' ON ' . $db->qn('CI.id') . ' = '  . $db->qn('a.content_item_id')
-						. ' AND ' . $db->quoteName('a.tag_id') . ' IN (' .  $tagId . ')'
-						. ' AND ' . $db->qn('a.type_alias') . ' = ' .  $db->q($type->alias));
-				}
-
-				// For AND search make sure the number matches, but if there is just one tag do not bother.
-				if ($this->state->params->get('return_any_or_all') == 0 && $tagCount > 1)
-				{
-					$queryt->having($db->qn('ntags') . ' = ' . $tagCount );
-				}
-
-				$queryt->select($type->fieldlist . ', ' . $db->q($type->router) . ' AS ' . $db->quoteName('router') . ', ' . $db->q($type->component) . ' AS ' . $db->qn('component') . ', COUNT(DISTINCT ' . $db->qn('a.tag_id') . ') AS ' . $db->qn('ntags'));
-
-				$queryString = $queryt->__toString();
-				$tablequeries[] = $queryString;
-			}
-		}
-
-		// Now we want to put the queries for each table together using Union.
-		$queryu = $db->getQuery(true);
-
-		foreach ($tablequeries as $i => $uquery)
-		{
-			if ($i > 0)
-			{
-				$queryu->union($uquery);
-			}
-		}
-
-		if ($queryu->union)
-		{
-			$unionString  = $queryu->union->__toString();
-			$queryStringu = $tablequeries[0] . $unionString . ' ORDER BY ' . $db->qn($this->state->params->get('tag_list_orderby', 'title')) . ' ' . $this->state->params->get('tag_list_orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 5);
+			$orderBy = 'COUNT(m.tag_id)';
 		}
 		else
 		{
-			$queryStringu = $tablequeries[0] . ' ORDER BY ' . $db->qn($this->state->params->get('tag_list_orderby', 'title')) . ' ' . $this->state->params->get('tag_list_orderby_direction', 'ASC') . ' LIMIT 0,' . $this->state->params->get('maximum', 200);
+			$orderBy = 'MAX(c.core_' . $orderByOption . ')';
 		}
+		$orderDir = $this->getState('params')->get('tag_list_orderby_direction', 'ASC');
+		$query->order($orderBy . ' ' . $orderDir . ', MAX(c.core_title) ASC');
 
-		// Until we have UNION ALL in the platform do this to avoid an unneeded sort.
-		$queryStringu = str_replace('UNION ', 'UNION ALL ', $queryStringu);
-
-		return $queryStringu;
+		return $query;
 	}
 
 	/**

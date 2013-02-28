@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
-
+$n = count($this->items);
 ?>
 <div class="tag-category<?php echo $this->pageclass_sfx; ?>">
 <?php  if ($this->params->get('show_page_heading')) : ?>

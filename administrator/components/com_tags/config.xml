@@ -18,7 +18,6 @@
 			label="COM_TAGS_SEARCH_TYPE_LABEL"
 			description="COM_TAGS_SEARCH_TYPE_DESC"
 		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">COM_TAGS_ALL</option>
 			<option value="1">COM_TAGS_ANY</option>
 		</field>
@@ -56,7 +55,6 @@
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
 				<option value="title">JGLOBAL_TITLE</option>
-				<option value="hits">JGLOBAL_HITS</option>
 				<option value="created_date">JGLOBAL_CREATED_DATE</option>
 				<option value="modified_date">JGLOBAL_MODIFIED_DATE</option>
 				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>

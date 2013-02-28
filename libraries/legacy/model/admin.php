@@ -210,7 +210,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (!empty($commands['tag']))
 		{
-			if (!$this->batchTag($commands['tag'], $pks, $contexts))
+			if (!$this->batchTag($commands['tag'], $pks, $context))
 			{
 				return false;
 			}
@@ -1134,8 +1134,16 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
-		$tagsHelper = new JTags();
-		$tagsHelper->tagItems($value, $pks, $contexts);
+		if (empty($validData['tags']))
+		{
+			$validData['tags'] = $validData['tags'] . ',' . $value ;
+		}
+		else
+		{
+			$validData['tags'] = $value;
+		}
+		// $tagsHelper = new JTags();
+		// $tagsHelper->tagItems($value, $pks, $contexts);
 
 		return true;
 	}

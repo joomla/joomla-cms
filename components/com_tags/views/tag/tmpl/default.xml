@@ -103,8 +103,9 @@
 				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="title">JGLOBAL_TITLE</option>
-					<option value="created_date">JGLOBAL_CREATED_DATE</option>
-					<option value="modified_date">JGLOBAL_MODIFIED_DATE</option>
+					<option value="match_count">COM_TAGS_MATCH_COUNT</option>
+					<option value="created_time">JGLOBAL_CREATED_DATE</option>
+					<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
 					<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
 			</field>
 	

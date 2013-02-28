@@ -28,13 +28,6 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	public $type = 'Tag';
 
-	/**
-	 * Flag to tell the field to always be in multiple values mode.
-	 *
-	 * @var    boolean
-	 * @since  11.1
-	 */
-	protected $forceMultiple = true;
 
 	/**
 	 * Method to get the field input for a tag field.
