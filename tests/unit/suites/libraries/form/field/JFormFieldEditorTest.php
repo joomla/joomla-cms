@@ -36,7 +36,6 @@ class JFormFieldEditorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JFormFieldEditor::save
 	 * @todo   Implement testSave().
 	 */
 	public function testSave()

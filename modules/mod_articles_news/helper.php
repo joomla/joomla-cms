@@ -19,7 +19,7 @@ JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'Conte
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  */
-abstract class modArticlesNewsHelper
+abstract class ModArticlesNewsHelper
 {
 	public static function getList(&$params)
 	{

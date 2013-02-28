@@ -18,7 +18,7 @@ require_once JPATH_SITE.'/components/com_weblinks/helpers/route.php';
  * @subpackage  Search.weblinks
  * @since       1.6
  */
-class plgSearchWeblinks extends JPlugin
+class PlgSearchWeblinks extends JPlugin
 {
 	/**
 	 * Constructor

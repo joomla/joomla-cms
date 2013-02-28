@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
+<fieldset>
 <div class="control-group">
 	<?php echo $this->form->getLabel('metadesc'); ?>
 	<div class="controls">
@@ -31,3 +32,4 @@ defined('_JEXEC') or die;
 	</div>
 </div>
 <?php endforeach; ?>
+</fieldset>

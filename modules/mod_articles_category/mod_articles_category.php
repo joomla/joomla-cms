@@ -53,7 +53,7 @@ $cacheid = md5(serialize(array ($idbase, $module->module)));
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'id';
-$cacheparams->class = 'modArticlesCategoryHelper';
+$cacheparams->class = 'ModArticlesCategoryHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = $cacheid;
@@ -76,11 +76,11 @@ if (!empty($list))
 		{
 			case 'year':
 			case 'month_year':
-				$list = modArticlesCategoryHelper::groupByDate($list, $article_grouping, $article_grouping_direction, $params->get('month_year_format', 'F Y'));
+				$list = ModArticlesCategoryHelper::groupByDate($list, $article_grouping, $article_grouping_direction, $params->get('month_year_format', 'F Y'));
 				break;
 			case 'author':
 			case 'category_title':
-				$list = modArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
+				$list = ModArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
 				break;
 			default:
 				break;

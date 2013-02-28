@@ -36,7 +36,6 @@ class JHtmlJqueryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlJquery::framework
 	 * @todo   Implement testFramework().
 	 */
 	public function testFramework()
@@ -47,7 +46,6 @@ class JHtmlJqueryTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlJquery::ui
 	 * @todo   Implement testUi().
 	 */
 	public function testUi()

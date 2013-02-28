@@ -55,7 +55,7 @@ class PlgSystemHighlight extends JPlugin
 
 		// Get the terms to highlight from the request.
 		$terms = $input->request->get('highlight', null, 'base64');
-		$terms = $terms ? unserialize(base64_decode($terms)) : null;
+		$terms = $terms ? json_decode(base64_decode($terms)) : null;
 
 		// Check the terms.
 		if (empty($terms))

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Editors.codemirror
  * @since       1.6
  */
-class plgEditorCodemirror extends JPlugin
+class PlgEditorCodemirror extends JPlugin
 {
 	/**
 	 * Base path for editor files
