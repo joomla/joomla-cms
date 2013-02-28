@@ -47,10 +47,10 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param   string	The friendly name of the site
-	 * @param   string	The type of site (e.g. collection or extension)
-	 * @param   string	The URI for the site
-	 * @param   boolean	If this site is enabled
+	 * @param   string	$name The friendly name of the site
+	 * @param   string	$type The type of site (e.g. collection or extension)
+	 * @param   string	$location The URI for the site
+	 * @param   boolean	$enabled If this site is enabled
 	 * @since   1.6
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
@@ -103,11 +103,11 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param   JInstaller	Installer object
-	 * @param   integer  	Extension Identifier
+	 * @param   JInstaller	$installer Installer object
+	 * @param   integer  	$eid Extension Identifier
 	 * @since   1.6
 	 */
-	public function onExtensionAfterInstall($installer, $eid)
+	public function onExtensionAfterInstall($installer, $eid )
 	{
 		if ($eid)
 		{
@@ -122,9 +122,9 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * Handle extension uninstall
 	 *
-	 * @param   JInstaller	Installer instance
-	 * @param   integer  	extension id
-	 * @param   integer  	installation result
+	 * @param   JInstaller	$installer Installer instance
+	 * @param   integer  	$eid extension id
+	 * @param   integer  	$result installation result
 	 * @since   1.6
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
@@ -188,8 +188,8 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * After update of an extension
 	 *
-	 * @param   JInstaller	Installer object
-	 * @param   integer  	Extension identifier
+	 * @param   JInstaller	$installer Installer object
+	 * @param   integer  	$eid Extension identifier
 	 * @since   1.6
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
