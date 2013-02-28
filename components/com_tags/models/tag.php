@@ -109,9 +109,9 @@ class TagsModelTag extends JModelList
 			$tagTreeList = '';
 			foreach ($tagIdArray as $tag)
 			{
-					$tagTreeList .= implode(',', $this->getTagTreeArray($tag)) . ',';
+					$tagTreeList .= implode(',', $this->getTagTreeArray($tag, $tagTreeArray)) . ',';
 			}
-			$tagId = rtrim($tagTreeList, ',');
+			$tagId = trim($tagTreeList, ',');
 		}
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
@@ -281,7 +281,7 @@ class TagsModelTag extends JModelList
 	 * @return  object
 	 * @since   3.1
 	 */
-	public function getTagTreeArray($id = null)
+	public function getTagTreeArray($id = null, &$tagTreeArray = null)
 	{
 		if (empty($id))
 		{
@@ -291,10 +291,15 @@ class TagsModelTag extends JModelList
 		// Get a level row instance.
 		$table = JTable::getInstance('Tag', 'TagsTable');
 
+		if (!isset($tagTreeArray))
+		{
+			$tagTreeArray = array ();
+		}
+
 		if ($table->isLeaf($id))
 		{
-			$this->tagTreeArray[] = $id;
-			return $this->tagTreeArray;
+			$tagTreeArray[] .= $id;
+			return $tagTreeArray;
 		}
 		$tagTree = $table->getTree($id);
 
@@ -304,20 +309,18 @@ class TagsModelTag extends JModelList
 			foreach ($tagTree as $tag)
 			{
 				// Check published state.
-				if ($published = $this->getState('filter.published'))
-				{
-					if ($tag->published == $published)
-					{
-						$this->tagTreeArray[] = $tag->id;
-					}
-				}
+					// if ($tag->state == 1)
+					//{
+						$tagTreeArray[] = $tag->id;
+					//}
 			}
+			return $tagTreeArray;
 		}
 		elseif ($error = $table->getError())
 		{
 			$this->setError($error);
 		}
 
-		return $this->tagTreeArray;
+
 	}
 }
