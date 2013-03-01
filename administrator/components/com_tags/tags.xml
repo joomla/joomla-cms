@@ -50,7 +50,7 @@
 				XML and be parsed by the installer
 			-->
 			<menu link="option=com_tags" view="tags" img="class:tags"
-				alt="Tags/Tags">Tags</menu>
+				alt="Tags/Tags">com_tags_tags</menu>
 		</submenu>
 
 	</administration>

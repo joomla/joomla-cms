@@ -49,7 +49,8 @@ class JFormFieldTag extends JFormFieldList
 		{
 			if (empty($this->value->tags))
 			{
-				$this->value->tags = '';
+				//$this->value->tags = new JTags;
+				$this->value = array();
 			}
 			if (is_object($this->value))
 			{

@@ -23,6 +23,8 @@
 		type="tag"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
 		description="COM_TAGS_FIELD_PARENT_DESC"
+		validate="notequals"
+		field="id"
 		class="span12 small">
 		<option value="1">JNone</option>
 		</field>
@@ -59,14 +61,6 @@
 		class="inputbox"
 		size="40"
 		required="true"/>
-
-	<field
-		name="alias"
-		type="text"
-		label="JFIELD_ALIAS_LABEL"
-		description="JFIELD_ALIAS_DESC"
-		class="inputbox"
-		size="40"/>
 
 	<field
 		name="note"
@@ -146,6 +140,16 @@
 		description="JFIELD_META_KEYWORDS_DESC"
 		rows="3"
 		cols="40"/>
+
+	<field
+		name="alias"
+		type="text"
+		label="JFIELD_ALIAS_LABEL"
+		description="JFIELD_ALIAS_DESC"
+		class="inputbox"
+		size="40"/>
+
+
 
 	<field
 		name="created_user_id"

@@ -15,7 +15,6 @@
 				description="COM_TAGS_FIELD_PARENT_TAG_DESC"
 				label="COM_TAGS_FIELD_PARENT_TAG_LABEL">
 				<option value="">JNONE</option>
-				<option value="1">JGLOBAL_ROOT</option>
 			</field>
 		</fieldset>
 	</fields>

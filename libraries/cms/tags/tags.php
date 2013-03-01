@@ -224,7 +224,6 @@ class JTags
 	 */
 	public function unTagItem($id, $prefix)
 	{
-		//foreach ($ids as $id)
 
 		$db		= JFactory::getDbo();
 		$query = $db->getQuery(true);

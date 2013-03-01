@@ -231,6 +231,12 @@ class CategoriesControllerCategory extends JControllerForm
 			'core_xreference' => $item->xreference,
 		);
 
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, $item->extension . '.category');
+		}
+
 		$tags = $validData['tags'];
 
 		if ($tags)

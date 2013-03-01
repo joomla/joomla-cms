@@ -260,8 +260,8 @@ class ContentControllerArticle extends JControllerForm
 	 * @since   1.6
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{
-			$item = $model->getItem();
+	{var_dump($model);
+		$item = $model->getItem();var_dump($item);die;
 		if (isset($item->attribs) && is_array($item->attribs))
 		{
 			$registry = new JRegistry;
@@ -300,7 +300,7 @@ class ContentControllerArticle extends JControllerForm
 			'core_featured' => $item->featured,
 			'core_metadata' => $item->metadata,
 			'core_created_user_id' => $item->created_by,
-			'core_created_by_alias' => $item->created_by_alias . "'" ,
+			'core_created_by_alias' => $item->created_by_alias,
 			'core_created_time' => $item->created ,
 			'core_modified_user_id' => $item->modified_by,
 			'core_modified_time' => $item->modified ,

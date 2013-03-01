@@ -144,7 +144,7 @@ class ContactControllerContact extends JControllerForm
 			'core_featured' => $item->featured,
 			'core_metadata' => $item->metadata,
 			'core_created_user_id' => $item->created_by,
-			'core_created_by_alias' => $item->created_by_alias . "'" ,
+			'core_created_by_alias' => $item->created_by_alias ,
 			'core_created_time' => $item->created ,
 			'core_modified_user_id' => $item->modified_by,
 			'core_modified_time' => $item->modified ,
