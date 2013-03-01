@@ -18,49 +18,71 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
 abstract class JHtmlContact
 {
 	/**
-	 * @param   int $contactid	The contact item id
+	 * Get the associated language flags
+	 *
+	 * @param   int  $contactid  The item id to search associations
+	 *
+	 * @return  string  The language HTML
 	 */
 	public static function association($contactid)
 	{
+		// Defaults
+		$html = '';
+
 		// Get the associations
-		$associations = ContactHelper::getAssociations($contactid);
-
-		foreach ($associations as $tag => $associated)
+		if ($associations = JLanguageAssociations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $contactid))
 		{
-			$associations[$tag] = (int) $associated->id;
-		}
-
-		// Get the associated contact items
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('c.*');
-		$query->from('#__contact_details as c');
-		$query->select('cat.title as category_title');
-		$query->leftJoin('#__categories as cat ON cat.id=c.catid');
-		$query->where('c.id IN ('.implode(',', array_values($associations)).')');
-		$query->leftJoin('#__languages as l ON c.language=l.lang_code');
-		$query->select('l.image');
-		$query->select('l.title as language_title');
-		$db->setQuery($query);
-		$items = $db->loadObjectList('id');
-
-		// Check for a database error.
-		if ($error = $db->getErrorMsg())
-		{
-			JError::raiseWarning(500, $error);
-			return false;
-		}
-
-		// Construct html
-		$text = array();
-		foreach ($associations as $tag => $associated)
-		{
-			if ($associated != $contactid)
+			foreach ($associations as $tag => $associated)
 			{
-				$text[] = JText::sprintf('COM_CONTACT_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->name, $items[$associated]->category_title);
+				$associations[$tag] = (int) $associated->id;
 			}
+
+			// Get the associated contact items
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('c.*');
+			$query->from('#__contact_details as c');
+			$query->select('cat.title as category_title');
+			$query->leftJoin('#__categories as cat ON cat.id=c.catid');
+			$query->where('c.id IN (' . implode(',', array_values($associations)) . ')');
+			$query->leftJoin('#__languages as l ON c.language=l.lang_code');
+			$query->select('l.image');
+			$query->select('l.title as language_title');
+			$db->setQuery($query);
+
+			try
+			{
+				$items = $db->loadObjectList('id');
+			}
+			catch (runtimeException $e)
+			{
+				throw new Exception($e->getMessage(), 500);
+
+				return false;
+			}
+
+			$flags = array();
+
+			// Construct html
+			foreach ($associations as $tag => $associated)
+			{
+				if ($associated != $contactid)
+				{
+					$flags[] = JText::sprintf(
+						'COM_CONTACT_TIP_ASSOCIATED_LANGUAGE',
+						JHtml::_('image', 'mod_languages/' . $items[$associated]->image . '.gif',
+							$items[$associated]->language_title,
+							array('title' => $items[$associated]->language_title),
+							true
+						),
+						$items[$associated]->name, $items[$associated]->category_title
+					);
+				}
+			}
+			$html = JHtml::_('tooltip', implode('<br />', $flags), JText::_('COM_CONTACT_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
 		}
-		return JHtml::_('tooltip', implode('<br />', $text), JText::_('COM_CONTACT_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
+
+		return $html;
 	}
 
 	/**
