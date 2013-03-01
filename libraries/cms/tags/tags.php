@@ -40,11 +40,13 @@ class JTags
 	 	{
 	 		// We can get the unset data here.
 	 		$db  = JFactory::getDbo();
+
 	 		$queryid = $db->getQuery(true);
 	 		// Should get alias field name instead of assuming
-	 		$queryid->select($db->qn('type_id'))
+	 		$queryid->select($db->qn('id'))
 	 			->from($db->qn($type->table))
-	 			->where($db->qn('alias') . ' = '. $db->q($fieldMap['core_alias']));
+	 			->where($db->qn('core_alias') . ' = '. $db->q($prefix));
+	 		$db->setQuery($queryid);
 	 		$id = $db->loadResult();
 	 	}
 
@@ -214,23 +216,21 @@ class JTags
 	/**
 	 * Method to remove  tags associated with a list of items. Generally used for batch processing.
 	 *
-	 * @param   integer  $ids     The id (primary key) of the item to be tagged.
+	 * @param   integer  $id     The id (primary key) of the item to be untagged.
 	 * @param   string   $prefix  Dot separated string with the option and view for a url.
-	 * @params  array    $tag     Tag to be applied. Note that his method handles single tags only.
 	 *
 	 * @return  void
 	 * @since   3.1
 	 */
-	public function unTagItems($ids, $prefix, $tag)
+	public function unTagItem($id, $prefix)
 	{
-		foreach ($ids as $id)
+		//foreach ($ids as $id)
 
 		$db		= JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete('#__contentitem_tag_map');
 		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
 		$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $id);
-		$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -251,31 +251,38 @@ class JTags
 
 	public function getTagIds($id, $prefix)
 	{
-		if (is_array($id))
+		if (!empty($id))
 		{
-			$id=implode(',', $id);
+			if (is_array($id))
+			{
+				$id=implode(',', $id);
+			}
+
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			// Load the tags.
+			$query->clear();
+			$query->select($db->quoteName('t.id') );
+
+			$query->from($db->quoteName('#__tags') . ' AS t ');
+			$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'  .
+				' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' .
+						$db->quoteName('m.type_alias') . ' = ' .
+						$db->quote($prefix ) . ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id .')'  );
+
+			$db->setQuery($query);
+
+			// Add the tags to the content data.
+			$tagsList = $db->loadColumn();
+			$this->tags = implode(',', $tagsList);
+
+			return $this->tags;
 		}
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Load the tags.
-		$query->clear();
-		$query->select($db->quoteName('t.id') );
-
-		$query->from($db->quoteName('#__tags') . ' AS t ');
-		$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'  .
-			' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' .
-					$db->quoteName('m.type_alias') . ' = ' .
-					$db->quote($prefix ) . ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id .')'  );
-
-		$db->setQuery($query);
-
-		// Add the tags to the content data.
-		$tagsList = $db->loadColumn();
-		$this->tags = implode(',', $tagsList);
-
-		return $this->tags;
+		else
+		{
+			//$this->tags = '';
+		}
 	}
 
 	/**

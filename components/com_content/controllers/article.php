@@ -321,6 +321,12 @@ class ContentControllerArticle extends JControllerForm
 			'core_xreference' => $item->xreference,
 			);
 
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_content.article');
+		}
+
 		$tags = $validData['tags'];
 		$isNew = $validData['id'] == 0 ? 1 : 0;
 

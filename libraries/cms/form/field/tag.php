@@ -28,6 +28,13 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	public $type = 'Tag';
 
+	/**
+	 * An array of tags
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	public $tags;
 
 	/**
 	 * Method to get the field input for a tag field.
@@ -40,6 +47,10 @@ class JFormFieldTag extends JFormFieldList
 	{
 		if (!is_array($this->value) && !empty($this->value))
 		{
+			if (empty($this->value->tags))
+			{
+				$this->value->tags = '';
+			}
 			if (is_object($this->value))
 			{
 				$this->value = $this->value->tags;

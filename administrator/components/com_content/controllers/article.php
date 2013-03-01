@@ -195,7 +195,7 @@ class ContentControllerArticle extends JControllerForm
 			'core_featured' => $item->featured,
 			'core_metadata' => $item->metadata,
 			'core_created_user_id' => $item->created_by,
-			'core_created_by_alias' => $item->created_by_alias . "'" ,
+			'core_created_by_alias' => $item->created_by_alias ,
 			'core_created_time' => $item->created ,
 			'core_modified_user_id' => $item->modified_by,
 			'core_modified_time' => $item->modified ,
@@ -216,8 +216,15 @@ class ContentControllerArticle extends JControllerForm
 			'core_xreference' => $item->xreference,
 			);
 
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_content.article');
+		}
+
 		$tags = $validData['tags'];
-		$isNew = $validData['id'] == 0 ? 1 : 0;
+
+		$isNew = $item->id == 0 ? 1 : 0;
 
 		// Store the tag data if the article data was saved.
 		if ($tags[0] != '')

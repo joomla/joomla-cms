@@ -171,6 +171,12 @@ class WeblinksControllerWeblink extends JControllerForm
 			'core_xreference' => $item->xreference,
 		);
 
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_weblinks.weblink');
+		}
+
 		$tags = $validData['tags'];
 
 		// Store the tag data if the weblink data was saved.

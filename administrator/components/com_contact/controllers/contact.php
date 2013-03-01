@@ -165,7 +165,11 @@ class ContactControllerContact extends JControllerForm
 			'core_xreference' => $item->xreference,
 		);
 
-
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_contact.contact');
+		}
 
 		$tags = $validData['tags'];
 

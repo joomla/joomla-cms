@@ -174,6 +174,12 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 			'core_xreference' => $item->xreference,
 		);
 
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_newsfeeds.newsfeed');
+		}
+
 		$tags = $validData['tags'];
 
 		// Store the tag data if the news data was saved.
