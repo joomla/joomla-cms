@@ -26,6 +26,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Feb-2013 Jean-Marie Simonet
+ # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian.
+ # [#30030] Beez index.php. Thanks Angie.
+ # [#30115] Component Options are not a Modal Pop Up Window - Help screen Language Keys needed. Thanks Mark
+ # [#29252] Media manager Directory doesn't update while browsing folders. Thanks Piotr
+
+26-Feb-2013 Jean-Marie Simonet
+ ^$ [#30157] *Bootstrapping tabs in administration (big patch)
+ # [#30159] *Improving multilanguage status module
+ + [#30101] Port over JPluginHelper::getLayoutPath() and use it to customize pagenavigation plugin markup. Thanks Roberto and Michael.
+ # [#29396] isis - article editing. Thanks Artur
+
+22-Feb-2013 Jean-Marie Simonet
+ # [#30126] *wrong alternate when using associations in multilanguage. Thanks Benjamin
+ # [#30133] Duplicate quotes in beez3 category blog override. Thanks Babs
+ #$ [#30001] Menu and Article Associations does not work under Global Cache
+
 16-Feb-2013 Jean-Marie Simonet
  # [#29261] Admin template "super-patch". Thanks Michael
 

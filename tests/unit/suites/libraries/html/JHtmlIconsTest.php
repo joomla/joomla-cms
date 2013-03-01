@@ -44,8 +44,6 @@ class JHtmlIconsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHtmlIcons::buttons
 	 */
 	public function testButtons()
 	{
@@ -75,8 +73,6 @@ class JHtmlIconsTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHtmlIcons::button
 	 */
 	public function testButton()
 	{

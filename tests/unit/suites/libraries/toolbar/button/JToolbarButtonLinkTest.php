@@ -47,8 +47,6 @@ class JToolbarButtonLinkTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButtonLink::fetchButton
 	 */
 	public function testFetchButton()
 	{
@@ -64,8 +62,6 @@ class JToolbarButtonLinkTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButtonLink::fetchId
 	 */
 	public function testFetchId()
 	{
