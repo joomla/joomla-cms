@@ -247,7 +247,7 @@ endif;
 					<?php endif; ?>
 
 					<?php // We need to make a separate space for the configuration
-						 // so that those fields always show to those wih permissions
+						// so that those fields always show to those wih permissions
 					?>
 					<?php if ($this->canDo->get('core.admin')):  ?>
 						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
