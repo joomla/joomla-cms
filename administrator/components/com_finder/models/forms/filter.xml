@@ -63,9 +63,9 @@
 			default=""
 			filter="string">
 			<option value="">JNONE</option>
-			<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
-			<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
-			<option value="1">COM_FINDER_FILTER_WHEN_AFTER</option>
+			<option value="before">COM_FINDER_FILTER_WHEN_BEFORE</option>
+			<option value="exact">COM_FINDER_FILTER_WHEN_EXACTLY</option>
+			<option value="after">COM_FINDER_FILTER_WHEN_AFTER</option>
 		</field>
 
 		<field name="d1" type="calendar" class="inputbox"
