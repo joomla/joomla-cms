@@ -137,8 +137,7 @@ class WeblinksControllerWeblink extends JControllerForm
 			$item->metadata = (string) $registry;
 		}
 		$id =  $item->id;
-
-		$fieldMap = Array(
+/*$fieldMap = Array(
 			'core_title' => $item->title,
 			'core_alias' => $item->alias,
 			'core_body' => $item->articletext,
@@ -169,21 +168,22 @@ class WeblinksControllerWeblink extends JControllerForm
 			'core_metadesc' => $item->metadesc,
 			'core_catid' => $item->catid,
 			'core_xreference' => $item->xreference,
-		);
+		);*/
 
 		if (empty($validData['tags']) && !empty($item->tags))
 		{
 			$oldTags = new JTags;
 			$oldTags->unTagItem($id, 'com_weblinks.weblink');
+			return;
 		}
 
 		$tags = $validData['tags'];
 
 		// Store the tag data if the weblink data was saved.
-		if ($tags )
+		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $tags, $fieldMap, $isNew);
+			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $tags, null, $isNew, $item);
 		}
 
 		if ($task == 'save')

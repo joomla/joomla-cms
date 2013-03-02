@@ -21,31 +21,45 @@ class JTags
 	/**
 	 * Method to add or update tags associated with an item. Generally used as a postSaveHook.
 	 *
-	 * @param   integer  $id        The id (primary key) of the item to be tagged.
-	 * @param   string   $prefix    Dot separated string with the option and view for a url.
-	 * @params  array    $tags      Array of tags to be applied.
-	 * @params  array    $fieldMap  Associative array of values to core_content field.
-	 * @params  array    $isNew     Flag indicating this item is new.
+	 * @param   integer          $id        The id (primary key) of the item to be tagged.
+	 * @param   string           $prefix    Dot separated string with the option and view for a url.
+	 * @params  array            $tags      Array of tags to be applied.
+	 * @params  array            $fieldMap  Associative array of values to core_content field.
+	 * @params  array            $isNew     Flag indicating this item is new.
+	 * @params  JControllerForm  $item      A JcontrollerForm object usually from a Post Save Hook
 	 *
 	 * @return  void
 	 * @since   3.1
 	 */
-	 public function tagItem($id, $prefix, $tags, $fieldMap, $isNew)
+	 public function tagItem($id, $prefix, $tags = null, $fieldMap = null, $isNew, $item)
 	 {
-		$types = $this->getTypes('objectList', $prefix, true );
+	 	// Set up the field mapping array
+		if (empty($fieldMap))
+		{
+	 		$typeId = $this->getTypeId($prefix);
+		 	$contenttype = JTable::getInstance('Contenttype');
+		 	$contenttype->load($typeId);
+		 	$map = json_decode($contenttype->field_mappings);
+var_dump($map);die;
+		 	foreach ($map as $i=>$field)
+		 	{
+		 		$fieldMap[$i] = $item->$field;
+		 	}
+		}
+die;
+	 	$types = $this->getTypes('objectList', $prefix, true );
 		$type = $types[0];
 
 	 	$typeid = $type->type_id;
 	 	if ($id == 0 )
 	 	{
-	 		// We can get the unset data here.
 	 		$db  = JFactory::getDbo();
 
 	 		$queryid = $db->getQuery(true);
-	 		// Should get alias field name instead of assuming
+
 	 		$queryid->select($db->qn('id'))
 	 			->from($db->qn($type->table))
-	 			->where($db->qn('core_alias') . ' = '. $db->q($prefix));
+	 			->where($db->qn('type_alias') . ' = ' . $db->q($prefix));
 	 		$db->setQuery($queryid);
 	 		$id = $db->loadResult();
 	 	}
@@ -86,14 +100,14 @@ class JTags
 				$ccId = $db->loadResult();
 			}
 
-			// For new items we need to get the id.
+			// For new items we need to get the id from the actual table.
 			// Throw an exception if there is no matching record
 			if ($id == 0)
 			{
 				$queryid = $db->getQuery(true);
 				$queryid->select($db->qn(id));
 				$queryid->from($db->qn($type->table));
-				$queryid->where($db->qn('alias') . ' = ' . $db->q($fieldMap['core_alias']));
+				$queryid->where($db->qn($map['core_alias']) . ' = ' . $db->q($fieldMap['core_alias']));
 				$db->setQuery($queryid);
 				$id = $db->loadResult();
 				$fieldMap['core_content_item_id'] = $id;
@@ -109,11 +123,12 @@ class JTags
 				}
 
 				$values = implode(',', $quotedValues);
-				$values = $values . ',' . (int) $typeid ;
+				$values = $values . ',' . (int) $typeid . ', ' . $db->q($prefix) ;
 
 				$querycc->insert($db->quoteName('#__core_content'))
 					->columns($db->quoteName(array_keys($fieldMap)))
 					->columns($db->qn('core_type_id'))
+					->columns($db->qn('core_type_alias'))
 					->values($values);
 			}
 			else
@@ -124,7 +139,7 @@ class JTags
 					$setList .= $db->qn($fieldname) . ' = ' . $db->q($value) . ',';
 				}
 
-				$setList = $setList . ' ' . $db->qn('core_type_id')  . '  = ' . $typeid;
+				$setList = $setList . ' ' . $db->qn('core_type_id')  . '  = ' . $typeid . ',' . $db->qn('core_type_alias') . ' = ' . $db->q($prefix);
 
 				$querycc->update($db->qn('#__core_content'));
 				$querycc->where($db->qn('core_content_item_id') . ' = ' . $id);
@@ -471,7 +486,7 @@ class JTags
 
 		$query->select($db->quoteName('table'));
 		$query->from($db->quoteName('#__content_types'));
-		$query->where($db->quoteName('alias') . ' = ' .  $db->quote($tagItemAlias));
+		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($tagItemAlias));
 		$db->setQuery($query);
 		$this->table = $db->loadResult();
 
@@ -495,7 +510,7 @@ class JTags
 
 		$query->select($db->quoteName('type_id'));
 		$query->from($db->quoteName('#__content_types'));
-		$query->where($db->quoteName('alias') . ' = ' .  $db->quote($typeAlias));
+		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($typeAlias));
 		$db->setQuery($query);
 		$this->type_id = $db->loadResult();
 
@@ -528,7 +543,7 @@ class JTags
 			}
 			if ($useAlias)
 			{
-				$query->where($db->qn('alias') . ' IN (' . $query->q($selectTypes) . ')') ;
+				$query->where($db->qn('type_alias') . ' IN (' . $query->q($selectTypes) . ')') ;
 			}
 			else
 			{
@@ -554,10 +569,12 @@ class JTags
 
 		return $types;
 	}
+
 	/**
 	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
 	 *
 	 * @param   integer  $tag_id      The tag_id (primary key) for the deleted tag.
+	 *
 	 * @return  void
 	 * @since   3.1
 	 */

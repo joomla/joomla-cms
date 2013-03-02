@@ -132,39 +132,6 @@ class ContactControllerContact extends JControllerForm
 		}
 		$id =  $item->id;
 
-		$fieldMap = Array(
-			'core_title' => $item->name,
-			'core_alias' => $item->alias,
-			'core_body' => $item->address,
-			'core_state' => $item->published,
-			'core_checked_out_user_id' => $item->checked_out,
-			'core_checked_out_time' => $item->checked_out_time ,
-			'core_access' => $item->access,
-			'core_params' => $item->params,
-			'core_featured' => $item->featured,
-			'core_metadata' => $item->metadata,
-			'core_created_user_id' => $item->created_by,
-			'core_created_by_alias' => $item->created_by_alias ,
-			'core_created_time' => $item->created ,
-			'core_modified_user_id' => $item->modified_by,
-			'core_modified_time' => $item->modified ,
-			'core_language' => $item->language,
-			'core_publish_up' => $item->publish_up,
-			'core_publish_down' => $item->publish_down,
-			'core_content_item_id' => $item->id,
-			'core_type_alias' => 'com_contact.contact',
-			'asset_id' => 0,
-			'core_images' => $item->image,
-			'core_urls' => $item->webpage,
-			'core_hits' => $item->hits,
-			'core_version' => $item->version,
-			'core_ordering' => $item->ordering,
-			'core_metakey' => $item->metakey,
-			'core_metadesc' => $item->metadesc,
-			'core_catid' => $item->catid,
-			'core_xreference' => $item->xreference,
-		);
-
 		if (empty($validData['tags']) && !empty($item->tags))
 		{
 			$oldTags = new JTags;
@@ -173,10 +140,10 @@ class ContactControllerContact extends JControllerForm
 
 		$tags = $validData['tags'];
 
-		if ($tags)
+		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_contact.contact', $tags, $fieldMap, $isNew);
+			$tagsHelper->tagItem($id, 'com_contact.contact', $tags, null, $isNew, $item);
 		}
 	}
 }

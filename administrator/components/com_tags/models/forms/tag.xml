@@ -149,8 +149,6 @@
 		class="inputbox"
 		size="40"/>
 
-
-
 	<field
 		name="created_user_id"
 		type="user"

@@ -260,8 +260,10 @@ class ContentControllerArticle extends JControllerForm
 	 * @since   1.6
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{var_dump($model);
-		$item = $model->getItem();var_dump($item);die;
+	{
+		$articleId = $validData['id'] > 0 ? $validData['id'] : $model->getState('form.id');
+		$item = $model->getItem($articleId);
+
 		if (isset($item->attribs) && is_array($item->attribs))
 		{
 			$registry = new JRegistry;
@@ -359,6 +361,10 @@ class ContentControllerArticle extends JControllerForm
 		{
 			$this->setRedirect($this->getReturnPage());
 		}
+		//$model = $this->getModel();
+
+		// Invoke the postSave method to allow for the child class to access the model.
+		//$this->postSaveHook($model, $validData);
 
 		return $result;
 	}

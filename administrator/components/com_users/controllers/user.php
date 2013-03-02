@@ -110,6 +110,7 @@ class UsersControllerUser extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
@@ -118,12 +119,21 @@ class UsersControllerUser extends JControllerForm
 
 		$item = $model->getItem();
 		$id = $item->get('id');
+
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_newsfeeds.newsfeed');
+			return;
+		}
+
 		$tags = $validData['tags'];
 
-		if ($tags)
+		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_users.user', $tags);
+			$tagsHelper->tagItem($id, 'com_users.user', $tags, null, $isNew, $item);
 		}
+		return;
 	}
 }

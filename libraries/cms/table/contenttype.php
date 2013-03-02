@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Table
  * @since       3.1
  */
-class TableContenttypes extends JTable
+class JTableContenttype extends JTable
 {
 	/**
 	 * Constructor
@@ -56,7 +56,7 @@ class TableContenttypes extends JTable
 		}
 	}
 	/**
-	 * Overriden JTable::store.
+	 * Overridden JTable::store.
 	 *
 	 * @param   boolean  True to update fields even if they are null.
 	 * @return  boolean  True on success.
@@ -69,7 +69,22 @@ class TableContenttypes extends JTable
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+
 			return false;
 		}
+	}
+
+	/**
+	 * Method to expand the field mapping
+	 *
+	 * @param  boolean  $assoc  True to return an associative array.
+	 *
+	 * return  mixed  Array or object with field mappings. Defaults to object.
+	 *
+	 * @since   3.1
+	 */
+	public function fieldmapExpand($assoc = true)
+	{
+		return $this->fieldmap = json_decode($this->fieldmappings, $assoc);
 	}
 }

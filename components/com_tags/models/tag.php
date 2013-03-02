@@ -128,7 +128,7 @@ class TagsModelTag extends JModelList
 
 		$query->from('#__contentitem_tag_map AS m');
 		$query->join('INNER', '#__core_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id');
-		$query->join('INNER', '#__content_types AS ct ON ct.alias = m.type_alias');
+		$query->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias');
 
 		// Join over the users for the author and email
 		$query->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author");
@@ -147,7 +147,7 @@ class TagsModelTag extends JModelList
 
 		foreach ($typesarray as $type)
 		{
-			$typeAliases .= "'" . $type['alias'] . "'" . ',';
+			$typeAliases .= "'" . $type['type_alias'] . "'" . ',';
 		}
 
 		$typeAliases = rtrim($typeAliases, ',');
