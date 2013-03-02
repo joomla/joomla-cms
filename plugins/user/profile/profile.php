@@ -19,6 +19,13 @@ defined('JPATH_BASE') or die;
 class PlgUserProfile extends JPlugin
 {
 	/**
+	 * Date of birth.
+	 * 
+	 * @var string
+	 */
+	private $_date = '';
+
+	/**
 	 * Constructor
 	 *
 	 * @access      protected
@@ -281,22 +288,15 @@ class PlgUserProfile extends JPlugin
 		// Check that the date is valid.
 		if (!empty($data['profile']['dob']))
 		{
-			if (!preg_match('/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}$/', $data['profile']['dob']))
+			try
 			{
-				// Throw an exception if date is not in the YYYY-MM-DD  format.
-				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
+				$date = new JDate($data['profile']['dob']);
+				$this->_date = $date->format('Y-m-d');
 			}
-			else
+			catch (Exception $e)
 			{
-				try
-				{
-					new JDate($data['profile']['dob']);
-				}
-				catch (Exception $e)
-				{
-					// Throw an exception if date is not valid.
-					throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
-				}
+				// Throw an exception if date is not valid.
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
 		}
 
@@ -312,11 +312,7 @@ class PlgUserProfile extends JPlugin
 			try
 			{
 				//Sanitize the date
-				if (!empty($data['profile']['dob']))
-				{
-					$date = new JDate($data['profile']['dob']);
-					$data['profile']['dob'] = $date->format('Y-m-d');
-				}
+				$data['profile']['dob'] = $this->_date;
 
 				$db = JFactory::getDbo();
 				$db->setQuery(
