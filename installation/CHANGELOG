@@ -25,6 +25,9 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+01-Mar-2013 Jean-Marie Simonet
+ # [#30172] *Moving the helper getAssociations() to the cms library. Thanks Roberto and Harald
+ # [#30182] *Correcting some hathor display.
 
 28-Feb-2013 Jean-Marie Simonet
  # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian.
