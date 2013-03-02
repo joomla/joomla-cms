@@ -19,23 +19,23 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		<div class="span10">
 			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'site')); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'site', JText::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'site', JText::_('COM_ADMIN_SYSTEM_INFORMATION', true)); ?>
 					<?php echo $this->loadTemplate('system'); ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'phpsettings', JText::_('COM_ADMIN_PHP_SETTINGS')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'phpsettings', JText::_('COM_ADMIN_PHP_SETTINGS', true)); ?>
 					<?php echo $this->loadTemplate('phpsettings'); ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'config', JText::_('COM_ADMIN_CONFIGURATION_FILE')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'config', JText::_('COM_ADMIN_CONFIGURATION_FILE', true)); ?>
 					<?php echo $this->loadTemplate('config'); ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'directory', JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'directory', JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true)); ?>
 					<?php echo $this->loadTemplate('directory'); ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'phpinfo', JText::_('COM_ADMIN_PHP_INFORMATION')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'phpinfo', JText::_('COM_ADMIN_PHP_INFORMATION', true)); ?>
 					<?php echo $this->loadTemplate('phpinfo'); ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 

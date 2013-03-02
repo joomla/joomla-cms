@@ -30,7 +30,7 @@ $canDo = LanguagesHelper::getActions();
 	<fieldset>
 	<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('JDETAILS')); ?>
+		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
 			<div class="control-group">
 				<div class="controls">
 					<?php if ($this->item->lang_id) : ?>
@@ -118,7 +118,7 @@ $canDo = LanguagesHelper::getActions();
 			</div>
 		<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 				<div class="control-group">
 					<?php if (!$field->hidden) : ?>
@@ -133,7 +133,7 @@ $canDo = LanguagesHelper::getActions();
 			<?php endforeach; ?>
 		<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
+		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL', true)); ?>
 			<?php foreach ($this->form->getFieldset('site_name') as $field) : ?>
 				<div class="control-group">
 					<?php if (!$field->hidden) : ?>

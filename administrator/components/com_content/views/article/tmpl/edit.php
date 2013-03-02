@@ -67,7 +67,7 @@ endif;
 		<div class="span10 form-horizontal">
 			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'general')); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'general', JText::_('COM_CONTENT_ARTICLE_DETAILS')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'general', JText::_('COM_CONTENT_ARTICLE_DETAILS', true)); ?>
 					<fieldset class="adminform">
 						<div class="control-group form-inline">
 							<?php echo $this->form->getLabel('title'); ?> <?php echo $this->form->getInput('title'); ?> <?php echo $this->form->getLabel('catid'); ?> <?php echo $this->form->getInput('catid'); ?>
@@ -116,7 +116,7 @@ endif;
 
 				<?php // Do not show the publishing options if the edit form is configured not to. ?>
 					<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ) : ?>
-						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
+						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING', true)); ?>
 							<div class="row-fluid">
 								<div class="span6">
 									<div class="control-group">
@@ -209,7 +209,7 @@ endif;
 							<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 								<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
 									<?php $attribtabs = 'attrib-' . $name; ?>
-									<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $attribtabs, JText::_($fieldSet->label)); ?>
+									<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $attribtabs, JText::_($fieldSet->label, true)); ?>
 								<?php endif; ?>
 
 							<?php
@@ -250,7 +250,7 @@ endif;
 						// so that those fields always show to those wih permissions
 					?>
 					<?php if ($this->canDo->get('core.admin')):  ?>
-						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
+						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG', true)); ?>
 							<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
 								<div class="control-group">
 									<?php echo $field->label; ?>
@@ -262,18 +262,18 @@ endif;
 						<?php echo JHtml::_('bootstrap.endPanel'); ?>
 					<?php endif ?>
 
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 							<?php echo $this->loadTemplate('metadata'); ?>
 					<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 					<?php if ($assoc) : ?>
-						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 							<?php echo $this->loadTemplate('associations'); ?>
 						<?php echo JHtml::_('bootstrap.endPanel'); ?>
 					<?php endif; ?>
 
 					<?php if ($this->canDo->get('core.admin')) : ?>
-						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES')); ?>
+						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES', true)); ?>
 							<fieldset>
 								<?php echo $this->form->getInput('rules'); ?>
 							</fieldset>

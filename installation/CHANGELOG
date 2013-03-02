@@ -25,6 +25,10 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+02-Mar-2013 Jean-Marie Simonet
+ # [#30189] * [#30157] did not take into account apostrophies in lang strings values
+
 01-Mar-2013 Jean-Marie Simonet
  # [#30172] *Moving the helper getAssociations() to the cms library. Thanks Roberto and Harald
  # [#30182] *Correcting some hathor display.
