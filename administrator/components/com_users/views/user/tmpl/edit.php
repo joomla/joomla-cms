@@ -37,7 +37,7 @@ $fieldsets = $this->form->getFieldsets();
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS', true)); ?>
 				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -51,7 +51,7 @@ $fieldsets = $this->form->getFieldsets();
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 			<?php if ($this->grouplist) : ?>
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS', true)); ?>
 					<?php echo $this->loadTemplate('groups'); ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 			<?php endif; ?>
@@ -62,7 +62,7 @@ $fieldsets = $this->form->getFieldsets();
 					continue;
 				endif;
 			?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $fieldset->name, JText::_($fieldset->label)); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $fieldset->name, JText::_($fieldset->label, true)); ?>
 				<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
 					<?php if ($field->hidden) : ?>
 						<div class="control-group">

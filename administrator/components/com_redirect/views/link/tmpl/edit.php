@@ -30,7 +30,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'basic')); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'basic', empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK') : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id)); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'basic', empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK', true) : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id, true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('old_url'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('old_url'); ?></div>
