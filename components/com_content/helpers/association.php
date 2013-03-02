@@ -45,7 +45,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 		{
 			if ($id)
 			{
-				$associations = ContentHelper::getAssociations($id);
+				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 				$return = array();
 

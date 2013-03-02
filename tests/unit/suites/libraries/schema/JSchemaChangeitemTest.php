@@ -36,7 +36,6 @@ class JSchemaChangeitemTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeitem::getInstance
 	 * @todo   Implement testGetInstance().
 	 */
 	public function testGetInstance()
@@ -47,7 +46,6 @@ class JSchemaChangeitemTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeitem::check
 	 * @todo   Implement testCheck().
 	 */
 	public function testCheck()
@@ -58,7 +56,6 @@ class JSchemaChangeitemTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeitem::fix
 	 * @todo   Implement testFix().
 	 */
 	public function testFix()

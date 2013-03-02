@@ -25,6 +25,21 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+01-Mar-2013 Jean-Marie Simonet
+ # [#30172] *Moving the helper getAssociations() to the cms library. Thanks Roberto and Harald
+ # [#30182] *Correcting some hathor display.
+
+28-Feb-2013 Jean-Marie Simonet
+ # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian.
+ # [#30030] Beez index.php. Thanks Angie.
+ # [#30115] Component Options are not a Modal Pop Up Window - Help screen Language Keys needed. Thanks Mark
+ # [#29252] Media manager Directory doesn't update while browsing folders. Thanks Piotr
+
+26-Feb-2013 Jean-Marie Simonet
+ ^$ [#30157] *Bootstrapping tabs in administration (big patch)
+ # [#30159] *Improving multilanguage status module
+ + [#30101] Port over JPluginHelper::getLayoutPath() and use it to customize pagenavigation plugin markup. Thanks Roberto and Michael.
+ # [#29396] isis - article editing. Thanks Artur
 
 22-Feb-2013 Jean-Marie Simonet
  # [#30126] *wrong alternate when using associations in multilanguage. Thanks Benjamin

@@ -1797,7 +1797,6 @@ a.saveorder {
 	padding: 5px;
 }
 button {
-	font-size: 1.2em;
 	font-family: Arial, Helvetica, sans-serif;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1945,6 +1944,9 @@ table.adminlist .pagination button {
 	height: 1.6em;
 	line-height: 1.5em;
 	margin-right: 20px;
+}
+div.toggle-editor {
+	margin-top: 27px;
 }
 .tip {
 	float: left;

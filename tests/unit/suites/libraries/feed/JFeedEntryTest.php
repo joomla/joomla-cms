@@ -59,8 +59,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::__get
 	 */
 	public function testMagicGetSet()
 	{
@@ -79,8 +77,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::__get
 	 */
 	public function testMagicGetNull()
 	{
@@ -93,8 +89,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::__set
 	 */
 	public function testMagicSetUpdatedDateString()
 	{
@@ -111,8 +105,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::__set
 	 */
 	public function testMagicSetUpdatedDateJDateObject()
 	{
@@ -131,8 +123,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::__set
 	 */
 	public function testMagicSetAuthorWithPerson()
 	{
@@ -153,7 +143,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedEntry::__set
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testMagicSetAuthorWithInvalidAuthor()
@@ -168,7 +157,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedEntry::__set
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testMagicSetSourceWithInvalidSource()
@@ -183,7 +171,6 @@ class JFeedEntryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedEntry::__set
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testMagicSetCategoriesWithInvalidProperty()
@@ -197,8 +184,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::__set
 	 */
 	public function testMagicSetGeneral()
 	{
@@ -215,8 +200,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::addCategory
 	 */
 	public function testAddCategory()
 	{
@@ -233,8 +216,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::addContributor
 	 */
 	public function testAddContributor()
 	{
@@ -290,8 +271,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::removeCategory
 	 */
 	public function testRemoveCategory()
 	{
@@ -314,8 +293,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::removeContributor
 	 */
 	public function testRemoveContributor()
 	{
@@ -341,8 +318,6 @@ class JFeedEntryTest extends TestCase
 	 * @return void
 	 *
 	 * @since 3.0
-	 *
-	 * @covers  JFeedEntry::removeLink
 	 */
 	public function testRemoveLink()
 	{
@@ -368,8 +343,6 @@ class JFeedEntryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedEntry::setAuthor
 	 */
 	public function testSetAuthor()
 	{

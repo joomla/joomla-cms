@@ -44,8 +44,6 @@ class JRouterAdministratorTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JRouterAdministrator::parse
 	 */
 	public function testParse()
 	{
@@ -59,7 +57,6 @@ class JRouterAdministratorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JRouterAdministrator::build
 	 * @todo   Implement testBuild().
 	 */
 	public function testBuild()

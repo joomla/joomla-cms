@@ -73,8 +73,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::parse
 	 */
 	public function testParse()
 	{
@@ -110,8 +108,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::registerNamespace
 	 */
 	public function testRegisterNamespace()
 	{
@@ -145,7 +141,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedParser::registerNamespace
 	 * @expectedException  PHPUnit_Framework_Error
 	 */
 	public function testRegisterNamespaceWithString()
@@ -161,7 +156,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedParser::registerNamespace
 	 * @expectedException  PHPUnit_Framework_Error
 	 */
 	public function testRegisterNamespaceWithObject()
@@ -175,8 +169,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::processElement
 	 */
 	public function testProcessElementWithElement()
 	{
@@ -213,8 +205,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::processElement
 	 */
 	public function testProcessElementWithEntry()
 	{
@@ -255,8 +245,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::expandToSimpleXml
 	 */
 	public function testExpandToSimpleXml()
 	{
@@ -304,8 +292,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::fetchNamespace
 	 */
 	public function testFetchNamespace()
 	{
@@ -330,8 +316,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::moveToNextElement
 	 */
 	public function testMoveToNextElement()
 	{
@@ -368,8 +352,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::moveToNextElement
 	 */
 	public function testMoveToNextElementByName()
 	{
@@ -393,8 +375,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 */
 	public function testMoveToClosingElement()
 	{
@@ -417,8 +397,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
@@ -458,8 +436,6 @@ class JFeedParserTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
