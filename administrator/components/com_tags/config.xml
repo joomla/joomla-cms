@@ -72,7 +72,7 @@
 		<field name="include_children" type="list"
 			description="COM_TAGS_INCLUDE_CHILDREN_DESC"
 			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
-			default="1"
+			default="0"
 		>
 			<option value="0">COM_TAGS_EXCLUDE</option>
 			<option value="1">COM_TAGS_INCLUDE</option>

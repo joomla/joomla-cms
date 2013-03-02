@@ -155,7 +155,13 @@
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
 		/>
-
+		<field name="created_by_alias" 
+			type="text"
+			label="COM_TAGS_FIELD_CREATED_BY_ALIAS_LABEL" 
+			description="COM_TAGS_FIELD_CREATED_BY_ALIAS_DESC"
+			class="inputbox" 
+			size="20" 
+			labelclass="control-label" />
 	<field
 		name="created_time"
 		type="calendar"

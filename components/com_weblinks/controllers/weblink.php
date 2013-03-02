@@ -236,53 +236,20 @@ class WeblinksControllerWeblink extends JControllerForm
 		}
 		$id =  $item->id;
 
-		$fieldMap = Array(
-			'core_title' => $item->title,
-			'core_alias' => $item->alias,
-			'core_body' => $item->articletext,
-			'core_state' => $item->state,
-			'core_checked_out_user_id' => $item->checked_out,
-			'core_checked_out_time' => $item->checked_out_time ,
-			'core_access' => $item->access,
-			'core_params' => $item->params,
-			'core_featured' => $item->featured,
-			'core_metadata' => $item->metadata,
-			'core_created_user_id' => $item->created_by,
-			'core_created_by_alias' => $item->created_by_alias,
-			'core_created_time' => $item->created ,
-			'core_modified_user_id' => $item->modified_by,
-			'core_modified_time' => $item->modified ,
-			'core_language' => $item->language,
-			'core_publish_up' => $item->publish_up,
-			'core_publish_down' => $item->publish_down,
-			'core_content_item_id' => $item->id,
-			'core_type_alias' => 'com_weblinks.weblink',
-			'asset_id' => 0,
-			'core_images' => $item->images,
-			'core_urls' => $item->url,
-			'core_hits' => $item->hits,
-			'core_version' => $item->version,
-			'core_ordering' => $item->ordering,
-			'core_metakey' => $item->metakey,
-			'core_metadesc' => $item->metadesc,
-			'core_catid' => $item->catid,
-			'core_xreference' => $item->xreference,
-		);
-
-		if (empty($validData['tags']) && !empty($item->tags))
+			if (empty($validData['tags']) && !empty($item->tags))
 		{
 			$oldTags = new JTags;
 			$oldTags->unTagItem($id, 'com_weblinks.weblink');
+			return;
 		}
 
 		$tags = $validData['tags'];
-		$isNew = $validData['id'] == 0 ? 1 : 0;
 
 		// Store the tag data if the weblink data was saved.
-		if ($tags )
+		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $tags, $fieldMap, $isNew);
+			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $tags, null, $isNew, $item);
 		}
 
 		if ($task == 'save')

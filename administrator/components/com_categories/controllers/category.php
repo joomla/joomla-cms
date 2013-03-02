@@ -184,6 +184,7 @@ class CategoriesControllerCategory extends JControllerForm
 		$task = $this->getTask();
 
 		$item = $model->getItem();
+
 		if (isset($item->params) && is_array($item->params))
 		{
 			$registry = new JRegistry;
@@ -198,51 +199,22 @@ class CategoriesControllerCategory extends JControllerForm
 		}
 		$id =  $item->id;
 
-		$fieldMap = Array(
-			'core_title' => $item->title,
-			'core_alias' => $item->alias,
-			'core_body' => $item->description,
-			'core_state' => $item->published,
-			'core_checked_out_user_id' => $item->checked_out,
-			'core_checked_out_time' => $item->checked_out_time,
-			'core_access' => $item->access,
-			'core_params' => $item->params,
-			'core_featured' => 0,
-			'core_metadata' => $item->metadata,
-			'core_created_user_id' => $item->created_user_id,
-			'core_created_by_alias' => $item->created_by_alias,
-			'core_created_time' => $item->created ,
-			'core_modified_user_id' => $item->modified_user_id,
-			'core_modified_time' => $item->modified ,
-			'core_language' => $item->language,
-			'core_publish_up' => $item->publish_up,
-			'core_publish_down' => $item->publish_down,
-			'core_content_item_id' => $item->id,
-			'core_type_alias' => $item->extension . '.category',
-			'asset_id' => $item->asset_id,
-			'core_images' => '',
-			'core_urls' => '',
-			'core_hits' => $item->hits,
-			'core_version' => $item->version,
-			'core_ordering' => 0,
-			'core_metakey' => $item->metakey,
-			'core_metadesc' => $item->metadesc,
-			'core_catid' => $item->parent_id,
-			'core_xreference' => $item->xreference,
-		);
-
 		if (empty($validData['tags']) && !empty($item->tags))
 		{
 			$oldTags = new JTags;
 			$oldTags->unTagItem($id, $item->extension . '.category');
+			return;
 		}
 
 		$tags = $validData['tags'];
 
-		if ($tags)
+		if ($tags[0] != '')
 		{
+			$isNew = $item->id == 0 ? 1 : 0;
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, $item->extension . '.category', $tags, $fieldMap, $isNew);
+			$tagsHelper->tagItem($id, $item->extension . '.category', $tags, null, $isNew, $item);
 		}
+
+		return;
 	}
 }

@@ -91,6 +91,7 @@ class TagsModelTag extends JModelList
 	protected function getListQuery()
 	{
 		$typesr = $this->getState('tag.typesr');
+
 		// Create a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -124,7 +125,7 @@ class TagsModelTag extends JModelList
 		$query->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time');
 		$query->select('MAX(c.core_language) AS core_language');
 		$query->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down');
-		$query->select('MAX(ct.title) AS content_type_title, MAX(ct.router) AS router');
+		$query->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router');
 
 		$query->from('#__contentitem_tag_map AS m');
 		$query->join('INNER', '#__core_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id');
@@ -165,7 +166,7 @@ class TagsModelTag extends JModelList
 		}
 
 		// Set up the order by using the option chosen
-		$orderByOption = $this->getState('params')->get('tag_list_orderby');
+		$orderByOption = $this->getState('params')->get('tag_list_orderby', 'title');
 		if ($orderByOption == 'match_count')
 		{
 			$orderBy = 'COUNT(m.tag_id)';

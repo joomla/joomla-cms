@@ -39,14 +39,14 @@ class JTags
 	 		$typeId = $this->getTypeId($prefix);
 		 	$contenttype = JTable::getInstance('Contenttype');
 		 	$contenttype->load($typeId);
-		 	$map = json_decode($contenttype->field_mappings);
-var_dump($map);die;
-		 	foreach ($map as $i=>$field)
+		 	$map = json_decode($contenttype->field_mappings, true);
+
+		 	foreach ($map['common'][0] as $i=>$field)
 		 	{
 		 		$fieldMap[$i] = $item->$field;
 		 	}
 		}
-die;
+
 	 	$types = $this->getTypes('objectList', $prefix, true );
 		$type = $types[0];
 
@@ -120,6 +120,7 @@ die;
 				foreach ($fieldMap as $value)
 				{
 					$quotedValues[] = $db->q($value);
+
 				}
 
 				$values = implode(',', $quotedValues);

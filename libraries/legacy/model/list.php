@@ -130,7 +130,7 @@ class JModelList extends JModelLegacy
 		}
 		catch (RuntimeException $e)
 		{
-			$this->setError($e->getMessage());
+			$this->setError($e->getMessage());var_dump($e);die;
 			return false;
 		}
 
