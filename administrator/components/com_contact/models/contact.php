@@ -434,8 +434,6 @@ class ContactModelContact extends JModelAdmin
 					{
 						$item->associations[$tag] = $association->id;
 					}
-
-				}
 			}
 			if (!empty($item->id)  && $item = parent::getItem($pk))
 			{
