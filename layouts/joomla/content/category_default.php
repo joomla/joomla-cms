@@ -17,47 +17,45 @@ $canEdit = $params->get('access-edit');
 $className = substr($extension, 4);
 // This will work for the core components but not necessarily for other components
 // that may have different pluralisation rules.
-if (substr($className, -1) == 's') 
+if (substr($className, -1) == 's')
 {
 	$className = rtrim($className, 's');
 }
 ?>
 <div>
-<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx;?>">
-	<?php if ($params->get('show_page_heading')) : ?>
-		<h1>
-			<?php echo $displayData->escape($params->get('page_heading')); ?>
-		</h1>
-	<?php endif; ?>
-	<?php if($params->get('show_category_title', 1)) : ?>
-		<h2>
-			<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, '', $extension.'.category'); ?>
-		</h2>
-	<?php endif; ?>
-	<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
-		<div class="category-desc">
-			<?php if ($params->get('show_description_image') && $displayData->get('category')->getParams()->get('image')) : ?>
-				<img src="<?php echo $displayData->get('category')->getParams()->get('image'); ?>"/>
-			<?php endif; ?>
-			<?php if ($params->get('show_description') && $displayData->get('category')->description) : ?>
-				<?php echo JHtml::_('content.prepare', $displayData->get('category')->description, '', $extension .'.category'); ?>
-			<?php endif; ?>
-			<div class="clr"></div>
-		</div>
-	<?php endif; ?>
-	<?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
+	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx;?>">
+		<?php if ($params->get('show_page_heading')) : ?>
+			<h1>
+				<?php echo $displayData->escape($params->get('page_heading')); ?>
+			</h1>
+		<?php endif; ?>
+		<?php if($params->get('show_category_title', 1)) : ?>
+			<h2>
+				<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, '', $extension.'.category'); ?>
+			</h2>
+		<?php endif; ?>
+		<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
+			<div class="category-desc">
+				<?php if ($params->get('show_description_image') && $displayData->get('category')->getParams()->get('image')) : ?>
+					<img src="<?php echo $displayData->get('category')->getParams()->get('image'); ?>"/>
+				<?php endif; ?>
+				<?php if ($params->get('show_description') && $displayData->get('category')->description) : ?>
+					<?php echo JHtml::_('content.prepare', $displayData->get('category')->description, '', $extension .'.category'); ?>
+				<?php endif; ?>
+				<div class="clr"></div>
+			</div>
+		<?php endif; ?>
+		<?php echo $displayData->loadTemplate($displayData->subtemplatename); ?>
 
-	<?php if ($displayData->get('children') && $displayData->maxLevel != 0) : ?>
-		<div class="cat-children">
-			<h3>
-				<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
-			</h3>
+		<?php if ($displayData->get('children') && $displayData->maxLevel != 0) : ?>
+			<div class="cat-children">
+				<h3>
+					<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+				</h3>
 
-			<?php echo $displayData->loadTemplate('children'); ?>
-		</div>
-	<?php endif; ?>
+				<?php echo $displayData->loadTemplate('children'); ?>
+			</div>
+		<?php endif; ?>
+	</div>
 </div>
-
-</div>
-
 

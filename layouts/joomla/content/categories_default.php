@@ -32,3 +32,4 @@ defined('_JEXEC') or die;
 			<?php  endif; ?>
 		<?php  endif; ?>
 	<?php endif; ?>
+
