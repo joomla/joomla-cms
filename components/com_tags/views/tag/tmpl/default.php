@@ -29,8 +29,9 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 	<div class="category-desc">
 	<?php  $images  = json_decode($this->item[0]->images); ?>
 	<?php  if ($this->params->get('tag_list_show_tag_image', 1)== 1 && $images->image_fulltext) :?>
-		<img src="<?php echo $images->image_fulltext;?>">
-	<?php endif; ?><?php $this->params->get('tag_list_show_tag_description'); ?>
+		<img src="<?php echo htmlspecialchars($images->image_fulltext);?>">
+	<?php endif; ?>
+	<?php $this->params->get('tag_list_show_tag_description'); ?>
 	<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 		<?php echo JHtml::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
 	<?php endif; ?>

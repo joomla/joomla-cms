@@ -40,14 +40,16 @@ $n = count($this->items);
 					<?php  echo '<h3> <a href="' . JRoute::_( $item->link) .'">'
 						 . $this->escape($item->core_title) . '</a> </h3>';  ?>
 					<?php endif; ?>
-
+					<?php  $images  = json_decode($item->core_images);?>
+					<?php  if ($this->params->get('tag_list_show_item_image', 1)== 1 && !empty($images->image_intro)) :?>
+						<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+					<?php endif; ?>
 				<?php  if ($this->params->get('tag_list_show_item_description', 1)) : ?>
 					<span class="tag-body">
 						<?php echo JHtmlString::truncate($item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
 					</span>
 				<?php endif; ?>
-
-				</li>
+					</li>
 			<?php  endif;?>
 			<div class="clearfix"></div>
 		<?php endforeach; ?>
