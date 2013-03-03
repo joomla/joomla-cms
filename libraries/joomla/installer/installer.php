@@ -505,6 +505,9 @@ class JInstaller extends JAdapter
 			{
 				if (method_exists($this->_adapters[$this->extension->type], 'discover_install'))
 				{
+					$this->setPath('source', null);
+					$this->manifest = null;
+
 					// Add the languages from the package itself
 					if (method_exists($this->_adapters[$this->extension->type], 'loadLanguage'))
 					{
