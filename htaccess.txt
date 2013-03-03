@@ -15,8 +15,11 @@
 # it has been set by your server administrator and you do not need it set here.
 ##
 
+## No directory listings
+IndexIgnore *
+
 ## Can be commented out if causes errors, see notes above.
-Options +FollowSymLinks
+Options +FollowSymLinks All -Indexes
 
 ## Mod_rewrite in use.
 
