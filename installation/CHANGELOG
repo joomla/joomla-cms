@@ -26,14 +26,82 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
- 03-February-2013 Jean-Marie Simonet
+02-Mar-2013 Jean-Marie Simonet
+ # [#30189] * [#30157] did not take into account apostrophies in lang strings values
+ # [#30186] Weblinks module fails
+
+01-Mar-2013 Jean-Marie Simonet
+ # [#30172] *Moving the helper getAssociations() to the cms library. Thanks Roberto and Harald
+ # [#30182] *Correcting some hathor display.
+
+28-Feb-2013 Jean-Marie Simonet
+ # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian.
+ # [#30030] Beez index.php. Thanks Angie.
+ # [#30115] Component Options are not a Modal Pop Up Window - Help screen Language Keys needed. Thanks Mark
+ # [#29252] Media manager Directory doesn't update while browsing folders. Thanks Piotr
+
+26-Feb-2013 Jean-Marie Simonet
+ ^$ [#30157] *Bootstrapping tabs in administration (big patch)
+ # [#30159] *Improving multilanguage status module
+ + [#30101] Port over JPluginHelper::getLayoutPath() and use it to customize pagenavigation plugin markup. Thanks Roberto and Michael.
+ # [#29396] isis - article editing. Thanks Artur
+
+22-Feb-2013 Jean-Marie Simonet
+ # [#30126] *wrong alternate when using associations in multilanguage. Thanks Benjamin
+ # [#30133] Duplicate quotes in beez3 category blog override. Thanks Babs
+ #$ [#30001] Menu and Article Associations does not work under Global Cache
+
+16-Feb-2013 Jean-Marie Simonet
+ # [#29261] Admin template "super-patch". Thanks Michael
+
+14-Feb-2013 Jean-Marie Simonet
+ # [#30095] *Select menu type modal corrections for Hathor and Isis RTL
+ # [#29786] JHtmlBootstrap tabs broken. Thanks Tim Kramer.
+
+12-Feb-2013 Mark Dexter
+ # [#30066] Minor update releases not showing by default for new 3.0.x installs. Thanks Michael.
+
+12-Feb-2013 Jean-Marie Simonet
+ # [#30074] *Front end edit button missing in category blog
+ # [#30087] Second scrollbar at the media manager (isis). Thanks Constantin
+ # Added the error file in the Protostar template xml. Thanks Miguel Angel
+
+11-Feb-2013 Jean-Marie Simonet
+ # [#30056] * Icomoon issue with some character & More RTL compatibility for Isis template. Thanks Mohammad.
+ + [#30086] * Improving Edit Assignment in Template Edit style
+ # Reverting [#29377]
+
+10-Feb-2013 Jean-Marie Simonet
+ +$ Adding af-AZ to installation languages
+
+09-Feb-2013 Michael Babker
+ # [#29970] Robots.txt check url no more working.  Thanks Brian
+ # [#30049] Move rules for autoloading.  Thanks Elin
+
+08-Feb-2013 Jean-Marie Simonet
+ # [#29946] Fixing extension install from dynamic URLs. Thanks Thomas
+ # [#29737] If a user is blocked while logged in, he or she stays logged in. Thanks Alexander
+ # [#29736] Bootstrap carousel undefined method JHtmlBootstrap::_getJSObject in bootstrap.php. Thanks Michael and Robert.
+ # [#30063] Disabled template positions shown in module available positions. Thanks Roberto
+ #$ [#30079] * Improving cookie handling in languagefilter plugin
+ ^+ [#29896] Switch JHtmlIcons to render with JLayout, update quickicons module to suit. Thanks Michael.
+
+06-Feb-2013 Jean-Marie Simonet
+ # [#29965] Add pagination in COM_SEARCH component
+ #$ [#30057] *Implementing search and pagination in Menu Manager: Menus
+ #$ [#30078] *Adding Note when language pack version is not equal to Joomla version
+ # [#29377] Image select. Thanks Angelika and Niels
+
+-------------------- 3.0.3 Stable Release [4-Feb-2013] ------------------
+
+03-Feb-2013 Jean-Marie Simonet
  $ Updating installation lang file: he-IL
 
- 02-February-2013 Jean-Marie Simonet
+02-Feb-2013 Jean-Marie Simonet
  $ Updating installation lang file: et-EE, zh-CN
  $ Updating installation lang file: fa-IR, nb-NO
 
- 01-February-2013 Jean-Marie Simonet
+01-Feb-2013 Jean-Marie Simonet
  $ Updating installation lang file: nl-NL
 
 31-Jan-2013 Jean-Marie Simonet
@@ -55,7 +123,7 @@ $ -> Language fix or change
  # [#30007] Fix broken module installation in Postgresql because of NULL constraint. Thanks Elin.
  + [#30006] Add totally new classes and methods from the platform. Thanks Elin.
  # [#30000] Division by 0 problem in JCrypt. Thanks Elin.
- # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese. 
+ # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese.
  # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto Segura.
  # [#28714] Authentication - Gmail: Apply Username suffix does not allow user to login with suffix already applied. Thanks Janich Rasmussen.
  # [#29345] MySQLi does not display SQL errors messages anymore. Thanks Jérôme Glatigny.
@@ -94,7 +162,7 @@ $ -> Language fix or change
 
 21-Jan-2013 Jean-Marie Simonet
  $ Updating installation lang file: ca-ES, ckb-IQ, da-DK, fr-FR, it-IT, ja-JP, mk-MK, sk-SK, ta-IN, th-TH, tr-TR
- 
+
 19-Jan-2013 Jean-Marie Simonet
  # [#29987] Code Style Part 2. Thanks Elin
 
@@ -140,7 +208,7 @@ $ -> Language fix or change
 08-Jan-2013 Jean-Marie Simonet
  # [#29914] *Login module wrong display in beez3 RTL
  # [#29906] *Viewing Access Levels order numbering is not shown
- 
+
 06-Jan-2013 Michael Babker
  # [#27699] Only text gets passed to content events in blog view.  Thanks Peter
 

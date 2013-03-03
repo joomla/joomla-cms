@@ -22,8 +22,6 @@ class JFeedLinkTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedLink::__construct
 	 */
 	public function testConstruct()
 	{
@@ -44,7 +42,6 @@ class JFeedLinkTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedLink::__construct
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testConstructWithInvalidLength()

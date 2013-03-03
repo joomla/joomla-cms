@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_stats_admin
  * @since       3.0
  */
-class modStatsHelper
+class ModStatsHelper
 {
 	/**
 	 * Method to retrieve information about the site

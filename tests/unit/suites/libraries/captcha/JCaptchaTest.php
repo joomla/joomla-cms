@@ -36,7 +36,6 @@ class JCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JCaptcha::getInstance
 	 * @todo   Implement testGetInstance().
 	 */
 	public function testGetInstance()
@@ -47,7 +46,6 @@ class JCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JCaptcha::initialise
 	 * @todo   Implement testInitialise().
 	 */
 	public function testInitialise()
@@ -58,7 +56,6 @@ class JCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JCaptcha::display
 	 * @todo   Implement testDisplay().
 	 */
 	public function testDisplay()
@@ -69,7 +66,6 @@ class JCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JCaptcha::checkAnswer
 	 * @todo   Implement testCheckAnswer().
 	 */
 	public function testCheckAnswer()
@@ -80,7 +76,6 @@ class JCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JCaptcha::getState
 	 * @todo   Implement testGetState().
 	 */
 	public function testGetState()
@@ -91,7 +86,6 @@ class JCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JCaptcha::attach
 	 * @todo   Implement testAttach().
 	 */
 	public function testAttach()
@@ -102,7 +96,6 @@ class JCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JCaptcha::detach
 	 * @todo   Implement testDetach().
 	 */
 	public function testDetach()

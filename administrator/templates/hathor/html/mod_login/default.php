@@ -23,6 +23,8 @@ JHtml::_('behavior.keepalive');
 		<label id="mod-login-language-lbl" for="lang"><?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?></label>
 		<?php echo $langs; ?>
 
+		<div class="clr"></div>
+
 		<div class="button-holder">
 			<div class="button1">
 				<div class="next">

@@ -76,39 +76,4 @@ class WeblinksHelper
 
 		return $result;
 	}
-
-	public static function getAssociations($pk)
-	{
-		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->from('#__weblinks as c');
-		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context='.$db->quote('com_weblinks.item'));
-		$query->innerJoin('#__associations as a2 ON a.key = a2.key');
-		$query->innerJoin('#__weblinks as c2 ON a2.id = c2.id');
-		$query->innerJoin('#__categories as ca ON c2.catid = ca.id AND ca.extension = '.$db->quote('com_weblinks'));
-		$query->where('c.id =' . (int) $pk);
-		$select = array(
-				'c2.language',
-				$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id',
-				$query->concatenate(array('ca.id', 'ca.alias'), ':') . ' AS catid'
-		);
-		$query->select($select);
-		$db->setQuery($query);
-		$weblinksitems = $db->loadObjectList('language');
-
-		// Check for a database error.
-		if ($error = $db->getErrorMsg())
-		{
-			JError::raiseWarning(500, $error);
-			return false;
-		}
-
-		foreach ($weblinksitems as $tag => $item)
-		{
-			$associations[$tag] = $item;
-		}
-
-		return $associations;
-	}
 }

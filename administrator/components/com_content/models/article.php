@@ -305,7 +305,7 @@ class ContentModelArticle extends JModelAdmin
 
 			if ($item->id != null)
 			{
-				$associations = ContentHelper::getAssociations($item->id);
+				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{

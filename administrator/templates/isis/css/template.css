@@ -6390,6 +6390,9 @@ h6 {
 	body {
 		padding-top: 30px;
 	}
+	body.component {
+		padding-top: 0;
+	}
 }
 @media (max-width: 738px) {
 	.navbar .brand {
@@ -6530,6 +6533,9 @@ h6 {
 	width: auto;
 	padding-right: 5px;
 	text-align: left;
+}
+.form-horizontal #jform_catid_chzn {
+	vertical-align: middle;
 }
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;

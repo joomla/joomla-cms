@@ -136,7 +136,7 @@ class GlobalConfigurationPage extends AdminEditPage
 
 	public function getTabIds()
 	{
-		$tabs = $this->driver->findElements(By::xPath("//div[@id='config-document']/div"));
+		$tabs = $this->driver->findElements(By::xPath("//div[@id='myTabContent']/div"));
 		$return = array();
 		foreach ($tabs as $tab)
 		{

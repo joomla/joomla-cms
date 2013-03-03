@@ -428,11 +428,7 @@ class ContactModelContact extends JModelAdmin
 
 			if ($assoc)
 			{
-				$item->associations = array();
-
-				if ($item->id != null)
-				{
-					$associations = ContactHelper::getAssociations($item->id);
+				$associations = JLanguageAssociations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $item->id);
 
 					foreach ($associations as $tag => $association)
 					{

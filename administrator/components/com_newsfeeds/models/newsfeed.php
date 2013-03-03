@@ -400,7 +400,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 			if ($item->id != null)
 			{
-				$associations = NewsfeedsHelper::getAssociations($item->id);
+				$associations = JLanguageAssociations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
