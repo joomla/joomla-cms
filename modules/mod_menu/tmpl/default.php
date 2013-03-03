@@ -62,7 +62,6 @@ foreach ($list as $i => &$item) :
 
 	if (!empty($class))
 	{
-<	{
 		$class = ' class="' . trim($class) . '"';
 	}
 

@@ -85,10 +85,10 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 						<?php if ($this->item->type == 'logout'): ?>
 							<div class="control-group">
 								<div class="control-label">
-									<?php echo $this->form->getLabel('returnUrl'); ?>
+									<?php //echo $this->form->getLabel('returnUrl'); ?>
 								</div>
 								<div class="controls">
-									<?php echo $this->form->getInput('returnUrl'); ?>
+									<?php // echo $this->form->getInput('returnUrl'); ?>
 								</div>
 							</div>
 						<?php endif; ?>
