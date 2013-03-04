@@ -4,9 +4,9 @@
 	version="2.5"
 	client="administrator">
 	<name>mod_hilandojuuntos</name>
-	<author>Miguel Tuyaré para Comunidad Juuntos</author>
-	<creationDate>Febrero 2013</creationDate>
-	<copyright>Copyleft - 2013 Juuntos.org</copyright>
+	<author>Comunidad Juuntos</author>
+	<creationDate>Febrero 2012</creationDate>
+	<copyright>Copyleft - Comunidad Juuntos.org</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>developer@tuxmerlin.com.ar</authorEmail>
 	<authorUrl>www.juuntos.org</authorUrl>
