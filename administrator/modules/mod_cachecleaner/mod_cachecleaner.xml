@@ -3,11 +3,11 @@
 	<name>MOD_CACHECLEANER</name>
 	<description>MOD_CACHECLEANER_DESC</description>
 	<version>2.2.0FREE</version>
-	<creationDate>June 2012</creationDate>
+	<creationDate>June 2013</creationDate>
 	<author>NoNumber (Peter van Westen)</author>
 	<authorEmail>peter@nonumber.nl</authorEmail>
 	<authorUrl>http://www.nonumber.nl</authorUrl>
-	<copyright>Copyright © 2012 NoNumber All Rights Reserved</copyright>
+	<copyright>Copyright © 2013 NoNumber All Rights Reserved</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 
 	<files>

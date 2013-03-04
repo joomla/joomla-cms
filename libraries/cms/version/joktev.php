@@ -35,7 +35,7 @@ final class JVjokte
 	public $NOMBRECODIGO = 'Kyju';
 
 	/** @var  string  Release date. */
-	public $LIBDIA = '24-Nov-2012';
+	public $LIBDIA = '24-Nov-2013';
 
 	/** @var  string  Release time. */
 	public $LIBHORA = '11:00';

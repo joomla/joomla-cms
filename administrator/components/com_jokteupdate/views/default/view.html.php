@@ -1,20 +1,20 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_joomlaupdate
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.4
+ * @package		Jokte.Administrator
+ * @subpackage	com_jokteupdate
+ * @copyright	Copyleft (C) 2012 - 2013 Comunidad Juuntos. Ningún derecho reservado.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @since		1.2.0
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Joomla! Update's Default View
+ * Jokte! Update's Default View
  *
- * @package     Joomla.Administrator
+ * @package     Jokte.Administrator
  * @subpackage  com_installer
- * @since       2.5.4
+ * @since       1.2.0
  */
 class JokteupdateViewDefault extends JViewLegacy
 {
@@ -25,7 +25,7 @@ class JokteupdateViewDefault extends JViewLegacy
 	 *
 	 * @return void
 	 *
-	 * @since  2.5.4
+	 * @since  1.2.0
 	 */
 	public function display($tpl=null)
 	{

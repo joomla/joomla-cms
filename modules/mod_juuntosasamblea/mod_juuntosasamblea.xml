@@ -2,7 +2,7 @@
 <extension type="module" version="2.5" client="site" method="upgrade">
 	<name>Asamblea Juuntos.org</name>
 	<author>Hugo Baronti</author>
-	<creationDate>Febrero 2012</creationDate>
+	<creationDate>Febrero 2013</creationDate>
 	<copyright>NO Copyright</copyright>
 	<license>Software de Dominio Público</license>
 	<authorEmail>info@juuntos.org</authorEmail>

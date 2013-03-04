@@ -1,7 +1,7 @@
 0. Metadata
 -----------
 File version:	$Id$
-Copyright:		Copyleft 2012 Jokte!. Ningún derecho reservado.
+Copyright:		Copyleft 2013 Jokte!. Ningún derecho reservado.
 License:		GNU General Public License version 2 or later.
 
 
@@ -29,29 +29,29 @@ $ -> Idioma corrección o cambio
 ! -> Nota
 
 
-17-Oct-2012
+17-Oct-2013
  # Arreglos varios
  ! Cambio de versión Jokte v1.1.5 - No se liberó
 
-10-Oct-2012
+10-Oct-2013
  # Arreglos varios
  ! Cambio de versión Jokte v1.1.4 - No se liberó
 
-09-Oct-2012
+09-Oct-2013
  # Fix varios
  ! Cambio de versión Jokte v1.1.2 - No se liberó
 
-30-Sep-2012
+30-Sep-2013
  # Fix varios
  ! Cambio de versión Jokte v1.1.1 
 
-17-Sep-2012
+17-Sep-2013
  ^ Instalación simplificada en tres pasos
  $ Actualización del paquete de idiomas es-LA
  # Plantilla Jokte Antu correcciones
  ! Jokte v1.1.0-RC
 
-30-Jul-2012
+30-Jul-2013
  * Actualización a la última versión de Joomla 2.5.6
  $ Cambio del paquete de idiomas por defecto a es-LA
  - Eliminación de la sección languages de com_installer 
@@ -60,5 +60,5 @@ $ -> Idioma corrección o cambio
  ^ Cambio de los contenidos de ejemplo
  ! Jokte v1.0RC1
 
-02-Mar-2012 Matias Aguirre
+02-Mar-2013 Matias Aguirre
  + Creacion de CHANGELOG

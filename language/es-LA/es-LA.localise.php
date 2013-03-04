@@ -1,8 +1,8 @@
 <?php
 /**
  * @version		$Id: language.php $
- * Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
- * Copyright (C) Translation 2010 - 2012 http://comunidadjoomla.org. All rights reserved.
+ * Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * Copyright (C) Translation 2010 - 2013 http://comunidadjoomla.org. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 

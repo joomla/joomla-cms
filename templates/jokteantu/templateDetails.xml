@@ -2,11 +2,11 @@
 <!DOCTYPE install PUBLIC "-//Jokte! //DTD plantilla //es-LA" "http://www.jokte.org/install/template-install.dtd">
 <extension version="2.5" type="template" client="site" method="upgrade">
 	<name>jokteantu</name>
-	<creationDate>16 Enero 2012</creationDate>
+	<creationDate>16 Enero 2013</creationDate>
 	<author>Equipo de desarrollo Jokte</author>
 	<authorEmail>info@jokte.org</authorEmail>
 	<authorUrl>http://www.jokte.org</authorUrl>
-	<copyright>CopyLeft 2012 - 2014 Jokte, todos los derechos compartidos.</copyright>
+	<copyright>CopyLeft 2013 - 2014 Jokte, todos los derechos compartidos.</copyright>
 	<license>GNU General Public License version 3 or later; see LICENSE.txt</license>
 	<version>1.0.0</version>
 	<description>TPL_JOKTE_XML_DESCRIPTION</description>
