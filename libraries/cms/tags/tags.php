@@ -43,7 +43,10 @@ class JTags
 
 		 	foreach ($map['common'][0] as $i=>$field)
 		 	{
-		 		$fieldMap[$i] = $item->$field;
+		 		if ($field)
+		 		{
+		 			$fieldMap[$i] = $item->$field;
+		 		}
 		 	}
 		}
 
