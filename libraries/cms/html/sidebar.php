@@ -52,17 +52,16 @@ abstract class JHtmlSidebar
 	public static function render()
 	{
 		// Collect display data
-		$data                 = new stdClass;
-		$data->list           = self::getEntries();
-		$data->filters        = self::getFilters();
-		$data->action         = self::getAction();
-		$data->displayMenu    = count($data->list);
+		$data = new stdClass;
+		$data->list = self::getEntries();
+		$data->filters = self::getFilters();
+		$data->action = self::getAction();
+		$data->displayMenu = count($data->list);
 		$data->displayFilters = count($data->filters);
-		$data->hide           = JFactory::getApplication()->input->getBool('hidemainmenu');
+		$data->hide = JFactory::getApplication()->input->getBool('hidemainmenu');
 
 		// Create a layout object and ask it to render the sidebar
-		$layout      = new JLayoutFile('joomla.sidebars.submenu');
-		$sidebarHtml = $layout->render($data);
+		$sidebarHtml = JLayoutHelper::render('joomla.sidebars.submenu', $data);
 
 		return $sidebarHtml;
 	}
