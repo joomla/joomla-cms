@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+3-Mar-2013 Michael Babker
+ + Add tests for FinderIndexerToken, JHtmlBootstrap, and JHtmlJquery
+ + Add tests for JFormField and JHtml instances
+
 27-Feb-2013 Mark Dexter
  # Fix failing system change from markup change in [#30157] *Bootstrapping tabs in administration (big patch)
 
