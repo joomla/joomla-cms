@@ -210,7 +210,7 @@ abstract class JModelAdmin extends JModelForm
 
 		if (!empty($commands['tag']))
 		{
-			if (!$this->batchTag($commands['tag'], $pks, $context))
+			if (!$this->batchTag($commands['tag'], $pks, $contexts))
 			{
 				return false;
 			}
@@ -1134,16 +1134,17 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
-		if (empty($validData['tags']))
+		$tagsHelper = new JTags();
+		foreach ($pks as $pk)
 		{
-			$validData['tags'] = $validData['tags'] . ',' . $value ;
+			$item = $this->getItem($pk);
+			
+			// This is needed not to have warning in tagItem method.			
+			$item->params = new JRegistry($item->params);
+
+			$context = explode('.', $contexts[$pk]);
+			$tagsHelper->tagItem($pk, $context[0] . '.' . $context[1], array($value), null, false, $item);
 		}
-		else
-		{
-			$validData['tags'] = $value;
-		}
-		// $tagsHelper = new JTags();
-		// $tagsHelper->tagItems($value, $pks, $contexts);
 
 		return true;
 	}

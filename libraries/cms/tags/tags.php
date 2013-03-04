@@ -41,9 +41,9 @@ class JTags
 		 	$contenttype->load($typeId);
 		 	$map = json_decode($contenttype->field_mappings, true);
 
-		 	foreach ($map['common'][0] as $i=>$field)
+		 	foreach ($map['common'][0] as $i => $field)
 		 	{
-		 		if ($field)
+		 		if ($field && $field != 'null')
 		 		{
 		 			$fieldMap[$i] = $item->$field;
 		 		}
@@ -169,6 +169,7 @@ class JTags
 			}
 
 			$db		= JFactory::getDbo();
+
 			// Have to break this up into individual queries for cross-database support.
 			foreach ($tags as $tag)
 			{
