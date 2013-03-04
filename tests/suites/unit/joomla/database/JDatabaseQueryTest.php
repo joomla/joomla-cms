@@ -1834,4 +1834,42 @@ class JDatabaseQueryTest extends TestCase
 
 		$this->_instance = new JDatabaseQueryInspector($this->dbo);
 	}
+
+	/**
+	 * Data for the testDateAdd test.
+	 *
+	 * @return  array
+	 *
+	 * @since   13.1
+	 */
+	public function seedDateAdd()
+	{
+		return array(
+				// date, interval, datepart, expected
+				'Add date'		=> array('2008-12-31', '1', 'DAY', "DATE_ADD('2008-12-31', INTERVAL 1 DAY)"),
+				'Subtract date'	=> array('2008-12-31', '-1', 'DAY', "DATE_ADD('2008-12-31', INTERVAL -1 DAY)"),
+				'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'DAY', "DATE_ADD('2008-12-31 23:59:59', INTERVAL 1 DAY)"),
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::DateAdd method
+	 *
+	 * @param   datetime  $date      The date or datetime to add to.
+	 * @param   string    $interval  The maximum length of the text.
+	 * @param   string    $datePart  The part of the date to be added to (such as day or micosecond)
+	 * @param   string    $expected  The expected result.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  seedDateAdd
+	 * @since   13.1
+	 */
+	public function testDateAdd($date, $interval, $datePart, $expected)
+	{
+		$this->assertThat(
+				$this->_instance->dateAdd($date, $interval, $datePart),
+				$this->equalTo($expected)
+		);
+	}
 }

@@ -6,6 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+require_once __DIR__ . '/JDatabaseQueryPostgresqlInspector.php';
+require_once JPATH_PLATFORM . '/joomla/database/query/postgresql.php';
 
 /**
  * Test class for JDatabasePostgresqlQuery.
@@ -21,6 +23,14 @@ class JDatabasePostgresqlQueryTest extends TestCase
 	 * @var  JDatabase  A mock of the JDatabase object for testing purposes.
 	 */
 	protected $dbo;
+
+	/**
+	 * The instance of the object to test.
+	 *
+	 * @var    JDatabasePostgresqlQuery
+	 * @since  12.3
+	 */
+	private $_instance;
 
 	/**
 	 * Data for the testNullDate test.
@@ -117,6 +127,8 @@ class JDatabasePostgresqlQueryTest extends TestCase
 		parent::setUp();
 
 		$this->dbo = TestMockDatabaseDriver::create($this, '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+
+		$this->_instance = new JDatabaseQueryPostgresqlInspector($this->dbo);
 
 		// Mock the escape method to ensure the API is calling the DBO's escape method.
 		$this->assignMockCallbacks(
@@ -1244,6 +1256,43 @@ class JDatabasePostgresqlQueryTest extends TestCase
 			trim($q->returning),
 			$this->equalTo('RETURNING id'),
 			'Tests rendered value.'
+		);
+	}
+	/**
+	 * Data for the testDateAdd test.
+	 *
+	 * @return  array
+	 *
+	 * @since   13.1
+	 */
+	public function seedDateAdd()
+	{
+		return array(
+				// date, interval, datepart, expected
+				'Add date'		=> array('2008-12-31', '1', 'day', "timestamp '2008-12-31' + interval '1 day'"),
+				'Subtract date'	=> array('2008-12-31', '-1', 'day', "timestamp '2008-12-31' - interval '1 day'"),
+				'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'day', "timestamp '2008-12-31 23:59:59' + interval '1 day'"),
+		);
+	}
+
+	/**
+	 * Tests the JDatabasePostgresqlQuery::DateAdd method
+	 *
+	 * @param   datetime  $date      The date or datetime to add to.
+	 * @param   string    $interval  The maximum length of the text.
+	 * @param   string    $datePart  The part of the date to be added to (such as day or micosecond).
+	 * @param   string    $expected  The expected result.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  seedDateAdd
+	 * @since   13.1
+	 */
+	public function testDateAdd($date, $interval, $datePart, $expected)
+	{
+		$this->assertThat(
+				$this->_instance->dateAdd($date, $interval, $datePart),
+				$this->equalTo($expected)
 		);
 	}
 }

@@ -599,4 +599,31 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 		return $query;
 	}
+	/**
+	 * Add to the current date and time in Postgresql.
+	 * Usage:
+	 * $query->select($query->dateAdd());
+	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
+	 *
+	 * @param   datetime  $date      The date to add to
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
+	 *
+	 * @return  sring  The string with the appropriate sql for addition of dates
+	 *
+	 * @since   13.1
+	 * @note Not all drivers support all units. Check appropriate references
+	 * @link http://www.postgresql.org/docs/9.0/static/functions-datetime.html.
+	 */
+	public function dateAdd($date, $interval, $datePart)
+	{
+		if (substr($interval, 0, 1) != '-')
+		{
+			return "timestamp '" . $date . "' + interval '" . $interval . " " . $datePart . "'";
+		}
+		else
+		{
+			return "timestamp '" . $date . "' - interval '" . ltrim($interval, '-') . " " . $datePart . "'";
+		}
+	}
 }
