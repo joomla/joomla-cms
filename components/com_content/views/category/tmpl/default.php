@@ -16,11 +16,7 @@ JHtml::_('behavior.caption');
 <div class="category-list<?php echo $this->pageclass_sfx;?>">
 <?php
 $this->subtemplatename = 'articles';
-?>
-
-<?php
-	$layouttop  = new JLayoutFile('joomla.content.category_default');
-	echo $layouttop->render($this);
+echo JLayoutHelper::render('joomla.content.category_default', $this);
 ?>
 
 </div>
