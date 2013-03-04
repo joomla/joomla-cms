@@ -9,13 +9,5 @@
 
 defined('_JEXEC') or die;
 
-?>
-<?php
 $this->subtemplatename = 'items';
-?>
-
-<?php
-	$layouttop  = new JLayoutFile('joomla.content.category_default');
-	echo $layouttop->render($this);
-?>
-
+echo JLayoutHelper::render('joomla.content.category_default', $this);

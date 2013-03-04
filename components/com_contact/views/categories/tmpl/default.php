@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 
-$layoutCategories  = new JLayoutFile('joomla.content.categories_default');
-echo $layoutCategories->render($this);
+echo JLayoutHelper::render('joomla.content.categories_default', $this);
 
 echo $this->loadTemplate('items');
 ?>
