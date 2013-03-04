@@ -14,7 +14,7 @@ ver el código fuente y el archivo de la CHANGELOG
 2. Historial de cambios
 ------------
 Esta es una lista no exhaustiva (pero aún así casi completa) de cambios para
-Jokte! 1.2.0, entre ellos el alfa y versiones beta.
+Jokte! 1.2.1, entre ellos el alfa y versiones beta.
 Nuestro agradecimiento a todas aquellas personas que han aportado informes de errores y
 correcciones de código.
 
@@ -29,13 +29,77 @@ $ -> Idioma corrección o cambio
 ! -> Nota
 
 
+03-Ene-2013
+ ^ Nueva presentación de Epígrafe o Copete.Cambio en la salida HTML Jokte Antu
+ - Borrado de archivos de idioma que no corresponden
+ # Por idioma por defecto es-LA
+ ^ Nueva columna en el Actualizador de extensiones instaladas
+ ^ Agregado campo epígrafe para redacción de artículos
+ ^ Agregado opción en XML global para mostrar o no el campo epígrafe para redacción de articulos
+    
+30-Nov-2012
+ ^ Error en SQL reparado (cache cleaner)  
+
+28-Nov-2012
+ # Actualización archivos
+ - Se quitaron líneas de los archivos de idioma que ya que no se usan más
+ - Borrando archivos que no se usarán más
+ 
+27-Nov-2012
+ # Actualización archivos
+ - Eliminación de archivos SQL que no se usan más
+ - Eliminación de archivos de idiomas de plantillas que no se usan más
+ # Actualización archivos
+ + Actualización por mejoras en extensiones de la administración
+ + Actualización necesaria para el versionado de Jokte!
+ + Actualización por mejoras en extensiones de la administración
+ + Actualización por mejoras en extensiones de la administración
+ + Actualización necesaria para el versionado de Jokte! paralelo al de Joomla
+ # Cambio por fecha de publicación (publish_up)
+ * Quitado comportamiento no frames
+ + Mejora en Contactos por incorporación del uso de Gravatar
+
+17-Nov-2012
+ + Nueva salida html actualizador de schemas de base de datos para versiones Jokte!
+ + Nueva vista actualizador de schemas de base de datos para ve… …
+ + Nuevo modelo para los SQL de actualización de schemas de Jokte!
+ - Borrado de los SQL de actualización de schemas de Joomla
+ - Borrado de los SQL de actualización de schemas de Joomla
+ - Borrado de los SQL de actualización de schemas de Joomla
+ ^ Cabecera XML instalador actualizador Jokte!
+ + Nuevo modelo en español para el versionado de Jokte!
+ ^ Cambio de versionado (evaluar borrado definitivo)
+ ^ Cambios por versionado de Jokte!
+ ^ Cambios para actualización on line de Jokte!
+ ^ Rest para prueba por el original 
+
+15-Nov-2012
+ - Eliminado componente actualizador de Joomla
+ + Nuevo componente actualizador de Jokte
+ + Archivos de idioma del actualizador Jokte
+ ^ URL de actualizaciones
+ ^ Modelo de actualización Jokte!
+ ^ Paquete SQL de instalación nuevo por cambio de componente actualizador de Jokte
+ ^ Cambio de plugin de actualización por versionado de Jokte!
+ ^ Línea versionado de Jokte!
+ ^ línea para versionado de Jokte (se mantiene el de Joomla por compatibilidad con extensiones)
+ + Clase para versionado de Jokte!
+ ^ Versionado de Joomla (se mantiene por compatiblidad extensiones)
+ + Archivo de idioma es-LA actualizador Jokte!
+ - Borrado archivo de idioma es-LA actualizador Joomla
+
+07-Nov-2012
+ ^ Cambio de redacción en artículo diferencias entre Joomla y Jokte
+
 17-Oct-2012
- # Arreglos varios
+ # Arreglos varios por actualización base Joomla
  ! Cambio de versión Jokte v1.1.5 - No se liberó
 
 10-Oct-2012
- # Arreglos varios
+ - Eliminado plugin Googlemaps que estaba pre instalado
+ - Eliminado plugin Ipfloating que estaba pre instalado
  ! Cambio de versión Jokte v1.1.4 - No se liberó
+ 
 
 09-Oct-2012
  # Fix varios
