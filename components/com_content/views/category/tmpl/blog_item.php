@@ -41,12 +41,9 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') ); ?>
 
-<?php
-	if ($useDefList) :
-
-		echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above'));
-
-	endif; ?>
+<?php if ($useDefList) : ?>
+	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
+<?php endif; ?>
 
 <?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
 	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
@@ -62,12 +59,9 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php endif; ?>
 <?php echo $this->item->event->beforeDisplayContent; ?> <?php echo $this->item->introtext; ?>
 
-<?php
-	if ($useDefList) :
-
-		echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below'));
-
-	endif; ?>
+<?php if ($useDefList) : ?>
+	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+<?php  endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
