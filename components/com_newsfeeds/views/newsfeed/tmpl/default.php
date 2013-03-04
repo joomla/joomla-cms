@@ -53,7 +53,7 @@ else
 	</h1>
 	<?php endif; ?>
 	<h2 class="<?php echo $direction; ?>">
-		<?php if ($this->item->published == 0): ?>
+		<?php if ($this->item->published == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<a href="<?php echo $this->item->link; ?>" target="_blank">
@@ -113,7 +113,7 @@ else
 				<?php  endif; ?>
 				<?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
 					<div class="feed-item-description">
-					<?php if($this->params->get('show_feed_image', 0) == 0)
+					<?php if ($this->params->get('show_feed_image', 0) == 0)
 					{
 						$text = JFilterOutput::stripImages($text);
 					}

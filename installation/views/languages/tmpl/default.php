@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 // Get version of Joomla! to compare it with the version of the language package
-$ver = new JVersion;
+$version = new JVersion;
 ?>
 <script type="text/javascript">
 	function installLanguages()
@@ -47,7 +47,7 @@ $ver = new JVersion;
 	</div>
 	<h3><?php echo JText::_('INSTL_LANGUAGES'); ?></h3>
 	<hr class="hr-condensed" />
-	<?php if(!$this->items) : ?>
+	<?php if (!$this->items) : ?>
 		<p><?php echo JText::_('INSTL_LANGUAGES_WARNING_NO_INTERNET') ?></p>
 		<p>
 			<a href="#"
@@ -78,10 +78,6 @@ $ver = new JVersion;
 			</thead>
 			<tbody>
 				<?php foreach ($this->items as $i => $language) : ?>
-					<?php
-					// Checks that the language package is valid for current Joomla version
-					if(substr($language->version, 0, 3) == $ver->RELEASE) :
-					?>
 					<tr>
 						<td>
 							<label class="checkbox">
@@ -91,13 +87,18 @@ $ver = new JVersion;
 									name="cid[]"
 									value="<?php echo $language->update_id; ?>"
 									/> <?php echo $language->name; ?>
+
+									<?php // Display a Note if language pack version is not equal to Joomla version ?>
+									<?php if (substr($language->version, 0, 3) != $version->RELEASE
+											|| substr($language->version, 0, 5) != $version->RELEASE . "." . $version->DEV_LEVEL) : ?>
+										<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
+									<?php endif; ?>
 							</label>
 						</td>
 						<td>
 							<span class="badge"><?php echo $language->version; ?></span>
 						</td>
 					</tr>
-					<?php endif; ?>
 				<?php endforeach; ?>
 			</tbody>
 		</table>

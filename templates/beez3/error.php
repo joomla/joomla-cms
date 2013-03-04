@@ -107,10 +107,10 @@ $this->direction = $doc->direction;
 
 						 <h1 id="logo">
 
-                                        <?php if ($logo): ?>
+                                        <?php if ($logo) : ?>
                                         <img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($params->get('sitetitle'));?>" />
                                         <?php endif;?>
-                                        <?php if (!$logo ): ?>
+                                        <?php if (!$logo ) : ?>
                                         <?php echo htmlspecialchars($params->get('sitetitle'));?>
                                         <?php endif; ?>
                                         <span class="header1">

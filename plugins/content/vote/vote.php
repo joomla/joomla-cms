@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Content.vote
  * @since       1.5
  */
-class plgContentVote extends JPlugin
+class PlgContentVote extends JPlugin
 {
 	/**
 	 * Constructor

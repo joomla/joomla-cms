@@ -29,7 +29,7 @@ function insertIns() {
 
 	if (elm == null) {
 		var s = SXE.inst.selection.getContent();
-		if(s.length > 0) {
+		if (s.length > 0) {
 			insertInlineElement('ins');
 			var elementArray = SXE.inst.dom.select('ins[data-mce-new]');
 			for (var i=0; i<elementArray.length; i++) {

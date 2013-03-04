@@ -36,7 +36,6 @@ class JRouterSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JRouterSite::parse
 	 * @todo   Implement testParse().
 	 */
 	public function testParse()
@@ -47,7 +46,6 @@ class JRouterSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JRouterSite::build
 	 * @todo   Implement testBuild().
 	 */
 	public function testBuild()

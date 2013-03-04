@@ -74,7 +74,7 @@ class ContentViewFeatured extends JViewLegacy
 			{
 				$item->authorEmail = $siteEmail;
 			}
-			elseif($feedEmail === 'author')
+			elseif ($feedEmail === 'author')
 			{
 				$item->authorEmail = $row->author_email;
 			}

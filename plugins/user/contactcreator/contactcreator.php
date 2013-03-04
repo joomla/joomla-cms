@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  * @subpackage  User.contactcreator
  * @since       1.6
  */
-class plgUserContactCreator extends JPlugin
+class PlgUserContactCreator extends JPlugin
 {
 	/**
 	 * Constructor
@@ -36,12 +36,12 @@ class plgUserContactCreator extends JPlugin
 
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if(!$success)
+		if (!$success)
 		{
 			return false; // if the user wasn't stored we don't resync
 		}
 
-		if(!$isnew)
+		if (!$isnew)
 		{
 			return false; // if the user isn't new we don't sync
 		}
@@ -79,7 +79,7 @@ class plgUserContactCreator extends JPlugin
 		{
 			$contact->load($id);
 		}
-		elseif($this->params->get('autopublish', 0))
+		elseif ($this->params->get('autopublish', 0))
 		{
 			$contact->published = 1;
 		}

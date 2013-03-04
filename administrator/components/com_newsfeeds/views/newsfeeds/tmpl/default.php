@@ -50,7 +50,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -112,7 +112,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_CACHE_TIME_HEADING', 'a.cache_time', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($assoc): ?>
+					<?php if ($assoc) : ?>
 					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
@@ -227,7 +227,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<td class="center hidden-phone">
 						<?php echo (int) $item->cache_time; ?>
 					</td>
-					<?php if ($assoc): ?>
+					<?php if ($assoc) : ?>
 					<td class="hidden-phone">
 						<?php if ($item->association) : ?>
 							<?php echo JHtml::_('newsfeed.association', $item->id); ?>

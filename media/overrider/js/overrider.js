@@ -125,13 +125,13 @@ Joomla.overrider.searchStrings = function(more)
 			{
 				Joomla.renderMessages(r.messages);
 			}
-			if(r.data)
+			if (r.data)
 			{
-				if(r.data.results)
+				if (r.data.results)
 				{
 					this.insertResults(r.data.results);
 				}
-				if(r.data.more)
+				if (r.data.more)
 				{
 					// If there are more results than the sent ones
 					// display the more link
@@ -206,7 +206,7 @@ Joomla.overrider.insertResults = function(results)
 	}, this);
 
 	// If there aren't any results display an appropriate message
-	if(!results.length)
+	if (!results.length)
 	{
 		var noresult = new Element('div', {
 			html: Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS')

@@ -106,7 +106,7 @@ class UsersControllerRegistration extends UsersController
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// If registration is disabled - Redirect to login page.
-		if(JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
+		if (JComponentHelper::getParams('com_users')->get('allowUserRegistration') == 0)
 		{
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 			return false;

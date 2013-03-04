@@ -221,12 +221,12 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();
-		if($table->state == 1 && (int) $table->publish_up == 0)
+		if ($table->state == 1 && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = JFactory::getDate()->toSql();
 		}
 
-		if($table->state == 1 && intval($table->publish_down) == 0)
+		if ($table->state == 1 && intval($table->publish_down) == 0)
 		{
 			$table->publish_down = $db->getNullDate();
 		}
@@ -299,7 +299,7 @@ class ContentModelArticle extends JModelAdmin
 
 			if ($item->id != null)
 			{
-				$associations = ContentHelper::getAssociations($item->id);
+				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{

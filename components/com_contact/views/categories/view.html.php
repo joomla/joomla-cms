@@ -84,7 +84,7 @@ class ContactViewCategories extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
+		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->def('page_title', $menu->title));
 		}

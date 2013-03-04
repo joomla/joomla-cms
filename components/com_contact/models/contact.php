@@ -81,7 +81,7 @@ class ContactModelContact extends JModelForm
 		$contact = $this->_item[$id];
 		$params->merge($contact->params);
 
-		if(!$params->get('show_email_copy', 0)){
+		if (!$params->get('show_email_copy', 0)){
 			$form->removeField('contact_email_copy');
 		}
 

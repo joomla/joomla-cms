@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * @subpackage  System.redirect
  * @since       1.6
  */
-class plgSystemRedirect extends JPlugin
+class PlgSystemRedirect extends JPlugin
 {
 	/**
 	 * Object Constructor.
@@ -32,7 +32,7 @@ class plgSystemRedirect extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Set the error handler for E_ERROR to be the class handleError method.
-		JError::setErrorHandling(E_ERROR, 'callback', array('plgSystemRedirect', 'handleError'));
+		JError::setErrorHandling(E_ERROR, 'callback', array('PlgSystemRedirect', 'handleError'));
 	}
 
 	public static function handleError(&$error)
@@ -75,7 +75,7 @@ class plgSystemRedirect extends JPlugin
 
 				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
 				$res = $db->loadResult();
-				if(!$res) {
+				if (!$res) {
 
 					// If not, add the new url to the database.
 					$query = $db->getQuery(true);

@@ -48,7 +48,7 @@ $sortFields = $this->getSortFields();
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm" id="adminForm">
-<?php if (!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -209,7 +209,7 @@ $sortFields = $this->getSortFields();
 				<td class="small hidden-phone">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<?php if ($this->assoc): ?>
+				<?php if ($this->assoc) : ?>
 				<td class="center hidden-phone">
 					<?php if ($item->association):?>
 						<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>

@@ -67,7 +67,7 @@ JHtml::_('behavior.caption');
 			</div>
 			<?php $counter++; ?>
 
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
+			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 
 		</div>
 		<?php endif; ?>

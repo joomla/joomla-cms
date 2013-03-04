@@ -59,7 +59,7 @@ JHtml::_('behavior.caption');
 			?>
 		</article>
 		<?php $counter++; ?>
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
+			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 				<span class="row-separator"></span>
 				</div>
 

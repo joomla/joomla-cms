@@ -36,7 +36,7 @@ Joomla.submitbutton = function(pressbutton)
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -94,7 +94,7 @@ Joomla.submitbutton = function(pressbutton)
 		</thead>
 
 		<tbody>
-		<?php if (count($this->items) == 0): ?>
+		<?php if (count($this->items) == 0) : ?>
 			<tr class="row0">
 				<td class="center" colspan="7">
 					<?php

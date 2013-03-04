@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  */
-abstract class modLoggedHelper
+abstract class ModLoggedHelper
 {
 	/**
 	 * Get a list of logged users.
@@ -49,12 +49,12 @@ abstract class modLoggedHelper
 		{
 			$results[$k]->logoutLink = '';
 
-			if($user->authorise('core.manage', 'com_users'))
+			if ($user->authorise('core.manage', 'com_users'))
 			{
 				$results[$k]->editLink = JRoute::_('index.php?option=com_users&task=user.edit&id='.$result->id);
 				$results[$k]->logoutLink = JRoute::_('index.php?option=com_login&task=logout&uid='.$result->id .'&'. JSession::getFormToken() .'=1');
 			}
-			if($params->get('name', 1) == 0)
+			if ($params->get('name', 1) == 0)
 			{
 				$results[$k]->name = $results[$k]->username;
 			}

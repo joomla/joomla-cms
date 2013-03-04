@@ -50,7 +50,7 @@ Joomla.submitbutton = function(pressbutton)
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -111,7 +111,7 @@ Joomla.submitbutton = function(pressbutton)
 		</thead>
 
 		<tbody>
-		<?php if (count($this->items) == 0): ?>
+		<?php if (count($this->items) == 0) : ?>
 			<tr class="row0">
 				<td align="center" colspan="7">
 					<?php
@@ -133,7 +133,7 @@ Joomla.submitbutton = function(pressbutton)
 				</th>
 				<td>
 					<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
-					<img src="<?php echo JURI::root();?>/media/com_finder/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
+					<img src="<?php echo JURI::root();?>/media/system/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
 					<?php endif; ?>
 					<?php echo $this->escape($item->title); ?>
 				</td>

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @package  Joomla.Language
  * @since    1.6
  */
-abstract class en_GBLocalise
+abstract class En_GBLocalise
 {
 	/**
 	 * Returns the potential suffixes for a specific number of items
@@ -29,7 +29,7 @@ abstract class en_GBLocalise
 		{
 			$return = array('0');
 		}
-		elseif($count == 1)
+		elseif ($count == 1)
 		{
 			$return = array('1');
 		}

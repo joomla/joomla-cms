@@ -17,8 +17,7 @@
 		<folder>helpers</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_media.ini
-		</language>
+		<language tag="en-GB">language/en-GB.com_media.ini</language>
 	</languages>
 	<administration>
 		<files folder="admin">
@@ -32,8 +31,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_media.ini
-			</language>
+			<language tag="en-GB">language/en-GB.com_media.ini</language>
+			<language tag="en-GB">language/en-GB.com_media.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

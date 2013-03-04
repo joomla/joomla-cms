@@ -80,7 +80,7 @@ $prev = $useftp ? 'ftp' : 'database';
 						<?php echo $this->options['site_name']; ?>
 					</td>
 				</tr>
-				<?php if($this->options['site_metadesc']) : ?>
+				<?php if ($this->options['site_metadesc']) : ?>
 				<tr>
 					<td class="item">
 						<?php echo JText::_('INSTL_SITE_METADESC_LABEL'); ?>
@@ -213,7 +213,7 @@ $prev = $useftp ? 'ftp' : 'database';
 			</table>
 		</div>
 	</div>
-	<?php if($useftp) : ?>
+	<?php if ($useftp) : ?>
 	<div class="row-fluid">
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
@@ -230,7 +230,7 @@ $prev = $useftp ? 'ftp' : 'database';
 						</span>
 					</td>
 				</tr>
-				<?php if($this->options['ftp_enable']) : ?>
+				<?php if ($this->options['ftp_enable']) : ?>
 				<tr>
 					<td class="item">
 						<?php echo JText::_('INSTL_FTP_USER_LABEL'); ?>

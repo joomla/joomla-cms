@@ -44,19 +44,19 @@ if (isset($this->error)) : ?>
 				</div>
 			<?php } ?>
 			<?php //Dynamically load any additional fields from plugins. ?>
-			<?php foreach ($this->form->getFieldsets() as $fieldset): ?>
+			<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 				<?php if ($fieldset->name != 'contact'):?>
 					<?php $fields = $this->form->getFieldset($fieldset->name);?>
 					<?php foreach ($fields as $field) : ?>
 						<div class="control-group">
-							<?php if ($field->hidden): ?>
+							<?php if ($field->hidden) : ?>
 								<div class="controls">
 									<?php echo $field->input;?>
 								</div>
 							<?php else:?>
 								<div class="control-label">
 									<?php echo $field->label; ?>
-									<?php if (!$field->required && $field->type != "Spacer"): ?>
+									<?php if (!$field->required && $field->type != "Spacer") : ?>
 										<span class="optional"><?php echo JText::_('COM_CONTACT_OPTIONAL');?></span>
 									<?php endif; ?>
 								</div>

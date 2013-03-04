@@ -26,7 +26,7 @@ $script = "
 	});
 	function menuHide(val)
 	{
-		if(val == 0 || val == '-')
+		if (val == 0 || val == '-')
 		{
 			jQuery('#menuselect-group').hide();
 		}

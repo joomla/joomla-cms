@@ -55,12 +55,12 @@ class Joomla_Sniffs_WhiteSpace_SpaceAfterCastSniff implements PHP_CodeSniffer_Sn
 	{
 		$tokens = $phpcsFile->getTokens();
 
-		if($tokens[($stackPtr + 1)]['code'] === T_WHITESPACE)
+		if ($tokens[($stackPtr + 1)]['code'] === T_WHITESPACE)
 		{
 			$content       = $tokens[($stackPtr + 1)]['content'];
 			$contentLength = strlen($content);
 
-			if($contentLength !== 1)
+			if ($contentLength !== 1)
 			{
 				$error = 'Cast statements must be followed by a single space; expected 1 space but found %s';
 				$data  = array($contentLength);
@@ -77,7 +77,7 @@ class Joomla_Sniffs_WhiteSpace_SpaceAfterCastSniff implements PHP_CodeSniffer_Sn
 			$phpcsFile->addError($error, $stackPtr, 'Incorrect', $data);
 		}
 
-// 		if($tokens[($stackPtr + 1)]['code'] === T_WHITESPACE)
+// 		if ($tokens[($stackPtr + 1)]['code'] === T_WHITESPACE)
 // 		{
 // 			$error = 'A cast statement must not be followed by a space';
 // 			$phpcsFile->addError($error, $stackPtr, 'SpaceFound');

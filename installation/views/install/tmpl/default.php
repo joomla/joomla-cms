@@ -64,7 +64,7 @@ if ($this->options['summary_email'])
 	});
 	function doInstall()
 	{
-		if(document.id('install_progress') != null)
+		if (document.id('install_progress') != null)
 		{
 			Install.install(['<?php echo implode("','", $tasks); ?>']);
 		}

@@ -35,24 +35,42 @@ $fieldsets = $this->form->getFieldsets();
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
 	<fieldset>
-		<ul class="nav nav-tabs">
-		<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_USERS_USER_ACCOUNT_DETAILS'); ?></a></li>
+		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
+
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS', true)); ?>
+				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+
 			<?php if ($this->grouplist) : ?>
-				<li><a href="#groups" data-toggle="tab"><?php echo JText::_('COM_USERS_ASSIGNED_GROUPS'); ?></a></li>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS', true)); ?>
+					<?php echo $this->loadTemplate('groups'); ?>
+				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 			<?php endif; ?>
+
 			<?php
 			foreach ($fieldsets as $fieldset) :
 				if ($fieldset->name == 'user_details') :
 					continue;
 				endif;
-				?>
-				<li><a href="#<?php echo $fieldset->name; ?>" data-toggle="tab"><?php echo JText::_($fieldset->label); ?></a></li>
-			<?php endforeach; ?>
-			</ul>
-
-			<div class="tab-content">
-				<div class="tab-pane active" id="details">
-					<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
+			?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $fieldset->name, JText::_($fieldset->label, true)); ?>
+				<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
+					<?php if ($field->hidden) : ?>
+						<div class="control-group">
+							<div class="controls">
+								<?php echo $field->input; ?>
+							</div>
+						</div>
+					<?php else: ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $field->label; ?>
@@ -61,42 +79,14 @@ $fieldsets = $this->form->getFieldsets();
 								<?php echo $field->input; ?>
 							</div>
 						</div>
-					<?php endforeach; ?>
-				</div>
-				<?php if ($this->grouplist) : ?>
-					<div class="tab-pane" id="groups">
-						<?php echo $this->loadTemplate('groups'); ?>
-					</div>
-				<?php endif; ?>
-				<?php
-				foreach ($fieldsets as $fieldset) :
-					if ($fieldset->name == 'user_details') :
-						continue;
-					endif;
-				?>
-				<div class="tab-pane" id="<?php echo $fieldset->name; ?>">
-					<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
-						<?php if ($field->hidden) : ?>
-							<div class="control-group">
-								<div class="controls">
-									<?php echo $field->input; ?>
-								</div>
-							</div>
-						<?php else: ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $field->label; ?>
-								</div>
-								<div class="controls">
-									<?php echo $field->input; ?>
-								</div>
-							</div>
-						<?php endif; ?>
-					<?php endforeach; ?>
-				</div>
-			<?php endforeach; ?>
-		</div>
+					<?php endif; ?>
+				<?php endforeach; ?>
+		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php endforeach; ?>
+
+		<?php echo JHtml::_('bootstrap.endPane'); ?>
 	</fieldset>
+
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

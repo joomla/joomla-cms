@@ -41,7 +41,6 @@ abstract class WeblinksHelperAssociation extends CategoryHelperAssociation
 		$view = is_null($view) ? $jinput->get('view') : $view;
 		$id = empty($id) ? $jinput->getInt('id') : $id;
 
-
 		if ($view == 'category' || $view == 'categories')
 		{
 			return self::getCategoryAssociations($id, 'com_weblinks');

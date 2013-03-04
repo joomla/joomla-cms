@@ -151,7 +151,7 @@ if ($params->get('show_title')) : ?>
 	<?php endif; ?>
 
 <?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '0')) OR ($params->get('urls_position') == '0' AND empty($urls->urls_position)))
-		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))): ?>
+		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
@@ -177,7 +177,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 	echo $this->item->pagination;?>
 <?php endif; ?>
 
-	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))): ?>
+	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>

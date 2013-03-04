@@ -13,7 +13,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-inline">
-	<?php if ($params->get('pretext')): ?>
+	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">
 		<p><?php echo $params->get('pretext'); ?></p>
 		</div>
@@ -21,7 +21,7 @@ JHtml::_('bootstrap.tooltip');
 	<div class="userdata">
 		<div id="form-login-username" class="control-group">
 			<div class="controls">
-				<?php if (!$params->get('usetext')): ?>
+				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-prepend input-append">
 						<span class="add-on">
 							<span class="icon-user tip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>"></span>
@@ -37,7 +37,7 @@ JHtml::_('bootstrap.tooltip');
 		</div>
 		<div id="form-login-password" class="control-group">
 			<div class="controls">
-				<?php if (!$params->get('usetext')): ?>
+				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-prepend input-append">
 						<span class="add-on">
 							<span class="icon-lock tip" title="<?php echo JText::_('JGLOBAL_PASSWORD') ?>">
@@ -87,7 +87,7 @@ JHtml::_('bootstrap.tooltip');
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
-	<?php if ($params->get('posttext')): ?>
+	<?php if ($params->get('posttext')) : ?>
 		<div class="posttext">
 		<p><?php echo $params->get('posttext'); ?></p>
 		</div>
