@@ -13,13 +13,18 @@ $blockPosition = $displayData['params']->get('info_block_position', 0);
 
 ?>
 	<dl class="article-info  muted">
-		<dt class="article-info-term">
-		<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
-		</dt>
 
 		<?php if ($displayData['position'] == 'above' && ($blockPosition == 0 || $blockPosition == 2)
 				|| $displayData['position'] == 'below' && ($blockPosition == 1)
 				) : ?>
+
+			<dt class="article-info-term">
+				<?php // TODO: implement info_block_show_title param to hide article info title ?>
+				<?php if ($displayData['params']->get('info_block_show_title', 1)) : ?>
+					<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
+				<?php endif; ?>
+			</dt>
+
 			<?php if ($displayData['params']->get('show_author') && !empty($displayData['item']->author )) : ?>
 				<?php echo JLayoutHelper::render( 'joomla.content.info_block.author', $displayData); ?>
 			<?php endif; ?>
