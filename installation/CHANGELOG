@@ -30,6 +30,7 @@ $ -> Language fix or change
  ^ [#30085] Refactor installation to use new application and MVC classes. Thanks Michael
  # [#30203] * Misrepresented Debug Console at the joomla errorpage.
  + [#29770] com_config component missing triggers on save. Thanks Nicholas Antimisiaris
+ $ Updating Installation ini files: be-BY, da-DK, fr-FR, it-IT, mk-MK, nb-NO, ru-RU, sr-RS, sr-YU, ta-IN, th-TH, zh-TW
 
 02-Mar-2013 Jean-Marie Simonet
  # [#30189] * [#30157] did not take into account apostrophies in lang strings values
