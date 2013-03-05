@@ -879,6 +879,9 @@ class PlgSystemDebug extends JPlugin
 
 	/**
 	 * Store log messages so they can be displayed later.
+	 * This function is passed log entries by JLogLoggerCallback. 
+	 *
+	 * @param   JLogEntry  $entry  A log entry.
 	 *
 	 * @since   3.1
 	 */
