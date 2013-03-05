@@ -17,7 +17,23 @@ jimport('joomla.application.component.modelform');
  */
 class ConfigModelComponent extends JModelForm
 {
-	/**
+    /**
+     * The event to trigger before saving the data.
+     *
+     * @var    string
+     * @since  2.5.9
+     */
+    protected $event_before_save = 'onConfigurationBeforeSave';
+
+    /**
+     * The event to trigger before deleting the data.
+     *
+     * @var    string
+     * @since  2.5.9
+     */
+    protected $event_after_save = 'onConfigurationAfterSave';
+
+    /**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -108,7 +124,9 @@ class ConfigModelComponent extends JModelForm
 	 */
 	public function save($data)
 	{
-		$table	= JTable::getInstance('extension');
+        $dispatcher = JDispatcher::getInstance();
+        $table	= JTable::getInstance('extension');
+        $isNew = true;
 
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules'])) {
@@ -154,6 +172,14 @@ class ConfigModelComponent extends JModelForm
 			return false;
 		}
 
+        // Trigger the onContentBeforeSave event.
+        $result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
+        if (in_array(false, $result, true))
+        {
+            $this->setError($table->getError());
+            return false;
+        }
+
 		// Store the data.
 		if (!$table->store()) {
 			$this->setError($table->getError());
@@ -162,6 +188,9 @@ class ConfigModelComponent extends JModelForm
 
 		// Clean the component cache.
 		$this->cleanCache('_system');
+
+        // Trigger the onContentAfterSave event.
+        $dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 
 		return true;
 	}
