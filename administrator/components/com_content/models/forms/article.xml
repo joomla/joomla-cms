@@ -13,10 +13,13 @@
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC" class="inputbox" size="45" />
-			
-		<field name="copete" type="textarea"
+		
+		<field name="subtitle" type="text" label="JGLOBAL_SUBTITLE"
+			description="JFIELD_SUBTITLE_DESC" class="inputbox" size="45"/>
+		
+		<field name="copete" type="editor" editor="none"
 			label="JFIELD_COPETE_LABEL" description="JFIELD_COPETE_DESC"
-			class="inputbox" rows="3" cols="30" />
+			filter="JComponentHelper::filterText" buttons="true" />
 
 		<field name="articletext" type="editor" class="inputbox"
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
@@ -137,7 +140,17 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
+			
+			<field
+				name="show_subtitle"
+				type="list"
+				label="JGLOBAL_SHOW_SUBTITLE_LABEL"
+				description="JGLOBAL_SHOW_SUBTITLE_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
 			<field
 				name="link_titles"
 				type="list"
@@ -151,6 +164,15 @@
 			<field name="show_intro" type="list"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			
+			<field name="show_copete" type="list"
+				description="JGLOBAL_SHOW_COPETE_DESC"
+				label="JGLOBAL_SHOW_COPETE_LABEL"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -206,7 +228,29 @@
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
-
+			
+			<field
+				name="show_avatar"
+				type="list"
+				label="JGLOBAL_SHOW_AVATAR_LABEL"
+				description="JGLOBAL_SHOW_AVATAR_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+			
+			<field
+				name="avatar_position"
+				type="list"
+				label="JGLOBAL_AVATAR_POSITION_LABEL"
+				description="JGLOBAL_AVATAR_POSITION_DESC"
+				default="1">
+				<option
+					value="1">INTEXT_FLOAT_LEFT</option>
+				<option
+					value="2">INTEXT_FLOAT_RIGHT</option>			
+				</field>
+			
 			<field
 				name="link_author"
 				type="list"
@@ -276,7 +320,17 @@
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
-
+			
+			<field
+				name="show_simpletags"
+				type="list"
+				label="JGLOBAL_SHOW_SIMPLETAGS_LABEL"
+				description="JGLOBAL_SHOW_SIMPLETAGS_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+			
 			<field
 				name="show_email_icon"
 				type="list"
@@ -305,7 +359,33 @@
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
-
+			<field
+				name="show_facebook"
+				type="list"
+				label="JGLOBAL_SHOW_FACEBOOK_LABEL"
+				description="JGLOBAL_SHOW_FACEBOOK_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+			<field
+				name="show_tweeter"
+				type="list"
+				label="JGLOBAL_SHOW_TWEETER_LABEL"
+				description="JGLOBAL_SHOW_TWEETER_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
+			<field
+				name="show_one"
+				type="list"
+				label="JGLOBAL_SHOW_ONE_LABEL"
+				description="JGLOBAL_SHOW_ONE_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
 			<field
 				name="show_noauth"
 				type="list"
