@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Mar-2013 Jean-Marie Simonet
+ ^ [#30085] Refactor installation to use new application and MVC classes. Thanks Michael
+
 02-Mar-2013 Jean-Marie Simonet
  # [#30189] * [#30157] did not take into account apostrophies in lang strings values
  # [#30186] Weblinks module fails
