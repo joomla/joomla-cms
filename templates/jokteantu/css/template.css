@@ -1176,5 +1176,19 @@ span.capital{
     margin-top: 17px;
     padding: 0 0 13px;
     }
+    
+/* Nuevo Jokte v1.2.2  */
+
+/* Subtítulos */
+.subtitulos{font-size:85%;color:#CCCCCC; font-variant:small-caps; padding:30px 0 0 0;margin:10px 5px;font-weight: bold;}
+/* Gravatar */
+.gravatar{padding:10px}
+.gravatar a{color:white}
+.name_gravatar{text-align:center; color:white;background:#000}
+.name_gravatar:hover{background:#CCC}
+
+
+/* Tags */
+.tag{padding:0 10px;background:#fafafa;}
 
 
