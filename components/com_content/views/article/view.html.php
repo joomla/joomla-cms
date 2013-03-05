@@ -2,6 +2,11 @@
 /**
  * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ ***************************************************************************************
+ * Warning: Some modifications and improved were made by the Community Juuntos for
+ * the latinamerican Project Jokte! CMS
+ ***************************************************************************************
+ * 
  */
 
 defined('_JEXEC') or die;
@@ -43,7 +48,7 @@ class ContentViewArticle extends JViewLegacy
 
 		// Create a shortcut for $item.
 		$item = &$this->item;
-
+		
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
@@ -115,7 +120,17 @@ class ContentViewArticle extends JViewLegacy
 		else  {
 			$item->text = $item->introtext;
 		}
-
+		
+		/*
+		 * Nuevo en Jokte v1.2.1
+		 * Mostrar o no mostrar copete
+		 */
+		if ($item->params->get('show_copete')=='1') {
+			$item->copete = $item->copete;
+		} else {
+			$item->copete = Null;
+		}
+		
 		//
 		// Process the content plugins.
 		//
