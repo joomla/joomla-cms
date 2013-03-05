@@ -66,6 +66,17 @@
 			<option
 				value="1">JYES</option>
 		</field>
+		<field
+			name="show_subtitle"
+			type="radio"
+			default="1"
+			label="JGLOBAL_SHOW_SUBTITLE_LABEL"
+			description="JGLOBAL_SHOW_SUBTITLE_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
 		
 		<field
 			name="show_copete"
@@ -156,7 +167,7 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-
+		
 		<field
 			name="link_author"
 			type="radio"
@@ -168,7 +179,71 @@
 			<option
 				value="1">JYES</option>
 		</field>
-
+		
+		<field
+			name="spacerx1"
+			type="spacer"
+			hr="true"
+			/>
+		
+		<field
+			name="show_avatar"
+			type="radio"
+			label="JGLOBAL_SHOW_AVATAR_AUTHOR_LABEL"
+			description="JGLOBAL_SHOW_AVATAR_AUTHOR_DESC"
+			default="1">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+		
+		<field
+			name="avatar_size"
+			type="text"
+			default="200"
+			label="JGLOBAL_AVATAR_SIZE_LABEL"
+			description="JGLOBAL_AVATAR_SIZE_DESC"
+		/>	
+			
+		<field 
+			name="avatar_default"
+			type="media"
+			label="JGLOBAL_AVATAR_DEFAULT_LABEL"
+			description="JGLOBAL_AVATAR_DEFAULT_DESC"
+		>
+		</field>
+		
+		<field
+			name="avatar_position"
+			type="list"
+			label="JGLOBAL_AVATAR_POSITION_LABEL"
+			description="JGLOBAL_AVATAR_POSITION_DESC"
+			default="1">
+			<option
+				value="1">INTEXT_FLOAT_LEFT</option>
+			<option
+				value="2">INTEXT_FLOAT_RIGHT</option>			
+		</field>
+		
+		<field
+			name="avatar_link"
+			type="radio"
+			label="JGLOBAL_AVATAR_LINK_LABEL"
+			description="JGLOBAL_AVATAR_LINK_DESC"
+			default="1">
+			<option
+				value="1">JYES</option>
+			<option
+				value="0">JNO</option>
+		</field>
+			
+		<field
+			name="spacerxc"
+			type="spacer"
+			hr="true"
+			/>
+						
 		<field
 			name="show_create_date"
 			type="radio"
@@ -288,6 +363,15 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
+		
+		<field
+				name="show_simpletags"
+				type="radio"
+				label="JGLOBAL_SHOW_SIMPLETAGS_LABEL"
+				description="JGLOBAL_SHOW_SIMPLETAGS_DESC">
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
 
 		<field
 			name="show_email_icon"
@@ -333,7 +417,162 @@
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
+		
+		<field
+			name="spacery2"
+			type="spacer"
+			hr="true"
+		/>
+				
+		<field
+			name="show_disqus"
+			type="radio"
+			label="JGLOBAL_SHOW_DISQUS_LABEL"
+			description="JGLOBAL_SHOW_DISQUS_DESC"
+			default="1">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+		
+		<field
+			name="disqus_domain"
+			type="text"
+			default=""
+			label="JGLOBAL_DISQUS_DOMAIN_LABEL"
+			description="JGLOBAL_DISQUS_DOMAIN_DESC"
+		/>
+		
+		<field
+			name="disqus_debug"
+			type="radio"
+			label="JGLOBAL_DISQUS_DEBUG_LABEL"
+			description="JGLOBAL_DISQUS_DEBUG_DESC"
+			default="0">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+		
+		<field
+			name="spacerz2"
+			type="spacer"
+			hr="true"
+		/>
+		
+		<field
+			name="show_facebook"
+			type="list"
+			label="JGLOBAL_SHOW_FACEBOOK_LABEL"
+			description="JGLOBAL_SHOW_FACEBOOK_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+		</field>
+		<field 
+			name="like_style" 
+			type="list" 
+			default="button_count" 
+			label="JGLOBAL_FBLIKESTYLE_LABEL" 
+			description="JGLOBAL_FBLIKESTYLE_DESC">
+				<option value="button_count">FBBUTONCOUNT</option>
+				<option value="standard">FBSTANDARD</option>
+		</field>
+		<field 
+			name="like_width" 
+			type="text" 
+			size="4" 
+			default="90" 
+			label="JGLOBAL_FBLIKEWIDTH_LABEL" 
+			description="JGLOBAL_FBLIKEWIDTH_DESC" 
+		/>
+		<field 
+			name="like_height" 
+			type="text" 
+			size="4" 
+			default="20" 
+			label="JGLOBAL_FBLIKEHEIGHT_LABEL"
+			description="JGLOBAL_FBLIKEHEIGHT_DESC" 
+		/>
+		<field 
+			name="like_verb" 
+			type="list" 
+			default="like" 
+			label="JGLOBAL_FBLIKETEXT_LABEL" 
+			description="JGLOBAL_FBLIKETEXT_LABEL">
+				<option value="like">FBLIKE</option>
+				<option value="recommend">FBRECOMM</option>
+		</field>		
+		<field 
+			name="like_color_scheme" 
+			type="list" 
+			default="light" 
+			label="JGLOBAL_FBSCHEME_LABEL" 
+			description="JGLOBAL_FBSCHEME_DESC">
+				<option value="light">FBSCHEMELIGHT</option>
+				<option value="dark">FBSCHEMEDARK</option>
+		</field>
+		
+		<field
+			name="show_tweeter"
+			type="list"
+			label="JGLOBAL_SHOW_TWEETER_LABEL"
+			description="JGLOBAL_SHOW_TWEETER_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+		</field>
+		<field 
+			name="twitter_account" 
+			type="text" 
+			size="20" 
+			default="" 
+			label="JGLOBAL_TWITACCOUNT_LABEL"
+			description="JGLOBAL_TWITACCOUNT_DESC"
+		/>	
+		<field 
+			name="twitter_account2" 
+			type="text" 
+			size="20"
+			default="" 
+			label="JGLOBAL_TWITRELACC_LABEL"
+			description="JGLOBAL_TWITRELACC_DESC" 
+		/>	
+		<field 
+			name="count" 
+			type="list" 
+			default="horizontal" 
+			label="JGLOBAL_TWITBUTTONSTYLE_LABEL"
+			description="JGLOBAL_TWITBUTTONSTYLE_DESC">
+				<option value="horizontal">TWITHORCOUNT</option>
+				<option value="vertical">TWITVERCOUNT</option>
+				<option value="none">TWITNOCOUNT</option>
+		</field>
+		<field 
+			name="count-width" 
+			type="list" 
+			default="horizontal" 
+			label="JGLOBAL_TWITMATHWITH_LABEL" 
+			description="JGLOBAL_TWITMATHWITH_LABEL" >
+				<option value="110">TWITHORZ</option>
+				<option value="55">TWITVER</option>
+				<option value="55">TWITNOCOUNTW</option>
+		</field>
+		
+		<field
+			name="show_one"
+			type="list"
+			label="JGLOBAL_SHOW_ONE_LABEL"
+			description="JGLOBAL_SHOW_ONE_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+		</field>
+		
 	</fieldset>
+	
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
 				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">	
 		<field
