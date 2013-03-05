@@ -76,7 +76,10 @@
   <exclude-pattern>/libraries/cms/*</exclude-pattern>
  </rule>
 
- <rule ref="PEAR.NamingConventions.ValidClassName"/>
+ <rule ref="PEAR.NamingConventions.ValidClassName">
+  <!-- These exceptions are temporary for now -->
+  <exclude-pattern>/installation/controller/install/database_*</exclude-pattern>
+ </rule>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>

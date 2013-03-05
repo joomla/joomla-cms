@@ -101,7 +101,7 @@ class InstallationControllerInstallEmail extends JControllerBase
 			if (is_array($line))
 			{
 				$label = $line['0'];
-				$label .= ': ' . str_repeat(' ', $max-strlen($label));
+				$label .= ': ' . str_repeat(' ', $max - strlen($label));
 				$body[$i] = $label . $line['1'];
 			}
 		}
