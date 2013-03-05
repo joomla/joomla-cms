@@ -64,6 +64,9 @@ endif;
 				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
 
+                <li><?php echo $this->form->getLabel('subtitle'); ?>
+                <?php echo $this->form->getInput('subtitle'); ?></li>
+
 				<li><?php echo $this->form->getLabel('alias'); ?>
 				<?php echo $this->form->getInput('alias'); ?></li>
 
