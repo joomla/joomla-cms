@@ -76,8 +76,10 @@ class JHtmlInstallation
 	}
 
 	/**
-	 * @param   string  $id
-	 * @param   array   $tabs
+	 * Method to generate the navigation tab
+	 *
+	 * @param   string  $id    The container ID
+	 * @param   array   $tabs  The navigation tabs
 	 *
 	 * @return  string  Markup for the tab
 	 *
@@ -107,10 +109,12 @@ class JHtmlInstallation
 	}
 
 	/**
-	 * @param   string  $id
-	 * @param   array   $tabs
+	 * Method to determine the tab (step) number
 	 *
-	 * @return  int
+	 * @param   string  $id    The container ID
+	 * @param   array   $tabs  The navigation tabs
+	 *
+	 * @return  integer  Tab number in navigation sequence
 	 *
 	 * @since   3.1
 	 */

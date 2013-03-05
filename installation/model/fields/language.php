@@ -87,7 +87,12 @@ class JFormFieldLanguage extends JFormFieldList
 	/**
 	 * Method to sort languages by name.
 	 *
-	 * @since	3.1
+	 * @param   string  $a  The first value to determine sort
+	 * @param   string  $b  The second value to determine sort
+	 *
+	 * @return  string
+	 *
+	 * @since    3.1
 	 */
 	protected function _sortLanguages($a, $b)
 	{

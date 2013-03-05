@@ -340,7 +340,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 	 * Returns the installed language files in the administrative and
 	 * front-end area.
 	 *
-	 * @param   boolean  $db
+	 * @param   mixed  $db  JDatabaseDriver instance
 	 *
 	 * @return  array  Array with installed language packs in admin and site area
 	 *
@@ -472,7 +472,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 		{
 			$sessionOptions = $this->getSession()->get('setup.options');
 
-			if (isset($sessionOptions['language']));
+			if (isset($sessionOptions['language']))
 			{
 				$options['language'] = $sessionOptions['language'];
 			}

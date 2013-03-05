@@ -36,7 +36,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Store the current setup options in the session.
 	 *
-	 * @param   array   $options
+	 * @param   array  $options  The installation options
 	 *
 	 * @return  array  An array of options from the session
 	 *

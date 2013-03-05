@@ -21,9 +21,9 @@ class InstallationResponseJson
 	/**
 	 * Constructor for the JSON response
 	 *
-	 * @param  mixed  $data  Exception if there is an error, otherwise, the session data
+	 * @param   mixed  $data  Exception if there is an error, otherwise, the session data
 	 *
-	 * @since  3.1
+	 * @since   3.1
 	 */
 	public function __construct($data)
 	{

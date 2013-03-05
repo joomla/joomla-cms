@@ -52,7 +52,7 @@ $prev = $useftp ? 'ftp' : 'database';
 		<div class="controls">
 			<?php echo $this->form->getInput('summary_email'); ?>
 			<p class="help-block">
-				<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="label">'.$this->options['admin_email'].'</span>'); ?>
+				<?php echo JText::sprintf('INSTL_SUMMARY_EMAIL_DESC', '<span class="label">' . $this->options['admin_email'] . '</span>'); ?>
 			</p>
 		</div>
 	</div>

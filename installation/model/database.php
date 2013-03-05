@@ -52,6 +52,10 @@ class InstallationModelDatabase extends JModelBase
 	}
 
 	/**
+	 * Resets the user ID
+	 *
+	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	public static function resetRandUserId()
@@ -156,7 +160,9 @@ class InstallationModelDatabase extends JModelBase
 		// Get a database object.
 		try
 		{
-			return InstallationHelperDatabase::getDbo($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, $options->db_select);
+			return InstallationHelperDatabase::getDbo(
+				$options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, $options->db_select
+			);
 		}
 		catch (RuntimeException $e)
 		{
@@ -271,7 +277,7 @@ class InstallationModelDatabase extends JModelBase
 
 		$options = (array) $options;
 
-		// remove *_errors value
+		// Remove *_errors value
 		foreach ($options as $i => $option)
 		{
 			if (isset($i['1']) && $i['1'] == '*')
@@ -294,7 +300,7 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to process the old database
 	 *
-	 * @param   $options  array  The options array
+	 * @param   array  $options  The options array
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -343,7 +349,7 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to create the database tables
 	 *
-	 * @param   $options  array  The options array
+	 * @param   array  $options  The options array
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -553,7 +559,7 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to install the sample data
 	 *
-	 * @param   array  $options
+	 * @param   array  $options  The options array
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -880,9 +886,10 @@ class InstallationModelDatabase extends JModelBase
 		// Remove PostgreSQL comment lines.
 		$sql = preg_replace("/\n\--[^\n]*/", '', "\n" . $sql);
 
-		// find function
+		// Find function
 		$funct = explode('CREATE OR REPLACE FUNCTION', $sql);
-		// save sql before function and parse it
+
+		// Save sql before function and parse it
 		$sql = $funct[0];
 
 		// Parse the schema file to break up queries.
@@ -916,7 +923,7 @@ class InstallationModelDatabase extends JModelBase
 			$queries[] = $sql;
 		}
 
-		// add function part as is
+		// Add function part as is
 		for ($f = 1; $f < count($funct); $f++)
 		{
 			$queries[] = 'CREATE OR REPLACE FUNCTION ' . $funct[$f];

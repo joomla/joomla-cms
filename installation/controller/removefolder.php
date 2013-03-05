@@ -89,10 +89,11 @@ class InstallationControllerRemovefolder extends JControllerBase
 		}
 		else
 		{
-
-			// Try to delete the folder.
-			// We use output buffering so that any error message echoed JFolder::delete
-			// doesn't land in our JSON output.
+			/*
+			 * Try to delete the folder.
+			 * We use output buffering so that any error message echoed JFolder::delete
+			 * doesn't land in our JSON output.
+			 */
 			ob_start();
 			$return = JFolder::delete($path) && (!file_exists(JPATH_ROOT . '/joomla.xml') || JFile::delete(JPATH_ROOT . '/joomla.xml'));
 			ob_end_clean();
@@ -108,8 +109,10 @@ class InstallationControllerRemovefolder extends JControllerBase
 		$r = new stdClass;
 		$r->text = JText::_('INSTL_COMPLETE_FOLDER_REMOVED');
 
-		// Send the response
-		// This is a hack since by now, the rest of the folder is deleted and we can't make a new request
+		/*
+		 * Send the response
+		 * This is a hack since by now, the rest of the folder is deleted and we can't make a new request
+		 */
 		$this->sendJsonResponse($r);
 	}
 
@@ -156,9 +159,9 @@ class InstallationResponseJson
 	/**
 	 * Constructor for the JSON response
 	 *
-	 * @param  mixed  $data  Exception if there is an error, otherwise, the session data
+	 * @param   mixed  $data  Exception if there is an error, otherwise, the session data
 	 *
-	 * @since  3.1
+	 * @since   3.1
 	 */
 	public function __construct($data)
 	{

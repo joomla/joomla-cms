@@ -40,7 +40,8 @@ class InstallationControllerSetlanguage extends JControllerBase
 			$app->setHeader('status', 500);
 			$app->setHeader('Content-Type', 'application/json; charset=utf-8');
 			$app->sendHeaders();
-			echo '{"token":"' . JSession::getFormToken(true) . '","lang":"' . JFactory::getLanguage()->getTag() . '","error":true,"header":"' . JText::_('INSTL_HEADER_ERROR') . '","message":"' . JText::_('INSTL_WARNJSON') . '"}';
+			echo '{"token":"' . JSession::getFormToken(true) . '","lang":"' . JFactory::getLanguage()->getTag()
+				. '","error":true,"header":"' . JText::_('INSTL_HEADER_ERROR') . '","message":"' . JText::_('INSTL_WARNJSON') . '"}';
 			$app->close();
 		}
 
