@@ -402,28 +402,30 @@ class ContactModelContact extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
+		}
 
-			// Load associated contact items
-			$app = JFactory::getApplication();
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		// Load associated contact items
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
-			if ($assoc)
+		if ($assoc)
+		{
+			$item->associations = array();
+
+			if ($item->id != null)
 			{
 				$associations = JLanguageAssociations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $item->id);
 
-					foreach ($associations as $tag => $association)
-					{
-						$item->associations[$tag] = $association->id;
-					}
-			}
-			if (!empty($item->id)  && $item = parent::getItem($pk))
-			{
-				$db = JFactory::getDbo();
+				foreach ($associations as $tag => $association)
+				{
+					$item->associations[$tag] = $association->id;
+				}
 
 				$item->tags = new JTags;
 				$item->tags->getTagIds($item->id, 'com_contact.contact');
 			}
 		}
+
 		return $item;
 	}
 
@@ -540,7 +542,6 @@ class ContactModelContact extends JModelAdmin
 	}
 
 	/**
-
 	 * Prepare and sanitise the table prior to saving.
 	 *
 	 * @param   JTable	$table
@@ -586,7 +587,6 @@ class ContactModelContact extends JModelAdmin
 		$table->version++;
 
 	}
-
 
 	/**
 	 * A protected method to get a set of ordering conditions.
