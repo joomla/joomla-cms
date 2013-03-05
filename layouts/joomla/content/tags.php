@@ -16,7 +16,10 @@ defined('JPATH_BASE') or die;
 			JLoader::register('TagsHelperRoute', JPATH_BASE.'/components/com_tags/helpers/route.php');
 			foreach ($displayData as $i=>$tag)
 			{
-				echo '<span class="tag-' . $tag->tag_id . ' tag-list' . $i . ' "><a href="' . JRoute::_(TagsHelperRoute::getTagRoute($tag->tag_id)).'" >' . $this->escape($tag->title) . '</a></span>&nbsp;' . ' ' ;
+				if (in_array($tag->access, JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'))))
+				{
+					echo '<span class="tag-' . $tag->tag_id . ' tag-list' . $i . ' "><a href="' . JRoute::_(TagsHelperRoute::getTagRoute($tag->tag_id)).'" >' . $this->escape($tag->title) . '</a></span>&nbsp;' . ' ' ;
+				}
 			}
 		} ?>
 </div>
