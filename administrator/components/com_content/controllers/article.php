@@ -192,8 +192,6 @@ class ContentControllerArticle extends JControllerForm
 
 		$tags = $validData['tags'];
 
-
-
 		// Store the tag data if the article data was saved.
 		if ($tags[0] != '')
 		{

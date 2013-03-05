@@ -205,7 +205,7 @@ $sortFields = $this->getSortFields();
 							</span>
 						</td>
 					<td class="small hidden-phone">
-						<?php echo $this->escape($item->access); ?>
+						<?php echo $this->escape($item->access_title); ?>
 					</td>
 					<?php if ($this->assoc): ?>
 					<td class="center hidden-phone">
