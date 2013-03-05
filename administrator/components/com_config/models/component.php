@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 class ConfigModelComponent extends JModelForm
 {
-	 /**
+	/**
 	* The event to trigger before saving the data.
 	*
 	* @var    string
