@@ -4,6 +4,10 @@
  * @subpackage	com_content
  * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ ***************************************************************************************
+ * Warning: Some modifications and improved were made by the Community Juuntos for
+ * the latinamerican Project Jokte! CMS
+ ***************************************************************************************
  */
 
 // no direct access
@@ -13,12 +17,15 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
 $params		= $this->item->params;
-$images = json_decode($this->item->images);
-$urls = json_decode($this->item->urls);
+$images 	= json_decode($this->item->images);
+$urls 		= json_decode($this->item->urls);
 $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
+// 
+$avatar		= JHtml::_('utiles.avatar',$this->item, $params); 
+$tags		= JHtml::_('utiles.simpletags', $this->item->metakey); 
+$disqus		= JHtml::_('utiles.disqus', $this->item,$params);
 ?>
-
 <div class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
 	<h1>
@@ -30,13 +37,16 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 {
  echo $this->item->pagination;
 }
- ?>
-
-<?php if ($params->get('show_copete')) : ?>	
-	<h4>
-	<?php echo $this->item->copete; ?>	
-	</h4>
-<?php endif; ?>
+?>
+<?php 
+// Nuevo Jokte v1.2.1 
+if ($params->get('show_copete')) :
+	if ($this->item->copete != Null): ?>
+	<h4><?php echo $this->item->copete; ?></h4>
+<?php 
+	endif; 
+endif; 
+?>
 
 <?php if ($params->get('show_title')) : ?>	
 	<h2>
@@ -48,7 +58,13 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 	<?php endif; ?>
 	</h2>
 <?php endif; ?>
-
+<?php
+	// Nuevo Jokte v1.2.2 
+	if ($params->get('show_subtitle')) : ?>
+	<div class="subtitle">
+		<h3><?php echo $this->escape($this->item->subtitle); ?></h3>	
+	</div>
+<?php endif; ?>
 <?php if ($canEdit ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
 	<ul class="actions">
 	<?php if (!$this->print) : ?>
@@ -141,8 +157,8 @@ endif; ?>
 		$cntlink = !empty($item) ? $needle . '&Itemid=' . $item->id : $needle;
 	?>
 		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $author)); ?>
-	<?php else: ?>
-		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+	<?php else: ?>		
+		<?php echo JText::sprintf('TPL_JOKTEANTU_ESCRITO_POR', $author); ?>
 	<?php endif; ?>
 	</dd>
 <?php endif; ?>
@@ -165,20 +181,27 @@ endif; ?>
 <?php endif; ?>
 
 <?php if ($params->get('access-view')):?>
-<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
-<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
-<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
-<img
-	<?php if ($images->image_fulltext_caption):
-		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
-	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
-</div>
+	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
+	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
+	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
+	<img
+		<?php if ($images->image_fulltext_caption):
+			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
+		endif; ?>
+		src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
+	</div>
 <?php endif; ?>
+
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
 	echo $this->item->pagination;
  endif;
+?>
+<?php 
+// Nuevo Jokte v1.2.2 
+if ($params->get('show_avatar')) :
+	echo $avatar;
+endif; 
 ?>
 <?php echo $this->item->text; ?>
 <?php
@@ -223,3 +246,19 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 
 <?php echo $this->item->event->afterDisplayContent; ?>
 </div>
+<?php 
+	// Nuevo Jokte v1.2.2
+	if ($params->get('show_simpletags')) : ?>
+	<div class="etiquetas">
+		<span class="tagslabel"><?php echo JText::_('COM_CONTENT_LABEL_TAGS').': '; ?></span> 
+		<?php foreach ($tags as $etiqueta): ?>
+			<span class="tag"><?php echo $etiqueta; ?></span>
+		<?php endforeach; ?>	
+	</div>
+<?php endif; ?>
+<?php
+	// Nuevo Jokte v1.2.2 
+	if ($params->get('show_disqus')) :
+		echo $disqus;
+	endif; 
+?>
