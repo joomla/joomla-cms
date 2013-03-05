@@ -20,30 +20,37 @@ $user		= JFactory::getUser();
 $tweet = (isset($tweet)) ? $tweet : NULL;
 $like = (isset($like)) ? $like : NULL;
 $one = (isset($one)) ? $one : NULL;
+$avatar		= JHtml::_('utiles.avatar',$this->item, $params); 
+$tags		= JHtml::_('utiles.simpletags', $this->item->metakey);
+$comments	= JHtml::_('utiles.disqus', $this->item,$params);
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	</h1>
-<?php endif; ?>
+<?php endif;?>
 
-<?php if ($params->get('show_copete')) : ?>	
-	<h4>
-	<?php echo $this->item->copete; ?>	
-	</h4>
-<?php endif; ?>
+<?php 
+// Nuevo Jokte v1.2.2 
+if ($params->get('show_copete')) :
+	if ($this->item->copete != Null): ?>
+	<h4><?php echo $this->item->copete; ?></h4>
+<?php 
+	endif; 
+endif; 
+?>
 
 <div id="cabecera-articulo">
 <?php if ($params->get('show_publish_date')) : ?>
 	<dd class="published">
-	<div class="fecha">
-	<span class="dia"><?php echo JText::sprintf( JHtml::_('date',$this->item->publish_up, JText::_('d'))); ?></span>
-	<div class="fecha2">
-	<span class="mes"><?php echo JText::sprintf( JHtml::_('date',$this->item->publish_up, JText::_('M'))); ?></span>
-	<span class="año"><?php echo JText::sprintf( JHtml::_('date',$this->item->publish_up, JText::_('Y'))); ?></span>
-	</div>
-	</div>
+		<div class="fecha">
+			<span class="dia"><?php echo JText::sprintf( JHtml::_('date',$this->item->publish_up, JText::_('d'))); ?></span>
+			<div class="fecha2">
+				<span class="mes"><?php echo JText::sprintf( JHtml::_('date',$this->item->publish_up, JText::_('M'))); ?></span>
+				<span class="año"><?php echo JText::sprintf( JHtml::_('date',$this->item->publish_up, JText::_('Y'))); ?></span>
+			</div>
+		</div>
 	</dd>
 <?php endif; ?>
 
@@ -57,7 +64,18 @@ $one = (isset($one)) ? $one : NULL;
 	<?php endif; ?>
 	</h2>
 <?php endif; ?>
+</div>
+<div class="sub-cabecera-articulo">
+<?php 
+	// Nuevo Jokte v1.2.2
+	if ($params->get('show_subtitle')) : ?>
+	<div class="subtitulos">
+		<h3><?php echo $this->escape($this->item->subtitle); ?></h3>	
+	</div>
+<?php endif; ?>
 <?php if ($canEdit ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
+</div>
+<div class="miscelaneas">
 	<ul class="actions">
 	<?php if (!$this->print) : ?>
 		<?php if ($params->get('show_print_icon')) : ?>
@@ -116,7 +134,7 @@ endif; ?>
 	?>
 		<?php echo JText::sprintf('TPL_JOKTEANTU_ESCRITO_POR', JHtml::_('link', JRoute::_($cntlink), $author)); ?>
 	<?php else: ?>
-		<?php echo JText::sprintf('TPL_JOKTEANTU_ESCRITO_POR', $author); ?>
+		<?php echo JText::sprintf('TPL_JOKTEANTU_ESCRITO_POR', $author); ?>				
 	<?php endif; ?>
 	</dd>
 <?php endif; ?>
@@ -158,8 +176,6 @@ endif; ?>
 	</dd>
 <?php endif; ?>
 
-
-
 <?php if ($useDefList) : ?>
 	</dl>
 <?php endif; ?>
@@ -168,6 +184,12 @@ endif; ?>
 	<?php echo $this->item->toc; ?>
 <?php endif; ?>
 <?php if ($params->get('access-view')):?>
+	<?php 
+	// Nuevo Jokte v1.2.2 
+	if ($params->get('show_avatar')) :
+		echo $avatar;
+	endif; 
+	?>
 	<?php echo $this->item->text; ?>
 
 	<?php //optional teaser intro text for guests ?>
@@ -199,3 +221,14 @@ endif; ?>
 <?php endif; ?>
 <?php echo $this->item->event->afterDisplayContent; ?>
 </div>
+<?php // Nuevo Jokte v1.2.2 ?>
+<?php if ($params->get('show_simpletags')) : ?>
+	<div class="etiquetas">
+		<span class="tagslabel"><?php echo JText::_('COM_CONTENT_LABEL_TAGS').': '; ?></span> 
+		<?php foreach ($tags as $etiqueta): ?>
+			<span class="tag"><?php echo $etiqueta; ?></span>
+		<?php endforeach; ?>	
+	</div>
+<?php endif; 
+echo $comments;
+?>
