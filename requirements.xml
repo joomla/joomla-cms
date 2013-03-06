@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
 <requirements>
-	<version release="3.0.2">
+	<version release="3.0.3">
 		<php_options>
 			<php_version>5.3.1</php_version>
 			<magic_quotes_gpc>false</magic_quotes_gpc>
