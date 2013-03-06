@@ -1,4 +1,3 @@
-SET foreign_key_checks = 0;
 CREATE TABLE IF NOT EXISTS `#__tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -30,7 +29,6 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   `version` int(10) unsigned NOT NULL DEFAULT '1',
   `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-
   PRIMARY KEY (`id`),
   KEY `tag_idx` (`published`,`access`),
   KEY `idx_access` (`access`),
@@ -91,9 +89,7 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
  KEY idx_tag_name (`tag_id`, `type_alias`),
  KEY idx_date_id (`tag_date`, `tag_id`),
  KEY idx_tag (`tag_id`),
- KEY idx_core_content_id (`core_content_id`),
-   CONSTRAINT `#__contentitem_tag_map_ibfk_1` FOREIGN KEY (`tag_id`) REFERENCES `#__tags` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-   CONSTRAINT `#__contentitem_tag_map_ibfk_2` FOREIGN KEY (`core_content_id`) REFERENCES `#__core_content` (`core_content_id`) ON UPDATE CASCADE ON DELETE CASCADE
+ KEY idx_core_content_id (`core_content_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
 
 CREATE TABLE IF NOT EXISTS `#__core_content` (
@@ -142,7 +138,5 @@ CREATE TABLE IF NOT EXISTS `#__core_content` (
   KEY `idx_core_modified_user_id` (`core_modified_user_id`),
   KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`),
   KEY `idx_core_created_user_id` (`core_created_user_id`),
-  KEY `idx_core_type_id` (`core_type_id`),
-  CONSTRAINT `#__core_content_ibfk_1` FOREIGN KEY (`core_type_alias`) REFERENCES `#__content_types` (`type_alias`)
+  KEY `idx_core_type_id` (`core_type_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
- SET foreign_key_checks = 1;
