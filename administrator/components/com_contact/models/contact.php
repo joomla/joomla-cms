@@ -94,6 +94,16 @@ class ContactModelContact extends JModelAdmin
 			$done = true;
 		}
 
+		if (!empty($commands['tag']))
+		{
+			if (!$this->batchTag($commands['tag'], $pks, $contexts))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
 		if (strlen($commands['user_id']) > 0)
 		{
 			if (!$this->batchUser($commands['user_id'], $pks, $contexts))
@@ -282,7 +292,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	$record	A record object.
+	 * @param   object  $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
@@ -411,6 +421,8 @@ class ContactModelContact extends JModelAdmin
 					$item->associations[$tag] = $association->id;
 				}
 
+				$item->tags = new JTags;
+				$item->tags->getTagIds($item->id, 'com_contact.contact');
 			}
 		}
 

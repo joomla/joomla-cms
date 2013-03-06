@@ -23,6 +23,12 @@ defined('_JEXEC') or die;
 	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_contact.category'); ?>
 </h2>
 <?php endif; ?>
+
+	<?php if ($this->params->get('show_tags', 1)  && !empty($this->category->tags->itemTags)) : ?>
+		<?php $this->category->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
+	<?php endif; ?>
+
 <?php if ($this->params->def('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 	<div class="category-desc">
 	<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>

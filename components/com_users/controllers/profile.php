@@ -172,4 +172,30 @@ class UsersControllerProfile extends UsersController
 		// Flush the data from the session.
 		$app->setUserState('com_users.edit.profile.data', null);
 	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getData();
+		$id = $item->get('id');
+		$tags = $validData['tags'];
+
+		if ($tags)
+		{
+			$item->tags = new JTags;
+			$item->tags->getTagIds($item->id, 'com_users.user');
+
+		}
+	}
+
 }

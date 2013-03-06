@@ -120,7 +120,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		return true;
 	}
 	/**
-	 * Overriden JTable::store to set modified data and user id.
+	 * Overriden JTable::store to set modified data.
 	 *
 	 * @param   boolean	True to update fields even if they are null.
 	 * @return  boolean  True on success.
@@ -149,13 +149,14 @@ class NewsfeedsTableNewsfeed extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
-	// Verify that the alias is unique
+		// Verify that the alias is unique
 		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_NEWSFEEDS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}
+
 		return parent::store($updateNulls);
 	}
 
