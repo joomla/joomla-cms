@@ -42,7 +42,6 @@ class JToolbarButtonPopupTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbarButtonPopup::fetchButton
 	 * @todo   Implement testFetchButton().
 	 */
 	public function testFetchButton()
@@ -58,8 +57,6 @@ class JToolbarButtonPopupTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButtonPopup::fetchId
 	 */
 	public function testFetchId()
 	{

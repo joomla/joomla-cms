@@ -74,6 +74,7 @@ abstract class JHtmlBootstrap
 	public static function carousel($selector = 'carousel', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -83,7 +84,7 @@ abstract class JHtmlBootstrap
 			$opt['interval'] = (isset($params['interval']) && ($params['interval'])) ? (int) $params['interval'] : 5000;
 			$opt['pause'] = (isset($params['pause']) && ($params['pause'])) ? $params['pause'] : 'hover';
 
-			$options = self::_getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			// Attach the carousel to document
 			JFactory::getDocument()->addScriptDeclaration(
@@ -184,6 +185,7 @@ abstract class JHtmlBootstrap
 	public static function modal($selector = 'modal', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -319,6 +321,7 @@ abstract class JHtmlBootstrap
 	public static function scrollspy($selector = 'navbar', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -418,6 +421,7 @@ abstract class JHtmlBootstrap
 	public static function startAccordion($selector = 'myAccordian', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -509,6 +513,7 @@ abstract class JHtmlBootstrap
 	public static function startPane($selector = 'myTab', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (!isset(self::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
@@ -534,8 +539,9 @@ abstract class JHtmlBootstrap
 			self::$loaded[__METHOD__][$sig] = true;
 			self::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
-
-		return '<div class="tab-content" id="' . $selector . 'Content">';
+		$html = '<ul class="nav nav-tabs" id="' . $selector . 'Tabs"></ul>';
+		$html .= '<div class="tab-content" id="' . $selector . 'Content">';
+		return $html;
 	}
 
 	/**
@@ -555,14 +561,26 @@ abstract class JHtmlBootstrap
 	 *
 	 * @param   string  $selector  Identifier of the panel.
 	 * @param   string  $id        The ID of the div element
+	 * @param   string  $title     The title text for the new UL tab
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
 	 * @since   3.0
 	 */
-	public static function addPanel($selector, $id)
+	public static function addPanel($selector, $id, $title)
 	{
 		$active = (self::$loaded['JHtmlBootstrap::startPane'][$selector]['active'] == $id) ? ' active' : '';
+
+		// Inject tab into UL
+		JFactory::getDocument()->addScriptDeclaration(
+			"(function($){
+				$(document).ready(function() {
+					// Handler for .ready() called.
+					var tab = $('<li class=\"$active\"><a href=\"#$id\" data-toggle=\"tab\">$title</a></li>');
+					$('#" . $selector . "Tabs').append(tab);
+				});
+			})(jQuery);"
+		);
 
 		return '<div id="' . $id . '" class="tab-pane' . $active . '">';
 	}

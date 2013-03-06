@@ -14,18 +14,38 @@
 class JRouterAdministratorTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JRouterAdministrator
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
+	/**
+	 * Class being tested
+	 *
+	 * @var    JRouterAdministrator
+	 * @since  3.0
 	 */
 	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	protected function setUp()
 	{
 		// Import dependencies
 		jimport('joomla.application.router');
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 
 		$this->object = new JRouterAdministrator;
 	}
@@ -33,19 +53,22 @@ class JRouterAdministratorTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
 	}
 
 	/**
-	 * Tests the isCompatible method
+	 * Tests the parse method
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JRouterAdministrator::parse
 	 */
 	public function testParse()
 	{
@@ -59,13 +82,26 @@ class JRouterAdministratorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JRouterAdministrator::build
-	 * @todo   Implement testBuild().
+	 * Tests the build method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	public function testBuild()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
+		$uri = JUri::getInstance('http://localhost/joomla-cms/intro/to/joomla');
+
+		$this->assertInstanceOf(
+			'JUri',
+			$this->object->build($uri),
+			'JRouterAdministrator::build() returns an instance of JUri.'
+		);
+
+		$this->assertEquals(
+			$uri->getPath(),
+			'/joomla-cms/intro/to/joomla',
+			'JRouterAdministrator::build() returns the path as provided.'
 		);
 	}
 }

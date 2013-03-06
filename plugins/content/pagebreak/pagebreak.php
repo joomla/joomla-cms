@@ -28,7 +28,7 @@ jimport('joomla.utilities.utility');
  * @subpackage  Content.pagebreak
  * @since       1.6
  */
-class plgContentPagebreak extends JPlugin
+class PlgContentPagebreak extends JPlugin
 {
 	/**
 	 * Constructor

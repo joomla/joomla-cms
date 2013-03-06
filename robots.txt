@@ -9,7 +9,7 @@
 # http://www.robotstxt.org/orig.html
 #
 # For syntax checking, see:
-# http://www.sxw.org.uk/computing/robots/check.html
+# http://tool.motoricerca.info/robots-checker.phtml
 
 User-agent: *
 Disallow: /administrator/

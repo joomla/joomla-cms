@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  System.Debug
  * @since       1.5
  */
-class plgSystemDebug extends JPlugin
+class PlgSystemDebug extends JPlugin
 {
 	protected $linkFormat = '';
 
@@ -34,7 +34,7 @@ class plgSystemDebug extends JPlugin
 	 * @var    array
 	 * @since  3.1
 	 */
-	private $_logEntries = array();
+	private $logEntries = array();
 
 	/**
 	 * Constructor.
@@ -184,7 +184,7 @@ class plgSystemDebug extends JPlugin
 				$html .= $this->display('queries');
 			}
 
-			if ($this->params->get('logs', 1) && !empty($this->_logEntries))
+			if ($this->params->get('logs', 1) && !empty($this->logEntries))
 			{
 				$html .= $this->display('logs');
 			}
@@ -879,12 +879,15 @@ class plgSystemDebug extends JPlugin
 
 	/**
 	 * Store log messages so they can be displayed later.
+	 * This function is passed log entries by JLogLoggerCallback. 
 	 *
-	 * @since   3.0
+	 * @param   JLogEntry  $entry  A log entry.
+	 *
+	 * @since   3.1
 	 */
 	public function logger(JLogEntry $entry)
 	{
-		$this->_logEntries[] = $entry;
+		$this->logEntries[] = $entry;
 	}
 
 	/**
@@ -892,7 +895,7 @@ class plgSystemDebug extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	protected function displayLogs()
 	{
@@ -908,7 +911,7 @@ class plgSystemDebug extends JPlugin
 
 		$out = array();
 
-		foreach ($this->_logEntries as $entry)
+		foreach ($this->logEntries as $entry)
 		{
 			$out[] = '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . ' </h5><code>' . $entry->message . '</code>';
 		}

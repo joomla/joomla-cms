@@ -26,6 +26,15 @@ $this->direction = $doc->direction;
 	<?php if ($this->direction == 'rtl') : ?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/system/css/error_rtl.css" type="text/css" />
 	<?php endif; ?>
+	<?php
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if (JDEBUG || $debug)
+		{
+	?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
+	<?php
+		}
+	?>
 </head>
 <body>
 	<div class="error">

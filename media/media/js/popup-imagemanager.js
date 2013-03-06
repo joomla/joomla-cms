@@ -55,6 +55,9 @@ var ImageManager = this.ImageManager = {
 		{
 			if (folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
+				if ( typeof jQuery !== 'undefined' && folderlist.className.test( /\bchzn-done\b/ )) {
+					jQuery( this.folderlist ).trigger( 'liszt:updated' );
+				}
 				break;
 			}
 		}
@@ -130,6 +133,9 @@ var ImageManager = this.ImageManager = {
 		{
 			if (folder == this.folderlist.options[i].value) {
 				this.folderlist.selectedIndex = i;
+				if ( typeof jQuery !== 'undefined' && folderlist.className.test( /\bchzn-done\b/ )) {
+					jQuery( this.folderlist ).trigger( 'liszt:updated' );
+				}
 				break;
 			}
 		}

@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Contacts
  * @since       2.5
  */
-class plgFinderContacts extends FinderIndexerAdapter
+class PlgFinderContacts extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.

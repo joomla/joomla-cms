@@ -77,13 +77,8 @@
  </rule>
 
  <rule ref="PEAR.NamingConventions.ValidClassName">
-  <!-- These exceptions are temporary -->
-  <exclude-pattern>/administrator/components/*</exclude-pattern>
-  <exclude-pattern>/administrator/modules/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/language/*</exclude-pattern>
+  <!-- These exceptions are temporary for now -->
+  <exclude-pattern>/installation/controller/install/database_*</exclude-pattern>
  </rule>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 

@@ -7,6 +7,9 @@
 		<testsuite name="administrator">
 			<directory>tests/unit/suites/administrator</directory>
 		</testsuite>
+		<testsuite name="FinderIndexer">
+			<directory>tests/unit/suites/finderIndexer</directory>
+		</testsuite>
 	</testsuites>
 
 	<logging>
@@ -18,6 +21,7 @@
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">libraries/cms</directory>
+			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
 			<file>administrator/includes/helper.php</file>
 		</whitelist>
 	</filter>

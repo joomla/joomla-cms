@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Content.finder
  * @since       2.5
  */
-class plgContentFinder extends JPlugin
+class PlgContentFinder extends JPlugin
 {
 	/**
 	 * Finder after save content method
