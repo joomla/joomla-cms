@@ -61,11 +61,14 @@ class TagsViewTag extends JViewLegacy
 			}
 
 			// Prepare the data.
-			$temp = new JRegistry;
-			$temp->loadString($itemElement->params);
-			$itemElement->params = clone($params);
-			$itemElement->params->merge($temp);
-			$itemElement->params = (array) json_decode($itemElement->params);
+			if (!empty($itemElement))
+			{
+				$temp = new JRegistry;
+				$temp->loadString($itemElement->params);
+				$itemElement->params = clone($params);
+				$itemElement->params->merge($temp);
+				$itemElement->params = (array) json_decode($itemElement->params);
+			}
 		}
 
 		$this->state      = &$state;
@@ -86,7 +89,8 @@ class TagsViewTag extends JViewLegacy
 		$temp	= clone ($this->params);
 
 		// Check to see which parameters should take priority
-		if ($active) {
+		if ($active)
+		{
 			$currentLink = $active->link;
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
 			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]='.(string) $item[0]->id)))
