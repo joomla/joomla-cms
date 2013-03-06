@@ -42,18 +42,13 @@ jimport('joomla.html.html.bootstrap');
 			</span>
 		</h3>
 	<?php endif; ?>
-
-	<?php if ($this->params->get('show_tags',1)) : ?>
-		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
-	<?php endif; ?>
-
 	<?php if ($this->params->get('show_contact_list') && count($this->contacts) > 1) : ?>
 		<form action="#" method="get" name="selectForm" id="selectForm">
 			<?php echo JText::_('COM_CONTACT_SELECT_CONTACT'); ?>
 			<?php echo JHtml::_('select.genericlist', $this->contacts, 'id', 'class="inputbox" onchange="document.location.href = this.value"', 'link', 'name', $this->contact->link);?>
 		</form>
 	<?php endif; ?>
+
 
  	<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'basic-details')); ?>
@@ -71,6 +66,7 @@ jimport('joomla.html.html.bootstrap');
 	<?php if ($this->params->get('presentation_style') == 'plain'):?>
 		<?php  echo '<h3>'. JText::_('COM_CONTACT_DETAILS').'</h3>';  ?>
 	<?php endif; ?>
+
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
 		<div class="thumbnail pull-right">
 			<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')); ?>
@@ -128,6 +124,7 @@ jimport('joomla.html.html.bootstrap');
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_articles') && $this->contact->user_id && $this->contact->articles) : ?>
+
 		<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
 		<?php endif; ?>
@@ -146,7 +143,9 @@ jimport('joomla.html.html.bootstrap');
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 		<?php endif; ?>
+
 	<?php endif; ?>
+
 	<?php if ($this->params->get('show_profile') && $this->contact->user_id && JPluginHelper::isEnabled('user', 'profile')) : ?>
 
 		<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
@@ -167,6 +166,7 @@ jimport('joomla.html.html.bootstrap');
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 		<?php endif; ?>
+
 	<?php endif; ?>
 
 	<?php if ($this->contact->misc && $this->params->get('show_misc')) : ?>

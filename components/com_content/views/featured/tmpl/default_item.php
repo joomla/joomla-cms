@@ -197,6 +197,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 				</dd>
 			<?php endif; ?>
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 			<?php if ($info == 0) : ?>
 				<?php if ($params->get('show_modify_date')) : ?>
@@ -234,8 +235,6 @@ $info    = $this->item->params->get('info_block_position', 0);
 				echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
 			endif; ?>
 			src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/> </div>
-=======
->>>>>>> refs/heads/master
 		<?php endif; ?>
 
 		<?php if ($params->get('show_create_date')) : ?>
