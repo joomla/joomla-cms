@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Mar-2013 Mark Dexter
+ + [#29855] Add a component for creating and managing (nested) tagging in content components. Thanks Elin Waring!
+
 05-Mar-2013 Jean-Marie Simonet
  ^ [#30085] Refactor installation to use new application and MVC classes. Thanks Michael
  # [#30203] * Misrepresented Debug Console at the joomla errorpage.
