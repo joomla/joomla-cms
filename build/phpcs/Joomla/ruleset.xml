@@ -23,7 +23,6 @@
  <exclude-pattern>libraries/phpmailer/phpmailer.php</exclude-pattern>
  <exclude-pattern>libraries/phpmailer/smtp.php</exclude-pattern>
  <exclude-pattern>libraries/phpmailer/pop3.php</exclude-pattern>
- <exclude-pattern>*/geshi/*</exclude-pattern>
  <exclude-pattern>*/mootree*.css</exclude-pattern>
  <exclude-pattern>*/mooRainbow.css</exclude-pattern>
  <exclude-pattern>*/modal.css</exclude-pattern>
