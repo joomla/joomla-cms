@@ -148,7 +148,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
 		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
 		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
-		$extensions[] = array('plugin', 'geshi', 'content', 0);
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
 		$extensions[] = array('plugin', 'pagenavigation', 'content', 0);
