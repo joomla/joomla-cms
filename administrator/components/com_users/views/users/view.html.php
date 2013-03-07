@@ -59,6 +59,9 @@ class UsersViewUsers extends JViewLegacy
 	{
 		$canDo	= UsersHelper::getActions();
 
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
 
 		if ($canDo->get('core.create'))
@@ -83,6 +86,17 @@ class UsersViewUsers extends JViewLegacy
 		{
 			JToolbarHelper::deleteList('', 'users.delete');
 			JToolbarHelper::divider();
+		}
+
+		// Add a batch button
+		if ($canDo->get('core.edit'))
+		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
+			$title = JText::_('JTOOLBAR_BATCH');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+			<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
+			$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($canDo->get('core.admin'))
