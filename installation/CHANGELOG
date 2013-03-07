@@ -28,7 +28,8 @@ $ -> Language fix or change
 
 07-Mar-2013 Jean-Marie Simonet
  #$ [#30220] TAGS - language string typo. Thanks David. + some.
- #  [#30216] *Normalising batch for com_users manager in Isis
+ # [#30216] *Normalising batch for com_users manager in Isis
+ # [#30227] Missing files on en-GB.xml
 
 -------------------- 3.1 Beta 1 Release [07-Mar-2012] ------------------
 
