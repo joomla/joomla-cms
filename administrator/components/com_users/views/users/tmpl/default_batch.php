@@ -48,3 +48,4 @@ JHtml::_('formbehavior.chosen', 'select');
 			<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
 		</button>
 	</div>
+</div>
