@@ -61,6 +61,7 @@ class ModuleManagerPage extends AdminManagerPage
 			array('client' => 'site', 'name' => 'Login'),
 			array('client' => 'site', 'name' => 'Menu'),
 			array('client' => 'site', 'name' => 'Most Read Content'),
+			array('client' => 'site', 'name' => 'Popular Tags'),
 			array('client' => 'site', 'name' => 'Random Image'),
 			array('client' => 'site', 'name' => 'Search'),
 			array('client' => 'site', 'name' => 'Smart Search Module'),

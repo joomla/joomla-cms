@@ -40,7 +40,7 @@ abstract class JHtmlIcons
 	/**
 	 * Method to generate html code for a list of buttons
 	 *
-	 * @param   array|object  $button  Button properties
+	 * @param   array  $button  Button properties
 	 *
 	 * @return  string
 	 *
@@ -48,8 +48,7 @@ abstract class JHtmlIcons
 	 */
 	public static function button($button)
 	{
-		$user = JFactory::getUser();
-		if (!empty($button['access']))
+		if (isset($button['access']))
 		{
 			if (is_bool($button['access']))
 			{
@@ -60,6 +59,8 @@ abstract class JHtmlIcons
 			}
 			else
 			{
+				// Get the user object to verify permissions
+				$user = JFactory::getUser();
 
 				// Take each pair of permission, context values.
 				for ($i = 0, $n = count($button['access']); $i < $n; $i += 2)

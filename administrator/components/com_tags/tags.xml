@@ -2,7 +2,7 @@
 <extension type="component" version="3.0" method="upgrade">
 	<name>com_tags</name>
 		<author>Joomla! Project</author>
-	<creationDate>December 2012</creationDate>
+	<creationDate>March 2013</creationDate>
 		<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 		<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 		<authorEmail>admin@joomla.org</authorEmail>

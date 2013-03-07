@@ -29,6 +29,14 @@ class PlgSystemDebug extends JPlugin
 	private $debugLang = false;
 
 	/**
+	 * Holds log entries handled by the plugin.
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	private $logEntries = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe

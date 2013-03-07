@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  com_modules
  * @since       3.0
  */
-class JFormFieldHeaderTag extends JFormFieldList
+class JFormFieldHeadertag extends JFormFieldList
 {
 	/**
 	 * The form field type.

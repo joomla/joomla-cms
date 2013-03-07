@@ -196,45 +196,6 @@ $info    = $this->item->params->get('info_block_position', 0);
 					<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 				</dd>
 			<?php endif; ?>
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-			<?php if ($info == 0) : ?>
-				<?php if ($params->get('show_modify_date')) : ?>
-					<dd class="modified">
-					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
-					</dd>
-				<?php endif; ?>
-				<?php if ($params->get('show_create_date')) : ?>
-					<dd class="create">
-						<span class="icon-calendar"></span>
-						<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
-					</dd>
-				<?php endif; ?>
-
-				<?php if ($params->get('show_hits')) : ?>
-					<dd class="hits">
-						<span class="icon-eye-open"></span>
-						<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
-					</dd>
-				<?php endif; ?>
-			<?php endif; ?>
-	</dl>
-
-	<?php if ($this->params->get('show_tags',1)) : ?>
-		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
-	<?php endif; ?>
-
-	<?php endif; ?>
-	<?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
-		<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
-		<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
-			<?php if ($images->image_intro_caption):
-				echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';
-			endif; ?>
-			src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/> </div>
 		<?php endif; ?>
 
 		<?php if ($params->get('show_create_date')) : ?>

@@ -35,7 +35,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function constructor_OpenEditScreen_MenuEditOpened()
 	{
