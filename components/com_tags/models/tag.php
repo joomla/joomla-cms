@@ -168,7 +168,7 @@ class TagsModelTag extends JModelList
 
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$query->where('c.core_access IN ('.$groups.')');
-		$query->group('m.type_alias, m.content_item_id, m.core_content_id');
+		$query->group('m.type_alias, m.content_item_id, m.core_content_id, c.core_modified_time, c.core_created_time, c.core_created_by_alias, ua.name, ua.email');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1  && $this->getState('params')->get('return_any_or_all', 1) != 1 && $includeChildren != 1)
