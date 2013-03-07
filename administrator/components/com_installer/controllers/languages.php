@@ -26,7 +26,7 @@ class InstallerControllerLanguages extends JControllerLegacy
 	 */
 	public function find()
 	{
-		// Purgue the updates list
+		// Purge the updates list
 		$model = $this->getModel('update');
 		$model->purge();
 
@@ -47,7 +47,7 @@ class InstallerControllerLanguages extends JControllerLegacy
 	}
 
 	/**
-	 * Purgue the updates list.
+	 * Purge the updates list.
 	 *
 	 * @return  void
 	 *

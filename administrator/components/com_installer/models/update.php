@@ -145,7 +145,7 @@ class InstallerModelUpdate extends JModelList
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0)
 	{
-		// Purgue the updates list
+		// Purge the updates list
 		$this->purge();
 
 		$updater = JUpdater::getInstance();
