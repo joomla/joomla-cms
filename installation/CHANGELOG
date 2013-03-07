@@ -25,6 +25,29 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+07-Mar-2013 Jean-Marie Simonet
+ #$ [#30220] TAGS - language string typo. Thanks David. + some.
+ # [#30216] *Normalising batch for com_users manager in Isis
+ # [#30227] Missing files on en-GB.xml
+
+-------------------- 3.1 Beta 1 Release [07-Mar-2012] ------------------
+
+06-Mar-2013 Mark Dexter
+ + [#29855] Add a component for creating and managing (nested) tagging in content components. Thanks Elin Waring!
+ + [#29822] Show logs in debug console. Thanks Elijah Madden!
+ - [#28574] Remove the GeSHi plug-in.
+
+05-Mar-2013 Jean-Marie Simonet
+ ^ [#30085] Refactor installation to use new application and MVC classes. Thanks Michael
+ # [#30203] * Misrepresented Debug Console at the joomla errorpage.
+ + [#29770] com_config component missing triggers on save. Thanks Nicholas Antimisiaris
+ $ Updating Installation ini files: be-BY, da-DK, fr-FR, it-IT, mk-MK, nb-NO, ru-RU, sr-RS, sr-YU, ta-IN, th-TH, zh-TW
+
+02-Mar-2013 Jean-Marie Simonet
+ # [#30189] * [#30157] did not take into account apostrophies in lang strings values
+ # [#30186] Weblinks module fails
+
 01-Mar-2013 Jean-Marie Simonet
  # [#30172] *Moving the helper getAssociations() to the cms library. Thanks Roberto and Harald
  # [#30182] *Correcting some hathor display.

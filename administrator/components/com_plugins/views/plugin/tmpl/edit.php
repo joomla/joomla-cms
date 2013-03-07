@@ -29,7 +29,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('JDETAILS')); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('name'); ?>

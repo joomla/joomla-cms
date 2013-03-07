@@ -39,7 +39,7 @@ class JHtmlIconsTest extends TestCase
 	}
 
 	/**
-	 * Tests the buttons method
+	 * Tests the buttons and button methods
 	 *
 	 * @return  void
 	 *
@@ -50,13 +50,22 @@ class JHtmlIconsTest extends TestCase
 		$buttons = array(
 			array(
 				'link' => JRoute::_('index.php?option=com_content&task=article.add'),
-				'image' => 'header/icon-48-article-add.png',
-				'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE')
+				'image' => 'file-add',
+				'icon' => 'header/icon-48-article-add.png',
+				'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
+			),
+			array(
+				'link' => JRoute::_('index.php?option=com_installer'),
+				'image' => 'puzzle',
+				'icon' => 'header/icon-48-extension.png',
+				'text' => JText::_('MOD_QUICKICON_EXTENSION_MANAGER'),
+				'access' => false
 			),
 			array(
 				'link' => JRoute::_('index.php?option=com_templates'),
-				'image' => 'header/icon-48-themes.png',
-				'text' => JText::_('MOD_QUICKICON_TEMPLATE_MANAGER')
+				'image' => 'eye',
+				'icon' => 'header/icon-48-themes.png',
+				'text' => JText::_('MOD_QUICKICON_TEMPLATE_MANAGER'),
 			)
 		);
 
@@ -64,28 +73,6 @@ class JHtmlIconsTest extends TestCase
 			JHtmlIcons::buttons($buttons),
 			$this->isType('string'),
 			'JHtmlIcons::buttons() should return a string with the HTML markup of the button(s)'
-		);
-	}
-
-	/**
-	 * Tests the button method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function testButton()
-	{
-		$button = array(
-			'link' => JRoute::_('index.php?option=com_content&task=article.add'),
-			'image' => 'header/icon-48-article-add.png',
-			'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE')
-		);
-
-		$this->assertThat(
-			JHtmlIcons::button($button),
-			$this->isType('string'),
-			'JHtmlIcons::button() should return a string with the HTML markup of the button'
 		);
 	}
 }

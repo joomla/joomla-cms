@@ -104,4 +104,58 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 
 		return parent::batch($model);
 	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+		$item = $model->getItem();
+		if (isset($item->params) && is_array($item->params))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->params);
+			$item->params = (string) $registry;
+		}
+		if (isset($item->images) && is_array($item->images))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->images);
+			$item->images = (string) $registry;
+		}
+
+		if (isset($item->metadata) && is_array($item->metadata))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->metadata);
+			$item->metadata = (string) $registry;
+		}
+		$id = $item->id;
+
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_newsfeeds.newsfeed');
+			return;
+		}
+
+		$tags = $validData['tags'];
+
+		// Store the tag data if the news data was saved.
+		if ($tags[0] != '')
+		{
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $tags, null, $isNew, $item);
+		}
+
+	}
 }

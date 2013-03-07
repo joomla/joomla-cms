@@ -52,7 +52,7 @@ JHtml::_('formbehavior.chosen', 'select');
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS')); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS', true)); ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('name'); ?>
@@ -131,7 +131,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS')); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS', true)); ?>
 				<?php foreach ($this->form->getFieldset('publish') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -144,7 +144,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endforeach; ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'otherparams', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS')); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'otherparams', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS', true)); ?>
 				<?php foreach ($this->form->getFieldset('otherparams') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -157,7 +157,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endforeach; ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">

@@ -38,7 +38,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		<fieldset>
 			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id)); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT', true) : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id, true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
@@ -69,7 +69,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				</div>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('created_by'); ?></div>
@@ -122,9 +122,9 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'basic', JText::_('COM_CONTACT_CONTACT_DETAILS')); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'basic', JText::_('COM_CONTACT_CONTACT_DETAILS', true)); ?>
 
-				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
+				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS', true) : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id, true); ?></p>
 
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('image'); ?></div>
@@ -193,7 +193,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			<?php echo $this->loadTemplate('metadata'); ?>
 
 			<?php if ($assoc) : ?>
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 					<?php echo $this->loadTemplate('associations'); ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 			<?php endif; ?>
@@ -246,6 +246,15 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<?php echo $this->form->getInput('language'); ?>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('tags'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('tags'); ?>
+				</div>
+			</div>
+
 		</fieldset>
 	</div>
 	<!-- End Sidebar -->

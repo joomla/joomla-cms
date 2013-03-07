@@ -40,7 +40,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		<div class="span10 form-horizontal">
 			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'general')); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'general', JText::_('COM_CATEGORIES_FIELDSET_DETAILS')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'general', JText::_('COM_CATEGORIES_FIELDSET_DETAILS', true)); ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('title'); ?>
@@ -75,7 +75,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING', true)); ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('id'); ?>
@@ -130,20 +130,20 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php endif; ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'options', JText::_('CATEGORIES_FIELDSET_OPTIONS')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'options', JText::_('CATEGORIES_FIELDSET_OPTIONS', true)); ?>
 					<fieldset>
 						<?php echo $this->loadTemplate('options'); ?>
 					</fieldset>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 					<fieldset>
 						<?php echo $this->loadTemplate('metadata'); ?>
 					</fieldset>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 				<?php if ($this->assoc) : ?>
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 						<fieldset>
 							<?php echo $this->loadTemplate('associations'); ?>
 						</fieldset>
@@ -151,7 +151,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endif; ?>
 
 				<?php if ($this->canDo->get('core.admin')) : ?>
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'rules', JText::_('COM_CATEGORIES_FIELDSET_RULES')); ?>
+					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'rules', JText::_('COM_CATEGORIES_FIELDSET_RULES', true)); ?>
 						<fieldset>
 							<?php echo $this->form->getInput('rules'); ?>
 						</fieldset>
@@ -196,6 +196,14 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php echo $this->form->getLabel('language'); ?>
 					<div class="controls">
 						<?php echo $this->form->getInput('language'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('tags'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('tags'); ?>
 					</div>
 				</div>
 			</fieldset>
