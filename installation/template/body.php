@@ -8,4 +8,4 @@
 
 defined('_JEXEC') or die;
 ?>
-<jdoc:include type="installation" />
+<jdoc:include type="component" />

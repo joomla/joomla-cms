@@ -45,7 +45,8 @@ class WeblinksModelWeblink extends JModelAdmin
 			{
 				return $user->authorise('core.delete', 'com_weblinks.category.'.(int) $record->catid);
 			}
-			else {
+			else
+			{
 				return parent::canDelete($record);
 			}
 		}
@@ -71,6 +72,7 @@ class WeblinksModelWeblink extends JModelAdmin
 			return parent::canEditState($record);
 		}
 	}
+
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
@@ -173,19 +175,22 @@ class WeblinksModelWeblink extends JModelAdmin
 	public function getItem($pk = null)
 	{
 		if ($item = parent::getItem($pk))
-		{
+		{/*
 			// Convert the params field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
-			$item->metadata = $registry->toArray();
-		}
-
-		if ($item = parent::getItem($pk))
-		{
+			$item->metadata = $registry->toArray();*/
+			/*
 			// Convert the images field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
+			*/
+			if (!empty($item->id))
+			{
+				$item->tags = new JTags;
+				$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
+			}
 		}
 
 		return $item;
