@@ -19,13 +19,13 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Tags
  * @since       3.1
  */
-class plgFinderTags extends FinderIndexerAdapter
+class PlgFinderTags extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
 	 *
 	 * @var    string
-	 * @since  2.5
+	 * @since  3.1
 	 */
 	protected $context = 'Tags';
 
@@ -33,7 +33,7 @@ class plgFinderTags extends FinderIndexerAdapter
 	 * The extension name.
 	 *
 	 * @var    string
-	 * @since  2.5
+	 * @since  3.1
 	 */
 	protected $extension = 'com_tags';
 
@@ -41,7 +41,7 @@ class plgFinderTags extends FinderIndexerAdapter
 	 * The sublayout to use when rendering the results.
 	 *
 	 * @var    string
-	 * @since  2.5
+	 * @since  3.1
 	 */
 	protected $layout = 'tag';
 
@@ -49,7 +49,7 @@ class plgFinderTags extends FinderIndexerAdapter
 	 * The type of content that the adapter indexes.
 	 *
 	 * @var    string
-	 * @since  2.5
+	 * @since  3.1
 	 */
 	protected $type_title = 'Tag';
 
@@ -57,7 +57,7 @@ class plgFinderTags extends FinderIndexerAdapter
 	 * The table name.
 	 *
 	 * @var    string
-	 * @since  2.5
+	 * @since  3.1
 	 */
 	protected $table = '#__tags';
 
@@ -244,7 +244,7 @@ class plgFinderTags extends FinderIndexerAdapter
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
-	 * @since   2.5
+	 * @since   3.1
 	 */
 	protected function getListQuery($sql = null)
 	{
@@ -279,7 +279,7 @@ class plgFinderTags extends FinderIndexerAdapter
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
-	 * @since   2.5
+	 * @since   3.1
 	 */
 	protected function getUpdateQueryByTime($time)
 	{

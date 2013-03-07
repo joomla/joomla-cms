@@ -1134,7 +1134,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
-		$tagsHelper = new JTags();
+		$tagsHelper = new JTags;
 		foreach ($pks as $pk)
 		{
 			$item = $this->getItem($pk);

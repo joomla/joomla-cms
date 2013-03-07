@@ -28,9 +28,9 @@ $n = count($this->items);
 <?php  if (count($this->item) == 1 && (($this->params->get('tag_list_show_tag_image', 1)) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
 	<div class="category-desc">
 	<?php  $images  = json_decode($this->item[0]->images); ?>
-	<?php  if ($this->params->get('tag_list_show_tag_image', 1)== 1 && $images->image_fulltext) :?>
+	<?php  if ($this->params->get('tag_list_show_tag_image', 1) == 1 && $images->image_fulltext) :?>
 		<img src="<?php echo $images->image_fulltext;?>">
-	<?php endif; ?><?php $this->params->get('tag_list_show_tag_description'); ?>
+	<?php endif; ?>
 	<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 		<?php echo JHtml::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
 	<?php endif; ?>
@@ -38,10 +38,10 @@ $n = count($this->items);
 	</div>
 <?php // If there are multiple tags and a description or image has been supplied use that. ?>
 <?php elseif ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)): ?>
-		<?php  if ($this->params->get('show_description_image', 1)== 1 && $this->params->get('tag_list_image')) :?>
+		<?php  if ($this->params->get('show_description_image', 1) == 1 && $this->params->get('tag_list_image')) :?>
 			<img src="<?php echo $this->params->get('tag_list_image');?>">
 		<?php endif; ?>
-		<?php  if ($this->state->params->get('show_description', 1)== 1 && $this->state->params->get('tag_list_description')) :?>
+		<?php  if ($this->state->params->get('show_description', 1) == 1 && $this->state->params->get('tag_list_description')) :?>
 			<?php echo JHtml::_('content.prepare', $this->state->params->get('tag_list_description'), '', 'com_tags.tag'); ?>
 		<?php endif; ?>
 

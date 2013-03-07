@@ -203,7 +203,7 @@ class ContentViewCategory extends JViewLegacy
 		$model->hit();
 
 		$this->category->tags = new JTags;
-		$this->category->tags->getItemTags('com_content.category' , $this->category->id);
+		$this->category->tags->getItemTags('com_content.category', $this->category->id);
 
 		$this->_prepareDocument();
 

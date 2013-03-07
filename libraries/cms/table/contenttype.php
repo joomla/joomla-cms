@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_categories
+ * @package     Joomla.Libraries
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Tags table
  *
- * @package     Joomla.CMS
+ * @package     Joomla.Libraries
  * @subpackage  Table
  * @since       3.1
  */
@@ -21,7 +21,9 @@ class JTableContenttype extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabaseDriver A database connector object
+	 * @param   JDatabaseDriver  $db  A database connector object
+	 *
+	 * @since   3.1
 	 */
 	public function __construct($db)
 	{
@@ -32,6 +34,8 @@ class JTableContenttype extends JTable
 	 * Overloaded check method to ensure data integrity.
 	 *
 	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
 	 * @throws  UnexpectedValueException
 	 */
 	public function check()
@@ -55,11 +59,14 @@ class JTableContenttype extends JTable
 			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
 		}
 	}
+
 	/**
 	 * Overridden JTable::store.
 	 *
 	 * @param   boolean  True to update fields even if they are null.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   3.1
 	 */
 	public function store($updateNulls = false)
@@ -72,14 +79,16 @@ class JTableContenttype extends JTable
 
 			return false;
 		}
+
+		return parent::store($updateNulls);
 	}
 
 	/**
 	 * Method to expand the field mapping
 	 *
-	 * @param  boolean  $assoc  True to return an associative array.
+	 * @param   boolean  $assoc  True to return an associative array.
 	 *
-	 * return  mixed  Array or object with field mappings. Defaults to object.
+	 * @return  mixed  Array or object with field mappings. Defaults to object.
 	 *
 	 * @since   3.1
 	 */

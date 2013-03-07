@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_tags
+ * @package     Joomla.Libraries
+ * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,8 +14,8 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
+ * @package     Joomla.Libraries
+ * @subpackage  Form
  * @since       3.1
  */
 class JFormFieldTag extends JFormFieldList
@@ -49,7 +49,7 @@ class JFormFieldTag extends JFormFieldList
 		{
 			if (empty($this->value->tags))
 			{
-				//$this->value->tags = new JTags;
+				// $this->value->tags = new JTags;
 				$this->value = array();
 			}
 			if (is_object($this->value))
@@ -72,6 +72,7 @@ class JFormFieldTag extends JFormFieldList
 	 * Method to get a list of tags
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   3.1
 	 */
 	protected function getOptions()
@@ -85,7 +86,7 @@ class JFormFieldTag extends JFormFieldList
 
 		$query->select('a.id AS value, a.title AS text, a.level, a.published');
 		$query->from('#__tags AS a');
-		$query->join('LEFT', $db->quoteName('#__tags').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter language
 		if (!empty($this->element['language']))

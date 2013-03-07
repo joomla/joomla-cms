@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,13 +12,12 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Core content table
  *
- * @package     Joomla.CMS
+ * @package     Joomla.Libraries
  * @subpackage  Table
  * @since       3.1
  */
 class JTableCorecontent extends JTable
 {
-
 	/**
 	 * Constructor
 	 *
@@ -60,13 +59,15 @@ class JTableCorecontent extends JTable
 			$array['metadata'] = (string) $registry;
 		}
 
-		if (isset($array['images']) && is_array($array['images'])) {
+		if (isset($array['images']) && is_array($array['images']))
+		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['images']);
 			$array['images'] = (string) $registry;
 		}
 
-		if (isset($array['urls']) && is_array($array['urls'])) {
+		if (isset($array['urls']) && is_array($array['urls']))
+		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['urls']);
 			$array['urls'] = (string) $registry;
@@ -81,7 +82,7 @@ class JTableCorecontent extends JTable
 	 * @return  boolean  True on success, false on failure
 	 *
 	 * @see     JTable::check
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function check()
 	{
@@ -156,7 +157,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function store($updateNulls = false)
 	{
@@ -205,7 +206,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{

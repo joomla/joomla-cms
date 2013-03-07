@@ -630,12 +630,13 @@ class ContentModelArticles extends JModelList
 
 			// Get the tags
 			$item->tags = new JTags;
-			$item->tags->getItemTags('com_content.article' , $item->id);
+			$item->tags->getItemTags('com_content.article', $item->id);
 
 		}
 
 		return $items;
 	}
+
 	public function getStart()
 	{
 		return $this->getState('list.start');

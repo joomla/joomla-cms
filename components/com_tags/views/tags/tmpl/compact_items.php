@@ -1,16 +1,27 @@
 <?php
+/**
+ * @package     Joomla.Site
+ * @subpackage  com_tags
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+defined('_JEXEC') or die;
 
 $columns = $this->params->get('compact_columns', 1);
 // Avoid division by 0 and negative columns.
-if ($columns < 1) :
+if ($columns < 1)
+{
 	$columns = 1;
-endif;
+}
 $bsspans = floor(12 / $columns );
-if ($bsspans < 1):
+if ($bsspans < 1)
+{
 	$bsspans = 1;
-endif;
+}
 
-$bscolumns = min($columns, floor( 12 / $bsspans));
+$bscolumns = min($columns, floor(12 / $bsspans));
 $n = count($this->items);
 ?>
 <?php if ($this->items == false || $n == 0) : ?>
@@ -25,18 +36,18 @@ $n = count($this->items);
 
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php if ($n == 1 || $i == 0 || $bscolumns == 1 || $i % $bscolumns == 0) : ?>
-			<?php if ($i == 0) :?>
+			<?php if ($i == 0) : ?>
 				<div class="row-fluid cat-list-row1">
 			<?php else : ?>
-				<div class="row-fluid cat-list-row<?php echo  ($i-1)/$bscolumns % 2 ; ?>">
+				<div class="row-fluid cat-list-row<?php echo ($i - 1) / $bscolumns % 2 ; ?>">
 			<?php endif; ?>
 		<?php endif; ?>
 			<div class="span<?php echo $bsspans;?>">
-				<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':'. $item->alias))  .'">'
+				<?php echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)) . '">'
 					. $this->escape($item->title) . '</a> </h3>';  ?>
 			</div>
 		<?php // Close the div at the end of a row or if we have finished displaying all of the items. ?>
-		<?php  if  ( ($i == 0 && $n == 1) || $i == $n-2 || $bscolumns == 1 || ( ($i+1) % $bscolumns  == 0))  :  ?>
+		<?php if (($i == 0 && $n == 1) || $i == $n - 2 || $bscolumns == 1 || (($i+1) % $bscolumns  == 0)) :  ?>
 			</div>
 		<?php endif; ?>
 	<?php endforeach;?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Libraries
  * @subpackage  Tags
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -13,26 +13,30 @@ defined('JPATH_PLATFORM') or die;
  * Tags helper class, provides methods to perform various tasks relevant
  * tagging of content.
  *
+ * @package     Joomla.Libraries
+ * @subpackage  Tags
  * @since       3.1
  */
 class JTags
 {
-
 	/**
 	 * Method to add or update tags associated with an item. Generally used as a postSaveHook.
 	 *
 	 * @param   integer          $id        The id (primary key) of the item to be tagged.
 	 * @param   string           $prefix    Dot separated string with the option and view for a url.
-	 * @params  array            $tags      Array of tags to be applied.
-	 * @params  array            $fieldMap  Associative array of values to core_content field.
-	 * @params  array            $isNew     Flag indicating this item is new.
-	 * @params  JControllerForm  $item      A JcontrollerForm object usually from a Post Save Hook
+	 * @param   array            $tags      Array of tags to be applied.
+	 * @param   array            $fieldMap  Associative array of values to core_content field.
+	 * @param   array            $isNew     Flag indicating this item is new.
+	 * @param   JControllerForm  $item      A JControllerForm object usually from a Post Save Hook
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	 public function tagItem($id, $prefix, $tags = null, $fieldMap = null, $isNew, $item)
 	 {
+		$db = JFactory::getDbo();
+
 	 	// Set up the field mapping array
 		if (empty($fieldMap))
 		{
@@ -50,14 +54,13 @@ class JTags
 		 	}
 		}
 
-	 	$types = $this->getTypes('objectList', $prefix, true );
+	 	$types = $this->getTypes('objectList', $prefix, true);
 		$type = $types[0];
 
 	 	$typeid = $type->type_id;
-	 	if ($id == 0 )
-	 	{
-	 		$db  = JFactory::getDbo();
 
+	 	if ($id == 0)
+	 	{
 	 		$queryid = $db->getQuery(true);
 
 	 		$queryid->select($db->qn('id'))
@@ -70,7 +73,6 @@ class JTags
 	 	if ($isNew == 0)
 	 	{
 			// Delete the old tag maps.
-			$db		= JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->delete();
 			$query->from($db->quoteName('#__contentitem_tag_map'));
@@ -83,7 +85,6 @@ class JTags
 		// Set the new tag maps.
 		if (!empty($tags))
 		{
-			$db		= JFactory::getDbo();
 			// First we fill in the core_content table.
 			$querycc = $db->getQuery(true);
 
@@ -91,12 +92,10 @@ class JTags
 			// It could be old but never tagged.
 			if ($isNew == 0)
 			{
-				$db		= JFactory::getDbo();
-
 				$querycheck = $db->getQuery(true);
 				$querycheck->select($db->qn('core_content_id'))
 					->from($db->qn('#__core_content'))
-					->where(array( $db->qn('core_content_item_id') . ' = ' . $id,
+					->where(array($db->qn('core_content_item_id') . ' = ' . $id,
 							$db->qn('core_type_alias') . ' = ' . $db->q($prefix)));
 				$db->setQuery($querycheck);
 
@@ -123,7 +122,6 @@ class JTags
 				foreach ($fieldMap as $value)
 				{
 					$quotedValues[] = $db->q($value);
-
 				}
 
 				$values = implode(',', $quotedValues);
@@ -148,7 +146,6 @@ class JTags
 				$querycc->update($db->qn('#__core_content'));
 				$querycc->where($db->qn('core_content_item_id') . ' = ' . $id);
 				$querycc->where($db->qn('core_type_alias') . ' = ' . $db->q($prefix));
-
 				$querycc->set($setList);
 			}
 
@@ -168,15 +165,12 @@ class JTags
 				$ccId = $db->loadResult();
 			}
 
-			$db		= JFactory::getDbo();
-
 			// Have to break this up into individual queries for cross-database support.
 			foreach ($tags as $tag)
 			{
 				$query2 = $db->getQuery(true);
 				$query2->insert('#__contentitem_tag_map');
-				$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
-
+				$query2->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
 				$query2->clear('values');
 				$query2->values($db->q($prefix) . ', ' . (int) $id . ', ' . $db->q($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
 				$db->setQuery($query2);
@@ -190,16 +184,16 @@ class JTags
 	/**
 	 * Method to add  tags associated to a list of items. Generally used for batch processing.
 	 *
-	 * @params  array    $tag       Tag to be applied. Note that his method handles single tags only.
+	 * @param   array    $tag       Tag to be applied. Note that his method handles single tags only.
 	 * @param   integer  $ids       The id (primary key) of the items to be tagged.
 	 * @param   string   $contexts  Dot separated string with the option and view for a url.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	public function tagItems($tag, $ids, $contexts)
 	{
-
 /*			// Check whether the tag is present already.
 			$db		= JFactory::getDbo();
 			$query = $db->getQuery(true);
@@ -217,7 +211,7 @@ class JTags
 /*					$query2 = $db->getQuery(true);
 
 					$query2->insert($db->quoteName('#__contentitem_tag_map'));
-					$query2->columns(array($db->quoteName('type_alias'),$db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date') ));
+					$query2->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date')));
 
 					$query2->clear('values');
 					$query2->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
@@ -236,12 +230,12 @@ class JTags
 	 * @param   string   $prefix  Dot separated string with the option and view for a url.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	public function unTagItem($id, $prefix)
 	{
-
-		$db		= JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete('#__contentitem_tag_map');
 		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
@@ -263,7 +257,6 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-
 	public function getTagIds($id, $prefix)
 	{
 		if (!empty($id))
@@ -278,32 +271,33 @@ class JTags
 
 			// Load the tags.
 			$query->clear();
-			$query->select($db->quoteName('t.id') );
+			$query->select($db->quoteName('t.id'));
 
 			$query->from($db->quoteName('#__tags') . ' AS t ');
 			$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'  .
 				' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' .
 						$db->quoteName('m.type_alias') . ' = ' .
-						$db->quote($prefix ) . ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id .')'  );
+						$db->quote($prefix) . ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id . ')');
 
 			$db->setQuery($query);
 
 			// Add the tags to the content data.
 			$tagsList = $db->loadColumn();
 			$this->tags = implode(',', $tagsList);
-
-			return $this->tags;
 		}
 		else
 		{
 			//$this->tags = '';
 		}
+
+		return $this->tags;
 	}
 
 	/**
 	 * Method to get a list of tags for an item, optionally with the tag data.
 	 *
-	 * @param   integer  $contentName  Name of an item. Dot separated.
+	 * @param   integer  $contentType  Name of an item. Dot separated.
+	 * @param   integer  $id           Item ID
 	 * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
 	 *
 	 * @return  array    Array of of tag objects
@@ -314,7 +308,7 @@ class JTags
 	{
 		if (is_array($id))
 		{
-			$id=implode($id);
+			$id = implode($id);
 		}
 		// Initialize some variables.
 		$db = JFactory::getDbo();
@@ -324,7 +318,7 @@ class JTags
 		$query->from($db->quoteName('#__contentitem_tag_map') . ' AS m ');
 		$query->where(array($db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
 				$db->quoteName('m.content_item_id') . ' = ' . $db->quote($id),
-			$db->quoteName('t.published') . ' =  1') );
+			$db->quoteName('t.published') . ' =  1'));
 
 		if ($getTagData)
 		{
@@ -341,7 +335,7 @@ class JTags
 	/**
 	 * Method to get a list of items for a tag.
 	 *
-	 * @param   integer  $contentName   Name of an item.
+	 * @param   integer  $tag_id        ID of the item
 	 * @param   boolean  $getItemData   If true, data from the item tables will be included, defaults to true.
 	 *
 	 * @return  array    Array of of tag objects
@@ -408,7 +402,8 @@ class JTags
 	/**
 	 * Returns the component for a tag map record
 	 *
-	 * @param   string  $typeAlias  The tag item name.
+	 * @param   string  $typeAlias          The tag item name.
+	 * @param   array   $explodedTypeAlias  Exploded alias if it exists
 	 *
 	 * @return  string  The content type title for the item.
 	 *
@@ -418,7 +413,7 @@ class JTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$this->explodedTypeAlias = $this->explodeTypeAlias();
+			$this->explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
 		}
 
 		return $this->explodedTypeAlias[0];
@@ -439,7 +434,7 @@ class JTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$explodedTypeAlias = self::explodedTypeAlias($tagAlias);
+			$explodedTypeAlias = self::explodedTypeAlias($typeAlias);
 		}
 
 		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' .  $explodedTypeAlias[1] . '&id=' . $id;
@@ -450,7 +445,9 @@ class JTags
 	/**
 	 * Returns the url segment for a tag map record.
 	 *
-	 * @param   string  $tagItemName  The tag item name.
+	 * @param   string   $typeAlias          Unknown
+	 * @param   string   $explodedTypeAlias  The tag item name.
+	 * @param   integer  $id                 The item ID
 	 *
 	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
 	 *
@@ -460,7 +457,7 @@ class JTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$explodedTypeAlias = self::explodeTypeAlias($tagItemName);
+			$explodedTypeAlias = self::explodeTypeAlias($typeAlias);
 		}
 
 		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
@@ -468,11 +465,10 @@ class JTags
 		return $this->url;
 	}
 
-
 	/**
 	 * Method to get the table name for a type alias.
 	 *
-	 * @param   string  $tagAlias  A type alias.
+	 * @param   string  $tagItemAlias  A type alias.
 	 *
 	 * @return  string  Name of the table for a type
 	 *
@@ -480,7 +476,6 @@ class JTags
 	 */
 	public function getTableName($tagItemAlias)
 	{
-
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -493,6 +488,7 @@ class JTags
 
 		return $this->table;
 	}
+
 	/**
 	 * Method to get the type id for a type alias.
 	 *
@@ -504,7 +500,6 @@ class JTags
 	 */
 	public function getTypeId($typeAlias)
 	{
-
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -517,6 +512,7 @@ class JTags
 
 		return $this->type_id;
 	}
+
 	/**
 	 * Method to get a list of types with associated data.
 	 *
@@ -555,6 +551,7 @@ class JTags
 		$query->from($db->quoteName('#__content_types'));
 
 		$db->setQuery($query);
+
 		if (empty($arrayType) || $arrayType == 'objectList')
 		{
 			$types = $db->loadObjectList();
@@ -574,19 +571,20 @@ class JTags
 	/**
 	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
 	 *
-	 * @param   integer  $tag_id      The tag_id (primary key) for the deleted tag.
+	 * @param   integer  $tag_id  The tag_id (primary key) for the deleted tag.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	public function tagDeleteInstances($tag_id)
 	{
 		// Delete the old tag maps.
-		$db		= JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete();
 		$query->from($db->quoteName('#__contentitem_tag_map'));
-		$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag_id);
+		$query->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
 		$db->setQuery($query);
 		$db->execute();
 	}

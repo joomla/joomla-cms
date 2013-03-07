@@ -14,12 +14,10 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_tags
- *
  * @since       3.1
  */
 class TagsHelper
 {
-
 	/**
 	 * Configure the Submenu links.
 	 *
@@ -31,32 +29,34 @@ class TagsHelper
 	 */
 	public static function addSubmenu($extension)
 	{
-
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 
-		if (count($parts) > 1) {
+		if (count($parts) > 1)
+		{
 			$section = $parts[1];
 		}
 
 		// Try to find the component helper.
-		$file	= JPath::clean(JPATH_ADMINISTRATOR.'/components/com_tags/helpers/tags.php');
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
 
-		if (file_exists($file)) {
+		if (file_exists($file))
+		{
 			require_once $file;
 
-			$cName	= 'TagsHelper';
+			$cName = 'TagsHelper';
 
-			if (class_exists($cName)) {
-
-				if (is_callable(array($cName, 'addSubmenu'))) {
+			if (class_exists($cName))
+			{
+				if (is_callable(array($cName, 'addSubmenu')))
+				{
 					$lang = JFactory::getLanguage();
 					// loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
 						$lang->load($component, JPATH_BASE, null, false, false)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component), null, false, false)
+					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
 					||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component), $lang->getDefault(), false, false);
+					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
 
 				}
 			}
@@ -66,22 +66,21 @@ class TagsHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  $tagId  The tag ID.
-	 *
 	 * @return  JObject
 	 *
 	 * @since   3.1
 	 */
-	public static function getActions($tagId = 0)
+	public static function getActions()
 	{
-		$user		= JFactory::getUser();
-		$result		= new JObject;
+		$user   = JFactory::getUser();
+		$result = new JObject;
 
-			$assetName = 'com_tags';
-			$level = 'component';
-			$actions = JAccess::getActions('com_tags', $level);
+		$assetName = 'com_tags';
+		$level     = 'component';
+		$actions   = JAccess::getActions('com_tags', $level);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
@@ -94,7 +93,7 @@ class TagsHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->from('#__tags as c');
-		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context='.$db->quote('com_tags.item'));
+		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context=' . $db->quote('com_tags.item'));
 		$query->innerJoin('#__associations as a2 ON a.key = a2.key');
 		$query->innerJoin('#__tags as c2 ON a2.id = c2.id');
 		$query->where('c.id =' . (int) $pk);
@@ -121,4 +120,3 @@ class TagsHelper
 		return $associations;
 	}
 }
-

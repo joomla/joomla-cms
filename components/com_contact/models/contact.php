@@ -187,7 +187,7 @@ class ContactModelContact extends JModelForm
 				$data->metadata = $registry;
 
 				$data->tags = new JTags;
-				$data->tags->getItemTags('com_contact.contact' , $data->id);
+				$data->tags->getItemTags('com_contact.contact', $data->id);
 
 				// Compute access permissions.
 				if ($access = $this->getState('filter.access')) {

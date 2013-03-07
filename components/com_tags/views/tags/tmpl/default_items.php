@@ -36,7 +36,7 @@ $n = count($this->items);
 							<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 						<?php else: ?>
 							<li class="cat-list-row<?php echo $i % 2; ?>" >
-								<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':'. $item->alias))  .'">'
+								<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)) . '">'
 								. $this->escape($item->title) . '</a> </h3>';  ?>
 						<?php endif; ?>
 						<?php  if ($this->params->get('all_tags_show_tag_hits')) : ?>
@@ -51,7 +51,7 @@ $n = count($this->items);
 									<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
 									<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
 									<?php if ($images->image_intro_caption):
-										echo 'class="caption"'.' title="' . htmlspecialchars($images->image_intro_caption) . '"';
+										echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"';
 								endif; ?>
 								src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
 							<?php endif; ?>

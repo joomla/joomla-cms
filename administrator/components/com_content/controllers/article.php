@@ -181,7 +181,7 @@ class ContentControllerArticle extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-		$id =  $item->id;
+		$id = $item->id;
 
 		if (empty($validData['tags']) && !empty($item->tags))
 		{

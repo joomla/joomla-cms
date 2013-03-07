@@ -28,7 +28,6 @@ class TagsViewTags extends JViewLegacy
 
 	protected $params;
 
-
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -166,7 +165,7 @@ class TagsViewTags extends JViewLegacy
 		$title = '';
 		if (!empty($this->item))
 		{
-			foreach ($this->item as $i=> $itemElement)
+			foreach ($this->item as $i => $itemElement)
 			{
 				if ($itemElement->title)
 				{
@@ -195,7 +194,7 @@ class TagsViewTags extends JViewLegacy
 
 			$this->document->setTitle($title);
 
-			foreach ($this->item as $j=> $itemElement)
+			foreach ($this->item as $j => $itemElement)
 			{
 				if ($itemElement->metadesc)
 				{

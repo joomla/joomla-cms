@@ -91,9 +91,6 @@ abstract class JHtmlBatch
 			'</select>',
 		);
 
-		// Create the batch selector to change select the action to tag or untag.
-		;
-
 		return implode("\n", $lines);
 	}
 
@@ -135,7 +132,7 @@ abstract class JHtmlBatch
 	 *
 	 * @return  string  The necessary HTML for the widget.
 	 *
-	 * @since   2.5
+	 * @since   3.1
 	 */
 	public static function tag()
 	{

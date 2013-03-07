@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_tags
+ * @package     Joomla.Libraries
+ * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,8 +14,8 @@ JFormHelper::loadFieldClass('tag');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_tags
+ * @package     Joomla.Libraries
+ * @subpackage  Form
  * @since       3.1
  */
 class JFormFieldTagNested extends JFormFieldTag
@@ -49,9 +49,9 @@ class JFormFieldTagNested extends JFormFieldTag
 		$newValue = new JTags;
 		$newValue->tags = $this->value;
 		$this->value = $newValue;
-		
+
 		$input = parent::getInput();
-		
+
 		return $input;
 	}
 
@@ -59,19 +59,20 @@ class JFormFieldTagNested extends JFormFieldTag
 	 * Method to get a list of tags
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   3.1
 	 */
 	protected function getOptions()
 	{
 		$options = parent::getOptions();
-		
-		// Add "-" before nested tags, depending on level 
+
+		// Add "-" before nested tags, depending on level
 		foreach ($options as &$option)
 		{
 			$repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
 			$option->text = str_repeat('- ', $repeat) . $option->text;
 		}
-		
+
 		return $options;
 	}
 }

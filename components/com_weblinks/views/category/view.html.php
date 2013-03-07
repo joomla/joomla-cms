@@ -125,7 +125,7 @@ class WeblinksViewCategory extends JViewLegacy
 		}
 
 		$this->category->tags = new JTags;
-		$this->category->tags->getItemTags('com_weblinks.category' , $this->category->id);
+		$this->category->tags->getItemTags('com_weblinks.category', $this->category->id);
 
 		$this->_prepareDocument();
 

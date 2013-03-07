@@ -55,7 +55,7 @@ class ContentViewForm extends JViewLegacy
 		$this->item->tags = new JTags;
 		if (!empty($this->item->id))
 		{
-			$this->item->tags->getItemTags('com_content.article.' , $this->item->id);
+			$this->item->tags->getItemTags('com_content.article.', $this->item->id);
 		}
 		if (!empty($this->item) && isset($this->item->id))
 		{

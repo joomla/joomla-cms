@@ -18,20 +18,19 @@ defined('_JEXEC') or die;
  */
 class TagsModelTag extends JModelList
 {
-
 	/**
 	 * The tags that apply.
 	 *
-	 * @access  protected
-	 * @var     object
+	 * @var    object
+	 * @since  3.1
 	 */
 	protected $tag = null;
 
 	/**
 	 * The list of items associated with the tags.
 	 *
-	 * @access  protected
-	 * @var     array
+	 * @var    array
+	 * @since  3.1
 	 */
 	protected $items = null;
 
@@ -49,11 +48,10 @@ class TagsModelTag extends JModelList
 
 		if (!empty($items))
 		{
-
 			foreach ($items as $item)
 			{
 				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->content_item_id .':'. $item->core_alias ;
+				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->content_item_id . ':' . $item->core_alias;
 
 				// Get display date
 				switch ($this->state->params->get('list_show_date'))
@@ -96,12 +94,10 @@ class TagsModelTag extends JModelList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
 		$nullDate = $db->q($db->getNullDate());
-		$nowDate = $db->q(JFactory::getDate()->toSql());
 
-		$tagId = $this->getState('tag.id')?:'';
-		$ntagsr =  substr_count($tagId, ',') + 1;
+		$tagId  = $this->getState('tag.id')?:'';
+		$ntagsr = substr_count($tagId, ',') + 1;
 
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
@@ -112,7 +108,7 @@ class TagsModelTag extends JModelList
 			$tagTreeList = '';
 			foreach ($tagIdArray as $tag)
 			{
-					$tagTreeList .= implode(',', $this->getTagTreeArray($tag, $tagTreeArray)) . ',';
+				$tagTreeList .= implode(',', $this->getTagTreeArray($tag, $tagTreeArray)) . ',';
 			}
 			$tagId = trim($tagTreeList, ',');
 		}
@@ -186,11 +182,16 @@ class TagsModelTag extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app    = JFactory::getApplication('site');
+		$app = JFactory::getApplication('site');
 
 		// Load state from the request.
 		$pk = $app->input->getObject('id');
@@ -263,7 +264,8 @@ class TagsModelTag extends JModelList
 					// Check published state.
 					if ($published = $this->getState('filter.published'))
 					{
-						if ($table->published != $published) {
+						if ($table->published != $published)
+						{
 							return $this->item;
 						}
 					}
@@ -286,12 +288,14 @@ class TagsModelTag extends JModelList
 	/**
 	 * Method to get an array of tag ids for the current tag and its children
 	 *
-	 * @param   integer  $id  An optional ID
+	 * @param   integer  $id             An optional ID
+	 * @param   array    &$tagTreeArray
 	 *
-	 * @return  object
+	 * @return  mixed
+	 *
 	 * @since   3.1
 	 */
-	public function getTagTreeArray($id = null, &$tagTreeArray = null)
+	public function getTagTreeArray($id = null, &$tagTreeArray = array())
 	{
 		if (empty($id))
 		{
@@ -300,11 +304,6 @@ class TagsModelTag extends JModelList
 
 		// Get a level row instance.
 		$table = JTable::getInstance('Tag', 'TagsTable');
-
-		if (!isset($tagTreeArray))
-		{
-			$tagTreeArray = array ();
-		}
 
 		if ($table->isLeaf($id))
 		{
@@ -318,7 +317,7 @@ class TagsModelTag extends JModelList
 		{
 			foreach ($tagTree as $tag)
 			{
-						$tagTreeArray[] = $tag->id;
+				$tagTreeArray[] = $tag->id;
 			}
 			return $tagTreeArray;
 		}

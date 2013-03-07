@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.CMS
- * @subpackage  fields
+ * @package     Joomla.Libraries
+ * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,8 +14,8 @@ JFormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_categories
+ * @package     Joomla.Libraries
+ * @subpackage  Form
  * @since       3.1
  */
 class JFormFieldContenttype extends JFormFieldList
@@ -59,6 +59,7 @@ class JFormFieldContenttype extends JFormFieldList
 	 * Method to get a list of content types
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   3.1
 	 */
 	protected function getOptions()

@@ -21,22 +21,26 @@ class TagsModelTags extends JModelList
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var    string
+	 * @since  3.1
 	 */
 	public $_context = 'com_tags.tags';
-
-	private $_items = null;
 
 	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since  3.1
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app    = JFactory::getApplication('site');
+		$app = JFactory::getApplication('site');
 
 		// Load state from the request.
 		$pid = $app->input->getInt('parent_id');
@@ -62,7 +66,7 @@ class TagsModelTags extends JModelList
 	/**
 	 * Redefine the function and add some properties to make the styling more easy
 	 *
-	 * @return mixed An array of data items on success, false on failure.
+	 * @return  mixed  An array of data items on success, false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -71,18 +75,16 @@ class TagsModelTags extends JModelList
 		// Invoke the parent getItems method to get the main list
 		$items = parent::getItems();
 
-		if(!count($items))
+		if (!count($items))
 		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new JRegistry;
-			if($active)
+			if ($active)
 			{
 				$params->loadString($active->params);
 			}
-
-			$options = array();
 		}
 
 		return $items;
@@ -90,7 +92,8 @@ class TagsModelTags extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string	An SQL query
+	 * @return  string  An SQL query
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -107,10 +110,9 @@ class TagsModelTags extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select( 'a.*');
+		$query->select('a.*');
 
-
-		$query->from($db->quoteName('#__tags').' AS a');
+		$query->from($db->quoteName('#__tags') . ' AS a');
 		$query->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 
 		if (!empty($pid))

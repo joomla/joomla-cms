@@ -168,7 +168,7 @@ class TagsViewTag extends JViewLegacy
 
 		// If this is not a single tag menu item, set the page title to the tag titles
 		$title = '';
-		foreach ($this->item as $i=> $itemElement)
+		foreach ($this->item as $i => $itemElement)
 		{
 			if ($itemElement->title)
 			{
@@ -180,7 +180,6 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 		$path = array(array('title' => $title, 'link' => ''));
-
 
 		if (empty($title))
 		{
@@ -197,7 +196,7 @@ class TagsViewTag extends JViewLegacy
 
 		$this->document->setTitle($title);
 
-		foreach ($this->item as $j=> $itemElement)
+		foreach ($this->item as $j => $itemElement)
 		{
 			if ($itemElement->metadesc)
 			{
