@@ -2,7 +2,7 @@
 <config>
 	<fieldset
 		name="taglist"
-		label="JGLOBAL_TAG"
+		label="JGLOBAL_TAGS"
 		description="COM_TAGS_CONFIG_TAG_SETTINGS_DESC">
 
 		<field
