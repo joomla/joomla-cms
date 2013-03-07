@@ -58,6 +58,12 @@ class PlgContentJoomla extends JPlugin
 		$db->setQuery('SELECT id FROM #__users WHERE sendEmail = 1');
 		$users = (array) $db->loadColumn();
 
+		// Return if no users set to receive email notification
+		if (count($users) == 0)
+		{
+			return true;
+		}
+
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = JFactory::getConfig()->get('debug_lang');
 
