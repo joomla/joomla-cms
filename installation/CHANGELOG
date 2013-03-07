@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Mar-2013 Jean-Marie Simonet
+ #$ [#30220] TAGS - language string typo. Thanks David. + some.
+
 -------------------- 3.1 Beta 1 Release [07-Mar-2012] ------------------
 
 06-Mar-2013 Mark Dexter

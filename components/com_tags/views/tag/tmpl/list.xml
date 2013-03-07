@@ -126,7 +126,7 @@
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 			<field name="spacer2" type="spacer" class="text"
-					label="JGLOBAL_SUBSLIDER_DRILL_TAG_LIST_LABEL"
+					label="COM_TAGS_SUBSLIDER_DRILL_TAG_LIST_LABEL"
 			/>
 
 			<field	name="show_pagination_limit" type="list"
