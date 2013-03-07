@@ -39,6 +39,21 @@ abstract class ModTagsPopularHelper
 			$query->where($db->quoteName('tag_date') . ' > ' . $query->currentTimestamp() . ' - INTERVAL 1 ' . strtoupper($timeframe));
 		}
 
+		// If current menu item is language specific only show selected tags
+		$app = JFactory::getApplication();
+		$menu = $app->getMenu();
+		$active = $menu->getActive();
+		$params = new JRegistry;
+		if ($active)
+		{
+			$params->loadString($active->params);
+		}
+
+		if ($active->language != '*') 
+		{
+			$query->where('t.language = ' . $db->quote($active->language) . ' OR ' . 't.language = ' . $db->quote('*'));
+		}
+
 		$query->join('LEFT', '#__tags AS t ON tag_id=t.id');
 		$query->order('count DESC LIMIT 0,' . $maximum);
 		$db->setQuery($query);

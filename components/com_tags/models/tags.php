@@ -120,6 +120,21 @@ class TagsModelTags extends JModelList
 			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
 		}
 
+		// If current menu item is language specific only show selected tags
+		$app = JFactory::getApplication();
+		$menu = $app->getMenu();
+		$active = $menu->getActive();
+		$params = new JRegistry;
+		if ($active)
+		{
+			$params->loadString($active->params);
+		}
+
+		if ($active->language != '*') 
+		{
+			$query->where('a.language = ' . $db->quote($active->language) . ' OR ' . 'a.language = ' . $db->quote('*'));
+		}
+
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ' ' . $limit);
 
 		return $query;

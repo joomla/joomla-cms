@@ -79,6 +79,21 @@ abstract class ModTagssimilarHelper
 				$query->having('count >= ' . $tagCountHalf);
 			}
 
+			// If current menu item is language specific only show selected tags
+			$app = JFactory::getApplication();
+			$menu = $app->getMenu();
+			$active = $menu->getActive();
+			$params = new JRegistry;
+			if ($active)
+			{
+				$params->loadString($active->params);
+			}
+
+			if ($active->language != '*') 
+			{
+				$query->where('t.language = ' . $db->quote($active->language) . ' OR ' . 't.language = ' . $db->quote('*'));
+			}
+
 			$query->join('LEFT', $db->qn('#__tags', 't') . ' ON ' . $db->qn('tag_id') . ' = ' . $db->qn('t.id'));
 			$query->order('count DESC LIMIT 0,' . $maximum);
 			$db->setQuery($query);
