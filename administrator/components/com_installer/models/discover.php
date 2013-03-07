@@ -72,7 +72,7 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	public function discover()
 	{
-		// Purgue the updates list
+		// Purgue the list of discovered extensions
 		$this->purge();
 
 		$installer	= JInstaller::getInstance();
