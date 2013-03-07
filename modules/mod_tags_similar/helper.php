@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_tags_popular
  * @since       3.1
  */
-abstract class modTagssimilarHelper
+abstract class ModTagssimilarHelper
 {
 	public static function getList($params)
 	{

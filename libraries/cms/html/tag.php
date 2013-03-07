@@ -36,7 +36,7 @@ abstract class JHtmlTag
 	 *
 	 * @since   3.1
 	 */
-	public static function options( $config = array('filter.published' => array(0, 1)))
+	public static function options($config = array('filter.published' => array(0, 1)))
 	{
 		$hash = md5(serialize($config));
 		if (!isset(self::$items[$hash]))

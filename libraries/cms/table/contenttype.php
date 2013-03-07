@@ -63,7 +63,7 @@ class JTableContenttype extends JTable
 	/**
 	 * Overridden JTable::store.
 	 *
-	 * @param   boolean  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success.
 	 *

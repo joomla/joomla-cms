@@ -14,7 +14,7 @@ require_once __DIR__ . '/helper.php';
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'modTagssimilarHelper';
+$cacheparams->class = 'ModTagssimilarHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = array('id' => 'int', 'Itemid' => 'int');

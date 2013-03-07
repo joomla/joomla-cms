@@ -14,14 +14,15 @@ require_once __DIR__ . '/helper.php';
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'safeuri';
-$cacheparams->class = 'modTagsPopularHelper';
+$cacheparams->class = 'ModTagsPopularHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams = array('id' => 'int', 'Itemid' => 'int');
 
 $list = JModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list)) {
+if (!count($list))
+{
 	return;
 }
 

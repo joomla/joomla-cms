@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_tags_popular
  * @since       3.1
  */
-abstract class modTagsPopularHelper
+abstract class ModTagsPopularHelper
 {
 	public static function getList($params)
 	{
@@ -36,22 +36,7 @@ abstract class modTagsPopularHelper
 		if ($timeframe != 'alltime')
 		{
 			// This is just going to work in MySQL until we get date math in a library
-			if ($timeframe = 'hour')
-			{
-				$query->where(tag_date . ' > ' . $query->currentTimestamp() . ' - INTERVAL 1 HOUR ');
-			}
-			elseif ($timeframe = 'day')
-			{
-				$query->where(tag_date . ' > ' . $query->currentTimestamp() . '  - INTERVAL 1 DAY');
-			}
-			elseif ($timeframe = 'month')
-			{
-				$query->where($db->quoteName('tag_date') . ' > ' . $query->currentTimestamp() . ' - INTERVAL 1 MONTH');
-			}
-			elseif ($timeframe = 'year')
-			{
-				$query->where($db->quoteName('tag_date') . ' > ' . $query->currentTimestamp() . '  - INTERVAL 1 YEAR');
-			}
+			$query->where($db->quoteName('tag_date') . ' > ' . $query->currentTimestamp() . ' - INTERVAL 1 ' . strtoupper($timeframe));
 		}
 
 		$query->join('LEFT', '#__tags AS t ON tag_id=t.id');

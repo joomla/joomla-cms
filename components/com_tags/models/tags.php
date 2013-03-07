@@ -117,7 +117,7 @@ class TagsModelTags extends JModelList
 
 		if (!empty($pid))
 		{
-			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid );
+			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
 		}
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ' ' . $limit);

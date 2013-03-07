@@ -48,7 +48,6 @@ class ContentViewArticle extends JViewLegacy
 			return false;
 		}
 
-
 		// Create a shortcut for $item.
 		$item = $this->item;
 		$item->tagLayout      = new JLayoutFile('joomla.content.tags');

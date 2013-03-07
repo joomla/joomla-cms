@@ -15,7 +15,7 @@ if ($columns < 1)
 {
 	$columns = 1;
 }
-$bsspans = floor(12 / $columns );
+$bsspans = floor(12 / $columns);
 if ($bsspans < 1)
 {
 	$bsspans = 1;
@@ -39,7 +39,7 @@ $n = count($this->items);
 			<?php if ($i == 0) : ?>
 				<div class="row-fluid cat-list-row1">
 			<?php else : ?>
-				<div class="row-fluid cat-list-row<?php echo ($i - 1) / $bscolumns % 2 ; ?>">
+				<div class="row-fluid cat-list-row<?php echo ($i - 1) / $bscolumns % 2; ?>">
 			<?php endif; ?>
 		<?php endif; ?>
 			<div class="span<?php echo $bsspans;?>">
@@ -47,7 +47,7 @@ $n = count($this->items);
 					. $this->escape($item->title) . '</a> </h3>';  ?>
 			</div>
 		<?php // Close the div at the end of a row or if we have finished displaying all of the items. ?>
-		<?php if (($i == 0 && $n == 1) || $i == $n - 2 || $bscolumns == 1 || (($i+1) % $bscolumns  == 0)) :  ?>
+		<?php if (($i == 0 && $n == 1) || $i == $n - 2 || $bscolumns == 1 || (($i + 1) % $bscolumns == 0)) :  ?>
 			</div>
 		<?php endif; ?>
 	<?php endforeach;?>

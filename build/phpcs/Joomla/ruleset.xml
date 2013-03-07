@@ -88,6 +88,7 @@
  <rule ref="Generic.PHP.ForbiddenFunctions"/>
 
  <rule ref="Squiz.Operators.IncrementDecrementUsage">
+  <exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment"/>
   <!-- These exceptions are temporary -->
   <exclude-pattern>/administrator/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>

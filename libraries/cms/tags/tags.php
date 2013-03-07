@@ -33,54 +33,54 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-	 public function tagItem($id, $prefix, $tags = null, $fieldMap = null, $isNew, $item)
-	 {
+	public function tagItem($id, $prefix, $tags = null, $fieldMap = null, $isNew, $item)
+	{
 		$db = JFactory::getDbo();
 
-	 	// Set up the field mapping array
+		// Set up the field mapping array
 		if (empty($fieldMap))
 		{
-	 		$typeId = $this->getTypeId($prefix);
-		 	$contenttype = JTable::getInstance('Contenttype');
-		 	$contenttype->load($typeId);
-		 	$map = json_decode($contenttype->field_mappings, true);
+			$typeId = $this->getTypeId($prefix);
+			$contenttype = JTable::getInstance('Contenttype');
+			$contenttype->load($typeId);
+			$map = json_decode($contenttype->field_mappings, true);
 
-		 	foreach ($map['common'][0] as $i => $field)
-		 	{
-		 		if ($field && $field != 'null')
-		 		{
-		 			$fieldMap[$i] = $item->$field;
-		 		}
-		 	}
+			foreach ($map['common'][0] as $i => $field)
+			{
+				if ($field && $field != 'null')
+				{
+					$fieldMap[$i] = $item->$field;
+				}
+			}
 		}
 
-	 	$types = $this->getTypes('objectList', $prefix, true);
+		$types = $this->getTypes('objectList', $prefix, true);
 		$type = $types[0];
 
-	 	$typeid = $type->type_id;
+		$typeid = $type->type_id;
 
-	 	if ($id == 0)
-	 	{
-	 		$queryid = $db->getQuery(true);
+		if ($id == 0)
+		{
+			$queryid = $db->getQuery(true);
 
-	 		$queryid->select($db->qn('id'))
-	 			->from($db->qn($type->table))
-	 			->where($db->qn('type_alias') . ' = ' . $db->q($prefix));
-	 		$db->setQuery($queryid);
-	 		$id = $db->loadResult();
-	 	}
+			$queryid->select($db->qn('id'))
+				->from($db->qn($type->table))
+				->where($db->qn('type_alias') . ' = ' . $db->q($prefix));
+			$db->setQuery($queryid);
+			$id = $db->loadResult();
+		}
 
-	 	if ($isNew == 0)
-	 	{
+		if ($isNew == 0)
+		{
 			// Delete the old tag maps.
 			$query = $db->getQuery(true);
 			$query->delete();
 			$query->from($db->quoteName('#__contentitem_tag_map'));
-			$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
-			$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $id);
+			$query->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix));
+			$query->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 			$db->setQuery($query);
 			$db->execute();
-	 	}
+		}
 
 		// Set the new tag maps.
 		if (!empty($tags))
@@ -95,8 +95,12 @@ class JTags
 				$querycheck = $db->getQuery(true);
 				$querycheck->select($db->qn('core_content_id'))
 					->from($db->qn('#__core_content'))
-					->where(array($db->qn('core_content_item_id') . ' = ' . $id,
-							$db->qn('core_type_alias') . ' = ' . $db->q($prefix)));
+					->where(
+						array(
+							$db->qn('core_content_item_id') . ' = ' . $id,
+							$db->qn('core_type_alias') . ' = ' . $db->q($prefix)
+						)
+				);
 				$db->setQuery($querycheck);
 
 				$ccId = $db->loadResult();
@@ -107,7 +111,7 @@ class JTags
 			if ($id == 0)
 			{
 				$queryid = $db->getQuery(true);
-				$queryid->select($db->qn(id));
+				$queryid->select($db->qn('id'));
 				$queryid->from($db->qn($type->table));
 				$queryid->where($db->qn($map['core_alias']) . ' = ' . $db->q($fieldMap['core_alias']));
 				$db->setQuery($queryid);
@@ -125,7 +129,7 @@ class JTags
 				}
 
 				$values = implode(',', $quotedValues);
-				$values = $values . ',' . (int) $typeid . ', ' . $db->q($prefix) ;
+				$values = $values . ',' . (int) $typeid . ', ' . $db->q($prefix);
 
 				$querycc->insert($db->quoteName('#__core_content'))
 					->columns($db->quoteName(array_keys($fieldMap)))
@@ -141,7 +145,7 @@ class JTags
 					$setList .= $db->qn($fieldname) . ' = ' . $db->q($value) . ',';
 				}
 
-				$setList = $setList . ' ' . $db->qn('core_type_id')  . '  = ' . $typeid . ',' . $db->qn('core_type_alias') . ' = ' . $db->q($prefix);
+				$setList = $setList . ' ' . $db->qn('core_type_id') . ' = ' . $typeid . ',' . $db->qn('core_type_alias') . ' = ' . $db->q($prefix);
 
 				$querycc->update($db->qn('#__core_content'));
 				$querycc->where($db->qn('core_content_item_id') . ' = ' . $id);
@@ -182,7 +186,7 @@ class JTags
 	}
 
 	/**
-	 * Method to add  tags associated to a list of items. Generally used for batch processing.
+	 * Method to add tags associated to a list of items. Generally used for batch processing.
 	 *
 	 * @param   array    $tag       Tag to be applied. Note that his method handles single tags only.
 	 * @param   integer  $ids       The id (primary key) of the items to be tagged.
@@ -194,39 +198,37 @@ class JTags
 	 */
 	public function tagItems($tag, $ids, $contexts)
 	{
-/*			// Check whether the tag is present already.
-			$db		= JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->delete();
-			//$query->select($db->qn('core_content_id'));
-			$query->from($db->quoteName('#__contentitem_tag_map'));
-			$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
-			$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $pk);
-			$query->where($db->quoteName('tag_id') . ' = ' .  (int) $tag);
-			//$db->setQuery($query);
-			//$result = $db->loadResult();
-			$query->execute();*/
-
-	//		self::tagItem($id, $prefix, null, $tags, $isNew);
-/*					$query2 = $db->getQuery(true);
-
-					$query2->insert($db->quoteName('#__contentitem_tag_map'));
-					$query2->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date')));
-
-					$query2->clear('values');
-					$query2->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
-					$db->setQuery($query2);
-					$db->execute();
-			}*/
-		//}
-
+		// Method is not ready for use
 		return;
+
+		// Check whether the tag is present already.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete();
+		$query->from($db->quoteName('#__contentitem_tag_map'));
+		$query->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix));
+		$query->where($db->quoteName('content_item_id') . ' = ' . (int) $pk);
+		$query->where($db->quoteName('tag_id') . ' = ' . (int) $tag);
+		$db->setQuery($query);
+		$result = $db->loadResult();
+		$query->execute();
+
+		self::tagItem($id, $prefix, null, $tags, $isNew);
+		$query2 = $db->getQuery(true);
+
+		$query2->insert($db->quoteName('#__contentitem_tag_map'));
+		$query2->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date')));
+
+		$query2->clear('values');
+		$query2->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
+		$db->setQuery($query2);
+		$db->execute();
 	}
 
 	/**
 	 * Method to remove  tags associated with a list of items. Generally used for batch processing.
 	 *
-	 * @param   integer  $id     The id (primary key) of the item to be untagged.
+	 * @param   integer  $id      The id (primary key) of the item to be untagged.
 	 * @param   string   $prefix  Dot separated string with the option and view for a url.
 	 *
 	 * @return  void
@@ -238,8 +240,8 @@ class JTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete('#__contentitem_tag_map');
-		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($prefix));
-		$query->where($db->quoteName('content_item_id') . ' = ' .  (int) $id);
+		$query->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix));
+		$query->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -263,7 +265,7 @@ class JTags
 		{
 			if (is_array($id))
 			{
-				$id=implode(',', $id);
+				$id = implode(',', $id);
 			}
 
 			$db = JFactory::getDbo();
@@ -274,8 +276,8 @@ class JTags
 			$query->select($db->quoteName('t.id'));
 
 			$query->from($db->quoteName('#__tags') . ' AS t ');
-			$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'  .
-				' ON ' . $db->quoteName('m.tag_id') . ' = ' .  $db->quoteName('t.id') . ' AND ' .
+			$query->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m' .
+				' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id') . ' AND ' .
 						$db->quoteName('m.type_alias') . ' = ' .
 						$db->quote($prefix) . ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id . ')');
 
@@ -287,7 +289,7 @@ class JTags
 		}
 		else
 		{
-			//$this->tags = '';
+			// $this->tags = '';
 		}
 
 		return $this->tags;
@@ -314,16 +316,19 @@ class JTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') .'.*'));
+		$query->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') . '.*'));
 		$query->from($db->quoteName('#__contentitem_tag_map') . ' AS m ');
-		$query->where(array($db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
+		$query->where(
+			array(
+				$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
 				$db->quoteName('m.content_item_id') . ' = ' . $db->quote($id),
-			$db->quoteName('t.published') . ' =  1'));
+				$db->quoteName('t.published') . ' = 1'
+			)
+		);
 
 		if ($getTagData)
 		{
-			$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' .
-				$db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+			$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 		}
 
 		$db->setQuery($query);
@@ -335,10 +340,10 @@ class JTags
 	/**
 	 * Method to get a list of items for a tag.
 	 *
-	 * @param   integer  $tag_id        ID of the item
-	 * @param   boolean  $getItemData   If true, data from the item tables will be included, defaults to true.
+	 * @param   integer  $tag_id       ID of the item
+	 * @param   boolean  $getItemData  If true, data from the item tables will be included, defaults to true.
 	 *
-	 * @return  array    Array of of tag objects
+	 * @return  array  Array of of tag objects
 	 *
 	 * @since   3.1
 	 */
@@ -437,7 +442,7 @@ class JTags
 			$explodedTypeAlias = self::explodedTypeAlias($typeAlias);
 		}
 
-		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' .  $explodedTypeAlias[1] . '&id=' . $id;
+		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
 
 		return $this->url;
 	}
@@ -482,7 +487,7 @@ class JTags
 
 		$query->select($db->quoteName('table'));
 		$query->from($db->quoteName('#__content_types'));
-		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($tagItemAlias));
+		$query->where($db->quoteName('type_alias') . ' = ' . $db->quote($tagItemAlias));
 		$db->setQuery($query);
 		$this->table = $db->loadResult();
 
@@ -506,7 +511,7 @@ class JTags
 
 		$query->select($db->quoteName('type_id'));
 		$query->from($db->quoteName('#__content_types'));
-		$query->where($db->quoteName('type_alias') . ' = ' .  $db->quote($typeAlias));
+		$query->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
 		$this->type_id = $db->loadResult();
 
@@ -516,10 +521,10 @@ class JTags
 	/**
 	 * Method to get a list of types with associated data.
 	 *
-	 * @param   string   $arrayType     Optionally specify that the returned list consist of objects, associative arrays, or arrays.
-	 *                                  Options are: rowList, assocList, and objectList
-	 * @param   array    $selectTypes   Optional array of type ids to limit the results to. Often from a request.
-	 * @param   boolean  $useAlias      If true, the alias is used to match, if false the type_id is used.
+	 * @param   string   $arrayType    Optionally specify that the returned list consist of objects, associative arrays, or arrays.
+	 *                                 Options are: rowList, assocList, and objectList
+	 * @param   array    $selectTypes  Optional array of type ids to limit the results to. Often from a request.
+	 * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
 	 *
 	 * @return  array   Array of of types
 	 *
@@ -540,11 +545,11 @@ class JTags
 			}
 			if ($useAlias)
 			{
-				$query->where($db->qn('type_alias') . ' IN (' . $query->q($selectTypes) . ')') ;
+				$query->where($db->qn('type_alias') . ' IN (' . $query->q($selectTypes) . ')');
 			}
 			else
 			{
-				$query->where($db->qn('type_id') . ' IN (' . $selectTypes . ')') ;
+				$query->where($db->qn('type_id') . ' IN (' . $selectTypes . ')');
 			}
 		}
 
