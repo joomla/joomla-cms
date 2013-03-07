@@ -130,9 +130,9 @@ class TagsModelTags extends JModelList
 			$params->loadString($active->params);
 		}
 
-		if ($params->get('language') != '*') 
+		if ($active->language != '*') 
 		{
-			$query->where('a.language = ' . $params->get('language') . ' OR ' . 'a.language = *');
+			$query->where('a.language = ' . $db->quote($active->language) . ' OR ' . 'a.language = ' . $db->quote('*'));
 		}
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ' ' . $limit);
