@@ -34,6 +34,9 @@ if (substr($className, -1) == 's')
 				<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, '', $extension.'.category'); ?>
 			</h2>
 		<?php endif; ?>
+		<?php if ($displayData->get('show_tags', 1)) : ?>
+			<?php JLayoutHelper::render('joomla.content.tags', $this);?>
+		<?php endif; ?>
 		<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
 			<div class="category-desc">
 				<?php if ($params->get('show_description_image') && $displayData->get('category')->getParams()->get('image')) : ?>

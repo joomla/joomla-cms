@@ -12,7 +12,3 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 $this->subtemplatename = 'items';
 echo JLayoutHelper::render('joomla.content.category_default', $this);
-<?php if ($this->params->get('show_tags', 1)) : ?>
-		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
-	<?php endif; ?>
