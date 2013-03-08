@@ -86,12 +86,15 @@ class ModulesControllerModule extends JControllerForm
 	protected function allowSave($data, $key = 'id')
 	{
 		// use custom position if selected
-		if (empty($data['position']))
+		if (isset($data['custom_position']))
 		{
-			$data['position'] = $data['custom_position'];
-		}
+			if (empty($data['position']))
+			{
+				$data['position'] = $data['custom_position'];
+			}
 
-		unset($data['custom_position']);
+			unset($data['custom_position']);
+		}
 
 		return parent::allowSave($data, $key);
 	}
