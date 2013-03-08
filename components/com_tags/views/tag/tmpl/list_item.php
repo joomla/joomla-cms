@@ -67,7 +67,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 						<td headers="categorylist_header_title" class="list-title">
 							<?php if (in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
-								<a href="<?php echo JRoute::_($item->link); ?>">
+								<?php $route = new JHelperRoute(); ?>
+								<a href="<?php echo JRoute::_($route->getRoute($item->content_item_id,  $item->type_alias, $item->link, $item->core_language)); ?>">
 									<?php echo $this->escape($item->core_title); ?>
 								</a>
 							<?php endif; ?>

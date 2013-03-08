@@ -21,6 +21,7 @@ class TagsHelper extends JHelperContent
 {
 	/**
 	 * Configure the Submenu links.
+	 * Note that tags does not have submenus at this point.
 	 *
 	 * @param   string  The extension.
 	 *
@@ -30,42 +31,12 @@ class TagsHelper extends JHelperContent
 	 */
 	public static function addSubmenu($extension)
 	{
-		$parts = explode('.', $extension);
-		$component = $parts[0];
-
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
-
-		// Try to find the component helper.
-		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
-
-		if (file_exists($file))
-		{
-			require_once $file;
-
-			$cName = 'TagsHelper';
-
-			if (class_exists($cName))
-			{
-				if (is_callable(array($cName, 'addSubmenu')))
-				{
-					$lang = JFactory::getLanguage();
-					// Loading language file from the administrator/language directory then
-					// loading language file from the administrator/components/*extension*/language directory
-						$lang->load($component, JPATH_BASE, null, false, false)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
-					||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
-
-				}
-			}
-		}
 	}
 
 	/**
 	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param   integer  $tagId  The tag ID.
 	 *
 	 * @return  JObject
 	 *
@@ -75,8 +46,8 @@ class TagsHelper extends JHelperContent
 	{
 		$assetName = 'com_tags';
 		$level     = 'component';
-		$actions   = JAccess::getActions('com_tags', $level);
 
+		$actions   = JAccess::getActions('com_tags', $level);
 
 		return parent::getActions($categoryId, $id, $assetName);
 

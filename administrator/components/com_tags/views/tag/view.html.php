@@ -76,7 +76,7 @@ class TagsViewTag extends JViewLegacy
 
 		// Get the results for each action.
 		$canDo = TagsHelper::getActions('com_tags', $this->item->id);
-var_dump($canDo);
+
 		$title = JText::_('COM_TAGS_BASE_'.($isNew?'ADD':'EDIT').'_TITLE');
 
 		// Prepare the toolbar.
