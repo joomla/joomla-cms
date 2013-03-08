@@ -38,7 +38,7 @@
 		>
 		</field>
 
-		<field name="tags" type="tag"
+		<field name="tags" type="tagnested"
 			label="JTAG" description="JTAG_DESC"
 			class="inputbox" multiple="true"
 		>
