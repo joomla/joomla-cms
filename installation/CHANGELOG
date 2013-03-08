@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Mar-2013 Jean-Marie Simonet
+ $ Missing string for com_tags
+
 07-Mar-2013 Michael Babker
  + [#30237] Set minimum type_id.  Thanks Elin
 
