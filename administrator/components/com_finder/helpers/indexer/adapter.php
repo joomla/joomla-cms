@@ -419,7 +419,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			$this->change((int) $item->id, 'access', $temp);
 
 			// Reindex the item
-			$this->reindex($row->id);
+			$this->reindex($item->id);
 		}
 	}
 
