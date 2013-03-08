@@ -72,7 +72,7 @@ class JFormFieldContenttype extends JFormFieldList
 		$query->select('a.type_id AS value, a.type_title AS text');
 		$query->from('#__content_types AS a');
 
-		$query->order('a.type_title ASC');
+		$query->order('a.type_id ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -88,6 +88,11 @@ class JFormFieldContenttype extends JFormFieldList
 
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
+
+    foreach($options as $option)
+    {
+      $option->text = JText::_($option->text);
+    }
 
 		return $options;
 	}
