@@ -134,7 +134,9 @@ $canEdit	= $this->item->params->get('access-edit');
 	</div>
 <?php endif; ?>
 
+<?php if ($params->get('show_intro')) : ?>
 <?php echo $this->item->introtext; ?>
+<?php endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
