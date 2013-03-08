@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
    `router` varchar(255) NOT NULL  DEFAULT '',
   PRIMARY KEY (`type_id`),
   KEY `idx_alias` (`type_alias`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
 
 --
 -- Dumping data for table `#__content_types`
