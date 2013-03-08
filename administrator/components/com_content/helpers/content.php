@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,10 +23,10 @@ class ContentHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	$vName	The name of the active view.
+	 * @param   string	$vName	The name of the active view.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -49,11 +49,11 @@ class ContentHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param	int		The category ID.
-	 * @param	int		The article ID.
+	 * @param   integer  The category ID.
+	 * @param   integer  The article ID.
 	 *
-	 * @return	JObject
-	 * @since	1.6
+	 * @return  JObject
+	 * @since   1.6
 	 */
 	public static function getActions($categoryId = 0, $articleId = 0)
 	{
@@ -61,13 +61,16 @@ class ContentHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($articleId) && empty($categoryId)) {
+		if (empty($articleId) && empty($categoryId))
+		{
 			$assetName = 'com_content';
 		}
-		elseif (empty($articleId)) {
+		elseif (empty($articleId))
+		{
 			$assetName = 'com_content.category.'.(int) $categoryId;
 		}
-		else {
+		else
+		{
 			$assetName = 'com_content.article.'.(int) $articleId;
 		}
 
@@ -75,7 +78,8 @@ class ContentHelper
 			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
 		);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action,	$user->authorise($action, $assetName));
 		}
 
@@ -116,7 +120,8 @@ class ContentHelper
 		foreach ($userGroups as $groupId)
 		{
 			// May have added a group but not saved the filters.
-			if (!isset($filters->$groupId)) {
+			if (!isset($filters->$groupId))
+			{
 				continue;
 			}
 
@@ -124,11 +129,13 @@ class ContentHelper
 			$filterData = $filters->$groupId;
 			$filterType	= strtoupper($filterData->filter_type);
 
-			if ($filterType == 'NH') {
+			if ($filterType == 'NH')
+			{
 				// Maximum HTML filtering.
 				$noHtml = true;
 			}
-			elseif ($filterType == 'NONE') {
+			elseif ($filterType == 'NONE')
+			{
 				// No HTML filtering.
 				$unfiltered = true;
 			}
@@ -144,7 +151,8 @@ class ContentHelper
 				{
 					$tag = trim($tag);
 
-					if ($tag) {
+					if ($tag)
+					{
 						$tempTags[] = $tag;
 					}
 				}
@@ -153,27 +161,32 @@ class ContentHelper
 				{
 					$attribute = trim($attribute);
 
-					if ($attribute) {
+					if ($attribute)
+					{
 						$tempAttributes[] = $attribute;
 					}
 				}
 
 				// Collect the black or white list tags and attributes.
 				// Each lists is cummulative.
-				if ($filterType == 'BL') {
+				if ($filterType == 'BL')
+				{
 					$blackList				= true;
 					$blackListTags			= array_merge($blackListTags, $tempTags);
 					$blackListAttributes	= array_merge($blackListAttributes, $tempAttributes);
 				}
-				elseif ($filterType == 'CBL') {
+				elseif ($filterType == 'CBL')
+				{
 					// Only set to true if Tags or Attributes were added
-					if ($tempTags || $tempAttributes) {
+					if ($tempTags || $tempAttributes)
+					{
 						$customList				= true;
 						$customListTags			= array_merge($customListTags, $tempTags);
 						$customListAttributes	= array_merge($customListAttributes, $tempAttributes);
 					}
 				}
-				elseif ($filterType == 'WL') {
+				elseif ($filterType == 'WL')
+				{
 					$whiteList				= true;
 					$whiteListTags			= array_merge($whiteListTags, $tempTags);
 					$whiteListAttributes	= array_merge($whiteListAttributes, $tempAttributes);
@@ -190,24 +203,30 @@ class ContentHelper
 		$whiteListAttributes	= array_unique($whiteListAttributes);
 
 		// Unfiltered assumes first priority.
-		if ($unfiltered) {
+		if ($unfiltered)
+		{
 			// Dont apply filtering.
 		}
-		else {
+		else
+		{
 			// Custom blacklist precedes Default blacklist
-			if ($customList) {
+			if ($customList)
+			{
 				$filter = JFilterInput::getInstance(array(), array(), 1, 1);
 
 				// Override filter's default blacklist tags and attributes
-				if ($customListTags) {
+				if ($customListTags)
+				{
 					$filter->tagBlacklist = $customListTags;
 				}
-				if ($customListAttributes) {
+				if ($customListAttributes)
+				{
 					$filter->attrBlacklist = $customListAttributes;
 				}
 			}
 			// Black lists take third precedence.
-			elseif ($blackList) {
+			elseif ($blackList)
+			{
 				// Remove the white-listed attributes from the black-list.
 				$filter = JFilterInput::getInstance(
 					// Blacklisted tags
@@ -220,17 +239,20 @@ class ContentHelper
 					1
 				);
 				// Remove white listed tags from filter's default blacklist
-				if ($whiteListTags) {
+				if ($whiteListTags)
+				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
 				// Remove white listed attributes from filter's default blacklist
-				if ($whiteListAttributes) {
+				if ($whiteListAttributes)
+				{
 					$filter->attrBlacklist = array_diff($filter->attrBlacklist);
 				}
 
 			}
 			// White lists take fourth precedence.
-			elseif ($whiteList) {
+			elseif ($whiteList)
+			{
 				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
 			}
 			// No HTML takes last place.
@@ -242,38 +264,5 @@ class ContentHelper
 		}
 
 		return $text;
-	}
-
-	public static function getAssociations($pk)
-	{
-		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->from('#__content as c');
-		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context='.$db->quote('com_content.item'));
-		$query->innerJoin('#__associations as a2 ON a.key = a2.key');
-		$query->innerJoin('#__content as c2 ON a2.id = c2.id');
-		$query->innerJoin('#__categories as ca ON c2.catid = ca.id AND ca.extension = '.$db->quote('com_content'));
-		$query->where('c.id =' . (int) $pk);
-		$select = array(
-			'c2.language',
-			$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id',
-			$query->concatenate(array('ca.id', 'ca.alias'), ':') . ' AS catid'
-		);
-		$query->select($select);
-		$db->setQuery($query);
-		$contentitems = $db->loadObjectList('language');
-
-		// Check for a database error.
-		if ($error = $db->getErrorMsg()) {
-			JError::raiseWarning(500, $error);
-			return false;
-		}
-
-		foreach ($contentitems as $tag => $item) {
-			$associations[$tag] = $item;
-		}
-
-		return $associations;
 	}
 }

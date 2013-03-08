@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,19 +46,20 @@ abstract class JInstallerHelper
 
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
+
 		if (302 == $response->code && isset($response->headers['Location']))
 		{
 			return self::downloadPackage($response->headers['Location']);
 		}
-		else if (200 != $response->code)
+		elseif (200 != $response->code)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
 			return false;
 		}
 
-		if (isset($response->headers['wrapper_data']['Content-Disposition']))
+		if (isset($response->headers['Content-Disposition']))
 		{
-			$contentfilename = explode("\"", $response->headers['wrapper_data']['Content-Disposition']);
+			$contentfilename = explode("\"", $response->headers['Content-Disposition']);
 			$target = $contentfilename[1];
 		}
 

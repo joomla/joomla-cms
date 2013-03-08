@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,13 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
-	Joomla.submitbutton = function(pressbutton) {
+	Joomla.submitbutton = function(pressbutton)
+	{
 		var form = document.getElementById('mailtoForm');
 
 		// do field validation
-		if (form.mailto.value == "" || form.from.value == "") {
+		if (form.mailto.value == "" || form.from.value == "")
+		{
 			alert('<?php echo JText::_('COM_MAILTO_EMAIL_ERR_NOINFO'); ?>');
 			return false;
 		}

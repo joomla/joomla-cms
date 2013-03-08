@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @package     Joomla.Libraries
  * @subpackage  Layout
+ * @see         http://docs.joomla.org/Sharing_layouts_across_views_or_extensions_with_JLayout
  * @since       3.0
  */
 class JLayoutBase implements JLayout

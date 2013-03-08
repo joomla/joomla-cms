@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,13 +17,14 @@ defined('_JEXEC') or die;
 abstract class JHtmlModules
 {
 	/**
-	 * @param	int $clientId	The client id
-	 * @param	string $state 	The state of the template
+	 * @param   int $clientId	The client id
+	 * @param   string $state 	The state of the template
 	 */
 	static public function templates($clientId = 0, $state = '')
 	{
 		$templates = ModulesHelper::getTemplates($clientId, $state);
-		foreach ($templates as $template) {
+		foreach ($templates as $template)
+		{
 			$options[]	= JHtml::_('select.option', $template->element, $template->name);
 		}
 		return $options;
@@ -176,9 +177,12 @@ abstract class JHtmlModules
 		}
 
 		// Pop the first item off the array if it's blank
-		if (strlen($options[0]->text) < 1)
+		if (count($options))
 		{
-			array_shift($options);
+			if (strlen($options[0]->text) < 1)
+			{
+				array_shift($options);
+			}
 		}
 
 		return $options;

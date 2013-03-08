@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1245,7 +1245,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data = array();
 			$data['menutype'] = 'main';
 			$data['client_id'] = 1;
-			$data['title'] = (string) $menuElement;
+			$data['title'] = (string) trim($menuElement);
 			$data['alias'] = (string) $menuElement;
 			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
@@ -1370,7 +1370,7 @@ class JInstallerComponent extends JAdapterInstance
 			$data = array();
 			$data['menutype'] = 'main';
 			$data['client_id'] = 1;
-			$data['title'] = (string) $child;
+			$data['title'] = (string) trim($child);
 			$data['alias'] = (string) $child;
 			$data['type'] = 'component';
 			$data['published'] = 0;

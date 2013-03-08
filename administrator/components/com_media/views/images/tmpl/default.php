@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,11 +16,11 @@ $input = JFactory::getApplication()->input;
 ?>
 <script type='text/javascript'>
 var image_base_path = '<?php $params = JComponentHelper::getParams('com_media');
-echo $params->get('image_path', 'images');?>/';
+echo $params->get('image_path', 'images'); ?>/';
 </script>
-<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>" class="form-horizontal" id="imageForm" method="post" enctype="multipart/form-data">
+<form action="index.php?option=com_media&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author'); ?>" class="form-vertical" id="imageForm" method="post" enctype="multipart/form-data">
 	<div id="messages" style="display: none;">
-		<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true)?>
+		<span id="message"></span><?php echo JHtml::_('image', 'media/dots.gif', '...', array('width' => 22, 'height' => 12), true) ?>
 	</div>
 	<div class="well">
 		<div class="row">
@@ -110,7 +110,7 @@ echo $params->get('image_path', 'images');?>/';
 	</div>
 </form>
 
-<?php if ($user->authorise('core.create', 'com_media')): ?>
+<?php if ($user->authorise('core.create', 'com_media')) : ?>
 	<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;format=<?php echo $this->config->get('enable_flash') == '1' ? 'json' : '' ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
 		<div id="uploadform" class="well">
 			<fieldset id="upload-noflash" class="actions">

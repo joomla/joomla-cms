@@ -2,7 +2,7 @@ window.addEvent('domready', function () {
 	em = document.id('extraction_method');
 	if (em) {
 		em.addEvent('change', function () {
-			if(em.value == 'direct') {
+			if (em.value == 'direct') {
 				document.id('row_ftp_hostname').style.display = 'none';
 				document.id('row_ftp_port').style.display = 'none';
 				document.id('row_ftp_username').style.display = 'none';

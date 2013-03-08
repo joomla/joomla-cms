@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_stats
  * @since       1.5
  */
-class modStatsHelper
+class ModStatsHelper
 {
 	public static function &getList(&$params)
 	{
@@ -31,7 +31,8 @@ class modStatsHelper
 		$increase	= $params->get('increase');
 
 		$i = 0;
-		if ($serverinfo) {
+		if ($serverinfo)
+		{
 			$rows[$i] = new stdClass;
 			$rows[$i]->title	= JText::_('MOD_STATS_OS');
 			$rows[$i]->data		= substr(php_uname(), 0, 7);
@@ -63,7 +64,8 @@ class modStatsHelper
 			$i++;
 		}
 
-		if ($siteinfo) {
+		if ($siteinfo)
+		{
 			$query->select('COUNT(id) AS count_users');
 			$query->from('#__users');
 			$db->setQuery($query);
@@ -83,21 +85,24 @@ class modStatsHelper
 			$db->setQuery($query);
 			$links = $db->loadResult();
 
-			if ($users) {
+			if ($users)
+			{
 				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_USERS');
 				$rows[$i]->data	= $users;
 				$i++;
 			}
 
-			if ($items) {
+			if ($items)
+			{
 				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->data	= $items;
 				$i++;
 			}
 
-			if ($links) {
+			if ($links)
+			{
 				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_WEBLINKS');
 				$rows[$i]->data	= $links;
@@ -105,7 +110,8 @@ class modStatsHelper
 			}
 		}
 
-		if ($counter) {
+		if ($counter)
+		{
 			$query->clear();
 			$query->select('SUM(hits) AS count_hits');
 			$query->from('#__content');
@@ -113,7 +119,8 @@ class modStatsHelper
 			$db->setQuery($query);
 			$hits = $db->loadResult();
 
-			if ($hits) {
+			if ($hits)
+			{
 				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data	= $hits + $increase;

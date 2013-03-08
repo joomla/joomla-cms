@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,29 +31,33 @@ class MessagesTableMessage extends JTable
 	/**
 	 * Validation and filtering.
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
 	public function check()
 	{
 		// Check the to and from users.
 		$user = new JUser($this->user_id_from);
-		if (empty($user->id)) {
+		if (empty($user->id))
+		{
 			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_FROM_USER'));
 			return false;
 		}
 
 		$user = new JUser($this->user_id_to);
-		if (empty($user->id)) {
+		if (empty($user->id))
+		{
 			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_TO_USER'));
 			return false;
 		}
 
-		if (empty($this->subject)) {
+		if (empty($this->subject))
+		{
 			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_SUBJECT'));
 			return false;
 		}
 
-		if (empty($this->message)) {
+		if (empty($this->message))
+		{
 			$this->setError(JText::_('COM_MESSAGES_ERROR_INVALID_MESSAGE'));
 			return false;
 		}
@@ -66,12 +70,12 @@ class MessagesTableMessage extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * @param   mixed	An optional array of primary key values to update.  If not
 	 *					set the instance property value is used.
-	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published]
+	 * @param   integer The user id of the user performing the operation.
+	 * @return  boolean  True on success.
+	 * @since   1.6
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -85,7 +89,8 @@ class MessagesTableMessage extends JTable
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
 		{
-			if ($this->$k) {
+			if ($this->$k)
+			{
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
@@ -116,7 +121,8 @@ class MessagesTableMessage extends JTable
 		}
 
 		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks)) {
+		if (in_array($this->$k, $pks))
+		{
 			$this->state = $state;
 		}
 

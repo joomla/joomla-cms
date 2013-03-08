@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,8 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<script src="../media/jui/js/html5.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
-			window.addEvent('domready', function() {
+			window.addEvent('domready', function()
+			{
 				window.Install = new Installation('container-installation', '<?php echo JURI::current(); ?>');
 			});
 		</script>
@@ -63,7 +64,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<div class="container">
 			<jdoc:include type="message" />
 			<div id="container-installation">
-				<jdoc:include type="installation" />
+				<jdoc:include type="component" />
 			</div>
 			<hr />
 		</div>
@@ -77,7 +78,8 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			</div>
 		</div>
 		<script>
-			function initElements() {
+			function initElements()
+			{
 				(function($){
 					$('.hasTooltip').tooltip()
 
@@ -89,15 +91,19 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 
 					// Turn radios into btn-group
 				    $('.radio.btn-group label').addClass('btn');
-				    $(".btn-group label:not(.active)").click(function() {
+				    $(".btn-group label:not(.active)").click(function()
+					{
 				        var label = $(this);
 				        var input = $('#' + label.attr('for'));
 
-				        if (!input.prop('checked')) {
+				        if (!input.prop('checked'))
+						{
 				            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-				            if(input.val()== '') {
+				            if(input.val()== '')
+							{
 				                    label.addClass('active btn-primary');
-				             } else if(input.val()==0 || input.val()=='remove') {
+				             } else if(input.val()==0 || input.val()=='remove')
+							{
 				                    label.addClass('active btn-danger');
 				             } else {
 				            label.addClass('active btn-success');
@@ -105,10 +111,13 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				            input.prop('checked', true);
 				        }
 				    });
-				    $(".btn-group input[checked=checked]").each(function() {
-						if($(this).val()== '') {
+				    $(".btn-group input[checked=checked]").each(function()
+					{
+						if ($(this).val()== '')
+						{
 				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-				        } else if($(this).val()==0 || $(this).val()=='remove') {
+				        } else if($(this).val()==0 || $(this).val()=='remove')
+						{
 				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
 				        } else {
 				            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');

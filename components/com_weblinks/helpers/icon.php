@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,11 +34,13 @@ class JHtmlIcon
 	{
 		$uri = JURI::getInstance();
 
-		if ($params && $params->get('popup')) {
+		if ($params && $params->get('popup'))
+		{
 			return;
 		}
 
-		if ($weblink->state < 0) {
+		if ($weblink->state < 0)
+		{
 			return;
 		}
 
@@ -47,10 +49,12 @@ class JHtmlIcon
 		$icon	= $weblink->state ? 'edit.png' : 'edit_unpublished.png';
 		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), null, true);
 
-		if ($weblink->state == 0) {
+		if ($weblink->state == 0)
+		{
 			$overlib = JText::_('JUNPUBLISHED');
 		}
-		else {
+		else
+		{
 			$overlib = JText::_('JPUBLISHED');
 		}
 

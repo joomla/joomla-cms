@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,9 +101,9 @@ class ModulesControllerModule extends JControllerForm
 	 *
 	 * @param   string  $model  The model
 	 *
-	 * @return	boolean  True on success.
+	 * @return  boolean  True on success.
 	 *
-	 * @since	1.7
+	 * @since   1.7
 	 */
 	public function batch($model = null)
 	{

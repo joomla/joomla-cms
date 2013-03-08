@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JLoader::register('InstallerModel', __DIR__ . '/extension.php');
-JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
+JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 /**
  * Installer Manage Model
@@ -28,7 +28,12 @@ class InstallerModelDatabase extends InstallerModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -41,8 +46,9 @@ class InstallerModelDatabase extends InstallerModel
 	}
 
 	/**
-	 *
 	 * Fixes database problems
+	 *
+	 * @return  void
 	 */
 	public function fix()
 	{
@@ -53,13 +59,12 @@ class InstallerModelDatabase extends InstallerModel
 		$changeSet->fix();
 		$this->fixSchemaVersion($changeSet);
 		$this->fixUpdateVersion();
-		$installer = new joomlaInstallerScript;
+		$installer = new JoomlaInstallerScript;
 		$installer->deleteUnexistingFiles();
 		$this->fixDefaultTextFilters();
 	}
 
 	/**
-	 *
 	 * Gets the changeset object
 	 *
 	 * @return  JSchemaChangeset
@@ -80,6 +85,13 @@ class InstallerModelDatabase extends InstallerModel
 		return $changeSet;
 	}
 
+	/**
+	 * Method to get a JPagination object for the data set.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   12.2
+	 */
 	public function getPagination()
 	{
 		return true;
@@ -107,7 +119,7 @@ class InstallerModelDatabase extends InstallerModel
 	/**
 	 * Fix schema version if wrong
 	 *
-	 * @param JSchemaChangeSet
+	 * @param   JSchemaChangeSet  $changeSet  Schema change set
 	 *
 	 * @return   mixed  string schema version if success, false if fail
 	 */
@@ -139,7 +151,8 @@ class InstallerModelDatabase extends InstallerModel
 			$query->set($db->qn('extension_id') . '= 700');
 			$query->set($db->qn('version_id') . '= ' . $db->q($schema));
 			$db->setQuery($query);
-			if ($db->execute()) {
+			if ($db->execute())
+			{
 				$result = $schema;
 			}
 		}

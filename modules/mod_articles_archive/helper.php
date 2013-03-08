@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_archive
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_articles_archive
  * @since       1.5
  */
-class modArchiveHelper
+class ModArchiveHelper
 {
 	/*
 	 * @since  1.5
@@ -34,7 +34,8 @@ class modArchiveHelper
 		$query->group('created_year, created_month, id, title, created');
 
 		// Filter by language
-		if (JFactory::getApplication()->getLanguageFilter()) {
+		if (JFactory::getApplication()->getLanguageFilter())
+		{
 			$query->where('language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 		}
 
@@ -48,7 +49,8 @@ class modArchiveHelper
 
 		$i		= 0;
 		$lists	= array();
-		foreach ($rows as $row) {
+		foreach ($rows as $row)
+		{
 			$date = JFactory::getDate($row->created);
 
 			$created_month	= $date->format('n');

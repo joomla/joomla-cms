@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -15,11 +15,23 @@ class Security0001Test extends SeleniumJoomlaTestCase
 {
 	function testXSS()
 	{
-		print("Start testXSS" . "\n");
+		$this->jPrint("Start testXSS" . "\n");
 		$this->setUp();
 		$this->gotoSite();
-		echo "testing some XSS URLs\n";
+		$this->jPrint ("testing some XSS URLs\n");
 		$link = $this->cfg->path . 'index.php?option=com_contact&view=category&catid=26&id=36&Itemid=-1"><script>alert(/XSS/)</script>';
+		$this->open($link);
+		$this->waitForPageToLoad("30000");
+		$this->assertFalse($this->isElementPresent("//form/script[contains(text(), 'alert')]"));
+		$link = $this->cfg->path . 'index.php?option=com_content&view=category&catid=26&id=36&Itemid=-1"><script>alert(/XSS/)</script>';
+		$this->open($link);
+		$this->waitForPageToLoad("30000");
+		$this->assertFalse($this->isElementPresent("//form/script[contains(text(), 'alert')]"));
+		$link = $this->cfg->path . 'index.php?option=com_newsfeeds&view=category&catid=26&id=36&Itemid=-1"><script>alert(/XSS/)</script>';
+		$this->open($link);
+		$this->waitForPageToLoad("30000");
+		$this->assertFalse($this->isElementPresent("//form/script[contains(text(), 'alert')]"));
+		$link = $this->cfg->path . 'index.php?option=com_xxxinvalid&view=category&catid=26&id=36&Itemid=-1"><script>alert(/XSS/)</script>';
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isElementPresent("//form/script[contains(text(), 'alert')]"));
@@ -42,12 +54,13 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//link[contains(@href,\"<script>\")]"));
-		print("Finish testXSS" . "\n");
+
+		$this->jPrint("Finish testXSS" . "\n");
 		$this->deleteAllVisibleCookies();
 	}
 
 	function testPathDisclosure() {
-		print("Start testPathDisclosure" . "\n");
+		$this->jPrint("Start testPathDisclosure" . "\n");
 		$this->setUp();
 		$this->gotoSite();
 
@@ -56,10 +69,13 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 		$this->assertFalse($this->isTextPresent("Fatal error"));
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list?start=-10';
+
 		$this->open($link, "true");
+
 		$this->waitForPageToLoad("30000");
+
 		$this->assertFalse($this->isElementPresent("//div[@class='error']"));
-		print("Finish testPathDisclosure" . "\n");
+		$this->jPrint("Finish testPathDisclosure" . "\n");
 		$this->deleteAllVisibleCookies();
 
 	}

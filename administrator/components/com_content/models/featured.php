@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,13 +22,14 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -40,6 +41,7 @@ class ContentModelFeatured extends ContentModelArticles
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
+				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
 				'language', 'a.language',
@@ -54,9 +56,9 @@ class ContentModelFeatured extends ContentModelArticles
 	}
 
 	/**
-	 * @param	boolean	True to join selected foreign information
+	 * @param   boolean	True to join selected foreign information
 	 *
-	 * @return	string
+	 * @return  string
 	 */
 	protected function getListQuery($resolveFKs = true)
 	{
@@ -69,7 +71,7 @@ class ContentModelFeatured extends ContentModelArticles
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-				'a.language, a.publish_up, a.publish_down'
+				'a.language, a.created_by_alias, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');
@@ -99,22 +101,26 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = ' . (int) $access);
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.state = ' . (int) $published);
-		} elseif ($published === '') {
+		} elseif ($published === '')
+		{
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 
 		// Filter by a single or group of categories.
 		$baselevel = 1;
 		$categoryId = $this->getState('filter.category_id');
-		if (is_numeric($categoryId)) {
+		if (is_numeric($categoryId))
+		{
 			$cat_tbl = JTable::getInstance('Category', 'JTable');
 			$cat_tbl->load($categoryId);
 			$rgt = $cat_tbl->rgt;
@@ -123,21 +129,25 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('c.lft >= '.(int) $lft);
 			$query->where('c.rgt <= '.(int) $rgt);
 		}
-		elseif (is_array($categoryId)) {
+		elseif (is_array($categoryId))
+		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
 			$query->where('a.catid IN ('.$categoryId.')');
 		}
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level')) {
+		if ($level = $this->getState('filter.level'))
+		{
 			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
@@ -146,7 +156,8 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = '.$db->quote($language));
 		}
 

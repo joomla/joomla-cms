@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -102,8 +102,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleCategory
 	 */
 	public function testHandleCategory()
 	{
@@ -128,8 +126,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleCloud
 	 */
 	public function testHandleCloud()
 	{
@@ -170,8 +166,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleCopyright
 	 */
 	public function testHandleCopyright()
 	{
@@ -193,8 +187,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleDescription
 	 */
 	public function testHandleDescription()
 	{
@@ -216,8 +208,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleGenerator
 	 */
 	public function testHandleGenerator()
 	{
@@ -239,8 +229,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleImage
 	 */
 	public function testHandleImage()
 	{
@@ -274,8 +262,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleLanguage
 	 */
 	public function testHandleLanguage()
 	{
@@ -297,8 +283,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleLastBuildDate
 	 */
 	public function testHandleLastBuildDate()
 	{
@@ -321,8 +305,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleLink
 	 */
 	public function testHandleLink()
 	{
@@ -344,8 +326,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleManagingEditor
 	 */
 	public function testHandleManagingEditor()
 	{
@@ -367,8 +347,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handlePubDate
 	 */
 	public function testHandlePubDate()
 	{
@@ -391,8 +369,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleSkipDays
 	 */
 	public function testHandleSkipDays()
 	{
@@ -417,8 +393,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleSkipHours
 	 */
 	public function testHandleSkipHours()
 	{
@@ -443,8 +417,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleTitle
 	 */
 	public function testHandleTitle()
 	{
@@ -466,8 +438,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleTtl
 	 */
 	public function testHandleTtl()
 	{
@@ -489,8 +459,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::handleWebmaster
 	 */
 	public function testHandleWebmaster()
 	{
@@ -514,7 +482,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedParserRss::initialise
 	 * @dataProvider  seedInitialise
 	 */
 	public function testInitialise($expected, $xml)
@@ -551,8 +518,6 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedParserRss::processFeedEntry
 	 */
 	public function testProcessFeedEntry()
 	{
@@ -598,7 +563,6 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedParserRss::processPerson
 	 * @dataProvider  seedProcessPerson
 	 */
 	public function testProcessPerson($input, $name, $email)

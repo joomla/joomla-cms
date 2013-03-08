@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class ContentModelArchive extends ContentModelArticles
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -60,7 +60,7 @@ class ContentModelArchive extends ContentModelArticles
 	}
 
 	/**
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -105,11 +105,13 @@ class ContentModelArchive extends ContentModelArticles
 		// First, get the date field
 		$queryDate = ContentHelperQuery::getQueryDate($articleOrderDate);
 
-		if ($month = $this->getState('filter.month')) {
+		if ($month = $this->getState('filter.month'))
+		{
 			$query->where('MONTH('. $queryDate . ') = ' . $month);
 		}
 
-		if ($year = $this->getState('filter.year')) {
+		if ($year = $this->getState('filter.year'))
+		{
 			$query->where('YEAR('. $queryDate . ') = ' . $year);
 		}
 
@@ -152,7 +154,8 @@ class ContentModelArchive extends ContentModelArticles
 		$result = parent::_getList($query, $limitstart, $limit);
 
 		$odd = 1;
-		foreach ($result as $k => $row) {
+		foreach ($result as $k => $row)
+		{
 			$result[$k]->odd = $odd;
 			$odd = 1 - $odd;
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Newsfeeds
  * @since       2.5
  */
-class plgFinderNewsfeeds extends FinderIndexerAdapter
+class PlgFinderNewsfeeds extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -259,6 +259,8 @@ class plgFinderNewsfeeds extends FinderIndexerAdapter
 		{
 			return;
 		}
+
+		$item->setLanguage();
 
 		// Initialize the item parameters.
 		$registry = new JRegistry;

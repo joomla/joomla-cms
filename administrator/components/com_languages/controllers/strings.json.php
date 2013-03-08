@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,9 +21,9 @@ class LanguagesControllerStrings extends JControllerAdmin
 	/**
 	 * Constructor
 	 *
-	 * @param		array	An optional associative array of configuration settings
+	 * @param   	array	An optional associative array of configuration settings
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -37,7 +37,7 @@ class LanguagesControllerStrings extends JControllerAdmin
 	/**
 	 * Method for refreshing the cache in the database with the known language strings
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -49,7 +49,7 @@ class LanguagesControllerStrings extends JControllerAdmin
 	/**
 	 * Method for searching language strings
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */

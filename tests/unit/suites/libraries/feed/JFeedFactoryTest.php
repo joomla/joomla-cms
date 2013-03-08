@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,8 +66,6 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedFactory::__construct
 	 */
 	public function testConstructor()
 	{
@@ -86,7 +84,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedFactory::getFeed
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetFeedInvalidArgument()
@@ -101,7 +98,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedFactory::getFeed
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetFeedBad()
@@ -116,7 +112,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedFactory::getFeed
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetFeedNoParser()
@@ -130,8 +125,6 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedFactory::getFeed
 	 */
 	public function testGetFeedMockParser()
 	{
@@ -151,8 +144,6 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedFactory::getFeed
 	 */
 	public function testGetFeed()
 	{
@@ -168,8 +159,6 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedFactory::registerParser
 	 */
 	public function testRegisterParser()
 	{
@@ -187,7 +176,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedFactory::registerParser
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testRegisterParserWithInvalidClass()
@@ -206,7 +194,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedFactory::registerParser
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testRegisterParserWithInvalidTag()
@@ -224,8 +211,6 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeedFactory::_fetchFeedParser
 	 */
 	public function test_fetchFeedParser()
 	{
@@ -243,7 +228,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeedFactory::_fetchFeedParser
 	 * @expectedException  LogicException
 	 */
 	public function test_fetchFeedParserWithInvalidTag()

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-manage">
 <form action="<?php echo JRoute::_('index.php?option=com_installer&view=manage');?>" method="post" name="adminForm" id="adminForm">
-	<?php if(!empty( $this->sidebar)): ?>
+	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
 		</div>
@@ -93,7 +93,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</tr>
 			</tfoot>
 			<tbody>
-			<?php foreach ($this->items as $i => $item): ?>
+			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected';?>">
 					<td>
 						<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <?php //Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -164,7 +164,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 							<?php else : ?>
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
 							<?php endif; ?>
-						<?php elseif($item->type == 'url' && $item->note) : ?>
+						<?php elseif ($item->type == 'url' && $item->note) : ?>
 							<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 						<?php endif; ?></p>
 				</td>
@@ -235,7 +235,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 	<div class="clr"> </div>
 
 	<?php //Load the batch processing form.is user is allowed ?>
-	<?php if($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
+	<?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
 		<?php echo $this->loadTemplate('batch'); ?>
 	<?php endif;?>
 

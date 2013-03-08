@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,7 +97,11 @@ class JUpdaterCollection extends JUpdateAdapter
 		$tag = $this->_getStackLocation();
 
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
+		if (isset($this->$tag))
+		{
+			$this->$tag->_data = "";
+		}
+
 		switch ($name)
 		{
 			case 'CATEGORY':

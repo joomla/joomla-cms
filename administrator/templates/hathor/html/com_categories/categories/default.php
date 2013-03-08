@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <div class="categories">
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -96,7 +96,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<th class="access-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
-				<?php if ($assoc): ?>
+				<?php if ($assoc) : ?>
 				<th width="5%">
 					<?php echo JHtml::_('grid.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 				</th>
@@ -162,10 +162,10 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<?php if ($assoc): ?>
+					<?php if ($assoc) : ?>
 					<td class="center">
 						<?php if ($item->association):?>
-							<?php echo JHtml::_('CategoriesAdministrator.association', $item->id);?>
+							<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension);?>
 						<?php endif;?>
 					</td>
 					<?php endif;?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Categories
  * @since       2.5
  */
-class plgFinderCategories extends FinderIndexerAdapter
+class PlgFinderCategories extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -236,6 +236,8 @@ class plgFinderCategories extends FinderIndexerAdapter
 		{
 			return;
 		}
+
+		$item->setLanguage();
 
 		// Need to import component route helpers dynamically, hence the reason it's handled here
 		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';

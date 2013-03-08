@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Version
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,8 +41,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JVersion::isCompatible
 	 */
 	public function testIsCompatible()
 	{
@@ -59,8 +57,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JVersion::getHelpVersion
 	 */
 	public function testGetHelpVersion()
 	{
@@ -77,8 +73,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JVersion::getShortVersion
 	 */
 	public function testGetShortVersion()
 	{
@@ -95,8 +89,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JVersion::getLongVersion
 	 */
 	public function testGetLongVersion()
 	{
@@ -113,8 +105,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JVersion::getUserAgent
 	 */
 	public function testGetUserAgent_maskFalse()
 	{
@@ -131,8 +121,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JVersion::getUserAgent
 	 */
 	public function testGetUserAgent_maskTrue()
 	{
@@ -149,8 +137,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JVersion::getUserAgent
 	 */
 	public function testGetUserAgent_ComponentNull()
 	{
@@ -167,8 +153,6 @@ class JVersionTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JVersion::getUserAgent
 	 */
 	public function testGetUserAgent_ComponentNotNull()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_breadcrumbs
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_breadcrumbs
  * @since       1.5
  */
-class modBreadCrumbsHelper
+class ModBreadCrumbsHelper
 {
 	public static function getList(&$params)
 	{
@@ -50,10 +50,10 @@ class modBreadCrumbsHelper
 	/**
 	 * Set the breadcrumbs separator for the breadcrumbs display.
 	 *
-	 * @param	string	$custom	Custom xhtml complient string to separate the
+	 * @param   string	$custom	Custom xhtml complient string to separate the
 	 * items of the breadcrumbs
-	 * @return	string	Separator string
-	 * @since	1.5
+	 * @return  string	Separator string
+	 * @since   1.5
 	 */
 	public static function setSeparator($custom = null)
 	{

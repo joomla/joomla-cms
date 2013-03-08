@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -424,6 +424,7 @@ class JTableNested extends JTable
 		/*
 		 * Create space in the nested sets at the new location for the moved sub-tree.
 		 */
+
 		// Shift left values.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl)
@@ -467,11 +468,14 @@ class JTableNested extends JTable
 			$query->update($this->_tbl);
 
 			// Update the title and alias fields if they exist for the table.
+			$fields = $this->getFields();
+
 			if (property_exists($this, 'title') && $this->title !== null)
 			{
 				$query->set('title = ' . $this->_db->Quote($this->title));
 			}
-			if (property_exists($this, 'alias') && $this->alias !== null)
+
+			if (array_key_exists('alias', $fields)  && $this->alias !== null)
 			{
 				$query->set('alias = ' . $this->_db->Quote($this->alias));
 			}
@@ -1161,7 +1165,9 @@ class JTableNested extends JTable
 			return $result[0];
 		}
 
-		if (property_exists($this, 'alias'))
+		$fields = $this->getFields();
+
+		if (array_key_exists('alias', $fields))
 		{
 			// Test for a unique record alias = root
 			$query = $this->_db->getQuery(true);
@@ -1285,8 +1291,10 @@ class JTableNested extends JTable
 	 */
 	public function rebuildPath($pk = null)
 	{
+		$fields = $this->getFields();
+
 		// If there is no alias or path field, just return true.
-		if (!property_exists($this, 'alias') || !property_exists($this, 'path'))
+		if (!array_key_exists('alias', $fields) || !array_key_exists('path', $fields))
 		{
 			return true;
 		}

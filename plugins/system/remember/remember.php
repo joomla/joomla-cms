@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,14 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  System.remember
  * @since       1.5
  */
-class plgSystemRemember extends JPlugin
+class PlgSystemRemember extends JPlugin
 {
 	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
 
 		// No remember me for admin
-		if ($app->isAdmin()) {
+		if ($app->isAdmin())
+		{
 			return;
 		}
 
@@ -47,7 +48,8 @@ class plgSystemRemember extends JPlugin
 				$credentials = array();
 				$filter = JFilterInput::getInstance();
 				$goodCookie = true;
-				if (is_array($credentials)) {
+				if (is_array($credentials))
+				{
 					if (isset($cookieData['username']) && is_string($cookieData['username']))
 					{
 						$credentials['username'] = $filter -> clean($cookieData['username'], 'username');
@@ -70,7 +72,8 @@ class plgSystemRemember extends JPlugin
 					$goodCookie = false;
 				}
 
-				if (!$goodCookie || !$app->login($credentials, array('silent' => true))) {
+				if (!$goodCookie || !$app->login($credentials, array('silent' => true)))
+				{
 					$config = JFactory::getConfig();
 					$cookie_domain = $config->get('cookie_domain', '');
 					$cookie_path = $config->get('cookie_path', '/');

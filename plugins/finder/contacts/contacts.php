@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Contacts
  * @since       2.5
  */
-class plgFinderContacts extends FinderIndexerAdapter
+class PlgFinderContacts extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -261,6 +261,8 @@ class plgFinderContacts extends FinderIndexerAdapter
 		{
 			return;
 		}
+
+		$item->setLanguage();
 
 		// Initialize the item parameters.
 		$registry = new JRegistry;

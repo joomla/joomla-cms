@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,18 +22,27 @@ JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-Joomla.submitbutton = function(pressbutton) {
-	if (pressbutton == 'index.purge') {
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT'))) {
+Joomla.submitbutton = function(pressbutton)
+{
+	if (pressbutton == 'index.purge')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
-	if (pressbutton == 'index.delete') {
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT'))) {
+	if (pressbutton == 'index.delete')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -43,7 +52,7 @@ Joomla.submitbutton = function(pressbutton) {
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -89,11 +98,12 @@ Joomla.submitbutton = function(pressbutton) {
 				</tr>
 			</thead>
 			<tbody>
-				<?php if (count($this->items) == 0): ?>
+				<?php if (count($this->items) == 0) : ?>
 				<tr class="row0">
 					<td align="center" colspan="6">
 						<?php
-						if ($this->total == 0) {
+						if ($this->total == 0)
+						{
 							echo JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP');
 						} else {
 							echo JText::_('COM_FINDER_INDEX_NO_CONTENT');
@@ -104,7 +114,7 @@ Joomla.submitbutton = function(pressbutton) {
 				<?php endif; ?>
 
 				<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
-				<?php foreach ($this->items as $i => $item): ?>
+				<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
@@ -118,7 +128,8 @@ Joomla.submitbutton = function(pressbutton) {
 						</strong>
 						<small class="muted">
 						<?php
-							if (strlen($item->url) > 80) {
+							if (strlen($item->url) > 80)
+							{
 								echo substr($item->url, 0, 70) . '...';
 							} else {
 								echo $item->url;

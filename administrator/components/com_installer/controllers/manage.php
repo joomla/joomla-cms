@@ -3,24 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
+ * Installer Manage Controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerControllerManage extends JControllerLegacy
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -33,7 +37,9 @@ class InstallerControllerManage extends JControllerLegacy
 	/**
 	 * Enable/Disable an extension (if supported).
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function publish()
 	{
@@ -45,19 +51,28 @@ class InstallerControllerManage extends JControllerLegacy
 		$task   = $this->getTask();
 		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'));
-		} else {
+		}
+		else
+		{
 			// Get the model.
 			$model	= $this->getModel('manage');
 
 			// Change the state of the records.
-			if (!$model->publish($ids, $value)) {
+			if (!$model->publish($ids, $value))
+			{
 				JError::raiseWarning(500, implode('<br />', $model->getErrors()));
-			} else {
-				if ($value == 1) {
+			}
+			else
+			{
+				if ($value == 1)
+				{
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_PUBLISHED';
-				} elseif ($value == 0) {
+				}
+				elseif ($value == 0)
+				{
 					$ntext = 'COM_INSTALLER_N_EXTENSIONS_UNPUBLISHED';
 				}
 				$this->setMessage(JText::plural($ntext, count($ids)));
@@ -70,8 +85,9 @@ class InstallerControllerManage extends JControllerLegacy
 	/**
 	 * Remove an extension (Uninstall).
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	public function remove()
 	{
@@ -91,7 +107,9 @@ class InstallerControllerManage extends JControllerLegacy
 	 *
 	 * Useful for debugging and testing purposes when the XML file might change.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function refresh()
 	{

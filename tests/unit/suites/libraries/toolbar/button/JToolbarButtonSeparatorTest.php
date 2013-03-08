@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,6 @@ class JToolbarButtonSeparatorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbarButtonSeparator::render
 	 * @todo   Implement testRender().
 	 */
 	public function testRender()
@@ -47,7 +46,6 @@ class JToolbarButtonSeparatorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbarButtonSeparator::fetchButton
 	 * @todo   Implement testFetchButton().
 	 */
 	public function testFetchButton()

@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,6 @@ class JToolbarButtonStandardTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbarButtonStandard::fetchButton
 	 * @todo   Implement testFetchButton().
 	 */
 	public function testFetchButton()
@@ -58,9 +57,7 @@ class JToolbarButtonStandardTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButtonStandard::fetchId
-\	 */
+	 */
 	public function testFetchId()
 	{
 		$this->assertThat(

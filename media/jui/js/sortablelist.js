@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@
 				root.disableOtherGroupSort(e, ui);
 				
 				//Proceed nested list				
-				if(nestedList){
+				if (nestedList){
 					root.hideChidlrenNodes(ui.item.attr('item-id'));	
 					root.hideSameLevelChildrenNodes(ui.item.attr('level'));
 					$(tableWrapper).sortable('refresh');
@@ -94,7 +94,7 @@
 				}
 				root.disabledOrderingElements = '';
 				//Proceed nested list				
-				if(nestedList){
+				if (nestedList){
 					root.showChildrenNodes(ui.item);
 					root.showSameLevelChildrenNodes(ui.item);
 					$(tableWrapper).sortable('refresh');
@@ -209,12 +209,12 @@
 				//recalculate order number
 				if (ui.originalPosition.top > ui.position.top) //if item moved up
 				{						
-					if(ui.item.position().top != ui.originalPosition.top){
+					if (ui.item.position().top != ui.originalPosition.top){
 						$('[type=text]', ui.item).attr('value', parseInt($('[type=text]', ui.item.next()).attr('value')));
 					}
 					$(range).each(function () {
 						var _top = $(this).position().top;
-						if( ui.item.get(0) !== $(this).get(0)){	
+						if ( ui.item.get(0) !== $(this).get(0)){	
 							if (_top > ui.item.position().top && _top <= ui.originalPosition.top) {
 								if (sortDir == 'asc') {
 									var newValue = parseInt($('[type=text]', $(this)).attr('value')) + 1;
@@ -227,12 +227,12 @@
 						}
 					});
 				} else if (ui.originalPosition.top < ui.position.top) {
-					if(ui.item.position().top != ui.originalPosition.top){
+					if (ui.item.position().top != ui.originalPosition.top){
 						$('[type=text]', ui.item).attr('value', parseInt($('[type=text]', ui.item.prev()).attr('value')));
 					}					
 					$(range).each(function () {												
 						var _top = $(this).position().top;
-						if( ui.item.get(0) !== $(this).get(0)){						
+						if ( ui.item.get(0) !== $(this).get(0)){						
 							if (_top < ui.item.position().top && _top >= ui.originalPosition.top) {
 								if (sortDir == 'asc') {
 									var newValue = parseInt($('[type=text]', $(this)).attr('value')) - 1;

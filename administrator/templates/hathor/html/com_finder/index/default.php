@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,18 +20,27 @@ JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-Joomla.submitbutton = function(pressbutton) {
-	if (pressbutton == 'index.purge') {
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT'))) {
+Joomla.submitbutton = function(pressbutton)
+{
+	if (pressbutton == 'index.purge')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
-	if (pressbutton == 'index.delete') {
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT'))) {
+	if (pressbutton == 'index.delete')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -41,7 +50,7 @@ Joomla.submitbutton = function(pressbutton) {
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -102,11 +111,12 @@ Joomla.submitbutton = function(pressbutton) {
 		</thead>
 
 		<tbody>
-		<?php if (count($this->items) == 0): ?>
+		<?php if (count($this->items) == 0) : ?>
 			<tr class="row0">
 				<td align="center" colspan="7">
 					<?php
-					if ($this->total == 0) {
+					if ($this->total == 0)
+					{
 						echo JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP');
 					} else {
 						echo JText::_('COM_FINDER_INDEX_NO_CONTENT');
@@ -123,7 +133,7 @@ Joomla.submitbutton = function(pressbutton) {
 				</th>
 				<td>
 					<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
-					<img src="<?php echo JURI::root();?>/media/com_finder/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
+					<img src="<?php echo JURI::root();?>/media/system/images/calendar.png" style="border:1px;float:right" class="hasTip" title="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>" />
 					<?php endif; ?>
 					<?php echo $this->escape($item->title); ?>
 				</td>
@@ -138,7 +148,8 @@ Joomla.submitbutton = function(pressbutton) {
 				</td>
 				<td class="nowrap">
 					<?php
-					if (strlen($item->url) > 80) {
+					if (strlen($item->url) > 80)
+					{
 						echo substr($item->url, 0, 70) . '...';
 					} else {
 						echo $item->url;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -520,6 +520,8 @@ class JInstallerFile extends JAdapterInstance
 				$this->parent->set('extension_message', $msg);
 			}
 
+			$db = JFactory::getDbo();
+
 			// Let's run the uninstall queries for the extension
 			$result = $this->parent->parseSQLFiles($this->manifest->uninstall->sql);
 
@@ -531,7 +533,6 @@ class JInstallerFile extends JAdapterInstance
 			}
 
 			// Remove the schema version
-			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->delete()
 				->from('#__schemas')

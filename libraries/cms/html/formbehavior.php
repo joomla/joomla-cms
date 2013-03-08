@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,6 +45,11 @@ abstract class JHtmlFormbehavior
 
 		// Include jQuery
 		JHtml::_('jquery.framework');
+
+		// Add chosen.jquery.js language strings
+		JText::script('JGLOBAL_SELECT_SOME_OPTIONS');
+		JText::script('JGLOBAL_SELECT_AN_OPTION');
+		JText::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)

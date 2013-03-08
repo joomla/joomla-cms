@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ JHtml::_('bootstrap.tooltip');
 			<div class="span9">
 				<?php if ($user->client_id == 0) :?>
 					<a class="hasTooltip" title="<?php echo JText::_('MOD_LOGGED_LOGOUT');?>" href="<?php echo $user->logoutLink;?>" class="btn btn-danger btn-mini">
-						<i class="icon-remove icon-white tip" title="<?php echo JText::_('JLOGOUT');?>"></i>
+						<i class="icon-remove icon-white" title="<?php echo JText::_('JLOGOUT');?>"></i>
 					</a>
 				<?php endif; ?>
 
@@ -32,7 +32,8 @@ JHtml::_('bootstrap.tooltip');
 
 				<small class="small hasTooltip" title="<?php echo JText::_('JCLIENT'); ?>">
 				<?php
-					if($user->client_id) {
+					if ($user->client_id)
+					{
 						echo JText::_('JADMINISTRATOR');
 					} else {
 						echo JText::_('JSITE');

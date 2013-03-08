@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,7 +58,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			JClientHelper::setCredentialsFromRequest('ftp');
 
 			// Check that new name is valid
-			if (($newNameRaw !== null) && ($newName !== $newNameRaw)) {
+			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
+			{
 				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'));
 				return false;
 			}

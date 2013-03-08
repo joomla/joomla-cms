@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,6 +59,16 @@ else
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="language" content="<?php echo $this->language; ?>" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+
+	<?php
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if (JDEBUG || $debug)
+		{
+	?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
+	<?php
+		}
+	?>
 	<?php
 	// If Right-to-Left
 	if ($this->direction == 'rtl')
@@ -110,14 +120,20 @@ else
 	<![endif]-->
 </head>
 
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?> <?php if ($params->get('fluidContainer')) { echo "fluid"; } ?>">
+<body class="site <?php echo $option
+	. ' view-' . $view
+	. ($layout ? ' layout-' . $layout : ' no-layout')
+	. ($task ? ' task-' . $task : ' no-task')
+	. ($itemid ? ' itemid-' . $itemid : '')
+	. ($params->get('fluidContainer') ? ' fluid' : '');
+?>">
 
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php if ($params->get('fluidContainer')) { echo "-fluid"; } ?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<!-- Header -->
 			<div class="header">
-				<div class="header-inner">
+				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" />
 					</a>
@@ -125,7 +141,8 @@ else
 						<?php
 						// Display position-0 modules
 						$this->searchmodules = JModuleHelper::getModules('position-0');
-						foreach ($this->searchmodules as $searchmodule) {
+						foreach ($this->searchmodules as $searchmodule)
+						{
 							$output = JModuleHelper::renderModule($searchmodule, array('style' => 'none'));
 							$params = new JRegistry;
 							$params->loadString($searchmodule->params);
@@ -133,14 +150,14 @@ else
 						}
 						?>
 					</div>
-					<div class="clearfix"></div>
 				</div>
 			</div>
 			<div class="navigation">
 				<?php
 				// Display position-1 modules
 				$this->navmodules = JModuleHelper::getModules('position-1');
-				foreach ($this->navmodules as $navmodule) {
+				foreach ($this->navmodules as $navmodule)
+				{
 					$output = JModuleHelper::renderModule($navmodule, array('style' => 'none'));
 					$params = new JRegistry;
 					$params->loadString($navmodule->params);
@@ -169,12 +186,14 @@ else
 								</ul>
 							</div>
 							<div class="span6">
-								<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
-								<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
-								<?php
-									$module = JModuleHelper::getModule('search');
-									echo JModuleHelper::renderModule($module);
-								?>
+								<?php if (JModuleHelper::getModule('search')) : ?>
+									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
+									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
+									<?php
+										$module = JModuleHelper::getModule('search');
+										echo JModuleHelper::renderModule($module);
+									?>
+								<?php endif; ?>
 								<p><?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?></p>
 								<p><a href="<?php echo $this->baseurl; ?>/index.php" class="btn"><i class="icon-home"></i> <?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></p>
 							</div>
@@ -192,7 +211,7 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php if ($params->get('fluidContainer')) { echo "-fluid"; } ?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>
