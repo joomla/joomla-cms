@@ -18,7 +18,7 @@ defined('JPATH_BASE') or die;
 			{
 				if (in_array($tag->access, JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'))))
 				{
-					echo '<span class="tag-' . $tag->tag_id . ' tag-list' . $i . ' "><a href="' . JRoute::_(TagsHelperRoute::getTagRoute($tag->tag_id)) . '" >' . $this->escape($tag->title) . '</a></span>&nbsp; ';
+					echo '<span class="tag-' . $tag->tag_id . ' tag-list' . $i . ' "><a href="' . JRoute::_(TagsHelperRoute::getTagRoute($tag->tag_id)) . '" class="label label-info">' . $this->escape($tag->title) . '</a></span>&nbsp; ';
 				}
 			}
 		} ?>
