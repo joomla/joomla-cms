@@ -60,7 +60,7 @@ else
 		<?php echo str_replace('&apos;', "'", $this->item->name); ?></a>
 	</h2>
 
-	<?php if ($this->params->get('show_tags', 1)) : ?>
+	<?php if ($this->params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
 		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 	<?php endif; ?>
