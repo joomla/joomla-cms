@@ -204,6 +204,14 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				useglobal="true"
 				extension="com_tags" view="tag" labelclass="control-label" />
+			<field name="tag_link_class"
+				   type="text"
+				   label="COM_TAGS_FIELD_TAG_LINK_CLASS"
+				   description="COM_TAGS_FIELD_TAG_LINK_CLASS_DESC"
+				   class="inputbox"
+				   size="20"
+				   labelclass="control-label"
+					/>
 
 		</fieldset>
 	</fields>
