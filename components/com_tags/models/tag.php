@@ -95,6 +95,7 @@ class TagsModelTag extends JModelList
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 		$nullDate = $db->q($db->getNullDate());
+		$app  = JFactory::getApplication();
 
 		$tagId  = $this->getState('tag.id')?:'';
 		$ntagsr = substr_count($tagId, ',') + 1;
@@ -134,6 +135,18 @@ class TagsModelTag extends JModelList
 		$query->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id');
 
 		$query->where('m.tag_id IN (' . $tagId . ')');
+		$app = JFactory::getApplication();
+
+		// Optionally filter on language
+		if ($this->getState('params')->get('tag_list_language_filter', 'all') != 'all')
+		{
+			$language = $this->getState('params')->get('tag_list_language_filter');
+			if ($language == 'current_language')
+			{
+				$language = JFactory::getLanguage()->getTag();
+			}
+			$query->where($db->qn('core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
+		}
 
 		$contentTypes = new JTags;
 
