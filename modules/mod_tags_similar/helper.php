@@ -89,8 +89,6 @@ abstract class ModTagssimilarHelper
 				// Get the data for the matching item. We have to get it  all because we don't know if it uses name or title.
 				$tagHelper = new JTags;
 
-				//$explodedTypeAlias = $tagHelper->explodeTypeAlias($result->type_alias);
-				//$itemUrl = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->content_item_id);
 				$table = $tagHelper->getTableName($result->type_alias);
 
 				if (!empty($result->content_item_id))
@@ -103,7 +101,7 @@ abstract class ModTagssimilarHelper
 
 					$result->itemData[$i]            = $db->loadAssoc();
 					$explodedTypeAlias               = $tagHelper->explodeTypeAlias($result->type_alias);
-					$result->itemData[$i]['itemUrl'] = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->content_item_id);
+					$result->itemData[$i]['itemUrl'] = $tagHelper->getContentItemUrl($result->type_alias, $result->content_item_id, $explodedTypeAlias);
 				}
 				else
 				{

@@ -212,7 +212,7 @@ class CategoriesControllerCategory extends JControllerForm
 		{
 			$isNew = $item->id == 0 ? 1 : 0;
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, $item->extension . '.category', $tags, null, $isNew, $item);
+			$tagsHelper->tagItem($id, $item->extension . '.category', $isNew, $item, $tags, null);
 		}
 
 		return;

@@ -33,7 +33,7 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-	public function tagItem($id, $prefix, $tags = null, $fieldMap = null, $isNew, $item)
+	public function tagItem($id, $prefix, $isNew, $item, $tags = null, $fieldMap = null)
 	{
 		$db = JFactory::getDbo();
 
@@ -53,7 +53,7 @@ class JTags
 				}
 			}
 		}
-
+die;
 		$types = $this->getTypes('objectList', $prefix, true);
 		$type = $types[0];
 
@@ -213,7 +213,7 @@ class JTags
 		$result = $db->loadResult();
 		$query->execute();
 
-		self::tagItem($id, $prefix, null, $tags, $isNew);
+		self::tagItem($id, $prefix, $tags, $isNew, null);
 		$query2 = $db->getQuery(true);
 
 		$query2->insert($db->quoteName('#__contentitem_tag_map'));
@@ -435,7 +435,7 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-	public function getContentItemUrl($typeAlias, $explodedTypeAlias = null, $id)
+	public function getContentItemUrl($typeAlias, $id, $explodedTypeAlias = null)
 	{
 		if (!isset($explodedTypeAlias))
 		{
@@ -458,7 +458,7 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-	public function getTagUrl($typeAlias, $explodedTypeAlias = null, $id)
+	public function getTagUrl($typeAlias, $id, $explodedTypeAlias = null)
 	{
 		if (!isset($explodedTypeAlias))
 		{
