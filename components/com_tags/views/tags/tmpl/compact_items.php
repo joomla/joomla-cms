@@ -43,7 +43,8 @@ $n = count($this->items);
 			<?php endif; ?>
 		<?php endif; ?>
 			<div class="span<?php echo $bsspans;?>">
-				<?php echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)) . '">'
+				<?php  $route = new TagsHelperRoute();
+					echo '<h3> <a href="' . JRoute::_($route->getRoute($item->id . ':' . $item->alias)) . '">'
 					. $this->escape($item->title) . '</a> </h3>';  ?>
 			</div>
 		<?php // Close the div at the end of a row or if we have finished displaying all of the items. ?>

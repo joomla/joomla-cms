@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+require_once JPATH_SITE.'/components/com_tags/helpers/route.php';
 
 /**
  * Helper for mod_tags_popular
