@@ -289,7 +289,7 @@ class JTags
 		}
 		else
 		{
-			// $this->tags = '';
+			$this->tags = array();
 		}
 
 		return $this->tags;
