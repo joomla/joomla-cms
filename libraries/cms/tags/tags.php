@@ -33,8 +33,61 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-	public function tagItem($id, $prefix, $tags = null, $fieldMap = null, $isNew, $item)
+	public function tagItem($id, $prefix, $tags = array(), $fieldMap = array(), $isNew, $item)
 	{
+		// Pre-process tags for adding new ones
+		if (is_array($tags) && !empty($tags))
+		{
+			// We will use the tags table to store them
+			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
+			$tagTable = JTable::getInstance('Tag', 'TagsTable');
+
+			foreach ($tags as $key => $tag)
+			{
+				// Currently a new tag is a non-numeric
+				if (!is_numeric($tag))
+				{
+					// Unset the tag to avoid trying to insert a wrong value
+					unset($tags[$key]);
+
+					// Remove the #new# prefix that identifies new tags
+					$tagText = str_replace('#new#', '', $tag);
+
+					// Clear old data if exist
+					$tagTable->reset();
+
+					// Verify that the alias is unique
+					if (!$tagTable->load(array('title' => $tagText)))
+					{
+						// Prepare tag data
+						$tagTable->id         = 0;
+						$tagTable->title      = $tagText;
+						$tagTable->parent_id  = 1;
+						$tagTable->level      = 1;
+						$tagTable->published  = 1;
+
+						// $tagTable->language = isset($item->language) ? $item->language : '*';
+						$tagTable->language   = '*';
+						$tagTable->access     = isset($item->access) ? $item->access : 0;
+
+						// Try to store tag
+						if ($tagTable->check() && $tagTable->store())
+						{
+							$tags[] = $tagTable->id;
+						}
+					}
+				}
+			}
+
+			unset($tag);
+		}
+
+		// Check again that we have tags
+		if (is_array($tags) && empty($tags))
+		{
+			return false;
+		}
+
 		$db = JFactory::getDbo();
 
 		// Set up the field mapping array
@@ -123,6 +176,7 @@ class JTags
 			if ($isNew == 1 || empty($ccId))
 			{
 				$quotedValues = array();
+
 				foreach ($fieldMap as $value)
 				{
 					$quotedValues[] = $db->q($value);
@@ -140,6 +194,7 @@ class JTags
 			else
 			{
 				$setList = '';
+
 				foreach ($fieldMap as $fieldname => $value)
 				{
 					$setList .= $db->qn($fieldname) . ' = ' . $db->q($value) . ',';
@@ -180,6 +235,7 @@ class JTags
 				$db->setQuery($query2);
 				$db->execute();
 			}
+
 		}
 
 		return;

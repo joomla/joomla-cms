@@ -10,13 +10,25 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
+
+// Tags field ajax
+$chosenAjaxSettings = new JRegistry(
+	array(
+		'selector'    => '#jform_tags',
+		'type'        => 'GET',
+		'url'         => JURI::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+		'dataType'    => 'json',
+		'jsonTermKey' => 'like'
+	)
+);
+JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -30,26 +42,29 @@ $input = $app->input;
 
 $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
-if (!$editoroptions):
+if (!$editoroptions)
+{
 	$params['show_publishing_options'] = '1';
 	$params['show_article_options'] = '1';
 	$params['show_urls_images_backend'] = '0';
 	$params['show_urls_images_frontend'] = '0';
-endif;
+}
 
 // Check if the article uses configuration settings besides global. If so, use them.
-if (!empty($this->item->attribs['show_publishing_options'])):
+if (!empty($this->item->attribs['show_publishing_options']))
+{
 		$params['show_publishing_options'] = $this->item->attribs['show_publishing_options'];
-endif;
-if (!empty($this->item->attribs['show_article_options'])):
+}
+if (!empty($this->item->attribs['show_article_options']))
+{
 		$params['show_article_options'] = $this->item->attribs['show_article_options'];
-endif;
-if (!empty($this->item->attribs['show_urls_images_backend'])):
-		$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
-endif;
+}
+if (!empty($this->item->attribs['show_urls_images_backend']))
+{
+	$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
+}
 
 ?>
-
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
@@ -61,7 +76,7 @@ endif;
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="row-fluid">
 		<!-- Begin Content -->
 		<div class="span10 form-horizontal">

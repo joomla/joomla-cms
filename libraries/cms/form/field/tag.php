@@ -78,48 +78,60 @@ class JFormFieldTag extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published']? $this->element['published'] : array(0,1);
-		$name = (string) $this->element['name'];
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('a.id AS value, a.title AS text, a.level, a.published');
-		$query->from('#__tags AS a');
-		$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-
-		// Filter language
-		if (!empty($this->element['language']))
+		// We only need to load active values. New values are get by AJAX
+		if (!empty($this->value))
 		{
-			$query->where('a.language = ' . $db->q($this->element['language']));
-		}
+			$published = $this->element['published']? $this->element['published'] : array(0,1);
+			$name = (string) $this->element['name'];
 
-		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true);
 
-		// Filter on the published state
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			JArrayHelper::toInteger($published);
-			$query->where('a.published IN (' . implode(',', $published) . ')');
-		}
+			$query->select('a.id AS value, a.title AS text, a.level, a.published');
+			$query->from('#__tags AS a');
+			$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published');
-		$query->order('a.lft ASC');
+			// Only item assigned values
+			$values = (array) $this->value;
+			JArrayHelper::toInteger($values);
+			$query->where('a.id IN (' . implode(',', $values) . ')');
 
-		// Get the options.
-		$db->setQuery($query);
+			// Filter language
+			if (!empty($this->element['language']))
+			{
+				$query->where('a.language = ' . $db->q($this->element['language']));
+			}
 
-		try
-		{
-			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			return false;
+			$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+
+			// Filter to only load active items
+
+			// Filter on the published state
+			if (is_numeric($published))
+			{
+				$query->where('a.published = ' . (int) $published);
+			}
+			elseif (is_array($published))
+			{
+				JArrayHelper::toInteger($published);
+				$query->where('a.published IN (' . implode(',', $published) . ')');
+			}
+
+			$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published');
+			$query->order('a.lft ASC');
+
+			// Get the options.
+			$db->setQuery($query);
+
+			try
+			{
+				$options = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				return false;
+			}
 		}
 
 		// Merge any additional options in the XML definition.
