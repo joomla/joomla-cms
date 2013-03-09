@@ -100,7 +100,7 @@ class JTags
 
 			foreach ($map['common'][0] as $i => $field)
 			{
-				if ($field && $field != 'null')
+				if ($field && $field != 'null' && property_exists($item, $field))
 				{
 					$fieldMap[$i] = $item->$field;
 				}
