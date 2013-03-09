@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 08-Mar-2013 Michael Babker
  ^ [#29803] Encourage proper use of JHtml APIs dealing with scripts and stylesheets
+ ^ [#30120] Rename and move classes in the install library from Platform to CMS
 
 08-Mar-2013 Jean-Marie Simonet
  $ Missing string for com_tags

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,17 +12,17 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Extension object
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Installer
- * @since       11.1
+ * @since       3.1
  */
-class JExtension extends JObject
+class JInstallerExtension extends JObject
 {
 	/**
 	 * Filename of the extension
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $filename = '';
 
@@ -30,7 +30,7 @@ class JExtension extends JObject
 	 * Type of the extension
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $type = '';
 
@@ -38,7 +38,7 @@ class JExtension extends JObject
 	 * Unique Identifier for the extension
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $id = '';
 
@@ -46,7 +46,7 @@ class JExtension extends JObject
 	 * The status of the extension
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $published = false;
 
@@ -55,7 +55,7 @@ class JExtension extends JObject
 	 * Set by default to site.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $client = 'site';
 
@@ -63,7 +63,7 @@ class JExtension extends JObject
 	 * The group name of the plugin. Not used for other known extension types (only plugins)
 	 *
 	 * @var string
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $group = '';
 
@@ -71,7 +71,7 @@ class JExtension extends JObject
 	 * An object representation of the manifest file stored metadata
 	 *
 	 * @var object
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $manifest_cache = null;
 
@@ -79,7 +79,7 @@ class JExtension extends JObject
 	 * An object representation of the extension params
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $params = null;
 
@@ -88,7 +88,7 @@ class JExtension extends JObject
 	 *
 	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
 	 *
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public function __construct(SimpleXMLElement $element = null)
 	{
@@ -108,6 +108,7 @@ class JExtension extends JObject
 				case 'language':
 					$this->client = (string) $element->attributes()->client;
 					$tmp_client_id = JApplicationHelper::getClientInfo($this->client, 1);
+
 					if ($tmp_client_id == null)
 					{
 						JLog::add(JText::_('JLIB_INSTALLER_ERROR_EXTENSION_INVALID_CLIENT_IDENTIFIER'), JLog::WARNING, 'jerror');
@@ -125,12 +126,12 @@ class JExtension extends JObject
 				default:
 					// Catch all
 					// Get and set client and group if we don't recognise the extension
-					if ($client = (string) $element->attributes()->client)
+					if ($element->attributes()->client)
 					{
 						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
 						$this->client_id = $this->client_id->id;
 					}
-					if ($group = (string) $element->attributes()->group)
+					if ($element->attributes()->group)
 					{
 						$this->group = (string) $element->attributes()->group;
 					}
@@ -138,5 +139,29 @@ class JExtension extends JObject
 			}
 			$this->filename = (string) $element;
 		}
+	}
+}
+
+/**
+ * Deprecated class placeholder. You should use JInstallerExtension instead.
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Installer
+ * @since       3.1
+ * @deprecated  4.0
+ * @codeCoverageIgnore
+ */
+class JExtension extends JInstallerExtension
+{
+	/**
+	 * Constructor
+	 *
+	 * @param   SimpleXMLElement  $element  A SimpleXMLElement from which to load data from
+	 *
+	 * @since  3.1
+	 */
+	public function __construct(SimpleXMLElement $element = null)
+	{
+		parent::__construct($element);
 	}
 }

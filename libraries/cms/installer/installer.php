@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -17,9 +17,9 @@ jimport('joomla.base.adapter');
 /**
  * Joomla base installer class
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Installer
- * @since       11.1
+ * @since       3.1
  */
 class JInstaller extends JAdapter
 {
@@ -43,7 +43,7 @@ class JInstaller extends JAdapter
 	 * The manifest trigger class
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $manifestClass = null;
 
@@ -67,7 +67,7 @@ class JInstaller extends JAdapter
 	 * Extension Table Entry
 	 *
 	 * @var    JTableExtension
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $extension = null;
 
@@ -75,7 +75,7 @@ class JInstaller extends JAdapter
 	 * The output from the install/uninstall scripts
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 * */
 	public $message = null;
 
@@ -83,7 +83,7 @@ class JInstaller extends JAdapter
 	 * The installation manifest XML object
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	public $manifest = null;
 
@@ -91,7 +91,7 @@ class JInstaller extends JAdapter
 	 * The extension message that appears
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	protected $extension_message = null;
 
@@ -99,24 +99,27 @@ class JInstaller extends JAdapter
 	 * The redirect URL if this extension (can be null if no redirect)
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	protected $redirect_url = null;
 
 	/**
 	 * @var    JInstaller  JInstaller instance container.
-	 * @since  11.3
+	 * @since  3.1
 	 */
 	protected static $instance;
 
 	/**
 	 * Constructor
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function __construct()
 	{
-		parent::__construct(__DIR__, 'JInstaller');
+		parent::__construct(__DIR__, 'JInstallerAdapter', __DIR__ . '/adapter');
+
+		// Override the default adapter folder
+		$this->_adapterfolder = 'adapter';
 	}
 
 	/**
@@ -125,7 +128,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  JInstaller  An installer object
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public static function getInstance()
 	{
@@ -141,7 +144,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  Allow overwrite switch
 	 *
-	 * @since   11.4
+	 * @since   3.1
 	 */
 	public function isOverwrite()
 	{
@@ -155,7 +158,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True it state is set, false if it is not
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function setOverwrite($state = false)
 	{
@@ -178,7 +181,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  string  Redirect location (or null)
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function getRedirectURL()
 	{
@@ -192,7 +195,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function setRedirectURL($newurl)
 	{
@@ -204,7 +207,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.4
+	 * @since   3.1
 	 */
 	public function isUpgrade()
 	{
@@ -218,7 +221,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True if upgrade, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function setUpgrade($state = false)
 	{
@@ -241,7 +244,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  object  Manifest object
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function getManifest()
 	{
@@ -261,7 +264,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  string  Path
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function getPath($name, $default = null)
 	{
@@ -276,7 +279,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function setPath($name, $value)
 	{
@@ -290,7 +293,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function pushStep($step)
 	{
@@ -305,7 +308,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 * @throws  RuntimeException
 	 */
 	public function abort($msg = null, $type = null)
@@ -402,7 +405,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function install($path = null)
 	{
@@ -413,6 +416,7 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOINSTALLPATH'));
+
 			return false;
 		}
 
@@ -470,7 +474,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function discover_install($eid = null)
 	{
@@ -532,6 +536,7 @@ class JInstaller extends JAdapter
 						'onExtensionAfterInstall',
 						array('installer' => clone $this, 'eid' => $result)
 					);
+
 					if ($result !== false)
 					{
 						return true;
@@ -565,7 +570,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  array  JExtension
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function discover()
 	{
@@ -598,7 +603,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function update($path = null)
 	{
@@ -662,7 +667,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function uninstall($type, $identifier, $cid = 0)
 	{
@@ -705,7 +710,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  mixed  void on success, false on error @todo missing return value ?
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function refreshManifestCache($eid)
 	{
@@ -716,12 +721,14 @@ class JInstaller extends JAdapter
 			if (!$this->extension->load($eid))
 			{
 				$this->abort(JText::_('JLIB_INSTALLER_ABORT_LOAD_DETAILS'));
+
 				return false;
 			}
 
 			if ($this->extension->state == -1)
 			{
 				$this->abort(JText::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+
 				return false;
 			}
 
@@ -775,7 +782,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function setupInstall()
 	{
@@ -808,9 +815,9 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  mixed  Number of queries processed or False on error
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
-	public function parseQueries($element)
+	public function parseQueries(SimpleXMLElement $element)
 	{
 		// Get the database connector object
 		$db = & $this->_db;
@@ -853,7 +860,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  mixed  Number of queries processed or False on error
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function parseSQLFiles($element)
 	{
@@ -891,6 +898,7 @@ class JInstaller extends JAdapter
 				if (!file_exists($sqlfile))
 				{
 					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 
@@ -944,9 +952,9 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
-	public function setSchemaVersion($schema, $eid)
+	public function setSchemaVersion(SimpleXMLElement $schema, $eid)
 	{
 		if ($eid && $schema)
 		{
@@ -961,6 +969,7 @@ class JInstaller extends JAdapter
 			if (count($schemapaths))
 			{
 				$dbDriver = strtolower($db->name);
+
 				if ($dbDriver == 'mysqli')
 				{
 					$dbDriver = 'mysql';
@@ -971,6 +980,7 @@ class JInstaller extends JAdapter
 				foreach ($schemapaths as $entry)
 				{
 					$attrs = $entry->attributes();
+
 					if ($attrs['type'] == $dbDriver)
 					{
 						$schemapath = $entry;
@@ -1012,9 +1022,9 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean           Result of the operations
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
-	public function parseSchemaUpdates($schema, $eid)
+	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
 	{
 		$files = array();
 		$update_count = 0;
@@ -1035,9 +1045,11 @@ class JInstaller extends JAdapter
 				}
 
 				$schemapath = '';
+
 				foreach ($schemapaths as $entry)
 				{
 					$attrs = $entry->attributes();
+
 					if ($attrs['type'] == $dbDriver)
 					{
 						$schemapath = $entry;
@@ -1092,6 +1104,7 @@ class JInstaller extends JAdapter
 								foreach ($queries as $query)
 								{
 									$query = trim($query);
+
 									if ($query != '' && $query{0} != '#')
 									{
 										$db->setQuery($query);
@@ -1144,9 +1157,9 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean      True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
-	public function parseFiles($element, $cid = 0, $oldFiles = null, $oldMD5 = null)
+	public function parseFiles(SimpleXMLElement $element, $cid = 0, $oldFiles = null, $oldMD5 = null)
 	{
 		// Get the array of file nodes to process; we checked whether this had children above.
 		if (!$element || !count($element->children()))
@@ -1249,6 +1262,7 @@ class JInstaller extends JAdapter
 				if (!JFolder::create($newdir))
 				{
 					JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_CREATE_DIRECTORY', $newdir), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -1269,9 +1283,9 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
-	public function parseLanguages($element, $cid = 0)
+	public function parseLanguages(SimpleXMLElement $element, $cid = 0)
 	{
 		// TODO: work out why the below line triggers 'node no longer exists' errors with files
 		if (!$element || !count($element->children()))
@@ -1385,9 +1399,9 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean     True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
-	public function parseMedia($element, $cid = 0)
+	public function parseMedia(SimpleXMLElement $element, $cid = 0)
 	{
 		if (!$element || !count($element->children()))
 		{
@@ -1396,9 +1410,6 @@ class JInstaller extends JAdapter
 		}
 
 		$copyfiles = array();
-
-		// Get the client info
-		$client = JApplicationHelper::getClientInfo($cid);
 
 		// Here we set the folder we are going to copy the files to.
 		// Default 'media' Files are copied to the JPATH_BASE/media folder
@@ -1466,7 +1477,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  string   INI string of parameter values
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function getParams()
 	{
@@ -1523,7 +1534,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function copyFiles($files, $overwrite = null)
 	{
@@ -1585,6 +1596,7 @@ class JInstaller extends JAdapter
 						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
+
 							return false;
 						}
 
@@ -1631,7 +1643,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function removeFiles($element, $cid = 0)
 	{
@@ -1641,10 +1653,10 @@ class JInstaller extends JAdapter
 			return true;
 		}
 
-		$removefiles = array();
 		$retval = true;
 
 		$debug = false;
+
 		if (isset($GLOBALS['installerdebug']) && $GLOBALS['installerdebug'])
 		{
 			$debug = true;
@@ -1794,7 +1806,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success, False on error
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function copyManifest($cid = 1)
 	{
@@ -1822,7 +1834,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success, False on error
 	 *
-	 * @since 11.1
+	 * @since 3.1
 	 */
 	public function findManifest()
 	{
@@ -1873,6 +1885,7 @@ class JInstaller extends JAdapter
 		{
 			// No XML files were found in the install folder
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}
@@ -1884,7 +1897,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  mixed  A SimpleXMLElement, or null if the file failed to parse
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function isManifest($file)
 	{
@@ -1911,7 +1924,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return string serialised manifest data
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function generateManifestCache()
 	{
@@ -1928,7 +1941,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  object    Result of query
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
@@ -1952,7 +1965,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  array  An array with the delete files and folders in findDeletedFiles[files] and findDeletedFiles[folders] respectively
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function findDeletedFiles($old_files, $new_files)
 	{
@@ -2003,6 +2016,7 @@ class JInstaller extends JAdapter
 						}
 						// Aappend the folder part
 						$container .= $part;
+
 						if (!in_array($container, $containers))
 						{
 							// Add the container if it doesn't already exist
@@ -2055,7 +2069,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  array  Associative array with filenames as the index and the MD5 as the value
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function loadMD5Sum($filename)
 	{
@@ -2098,6 +2112,7 @@ class JInstaller extends JAdapter
 	{
 		// Read the file to see if it's a valid component XML file
 		$xml = simplexml_load_file($path);
+
 		if (!$xml)
 		{
 			return false;
@@ -2110,6 +2125,7 @@ class JInstaller extends JAdapter
 		if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
 		{
 			unset($xml);
+
 			return false;
 		}
 
