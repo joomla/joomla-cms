@@ -40,7 +40,7 @@
 
 		<field name="tags" type="tag"
 			label="JTAG" description="JTAG_DESC"
-			class="inputbox" multiple="true"
+			class="inputbox span12 small" multiple="true"
 		>
 		</field>
 

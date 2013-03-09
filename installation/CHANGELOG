@@ -32,6 +32,7 @@ $ -> Language fix or change
  + [#30102] Update to Platform version code.  Thanks Elin
  + [#30243] Add TAGs in front end articles single view in BEEZ3.  Thanks Javier
  # [#29717] Typo in Formbehavior::Chosen.  Thanks Thomas
+ # [#30241] Horizontal scroll appears when in edit articles.  Thanks Javier
 
 08-Mar-2013 Jean-Marie Simonet
  $ Missing string for com_tags
