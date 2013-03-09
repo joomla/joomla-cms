@@ -26,6 +26,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Mar-2013 Jean-Marie Simonet
+ $ Missing string for com_tags
+ $ Updating Installation ini files: ar-AA, bg-BG, id-ID, ja-JP, lv-LV, sv-SE, sw-KE, tr-TR
+
+07-Mar-2013 Michael Babker
+ + [#30237] Set minimum type_id.  Thanks Elin
+
 07-Mar-2013 Jean-Marie Simonet
  #$ [#30220] TAGS - language string typo. Thanks David. + some.
  # [#30216] *Normalising batch for com_users manager in Isis
