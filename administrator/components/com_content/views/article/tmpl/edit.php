@@ -17,18 +17,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-
-// Tags field ajax
-$chosenAjaxSettings = new JRegistry(
-	array(
-		'selector'    => '#jform_tags',
-		'type'        => 'GET',
-		'url'         => JURI::root() . 'index.php?option=com_tags&task=tags.searchAjax',
-		'dataType'    => 'json',
-		'jsonTermKey' => 'like'
-	)
-);
-JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
+JHtml::_('tag.ajaxfield', '#jform_tags');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');

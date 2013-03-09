@@ -111,12 +111,14 @@ class ContactControllerContact extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 		$task = $this->getTask();
 		$item = $model->getItem();
+
 		if (isset($item->params) && is_array($item->params))
 		{
 			$registry = new JRegistry;
@@ -139,6 +141,9 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		$tags = $validData['tags'];
+
+		// Is a new item ?
+		$isNew = ($id == 0) ? 1 : 0;
 
 		if ($tags[0] != '')
 		{

@@ -420,10 +420,14 @@ class ContactModelContact extends JModelAdmin
 				{
 					$item->associations[$tag] = $association->id;
 				}
-
-				$item->tags = new JTags;
-				$item->tags->getTagIds($item->id, 'com_contact.contact');
 			}
+		}
+
+		// Load item tags
+		if (!empty($item->id))
+		{
+			$item->tags = new JTags;
+			$item->tags->getTagIds($item->id, 'com_contact.contact');
 		}
 
 		return $item;

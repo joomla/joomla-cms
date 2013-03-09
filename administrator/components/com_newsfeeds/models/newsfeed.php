@@ -409,6 +409,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 			}
 		}
+
+		// Load item tags
 		if (!empty($item->id))
 		{
 			$item->tags = new JTags;
