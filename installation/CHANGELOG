@@ -30,6 +30,7 @@ $ -> Language fix or change
  ^ [#29803] Encourage proper use of JHtml APIs dealing with scripts and stylesheets
  ^ [#30120] Rename and move classes in the install library from Platform to CMS
  + [#30102] Update to Platform version code.  Thanks Elin
+ + [#30243] Add TAGs in front end articles single view in BEEZ3.  Thanks Javier
 
 08-Mar-2013 Jean-Marie Simonet
  $ Missing string for com_tags
