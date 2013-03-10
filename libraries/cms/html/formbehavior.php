@@ -132,7 +132,7 @@ abstract class JHtmlFormbehavior
 							return results;
 						});
 						// Method to add tags pressing enter
-						$('" . $selector . "_chzn input').keypress(function(event) {
+						$('" . $selector . "_chzn input').keydown(function(event) {
 							// tag is greater than 3 chars and enter pressed
 							if (this.value.length >= 3 && event.which === 13) {
 								// Create the option
