@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -16,9 +16,9 @@ jimport('joomla.filesystem.path');
 /**
  * Installer helper class
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Installer
- * @since       11.1
+ * @since       3.1
  */
 abstract class JInstallerHelper
 {
@@ -30,7 +30,7 @@ abstract class JInstallerHelper
 	 *
 	 * @return  mixed  Path to downloaded package or boolean false on failure
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public static function downloadPackage($url, $target = false)
 	{
@@ -54,6 +54,7 @@ abstract class JInstallerHelper
 		elseif (200 != $response->code)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -94,7 +95,7 @@ abstract class JInstallerHelper
 	 *
 	 * @return  mixed  Array on success or boolean false on failure
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public static function unpack($p_filename)
 	{
@@ -153,6 +154,7 @@ abstract class JInstallerHelper
 		 * false on fail.
 		 */
 		$retval['type'] = self::detectType($extractdir);
+
 		if ($retval['type'])
 		{
 			return $retval;
@@ -170,7 +172,7 @@ abstract class JInstallerHelper
 	 *
 	 * @return  mixed  Extension type string or boolean false on fail
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public static function detectType($p_dir)
 	{
@@ -180,12 +182,14 @@ abstract class JInstallerHelper
 		if (!count($files))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
 		foreach ($files as $file)
 		{
 			$xml = simplexml_load_file($file);
+
 			if (!$xml)
 			{
 				continue;
@@ -201,6 +205,7 @@ abstract class JInstallerHelper
 
 			// Free up memory
 			unset($xml);
+
 			return $type;
 		}
 
@@ -208,6 +213,7 @@ abstract class JInstallerHelper
 
 		// Free up memory.
 		unset($xml);
+
 		return false;
 	}
 
@@ -218,13 +224,14 @@ abstract class JInstallerHelper
 	 *
 	 * @return  mixed   String filename or boolean false if failed
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public static function getFilenameFromURL($url)
 	{
 		if (is_string($url))
 		{
 			$parts = explode('/', $url);
+
 			return $parts[count($parts) - 1];
 		}
 		return false;
@@ -238,7 +245,7 @@ abstract class JInstallerHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
@@ -270,13 +277,15 @@ abstract class JInstallerHelper
 	 *
 	 * @return  array  Array of queries
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
+	 * @codeCoverageIgnore
 	 */
 	public static function splitSql($sql)
 	{
 		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 		$db = JFactory::getDbo();
+
 		return $db->splitSql($sql);
 	}
 }

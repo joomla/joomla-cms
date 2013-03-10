@@ -49,6 +49,14 @@ defined('_JEXEC') or die;
 							<?php echo $this->form->getInput('tag_layout'); ?>
 						</div>
 					</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('tag_link_class'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('tag_link_class'); ?>
+						</div>
+					</div>
 				<?php endif;
 		echo JHtml::_('bootstrap.endSlide');
 	endforeach;

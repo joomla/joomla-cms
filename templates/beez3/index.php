@@ -41,7 +41,7 @@ $option = $jinput->get('option', '', 'cmd');
 if (in_array($option, $bootstrap))
 {
 	// Load optional rtl Bootstrap css and Bootstrap bugfixes
-	JHtmlBootstrap::loadCss($includeMaincss = true, $this->direction);
+	JHtml::_('bootstrap.loadCss', true, $this->direction);
 }
 
 $doc->addStyleSheet(JURI::base() . 'templates/system/css/system.css');

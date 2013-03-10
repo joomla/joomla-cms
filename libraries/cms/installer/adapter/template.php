@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Installer
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -9,24 +9,23 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.installer.extension');
 jimport('joomla.base.adapterinstance');
 jimport('joomla.filesystem.folder');
 
 /**
  * Template installer
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Installer
- * @since       11.1
+ * @since       3.1
  */
-class JInstallerTemplate extends JAdapterInstance
+class JInstallerAdapterTemplate extends JAdapterInstance
 {
 	/**
 	 * Copy of the XML manifest file
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	protected $manifest = null;
 
@@ -34,7 +33,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 * Name of the extension
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 * */
 	protected $name = null;
 
@@ -42,7 +41,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 * The unique identifier for the extension (e.g. mod_login)
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  3.1
 	 * */
 	protected $element = null;
 
@@ -51,7 +50,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @var    string
 	 *
-	 * @since  11.1
+	 * @since  3.1
 	 */
 	protected $route = 'install';
 
@@ -62,7 +61,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return  JInstallerTemplate
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function loadLanguage($path = null)
 	{
@@ -101,7 +100,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function install()
 	{
@@ -116,9 +115,11 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			// Attempt to map the client to a base path
 			$client = JApplicationHelper::getClientInfo($cname, true);
+
 			if ($client === false)
 			{
 				$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
+
 				return false;
 			}
 			$basePath = $client->path;
@@ -154,6 +155,7 @@ class JInstallerTemplate extends JAdapterInstance
 		{
 			// Install failed, roll back changes
 			$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ROLLBACK'), $e->getMessage());
+
 			return false;
 		}
 
@@ -171,6 +173,7 @@ class JInstallerTemplate extends JAdapterInstance
 				// Force this one
 				$this->parent->setOverwrite(true);
 				$this->parent->setUpgrade(true);
+
 				if ($id)
 				{
 					// If there is a matching extension mark this as an update; semantics really
@@ -188,6 +191,7 @@ class JInstallerTemplate extends JAdapterInstance
 						$this->parent->getPath('extension_root')
 					)
 				);
+
 				return false;
 			}
 		}
@@ -202,11 +206,13 @@ class JInstallerTemplate extends JAdapterInstance
 				JText::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_ANOTHER_TEMPLATE_USING_DIRECTORY', $this->parent->getPath('extension_root')),
 				JLog::WARNING, 'jerror'
 			);
+
 			return false;
 		}
 
 		// If the template directory does not exist, let's create it
 		$created = false;
+
 		if (!file_exists($this->parent->getPath('extension_root')))
 		{
 			if (!$created = JFolder::create($this->parent->getPath('extension_root')))
@@ -345,11 +351,12 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function update()
 	{
 		$this->route = 'update';
+
 		return $this->install();
 	}
 
@@ -360,7 +367,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function uninstall($id)
 	{
@@ -373,6 +380,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if (!$row->load((int) $id) || !strlen($row->element))
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_ERRORUNKOWNEXTENSION'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -381,6 +389,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if ($row->protected)
 		{
 			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_WARNCORETEMPLATE', $row->name), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -391,6 +400,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if (!$name)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_ID_EMPTY'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -402,6 +412,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if ($db->loadResult() != 0)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_TEMPLATE_DEFAULT'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -411,6 +422,7 @@ class JInstallerTemplate extends JAdapterInstance
 		if (!$client)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_CLIENT'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -420,6 +432,7 @@ class JInstallerTemplate extends JAdapterInstance
 		// We do findManifest to avoid problem when uninstalling a list of extensions: getManifest cache its manifest file
 		$this->parent->findManifest();
 		$manifest = $this->parent->getManifest();
+
 		if (!($manifest instanceof SimpleXMLElement))
 		{
 			// Kill the extension entry
@@ -429,6 +442,7 @@ class JInstallerTemplate extends JAdapterInstance
 			// Make sure we delete the folders
 			JFolder::delete($this->parent->getPath('extension_root'));
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_UNINSTALL_INVALID_NOTFOUND_MANIFEST'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -526,7 +540,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return boolean
 	 *
-	 * @since 11.1
+	 * @since 3.1
 	 */
 	public function discover_install()
 	{
@@ -593,6 +607,7 @@ class JInstallerTemplate extends JAdapterInstance
 		else
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_DISCOVER_STORE_DETAILS'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}
@@ -602,7 +617,7 @@ class JInstallerTemplate extends JAdapterInstance
 	 *
 	 * @return  boolean  Result of operation, true if updated, false on failure
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	public function refreshManifestCache()
 	{
@@ -623,7 +638,21 @@ class JInstallerTemplate extends JAdapterInstance
 		catch (RuntimeException $e)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_TPL_REFRESH_MANIFEST_CACHE'), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 	}
+}
+
+/**
+ * Deprecated class placeholder. You should use JInstallerAdapterTemplate instead.
+ *
+ * @package     Joomla.Libraries
+ * @subpackage  Installer
+ * @since       3.1
+ * @deprecated  4.0
+ * @codeCoverageIgnore
+ */
+class JInstallerTemplate extends JInstallerAdapterTemplate
+{
 }

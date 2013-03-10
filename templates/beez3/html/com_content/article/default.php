@@ -172,6 +172,13 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item
 endif;
 ?>
 	<?php echo $this->item->text; ?>
+
+<?php // TAGS ?>
+<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+<?php endif; ?>
+
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
 	echo $this->item->pagination;?>

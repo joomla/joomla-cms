@@ -24,16 +24,16 @@ class JTags
 	 *
 	 * @param   integer          $id        The id (primary key) of the item to be tagged.
 	 * @param   string           $prefix    Dot separated string with the option and view for a url.
-	 * @param   array            $tags      Array of tags to be applied.
-	 * @param   array            $fieldMap  Associative array of values to core_content field.
 	 * @param   array            $isNew     Flag indicating this item is new.
 	 * @param   JControllerForm  $item      A JControllerForm object usually from a Post Save Hook
+	 * @param   array            $tags      Array of tags to be applied.
+	 * @param   array            $fieldMap  Associative array of values to core_content field.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public function tagItem($id, $prefix, $tags = null, $fieldMap = null, $isNew, $item)
+	public function tagItem($id, $prefix, $isNew, $item, $tags = null, $fieldMap = null)
 	{
 		$db = JFactory::getDbo();
 
@@ -213,7 +213,7 @@ class JTags
 		$result = $db->loadResult();
 		$query->execute();
 
-		self::tagItem($id, $prefix, null, $tags, $isNew);
+		self::tagItem($id, $prefix, $tags, $isNew, null);
 		$query2 = $db->getQuery(true);
 
 		$query2->insert($db->quoteName('#__contentitem_tag_map'));
@@ -428,14 +428,14 @@ class JTags
 	 * Returns the url segment for a tag map record.
 	 *
 	 * @param   string   $typeAlias          The tag item name.
-	 * @param   array    $explodedTypeAlias  Exploded alias if it exists
 	 * @param   integer  $id                 Id of the item
+	 * @param   array    $explodedTypeAlias  Exploded alias if it exists
 	 *
 	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
 	 *
 	 * @since   3.1
 	 */
-	public function getContentItemUrl($typeAlias, $explodedTypeAlias = null, $id)
+	public function getContentItemUrl($typeAlias, $id, $explodedTypeAlias = null)
 	{
 		if (!isset($explodedTypeAlias))
 		{
@@ -451,14 +451,14 @@ class JTags
 	 * Returns the url segment for a tag map record.
 	 *
 	 * @param   string   $typeAlias          Unknown
-	 * @param   string   $explodedTypeAlias  The tag item name.
 	 * @param   integer  $id                 The item ID
+	 * @param   string   $explodedTypeAlias  The tag item name.
 	 *
 	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
 	 *
 	 * @since   3.1
 	 */
-	public function getTagUrl($typeAlias, $explodedTypeAlias = null, $id)
+	public function getTagUrl($typeAlias, $id, $explodedTypeAlias = null)
 	{
 		if (!isset($explodedTypeAlias))
 		{

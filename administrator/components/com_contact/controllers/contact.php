@@ -142,8 +142,9 @@ class ContactControllerContact extends JControllerForm
 
 		if ($tags[0] != '')
 		{
+			$isNew = $item->id == 0 ? 1 : 0;
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_contact.contact', $tags, null, $isNew, $item);
+			$tagsHelper->tagItem($id, 'com_contact.contact', $isNew, $item, $tags, null);
 		}
 	}
 }
