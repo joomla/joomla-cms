@@ -158,7 +158,7 @@ abstract class JHtmlTag
 	 *
 	 * @return  void
 	 */
-	function ajaxfield($selector='#jform_tags')
+	public static function ajaxfield($selector='#jform_tags')
 	{
 		// Tags field ajax
 		$chosenAjaxSettings = new JRegistry(
