@@ -154,7 +154,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $tags, null, $isNew, $item);
+			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $isNew, $item, $tags, null);
 		}
 
 	}

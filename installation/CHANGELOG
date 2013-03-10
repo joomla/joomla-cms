@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Mar-2013 Michael Babker
+ # [#30221] JTags method declarations are not optimal
+
 08-Mar-2013 Michael Babker
  ^ [#29803] Encourage proper use of JHtml APIs dealing with scripts and stylesheets
  ^ [#30120] Rename and move classes in the install library from Platform to CMS
