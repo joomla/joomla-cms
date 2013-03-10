@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Mar-2013 Jean-Marie Simonet
+ $ Updating Installation ini files: ca-ES, hr-HR.
+
 09-Mar-2013 Michael Babker
  # [#30221] JTags method declarations are not optimal
  + [#30242] Add class to TAGs layout in order it looks like a bootrstap label
