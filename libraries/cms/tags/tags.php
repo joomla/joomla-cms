@@ -347,25 +347,34 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-	public function getTagItems($tag_id = null, $getItemData = true)
+	public function getTagItems($tag_ids = null, $getItemData = true)
 	{
-		if (empty($tag_id))
+		if (empty($tag_ids))
 		{
 			$app = JFactory::getApplication('site');
 
 			// Load state from the request.
-			$tag_id = $app->input->getInt('id');
+			$tag_ids = $app->input->getInt('id');
+		}
+
+		if (is_array($tag_ids)) 
+		{
+			$tag_ids = implode(',',$tag_ids);
 		}
 
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('type_alias'), $db->quoteName('id'));
+		$query->select($db->quoteName('type_alias'));
+		$query->select($db->quoteName('content_item_id'));
 		$query->from($db->quoteName('#__contentitem_tag_map'));
-		$query->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
+
+		$query->where($db->quoteName('tag_id') . ' IN  (' . $tag_ids . ')');
+		//$query->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
 
 		$db->setQuery($query);
+
 		$this->tagItems = $db->loadObjectList();
 
 		if ($getItemData)
@@ -373,7 +382,7 @@ class JTags
 			foreach ($this->tagItems as $item)
 			{
 				$item_id = $item->content_item_id;
-				$table = $item->getTableName($item->type_alias);
+				$table = $this->getTableName($item->type_alias);
 
 				$query2 = $db->getQuery(true);
 				$query2->clear();
@@ -386,7 +395,7 @@ class JTags
 				$item->itemData = $db->loadAssoc();
 			}
 		}
-
+			
 		return $this->tagItems;
 	}
 

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+	type="module"
+	version="3.0"
+	client="site"
+	method="upgrade">
+	<name>mod_tags_specific</name>
+	<author>Joomla! Project</author>
+	<creationDate>January 2013</creationDate>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.1.0</version>
+	<description>MOD_TAGS_SPECIFIC_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_tags_specific">mod_tags_specific.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_tags_specific.xml</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_tags_specific.ini</language>
+		<language tag="en-GB">en-GB.mod_tags_specific.sys.ini</language>
+	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_TAGS_specific" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="maximum"
+					type="integer"
+					default="5"
+					first="1"
+					last="20"
+					step="1"
+					label="MOD_TAGS_SPECIFIC_MAX_LABEL"
+					description="MOD_TAGS_SPECIFIC_MAX_DESC">
+				</field>
+				<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox span12 small" multiple="true"
+		>
+		</field>
+			</fieldset>
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="text"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="owncache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
