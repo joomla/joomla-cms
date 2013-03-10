@@ -12,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6, 1.7, 2.5 and 3.0.x, including alpha and beta versions.
+Joomla! 3, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 09-Mar-2013 Michael Babker
  # [#30221] JTags method declarations are not optimal
+ + [#30242] Add class to TAGs layout in order it looks like a bootrstap label
 
 08-Mar-2013 Michael Babker
  ^ [#29803] Encourage proper use of JHtml APIs dealing with scripts and stylesheets
