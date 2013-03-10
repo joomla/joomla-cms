@@ -45,10 +45,13 @@ class JFormFieldTagNested extends JFormFieldTag
 	 */
 	protected function getInput()
 	{
-		// This value is replaced with JTags object to fake parent tag formfield, othervise it is set to array ()
-		$newValue = new JTags;
-		$newValue->tags = $this->value;
-		$this->value = $newValue;
+		// This is required for com_tags/tag view when $this->value is integer.
+		if (!$this->value instanceof JTags)
+		{
+			$newValue = new JTags;
+			$newValue->tags = $this->value;
+			$this->value = $newValue;
+		}
 
 		$input = parent::getInput();
 
