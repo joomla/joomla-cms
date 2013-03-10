@@ -347,7 +347,7 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-		public function getTagItems($tag_ids = null, $getItemData = true)
+	public function getTagItems($tag_ids = null, $getItemData = true)
 	{
 		if (empty($tag_ids))
 		{
