@@ -53,7 +53,7 @@ class JTags
 				}
 			}
 		}
-die;
+
 		$types = $this->getTypes('objectList', $prefix, true);
 		$type = $types[0];
 
