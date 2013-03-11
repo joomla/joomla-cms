@@ -19,7 +19,6 @@ defined('_JEXEC') or die;
  */
 class TagsHelperRoute extends JHelperRoute
 {
-	protected static $lookup;
 
 	/**
 	 * @paramn  integer   The route of the tag

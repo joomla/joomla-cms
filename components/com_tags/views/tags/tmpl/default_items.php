@@ -37,7 +37,7 @@ $n = count($this->items);
 						<?php else: ?>
 							<li class="cat-list-row<?php echo $i % 2; ?>" >
 								<?php $route = new TagsHelperRoute();
-								 echo '<h3> <a href="' . JRoute::_($route->getRoute($item->id . ':' . $item->alias)) . '">'
+								 echo '<h3> <a href="' . JRoute::_($route->getRoute($item->id . '-' . $item->alias)) . '">'
 								. $this->escape($item->title) . '</a> </h3>';  ?>
 						<?php endif; ?>
 						<?php  if ($this->params->get('all_tags_show_tag_hits')) : ?>
