@@ -68,22 +68,21 @@ class JLinkedinGroupsTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		$key = "lIio7RcLe5IASG5jpnZrA";
-		$secret = "dl3BrWij7LT04NUpy37BRJxGXpWgjNvMrneuQ11EveE";
+		$key = "app_key";
+		$secret = "app_secret";
 		$my_url = "http://127.0.0.1/gsoc/joomla-platform/linkedin_test.php";
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->oauth = new JLinkedinOauth($this->options, $this->client, $this->input);
+		$this->oauth->setToken(array('key' => $key, 'secret' => $secret));
 
-		$this->object = new JLinkedinGroups($this->options, $this->client);
+		$this->object = new JLinkedinGroups($this->options, $this->client, $this->oauth);
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
 		$this->options->set('callback', $my_url);
-		$this->oauth = new JLinkedinOauth($this->options, $this->client, $this->input);
-
-		$this->oauth->setToken(array('key' => $key, 'secret' => $secret));
 	}
 
 	/**

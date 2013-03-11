@@ -42,7 +42,7 @@ class JLinkedinCommunications extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base.
 		$base = '/v1/people/~/mailbox';
@@ -72,7 +72,7 @@ class JLinkedinCommunications extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
 
@@ -90,7 +90,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 *
 	 * @since   12.3
 	 */
-	public function inviteById($oauth, $id, $first_name, $last_name, $subject, $body, $connection = 'friend')
+	public function inviteById($id, $first_name, $last_name, $subject, $body, $connection = 'friend')
 	{
 		$token = $this->oauth->getToken();
 
@@ -110,7 +110,7 @@ class JLinkedinCommunications extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		if (strpos($response->body, 'apiStandardProfileRequest') === false)
 		{
@@ -128,7 +128,7 @@ class JLinkedinCommunications extends JLinkedinObject
 		$value = $value[1];
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base.
 		$base = '/v1/people/~/mailbox';
@@ -160,7 +160,7 @@ class JLinkedinCommunications extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
 
@@ -175,7 +175,7 @@ class JLinkedinCommunications extends JLinkedinObject
 	 *
 	 * @since   12.3
 	 */
-	public function sendMessage($oauth, $recipient, $subject, $body)
+	public function sendMessage($recipient, $subject, $body)
 	{
 		$token = $this->oauth->getToken();
 
@@ -185,7 +185,7 @@ class JLinkedinCommunications extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base.
 		$base = '/v1/people/~/mailbox';
@@ -215,7 +215,7 @@ class JLinkedinCommunications extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
 }

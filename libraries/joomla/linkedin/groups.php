@@ -66,7 +66,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -136,7 +136,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -205,7 +205,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -272,7 +272,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
 
 		return $response;
 	}
@@ -302,7 +302,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/people/~/group-memberships';
@@ -343,7 +343,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 
 		return $response;
 	}
@@ -367,7 +367,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/people/~/group-memberships/' . $group_id;
@@ -376,7 +376,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'DELETE', $parameters);
 
 		return $response;
 	}
@@ -450,7 +450,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		return json_decode($response->body);
 	}
@@ -540,7 +540,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		return json_decode($response->body);
 	}
@@ -579,7 +579,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		return json_decode($response->body);
 	}
@@ -632,7 +632,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		return json_decode($response->body);
 	}
@@ -658,7 +658,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/groups/' . $group_id . '/posts';
@@ -672,7 +672,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 
 		// Return the post id.
 		$response = explode('posts/', $response->headers['Location']);
@@ -699,7 +699,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/posts/' . $post_id . '/relation-to-viewer/is-liked';
@@ -713,7 +713,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
 
 		return $response;
 	}
@@ -766,7 +766,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/posts/' . $post_id . '/relation-to-viewer/is-following';
@@ -780,7 +780,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
 
 		return $response;
 	}
@@ -833,7 +833,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/posts/' . $post_id . '/category/code';
@@ -847,7 +847,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
 
 		return $response;
 	}
@@ -871,7 +871,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/posts/' . $post_id;
@@ -880,7 +880,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'DELETE', $parameters);
 
 		return $response;
 	}
@@ -919,7 +919,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		return json_decode($response->body);
 	}
@@ -944,7 +944,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/posts/' . $post_id . '/comments';
@@ -958,7 +958,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 
 		// Return the comment id.
 		$response = explode('comments/', $response->headers['Location']);
@@ -984,7 +984,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/comments/' . $comment_id;
@@ -993,7 +993,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'DELETE', $parameters);
 
 		return $response;
 	}
@@ -1042,7 +1042,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		return json_decode($response->body);
 	}
@@ -1067,7 +1067,7 @@ class JLinkedinGroups extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/people/';
@@ -1086,7 +1086,7 @@ class JLinkedinGroups extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'DELETE', $parameters);
 
 		return $response;
 	}

@@ -62,8 +62,8 @@ class JLinkedinOAuthTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		$key = "lIio7RcLe5IASG5jpnZrA";
-		$secret = "dl3BrWij7LT04NUpy37BRJxGXpWgjNvMrneuQ11EveE";
+		$key = "app_key";
+		$secret = "app_secret";
 		$my_url = "http://127.0.0.1/gsoc/joomla-platform/linkedin_test.php";
 
 		$this->options = new JRegistry;

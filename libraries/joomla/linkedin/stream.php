@@ -44,7 +44,7 @@ class JLinkedinStream extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/people/~/shares';
@@ -101,7 +101,7 @@ class JLinkedinStream extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
 
@@ -128,7 +128,7 @@ class JLinkedinStream extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/people/~/shares';
@@ -164,7 +164,7 @@ class JLinkedinStream extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
 
@@ -203,7 +203,7 @@ class JLinkedinStream extends JLinkedinObject
 		// Check if profile url is specified.
 		if ($url)
 		{
-			$base .= 'url=' . $oauth->safeEncode($url);
+			$base .= 'url=' . $this->oauth->safeEncode($url);
 		}
 
 		$base .= ':(current-share)';
@@ -215,7 +215,7 @@ class JLinkedinStream extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -255,7 +255,7 @@ class JLinkedinStream extends JLinkedinObject
 		// Check if profile url is specified.
 		if ($url)
 		{
-			$base .= 'url=' . $oauth->safeEncode($url);
+			$base .= 'url=' . $this->oauth->safeEncode($url);
 		}
 
 		$base .= '/network';
@@ -274,7 +274,7 @@ class JLinkedinStream extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -369,7 +369,7 @@ class JLinkedinStream extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -399,7 +399,7 @@ class JLinkedinStream extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -423,7 +423,7 @@ class JLinkedinStream extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/people/~/person-activities';
@@ -440,7 +440,7 @@ class JLinkedinStream extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
 
@@ -472,7 +472,7 @@ class JLinkedinStream extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -496,7 +496,7 @@ class JLinkedinStream extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/people/~/network/updates/key=' . $key . '/update-comments';
@@ -512,7 +512,7 @@ class JLinkedinStream extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
 
@@ -544,7 +544,7 @@ class JLinkedinStream extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -568,7 +568,7 @@ class JLinkedinStream extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/people/~/network/updates/key=' . $key . '/is-liked';
@@ -582,7 +582,7 @@ class JLinkedinStream extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
 
 		return $response;
 	}

@@ -53,7 +53,7 @@ class JLinkedinJobs extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -91,7 +91,7 @@ class JLinkedinJobs extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -114,7 +114,7 @@ class JLinkedinJobs extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/people/~/job-bookmarks';
@@ -128,7 +128,7 @@ class JLinkedinJobs extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 		return $response;
 	}
 
@@ -151,7 +151,7 @@ class JLinkedinJobs extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/people/~/job-bookmarks/' . $id;
@@ -160,7 +160,7 @@ class JLinkedinJobs extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'DELETE', $parameters);
 		return $response;
 	}
 
@@ -211,7 +211,7 @@ class JLinkedinJobs extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -312,7 +312,7 @@ class JLinkedinJobs extends JLinkedinObject
 				{
 					if ($i == 0)
 					{
-						$data['facet'][] = 'company,' . $oauth->safeEncode($facet[$i]);
+						$data['facet'][] = 'company,' . $this->oauth->safeEncode($facet[$i]);
 					}
 					if ($i == 1)
 					{
@@ -324,7 +324,7 @@ class JLinkedinJobs extends JLinkedinObject
 					}
 					if ($i == 3)
 					{
-						$data['facet'][] = 'job-function,' . $oauth->safeEncode($facet[$i]);
+						$data['facet'][] = 'job-function,' . $this->oauth->safeEncode($facet[$i]);
 					}
 					if ($i == 4)
 					{
@@ -360,7 +360,7 @@ class JLinkedinJobs extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 }

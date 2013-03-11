@@ -81,7 +81,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -134,7 +134,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -253,7 +253,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -290,7 +290,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -313,7 +313,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 201);
+		$this->oauth->setOption('success_code', 201);
 
 		// Set the API base
 		$base = '/v1/people/~/following/companies';
@@ -327,7 +327,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		$header['Content-Type'] = 'text/xml';
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
 
 		return $response;
 	}
@@ -351,7 +351,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		);
 
 		// Set the success response code.
-		$oauth->setOption('success_code', 204);
+		$this->oauth->setOption('success_code', 204);
 
 		// Set the API base
 		$base = '/v1/people/~/following/companies/id=' . $id;
@@ -360,7 +360,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'DELETE', $parameters);
+		$response = $this->oauth->oauthRequest($path, 'DELETE', $parameters);
 
 		return $response;
 	}
@@ -412,7 +412,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -464,7 +464,7 @@ class JLinkedinCompanies extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 }

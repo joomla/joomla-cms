@@ -58,7 +58,7 @@ class JLinkedinPeople extends JLinkedinObject
 		// Check if profile url is specified.
 		if ($url)
 		{
-			$base .= 'url=' . $oauth->safeEncode($url);
+			$base .= 'url=' . $this->oauth->safeEncode($url);
 
 			// Choose public profile
 			if (!strcmp($type, 'public'))
@@ -84,7 +84,7 @@ class JLinkedinPeople extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data, $header);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data, $header);
 		return json_decode($response->body);
 	}
 
@@ -148,7 +148,7 @@ class JLinkedinPeople extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 		return json_decode($response->body);
 	}
 
@@ -346,7 +346,7 @@ class JLinkedinPeople extends JLinkedinObject
 		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($path, 'GET', $parameters, $data);
+		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
 
 		if (strpos($fields, 'api-standard-profile-request') === false)
 		{
@@ -372,7 +372,7 @@ class JLinkedinPeople extends JLinkedinObject
 		$header[$name] = $value;
 
 		// Send the request.
-		$response = $oauth->oauthRequest($url, 'GET', $parameters, $data, $header);
+		$response = $this->oauth->oauthRequest($url, 'GET', $parameters, $data, $header);
 		return json_decode($response->body);
 	}
 }
