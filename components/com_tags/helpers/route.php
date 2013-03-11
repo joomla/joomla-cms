@@ -21,7 +21,7 @@ class TagsHelperRoute extends JHelperRoute
 {
 
 	/**
-	 * @paramn  integer   The route of the tag
+	 * @param  integer   The route of the tag
 	 *
 	 * @since  3.1
 	 */
@@ -30,7 +30,7 @@ class TagsHelperRoute extends JHelperRoute
 		//Create the link
 		$link = 'index.php?option=com_tags&view=tag&id='. $id;
 
-		return parent::getRoute($id, $typealias, $link, $language = null);
+		return parent::getRoute($id, 'com_tags.tag', $link, $language = null);
 	}
 
 }

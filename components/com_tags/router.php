@@ -29,7 +29,8 @@ function TagsBuildRoute(&$query)
 	$advanced	= $params->get('sef_advanced_link', 0);
 
 	// We need a menu item.  Either the one specified in the query, or the current active one if none specified
-	if (empty($query['Itemid'])) {
+	if (empty($query['Itemid']))
+	{
 		$menuItem = $menu->getActive();
 	}
 	else {

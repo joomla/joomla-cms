@@ -10,12 +10,13 @@
 defined('_JEXEC') or die;
 ?>
 <div class="tagspopular<?php echo $moduleclass_sfx; ?>">
+<?php JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php'); ?>
 <ul >
 <?php foreach ($list as $item) :	?>
 <li>
 	<a href="<?php $route = new TagsHelperRoute();
-	 	echo JRoute::_($route->getRoute($item->tag_id . '-' . $item->alias)); ?>">
-		<?php echo htmlspecialchars($item->title); ?></a>
+	 	echo JRoute::_($route->getRoute($item->tag_id . '-' . $item->alias, 'com_tags.tag')); ?>">
+	 	<?php echo htmlspecialchars($item->title); ?></a>
 </li>
 <?php endforeach; ?>
 </ul>
