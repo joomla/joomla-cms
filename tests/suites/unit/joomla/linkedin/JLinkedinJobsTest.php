@@ -66,8 +66,15 @@ class JLinkedinJobsTest extends TestCase
 	 *
 	 * @return void
 	 */
-protected function setUp()
+	protected function setUp()
 	{
+		parent::setUp();
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$key = "app_key";
 		$secret = "app_secret";
 		$my_url = "http://127.0.0.1/gsoc/joomla-platform/linkedin_test.php";
@@ -473,7 +480,7 @@ protected function setUp()
 
 		$this->assertThat(
 			$this->object->search(
-				$this->oauth, $fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance,
+				$fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance,
 				$facets, $facet, $start, $count, $sort
 				),
 			$this->equalTo(json_decode($this->sampleString))
@@ -540,7 +547,7 @@ protected function setUp()
 			->will($this->returnValue($returnData));
 
 		$this->object->search(
-			$this->oauth, $fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance,
+			$fields, $keywords, $company_name, $job_title, $country_code, $postal_code, $distance,
 			$facets, $facet, $start, $count, $sort
 			);
 	}
