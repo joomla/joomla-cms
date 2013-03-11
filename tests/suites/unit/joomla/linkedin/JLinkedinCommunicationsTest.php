@@ -7,13 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/linkedin/communications.php';
-
 /**
  * Test class for JLinkedinCommunications.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
+ *
  * @since       12.3
  */
 class JLinkedinCommunicationsTest extends TestCase
@@ -145,7 +144,7 @@ class JLinkedinCommunicationsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->inviteByEmail($this->oauth, $email, $first_name, $last_name, $subject, $body, $connection),
+			$this->object->inviteByEmail($email, $first_name, $last_name, $subject, $body, $connection),
 			$this->equalTo($returnData)
 		);
 	}
@@ -199,7 +198,7 @@ class JLinkedinCommunicationsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->inviteByEmail($this->oauth, $email, $first_name, $last_name, $subject, $body, $connection);
+		$this->object->inviteByEmail($email, $first_name, $last_name, $subject, $body, $connection);
 	}
 
 	/**
@@ -274,7 +273,7 @@ class JLinkedinCommunicationsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->inviteById($this->oauth, $id, $first_name, $last_name, $subject, $body, $connection),
+			$this->object->inviteById($id, $first_name, $last_name, $subject, $body, $connection),
 			$this->equalTo($returnData)
 		);
 	}
@@ -316,7 +315,7 @@ class JLinkedinCommunicationsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->inviteById($this->oauth, $id, $first_name, $last_name, $subject, $body, $connection);
+		$this->object->inviteById($id, $first_name, $last_name, $subject, $body, $connection);
 	}
 
 	/**
@@ -360,7 +359,7 @@ class JLinkedinCommunicationsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->sendMessage($this->oauth, $recipient, $subject, $body),
+			$this->object->sendMessage($recipient, $subject, $body),
 			$this->equalTo($returnData)
 		);
 	}
@@ -406,6 +405,6 @@ class JLinkedinCommunicationsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->sendMessage($this->oauth, $recipient, $subject, $body);
+		$this->object->sendMessage($recipient, $subject, $body);
 	}
 }

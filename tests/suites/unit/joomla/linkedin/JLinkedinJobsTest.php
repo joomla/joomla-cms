@@ -125,7 +125,7 @@ class JLinkedinJobsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getJob($this->oauth, $id, $fields),
+			$this->object->getJob($id, $fields),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -159,7 +159,7 @@ class JLinkedinJobsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getJob($this->oauth, $id, $fields);
+		$this->object->getJob($id, $fields);
 	}
 
 	/**
@@ -190,7 +190,7 @@ class JLinkedinJobsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getBookmarked($this->oauth, $fields),
+			$this->object->getBookmarked($fields),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -223,7 +223,7 @@ class JLinkedinJobsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getBookmarked($this->oauth, $fields);
+		$this->object->getBookmarked($fields);
 	}
 
 	/**
@@ -253,7 +253,7 @@ class JLinkedinJobsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->bookmark($this->oauth, $id),
+			$this->object->bookmark($id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -285,7 +285,7 @@ class JLinkedinJobsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->bookmark($this->oauth, $id);
+		$this->object->bookmark($id);
 	}
 
 	/**
@@ -311,7 +311,7 @@ class JLinkedinJobsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deleteBookmark($this->oauth, $id),
+			$this->object->deleteBookmark($id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -339,7 +339,7 @@ class JLinkedinJobsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->deleteBookmark($this->oauth, $id);
+		$this->object->deleteBookmark($id);
 	}
 
 	/**
@@ -374,7 +374,7 @@ class JLinkedinJobsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getSuggested($this->oauth, $fields, $start, $count),
+			$this->object->getSuggested($fields, $start, $count),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -411,7 +411,7 @@ class JLinkedinJobsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getSuggested($this->oauth, $fields, $start, $count);
+		$this->object->getSuggested($fields, $start, $count);
 	}
 
 	/**

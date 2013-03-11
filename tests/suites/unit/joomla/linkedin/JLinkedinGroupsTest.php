@@ -131,7 +131,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getGroup($this->oauth, $id, $fields, $start, $count),
+			$this->object->getGroup($id, $fields, $start, $count),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -170,7 +170,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getGroup($this->oauth, $id, $fields, $start, $count);
+		$this->object->getGroup($id, $fields, $start, $count);
 	}
 
 	/**
@@ -235,7 +235,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getMemberships($this->oauth, $person_id, $fields, $start, $count, $membership_state),
+			$this->object->getMemberships($person_id, $fields, $start, $count, $membership_state),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -286,7 +286,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getMemberships($this->oauth, $person_id, $fields, $start, $count, $membership_state);
+		$this->object->getMemberships($person_id, $fields, $start, $count, $membership_state);
 	}
 
 	/**
@@ -337,7 +337,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getSettings($this->oauth, $person_id, $group_id, $fields, $start, $count),
+			$this->object->getSettings($person_id, $group_id, $fields, $start, $count),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -390,7 +390,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getSettings($this->oauth, $person_id, $group_id, $fields, $start, $count);
+		$this->object->getSettings($person_id, $group_id, $fields, $start, $count);
 	}
 
 	/**
@@ -433,7 +433,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->changeSettings($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post),
+			$this->object->changeSettings($group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post),
 			$this->equalTo($returnData)
 		);
 	}
@@ -478,7 +478,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->changeSettings($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post);
+		$this->object->changeSettings($group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post);
 	}
 
 	/**
@@ -527,7 +527,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->joinGroup($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post),
+			$this->object->joinGroup($group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post),
 			$this->equalTo($returnData)
 		);
 	}
@@ -578,7 +578,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->joinGroup($this->oauth, $group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post);
+		$this->object->joinGroup($group_id, $show_logo, $digest_frequency, $announcements, $allow_messages, $new_post);
 	}
 
 	/**
@@ -604,7 +604,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->leaveGroup($this->oauth, $group_id),
+			$this->object->leaveGroup($group_id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -632,7 +632,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->leaveGroup($this->oauth, $group_id);
+		$this->object->leaveGroup($group_id);
 	}
 
 	/**
@@ -676,7 +676,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getDiscussions($this->oauth, $id, $fields, $start, $count, $order, $category, $modified_since),
+			$this->object->getDiscussions($id, $fields, $start, $count, $order, $category, $modified_since),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -722,7 +722,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getDiscussions($this->oauth, $id, $fields, $start, $count, $order, $category, $modified_since);
+		$this->object->getDiscussions($id, $fields, $start, $count, $order, $category, $modified_since);
 	}
 
 	/**
@@ -778,7 +778,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getUserPosts($this->oauth, $group_id, $role, $person_id, $fields, $start, $count, $order, $category, $modified_since),
+			$this->object->getUserPosts($group_id, $role, $person_id, $fields, $start, $count, $order, $category, $modified_since),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -827,7 +827,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getUserPosts($this->oauth, $group_id, $role, $person_id, $fields, $start, $count, $order, $category, $modified_since);
+		$this->object->getUserPosts($group_id, $role, $person_id, $fields, $start, $count, $order, $category, $modified_since);
 	}
 
 	/**
@@ -861,7 +861,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getPost($this->oauth, $post_id, $fields),
+			$this->object->getPost($post_id, $fields),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -897,7 +897,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getPost($this->oauth, $post_id, $fields);
+		$this->object->getPost($post_id, $fields);
 	}
 
 	/**
@@ -935,7 +935,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getPostComments($this->oauth, $post_id, $fields, $start, $count),
+			$this->object->getPostComments($post_id, $fields, $start, $count),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -975,7 +975,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getPostComments($this->oauth, $post_id, $fields, $start, $count);
+		$this->object->getPostComments($post_id, $fields, $start, $count);
 	}
 
 	/**
@@ -1008,7 +1008,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->createPost($this->oauth, $group_id, $title, $summary),
+			$this->object->createPost($group_id, $title, $summary),
 			$this->equalTo('g_12334_234512')
 		);
 	}
@@ -1042,7 +1042,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->createPost($this->oauth, $group_id, $title, $summary);
+		$this->object->createPost($group_id, $title, $summary);
 	}
 
 	/**
@@ -1085,7 +1085,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->likePost($this->oauth, $post_id),
+			$this->object->likePost($post_id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -1117,7 +1117,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->likePost($this->oauth, $post_id);
+		$this->object->likePost($post_id);
 	}
 
 	/**
@@ -1147,7 +1147,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->unlikePost($this->oauth, $post_id),
+			$this->object->unlikePost($post_id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -1192,7 +1192,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->followPost($this->oauth, $post_id),
+			$this->object->followPost($post_id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -1224,7 +1224,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->followPost($this->oauth, $post_id);
+		$this->object->followPost($post_id);
 	}
 
 	/**
@@ -1254,7 +1254,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->unfollowPost($this->oauth, $post_id),
+			$this->object->unfollowPost($post_id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -1287,7 +1287,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->flagPost($this->oauth, $post_id, $flag),
+			$this->object->flagPost($post_id, $flag),
 			$this->equalTo($returnData)
 		);
 	}
@@ -1320,7 +1320,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->flagPost($this->oauth, $post_id, $flag);
+		$this->object->flagPost($post_id, $flag);
 	}
 
 	/**
@@ -1346,7 +1346,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deletePost($this->oauth, $post_id),
+			$this->object->deletePost($post_id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -1374,7 +1374,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->deletePost($this->oauth, $post_id);
+		$this->object->deletePost($post_id);
 	}
 
 	/**
@@ -1408,7 +1408,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getComment($this->oauth, $comment_id, $fields),
+			$this->object->getComment($comment_id, $fields),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1444,7 +1444,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getComment($this->oauth, $comment_id, $fields);
+		$this->object->getComment($comment_id, $fields);
 	}
 
 	/**
@@ -1476,7 +1476,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->addComment($this->oauth, $post_id, $comment),
+			$this->object->addComment($post_id, $comment),
 			$this->equalTo('g_12334_234512')
 		);
 	}
@@ -1509,7 +1509,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->addComment($this->oauth, $post_id, $comment);
+		$this->object->addComment($post_id, $comment);
 	}
 
 	/**
@@ -1535,7 +1535,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deleteComment($this->oauth, $comment_id),
+			$this->object->deleteComment($comment_id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -1563,7 +1563,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->deleteComment($this->oauth, $comment_id);
+		$this->object->deleteComment($comment_id);
 	}
 
 	/**
@@ -1609,7 +1609,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getSuggested($this->oauth, $person_id, $fields),
+			$this->object->getSuggested($person_id, $fields),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -1657,7 +1657,7 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getSuggested($this->oauth, $person_id, $fields);
+		$this->object->getSuggested($person_id, $fields);
 	}
 
 	/**
@@ -1696,7 +1696,7 @@ class JLinkedinGroupsTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->deleteSuggestion($this->oauth, $suggestion_id, $person_id),
+			$this->object->deleteSuggestion($suggestion_id, $person_id),
 			$this->equalTo($returnData)
 		);
 	}
@@ -1737,6 +1737,6 @@ class JLinkedinGroupsTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->deleteSuggestion($this->oauth, $suggestion_id, $person_id);
+		$this->object->deleteSuggestion($suggestion_id, $person_id);
 	}
 }

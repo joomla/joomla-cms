@@ -37,6 +37,12 @@ class JLinkedinTest extends TestCase
 	protected $object;
 
 	/**
+	 * @var JTLinkedinrOAuth Facebook OAuth 2 client
+	 * @since 12.3
+	 */
+	protected $oauth;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -44,10 +50,15 @@ class JLinkedinTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
+		$_SERVER['REQUEST_URI'] = '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
+
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
 
-		$this->object = new JLinkedin($this->options, $this->client);
+		$this->object = new JLinkedin($this->oauth, $this->options, $this->client);
 	}
 
 	/**

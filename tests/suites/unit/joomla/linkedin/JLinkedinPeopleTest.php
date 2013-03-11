@@ -175,7 +175,7 @@ class JLinkedinPeopleTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getProfile($this->oauth, $id, $url, $fields, $type, $language),
+			$this->object->getProfile($id, $url, $fields, $type, $language),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -235,7 +235,7 @@ class JLinkedinPeopleTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getProfile($this->oauth, $id, $url, $fields, $type, $language);
+		$this->object->getProfile($id, $url, $fields, $type, $language);
 	}
 
 	/**
@@ -276,7 +276,7 @@ class JLinkedinPeopleTest extends TestCase
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->getConnections($this->oauth, $fields, $start, $count, $modified, $modified_since),
+			$this->object->getConnections($fields, $start, $count, $modified, $modified_since),
 			$this->equalTo(json_decode($this->sampleString))
 		);
 	}
@@ -319,7 +319,7 @@ class JLinkedinPeopleTest extends TestCase
 			->with($path)
 			->will($this->returnValue($returnData));
 
-		$this->object->getConnections($this->oauth, $fields, $start, $count, $modified, $modified_since);
+		$this->object->getConnections($fields, $start, $count, $modified, $modified_since);
 	}
 
 	/**

@@ -31,6 +31,12 @@ class JLinkedin
 	protected $client;
 
 	/**
+	 * @var JLinkedinOAuth The OAuth client.
+	 * @since 12.3
+	 */
+	protected $oauth;
+
+	/**
 	 * @var    JLinkedinPeople  Linkedin API object for people.
 	 * @since  12.3
 	 */
@@ -74,8 +80,9 @@ class JLinkedin
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null)
+	public function __construct(JTwitterOAuth $oauth = null, JRegistry $options = null, JHttp $client = null)
 	{
+		$this->oauth = $oauth;
 		$this->options = isset($options) ? $options : new JRegistry;
 		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
@@ -99,42 +106,42 @@ class JLinkedin
 			case 'people':
 				if ($this->people == null)
 				{
-					$this->people = new JLinkedinPeople($this->options, $this->client);
+					$this->people = new JLinkedinPeople($this->options, $this->client, $this->oauth);
 				}
 				return $this->people;
 
 			case 'groups':
 				if ($this->groups == null)
 				{
-					$this->groups = new JLinkedinGroups($this->options, $this->client);
+					$this->groups = new JLinkedinGroups($this->options, $this->client, $this->oauth);
 				}
 				return $this->groups;
 
 			case 'companies':
 				if ($this->companies == null)
 				{
-					$this->companies = new JLinkedinCompanies($this->options, $this->client);
+					$this->companies = new JLinkedinCompanies($this->options, $this->client, $this->oauth);
 				}
 				return $this->companies;
 
 			case 'jobs':
 				if ($this->jobs == null)
 				{
-					$this->jobs = new JLinkedinJobs($this->options, $this->client);
+					$this->jobs = new JLinkedinJobs($this->options, $this->client, $this->oauth);
 				}
 				return $this->jobs;
 
 			case 'stream':
 				if ($this->stream == null)
 				{
-					$this->stream = new JLinkedinStream($this->options, $this->client);
+					$this->stream = new JLinkedinStream($this->options, $this->client, $this->oauth);
 				}
 				return $this->stream;
 
 			case 'communications':
 				if ($this->communications == null)
 				{
-					$this->communications = new JLinkedinCommunications($this->options, $this->client);
+					$this->communications = new JLinkedinCommunications($this->options, $this->client, $this->oauth);
 				}
 				return $this->communications;
 		}

@@ -21,20 +21,19 @@ class JLinkedinPeople extends JLinkedinObject
 	/**
 	 * Method to get a member's profile.
 	 *
-	 * @param   JLinkedinOAuth  $oauth     The JLinkedinOAuth object.
-	 * @param   string          $id        Member id of the profile you want.
-	 * @param   string          $url       The public profile URL.
-	 * @param   string          $fields    Request fields beyond the default ones.
-	 * @param   string          $type      Choosing public or standard profile.
-	 * @param   string          $language  A comma separated list of locales ordered from highest to lowest preference.
+	 * @param   string  $id        Member id of the profile you want.
+	 * @param   string  $url       The public profile URL.
+	 * @param   string  $fields    Request fields beyond the default ones.
+	 * @param   string  $type      Choosing public or standard profile.
+	 * @param   string  $language  A comma separated list of locales ordered from highest to lowest preference.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getProfile($oauth, $id = null, $url = null, $fields = null, $type = 'standard', $language = null)
+	public function getProfile($id = null, $url = null, $fields = null, $type = 'standard', $language = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
 
 		// Set parameters.
 		$parameters = array(
@@ -92,20 +91,19 @@ class JLinkedinPeople extends JLinkedinObject
 	/**
 	 * Method to get a list of connections for a user who has granted access to his/her account.
 	 *
-	 * @param   JLinkedinOauth  $oauth           The JLinkedinOauth object.
-	 * @param   string          $fields          Request fields beyond the default ones.
-	 * @param   integer         $start           Starting location within the result set for paginated returns.
-	 * @param   integer         $count           The number of results returned.
-	 * @param   string          $modified        Values are updated or new.
-	 * @param   string          $modified_since  Value as a Unix time stamp of milliseconds since epoch.
+	 * @param   string   $fields          Request fields beyond the default ones.
+	 * @param   integer  $start           Starting location within the result set for paginated returns.
+	 * @param   integer  $count           The number of results returned.
+	 * @param   string   $modified        Values are updated or new.
+	 * @param   string   $modified_since  Value as a Unix time stamp of milliseconds since epoch.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getConnections($oauth, $fields = null, $start = 0, $count = 500, $modified = null, $modified_since = null)
+	public function getConnections($fields = null, $start = 0, $count = 500, $modified = null, $modified_since = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
 
 		// Set parameters.
 		$parameters = array(
@@ -157,42 +155,40 @@ class JLinkedinPeople extends JLinkedinObject
 	/**
 	 * Method to get information about people.
 	 *
-	 * @param   JLinkedinOAuth  $oauth            The JLinkedinOAuth object.
-	 * @param   string          $fields           Request fields beyond the default ones. provide 'api-standard-profile-request'
-	 * 											  field for out of network profiles.
-	 * @param   string          $keywords         Members who have all the keywords anywhere in their profile.
-	 * @param   string          $first_name       Members with a matching first name. Matches must be exact.
-	 * @param   string          $last_name        Members with a matching last name. Matches must be exactly.
-	 * @param   string          $company_name     Members who have a matching company name on their profile.
-	 * @param   boolean         $current_company  A value of true matches members who currently work at the company specified in the company-name
-	 * 											  parameter.
-	 * @param   string          $title            Matches members with that title on their profile.
-	 * @param   boolean         $current_title    A value of true matches members whose title is currently the one specified in the title-name parameter.
-	 * @param   string          $school_name      Members who have a matching school name on their profile.
-	 * @param   string          $current_school   A value of true matches members who currently attend the school specified in the school-name parameter.
-	 * @param   string          $country_code     Matches members with a location in a specific country. Values are defined in by ISO 3166 standard.
-	 * 											  Country codes must be in all lower case.
-	 * @param   integer         $postal_code      Matches members centered around a Postal Code. Must be combined with the country-code parameter.
-	 * 											  Not supported for all countries.
-	 * @param   integer         $distance         Matches members within a distance from a central point. This is measured in miles.
-	 * @param   string          $facets           Facet buckets to return, e.g. location.
-	 * @param   array           $facet            Array of facet values to search over. Contains values for location, industry, network, language,
-	 * 											  current-company,
-	 * 											  past-company and school, in exactly this order, null must be specified for an element if no value.
-	 * @param   integer         $start            Starting location within the result set for paginated returns.
-	 * @param   integer         $count            The number of results returned.
-	 * @param   string          $sort             Controls the search result order. There are four options: connections, recommenders,
-	 * 											  distance and relevance.
+	 * @param   string   $fields           Request fields beyond the default ones. provide 'api-standard-profile-request'
+	 * 									   field for out of network profiles.
+	 * @param   string   $keywords         Members who have all the keywords anywhere in their profile.
+	 * @param   string   $first_name       Members with a matching first name. Matches must be exact.
+	 * @param   string   $last_name        Members with a matching last name. Matches must be exactly.
+	 * @param   string   $company_name     Members who have a matching company name on their profile.
+	 * @param   boolean  $current_company  A value of true matches members who currently work at the company specified in the company-name
+	 * 									   parameter.
+	 * @param   string   $title            Matches members with that title on their profile.
+	 * @param   boolean  $current_title    A value of true matches members whose title is currently the one specified in the title-name parameter.
+	 * @param   string   $school_name      Members who have a matching school name on their profile.
+	 * @param   string   $current_school   A value of true matches members who currently attend the school specified in the school-name parameter.
+	 * @param   string   $country_code     Matches members with a location in a specific country. Values are defined in by ISO 3166 standard.
+	 * 									   Country codes must be in all lower case.
+	 * @param   integer  $postal_code      Matches members centered around a Postal Code. Must be combined with the country-code parameter.
+	 * 									   Not supported for all countries.
+	 * @param   integer  $distance         Matches members within a distance from a central point. This is measured in miles.
+	 * @param   string   $facets           Facet buckets to return, e.g. location.
+	 * @param   array    $facet            Array of facet values to search over. Contains values for location, industry, network, language,
+	 * 									   current-company, past-company and school, in exactly this order, null must be specified for an element if no value.
+	 * @param   integer  $start            Starting location within the result set for paginated returns.
+	 * @param   integer  $count            The number of results returned.
+	 * @param   string   $sort             Controls the search result order. There are four options: connections, recommenders,
+	 * 									   distance and relevance.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function search($oauth, $fields = null, $keywords = null, $first_name = null, $last_name = null, $company_name = null,
+	public function search($fields = null, $keywords = null, $first_name = null, $last_name = null, $company_name = null,
 		$current_company = null, $title = null, $current_title = null, $school_name = null, $current_school = null, $country_code = null,
 		$postal_code = null, $distance = null, $facets = null, $facet = null, $start = 0, $count = 10, $sort = null)
 	{
-		$token = $oauth->getToken();
+		$token = $this->oauth->getToken();
 
 		// Set parameters.
 		$parameters = array(
