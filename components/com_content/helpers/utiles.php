@@ -37,15 +37,8 @@ class JHtmlUtiles
 		// Creo hash
 		$hash			= md5(strtolower(trim($autor->email)));
 		
-		// Cargo link a Gravatar
-		$str 			= file_get_contents( 'http://www.gravatar.com/'.$hash.'.php' );
-		$profile 		= unserialize($str);				
-		if (is_array($profile) && isset( $profile['entry'])) {
-			$link = $profile['entry'][0]['profileUrl'];
-		}
-		
 		// Position and style
-		$position = $params->get('avatar_position');
+			$position = $params->get('avatar_position');
 		$style =''; 
 		switch ($position) {			
 			case '2':
@@ -55,9 +48,20 @@ class JHtmlUtiles
 				$style = 'float:left';				
 				break;
 		}
-				
-		// Imagen Gravatar o por defecto
-		$imgautor		= "http://www.gravatar.com/avatar/avatar.php?gravatar_id=" . $hash."?d=".$imgdefault_g. "&s=" . $imgsize_g;		
+		
+		// Cargo link a Gravatar
+		$str = @file_get_contents( 'http://www.gravatar.com/'.$hash.'.php' );
+		if($str) {
+			$profile 		= unserialize($str);				
+			if (is_array($profile) && isset( $profile['entry'])) {
+				$link = $profile['entry'][0]['profileUrl'];
+			}
+			// Imagen Gravatar o por defecto
+			$imgautor = "http://www.gravatar.com/avatar/avatar.php?gravatar_id=" . $hash."?d=".$imgdefault_g. "&s=" . $imgsize_g;		
+		} else {
+			$imgautor = $imgdefault_g;
+			$link	= "#";
+		}
 		$gravatar		= '<div class="gravatar" style="'.$style.'">'.
 								'<div class="img_gravatar">'.
 									'<a href="'.$link.'" target="_blank"">'.JHtml::_('image', $imgautor, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')).'</a>'.
@@ -68,8 +72,7 @@ class JHtmlUtiles
 			$gravatar	.='		<a href="'.$link.'" target="_blank"">'.$title_g.'</a></small></div></div>';
 		} else {
 			$gravatar	.=		$title_g.'</small></div></div>';
-		}
-		
+		}		
 
 		return $gravatar;
 	}
