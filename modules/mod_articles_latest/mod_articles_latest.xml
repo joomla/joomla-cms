@@ -74,6 +74,8 @@
 						value="p_dsc">MOD_LATEST_NEWS_VALUE_RECENT_PUBLISHED</option>
 					<option
 						value="mc_dsc">MOD_LATEST_NEWS_VALUE_RECENT_TOUCHED</option>
+					<option
+						value="random">MOD_LATEST_NEWS_VALUE_RECENT_RAND</option>
 				</field>
 
 				<field
