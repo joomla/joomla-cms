@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Mar-2013 Jean-Marie Simonet
+ $ Updating Installation ini files: de-DE, fa-IR, ko-KR, sk-SK, vi-VN
+
 12-Mar-2013 Jean-Marie Simonet
  # Merging platform strict standards cache issue. https://github.com/joomla/joomla-platform/pull/1710
  $ [#30270] Wrong string. Thanks Elin
