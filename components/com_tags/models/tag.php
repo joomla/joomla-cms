@@ -138,9 +138,9 @@ class TagsModelTag extends JModelList
 		$app = JFactory::getApplication();
 
 		// Optionally filter on language
-		if ($this->getState('params')->get('tag_list_language_filter', 'all') != 'all')
+		$language = $this->getState('tag.language');
+		if ($language != 'all')
 		{
-			$language = $this->getState('params')->get('tag_list_language_filter');
 			if ($language == 'current_language')
 			{
 				$language = JFactory::getLanguage()->getTag();
@@ -226,6 +226,9 @@ class TagsModelTag extends JModelList
 			$typesr = (array) $typesr;
 			$this->setState('tag.typesr', $typesr);
 		}
+
+		$language = $app->input->getString('tag_list_language_filter');
+		$this->setState('tag.language', $language);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);

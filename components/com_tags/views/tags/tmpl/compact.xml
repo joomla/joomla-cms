@@ -16,7 +16,17 @@
 				label="COM_TAGS_FIELD_PARENT_TAG_LABEL">
 				<option value="">JNONE</option>
 			</field>
+			<field name="tag_list_language_filter"
+				type="language"
+				default=""
+				label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
+				description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="all">JALL</option>
+					<option value="current_language">JCURRENT</option>
+			</field>
 		</fieldset>
+
 	</fields>
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">

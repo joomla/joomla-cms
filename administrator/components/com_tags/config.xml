@@ -131,7 +131,6 @@
 			extension="com_tags"
 			view="tags"
 		/>
-
 		<field name="all_tags_show_description_image" type="radio" class="btn-group"
 			description="COM_TAGS_SHOW_ALL_TAGS_IMAGE_DESC"
 			label="COM_TAGS_SHOW_ALL_TAGS_IMAGE_LABEL"
