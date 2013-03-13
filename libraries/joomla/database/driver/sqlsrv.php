@@ -36,7 +36,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 * @var    string
 	 * @since  12.1
 	 */
-	protected $nameQuote;
+	protected $nameQuote = '[]';
 
 	/**
 	 * The null or zero representation of a timestamp for the database driver.  This should be
