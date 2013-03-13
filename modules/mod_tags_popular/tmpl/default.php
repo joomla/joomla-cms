@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 <ul >
 <?php foreach ($list as $item) :	?>
 <li>
-	<a href="<?php $route = new TagsHelperRoute();
-	 	echo JRoute::_($route->getRoute($item->tag_id . '-' . $item->alias, 'com_tags.tag')); ?>">
+	<a href="<?php $route = new JHelperRoute();
+	 	echo JRoute::_($route->getRoute($item->tag_id, 'com_tags.tag', 'index.php?option=com_tags&view=tag&id='. $item->tag_id . '-' . $item->alias)); ?>">
 	 	<?php echo htmlspecialchars($item->title); ?></a>
 </li>
 <?php endforeach; ?>

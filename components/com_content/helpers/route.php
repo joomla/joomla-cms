@@ -19,8 +19,7 @@ defined('_JEXEC') or die;
  */
 abstract class ContentHelperRoute
 {
-	protected static $lookup = array();
-
+	protected static $lookup;
 	/**
 	 * @param   integer  The route of the content item
 	 */
@@ -29,8 +28,9 @@ abstract class ContentHelperRoute
 		$needles = array(
 			'article'  => array((int) $id)
 		);
+
 		//Create the link
-		$link = 'index.php?option=com_content&view=article&id='. $id;
+		$link = 'index.php?option=com_content&view=article&id=' . $id;
 		if ((int) $catid > 1)
 		{
 			$categories = JCategories::getInstance('Content');
@@ -56,7 +56,7 @@ abstract class ContentHelperRoute
 			{
 				if ($language == $lang->lang_code)
 				{
-					$link .= '&lang='.$lang->sef;
+					$link .= '&lang=' . $lang->sef;
 					$needles['language'] = $language;
 				}
 			}
@@ -64,11 +64,11 @@ abstract class ContentHelperRoute
 
 		if ($item = self::_findItem($needles))
 		{
-			$link .= '&Itemid='.$item;
+			$link .= '&Itemid=' . $item;
 		}
 		elseif ($item = self::_findItem())
 		{
-			$link .= '&Itemid='.$item;
+			$link .= '&Itemid=' . $item;
 		}
 
 		return $link;
@@ -93,7 +93,7 @@ abstract class ContentHelperRoute
 		}
 		else
 		{
-			$link = 'index.php?option=com_content&view=category&id='.$id;
+			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
 			$needles = array(
 				'category' => array($id)
@@ -113,7 +113,7 @@ abstract class ContentHelperRoute
 				{
 					if ($language == $lang->lang_code)
 					{
-						$link .= '&lang='.$lang->sef;
+						$link .= '&lang=' . $lang->sef;
 						$needles['language'] = $language;
 					}
 				}
@@ -121,7 +121,7 @@ abstract class ContentHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link .= '&Itemid='.$item;
+				$link .= '&Itemid=' . $item;
 			}
 			else
 			{
@@ -227,13 +227,15 @@ abstract class ContentHelperRoute
 		}
 
 		$active = $menus->getActive();
+
 		if ($active && $active->component == 'com_content' && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}
 
-		// if not found, return language specific home link
+		// If not found, return language specific home link
 		$default = $menus->getDefault($language);
+
 		return !empty($default->id) ? $default->id : null;
 	}
 }

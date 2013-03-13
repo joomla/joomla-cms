@@ -50,11 +50,11 @@ class JHelperRoute
 	 * @param  string   $typealias  The type_alias for the item being routed. Of the form extension.view.
 	 * @param  string   $link       The link to be routed
 	 * @param  string   $language   The language of the content for multilingual sites
+	 * @param  integer  $catid      Optional category id
 	 *
 	 * @return  string  The route of the item
 	 */
-
-	public function getRoute($id, $typealias, $link, $language = null)
+	public function getRoute($id, $typealias, $link, $language = null, $catid = null)
 	{
 		$typeExploded = explode('.', $typealias);
 
@@ -67,7 +67,17 @@ class JHelperRoute
 				$this->view  => array((int) $id)
 			);
 		}
-
+		if ($catid > 1)
+		{
+			$categories = JCategories::getInstance('Contact');
+			$category = $categories->get($catid);
+			if ($category)
+			{
+				$needles['category'] = array_reverse($category->getPath());
+				$needles['categories'] = $needles['category'];
+				$link .= '&catid=' . $catid;
+			}
+		}
 		// Deal with languages only if needed
 		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
 		{
@@ -91,11 +101,11 @@ class JHelperRoute
 
 			if ($item = self::findItem($needles))
 			{
-				$link .= '&Itemid=' .$item;
+				$link .= '&Itemid=' . $item;
 			}
 			elseif ($item = self::findItem())
 			{
-				$link .= '&Itemid='.$item;
+				$link .= '&Itemid=' . $item;
 			}
 
 		return $link;

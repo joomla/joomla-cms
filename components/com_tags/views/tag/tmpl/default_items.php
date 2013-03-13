@@ -38,7 +38,7 @@ $n = count($this->items);
 				<?php else: ?>
 					<?php $route = new JHelperRoute();
 						echo '<h3> <a href="' .
-						JRoute::_($route->getRoute($item->content_item_id,  $item->type_alias, $item->link, $item->core_language)) .'">'
+						JRoute::_($route->getRoute($item->content_item_id,  $item->type_alias, $item->link, $item->core_language, $item->core_catid)) .'">'
 							. $this->escape($item->core_title) . '</a> </h3>';  ?>
 					<?php endif; ?>
 					<?php  $images  = json_decode($item->core_images);?>

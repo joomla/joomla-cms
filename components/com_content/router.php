@@ -26,6 +26,9 @@ function ContentBuildRoute(&$query)
 	$params		= JComponentHelper::getParams('com_content');
 	$advanced	= $params->get('sef_advanced_link', 0);
 
+	// Special handling for tags.
+	//$menuItem = $menu->getActive();
+
 	// we need a menu item.  Either the one specified in the query, or the current active one if none specified
 	if (empty($query['Itemid']))
 	{
@@ -86,7 +89,7 @@ function ContentBuildRoute(&$query)
 		if ($view == 'article')
 		{
 			if (isset($query['id']) && isset($query['catid']) && $query['catid'])
-			{
+			{var_dump($query);
 				$catid = $query['catid'];
 				// Make sure we have the id and the alias
 				if (strpos($query['id'], ':') === false)
@@ -104,7 +107,7 @@ function ContentBuildRoute(&$query)
 			}
 			else
 			{
-				// we should have these two set for this view.  If we don't, it is an error
+				// We should have these two set for this view.  If we don't, it is an error
 				return $segments;
 			}
 		}
@@ -116,7 +119,7 @@ function ContentBuildRoute(&$query)
 			}
 			else
 			{
-				// we should have id set for this view.  If we don't, it is an error
+				// We should have id set for this view.  If we don't, it is an error
 				return $segments;
 			}
 		}
@@ -135,7 +138,7 @@ function ContentBuildRoute(&$query)
 
 		if (!$category)
 		{
-			// we couldn't find the category we were given.  Bail.
+			// We couldn't find the category we were given.  Bail.
 			return $segments;
 		}
 
@@ -207,7 +210,7 @@ function ContentBuildRoute(&$query)
 		}
 	}
 
-	// if the layout is specified and it is the same as the layout in the menu item, we
+	// If the layout is specified and it is the same as the layout in the menu item, we
 	// unset it so it doesn't go into the query string.
 	if (isset($query['layout']))
 	{
@@ -226,11 +229,15 @@ function ContentBuildRoute(&$query)
 			}
 		}
 	}
+	/*if ($menuItem->component == 'com_tags')
+	{
+		$segments[] = 'article';
+		$segments[] = $query['id'];
 
+		return $segments;
+	}*/
 	return $segments;
 }
-
-
 
 /**
  * Parse the segments of a URL.
