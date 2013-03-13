@@ -37,6 +37,28 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	private $_cache = array();
 
+    /**
+     * Constructor.
+     *
+     * @param   array  $config  An optional associative array of configuration settings.
+     *
+     * @see     JController
+     * @since   11.1
+     */
+    public function __construct($config = array())
+    {
+        $config = array_merge(array(
+            'event_after_delete'  => 'onExtensionAfterDelete',
+            'event_after_save'    => 'onExtensionAfterSave',
+            'event_before_delete' => 'onExtensionBeforeDelete',
+            'event_before_save'   => 'onExtensionBeforeSave',
+            'plugin_type'         => 'extension',
+            'event_change_state'  => 'onExtensionChangeState'), $config);
+
+        parent::__construct($config);
+    }
+
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
