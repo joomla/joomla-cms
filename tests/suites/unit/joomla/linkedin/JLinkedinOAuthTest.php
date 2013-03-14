@@ -14,43 +14,43 @@ require_once JPATH_PLATFORM . '/joomla/linkedin/oauth.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
- * @since       12.3
+ * @since       13.1
  */
 class JLinkedinOAuthTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $input;
 
 	/**
 	 * @var    JLinkedinOauth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
 
@@ -100,7 +100,7 @@ class JLinkedinOAuthTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 13.1
 	*/
 	public function seedVerifyCredentials()
 	{
@@ -121,7 +121,7 @@ class JLinkedinOAuthTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedVerifyCredentials
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testVerifyCredentials($code, $body, $expected)
 	{

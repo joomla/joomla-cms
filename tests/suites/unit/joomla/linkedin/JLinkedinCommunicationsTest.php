@@ -13,49 +13,49 @@
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @since       12.3
+ * @since       13.1
  */
 class JLinkedinCommunicationsTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $input;
 
 	/**
 	 * @var    JLinkedinCommunications  Object under test.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
 	 * @var    JLinkedinOAuth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
 
@@ -106,7 +106,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testInviteByEmail()
 	{
@@ -161,7 +161,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException DomainException
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testInviteByEmailFailure()
 	{
@@ -212,7 +212,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testInviteById()
 	{
@@ -290,7 +290,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException RuntimeException
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testInviteByIdFailure()
 	{
@@ -329,7 +329,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testSendMessage()
 	{
@@ -376,7 +376,7 @@ class JLinkedinCommunicationsTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException DomainException
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testSendMessageFailure()
 	{

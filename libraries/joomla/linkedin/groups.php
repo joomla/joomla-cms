@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Linkedin
- * @since       12.3
+ * @since       13.1
  */
 class JLinkedinGroups extends JLinkedinObject
 {
@@ -28,7 +28,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getGroup($id, $fields = null, $start = 0, $count = 5)
 	{
@@ -83,7 +83,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getMemberships($id = null, $fields = null, $start = 0, $count = 5, $membership_state = null)
 	{
@@ -153,7 +153,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getSettings($person_id = null, $group_id = null, $fields = null, $start = 0, $count = 5)
 	{
@@ -224,7 +224,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function changeSettings($group_id, $show_logo = null, $digest_frequency = null, $announcements = null,
 		$allow_messages = null, $new_post = null)
@@ -292,7 +292,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function joinGroup($group_id, $show_logo = null, $digest_frequency = null, $announcements = null,
 		$allow_messages = null, $new_post = null)
@@ -358,7 +358,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function leaveGroup($group_id)
 	{
@@ -397,7 +397,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getDiscussions($id, $fields = null, $start = 0, $count = 0, $order = null, $category = 'discussion', $modified_since = null)
 	{
@@ -473,7 +473,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getUserPosts($group_id, $role, $person_id = null, $fields = null, $start = 0, $count = 0,
 		$order = null, $category = 'discussion', $modified_since = null)
@@ -556,7 +556,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getPost($post_id, $fields = null)
 	{
@@ -597,7 +597,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getPostComments($post_id, $fields = null, $start = 0, $count = 0)
 	{
@@ -649,7 +649,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  string  The created post's id.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function createPost($group_id, $title, $summary)
 	{
@@ -691,7 +691,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	private function _likeUnlike($post_id, $like)
 	{
@@ -729,7 +729,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function likePost($post_id)
 	{
@@ -743,7 +743,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function unlikePost($post_id)
 	{
@@ -758,7 +758,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	private function _followUnfollow($post_id, $follow)
 	{
@@ -796,7 +796,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function followPost($post_id)
 	{
@@ -810,7 +810,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function unfollowPost($post_id)
 	{
@@ -825,7 +825,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function flagPost($post_id, $flag)
 	{
@@ -863,7 +863,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function deletePost($post_id)
 	{
@@ -897,7 +897,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getComment($comment_id, $fields = null)
 	{
@@ -936,7 +936,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  string   The created comment's id.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function addComment($post_id, $comment)
 	{
@@ -977,7 +977,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function deleteComment($comment_id)
 	{
@@ -1011,7 +1011,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getSuggested($person_id = null, $fields = null)
 	{
@@ -1060,7 +1060,7 @@ class JLinkedinGroups extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function deleteSuggestion($suggestion_id, $person_id = null)
 	{

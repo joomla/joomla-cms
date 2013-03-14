@@ -16,37 +16,37 @@ require_once __DIR__ . '/stubs/JLinkedinObjectMock.php';
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @since       12.3
+ * @since       13.1
  */
 class JLinkedinObjectTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JLinkedinObjectMock  Object under test.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $errorString = '{"errors":[{"message":"Sorry, that page does not exist","code":34}]}';
 
@@ -83,7 +83,7 @@ class JLinkedinObjectTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function testSetOption()
 	{

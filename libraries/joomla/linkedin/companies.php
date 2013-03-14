@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Linkedin
- * @since       12.3
+ * @since       13.1
  */
 class JLinkedinCompanies extends JLinkedinObject
 {
@@ -28,7 +28,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  RuntimeException
 	 */
 	public function getCompanies($id = null, $name = null, $domain = null, $fields = null)
@@ -96,7 +96,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getUpdates($id, $type = null, $count = 0, $start = 0)
 	{
@@ -157,7 +157,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function search($fields = null, $keywords = null, $hq = false, $facets = null, $facet = null, $start = 0, $count = 0, $sort = null)
 	{
@@ -267,7 +267,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getFollowed($fields = null)
 	{
@@ -305,7 +305,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function follow($id)
 	{
@@ -343,7 +343,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function unfollow($id)
 	{
@@ -378,7 +378,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getSuggested($fields = null, $start = 0, $count = 0)
 	{
@@ -431,7 +431,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getProducts($id, $fields = null, $start = 0, $count = 0)
 	{

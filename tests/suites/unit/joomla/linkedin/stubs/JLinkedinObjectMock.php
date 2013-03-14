@@ -10,7 +10,7 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
- * @since       12.3
+ * @since       13.1
  */
 class JLinkedinObjectMock extends JLinkedinObject
 {

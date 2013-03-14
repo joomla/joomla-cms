@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Linkedin
- * @since       12.3
+ * @since       13.1
  */
 class JLinkedinStream extends JLinkedinObject
 {
@@ -31,7 +31,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  RuntimeException
 	 */
 	public function share($visibility, $comment = null, $title = null, $url = null, $image = null, $description = null, $twitter = false)
@@ -116,7 +116,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  RuntimeException
 	 */
 	public function reshare($visibility, $id, $comment = null, $twitter = false)
@@ -178,7 +178,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getCurrentShare($id = null, $url = null)
 	{
@@ -231,7 +231,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getShareStream($id = null, $url = null, $self = true)
 	{
@@ -297,7 +297,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getNetworkUpdates($id = null, $self = true, $type = null, $count = 0, $start = 0, $after = null, $before = null,
 		$hidden = false)
@@ -383,7 +383,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getNetworkStats()
 	{
@@ -417,7 +417,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function postNetworkUpdate($body)
 	{
@@ -458,7 +458,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getComments($key)
 	{
@@ -492,7 +492,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function postComment($key, $comment)
 	{
@@ -532,7 +532,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getLikes($key)
 	{
@@ -566,7 +566,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	private function _likeUnlike($key, $like)
 	{
@@ -604,7 +604,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function like($key)
 	{
@@ -618,7 +618,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function unlike($key)
 	{

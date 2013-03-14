@@ -14,56 +14,56 @@ require_once JPATH_PLATFORM . '/joomla/linkedin/people.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
- * @since       12.3
+ * @since       13.1
  */
 class JLinkedinPeopleTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $input;
 
 	/**
 	 * @var    JLinkedinPeople  Object under test.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
 	 * @var    JLinkedinOAuth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON string used to access out of network profiles.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $outString = '{"headers": { "_total": 1, "values": [{ "name": "x-li-auth-token",
 				"value": "NAME_SEARCH:-Ogn" }] }, "url": "/v1/people/oAFz-3CZyv"}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
 
@@ -114,7 +114,7 @@ class JLinkedinPeopleTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 13.1
 	*/
 	public function seedIdUrl()
 	{
@@ -135,7 +135,7 @@ class JLinkedinPeopleTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedIdUrl
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testGetProfile($id, $url)
 	{
@@ -195,7 +195,7 @@ class JLinkedinPeopleTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedIdUrl
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testGetProfileFailure($id, $url)
@@ -249,7 +249,7 @@ class JLinkedinPeopleTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testGetConnections()
 	{
@@ -292,7 +292,7 @@ class JLinkedinPeopleTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testGetConnectionsFailure()
@@ -333,7 +333,7 @@ class JLinkedinPeopleTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 13.1
 	*/
 	public function seedFields()
 	{
@@ -352,7 +352,7 @@ class JLinkedinPeopleTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedFields
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testSearch($fields)
 	{
@@ -462,7 +462,7 @@ class JLinkedinPeopleTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testSearchFailure()
