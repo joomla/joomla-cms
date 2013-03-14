@@ -135,15 +135,18 @@ class TagsModelTag extends JModelList
 		$query->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id');
 
 		$query->where('m.tag_id IN (' . $tagId . ')');
-		$app = JFactory::getApplication();
 
 		// Optionally filter on language
-		$language = $this->getState('tag.language');
+		if (empty($language))
+		{
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		}
+
 		if ($language != 'all')
 		{
 			if ($language == 'current_language')
 			{
-				$language = JFactory::getLanguage()->getTag();
+				$language = JHelperContent::getCurrentLanguage();
 			}
 			$query->where($db->qn('core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
 		}

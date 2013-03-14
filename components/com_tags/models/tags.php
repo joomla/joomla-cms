@@ -46,7 +46,7 @@ class TagsModelTags extends JModelList
 		$pid = $app->input->getInt('parent_id');
 		$this->setState('tag.parent_id', $pid);
 
-		$language = $app->input->getString('language');
+		$language = $app->input->getString('tag_list_language_filter');
 		$this->setState('tag.language', $language);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
@@ -124,11 +124,16 @@ class TagsModelTags extends JModelList
 			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
 		}
 
+		// Optionally filter on language
+		if (empty($language))
+		{
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		}
 		if ($language != 'all')
 		{
 			if ($language == 'current_language')
 			{
-				$language = JFactory::getLanguage()->getTag();
+				$language = JHelperContent::getCurrentLanguage();
 			}
 			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
 		}
