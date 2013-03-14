@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 14-Mar-2013 Jean-Marie Simonet
  # [#30265] Make options in the content type field translatable.
+ $ Updating Installation ini files: bs-BA, sy-IQ
 
 13-Mar-2013 Jean-Marie Simonet
  $ Updating Installation ini files: de-DE, fa-IR, ko-KR, sk-SK, vi-VN
