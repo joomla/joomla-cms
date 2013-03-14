@@ -326,6 +326,26 @@ class JTags
 			)
 		);
 
+		$user = JFactory::getUser();
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
+
+		$query->where('t.access IN (' . $groups . ')');
+
+		// Optionally filter on language
+		if (empty($language))
+		{
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		}
+
+		if ($language != 'all')
+		{
+			if ($language == 'current_language')
+			{
+				$language = JHelperContent::getCurrentLanguage();
+			}
+			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
+		}
+
 		if ($getTagData)
 		{
 			$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
