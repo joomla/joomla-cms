@@ -18,29 +18,6 @@ defined('_JEXEC') or die;
  */
 class JHelperContent
 {
-	/*
-	 * @var   string The option for the extension (such as com_contact)
-	 * @since 3.2
-	 */
-	public $extension;
-
-	/*
-	 * @var   string  The name of the table to query
-	 * @since 3.2
-	 */
-	public $table;
-
-	/*
-	 * @var   string  The name for a single item, should normally match the model and view assuming they are identical.
-	 * @since 3.2
-	 */
-	public $item;
-
-	/*
-	 * @var    string  Name of the primary key field for the table.
-	 * @since  3.2
-	 */
-	public $pk;
 
 	/**
 	 * Configure the Linkbar. Must be implemented by each extension.
@@ -276,22 +253,21 @@ class JHelperContent
 	 *
 	 * @since  3.2
 	 */
-	public function getCurrentLanguage()
+	public static function getCurrentLanguage()
 	{
-		$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-
 		$app = JFactory::getApplication();
 		$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
+
 		// No cookie - let's try to detect browser language or use site default
 		if (!$lang_code)
 		{
-			if ($this->params->get('detect_browser', 1))
+			if ($detect_browser)
 			{
 				$lang_code = JLanguageHelper::detectLanguage();
 			}
 			else
 			{
-				$lang_code = $default_lang;
+				$lang_code = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 			}
 		}
 
