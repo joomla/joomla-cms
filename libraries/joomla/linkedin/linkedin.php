@@ -108,6 +108,7 @@ class JLinkedin
 				{
 					$this->people = new JLinkedinPeople($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->people;
 
 			case 'groups':
@@ -115,6 +116,7 @@ class JLinkedin
 				{
 					$this->groups = new JLinkedinGroups($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->groups;
 
 			case 'companies':
@@ -122,6 +124,7 @@ class JLinkedin
 				{
 					$this->companies = new JLinkedinCompanies($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->companies;
 
 			case 'jobs':
@@ -129,6 +132,7 @@ class JLinkedin
 				{
 					$this->jobs = new JLinkedinJobs($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->jobs;
 
 			case 'stream':
@@ -136,6 +140,7 @@ class JLinkedin
 				{
 					$this->stream = new JLinkedinStream($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->stream;
 
 			case 'communications':
@@ -143,6 +148,7 @@ class JLinkedin
 				{
 					$this->communications = new JLinkedinCommunications($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->communications;
 		}
 	}

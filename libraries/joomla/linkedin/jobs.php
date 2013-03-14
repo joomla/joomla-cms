@@ -54,6 +54,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -92,6 +93,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -129,6 +131,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+
 		return $response;
 	}
 
@@ -161,6 +164,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'DELETE', $parameters);
+
 		return $response;
 	}
 
@@ -212,6 +216,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -361,6 +366,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 }

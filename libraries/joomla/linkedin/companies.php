@@ -82,6 +82,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -135,6 +136,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -254,6 +256,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -291,6 +294,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -413,6 +417,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -465,6 +470,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 }

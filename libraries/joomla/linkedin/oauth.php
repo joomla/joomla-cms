@@ -126,6 +126,7 @@ class JLinkedinOauth extends JOAuth1Client
 	public function setScope($scope)
 	{
 		$this->setOption('scope', $scope);
+
 		return $this;
 	}
 

@@ -85,6 +85,7 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data, $header);
+
 		return json_decode($response->body);
 	}
 
@@ -149,6 +150,7 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -373,6 +375,7 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($url, 'GET', $parameters, $data, $header);
+
 		return json_decode($response->body);
 	}
 }

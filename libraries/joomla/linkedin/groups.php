@@ -67,6 +67,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -137,6 +138,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -206,6 +208,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
+
 		return json_decode($response->body);
 	}
 
@@ -676,6 +679,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Return the post id.
 		$response = explode('posts/', $response->headers['Location']);
+
 		return $response[1];
 	}
 
@@ -962,6 +966,7 @@ class JLinkedinGroups extends JLinkedinObject
 
 		// Return the comment id.
 		$response = explode('comments/', $response->headers['Location']);
+
 		return $response[1];
 	}
 

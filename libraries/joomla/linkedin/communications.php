@@ -73,6 +73,7 @@ class JLinkedinCommunications extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+
 		return $response;
 	}
 
@@ -161,6 +162,7 @@ class JLinkedinCommunications extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+
 		return $response;
 	}
 
@@ -216,6 +218,7 @@ class JLinkedinCommunications extends JLinkedinObject
 
 		// Send the request.
 		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $xml, $header);
+
 		return $response;
 	}
 }
