@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Mar-2013 Jean-Marie Simonet
+ # [#30265] Make options in the content type field translatable.
+
 13-Mar-2013 Jean-Marie Simonet
  $ Updating Installation ini files: de-DE, fa-IR, ko-KR, sk-SK, vi-VN
  # Updating version for installation language xml
