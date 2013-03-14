@@ -80,7 +80,7 @@ class JLinkedin
 	 *
 	 * @since   12.3
 	 */
-	public function __construct(JTwitterOAuth $oauth = null, JRegistry $options = null, JHttp $client = null)
+	public function __construct(JLinkedinOAuth $oauth = null, JRegistry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
 		$this->options = isset($options) ? $options : new JRegistry;
