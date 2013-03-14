@@ -20,25 +20,25 @@ class JHelperContent
 {
 	/*
 	 * @var   string The option for the extension (such as com_contact)
-	 * @since 3.1
+	 * @since 3.2
 	 */
 	public $extension;
 
 	/*
 	 * @var   string  The name of the table to query
-	 * @since 3.1
+	 * @since 3.2
 	 */
 	public $table;
 
 	/*
-	 * @var   string  The name for a single item, should normally match the model and view.
-	 * @since 3.1
+	 * @var   string  The name for a single item, should normally match the model and view assuming they are identical.
+	 * @since 3.2
 	 */
 	public $item;
 
 	/*
 	 * @var    string  Name of the primary key field for the table.
-	 * @since  3.1
+	 * @since  3.2
 	 */
 	public $pk;
 
@@ -48,7 +48,7 @@ class JHelperContent
 	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
-	 * @since   3.1
+	 * @since   3.2
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -61,7 +61,7 @@ class JHelperContent
 	 * @param   integer  $id          The item ID.
 	 *
 	 * @return  JObject
-	 * @since   3.1
+	 * @since   3.2
 	 */
 	public static function getActions($categoryId = 0, $id = 0, $assetName = 0)
 	{
@@ -88,7 +88,7 @@ class JHelperContent
 	*
 	* @return  string The filtered string
 	*
-	* @since  3.1
+	* @since  3.2
 	*/
 	public static function filterText($text)
 	{
@@ -267,6 +267,35 @@ class JHelperContent
 		}
 
 		return $text;
+	}
+
+	/**
+	 * Gets the current language
+	 *
+	 * @return  string The language string
+	 *
+	 * @since  3.2
+	 */
+	public function getCurrentLanguage()
+	{
+		$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+
+		$app = JFactory::getApplication();
+		$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
+		// No cookie - let's try to detect browser language or use site default
+		if (!$lang_code)
+		{
+			if ($this->params->get('detect_browser', 1))
+			{
+				$lang_code = JLanguageHelper::detectLanguage();
+			}
+			else
+			{
+				$lang_code = $default_lang;
+			}
+		}
+
+		return $lang_code;
 	}
 }
 
