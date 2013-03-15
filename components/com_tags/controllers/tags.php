@@ -31,13 +31,13 @@ class TagsControllerTags extends JControllerLegacy
 		$db  = JFactory::getDbo();
 
 		// Receive request data
-		$like     = trim($app->input->get('like', null));
+		$like      = trim($app->input->get('like', null));
 		$title     = trim($app->input->get('title', null));
 		$language  = $app->input->get('language', null);
 		$published = $app->input->get('published', 1, 'integer');
 
 		$query	= $db->getQuery(true)
-			->select('a.id AS value, a.title AS text')
+			->select('a.id AS value, a.path AS text')
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
