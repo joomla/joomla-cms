@@ -35,6 +35,8 @@ class JTags
 	 */
 	public function tagItem($id, $prefix, $isNew, $item, $tags = array(), $fieldMap = array())
 	{
+		$app = JFactory::getApplication();
+
 		// Pre-process tags for adding new ones
 		if (is_array($tags) && !empty($tags))
 		{
@@ -47,6 +49,7 @@ class JTags
 				// Currently a new tag is a non-numeric
 				if (!is_numeric($tag))
 				{
+
 					// Unset the tag to avoid trying to insert a wrong value
 					unset($tags[$key]);
 
@@ -56,8 +59,13 @@ class JTags
 					// Clear old data if exist
 					$tagTable->reset();
 
-					// Verify that the alias is unique
-					if (!$tagTable->load(array('title' => $tagText)))
+					// Try to load the selected tag
+					if ($tagTable->load(array('title' => $tagText)))
+					{
+						$tags[] = $tagTable->id;
+
+					}
+					else
 					{
 						// Prepare tag data
 						$tagTable->id         = 0;
