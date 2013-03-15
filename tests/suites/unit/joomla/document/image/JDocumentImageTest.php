@@ -88,7 +88,7 @@ class JDocumentImageTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Tests the JDocumentImage::render method.
 	 *
 	 * @covers  JDocumentImage::render
 	 *
@@ -136,14 +136,14 @@ class JDocumentImageTest extends TestCase
 			$this->assertThat(
 				$returnBuffer,
 				$this->equalTo($buffer),
-				'JDocumentImage::render: Buffer does not match'
+				'JDocumentImage::render: Buffer does not match for type `' . $type . '`'
 			);
 
 			// Check Mime
 			$this->assertThat(
 				$this->object->_mime,
 				$this->equalTo($info['mime']),
-				'JDocumentImage::render: Mime does not match'
+				'JDocumentImage::render: Mime does not match for type `' . $type . '`'
 			);
 		}
 
