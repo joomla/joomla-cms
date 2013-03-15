@@ -398,10 +398,11 @@ class ContactModelContact extends JModelAdmin
 	{
 		if ($item = parent::getItem($pk))
 		{
-			// Convert the params field to an array.
+			// Convert the metadata field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
+
 		}
 
 		// Load associated contact items
@@ -421,10 +422,11 @@ class ContactModelContact extends JModelAdmin
 					$item->associations[$tag] = $association->id;
 				}
 
-				$item->tags = new JTags;
-				$item->tags->getTagIds($item->id, 'com_contact.contact');
 			}
 		}
+
+		$item->tags = new JTags;
+		$item->tags->getTagIds($item->id, 'com_contact.contact');
 
 		return $item;
 	}

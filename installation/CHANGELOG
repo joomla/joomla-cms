@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Mar-2013 Jean-Marie Simonet
+ # [#30261] Contact tagging not working and contact notice in front end. Thanks Elin
+
 14-Mar-2013 Jean-Marie Simonet
  # [#30265] Make options in the content type field translatable.
  $ Updating Installation ini files: bs-BA, sy-IQ
