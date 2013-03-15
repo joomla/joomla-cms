@@ -682,4 +682,86 @@ class JTags
 		$db->setQuery($query);
 		$db->execute();
 	}
+
+	/**
+	 * Function to search tags
+	 *
+	 * @param   array  $filters  Filter to apply to the search
+	 *
+	 * @return  array
+	 */
+	public function searchTags($filters = array())
+	{
+		$results = array();
+		$db  = JFactory::getDbo();
+
+		$query	= $db->getQuery(true)
+			->select('a.id AS value, a.path AS text')
+			->from('#__tags AS a')
+			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
+
+		// Filter language
+		if (!empty($filters['language']))
+		{
+			$query->where('a.language IN (' . $db->quote($filters['language']) . ',' . $db->quote('*') . ') ');
+		}
+
+		// Do not return root
+		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+
+		// Search in title or path
+		if (!empty($filters['like']))
+		{
+			$query->where(
+				'(' . $db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%')
+				. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
+			);
+		}
+
+		// Filter title
+		if (!empty($filters['title']))
+		{
+			$query->where($db->quoteName('a.title') . '=' . $db->quote($filters['title']));
+		}
+
+		// Filter on the published state
+		if (is_numeric($filters['published']))
+		{
+			$query->where('a.published = ' . (int) $filters['published']);
+		}
+
+		// Filter by parent_id
+		if (!empty($filters['parent_id']))
+		{
+			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
+			$tagTable = JTable::getInstance('Tag', 'TagsTable');
+
+			if ($children = $tagTable->getTree($filters['parent_id']))
+			{
+				foreach ($children as $child)
+				{
+					$childrenIds[] = $child->id;
+				}
+
+				$query->where('a.id IN (' . implode(',', $childrenIds) . ')');
+			}
+		}
+
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published');
+		$query->order('a.lft ASC');
+
+		// Get the options.
+		$db->setQuery($query);
+
+		try
+		{
+			$results = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
+		return $results;
+	}
 }
