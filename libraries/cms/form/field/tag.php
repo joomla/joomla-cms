@@ -36,6 +36,26 @@ class JFormFieldTag extends JFormFieldList
 	public $isNested = null;
 
 	/**
+	 * com_tags parameters
+	 *
+	 * @var  JRegistry
+	 */
+	protected $comParams = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @since  3.1
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+
+		// Load com_tags config
+		$this->comParams = JComponentHelper::getParams('com_tags');
+	}
+
+	/**
 	 * Method to get the field input for a tag field.
 	 *
 	 * @return  string  The field input.
@@ -44,12 +64,16 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		// Get the field id
-		$id    = isset($this->element['id']) ? $this->element['id'] : null;
-		$cssId = '#' . $this->getId($id, $this->element['name']);
+		// AJAX mode requires ajax-chosen
+		if (!$this->isNested())
+		{
+			// Get the field id
+			$id    = isset($this->element['id']) ? $this->element['id'] : null;
+			$cssId = '#' . $this->getId($id, $this->element['name']);
 
-		// I know it's ugly
-		JHtml::_('tag.ajaxfield', $cssId);
+			// I know it's ugly
+			JHtml::_('tag.ajaxfield', $cssId);
+		}
 
 		if (!is_array($this->value) && !empty($this->value))
 		{
@@ -184,7 +208,9 @@ class JFormFieldTag extends JFormFieldList
 	{
 		if (is_null($this->isNested))
 		{
-			if (isset($this->element['mode']) && $this->element['mode'] == 'nested')
+			// If mode="nested" || ( mode not set & config = nested )
+			if ((isset($this->element['mode']) && $this->element['mode'] == 'nested')
+				|| (!isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0))
 			{
 				$this->isNested = true;
 			}
