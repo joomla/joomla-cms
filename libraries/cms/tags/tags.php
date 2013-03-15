@@ -74,9 +74,9 @@ class JTags
 						$tagTable->published = 1;
 						$tagTable->parent_id = 1;
 
-						// $tagTable->language = isset($item->language) ? $item->language : '*';
-						$tagTable->language   = '*';
-						$tagTable->access     = isset($item->access) ? $item->access : 0;
+						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
+						$tagTable->language = '*';
+						$tagTable->access   = property_exists($item, 'access') ? $item->access : 0;
 
 						// Try to store tag
 						if ($tagTable->check())
