@@ -11,9 +11,6 @@ defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('list');
 
-JFormHelper::loadFieldClass('tagnested');
-
-
 /**
  * Form Field class for the Joomla Framework.
  *
@@ -31,29 +28,12 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	public $type = 'Tag';
 
+	/**
+	 * Flag to work with nested tag field
+	 *
+	 * @var  boolean
+	 */
 	public $isNested = null;
-
-	private $_comParams = null;
-
-	/**
-	 * An array of tags
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	public $tags;
-
-	/**
-	 * Constructor
-	 *
-	 * @since  3.1
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->_comParams = JComponentHelper::getParams('com_tags');
-	}
 
 	/**
 	 * Method to get the field input for a tag field.

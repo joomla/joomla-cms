@@ -690,7 +690,7 @@ class JTags
 	 *
 	 * @return  array
 	 */
-	public function searchTags($filters = array())
+	public static function searchTags($filters = array())
 	{
 		$results = array();
 		$db  = JFactory::getDbo();
@@ -703,9 +703,9 @@ class JTags
 			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter language
-		if (!empty($filters['language']))
+		if (!empty($filters['flanguage']))
 		{
-			$query->where('a.language IN (' . $db->quote($filters['language']) . ',' . $db->quote('*') . ') ');
+			$query->where('a.language IN (' . $db->quote($filters['flanguage']) . ',' . $db->quote('*') . ') ');
 		}
 
 		// Do not return root
