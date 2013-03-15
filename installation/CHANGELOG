@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Mar-2013 Jean-Marie Simonet
+ + [#29769] com_config component missing triggers on save. Thanks Nicholas Antimisiaris
+
 28-Feb-2013 Jean-Marie Simonet
  # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian
  # [#29968] Only text gets passed to content events in blog view (for Joomla 2.5.x). Thanks Jonathan.
