@@ -33,7 +33,7 @@ class TagsControllerTags extends JControllerLegacy
 		$filters = array(
 			'like'      => trim($app->input->get('like', null)),
 			'title'     => trim($app->input->get('title', null)),
-			'language'  => $app->input->get('language', '*'),
+			'language'  => $app->input->get('language', null),
 			'published' => $app->input->get('published', 1, 'integer'),
 			'parent_id' => $app->input->get('parent_id', null)
 		);
