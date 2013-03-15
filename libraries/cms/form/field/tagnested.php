@@ -64,7 +64,7 @@ class JFormFieldTagNested extends JFormFieldTag
 	 */
 	protected function getOptions()
 	{
-		$options = parent::getOptions();
+		$options = $this->getTags();
 
 		// Add "-" before nested tags, depending on level
 		foreach ($options as &$option)
@@ -72,6 +72,66 @@ class JFormFieldTagNested extends JFormFieldTag
 			$repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
 			$option->text = str_repeat('- ', $repeat) . $option->text;
 		}
+
+		return $options;
+	}
+
+	/**
+	 * Method to get a list of tags
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   3.1
+	 */
+	protected function getTags()
+	{
+		$options = array();
+		$published = $this->element['published']? $this->element['published'] : array(0,1);
+		$name = (string) $this->element['name'];
+
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true);
+
+		$query->select('a.id AS value, a.title AS text, a.level, a.published');
+		$query->from('#__tags AS a');
+		$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+
+		// Filter language
+		if (!empty($this->element['language']))
+		{
+			$query->where('a.language = ' . $db->q($this->element['language']));
+		}
+
+		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+
+		// Filter on the published state
+		if (is_numeric($published))
+		{
+			$query->where('a.published = ' . (int) $published);
+		}
+		elseif (is_array($published))
+		{
+			JArrayHelper::toInteger($published);
+			$query->where('a.published IN (' . implode(',', $published) . ')');
+		}
+
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published');
+		$query->order('a.lft ASC');
+
+		// Get the options.
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}
