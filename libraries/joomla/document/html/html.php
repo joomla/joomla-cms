@@ -93,7 +93,7 @@ class JDocumentHTML extends JDocument
 	protected $_caching = null;
 
 	/**
-	 * Set to true when the document should be output as HTML%
+	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
 	 * @since  12.1
