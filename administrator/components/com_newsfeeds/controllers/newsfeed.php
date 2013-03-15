@@ -155,7 +155,7 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		{
 			$isNew = ($item->id == 0) ? 1 : 0;
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $isNew, $item, $tags, null);
+			$tagsHelper->tagItem($item->id, 'com_newsfeeds.newsfeed', $isNew, $item, $tags, null);
 		}
 
 	}
