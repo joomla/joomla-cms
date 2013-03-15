@@ -38,28 +38,15 @@ class JFormFieldColor extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$classes = (string) $this->element['class'];
+		$class = ' class="' . trim('minicolors ' . (string) $this->element['class']) . '"';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-
-		if (!$disabled)
-		{
-			JHtml::_('behavior.colorpicker');
-			$classes .= ' input-colorpicker';
-		}
-
-		if (empty($this->value))
-		{
-			// A color field can't be empty, we default to black. This is the same as the HTML5 spec.
-			$this->value = '#000000';
-		}
-
-		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		// control value can be: hue (default), saturation, brighness or wheel
+		$control = ((string) $this->element['control']) ? ' data-control="' . (string) $this->element['control'] . '"' : '';
 
-		$class = $classes ? ' class="' . trim($classes) . '"' : '';
+		JHtml::_('behavior.colorpicker');
 
 		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $onchange . '/>';
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $disabled . $control . $onchange . '/>';
 	}
 }

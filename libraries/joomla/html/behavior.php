@@ -654,35 +654,21 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework(true);
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
-		JHtml::_('stylesheet', 'system/mooRainbow.css', array('media' => 'all'), true);
-		JHtml::_('script', 'system/mooRainbow.js', false, true);
-
-		JFactory::getDocument()
-			->addScriptDeclaration(
-			"window.addEvent('domready', function(){
-				var nativeColorUi = false;
-				if (Browser.opera && (Browser.version >= 11.5)) {
-					nativeColorUi = true;
-				}
-				$$('.input-colorpicker').each(function(item){
-					if (nativeColorUi) {
-						item.type = 'color';
-					} else {
-						new MooRainbow(item, {
-							id: item.id,
-							imgPath: '" . JURI::root(true) . "/media/system/images/mooRainbow/',
-							onComplete: function(color) {
-								this.element.value = color.hex;
-							},
-							startColor: item.value.hexToRgb(true) ? item.value.hexToRgb(true) : [0, 0, 0]
+		JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
+		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
+		JFactory::getDocument()->addScriptDeclaration("
+				jQuery(document).ready(function (){
+					jQuery('.minicolors').each(function() {
+						jQuery(this).minicolors({
+							control: jQuery(this).attr('data-control') || 'hue'
 						});
-					}
+					});
 				});
-			});
-		");
+			"
+		);
 
 		self::$loaded[__METHOD__] = true;
 	}
