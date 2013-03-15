@@ -41,7 +41,7 @@ class JFormFieldColor extends JFormField
 		$class = ' class="' . trim('minicolors ' . (string) $this->element['class']) . '"';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-		// control value can be: hue (default), saturation, brighness or wheel
+		// control value can be: hue (default), saturation, brightness or wheel
 		$control = ((string) $this->element['control']) ? ' data-control="' . (string) $this->element['control'] . '"' : '';
 
 		JHtml::_('behavior.colorpicker');

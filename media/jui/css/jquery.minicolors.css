@@ -241,28 +241,16 @@
 .minicolors-theme-bootstrap .minicolors-input {
 	padding: 4px 6px;
 	padding-left: 30px;
-	background-color: white;
-	border: 1px solid #CCC;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	color: #555;
-	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+	font-family: Monaco, Menlo, Consolas, "Courier New", monospace;
 	font-size: 14px;
 	height: 19px;
+	width: 65px;
 	margin: 0px;
-	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
-/* When the input has focus */
-.minicolors-theme-bootstrap.minicolors-focus .minicolors-input {
-	border-color: #6fb8f1;
-	-webkit-box-shadow: 0 0 10px #6fb8f1;
-	-moz-box-shadow: 0 0 10px #6fb8f1;
-	box-shadow: 0 0 10px #6fb8f1;
-	outline: none;
+/* When the input is disabled */
+.minicolors-theme-bootstrap .minicolors-input[disabled] {
+	background-color: #eee;
 }
 
 /* Swatch styles */
