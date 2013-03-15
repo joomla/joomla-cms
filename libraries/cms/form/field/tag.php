@@ -44,6 +44,13 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getInput()
 	{
+		// Get the field id
+		$id    = isset($this->element['id']) ? $this->element['id'] : null;
+		$cssId = '#' . $this->getId($id, $this->element['name']);
+
+		// I know it's ugly
+		JHtml::_('tag.ajaxfield', $cssId);
+
 		if (!is_array($this->value) && !empty($this->value))
 		{
 			if (empty($this->value->tags))

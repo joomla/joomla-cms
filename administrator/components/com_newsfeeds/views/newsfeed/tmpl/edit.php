@@ -15,7 +15,6 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('tag.ajaxfield', '#jform_tags');
 
 $app = JFactory::getApplication();
 $input = $app->input;

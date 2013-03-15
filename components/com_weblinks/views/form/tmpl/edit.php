@@ -13,7 +13,6 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-JHtml::_('tag.ajaxfield', '#jform_tags');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
