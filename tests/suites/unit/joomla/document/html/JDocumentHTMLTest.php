@@ -50,7 +50,7 @@ class JDocumentHTMLTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Terst construct
+	 * Test construct
 	 *
 	 * @covers  JDocumentHtml::__construct
 	 *
