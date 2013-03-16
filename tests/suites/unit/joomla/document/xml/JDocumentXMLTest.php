@@ -50,59 +50,53 @@ class JDocumentXMLTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRender()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		JResponse::clearHeaders();
+
+		$this->object->setBuffer('Unit Test Buffer');
+
+		$this->assertThat(
+			$this->object->render(),
+			$this->equalTo('Unit Test Buffer'),
+			'We did not get the buffer back properly'
+		);
+
+		$headers = JResponse::getHeaders();
+
+		$disposition = false;
+
+		foreach ($headers as $head)
+		{
+			if ($head['name'] == 'Content-disposition')
+			{				
+				$this->assertThat(
+					$head['value'],
+					$this->stringContains('.xml'),
+					'The content disposition did not include json extension'
+				);
+				$disposition = true;
+			}
+		}
+
+		$this->assertThat(
+			$disposition,
+			$this->equalTo(true),
+			'No Content-disposition headers'
+		);
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetHeadData().
+	 * We test both at once
 	 *
 	 * @return void
 	 */
-	public function testGetHeadData()
+	public function testGetAndSetName()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
+		$this->object->setName('unittestfilename');
 
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetHeadData().
-	 *
-	 * @return void
-	 */
-	public function testSetHeadData()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testGetName().
-	 *
-	 * @return void
-	 */
-	public function testGetName()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @todo Implement testSetName().
-	 *
-	 * @return void
-	 */
-	public function testSetName()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			$this->object->getName(),
+			$this->equalTo('unittestfilename'),
+			'setName or getName did not work'
+		);
 	}
 }
