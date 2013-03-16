@@ -255,10 +255,15 @@
 
 /* Swatch styles */
 .minicolors-theme-bootstrap .minicolors-swatch {
+	cursor: pointer;
 	position: absolute;
 	left: 4px;
 	top: 4px;
 	z-index: 12;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	overflow: hidden;
 }
 
 /* Handle swatch position (left = default / right) */
