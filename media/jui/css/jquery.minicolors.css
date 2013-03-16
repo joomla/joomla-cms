@@ -279,8 +279,34 @@
 
 /* Panel styles */
 .minicolors-theme-bootstrap .minicolors-panel {
-	top: 28px;
+	top: 31px;
 	z-index: 13;
+	padding: 6px;
+	border: 1px solid #dddddd;
+	*border-right-width: 2px;
+	*border-bottom-width: 2px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	-moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding-box;
+	background-clip: padding-box;
+}
+
+
+.minicolors-theme-bootstrap .minicolors-slider,
+.minicolors-theme-bootstrap .minicolors-opacity-slider {
+	top: 7px;
+	left: 158px;
+}
+
+
+.minicolors-theme-bootstrap .minicolors-grid {
+	top: 7px;
+	left: 7px;
 }
 
 /* Handle panel positions (top / left) */

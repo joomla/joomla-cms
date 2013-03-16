@@ -59,7 +59,7 @@
 	position: absolute;
 	top: 100%;
 	left: 0;
-	z-index: 1000;
+	z-index: 10;
 	display: none;
 	float: left;
 	padding: 6px 0 2px 6px;
