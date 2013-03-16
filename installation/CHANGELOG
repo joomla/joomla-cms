@@ -42,6 +42,7 @@ $ -> Language fix or change
  +$ [#27945] Hide Subcategories text. Thanks Aka.
  + [#30230] JPlugin autoloadLanguage property. Thanks Elijah
  # [#29319] SEF plugin gives wrong canonical url (of category, not from article)
+ #$ [#29563] Error msg when an invalid back-end template is selected. Thanks Lukas
 
 15-Mar-2013 Jean-Marie Simonet
  # [#30261] Contact tagging not working and contact notice in front end. Thanks Elin
