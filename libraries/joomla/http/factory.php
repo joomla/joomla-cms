@@ -68,7 +68,7 @@ class JHttpFactory
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
 
-			if ($class::isSupported())
+			if (call_user_func(array($class,'isSupported')))
 			{
 				return new $class($options);
 			}
@@ -86,7 +86,7 @@ class JHttpFactory
 	public static function getHttpTransports()
 	{
 		$names = array();
-		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+		$iterator = new DirectoryIterator(dirname(__FILE__) . '/transport');
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
