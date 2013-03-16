@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ [#30258] Added purge to find/update methods. Removed purge buttons.  Thanks Peter
  ^ [#29295] Show Correct Meta Titles in Joomla Admin for better usability.  Thanks Parth
  + [#28924] Add SQL Server subclass for FinderIndexer
+ ^ [#30083] Update PHPMailer to 5.2.3
 
 16-Mar-2013 Jean-Marie Simonet
  #$ [#30231] *TAGS: does not filter on language. Thanks Elin
