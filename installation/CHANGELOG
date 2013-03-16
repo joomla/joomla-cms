@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Mar-2013 Jean-Marie Simonet
+# [#30231] *TAGS: does not filter on language. Thanks Elin
+
 15-Mar-2013 Jean-Marie Simonet
  # [#30261] Contact tagging not working and contact notice in front end. Thanks Elin
 
