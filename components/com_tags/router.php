@@ -29,31 +29,29 @@ function TagsBuildRoute(&$query)
 	$advanced	= $params->get('sef_advanced_link', 0);
 
 	// We need a menu item.  Either the one specified in the query, or the current active one if none specified
-	if (empty($query['Itemid'])) {
+	if (empty($query['Itemid']))
+	{
 		$menuItem = $menu->getActive();
 	}
-	else {
+	else
+	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
 	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
-	if (isset($query['view'])) {
+	if (isset($query['view']) && ($query['view'] != $mView))
+	{
 		$view = $query['view'];
 
-		if (empty($query['Itemid'])) {
-			$segments[] = $query['view'];
-		}
+		$segments[] = $query['view'];
 
-		// We need to keep the view for forms since they never have their own menu item
-		if ($view != 'form') {
-			unset($query['view']);
-		}
+		unset($query['view']);
 	}
 
 	// Are we dealing with a tag that is attached to a menu item?
-	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
+	if (isset($query['view']) && ($mView == $query['view']) && (isset($query['id'])) && ($mId == (int) $query['id']))
 	{
 		unset($query['view']);
 		unset($query['id']);
@@ -61,19 +59,18 @@ function TagsBuildRoute(&$query)
 		return $segments;
 	}
 
-	if (isset($view) and $view == 'tag')
+	if (isset($view) && $view == 'tag' && isset($query['id']))
 	{
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
-			if ($view == 'tag') {
-				$tagid = $query['id'];
-			}
-
-			if ($view == 'tag') {
-				if ($advanced) {
+			if ($view == 'tag')
+			{
+				if ($advanced)
+				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				}
-				else {
+				else
+				{
 					$id = $query['id'];
 				}
 
@@ -82,17 +79,20 @@ function TagsBuildRoute(&$query)
 		}
 
 		unset($query['id']);
-
 	}
 
 	if (isset($query['layout'])) {
-		if (!empty($query['Itemid']) && isset($menuItem->query['layout'])) {
-			if ($query['layout'] == $menuItem->query['layout']) {
+		if (!empty($query['Itemid']) && isset($menuItem->query['layout']))
+		{
+			if ($query['layout'] == $menuItem->query['layout'])
+			{
 				unset($query['layout']);
 			}
 		}
-		else {
-			if ($query['layout'] == 'default') {
+		else
+		{
+			if ($query['layout'] == 'default')
+			{
 				unset($query['layout']);
 			}
 		}

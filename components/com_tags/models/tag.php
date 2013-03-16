@@ -51,8 +51,14 @@ class TagsModelTag extends JModelList
 			foreach ($items as $item)
 			{
 				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->content_item_id . ':' . $item->core_alias;
-
+				//if (!$item->core_catid)
+				//{
+					$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $item->content_item_id . '-' . $item->core_alias;
+				/*}
+				else
+				{
+					$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&catid=' . $item->core_catid . '&id=' . $item->content_item_id . '-' . $item->core_alias;
+				}*/
 				// Get display date
 				switch ($this->state->params->get('list_show_date'))
 				{
@@ -119,8 +125,8 @@ class TagsModelTag extends JModelList
 		$query->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access');
 		$query->select('MAX(c.core_metadata) AS core_metadata, MAX(c.core_created_user_id) AS core_created_user_id, MAX(c.core_created_by_alias) AS core_created_by_alias');
 		$query->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images');
-		$query->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time');
-		$query->select('MAX(c.core_language) AS core_language');
+		$query->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END AS core_modified_time');
+		$query->select('MAX(c.core_language) AS core_language, MAX(c.core_catid) AS core_catid');
 		$query->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down');
 		$query->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router');
 
