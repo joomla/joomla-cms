@@ -459,6 +459,8 @@ abstract class JTable extends JObject
 				if (isset($src[$k]))
 				{
 					$this->$k = $src[$k];
+				}elseif(isset($this->$k)){
+				  $this->$k = '';
 				}
 			}
 		}
