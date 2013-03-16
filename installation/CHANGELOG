@@ -35,6 +35,7 @@ $ -> Language fix or change
  + [#30222] Add dateAdd method and implement
  # [#30248] Show Intro Text = Hide currently has no effect in Featured and Category menu items.  Thanks Matt
  ^ [#24792] onContentPrepareData event is not implemented in all components generating forms to allow manipulation of the form data.  Thanks Niels
+ + [#29891] Begin using reusable layouts
 
 16-Mar-2013 Jean-Marie Simonet
  #$ [#30231] *TAGS: does not filter on language. Thanks Elin
