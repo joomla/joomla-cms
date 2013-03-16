@@ -35,7 +35,9 @@ abstract class ModTagsPopularHelper
 
 		if ($timeframe != 'alltime')
 		{
-			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd(JFactory::getDate()->toSql('date'), '1', strtoupper($timeframe)));
+		              $now = new JDate;
+                	      $query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($now->toSql('date'), '-1', strtoupper($timeframe)));
+
 		}
 
 		$query->join('LEFT', '#__tags AS t ON tag_id=t.id');
