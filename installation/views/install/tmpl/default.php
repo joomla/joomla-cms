@@ -54,16 +54,3 @@ if ($this->options['summary_email']) {
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
-<script type="text/javascript">
-	window.addEvent('domready', function() {
-		doInstall();
-	});
-	function doInstall()
-	{
-		if(document.id('install_progress') != null) {
-			Install.install(['<?php echo implode("','", $tasks); ?>']);
-		} else {
-			(function(){doInstall();}).delay(500);
-		}
-	}
-</script>

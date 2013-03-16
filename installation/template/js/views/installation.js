@@ -21,7 +21,12 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
 			'click #removeFolderButon':			'removeFolder',
 			'click #submitformButton':			'submitform',
 			'click #verifyFtpSettingsButon':	'verifyFtpSettings',
-			'click #detectFtpRootButton':		'detectFtpRoot'
+			'click #detectFtpRootButton':		'detectFtpRoot',
+			
+			//??
+			'click input[name=jform[summary_email]]':	'toggleEmailPasswords',
+			
+			'change #language': 						'setlanguage'
 		},
 
 		initialize : function() {
@@ -29,6 +34,10 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
 	        this.busy = false;
 			this.spinner = new Spinner(this.$el);
 	        this.baseUrl = base;
+		},
+		
+		toggleEmailPasswords: function toggle() {
+			this.toggle('email_passwords', 'summary_email', 1);
 		},
 		
 		toggle: function toggle(id, el, value) {
@@ -67,6 +76,11 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
 	    detectFtpRoot: function detectFtpRoot() {
 	    	
 	    },
+	    
+	    // ??
+	    doInstall: function doInstall() {
+	    	
+	    }
 	    
 	});
 

@@ -366,11 +366,3 @@ $prev = $useftp ? 'ftp' : 'database';
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
-<script type="text/javascript">
-	window.addEvent('domready', function() {
-		document.getElements('input[name=jform[summary_email]]').each(function(el){
-			el.addEvent('click', function(){Install.toggle('email_passwords', 'summary_email', 1);});
-		});
-		Install.toggle('email_passwords', 'summary_email', 1);
-	});
-</script>
