@@ -427,7 +427,13 @@
 			extension="com_content"
 			view="category"
 		/>
-
+		<field name="show_category_heading_title_text" type="radio"
+ 			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
+			default="1">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>	
 		<field name="show_category_title" type="radio"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
