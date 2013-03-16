@@ -43,9 +43,22 @@ class PlgSystemSef extends JPlugin
 			$domain = $uri->toString(array('scheme', 'host', 'port'));
 		}
 
-		$link = 'index.php' . $uri->toString(array('query', 'fragment'));
+		$router = JRouter::getInstance('site');
+		if ($router->getMode() == JROUTER_MODE_SEF)
+		{
+		        $params = array(
+					"option"=>'string',
+					"view"=>"string",
+					"catid"=>"int",
+					"Itemid"=>"int",
+					"id"=>"int"
+					);
+			$jinput = JFactory::getApplication()->input;
+			$segments = array_merge($jinput->getArray($params), $uri->getQuery(true));
+			$uri->setQuery($segments);
+		}
+		$link = 'index.php' . $uri->toString(array('query','fragment'));
 		$link = $domain . JRoute::_($link);
-
 		if ($current !== $link)
 		{
 			$doc->addHeadLink($link, 'canonical');
