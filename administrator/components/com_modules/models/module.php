@@ -586,6 +586,8 @@ class ModulesModelModule extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_modules.module', $data);
+
 		return $data;
 	}
 

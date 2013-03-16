@@ -46,6 +46,9 @@ class TagsModelTags extends JModelList
 		$pid = $app->input->getInt('parent_id');
 		$this->setState('tag.parent_id', $pid);
 
+		$language = $app->input->getString('tag_list_language_filter');
+		$this->setState('tag.language', $language);
+
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);
 		$app = JFactory::getApplication();
@@ -104,6 +107,7 @@ class TagsModelTags extends JModelList
 		$orderby = $this->state->params->get('all_tags_orderby', 'title');
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
 		$limit = ' LIMIT 0,' . $this->state->params->get('maximum', 200);
+		$language = $this->getState('tag.language');
 
 		// Create a new query object.
 		$db		= $this->getDbo();
@@ -118,6 +122,20 @@ class TagsModelTags extends JModelList
 		if (!empty($pid))
 		{
 			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
+		}
+
+		// Optionally filter on language
+		if (empty($language))
+		{
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		}
+		if ($language != 'all')
+		{
+			if ($language == 'current_language')
+			{
+				$language = JHelperContent::getCurrentLanguage();
+			}
+			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
 		}
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ' ' . $limit);

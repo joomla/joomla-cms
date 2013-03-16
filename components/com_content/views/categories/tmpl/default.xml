@@ -315,13 +315,14 @@
 			</field>
 
 			<field name="filter_field" type="list"
-				default=""
 				description="JGLOBAL_FILTER_FIELD_DESC"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
-				<option value="1">JSHOW</option>
+				<option value="title">JGLOBAL_TITLE</option>
+				<option value="author">JAUTHOR</option>
+				<option value="hits">JGLOBAL_HITS</option>
 			</field>
 
 			<field name="show_headings" type="list"

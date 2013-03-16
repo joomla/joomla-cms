@@ -122,6 +122,8 @@ class RedirectModelLink extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_redirect.link', $data);
+
 		return $data;
 	}
 

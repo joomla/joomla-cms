@@ -110,8 +110,9 @@ class UsersModelNote extends JModelAdmin
 			{
 				$data->user_id = $userId;
 			}
-
 		}
+
+		$this->preprocessData('com_users.note', $data);
 
 		return $data;
 	}
