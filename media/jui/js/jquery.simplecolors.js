@@ -1,8 +1,11 @@
 /**
- * BASED ON:
- * Very simple jQuery Color Picker CSS.
+ * LOOSELY BASED ON:
+ * Very simple jQuery Color Picker
  * Copyright (C) 2012 Tanguy Krotoff
- * Licensed under the MIT license.
+ * Licensed under the MIT license
+ *
+ * ADAPTED BY:
+ * Copyright (C) 2013 Peter van Westen
  */
 
 (function($)
