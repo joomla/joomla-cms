@@ -466,6 +466,15 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 				else
 				{
+
+					// Get menu home items - Tracker Item 29815
+					$homes = array();
+					foreach($menu->getMenu() as $item) {
+						if ($item->home) {
+							$homes[$item->language] = $item;
+						}
+					}
+
 					$itemid = isset($homes[$lang_code]) ? $homes[$lang_code]->id : $homes['*']->id;
 					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);
 				}
