@@ -283,7 +283,7 @@ abstract class JHtml
 	 *
 	 * @param   string   $folder          folder name to search into (images, css, js, ...)
 	 * @param   string   $file            path to file
-	 * @param   boolean  $relative        path to file is relative to /media folder
+	 * @param   boolean  $relative        path to file is relative to /media folder  (and searches in template)
 	 * @param   boolean  $detect_browser  detect browser to include specific browser files
 	 * @param   boolean  $detect_debug    detect debug to include compressed files if debug is on
 	 *
@@ -526,40 +526,33 @@ abstract class JHtml
 	/**
 	 * Write a <img></img> element
 	 *
-	 * @param   string   $file       The relative or absolute URL to use for the src attribute
-	 * @param   string   $alt        The alt text.
-	 * @param   string   $attribs    The target attribute to use
-	 * @param   array    $relative   An associative array of attributes to add
-	 * @param   boolean  $path_only  If set to true, it tries to find an override for the file in the template
+	 * @param   string   $file      The relative or absolute URL to use for the src attribute
+	 * @param   string   $alt       The alt text.
+	 * @param   mixed    $attribs   String or associative array of attribute(s) to use
+	 * @param   boolean  $relative  Path to file is relative to /media folder (and searches in template)
+	 * @param   mixed    $path_rel  Return html tag without (-1) or with file computing(false). Return computed path only (true) 
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public static function image($file, $alt, $attribs = null, $relative = false, $path_only = false)
+	public static function image($file, $alt, $attribs = null, $relative = false, $path_rel = false)
 	{
-		if (is_array($attribs))
+		if ($path_rel !== -1)
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$includes = self::includeRelativeFiles('images', $file, $relative, false, false);
+			$file = count($includes) ? $includes[0] : null;
 		}
-
-		$includes = self::includeRelativeFiles('images', $file, $relative, false, false);
-
 		// If only path is required
-		if ($path_only)
+		if ($path_rel)
 		{
-			if (count($includes))
-			{
-				return $includes[0];
-			}
-			else
-			{
-				return null;
-			}
+			return $file;
 		}
 		else
 		{
-			return '<img src="' . (count($includes) ? $includes[0] : '') . '" alt="' . $alt . '" ' . $attribs . ' />';
+			return	'<img src="' . $file . '" alt="' . $alt . '" ' .
+				(is_array($attribs) ? JArrayHelper::toString($attribs) : $attribs) .
+				' />';
 		}
 	}
 
