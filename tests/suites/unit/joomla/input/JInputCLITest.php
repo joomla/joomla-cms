@@ -34,6 +34,128 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 * Test the JInput::parseArguments method.
+	 *
+	 * @dataProvider provider_parseArguments
+	 */
+	public function test_parseArguments($inputArgv, $expectedData, $expectedArgs)
+	{
+		$_SERVER['argv'] = $inputArgv;
+		$this->inspector = new JInputCLIInspector(null, array('filter' => new JFilterInputMock));
+
+		$this->assertThat(
+			$this->inspector->data,
+			$this->identicalTo($expectedData)
+		);
+
+		$this->assertThat(
+			$this->inspector->args,
+			$this->identicalTo($expectedArgs)
+		);
+	}
+
+	/**
+	 * Test inputs:
+	 *
+	 * php test.php --foo --bar=baz
+	 * php test.php -abc
+	 * php test.php arg1 arg2 arg3
+	 * php test.php plain-arg --foo --bar=baz --funny="spam=eggs" --also-funny=spam=eggs \
+	 *     'plain arg 2' -abc -k=value "plain arg 3" --s="original" --s='overwrite' --s
+	 * php test.php --key value -abc not-c-value
+	 * php test.php --key1 value1 -a --key2 -b b-value --c
+	 *
+	 * Note that this pattern is not supported: -abc c-value
+	 */
+	public function provider_parseArguments()
+	{
+		return array(
+
+			// php test.php --foo --bar=baz
+			array(
+				array('test.php', '--foo', '--bar=baz'),
+				array(
+					'foo' => true,
+					'bar' => 'baz'
+				),
+				array()
+			),
+
+			// php test.php -abc
+			array(
+				array('test.php', '-abc'),
+				array(
+					'a' => true,
+					'b' => true,
+					'c' => true
+				),
+				array()
+			),
+
+			// php test.php arg1 arg2 arg3
+			array(
+				array('test.php', 'arg1', 'arg2', 'arg3'),
+				array(),
+				array(
+					'arg1',
+					'arg2',
+					'arg3'
+				)
+			),
+
+			// php test.php plain-arg --foo --bar=baz --funny="spam=eggs" --also-funny=spam=eggs \
+			//      'plain arg 2' -abc -k=value "plain arg 3" --s="original" --s='overwrite' --s
+			array(
+				array('test.php', 'plain-arg', '--foo', '--bar=baz', '--funny=spam=eggs', '--also-funny=spam=eggs',
+					'plain arg 2', '-abc', '-k=value', 'plain arg 3', '--s=original', '--s=overwrite', '--s'),
+				array(
+					'foo' => true,
+					'bar' => 'baz',
+					'funny' => 'spam=eggs',
+					'also-funny' => 'spam=eggs',
+					'a' => true,
+					'b' => true,
+					'c' => true,
+					'k' => 'value',
+					's' => 'overwrite'
+				),
+				array(
+					'plain-arg',
+					'plain arg 2',
+					'plain arg 3'
+				)
+			),
+
+			// php test.php --key value -abc not-c-value
+			array(
+				array('test.php', '--key', 'value', '-abc', 'not-c-value'),
+				array(
+					'key' => 'value',
+					'a' => true,
+					'b' => true,
+					'c' => true
+				),
+				array(
+					'not-c-value'
+				)
+			),
+
+			// php test.php --key1 value1 -a --key2 -b b-value --c
+			array(
+				array('test.php', '--key1', 'value1', '-a', '--key2', '-b', 'b-value', '--c'),
+				array(
+					'key1' => 'value1',
+					'a' => true,
+					'key2' => true,
+					'b' => 'b-value',
+					'c' => true
+				),
+				array()
+			)
+		);
+	}
+
+	/**
 	 * Test the JInput::get method.
 	 *
 	 * @return void

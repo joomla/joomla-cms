@@ -110,6 +110,8 @@ class JInputCLI extends JInput
 	/**
 	 * Initialise the options and arguments
 	 *
+	 * Not supported: -abc c-value
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
@@ -118,7 +120,9 @@ class JInputCLI extends JInput
     {
         $argv                           = $_SERVER['argv'];
 
-		$this->executable = array_shift($argv);
+        $this->executable = array_shift($argv);
+
+        $out                            = array();
 
         for ($i = 0, $j = count($argv); $i < $j; $i++)
         {
@@ -177,8 +181,8 @@ class JInputCLI extends JInput
                         $out[$key]      = $value;
                     }
 
-                    // -a value1 -abc value2
-                    if ($i + 1 < $j && $argv[$i + 1][0] !== '-')
+                    // -a a-value
+                    if ((count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
                     {
                         $out[$key]      = $argv[$i + 1];
                         $i++;
@@ -189,8 +193,7 @@ class JInputCLI extends JInput
             // plain-arg
             else
             {
-                $value                  = $arg;
-                $out[]                  = $value;
+                $this->args[]           = $arg;
             }
         }
 
