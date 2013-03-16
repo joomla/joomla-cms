@@ -28,7 +28,11 @@ JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
-JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
+
+// JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
+
+JHtml::_('script', 'installation/template/js/lib/RequireJS/require.min.js', true, false, false, false);
+JHtml::_('script', 'installation/template/js/installation.min.js', true, false, false, false);
 
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
@@ -38,21 +42,14 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 	<head>
-		<script src="<?php echo JURI::root();?>media/jui/js/jquery.js"></script>
-		<script src="<?php echo JURI::root();?>media/jui/js/bootstrap.min.js"></script>
-		<script src="<?php echo JURI::root();?>media/jui/js/chosen.jquery.min.js"></script>
-		<script type="text/javascript">
-			jQuery.noConflict();
-		</script>
 		<jdoc:include type="head" />
 
 		<!--[if IE 7]>
 			<link href="template/css/ie7.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
-		<script type="text/javascript">
-			window.addEvent('domready', function() {
-				window.Install = new Installation('container-installation', '<?php echo JURI::current(); ?>');
-			});
+
+		<script>
+		var base = '<?php echo JURI::current(); ?>';
 		</script>
 	</head>
 	<body>
@@ -85,45 +82,5 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				<iframe src="gpl.html" class="thumbnail span6 license" height="250" marginwidth="25" scrolling="auto"></iframe>
 			</div>
 		</div>
-		<script>
-			function initElements() {
-				(function($){
-					$('*[rel=tooltip]').tooltip()
-					$('*[rel=popover]').popover()
-
-					// Chosen select boxes
-					$("select").chosen({
-						disable_search_threshold : 10,
-						allow_single_deselect : true
-					});
-
-					// Turn radios into btn-group
-					$('.radio.btn-group label').addClass('btn')
-					$(".btn-group label:not(.active)").click(function() {
-						var label = $(this);
-						var input = $('#' + label.attr('for'));
-
-						if (!input.prop('checked')){
-							label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger');
-							if (input.val() === 0) {
-								label.addClass('active btn-danger');
-							} else {
-								label.addClass('active btn-success');
-							}
-							input.prop('checked', true);
-						}
-					});
-					$(".btn-group input[checked=checked]").each(function() {
-						var label = $("label[for=" + $(this).attr('id') + "]");
-						if ($(this).val() === 0) {
-							label.addClass('active btn-danger');
-						} else {
-							label.addClass('active btn-success');
-						}
-					});
-				})(jQuery);
-			}
-			initElements();
-		</script>
 	</body>
 </html>

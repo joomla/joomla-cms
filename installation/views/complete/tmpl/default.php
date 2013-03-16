@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
 	</div>
 	<div class="alert">
 		<p><?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?></p>
-		<input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" />
+		<input type="button" class="btn btn-warning" name="instDefault" id="removeFolderButon" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" />
 	</div>
 	<div class="btn-toolbar">
 		<div class="btn-group">
