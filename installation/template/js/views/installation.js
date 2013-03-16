@@ -15,73 +15,73 @@ define([ 'jquery', 'underscore', 'backbone' ], function($, _, Backbone) {
 
 		// The DOM events specific to an item.
 		events : {
-			'click #goToPageSiteButton':		'goToPageSiteButton',
-			'click #goToPageDatabaseButton':	'goToPageDatabaseButton',
-			'click #goToPageButton':			'goToPageButton',			
-			'click #removeFolderButon':			'removeFolder',
-			'click #submitformButton':			'submitform',
-			'click #verifyFtpSettingsButon':	'verifyFtpSettings',
-			'click #detectFtpRootButton':		'detectFtpRoot',
-			
-			//??
-			'click input[name=jform[summary_email]]':	'toggleEmailPasswords',
-			
-			'change #language': 						'setlanguage'
+			'click #goToPageSiteButton' : 'goToPageSiteButton',
+			'click #goToPageDatabaseButton' : 'goToPageDatabaseButton',
+			'click #goToPageButton' : 'goToPageButton',
+			'click #removeFolderButon' : 'removeFolder',
+			'click #submitformButton' : 'submitform',
+			'click #verifyFtpSettingsButon' : 'verifyFtpSettings',
+			'click #detectFtpRootButton' : 'detectFtpRoot',
+
+			// ??
+			'click input[name=jform[summary_email]]' : 'toggleEmailPasswords',
+
+			'change #language' : 'setlanguage'
 		},
 
 		initialize : function() {
 			this.sampleDataLoaded = false;
-	        this.busy = false;
+			this.busy = false;
 			this.spinner = new Spinner(this.$el);
-	        this.baseUrl = base;
+			this.baseUrl = base;
 		},
-		
-		toggleEmailPasswords: function toggle() {
+
+		toggleEmailPasswords : function toggle() {
 			this.toggle('email_passwords', 'summary_email', 1);
 		},
-		
-		toggle: function toggle(id, el, value) {
-			var val = $('input[name=jform['+el+']]:checked').value;
-			if(val == value) {
+
+		toggle : function toggle(id, el, value) {
+			var val = $('input[name=jform[' + el + ']]:checked').value;
+			if (val == value) {
 				$(id).removeClass('hide');
 			} else {
 				$(id).addClass('hide');
 			}
-	    },
-	    
-	    goToPageSiteButton: function goToPageSiteButton() {
-	    	
-	    },
-	    
-	    goToPageDatabaseButton: function goToPageDatabaseButton() {
-	    	
-	    },
-	    
-	    goToPageButton: function goToPageButton() {
-	    	
-	    },
-	    
-	    removeFolder: function removeFolder() {
-	    	
-	    },
-	    
-	    submitform: function submitform() {
-	    	
-	    },
-	    
-	    verifyFtpSettings: function verifyFtpSettings() {
-	    	
-	    },
-	    
-	    detectFtpRoot: function detectFtpRoot() {
-	    	
-	    },
-	    
-	    // ??
-	    doInstall: function doInstall() {
-	    	
-	    }
-	    
+		},
+
+		goToPageSiteButton : function goToPageSiteButton() {
+
+		},
+
+		goToPageDatabaseButton : function goToPageDatabaseButton() {
+
+		},
+
+		goToPageButton : function goToPageButton() {
+
+		},
+
+		removeFolder : function removeFolder() {
+
+		},
+
+		submitform : function submitform() {
+
+		},
+
+		verifyFtpSettings : function verifyFtpSettings() {
+
+		},
+
+		detectFtpRoot : function detectFtpRoot() {
+
+		},
+
+		// ??
+		doInstall : function doInstall() {
+
+		}
+
 	});
 
 	return InstallationView;
