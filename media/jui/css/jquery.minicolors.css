@@ -280,8 +280,9 @@
 /* Panel styles */
 .minicolors-theme-bootstrap .minicolors-panel {
 	top: 31px;
+	left: -6px;
 	z-index: 13;
-	padding: 6px;
+	padding: 5px;
 	border: 1px solid #dddddd;
 	*border-right-width: 2px;
 	*border-bottom-width: 2px;
@@ -299,14 +300,14 @@
 
 .minicolors-theme-bootstrap .minicolors-slider,
 .minicolors-theme-bootstrap .minicolors-opacity-slider {
-	top: 7px;
-	left: 158px;
+	top: 6px;
+	left: 157px;
 }
 
 
 .minicolors-theme-bootstrap .minicolors-grid {
-	top: 7px;
-	left: 7px;
+	top: 6px;
+	left: 6px;
 }
 
 /* Handle panel positions (top / left) */
