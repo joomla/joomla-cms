@@ -117,6 +117,8 @@ class ConfigModelComponent extends JModelForm
 
 		$result = JComponentHelper::getComponent($option);
 
+		$this->preprocessData('com_config.component', $result);
+
 		return $result;
 	}
 

@@ -454,6 +454,8 @@ class ContactModelContact extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_contact.contact', $data);
+
 		return $data;
 	}
 
