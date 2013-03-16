@@ -50,8 +50,8 @@ class UsersModelLogin extends JModelForm
 	protected function loadFormData()
 	{
 		// Check the session for previously entered login form data.
-		$app	= JFactory::getApplication();
-		$data	= $app->getUserState('users.login.form.data', array());
+		$app  = JFactory::getApplication();
+		$data = $app->getUserState('users.login.form.data', array());
 
 		// check for return URL from the request first
 		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
@@ -69,6 +69,8 @@ class UsersModelLogin extends JModelForm
 			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
 		$app->setUserState('users.login.form.data', $data);
+
+		$this->preprocessData('com_users.login', $data);
 
 		return $data;
 	}
@@ -90,36 +92,19 @@ class UsersModelLogin extends JModelForm
 	}
 
 	/**
-	 * Method to allow derived classes to preprocess the form.
+	 * Override JModelAdmin::preprocessForm to ensure the correct plugin group is loaded.
 	 *
-	 * @param   object	A form object.
-	 * @param   mixed	The data expected for the form.
-	 * @param   string	The name of the plugin group to import (defaults to "content").
-	 * @throws	Exception if there is an error in the form event.
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
+	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
-		// Import the approriate plugin group.
-		JPluginHelper::importPlugin($group);
-
-		// Get the dispatcher.
-		$dispatcher	= JEventDispatcher::getInstance();
-
-		// Trigger the form preparation event.
-		$results = $dispatcher->trigger('onContentPrepareForm', array($form, $data));
-
-		// Check for errors encountered while preparing the form.
-		if (count($results) && in_array(false, $results, true))
-		{
-			// Get the last error.
-			$error = $dispatcher->getError();
-
-			// Convert to a JException if necessary.
-			if (!($error instanceof Exception))
-			{
-				throw new Exception($error);
-			}
-		}
+		parent::preprocessForm($form, $data, $group);
 	}
 }

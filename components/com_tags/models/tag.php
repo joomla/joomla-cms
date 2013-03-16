@@ -95,6 +95,7 @@ class TagsModelTag extends JModelList
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 		$nullDate = $db->q($db->getNullDate());
+		$app  = JFactory::getApplication();
 
 		$tagId  = $this->getState('tag.id')?:'';
 		$ntagsr = substr_count($tagId, ',') + 1;
@@ -134,6 +135,21 @@ class TagsModelTag extends JModelList
 		$query->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id');
 
 		$query->where('m.tag_id IN (' . $tagId . ')');
+
+		// Optionally filter on language
+		if (empty($language))
+		{
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		}
+
+		if ($language != 'all')
+		{
+			if ($language == 'current_language')
+			{
+				$language = JHelperContent::getCurrentLanguage();
+			}
+			$query->where($db->qn('core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
+		}
 
 		$contentTypes = new JTags;
 
@@ -213,6 +229,9 @@ class TagsModelTag extends JModelList
 			$typesr = (array) $typesr;
 			$this->setState('tag.typesr', $typesr);
 		}
+
+		$language = $app->input->getString('tag_list_language_filter');
+		$this->setState('tag.language', $language);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);

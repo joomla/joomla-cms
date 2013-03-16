@@ -26,6 +26,10 @@ class InstallerControllerLanguages extends JControllerLegacy
 	 */
 	public function find()
 	{
+		// Purge the updates list
+		$model = $this->getModel('update');
+		$model->purge();
+
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -43,7 +47,7 @@ class InstallerControllerLanguages extends JControllerLegacy
 	}
 
 	/**
-	 * Purgue the updates list.
+	 * Purge the updates list.
 	 *
 	 * @return  void
 	 *

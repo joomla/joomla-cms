@@ -278,6 +278,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_newsfeeds.newsfeed', $data);
+
 		return $data;
 	}
 

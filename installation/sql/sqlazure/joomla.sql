@@ -389,7 +389,7 @@ CREATE TABLE [#__contact_details](
 	[misc] [nvarchar](max) NULL DEFAULT NULL,
 	[image] [nvarchar](255) NULL DEFAULT NULL,
 	[email_to] [nvarchar](255) NULL DEFAULT NULL,
-	[default_con] [int] NOT NULL DEFAULT '0', 
+	[default_con] [int] NOT NULL DEFAULT '0',
 	[published] [int] NOT NULL ,
 	[checked_out] [int] NOT NULL,
 	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
@@ -1484,7 +1484,7 @@ CREATE TABLE [#__finder_terms](
 	[stem] [nvarchar](75) NOT NULL,
 	[common] [tinyint] NOT NULL DEFAULT '0',
 	[phrase] [tinyint] NOT NULL DEFAULT '0',
-	[weight] [real] NOT NULL DEFAULT '0', 
+	[weight] [real] NOT NULL DEFAULT '0',
 	[soundex] [nvarchar](75) NOT NULL,
 	[links] [int] NOT NULL DEFAULT '0',
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
@@ -1682,14 +1682,14 @@ CREATE NONCLUSTERED INDEX [idx_word] ON [#__finder_tokens]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_tokens_aggregate](
-	[term_id] [bigint] NOT NULL,
-	[map_suffix] [nchar](1) NOT NULL,
+	[term_id] [bigint] NULL,
+	[map_suffix] [nchar](1) NULL,
 	[term] [nvarchar](75) NOT NULL,
 	[stem] [nvarchar](75) NOT NULL,
 	[common] [tinyint] NOT NULL DEFAULT '0',
 	[phrase] [tinyint] NOT NULL DEFAULT '0',
 	[term_weight] [real] NOT NULL,
-	[context] [tinyint] NOT NULL DEFAULT '2', 
+	[context] [tinyint] NOT NULL DEFAULT '2',
 	[context_weight] [real] NOT NULL,
 	[total_weight] [real] NOT NULL,
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
@@ -2673,5 +2673,4 @@ CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__weblinks]
 (
 	[xreference] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
 

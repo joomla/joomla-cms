@@ -178,7 +178,11 @@ class UsersModelProfile extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		return $this->getData();
+		$data = $this->getData();
+
+		$this->preprocessData('com_users.profile', $data);
+
+		return $data;
 	}
 
 	/**

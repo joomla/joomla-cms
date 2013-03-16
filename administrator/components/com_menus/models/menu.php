@@ -160,6 +160,8 @@ class MenusModelMenu extends JModelForm
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_menus.menu', $data);
+
 		return $data;
 	}
 

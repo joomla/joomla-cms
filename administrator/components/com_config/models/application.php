@@ -79,6 +79,8 @@ class ConfigModelApplication extends JModelForm
 			$data = array_merge($data, $temp);
 		}
 
+		$this->preprocessData('com_config.application', $data);
+
 		return $data;
 	}
 
