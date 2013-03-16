@@ -40,8 +40,8 @@ abstract class JToolbarHelper
 
 		$html = '<div class="pagetitle ' . htmlspecialchars(implode(' ', $icons)) . '"><h2>' . $title . '</h2></div>';
 
-		$app = JFactory::getApplication();
-		$app->JComponentTitle = $html;
+		JFactory::getApplication()->JComponentTitle = $html;
+		JFactory::getDocument()->setTitle($app->getCfg('sitename') . ' - ' . JText::_('JADMINISTRATION') . ' - ' . $title);
 	}
 
 	/**
