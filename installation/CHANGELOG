@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Mar-2013 Michael Babker
+ # [#30249] Show Intro Text = Hide currently has no effect in Featured and Category menu items.  Thanks Matt
+
 16-Mar-2013 Jean-Marie Simonet
  +$ [#27945] Hide Subcategories text. Thanks Aka.
 
