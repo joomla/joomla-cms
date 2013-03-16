@@ -55,7 +55,7 @@ class JFormFieldNote extends JFormField
 		$html[] = !empty($title) ? '<h4>' . $title . '</h4>' : '';
 		$html[] = $description;
 
-		return '<div ' . $class . '">' . implode('', $html) . '</div>';
+		return '<div ' . $class . '>' . implode('', $html) . '</div>';
 	}
 
 	/**
