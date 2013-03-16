@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 16-Mar-2013 Jean-Marie Simonet
-# [#30231] *TAGS: does not filter on language. Thanks Elin
+ #$ [#30231] *TAGS: does not filter on language. Thanks Elin
+ # [#30283] *Missing filter field parameter for contacts, newsfeeds, weblinks List All Categories menu items + error in Article categories menu item
 
 15-Mar-2013 Jean-Marie Simonet
  # [#30261] Contact tagging not working and contact notice in front end. Thanks Elin
@@ -59,7 +60,6 @@ $ -> Language fix or change
  # [#29717] Typo in Formbehavior::Chosen.  Thanks Thomas
  # [#30241] Horizontal scroll appears when in edit articles.  Thanks Javier
  # [#29266] Uncaught exception in user profile when entering string for birth date.  Thanks Aleksander
-
 
 08-Mar-2013 Jean-Marie Simonet
  $ Missing string for com_tags
