@@ -13,43 +13,43 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapUserTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $input;
 
 	/**
 	 * @var    JOpenstreetmapUser Object under test.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
 	 * @var    JOpenstreetmapOauth  Authentication object for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample XML.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $sampleXml = <<<XML
 <?xml version='1.0'?>
@@ -58,7 +58,7 @@ XML;
 
 	/**
 	 * @var    string  Sample XML error message.
-	* @since  12.3
+	* @since  13.1
 	*/
 	protected $errorString = <<<XML
 <?xml version='1.0'?>
@@ -103,7 +103,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testGetDetails()
 	{
@@ -129,7 +129,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testGetDetailsFailure()
@@ -153,7 +153,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testGetPreferences()
 	{
@@ -180,7 +180,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testGetPreferencesFailure()
@@ -205,7 +205,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testReplacePreferences()
 	{
@@ -234,7 +234,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testReplacePreferencesFailure()
@@ -261,7 +261,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testChangePreference()
 	{
@@ -291,7 +291,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testChangePreferenceFailure()

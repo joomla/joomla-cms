@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @since       12.3
+ * @since       13.1
 */
 class JOpenstreetmapUser extends JOpenstreetmapObject
 {
@@ -24,7 +24,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 	 *  
 	 * @return  array The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getDetails()
 	{
@@ -52,7 +52,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 	 * 
 	 * @return  array The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getPreferences()
 	{
@@ -82,7 +82,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 	 * 
 	 * @return  array The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function replacePreferences($preferences)
 	{
@@ -133,7 +133,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 	 * 
 	 * @return  array The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function changePreference($key, $preference)
 	{

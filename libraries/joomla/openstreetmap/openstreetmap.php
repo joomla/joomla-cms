@@ -15,55 +15,55 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmap
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp      The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var   JOpenstreetmapOauth  The OAuth client.
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    JOpenstreetmapChangesets  Openstreetmap API object for changesets.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $changesets;
 
 	/**
 	 * @var    JOpenstreetmapElements  Openstreetmap API object for elements.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $elements;
 
 	/**
 	 * @var   JOpenstreetmapGps  Openstreetmap API object for gps.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $gps;
 
 	/**
 	 * @var    JOpenstreetmapInfo  Openstreetmap API object for info.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $info;
 
 	/**
 	 * @var    JOpenstreetmapUser  Openstreetmap API object for user.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $user;
 
@@ -74,7 +74,7 @@ class JOpenstreetmap
 	 * @param   JRegistry            $options  Openstreetmap options object.
 	 * @param   JOpenstreetmapHttp   $client   The HTTP client object.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function __construct(JOpenstreetmapOauth $oauth = null, JRegistry $options = null, JHttp $client = null)
 	{
@@ -95,7 +95,7 @@ class JOpenstreetmap
 	 *
 	 * @return  JOpenstreetmapObject  Openstreetmap API object .
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function __get($name)
 	{
@@ -145,7 +145,7 @@ class JOpenstreetmap
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function getOption($key)
 	{
@@ -160,7 +160,7 @@ class JOpenstreetmap
 	 *
 	 * @return  JOpenstreetmap  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function setOption($key, $value)
 	{

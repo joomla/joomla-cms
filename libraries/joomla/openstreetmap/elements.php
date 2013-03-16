@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapElements extends JOpenstreetmapObject
 {
@@ -29,7 +29,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function createNode($changeset,$latitude,$longitude,$tags)
 	{
@@ -81,7 +81,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function createWay($changeset,$tags,$nds)
 	{
@@ -145,7 +145,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function createRelation($changeset,$tags,$members)
 	{
@@ -215,7 +215,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function readElement($element, $id)
@@ -246,7 +246,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function updateElement($element, $xml, $id)
@@ -289,7 +289,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function deleteElement($element, $id, $version, $changeset, $latitude=null, $longitude=null)
@@ -339,7 +339,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function historyOfElement($element, $id)
@@ -370,7 +370,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array    The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function versionOfElement($element, $id ,$version)
@@ -400,7 +400,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function multiFetchElements($element, $params)
@@ -433,7 +433,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function relationsForElement($element, $id)
@@ -462,7 +462,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array    The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function waysForNode($id)
 	{
@@ -486,7 +486,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function fullElement($element, $id)
@@ -518,7 +518,7 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * 
 	 * @return  array   The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function redaction($element, $id, $version, $redaction_id)

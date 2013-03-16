@@ -12,7 +12,7 @@
  * 
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapObjectMock extends JOpenstreetmapObject
 {

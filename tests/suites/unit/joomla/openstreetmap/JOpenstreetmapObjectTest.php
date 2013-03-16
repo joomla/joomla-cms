@@ -15,25 +15,25 @@ include_once __DIR__ . '/stubs/JOpenstreetmapObjectMock.php';
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapObjectTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JOpenstreetmapObjectMock  Object under test.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $object;
 
@@ -70,7 +70,7 @@ class JOpenstreetmapObjectTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function testSetOption()
 	{
@@ -87,7 +87,7 @@ class JOpenstreetmapObjectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testSendRequest()
 	{

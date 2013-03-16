@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die();
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapChangesets extends JOpenstreetmapObject
 {
@@ -26,7 +26,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 * 
 	 * @return  array  The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function createChangeset($changesets=array())
 	{
@@ -87,7 +87,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 * 
 	 * @return  array    The xml response about a changeset
 	 *  
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function readChangeset($id)
 	{
@@ -113,7 +113,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 * 
 	 * @return  array    The xml response of updated changeset
 	 * 
-	 * @since   12.3 
+	 * @since   13.1 
 	 */
 	public function updateChangeset($id, $tags=array() )
 	{
@@ -167,7 +167,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 * 
 	 * @return  No value returns
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function closeChangeset($id)
 	{
@@ -198,7 +198,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 * 
 	 * @return  array	The xml response of requested changeset
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function downloadChangeset($id)
 	{
@@ -223,7 +223,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 * 
 	 * @return  array    The xml response of changed changeset
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function expandBBoxChangeset($id, $nodes)
 	{
@@ -277,7 +277,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 * 
 	 * @return  array    The xml response
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function queryChangeset($param)
 	{
@@ -301,7 +301,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 * 
 	 * @return  array    The xml response of result
 	 * 
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function diffUploadChangeset($xml, $id)
 	{

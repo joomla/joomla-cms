@@ -12,37 +12,37 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapOauthTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $input;
 
 	/**
 	 * @var    JOpenstreetmapOauth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample string.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $sampleString = 'Test String';
 
@@ -89,7 +89,7 @@ class JOpenstreetmapOauthTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function seedVerifyCredentials()
 	{
@@ -109,7 +109,7 @@ class JOpenstreetmapOauthTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedVerifyCredentials
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testVerifyCredentials($code, $body, $expected)
 	{

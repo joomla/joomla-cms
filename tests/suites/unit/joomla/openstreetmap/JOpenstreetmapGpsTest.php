@@ -13,43 +13,43 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapGpsTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $input;
 
 	/**
 	 * @var    JOpenstreetmapGps Object under test.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
 	 * @var    JOpenstreetmapOauth  Authentication object for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample XML.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $sampleXml = <<<XML
 <?xml version='1.0'?>
@@ -58,7 +58,7 @@ XML;
 
 	/**
 	 * @var    string  Sample XML error message.
-	* @since  12.3
+	* @since  13.1
 	*/
 	protected $errorString = <<<XML
 <?xml version='1.0'?>
@@ -103,7 +103,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testRetrieveGps()
 	{
@@ -135,7 +135,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testRetrieveGpsFailure()
@@ -165,7 +165,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testUploadTrace()
 	{
@@ -200,7 +200,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testUploadTraceFailure()
@@ -233,7 +233,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testDownloadTraceMetadetails()
 	{
@@ -264,7 +264,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testDownloadTraceMetadetailsFailure()
@@ -293,7 +293,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testDownloadTraceMetadata()
 	{
@@ -324,7 +324,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testDownloadTraceMetadataFailure()

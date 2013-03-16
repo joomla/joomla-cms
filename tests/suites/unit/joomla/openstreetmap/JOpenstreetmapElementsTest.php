@@ -13,43 +13,43 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapElementsTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $input;
 
 	/**
 	 * @var    JOpenstreetmapElements Object under test.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
 	 * @var    JOpenstreetmapOauth  Authentication object for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample XML.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $sampleXml = <<<XML
 <?xml version='1.0'?>
@@ -58,7 +58,7 @@ XML;
 
 	/**
 	 * @var    string  Sample XML error message.
-	* @since  12.3
+	* @since  13.1
 	*/
 	protected $errorString = <<<XML
 <?xml version='1.0'?>
@@ -103,7 +103,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testCreateNode()
 	{
@@ -134,7 +134,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testCreateNodeFailure()
@@ -163,7 +163,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testCreateWay()
 	{
@@ -193,7 +193,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testCreateWayFailure()
@@ -221,7 +221,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testCreateRelation()
 	{
@@ -251,7 +251,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testCreateRelationFailure()
@@ -279,7 +279,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function seedElement()
 	{
@@ -296,7 +296,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function seedElementFailure()
 	{
@@ -316,7 +316,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedElement
 	 */
 	public function testReadElement($element)
@@ -348,7 +348,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -378,7 +378,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedElement
 	 */
 	public function testUpdateElement($element)
@@ -410,7 +410,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -440,7 +440,7 @@ XML;
 	 * 
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedElement
 	 */
 	public function testDeleteElement($element)
@@ -475,7 +475,7 @@ XML;
 	 * 
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -508,7 +508,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedElement
 	 */
 	public function testHistoryOfElement($element)
@@ -540,7 +540,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -570,7 +570,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedElement
 	 */
 	public function testVersionOfElement($element)
@@ -603,7 +603,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -632,7 +632,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function seedElements()
 	{
@@ -649,7 +649,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function seedElementsFailure()
 	{
@@ -669,7 +669,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedElements
 	 */
 	public function testMultiFetchElements($element)
@@ -702,7 +702,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedElementsFailure
 	 */
@@ -733,7 +733,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedElement
 	 */
 	public function testRelationsForElement($element)
@@ -765,7 +765,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */
@@ -793,7 +793,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testWaysForNode()
 	{
@@ -822,7 +822,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 */
 	public function testWaysForNodeFailure()
@@ -849,7 +849,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function seedFullElement()
 	{
@@ -865,7 +865,7 @@ XML;
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	public function seedFullElementFailure()
 	{
@@ -884,7 +884,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedFullElement
 	 */
 	public function testFullElement($element)
@@ -916,7 +916,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedFullElementFailure
 	 */
@@ -946,7 +946,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @dataProvider seedElement
 	 */
 	public function testRedaction($element)
@@ -979,7 +979,7 @@ XML;
 	 * 
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 * @expectedException DomainException
 	 * @dataProvider seedElementFailure
 	 */

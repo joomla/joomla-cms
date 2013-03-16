@@ -12,31 +12,31 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
- * @since       12.3
+ * @since       13.1
  */
 class JOpenstreetmapTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
 	 * @var    JOpenstreetmap  Object under test.
-	 * @since  12.3
+	 * @since  13.1
 	 */
 	protected $object;
 
 	/**
 	 * @var JOpenstreetmapOAuth OAuth 1 client
-	 * @since 12.3
+	 * @since 13.1
 	 */
 	protected $oauth;
 
@@ -74,7 +74,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function test__GetChangesets()
 	{
@@ -89,7 +89,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function test__GetElements()
 	{
@@ -104,7 +104,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function test__GetGps()
 	{
@@ -119,7 +119,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function test__GetInfo()
 	{
@@ -134,7 +134,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function test__GetUser()
 	{
@@ -149,7 +149,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function test__GetOther()
 	{
@@ -164,7 +164,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testSetOption()
 	{
@@ -181,7 +181,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   13.1
 	 */
 	public function testGetOption()
 	{
