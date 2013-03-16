@@ -84,8 +84,7 @@ else
 	src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
 	<?php endif; ?>
 	<!-- Show Description from Component -->
-	<?php echo $this->item->description; ?>
-
+<?php echo $this->item->description; ?>
 	<!-- Show Feed's Description -->
 
 	<?php if ($this->params->get('show_feed_description')) : ?>
