@@ -52,8 +52,8 @@ class JFormFieldNote extends JFormField
 			$close = $close == 'true' ? 'alert' : $close;
 			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
 		}
-		$html[] = !empty($title) ? '<h4>' . $title . '</h4>' : '';
-		$html[] = $description;
+		$html[] = !empty($title) ? '<h4>' . JText::_($title) . '</h4>' : '';
+		$html[] = !empty($description) ? JText::_($description) : '';
 
 		return '<div ' . $class . '>' . implode('', $html) . '</div>';
 	}
