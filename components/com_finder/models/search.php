@@ -14,6 +14,7 @@ define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/help
 JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
 JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 JLoader::register('FinderIndexerResult', FINDER_PATH_INDEXER . '/result.php');
+JLoader::register('FinderIndexerStemmer', FINDER_PATH_INDEXER . '/stemmer.php');
 
 jimport('joomla.application.component.modellist');
 
