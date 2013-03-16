@@ -675,6 +675,36 @@ abstract class JHtmlBehavior
 	}
 
 	/**
+	 * Add unobtrusive javascript support for a simple color picker.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.2
+	 */
+	public static function simplecolorpicker()
+	{
+		// Only load once
+		if (isset(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
+		JHtml::_('script', 'jui/jquery.simplecolors.min.js', false, true);
+		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
+		JFactory::getDocument()->addScriptDeclaration("
+				jQuery(document).ready(function (){
+					jQuery('select.simplecolors').simplecolors();
+				});
+			"
+		);
+
+		self::$loaded[__METHOD__] = true;
+	}
+
+	/**
 	 * Keep session alive, for example, while editing or creating an article.
 	 *
 	 * @return  void

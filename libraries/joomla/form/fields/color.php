@@ -37,16 +37,76 @@ class JFormFieldColor extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$class = ' class="' . trim('minicolors ' . (string) $this->element['class']) . '"';
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		// control value can be: hue (default), saturation, brightness, wheel or simpel
+		$control = (string) $this->element['control'];
+
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-		// control value can be: hue (default), saturation, brightness or wheel
-		$control = ((string) $this->element['control']) ? ' data-control="' . (string) $this->element['control'] . '"' : '';
+		$class = (string) $this->element['class'];
 
-		JHtml::_('behavior.colorpicker');
+		$color = strtolower($this->value);
+		if (!$color || in_array($color, array('none', 'transparent'))) {
+			$color = 'none';
+		} else if ($color['0'] != '#') {
+			$color = '#' . $color;
+		}
 
-		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $disabled . $control . $onchange . '/>';
+		if ($control == 'simple') {
+			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
+			JHtml::_('behavior.simplecolorpicker');
+
+			$colors = (string) $this->element['colors'];
+			if (empty($colors)) {
+				$colors = array(
+					'none',
+					'#049cdb',
+					'#46a546',
+					'#9d261d',
+					'#ffc40d',
+					'#f89406',
+					'#c3325f',
+					'#7a43b6',
+					'#FFFFFF',
+					'#999999',
+					'#555555',
+					'#000000'
+				);
+			} else {
+				$colors = explode(',', $colors);
+			}
+
+			$split = (int) $this->element['split'];
+			if (!$split) {
+				$count = count($colors);
+				if ($count % 5 == 0) {
+					$split = 5;
+				} else if ($count % 4 == 0) {
+					$split = 4;
+				}
+			}
+			$split = $split ? $split : 3;
+
+			$html = array();
+			$html[] = '<select ' . $onchange . ' name="' . $this->name . '" id="' . $this->id . '"'
+				. $class . ' style="visibility:hidden;width:22px;height:1px">';
+
+			foreach ($colors as $i => $c) {
+				$html[] = '<option' . ($c == $color ? ' selected="selected"' : '') . '>' . $c . '</option>';
+				if (($i + 1) % $split == 0) {
+					$html[] = '<option>-</option>';
+				}
+			}
+			$html[] = '</select>';
+
+			return implode('', $html);
+		} else {
+			$class = ' class="' . trim('minicolors ' . $class) . '"';
+			$control = $control ? ' data-control="' . $control . '"' : '';
+			$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+
+			JHtml::_('behavior.colorpicker');
+
+			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $class . $disabled . $control . $onchange . '/>';
+		}
 	}
 }
