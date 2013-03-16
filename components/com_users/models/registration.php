@@ -254,7 +254,11 @@ class UsersModelRegistration extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		return $this->getData();
+		$data = $this->getData();
+
+		$this->preprocessData('com_users.registration', $data);
+
+		return $data;
 	}
 
 	/**

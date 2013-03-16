@@ -91,6 +91,9 @@ class ContactModelContact extends JModelForm
 	protected function loadFormData()
 	{
 		$data = (array) JFactory::getApplication()->getUserState('com_contact.contact.data', array());
+
+		$this->preprocessData('com_contact.contact', $data);
+
 		return $data;
 	}
 

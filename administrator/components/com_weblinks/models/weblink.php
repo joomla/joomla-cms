@@ -161,6 +161,8 @@ class WeblinksModelWeblink extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_weblinks.weblink', $data);
+
 		return $data;
 	}
 
