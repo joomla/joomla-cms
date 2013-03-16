@@ -144,7 +144,11 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?> <?php echo $this->item->introtext; ?>
+<?php echo $this->item->event->beforeDisplayContent; ?>
+
+<?php if ($params->get('show_intro')) : ?>
+<?php echo $this->item->introtext; ?>
+<?php endif; ?>
 
 <?php if ($useDefList && ($info == 1 ||  $info == 2)) : ?>
 	<dl class="article-info muted">

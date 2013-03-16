@@ -32,12 +32,17 @@ $ -> Language fix or change
  ^ [#29295] Show Correct Meta Titles in Joomla Admin for better usability.  Thanks Parth
  + [#28924] Add SQL Server subclass for FinderIndexer
  ^ [#30083] Update PHPMailer to 5.2.3
+ + [#30222] Add dateAdd method and implement
+ # [#30248] Show Intro Text = Hide currently has no effect in Featured and Category menu items.  Thanks Matt
 
 16-Mar-2013 Jean-Marie Simonet
  #$ [#30231] *TAGS: does not filter on language. Thanks Elin
  # [#30283] *Missing filter field parameter for contacts, newsfeeds, weblinks List All Categories menu items + error in Article categories menu item
  $ Updating Installation ini files: et-EE, fi-FI, ug-CN, zh-cn
  +$ [#27945] Hide Subcategories text. Thanks Aka.
+ + [#30230] JPlugin autoloadLanguage property. Thanks Elijah
+ # [#29319] SEF plugin gives wrong canonical url (of category, not from article)
+ #$ [#29563] Error msg when an invalid back-end template is selected. Thanks Lukas
 
 15-Mar-2013 Jean-Marie Simonet
  # [#30261] Contact tagging not working and contact notice in front end. Thanks Elin
