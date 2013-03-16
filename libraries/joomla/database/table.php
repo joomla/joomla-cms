@@ -460,6 +460,9 @@ abstract class JTable extends JObject
 				if (isset($src[$k]))
 				{
 					$this->$k = $src[$k];
+				}elseif(isset($this->$k)){
+					// Unset the value so it isn't saved to the database by accident
+					$this->$k = '';
 				}
 			}
 		}
