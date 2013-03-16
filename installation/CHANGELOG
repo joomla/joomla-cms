@@ -38,6 +38,7 @@ $ -> Language fix or change
  # [#30283] *Missing filter field parameter for contacts, newsfeeds, weblinks List All Categories menu items + error in Article categories menu item
  $ Updating Installation ini files: et-EE, fi-FI, ug-CN, zh-cn
  +$ [#27945] Hide Subcategories text. Thanks Aka.
+ + [#30230] JPlugin autoloadLanguage property. Thanks Elijah
 
 15-Mar-2013 Jean-Marie Simonet
  # [#30261] Contact tagging not working and contact notice in front end. Thanks Elin
