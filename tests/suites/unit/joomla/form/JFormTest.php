@@ -1053,7 +1053,7 @@ class JFormTest extends TestCase
 
 		$this->assertThat(
 			$form->getInput('title', null, 'The Title'),
-			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox required"/>'),
+			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox required" required="required" aria-required="true"/>'),
 			'Line:' . __LINE__ . ' The method should return a simple input text field.'
 		);
 
