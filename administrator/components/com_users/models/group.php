@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,24 +20,24 @@ class UsersModelGroup extends JModelAdmin
 {
 	/**
 	 * @var		string	The event to trigger after saving the data.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $event_after_save = 'onUserAfterSaveGroup';
 
 	/**
 	 * @var		string	The event to trigger after before the data.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $event_before_save = 'onUserBeforeSaveGroup';
 
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	 * @since	1.6
+	 * @param   type	The table type to instantiate
+	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   array  Configuration array for model. Optional.
+	 * @return  JTable	A database object
+	 * @since   1.6
 	*/
 	public function getTable($type = 'Usergroup', $prefix = 'JTable', $config = array())
 	{
@@ -48,10 +48,10 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		An optional array of data for the form to interogate.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array  $data		An optional array of data for the form to interogate.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -59,7 +59,8 @@ class UsersModelGroup extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_users.group', 'group', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -69,17 +70,20 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_users.edit.group.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_users.group', $data);
 
 		return $data;
 	}
@@ -87,15 +91,16 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param	object	A form object.
-	 * @param	mixed	The data expected for the form.
+	 * @param   object	A form object.
+	 * @param   mixed	The data expected for the form.
 	 * @throws	Exception if there is an error in the form event.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $groups = '')
 	{
 		$obj = is_array($data) ? JArrayHelper::toObject($data, 'JObject') : $data;
-		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0) {
+		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0)
+		{
 			$form->setFieldAttribute('parent_id', 'type', 'hidden');
 			$form->setFieldAttribute('parent_id', 'hidden', 'true');
 		}
@@ -105,9 +110,9 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @param   array  The form data.
+	 * @return  boolean  True on success.
+	 * @since   1.6
 	 */
 	public function save($data)
 	{
@@ -124,18 +129,21 @@ class UsersModelGroup extends JModelAdmin
 		$groupSuperAdmin = $rules['core.admin']->allow($data['id']);
 
 		// We only need to change the $groupSuperAdmin if the parent is true or false. Otherwise, the value set in the rule takes effect.
-		if ($parentSuperAdmin === false) {
+		if ($parentSuperAdmin === false)
+		{
 			// If parent is false (Denied), effective value will always be false
 			$groupSuperAdmin = false;
 		}
-		elseif ($parentSuperAdmin === true) {
+		elseif ($parentSuperAdmin === true)
+		{
 			// If parent is true (allowed), group is true unless explicitly set to false
 			$groupSuperAdmin = ($groupSuperAdmin === false) ? false : true;
 		}
 
 		// Check for non-super admin trying to save with super admin group
 		$iAmSuperAdmin	= JFactory::getUser()->authorise('core.admin');
-		if ((!$iAmSuperAdmin) && ($groupSuperAdmin)) {
+		if ((!$iAmSuperAdmin) && ($groupSuperAdmin))
+		{
 			try
 			{
 				throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
@@ -149,19 +157,23 @@ class UsersModelGroup extends JModelAdmin
 
 		// Check for super-admin changing self to be non-super-admin
 		// First, are we a super admin>
-		if ($iAmSuperAdmin) {
+		if ($iAmSuperAdmin)
+		{
 			// Next, are we a member of the current group?
 			$myGroups = JAccess::getGroupsByUser(JFactory::getUser()->get('id'), false);
-			if (in_array($data['id'], $myGroups)) {
+			if (in_array($data['id'], $myGroups))
+			{
 				// Now, would we have super admin permissions without the current group?
 				$otherGroups = array_diff($myGroups, array($data['id']));
 				$otherSuperAdmin = false;
-				foreach ($otherGroups as $otherGroup) {
+				foreach ($otherGroups as $otherGroup)
+				{
 					$otherSuperAdmin = ($otherSuperAdmin) ? $otherSuperAdmin : JAccess::checkGroup($otherGroup, 'core.admin');
 				}
 				// If we would not otherwise have super admin permissions
 				// and the current group does not have super admin permissions, throw an exception
-				if ((!$otherSuperAdmin) && (!$groupSuperAdmin)) {
+				if ((!$otherSuperAdmin) && (!$groupSuperAdmin))
+				{
 					try
 					{
 						throw new Exception(JText::_('JLIB_USER_ERROR_CANNOT_DEMOTE_SELF'));
@@ -182,9 +194,9 @@ class UsersModelGroup extends JModelAdmin
 	/**
 	 * Method to delete rows.
 	 *
-	 * @param	array	An array of item ids.
-	 * @return	boolean	Returns true on success, false on failure.
-	 * @since	1.6
+	 * @param   array  An array of item ids.
+	 * @return  boolean  Returns true on success, false on failure.
+	 * @since   1.6
 	 */
 	public function delete(&$pks)
 	{
@@ -204,25 +216,31 @@ class UsersModelGroup extends JModelAdmin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 
 		// do not allow to delete groups to which the current user belongs
-		foreach ($pks as $i => $pk) {
-			if (in_array($pk, $groups)) {
+		foreach ($pks as $i => $pk)
+		{
+			if (in_array($pk, $groups))
+			{
 				JError::raiseWarning(403, JText::_('COM_USERS_DELETE_ERROR_INVALID_GROUP'));
 				return false;
 			}
 		}
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk) {
-			if ($table->load($pk)) {
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
 				// Access checks.
 				$allow = $user->authorise('core.edit.state', 'com_users');
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::checkGroup($pk, 'core.admin')) ? false : $allow;
 
-				if ($allow) {
+				if ($allow)
+				{
 					// Fire the onUserBeforeDeleteGroup event.
 					$dispatcher->trigger('onUserBeforeDeleteGroup', array($table->getProperties()));
 
-					if (!$table->delete($pk)) {
+					if (!$table->delete($pk))
+					{
 						$this->setError($table->getError());
 						return false;
 					} else {

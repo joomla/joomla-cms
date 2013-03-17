@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,8 @@ $canDo	= BannersHelper::getActions();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form'))) {
+		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form')))
+		{
 			Joomla.submitform(task, document.getElementById('client-form'));
 		}
 	}
@@ -66,9 +67,9 @@ $canDo	= BannersHelper::getActions();
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 				<li>
-					<?php if (!$field->hidden): ?>
+					<?php if (!$field->hidden) : ?>
 						<?php echo $field->label; ?>
 					<?php endif; ?>
 					<?php echo $field->input; ?>
@@ -81,8 +82,8 @@ $canDo	= BannersHelper::getActions();
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_('COM_BANNERS_EXTRA'); ?></legend>
 		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('extra') as $field): ?>
-				<li><?php if (!$field->hidden): ?>
+			<?php foreach ($this->form->getFieldset('extra') as $field) : ?>
+				<li><?php if (!$field->hidden) : ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
 				<?php echo $field->input; ?></li>

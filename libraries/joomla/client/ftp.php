@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -189,7 +189,7 @@ class JClientFtp
 	 *
 	 * @since   12.1
 	 */
-	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = null, $user = null, $pass = null)
+	public static function getInstance($host = '127.0.0.1', $port = '21', array $options = array(), $user = null, $pass = null)
 	{
 		$signature = $user . ':' . $pass . '@' . $host . ":" . $port;
 

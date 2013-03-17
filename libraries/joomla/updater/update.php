@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -180,7 +180,10 @@ class JUpdate extends JObject
 		$tag = $this->_getStackLocation();
 
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
+		if (isset($this->$tag))
+		{
+			$this->$tag->_data = "";
+		}
 
 		switch ($name)
 		{
@@ -196,7 +199,13 @@ class JUpdate extends JObject
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
+
+				if (!isset($this->currentUpdate->$name))
+				{
+					$this->currentUpdate->$name = new stdClass;
+				}
 				$this->currentUpdate->$name->_data = '';
+
 				foreach ($attrs as $key => $data)
 				{
 					$key = strtolower($key);
@@ -226,8 +235,10 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+
 				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
-				if ($product == $this->currentUpdate->targetplatform->name
+				if (isset($this->currentUpdate->targetplatform->name)
+					&& $product == $this->currentUpdate->targetplatform->name
 					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE)
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
@@ -285,7 +296,10 @@ class JUpdate extends JObject
 
 		// Throw the data for this item together
 		$tag = strtolower($tag);
-		$this->currentUpdate->$tag->_data .= $data;
+		if (isset($this->currentUpdate->$tag))
+		{
+			$this->currentUpdate->$tag->_data .= $data;
+		}
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,21 +18,15 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
  * @subpackage  Search.categories
  * @since       1.6
  */
-class plgSearchCategories extends JPlugin
+class PlgSearchCategories extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * @return array An array of search areas
@@ -64,8 +58,10 @@ class plgSearchCategories extends JPlugin
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$searchText = $text;
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -74,19 +70,23 @@ class plgSearchCategories extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit     = $this->params->def('search_limit', 50);
 		$state     = array();
-		if ($sContent) {
+		if ($sContent)
+		{
 			$state[] = 1;
 		}
-		if ($sArchived) {
+		if ($sArchived)
+		{
 			$state[] = 2;
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 
-		switch($phrase) {
+		switch($phrase)
+		{
 			case 'exact':
 				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
 				$wheres2 	= array();
@@ -100,7 +100,8 @@ class plgSearchCategories extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
-				foreach ($words as $word) {
+				foreach ($words as $word)
+				{
 					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
 					$wheres2 	= array();
 					$wheres2[]	= 'a.title LIKE '.$word;
@@ -111,7 +112,8 @@ class plgSearchCategories extends JPlugin
 				break;
 		}
 
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'alpha':
 				$order = 'a.title ASC';
 				break;
@@ -128,7 +130,8 @@ class plgSearchCategories extends JPlugin
 		$query	= $db->getQuery(true);
 
 		$return = array();
-		if (!empty($state)) {
+		if (!empty($state))
+		{
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
@@ -143,22 +146,27 @@ class plgSearchCategories extends JPlugin
 						.'AND a.access IN ('. $groups .')' );
 			$query->group('a.id');
 			$query->order($order);
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
 				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
 			$rows = $db->loadObjectList();
 
-			if ($rows) {
+			if ($rows)
+			{
 				$count = count($rows);
-				for ($i = 0; $i < $count; $i++) {
+				for ($i = 0; $i < $count; $i++)
+				{
 					$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
 					$rows[$i]->section	= JText::_('JCATEGORY');
 				}
 
-				foreach($rows as $key => $category) {
-					if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text'))) {
+				foreach ($rows as $key => $category)
+				{
+					if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
+					{
 						$return[] = $category;
 					}
 				}

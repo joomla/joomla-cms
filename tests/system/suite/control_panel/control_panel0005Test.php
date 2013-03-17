@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -15,7 +15,7 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 {
 	function testMenuTopLevelPresent()
 	{
-		echo "starting testMenuTopLevelPresent\n";
+		$this->jPrint ("starting testMenuTopLevelPresent\n");
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->assertTrue($this->isElementPresent("link=" . $this->cfg->site_name));
@@ -31,10 +31,10 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 
 	function testMenuDetailHelp()
 	{
-		echo "starting testMenuDetailHelp\n";
+		$this->jPrint ("starting testMenuDetailHelp\n");
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		echo "Open Using Joomla! and check that help links to Single Article help\n";
+		$this->jPrint ("Open Using Joomla! and check that help links to Single Article help\n");
 		$this->click("link=About Joomla");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Using Joomla!");
@@ -42,13 +42,13 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//button[contains(@onclick, 'Menus_Menu_Item_Article_Single_Article')]"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Open Categogy Blog and check that help links to Category Blog help\n";
+		$this->jPrint ("Open Categogy Blog and check that help links to Category Blog help\n");
 		$this->click("link=Article Category Blog");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//button[contains(@onclick, 'Menus_Menu_Item_Article_Category_Blog')]"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Open Who's Online Module and check that help links to detailed help\n";
+		$this->jPrint ("Open Who's Online Module and check that help links to detailed help\n");
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
 		$this->type("id=filter_search", "who");
@@ -59,7 +59,7 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//button[contains(@onclick, 'Extensions_Module_Manager_Who_Online')]"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Open Articles Category and check that help links to detailed help\n";
+		$this->jPrint ("Open Articles Category and check that help links to detailed help\n");
 		$this->type("id=filter_search", "category");
 		$this->click("css=button[type=\"submit\"]");
 		$this->waitForPageToLoad("30000");
@@ -68,10 +68,10 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//button[contains(@onclick, 'Extensions_Module_Manager_Articles_Category')]"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Clear search field\n";
+		$this->jPrint ("Clear search field\n");
 		$this->click("css=button[type=\"button\"]");
 		$this->waitForPageToLoad("30000");
-		echo "Open Admin Logged In Module and check that help links to detailed help\n";
+		$this->jPrint ("Open Admin Logged In Module and check that help links to detailed help\n");
 		$this->select("filter_client_id", "label=Administrator");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Logged-in Users");
@@ -82,7 +82,7 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
-		echo "finished with control_panel0005Test/testMenuDetailHelp\n";
+		$this->jPrint ("finished with control_panel0005Test/testMenuDetailHelp\n");
 		$this->deleteAllVisibleCookies();
 	}
 }

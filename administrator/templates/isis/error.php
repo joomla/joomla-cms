@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,7 @@ $user  = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -111,13 +112,13 @@ else
 	?>
 	<?php
 	// Template header color
-	if ($this->params->get('headerColor'))
+	if ($params->get('headerColor'))
 	{
 	?>
 	<style type="text/css">
 		.header
 		{
-			background: <?php echo $this->params->get('headerColor');?>;
+			background: <?php echo $params->get('headerColor');?>;
 		}
 	</style>
 	<?php
@@ -149,7 +150,8 @@ else
 					<?php
 					// Display menu modules
 					$this->menumodules = JModuleHelper::getModules('menu');
-					foreach ($this->menumodules as $menumodule) {
+					foreach ($this->menumodules as $menumodule)
+					{
 						$output = JModuleHelper::renderModule($menumodule, array('style' => 'none'));
 						$params = new JRegistry;
 						$params->loadString($menumodule->params);
@@ -212,7 +214,8 @@ else
 			<?php
 			// Display status modules
 			$this->statusmodules = JModuleHelper::getModules('status');
-			foreach ($this->statusmodules as $statusmodule) {
+			foreach ($this->statusmodules as $statusmodule)
+			{
 				$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
 				$params = new JRegistry;
 				$params->loadString($statusmodule->params);
@@ -233,50 +236,26 @@ else
 			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function () {
+			$nav.on('click', function ()
+			{
 				if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
 			})
 
 			$win.on('scroll', processScroll)
 
-			function processScroll() {
+			function processScroll()
+			{
 				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
+				if (scrollTop >= navTop && !isFixed)
+				{
 					isFixed = 1
 					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
+				} else if (scrollTop <= navTop && isFixed)
+				{
 					isFixed = 0
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-
-			// Turn radios into btn-group
-		    $('.radio.btn-group label').addClass('btn');
-		    $(".btn-group label:not(.active)").click(function() {
-		        var label = $(this);
-		        var input = $('#' + label.attr('for'));
-
-		        if (!input.prop('checked')) {
-		            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-		            if(input.val()== '') {
-		                    label.addClass('active btn-primary');
-		             } else if(input.val()==0) {
-		                    label.addClass('active btn-danger');
-		             } else {
-		            label.addClass('active btn-success');
-		             }
-		            input.prop('checked', true);
-		        }
-		    });
-		    $(".btn-group input[checked=checked]").each(function() {
-				if($(this).val()== '') {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-		        } else if($(this).val()==0) {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-		        } else {
-		            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
-		        }
-		    });
 		})(jQuery);
 	</script>
 </body>

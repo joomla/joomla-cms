@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,5 +101,39 @@ class UsersControllerUser extends JControllerForm
 		}
 
 		return parent::save();
+	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+		$id = $item->get('id');
+
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_newsfeeds.newsfeed');
+			return;
+		}
+
+		$tags = $validData['tags'];
+
+		if ($tags[0] != '')
+		{
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, 'com_users.user', $isNew, $item, $tags, null);
+		}
+		return;
 	}
 }

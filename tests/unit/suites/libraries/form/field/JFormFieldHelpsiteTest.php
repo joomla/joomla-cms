@@ -3,9 +3,11 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
+
+require_once dirname(__DIR__) . '/inspectors.php';
 
 /**
  * Test class for JFormFieldHelpsite.
@@ -14,33 +16,35 @@
 class JFormFieldHelpsiteTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JFormFieldHelpsite
+	 * Tests the getInput method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
-	protected $object;
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp()
+	public function testGetInput()
 	{
-		//$this->object = new JFormFieldHelpsite;
-	}
+		$form = new JFormInspector('form1');
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
-	}
+		$this->assertThat(
+			$form->load('<form><field name="helpsite" type="helpsite" label="Help Site" description="Help Site listing" /></form>'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
+		);
 
-	/**
-	 * Dummy method to prevent failures due to no tests in a class
-	 */
-	public function testDummy()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestSkipped('This class does not yet have any valid tests.');
+
+		$field = new JFormFieldHelpsite($form);
+
+		$this->assertThat(
+			$field->setup($form->getXml()->field, 'value'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true.'
+		);
+
+		$this->assertContains(
+			'<option value="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">',
+			$field->input,
+			'Line:' . __LINE__ . ' The getInput method should return an option with a link to the help site.'
+		);
 	}
 }

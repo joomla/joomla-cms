@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ $this->direction = $doc->direction;
 		if (!is_array($files)):
 			$files = array($files);
 		endif;
-		foreach($files as $file):
+		foreach ($files as $file) :
 ?>
 		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
 <?php
@@ -62,6 +62,15 @@ $this->direction = $doc->direction;
 				<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" type="text/css" />
 			<?php endif; ?>
 		<?php endif; ?>
+		<?php
+			$debug = JFactory::getConfig()->get('debug_lang');
+			if (JDEBUG || $debug)
+			{
+		?>
+			<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
+		<?php
+			}
+		?>
 		<!--[if lte IE 6]>
 			<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
@@ -107,10 +116,10 @@ $this->direction = $doc->direction;
 
 						 <h1 id="logo">
 
-                                        <?php if ($logo): ?>
+                                        <?php if ($logo) : ?>
                                         <img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($params->get('sitetitle'));?>" />
                                         <?php endif;?>
-                                        <?php if (!$logo ): ?>
+                                        <?php if (!$logo ) : ?>
                                         <?php echo htmlspecialchars($params->get('sitetitle'));?>
                                         <?php endif; ?>
                                         <span class="header1">
@@ -195,7 +204,8 @@ $this->direction = $doc->direction;
 </html>
 <?php } else { ?>
 <?php
-if (!isset($this->error)) {
+if (!isset($this->error))
+{
 	$this->error = JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 	$this->debug = false;
 }

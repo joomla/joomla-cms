@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,13 +34,14 @@ class ModulesViewModules extends JViewLegacy
 		$this->state		= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		// Check if there are no matching items
-		if(!count($this->items)){
+		if (!count($this->items)){
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_MODULES_MSG_MANAGE_NO_MODULES'),
 				'warning'
@@ -56,7 +57,7 @@ class ModulesViewModules extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -68,7 +69,8 @@ class ModulesViewModules extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			$title = JText::_('JTOOLBAR_NEW');
 			$dhtml = "<button onClick=\"location.href='index.php?option=com_modules&amp;view=select'\" class=\"btn btn-small btn-success\">
 						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
@@ -76,23 +78,28 @@ class ModulesViewModules extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'new');
 		}
 
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('module.edit');
 		}
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::checkin('modules.checkin');
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('modules.trash');
 		}
 
@@ -107,7 +114,8 @@ class ModulesViewModules extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_modules');
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');

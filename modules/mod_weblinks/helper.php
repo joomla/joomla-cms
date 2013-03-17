@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'We
  * @package     Joomla.Site
  * @subpackage  mod_weblinks
  */
-class modWeblinksHelper
+class ModWeblinksHelper
 {
 	public static function getList($params)
 	{
@@ -66,7 +66,7 @@ class modWeblinksHelper
 		$c_id = $query->castAsChar('c.id');
 		$case_when2 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when2 .= ' ELSE ';
-		$case_when2 .= $c_id.' END as slug';
+		$case_when2 .= $c_id.' END as catslug';
 
 		$model->setState('list.select', 'a.*, c.published AS c_published,'.$case_when1.','.$case_when2.','.
 		'DATE_FORMAT(a.created, "%Y-%m-%d") AS created');
@@ -90,7 +90,8 @@ class modWeblinksHelper
 		for ($i = 0, $count = count($items); $i < $count; $i++)
 		{
 			$item = &$items[$i];
-			if ($item->params->get('count_clicks', $params->get('count_clicks')) == 1) {
+			if ($item->params->get('count_clicks', $params->get('count_clicks')) == 1)
+			{
 				$item->link	= JRoute::_('index.php?option=com_weblinks&task=weblink.go&catid='.$item->catslug.'&id='. $item->slug);
 			} else {
 				$item->link = $item->url;

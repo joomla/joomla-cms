@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,8 @@ class WeblinksViewWeblink extends JViewLegacy
 		$this->form		= $this->get('Form');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -46,7 +47,7 @@ class WeblinksViewWeblink extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -71,13 +72,16 @@ class WeblinksViewWeblink extends JViewLegacy
 			JToolbarHelper::save2new('weblink.save2new');
 		}
 		// If an existing item, can save to a copy.
-		if (!$isNew && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0)) {
+		if (!$isNew && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0))
+		{
 			JToolbarHelper::save2copy('weblink.save2copy');
 		}
-		if (empty($this->item->id)) {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('weblink.cancel');
 		}
-		else {
+		else
+		{
 			JToolbarHelper::cancel('weblink.cancel', 'JTOOLBAR_CLOSE');
 		}
 

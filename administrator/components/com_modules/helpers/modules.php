@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ abstract class ModulesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
+	 * @return  JObject
 	 */
 	public static function getActions()
 	{
@@ -51,7 +51,7 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of filter options for the state of a module.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getStateOptions()
 	{
@@ -66,7 +66,7 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getClientOptions()
 	{
@@ -84,7 +84,7 @@ abstract class ModulesHelper
 	 *
 	 * @return  array  A list of positions
 	 */
-	public static function getPositions($clientId)
+	public static function getPositions($clientId, $editPositions = false)
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
@@ -111,7 +111,7 @@ abstract class ModulesHelper
 		$options = array();
 		foreach ($positions as $position)
 		{
-			if (!$position)
+			if (!$position && !$editPositions)
 			{
 				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
 

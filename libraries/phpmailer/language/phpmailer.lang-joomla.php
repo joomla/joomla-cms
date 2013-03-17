@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,5 +26,4 @@ $PHPMAILER_LANG["recipients_failed"] = JText::_('PHPMAILER_RECIPIENTS_FAILED');
 $PHPMAILER_LANG["signing"]  = JText::_('PHPMAILER_SIGNING_ERROR');
 $PHPMAILER_LANG['smtp_connect_failed'] = JText::_('PHPMAILER_SMTP_CONNECT_FAILED');
 $PHPMAILER_LANG['smtp_error'] = JText::_('PHPMAILER_SMTP_ERROR');
-$PHPMAILER_LANG['tls'] = JText::_('PHPMAILER_TLS');
 $PHPMAILER_LANG['variable_set'] = JText::_('PHPMAILER_VARIABLE_SET');

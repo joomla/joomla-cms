@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,12 +18,14 @@ $this->fieldsets = $this->form->getFieldsets('params');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
+		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form')))
+		{
 			Joomla.submitform(task, document.getElementById('style-form'));
 		}
 	}
 </script>
 
+<<<<<<< HEAD
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
 	<fieldset class="adminform">
 		<ul class="nav nav-tabs">
@@ -49,6 +51,66 @@ $this->fieldsets = $this->form->getFieldsets('params');
 							<div class="controls">
 								<?php echo $this->form->getInput('enabled'); ?>
 							</div>
+=======
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id='.(int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
+	<fieldset>
+		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
+
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('name'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('name'); ?>
+						<span class="readonly plg-name"><?php echo JText::_($this->item->name);?></span>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('enabled'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('enabled'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('access'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('access'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('ordering'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('ordering'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('folder'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('folder'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('element'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('element'); ?>
+					</div>
+				</div>
+				<?php if ($this->item->extension_id) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('extension_id'); ?>
+>>>>>>> remotes/upstream/master
 						</div>
 						<div class="control-group">
 							<div class="control-label">
@@ -67,6 +129,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 							</div>
 						</div>
 					</div>
+<<<<<<< HEAD
 					<div class="span6">
 						<?php if ($this->item->xml) : ?>
 						<h4>
@@ -134,14 +197,23 @@ $this->fieldsets = $this->form->getFieldsets('params');
 					</div>
 				</div>
 			</div>
+=======
+				<?php endif; ?>
+			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+>>>>>>> remotes/upstream/master
 
 			<?php echo $this->loadTemplate('options'); ?>
-		</div>
+
+		<?php echo JHtml::_('bootstrap.endPane'); ?>
 	</fieldset>
+<<<<<<< HEAD
 	<input type="hidden" name="jform[extension_id]" id="jform_extension_id" value="<?php echo$this->item->extension_id; ?>" />
 	<input type="hidden" name="jform[name]" id="jform_name" value="<?php echo$this->item->name; ?>" />
 	<input type="hidden" name="jform[folder]" id="jform_folder" value="<?php echo$this->item->folder; ?>" />
 	<input type="hidden" name="jform[element]" id="jform_element" value="<?php echo$this->item->element; ?>" />
+=======
+
+>>>>>>> remotes/upstream/master
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

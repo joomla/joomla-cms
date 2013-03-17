@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class LoginModelLogin extends JModelLegacy
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -34,15 +34,18 @@ class LoginModelLogin extends JModelLegacy
 		$this->setState('credentials', $credentials);
 
 		// check for return URL from the request first
-		if ($return = JRequest::getVar('return', '', 'method', 'base64')) {
+		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
+		{
 			$return = base64_decode($return);
-			if (!JURI::isInternal($return)) {
+			if (!JURI::isInternal($return))
+			{
 				$return = '';
 			}
 		}
 
 		// Set the return URL if empty.
-		if (empty($return)) {
+		if (empty($return))
+		{
 			$return = 'index.php';
 		}
 
@@ -68,14 +71,16 @@ class LoginModelLogin extends JModelLegacy
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the title if we're looking for a specific instance of the module
-			if (!$title || $modules[$i]->title == $title) {
+			if (!$title || $modules[$i]->title == $title)
+			{
 				$result = $modules[$i];
 				break;	// Found it
 			}
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
-		if (is_null($result) && substr($name, 0, 4) == 'mod_') {
+		if (is_null($result) && substr($name, 0, 4) == 'mod_')
+		{
 			$result				= new stdClass;
 			$result->id			= 0;
 			$result->title		= '';
@@ -109,7 +114,8 @@ class LoginModelLogin extends JModelLegacy
 	{
 		static $clean;
 
-		if (isset($clean)) {
+		if (isset($clean))
+		{
 			return $clean;
 		}
 
@@ -121,7 +127,8 @@ class LoginModelLogin extends JModelLegacy
 		$cacheid     = md5(serialize(array($clientId, $lang)));
 		$loginmodule = array();
 
-		if (!($clean = $cache->get($cacheid))) {
+		if (!($clean = $cache->get($cacheid)))
+		{
 			$db	= JFactory::getDbo();
 
 			$query = $db->getQuery(true);
@@ -133,7 +140,8 @@ class LoginModelLogin extends JModelLegacy
 			$query->where('e.enabled = 1');
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && $app->getLanguageFilter())
+			{
 				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
 			}
 

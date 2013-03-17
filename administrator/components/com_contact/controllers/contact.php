@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,7 +87,7 @@ class ContactControllerContact extends JControllerForm
 	 *
 	 * @param   object  $model  The model.
 	 *
-	 * @return  boolean	 True if successful, false otherwise and internal error is set.
+	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   2.5
 	 */
@@ -102,5 +102,49 @@ class ContactControllerContact extends JControllerForm
 		$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contacts' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
+	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+		$item = $model->getItem();
+		if (isset($item->params) && is_array($item->params))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->params);
+			$item->params = (string) $registry;
+		}
+
+		if (isset($item->metadata) && is_array($item->metadata))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->metadata);
+			$item->metadata = (string) $registry;
+		}
+		$id = $item->id;
+
+		if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_contact.contact');
+		}
+
+		$tags = $validData['tags'];
+
+		if ($tags[0] != '')
+		{
+			$isNew = $item->id == 0 ? 1 : 0;
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, 'com_contact.contact', $isNew, $item, $tags, null);
+		}
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_feed
  * @since       1.5
  */
-class modFeedHelper
+class ModFeedHelper
 {
 	public static function getFeed($params)
 	{

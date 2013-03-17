@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -539,6 +539,34 @@ class JArchiveZip implements JArchiveExtractable
 		}
 
 		return '';
+	}
+
+	/**
+	 * Converts a UNIX timestamp to a 4-byte DOS date and time format
+	 * (date in high 2-bytes, time in low 2-bytes allowing magnitude
+	 * comparison).
+	 *
+	 * @param   int  $unixtime  The current UNIX timestamp.
+	 *
+	 * @return  int  The current date in a 4-byte DOS format.
+	 *
+	 * @since   11.1
+	 */
+	protected function _unix2DOSTime($unixtime = null)
+	{
+		$timearray = (is_null($unixtime)) ? getdate() : getdate($unixtime);
+
+		if ($timearray['year'] < 1980)
+		{
+			$timearray['year'] = 1980;
+			$timearray['mon'] = 1;
+			$timearray['mday'] = 1;
+			$timearray['hours'] = 0;
+			$timearray['minutes'] = 0;
+			$timearray['seconds'] = 0;
+		}
+
+		return (($timearray['year'] - 1980) << 25) | ($timearray['mon'] << 21) | ($timearray['mday'] << 16) | ($timearray['hours'] << 11) | ($timearray['minutes'] << 5) | ($timearray['seconds'] >> 1);
 	}
 
 	/**

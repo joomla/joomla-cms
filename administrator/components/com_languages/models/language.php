@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,8 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Override to get the table
 	 *
-	 * @return	JTable
-	 * @since	1.6
+	 * @return  JTable
+	 * @since   1.6
 	 */
 	public function getTable($name = '', $prefix = '', $options = array())
 	{
@@ -34,8 +34,8 @@ class LanguagesModelLanguage extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -53,10 +53,10 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Method to get a member item.
 	 *
-	 * @param	integer	The id of the member to get.
+	 * @param   integer	The id of the member to get.
 	 *
-	 * @return	mixed	User data object on success, false on failure.
-	 * @since	1.0
+	 * @return  mixed  User data object on success, false on failure.
+	 * @since   1.0
 	 */
 	public function getItem($langId = null)
 	{
@@ -70,7 +70,8 @@ class LanguagesModelLanguage extends JModelAdmin
 		$return = $table->load($langId);
 
 		// Check for a table object error.
-		if ($return === false && $table->getError()) {
+		if ($return === false && $table->getError())
+		{
 			$this->setError($table->getError());
 			return $false;
 		}
@@ -84,17 +85,18 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Method to get the group form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array  $data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return	mixed	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @return  mixed  A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_languages.language', 'language', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -104,17 +106,20 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_languages.edit.language.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_languages.language', $data);
 
 		return $data;
 	}
@@ -122,10 +127,10 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
+	 * @param   array  The form data.
 	 *
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @return  boolean  True on success.
+	 * @since   1.6
 	 */
 	public function save($data)
 	{
@@ -138,19 +143,22 @@ class LanguagesModelLanguage extends JModelAdmin
 		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
-		if ($langId > 0) {
+		if ($langId > 0)
+		{
 			$table->load($langId);
 			$isNew = false;
 		}
 
 		// Bind the data
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Check the data
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -159,13 +167,15 @@ class LanguagesModelLanguage extends JModelAdmin
 		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_languages.language', &$table, $isNew));
 
 		// Check the event responses.
-		if (in_array(false, $result, true)) {
+		if (in_array(false, $result, true))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Store the data
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -184,7 +194,7 @@ class LanguagesModelLanguage extends JModelAdmin
 	/**
 	 * Custom clean cache method
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

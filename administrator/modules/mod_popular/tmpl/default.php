@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,11 +16,7 @@ JHtml::_('bootstrap.tooltip');
 		<?php foreach ($list as $i => $item) :
 			// Calculate popular items
 			$hits = (int) $item->hits;
-
-			if($hits >= 25)  $hits_class = 'warning';
-			if($hits > 100) $hits_class = 'important';
-			if($hits < 24)   $hits_class = 'info';
-			if($hits < 10)   $hits_class = '';
+			$hits_class = $hits >= 100 ? 'important' : $hits >= 25 ? 'warning' : $hits >= 10 ? 'info' : '';
 		?>
 			<div class="row-fluid">
 				<div class="span9">

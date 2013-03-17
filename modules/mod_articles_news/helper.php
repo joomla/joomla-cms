@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ JModelLegacy::addIncludePath(JPATH_SITE.'/components/com_content/models', 'Conte
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  */
-abstract class modArticlesNewsHelper
+abstract class ModArticlesNewsHelper
 {
 	public static function getList(&$params)
 	{
@@ -56,16 +56,20 @@ abstract class modArticlesNewsHelper
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
-		if (trim($ordering) == 'rand()') {
+		if (trim($ordering) == 'rand()')
+		{
 			$model->setState('list.direction', '');
-		} else {
+		}
+		else
+		{
 			$model->setState('list.direction', 'DESC');
 		}
 
 		//	Retrieve Content
 		$items = $model->getItems();
 
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug = $item->id.':'.$item->alias;
 			$item->catslug = $item->catid.':'.$item->category_alias;
@@ -84,7 +88,8 @@ abstract class modArticlesNewsHelper
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
 			//new
-			if (!$params->get('image')) {
+			if (!$params->get('image'))
+			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 

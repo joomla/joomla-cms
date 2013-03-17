@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,23 +16,24 @@ defined('_JEXEC') or die;
  * @subpackage  User.joomla
  * @since       1.5
  */
-class plgUserJoomla extends JPlugin
+class PlgUserJoomla extends JPlugin
 {
 	/**
 	 * Remove all sessions for the user name
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param	array		$user	Holds the user data
-	 * @param	boolean		$succes	True if user was succesfully stored in the database
-	 * @param	string		$msg	Message
+	 * @param   array  $user	Holds the user data
+	 * @param   boolean		$succes	True if user was succesfully stored in the database
+	 * @param   string  $msg	Message
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function onUserAfterDelete($user, $succes, $msg)
 	{
-		if (!$succes) {
+		if (!$succes)
+		{
 			return false;
 		}
 
@@ -51,13 +52,13 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * This method sends a registration email to new users created in the backend.
 	 *
-	 * @param	array		$user		Holds the new user data.
-	 * @param	boolean		$isnew		True if a new user is stored.
-	 * @param	boolean		$success	True if user was succesfully stored in the database.
-	 * @param	string		$msg		Message.
+	 * @param   array  $user		Holds the new user data.
+	 * @param   boolean		$isnew		True if a new user is stored.
+	 * @param   boolean		$success	True if user was succesfully stored in the database.
+	 * @param   string  $msg		Message.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
@@ -65,10 +66,12 @@ class plgUserJoomla extends JPlugin
 		$config	= JFactory::getConfig();
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
-		if ($isnew) {
+		if ($isnew)
+		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 
-			if ($app->isAdmin()) {
+			if ($app->isAdmin())
+			{
 				if ($mail_to_user) {
 
 					// Load user_joomla plugin language (not done automatically).
@@ -104,14 +107,16 @@ class plgUserJoomla extends JPlugin
 						->setSubject($emailSubject)
 						->setBody($emailBody);
 
-					if (!$mail->Send()) {
+					if (!$mail->Send())
+					{
 						// TODO: Probably should raise a plugin error but this event is not error checked.
 						JError::raiseWarning(500, JText::_('ERROR_SENDING_EMAIL'));
 					}
 				}
 			}
 		}
-		else {
+		else
+		{
 			// Existing user - nothing to do...yet.
 		}
 	}
@@ -119,29 +124,32 @@ class plgUserJoomla extends JPlugin
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data
-	 * @param	array	$options	Array holding options (remember, autoregister, group)
+	 * @param   array  $user		Holds the user data
+	 * @param   array  $options	Array holding options (remember, autoregister, group)
 	 *
-	 * @return	boolean	True on success
-	 * @since	1.5
+	 * @return  boolean  True on success
+	 * @since   1.5
 	 */
 	public function onUserLogin($user, $options = array())
 	{
 		$instance = $this->_getUser($user, $options);
 
 		// If _getUser returned an error, then pass it back.
-		if ($instance instanceof Exception) {
+		if ($instance instanceof Exception)
+		{
 			return false;
 		}
 
 		// If the user is blocked, redirect with an error
-		if ($instance->get('block') == 1) {
+		if ($instance->get('block') == 1)
+		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_NOLOGIN_BLOCKED'));
 			return false;
 		}
 
 		// Authorise the user based on the group information
-		if (!isset($options['group'])) {
+		if (!isset($options['group']))
+		{
 			$options['group'] = 'USERS';
 		}
 
@@ -185,11 +193,11 @@ class plgUserJoomla extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data.
-	 * @param	array	$options	Array holding options (client, ...).
+	 * @param   array  $user		Holds the user data.
+	 * @param   array  $options	Array holding options (client, ...).
 	 *
-	 * @return	object	True on success
-	 * @since	1.5
+	 * @return  object  True on success
+	 * @since   1.5
 	 */
 	public function onUserLogout($user, $options = array())
 	{
@@ -198,12 +206,14 @@ class plgUserJoomla extends JPlugin
 		$app 		= JFactory::getApplication();
 
 		// Make sure we're a valid user first
-		if ($user['id'] == 0 && !$my->get('tmp_user')) {
+		if ($user['id'] == 0 && !$my->get('tmp_user'))
+		{
 			return true;
 		}
 
 		// Check to see if we're deleting the current session
-		if ($my->get('id') == $user['id'] && $options['clientid'] == $app->getClientId()) {
+		if ($my->get('id') == $user['id'] && $options['clientid'] == $app->getClientId())
+		{
 			// Hit the user last visit field
 			$my->setLastVisit();
 
@@ -228,11 +238,11 @@ class plgUserJoomla extends JPlugin
 	 *
 	 * If options['autoregister'] is true, if the user doesn't exist yet he will be created
 	 *
-	 * @param	array	$user		Holds the user data.
-	 * @param	array	$options	Array holding options (remember, autoregister, group).
+	 * @param   array  $user		Holds the user data.
+	 * @param   array  $options	Array holding options (remember, autoregister, group).
 	 *
-	 * @return	object	A JUser object
-	 * @since	1.5
+	 * @return  object  A JUser object
+	 * @since   1.5
 	 */
 	protected function _getUser($user, $options = array())
 	{
@@ -260,12 +270,15 @@ class plgUserJoomla extends JPlugin
 		//If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] :  $this->params->get('autoregister', 1);
 
-		if ($autoregister) {
-			if (!$instance->save()) {
+		if ($autoregister)
+		{
+			if (!$instance->save())
+			{
 				return JError::raiseWarning('SOME_ERROR_CODE', $instance->getError());
 			}
 		}
-		else {
+		else
+		{
 			// No existing user and autoregister off, this is a temporary user.
 			$instance->set('tmp_user', true);
 		}

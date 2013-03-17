@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,10 +21,10 @@ class BannersHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -39,7 +39,8 @@ class BannersHelper
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
 		);
-		if ($vName == 'categories') {
+		if ($vName == 'categories')
+		{
 			JToolbarHelper::title(
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
 				'banners-categories');
@@ -61,27 +62,31 @@ class BannersHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param	int		The category ID.
+	 * @param   integer  The category ID.
 	 *
-	 * @return	JObject
-	 * @since	1.6
+	 * @return  JObject
+	 * @since   1.6
 	 */
 	public static function getActions($categoryId = 0)
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($categoryId)) {
+		if (empty($categoryId))
+		{
 			$assetName = 'com_banners';
 			$level = 'component';
-		} else {
+		}
+		else
+		{
 			$assetName = 'com_banners.category.'.(int) $categoryId;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_banners', $level);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 
@@ -89,8 +94,8 @@ class BannersHelper
 	}
 
 	/**
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public static function updateReset()
 	{
@@ -118,21 +123,25 @@ class BannersHelper
 
 		JTable::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 
-		foreach ($rows as $row) {
+		foreach ($rows as $row)
+		{
 			$purchase_type = $row->purchase_type;
 
-			if ($purchase_type < 0 && $row->cid) {
+			if ($purchase_type < 0 && $row->cid)
+			{
 				$client = JTable::getInstance('Client', 'BannersTable');
 				$client->load($row->cid);
 				$purchase_type = $client->purchase_type;
 			}
 
-			if ($purchase_type < 0) {
+			if ($purchase_type < 0)
+			{
 				$params = JComponentHelper::getParams('com_banners');
 				$purchase_type = $params->get('purchase_type');
 			}
 
-			switch($purchase_type) {
+			switch($purchase_type)
+			{
 				case 1:
 					$reset = $nullDate;
 					break;

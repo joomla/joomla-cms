@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,7 +79,7 @@ class JMenuSite extends JMenu
 	 * @param   string   $values      The value of the field
 	 * @param   boolean  $firstonly   If true, only returns the first item found
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
@@ -92,7 +92,7 @@ class JMenuSite extends JMenu
 			// Filter by language if not set
 			if (($key = array_search('language', $attributes)) === false)
 			{
-				if ($app->getLanguageFilter())
+				if (JLanguageMultilang::isEnabled())
 				{
 					$attributes[] 	= 'language';
 					$values[] 		= array(JFactory::getLanguage()->getTag(), '*');
@@ -116,6 +116,10 @@ class JMenuSite extends JMenu
 				unset($values[$key]);
 			}
 		}
+
+		// Reset arrays or we get a notice if some values were unset
+		$attributes = array_values($attributes);
+		$values = array_values($values);
 
 		return parent::getItems($attributes, $values, $firstonly);
 	}

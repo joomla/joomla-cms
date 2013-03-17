@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,12 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -42,8 +47,9 @@ class InstallerModelDiscover extends InstallerModel
 	/**
 	 * Method to get the database query.
 	 *
-	 * @return	JDatabaseQuery the database query
-	 * @since	1.6
+	 * @return  JDatabaseQuery  the database query
+	 *
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -60,33 +66,42 @@ class InstallerModelDiscover extends InstallerModel
 	 *
 	 * Finds uninstalled extensions
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function discover()
 	{
+		// Purge the list of discovered extensions
+		$this->purge();
+
 		$installer	= JInstaller::getInstance();
 		$results	= $installer->discover();
 
 		// Get all templates, including discovered ones
-		$query = 'SELECT extension_id, element, folder, client_id, type FROM #__extensions';
-		$dbo = JFactory::getDBO();
+		$dbo = JFactory::getDbo();
+		$query = $dbo->getQuery(true);
+		$query->select('extension_id, element, folder, client_id, type')->from('#__extensions');
+
 		$dbo->setQuery($query);
 		$installedtmp = $dbo->loadObjectList();
 		$extensions = array();
 
-		foreach($installedtmp as $install)
+		foreach ($installedtmp as $install)
 		{
 			$key = implode(':', array($install->type, $install->element, $install->folder, $install->client_id));
 			$extensions[$key] = $install;
 		}
 		unset($installedtmp);
 
-		foreach($results as $result) {
-			// check if we have a match on the element
+		foreach ($results as $result)
+		{
+			// Check if we have a match on the element
 			$key = implode(':', array($result->type, $result->element, $result->folder, $result->client_id));
-			if(!array_key_exists($key, $extensions))
+			if (!array_key_exists($key, $extensions))
 			{
-				$result->store(); // put it into the table
+				// Put it into the table
+				$result->store();
 			}
 		}
 	}
@@ -94,35 +109,44 @@ class InstallerModelDiscover extends InstallerModel
 	/**
 	 * Installs a discovered extension.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function discover_install()
 	{
 		$app = JFactory::getApplication();
 		$installer = JInstaller::getInstance();
 		$eid = JRequest::getVar('cid', 0);
-		if (is_array($eid) || $eid) {
-			if (!is_array($eid)) {
+		if (is_array($eid) || $eid)
+		{
+			if (!is_array($eid))
+			{
 				$eid = array($eid);
 			}
 			JArrayHelper::toInteger($eid);
 			$app = JFactory::getApplication();
 			$failed = false;
-			foreach($eid as $id) {
+			foreach ($eid as $id)
+			{
 				$result = $installer->discover_install($id);
-				if (!$result) {
+				if (!$result)
+				{
 					$failed = true;
-					$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED').': '. $id);
+					$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLFAILED') . ': ' . $id);
 				}
 			}
 			$this->setState('action', 'remove');
 			$this->setState('name', $installer->get('name'));
 			$app->setUserState('com_installer.message', $installer->message);
 			$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
-			if (!$failed) {
+			if (!$failed)
+			{
 				$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_INSTALLSUCCESSFUL'));
 			}
-		} else {
+		}
+		else
+		{
 			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSIONSELECTED'));
 		}
 	}
@@ -130,20 +154,25 @@ class InstallerModelDiscover extends InstallerModel
 	/**
 	 * Cleans out the list of discovered extensions.
 	 *
-	 * @since	1.6
+	 * @return  bool True on success
+	 *
+	 * @since   1.6
 	 */
 	public function purge()
 	{
-		$db		= JFactory::getDBO();
+		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 		$query->delete();
 		$query->from('#__extensions');
 		$query->where('state = -1');
 		$db->setQuery((string) $query);
-		if ($db->execute()) {
+		if ($db->execute())
+		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');
 			return true;
-		} else {
+		}
+		else
+		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_FAILEDTOPURGEEXTENSIONS');
 			return false;
 		}

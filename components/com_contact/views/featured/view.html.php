@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class ContactViewFeatured extends JViewLegacy
 	/**
 	 * Display the view
 	 *
-	 * @return	mixed	False on error, null otherwise.
+	 * @return  mixed  False on error, null otherwise.
 	 */
 	public function display($tpl = null)
 	{
@@ -47,7 +47,8 @@ class ContactViewFeatured extends JViewLegacy
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
@@ -66,9 +67,11 @@ class ContactViewFeatured extends JViewLegacy
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
-			if ($item->params->get('show_email', 0) == 1) {
+			if ($item->params->get('show_email', 0) == 1)
+			{
 				$item->email_to = trim($item->email_to);
-				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to)) {
+				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to))
+				{
 					$item->email_to = JHtml::_('email.cloak', $item->email_to);
 				} else {
 					$item->email_to = '';
@@ -107,22 +110,27 @@ class ContactViewFeatured extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
+		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		} else {
+		}
+		else
+		{
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
 		$id = (int) @$menu->query['id'];
 
 		$title = $this->params->get('page_title', '');
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);

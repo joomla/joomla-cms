@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,8 @@ class MenusViewMenus extends JViewLegacy
 		MenusHelper::addSubmenu('menus');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -52,7 +53,7 @@ class MenusViewMenus extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -62,19 +63,23 @@ class MenusViewMenus extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'menumgr.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('menu.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('menu.edit');
 		}
-		if ($canDo->get('core.delete')) {
+		if ($canDo->get('core.delete'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::deleteList('', 'menus.delete');
 		}
 
 		JToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_menus');
 		}

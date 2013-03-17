@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -280,7 +280,7 @@ class JCategories
  			c.path, c.published, c.rgt, c.title, c.modified_user_id');
 
 		// Filter by language
-		if ($app->isSite() && $app->getLanguageFilter())
+		if (empty($this->_options['allLanguages']) && $app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$query->where(
 				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' .

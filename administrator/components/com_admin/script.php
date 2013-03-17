@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,12 +16,12 @@ defined('_JEXEC') or die;
  * @subpackage  com_admin
  * @since       1.6.4
  */
-class joomlaInstallerScript
+class JoomlaInstallerScript
 {
 	/**
-	 * method to update Joomla!
+	 * Method to update Joomla!
 	 *
-	 * @param	JInstallerFile	$installer	The class calling this method
+	 * @param   JInstallerFile	$installer	The class calling this method
 	 *
 	 * @return void
 	 */
@@ -148,7 +148,6 @@ class joomlaInstallerScript
 		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
 		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
 		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
-		$extensions[] = array('plugin', 'geshi', 'content', 0);
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
 		$extensions[] = array('plugin', 'pagenavigation', 'content', 0);
@@ -205,7 +204,8 @@ class joomlaInstallerScript
 		$query = $db->getQuery(true);
 		$query->select('*');
 		$query->from('#__extensions');
-		foreach ($extensions as $extension) {
+		foreach ($extensions as $extension)
+		{
 			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
 		}
 		$db->setQuery($query);
@@ -217,8 +217,10 @@ class joomlaInstallerScript
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
 			return;
 		}
-		foreach ($extensions as $extension) {
-			if (!$installer->refreshManifestCache($extension->extension_id)) {
+		foreach ($extensions as $extension)
+		{
+			if (!$installer->refreshManifestCache($extension->extension_id))
+			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id).'<br />';
 			}
 		}
@@ -301,6 +303,7 @@ class joomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.4-2011-12-12.sql',
 			'/administrator/components/com_admin/views/sysinfo/tmpl/default_navigation.php',
 			'/administrator/components/com_categories/config.xml',
+			'/administrator/components/com_categories/helpers/categoriesadministrator.php',
 			'/administrator/components/com_contact/elements/contact.php',
 			'/administrator/components/com_contact/elements/index.html',
 			'/administrator/components/com_content/elements/article.php',
@@ -315,6 +318,7 @@ class joomlaInstallerScript
 			'/administrator/components/com_installer/models/forms/manage.xml',
 			'/administrator/components/com_installer/views/install/tmpl/default_form.php',
 			'/administrator/components/com_installer/views/manage/tmpl/default_filter.php',
+			'/administrator/components/com_languages/views/installed/tmpl/default_ftp.php',
 			'/administrator/components/com_languages/views/installed/tmpl/default_navigation.php',
 			'/administrator/components/com_modules/models/fields/index.html',
 			'/administrator/components/com_modules/models/fields/moduleorder.php',
@@ -330,6 +334,8 @@ class joomlaInstallerScript
 			'/administrator/manifests/packages/pkg_joomla.xml',
 			'/administrator/modules/mod_submenu/helper.php',
 			'/administrator/templates/hathor/css/ie6.css',
+			'/administrator/templates/hathor/html/mod_submenu/index.html',
+			'/administrator/templates/hathor/html/mod_submenu/default.php',
 			'/components/com_media/controller.php',
 			'/components/com_media/helpers/index.html',
 			'/components/com_media/helpers/media.php',
@@ -525,6 +531,31 @@ class joomlaInstallerScript
 			'/libraries/joomla/utilities/xmlelement.php',
 			'/media/plg_quickicon_extensionupdate/extensionupdatecheck.js',
 			'/media/plg_quickicon_joomlaupdate/jupdatecheck.js',
+			// Joomla! 3.1
+			'/libraries/joomla/form/rules/boolean.php',
+			'/libraries/joomla/form/rules/color.php',
+			'/libraries/joomla/form/rules/email.php',
+			'/libraries/joomla/form/rules/equals.php',
+			'/libraries/joomla/form/rules/index.html',
+			'/libraries/joomla/form/rules/options.php',
+			'/libraries/joomla/form/rules/rules.php',
+			'/libraries/joomla/form/rules/tel.php',
+			'/libraries/joomla/form/rules/url.php',
+			'/libraries/joomla/form/rules/username.php',
+			'/libraries/joomla/installer/adapters/component.php',
+			'/libraries/joomla/installer/adapters/file.php',
+			'/libraries/joomla/installer/adapters/index.html',
+			'/libraries/joomla/installer/adapters/language.php',
+			'/libraries/joomla/installer/adapters/library.php',
+			'/libraries/joomla/installer/adapters/module.php',
+			'/libraries/joomla/installer/adapters/package.php',
+			'/libraries/joomla/installer/adapters/plugin.php',
+			'/libraries/joomla/installer/adapters/template.php',
+			'/libraries/joomla/installer/extension.php',
+			'/libraries/joomla/installer/helper.php',
+			'/libraries/joomla/installer/index.html',
+			'/libraries/joomla/installer/librarymanifest.php',
+			'/libraries/joomla/installer/packagemanifest.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -561,18 +592,26 @@ class joomlaInstallerScript
 			'/libraries/joomla/html/parameter/element',
 			'/libraries/joomla/image/filters',
 			'/libraries/joomla/log/loggers',
+			// Joomla! 3.1
+			'/libraries/joomla/form/rules',
+			'/libraries/joomla/installer/adapters',
+			'/libraries/joomla/installer',
 		);
 
 		jimport('joomla.filesystem.file');
-		foreach ($files as $file) {
-			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file)) {
+		foreach ($files as $file)
+		{
+			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file).'<br />';
 			}
 		}
 
 		jimport('joomla.filesystem.folder');
-		foreach ($folders as $folder) {
-			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder)) {
+		foreach ($folders as $folder)
+		{
+			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
+			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder).'<br />';
 			}
 		}

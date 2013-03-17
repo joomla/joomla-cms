@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,13 +21,14 @@ class MenusModelItems extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'menutype', 'a.menutype',
@@ -47,15 +48,7 @@ class MenusModelItems extends JModelList
 			);
 
 			$app = JFactory::getApplication();
-			if (isset($app->menu_associations))
-			{
-				$assoc = $app->menu_associations;
-			}
-			else
-			{
-				$assoc = 0;
-			}
-
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -70,8 +63,8 @@ class MenusModelItems extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -101,10 +94,12 @@ class MenusModelItems extends JModelList
 				$app->input->set('limitstart', 0);
 			}
 		}
-		else {
+		else
+		{
 			$menuType = $app->getUserState($this->context.'.filter.menutype');
 
-			if (!$menuType) {
+			if (!$menuType)
+			{
 				$menuType = $this->getDefaultMenuType();
 			}
 		}
@@ -129,10 +124,10 @@ class MenusModelItems extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -152,8 +147,8 @@ class MenusModelItems extends JModelList
 	 *
 	 * In the absence of better information, this is the first menu ordered by title.
 	 *
-	 * @return	string	The default menu type
-	 * @since	1.6
+	 * @return  string	The default menu type
+	 * @since   1.6
 	 */
 	protected function getDefaultMenuType()
 	{
@@ -172,7 +167,7 @@ class MenusModelItems extends JModelList
 	/**
 	 * Builds an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery	A query object.
+	 * @return  JDatabaseQuery	A query object.
 	 */
 	protected function getListQuery()
 	{
@@ -196,6 +191,7 @@ class MenusModelItems extends JModelList
 			' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
 			' WHEN ' . $db->quote('alias') . ' THEN a.published+4 ' .
 			' WHEN ' . $db->quote('separator') . ' THEN a.published+6 ' .
+			' WHEN ' . $db->quote('heading') . ' THEN a.published+8 ' .
 			' END AS published');
 		$query->from($db->quoteName('#__menu').' AS a');
 
@@ -216,7 +212,7 @@ class MenusModelItems extends JModelList
 		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the associations.
-		$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association');
@@ -235,18 +231,24 @@ class MenusModelItems extends JModelList
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			$query->where('a.published = '.(int) $published);
-		} elseif ($published === '') {
+		} elseif ($published === '')
+		{
 			$query->where('(a.published IN (0, 1))');
 		}
 
 		// Filter by search in title, alias or id
-		if ($search = trim($this->getState('filter.search'))) {
-			if (stripos($search, 'id:') === 0) {
+		if ($search = trim($this->getState('filter.search')))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
-			} elseif (stripos($search, 'link:') === 0) {
-				if ($search = substr($search, 5)) {
+			} elseif (stripos($search, 'link:') === 0)
+			{
+				if ($search = substr($search, 5))
+				{
 					$search = $db->Quote('%'.$db->escape($search, true).'%');
 					$query->where('a.link LIKE '.$search);
 				}
@@ -258,18 +260,21 @@ class MenusModelItems extends JModelList
 
 		// Filter the items over the parent id if set.
 		$parentId = $this->getState('filter.parent_id');
-		if (!empty($parentId)) {
+		if (!empty($parentId))
+		{
 			$query->where('p.id = ' . (int) $parentId);
 		}
 
 		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
-		if (!empty($menuType)) {
+		if (!empty($menuType))
+		{
 			$query->where('a.menutype = '.$db->quote($menuType));
 		}
 
 		// Filter on the access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$query->where('a.access = '.(int) $access);
 		}
 
@@ -281,12 +286,14 @@ class MenusModelItems extends JModelList
 		}
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level')) {
+		if ($level = $this->getState('filter.level'))
+		{
 			$query->where('a.level <= '.(int) $level);
 		}
 
 		// Filter on the language.
-		if ($language = $this->getState('filter.language')) {
+		if ($language = $this->getState('filter.language'))
+		{
 			$query->where('a.language = '.$db->quote($language));
 		}
 

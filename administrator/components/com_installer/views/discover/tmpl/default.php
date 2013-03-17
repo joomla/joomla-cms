@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <div id="installer-discover">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=discover');?>" method="post" name="adminForm" id="adminForm">
 	
-	<?php if(!empty( $this->sidebar)): ?>
+	<?php if (!empty( $this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
     </div>  
@@ -53,7 +53,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<tfoot><tr><td colspan="10"><?php echo $this->pagination->getListFooter(); ?></td></tr>
   			</tfoot>
   			<tbody>
-  			<?php foreach ($this->items as $i => $item): ?>
+  			<?php foreach ($this->items as $i => $item) : ?>
   				<tr class="row<?php echo $i % 2;?>">
   					<td><?php echo JHtml::_('grid.id', $i, $item->extension_id); ?></td>
   					<td><span class="bold hasTip" title="<?php echo htmlspecialchars($item->name.'::'.$item->description); ?>"><?php echo $item->name; ?></span></td>

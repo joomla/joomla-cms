@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Search
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,6 @@
 class JSearchHelperTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @covers JSearchHelper::logSearch
 	 * @todo   Implement testLogSearch().
 	 */
 	public function testLogSearch()

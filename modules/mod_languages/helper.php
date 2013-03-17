@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
  * @package     Joomla.Site
  * @subpackage  mod_languages
  */
-abstract class modLanguagesHelper
+abstract class ModLanguagesHelper
 {
 	public static function getList(&$params)
 	{
@@ -28,14 +28,17 @@ abstract class modLanguagesHelper
 
 		// Get menu home items
 		$homes = array();
-		foreach($menu->getMenu() as $item) {
-			if ($item->home) {
+
+		foreach ($menu->getMenu() as $item)
+		{
+			if ($item->home)
+			{
 				$homes[$item->language] = $item;
 			}
 		}
 
 		// Load associations
-		$assoc = isset($app->menu_associations) ? $app->menu_associations : 0;
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
 			$active = $menu->getActive();
@@ -43,30 +46,49 @@ abstract class modLanguagesHelper
 			{
 				$associations = MenusHelper::getAssociations($active->id);
 			}
+			// load component associations
+			$option = $app->input->get('option');
+			$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
+			$cName = JString::ucfirst($eName.'HelperAssociation');
+			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+
+			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			{
+				$cassociations = call_user_func(array($cName, 'getAssociations'));
+			}
 		}
 
 		$levels		= $user->getAuthorisedViewLevels();
 		$languages	= JLanguageHelper::getLanguages();
 
 		// Filter allowed languages
-		foreach($languages as $i => &$language) {
+		foreach ($languages as $i => &$language) {
 
 			// Do not display language without frontend UI
-			if (!JLanguage::exists($language->lang_code)) {
+			if (!JLanguage::exists($language->lang_code))
+			{
 				unset($languages[$i]);
 			}
 			// Do not display language without specific home menu
-			elseif (!isset($homes[$language->lang_code])) {
+			elseif (!isset($homes[$language->lang_code]))
+			{
 				unset($languages[$i]);
 			}
 			// Do not display language without authorized access level
-			elseif (isset($language->access) && $language->access && !in_array($language->access, $levels)) {
+			elseif (isset($language->access) && $language->access && !in_array($language->access, $levels))
+			{
 				unset($languages[$i]);
 			}
 			else {
 				$language->active = $language->lang_code == $lang->getTag();
-				if ($app->getLanguageFilter()) {
-					if (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code])) {
+				if (JLanguageMultilang::isEnabled())
+				{
+					if (isset($cassociations[$language->lang_code]))
+					{
+						$language->link = JRoute::_($cassociations[$language->lang_code].'&lang='.$language->sef);
+					}
+					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
+					{
 						$itemid = $associations[$language->lang_code];
 						if ($app->getCfg('sef') == '1')
 						{

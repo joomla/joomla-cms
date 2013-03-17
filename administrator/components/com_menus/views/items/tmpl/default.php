@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,15 +29,20 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'itemList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 $sortFields = $this->getSortFields();
+$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
-	Joomla.orderTable = function() {
+	Joomla.orderTable = function()
+	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>') {
+		if (order != '<?php echo $listOrder; ?>')
+		{
 			dirn = 'asc';
-		} else {
+		}
+		else
+		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, '');
@@ -45,7 +50,7 @@ $sortFields = $this->getSortFields();
 </script>
 <?php //Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -102,13 +107,13 @@ $sortFields = $this->getSortFields();
 					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 					</th>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-					</th>
-					<?php if (isset($app->menu_associations)) : ?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-					</th>
+				<th width="10%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+				</th>
+				<?php if ($assoc) : ?>
+				<th width="5%" class="nowrap hidden-phone">
+					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+				</th>
 					<?php endif;?>
 					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
@@ -204,7 +209,7 @@ $sortFields = $this->getSortFields();
 							<?php else : ?>
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
 							<?php endif; ?>
-						<?php elseif($item->type == 'url' && $item->note) : ?>
+						<?php elseif ($item->type == 'url' && $item->note) : ?>
 							<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 						<?php endif; ?>
 						</span>
@@ -227,13 +232,13 @@ $sortFields = $this->getSortFields();
 							<?php endif;?>
 						<?php endif; ?>
 					</td>
-					<td class="small hidden-phone">
-						<?php echo $this->escape($item->access_level); ?>
-					</td>
-					<?php if (isset($app->menu_associations)):?>
-					<td class="small hidden-phone">
-						<?php if ($item->association):?>
-							<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
+				<td class="small hidden-phone">
+					<?php echo $this->escape($item->access_level); ?>
+				</td>
+				<?php if ($assoc):?>
+				<td class="small hidden-phone">
+					<?php if ($item->association):?>
+						<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
 						<?php endif;?>
 					</td>
 					<?php endif;?>

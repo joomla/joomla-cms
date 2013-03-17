@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,10 +35,12 @@ class CheckinController extends JControllerLegacy
 
 		$ids = $this->input->get('cid', array(), 'array');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
@@ -52,10 +54,10 @@ class CheckinController extends JControllerLegacy
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function addSubmenu($vName)
 	{
@@ -75,7 +77,5 @@ class CheckinController extends JControllerLegacy
 			'index.php?option=com_cache&view=purge',
 			$vName == 'purge'
 		);
-
 	}
-
 }

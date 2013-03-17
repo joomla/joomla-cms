@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,7 +60,8 @@ abstract class JHtmlDropdown
 						$('.btn-group',$(this)).removeClass('open');
 					});
 
-					contextAction =function (cbId, task) {
+					contextAction =function (cbId, task)
+					{
 						$('input[name=\"cid[]\"]').removeAttr('checked');
 						$('#' + cbId).attr('checked','checked');
 						Joomla.submitbutton(task);

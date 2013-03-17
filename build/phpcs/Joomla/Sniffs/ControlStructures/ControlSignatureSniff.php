@@ -83,7 +83,7 @@ class Joomla_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSnif
 	protected function processPattern($patternInfo, PHP_CodeSniffer_File $phpcsFile
 	, $stackPtr)
 	{
-		if(0)
+		if (0)
 		{
 			/*
 			 * @todo disabled - This is a special sniff for the Joomla! CMS to exclude
@@ -92,7 +92,7 @@ class Joomla_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSnif
 
 			$parts = explode(DIRECTORY_SEPARATOR, $phpcsFile->getFileName());
 
-			if('tmpl' == $parts[count($parts) - 2])
+			if ('tmpl' == $parts[count($parts) - 2])
 			{
 				return false;
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,14 +15,18 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form'))) {
+		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form')))
+		{
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
-		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
@@ -110,6 +114,10 @@ JHtml::_('behavior.keepalive');
 			<?php echo $this->loadTemplate('params'); ?>
 
 			<?php echo $this->loadTemplate('metadata'); ?>
+
+			<?php if ($assoc) : ?>
+				<?php echo $this->loadTemplate('associations'); ?>
+			<?php endif; ?>
 
 		<?php echo JHtml::_('sliders.end'); ?>
 		<input type="hidden" name="task" value="" />

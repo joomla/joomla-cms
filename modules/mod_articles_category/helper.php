@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  */
-abstract class modArticlesCategoryHelper
+abstract class ModArticlesCategoryHelper
 {
 	public static function getList(&$params)
 	{
@@ -50,7 +50,8 @@ abstract class modArticlesCategoryHelper
 			case 'dynamic':
 				$option = $app->input->get('option');
 				$view = $app->input->get('view');
-				if ($option === 'com_content') {
+				if ($option === 'com_content')
+				{
 					switch($view)
 					{
 						case 'category':
@@ -60,11 +61,13 @@ abstract class modArticlesCategoryHelper
 							$catids = array($app->input->getInt('id'));
 							break;
 						case 'article':
-							if ($params->get('show_on_article_page', 1)) {
+							if ($params->get('show_on_article_page', 1))
+							{
 								$article_id = $app->input->getInt('id');
 								$catid = $app->input->getInt('catid');
 
-								if (!$catid) {
+								if (!$catid)
+								{
 									// Get an instance of the generic article model
 									$article = JModelLegacy::getInstance('Article', 'ContentModel', array('ignore_request' => true));
 
@@ -75,7 +78,8 @@ abstract class modArticlesCategoryHelper
 
 									$catids = array($item->catid);
 								}
-								else {
+								else
+								{
 									$catids = array($catid);
 								}
 							}
@@ -106,8 +110,10 @@ abstract class modArticlesCategoryHelper
 		}
 
 		// Category filter
-		if ($catids) {
-			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0) {
+		if ($catids)
+		{
+			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0)
+			{
 				// Get an instance of the generic categories model
 				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
@@ -117,7 +123,7 @@ abstract class modArticlesCategoryHelper
 				$categories->setState('filter.access', $access);
 				$additional_catids = array();
 
-				foreach($catids as $catid)
+				foreach ($catids as $catid)
 				{
 					$categories->setState('filter.parentId', $catid);
 					$recursive = true;
@@ -125,10 +131,11 @@ abstract class modArticlesCategoryHelper
 
 					if ($items)
 					{
-						foreach($items as $category)
+						foreach ($items as $category)
 						{
 							$condition = (($category->level - $categories->getParent()->level) <= $levels);
-							if ($condition) {
+							if ($condition)
+							{
 								$additional_catids[] = $category->id;
 							}
 
@@ -154,14 +161,16 @@ abstract class modArticlesCategoryHelper
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 		$excluded_articles = $params->get('excluded_articles', '');
 
-		if ($excluded_articles) {
+		if ($excluded_articles)
+		{
 			$excluded_articles = explode("\r\n", $excluded_articles);
 			$articles->setState('filter.article_id', $excluded_articles);
 			$articles->setState('filter.article_id.include', false); // Exclude
 		}
 
 		$date_filtering = $params->get('date_filtering', 'off');
-		if ($date_filtering !== 'off') {
+		if ($date_filtering !== 'off')
+		{
 			$articles->setState('filter.date_filtering', $date_filtering);
 			$articles->setState('filter.date_field', $params->get('date_field', 'a.created'));
 			$articles->setState('filter.start_date_range', $params->get('start_date_range', '1000-01-01 00:00:00'));
@@ -188,10 +197,12 @@ abstract class modArticlesCategoryHelper
 		$option = $app->input->get('option');
 		$view = $app->input->get('view');
 
-		if ($option === 'com_content' && $view === 'article') {
+		if ($option === 'com_content' && $view === 'article')
+		{
 			$active_article_id = $app->input->getInt('id');
 		}
-		else {
+		else
+		{
 			$active_article_id = 0;
 		}
 
@@ -228,11 +239,13 @@ abstract class modArticlesCategoryHelper
 			$item->active = $item->id == $active_article_id ? 'active' : '';
 
 			$item->displayDate = '';
-			if ($show_date) {
+			if ($show_date)
+			{
 				$item->displayDate = JHTML::_('date', $item->$show_date_field, $show_date_format);
 			}
 
-			if ($item->catid) {
+			if ($item->catid)
+			{
 				$item->displayCategoryLink = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catid));
 				$item->displayCategoryTitle = $show_category ? '<a href="'.$item->displayCategoryLink.'">'.$item->category_title.'</a>' : '';
 			}
@@ -242,7 +255,8 @@ abstract class modArticlesCategoryHelper
 
 			$item->displayHits = $show_hits ? $item->hits : '';
 			$item->displayAuthorName = $show_author ? $item->author : '';
-			if ($show_introtext) {
+			if ($show_introtext)
+			{
 				$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_category.content');
 				$item->introtext = self::_cleanIntrotext($item->introtext);
 			}
@@ -314,21 +328,25 @@ abstract class modArticlesCategoryHelper
 	{
 		$grouped = array();
 
-		if (!is_array($list)) {
-			if ($list == '') {
+		if (!is_array($list))
+		{
+			if ($list == '')
+			{
 				return $grouped;
 			}
 
 			$list = array($list);
 		}
 
-		foreach($list as $key => $item)
+		foreach ($list as $key => $item)
 		{
-			if (!isset($grouped[$item->$fieldName])) {
+			if (!isset($grouped[$item->$fieldName]))
+			{
 				$grouped[$item->$fieldName] = array();
 			}
 
-			if (is_null($fieldNameToKeep)) {
+			if (is_null($fieldNameToKeep))
+			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}
 			else {
@@ -347,22 +365,25 @@ abstract class modArticlesCategoryHelper
 	{
 		$grouped = array();
 
-		if (!is_array($list)) {
-			if ($list == '') {
+		if (!is_array($list))
+		{
+			if ($list == '')
+			{
 				return $grouped;
 			}
 
 			$list = array($list);
 		}
 
-		foreach($list as $key => $item)
+		foreach ($list as $key => $item)
 		{
 			switch($type)
 			{
 				case 'month_year':
 					$month_year = JString::substr($item->created, 0, 7);
 
-					if (!isset($grouped[$month_year])) {
+					if (!isset($grouped[$month_year]))
+					{
 						$grouped[$month_year] = array();
 					}
 
@@ -373,7 +394,8 @@ abstract class modArticlesCategoryHelper
 				default:
 					$year = JString::substr($item->created, 0, 4);
 
-					if (!isset($grouped[$year])) {
+					if (!isset($grouped[$year]))
+					{
 						$grouped[$year] = array();
 					}
 
@@ -386,8 +408,9 @@ abstract class modArticlesCategoryHelper
 
 		$article_grouping_direction($grouped);
 
-		if ($type === 'month_year') {
-			foreach($grouped as $group => $items)
+		if ($type === 'month_year')
+		{
+			foreach ($grouped as $group => $items)
 			{
 				$date = new JDate($group);
 				$formatted_group = $date->format($month_year_format);

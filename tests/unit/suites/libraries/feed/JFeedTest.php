@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,8 +57,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::__get
 	 */
 	public function testMagicGetSet()
 	{
@@ -77,8 +75,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::__get
 	 */
 	public function testMagicGetNull()
 	{
@@ -91,8 +87,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::__set
 	 */
 	public function testMagicSetUpdatedDateString()
 	{
@@ -109,8 +103,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::__set
 	 */
 	public function testMagicSetUpdatedDateJDateObject()
 	{
@@ -129,8 +121,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::__set
 	 */
 	public function testMagicSetAuthorWithPerson()
 	{
@@ -151,7 +141,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeed::__set
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testMagicSetAuthorWithInvalidAuthor()
@@ -166,7 +155,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeed::__set
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testMagicSetCategoriesWithInvalidProperty()
@@ -180,8 +168,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::__set
 	 */
 	public function testMagicSetGeneral()
 	{
@@ -198,8 +184,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::addCategory
 	 */
 	public function testAddCategory()
 	{
@@ -216,8 +200,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::addContributor
 	 */
 	public function testAddContributor()
 	{
@@ -244,8 +226,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::addEntry
 	 */
 	public function testAddEntry()
 	{
@@ -271,8 +251,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::offsetExists
 	 */
 	public function testOffsetExists()
 	{
@@ -293,8 +271,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::offsetGet
 	 */
 	public function testOffsetGet()
 	{
@@ -316,7 +292,6 @@ class JFeedTest extends TestCase
 	 *
 	 * @since   3.0
 	 *
-	 * @covers  JFeed::offsetSet
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testOffsetSetWithString()
@@ -330,8 +305,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::offsetSet
 	 */
 	public function testOffsetSet()
 	{
@@ -350,8 +323,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::offsetUnset
 	 */
 	public function testOffsetUnset()
 	{
@@ -374,8 +345,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::removeCategory
 	 */
 	public function testRemoveCategory()
 	{
@@ -398,8 +367,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::removeContributor
 	 */
 	public function testRemoveContributor()
 	{
@@ -425,8 +392,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::removeEntry
 	 */
 	public function testRemoveEntry()
 	{
@@ -451,8 +416,6 @@ class JFeedTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JFeed::setAuthor
 	 */
 	public function testSetAuthor()
 	{

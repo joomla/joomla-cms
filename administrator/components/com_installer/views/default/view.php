@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,27 +19,38 @@ defined('_JEXEC') or die;
 class InstallerViewDefault extends JViewLegacy
 {
 	/**
-	 * @since	1.5
+	 * Constructor
+	 *
+	 * @param   array  $config  Configuration array
+	 *
+	 * @since   1.5
 	 */
 	public function __construct($config = null)
 	{
 		$app = JFactory::getApplication();
 		parent::__construct($config);
 		$this->_addPath('template', $this->_basePath . '/views/default/tmpl');
-		$this->_addPath('template', JPATH_THEMES.'/'.$app->getTemplate().'/html/com_installer/default');
+		$this->_addPath('template', JPATH_THEMES . '/' . $app->getTemplate() . '/html/com_installer/default');
 	}
 
 	/**
-	 * @since	1.5
+	 * Display the view
+	 *
+	 * @param   string  $tpl  Template
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
-	public function display($tpl=null)
+	public function display($tpl = null)
 	{
 		// Get data from the model
 		$state	= $this->get('State');
 
 		// Are there messages to display ?
 		$showMessage	= false;
-		if (is_object($state)) {
+		if (is_object($state))
+		{
 			$message1		= $state->get('message');
 			$message2		= $state->get('extension_message');
 			$showMessage	= ($message1 || $message2);
@@ -56,14 +67,17 @@ class InstallerViewDefault extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
 		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_installer');
 			JToolbarHelper::divider();
 		}

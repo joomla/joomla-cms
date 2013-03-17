@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ class JHtmlUsers
 	 * @param   integer  $count   The number of notes for the user
 	 * @param   integer  $userId  The user ID
 	 *
-	 * @return	string  A link to apply a filter
+	 * @return  string  A link to apply a filter
 	 *
 	 * @since   2.5
 	 */
@@ -89,7 +89,7 @@ class JHtmlUsers
 	 * @param   integer  $count   The number of notes for the user
 	 * @param   integer  $userId  The user ID
 	 *
-	 * @return	string  A link to a modal window with the user notes
+	 * @return  string  A link to a modal window with the user notes
 	 *
 	 * @since   2.5
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_languages
  * @since       1.7.1
  */
-abstract class multilangstatusHelper
+abstract class MultilangstatusHelper
 {
 	public static function getHomes()
 	{
@@ -67,6 +67,7 @@ abstract class multilangstatusHelper
 		$query->from('#__extensions AS a');
 		$query->where('a.type = '.$db->Quote('language'));
 		$query->where('a.client_id = 0');
+		$query->where('a.enabled = 1');
 		$db->setQuery($query);
 		return $db->loadObjectList('element');
 	}

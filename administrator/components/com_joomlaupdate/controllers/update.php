@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,10 +129,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean  $cachable   If true, the view output will be cached
-	 * @param	array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JoomlaupdateControllerUpdate  This object to support chaining.
+	 * @return  JoomlaupdateControllerUpdate  This object to support chaining.
 	 *
 	 * @since	2.5.4
 	 */
@@ -147,7 +147,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat))
+		{
 			// Get the model for the view.
 			$model = $this->getModel('Default');
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,12 @@ JHtml::_('behavior.caption');
 		<?php endif; ?>
 	</h2>
 	<?php endif; ?>
+
+	<?php if ($this->params->get('show_tags', 1) && !empty($this->category->tags->itemTags)) : ?>
+		<?php $this->category->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->category->tagLayout->render($this->category->tags->itemTags); ?>
+	<?php endif; ?>
+
 	<?php if ($this->params->get('show_description', 1) || $this->params->def('show_description_image', 1)) : ?>
 	<div class="category-desc">
 		<?php if ($this->params->get('show_description_image') && $this->category->getParams()->get('image')) : ?>
@@ -78,12 +84,12 @@ JHtml::_('behavior.caption');
 				</div><!-- end item -->
 				<?php $counter++; ?>
 			</div><!-- end spann -->
-			<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>			
+			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 		</div><!-- end row -->
 			<?php endif; ?>
 	<?php endforeach; ?>
 	<?php endif; ?>
-	
+
 	<?php if (!empty($this->link_items)) : ?>
 	<div class="items-more">
 	<?php echo $this->loadTemplate('links'); ?>
@@ -91,7 +97,9 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 	<?php if (!empty($this->children[$this->category->id])&& $this->maxLevel != 0) : ?>
 	<div class="cat-children">
+	<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<h3> <?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?> </h3>
+	<?php endif; ?>		
 		<?php echo $this->loadTemplate('children'); ?> </div>
 	<?php endif; ?>
 	<?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->get('pages.total') > 1)) : ?>

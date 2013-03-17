@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,13 +20,17 @@ abstract class JHtmlUsers
 {
 	public static function value($value)
 	{
-		if (is_string($value)) {
+		if (is_string($value))
+		{
 			$value = trim($value);
 		}
-		if (empty($value)) {
+		if (empty($value))
+		{
 			return JText::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
 		}
-		else {
+
+		elseif (!is_array($value))
+		{
 			return htmlspecialchars($value);
 		}
 	}
@@ -85,7 +89,8 @@ abstract class JHtmlUsers
 			$query->where('id = '.$db->quote($value));
 			$db->setQuery($query);
 			$title = $db->loadResult();
-			if ($title) {
+			if ($title)
+			{
 				return htmlspecialchars($title);
 			}
 			else {
@@ -106,11 +111,13 @@ abstract class JHtmlUsers
 			$file = "$value.xml";
 
 			$result = null;
-			if (is_file("$path/$file")) {
+			if (is_file("$path/$file"))
+			{
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
 			}
 
-			if ($result) {
+			if ($result)
+			{
 				return htmlspecialchars($result['name']);
 			}
 			else {
@@ -131,11 +138,13 @@ abstract class JHtmlUsers
 			$file = "$value.xml";
 
 			$result = null;
-			if (is_file("$path/$file")) {
+			if (is_file("$path/$file"))
+			{
 				$result = JLanguage::parseXMLLanguageFile("$path/$file");
 			}
 
-			if ($result) {
+			if ($result)
+			{
 				return htmlspecialchars($result['name']);
 			}
 			else {

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class ModulesModelSelect extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -51,9 +51,9 @@ class ModulesModelSelect extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string	A prefix for the store id.
+	 * @param   string	A prefix for the store id.
 	 *
-	 * @return	string	A store id.
+	 * @return  string	A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -66,7 +66,7 @@ class ModulesModelSelect extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -103,7 +103,7 @@ class ModulesModelSelect extends JModelList
 	/**
 	 * Method to get a list of items.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function &getItems()
 	{
@@ -115,9 +115,11 @@ class ModulesModelSelect extends JModelList
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			$path = JPath::clean($client->path.'/modules/'.$item->module.'/'.$item->module.'.xml');
-			if (file_exists($path)) {
+			if (file_exists($path))
+			{
 				$item->xml = simplexml_load_file($path);
 			} else {
 				$item->xml = null;
@@ -131,7 +133,8 @@ class ModulesModelSelect extends JModelList
 			||	$lang->load($item->module.'.sys', $client->path.'/modules/'.$item->module, $lang->getDefault(), false, false);
 			$item->name	= JText::_($item->name);
 
-			if (isset($item->xml) && $text = trim($item->xml->description)) {
+			if (isset($item->xml) && $text = trim($item->xml->description))
+			{
 				$item->desc = JText::_($text);
 			}
 			else {

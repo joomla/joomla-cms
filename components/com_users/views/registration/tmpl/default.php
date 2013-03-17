@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,14 +29,14 @@ JHtml::_('behavior.formvalidation');
 		?>
 			<legend><?php echo JText::_($fieldset->label);?></legend>
 		<?php endif;?>
-		<?php foreach($fields as $field):// Iterate through the fields in the set and display them.?>
+		<?php foreach ($fields as $field) :// Iterate through the fields in the set and display them.?>
 			<?php if ($field->hidden):// If the field is hidden, just display the input.?>
 				<?php echo $field->input;?>
 			<?php else:?>
 				<div class="control-group">
 					<div class="control-label">
 					<?php echo $field->label; ?>
-					<?php if (!$field->required && $field->type != 'Spacer'): ?>
+					<?php if (!$field->required && $field->type != 'Spacer') : ?>
 						<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL');?></span>
 					<?php endif; ?>
 					</div>
@@ -51,7 +51,7 @@ JHtml::_('behavior.formvalidation');
 <?php endforeach;?>
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary validate"><?php echo JText::_('JREGISTER');?></button>
-			<a class="cancel" href="<?php echo JRoute::_('');?>" title="<?php echo JText::_('JCANCEL');?>"><?php echo JText::_('JCANCEL');?></a>
+			<a class="btn" href="<?php echo JRoute::_('');?>" title="<?php echo JText::_('JCANCEL');?>"><?php echo JText::_('JCANCEL');?></a>
 			<input type="hidden" name="option" value="com_users" />
 			<input type="hidden" name="task" value="registration.register" />
 			<?php echo JHtml::_('form.token');?>
