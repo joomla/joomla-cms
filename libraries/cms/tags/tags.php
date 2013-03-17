@@ -49,7 +49,6 @@ class JTags
 				// Currently a new tag is a non-numeric
 				if (!is_numeric($tag))
 				{
-
 					// Unset the tag to avoid trying to insert a wrong value
 					unset($tags[$key]);
 
@@ -70,13 +69,14 @@ class JTags
 						// Prepare tag data
 						$tagTable->id        = 0;
 						$tagTable->title     = $tagText;
-						$tagTable->level     = 1;
 						$tagTable->published = 1;
-						$tagTable->parent_id = 1;
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';
 						$tagTable->access   = property_exists($item, 'access') ? $item->access : 0;
+
+						// Make this item a child of the root tag
+						$tagTable->setLocation($tagTable->getRootId(), 'last-child');
 
 						// Try to store tag
 						if ($tagTable->check())
