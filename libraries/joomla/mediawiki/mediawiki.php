@@ -102,78 +102,33 @@ class JMediawiki
      * @return  JMediaWikiObject  MediaWiki API object (users, reviews, etc).
      *
      * @since   12.3
+     * @throws  InvalidArgumentException
      */
 	public function __get($name)
 	{
-		if ($name == 'sites')
-		{
-			if ($this->sites == null)
-			{
-				$this->sites = new JMediawikiSites($this->options, $this->client);
-			}
-			return $this->sites;
-		}
+		$name = strtolower($name);
+		$class = 'JMediawiki' . ucfirst($name);
+		$accessible = array(
+			'categories',
+			'images',
+			'links',
+			'pages',
+			'search',
+			'sites',
+			'users'
+		);
 
-		if ($name == 'pages')
+		if (class_exists($class) && in_array($name, $accessible))
 		{
-			if ($this->pages == null)
+			if (!isset($this->$name))
 			{
-				$this->pages = new JMediawikiPages($this->options, $this->client);
-			}
-
-			return $this->pages;
-		}
-
-		if ($name == 'users')
-		{
-			if ($this->users == null)
-			{
-				$this->users = new JMediawikiUsers($this->options, $this->client);
+				$this->$name = new $class($this->options, $this->client);
 			}
 
-			return $this->users;
+			return $this->$name;
 		}
 
-		if ($name == 'links')
-		{
-			if ($this->links == null)
-			{
-				$this->links = new JMediawikiLinks($this->options, $this->client);
-			}
-
-			return $this->links;
-		}
-
-		if ($name == 'categories')
-		{
-			if ($this->categories == null)
-			{
-				$this->categories = new JMediawikiCategories($this->options, $this->client);
-			}
-
-			return $this->categories;
-		}
-
-		if ($name == 'images')
-		{
-			if ($this->images == null)
-			{
-				$this->images = new JMediawikiImages($this->options, $this->client);
-			}
-
-			return $this->images;
-		}
-
-		if ($name == 'search')
-		{
-			if ($this->search == null)
-			{
-				$this->search = new JMediawikiSearch($this->options, $this->client);
-			}
-
-			return $this->search;
-		}
-
+		throw new InvalidArgumentException(sprintf('Property %s is not accessible.', $name));
 	}
 
 	/**
