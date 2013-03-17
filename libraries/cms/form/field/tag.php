@@ -71,22 +71,25 @@ class JFormFieldTag extends JFormFieldList
 			$id    = isset($this->element['id']) ? $this->element['id'] : null;
 			$cssId = '#' . $this->getId($id, $this->element['name']);
 
-			// I know it's ugly
+			// Load the ajax-chosen customised field
 			JHtml::_('tag.ajaxfield', $cssId);
 		}
 
 		if (!is_array($this->value) && !empty($this->value))
 		{
-			if (empty($this->value->tags))
+			if ($this->value instanceof JTags)
 			{
-				// $this->value->tags = new JTags;
-				$this->value = array();
-			}
-			if (is_object($this->value))
-			{
-				$this->value = $this->value->tags;
+				if (empty($this->value->tags))
+				{
+					$this->value = array();
+				}
+				else
+				{
+					$this->value = $this->value->tags;
+				}
 			}
 
+			// String in format 2,5,4
 			if (is_string($this->value))
 			{
 				$this->value = explode(',', $this->value);
