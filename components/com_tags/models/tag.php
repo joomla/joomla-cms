@@ -148,7 +148,7 @@ class TagsModelTag extends JModelList
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
+			$query->where($db->qn('core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
 		}
 
 		$contentTypes = new JTags;

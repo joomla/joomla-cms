@@ -136,7 +136,7 @@ class TagsModelTags extends JModelList
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
+			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
 		}
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection);
