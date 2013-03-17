@@ -98,6 +98,9 @@ abstract class JHtmlFormbehavior
 		$afterTypeDelay = $options->get('afterTypeDelay', '500');
 		$minTermLength  = $options->get('minTermLength', '3');
 
+		JText::script('JGLOBAL_KEEP_TYPING');
+		JText::script('JGLOBAL_LOOKING_FOR');
+
 		// Ajax URL is mandatory
 		if (!empty($url))
 		{
