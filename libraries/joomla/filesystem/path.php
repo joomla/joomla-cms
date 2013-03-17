@@ -171,7 +171,6 @@ class JPath
 	{
 		if (strpos($path, '..') !== false)
 		{
-			// Don't translate
 			JError::raiseError(20, 'JPath::check Use of relative paths not permitted');
 			jexit();
 		}
@@ -196,9 +195,15 @@ class JPath
 	 * @return  string  The cleaned path.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
+		if (!is_string($path))
+		{
+			throw new UnexpectedValueException('JPath::clean: $path is not a string.');
+		}
+
 		$path = trim($path);
 
 		if (empty($path))
