@@ -100,12 +100,12 @@
 						value="0">JNO</option>
 				</field>
 				<field
-					name="word_count"
+					name="character_count"
 					type="text"
 					size="6"
 					default="0"
-					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
-					description="MOD_FEED_FIELD_WORDCOUNT_DESC" />
+					label="MOD_FEED_FIELD_CHARACTERCOUNT_LABEL"
+					description="MOD_FEED_FIELD_CHARACTERCOUNT_DESC" />
 			</fieldset>
 			<fieldset
 				name="advanced">

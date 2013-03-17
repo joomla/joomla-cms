@@ -109,7 +109,7 @@ if ($feed != false)
 						// Strip the images.
 						$text = JFilterOutput::stripImages($text);
 
-						$text = JHtml::_('string.truncate', $text, $params->get('word_count'));
+						$text = JHtml::_('string.truncateComplex', $text, $params->get('character_count'));
 						echo str_replace('&apos;', "'", $text);
 					?>
 					</div>
