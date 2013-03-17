@@ -103,7 +103,7 @@ class ContentHelperQuery
 				break;
 
 			case 'front' :
-				$orderby = 'fp.ordering';
+				$orderby = 'a.featured DESC, fp.ordering';
 				break;
 
 			default :
