@@ -858,13 +858,8 @@ class JTags
 	 *
 	 * @since   3.1
 	 */
-	public function getTagTreeArray($id = null, &$tagTreeArray = array())
+	public function getTagTreeArray($id, &$tagTreeArray = array())
 	{
-		if (empty($id))
-		{
-			$id = $this->getState('tag.id');
-		}
-
 		// Get a level row instance.
 		$table = JTable::getInstance('Tag', 'TagsTable');
 
