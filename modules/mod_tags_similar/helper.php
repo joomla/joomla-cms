@@ -91,7 +91,7 @@ abstract class ModTagssimilarHelper
 
 			foreach ($results as $result)
 			{
-				$explodedAlias = explode( '.', $result->type_alias);
+				$explodedAlias = explode('.', $result->type_alias);
 				$result->url = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
 			}
 

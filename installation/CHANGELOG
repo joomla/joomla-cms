@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Mar-2013 Michael Babker
+ ^ [#30262] Add PostgreSQL schema for tags, sync with MySQL, update script additions
+
 17-Mar-2013 Jean-Marie Simonet
  # [#30121] Save as copy does not work in com_weblinks, com_contacts, com_newsfeeds. Thanks Lemings
  # [#30267] *Modifying constant in logged in module (back-end)

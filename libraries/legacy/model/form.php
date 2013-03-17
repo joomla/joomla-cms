@@ -207,9 +207,10 @@ abstract class JModelForm extends JModelLegacy
 	 * Method to allow derived classes to preprocess the data.
 	 *
 	 * @param   string  $context  The context identifier.
-	 * @param   mixed   $data     The data to be processed. It gets altered directly.
+	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function preprocessData($context, &$data)

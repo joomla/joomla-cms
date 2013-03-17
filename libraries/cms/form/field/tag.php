@@ -31,14 +31,16 @@ class JFormFieldTag extends JFormFieldList
 	/**
 	 * Flag to work with nested tag field
 	 *
-	 * @var  boolean
+	 * @var    boolean
+	 * @since  3.1
 	 */
 	public $isNested = null;
 
 	/**
 	 * com_tags parameters
 	 *
-	 * @var  JRegistry
+	 * @var    JRegistry
+	 * @since  3.1
 	 */
 	protected $comParams = null;
 
@@ -206,8 +208,10 @@ class JFormFieldTag extends JFormFieldList
 	 * Determine if the field has to be tagnested
 	 *
 	 * @return  boolean
+	 *
+	 * @since   3.1
 	 */
-	function isNested()
+	public function isNested()
 	{
 		if (is_null($this->isNested))
 		{
