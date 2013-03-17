@@ -57,7 +57,9 @@ var JFormValidator = new Class({
 
 		// Attach to forms with class 'form-validate'
 		var forms = $$('form.form-validate');
-		forms.each(function(form){ this.attachToForm(form); }, this);
+		forms.each(function(form){ 
+			this.attachToForm(form); 
+		}, this);
 	},
 
 	setHandler: function(name, fn, en)
@@ -76,10 +78,14 @@ var JFormValidator = new Class({
 			}
 			if ((document.id(el).get('tag') == 'input' || document.id(el).get('tag') == 'button') && document.id(el).get('type') == 'submit') {
 				if (el.hasClass('validate')) {
-					el.onclick = function(){return document.formvalidator.isValid(this.form);};
+					el.onclick = function () {
+						return document.formvalidator.isValid(this.form);
+					};
 				}
 			} else {
-				el.addEvent('blur', function(){return document.formvalidator.validate(this);});
+				el.addEvent('blur', function () {
+					return document.formvalidator.validate(this);
+				});
 				if (el.hasClass('validate-email') && Browser.Features.inputemail) {
 					el.type = 'email';
 				}
@@ -142,6 +148,16 @@ var JFormValidator = new Class({
 	isValid: function(form)
 	{
 		var valid = true;
+	        // Precompute label-field associations
+	        var labels = document.getElementsByTagName('label');
+	        for (var i = 0; i < labels.length; i++) {
+	            if (labels[i].htmlFor != '') {
+	                var element = document.getElementById(labels[i].htmlFor);
+	                if (element) {
+	                    element.labelref = labels[i];
+	                }
+	            }
+	        }
 
 		// Validate form fields
 		var elements = form.getElements('fieldset').concat(Array.from(form.elements));
@@ -158,35 +174,11 @@ var JFormValidator = new Class({
 			}
 		});
 
-		if (!valid) {
-			var message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
-			var errors = jQuery("label.invalid");
-			var error = new Object();
-			error.error = new Array();
-			for (var i=0;i < errors.length; i++) {
-				var label = jQuery(errors[i]).text();
-				if (label != 'undefined') {
-					error.error[i] = message+label.replace("*", "");
-				}
-			}
-			Joomla.renderMessages(error);
-		}
-
 		return valid;
 	},
 
-	handleResponse: function(state, el)
-	{
-		// Find the label object for the given field if it exists
-		if (!(el.labelref)) {
-			var labels = $$('label');
-			labels.each(function(label){
-				if (label.get('for') == el.get('id')) {
-					el.labelref = label;
-				}
-			});
-		}
-
+    handleResponse:function (state, el) 
+    {
 		// Set the element and its label (if exists) invalid state
 		if (state == false) {
 			el.addClass('invalid');
