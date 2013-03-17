@@ -429,8 +429,8 @@ class JTags
 	/**
 	 * Method to get a query to retrieve a detailed list of items for a tag.
 	 *
-	 * @param   array    $typesr           Array of type aliases for content types to be included in the results
-	 * @param   array    $tagsid           Array of tags to be matched
+	 * @param   mixed    $tagId            Tag or array of tags to be matched
+	 * @param   mixed    $typesr           Null, type or array of type aliases for content types to be included in the results
 	 * @param   boolean  $includeChildren  True to include the results from child tags
 	 * @param   boolean  $matchAll         True to include items matching all tags in the array, false to include
 	 *                                     items that match at least one tag.
@@ -765,7 +765,6 @@ class JTags
 	}
 
 	/**
-<<<<<<< Upstream, based on master
 	 * Function to search tags
 	 *
 	 * @param   array  $filters  Filter to apply to the search
@@ -878,10 +877,6 @@ class JTags
 				$tagTreeArray[] = $tag->id;
 			}
 			return $tagTreeArray;
-		}
-		elseif ($error = $table->getError())
-		{
-			$this->setError($error);
 		}
 	}
 }
