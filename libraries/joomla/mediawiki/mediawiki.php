@@ -120,6 +120,7 @@ class JMediawiki
 			{
 				$this->pages = new JMediawikiPages($this->options, $this->client);
 			}
+
 			return $this->pages;
 		}
 
@@ -129,6 +130,7 @@ class JMediawiki
 			{
 				$this->users = new JMediawikiUsers($this->options, $this->client);
 			}
+
 			return $this->users;
 		}
 
@@ -138,6 +140,7 @@ class JMediawiki
 			{
 				$this->links = new JMediawikiLinks($this->options, $this->client);
 			}
+
 			return $this->links;
 		}
 
@@ -147,6 +150,7 @@ class JMediawiki
 			{
 				$this->categories = new JMediawikiCategories($this->options, $this->client);
 			}
+
 			return $this->categories;
 		}
 
@@ -156,6 +160,7 @@ class JMediawiki
 			{
 				$this->images = new JMediawikiImages($this->options, $this->client);
 			}
+
 			return $this->images;
 		}
 
@@ -165,6 +170,7 @@ class JMediawiki
 			{
 				$this->search = new JMediawikiSearch($this->options, $this->client);
 			}
+
 			return $this->search;
 		}
 
@@ -197,6 +203,7 @@ class JMediawiki
 	public function setOption($key, $value)
 	{
 		$this->options->set($key, $value);
+
 		return $this;
 	}
 }

@@ -53,6 +53,7 @@ class JMediawikiHttp extends JHttp
 	{
 		// Look for headers set in the options.
 		$temp = (array) $this->options->get('headers');
+
 		foreach ($temp as $key => $val)
 		{
 			if (!isset($headers[$key]))
@@ -79,6 +80,7 @@ class JMediawikiHttp extends JHttp
 	{
 		// Look for headers set in the options.
 		$temp = (array) $this->options->get('headers');
+
 		foreach ($temp as $key => $val)
 		{
 			if (!isset($headers[$key]))
