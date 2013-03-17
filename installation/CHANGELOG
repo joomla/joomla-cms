@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Mar-2013 Jean-Marie Simonet
+ # [#30121] Save as copy does not work in com_weblinks, com_contacts, com_newsfeeds. Thanks Lemings
+
 16-Mar-2013 Michael Babker
  # [#30259] Added (min) height to table cells with context.  Thanks Peter
  ^ [#30258] Added purge to find/update methods. Removed purge buttons.  Thanks Peter
