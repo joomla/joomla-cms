@@ -31,6 +31,7 @@ $ -> Language fix or change
  + [#30251] Add single tag feed view.  Thanks Elin
  # [#30256] Error in field mapping for contact.  Thanks Elin
  #+ [#29677] robots.txt in updates. Thanks Mark
+ ^ [#30311] Move code from tag model to tags class.  Thanks Elin
 
 17-Mar-2013 Jean-Marie Simonet
  # [#30121] Save as copy does not work in com_weblinks, com_contacts, com_newsfeeds. Thanks Lemings

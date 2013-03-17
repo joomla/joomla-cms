@@ -427,56 +427,137 @@ class JTags
 	}
 
 	/**
-	 * Method to get a list of items for a tag.
+	 * Method to get a query to retrieve a detailed list of items for a tag.
 	 *
-	 * @param   integer  $tag_id       ID of the item
-	 * @param   boolean  $getItemData  If true, data from the item tables will be included, defaults to true.
+	 * @param   mixed    $tagId            Tag or array of tags to be matched
+	 * @param   mixed    $typesr           Null, type or array of type aliases for content types to be included in the results
+	 * @param   boolean  $includeChildren  True to include the results from child tags
+	 * @param   boolean  $matchAll         True to include items matching all tags in the array, false to include
+	 *                                     items that match at least one tag.
+	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
 	 *
-	 * @return  array  Array of of tag objects
+	 * @return  JDatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
-	public function getTagItems($tag_id = null, $getItemData = true)
+	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
+			$matchAll = true, $languageFilter = 'all')
 	{
-		if (empty($tag_id))
-		{
-			$app = JFactory::getApplication('site');
-
-			// Load state from the request.
-			$tag_id = $app->input->getInt('id');
-		}
-
-		// Initialize some variables.
+		// Create a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
+		$user = JFactory::getUser();
+		$nullDate = $db->q($db->getNullDate());
 
-		$query->select($db->quoteName('type_alias'), $db->quoteName('id'));
-		$query->from($db->quoteName('#__contentitem_tag_map'));
-		$query->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
+		$ntagsr = substr_count($tagId, ',') + 1;
 
-		$db->setQuery($query);
-		$this->tagItems = $db->loadObjectList();
-
-		if ($getItemData)
+		// If we want to include children we have to adjust the list of tags.
+		// We do not search child tags when the match all option is selected.
+		if ($includeChildren)
 		{
-			foreach ($this->tagItems as $item)
+			if (!is_array($tagId))
 			{
-				$item_id = $item->content_item_id;
-				$table = $item->getTableName($item->type_alias);
+				$tagIdArray = explode(',', $tagId);
+			}
+			else
+			{
+				$tagIdArray = $tagId;
+			}
 
-				$query2 = $db->getQuery(true);
-				$query2->clear();
+			$tagTreeList = '';
 
-				$query2->select('*');
-				$query2->from($db->quoteName($table));
-				$query2->where($db->quoteName('id') . ' = ' . (int) $item_id);
-
-				$db->setQuery($query2);
-				$item->itemData = $db->loadAssoc();
+			foreach ($tagIdArray as $tag)
+			{
+				if ($this->getTagTreeArray($tag, $tagTreeArray))
+				{
+					$tagTreeList .= implode(',', $this->getTagTreeArray($tag, $tagTreeArray)) . ',';
+				}
+			}
+			if ($tagTreeList)
+			{
+				$tagId = trim($tagTreeList, ',');
 			}
 		}
+		if (is_array($tagId))
+		{
+			$tagId = implode($tagId);
+		}
+		// M is the mapping table. C is the core_content table. Ct is the content_types table.
+		$query->select('m.type_alias, m.content_item_id, m.core_content_id, count(m.tag_id) AS match_count,  MAX(m.tag_date) as tag_date, MAX(c.core_title) AS core_title');
+		$query->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access');
+		$query->select('MAX(c.core_metadata) AS core_metadata, MAX(c.core_created_user_id) AS core_created_user_id, MAX(c.core_created_by_alias) AS core_created_by_alias');
+		$query->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images');
+		$query->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time');
+		$query->select('MAX(c.core_language) AS core_language');
+		$query->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down');
+		$query->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router');
 
-		return $this->tagItems;
+		$query->from('#__contentitem_tag_map AS m');
+		$query->join('INNER', '#__core_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id');
+		$query->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias');
+
+		// Join over the users for the author and email
+		$query->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author");
+		$query->select("ua.email AS author_email");
+
+		$query->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id');
+
+		$query->where('m.tag_id IN (' . $tagId . ')');
+
+		// Optionally filter on language
+		if (empty($language))
+		{
+			$language = $languageFilter;
+		}
+
+		if ($language != 'all')
+		{
+			if ($language == 'current_language')
+			{
+				$language = JHelperContent::getCurrentLanguage();
+			}
+			$query->where($db->qn('core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+		}
+
+		$contentTypes = new JTags;
+
+		// Get the type data, limited to types in the request if there are any specified.
+		$typesarray = $contentTypes->getTypes('assocList', $typesr, false);
+
+		$typeAliases = '';
+
+		foreach ($typesarray as $type)
+		{
+			$typeAliases .= "'" . $type['type_alias'] . "'" . ',';
+		}
+
+		$typeAliases = rtrim($typeAliases, ',');
+		$query->where('m.type_alias IN (' . $typeAliases . ')');
+
+		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$query->where('c.core_access IN ('.$groups.')');
+		$query->group('m.type_alias, m.content_item_id, m.core_content_id');
+
+		// Use HAVING if matching all tags and we are matching more than one tag.
+		if ($ntagsr > 1  && $anyOrAll != 1 && $includeChildren != 1)
+		{
+			// The number of results should equal the number of tags requested.
+			$query->having("COUNT('m.tag_id') = " . $ntagsr);
+		}
+
+		// Set up the order by using the option chosen
+		if ($orderByOption == 'match_count')
+		{
+			$orderBy = 'COUNT(m.tag_id)';
+		}
+		else
+		{
+			$orderBy = 'MAX(c.core_' . $orderByOption . ')';
+		}
+
+		$query->order($orderBy . ' ' . $orderDir);
+
+		return $query;
 	}
 
 	/**
@@ -765,5 +846,37 @@ class JTags
 		}
 
 		return $results;
+	}
+	 /**
+	 * Method to get an array of tag ids for the current tag and its children
+	 *
+	 * @param   integer  $id             An optional ID
+	 * @param   array    &$tagTreeArray
+	 *
+	 * @return  mixed
+	 *
+	 * @since   3.1
+	 */
+	public function getTagTreeArray($id, &$tagTreeArray = array())
+	{
+		// Get a level row instance.
+		$table = JTable::getInstance('Tag', 'TagsTable');
+
+		if ($table->isLeaf($id))
+		{
+			$tagTreeArray[] .= $id;
+			return $tagTreeArray;
+		}
+		$tagTree = $table->getTree($id);
+
+		// Attempt to load the tree
+		if ($tagTree)
+		{
+			foreach ($tagTree as $tag)
+			{
+				$tagTreeArray[] = $tag->id;
+			}
+			return $tagTreeArray;
+		}
 	}
 }
