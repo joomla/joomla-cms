@@ -27,7 +27,8 @@ $ -> Language fix or change
 ! -> Note
 
 17-Mar-2013 Jean-Marie Simonet
-#+ [#29677] robots.txt in updates. Thanks Mark
+ #+ [#29677] robots.txt in updates. Thanks Mark
+ + [#29294] Show Correct Meta Titles in Joomla Admin for better usability. Thanks Parth
 
 16-Mar-2013 Michael Babker
  # [#30249] Show Intro Text = Hide currently has no effect in Featured and Category menu items.  Thanks Matt
