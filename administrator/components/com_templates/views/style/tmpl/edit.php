@@ -21,14 +21,12 @@ $this->fieldsets = $this->form->getFieldsets('params');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form')))
-		{
+		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));
 		}
 	}
 </script>
 
-<<<<<<< HEAD
 <form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
 	<fieldset class="adminform">
 		<ul class="nav nav-tabs">
@@ -59,53 +57,6 @@ $this->fieldsets = $this->form->getFieldsets('params');
 							<div class="controls">
 								<?php echo $this->form->getInput('title'); ?>
 							</div>
-=======
-<form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
-	<fieldset>
-		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
-
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('title'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('title'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('template'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('template'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('client_id'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('client_id'); ?>
-						<input type="text" size="35" value="<?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>	" class="readonly" readonly="readonly" />
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('home'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('home'); ?>
-					</div>
-				</div>
-				<?php if ($this->item->id) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('id'); ?>
-						</div>
-						<div class="controls">
-							<span class="disabled"><?php echo $this->item->id; ?></span>
->>>>>>> remotes/upstream/master
 						</div>
 						<div class="control-group">
 							<div class="control-label">
@@ -115,7 +66,6 @@ $this->fieldsets = $this->form->getFieldsets('params');
 								<?php echo $this->form->getInput('home'); ?>
 							</div>
 						</div>
-<<<<<<< HEAD
 					</div>
 					<div class="span6">
 						<?php if ($this->item->xml) : ?>
@@ -194,30 +144,6 @@ $this->fieldsets = $this->form->getFieldsets('params');
 	<input type="hidden" name="jform[id]" id="jform_id" value="<?php echo$this->item->id; ?>" />
 	<input type="hidden" name="jform[template]" id="jform_template" value="<?php echo$this->item->template; ?>" />
 	<input type="hidden" name="jform[client_id]" id="jform_client_id" value="<?php echo$this->item->client_id; ?>" />
-=======
-					<?php endif; ?>
-				<?php else : ?>
-					<div class="alert alert-error"><?php echo JText::_('COM_TEMPLATES_ERR_XML'); ?></div>
-				<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
-
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'options', JText::_('JOPTIONS', true)); ?>
-				<?php //get the menu parameters that are automatically set but may be modified.
-					echo $this->loadTemplate('options'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
-
-			<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0):?>
-				<?php if ($canDo->get('core.edit.state')) : ?>
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT', true)); ?>
-						<?php echo $this->loadTemplate('assignment'); ?>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
-				<?php endif; ?>
-			<?php endif;?>
-
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
-	</fieldset>
-
->>>>>>> remotes/upstream/master
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
