@@ -39,6 +39,7 @@ abstract class JHtmlTag
 	public static function options($config = array('filter.published' => array(0, 1)))
 	{
 		$hash = md5(serialize($config));
+
 		if (!isset(self::$items[$hash]))
 		{
 			$config = (array) $config;
@@ -148,5 +149,27 @@ abstract class JHtmlTag
 			self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 		}
 		return self::$items[$hash];
+	}
+
+	/**
+	 * This is just a proxy for the formbehavior.ajaxchosen method
+	 *
+	 * @param   string  $selector  DOM id of the tag field
+	 *
+	 * @return  void
+	 */
+	public static function ajaxfield($selector='#jform_tags')
+	{
+		// Tags field ajax
+		$chosenAjaxSettings = new JRegistry(
+			array(
+				'selector'    => $selector,
+				'type'        => 'GET',
+				'url'         => JURI::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'dataType'    => 'json',
+				'jsonTermKey' => 'like'
+			)
+		);
+		JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
 	}
 }

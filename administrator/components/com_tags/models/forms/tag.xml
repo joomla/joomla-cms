@@ -20,7 +20,8 @@
 
 	<field
 		name="parent_id"
-		type="tagnested"
+		type="tag"
+		mode="nested"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
 		description="COM_TAGS_FIELD_PARENT_DESC"
 		validate="notequals"

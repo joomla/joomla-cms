@@ -112,14 +112,14 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 		$task = $this->getTask();
+		$item = $model->getItem();
 
-		$item = $model->getItem();
-		$item = $model->getItem();
 		if (isset($item->params) && is_array($item->params))
 		{
 			$registry = new JRegistry;
@@ -139,12 +139,12 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-		$id = $item->id;
 
 		if (empty($validData['tags']) && !empty($item->tags))
 		{
 			$oldTags = new JTags;
-			$oldTags->unTagItem($id, 'com_newsfeeds.newsfeed');
+			$oldTags->unTagItem($item->id, 'com_newsfeeds.newsfeed');
+
 			return;
 		}
 
@@ -153,8 +153,9 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 		// Store the tag data if the news data was saved.
 		if ($tags[0] != '')
 		{
+			$isNew = ($item->id == 0) ? 1 : 0;
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_newsfeeds.newsfeed', $isNew, $item, $tags, null);
+			$tagsHelper->tagItem($item->id, 'com_newsfeeds.newsfeed', $isNew, $item, $tags, null);
 		}
 
 	}

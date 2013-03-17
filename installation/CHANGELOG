@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30267] *Modifying constant in logged in module (back-end)
  # [#30190] allow string-based input fields to use the "multiple" attribute. Thanks Randy.
  # [#30305] Correcting the similar tags module. Thanks Elin
+ # [#30264] AJAX field for tagging. Thanks Roberto
 
 16-Mar-2013 Michael Babker
  # [#30259] Added (min) height to table cells with context.  Thanks Peter
