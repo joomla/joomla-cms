@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Joomla.CMS
+ * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,19 +13,19 @@ defined('_JEXEC') or die;
  * Helper for standard content style extensions.
  *
  * @package     Joomla.Libraries
- * @subpackage  Joomla.CMS
+ * @subpackage  Helper
  * @since       3.1
  */
 class JHelperContent
 {
-
 	/**
 	 * Configure the Linkbar. Must be implemented by each extension.
 	 *
 	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
-	 * @since   3.2
+	 *
+	 * @since   3.1
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -36,11 +36,13 @@ class JHelperContent
 	 *
 	 * @param   integer  $categoryId  The category ID.
 	 * @param   integer  $id          The item ID.
+	 * @param   string   $assetName   The asset name
 	 *
 	 * @return  JObject
-	 * @since   3.2
+	 *
+	 * @since   3.1
 	 */
-	public static function getActions($categoryId = 0, $id = 0, $assetName = 0)
+	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
 		// Reverted a change for version 2.5.6
 		$user	= JFactory::getUser();
@@ -61,11 +63,11 @@ class JHelperContent
 	/**
 	* Applies the content filters to arbitrary text as per settings for current user group
 	*
-	* @param   text   $text  The string to filter
+	* @param   text  $text  The string to filter
 	*
-	* @return  string The filtered string
+	* @return  string  The filtered string
 	*
-	* @since  3.2
+	* @since   3.1
 	*/
 	public static function filterText($text)
 	{
@@ -76,20 +78,20 @@ class JHelperContent
 
 		$filters = $config->get('filters');
 
-		$blackListTags			= array();
-		$blackListAttributes	= array();
+		$blackListTags       = array();
+		$blackListAttributes = array();
 
-		$customListTags			= array();
-		$customListAttributes	= array();
+		$customListTags       = array();
+		$customListAttributes = array();
 
-		$whiteListTags			= array();
-		$whiteListAttributes	= array();
+		$whiteListTags       = array();
+		$whiteListAttributes = array();
 
-		$noHtml				= false;
-		$whiteList			= false;
-		$blackList			= false;
-		$customList			= false;
-		$unfiltered			= false;
+		$noHtml     = false;
+		$whiteList  = false;
+		$blackList  = false;
+		$customList = false;
+		$unfiltered = false;
 
 		// Cycle through each of the user groups the user is in.
 		// Remember they are included in the Public group as well.
@@ -196,6 +198,7 @@ class JHelperContent
 				{
 					$filter->tagBlacklist = $customListTags;
 				}
+
 				if ($customListAttributes)
 				{
 					$filter->attrBlacklist = $customListAttributes;
@@ -216,11 +219,13 @@ class JHelperContent
 					// Blacklist attributes
 					1
 				);
+
 				// Remove white listed tags from filter's default blacklist
 				if ($whiteListTags)
 				{
 					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
 				}
+
 				// Remove white listed attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
@@ -232,11 +237,13 @@ class JHelperContent
 			// White lists take fourth precedence.
 			elseif ($whiteList)
 			{
-				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);  // turn off xss auto clean
+				// Turn off xss auto clean
+				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 
 			// No HTML takes last place.
-			else {
+			else
+			{
 				$filter = JFilterInput::getInstance();
 			}
 
@@ -253,7 +260,7 @@ class JHelperContent
 	 *
 	 * @return  string  The language string
 	 *
-	 * @since  3.2
+	 * @since   3.1
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
@@ -276,5 +283,3 @@ class JHelperContent
 		return $langCode;
 	}
 }
-
-

@@ -56,6 +56,8 @@ class TagsModelTags extends JModelList
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
+		$this->setState('list.limit', $params->get('maximum', 200));
+
 		$this->setState('filter.published', 1);
 		$this->setState('filter.access', true);
 
@@ -106,7 +108,6 @@ class TagsModelTags extends JModelList
 		$pid = $this->getState('tag.parent_id');
 		$orderby = $this->state->params->get('all_tags_orderby', 'title');
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
-		$limit = ' LIMIT 0,' . $this->state->params->get('maximum', 200);
 		$language = $this->getState('tag.language');
 
 		// Create a new query object.
@@ -135,10 +136,10 @@ class TagsModelTags extends JModelList
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')' );
+			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
 		}
 
-		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ' ' . $limit);
+		$query->order($db->quoteName($orderby) . ' ' . $orderDirection);
 
 		return $query;
 	}
