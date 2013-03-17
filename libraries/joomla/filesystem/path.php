@@ -169,7 +169,6 @@ class JPath
 		$path = self::clean($path);
 		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
-			// Don't translate
 			throw new Exception('JPath::check Snooping out of bounds @ ' . $path, 20);
 		}
 
@@ -185,9 +184,15 @@ class JPath
 	 * @return  string  The cleaned path.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
+		if (!is_string($path))
+		{
+			throw new UnexpectedValueException('JPath::clean: $path is not a string.');
+		}
+
 		$path = trim($path);
 
 		if (empty($path))
