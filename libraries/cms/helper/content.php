@@ -24,6 +24,7 @@ class JHelperContent
 	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	public static function addSubmenu($vName)
@@ -38,6 +39,7 @@ class JHelperContent
 	 * @param   string   $assetName   The asset name
 	 *
 	 * @return  JObject
+	 *
 	 * @since   3.1
 	 */
 	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
