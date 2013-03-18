@@ -216,7 +216,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 						<div class="small" title="<?php echo $this->escape($item->path);?>">
 							<?php echo str_repeat('<span class="gtr">&mdash;</span>', $item->level - 1) ?>
 							<span title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
-								<?php echo $this->escape($item->item_type); ?></span>
+								<?php echo $item->item_type; ?></span>
 						</div>
 					</td>
 					<td class="center hidden-phone">
