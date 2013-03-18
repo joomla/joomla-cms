@@ -30,6 +30,8 @@ class plgSystemLanguageFilter extends JPlugin
 
 	public function __construct(&$subject, $config)
 	{
+		parent::__construct($subject, $config);
+
 		// Ensure that constructor is called one time
 		self::$cookie = SID == '';
 		if (!self::$default_lang) {
@@ -82,7 +84,7 @@ class plgSystemLanguageFilter extends JPlugin
 					$conf = JFactory::getConfig();
 					$cookie_domain 	= $conf->get('config.cookie_domain', '');
 					$cookie_path 	= $conf->get('config.cookie_path', '/');
-					setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+					setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
 					// set the request var
 					JRequest::setVar('language', $lang_code);
 				}
@@ -355,7 +357,7 @@ class plgSystemLanguageFilter extends JPlugin
 					$conf = JFactory::getConfig();
 					$cookie_domain 	= $conf->get('config.cookie_domain', '');
 					$cookie_path 	= $conf->get('config.cookie_path', '/');
-					setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+					setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
 				}
 			}
 		}
@@ -402,7 +404,7 @@ class plgSystemLanguageFilter extends JPlugin
  				$conf = JFactory::getConfig();
  				$cookie_domain 	= $conf->get('config.cookie_domain', '');
  				$cookie_path 	= $conf->get('config.cookie_path', '/');
- 				setcookie(JApplication::getHash('language'), $lang_code, time() + 365 * 86400, $cookie_path, $cookie_domain);
+ 				setcookie(JApplication::getHash('language'), $lang_code, $this->getLangCookieTime(), $cookie_path, $cookie_domain);
 
 				// Change the language code
 				JFactory::getLanguage()->setLanguage($lang_code);
@@ -506,5 +508,26 @@ class plgSystemLanguageFilter extends JPlugin
 				}
 			}
 		}
+	}
+
+	/**
+	 * Getting the Language Cookie settings
+	 *
+	 * @return  string  The cookie time.
+	 *
+	 * @since   3.0.4
+	 */
+	private function getLangCookieTime()
+	{
+		if ($this->params->get('lang_cookie', 1) == 1)
+		{
+			$lang_cookie = time() + 365 * 86400;
+		}
+		else
+		{
+			$lang_cookie = 0;
+		}
+
+		return $lang_cookie;
 	}
 }

@@ -90,7 +90,7 @@ $filesArray = array(
 		"tmp/index.html\n" => true,
 		"htaccess.txt\n" => true,
 		"web.config.txt\n" => true,
-		"robots.txt\n" => true,
+		"robots.txt.dist\n" => true,
 		"LICENSE.txt\n" => true,
 		"README.txt\n" => true,
 		"index.php\n" => true,
@@ -140,7 +140,7 @@ for($num=$release-1; $num >= 0; $num--) {
 		echo "Skipping create archive for version $version.$num\n";
 		continue;
 	}
-	
+
 	$fromName = $num == 0 ? 'x' : $num;
 	// Create the diff archive packages using the file name list.
 	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');

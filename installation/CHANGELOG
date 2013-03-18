@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Mar-2013 Jean-Marie Simonet
+ #+ [#29677] robots.txt in updates. Thanks Mark
+ + [#29294] Show Correct Meta Titles in Joomla Admin for better usability. Thanks Parth
+ # [#29810] File deletion issue. Thanks Elin
+ # [#30312] *Porting to 2.5.x a 3.x improvement in languagefilter
+
 16-Mar-2013 Michael Babker
  # [#30249] Show Intro Text = Hide currently has no effect in Featured and Category menu items.  Thanks Matt
 
