@@ -460,10 +460,6 @@ abstract class JTable extends JObject
 				{
 					$this->$k = $src[$k];
 				}
-				elseif (isset($this->$k))
-				{
-					$this->$k = '';
-				}
 			}
 		}
 
