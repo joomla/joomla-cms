@@ -74,7 +74,7 @@ class JFormFieldTag extends JFormFieldList
 			$cssId = '#' . $this->getId($id, $this->element['name']);
 
 			// Load the ajax-chosen customised field
-			JHtml::_('tag.ajaxfield', $cssId);
+			JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
 		}
 
 		if (!is_array($this->value) && !empty($this->value))
@@ -224,5 +224,23 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		return $this->isNested;
+	}
+
+	/**
+	 * Determines if the field allows or denies custom values
+	 *
+	 * @return  boolean
+	 */
+	public function allowCustom()
+	{
+		if (isset($this->element['custom']))
+		{
+			if (isset($this->element['custom']) == 'deny')
+			{
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
