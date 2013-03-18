@@ -39,6 +39,16 @@
 					<option
 						value="1">JSHOW</option>
 				</field>
+
+
+				<field name="retrieveLimit"
+					type="text"
+					default=""
+					label="MOD_RELATED_FIELD_RETRIEVE_LIMIT"
+					description="MOD_RELATED_FIELD_RETRIEVE_LIMIT_DESC"/>
+
+
+
 			</fieldset>
 			<fieldset
 				name="advanced">
