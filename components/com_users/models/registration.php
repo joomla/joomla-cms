@@ -87,7 +87,7 @@ class UsersModelRegistration extends JModelForm
 				$data['name'],
 				$data['email'],
 				$data['username'],
-				$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation']
+				$data['activate']
 			);
 
 			// get all admin users
@@ -379,7 +379,7 @@ class UsersModelRegistration extends JModelForm
 					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY',
 					$data['name'],
 					$data['sitename'],
-					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['activate'],
 					$data['siteurl'],
 					$data['username'],
 					$data['password_clear']
@@ -391,7 +391,7 @@ class UsersModelRegistration extends JModelForm
 					'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
-					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['activate'],
 					$data['siteurl'],
 					$data['username']
 				);
@@ -416,7 +416,7 @@ class UsersModelRegistration extends JModelForm
 					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY',
 					$data['name'],
 					$data['sitename'],
-					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['activate'],
 					$data['siteurl'],
 					$data['username'],
 					$data['password_clear']
@@ -428,7 +428,7 @@ class UsersModelRegistration extends JModelForm
 					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
-					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['activate'],
 					$data['siteurl'],
 					$data['username']
 				);

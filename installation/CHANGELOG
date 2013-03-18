@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Mar-2013 Jean-Marie Simonet
+ # [#26860] A Contact name *must not* be unique. Thanks Christophe and Janich
+ # [#28874] Registration activation email links. Thanks Marco
+
 17-Mar-2013 Michael Babker
  ^ [#30262] Add PostgreSQL schema for tags, sync with MySQL, update script additions
  + [#30251] Add single tag feed view.  Thanks Elin
