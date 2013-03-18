@@ -607,4 +607,3 @@ abstract class JOAuth1Client
 		return $this;
 	}
 }
-
