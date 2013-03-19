@@ -26,9 +26,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Mar-2013 Jean-Marie Simonet
+ # [#30325] Commit of #29319 Breaks Redirect. Thanks Mark
+
 18-Mar-2013 Jean-Marie Simonet
  # [#26860] A Contact name *must not* be unique. Thanks Christophe and Janich
  # [#28874] Registration activation email links. Thanks Marco
+ $ Updating Installation ini files: af-ZA, eo-XX, es-ES, pl-PL, uk-UA
 
 17-Mar-2013 Michael Babker
  ^ [#30262] Add PostgreSQL schema for tags, sync with MySQL, update script additions
