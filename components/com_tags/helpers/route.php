@@ -75,13 +75,15 @@ abstract class TagsHelperRoute
 		$menus		= $app->getMenu('site');
 
 		// Prepare the reverse lookup array.
-		if (self::$lookup === null) {
+		if (self::$lookup === null)
+		{
 			self::$lookup = array();
 
 			$component	= JComponentHelper::getComponent('com_tags');
 			$items		= $menus->getItems('component_id', $component->id);
 
-			if ($items) {
+			if ($items)
+			{
 				foreach ($items as $item)
 				{
 					if (isset($item->query) && isset($item->query['view'])) {
@@ -105,16 +107,19 @@ abstract class TagsHelperRoute
 				if (isset(self::$lookup[$view])) {
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int) $id])) {
+						if (isset(self::$lookup[$view][(int) $id]))
+						{
 							return self::$lookup[$view][(int) $id];
 						}
 					}
 				}
 			}
 		}
-		else {
+		else
+		{
 			$active = $menus->getActive();
-			if ($active) {
+			if ($active)
+			{
 				return $active->id;
 			}
 		}
