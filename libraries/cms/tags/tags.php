@@ -847,74 +847,7 @@ class JTags
 		}
 
 		// We will replace path aliases with tag names
-		if ($results)
-		{
-			// Create an array with all the aliases of the results
-			$aliases = array();
-
-			foreach ($results as $result)
-			{
-				if (!empty( $result->path))
-				{
-					if ($pathParts = explode('/', $result->path))
-					{
-						$aliases = array_merge($aliases, $pathParts);
-					}
-				}
-			}
-
-			// Get the aliases titles in one single query and map the results
-			if ($aliases)
-			{
-				// Remove duplicates
-				$aliases = array_unique($aliases);
-
-				$query = $db->getQuery(true)
-					->select('alias, title')
-					->from('#__tags')
-					->where('alias IN (' . implode(',', array_map(array($db, 'quote'), $aliases)) . ')');
-				$db->setQuery($query);
-
-				try
-				{
-					$aliasesMapper = $db->loadAssocList('alias');
-				}
-				catch (RuntimeException $e)
-				{
-					return false;
-				}
-
-				// Rebuild the items path
-				if ($aliasesMapper)
-				{
-					foreach ($results as &$result)
-					{
-						$namesPath = array();
-
-						if (!empty( $result->path))
-						{
-							if ($pathParts = explode('/', $result->path))
-							{
-								foreach ($pathParts as $alias)
-								{
-									if (isset($aliasesMapper[$alias]))
-									{
-										$namesPath[] = $aliasesMapper[$alias]['title'];
-									}
-									else
-									{
-										$namesPath[] = $alias;
-									}
-								}
-
-								$result->text = implode('/', $namesPath);
-							}
-						}
-					}
-				}
-			}
-
-		}
+		$results = self::convertPathsToNames($results);
 
 		return $results;
 	}
@@ -950,5 +883,89 @@ class JTags
 			}
 			return $tagTreeArray;
 		}
+	}
+
+	/**
+	 * Function that converts tags paths into paths of names
+	 *
+	 * @param   array  $tags  Array of tags
+	 *
+	 * @return  array
+	 */
+	public static function convertPathsToNames($tags)
+	{
+		// We will replace path aliases with tag names
+		if ($tags)
+		{
+			// Create an array with all the aliases of the results
+			$aliases = array();
+
+			foreach ($tags as $tag)
+			{
+				if (!empty( $tag->path))
+				{
+					if ($pathParts = explode('/', $tag->path))
+					{
+						$aliases = array_merge($aliases, $pathParts);
+					}
+				}
+			}
+
+			// Get the aliases titles in one single query and map the results
+			if ($aliases)
+			{
+				// Remove duplicates
+				$aliases = array_unique($aliases);
+
+				$db = JFactory::getDbo();
+
+				$query = $db->getQuery(true)
+					->select('alias, title')
+					->from('#__tags')
+					->where('alias IN (' . implode(',', array_map(array($db, 'quote'), $aliases)) . ')');
+				$db->setQuery($query);
+
+				try
+				{
+					$aliasesMapper = $db->loadAssocList('alias');
+				}
+				catch (RuntimeException $e)
+				{
+					return false;
+				}
+
+				// Rebuild the items path
+				if ($aliasesMapper)
+				{
+					foreach ($tags as &$tag)
+					{
+						$namesPath = array();
+
+						if (!empty( $tag->path))
+						{
+							if ($pathParts = explode('/', $tag->path))
+							{
+								foreach ($pathParts as $alias)
+								{
+									if (isset($aliasesMapper[$alias]))
+									{
+										$namesPath[] = $aliasesMapper[$alias]['title'];
+									}
+									else
+									{
+										$namesPath[] = $alias;
+									}
+								}
+
+								$tag->text = implode('/', $namesPath);
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		return $tags;
 	}
 }

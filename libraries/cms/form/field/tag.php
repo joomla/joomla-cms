@@ -120,7 +120,7 @@ class JFormFieldTag extends JFormFieldList
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, a.level, a.published');
+		$query->select('a.id AS value, a.path, a.title AS text, a.level, a.published');
 		$query->from('#__tags AS a');
 		$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -176,6 +176,10 @@ class JFormFieldTag extends JFormFieldList
 		if ($this->isNested())
 		{
 			$this->prepareOptionsNested($options);
+		}
+		else
+		{
+			$options = JTags::convertPathsToNames($options);
 		}
 
 		return $options;
@@ -233,12 +237,9 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']))
+		if (isset($this->element['custom']) && $this->element['custom'] == 'deny')
 		{
-			if (isset($this->element['custom']) == 'deny')
-			{
-				return false;
-			}
+			return false;
 		}
 
 		return true;

@@ -181,7 +181,7 @@ abstract class JHtmlTag
 						// Method to add tags pressing enter
 						$('" . $selector . "_chzn input').keydown(function(event) {
 							// tag is greater than 3 chars and enter pressed
-							if (this.value.length >= 3 && event.which === 13) {
+							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {
 								// Create the option
 								var option = $('<option>');
 								option.text(this.value).val('#new#' + this.value);
@@ -189,6 +189,7 @@ abstract class JHtmlTag
 								// Add the option an repopulate the chosen field
 								$('" . $selector . "').append(option).trigger('liszt:updated');
 								this.value = '';
+								event.preventDefault();
 							}
 						});
 					});
