@@ -27,7 +27,7 @@ $ -> Language fix or change
 ! -> Note
 
 19-Mar-2013 Jean-Marie Simonet
- # [#30325] Commit of #29319 Breaks Redirect. Thanks Mark
+ $ Missing strings in com_tags frontend
 
 18-Mar-2013 Jean-Marie Simonet
  # [#26860] A Contact name *must not* be unique. Thanks Christophe and Janich
