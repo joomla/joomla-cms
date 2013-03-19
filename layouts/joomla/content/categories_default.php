@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 			<?php //Otherwise get one from the database if it exists. ?>
 			<?php  if ($displayData->parent->description) : ?>
 				<div class="category-desc base-desc">
-					<?php echo JHtml::_('content.prepare', $displayData->parent->description, '', $displayData->extension . '.categories'); ?>
+					<?php echo JHtml::_('content.prepare', $displayData->parent->description, '', $displayData->parent->extension . '.categories'); ?>
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
