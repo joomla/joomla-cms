@@ -361,6 +361,8 @@
 				description="COM_CONTACT_FIELD_CONFIG_ADDITIONAL_RECIPIENTS_DESC"
 				label="COM_CONTACT_FIELD_CONFIG_ADDITIONAL_RECIPIENTS_LABEL"
 				rows="3"
+				validate="email"
+				multiple="multiple"
 			/>
 
 			<field name="banned_email" type="textarea"
