@@ -779,7 +779,8 @@ class JTags
 		$query	= $db->getQuery(true);
 
 		$query->select('a.id AS value')
-			->select($query->concatenate(array('a.path', 'a.title'), ':') . ' AS text')
+			->select('a.path AS text')
+			->select('a.path')
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -845,8 +846,79 @@ class JTags
 			return false;
 		}
 
+		// We will replace path aliases with tag names
+		if ($results)
+		{
+			// Create an array with all the aliases of the results
+			$aliases = array();
+
+			foreach ($results as $result)
+			{
+				if (!empty( $result->path))
+				{
+					if ($pathParts = explode('/', $result->path))
+					{
+						$aliases = array_merge($aliases, $pathParts);
+					}
+				}
+			}
+
+			// Get the aliases titles in one single query and map the results
+			if ($aliases)
+			{
+				// Remove duplicates
+				$aliases = array_unique($aliases);
+
+				$query = $db->getQuery(true)
+					->select('alias, title')
+					->from('#__tags')
+					->where('alias IN (' . implode(',', array_map(array($db, 'quote'), $aliases)) . ')');
+				$db->setQuery($query);
+
+				try
+				{
+					$aliasesMapper = $db->loadAssocList('alias');
+				}
+				catch (RuntimeException $e)
+				{
+					return false;
+				}
+
+				// Rebuild the items path
+				if ($aliasesMapper)
+				{
+					foreach ($results as &$result)
+					{
+						$namesPath = array();
+
+						if (!empty( $result->path))
+						{
+							if ($pathParts = explode('/', $result->path))
+							{
+								foreach ($pathParts as $alias)
+								{
+									if (isset($aliasesMapper[$alias]))
+									{
+										$namesPath[] = $aliasesMapper[$alias]['title'];
+									}
+									else
+									{
+										$namesPath[] = $alias;
+									}
+								}
+
+								$result->text = implode('/', $namesPath);
+							}
+						}
+					}
+				}
+			}
+
+		}
+
 		return $results;
 	}
+
 	 /**
 	 * Method to get an array of tag ids for the current tag and its children
 	 *
