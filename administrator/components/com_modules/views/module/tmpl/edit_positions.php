@@ -28,7 +28,8 @@ foreach ($templates as $template)
 	$options = array();
 
 	$positions = TemplatesHelper::getPositions($clientId, $template);
-	if(empty($positions)) {
+	if(empty($positions))
+	{
 		continue;
 	}
 
