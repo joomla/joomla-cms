@@ -355,29 +355,6 @@ abstract class JFactory
 	}
 
 	/**
-	 * Get a parsed XML Feed Source
-	 *
-	 * @param   string   $url         Url for feed source.
-	 * @param   integer  $cache_time  Time to cache feed for (using internal cache mechanism).
-	 *
-	 * @return  mixed  SimplePie parsed object on success, false on failure.
-	 *
-	 * @since   11.1
-	 * @deprecated  13.3  Use JSimplepieFactory::getFeedParser() instead.
-	 */
-	public static function getFeedParser($url, $cache_time = 0)
-	{
-		if (!class_exists('JSimplepieFactory'))
-		{
-			throw new BadMethodCallException('JSimplepieFactory not found');
-		}
-
-		JLog::add(__METHOD__ . ' is deprecated.   Use JSimplepieFactory::getFeedParser() instead.', JLog::WARNING, 'deprecated');
-
-		return JSimplepieFactory::getFeedParser($url, $cache_time);
-	}
-
-	/**
 	 * Reads a XML file.
 	 *
 	 * @param   string   $data    Full path and file name.
