@@ -432,8 +432,8 @@ class JTags
 	 * @param   mixed    $tagId            Tag or array of tags to be matched
 	 * @param   mixed    $typesr           Null, type or array of type aliases for content types to be included in the results
 	 * @param   boolean  $includeChildren  True to include the results from child tags
-	 * @param   boolean  $matchAll         True to include items matching all tags in the array, false to include
-	 *                                     items that match at least one tag.
+	 * @param   boolean  $anyOrAll         True to include items matching at least one tag, false to include
+	 *                                     items all tags in the array.
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
 	 *
 	 * @return  JDatabaseQuery  Query to retrieve a list of tags
@@ -441,7 +441,7 @@ class JTags
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
-			$matchAll = true, $languageFilter = 'all')
+			$anyOrAll = true, $languageFilter = 'all')
 	{
 		// Create a new query object.
 		$db = JFactory::getDbo();
