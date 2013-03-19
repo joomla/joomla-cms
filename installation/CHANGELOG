@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Mar-2013 Jean-Marie Simonet
+ # [#30325] Commit of #29319 Breaks Redirect. Thanks Mark
+
 18-Mar-2013 Jean-Marie Simonet
  # [#26860] A Contact name *must not* be unique. Thanks Christophe and Janich
  # [#28874] Registration activation email links. Thanks Marco
