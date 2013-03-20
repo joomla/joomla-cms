@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Mar-2013 Jean-Marie Simonet
+ # [#29982] Cant add fields to the category form using a plugin. Thanks Parth
+
 18-Mar-2013 Jean-Marie Simonet
  # [#26860] A Contact name *must not* be unique. Thanks Christophe
  $ Updating Swahili intallation ini file
