@@ -41,7 +41,7 @@ class TagsViewTags extends JViewLegacy
 		foreach ($items as $item)
 		{
 			// Strip HTML from feed item title
-			$title = $this->escape($item->core_title);
+			$title = $this->escape($item->title);
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
 			// URL link to tagged item
@@ -49,17 +49,17 @@ class TagsViewTags extends JViewLegacy
 			$link = JRoute::_($item->link);
 
 			// Strip HTML from feed item description text
-			$description = $item->core_body;
-			$author			= $item->core_created_by_alias ? $item->core_created_by_alias : $item->author;
+			$description = $item->description;
+			$author			= $item->created_by_alias ? $item->created_by_alias : $item->author;
 			$date = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 			// Load individual item creator class
 			$feeditem = new JFeedItem;
 			$feeditem->title       = $title;
-			$feeditem->link        = $link;
+			$feeditem->link        = '/index.php?option=com_tags&view=tag&id=' . (int) $item->id;
 			$feeditem->description = $description;
 			$feeditem->date        = $date;
-			$feeditem->category    = $item->title;
+			$feeditem->category    = 'All Tags';
 			$feeditem->author      = $author;
 
 			if ($feedEmail == 'site')
