@@ -4319,10 +4319,6 @@ a.badge:hover {
 	.thumbnails {
 		margin-left: 0;
 	}
-	.thumbnails > li {
-		float: none;
-		margin-left: 0;
-	}
 	[class*="span"],
 	.row-fluid [class*="span"] {
 		float: none;
