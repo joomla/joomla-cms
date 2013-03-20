@@ -32,7 +32,7 @@ $version = '3.1';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '0_beta1';
+$release = '0_beta2';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';

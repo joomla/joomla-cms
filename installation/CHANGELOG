@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.1 Beta 2 Release [20-Mar-2012] ------------------
+
 20-Mar-2013 Mark Dexter
  # [#30326] Cannot add position in Module Manager. Thanks Roberto Segura.
  # [#30314] Move to new JFeed. Thanks Elin.
