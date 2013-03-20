@@ -432,6 +432,8 @@ class JTags
 	 * @param   mixed    $tagId            Tag or array of tags to be matched
 	 * @param   mixed    $typesr           Null, type or array of type aliases for content types to be included in the results
 	 * @param   boolean  $includeChildren  True to include the results from child tags
+	 * @param   string   $orderByOption    Column to order the results by
+	 * @param   string   $orderDir         Direction to sort the results in
 	 * @param   boolean  $anyOrAll         True to include items matching at least one tag, false to include
 	 *                                     items all tags in the array.
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
@@ -535,7 +537,7 @@ class JTags
 		$query->where('m.type_alias IN (' . $typeAliases . ')');
 
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
-		$query->where('c.core_access IN ('.$groups.')');
+		$query->where('c.core_access IN (' . $groups . ')');
 		$query->group('m.type_alias, m.content_item_id, m.core_content_id');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
@@ -852,11 +854,11 @@ class JTags
 		return $results;
 	}
 
-	 /**
+	/**
 	 * Method to get an array of tag ids for the current tag and its children
 	 *
 	 * @param   integer  $id             An optional ID
-	 * @param   array    &$tagTreeArray
+	 * @param   array    &$tagTreeArray  Array containing the tag tree
 	 *
 	 * @return  mixed
 	 *

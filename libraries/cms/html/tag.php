@@ -154,9 +154,12 @@ abstract class JHtmlTag
 	/**
 	 * This is just a proxy for the formbehavior.ajaxchosen method
 	 *
-	 * @param   string  $selector  DOM id of the tag field
+	 * @param   string   $selector     DOM id of the tag field
+	 * @param   boolean  $allowCustom  Flag to allow custom values
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	public static function ajaxfield($selector='#jform_tags', $allowCustom = true)
 	{
