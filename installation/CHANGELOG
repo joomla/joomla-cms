@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Mar-2013 Jean-Marie Simonet
+ # [#30333] *TAGS: Notice when entering 2 tags in a tags menu item. Thanks Roberto
+
 19-Mar-2013 Jean-Marie Simonet
  $ Missing strings in com_tags frontend
 
