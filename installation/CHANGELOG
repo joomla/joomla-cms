@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Mar-2013 Mark Dexter
+ # [#30326] Cannot add position in Module Manager. Thanks Roberto Segura.
+
 20-Mar-2013 Jean-Marie Simonet
  # [#30333] *TAGS: Notice when entering 2 tags in a tags menu item. Thanks Roberto
  # [#30328] AJAX field improvements/fixes. Thanks Roberto
