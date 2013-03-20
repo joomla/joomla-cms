@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension version="3.0" type="file" method="upgrade">
+<extension version="3.1" type="file" method="upgrade">
 	<name>files_joomla</name>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>

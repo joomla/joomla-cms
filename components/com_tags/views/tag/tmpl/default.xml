@@ -13,7 +13,7 @@
 	<fields name="request">
 		<fieldset name="request">
 
-			<field name="id" type="tag"
+			<field name="id" type="tag" custom="deny"
 				description="COM_TAGS_FIELD_SELECT_TAG_DESC"
 				label="COM_TAGS_FIELD_TAG_LABEL"
 				required="true"

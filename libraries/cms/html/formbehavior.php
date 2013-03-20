@@ -134,19 +134,6 @@ abstract class JHtmlFormbehavior
 
 							return results;
 						});
-						// Method to add tags pressing enter
-						$('" . $selector . "_chzn input').keydown(function(event) {
-							// tag is greater than 3 chars and enter pressed
-							if (this.value.length >= 3 && event.which === 13) {
-								// Create the option
-								var option = $('<option>');
-								option.text(this.value).val('#new#' + this.value);
-								option.attr('selected','selected');
-								// Add the option an repopulate the chosen field
-								$('" . $selector . "').append(option).trigger('liszt:updated');
-								this.value = '';
-							}
-						});
 					});
 				})(jQuery);
 				"

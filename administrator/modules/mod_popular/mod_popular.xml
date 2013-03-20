@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="3.0"
+	version="3.1"
 	client="administrator">
 	<name>mod_popular</name>
 	<author>Joomla! Project</author>

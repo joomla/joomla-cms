@@ -26,6 +26,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Mar-2013 Mark Dexter
+ # [#30326] Cannot add position in Module Manager. Thanks Roberto Segura.
+ # [#30314] Move to new JFeed. Thanks Elin.
+ # [#29520] Cannot add new menu item. [qlsrv]. Thanks Cliff Galiher.
+
+20-Mar-2013 Jean-Marie Simonet
+ # [#30333] *TAGS: Notice when entering 2 tags in a tags menu item. Thanks Roberto
+ # [#30328] AJAX field improvements/fixes. Thanks Roberto
+ # [#30304] Cant add fields to the category form using a plugin. Thanks all.
+ # [#29734] Joomla Newsfeed problem. Thanks Tessa
+ # [#30327] PHP Notice using new layouts (from pull request 814). Thanks Elin.
+
 19-Mar-2013 Jean-Marie Simonet
  $ Missing strings in com_tags frontend
 
