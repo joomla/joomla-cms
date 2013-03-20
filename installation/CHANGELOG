@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30328] AJAX field improvements/fixes. Thanks Roberto
  # [#30304] Cant add fields to the category form using a plugin. Thanks all.
  # [#29734] Joomla Newsfeed problem. Thanks Tessa
+ # [#30327] PHP Notice using new layouts (from pull request 814). Thanks Elin.
 
 19-Mar-2013 Jean-Marie Simonet
  $ Missing strings in com_tags frontend
