@@ -62,7 +62,7 @@ abstract class JApplicationWebRouter
 	 *
 	 * @param   string  $route  The route string for which to find and execute a controller.
 	 *
-	 * @return  mixed   Controller output
+	 * @return  mixed   The return value of the controller executed
 	 *
 	 * @since   12.2
 	 * @throws  InvalidArgumentException
