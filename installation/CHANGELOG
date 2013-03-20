@@ -29,6 +29,7 @@ $ -> Language fix or change
 20-Mar-2013 Jean-Marie Simonet
  # [#30333] *TAGS: Notice when entering 2 tags in a tags menu item. Thanks Roberto
  # [#30328] AJAX field improvements/fixes. Thanks Roberto
+ # [#30304] Cant add fields to the category form using a plugin. Thanks all.
 
 19-Mar-2013 Jean-Marie Simonet
  $ Missing strings in com_tags frontend
