@@ -115,15 +115,6 @@ class ContactTableContact extends JTable
 			$this->setError(JText::_('COM_CONTACT_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
-				/** check for existing name */
-		$query = 'SELECT id FROM #__contact_details WHERE name = '.$this->_db->Quote($this->name).' AND catid = '.(int) $this->catid;
-		$this->_db->setQuery($query);
-
-		$xid = intval($this->_db->loadResult());
-		if ($xid && $xid != intval($this->id)) {
-			$this->setError(JText::_('COM_CONTACT_WARNING_SAME_NAME'));
-			return false;
-		}
 
 		if (empty($this->alias)) {
 			$this->alias = $this->name;

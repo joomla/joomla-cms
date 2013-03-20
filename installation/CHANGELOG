@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Mar-2013 Jean-Marie Simonet
+ # [#26860] A Contact name *must not* be unique. Thanks Christophe
+ $ Updating Swahili intallation ini file
+
 17-Mar-2013 Jean-Marie Simonet
  #+ [#29677] robots.txt in updates. Thanks Mark
  + [#29294] Show Correct Meta Titles in Joomla Admin for better usability. Thanks Parth
