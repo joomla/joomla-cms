@@ -77,9 +77,9 @@ class JTableUser extends JTable
 
 		// Load the user data.
 		$query = $this->_db->getQuery(true);
-		$query->select('*');
-		$query->from($this->_db->quoteName('#__users'));
-		$query->where($this->_db->quoteName('id') . ' = ' . (int) $userId);
+		$query->select('*')
+			->from($this->_db->qn('#__users'))
+			->where($this->_db->qn('id') . ' = ' . (int) $userId);
 		$this->_db->setQuery($query);
 		$data = (array) $this->_db->loadAssoc();
 
@@ -95,11 +95,11 @@ class JTableUser extends JTable
 		{
 			// Load the user groups.
 			$query->clear();
-			$query->select($this->_db->quoteName('g.id'));
-			$query->select($this->_db->quoteName('g.title'));
-			$query->from($this->_db->quoteName('#__usergroups') . ' AS g');
-			$query->join('INNER', $this->_db->quoteName('#__user_usergroup_map') . ' AS m ON m.group_id = g.id');
-			$query->where($this->_db->quoteName('m.user_id') . ' = ' . (int) $userId);
+			$query->select($this->_db->qn('g.id'))
+				->select($this->_db->qn('g.title'))
+				->from($this->_db->qn('#__usergroups') . ' AS g')
+				->join('INNER', $this->_db->qn('#__user_usergroup_map') . ' AS m ON m.group_id = g.id')
+				->where($this->_db->qn('m.user_id') . ' = ' . (int) $userId);
 			$this->_db->setQuery($query);
 
 			// Add the groups to the user data.
@@ -139,10 +139,10 @@ class JTableUser extends JTable
 
 			// Get the titles for the user groups.
 			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('id'));
-			$query->select($this->_db->quoteName('title'));
-			$query->from($this->_db->quoteName('#__usergroups'));
-			$query->where($this->_db->quoteName('id') . ' = ' . implode(' OR ' . $this->_db->quoteName('id') . ' = ', $this->groups));
+			$query->select($this->_db->qn('id'))
+				->select($this->_db->qn('title'))
+				->from($this->_db->qn('#__usergroups'))
+				->where($this->_db->qn('id') . ' = ' . implode(' OR ' . $this->_db->qn('id') . ' = ', $this->groups));
 			$this->_db->setQuery($query);
 
 			// Set the titles for the user groups.
@@ -207,10 +207,10 @@ class JTableUser extends JTable
 
 		// Check for existing username
 		$query = $this->_db->getQuery(true);
-		$query->select($this->_db->quoteName('id'));
-		$query->from($this->_db->quoteName('#__users'));
-		$query->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($this->username));
-		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
+		$query->select($this->_db->qn('id'))
+			->from($this->_db->qn('#__users'))
+			->where($this->_db->qn('username') . ' = ' . $this->_db->q($this->username))
+			->where($this->_db->qn('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
 
 		$xid = (int) $this->_db->loadResult();
@@ -222,10 +222,10 @@ class JTableUser extends JTable
 
 		// Check for existing email
 		$query->clear();
-		$query->select($this->_db->quoteName('id'));
-		$query->from($this->_db->quoteName('#__users'));
-		$query->where($this->_db->quoteName('email') . ' = ' . $this->_db->quote($this->email));
-		$query->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
+		$query->select($this->_db->qn('id'))
+			->from($this->_db->qn('#__users'))
+			->where($this->_db->qn('email') . ' = ' . $this->_db->q($this->email))
+			->where($this->_db->qn('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
 		$xid = (int) $this->_db->loadResult();
 		if ($xid && $xid != (int) $this->id)
@@ -240,9 +240,9 @@ class JTableUser extends JTable
 		if (!is_numeric($rootUser))
 		{
 			$query->clear();
-			$query->select($this->_db->quoteName('id'));
-			$query->from($this->_db->quoteName('#__users'));
-			$query->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($rootUser));
+			$query->select($this->_db->qn('id'))
+				->from($this->_db->qn('#__users'))
+				->where($this->_db->qn('username') . ' = ' . $this->_db->q($rootUser));
 			$this->_db->setQuery($query);
 			$xid = (int) $this->_db->loadResult();
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
@@ -302,16 +302,15 @@ class JTableUser extends JTable
 		{
 			// Delete the old user group maps.
 			$query = $this->_db->getQuery(true);
-			$query->delete();
-			$query->from($this->_db->quoteName('#__user_usergroup_map'));
-			$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
+			$query->delete($this->_db->qn('#__user_usergroup_map'))
+				->where($this->_db->qn('user_id') . ' = ' . (int) $this->id);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
 			// Set the new user group maps.
 			$query->clear();
-			$query->insert($this->_db->quoteName('#__user_usergroup_map'));
-			$query->columns(array($this->_db->quoteName('user_id'), $this->_db->quoteName('group_id')));
+			$query->insert($this->_db->qn('#__user_usergroup_map'))
+				->columns(array($this->_db->qn('user_id'), $this->_db->qn('group_id')));
 
 			// Have to break this up into individual queries for cross-database support.
 			foreach ($this->groups as $group)
@@ -346,17 +345,15 @@ class JTableUser extends JTable
 
 		// Delete the user.
 		$query = $this->_db->getQuery(true);
-		$query->delete();
-		$query->from($this->_db->quoteName($this->_tbl));
-		$query->where($this->_db->quoteName($this->_tbl_key) . ' = ' . (int) $this->$k);
+		$query->delete($this->_db->qn($this->_tbl))
+			->where($this->_db->qn($this->_tbl_key) . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
 		// Delete the user group maps.
 		$query->clear();
-		$query->delete();
-		$query->from($this->_db->quoteName('#__user_usergroup_map'));
-		$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->$k);
+		$query->delete($this->_db->qn('#__user_usergroup_map'))
+			->where($this->_db->qn('user_id') . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -365,16 +362,14 @@ class JTableUser extends JTable
 		 */
 
 		$query->clear();
-		$query->delete();
-		$query->from($this->_db->quoteName('#__messages_cfg'));
-		$query->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->$k);
+		$query->delete($this->_db->qn('#__messages_cfg'))
+			->where($this->_db->qn('user_id') . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
 		$query->clear();
-		$query->delete();
-		$query->from($this->_db->quoteName('#__messages'));
-		$query->where($this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k);
+		$query->delete($this->_db->qn('#__messages'))
+			->where($this->_db->qn('user_id_to') . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -412,9 +407,9 @@ class JTableUser extends JTable
 		// Update the database row for the user.
 		$db = $this->_db;
 		$query = $db->getQuery(true);
-		$query->update($db->quoteName($this->_tbl));
-		$query->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->toSql()));
-		$query->where($db->quoteName('id') . '=' . (int) $userId);
+		$query->update($db->qn($this->_tbl));
+		$query->set($db->qn('lastvisitDate') . '=' . $db->q($date->toSql()));
+		$query->where($db->qn('id') . '=' . (int) $userId);
 		$db->setQuery($query);
 		$db->execute();
 

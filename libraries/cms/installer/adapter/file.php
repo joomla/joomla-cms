@@ -222,8 +222,8 @@ class JInstallerAdapterFile extends JAdapterInstance
 		 */
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('file'))
+			->from($query->qn('#__extensions'))
+			->where($query->qn('type') . ' = ' . $query->q('file'))
 			->where($query->qn('element') . ' = ' . $query->q($element));
 		$db->setQuery($query);
 
@@ -648,8 +648,8 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('file'))
+			->from($query->qn('#__extensions'))
+			->where($query->qn('type') . ' = ' . $query->q('file'))
 			->where($query->qn('element') . ' = ' . $query->q($extension));
 		$db->setQuery($query);
 

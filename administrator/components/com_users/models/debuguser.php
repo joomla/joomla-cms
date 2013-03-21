@@ -176,13 +176,13 @@ class UsersModelDebugUser extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from($db->quoteName('#__assets').' AS a');
+		$query->from($db->qn('#__assets').' AS a');
 
 		// Filter the items over the group id if set.
 		if ($groupId = $this->getState('filter.group_id'))
 		{
-			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->where('map2.group_id = '.(int) $groupId);
+			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
+				->where('map2.group_id = '.(int) $groupId);
 		}
 
 		// Filter the items over the search string if set.
@@ -220,7 +220,7 @@ class UsersModelDebugUser extends JModelList
 		if ($this->getState('filter.component'))
 		{
 			$component = $this->getState('filter.component');
-			$query->where('(a.name = '.$db->quote($component).' OR a.name LIKE '.$db->quote($component.'.%').')');
+			$query->where('(a.name = '.$db->q($component).' OR a.name LIKE '.$db->q($component.'.%').')');
 		}
 
 		// Add the list ordering clause.

@@ -39,10 +39,10 @@ class UsersModelRegistration extends JModelForm
 
 		// Get the user id based on the token.
 		$db->setQuery(
-			'SELECT '.$db->quoteName('id').' FROM '.$db->quoteName('#__users') .
-			' WHERE '.$db->quoteName('activation').' = '.$db->Quote($token) .
-			' AND '.$db->quoteName('block').' = 1' .
-			' AND '.$db->quoteName('lastvisitDate').' = '.$db->Quote($db->getNullDate())
+			'SELECT '.$db->qn('id').' FROM '.$db->qn('#__users') .
+			' WHERE '.$db->qn('activation').' = '.$db->Quote($token) .
+			' AND '.$db->qn('block').' = 1' .
+			' AND '.$db->qn('lastvisitDate').' = '.$db->Quote($db->getNullDate())
 		);
 		$userId = (int) $db->loadResult();
 
@@ -522,9 +522,9 @@ class UsersModelRegistration extends JModelForm
 			{
 				$jdate = new JDate;
 				// Build the query to add the messages
-				$q = "INSERT INTO ".$db->quoteName('#__messages')." (".$db->quoteName('user_id_from').
-				", ".$db->quoteName('user_id_to').", ".$db->quoteName('date_time').
-				", ".$db->quoteName('subject').", ".$db->quoteName('message').") VALUES ";
+				$q = "INSERT INTO ".$db->qn('#__messages')." (".$db->qn('user_id_from').
+				", ".$db->qn('user_id_to').", ".$db->qn('date_time').
+				", ".$db->qn('subject').", ".$db->qn('message').") VALUES ";
 				$messages = array();
 
 				foreach ($sendEmail as $userid)

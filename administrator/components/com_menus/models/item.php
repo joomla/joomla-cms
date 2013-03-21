@@ -237,8 +237,8 @@ class MenusModelItem extends JModelAdmin
 		$parents = array();
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
-		$query->select('COUNT(id)');
-		$query->from($db->quoteName('#__menu'));
+		$query->select('COUNT(id)')
+			->from($db->qn('#__menu'));
 		$db->setQuery($query);
 
 		try
@@ -278,10 +278,10 @@ class MenusModelItem extends JModelAdmin
 
 			// Copy is a bit tricky, because we also need to copy the children
 			$query->clear();
-			$query->select('id');
-			$query->from($db->quoteName('#__menu'));
-			$query->where('lft > ' . (int) $table->lft);
-			$query->where('rgt < ' . (int) $table->rgt);
+			$query->select('id')
+				->from($db->qn('#__menu'))
+				->where('lft > ' . (int) $table->lft)
+				->where('rgt < ' . (int) $table->rgt);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -457,9 +457,9 @@ class MenusModelItem extends JModelAdmin
 			{
 				// Add the child node ids to the children array.
 				$query->clear();
-				$query->select($db->quoteName('id'));
-				$query->from($db->quoteName('#__menu'));
-				$query->where($db->quoteName('lft') .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$query->select($db->qn('id'))
+					->from($db->qn('#__menu'))
+					->where($db->qn('lft') .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
 				$db->setQuery($query);
 				$children = array_merge($children, (array) $db->loadColumn());
 			}
@@ -495,9 +495,9 @@ class MenusModelItem extends JModelAdmin
 
 			// Update the menutype field in all nodes where necessary.
 			$query->clear();
-			$query->update($db->quoteName('#__menu'));
-			$query->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
-			$query->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
+			$query->update($db->qn('#__menu'));
+			$query->set($db->qn('menutype') . ' = ' . $db->q($menuType));
+			$query->where($db->qn('id') . ' IN (' . implode(',', $children) . ')');
 			$db->setQuery($query);
 
 			try
@@ -770,17 +770,17 @@ class MenusModelItem extends JModelAdmin
 		// Join on the module-to-menu mapping table.
 		// We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
 		//sqlsrv changes for modulelink to menu manager
-		$query->select('a.id, a.title, a.position, a.published, map.menuid');
-		$query->from('#__modules AS a');
-		$query->join('LEFT', sprintf('#__modules_menu AS map ON map.moduleid = a.id AND map.menuid IN (0, %1$d, -%1$d)', $this->getState('item.id')));
-		$query->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->qn('except'));
+		$query->select('a.id, a.title, a.position, a.published, map.menuid')
+			->from('#__modules AS a')
+			->join('LEFT', sprintf('#__modules_menu AS map ON map.moduleid = a.id AND map.menuid IN (0, %1$d, -%1$d)', $this->getState('item.id')))
+			->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->qn('except'));
 
 		// Join on the asset groups table.
-		$query->select('ag.title AS access_title');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-		$query->where('a.published >= 0');
-		$query->where('a.client_id = 0');
-		$query->order('a.position, a.ordering');
+		$query->select('ag.title AS access_title')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access')
+			->where('a.published >= 0')
+			->where('a.client_id = 0')
+			->order('a.position, a.ordering');
 
 		$db->setQuery($query);
 
@@ -1080,8 +1080,8 @@ class MenusModelItem extends JModelAdmin
 		$db->setQuery(
 			'SELECT id, params' .
 			' FROM #__menu' .
-			' WHERE params NOT LIKE '.$db->quote('{%') .
-			'  AND params <> '.$db->quote('')
+			' WHERE params NOT LIKE '.$db->q('{%') .
+			'  AND params <> '.$db->q('')
 		);
 
 		try
@@ -1102,7 +1102,7 @@ class MenusModelItem extends JModelAdmin
 
 			$db->setQuery(
 				'UPDATE #__menu' .
-				' SET params = '.$db->quote($params).
+				' SET params = '.$db->q($params).
 				' WHERE id = '.(int) $item->id
 			);
 			if (!$db->execute())
@@ -1250,9 +1250,9 @@ class MenusModelItem extends JModelAdmin
 			// Deleting old association for these items
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->delete('#__associations');
-			$query->where('context='.$db->quote('com_menus.item'));
-			$query->where('id IN ('.implode(',', $associations).')');
+			$query->delete('#__associations')
+				->where('context='.$db->q('com_menus.item'))
+				->where('id IN ('.implode(',', $associations).')');
 			$db->setQuery($query);
 
 			try
@@ -1273,7 +1273,7 @@ class MenusModelItem extends JModelAdmin
 				$query->insert('#__associations');
 				foreach ($associations as $tag => $id)
 				{
-					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));
+					$query->values($id.','.$db->q('com_menus.item').','.$db->q($key));
 				}
 				$db->setQuery($query);
 

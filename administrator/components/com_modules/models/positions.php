@@ -99,9 +99,9 @@ class ModulesModelPositions extends JModelList
 			{
 				// Get the database object and a new query object.
 				$query	= $this->_db->getQuery(true);
-				$query->select('DISTINCT(position) as value');
-				$query->from('#__modules');
-				$query->where($this->_db->quoteName('client_id').' = '.(int) $clientId);
+				$query->select('DISTINCT(position) as value')
+					->from('#__modules')
+					->where($this->_db->qn('client_id').' = '.(int) $clientId);
 				if ($search)
 				{
 					$query->where('position LIKE '.$this->_db->Quote('%'.$this->_db->escape($search, true).'%'));

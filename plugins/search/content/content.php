@@ -158,24 +158,24 @@ class PlgSearchContent extends JPlugin
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
 
-			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created');
-			$query->select($query->concatenate(array('a.introtext', 'a.fulltext')).' AS text');
-			$query->select('c.title AS section, '.$case_when.','.$case_when1.', '.'\'2\' AS browsernav');
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
+				->select($query->concatenate(array('a.introtext', 'a.fulltext')).' AS text')
+				->select('c.title AS section, '.$case_when.','.$case_when1.', '.'\'2\' AS browsernav')
 
-			$query->from('#__content AS a');
-			$query->innerJoin('#__categories AS c ON c.id=a.catid');
-			$query->where('('. $where .')' . 'AND a.state=1 AND c.published = 1 AND a.access IN ('.$groups.') '
+				->from('#__content AS a')
+				->innerJoin('#__categories AS c ON c.id=a.catid')
+				->where('('. $where .')' . 'AND a.state=1 AND c.published = 1 AND a.access IN ('.$groups.') '
 						.'AND c.access IN ('.$groups.') '
 						.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
 						.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
-			$query->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id');
-			$query->order($order);
+			$query->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
+				->order($order);
 
 			// Filter by language
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')')
+					->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
@@ -218,9 +218,9 @@ class PlgSearchContent extends JPlugin
 			.$case_when.','.$case_when1.', '
 			.'c.title AS section, \'2\' AS browsernav');
 			//.'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
-			$query->from('#__content AS a');
-			$query->innerJoin('#__categories AS c ON c.id=a.catid AND c.access IN ('. $groups .')');
-			$query->where('('. $where .') AND a.state = 2 AND c.published = 1 AND a.access IN ('. $groups
+			$query->from('#__content AS a')
+				->innerJoin('#__categories AS c ON c.id=a.catid AND c.access IN ('. $groups .')')
+				->where('('. $where .') AND a.state = 2 AND c.published = 1 AND a.access IN ('. $groups
 				.') AND c.access IN ('. $groups .') '
 				.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
 				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
@@ -229,8 +229,8 @@ class PlgSearchContent extends JPlugin
 			// Filter by language
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')')
+					->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);

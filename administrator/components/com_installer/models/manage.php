@@ -285,10 +285,10 @@ class InstallerModelManage extends InstallerModel
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
 		$query = JFactory::getDBO()->getQuery(true);
-		$query->select('*');
-		$query->select('2*protected+(1-protected)*enabled as status');
-		$query->from('#__extensions');
-		$query->where('state=0');
+		$query->select('*')
+			->select('2*protected+(1-protected)*enabled as status')
+			->from('#__extensions')
+			->where('state=0');
 		if ($status != '')
 		{
 			if ($status == '2')
@@ -297,8 +297,8 @@ class InstallerModelManage extends InstallerModel
 			}
 			else
 			{
-				$query->where('protected = 0');
-				$query->where('enabled=' . (int) $status);
+				$query->where('protected = 0')
+					->where('enabled=' . (int) $status);
 			}
 		}
 		if ($type)

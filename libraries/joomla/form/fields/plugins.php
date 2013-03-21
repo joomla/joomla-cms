@@ -44,11 +44,11 @@ class JFormFieldPlugins extends JFormFieldList
 			// Get list of plugins
 			$db     = JFactory::getDbo();
 			$query  = $db->getQuery(true);
-			$query->select('element AS value, name AS text');
-			$query->from('#__extensions');
-			$query->where('folder = ' . $db->q($folder));
-			$query->where('enabled = 1');
-			$query->order('ordering, name');
+			$query->select('element AS value, name AS text')
+				->from('#__extensions')
+				->where('folder = ' . $db->q($folder))
+				->where('enabled = 1')
+				->order('ordering, name');
 			$db->setQuery($query);
 
 			$options = $db->loadObjectList();

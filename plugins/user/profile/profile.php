@@ -345,7 +345,7 @@ class PlgUserProfile extends JPlugin
 
 				foreach ($data['profile'] as $k => $v)
 				{
-					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote(json_encode($v)).', '.$order++.')';
+					$tuples[] = '('.$userId.', '.$db->q('profile.'.$k).', '.$db->q(json_encode($v)).', '.$order++.')';
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));

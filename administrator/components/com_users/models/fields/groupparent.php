@@ -42,19 +42,19 @@ class JFormFieldGroupParent extends JFormFieldList
 		$user = JFactory::getUser();
 		$query = $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
-		$query->from('#__usergroups AS a');
-		$query->join('LEFT', $db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
+			->from('#__usergroups AS a')
+			->join('LEFT', $db->qn('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id'))
 		{
-			$query->join('LEFT', $db->quoteName('#__usergroups').' AS p ON p.id = '.(int) $id);
-			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			$query->join('LEFT', $db->qn('#__usergroups').' AS p ON p.id = '.(int) $id)
+				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
 
-		$query->group('a.id, a.title, a.lft, a.rgt');
-		$query->order('a.lft ASC');
+		$query->group('a.id, a.title, a.lft, a.rgt')
+			->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);

@@ -83,10 +83,10 @@ class TemplatesModelTemplates extends JModelList
 				'a.extension_id, a.name, a.element, a.client_id'
 			)
 		);
-		$query->from($db->quoteName('#__extensions').' AS a');
+		$query->from($db->qn('#__extensions').' AS a');
 
 		// Filter by extension type.
-		$query->where($db->quoteName('type').' = '.$db->quote('template'));
+		$query->where($db->qn('type').' = '.$db->q('template'));
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');

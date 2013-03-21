@@ -193,7 +193,7 @@ class UsersModelDebugGroup extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from($db->quoteName('#__assets').' AS a');
+		$query->from($db->qn('#__assets').' AS a');
 
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search'))
@@ -230,7 +230,7 @@ class UsersModelDebugGroup extends JModelList
 		if ($this->getState('filter.component'))
 		{
 			$component = $this->getState('filter.component');
-			$query->where('(a.name = '.$db->quote($component).' OR a.name LIKE '.$db->quote($component.'.%').')');
+			$query->where('(a.name = '.$db->q($component).' OR a.name LIKE '.$db->q($component.'.%').')');
 		}
 
 		// Add the list ordering clause.

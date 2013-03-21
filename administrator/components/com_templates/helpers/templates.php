@@ -88,12 +88,12 @@ class TemplatesHelper
 			$query->where('client_id='.(int) $clientId);
 		}
 
-		$query->select('element as value, name as text, extension_id as e_id');
-		$query->from('#__extensions');
-		$query->where('type='.$db->quote('template'));
-		$query->where('enabled=1');
-		$query->order('client_id');
-		$query->order('name');
+		$query->select('element as value, name as text, extension_id as e_id')
+			->from('#__extensions')
+			->where('type='.$db->q('template'))
+			->where('enabled=1')
+			->order('client_id')
+			->order('name');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 		return $options;

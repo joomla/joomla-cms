@@ -47,9 +47,9 @@ abstract class JHtmlMenu
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('menutype AS value, title AS text');
-			$query->from($db->quoteName('#__menu_types'));
-			$query->order('title');
+			$query->select('menutype AS value, title AS text')
+				->from($db->qn('#__menu_types'))
+				->order('title');
 			$db->setQuery($query);
 			self::$menus = $db->loadObjectList();
 		}
@@ -70,18 +70,18 @@ abstract class JHtmlMenu
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('menutype AS value, title AS text');
-			$query->from($db->quoteName('#__menu_types'));
-			$query->order('title');
+			$query->select('menutype AS value, title AS text')
+				->from($db->qn('#__menu_types'))
+				->order('title');
 			$db->setQuery($query);
 			$menus = $db->loadObjectList();
 
 			$query->clear();
-			$query->select('a.id AS value, a.title AS text, a.level, a.menutype');
-			$query->from('#__menu AS a');
-			$query->where('a.parent_id > 0');
-			$query->where('a.type <> ' . $db->quote('url'));
-			$query->where('a.client_id = 0');
+			$query->select('a.id AS value, a.title AS text, a.level, a.menutype')
+				->from('#__menu AS a')
+				->where('a.parent_id > 0')
+				->where('a.type <> ' . $db->q('url'))
+				->where('a.client_id = 0');
 
 			// Filter on the published state
 			if (isset($config['published']))
@@ -184,12 +184,12 @@ abstract class JHtmlMenu
 
 		if ($id)
 		{
-			$query->select('ordering AS value, title AS text');
-			$query->from($db->quoteName('#__menu'));
-			$query->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype));
-			$query->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id);
-			$query->where($db->quoteName('published') . ' != -2');
-			$query->order('ordering');
+			$query->select('ordering AS value, title AS text')
+				->from($db->qn('#__menu'))
+				->where($db->qn('menutype') . ' = ' . $db->q($row->menutype))
+				->where($db->qn('parent_id') . ' = ' . (int) $row->parent_id)
+				->where($db->qn('published') . ' != -2')
+				->order('ordering');
 			$order = JHtml::_('list.genericordering', $query);
 			$ordering = JHtml::_(
 				'select.genericlist', $order, 'ordering',
@@ -220,10 +220,10 @@ abstract class JHtmlMenu
 		$query = $db->getQuery(true);
 
 		// Get a list of the menu items
-		$query->select('m.id, m.parent_id, m.title, m.menutype');
-		$query->from($db->quoteName('#__menu') . ' AS m');
-		$query->where($db->quoteName('m.published') . ' = 1');
-		$query->order('m.menutype, m.parent_id, m.ordering');
+		$query->select('m.id, m.parent_id, m.title, m.menutype')
+			->from($db->qn('#__menu') . ' AS m')
+			->where($db->qn('m.published') . ' = 1')
+			->order('m.menutype, m.parent_id, m.ordering');
 		$db->setQuery($query);
 
 		$mitems = $db->loadObjectList();

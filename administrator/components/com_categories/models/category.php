@@ -518,9 +518,9 @@ class CategoriesModelCategory extends JModelAdmin
 			// Deleting old association for these items
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->delete('#__associations');
-			$query->where('context='.$db->quote('com_categories.item'));
-			$query->where('id IN ('.implode(',', $associations).')');
+			$query->delete('#__associations')
+				->where('context='.$db->q('com_categories.item'))
+				->where('id IN ('.implode(',', $associations).')');
 			$db->setQuery($query);
 			$db->execute();
 
@@ -539,7 +539,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 				foreach ($associations as $tag => $id)
 				{
-					$query->values($id.','.$db->quote('com_categories.item') . ',' . $db->quote($key));
+					$query->values($id.','.$db->q('com_categories.item') . ',' . $db->q($key));
 				}
 
 				$db->setQuery($query);
@@ -730,8 +730,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
 		$query = $db->getQuery(true);
-		$query->select('COUNT(id)');
-		$query->from($db->quoteName('#__categories'));
+		$query->select('COUNT(id)')
+			->from($db->qn('#__categories'));
 		$db->setQuery($query);
 
 		try
@@ -771,10 +771,10 @@ class CategoriesModelCategory extends JModelAdmin
 
 			// Copy is a bit tricky, because we also need to copy the children
 			$query->clear();
-			$query->select('id');
-			$query->from($db->quoteName('#__categories'));
-			$query->where('lft > ' . (int) $table->lft);
-			$query->where('rgt < ' . (int) $table->rgt);
+			$query->select('id')
+				->from($db->qn('#__categories'))
+				->where('lft > ' . (int) $table->lft)
+				->where('rgt < ' . (int) $table->rgt);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -942,9 +942,9 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				// Add the child node ids to the children array.
 				$query->clear();
-				$query->select('id');
-				$query->from($db->quoteName('#__categories'));
-				$query->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$query->select('id')
+					->from($db->qn('#__categories'))
+					->where($db->qn('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
 				$db->setQuery($query);
 
 				try

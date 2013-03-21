@@ -51,11 +51,11 @@ class JLanguageMultilang
 			$db = JFactory::getDBO();
 			$query = $db->getQuery(true);
 
-			$query->select('enabled');
-			$query->from($db->quoteName('#__extensions'));
-			$query->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
-			$query->where($db->quoteName('folder') . ' = ' . $db->quote('system'));
-			$query->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
+			$query->select('enabled')
+				->from($db->qn('#__extensions'))
+				->where($db->qn('type') . ' = ' . $db->q('plugin'))
+				->where($db->qn('folder') . ' = ' . $db->q('system'))
+				->where($db->qn('element') . ' = ' . $db->q('languagefilter'));
 			$db->setQuery($query);
 
 			$enabled = $db->loadResult();

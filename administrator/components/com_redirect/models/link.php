@@ -160,9 +160,9 @@ class RedirectModelLink extends JModelAdmin
 		{
 			// Update the link rows.
 			$db->setQuery(
-				'UPDATE '.$db->quoteName('#__redirect_links') .
-				' SET '.$db->quoteName('new_url').' = '.$db->Quote($url).', '.$db->quoteName('published').' = 1, '.$db->quoteName('comment').' = '.$db->Quote($comment) .
-				' WHERE '.$db->quoteName('id').' IN ('.implode(',', $pks).')'
+				'UPDATE '.$db->qn('#__redirect_links') .
+				' SET '.$db->qn('new_url').' = '.$db->Quote($url).', '.$db->qn('published').' = 1, '.$db->qn('comment').' = '.$db->Quote($comment) .
+				' WHERE '.$db->qn('id').' IN ('.implode(',', $pks).')'
 			);
 
 			try

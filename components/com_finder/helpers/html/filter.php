@@ -48,9 +48,9 @@ abstract class JHtmlFilter
 		// Load the predefined filter if specified.
 		if (!empty($filterId))
 		{
-			$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'));
-			$query->from($db->quoteName('#__finder_filters') . ' AS f');
-			$query->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
+			$query->select($db->qn('f.data') . ', ' . $db->qn('f.params'))
+				->from($db->qn('#__finder_filters') . ' AS f')
+				->where($db->qn('f.filter_id') . ' = ' . (int) $filterId);
 
 			// Load the filter data.
 			$db->setQuery($query);
@@ -75,16 +75,16 @@ abstract class JHtmlFilter
 
 		// Build the query to get the branch data and the number of child nodes.
 		$query->clear();
-		$query->select('t.*, count(c.id) AS children');
-		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t');
-		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id');
-		$query->where($db->quoteName('t.parent_id') . ' = 1');
-		$query->where($db->quoteName('t.state') . ' = 1');
-		$query->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
-		$query->where($db->quoteName('c.state') . ' = 1');
-		$query->where($db->quoteName('c.access') . ' IN (' . $groups . ')');
-		$query->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id');
-		$query->order('t.ordering, t.title');
+		$query->select('t.*, count(c.id) AS children')
+			->from($db->qn('#__finder_taxonomy') . ' AS t')
+			->join('INNER', $db->qn('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
+			->where($db->qn('t.parent_id') . ' = 1')
+			->where($db->qn('t.state') . ' = 1')
+			->where($db->qn('t.access') . ' IN (' . $groups . ')')
+			->where($db->qn('c.state') . ' = 1')
+			->where($db->qn('c.access') . ' IN (' . $groups . ')')
+			->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id')
+			->order('t.ordering, t.title');
 
 		// Limit the branch children to a predefined filter.
 		if ($filter)
@@ -161,12 +161,12 @@ abstract class JHtmlFilter
 
 			// Build the query to get the child nodes for this branch.
 			$query->clear();
-			$query->select('t.*');
-			$query->from($db->quoteName('#__finder_taxonomy') . ' AS t');
-			$query->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk);
-			$query->where($db->quoteName('t.state') . ' = 1');
-			$query->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
-			$query->order('t.ordering, t.title');
+			$query->select('t.*')
+				->from($db->qn('#__finder_taxonomy') . ' AS t')
+				->where($db->qn('t.parent_id') . ' = ' . (int) $bk)
+				->where($db->qn('t.state') . ' = 1')
+				->where($db->qn('t.access') . ' IN (' . $groups . ')')
+				->order('t.ordering, t.title');
 
 			// Load the branches.
 			$db->setQuery($query);
@@ -256,17 +256,17 @@ abstract class JHtmlFilter
 		if (!($branches = $cache->get($cacheId)))
 		{
 			$db = JFactory::getDBO();
-			$sql = $db->getQuery(true);
+			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.
 			if (!empty($query->filter))
 			{
-				$sql->select($db->quoteName('f.data') . ', '. $db->quoteName('f.params'));
-				$sql->from($db->quoteName('#__finder_filters') . ' AS f');
-				$sql->where($db->quoteName('f.filter_id') . ' = ' . (int) $query->filter);
+				$query->select($db->qn('f.data') . ', '. $db->qn('f.params'))
+					->from($db->qn('#__finder_filters') . ' AS f')
+					->where($db->qn('f.filter_id') . ' = ' . (int) $query->filter);
 
 				// Load the filter data.
-				$db->setQuery($sql);
+				$db->setQuery($query);
 
 				try
 				{
@@ -287,26 +287,26 @@ abstract class JHtmlFilter
 			}
 
 			// Build the query to get the branch data and the number of child nodes.
-			$sql->clear();
-			$sql->select('t.*, count(c.id) AS children');
-			$sql->from($db->quoteName('#__finder_taxonomy') . ' AS t');
-			$sql->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id');
-			$sql->where($db->quoteName('t.parent_id') . ' = 1');
-			$sql->where($db->quoteName('t.state') . ' = 1');
-			$sql->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
-			$sql->where($db->quoteName('c.state') . ' = 1');
-			$sql->where($db->quoteName('c.access') . ' IN (' . $groups . ')');
-			$sql->group($db->quoteName('t.id'));
-			$sql->order('t.ordering, t.title');
+			$query->clear();
+			$query->select('t.*, count(c.id) AS children')
+				->from($db->qn('#__finder_taxonomy') . ' AS t')
+				->join('INNER', $db->qn('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
+				->where($db->qn('t.parent_id') . ' = 1')
+				->where($db->qn('t.state') . ' = 1')
+				->where($db->qn('t.access') . ' IN (' . $groups . ')')
+				->where($db->qn('c.state') . ' = 1')
+				->where($db->qn('c.access') . ' IN (' . $groups . ')')
+				->group($db->qn('t.id'))
+				->order('t.ordering, t.title');
 
 			// Limit the branch children to a predefined filter.
 			if (!empty($filter->data))
 			{
-				$sql->where('c.id IN(' . $filter->data . ')');
+				$query->where('c.id IN(' . $filter->data . ')');
 			}
 
 			// Load the branches.
-			$db->setQuery($sql);
+			$db->setQuery($query);
 
 			try
 			{
@@ -333,22 +333,22 @@ abstract class JHtmlFilter
 				}
 
 				// Build the query to get the child nodes for this branch.
-				$sql->clear();
-				$sql->select('t.*');
-				$sql->from($db->quoteName('#__finder_taxonomy') . ' AS t');
-				$sql->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk);
-				$sql->where($db->quoteName('t.state') . ' = 1');
-				$sql->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
-				$sql->order('t.ordering, t.title');
+				$query->clear();
+				$query->select('t.*')
+					->from($db->qn('#__finder_taxonomy') . ' AS t')
+					->where($db->qn('t.parent_id') . ' = ' . (int) $bk)
+					->where($db->qn('t.state') . ' = 1')
+					->where($db->qn('t.access') . ' IN (' . $groups . ')')
+					->order('t.ordering, t.title');
 
 				// Limit the nodes to a predefined filter.
 				if (!empty($filter->data))
 				{
-					$sql->where('t.id IN(' . $filter->data . ')');
+					$query->where('t.id IN(' . $filter->data . ')');
 				}
 
 				// Load the branches.
-				$db->setQuery($sql);
+				$db->setQuery($query);
 
 				try
 				{

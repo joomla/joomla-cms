@@ -40,12 +40,12 @@ class JLanguageHelper
 		{
 			$db = JFactory::getDBO();
 			$query = $db->getQuery(true);
-			$query->select('element');
-			$query->from('#__extensions');
-			$query->where('type=' . $db->quote('language'));
-			$query->where('state=0');
-			$query->where('enabled=1');
-			$query->where('client_id=' . ($basePath == JPATH_ADMINISTRATOR ? 1 : 0));
+			$query->select('element')
+				->from('#__extensions')
+				->where('type=' . $db->q('language'))
+				->where('state=0')
+				->where('enabled=1')
+				->where('client_id=' . ($basePath == JPATH_ADMINISTRATOR ? 1 : 0));
 			$db->setQuery($query);
 			$installed_languages = $db->loadObjectList('element');
 		}

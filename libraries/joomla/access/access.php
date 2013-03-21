@@ -221,8 +221,8 @@ class JAccess
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true);
-		$query->select($recursive ? 'b.rules' : 'a.rules');
-		$query->from('#__assets AS a');
+		$query->select($recursive ? 'b.rules' : 'a.rules')
+			->from('#__assets AS a');
 
 		// SQLsrv change
 		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
@@ -234,14 +234,14 @@ class JAccess
 		}
 		else
 		{
-			$query->where('(a.name = ' . $db->quote($asset) . ')');
+			$query->where('(a.name = ' . $db->q($asset) . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
-			$query->order('b.lft');
+			$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
+				->order('b.lft');
 		}
 
 		// Execute the query and load the rules from the result.
@@ -255,9 +255,9 @@ class JAccess
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 			$rootId = $assets->getRootId();
 			$query = $db->getQuery(true);
-			$query->select('rules');
-			$query->from('#__assets');
-			$query->where('id = ' . $db->quote($rootId));
+			$query->select('rules')
+				->from('#__assets')
+				->where('id = ' . $db->q($rootId));
 			$db->setQuery($query);
 			$result = $db->loadResult();
 			$result = array($result);
@@ -313,14 +313,14 @@ class JAccess
 				$query->select($recursive ? 'b.id' : 'a.id');
 				if (empty($userId))
 				{
-					$query->from('#__usergroups AS a');
-					$query->where('a.id = ' . (int) $guestUsergroup);
+					$query->from('#__usergroups AS a')
+						->where('a.id = ' . (int) $guestUsergroup);
 				}
 				else
 				{
-					$query->from('#__user_usergroup_map AS map');
-					$query->where('map.user_id = ' . (int) $userId);
-					$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+					$query->from('#__user_usergroup_map AS map')
+						->where('map.user_id = ' . (int) $userId)
+						->leftJoin('#__usergroups AS a ON a.id = map.group_id');
 				}
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
@@ -372,11 +372,11 @@ class JAccess
 
 		// First find the users contained in the group
 		$query = $db->getQuery(true);
-		$query->select('DISTINCT(user_id)');
-		$query->from('#__usergroups as ug1');
-		$query->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt');
-		$query->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id');
-		$query->where('ug1.id=' . $db->Quote($groupId));
+		$query->select('DISTINCT(user_id)')
+			->from('#__usergroups as ug1')
+			->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt')
+			->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id')
+			->where('ug1.id=' . $db->Quote($groupId));
 
 		$db->setQuery($query);
 
@@ -410,8 +410,8 @@ class JAccess
 
 			// Build the base query.
 			$query = $db->getQuery(true);
-			$query->select('id, rules');
-			$query->from($query->qn('#__viewlevels'));
+			$query->select('id, rules')
+				->from($query->qn('#__viewlevels'));
 
 			// Set the query for execution.
 			$db->setQuery((string) $query);
@@ -461,7 +461,7 @@ class JAccess
 	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
 	 *
 	 * @codeCoverageIgnore
-	 * 
+	 *
 	 */
 	public static function getActions($component, $section = 'component')
 	{

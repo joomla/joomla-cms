@@ -134,23 +134,23 @@ class WeblinksModelWeblinks extends JModelList
 				'a.language, a.publish_up, a.publish_down'
 			)
 		);
-		$query->from($db->quoteName('#__weblinks').' AS a');
+		$query->from($db->qn('#__weblinks').' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title');
-		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->select('c.title AS category_title')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
@@ -198,7 +198,7 @@ class WeblinksModelWeblinks extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where('a.language = ' . $db->q($language));
 		}
 
 		// Add the list ordering clause.

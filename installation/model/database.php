@@ -439,14 +439,14 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 		$query = $db->getQuery(true);
-		$query->insert($db->quoteName('#__schemas'));
-		$query->columns(
-			array(
-				$db->quoteName('extension_id'),
-				$db->quoteName('version_id')
+		$query->insert($db->qn('#__schemas'))
+			->columns(
+				array(
+					$db->qn('extension_id'),
+					$db->qn('version_id')
+				)
 			)
-		);
-		$query->values('700, ' . $db->quote($version));
+			->values('700, ' . $db->q($version));
 		$db->setQuery($query);
 
 		try
@@ -461,8 +461,8 @@ class InstallationModelDatabase extends JModelBase
 
 		// Attempt to refresh manifest caches
 		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__extensions');
+		$query->select('*')
+			->from('#__extensions');
 		$db->setQuery($query);
 
 		$return = true;
@@ -537,9 +537,9 @@ class InstallationModelDatabase extends JModelBase
 
 				// Update the language settings in the language manager.
 				$query = $db->getQuery(true);
-				$query->update($db->quoteName('#__extensions'));
-				$query->set($db->quoteName('params') . ' = ' . $db->quote($params));
-				$query->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
+				$query->update($db->qn('#__extensions'));
+				$query->set($db->qn('params') . ' = ' . $db->q($params));
+				$query->where($db->qn('element') . ' = ' . $db->q('com_languages'));
 				$db->setQuery($query);
 
 			try
@@ -644,8 +644,8 @@ class InstallationModelDatabase extends JModelBase
 		foreach ($updates_array as $table => $field)
 		{
 			$db->setQuery(
-				'UPDATE ' . $db->quoteName('#__' . $table) .
-				' SET ' . $db->quoteName($field) . ' = ' . $db->Quote($userId)
+				'UPDATE ' . $db->qn('#__' . $table) .
+				' SET ' . $db->qn($field) . ' = ' . $db->Quote($userId)
 			);
 			$db->execute();
 		}
@@ -846,7 +846,7 @@ class InstallationModelDatabase extends JModelBase
 	{
 		// Run the create database query.
 		$db->setQuery($db->getAlterDbCharacterSet($name));
-			/*'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
+			/*'ALTER DATABASE '.$db->qn($name).' CHARACTER' .
 			' SET `utf8`'
 		);*/
 
@@ -865,62 +865,62 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to split up queries from a schema file into an array.
 	 *
-	 * @param   string  $sql  SQL schema.
+	 * @param   string  $query  SQL schema.
 	 *
 	 * @return  array  Queries to perform.
 	 *
 	 * @since   3.1
 	 */
-	protected function _splitQueries($sql)
+	protected function _splitQueries($query)
 	{
 		$buffer    = array();
 		$queries   = array();
 		$in_string = false;
 
 		// Trim any whitespace.
-		$sql = trim($sql);
+		$query = trim($query);
 
 		// Remove comment lines.
-		$sql = preg_replace("/\n\#[^\n]*/", '', "\n" . $sql);
+		$query = preg_replace("/\n\#[^\n]*/", '', "\n" . $query);
 
 		// Remove PostgreSQL comment lines.
-		$sql = preg_replace("/\n\--[^\n]*/", '', "\n" . $sql);
+		$query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
 
 		// Find function
-		$funct = explode('CREATE OR REPLACE FUNCTION', $sql);
+		$funct = explode('CREATE OR REPLACE FUNCTION', $query);
 
 		// Save sql before function and parse it
-		$sql = $funct[0];
+		$query = $funct[0];
 
 		// Parse the schema file to break up queries.
-		for ($i = 0; $i < strlen($sql) - 1; $i++)
+		for ($i = 0; $i < strlen($query) - 1; $i++)
 		{
-			if ($sql[$i] == ";" && !$in_string)
+			if ($query[$i] == ";" && !$in_string)
 			{
-				$queries[] = substr($sql, 0, $i);
-				$sql = substr($sql, $i + 1);
+				$queries[] = substr($query, 0, $i);
+				$query = substr($query, $i + 1);
 				$i = 0;
 			}
 
-			if ($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\")
+			if ($in_string && ($query[$i] == $in_string) && $buffer[1] != "\\")
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
 			{
-				$in_string = $sql[$i];
+				$in_string = $query[$i];
 			}
 			if (isset ($buffer[1]))
 			{
 				$buffer[0] = $buffer[1];
 			}
-			$buffer[1] = $sql[$i];
+			$buffer[1] = $query[$i];
 		}
 
 		// If the is anything left over, add it to the queries.
-		if (!empty($sql))
+		if (!empty($query))
 		{
-			$queries[] = $sql;
+			$queries[] = $query;
 		}
 
 		// Add function part as is

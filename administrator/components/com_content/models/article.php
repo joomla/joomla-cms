@@ -147,8 +147,8 @@ class ContentModelArticle extends JModelAdmin
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
-				$query->insert($db->quoteName('#__content_frontpage'));
-				$query->values($newId . ', 0');
+				$query->insert($db->qn('#__content_frontpage'))
+					->values($newId . ', 0');
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -489,9 +489,9 @@ class ContentModelArticle extends JModelAdmin
 				// Deleting old association for these items
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
-				$query->delete('#__associations');
-				$query->where('context='.$db->quote('com_content.item'));
-				$query->where('id IN ('.implode(',', $associations).')');
+				$query->delete('#__associations')
+					->where('context='.$db->q('com_content.item'))
+					->where('id IN ('.implode(',', $associations).')');
 				$db->setQuery($query);
 				$db->execute();
 
@@ -510,7 +510,7 @@ class ContentModelArticle extends JModelAdmin
 
 					foreach ($associations as $tag => $id)
 					{
-						$query->values($id.','.$db->quote('com_content.item') . ',' . $db->quote($key));
+						$query->values($id.','.$db->q('com_content.item') . ',' . $db->q($key));
 					}
 
 					$db->setQuery($query);
@@ -574,9 +574,9 @@ class ContentModelArticle extends JModelAdmin
 			} else {
 				// first, we find out which of our new featured articles are already featured.
 				$query = $db->getQuery(true);
-				$query->select('f.content_id');
-				$query->from('#__content_frontpage AS f');
-				$query->where('content_id IN ('.implode(',', $pks).')');
+				$query->select('f.content_id')
+					->from('#__content_frontpage AS f')
+					->where('content_id IN ('.implode(',', $pks).')');
 				//echo $query;
 				$db->setQuery($query);
 
@@ -594,7 +594,7 @@ class ContentModelArticle extends JModelAdmin
 				if (count($tuples))
 				{
 					$db->setQuery(
-						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
+						'INSERT INTO #__content_frontpage ('.$db->qn('content_id').', '.$db->qn('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
 					$db->execute();

@@ -160,10 +160,10 @@ class MenusModelMenus extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->quoteName('#__menu_types').' AS a');
+		$query->select($this->getState('list.select', 'a.*'))
+			->from($db->qn('#__menu_types').' AS a')
 
-		$query->group('a.id, a.menutype, a.title, a.description');
+			->group('a.id, a.menutype, a.title, a.description');
 
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))
@@ -215,8 +215,8 @@ class MenusModelMenus extends JModelList
 
 		$query->select('e.extension_id')
 			->from('#__extensions AS e')
-			->where('e.type = ' . $db->quote('module'))
-			->where('e.element = ' . $db->quote('mod_menu'))
+			->where('e.type = ' . $db->q('module'))
+			->where('e.element = ' . $db->q('mod_menu'))
 			->where('e.client_id = 0');
 		$db->setQuery($query);
 

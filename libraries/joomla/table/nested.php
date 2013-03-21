@@ -244,9 +244,9 @@ class JTableNested extends JTable
 		$pk = $this->$k;
 
 		$query = $this->_db->getQuery(true);
-		$query->select($k);
-		$query->from($this->_tbl);
-		$query->where('parent_id = ' . $this->parent_id);
+		$query->select($k)
+			->from($this->_tbl)
+			->where('parent_id = ' . $this->parent_id);
 		if ($where)
 		{
 			$query->where($where);
@@ -254,14 +254,14 @@ class JTableNested extends JTable
 		$position = 'after';
 		if ($delta > 0)
 		{
-			$query->where('rgt > ' . $this->rgt);
-			$query->order('rgt ASC');
+			$query->where('rgt > ' . $this->rgt)
+				->order('rgt ASC');
 			$position = 'after';
 		}
 		else
 		{
-			$query->where('lft < ' . $this->lft);
-			$query->order('lft DESC');
+			$query->where('lft < ' . $this->lft)
+				->order('lft DESC');
 			$position = 'before';
 		}
 
@@ -903,10 +903,10 @@ class JTableNested extends JTable
 			{
 				// Ensure that children are not checked out.
 				$query = $this->_db->getQuery(true);
-				$query->select('COUNT(' . $k . ')');
-				$query->from($this->_tbl);
-				$query->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
-				$query->where('(checked_out <> 0 AND checked_out <> ' . (int) $userId . ')');
+				$query->select('COUNT(' . $k . ')')
+					->from($this->_tbl)
+					->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt)
+					->where('(checked_out <> 0 AND checked_out <> ' . (int) $userId . ')');
 				$this->_db->setQuery($query);
 
 				// Check for checked out children.
@@ -923,7 +923,7 @@ class JTableNested extends JTable
 			if ($node->parent_id)
 			{
 				// Get any ancestor nodes that have a lower publishing state.
-				$query = $this->_db->getQuery(true)->select('n.' . $k)->from($this->_db->quoteName($this->_tbl) . ' AS n')
+				$query = $this->_db->getQuery(true)->select('n.' . $k)->from($this->_db->qn($this->_tbl) . ' AS n')
 					->where('n.lft < ' . (int) $node->lft)->where('n.rgt > ' . (int) $node->rgt)->where('n.parent_id > 0')
 					->where('n.published < ' . (int) $compareState);
 
@@ -943,7 +943,7 @@ class JTableNested extends JTable
 			}
 
 			// Update and cascade the publishing state.
-			$query = $this->_db->getQuery(true)->update($this->_db->quoteName($this->_tbl))->set('published = ' . (int) $state)
+			$query = $this->_db->getQuery(true)->update($this->_db->qn($this->_tbl))->set('published = ' . (int) $state)
 				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ')' . ' OR ' . $k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query)->execute();
 
@@ -1173,7 +1173,7 @@ class JTableNested extends JTable
 			$query = $this->_db->getQuery(true);
 			$query->select($k)
 				->from($this->_tbl)
-				->where('alias = ' . $this->_db->quote('root'));
+				->where('alias = ' . $this->_db->q('root'));
 
 			$result = $this->_db->setQuery($query)->loadColumn();
 
@@ -1270,7 +1270,7 @@ class JTableNested extends JTable
 			->set('lft = ' . (int) $leftId)
 			->set('rgt = ' . (int) $rightId)
 			->set('level = ' . (int) $level)
-			->set('path = ' . $this->_db->quote($path))
+			->set('path = ' . $this->_db->q($path))
 			->where($this->_tbl_key . ' = ' . (int) $parentId);
 		$this->_db->setQuery($query)->execute();
 
@@ -1304,11 +1304,11 @@ class JTableNested extends JTable
 
 		// Get the aliases for the path from the node to the root node.
 		$query = $this->_db->getQuery(true);
-		$query->select('p.alias');
-		$query->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p');
-		$query->where('n.lft BETWEEN p.lft AND p.rgt');
-		$query->where('n.' . $this->_tbl_key . ' = ' . (int) $pk);
-		$query->order('p.lft');
+		$query->select('p.alias')
+			->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
+			->where('n.lft BETWEEN p.lft AND p.rgt')
+			->where('n.' . $this->_tbl_key . ' = ' . (int) $pk)
+			->order('p.lft');
 		$this->_db->setQuery($query);
 
 		$segments = $this->_db->loadColumn();
@@ -1325,7 +1325,7 @@ class JTableNested extends JTable
 		// Update the path field for the node.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set('path = ' . $this->_db->quote($path));
+		$query->set('path = ' . $this->_db->q($path));
 		$query->where($this->_tbl_key . ' = ' . (int) $pk);
 
 		$this->_db->setQuery($query)->execute();
@@ -1559,9 +1559,9 @@ class JTableNested extends JTable
 		if ($showData)
 		{
 			$query = $this->_db->getQuery(true);
-			$query->select($this->_tbl_key . ', parent_id, lft, rgt, level');
-			$query->from($this->_tbl);
-			$query->order($this->_tbl_key);
+			$query->select($this->_tbl_key . ', parent_id, lft, rgt, level')
+				->from($this->_tbl)
+				->order($this->_tbl_key);
 			$this->_db->setQuery($query);
 
 			$rows = $this->_db->loadRowList();

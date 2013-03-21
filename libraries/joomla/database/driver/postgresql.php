@@ -615,10 +615,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->replacePrefix((string) $this->sql);
+		$query = $this->replacePrefix((string) $this->sql);
 		if ($this->limit > 0 || $this->offset > 0)
 		{
-			$sql .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
+			$query .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
 		}
 
 		// Increment the query counter.
@@ -628,9 +628,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if ($this->debug)
 		{
 			// Add the query to the object queue.
-			$this->log[] = $sql;
+			$this->log[] = $query;
 
-			JLog::add($sql, JLog::DEBUG, 'databasequery');
+			JLog::add($query, JLog::DEBUG, 'databasequery');
 		}
 
 		// Reset the error values.
@@ -638,7 +638,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->errorMsg = '';
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
-		$this->cursor = @pg_query($this->connection, $sql);
+		$this->cursor = @pg_query($this->connection, $query);
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
@@ -657,7 +657,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					// Get the error number and message.
 					$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-					$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=$sql";
+					$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $query;
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
@@ -672,7 +672,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				// Get the error number and message.
 				$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-				$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=$sql";
+				$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $query;
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
@@ -1136,54 +1136,54 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
 	 *
-	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $query   The SQL statement to prepare.
 	 * @param   string  $prefix  The common table prefix.
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
 	 * @since   12.1
 	 */
-	public function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($query, $prefix = '#__')
 	{
-		$sql = trim($sql);
+		$query = trim($query);
 		$replacedQuery = '';
 
-		if ( strpos($sql, '\'') )
+		if ( strpos($query, '\'') )
 		{
 			// Sequence name quoted with ' ' but need to be replaced
-			if ( strpos($sql, 'currval') )
+			if ( strpos($query, 'currval') )
 			{
-				$sql = explode('currval', $sql);
-				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
+				$query = explode('currval', $query);
+				for ( $nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2 )
 				{
-					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
+					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
-				$sql = implode('currval', $sql);
+				$query = implode('currval', $query);
 			}
 
 			// Sequence name quoted with ' ' but need to be replaced
-			if ( strpos($sql, 'nextval') )
+			if ( strpos($query, 'nextval') )
 			{
-				$sql = explode('nextval', $sql);
-				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
+				$query = explode('nextval', $query);
+				for ( $nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2 )
 				{
-					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
+					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
-				$sql = implode('nextval', $sql);
+				$query = implode('nextval', $query);
 			}
 
 			// Sequence name quoted with ' ' but need to be replaced
-			if ( strpos($sql, 'setval') )
+			if ( strpos($query, 'setval') )
 			{
-				$sql = explode('setval', $sql);
-				for ( $nIndex = 1; $nIndex < count($sql); $nIndex = $nIndex + 2 )
+				$query = explode('setval', $query);
+				for ( $nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2 )
 				{
-					$sql[$nIndex] = str_replace($prefix, $this->tablePrefix, $sql[$nIndex]);
+					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
-				$sql = implode('setval', $sql);
+				$query = implode('setval', $query);
 			}
 
-			$explodedQuery = explode('\'', $sql);
+			$explodedQuery = explode('\'', $query);
 
 			for ( $nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2 )
 			{
@@ -1197,7 +1197,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 		else
 		{
-			$replacedQuery = str_replace($prefix, $this->tablePrefix, $sql);
+			$replacedQuery = str_replace($prefix, $this->tablePrefix, $query);
 		}
 
 		return $replacedQuery;

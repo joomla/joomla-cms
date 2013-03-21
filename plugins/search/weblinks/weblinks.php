@@ -163,17 +163,17 @@ class PlgSearchWeblinks extends JPlugin
 			$query->select('a.title AS title, a.description AS text, a.created AS created, a.url, '
 						.$case_when.','.$case_when1.', '
 						.$query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section, \'1\' AS browsernav');
-			$query->from('#__weblinks AS a');
-			$query->innerJoin('#__categories AS c ON c.id = a.catid');
-			$query->where('('.$where.')' . ' AND a.state in ('.implode(',', $state).') AND  c.published=1 AND  c.access IN ('.$groups.')');
-			$query->order($order);
+			$query->from('#__weblinks AS a')
+				->innerJoin('#__categories AS c ON c.id = a.catid')
+				->where('('.$where.')' . ' AND a.state in ('.implode(',', $state).') AND  c.published=1 AND  c.access IN ('.$groups.')')
+				->order($order);
 
 			// Filter by language
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')')
+					->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);

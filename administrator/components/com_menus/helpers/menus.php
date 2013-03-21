@@ -143,14 +143,14 @@ class MenusHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out');
-		$query->from('#__menu AS a');
-		$query->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
+			->from('#__menu AS a')
+			->join('LEFT', $db->qn('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
 		if ($menuType)
 		{
-			$query->where('(a.menutype = '.$db->quote($menuType).' OR a.parent_id = 0)');
+			$query->where('(a.menutype = '.$db->q($menuType).' OR a.parent_id = 0)');
 		}
 
 		if ($parentId)
@@ -158,8 +158,8 @@ class MenusHelper
 			if ($mode == 2)
 			{
 				// Prevent the parent and children from showing.
-				$query->join('LEFT', '#__menu AS p ON p.id = '.(int) $parentId);
-				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
+				$query->join('LEFT', '#__menu AS p ON p.id = '.(int) $parentId)
+					->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 			}
 		}
 
@@ -178,9 +178,9 @@ class MenusHelper
 			$query->where('a.published IN ' . $published);
 		}
 
-		$query->where('a.published != -2');
-		$query->group('a.id, a.title, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft');
-		$query->order('a.lft ASC');
+		$query->where('a.published != -2')
+			->group('a.id, a.title, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft')
+			->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -199,10 +199,10 @@ class MenusHelper
 		{
 			// If the menutype is empty, group the items by menutype.
 			$query->clear();
-			$query->select('*');
-			$query->from('#__menu_types');
-			$query->where('menutype <> '.$db->quote(''));
-			$query->order('title, menutype');
+			$query->select('*')
+				->from('#__menu_types')
+				->where('menutype <> '.$db->q(''))
+				->order('title, menutype');
 			$db->setQuery($query);
 
 			try
@@ -247,12 +247,12 @@ class MenusHelper
 		$associations = array();
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->from('#__menu as m');
-		$query->innerJoin('#__associations as a ON a.id=m.id AND a.context='.$db->quote('com_menus.item'));
-		$query->innerJoin('#__associations as a2 ON a.key=a2.key');
-		$query->innerJoin('#__menu as m2 ON a2.id=m2.id');
-		$query->where('m.id=' . (int) $pk);
-		$query->select('m2.language, m2.id');
+		$query->from('#__menu as m')
+			->innerJoin('#__associations as a ON a.id=m.id AND a.context='.$db->q('com_menus.item'))
+			->innerJoin('#__associations as a2 ON a.key=a2.key')
+			->innerJoin('#__menu as m2 ON a2.id=m2.id')
+			->where('m.id=' . (int) $pk)
+			->select('m2.language, m2.id');
 		$db->setQuery($query);
 
 		try

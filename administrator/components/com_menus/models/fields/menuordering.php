@@ -48,18 +48,18 @@ class JFormFieldMenuOrdering extends JFormFieldList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text');
-		$query->from('#__menu AS a');
+		$query->select('a.id AS value, a.title AS text')
+			->from('#__menu AS a')
 
-		$query->where('a.published >= 0');
-		$query->where('a.parent_id =' . (int) $parent_id);
+			->where('a.published >= 0')
+			->where('a.parent_id =' . (int) $parent_id);
 		if ($menuType = $this->form->getValue('menutype'))
 		{
-			$query->where('a.menutype = '.$db->quote($menuType));
+			$query->where('a.menutype = '.$db->q($menuType));
 		}
 		else
 		{
-			$query->where('a.menutype != '.$db->quote(''));
+			$query->where('a.menutype != '.$db->q(''));
 		}
 
 		$query->order('a.lft ASC');

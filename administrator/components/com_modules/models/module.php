@@ -220,9 +220,9 @@ class ModulesModelModule extends JModelAdmin
 				// Now we need to handle the module assignments
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
-				$query->select($db->quoteName('menuid'));
-				$query->from($db->quoteName('#__modules_menu'));
-				$query->where($db->quoteName('moduleid') . ' = ' . $pk);
+				$query->select($db->qn('menuid'))
+					->from($db->qn('#__modules_menu'))
+					->where($db->qn('moduleid') . ' = ' . $pk);
 				$db->setQuery($query);
 				$menus = $db->loadColumn();
 
@@ -230,9 +230,9 @@ class ModulesModelModule extends JModelAdmin
 				foreach ($menus as $menu)
 				{
 					$query->clear();
-					$query->insert($db->quoteName('#__modules_menu'));
-					$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));
-					$query->values($newId . ', ' . $menu);
+					$query->insert($db->qn('#__modules_menu'))
+						->columns(array($db->qn('moduleid'), $db->qn('menuid')))
+						->values($newId . ', ' . $menu);
 					$db->setQuery($query);
 					$db->execute();
 				}
@@ -351,9 +351,8 @@ class ModulesModelModule extends JModelAdmin
 					// Delete the menu assignments
 					$db    = $this->getDbo();
 					$query = $db->getQuery(true);
-					$query->delete();
-					$query->from('#__modules_menu');
-					$query->where('moduleid=' . (int) $pk);
+					$query->delete('#__modules_menu')
+						->where('moduleid=' . (int) $pk);
 					$db->setQuery((string) $query);
 					$db->execute();
 				}
@@ -427,9 +426,9 @@ class ModulesModelModule extends JModelAdmin
 				//	;
 
 				$query	= $db->getQuery(true);
-				$query->select('menuid');
-				$query->from('#__modules_menu');
-				$query->where('moduleid=' . (int) $pk);
+				$query->select('menuid')
+					->from('#__modules_menu')
+					->where('moduleid=' . (int) $pk);
 
 				$this->_db->setQuery((string) $query);
 				$rows = $this->_db->loadColumn();
@@ -628,10 +627,10 @@ class ModulesModelModule extends JModelAdmin
 				if ($extensionId = (int) $this->getState('extension.id'))
 				{
 					$query	= $db->getQuery(true);
-					$query->select('element, client_id');
-					$query->from('#__extensions');
-					$query->where('extension_id = ' . $extensionId);
-					$query->where('type = ' . $db->quote('module'));
+					$query->select('element, client_id')
+						->from('#__extensions')
+						->where('extension_id = ' . $extensionId)
+						->where('type = ' . $db->q('module'));
 					$db->setQuery($query);
 
 					try
@@ -948,9 +947,8 @@ class ModulesModelModule extends JModelAdmin
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->delete();
-		$query->from('#__modules_menu');
-		$query->where('moduleid = ' . (int) $table->id);
+		$query->delete('#__modules_menu')
+			->where('moduleid = ' . (int) $table->id);
 		$db->setQuery((string) $query);
 
 		try
@@ -983,12 +981,12 @@ class ModulesModelModule extends JModelAdmin
 				// $this->_db->setQuery(
 				//  'INSERT INTO #__modules_menu'.
 				//  ' SET moduleid = ' . (int) $table->id . ', menuid = 0'
-				// );
+				// )
 
 				$query->clear();
-				$query->insert('#__modules_menu');
-				$query->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')));
-				$query->values((int) $table->id . ', 0');
+				$query->insert('#__modules_menu')
+					->columns(array($db->qn('moduleid'), $db->qn('menuid')))
+					->values((int) $table->id . ', 0');
 				$db->setQuery((string) $query);
 
 				try
@@ -1035,10 +1033,10 @@ class ModulesModelModule extends JModelAdmin
 
 		// Compute the extension id of this module in case the controller wants it.
 		$query	= $db->getQuery(true);
-		$query->select('extension_id');
-		$query->from('#__extensions AS e');
-		$query->leftJoin('#__modules AS m ON e.element = m.module');
-		$query->where('m.id = ' . (int) $table->id);
+		$query->select('extension_id')
+			->from('#__extensions AS e')
+			->leftJoin('#__modules AS m ON e.element = m.module')
+			->where('m.id = ' . (int) $table->id);
 		$db->setQuery($query);
 
 		try

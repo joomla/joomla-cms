@@ -114,26 +114,26 @@ class TemplatesModelStyles extends JModelList
 				'a.id, a.template, a.title, a.home, a.client_id, l.title AS language_title, l.image as image'
 			)
 		);
-		$query->from($db->quoteName('#__template_styles').' AS a');
+		$query->from($db->qn('#__template_styles').' AS a');
 
 		// Join on menus.
-		$query->select('COUNT(m.template_style_id) AS assigned');
-		$query->leftjoin('#__menu AS m ON m.template_style_id = a.id');
-		$query->group('a.id, a.template, a.title, a.home, a.client_id, l.title, l.image, e.extension_id');
+		$query->select('COUNT(m.template_style_id) AS assigned')
+			->leftjoin('#__menu AS m ON m.template_style_id = a.id')
+			->group('a.id, a.template, a.title, a.home, a.client_id, l.title, l.image, e.extension_id');
 
 		// Join over the language
 		$query->join('LEFT', '#__languages AS l ON l.lang_code = a.home');
 
 		// Filter by extension enabled
-		$query->select('extension_id AS e_id');
-		$query->join('LEFT', '#__extensions AS e ON e.element = a.template');
-		$query->where('e.enabled = 1');
-		$query->where($db->quoteName('e.type') . '=' . $db->quote('template'));
+		$query->select('extension_id AS e_id')
+			->join('LEFT', '#__extensions AS e ON e.element = a.template')
+			->where('e.enabled = 1')
+			->where($db->qn('e.type') . '=' . $db->q('template'));
 
 		// Filter by template.
 		if ($template = $this->getState('filter.template'))
 		{
-			$query->where('a.template = '.$db->quote($template));
+			$query->where('a.template = '.$db->q($template));
 		}
 
 		// Filter by client.

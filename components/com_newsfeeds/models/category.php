@@ -113,16 +113,16 @@ class NewsfeedsModelCategory extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the categories.
-		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->quoteName('#__newsfeeds').' AS a');
-		$query->where('a.access IN ('.$groups.')');
+		$query->select($this->getState('list.select', 'a.*'))
+			->from($db->qn('#__newsfeeds').' AS a')
+			->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where('a.catid = '.(int) $categoryId);
-			$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
-			$query->where('c.access IN ('.$groups.')');
+			$query->where('a.catid = '.(int) $categoryId)
+				->join('LEFT', '#__categories AS c ON c.id = a.catid')
+				->where('c.access IN ('.$groups.')');
 		}
 
 		// Filter by state
@@ -138,8 +138,8 @@ class NewsfeedsModelCategory extends JModelList
 		$nowDate = $db->Quote($date->format($db->getDateFormat()));
 
 		if ($this->getState('filter.publish_date')){
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 
 		// Filter by search in title

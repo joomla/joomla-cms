@@ -120,9 +120,9 @@ class JFormFieldTag extends JFormFieldList
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		$query->select('a.id AS value, a.path, a.title AS text, a.level, a.published');
-		$query->from('#__tags AS a');
-		$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
+			->from('#__tags AS a')
+			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Ajax tag only loads assigned values
 		if (!$this->isNested())
@@ -139,7 +139,7 @@ class JFormFieldTag extends JFormFieldList
 			$query->where('a.language = ' . $db->q($this->element['language']));
 		}
 
-		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+		$query->where($db->qn('a.alias') . ' <> ' . $db->q('root'));
 
 		// Filter to only load active items
 
@@ -154,8 +154,8 @@ class JFormFieldTag extends JFormFieldList
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published');
-		$query->order('a.lft ASC');
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published')
+			->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);

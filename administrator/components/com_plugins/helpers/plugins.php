@@ -76,10 +76,10 @@ class PluginsHelper
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		$query->select('DISTINCT(folder) AS value, folder AS text');
-		$query->from('#__extensions');
-		$query->where($db->quoteName('type').' = '.$db->quote('plugin'));
-		$query->order('folder');
+		$query->select('DISTINCT(folder) AS value, folder AS text')
+			->from('#__extensions')
+			->where($db->qn('type').' = '.$db->q('plugin'))
+			->order('folder');
 
 		$db->setQuery($query);
 

@@ -336,9 +336,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				// Deleting old association for these items
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
-				$query->delete('#__associations');
-				$query->where('context='.$db->quote('com_newsfeeds.item'));
-				$query->where('id IN ('.implode(',', $associations).')');
+				$query->delete('#__associations')
+					->where('context='.$db->q('com_newsfeeds.item'))
+					->where('id IN ('.implode(',', $associations).')');
 				$db->setQuery($query);
 				$db->execute();
 
@@ -357,7 +357,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 					foreach ($associations as $tag => $id)
 					{
-						$query->values($id.','.$db->quote('com_newsfeeds.item') . ',' . $db->quote($key));
+						$query->values($id.','.$db->q('com_newsfeeds.item') . ',' . $db->q($key));
 					}
 
 					$db->setQuery($query);

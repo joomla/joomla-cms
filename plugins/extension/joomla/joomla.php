@@ -61,9 +61,9 @@ class PlgExtensionJoomla extends JPlugin
 		if (!$update_site_id)
 		{
 			$query->clear();
-			$query->insert('#__update_sites');
-			$query->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')));
-			$query->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
+			$query->insert('#__update_sites')
+				->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')))
+				->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
 			$dbo->setQuery($query);
 			if ($dbo->execute())
 			{
@@ -77,17 +77,17 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			$query->clear();
 			// look for an update site entry that exists
-			$query->select('update_site_id')->from('#__update_sites_extensions');
-			$query->where('update_site_id = '. $update_site_id)->where('extension_id = '. $this->eid);
+			$query->select('update_site_id')->from('#__update_sites_extensions')
+				->where('update_site_id = '. $update_site_id)->where('extension_id = '. $this->eid);
 			$dbo->setQuery($query);
 			$tmpid = (int) $dbo->loadResult();
 			if (!$tmpid)
 			{
 				// link this extension to the relevant update site
 				$query->clear();
-				$query->insert('#__update_sites_extensions');
-				$query->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')));
-				$query->values($update_site_id . ', ' . $this->eid);
+				$query->insert('#__update_sites_extensions')
+					->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')))
+					->values($update_site_id . ', ' . $this->eid);
 				$dbo->setQuery($query);
 				$dbo->execute();
 			}

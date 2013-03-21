@@ -116,15 +116,15 @@ class BannersModelClients extends JModelList
 			)
 		);
 
-		$query->from($db->quoteName('#__banner_clients').' AS a');
+		$query->from($db->qn('#__banner_clients').' AS a');
 
 		// Join over the banners for counting
-		$query->select('COUNT(b.id) as nbanners');
-		$query->join('LEFT', '#__banners AS b ON a.id = b.cid');
+		$query->select('COUNT(b.id) as nbanners')
+			->join('LEFT', '#__banners AS b ON a.id = b.cid');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Filter by published state
 		$published = $this->getState('filter.state');

@@ -83,9 +83,9 @@ class MessagesModelMessage extends JModelAdmin
 						$db		= $this->getDbo();
 						$query	= $db->getQuery(true);
 
-						$query->select('subject, user_id_from');
-						$query->from('#__messages');
-						$query->where('message_id = '.(int) $replyId);
+						$query->select('subject, user_id_from')
+							->from('#__messages')
+							->where('message_id = '.(int) $replyId);
 
 						try
 						{

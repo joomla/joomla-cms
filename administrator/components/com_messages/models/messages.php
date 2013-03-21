@@ -108,8 +108,8 @@ class MessagesModelMessages extends JModelList
 		$query->from('#__messages AS a');
 
 		// Join over the users for message owner.
-		$query->join('INNER', '#__users AS u ON u.id = a.user_id_from');
-		$query->where('a.user_id_to = '.(int) $user->get('id'));
+		$query->join('INNER', '#__users AS u ON u.id = a.user_id_from')
+			->where('a.user_id_to = '.(int) $user->get('id'));
 
 		// Filter by published state.
 		$state = $this->getState('filter.state');

@@ -258,11 +258,11 @@ class MenusModelMenu extends JModelForm
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true);
-		$query->from('#__modules as a');
-		$query->select('a.id, a.title, a.params, a.position');
-		$query->where('module = '.$db->quote('mod_menu'));
-		$query->select('ag.title AS access_title');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->from('#__modules as a')
+			->select('a.id, a.title, a.params, a.position')
+			->where('module = '.$db->q('mod_menu'))
+			->select('ag.title AS access_title')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 		$db->setQuery($query);
 
 		$modules = $db->loadObjectList();

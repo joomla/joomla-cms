@@ -90,7 +90,7 @@ class InstallerModel extends JModelList
 		}
 		else
 		{
-			$query->order($db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+			$query->order($db->qn($ordering) . ' ' . $this->getState('list.direction'));
 			$result = parent::_getList($query, $limitstart, $limit);
 			$this->translate($result);
 			return $result;

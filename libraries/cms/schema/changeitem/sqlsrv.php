@@ -157,6 +157,6 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
-		return $this->db->quote($string);
+		return $this->db->q($string);
 	}
 }

@@ -134,7 +134,7 @@ class TemplatesModelTemplate extends JModelLegacy
 				'SELECT extension_id, client_id, element' .
 				' FROM #__extensions' .
 				' WHERE extension_id = '.(int) $pk.
-				'  AND type = '.$db->quote('template')
+				'  AND type = '.$db->q('template')
 			);
 
 			try
@@ -170,9 +170,9 @@ class TemplatesModelTemplate extends JModelLegacy
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('COUNT(*)');
-		$query->from('#__extensions');
-		$query->where('name = ' . $db->quote($this->getState('new_name')));
+		$query->select('COUNT(*)')
+			->from('#__extensions')
+			->where('name = ' . $db->q($this->getState('new_name')));
 		$db->setQuery($query);
 		return ($db->loadResult() == 0);
 	}

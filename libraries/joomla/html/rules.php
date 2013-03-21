@@ -151,9 +151,9 @@ abstract class JHtmlRules
 		$query = $db->getQuery(true);
 
 		// Get the user groups from the database.
-		$query->select($db->quoteName('parent_id'));
-		$query->from($db->quoteName('#__assets'));
-		$query->where($db->quoteName('id') . ' = ' . (int) $assetId);
+		$query->select($db->qn('parent_id'))
+			->from($db->qn('#__assets'))
+			->where($db->qn('id') . ' = ' . (int) $assetId);
 		$db->setQuery($query);
 		return (int) $db->loadResult();
 	}

@@ -61,12 +61,12 @@ class FinderModelSuggestions extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select required fields
-		$query->select('t.term');
-		$query->from($db->quoteName('#__finder_terms') . ' AS t');
-		$query->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'));
-		$query->where('t.common = 0');
-		$query->order('t.links DESC');
-		$query->order('t.weight DESC');
+		$query->select('t.term')
+			->from($db->qn('#__finder_terms') . ' AS t')
+			->where('t.term LIKE ' . $db->q($db->escape($this->getState('input'), true) . '%'))
+			->where('t.common = 0')
+			->order('t.links DESC')
+			->order('t.weight DESC');
 
 		return $query;
 	}

@@ -111,9 +111,9 @@ class FinderModelSearch extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->quoteName('link_id') . ', ' . $db->quoteName('object'));
-		$query->from($db->quoteName('#__finder_links'));
-		$query->where($db->quoteName('link_id') . ' IN (' . implode(',', array_keys($items)) . ')');
+		$query->select($db->qn('link_id') . ', ' . $db->qn('object'))
+			->from($db->qn('#__finder_links'))
+			->where($db->qn('link_id') . ' IN (' . implode(',', array_keys($items)) . ')');
 
 		// Load the results from the database.
 		$db->setQuery($query);
@@ -224,18 +224,18 @@ class FinderModelSearch extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('l.link_id');
-		$query->from($db->quoteName('#__finder_links') . ' AS l');
-		$query->where($db->quoteName('l.access') . ' IN (' . $groups . ')');
-		$query->where($db->quoteName('l.state') . ' = 1');
+		$query->select('l.link_id')
+			->from($db->qn('#__finder_links') . ' AS l')
+			->where($db->qn('l.access') . ' IN (' . $groups . ')')
+			->where($db->qn('l.state') . ' = 1');
 
 		// Get the null date and the current date, minus seconds.
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
+		$nullDate = $db->q($db->getNullDate());
+		$nowDate = $db->q(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
 
 		// Add the publish up and publish down filters.
-		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')');
-		$query->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
+		$query->where('(' . $db->qn('l.publish_start_date') . ' = ' . $nullDate . ' OR ' . $db->qn('l.publish_start_date') . ' <= ' . $nowDate . ')')
+			->where('(' . $db->qn('l.publish_end_date') . ' = ' . $nullDate . ' OR ' . $db->qn('l.publish_end_date') . ' >= ' . $nowDate . ')');
 
 		/*
 		 * Add the taxonomy filters to the query. We have to join the taxonomy
@@ -252,8 +252,8 @@ class FinderModelSearch extends JModelList
 			for ($i = 0, $c = count($groups); $i < $c; $i++)
 			{
 				// We use the offset because each join needs a unique alias.
-				$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t' . $i . ' ON t' . $i . '.link_id = l.link_id');
-				$query->where('t' . $i . '.node_id IN (' . implode(',', $groups[$i]) . ')');
+				$query->join('INNER', $db->qn('#__finder_taxonomy_map') . ' AS t' . $i . ' ON t' . $i . '.link_id = l.link_id')
+					->where('t' . $i . '.node_id IN (' . implode(',', $groups[$i]) . ')');
 			}
 		}
 
@@ -261,20 +261,20 @@ class FinderModelSearch extends JModelList
 		if (!empty($this->query->date1))
 		{
 			// Escape the date.
-			$date1 = $db->quote($this->query->date1);
+			$date1 = $db->q($this->query->date1);
 
 			// Add the appropriate WHERE condition.
 			if ($this->query->when1 == 'before')
 			{
-				$query->where($db->quoteName('l.start_date') . ' <= ' . $date1);
+				$query->where($db->qn('l.start_date') . ' <= ' . $date1);
 			}
 			elseif ($this->query->when1 == 'after')
 			{
-				$query->where($db->quoteName('l.start_date') . ' >= ' . $date1);
+				$query->where($db->qn('l.start_date') . ' >= ' . $date1);
 			}
 			else
 			{
-				$query->where($db->quoteName('l.start_date') . ' = ' . $date1);
+				$query->where($db->qn('l.start_date') . ' = ' . $date1);
 			}
 		}
 
@@ -282,26 +282,26 @@ class FinderModelSearch extends JModelList
 		if (!empty($this->query->date2))
 		{
 			// Escape the date.
-			$date2 = $db->quote($this->query->date2);
+			$date2 = $db->q($this->query->date2);
 
 			// Add the appropriate WHERE condition.
 			if ($this->query->when2 == 'before')
 			{
-				$query->where($db->quoteName('l.start_date') . ' <= ' . $date2);
+				$query->where($db->qn('l.start_date') . ' <= ' . $date2);
 			}
 			elseif ($this->query->when2 == 'after')
 			{
-				$query->where($db->quoteName('l.start_date') . ' >= ' . $date2);
+				$query->where($db->qn('l.start_date') . ' >= ' . $date2);
 			}
 			else
 			{
-				$query->where($db->quoteName('l.start_date') . ' = ' . $date2);
+				$query->where($db->qn('l.start_date') . ' = ' . $date2);
 			}
 		}
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('l.language IN (' . $db->quote(JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
+			$query->where('l.language IN (' . $db->q(JFactory::getLanguage()->getTag()) . ', ' . $db->q('*') . ')');
 		}
 		// Push the data into cache.
 		$this->store($store, $query, false);
@@ -343,12 +343,12 @@ class FinderModelSearch extends JModelList
 		if (empty($this->includedTerms))
 		{
 			// Adjust the query to join on the appropriate mapping table.
-			$sql = clone($base);
-			$sql->clear('select');
-			$sql->select('COUNT(DISTINCT l.link_id)');
+			$query = clone($base);
+			$query->clear('select');
+			$query->select('COUNT(DISTINCT l.link_id)');
 
 			// Get the total from the database.
-			$this->_db->setQuery($sql);
+			$this->_db->setQuery($query);
 			$total = $this->_db->loadResult();
 
 			// Push the total into cache.
@@ -417,12 +417,12 @@ class FinderModelSearch extends JModelList
 				else
 				{
 					// Adjust the query to join on the appropriate mapping table.
-					$sql = clone($base);
-					$sql->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id');
-					$sql->where('m.term_id IN (' . implode(',', $ids) . ')');
+					$query = clone($base);
+					$query->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id')
+						->where('m.term_id IN (' . implode(',', $ids) . ')');
 
 					// Load the results from the database.
-					$this->_db->setQuery($sql, $start, $limit);
+					$this->_db->setQuery($query, $start, $limit);
 					$temp = $this->_db->loadObjectList();
 
 					// Set the more flag to true if any of the sets equal the limit.
@@ -529,12 +529,12 @@ class FinderModelSearch extends JModelList
 						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
 
 						// Adjust the query to join on the appropriate mapping table.
-						$sql = clone($base);
-						$sql->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id');
-						$sql->where('m.term_id IN (' . implode(',', $required) . ')');
+						$query = clone($base);
+						$query->join('INNER', '#__finder_links_terms' . $suffix . ' AS m ON m.link_id = l.link_id')
+							->where('m.term_id IN (' . implode(',', $required) . ')');
 
 						// Load the results from the database.
-						$this->_db->setQuery($sql, $reqStart, $limit);
+						$this->_db->setQuery($query, $reqStart, $limit);
 						$temp = $this->_db->loadObjectList('link_id');
 
 						// Set the required token more flag to true if the set equal the limit.
@@ -697,12 +697,12 @@ class FinderModelSearch extends JModelList
 				else
 				{
 					// Adjust the query to join on the appropriate mapping table.
-					$sql = clone($base);
-					$sql->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id');
-					$sql->where('m.term_id IN (' . implode(',', $ids) . ')');
+					$query = clone($base);
+					$query->join('INNER', $this->_db->qn('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id')
+						->where('m.term_id IN (' . implode(',', $ids) . ')');
 
 					// Load the results from the database.
-					$this->_db->setQuery($sql, $start, $limit);
+					$this->_db->setQuery($query, $start, $limit);
 					$temp = $this->_db->loadObjectList('link_id');
 
 					// Store this set in cache.
@@ -851,12 +851,12 @@ class FinderModelSearch extends JModelList
 						$suffix = JString::substr(md5(JString::substr($token, 0, 1)), 0, 1);
 
 						// Adjust the query to join on the appropriate mapping table.
-						$sql = clone($base);
-						$sql->join('INNER', $this->_db->quoteName('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id');
-						$sql->where('m.term_id IN (' . implode(',', $required) . ')');
+						$query = clone($base);
+						$query->join('INNER', $this->_db->qn('#__finder_links_terms' . $suffix) . ' AS m ON m.link_id = l.link_id')
+							->where('m.term_id IN (' . implode(',', $required) . ')');
 
 						// Load the results from the database.
-						$this->_db->setQuery($sql, $reqStart, $limit);
+						$this->_db->setQuery($query, $reqStart, $limit);
 						$temp = $this->_db->loadObjectList('link_id');
 
 						// Set the required token more flag to true if the set equal the limit.
@@ -969,10 +969,10 @@ class FinderModelSearch extends JModelList
 			$query = $db->getQuery(true);
 
 			// Create the query to get the links ids.
-			$query->select('link_id');
-			$query->from($db->quoteName('#__finder_links_terms' . $suffix));
-			$query->where($db->quoteName('term_id') . ' IN (' . implode(',', $ids) . ')');
-			$query->group($db->quoteName('link_id'));
+			$query->select('link_id')
+				->from($db->qn('#__finder_links_terms' . $suffix))
+				->where($db->qn('term_id') . ' IN (' . implode(',', $ids) . ')')
+				->group($db->qn('link_id'));
 
 			// Load the link ids from the database.
 			$db->setQuery($query);
@@ -1008,9 +1008,9 @@ class FinderModelSearch extends JModelList
 		//@TODO: Impact of removing SQL_NO_CACHE?
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('SQL_NO_CACHE link_id');
-		$query->from('#__finder_links_terms');
-		$query->where('term_id IN (' . implode(',', $terms) . ')');
+		$query->select('SQL_NO_CACHE link_id')
+			->from('#__finder_links_terms')
+			->where('term_id IN (' . implode(',', $terms) . ')');
 
 		return $query;
 	}

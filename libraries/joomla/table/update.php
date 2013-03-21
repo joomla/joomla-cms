@@ -98,9 +98,9 @@ class JTableUpdate extends JTable
 			$where[] = $col . ' = ' . $this->_db->Quote($val);
 		}
 		$query = $this->_db->getQuery(true);
-		$query->select($this->_db->quoteName($this->_tbl_key));
-		$query->from($this->_db->quoteName($this->_tbl));
-		$query->where(implode(' AND ', $where));
+		$query->select($this->_db->qn($this->_tbl_key))
+			->from($this->_db->qn($this->_tbl))
+			->where(implode(' AND ', $where));
 		$this->_db->setQuery($query);
 		return $this->_db->loadResult();
 	}

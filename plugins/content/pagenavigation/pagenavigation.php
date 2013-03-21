@@ -125,17 +125,17 @@ class PlgContentPagenavigation extends JPlugin
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 			$case_when1 .= ' ELSE ';
 			$case_when1 .= $c_id.' END as catslug';
-			$query->select('a.id,'.$case_when.','.$case_when1);
-			$query->from('#__content AS a');
-			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
-			$query->where(
+			$query->select('a.id,'.$case_when.','.$case_when1)
+				->from('#__content AS a')
+				->leftJoin('#__categories AS cc ON cc.id = a.catid')
+				->where(
 				'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
 				. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere
 			);
 			$query->order($orderby);
 			if ($app->isSite() && $app->getLanguageFilter())
 			{
-				$query->where('a.language in ('.$db->quote($lang->getTag()).','.$db->quote('*').')');
+				$query->where('a.language in ('.$db->q($lang->getTag()).','.$db->q('*').')');
 			}
 
 			$db->setQuery($query);

@@ -47,12 +47,12 @@ abstract class JHtmlCategory
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select('a.id, a.title, a.level');
-			$query->from('#__categories AS a');
-			$query->where('a.parent_id > 0');
+			$query->select('a.id, a.title, a.level')
+				->from('#__categories AS a')
+				->where('a.parent_id > 0');
 
 			// Filter on extension.
-			$query->where('extension = ' . $db->quote($extension));
+			$query->where('extension = ' . $db->q($extension));
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
@@ -73,13 +73,13 @@ abstract class JHtmlCategory
 			{
 				if (is_string($config['filter.language']))
 				{
-					$query->where('a.language = ' . $db->quote($config['filter.language']));
+					$query->where('a.language = ' . $db->q($config['filter.language']));
 				}
 				elseif (is_array($config['filter.language']))
 				{
 					foreach ($config['filter.language'] as &$language)
 					{
-						$language = $db->quote($language);
+						$language = $db->q($language);
 					}
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
@@ -124,12 +124,12 @@ abstract class JHtmlCategory
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select('a.id, a.title, a.level, a.parent_id');
-			$query->from('#__categories AS a');
-			$query->where('a.parent_id > 0');
+			$query->select('a.id, a.title, a.level, a.parent_id')
+				->from('#__categories AS a')
+				->where('a.parent_id > 0');
 
 			// Filter on extension.
-			$query->where('extension = ' . $db->quote($extension));
+			$query->where('extension = ' . $db->q($extension));
 
 			// Filter on the published state
 			if (isset($config['filter.published']))

@@ -104,9 +104,9 @@ class UsersModelMail extends JModelAdmin
 
 		// Get all users email and group except for senders
 		$query	= $db->getQuery(true);
-		$query->select('email');
-		$query->from('#__users');
-		$query->where('id != '.(int) $user->get('id'));
+		$query->select('email')
+			->from('#__users')
+			->where('id != '.(int) $user->get('id'));
 		if ($grp !== 0)
 		{
 			if (empty($to))

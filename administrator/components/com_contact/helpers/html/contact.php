@@ -40,14 +40,14 @@ abstract class JHtmlContact
 			// Get the associated contact items
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('c.*');
-			$query->from('#__contact_details as c');
-			$query->select('cat.title as category_title');
-			$query->leftJoin('#__categories as cat ON cat.id=c.catid');
-			$query->where('c.id IN (' . implode(',', array_values($associations)) . ')');
-			$query->leftJoin('#__languages as l ON c.language=l.lang_code');
-			$query->select('l.image');
-			$query->select('l.title as language_title');
+			$query->select('c.*')
+				->from('#__contact_details as c')
+				->select('cat.title as category_title')
+				->leftJoin('#__categories as cat ON cat.id=c.catid')
+				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
+				->leftJoin('#__languages as l ON c.language=l.lang_code')
+				->select('l.image')
+				->select('l.title as language_title');
 			$db->setQuery($query);
 
 			try

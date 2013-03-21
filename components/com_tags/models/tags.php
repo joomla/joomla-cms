@@ -115,14 +115,14 @@ class TagsModelTags extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('a.*');
+		$query->select('a.*')
 
-		$query->from($db->quoteName('#__tags') . ' AS a');
-		$query->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
+			->from($db->qn('#__tags') . ' AS a')
+			->where($db->qn('a.access') . ' IN (' . $groups . ')');
 
 		if (!empty($pid))
 		{
-			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
+			$query->where($db->qn('a.parent_id') . ' = ' . $pid);
 		}
 
 		// Optionally filter on language
@@ -139,7 +139,7 @@ class TagsModelTags extends JModelList
 			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
 		}
 
-		$query->order($db->quoteName($orderby) . ' ' . $orderDirection);
+		$query->order($db->qn($orderby) . ' ' . $orderDirection);
 
 		return $query;
 	}

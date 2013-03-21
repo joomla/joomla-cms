@@ -27,9 +27,9 @@ class ModWhosonlineHelper
 		$user_array  = 0;
 		$guest_array = 0;
 		$query	= $db->getQuery(true);
-		$query->select('guest, client_id');
-		$query->from('#__session');
-		$query->where('client_id = 0');
+		$query->select('guest, client_id')
+			->from('#__session')
+			->where('client_id = 0');
 		$db->setQuery($query);
 		$sessions = (array) $db->loadObjectList();
 
@@ -61,11 +61,11 @@ class ModWhosonlineHelper
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
-		$query->select($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')));
-		$query->from('#__session AS a');
-		$query->where($db->quoteName('a.userid') . ' != 0');
-		$query->where($db->quoteName('a.client_id') . ' = 0');
-		$query->group($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')));
+		$query->select($db->qn(array('a.username', 'a.time', 'a.userid', 'a.client_id')))
+			->from('#__session AS a')
+			->where($db->qn('a.userid') . ' != 0')
+			->where($db->qn('a.client_id') . ' = 0')
+			->group($db->qn(array('a.username', 'a.time', 'a.userid', 'a.client_id')));
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{
@@ -74,10 +74,10 @@ class ModWhosonlineHelper
 			{
 				return array();
 			}
-			$query->leftJoin('#__user_usergroup_map AS m ON m.user_id = a.userid');
-			$query->leftJoin('#__usergroups AS ug ON ug.id = m.group_id');
-			$query->where('ug.id in (' . implode(',', $groups) . ')');
-			$query->where('ug.id <> 1');
+			$query->leftJoin('#__user_usergroup_map AS m ON m.user_id = a.userid')
+				->leftJoin('#__usergroups AS ug ON ug.id = m.group_id')
+				->where('ug.id in (' . implode(',', $groups) . ')')
+				->where('ug.id <> 1');
 		}
 		$db->setQuery($query);
 		return (array) $db->loadObjectList();

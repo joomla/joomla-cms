@@ -39,11 +39,11 @@ class JLanguageAssociations
 		$associations = array();
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('c2.language'));
-		$query->from($db->quoteName($tablename, 'c'));
-		$query->innerJoin($db->quoteName('#__associations', 'a') . ' ON a.id = c.id AND a.context=' . $db->quote($context));
-		$query->innerJoin($db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key');
-		$query->innerJoin($db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk));
+		$query->select($db->qn('c2.language'))
+			->from($db->qn($tablename, 'c'))
+			->innerJoin($db->qn('#__associations', 'a') . ' ON a.id = c.id AND a.context=' . $db->q($context))
+			->innerJoin($db->qn('#__associations', 'a2') . ' ON a.key = a2.key')
+			->innerJoin($db->qn($tablename, 'c2') . ' ON a2.id = c2.' . $db->qn($pk));
 
 		// Use alias field ?
 		if (!empty($aliasField))
@@ -51,30 +51,30 @@ class JLanguageAssociations
 			$query->select(
 				$query->concatenate(
 					array(
-						$db->quoteName('c2.' . $pk),
-						$db->quoteName('c2.' . $aliasField)
+						$db->qn('c2.' . $pk),
+						$db->qn('c2.' . $aliasField)
 					),
 					':'
-				) . ' AS ' . $db->quoteName($pk)
+				) . ' AS ' . $db->qn($pk)
 			);
 		}
 		else
 		{
-			$query->select($db->quoteName('c2.' . $pk));
+			$query->select($db->qn('c2.' . $pk));
 		}
 
 		// Use catid field ?
 		if (!empty($catField))
 		{
-			$query->innerJoin($db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension));
-			$query->select(
+			$query->innerJoin($db->qn('#__categories', 'ca') . ' ON ' . $db->qn('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->q($extension))
+				->select(
 				$query->concatenate(
 					array(
 						'ca.id',
 						'ca.alias'
 					),
 					':'
-				) . ' AS ' . $db->quoteName($catField)
+				) . ' AS ' . $db->qn($catField)
 			);
 		}
 

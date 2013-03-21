@@ -153,7 +153,7 @@ abstract class JDatabaseQuery
 	 * @var    string  The SQL query (if a direct query string was provided).
 	 * @since  12.1
 	 */
-	protected $sql = null;
+	protected $query = null;
 
 	/**
 	 * @var    string  The query type.
@@ -1178,7 +1178,7 @@ abstract class JDatabaseQuery
 
 		if ($quoted)
 		{
-			return $this->db->quote($result);
+			return $this->db->q($result);
 		}
 
 		return $result;
@@ -1258,7 +1258,7 @@ abstract class JDatabaseQuery
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		return $this->db->quote($text, $escape);
+		return $this->db->q($text, $escape);
 	}
 
 	/**
@@ -1291,7 +1291,7 @@ abstract class JDatabaseQuery
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		return $this->db->quoteName($name, $as);
+		return $this->db->qn($name, $as);
 	}
 
 	/**
@@ -1383,15 +1383,15 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->setQuery('select * from #__users');
 	 *
-	 * @param   mixed  $sql  An SQL Query
+	 * @param   mixed  $query  An SQL Query
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setQuery($sql)
+	public function setQuery($query)
 	{
-		$this->sql = $sql;
+		$this->sql = $query;
 
 		return $this;
 	}

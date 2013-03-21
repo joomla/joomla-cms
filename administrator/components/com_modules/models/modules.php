@@ -159,7 +159,7 @@ class ModulesModelModules extends JModelList
 			{
 				$ordering = 'l.title';
 			}
-			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+			$query->order($this->_db->qn($ordering) . ' ' . $this->getState('list.direction'));
 			if ($ordering == 'position')
 			{
 				$query->order('a.ordering ASC');
@@ -224,28 +224,28 @@ class ModulesModelModules extends JModelList
 				'a.checked_out, a.checked_out_time, a.published+2*(e.enabled-1) as published, a.access, a.ordering, a.publish_up, a.publish_down'
 			)
 		);
-		$query->from($db->quoteName('#__modules').' AS a');
+		$query->from($db->qn('#__modules').' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the module menus
-		$query->select('MIN(mm.menuid) AS pages');
-		$query->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = a.id');
+		$query->select('MIN(mm.menuid) AS pages')
+			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = a.id');
 
 		// Join over the extensions
-		$query->select('e.name AS name');
-		$query->join('LEFT', '#__extensions AS e ON e.element = a.module');
-		$query->group('a.id, a.title, a.note, a.position, a.module, a.language,a.checked_out,'.
+		$query->select('e.name AS name')
+			->join('LEFT', '#__extensions AS e ON e.element = a.module')
+			->group('a.id, a.title, a.note, a.position, a.module, a.language,a.checked_out,'.
 						'a.checked_out_time, a.published, a.access, a.ordering,l.title, uc.name, ag.title, e.name,'.
 						'l.lang_code, uc.id, ag.id, mm.moduleid, e.element, a.publish_up, a.publish_down,e.enabled');
 
@@ -310,7 +310,7 @@ class ModulesModelModules extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where('a.language = ' . $db->q($language));
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));

@@ -34,10 +34,10 @@ abstract class JHtmlFinder
 		// Load the finder types.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('DISTINCT t.title AS text, t.id AS value');
-		$query->from($db->quoteName('#__finder_types') . ' AS t');
-		$query->join('LEFT', $db->quoteName('#__finder_links') . ' AS l ON l.type_id = t.id');
-		$query->order('t.title ASC');
+		$query->select('DISTINCT t.title AS text, t.id AS value')
+			->from($db->qn('#__finder_types') . ' AS t')
+			->join('LEFT', $db->qn('#__finder_links') . ' AS l ON l.type_id = t.id')
+			->order('t.title ASC');
 		$db->setQuery($query);
 
 		try
@@ -77,10 +77,10 @@ abstract class JHtmlFinder
 		// Load the finder types.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('title AS text, id AS value');
-		$query->from($db->quoteName('#__finder_taxonomy'));
-		$query->where($db->quoteName('parent_id') . ' = 1');
-		$query->order('ordering, title ASC');
+		$query->select('title AS text, id AS value')
+			->from($db->qn('#__finder_taxonomy'))
+			->where($db->qn('parent_id') . ' = 1')
+			->order('ordering, title ASC');
 		$db->setQuery($query);
 
 		try

@@ -50,9 +50,9 @@ class MessagesModelConfig extends JModelForm
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->select('cfg_name, cfg_value');
-		$query->from('#__messages_cfg');
-		$query->where('user_id = '.(int) $this->getState('user.id'));
+		$query->select('cfg_name, cfg_value')
+			->from('#__messages_cfg')
+			->where('user_id = '.(int) $this->getState('user.id'));
 
 		$db->setQuery($query);
 

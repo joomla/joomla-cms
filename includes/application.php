@@ -479,11 +479,11 @@ final class JSite extends JApplication
 			// Load styles
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('id, home, template, s.params');
-			$query->from('#__template_styles as s');
-			$query->where('s.client_id = 0');
-			$query->where('e.enabled = 1');
-			$query->leftJoin('#__extensions as e ON e.element=s.template AND e.type='.$db->quote('template').' AND e.client_id=s.client_id');
+			$query->select('id, home, template, s.params')
+				->from('#__template_styles as s')
+				->where('s.client_id = 0')
+				->where('e.enabled = 1')
+				->leftJoin('#__extensions as e ON e.element=s.template AND e.type='.$db->q('template').' AND e.client_id=s.client_id');
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');

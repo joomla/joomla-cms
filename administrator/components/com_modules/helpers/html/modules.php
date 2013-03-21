@@ -158,11 +158,11 @@ abstract class JHtmlModules
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		$query->select('DISTINCT(position) as value');
-		$query->select('position as text');
-		$query->from($db->quoteName('#__modules'));
-		$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
-		$query->order('position');
+		$query->select('DISTINCT(position) as value')
+			->select('position as text')
+			->from($db->qn('#__modules'))
+			->where($db->qn('client_id') . ' = ' . (int) $clientId)
+			->order('position');
 
 		// Get the options.
 		$db->setQuery($query);

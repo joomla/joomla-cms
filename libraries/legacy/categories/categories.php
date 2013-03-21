@@ -225,10 +225,10 @@ class JCategories
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $c_id . ' END as slug';
-		$query->select($case_when);
+		$query->select($case_when)
 
-		$query->from('#__categories as c');
-		$query->where('(c.extension=' . $db->Quote($extension) . ' OR c.extension=' . $db->Quote('system') . ')');
+			->from('#__categories as c')
+			->where('(c.extension=' . $db->Quote($extension) . ' OR c.extension=' . $db->Quote('system') . ')');
 
 		if ($this->_options['access'])
 		{
@@ -246,15 +246,15 @@ class JCategories
 		if ($id != 'root')
 		{
 			// Get the selected category
-			$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)');
-			$query->where('s.id=' . (int) $id);
+			$query->leftJoin('#__categories AS s ON (s.lft <= c.lft AND s.rgt >= c.rgt) OR (s.lft > c.lft AND s.rgt < c.rgt)')
+				->where('s.id=' . (int) $id);
 		}
 
 		$subQuery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ' .
-			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->quote($extension) .
+			'ON cat.lft BETWEEN parent.lft AND parent.rgt WHERE parent.extension = ' . $db->q($extension) .
 			' AND parent.published != 1 GROUP BY cat.id) ';
-		$query->leftJoin($subQuery . 'AS badcats ON badcats.id = c.id');
-		$query->where('badcats.id is null');
+		$query->leftJoin($subQuery . 'AS badcats ON badcats.id = c.id')
+			->where('badcats.id is null');
 
 		// Note: i for item
 		if (isset($this->_options['countItems']) && $this->_options['countItems'] == 1)
@@ -262,15 +262,15 @@ class JCategories
 			if ($this->_options['published'] == 1)
 			{
 				$query->leftJoin(
-					$db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id AND i.' . $this->_statefield . ' = 1'
+					$db->qn($this->_table) . ' AS i ON i.' . $db->qn($this->_field) . ' = c.id AND i.' . $this->_statefield . ' = 1'
 				);
 			}
 			else
 			{
-				$query->leftJoin($db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id');
+				$query->leftJoin($db->qn($this->_table) . ' AS i ON i.' . $db->qn($this->_field) . ' = c.id');
 			}
 
-			$query->select('COUNT(i.' . $db->quoteName($this->_key) . ') AS numitems');
+			$query->select('COUNT(i.' . $db->qn($this->_key) . ') AS numitems');
 		}
 
 		// Group by

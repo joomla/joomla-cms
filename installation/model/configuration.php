@@ -265,44 +265,44 @@ class InstallationModelConfiguration extends JModelBase
 
 		// Sqlsrv change
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id'));
-		$query->from($db->quoteName('#__users'));
-		$query->where($db->quoteName('id') . ' = ' . $db->quote($userId));
+		$query->select($db->qn('id'))
+			->from($db->qn('#__users'))
+			->where($db->qn('id') . ' = ' . $db->q($userId));
 
 		$db->setQuery($query);
 
 		if ($db->loadResult())
 		{
 			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__users'));
-			$query->set($db->quoteName('name') . ' = ' . $db->quote('Super User'));
-			$query->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user));
-			$query->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email));
-			$query->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass));
-			$query->set($db->quoteName('block') . ' = 0');
-			$query->set($db->quoteName('sendEmail') . ' = 1');
-			$query->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate));
-			$query->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate));
-			$query->set($db->quoteName('activation') . ' = ' . $db->quote('0'));
-			$query->set($db->quoteName('params') . ' = ' . $db->quote(''));
-			$query->where($db->quoteName('id') . ' = ' . $db->quote($userId));
+			$query->update($db->qn('#__users'));
+			$query->set($db->qn('name') . ' = ' . $db->q('Super User'));
+			$query->set($db->qn('username') . ' = ' . $db->q($options->admin_user));
+			$query->set($db->qn('email') . ' = ' . $db->q($options->admin_email));
+			$query->set($db->qn('password') . ' = ' . $db->q($cryptpass));
+			$query->set($db->qn('block') . ' = 0');
+			$query->set($db->qn('sendEmail') . ' = 1');
+			$query->set($db->qn('registerDate') . ' = ' . $db->q($installdate));
+			$query->set($db->qn('lastvisitDate') . ' = ' . $db->q($nullDate));
+			$query->set($db->qn('activation') . ' = ' . $db->q('0'));
+			$query->set($db->qn('params') . ' = ' . $db->q(''));
+			$query->where($db->qn('id') . ' = ' . $db->q($userId));
 		}
 		else
 		{
 			$query = $db->getQuery(true);
-			$columns = array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
-							$db->quoteName('email'), $db->quoteName('password'),
-							$db->quoteName('block'),
-							$db->quoteName('sendEmail'), $db->quoteName('registerDate'),
-							$db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params'));
-			$query->insert('#__users', true);
-			$query->columns($columns);
+			$columns = array($db->qn('id'), $db->qn('name'), $db->qn('username'),
+							$db->qn('email'), $db->qn('password'),
+							$db->qn('block'),
+							$db->qn('sendEmail'), $db->qn('registerDate'),
+							$db->qn('lastvisitDate'), $db->qn('activation'), $db->qn('params'));
+			$query->insert('#__users', true)
+				->columns($columns)
 
-			$query->values(
-				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', ' .
-				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
-				$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
-				$db->quote('0') . ', ' . $db->quote('')
+				->values(
+				$db->q($userId) . ', ' . $db->q('Super User') . ', ' . $db->q($options->admin_user) . ', ' .
+				$db->q($options->admin_email) . ', ' . $db->q($cryptpass) . ', ' .
+				$db->q('0') . ', ' . $db->q('1') . ', ' . $db->q($installdate) . ', ' . $db->q($nullDate) . ', ' .
+				$db->q('0') . ', ' . $db->q('')
 			);
 		}
 
@@ -320,25 +320,25 @@ class InstallationModelConfiguration extends JModelBase
 
 		// Map the super admin to the Super Admin Group
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('user_id'));
-		$query->from($db->quoteName('#__user_usergroup_map'));
-		$query->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
+		$query->select($db->qn('user_id'))
+			->from($db->qn('#__user_usergroup_map'))
+			->where($db->qn('user_id') . ' = ' . $db->q($userId));
 
 		$db->setQuery($query);
 
 		if ($db->loadResult())
 		{
 			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__user_usergroup_map'));
-			$query->set($db->quoteName('user_id') . ' = ' . $db->quote($userId));
-			$query->set($db->quoteName('group_id') . ' = 8');
+			$query->update($db->qn('#__user_usergroup_map'));
+			$query->set($db->qn('user_id') . ' = ' . $db->q($userId));
+			$query->set($db->qn('group_id') . ' = 8');
 		}
 		else
 		{
 			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__user_usergroup_map'), false);
-			$query->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')));
-			$query->values($db->quote($userId) . ', ' . '8');
+			$query->insert($db->qn('#__user_usergroup_map'), false)
+				->columns(array($db->qn('user_id'), $db->qn('group_id')))
+				->values($db->q($userId) . ', ' . '8');
 		}
 
 		$db->setQuery($query);

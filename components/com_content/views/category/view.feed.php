@@ -47,7 +47,7 @@ class ContentViewCategory extends JViewLegacy
 
 			// Get row fulltext
 			$db = JFactory::getDBO();
-			$query = 'SELECT' .$db->quoteName('fulltext'). 'FROM #__content WHERE id ='.$row->id;
+			$query = 'SELECT' .$db->qn('fulltext'). 'FROM #__content WHERE id ='.$row->id;
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
 

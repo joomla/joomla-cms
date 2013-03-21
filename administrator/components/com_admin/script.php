@@ -211,11 +211,11 @@ class JoomlaInstallerScript
 		// Attempt to refresh manifest caches
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__extensions');
+		$query->select('*')
+			->from('#__extensions');
 		foreach ($extensions as $extension)
 		{
-			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
+			$query->where('type='.$db->q($extension[0]).' AND element='.$db->q($extension[1]).' AND folder='.$db->q($extension[2]).' AND client_id='.$extension[3], 'OR');
 		}
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();

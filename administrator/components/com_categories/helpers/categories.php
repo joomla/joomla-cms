@@ -115,12 +115,12 @@ class CategoriesHelper
 		$associations = array();
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->from('#__categories as c');
-		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context='.$db->q('com_categories.item'));
-		$query->innerJoin('#__associations as a2 ON a.key = a2.key');
-		$query->innerJoin('#__categories as c2 ON a2.id = c2.id AND c2.extension = '.$db->q($extension));
-		$query->where('c.id =' . (int) $pk);
-		$query->where('c.extension = ' . $db->q($extension));
+		$query->from('#__categories as c')
+			->innerJoin('#__associations as a ON a.id = c.id AND a.context='.$db->q('com_categories.item'))
+			->innerJoin('#__associations as a2 ON a.key = a2.key')
+			->innerJoin('#__categories as c2 ON a2.id = c2.id AND c2.extension = '.$db->q($extension))
+			->where('c.id =' . (int) $pk)
+			->where('c.extension = ' . $db->q($extension));
 		$select = array(
 			'c2.language',
 			$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id'

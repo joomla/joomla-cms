@@ -81,11 +81,11 @@ class FinderHelperLanguage
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('name');
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'));
-		$query->where($db->quoteName('folder') . ' = ' .  $db->quote('finder'));
-		$query->where($db->quoteName('enabled') . ' = 1');
+		$query->select('name')
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . ' = ' .  $db->q('plugin'))
+			->where($db->qn('folder') . ' = ' .  $db->q('finder'))
+			->where($db->qn('enabled') . ' = 1');
 		$db->setQuery($query);
 		$plugins = $db->loadObjectList();
 

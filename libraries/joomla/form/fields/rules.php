@@ -66,9 +66,9 @@ class JFormFieldRules extends JFormField
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName('id'));
-			$query->from($db->quoteName('#__assets'));
-			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
+			$query->select($db->qn('id'))
+				->from($db->qn('#__assets'))
+				->where($db->qn('name') . ' = ' . $db->q($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 		}
@@ -305,7 +305,7 @@ class JFormFieldRules extends JFormField
 		$query = $db->getQuery(true);
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
-			->leftJoin($db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->leftJoin($db->qn('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
 			->order('a.lft ASC');
 		$db->setQuery($query);

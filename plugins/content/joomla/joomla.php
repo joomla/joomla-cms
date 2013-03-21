@@ -174,9 +174,9 @@ class PlgContentJoomla extends JPlugin
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		// Count the items in this category
-		$query->select('COUNT(id)');
-		$query->from($table);
-		$query->where('catid = ' . $catid);
+		$query->select('COUNT(id)')
+			->from($table)
+			->where('catid = ' . $catid);
 		$db->setQuery($query);
 
 		try
@@ -218,9 +218,9 @@ class PlgContentJoomla extends JPlugin
 		{
 			// Count the items in this category
 			$query = $db->getQuery(true);
-			$query->select('COUNT(id)');
-			$query->from($table);
-			$query->where('catid IN (' . implode(',', $childCategoryIds) . ')');
+			$query->select('COUNT(id)')
+				->from($table)
+				->where('catid IN (' . implode(',', $childCategoryIds) . ')');
 			$db->setQuery($query);
 
 			try

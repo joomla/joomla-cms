@@ -166,33 +166,33 @@ class ContentModelArticles extends JModelList
 		$query->from('#__content AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title');
-		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->select('c.title AS category_title')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author.
-		$query->select('ua.name AS author_name');
-		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+		$query->select('ua.name AS author_name')
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
 		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
-			$query->select('COUNT(asso2.id)>1 as association');
-			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_content.item'));
-			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
-			$query->group('a.id');
+			$query->select('COUNT(asso2.id)>1 as association')
+				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->q('com_content.item'))
+				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->group('a.id');
 		}
 
 		// Filter by access level.
@@ -229,8 +229,8 @@ class ContentModelArticles extends JModelList
 			$rgt = $cat_tbl->rgt;
 			$lft = $cat_tbl->lft;
 			$baselevel = (int) $cat_tbl->level;
-			$query->where('c.lft >= '.(int) $lft);
-			$query->where('c.rgt <= '.(int) $rgt);
+			$query->where('c.lft >= '.(int) $lft)
+				->where('c.rgt <= '.(int) $rgt);
 		}
 		elseif (is_array($categoryId))
 		{
@@ -275,7 +275,7 @@ class ContentModelArticles extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.language = '.$db->q($language));
 		}
 
 		// Add the list ordering clause.
@@ -309,11 +309,11 @@ class ContentModelArticles extends JModelList
 		$query = $db->getQuery(true);
 
 		// Construct the query
-		$query->select('u.id AS value, u.name AS text');
-		$query->from('#__users AS u');
-		$query->join('INNER', '#__content AS c ON c.created_by = u.id');
-		$query->group('u.id, u.name');
-		$query->order('u.name');
+		$query->select('u.id AS value, u.name AS text')
+			->from('#__users AS u')
+			->join('INNER', '#__content AS c ON c.created_by = u.id')
+			->group('u.id, u.name')
+			->order('u.name');
 
 		// Setup the query
 		$db->setQuery($query->__toString());

@@ -41,29 +41,29 @@ class JFormFieldMenuParent extends JFormFieldList
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, a.level');
-		$query->from('#__menu AS a');
-		$query->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query->select('a.id AS value, a.title AS text, a.level')
+			->from('#__menu AS a')
+			->join('LEFT', $db->qn('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		if ($menuType = $this->form->getValue('menutype'))
 		{
-			$query->where('a.menutype = '.$db->quote($menuType));
+			$query->where('a.menutype = '.$db->q($menuType));
 		}
 		else
 		{
-			$query->where('a.menutype != '.$db->quote(''));
+			$query->where('a.menutype != '.$db->q(''));
 		}
 
 		// Prevent parenting to children of this item.
 		if ($id = $this->form->getValue('id'))
 		{
-			$query->join('LEFT', $db->quoteName('#__menu').' AS p ON p.id = '.(int) $id);
-			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+			$query->join('LEFT', $db->qn('#__menu').' AS p ON p.id = '.(int) $id)
+				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
 
-		$query->where('a.published != -2');
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.menutype, a.parent_id, a.published');
-		$query->order('a.lft ASC');
+		$query->where('a.published != -2')
+			->group('a.id, a.title, a.level, a.lft, a.rgt, a.menutype, a.parent_id, a.published')
+			->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);

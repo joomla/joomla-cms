@@ -78,9 +78,9 @@ class JTableCategory extends JTableNested
 		{
 			// Build the query to get the asset id for the parent category.
 			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('asset_id'));
-			$query->from($this->_db->quoteName('#__categories'));
-			$query->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+			$query->select($this->_db->qn('asset_id'))
+				->from($this->_db->qn('#__categories'))
+				->where($this->_db->qn('id') . ' = ' . $this->parent_id);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -94,9 +94,9 @@ class JTableCategory extends JTableNested
 		{
 			// Build the query to get the asset id for the parent category.
 			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('id'));
-			$query->from($this->_db->quoteName('#__assets'));
-			$query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
+			$query->select($this->_db->qn('id'))
+				->from($this->_db->qn('#__assets'))
+				->where($this->_db->qn('name') . ' = ' . $this->_db->q($this->extension));
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);

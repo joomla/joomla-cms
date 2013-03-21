@@ -462,9 +462,9 @@ class TemplatesModelStyle extends JModelAdmin
 				$query = $db->getQuery(true);
 				$query->update('#__menu');
 				$query->set('template_style_id='.(int) $table->id);
-				$query->where('id IN ('.implode(',', $data['assigned']).')');
-				$query->where('template_style_id!='.(int) $table->id);
-				$query->where('checked_out in (0,'.(int) $user->id.')');
+				$query->where('id IN ('.implode(',', $data['assigned']).')')
+					->where('template_style_id!='.(int) $table->id)
+					->where('checked_out in (0,'.(int) $user->id.')');
 				$db->setQuery($query);
 				$db->execute();
 				$n += $db->getAffectedRows();
@@ -480,8 +480,8 @@ class TemplatesModelStyle extends JModelAdmin
 				$query->where('id NOT IN ('.implode(',', $data['assigned']).')');
 			}
 
-			$query->where('template_style_id='.(int) $table->id);
-			$query->where('checked_out in (0,'.(int) $user->id.')');
+			$query->where('template_style_id='.(int) $table->id)
+				->where('checked_out in (0,'.(int) $user->id.')');
 			$db->setQuery($query);
 			$db->execute();
 

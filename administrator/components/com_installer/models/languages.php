@@ -52,9 +52,9 @@ class InstallerModelLanguages extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table
-		$query->select('update_id, name, version, detailsurl, type');
+		$query->select('update_id, name, version, detailsurl, type')
 
-		$query->from('#__updates');
+			->from('#__updates');
 
 		// This Where clause will avoid to list languages already installed.
 		$query->where('extension_id = 0');

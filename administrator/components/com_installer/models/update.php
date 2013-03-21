@@ -97,12 +97,12 @@ class InstallerModelUpdate extends JModelList
 		$group = $this->getState('filter.group');
 
 		// Grab updates ignoring new installs
-		$query->select('*')->from('#__updates')->where('extension_id != 0');
-		$query->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
+		$query->select('*')->from('#__updates')->where('extension_id != 0')
+			->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
 
 		if ($type)
 		{
-			$query->where('type=' . $db->quote($type));
+			$query->where('type=' . $db->q($type));
 		}
 		if ($client != '')
 		{
@@ -110,7 +110,7 @@ class InstallerModelUpdate extends JModelList
 		}
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $db->quote($group == '*' ? '' : $group));
+			$query->where('folder=' . $db->q($group == '*' ? '' : $group));
 		}
 
 		// Filter by extension_id
@@ -120,15 +120,15 @@ class InstallerModelUpdate extends JModelList
 		}
 		else
 		{
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(0));
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(700));
+			$query->where($db->qn('extension_id') . ' != ' . $db->q(0))
+				->where($db->qn('extension_id') . ' != ' . $db->q(700));
 		}
 
 		// Filter by search
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$query->where('name LIKE ' . $db->quote('%' . $search . '%'));
+			$query->where('name LIKE ' . $db->q('%' . $search . '%'));
 		}
 		return $query;
 	}

@@ -550,8 +550,8 @@ ENDDATA;
 		// If it isn't, add an entry to extensions
 		$query = $db->getQuery(true);
 		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('file'))
+			->from($query->qn('#__extensions'))
+			->where($query->qn('type') . ' = ' . $query->q('file'))
 			->where($query->qn('element') . ' = ' . $query->q('joomla'));
 		$db->setQuery($query);
 		try

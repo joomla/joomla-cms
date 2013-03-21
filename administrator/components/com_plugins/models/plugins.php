@@ -158,7 +158,7 @@ class PluginsModelPlugins extends JModelList
 				$query->order('a.folder ASC');
 				$ordering = 'a.ordering';
 			}
-			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
+			$query->order($this->_db->qn($ordering) . ' ' . $this->getState('list.direction'));
 
 			if ($ordering == 'folder')
 			{
@@ -210,17 +210,17 @@ class PluginsModelPlugins extends JModelList
 				' a.enabled, a.access, a.ordering'
 			)
 		);
-		$query->from($db->quoteName('#__extensions').' AS a');
+		$query->from($db->qn('#__extensions').' AS a')
 
-		$query->where($db->quoteName('type').' = '.$db->quote('plugin'));
+			->where($db->qn('type').' = '.$db->q('plugin'));
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
@@ -244,7 +244,7 @@ class PluginsModelPlugins extends JModelList
 		// Filter by folder.
 		if ($folder = $this->getState('filter.folder'))
 		{
-			$query->where('a.folder = '.$db->quote($folder));
+			$query->where('a.folder = '.$db->q($folder));
 		}
 
 		// Filter by search in id

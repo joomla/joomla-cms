@@ -355,9 +355,9 @@ final class InstallationApplicationWeb extends JApplicationWeb
 			$langfiles['admin'] = array();
 			$langfiles['site'] = array();
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('element','client_id')));
-			$query->from($db->quoteName('#__extensions'));
-			$query->where($db->quoteName('type') . ' = ' . $db->quote('language'));
+			$query->select($db->qn(array('element','client_id')))
+				->from($db->qn('#__extensions'))
+				->where($db->qn('type') . ' = ' . $db->q('language'));
 			$db->setQuery($query);
 			$langs = $db->loadObjectList();
 			foreach ($langs as $lang)

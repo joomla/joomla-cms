@@ -137,18 +137,18 @@ class ContactModelContact extends JModelForm
 				$case_when1 .= ' ELSE ';
 				$case_when1 .= $c_id.' END as catslug';
 
-				$query->select($this->getState('item.select', 'a.*') . ','.$case_when.','.$case_when1);
-				$query->from('#__contact_details AS a');
+				$query->select($this->getState('item.select', 'a.*') . ','.$case_when.','.$case_when1)
+					->from('#__contact_details AS a')
 
 				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
-				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
+					->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
+					->join('LEFT', '#__categories AS c on c.id = a.catid')
 
 				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
-				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+					->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
 
-				$query->where('a.id = ' . (int) $pk);
+					->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
 				$nullDate = $db->Quote($db->getNullDate());
@@ -159,9 +159,9 @@ class ContactModelContact extends JModelForm
 				$archived = $this->getState('filter.archived');
 				if (is_numeric($published))
 				{
-					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')');
-					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-					$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
+						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
 
 				$db->setQuery($query);
@@ -260,19 +260,19 @@ class ContactModelContact extends JModelForm
 			$query->select(
 				'a.*, cc.access as category_access, cc.title as category_name, '
 				. $case_when . ',' . $case_when1
-			);
+			)
 
-			$query->from('#__contact_details AS a');
+				->from('#__contact_details AS a')
 
-			$query->join('INNER', '#__categories AS cc on cc.id = a.catid');
+				->join('INNER', '#__categories AS cc on cc.id = a.catid')
 
-			$query->where('a.id = ' . (int) $pk);
+				->where('a.id = ' . (int) $pk);
 			$published = $this->getState('filter.published');
 			$archived = $this->getState('filter.archived');
 			if (is_numeric($published))
 			{
-				$query->where('a.published IN (1,2)');
-				$query->where('cc.published IN (1,2)');
+				$query->where('a.published IN (1,2)')
+					->where('cc.published IN (1,2)');
 			}
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
@@ -309,11 +309,11 @@ class ContactModelContact extends JModelForm
 
 				//get the content by the linked user
 				$query	= $db->getQuery(true);
-				$query->select('a.id');
-				$query->select('a.title');
-				$query->select('a.state');
-				$query->select('a.access');
-				$query->select('a.created');
+				$query->select('a.id')
+					->select('a.title')
+					->select('a.state')
+					->select('a.access')
+					->select('a.created');
 
 				// SQL Server changes
 				$case_when = ' CASE WHEN ';
@@ -330,17 +330,16 @@ class ContactModelContact extends JModelForm
 				$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 				$case_when1 .= ' ELSE ';
 				$case_when1 .= $c_id.' END as catslug';
-				$query->select($case_when1 . ',' . $case_when);
-
-				$query->from('#__content as a');
-				$query->leftJoin('#__categories as c on a.catid=c.id');
-				$query->where('a.created_by = ' . (int) $result->user_id);
-				$query->where('a.access IN ('. $groups.')');
-				$query->order('a.state DESC, a.created DESC');
+				$query->select($case_when1 . ',' . $case_when)
+					->from('#__content as a')
+					->leftJoin('#__categories as c on a.catid=c.id')
+					->where('a.created_by = ' . (int) $result->user_id)
+					->where('a.access IN ('. $groups.')')
+					->order('a.state DESC, a.created DESC');
 				// filter per language if plugin published
 				if (JLanguageMultilang::isEnabled())
 				{
-					$query->where(('a.created_by = ' . (int) $result->user_id) AND ('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*')));
+					$query->where(('a.created_by = ' . (int) $result->user_id) AND ('a.language=' . $db->q(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->q('*')));
 				}
 				if (is_numeric($published))
 				{

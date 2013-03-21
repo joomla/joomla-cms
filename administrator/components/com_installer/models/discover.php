@@ -55,9 +55,9 @@ class InstallerModelDiscover extends InstallerModel
 	{
 		$db		= JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__extensions');
-		$query->where('state=-1');
+		$query->select('*')
+			->from('#__extensions')
+			->where('state=-1');
 		return $query;
 	}
 
@@ -162,9 +162,8 @@ class InstallerModelDiscover extends InstallerModel
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
-		$query->delete();
-		$query->from('#__extensions');
-		$query->where('state = -1');
+		$query->delete('#__extensions')
+			->where('state = -1');
 		$db->setQuery((string) $query);
 		if ($db->execute())
 		{

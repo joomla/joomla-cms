@@ -55,10 +55,10 @@ abstract class ModTagssimilarHelper
 
 			$query->select(
 				array(
-					$db->quoteName('m.tag_id'),
-					$db->quoteName('m.core_content_id'),
-					$db->quoteName('m.content_item_id'),
-					$db->quoteName('m.type_alias'),
+					$db->qn('m.tag_id'),
+					$db->qn('m.core_content_id'),
+					$db->qn('m.content_item_id'),
+					$db->qn('m.type_alias'),
 					'COUNT( '  . $db->qn('tag_id') . ') AS ' . $db->qn('count'),
 					$db->qn('t.access'),
 					$db->qn('t.id'),
@@ -66,10 +66,10 @@ abstract class ModTagssimilarHelper
 					$db->qn('cc.core_alias')
 				)
 			);
-			$query->group($db->qn(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')));
-			$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
-			$query->having('t.access IN (' . $groups . ')');
-			$query->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
+			$query->group($db->qn(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')))
+				->from($db->qn('#__contentitem_tag_map', 'm'))
+				->having('t.access IN (' . $groups . ')');
+			$query->having($db->qn('m.tag_id') . ' IN (' . $tagsToMatch . ')');
 			$query->having($db->qn('m.content_item_id') . ' <> ' . $id);
 
 			if ($matchtype == 'all' && $tagCount > 0)
@@ -82,10 +82,10 @@ abstract class ModTagssimilarHelper
 				$query->having('COUNT( '  . $db->qn('tag_id') . ')  >= ' . $tagCountHalf);
 			}
 
-			$query->join('INNER', $db->qn('#__tags', 't') . ' ON ' . $db->qn('m.tag_id') . ' = ' . $db->qn('t.id'));
-			$query->join('INNER', $db->qn('#__core_content', 'cc') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('cc.core_content_id'));
+			$query->join('INNER', $db->qn('#__tags', 't') . ' ON ' . $db->qn('m.tag_id') . ' = ' . $db->qn('t.id'))
+				->join('INNER', $db->qn('#__core_content', 'cc') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('cc.core_content_id'))
 
-			$query->order($db->qn('count') . ' DESC');
+				->order($db->qn('count') . ' DESC');
 			$db->setQuery($query, 0, $maximum);
 			$results = $db->loadObjectList();
 

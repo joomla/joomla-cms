@@ -145,35 +145,35 @@ class CategoriesModelCategories extends JModelList
 		$query->from('#__categories AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the users for the author.
-		$query->select('ua.name AS author_name');
-		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+		$query->select('ua.name AS author_name')
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the associations.
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
-			$query->select('COUNT(asso2.id)>1 as association');
-			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_categories.item'));
-			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
-			$query->group('a.id');
+			$query->select('COUNT(asso2.id)>1 as association')
+				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->q('com_categories.item'))
+				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->group('a.id');
 		}
 
 		// Filter by extension
 		if ($extension = $this->getState('filter.extension'))
 		{
-			$query->where('a.extension = '.$db->quote($extension));
+			$query->where('a.extension = '.$db->q($extension));
 		}
 
 		// Filter on the level.
@@ -229,7 +229,7 @@ class CategoriesModelCategories extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.language = '.$db->q($language));
 		}
 
 		// Add the list ordering clause

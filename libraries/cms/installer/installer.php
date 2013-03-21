@@ -348,8 +348,8 @@ class JInstaller extends JAdapter
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
-					$query->delete($db->quoteName('#__extensions'));
-					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
+					$query->delete($db->qn('#__extensions'))
+						->where($db->qn('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
 					$stepval = $db->execute();
 
@@ -1003,9 +1003,9 @@ class JInstaller extends JAdapter
 					if ($db->execute())
 					{
 						$query->clear();
-						$query->insert($db->quoteName('#__schemas'));
-						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
-						$query->values($eid . ', ' . $db->quote(end($files)));
+						$query->insert($db->qn('#__schemas'))
+							->columns(array($db->qn('extension_id'), $db->qn('version_id')))
+							->values($eid . ', ' . $db->q(end($files)));
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1133,9 +1133,9 @@ class JInstaller extends JAdapter
 					if ($db->execute())
 					{
 						$query->clear();
-						$query->insert($db->quoteName('#__schemas'));
-						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
-						$query->values($eid . ', ' . $db->quote(end($files)));
+						$query->insert($db->qn('#__schemas'))
+							->columns(array($db->qn('extension_id'), $db->qn('version_id')))
+							->values($eid . ', ' . $db->q(end($files)));
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1947,12 +1947,12 @@ class JInstaller extends JAdapter
 	{
 		$dbo = JFactory::getDBO();
 		$query = $dbo->getQuery(true);
-		$query->delete($dbo->quoteName('#__extensions'));
-		$query->where('type = ' . $dbo->Quote($type));
-		$query->where('element = ' . $dbo->Quote($element));
-		$query->where('folder = ' . $dbo->Quote($folder));
-		$query->where('client_id = ' . (int) $client);
-		$query->where('state = -1');
+		$query->delete($dbo->quoteName('#__extensions'))
+			->where('type = ' . $dbo->Quote($type))
+			->where('element = ' . $dbo->Quote($element))
+			->where('folder = ' . $dbo->Quote($folder))
+			->where('client_id = ' . (int) $client)
+			->where('state = -1');
 
 		return $dbo->execute();
 	}

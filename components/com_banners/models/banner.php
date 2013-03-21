@@ -36,9 +36,9 @@ class BannersModelBanner extends JModelLegacy
 		// update click count
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
-		$query->update('#__banners');
-		$query->set('clicks = (clicks + 1)');
-		$query->where('id = ' . (int) $id);
+		$query->update('#__banners')
+			->set('clicks = (clicks + 1)')
+			->where('id = ' . (int) $id);
 
 		$db->setQuery((string) $query);
 
@@ -73,11 +73,11 @@ class BannersModelBanner extends JModelLegacy
 			$trackDate = JFactory::getDate()->format('Y-m-d H');
 
 			$query->clear();
-			$query->select($db->quoteName('count'));
-			$query->from('#__banner_tracks');
-			$query->where('track_type=2');
-			$query->where('banner_id=' . (int) $id);
-			$query->where('track_date='.$db->Quote($trackDate));
+			$query->select($db->qn('count'))
+				->from('#__banner_tracks')
+				->where('track_type=2')
+				->where('banner_id=' . (int) $id)
+				->where('track_date='.$db->Quote($trackDate));
 
 			$db->setQuery((string) $query);
 
@@ -97,21 +97,21 @@ class BannersModelBanner extends JModelLegacy
 			if ($count)
 			{
 				// update count
-				$query->update('#__banner_tracks');
-				$query->set($db->quoteName('count').' = ('.$db->quoteName('count') . ' + 1)');
-				$query->where('track_type=2');
-				$query->where('banner_id=' . (int) $id);
-				$query->where('track_date='.$db->Quote($trackDate));
+				$query->update('#__banner_tracks')
+					->set($db->qn('count').' = ('.$db->qn('count') . ' + 1)')
+					->where('track_type=2')
+					->where('banner_id=' . (int) $id)
+					->where('track_date='.$db->Quote($trackDate));
 			}
 			else {
 				// insert new count
 				//sqlsrv change
-				$query->insert('#__banner_tracks');
-				$query->columns(
-					array($db->quoteName('count'), $db->quoteName('track_type'),
-						$db->quoteName('banner_id') , $db->quoteName('track_date'))
-				);
-				$query->values('1, 2,' . (int) $id . ',' . $db->Quote($trackDate));
+				$query->insert('#__banner_tracks')
+					->columns(
+						array($db->qn('count'), $db->qn('track_type'),
+							$db->qn('banner_id') , $db->qn('track_date'))
+					)
+					->values('1, 2,' . (int) $id . ',' . $db->Quote($trackDate));
 			}
 
 			$db->setQuery((string) $query);
@@ -151,12 +151,12 @@ class BannersModelBanner extends JModelLegacy
 					'a.clickurl as clickurl,'.
 					'a.cid as cid,'.
 					'a.track_clicks as track_clicks'
-					);
-				$query->from('#__banners as a');
-				$query->where('a.id = ' . (int) $id);
+					)
+					->from('#__banners as a')
+					->where('a.id = ' . (int) $id)
 
-				$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
-				$query->select('cl.track_clicks as client_track_clicks');
+					->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
+					->select('cl.track_clicks as client_track_clicks');
 
 				$db->setQuery((string) $query);
 

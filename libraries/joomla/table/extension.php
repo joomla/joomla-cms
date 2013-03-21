@@ -97,11 +97,11 @@ class JTableExtension extends JTable
 
 		foreach ($options as $col => $val)
 		{
-			$query->where($col . ' = ' . $this->_db->quote($val));
+			$query->where($col . ' = ' . $this->_db->q($val));
 		}
 
-		$query->select($this->_db->quoteName('extension_id'));
-		$query->from($this->_db->quoteName('#__extensions'));
+		$query->select($this->_db->qn('extension_id'))
+			->from($this->_db->qn('#__extensions'));
 		$this->_db->setQuery($query);
 		return $this->_db->loadResult();
 	}
@@ -161,8 +161,8 @@ class JTableExtension extends JTable
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('enabled') . ' = ' . (int) $state);
+		$query->update($this->_db->qn($this->_tbl));
+		$query->set($this->_db->qn('enabled') . ' = ' . (int) $state);
 		$query->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
 		$this->_db->execute();

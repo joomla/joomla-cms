@@ -515,9 +515,9 @@ class ContactModelContact extends JModelAdmin
 				// Deleting old association for these items
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
-				$query->delete('#__associations');
-				$query->where('context='.$db->quote('com_contact.item'));
-				$query->where('id IN ('.implode(',', $associations).')');
+				$query->delete('#__associations')
+					->where('context='.$db->q('com_contact.item'))
+					->where('id IN ('.implode(',', $associations).')');
 				$db->setQuery($query);
 				$db->execute();
 
@@ -536,7 +536,7 @@ class ContactModelContact extends JModelAdmin
 
 					foreach ($associations as $tag => $id)
 					{
-						$query->values($id.','.$db->quote('com_contact.item') . ',' . $db->quote($key));
+						$query->values($id.','.$db->q('com_contact.item') . ',' . $db->q($key));
 					}
 
 					$db->setQuery($query);

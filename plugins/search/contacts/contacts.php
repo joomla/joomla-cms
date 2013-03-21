@@ -127,22 +127,22 @@ class PlgSearchContacts extends JPlugin
 					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",").' AS text,'
 					. $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
 					. '\'2\' AS browsernav');
-			$query->from('#__contact_details AS a');
-			$query->innerJoin('#__categories AS c ON c.id = a.catid');
-			$query->where('(a.name LIKE '. $text .' OR a.misc LIKE '. $text .' OR a.con_position LIKE '. $text
+			$query->from('#__contact_details AS a')
+				->innerJoin('#__categories AS c ON c.id = a.catid')
+				->where('(a.name LIKE '. $text .' OR a.misc LIKE '. $text .' OR a.con_position LIKE '. $text
 						.' OR a.address LIKE '. $text .' OR a.suburb LIKE '. $text .' OR a.state LIKE '. $text
 						.' OR a.country LIKE '. $text .' OR a.postcode LIKE '. $text .' OR a.telephone LIKE '. $text
 						.' OR a.fax LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND c.published=1 '
 						.' AND a.access IN ('. $groups. ') AND c.access IN ('. $groups. ')' );
-			$query->group('a.id, a.con_position, a.misc, c.alias, c.id');
-			$query->order($order);
+			$query->group('a.id, a.con_position, a.misc, c.alias, c.id')
+				->order($order);
 
 			// Filter by language
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')')
+					->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);

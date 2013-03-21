@@ -264,7 +264,7 @@ class UsersModelUsers extends JModelList
 			)
 		);
 
-		$query->from($db->quoteName('#__users').' AS a');
+		$query->from($db->qn('#__users').' AS a');
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
@@ -281,7 +281,7 @@ class UsersModelUsers extends JModelList
 		{
 			if ($active == '0')
 			{
-				$query->where('a.activation = '.$db->quote(''));
+				$query->where('a.activation = '.$db->q(''));
 			}
 			elseif ($active == '1')
 			{
@@ -295,8 +295,8 @@ class UsersModelUsers extends JModelList
 
 		if ($groupId || isset($groups))
 		{
-			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->group($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
+			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
+				->group($db->qn(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
 
 			if ($groupId)
 			{
@@ -376,14 +376,14 @@ class UsersModelUsers extends JModelList
 			if ($range == 'post_year')
 			{
 				$query->where(
-					$db->quoteName('a.registerDate') . ' < '.$db->quote($dStart->format('Y-m-d H:i:s'))
+					$db->qn('a.registerDate') . ' < '.$db->q($dStart->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					$db->quoteName('a.registerDate') . ' >= '.$db->quote($dStart->format('Y-m-d H:i:s')).
-					' AND ' . $db->quoteName('a.registerDate') . ' <='.$db->quote($dNow->format('Y-m-d H:i:s'))
+					$db->qn('a.registerDate') . ' >= '.$db->q($dStart->format('Y-m-d H:i:s')).
+					' AND ' . $db->qn('a.registerDate') . ' <='.$db->q($dNow->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -404,11 +404,11 @@ class UsersModelUsers extends JModelList
 	function _getUserDisplayedGroups($user_id)
 	{
 		$db = JFactory::getDbo();
-		$sql = "SELECT title FROM ".$db->quoteName('#__usergroups')." ug left join ".
-				$db->quoteName('#__user_usergroup_map')." map on (ug.id = map.group_id)".
+		$query = "SELECT title FROM ".$db->qn('#__usergroups')." ug left join ".
+				$db->qn('#__user_usergroup_map')." map on (ug.id = map.group_id)".
 				" WHERE map.user_id=".$user_id;
 
-		$db->setQuery($sql);
+		$db->setQuery($query);
 		$result = $db->loadColumn();
 		return implode("\n", $result);
 	}

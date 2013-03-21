@@ -89,9 +89,9 @@ class PlgEditorTinymce extends JPlugin
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 
-		$query->select('template');
-		$query->from('#__template_styles');
-		$query->where('client_id=0 AND home=' . $db->quote('1'));
+		$query->select('template')
+			->from('#__template_styles')
+			->where('client_id=0 AND home=' . $db->q('1'));
 
 		$db->setQuery($query);
 		$template = $db->loadResult();

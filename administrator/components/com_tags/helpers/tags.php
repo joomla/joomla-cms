@@ -92,11 +92,11 @@ class TagsHelper
 		$associations = array();
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->from('#__tags as c');
-		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context=' . $db->quote('com_tags.item'));
-		$query->innerJoin('#__associations as a2 ON a.key = a2.key');
-		$query->innerJoin('#__tags as c2 ON a2.id = c2.id');
-		$query->where('c.id =' . (int) $pk);
+		$query->from('#__tags as c')
+			->innerJoin('#__associations as a ON a.id = c.id AND a.context=' . $db->q('com_tags.item'))
+			->innerJoin('#__associations as a2 ON a.key = a2.key')
+			->innerJoin('#__tags as c2 ON a2.id = c2.id')
+			->where('c.id =' . (int) $pk);
 		$select = array(
 				'c2.language',
 				$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id',

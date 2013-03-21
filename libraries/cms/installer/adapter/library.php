@@ -75,10 +75,10 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
-		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$query->select($db->qn('extension_id'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . ' = ' . $db->q('library'))
+			->where($db->qn('element') . ' = ' . $db->q($element));
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
@@ -247,10 +247,10 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		$installer = new JInstaller;
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
-		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$query->select($db->qn('extension_id'))
+			->from($db->qn('#__extensions'))
+			->where($db->qn('type') . ' = ' . $db->q('library'))
+			->where($db->qn('element') . ' = ' . $db->q($element));
 		$db->setQuery($query);
 		$result = $db->loadResult();
 

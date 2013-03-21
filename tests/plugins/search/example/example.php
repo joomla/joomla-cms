@@ -139,10 +139,10 @@ class plgSearchExample extends JPlugin
 		//Construct the query:
 		$query->select('b.name AS title, b.clickurl as href, "1" AS browsernav, ' .
 			'c.title AS section, b.description AS text, b.created AS created');
-		$query->from('#__banners AS b');
-		$query->innerJoin('#__categories AS c ON c.id = b.catid');
-		$query->where('('.$where.')' . ' AND (b.state=1) AND  (c.published=1)');
-		$query->order($order);
+		$query->from('#__banners AS b')
+			->innerJoin('#__categories AS c ON c.id = b.catid')
+			->where('('.$where.')' . ' AND (b.state=1) AND  (c.published=1)')
+			->order($order);
 
 		//Prepare & execute the query - offset & limit can be parameterised:
 		$db->setQuery($query, $offset, $limit);

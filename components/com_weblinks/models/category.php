@@ -114,16 +114,16 @@ class WeblinksModelCategory extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the categories.
-		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->quoteName('#__weblinks').' AS a');
-		$query->where('a.access IN ('.$groups.')');
+		$query->select($this->getState('list.select', 'a.*'))
+			->from($db->qn('#__weblinks').' AS a')
+			->where('a.access IN ('.$groups.')');
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where('a.catid = '.(int) $categoryId);
-			$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
-			$query->where('c.access IN ('.$groups.')');
+			$query->where('a.catid = '.(int) $categoryId)
+				->join('LEFT', '#__categories AS c ON c.id = a.catid')
+				->where('c.access IN ('.$groups.')');
 
 			//Filter by published category
 			$cpublished = $this->getState('filter.c.published');
@@ -134,11 +134,11 @@ class WeblinksModelCategory extends JModelList
 		}
 
 		// Join over the users for the author and modified_by names.
-		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author");
-		$query->select("ua.email AS author_email");
+		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
+			->select("ua.email AS author_email")
 
-		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
-		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
+			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Filter by state
 
@@ -156,8 +156,8 @@ class WeblinksModelCategory extends JModelList
 		$nowDate = $db->Quote($date->toSql());
 
 		if ($this->getState('filter.publish_date')){
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 
 		// Filter by language

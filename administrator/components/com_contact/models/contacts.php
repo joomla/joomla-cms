@@ -159,33 +159,33 @@ class ContactModelContacts extends JModelList
 		$query->from('#__contact_details AS a');
 
 		// Join over the users for the linked user.
-		$query->select('ul.name AS linked_user');
-		$query->join('LEFT', '#__users AS ul ON ul.id=a.user_id');
+		$query->select('ul.name AS linked_user')
+			->join('LEFT', '#__users AS ul ON ul.id=a.user_id');
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title');
-		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->select('c.title AS category_title')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the associations.
 		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		if ($assoc)
 		{
-			$query->select('COUNT(asso2.id)>1 as association');
-			$query->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_contact.item'));
-			$query->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key');
-			$query->group('a.id');
+			$query->select('COUNT(asso2.id)>1 as association')
+				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->q('com_contact.item'))
+				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->group('a.id');
 		}
 
 		// Filter by access level.
@@ -247,7 +247,7 @@ class ContactModelContacts extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.language = '.$db->q($language));
 		}
 
 		// Add the list ordering clause.

@@ -58,10 +58,10 @@ class JFormFieldModuleOrder extends JFormField
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
-		$query->select('position, ordering, title');
-		$query->from('#__modules');
-		$query->where('client_id = ' . (int) $clientId);
-		$query->order('ordering');
+		$query->select('position, ordering, title')
+			->from('#__modules')
+			->where('client_id = ' . (int) $clientId)
+			->order('ordering');
 
 		$db->setQuery($query);
 		try

@@ -115,16 +115,16 @@ class LanguagesModelLanguages extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the languages table.
-		$query->select($this->getState('list.select', 'a.*', 'l.home'));
-		$query->from($db->quoteName('#__languages').' AS a');
+		$query->select($this->getState('list.select', 'a.*', 'l.home'))
+			->from($db->qn('#__languages').' AS a');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Select the language home pages
-		$query->select('l.home AS home');
-		$query->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
+		$query->select('l.home AS home')
+			->join('LEFT', $db->qn('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->q('*'));
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');

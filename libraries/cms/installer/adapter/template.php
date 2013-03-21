@@ -142,9 +142,9 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 		// Check to see if a template by the same name is already installed.
 		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('template'));
-		$query->where($query->qn('element') . ' = ' . $query->q($element));
+		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'))
+			->where($query->qn('type') . ' = ' . $query->q('template'))
+			->where($query->qn('element') . ' = ' . $query->q($element));
 		$db->setQuery($query);
 
 		try
@@ -317,11 +317,11 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		{
 			$debug = $lang->setDebug(false);
 
-			$columns = array($db->quoteName('template'),
-				$db->quoteName('client_id'),
-				$db->quoteName('home'),
-				$db->quoteName('title'),
-				$db->quoteName('params')
+			$columns = array($db->qn('template'),
+				$db->qn('client_id'),
+				$db->qn('home'),
+				$db->qn('title'),
+				$db->qn('params')
 			);
 
 			$values = array(
@@ -333,7 +333,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 			// Insert record in #__template_styles
 			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__template_styles'))
+			$query->insert($db->qn('#__template_styles'))
 				->columns($columns)
 				->values(implode(',', $values));
 
@@ -579,25 +579,25 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		if ($this->parent->extension->store())
 		{
 			// Insert record in #__template_styles
-			$db = $this->parent->getDbo();
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__template_styles'));
 			$lang = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
-			$columns = array($db->quoteName('template'),
-				$db->quoteName('client_id'),
-				$db->quoteName('home'),
-				$db->quoteName('title'),
-				$db->quoteName('params')
+			$columns = array($db->qn('template'),
+				$db->qn('client_id'),
+				$db->qn('home'),
+				$db->qn('title'),
+				$db->qn('params')
 			);
-			$query->columns($columns);
-			$query->values(
-				$db->Quote($this->parent->extension->element)
-				. ',' . $db->Quote($this->parent->extension->client_id)
-				. ',' . $db->Quote(0)
-				. ',' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
-				. ',' . $db->Quote($this->parent->extension->params)
-			);
+			$db = $this->parent->getDbo();
+			$query = $db->getQuery(true);
+			$query->insert($db->qn('#__template_styles'))
+				->columns($columns)
+				->values(
+					$db->Quote($this->parent->extension->element)
+						. ',' . $db->Quote($this->parent->extension->client_id)
+						. ',' . $db->Quote(0)
+						. ',' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
+						. ',' . $db->Quote($this->parent->extension->params)
+				);
 			$lang->setDebug($debug);
 			$db->setQuery($query);
 			$db->execute();

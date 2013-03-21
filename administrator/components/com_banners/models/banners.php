@@ -64,10 +64,10 @@ class BannersModelBanners extends JModelList
 		{
 			$db		= $this->getDbo();
 			$query	= $db->getQuery(true);
-			$query->select('MAX(ordering) as '.$db->quoteName('max').', catid');
-			$query->select('catid');
-			$query->from('#__banners');
-			$query->group('catid');
+			$query->select('MAX(ordering) as '.$db->qn('max').', catid')
+				->select('catid')
+				->from('#__banners')
+				->group('catid');
 			$db->setQuery($query);
 			$this->cache['categoryorders'] = $db->loadAssocList('catid', 0);
 		}
@@ -99,23 +99,23 @@ class BannersModelBanners extends JModelList
 				'a.language, a.publish_up, a.publish_down'
 			)
 		);
-		$query->from($db->quoteName('#__banners').' AS a');
+		$query->from($db->qn('#__banners').' AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title');
-		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->select('c.title AS category_title')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the clients.
-		$query->select('cl.name AS client_name,cl.purchase_type as client_purchase_type');
-		$query->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
+		$query->select('cl.name AS client_name,cl.purchase_type as client_purchase_type')
+			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid');
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
@@ -157,7 +157,7 @@ class BannersModelBanners extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where('a.language = ' . $db->q($language));
 		}
 
 		// Add the list ordering clause.

@@ -136,23 +136,23 @@ class TagsModelTags extends JModelList
 				', a.language'
 			)
 		);
-		$query->from('#__tags AS a');
-		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+		$query->from('#__tags AS a')
+			->where($db->qn('a.alias') . ' <> ' . $db->q('root'));
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the users for the author.
-		$query->select('ua.name AS author_name');
-		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+		$query->select('ua.name AS author_name')
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id')
 
-		$query->select('ug.title AS access_title');
-		$query->join('LEFT', '#__usergroups AS ug on ug.id = a.access');
+			->select('ug.title AS access_title')
+			->join('LEFT', '#__usergroups AS ug on ug.id = a.access');
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
@@ -207,7 +207,7 @@ class TagsModelTags extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.language = '.$db->q($language));
 		}
 
 		// Add the list ordering clause

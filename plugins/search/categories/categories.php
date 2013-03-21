@@ -140,12 +140,12 @@ class PlgSearchCategories extends JPlugin
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
 			$case_when .= $a_id.' END as slug';
-			$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when);
-			$query->from('#__categories AS a');
-			$query->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND a.extension = \'com_content\''
+			$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
+				->from('#__categories AS a')
+				->where('(a.title LIKE '. $text .' OR a.description LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND a.extension = \'com_content\''
 						.'AND a.access IN ('. $groups .')' );
-			$query->group('a.id');
-			$query->order($order);
+			$query->group('a.id')
+				->order($order);
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');

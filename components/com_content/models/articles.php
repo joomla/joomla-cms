@@ -199,38 +199,39 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Join over the categories.
-		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias');
-		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author and modified_by names.
-		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author");
-		$query->select("ua.email AS author_email");
+		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
+			->select("ua.email AS author_email")
 
-		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
-		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
+			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Join on contact table
 		$subQuery = $db->getQuery(true);
-		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
-		$subQuery->from('#__contact_details AS contact');
-		$subQuery->where('contact.published = 1');
-		$subQuery->group('contact.user_id, contact.language');
-		$query->select('contact.id as contactid');
-		$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language')
+			->from('#__contact_details AS contact')
+			->where('contact.published = 1')
+			->group('contact.user_id, contact.language');
+
+		$query->select('contact.id as contactid')
+			->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 
 		// Join over the categories to get parent category titles
-		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
-		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 		// Join on voting table
-		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count');
-		$query->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
+			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
 		// Join to check for category published state in parent categories up the tree
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
 		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
 		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');
+		$subquery .= 'WHERE parent.extension = ' . $db->q('com_content');
 
 		if ($this->getState('filter.published') == 2)
 		{
@@ -255,8 +256,8 @@ class ContentModelArticles extends JModelList
 		{
 			$user	= JFactory::getUser();
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN ('.$groups.')');
-			$query->where('c.access IN ('.$groups.')');
+			$query->where('a.access IN ('.$groups.')')
+				->where('c.access IN ('.$groups.')');
 		}
 
 		// Filter by published state
@@ -326,10 +327,10 @@ class ContentModelArticles extends JModelList
 				$levels = (int) $this->getState('filter.max_category_levels', '1');
 				// Create a subquery for the subcategory list
 				$subQuery = $db->getQuery(true);
-				$subQuery->select('sub.id');
-				$subQuery->from('#__categories as sub');
-				$subQuery->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt');
-				$subQuery->where('this.id = '.(int) $categoryId);
+				$subQuery->select('sub.id')
+					->from('#__categories as sub')
+					->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
+					->where('this.id = '.(int) $categoryId);
 				if ($levels >= 0)
 				{
 					$subQuery->where('sub.level <= this.level + '.$levels);
@@ -425,8 +426,8 @@ class ContentModelArticles extends JModelList
 		$nullDate	= $db->Quote($db->getNullDate());
 		$nowDate	= $db->Quote(JFactory::getDate()->toSql());
 
-		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')');
-		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
+			->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
 
 		// Filter by Date Range or Relative Date
 		$dateFiltering = $this->getState('filter.date_filtering', 'off');
@@ -468,7 +469,7 @@ class ContentModelArticles extends JModelList
 			{
 				case 'author':
 					$query->where(
-						'LOWER( CASE WHEN a.created_by_alias > '.$db->quote(' ').
+						'LOWER( CASE WHEN a.created_by_alias > '.$db->q(' ').
 						' THEN a.created_by_alias ELSE ua.name END ) LIKE '.$filter.' '
 					);
 					break;
@@ -487,13 +488,13 @@ class ContentModelArticles extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
-			$query->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
+			$query->where('a.language in ('.$db->q(JFactory::getLanguage()->getTag()).','.$db->q('*').')')
+				->where('(contact.language in ('.$db->q(JFactory::getLanguage()->getTag()).','.$db->q('*').') OR contact.language IS NULL)');
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->getState('list.ordering', 'a.ordering').' '.$this->getState('list.direction', 'ASC'));
-		$query->group('a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
+		$query->order($this->getState('list.ordering', 'a.ordering').' '.$this->getState('list.direction', 'ASC'))
+			->group('a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
 		return $query;
 	}
 

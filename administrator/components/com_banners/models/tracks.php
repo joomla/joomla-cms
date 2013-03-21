@@ -100,21 +100,21 @@ class BannersModelTracks extends JModelList
 		$query->select(
 				'a.track_date as track_date,'.
 				'a.track_type as track_type,'.
-				'a.'.$db->quoteName('count'), ' as '.$db->quoteName('count')
+				'a.'.$db->qn('count'), ' as '.$db->qn('count')
 		);
-		$query->from($db->quoteName('#__banner_tracks').' AS a');
+		$query->from($db->qn('#__banner_tracks').' AS a');
 
 		// Join with the banners
-		$query->join('LEFT', $db->quoteName('#__banners').' as b ON b.id=a.banner_id');
-		$query->select('b.name as name');
+		$query->join('LEFT', $db->qn('#__banners').' as b ON b.id=a.banner_id')
+			->select('b.name as name');
 
 		// Join with the client
-		$query->join('LEFT', $db->quoteName('#__banner_clients').' as cl ON cl.id=b.cid');
-		$query->select('cl.name as client_name');
+		$query->join('LEFT', $db->qn('#__banner_clients').' as cl ON cl.id=b.cid')
+			->select('cl.name as client_name');
 
 		// Join with the category
-		$query->join('LEFT', $db->quoteName('#__categories').' as cat ON cat.id=b.catid');
-		$query->select('cat.title as category_title');
+		$query->join('LEFT', $db->qn('#__categories').' as cat ON cat.id=b.catid')
+			->select('cat.title as category_title');
 
 		// Filter by type
 		$type = $this->getState('filter.type');
@@ -186,8 +186,7 @@ class BannersModelTracks extends JModelList
 			// Delete tracks from this banner
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
-			$query->delete();
-			$query->from($db->quoteName('#__banner_tracks'));
+			$query->delete($db->qn('#__banner_tracks'));
 
 			// Filter by type
 			$type = $this->getState('filter.type');
@@ -224,7 +223,7 @@ class BannersModelTracks extends JModelList
 				$where .= ' AND catid = '.(int) $categoryId;
 			}
 
-			$query->where('banner_id IN (SELECT id FROM '.$db->quoteName('#__banners').' WHERE '.$where.')');
+			$query->where('banner_id IN (SELECT id FROM '.$db->qn('#__banners').' WHERE '.$where.')');
 
 			$db->setQuery((string) $query);
 			$this->setError((string) $query);
@@ -342,9 +341,9 @@ class BannersModelTracks extends JModelList
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
-			$query->select('title');
-			$query->from($db->quoteName('#__categories'));
-			$query->where($db->quoteName('id').'='.$db->quote($categoryId));
+			$query->select('title')
+				->from($db->qn('#__categories'))
+				->where($db->qn('id').'='.$db->q($categoryId));
 			$db->setQuery((string) $query);
 
 			try
@@ -379,9 +378,9 @@ class BannersModelTracks extends JModelList
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
-			$query->select('name');
-			$query->from($db->quoteName('#__banner_clients'));
-			$query->where($db->quoteName('id').'='.$db->quote($clientId));
+			$query->select('name')
+				->from($db->qn('#__banner_clients'))
+				->where($db->qn('id').'='.$db->q($clientId));
 			$db->setQuery((string) $query);
 
 			try
