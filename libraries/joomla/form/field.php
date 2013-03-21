@@ -570,7 +570,7 @@ abstract class JFormField
 		// If the field should support multiple values add the final array segment.
 		if ($this->multiple)
 		{
-			switch (strtolower((string)$this->element['type']))
+			switch (strtolower((string) $this->element['type']))
 			{
 				case 'text':
 				case 'textarea':

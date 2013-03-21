@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<fields name="urls">
+		<field
+			name="urla"
+			type="hidden"/>
+	</fields>
 	<field
 		name="id"
 		type="text"

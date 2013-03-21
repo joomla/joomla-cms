@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.0" client="site" method="upgrade">
+<extension type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>

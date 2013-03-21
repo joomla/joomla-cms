@@ -26,6 +26,6 @@ defined('_JEXEC') or die;
 	<?php endforeach; ?>
 	</ul>
 <?php else : ?>
-	<span> <?php echo JText::_('MOD_TAGS_SIMILAR_NO_MATCHING_TAGS') ;?></span>
+	<span> <?php echo JText::_('MOD_TAGS_SIMILAR_NO_MATCHING_TAGS'); ?></span>
 <?php endif; ?>
 </div>
