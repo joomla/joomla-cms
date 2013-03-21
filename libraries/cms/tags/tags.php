@@ -873,7 +873,7 @@ class JTags
 			$query->delete('#__core_content');
 			$query->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias));
 			$query->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
-			echo $query->dump();
+
 			$db->setQuery($query);
 			$db->execute();
 
