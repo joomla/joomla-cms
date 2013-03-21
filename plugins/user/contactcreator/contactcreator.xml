@@ -41,6 +41,16 @@
 					<option value="0">JNo</option>
 					<option value="1">JYes</option>
 				</field>
+
+                <field name="userunlink" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="PLG_CONTACTCREATOR_FIELD_USERUNLINK_DESC"
+                       label="PLG_CONTACTCREATOR_FIELD_USERUNLINK_LABEL"
+                        >
+                    <option value="0">PLG_CONTACTCREATOR_FIELD_USERUNLINK_DELETE</option>
+                    <option value="1">PLG_CONTACTCREATOR_FIELD_USERUNLINK_UNLINK</option>
+                </field>
 			</fieldset>
 
 		</fields>

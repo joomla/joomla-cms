@@ -28,6 +28,41 @@ class PlgUserContactCreator extends JPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+
+	public function onUserAfterDelete($user, $success, $msg)
+	{
+		if (!$success)
+		{
+			return false; // if the user wasn't stored we don't resync
+		}
+
+		$user_id = (int) $user['id']; // who is beeing deleted
+
+		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
+		$contact = JTable::getInstance('contact', 'ContactTable');
+
+		$id = array('user_id' => $user_id ); // table access via secondary key
+		if ($contact->load( array('user_id' => $user_id ) ))
+		{
+			if ( $this->params->get('userunlink', '') )
+			{
+				// only unlink the user from the contact
+				$contact->user_id = 0;
+				$result = $contact->store();
+			}
+			else
+			{
+				// contact has to be deleted
+				$id = $contact->id;
+				if (!$contact->delete($id))
+				{
+					$this->setError($contact->getError());
+					return false;
+				}
+			}
+		}
+	}
+
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		if (!$success)
@@ -56,11 +91,6 @@ class PlgUserContactCreator extends JPlugin
 			return false; // bail out if we don't have a category
 		}
 
-		$dbo = JFactory::getDBO();
-		// grab the contact ID for this user; note $user_id is cleaned above
-		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
-		$id = $dbo->loadResult();
-
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
 		$contact = JTable::getInstance('contact', 'ContactTable');
 
@@ -69,11 +99,7 @@ class PlgUserContactCreator extends JPlugin
 			return false;
 		}
 
-		if ($id)
-		{
-			$contact->load($id);
-		}
-		elseif ($this->params->get('autopublish', 0))
+		if ((! $contact->load(array('user_id' => $user_id))) && ($this->params->get('autopublish', 0)))
 		{
 			$contact->published = 1;
 		}
