@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Mar-2013 Jean-Marie Simonet
+ # [#30340] Fix regression in Similar Tags Module. Thanks Elin
+
 -------------------- 3.1 Beta 2 Release [20-Mar-2012] ------------------
 
 20-Mar-2013 Mark Dexter
