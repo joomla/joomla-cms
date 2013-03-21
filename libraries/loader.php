@@ -147,7 +147,7 @@ abstract class JLoader
 				// Only register the class for autoloading if the file exists.
 				if (is_file($base . '/' . $path . '.php'))
 				{
-					self::$classes[strtolower($class)] = $base . '/' . $path . '.php';
+					self::register(strtolower($class), $base . '/' . $path . '.php',false);
 					$success = true;
 				}
 			}
