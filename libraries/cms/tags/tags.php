@@ -313,8 +313,6 @@ class JTags
 		$query->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
 		$db->execute();
-
-		return;
 	}
 
 	/**
@@ -807,7 +805,7 @@ class JTags
 		// Filter title
 		if (!empty($filters['title']))
 		{
-			$query->where($db->quoteName('a.title') . '=' . $db->quote($filters['title']));
+			$query->where($db->quoteName('a.title') . ' = ' . $db->quote($filters['title']));
 		}
 
 		// Filter on the published state
@@ -852,6 +850,34 @@ class JTags
 		$results = self::convertPathsToNames($results);
 
 		return $results;
+	}
+
+	/**
+	 * Method to delete the tag mappings and #__core_content record for for an item
+	 *
+	 * @param  integer    $contentItemIds  Array of values of the primary key from the table for the type
+	 * @param  typealias  $typeAlias      The type alias for the type
+	 *
+	 * return  boolean
+	 */
+	function deleteTagData($contentItemIds, $typeAlias)
+	{
+			foreach ($contentItemIds as $contentItemId)
+			{
+				self::unTagItem($contentItemId, $typeAlias);
+			}
+
+			$idList = implode(',', $contentItemIds);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->delete('#__core_content');
+			$query->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias));
+			$query->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
+			echo $query->dump();
+			$db->setQuery($query);
+			$db->execute();
+
+		return;
 	}
 
 	/**

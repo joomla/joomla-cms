@@ -29,6 +29,7 @@ $ -> Language fix or change
 21-Mar-2013 Jean-Marie Simonet
  # [#30340] Fix regression in Similar Tags Module. Thanks Elin
  $ Duplicate lang string +
+ # [#30320] *Deleted Tagged items are not deleted from the map table and core_content table. Thanks Elin
 
 -------------------- 3.1 Beta 2 Release [20-Mar-2012] ------------------
 
