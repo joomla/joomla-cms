@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#30320] *Deleted Tagged items are not deleted from the map table and core_content table. Thanks Elin
  # [#30346] *Contact creator does not include default language "All" for the contact created
  # [#30330] *Correcting alignment of metadata labels in Category edit
+ # [#30339] Component Update Info URL - open in new tab. Thanks Glen
 
 -------------------- 3.1 Beta 2 Release [20-Mar-2012] ------------------
 
