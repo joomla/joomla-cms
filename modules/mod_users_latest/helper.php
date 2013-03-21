@@ -33,8 +33,8 @@ class ModUsersLatestHelper
 			{
 				return array();
 			}
-			$query->leftJoin('#__user_usergroup_map AS m ON m.user_id = a.id')
-				->leftJoin('#__usergroups AS ug ON ug.id = m.group_id')
+			$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = a.id')
+				->join('LEFT', '#__usergroups AS ug ON ug.id = m.group_id')
 				->where('ug.id in (' . implode(',', $groups) . ')')
 				->where('ug.id <> 1');
 		}

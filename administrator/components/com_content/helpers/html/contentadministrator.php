@@ -44,9 +44,9 @@ abstract class JHtmlContentAdministrator
 			$query->select('c.*')
 				->from('#__content as c')
 				->select('cat.title as category_title')
-				->leftJoin('#__categories as cat ON cat.id=c.catid')
+				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
 				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
-				->leftJoin('#__languages as l ON c.language=l.lang_code')
+				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
 				->select('l.image')
 				->select('l.title as language_title');
 			$db->setQuery($query);

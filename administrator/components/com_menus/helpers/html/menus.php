@@ -31,9 +31,9 @@ abstract class MenusHtmlMenus
 		$query->select('m.*')
 			->select('mt.title as menu_title')
 			->from('#__menu as m')
-			->leftJoin('#__menu_types as mt ON mt.menutype=m.menutype')
+			->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
 			->where('m.id IN ('.implode(',', array_values($associations)).')')
-			->leftJoin('#__languages as l ON m.language=l.lang_code')
+			->join('LEFT', '#__languages as l ON m.language=l.lang_code')
 			->select('l.image')
 			->select('l.title as language_title');
 		$db->setQuery($query);

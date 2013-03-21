@@ -31,9 +31,9 @@ abstract class ModMenuHelper
 
 		$query->select('a.*, SUM(b.home) AS home')
 			->from('#__menu_types AS a')
-			->leftJoin('#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
+			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
 			->select('b.language')
-			->leftJoin('#__languages AS l ON l.lang_code = language')
+			->join('LEFT', '#__languages AS l ON l.lang_code = language')
 			->select('l.image')
 			->select('l.sef')
 			->select('l.title_native')
@@ -70,7 +70,7 @@ abstract class ModMenuHelper
 			->from('#__menu AS m');
 
 		// Filter on the enabled states.
-		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id')
+		$query->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 			->where('m.client_id = 1')
 			->where('e.enabled = 1')
 			->where('m.id > 1');

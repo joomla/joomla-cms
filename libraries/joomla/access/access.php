@@ -240,7 +240,7 @@ class JAccess
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
+			$query->join('LEFT', '#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
 				->order('b.lft');
 		}
 
@@ -320,13 +320,13 @@ class JAccess
 				{
 					$query->from('#__user_usergroup_map AS map')
 						->where('map.user_id = ' . (int) $userId)
-						->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+						->join('LEFT', '#__usergroups AS a ON a.id = map.group_id');
 				}
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive)
 				{
-					$query->leftJoin('#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+					$query->join('LEFT', '#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 				}
 
 				// Execute the query and load the rules from the result.

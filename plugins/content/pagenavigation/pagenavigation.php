@@ -127,7 +127,7 @@ class PlgContentPagenavigation extends JPlugin
 			$case_when1 .= $c_id.' END as catslug';
 			$query->select('a.id,'.$case_when.','.$case_when1)
 				->from('#__content AS a')
-				->leftJoin('#__categories AS cc ON cc.id = a.catid')
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 				->where(
 				'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
 				. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere

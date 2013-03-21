@@ -491,11 +491,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$query = $this->getQuery(true);
 			$query->select($this->quoteName($name, $as))
 					->from('pg_class AS s')
-					->leftJoin("pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
-					->leftJoin('pg_class t ON t.oid=d.refobjid')
-					->leftJoin('pg_namespace n ON n.oid=t.relnamespace')
-					->leftJoin('pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
-					->leftJoin('information_schema.sequences AS info ON info.sequence_name=s.relname')
+					->join('LEFT', "pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
+					->join('LEFT', 'pg_class t ON t.oid=d.refobjid')
+					->join('LEFT', 'pg_namespace n ON n.oid=t.relnamespace')
+					->join('LEFT', 'pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
+					->join('LEFT', 'information_schema.sequences AS info ON info.sequence_name=s.relname')
 					->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
 			$this->setQuery($query);
 			$seq = $this->loadObjectList();

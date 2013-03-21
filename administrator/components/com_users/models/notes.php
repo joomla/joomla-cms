@@ -77,15 +77,15 @@ class UsersModelNotes extends JModelList
 
 		// Join over the category
 		$query->select('c.title AS category_title, c.params AS category_params')
-			->leftJoin('#__categories AS c ON c.id = a.catid');
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the note user.
 		$query->select('u.name AS user_name')
-			->leftJoin('#__users AS u ON u.id = a.user_id');
+			->join('LEFT', '#__users AS u ON u.id = a.user_id');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
-			->leftJoin('#__users AS uc ON uc.id = a.checked_out');
+			->join('LEFT', '#__users AS uc ON uc.id = a.checked_out');
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');

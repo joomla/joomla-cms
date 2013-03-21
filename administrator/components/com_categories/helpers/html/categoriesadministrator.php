@@ -33,7 +33,7 @@ abstract class JHtmlCategoriesAdministrator
 		$query->select('c.*')
 			->from('#__categories as c')
 			->where('c.id IN ('.implode(',', array_values($associations)).')')
-			->leftJoin('#__languages as l ON c.language=l.lang_code')
+			->join('LEFT', '#__languages as l ON c.language=l.lang_code')
 			->select('l.image')
 			->select('l.title as language_title');
 		$db->setQuery($query);

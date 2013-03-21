@@ -1214,7 +1214,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->select('m.id, e.extension_id')
 			->from('#__menu AS m')
-			->leftJoin('#__extensions AS e ON m.component_id = e.extension_id')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 			->where('m.parent_id = 1')
 			->where('m.client_id = 1')
 			->where('e.element = ' . $db->q($option));

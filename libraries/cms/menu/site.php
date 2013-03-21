@@ -32,7 +32,7 @@ class JMenuSite extends JMenu
 			->select($db->qn('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
 			->select('e.element as component')
 			->from('#__menu AS m')
-			->leftJoin('#__extensions AS e ON m.component_id = e.extension_id')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 			->where('m.published = 1')
 			->where('m.parent_id > 0')
 			->where('m.client_id = 0')

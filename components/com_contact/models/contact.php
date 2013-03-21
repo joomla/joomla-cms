@@ -332,7 +332,7 @@ class ContactModelContact extends JModelForm
 				$case_when1 .= $c_id.' END as catslug';
 				$query->select($case_when1 . ',' . $case_when)
 					->from('#__content as a')
-					->leftJoin('#__categories as c on a.catid=c.id')
+					->join('LEFT', '#__categories as c on a.catid=c.id')
 					->where('a.created_by = ' . (int) $result->user_id)
 					->where('a.access IN ('. $groups.')')
 					->order('a.state DESC, a.created DESC');

@@ -95,8 +95,8 @@ abstract class ModRelatedItemsHelper
 					$case_when .= $c_id.' END as catslug';
 					$query->select($case_when)
 						->from('#__content AS a')
-						->leftJoin('#__content_frontpage AS f ON f.content_id = a.id')
-						->leftJoin('#__categories AS cc ON cc.id = a.catid')
+						->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
+						->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
 						->where('a.id != ' . (int) $id)
 						->where('a.state = 1')
 						->where('a.access IN (' . $groups . ')');

@@ -268,7 +268,7 @@ class JAdministrator extends JApplication
 			$query = $db->getQuery(true);
 			$query->select('template, s.params')
 				->from('#__template_styles as s')
-				->leftJoin('#__extensions as e ON e.type='.$db->q('template').' AND e.element=s.template AND e.client_id=s.client_id');
+				->join('LEFT', '#__extensions as e ON e.type='.$db->q('template').' AND e.element=s.template AND e.client_id=s.client_id');
 			if ($admin_style)
 			{
 				$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
