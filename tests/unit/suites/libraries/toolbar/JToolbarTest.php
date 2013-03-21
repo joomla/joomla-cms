@@ -41,8 +41,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::__construct
 	 */
 	public function test__construct()
 	{
@@ -58,8 +56,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -77,8 +73,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::appendButton
 	 */
 	public function testAppendButton()
 	{
@@ -94,8 +88,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::getItems
 	 */
 	public function testGetItems()
 	{
@@ -111,8 +103,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::getName
 	 */
 	public function testGetName()
 	{
@@ -128,8 +118,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::prependButton
 	 */
 	public function testPrependButton()
 	{
@@ -145,8 +133,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::render
 	 */
 	public function testRender()
 	{
@@ -160,7 +146,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbar::renderButton
 	 * @todo   Implement testRenderButton().
 	 */
 	public function testRenderButton()
@@ -171,7 +156,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbar::loadButtonType
 	 * @todo   Implement testLoadButtonType().
 	 */
 	public function testLoadButtonType()
@@ -188,8 +172,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::addButtonPath
 	 */
 	public function testAddButtonPath_Array()
 	{
@@ -223,8 +205,6 @@ class JToolbarTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbar::addButtonPath
 	 */
 	public function testAddButtonPath_String()
 	{

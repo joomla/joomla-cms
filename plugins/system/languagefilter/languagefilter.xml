@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system">
 	<name>plg_system_languagefilter</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2010</creationDate>
@@ -54,6 +54,15 @@
 				>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+				<field name="lang_cookie" type="radio"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_DESC"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
+					default="1"
+					class="btn-group"
+				>
+					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
+					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
 				</field>
 				<field name="alternate_meta" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"

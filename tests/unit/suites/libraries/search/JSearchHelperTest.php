@@ -14,7 +14,6 @@
 class JSearchHelperTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @covers JSearchHelper::logSearch
 	 * @todo   Implement testLogSearch().
 	 */
 	public function testLogSearch()

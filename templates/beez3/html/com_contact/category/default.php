@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<?php if($this->params->get('show_category_title', 1)) : ?>
+<?php if ($this->params->get('show_category_title', 1)) : ?>
 <h2>
 	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_contact.category'); ?>
 </h2>

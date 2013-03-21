@@ -178,7 +178,11 @@ class UsersModelProfile extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		return $this->getData();
+		$data = $this->getData();
+
+		$this->preprocessData('com_users.profile', $data);
+
+		return $data;
 	}
 
 	/**
@@ -242,8 +246,11 @@ class UsersModelProfile extends JModelForm
 		$data['email']		= $data['email1'];
 		$data['password']	= $data['password1'];
 
-		// Unset the username so it does not get overwritten
-		unset($data['username']);
+		// Unset the username if it should not be overwritten
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+		{
+			unset($data['username']);
+		}
 
 		// Unset the block so it does not get overwritten
 		unset($data['block']);
@@ -270,6 +277,9 @@ class UsersModelProfile extends JModelForm
 			$this->setError($user->getError());
 			return false;
 		}
+
+		$user->tags = new JTags;
+		$user->tags->getTagIds($user->id, 'com_users.user');
 
 		return $user->id;
 	}

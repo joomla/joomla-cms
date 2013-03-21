@@ -56,7 +56,7 @@ $fieldsets = $this->form->getFieldsets();
 		<legend class="element-invisible"><?php echo JText::_($fieldset->label); ?></legend>
 		<ul class="adminformlist">
 		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
-			<?php if ($field->hidden): ?>
+			<?php if ($field->hidden) : ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
 				<li><?php echo $field->label; ?>

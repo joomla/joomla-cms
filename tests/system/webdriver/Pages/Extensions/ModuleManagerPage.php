@@ -61,8 +61,10 @@ class ModuleManagerPage extends AdminManagerPage
 			array('client' => 'site', 'name' => 'Login'),
 			array('client' => 'site', 'name' => 'Menu'),
 			array('client' => 'site', 'name' => 'Most Read Content'),
+			array('client' => 'site', 'name' => 'Popular Tags'),
 			array('client' => 'site', 'name' => 'Random Image'),
 			array('client' => 'site', 'name' => 'Search'),
+			array('client' => 'site', 'name' => 'Similar Tags'),
 			array('client' => 'site', 'name' => 'Smart Search Module'),
 			array('client' => 'site', 'name' => 'Statistics'),
 			array('client' => 'site', 'name' => 'Syndication Feeds'),
@@ -84,7 +86,7 @@ class ModuleManagerPage extends AdminManagerPage
 			array('client' => 'administrator', 'name' => 'Title'),
 			array('client' => 'administrator', 'name' => 'Toolbar'),
 			array('client' => 'administrator', 'name' => 'User Status'),
-			);
+	);
 
 	public function addModule($title = 'Test Module', $client = 'Site', $type = 'Archived Articles', $otherFields = null)
 	{

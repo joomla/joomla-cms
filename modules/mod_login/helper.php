@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_login
  * @since       1.5
  */
-class modLoginHelper
+class ModLoginHelper
 {
 	public static function getReturnURL($params, $type)
 	{

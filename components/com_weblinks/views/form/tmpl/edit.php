@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -80,7 +81,16 @@ $params = $this->state->get('params');
 				<?php echo $this->form->getInput('url'); ?>
 			</div>
 		</div>
-		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')): ?>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('tags'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('tags'); ?>
+			</div>
+		</div>
+
+		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('state'); ?>

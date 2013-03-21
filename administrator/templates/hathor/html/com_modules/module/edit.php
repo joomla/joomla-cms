@@ -51,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<label id="jform_custom_position-lbl" for="jform_custom_position" class="element-invisible"><?php echo JText::_('TPL_HATHOR_COM_MODULES_CUSTOM_POSITION_LABEL');?></label>
 			<?php echo $this->form->getInput('position'); ?></li>
 
-			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
+			<?php if ((string) $this->item->xml->name != 'Login Form') : ?>
 			<li><?php echo $this->form->getLabel('published'); ?>
 			<?php echo $this->form->getInput('published'); ?></li>
 			<?php endif; ?>
@@ -62,7 +62,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<li><?php echo $this->form->getLabel('ordering'); ?>
 			<?php echo $this->form->getInput('ordering'); ?></li>
 
-			<?php if ((string) $this->item->xml->name != 'Login Form'): ?>
+			<?php if ((string) $this->item->xml->name != 'Login Form') : ?>
 			<li><?php echo $this->form->getLabel('publish_up'); ?>
 			<?php echo $this->form->getInput('publish_up'); ?></li>
 

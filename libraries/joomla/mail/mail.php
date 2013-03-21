@@ -82,7 +82,7 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				throw new RuntimeException(sprintf('%s::Send mail not enabled.'), get_class($this));
+				throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
 			}
 		}
 
@@ -96,7 +96,7 @@ class JMail extends PHPMailer
 			}
 			else
 			{
-				throw new RuntimeException(sprintf('%s::Send failed: "%s".'), get_class($this), $this->ErrorInfo);
+				throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
 			}
 		}
 
@@ -440,7 +440,6 @@ class JMail extends PHPMailer
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)
 	{
-		$this->setSender(array($from, $fromName));
 		$this->setSubject($subject);
 		$this->setBody($body);
 
@@ -469,6 +468,10 @@ class JMail extends PHPMailer
 		{
 			$this->addReplyTo(array($replyTo, $replyToName));
 		}
+
+		// Add sender to replyTo only if no replyTo received
+		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
+		$this->setSender(array($from, $fromName, $autoReplyTo));
 
 		return $this->Send();
 	}

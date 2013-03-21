@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.noframes');
 ?>
 <div class="login <?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
@@ -25,7 +24,7 @@ JHtml::_('behavior.noframes');
 	<div class="login-description">
 	<?php endif; ?>
 
-		<?php if($this->params->get('logindescription_show') == 1) : ?>
+		<?php if ($this->params->get('logindescription_show') == 1) : ?>
 			<?php echo $this->params->get('login_description'); ?>
 		<?php endif; ?>
 
@@ -40,8 +39,8 @@ JHtml::_('behavior.noframes');
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-horizontal">
 
 		<fieldset class="well">
-			<?php foreach ($this->form->getFieldset('credentials') as $field): ?>
-				<?php if (!$field->hidden): ?>
+			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
+				<?php if (!$field->hidden) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>

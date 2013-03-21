@@ -178,6 +178,13 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$result->modified_time = null;
 			}
+
+			if (!empty($result->id))
+			{
+				$db = JFactory::getDbo();
+				$result->tags = new JTags;
+				$result->tags->getTagIds($result->id, $result->extension . '.category');
+			}
 		}
 
 		$app = JFactory::getApplication();
@@ -283,6 +290,8 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_categories.category', $data);
 
 		return $data;
 	}

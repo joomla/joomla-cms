@@ -19,6 +19,22 @@ defined('_JEXEC') or die;
 class ConfigModelComponent extends JModelForm
 {
 	/**
+	* The event to trigger before saving the data.
+	*
+	* @var    string
+	* @since  3.1.0
+	*/
+	protected $event_before_save = 'onConfigurationBeforeSave';
+
+	/**
+	* The event to trigger before deleting the data.
+	*
+	* @var    string
+	* @since  3.1.0
+	*/
+	protected $event_after_save = 'onConfigurationAfterSave';
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
@@ -101,6 +117,8 @@ class ConfigModelComponent extends JModelForm
 
 		$result = JComponentHelper::getComponent($option);
 
+		$this->preprocessData('com_config.component', $result);
+
 		return $result;
 	}
 
@@ -114,7 +132,9 @@ class ConfigModelComponent extends JModelForm
 	 */
 	public function save($data)
 	{
+		$dispatcher = JDispatcher::getInstance();
 		$table	= JTable::getInstance('extension');
+		$isNew = true;
 
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
@@ -166,6 +186,15 @@ class ConfigModelComponent extends JModelForm
 			return false;
 		}
 
+		// Trigger the onConfigurationBeforeSave event.
+		$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
+
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+
 		// Store the data.
 		if (!$table->store())
 		{
@@ -175,6 +204,9 @@ class ConfigModelComponent extends JModelForm
 
 		// Clean the component cache.
 		$this->cleanCache('_system');
+
+		// Trigger the onConfigurationAfterSave event.
+		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, $table, $isNew));
 
 		return true;
 	}

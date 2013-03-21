@@ -36,7 +36,6 @@ class JFormFieldCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JFormFieldCaptcha::setup
 	 * @todo   Implement testSetup().
 	 */
 	public function testSetup()

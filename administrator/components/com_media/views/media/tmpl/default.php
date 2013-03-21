@@ -31,7 +31,7 @@ $input = JFactory::getApplication()->input;
 	<!-- Begin Content -->
 	<div class="span10">
 		<?php echo $this->loadTemplate('navigation'); ?>
-		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp): ?>
+		<?php if (($user->authorise('core.create', 'com_media')) and $this->require_ftp) : ?>
 			<form action="index.php?option=com_media&amp;task=ftpValidate" name="ftpForm" id="ftpForm" method="post">
 				<fieldset title="<?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?>">
 					<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>

@@ -15,8 +15,8 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 <ul>
 <?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 	<?php
-	if($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
-	if(!isset($this->children[$this->category->id][$id + 1]))
+	if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) :
+	if (!isset($this->children[$this->category->id][$id + 1]))
 	{
 		$class = ' class="last"';
 	}
@@ -42,7 +42,7 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 			</dl>
 		<?php endif; ?>
 
-			<?php if(count($child->getChildren()) > 0) :
+			<?php if (count($child->getChildren()) > 0) :
 				$this->children[$child->id] = $child->getChildren();
 				$this->category = $child;
 				$this->maxLevel--;

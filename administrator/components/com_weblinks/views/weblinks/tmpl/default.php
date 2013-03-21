@@ -45,7 +45,7 @@ $sortFields = $this->getSortFields();
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_weblinks&view=weblinks'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -171,7 +171,7 @@ $sortFields = $this->getSortFields();
 						</div>
 					</td>
 					<td class="small hidden-phone">
-						<?php echo $this->escape($item->access_level); ?>
+						<?php echo $this->escape($item->access); ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo $item->hits; ?>

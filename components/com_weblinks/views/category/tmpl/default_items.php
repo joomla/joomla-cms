@@ -94,7 +94,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								$width	= 600;
 								$height	= 500;
 							}
-							if ($this->items[$i]->state == 0): ?>
+							if ($this->items[$i]->state == 0) : ?>
 								<span class="label label-warning">Unpublished</span>
 							<?php endif; ?>
 
@@ -127,7 +127,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							}
 						?>
 						</strong>
-						<?php if (($this->params->get('show_link_description')) and ($item->description != '')): ?>
+
+						<?php if ($this->params->get('show_tags', 1)) : ?>
+							<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+							<?php echo $this->item->tagLayout->render($item->tags->itemTags); ?>
+						<?php endif; ?>
+
+						<?php if (($this->params->get('show_link_description')) and ($item->description != '')) : ?>
 							<?php echo $item->description; ?>
 						<?php endif; ?>
 

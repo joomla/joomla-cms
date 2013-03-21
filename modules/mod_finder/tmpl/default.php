@@ -131,8 +131,8 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		/*
 		 * This segment of code sets up the autocompleter.
 		 */
-		<?php if ($params->get('show_autosuggest', 1)): ?>
-			<?php JHtml::script('com_finder/autocompleter.js', false, true); ?>
+		<?php if ($params->get('show_autosuggest', 1)) : ?>
+			<?php JHtml::_('script', 'com_finder/autocompleter.js', false, true); ?>
 			var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
 			var ModCompleter = new Autocompleter.Request.JSON(document.id('mod-finder-searchword'), url, {'postVar': 'q'});
 		<?php endif; ?>
@@ -147,11 +147,11 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		echo $output;
 		?>
 
-		<?php if ($params->get('show_advanced', 1)): ?>
-			<?php if ($params->get('show_advanced', 1) == 2): ?>
+		<?php if ($params->get('show_advanced', 1)) : ?>
+			<?php if ($params->get('show_advanced', 1) == 2) : ?>
 				<br />
 				<a href="<?php echo JRoute::_($route); ?>"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
-			<?php elseif ($params->get('show_advanced', 1) == 1): ?>
+			<?php elseif ($params->get('show_advanced', 1) == 1) : ?>
 				<div id="mod-finder-advanced">
 					<?php echo JHtml::_('filter.select', $query, $params); ?>
 				</div>

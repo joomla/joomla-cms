@@ -36,7 +36,6 @@ class JLanguageMultilangTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JLanguageMultilang::isEnabled
 	 * @todo   Implement testIsEnabled().
 	 */
 	public function testIsEnabled()

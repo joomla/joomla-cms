@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 
 <script type="text/javascript">
 	window.addEvent('domready', function() {
-<?php if ($this->params->get('show_advanced', 1)): ?>
+<?php if ($this->params->get('show_advanced', 1)) : ?>
 		/*
 		 * This segment of code adds the slide effect to the advanced search box.
 		 */
@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 		{
 			var searchSlider = new Fx.Slide('advanced-search');
 
-			<?php if (!$this->params->get('expand_advanced', 0)): ?>
+			<?php if (!$this->params->get('expand_advanced', 0)) : ?>
 			searchSlider.hide();
 			<?php endif; ?>
 
@@ -60,8 +60,8 @@ defined('_JEXEC') or die;
 		/*
 		 * This segment of code sets up the autocompleter.
 		 */
-<?php if ($this->params->get('show_autosuggest', 1)): ?>
-	<?php JHtml::script('com_finder/autocompleter.js', false, true); ?>
+<?php if ($this->params->get('show_autosuggest', 1)) : ?>
+	<?php JHtml::_('script', 'com_finder/autocompleter.js', false, true); ?>
 	var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
 	var completer = new Autocompleter.Request.JSON(document.id('q'), url, {'postVar': 'q'});
 <?php endif; ?>
@@ -75,7 +75,7 @@ defined('_JEXEC') or die;
 	/*
 	 * DISABLED UNTIL WEIRD VALUES CAN BE TRACKED DOWN.
 	 */
-	if (false && $this->state->get('list.ordering') !== 'relevance_dsc'): ?>
+	if (false && $this->state->get('list.ordering') !== 'relevance_dsc') : ?>
 		<input type="hidden" name="o" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>" />
 	<?php endif; ?>
 
@@ -89,15 +89,15 @@ defined('_JEXEC') or die;
 		<?php else: ?>
 			<button name="Search" type="submit" class="btn btn-primary disabled"><span class="icon-search icon-white"></span> <?php echo JText::_('JSEARCH_FILTER_SUBMIT');?></button>
 		<?php endif; ?>
-		<?php if ($this->params->get('show_advanced', 1)): ?>
+		<?php if ($this->params->get('show_advanced', 1)) : ?>
 			<a href="#advancedSearch" data-toggle="collapse" class="btn"><span class="icon-list"></span> <?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 		<?php endif; ?>
 </fieldset>
 
-	<?php if ($this->params->get('show_advanced', 1)): ?>
+	<?php if ($this->params->get('show_advanced', 1)) : ?>
 		<div id="advancedSearch" class="collapse">
 			<hr />
-			<?php if ($this->params->get('show_advanced_tips', 1)): ?>
+			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
 				<div class="advanced-search-tip">
 					<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>
 				</div>

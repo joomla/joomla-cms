@@ -18,30 +18,24 @@ defined('_JEXEC') or die;
  * @subpackage  User.contactcreator
  * @since       1.6
  */
-class plgUserContactCreator extends JPlugin
+class PlgUserContactCreator extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if(!$success)
+		if (!$success)
 		{
 			return false; // if the user wasn't stored we don't resync
 		}
 
-		if(!$isnew)
+		if (!$isnew)
 		{
 			return false; // if the user isn't new we don't sync
 		}
@@ -79,7 +73,7 @@ class plgUserContactCreator extends JPlugin
 		{
 			$contact->load($id);
 		}
-		elseif($this->params->get('autopublish', 0))
+		elseif ($this->params->get('autopublish', 0))
 		{
 			$contact->published = 1;
 		}

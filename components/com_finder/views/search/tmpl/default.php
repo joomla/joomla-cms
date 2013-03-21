@@ -25,7 +25,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 </h1>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_search_form', 1)): ?>
+<?php if ($this->params->get('show_search_form', 1)) : ?>
 	<div id="search-form">
 		<?php echo $this->loadTemplate('form'); ?>
 	</div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -124,6 +124,7 @@ class JImage
 
 		// Get the image file information.
 		$info = getimagesize($path);
+
 		if (!$info)
 		{
 			// @codeCoverageIgnoreStart
@@ -176,12 +177,14 @@ class JImage
 
 		// Process thumbs
 		$generated = array();
+
 		if (!empty($thumbSizes))
 		{
 			foreach ($thumbSizes as $thumbSize)
 			{
 				// Desired thumbnail size
 				$size = explode('x', strtolower($thumbSize));
+
 				if (count($size) != 2)
 				{
 					throw new InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
@@ -244,6 +247,7 @@ class JImage
 
 		// Process thumbs
 		$thumbsCreated = array();
+
 		if ($thumbs = $this->generateThumbs($thumbSizes, $creationMethod))
 		{
 			// Parent image properties
@@ -262,6 +266,7 @@ class JImage
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
+
 				if ($thumb->toFile($thumbFileName, $imgProperties->type))
 				{
 					// Return JImage object with thumb path to ease further manipulation
@@ -355,6 +360,9 @@ class JImage
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -491,6 +499,9 @@ class JImage
 	 */
 	public function loadFile($path)
 	{
+		// Destroy the current image handle if it exists
+		$this->destroy();
+
 		// Make sure the file exists.
 		if (!file_exists($path))
 		{
@@ -516,6 +527,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
@@ -539,6 +551,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
@@ -562,6 +575,7 @@ class JImage
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
+
 				if (!is_resource($handle))
 				{
 					// @codeCoverageIgnoreStart
@@ -650,6 +664,9 @@ class JImage
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -706,6 +723,9 @@ class JImage
 		// Swap out the current handle for the new image handle.
 		else
 		{
+			// Free the memory from the current handle
+			$this->destroy();
+
 			$this->handle = $handle;
 
 			return $this;
@@ -766,6 +786,7 @@ class JImage
 
 		// Verify that the filter type exists.
 		$className = 'JImageFilter' . ucfirst($type);
+
 		if (!class_exists($className))
 		{
 			JLog::add('The ' . ucfirst($type) . ' image filter is not available.', JLog::ERROR);
@@ -919,5 +940,34 @@ class JImage
 		}
 
 		return $width;
+	}
+
+	/**
+	 * Method to destroy an image handle and
+	 * free the memory associated with the handle
+	 *
+	 * @return  boolean  True on success, false on failure or if no image is loaded
+	 *
+	 * @since 12.3
+	 */
+	public function destroy()
+	{
+		if ($this->isLoaded())
+		{
+			return imagedestroy($this->handle);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Method to call the destroy() method one last time
+	 * to free any memory when the object is unset
+	 *
+	 * @see     JImage::destroy()
+	 */
+	public function __destruct()
+	{
+		$this->destroy();
 	}
 }

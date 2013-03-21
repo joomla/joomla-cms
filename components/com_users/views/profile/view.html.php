@@ -54,6 +54,9 @@ class UsersViewProfile extends JViewLegacy
 			return false;
 		}
 
+		$this->data->tags = new JTags;
+		$this->data->tags->getItemTags('com_users.user.', $this->data->id);
+
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
 		if (isset($active->query['layout']))
@@ -85,7 +88,7 @@ class UsersViewProfile extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
+		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $user->name));
 		}

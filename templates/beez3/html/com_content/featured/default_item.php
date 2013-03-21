@@ -130,7 +130,7 @@ $templateparams = $app->getTemplate(true)->params;
 
 <?php  if (isset($images->image_intro) and !empty($images->image_intro)) : ?>
 	<?php $imgfloat = (empty($images->float_intro)) ? $params->get('float_intro') : $images->float_intro; ?>
-	<div class="img-intro-"<?php echo htmlspecialchars($imgfloat); ?>">
+	<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_intro_caption):
 			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_intro_caption) .'"';

@@ -32,9 +32,9 @@ JHtml::_('bootstrap.tooltip');
 
 				<small class="small hasTooltip" title="<?php echo JText::_('JCLIENT'); ?>">
 				<?php
-					if($user->client_id)
+					if ($user->client_id)
 					{
-						echo JText::_('JADMINISTRATOR');
+						echo JText::_('JADMINISTRATION');
 					} else {
 						echo JText::_('JSITE');
 					}?>

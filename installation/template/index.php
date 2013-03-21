@@ -64,7 +64,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<div class="container">
 			<jdoc:include type="message" />
 			<div id="container-installation">
-				<jdoc:include type="installation" />
+				<jdoc:include type="component" />
 			</div>
 			<hr />
 		</div>
@@ -113,7 +113,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				    });
 				    $(".btn-group input[checked=checked]").each(function()
 					{
-						if($(this).val()== '')
+						if ($(this).val()== '')
 						{
 				           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
 				        } else if($(this).val()==0 || $(this).val()=='remove')

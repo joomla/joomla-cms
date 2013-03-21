@@ -52,7 +52,7 @@ Joomla.submitbutton = function(pressbutton)
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -98,7 +98,7 @@ Joomla.submitbutton = function(pressbutton)
 				</tr>
 			</thead>
 			<tbody>
-				<?php if (count($this->items) == 0): ?>
+				<?php if (count($this->items) == 0) : ?>
 				<tr class="row0">
 					<td align="center" colspan="6">
 						<?php
@@ -114,7 +114,7 @@ Joomla.submitbutton = function(pressbutton)
 				<?php endif; ?>
 
 				<?php $canChange = JFactory::getUser()->authorise('core.manage', 'com_finder'); ?>
-				<?php foreach ($this->items as $i => $item): ?>
+				<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>

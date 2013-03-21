@@ -83,6 +83,8 @@ class UsersModelGroup extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_users.group', $data);
+
 		return $data;
 	}
 

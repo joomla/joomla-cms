@@ -26,6 +26,20 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Mar-2013 Mark Dexter
+ # Fix system tests for tags component and modules
+
+03-Mar-2013 Michael Babker
+ + Add tests for FinderIndexerToken, JHtmlBootstrap, and JHtmlJquery
+ + Add tests for JFormField and JHtml instances
+
+27-Feb-2013 Mark Dexter
+ # Fix failing system change from markup change in [#30157] *Bootstrapping tabs in administration (big patch)
+
+22-Feb-2013 Michael Babker
+ ^ Remove @covers tags in docblocks due to negative test coverage influence
+ + Add test framework for FinderIndexer** library
+
 01-Jan-2013 Mark Dexter
  # Fix failing webdriver test due to change in Module edit UI
 

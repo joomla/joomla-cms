@@ -162,7 +162,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$update->loadFromXML($updateObject->detailsurl);
 
 		// Pass the update object
-		if($ret['latest'] == JVERSION)
+		if ($ret['latest'] == JVERSION)
 		{
 			$ret['object'] = null;
 		}
@@ -259,7 +259,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		{
 			// Is it a 0-byte file? If so, re-download please.
 			$filesize = @filesize($target);
-			if(empty($filesize)) return $this->downloadPackage($packageURL, $target);
+			if (empty($filesize)) return $this->downloadPackage($packageURL, $target);
 
 			// Yes, it's there, skip downloading
 			return $basename;
@@ -281,7 +281,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
 		$result = AdmintoolsHelperDownload::download($url, $target);
 
-		if(!$result)
+		if (!$result)
 		{
 			return false;
 		}
@@ -352,11 +352,11 @@ ENDDATA;
 
 			// Is the tempdir really writable?
 			$writable = @is_writeable($tempdir);
-			if($writable)
+			if ($writable)
 			{
 				// Let's be REALLY sure
 				$fp = @fopen($tempdir . '/test.txt', 'w');
-				if($fp === false)
+				if ($fp === false)
 				{
 					$writable = false;
 				} else {
@@ -366,38 +366,38 @@ ENDDATA;
 			}
 
 			// If the tempdir is not writable, create a new writable subdirectory
-			if(!$writable)
+			if (!$writable)
 			{
 				$FTPOptions = JClientHelper::getCredentials('ftp');
 				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
-				if(!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
-				if(!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
+				if (!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
+				if (!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
 
 				$tempdir .= '/admintools';
 			}
 
 			// Just in case the temp-directory was off-root, try using the default tmp directory
 			$writable = @is_writeable($tempdir);
-			if(!$writable)
+			if (!$writable)
 			{
 				$tempdir = JPATH_ROOT.'/tmp';
 
 				// Does the JPATH_ROOT/tmp directory exist?
-				if(!is_dir($tempdir)) {
+				if (!is_dir($tempdir)) {
 
 					JFolder::create($tempdir, 511);
 					JFile::write($tempdir . '/.htaccess', "order deny, allow\ndeny from all\nallow from none\n");
 				}
 
 				// If it exists and it is unwritable, try creating a writable admintools subdirectory
-				if(!is_writable($tempdir))
+				if (!is_writable($tempdir))
 				{
 					$FTPOptions = JClientHelper::getCredentials('ftp');
 					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir.'/admintools'), '/');
-					if(!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
-					if(!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
+					if (!@mkdir($tempdir.'/admintools')) $ftp->mkdir($dest);
+					if (!@chmod($tempdir.'/admintools', 511)) $ftp->chmod($dest, 511);
 
 					$tempdir .= '/admintools';
 				}
@@ -444,7 +444,7 @@ ENDDATA;
 
 		// Remove the old file, if it's there...
 		$configpath = JPATH_COMPONENT_ADMINISTRATOR . '/restoration.php';
-		if( JFile::exists($configpath) )
+		if ( JFile::exists($configpath) )
 		{
 			JFile::delete($configpath);
 		}
@@ -457,14 +457,14 @@ ENDDATA;
 			if (function_exists('file_put_contents'))
 			{
 				$result = @file_put_contents($configpath, $data);
-				if($result !== false) $result = true;
+				if ($result !== false) $result = true;
 			} else {
 				$fp = @fopen($configpath, 'wt');
 
 				if ($fp !== false)
 				{
 					$result = @fwrite($fp, $data);
-					if($result !== false) $result = true;
+					if ($result !== false) $result = true;
 					@fclose($fp);
 				}
 			}
@@ -483,7 +483,6 @@ ENDDATA;
 	 */
 	public function finaliseUpgrade()
 	{
-		jimport('joomla.installer.install');
 		$installer = JInstaller::getInstance();
 
 		$installer->setPath('source', JPATH_ROOT);

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 
 // Get module data.
-$list = modPopularHelper::getList($params);
+$list = ModPopularHelper::getList($params);
 
 // Render the module
 require JModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));

@@ -49,8 +49,8 @@ abstract class JHtmlSortablelist
 		// Depends on jQuery UI
 		JHtml::_('jquery.ui', array('core', 'sortable'));
 
-		JHtml::script('jui/sortablelist.js', false, true);
-		JHtml::stylesheet('jui/sortablelist.css', false, true, false);
+		JHtml::_('script', 'jui/sortablelist.js', false, true);
+		JHtml::_('stylesheet', 'jui/sortablelist.css', false, true, false);
 
 		// Attach sortable to document
 		JFactory::getDocument()->addScriptDeclaration("
@@ -94,7 +94,7 @@ abstract class JHtmlSortablelist
 					})
 					.keyup(function (){
 						var newOrderingValue = $(this).attr('value');
-						if(oldOrderingValue != newOrderingValue)
+						if (oldOrderingValue != newOrderingValue)
 						{
 							saveOrderButton.css({'opacity':'1', 'cursor':'pointer'}).removeAttr('onclick')
 						}

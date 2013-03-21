@@ -42,7 +42,6 @@ class JToolbarButtonStandardTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbarButtonStandard::fetchButton
 	 * @todo   Implement testFetchButton().
 	 */
 	public function testFetchButton()
@@ -58,9 +57,7 @@ class JToolbarButtonStandardTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButtonStandard::fetchId
-\	 */
+	 */
 	public function testFetchId()
 	{
 		$this->assertThat(

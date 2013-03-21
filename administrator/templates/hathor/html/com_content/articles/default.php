@@ -189,7 +189,7 @@ $n			= count($this->items);
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<?php if ($assoc): ?>
+				<?php if ($assoc) : ?>
 				<td class="center">
 					<?php if ($item->association):?>
 						<?php echo JHtml::_('contentadministrator.association', $item->id); ?>

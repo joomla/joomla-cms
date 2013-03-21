@@ -29,7 +29,7 @@ var JCaption = new Class({
 		var width     = element.getAttribute("width");
 		var align     = element.getAttribute("align");
 
-		if(!width) {
+		if (!width) {
 			width = element.width;
 		}
 

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <fieldset class="form-vertical">
 	<legend><?php echo JText::_('COM_CONFIG_TEXT_FILTER_SETTINGS'); ?></legend>
 	<p><?php echo JText::_('COM_CONFIG_TEXT_FILTERS_DESC'); ?></p>
-	<?php foreach ($this->form->getFieldset('filters') as $field): ?>
+	<?php foreach ($this->form->getFieldset('filters') as $field) : ?>
 		<div class="control-group">
 			<div class="control-label"><?php echo $field->label; ?></div>
 			<div class="controls"><?php echo $field->input; ?></div>

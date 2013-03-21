@@ -35,7 +35,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
 		<h2>
-			<?php if ($this->item->state == 0): ?>
+			<?php if ($this->item->state == 0) : ?>
 				<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
 			<?php if ($params->get('show_title')) : ?>
@@ -123,7 +123,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				</dd>
 			<?php endif; ?>
 
-			<?php if ($info == 0): ?>
+			<?php if ($info == 0) : ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd class="modified">
 						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
@@ -143,6 +143,12 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php endif; ?>
 			</dl>
 		</div>
+	<?php endif; ?>
+
+	<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 	<?php endif; ?>
 
 	<?php if (!$params->get('show_intro')) : echo $this->item->event->afterDisplayTitle; endif; ?>
@@ -176,7 +182,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<dl class="article-info">
 			<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-			<?php if ($info == 1): ?>
+			<?php if ($info == 1) : ?>
 				<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 					<dd class="createdby">
 						<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
@@ -249,10 +255,10 @@ if (!empty($this->item->pagination) && $this->item->pagination && $this->item->p
 	echo $this->item->pagination;
 ?>
 	<?php endif; ?>
-	<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '1')) || ($params->get('urls_position') == '1'))): ?>
+	<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '1')) || ($params->get('urls_position') == '1'))) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php //optional teaser intro text for guests ?>
+	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo $this->item->introtext; ?>
 	<?php //Optional link to let them register to see the whole article. ?>

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Content.languagecode
  * @since       2.5
  */
-class plgSystemLanguagecode extends JPlugin
+class PlgSystemLanguagecode extends JPlugin
 {
 	/**
 	 * Plugin that change the language code used in the <html /> tag

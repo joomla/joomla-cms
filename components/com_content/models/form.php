@@ -57,6 +57,7 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function getItem($itemId = null)
 	{
+
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.
@@ -82,7 +83,7 @@ class ContentModelForm extends ContentModelArticle
 		// Compute selected asset permissions.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
-		$asset	= 'com_content.article.'.$value->id;
+		$asset	= 'com_content.article.'. $value->id;
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $asset))
@@ -115,7 +116,8 @@ class ContentModelForm extends ContentModelArticle
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
 				$value->catid = $catId;
 			}
-			else {
+			else
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
 			}
 		}
@@ -124,6 +126,11 @@ class ContentModelForm extends ContentModelArticle
 		if (!empty($value->fulltext))
 		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
+		}
+		if ($itemId)
+		{
+			$value->tags = new JTags;
+			$value->tags->getTagIds($value->id, 'com_content.article');
 		}
 
 		return $value;

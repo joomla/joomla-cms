@@ -22,7 +22,7 @@ $loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
-	<?php if(!empty( $this->sidebar)): ?>
+	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 		</div>

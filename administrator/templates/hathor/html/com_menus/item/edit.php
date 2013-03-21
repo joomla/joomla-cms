@@ -65,17 +65,17 @@ $canDo = MenusHelper::getActions();
 				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
 
-				<?php if ($this->item->type == 'url'): ?>
+				<?php if ($this->item->type == 'url') : ?>
 					<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif; ?>
 
-				<?php if ($this->item->type == 'alias'): ?>
+				<?php if ($this->item->type == 'alias') : ?>
 					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
 				<?php endif; ?>
 
-				<?php if ($this->item->type != 'url'): ?>
+				<?php if ($this->item->type != 'url') : ?>
 					<li><?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?></li>
 				<?php endif; ?>
@@ -83,7 +83,7 @@ $canDo = MenusHelper::getActions();
 				<li><?php echo $this->form->getLabel('note'); ?>
 				<?php echo $this->form->getInput('note'); ?></li>
 
-				<?php if ($this->item->type !== 'url'): ?>
+				<?php if ($this->item->type !== 'url') : ?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>

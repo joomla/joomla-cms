@@ -21,7 +21,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 			function validate(){
 				var value	= document.id('jform_assignment').value;
 				var list	= document.id('menu-assignment');
-				if(value == '-' || value == '0'){
+				if (value == '-' || value == '0'){
 					$$('.jform-assignments-button').each(function(el) {el.setProperty('disabled', true); });
 					list.getElements('input').each(function(el){
 						el.setProperty('disabled', true);

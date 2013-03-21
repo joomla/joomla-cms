@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="finder" method="upgrade">
+<extension version="3.1" type="plugin" group="finder" method="upgrade">
 	<name>plg_finder_contacts</name>
 	<author>Joomla! Project</author>
 	<creationDate>August 2011</creationDate>

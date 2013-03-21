@@ -151,7 +151,7 @@ if ($params->get('show_title')) : ?>
 	<?php endif; ?>
 
 <?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '0')) OR ($params->get('urls_position') == '0' AND empty($urls->urls_position)))
-		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))): ?>
+		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
@@ -172,12 +172,19 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item
 endif;
 ?>
 	<?php echo $this->item->text; ?>
+
+<?php // TAGS ?>
+<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+<?php endif; ?>
+
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
 	echo $this->item->pagination;?>
 <?php endif; ?>
 
-	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))): ?>
+	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>

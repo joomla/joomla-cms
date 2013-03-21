@@ -42,12 +42,12 @@ class WeblinksViewCategories extends JViewLegacy
 			return false;
 		}
 
-		if($items === false)
+		if ($items === false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
-		if($parent == false)
+		if ($parent == false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
@@ -81,7 +81,7 @@ class WeblinksViewCategories extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
+		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		}

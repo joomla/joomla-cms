@@ -44,7 +44,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers JHtmlBatch::access
+	 * Tests the access method.
 	 */
 	public function testAccess()
 	{
@@ -55,7 +55,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers JHtmlBatch::item
+	 * Tests the item method.
 	 */
 	public function testItem()
 	{
@@ -66,7 +66,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers JHtmlBatch::language
+	 * Tests the language method.
 	 */
 	public function testLanguage()
 	{
@@ -77,7 +77,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers JHtmlBatch::user
+	 * Tests the user method.
 	 */
 	public function testUser()
 	{

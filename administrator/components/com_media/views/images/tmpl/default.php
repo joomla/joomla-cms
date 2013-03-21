@@ -110,7 +110,7 @@ echo $params->get('image_path', 'images'); ?>/';
 	</div>
 </form>
 
-<?php if ($user->authorise('core.create', 'com_media')): ?>
+<?php if ($user->authorise('core.create', 'com_media')) : ?>
 	<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;format=<?php echo $this->config->get('enable_flash') == '1' ? 'json' : '' ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
 		<div id="uploadform" class="well">
 			<fieldset id="upload-noflash" class="actions">

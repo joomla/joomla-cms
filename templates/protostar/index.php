@@ -40,8 +40,8 @@ JHtml::_('bootstrap.framework');
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
-// Load optional rtl Bootstrap css and Bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Add current user information
 $user = JFactory::getUser();
@@ -142,7 +142,7 @@ else
 
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php echo ($params->get('fluidContainer') ? ' fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<!-- Header -->
 			<div class="header">
 				<div class="header-inner clearfix">
@@ -154,14 +154,14 @@ else
 					</div>
 				</div>
 			</div>
-			<?php if ($this->countModules('position-1')): ?>
+			<?php if ($this->countModules('position-1')) : ?>
 			<div class="navigation">
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
 			<?php endif; ?>
 			<jdoc:include type="modules" name="banner" style="xhtml" />
 			<div class="row-fluid">
-				<?php if ($this->countModules('position-8')): ?>
+				<?php if ($this->countModules('position-8')) : ?>
 				<!-- Begin Sidebar -->
 				<div id="sidebar" class="span3">
 					<div class="sidebar-nav">
@@ -190,7 +190,7 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php echo ($params->get('fluidContainer') ? ' fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>

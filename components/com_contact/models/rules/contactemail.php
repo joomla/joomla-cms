@@ -34,7 +34,7 @@ class JFormRuleContactEmail extends JFormRuleEmail
 	 */
 	public function test(& $element, $value, $group = null, &$input = null, &$form = null)
 	{
-		if(!parent::test($element, $value, $group, $input, $form)){
+		if (!parent::test($element, $value, $group, $input, $form)){
 			return false;
 		}
 

@@ -20,7 +20,7 @@ JHtml::_('behavior.tooltip');
 		<legend><?php echo JText::_('COM_BANNERS_TRACKS_DOWNLOAD');?></legend>
 
 		<?php foreach ($this->form->getFieldset() as $field) : ?>
-			<?php if (!$field->hidden): ?>
+			<?php if (!$field->hidden) : ?>
 				<?php echo $field->label; ?>
 			<?php endif; ?>
 			<?php echo $field->input; ?>

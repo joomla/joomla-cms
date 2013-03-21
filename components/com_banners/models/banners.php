@@ -122,7 +122,7 @@ class BannersModelBanners extends JModelList
 		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
-			if($categoryId != '0')
+			if ($categoryId != '0')
 			{
 				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
 				$query->where('a.catid '.$type.' ('.$categoryId.')');

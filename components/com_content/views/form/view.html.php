@@ -52,6 +52,11 @@ class ContentViewForm extends JViewLegacy
 			return false;
 		}
 
+		$this->item->tags = new JTags;
+		if (!empty($this->item->id))
+		{
+			$this->item->tags->getItemTags('com_content.article.', $this->item->id);
+		}
 		if (!empty($this->item) && isset($this->item->id))
 		{
 			$this->item->images = json_decode($this->item->images);
@@ -61,7 +66,6 @@ class ContentViewForm extends JViewLegacy
 			$tmp->images = $this->item->images;
 			$tmp->urls = $this->item->urls;
 			$this->form->bind($tmp);
-
 		}
 
 		// Check for errors.

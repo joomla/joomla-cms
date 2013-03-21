@@ -165,6 +165,13 @@ class MenusModelMenus extends JModelList
 
 		$query->group('a.id, a.menutype, a.title, a.description');
 
+		// Filter by search in title or menutype
+		if ($search = trim($this->getState('filter.search')))
+		{
+			$search = $db->Quote('%'.$db->escape($search, true).'%');
+			$query->where('('.'a.title LIKE '.$search.' OR a.menutype LIKE '.$search.')');
+		}
+
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.id')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
@@ -186,6 +193,9 @@ class MenusModelMenus extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');
+
+		$search = $this->getUserStateFromRequest($this->context.'.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
 		// List state information.
 		parent::populateState('a.id', 'asc');

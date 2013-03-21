@@ -16,8 +16,16 @@ defined('JPATH_BASE') or die;
  * @subpackage  System.logout
  * @since       1-6
  */
-class plgSystemLogout extends JPlugin
+class PlgSystemLogout extends JPlugin
 {
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
 	/**
 	 * Object Constructor.
 	 *
@@ -30,10 +38,9 @@ class plgSystemLogout extends JPlugin
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage();
 
 		$input = JFactory::getApplication()->input;
-		$hash  = JApplication::getHash('plgSystemLogout');
+		$hash  = JApplication::getHash('PlgSystemLogout');
 		if (JFactory::getApplication()->isSite() && $input->cookie->getString($hash))
 		{
 			// Destroy the cookie
@@ -43,7 +50,7 @@ class plgSystemLogout extends JPlugin
 			setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.
-			JError::setErrorHandling(E_ALL, 'callback', array('plgSystemLogout', 'handleError'));
+			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
 		}
 	}
 
@@ -61,7 +68,7 @@ class plgSystemLogout extends JPlugin
 		if (JFactory::getApplication()->isSite())
 		{
 			// Create the cookie
-			$hash = JApplication::getHash('plgSystemLogout');
+			$hash = JApplication::getHash('PlgSystemLogout');
 			$conf = JFactory::getConfig();
 			$cookie_domain 	= $conf->get('config.cookie_domain', '');
 			$cookie_path 	= $conf->get('config.cookie_path', '/');

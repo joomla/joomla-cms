@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_login
  * @since       1.6
  */
-abstract class modLoginHelper
+abstract class ModLoginHelper
 {
 	/**
 	 * Get an HTML select list of the available languages.
@@ -25,10 +25,10 @@ abstract class modLoginHelper
 	 */
 	public static function getLanguageList()
 	{
-		$languages = array();
 		$languages = JLanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
-		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox advandedSelect"', 'value', 'text', null);
+
+		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox advancedSelect"', 'value', 'text', null);
 	}
 
 	/**
@@ -38,9 +38,11 @@ abstract class modLoginHelper
 	 */
 	public static function getReturnURI()
 	{
-		$uri = JURI::getInstance();
+		$uri    = JUri::getInstance();
 		$return = 'index.php'.$uri->toString(array('query'));
-		if($return != 'index.php?option=com_login'){
+
+		if ($return != 'index.php?option=com_login')
+		{
 			return base64_encode($return);
 		}
 		else

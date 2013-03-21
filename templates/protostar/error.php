@@ -59,6 +59,16 @@ else
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="language" content="<?php echo $this->language; ?>" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+
+	<?php
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if (JDEBUG || $debug)
+		{
+	?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
+	<?php
+		}
+	?>
 	<?php
 	// If Right-to-Left
 	if ($this->direction == 'rtl')
@@ -120,7 +130,7 @@ else
 
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php echo ($params->get('fluidContainer') ? ' fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<!-- Header -->
 			<div class="header">
 				<div class="header-inner clearfix">
@@ -201,7 +211,7 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php echo ($params->get('fluidContainer') ? ' fluid' : '');?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>

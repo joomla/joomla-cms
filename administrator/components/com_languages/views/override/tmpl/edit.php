@@ -21,9 +21,9 @@ JHtml::_('formbehavior.chosen', 'select');
 		{
 			document.id('jform_searchstring').addEvent('focus', function()
 			{
-				if(!Joomla.overrider.states.refreshed)
+				if (!Joomla.overrider.states.refreshed)
 				{
-					<?php if($this->state->get('cache_expired')): ?>
+					<?php if ($this->state->get('cache_expired')) : ?>
 					Joomla.overrider.refreshCache();
 					Joomla.overrider.states.refreshed = true;
 					<?php endif; ?>
@@ -63,7 +63,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				</div>
 
-				<?php if($this->state->get('filter.client') == 'administrator'): ?>
+				<?php if ($this->state->get('filter.client') == 'administrator') : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('both'); ?>

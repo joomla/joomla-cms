@@ -36,7 +36,6 @@ class JFormRuleCaptchaTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JFormRuleCaptcha::test
 	 * @todo   Implement testTest().
 	 */
 	public function testTest()

@@ -15,7 +15,7 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 
 <form action="index.php" method="post" id="adminForm">
 
-<?php if (is_null($this->updateInfo['object'])): ?>
+<?php if (is_null($this->updateInfo['object'])) : ?>
 
 <fieldset>
 	<legend>

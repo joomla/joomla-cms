@@ -57,8 +57,6 @@ class JHelpTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHelp::createURL
 	 */
 	public function testCreateURL_com_content()
 	{
@@ -75,8 +73,6 @@ class JHelpTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHelp::createSiteList
 	 */
 	public function testCreateSiteList_noXML()
 	{
@@ -93,8 +89,6 @@ class JHelpTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHelp::createSiteList
 	 */
 	public function testCreateSiteList_withXML()
 	{

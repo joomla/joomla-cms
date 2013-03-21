@@ -61,7 +61,7 @@ function ContactBuildRoute(&$query)
 	{
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
-			if($view == 'contact' && isset($query['catid']))
+			if ($view == 'contact' && isset($query['catid']))
 			{
 				$catid = $query['catid'];
 			} elseif (isset($query['id']))
@@ -71,7 +71,7 @@ function ContactBuildRoute(&$query)
 			$menuCatid = $mId;
 			$categories = JCategories::getInstance('Contact');
 			$category = $categories->get($catid);
-			if($category)
+			if ($category)
 			{
 				//TODO Throw error that the category either not exists or is unpublished
 				$path = array_reverse($category->getPath());
@@ -79,11 +79,11 @@ function ContactBuildRoute(&$query)
 				$array = array();
 				foreach ($path as $id)
 				{
-					if((int) $id == (int) $menuCatid)
+					if ((int) $id == (int) $menuCatid)
 					{
 						break;
 					}
-					if($advanced)
+					if ($advanced)
 					{
 						list($tmp, $id) = explode(':', $id, 2);
 					}
@@ -91,9 +91,9 @@ function ContactBuildRoute(&$query)
 				}
 				$segments = array_merge($segments, array_reverse($array));
 			}
-			if($view == 'contact')
+			if ($view == 'contact')
 			{
-				if($advanced)
+				if ($advanced)
 				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				}
@@ -184,7 +184,7 @@ function ContactParseRoute($segments)
 		}
 		if ($found == 0)
 		{
-			if($advanced)
+			if ($advanced)
 			{
 				$db = JFactory::getDBO();
 				$query = 'SELECT id FROM #__contact_details WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);

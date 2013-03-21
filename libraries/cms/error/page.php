@@ -49,7 +49,10 @@ class JErrorPage
 			// Push the error object into the document
 			$document->setError($error);
 
-			ob_end_clean();
+			if (ob_get_contents())
+			{
+				ob_end_clean();
+			}
 			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
 			$data = $document->render(
 				false,

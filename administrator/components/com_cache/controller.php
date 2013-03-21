@@ -72,7 +72,7 @@ class CacheController extends JControllerLegacy
 
 		$model = $this->getModel('cache');
 
-		if(empty($cid))
+		if (empty($cid))
 		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}

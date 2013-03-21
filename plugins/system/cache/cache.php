@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Plugin
  * @subpackage  System.cache
  */
-class plgSystemCache extends JPlugin
+class PlgSystemCache extends JPlugin
 {
 
 	var $_cache		= null;

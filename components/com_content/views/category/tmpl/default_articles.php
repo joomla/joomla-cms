@@ -50,7 +50,7 @@ if (!empty($this->items))
 				<label class="filter-search-lbl element-invisible" for="filter-search">
 					<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
 				</label>
-				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL'); ?>" />
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -71,7 +71,7 @@ if (!empty($this->items))
 	<?php endif; ?>
 
 	<table class="category table table-striped table-bordered table-hover">
-		<?php if($this->params->get('show_headings')): ?>
+		<?php if ($this->params->get('show_headings')) : ?>
 		<thead>
 			<tr>
 				<th id="categorylist_header_title">
@@ -98,7 +98,7 @@ if (!empty($this->items))
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if ($isEditable): ?>
+				<?php if ($isEditable) : ?>
 					<th id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 				<?php endif; ?>
 			</tr>
@@ -131,7 +131,7 @@ if (!empty($this->items))
 								<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 							</a>
 						<?php endif; ?>
-						<?php if($article->state == 0): ?>
+						<?php if ($article->state == 0) : ?>
 							<span class="list-published label label-warning">
 								<?php echo JText::_('JUNPUBLISHED'); ?>
 							</span>
@@ -148,7 +148,7 @@ if (!empty($this->items))
 					<?php endif; ?>
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
 						<td headers="categorylist_header_author" class="list-author">
-							<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
+							<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 								<?php $author = $article->author ?>
 								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
 
@@ -172,7 +172,7 @@ if (!empty($this->items))
 							</span>
 						</td>
 					<?php endif; ?>
-					<?php if ($isEditable): ?>
+					<?php if ($isEditable) : ?>
 						<td headers="categorylist_header_edit" class="list-edit">
 							<?php if ($article->params->get('access-edit')) : ?>
 								<?php echo JHtml::_('icon.edit', $article, $params); ?>

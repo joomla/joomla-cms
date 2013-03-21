@@ -84,7 +84,7 @@ $params = $this->params;
 					</dd>
 				<?php endif; ?>
 
-				<?php if ($info == 0): ?>
+				<?php if ($info == 0) : ?>
 					<?php if ($params->get('show_modify_date')) : ?>
 						<dd>
 							<div class="modified">
@@ -121,7 +121,7 @@ $params = $this->params;
 				<dl class="article-info">
 				<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-				<?php if ($info == 1): ?>
+				<?php if ($info == 1) : ?>
 					<?php if ($params->get('show_parent_category') && !empty($item->parent_slug)) : ?>
 						<dd>
 							<div class="parent-category-name">

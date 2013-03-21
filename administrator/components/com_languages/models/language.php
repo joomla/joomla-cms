@@ -119,6 +119,8 @@ class LanguagesModelLanguage extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_languages.language', $data);
+
 		return $data;
 	}
 

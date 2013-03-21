@@ -1683,25 +1683,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>68</value>
-			<value>Content - Code Highlighter (GeSHi)</value>
-			<value>plugin</value>
-			<value>geshi</value>
-			<value>content</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{}</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>69</value>
 			<value>Content - Load Modules</value>
 			<value>plugin</value>

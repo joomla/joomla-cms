@@ -47,8 +47,6 @@ class JToolbarButtonCustomTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButtonCustom::fetchButton
 	 */
 	public function testFetchButton()
 	{
@@ -64,8 +62,6 @@ class JToolbarButtonCustomTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButtonCustom::fetchId
 	 */
 	public function testFetchId()
 	{

@@ -15,8 +15,8 @@ $lang	= JFactory::getLanguage();
 $input	= $app->input;
 $user	= JFactory::getUser();
 
-// Load optional rtl bootstrap css and bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
 $doc->addStyleSheet('templates/system/css/system.css');
@@ -150,7 +150,7 @@ else
 
 		<!-- Sub Menu Navigation -->
 		<div class="subheader">
-			<?php if (!$app->input->getInt('hidemainmenu')): ?>
+			<?php if (!$app->input->getInt('hidemainmenu')) : ?>
 				<h3 class="element-invisible"><?php echo JText::_('TPL_HATHOR_SUB_MENU'); ?></h3>
 				<jdoc:include type="modules" name="submenu" style="xhtmlid" id="submenu-box" />
 			<?php echo " " ?>

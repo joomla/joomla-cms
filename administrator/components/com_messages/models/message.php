@@ -166,6 +166,8 @@ class MessagesModelMessage extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_messages.message', $data);
+
 		return $data;
 	}
 

@@ -42,7 +42,6 @@ class JToolbarButtonSliderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbarButtonSlider::fetchButton
 	 * @todo   Implement testFetchButton().
 	 */
 	public function testFetchButton()
@@ -58,8 +57,6 @@ class JToolbarButtonSliderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButtonSlider::fetchId
 	 */
 	public function testFetchId()
 	{

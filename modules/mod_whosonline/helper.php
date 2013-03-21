@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_whosonline
  * @since       1.5
  */
-class modWhosonlineHelper
+class ModWhosonlineHelper
 {
 	// show online count
 	public static function getOnlineCount()

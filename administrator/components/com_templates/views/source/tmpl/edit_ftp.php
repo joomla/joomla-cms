@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 
 	<?php echo JText::_('COM_TEMPLATES_FTP_DESC'); ?>
 
-	<?php if ($this->ftp instanceof Exception): ?>
+	<?php if ($this->ftp instanceof Exception) : ?>
 		<p class="error"><?php echo JText::_($this->ftp->message); ?></p>
 	<?php endif; ?>
 

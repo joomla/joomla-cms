@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';
 
-$params = modWrapperHelper::getParams($params);
+$params = ModWrapperHelper::getParams($params);
 
 $load	= $params->get('load');
 $url	= htmlspecialchars($params->get('url'));

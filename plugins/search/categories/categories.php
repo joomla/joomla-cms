@@ -18,21 +18,15 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
  * @subpackage  Search.categories
  * @since       1.6
  */
-class plgSearchCategories extends JPlugin
+class PlgSearchCategories extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * @return array An array of search areas

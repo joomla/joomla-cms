@@ -221,12 +221,12 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Set the publish date to now
 		$db = $this->getDbo();
-		if($table->state == 1 && (int) $table->publish_up == 0)
+		if ($table->state == 1 && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = JFactory::getDate()->toSql();
 		}
 
-		if($table->state == 1 && intval($table->publish_down) == 0)
+		if ($table->state == 1 && intval($table->publish_down) == 0)
 		{
 			$table->publish_down = $db->getNullDate();
 		}
@@ -287,6 +287,12 @@ class ContentModelArticle extends JModelAdmin
 			$item->urls = $registry->toArray();
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
+
+			if (!empty($item->id))
+			{
+				$item->tags = new JTags;
+				$item->tags->getTagIds($item->id, 'com_content.article');
+			}
 		}
 
 		// Load associated content items
@@ -299,7 +305,7 @@ class ContentModelArticle extends JModelAdmin
 
 			if ($item->id != null)
 			{
-				$associations = ContentHelper::getAssociations($item->id);
+				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -361,7 +367,7 @@ class ContentModelArticle extends JModelAdmin
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
 		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
-		|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content'))
+			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content'))
 		)
 		{
 			// Disable fields for display.
@@ -406,6 +412,8 @@ class ContentModelArticle extends JModelAdmin
 				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_content.articles.filter.category_id')));
 			}
 		}
+
+		$this->preprocessData('com_content.article', $data);
 
 		return $data;
 	}

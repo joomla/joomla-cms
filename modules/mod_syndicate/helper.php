@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_syndicate
  * @since       1.5
  */
-class modSyndicateHelper
+class ModSyndicateHelper
 {
 	public static function getLink(&$params)
 	{

@@ -586,7 +586,11 @@ class MenusModelItem extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		return array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+
+		$this->preprocessData('com_menus.item', $data);
+
+		return $data;
 	}
 
 	/**
@@ -1188,7 +1192,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Alter the title & alias for save as copy.  Also, unset the home record.
-		if(!$isNew && $data['id'] == 0){
+		if (!$isNew && $data['id'] == 0){
 			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
 			$table->title	= $title;
 			$table->alias	= $alias;

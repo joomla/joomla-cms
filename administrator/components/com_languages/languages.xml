@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.0" method="upgrade">
+<extension type="component" version="3.1" method="upgrade">
 	<name>com_languages</name>
 	<author>Joomla! Project</author>
 	<creationDate>2006</creationDate>
@@ -24,8 +24,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_languages.ini
-			</language>
+			<language tag="en-GB">language/en-GB.com_languages.ini</language>
+			<language tag="en-GB">language/en-GB.com_languages.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

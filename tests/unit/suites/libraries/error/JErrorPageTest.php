@@ -36,7 +36,6 @@ class JErrorPageTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JErrorPage::render
 	 * @todo   Implement testRender().
 	 */
 	public function testRender()

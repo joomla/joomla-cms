@@ -216,7 +216,7 @@ class JFormFieldRules extends JFormField
 					// This is where we show the current effective settings considering currrent group, path and cascade.
 					// Check whether this is a component or global. Change the text slightly.
 
-					if (JAccess::checkGroup($group->value, 'core.admin') !== true)
+					if (JAccess::checkGroup($group->value, 'core.admin', $assetId) !== true)
 					{
 						if ($inheritedRule === null)
 						{

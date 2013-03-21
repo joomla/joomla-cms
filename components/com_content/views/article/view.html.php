@@ -49,12 +49,13 @@ class ContentViewArticle extends JViewLegacy
 		}
 
 		// Create a shortcut for $item.
-		$item = &$this->item;
+		$item = $this->item;
+		$item->tagLayout      = new JLayoutFile('joomla.content.tags');
 
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-		$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
 
 		// No link for ROOT category
 		if ($item->parent_alias == 'root')
@@ -122,7 +123,6 @@ class ContentViewArticle extends JViewLegacy
 						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 
 				return;
-
 		}
 
 		if ($item->params->get('show_intro', '1') == '1')
@@ -136,10 +136,11 @@ class ContentViewArticle extends JViewLegacy
 		else  {
 			$item->text = $item->introtext;
 		}
+		$item->tags = new JTags;
+		$item->tags->getItemTags('com_content.article', $this->item->id);
 
-		//
 		// Process the content plugins.
-		//
+
 		JPluginHelper::importPlugin('content');
 		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 

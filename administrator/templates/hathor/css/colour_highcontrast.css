@@ -758,12 +758,12 @@ button:hover, button:focus {
  * Tooltips
  */
 .tip {
-	background: #10254a;
-	border: 1px solid #1b3f7c;
+	background: #000000;
+	border: 1px solid #FFFFFF;
 }
 
 .tip-title {
-	background: url(../images/selector-arrow-hc.png) no-repeat;
+	background: url(../images/selector-arrow-std.png) no-repeat;
 }
 
 /**

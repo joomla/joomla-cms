@@ -36,7 +36,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::init
 	 * @todo   Implement testInit().
 	 */
 	public function testInit()
@@ -47,7 +46,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::start
 	 * @todo   Implement testStart().
 	 */
 	public function testStart()
@@ -58,7 +56,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::render
 	 * @todo   Implement testRender().
 	 */
 	public function testRender()
@@ -69,7 +66,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::edit
 	 * @todo   Implement testEdit().
 	 */
 	public function testEdit()
@@ -80,7 +76,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::publish
 	 * @todo   Implement testPublish().
 	 */
 	public function testPublish()
@@ -91,7 +86,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::unpublish
 	 * @todo   Implement testUnpublish().
 	 */
 	public function testUnpublish()
@@ -102,7 +96,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::featured
 	 * @todo   Implement testFeatured().
 	 */
 	public function testFeatured()
@@ -113,7 +106,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::unfeatured
 	 * @todo   Implement testUnfeatured().
 	 */
 	public function testUnfeatured()
@@ -124,7 +116,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::archive
 	 * @todo   Implement testArchive().
 	 */
 	public function testArchive()
@@ -135,7 +126,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::unarchive
 	 * @todo   Implement testUnarchive().
 	 */
 	public function testUnarchive()
@@ -146,7 +136,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::trash
 	 * @todo   Implement testTrash().
 	 */
 	public function testTrash()
@@ -157,7 +146,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::untrash
 	 * @todo   Implement testUntrash().
 	 */
 	public function testUntrash()
@@ -168,7 +156,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::checkin
 	 * @todo   Implement testCheckin().
 	 */
 	public function testCheckin()
@@ -179,7 +166,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::divider
 	 * @todo   Implement testDivider().
 	 */
 	public function testDivider()
@@ -190,7 +176,6 @@ class JHtmlDropdownTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JHtmlDropdown::addCustomItem
 	 * @todo   Implement testAddCustomItem().
 	 */
 	public function testAddCustomItem()

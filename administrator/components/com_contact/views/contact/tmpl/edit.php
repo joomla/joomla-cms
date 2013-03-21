@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
@@ -33,31 +33,12 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate form-horizontal">
 	<div class="row-fluid">
-		<!-- Begin Newsfeed -->
+		<!-- Begin contact -->
 		<div class="span10 form-horizontal">
 		<fieldset>
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#details" data-toggle="tab"><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT') : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id); ?></a></li>
-			<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_PUBLISHING');?></a></li>
-			<li><a href="#basic" data-toggle="tab"><?php echo JText::_('COM_CONTACT_CONTACT_DETAILS');?></a></li>
-			<?php
-			$fieldSets = $this->form->getFieldsets('params');
-			foreach ($fieldSets as $name => $fieldSet) :
-			?>
-			<li><a href="#params-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
-			<?php endforeach; ?>
-			<?php
-			$fieldSets = $this->form->getFieldsets('metadata');
-			foreach ($fieldSets as $name => $fieldSet) :
-			?>
-			<li><a href="#metadata-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
-			<?php endforeach; ?>
-			<?php if ($assoc): ?>
-				<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
-			<?php endif; ?>
-		</ul>
-		<div class="tab-content">
-			<div class="tab-pane active" id="details">
+			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
+
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT', true) : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id, true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
@@ -86,8 +67,9 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<div class="control-label"><?php echo $this->form->getLabel('misc'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('misc'); ?></div>
 				</div>
-			</div>
-			<div class="tab-pane" id="publishing">
+			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('created_by'); ?></div>
@@ -128,7 +110,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 						</div>
 					</div>
 				<?php endif; ?>
-
 				<?php if ($this->item->hits) : ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -139,10 +120,11 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 						</div>
 					</div>
 				<?php endif; ?>
-			</div>
-			<div class="tab-pane" id="basic">
+			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS') : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id); ?></p>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'basic', JText::_('COM_CONTACT_CONTACT_DETAILS', true)); ?>
+
+				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS', true) : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id, true); ?></p>
 
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('image'); ?></div>
@@ -204,22 +186,24 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<div class="control-label"><?php echo $this->form->getLabel('sortname3'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('sortname3'); ?></div>
 				</div>
-			</div>
+			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 			<?php echo $this->loadTemplate('params'); ?>
 
 			<?php echo $this->loadTemplate('metadata'); ?>
 
 			<?php if ($assoc) : ?>
-				<?php echo $this->loadTemplate('associations'); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
+					<?php echo $this->loadTemplate('associations'); ?>
+				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 			<?php endif; ?>
 
-			</div>
-			</fieldset>
+			<?php echo JHtml::_('bootstrap.endPane'); ?>
+		</fieldset>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
-	<!-- End Newsfeed -->
+	<!-- End content -->
 	<!-- Begin Sidebar -->
 	<div class="span2">
 		<h4><?php echo JText::_('JDETAILS');?></h4>
@@ -262,6 +246,15 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<?php echo $this->form->getInput('language'); ?>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('tags'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('tags'); ?>
+				</div>
+			</div>
+
 		</fieldset>
 	</div>
 	<!-- End Sidebar -->

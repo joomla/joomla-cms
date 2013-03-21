@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Editors.none
  * @since       1.5
  */
-class plgEditorNone extends JPlugin
+class PlgEditorNone extends JPlugin
 {
 	/**
 	 * Method to handle the onInitEditor event.

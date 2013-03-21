@@ -21,14 +21,49 @@ require_once dirname(dirname(__DIR__)) . '/helper/component.php';
 class ConfigViewComponent extends JViewLegacy
 {
 	/**
-	 * Display the view
+	 * Associates the options screen help key with the component name.
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $helpScreenArray = array(
+		'com_banners' => 'JHELP_COMPONENTS_BANNER_MANAGER_OPTIONS',
+		'com_cache' => 'JHELP_COMPONENTS_CACHE_MANAGER_SETTINGS',
+		'com_checkin' => 'JHELP_COMPONENTS_CHECK-IN_CONFIGURATION',
+		'com_contact' => 'JHELP_COMPONENTS_CONTACT_MANAGER_OPTIONS',
+		'com_content' => 'JHELP_COMPONENTS_ARTICLE_MANAGER_OPTIONS',
+		'com_finder' => 'JHELP_COMPONENTS_SMART_SEARCH_CONFIGURATION',
+		'com_installer' => 'JHELP_COMPONENTS_INSTALLER_CONFIGURATION',
+		'com_joomlaupdate' => 'JHELP_COMPONENTS_JOOMLA_UPDATE_CONFIGURATION',
+		'com_languages' => 'JHELP_COMPONENTS_LANGUAGE_MANAGER_OPTIONS',
+		'com_media' => 'JHELP_COMPONENTS_MEDIA_MANAGER_OPTIONS',
+		'com_menus' => 'JHELP_COMPONENTS_MENUS_CONFIGURATION',
+		'com_messages' => 'JHELP_COMPONENTS_MESSAGES_CONFIGURATION',
+		'com_modules' => 'JHELP_COMPONENTS_MODULE_MANAGER_OPTIONS',
+		'com_newsfeeds' => 'JHELP_COMPONENTS_NEWS_FEED_MANAGER_OPTIONS',
+		'com_plugins' => 'JHELP_COMPONENTS_PLUG-IN_MANAGER_OPTIONS',
+		'com_redirect' => 'JHELP_COMPONENTS_REDIRECT_MANAGER_OPTIONS',
+		'com_search' => 'JHELP_COMPONENTS_SEARCH_MANAGER_OPTIONS',
+		'com_templates' => 'JHELP_COMPONENTS_TEMPLATE_MANAGER_OPTIONS',
+		'com_users' => 'JHELP_COMPONENTS_USERS_CONFIGURATION',
+		'com_weblinks' => 'JHELP_COMPONENTS_WEB_LINKS_MANAGER_OPTIONS',
+	);
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
 		$form		= $this->get('Form');
 		$component	= $this->get('Component');
-		$user = JFactory::getUser();
-		$app  = JFactory::getApplication();
+		$user       = JFactory::getUser();
+		$app        = JFactory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -71,6 +106,15 @@ class ConfigViewComponent extends JViewLegacy
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('component.cancel');
 		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+
+		// Get the correct help key for this screen
+		if (isset($this->helpScreenArray[$this->component->option]))
+		{
+			JToolbarHelper::help($this->helpScreenArray[$this->component->option]);
+		}
+		else
+		{
+			JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+		}
 	}
 }

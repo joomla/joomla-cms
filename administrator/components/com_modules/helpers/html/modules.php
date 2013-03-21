@@ -177,7 +177,7 @@ abstract class JHtmlModules
 		}
 
 		// Pop the first item off the array if it's blank
-		if(count($options))
+		if (count($options))
 		{
 			if (strlen($options[0]->text) < 1)
 			{

@@ -18,7 +18,7 @@ require_once JPATH_SITE.'/components/com_content/router.php';
  * @subpackage  Search.content
  * @since       1.6
  */
-class plgSearchContent extends JPlugin
+class PlgSearchContent extends JPlugin
 {
 	/**
 	 * @return array An array of search areas

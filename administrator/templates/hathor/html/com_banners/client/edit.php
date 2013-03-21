@@ -69,7 +69,7 @@ $canDo	= BannersHelper::getActions();
 		<ul class="adminformlist">
 			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 				<li>
-					<?php if (!$field->hidden): ?>
+					<?php if (!$field->hidden) : ?>
 						<?php echo $field->label; ?>
 					<?php endif; ?>
 					<?php echo $field->input; ?>
@@ -83,7 +83,7 @@ $canDo	= BannersHelper::getActions();
 		<legend class="element-invisible"><?php echo JText::_('COM_BANNERS_EXTRA'); ?></legend>
 		<ul class="adminformlist">
 			<?php foreach ($this->form->getFieldset('extra') as $field) : ?>
-				<li><?php if (!$field->hidden): ?>
+				<li><?php if (!$field->hidden) : ?>
 					<?php echo $field->label; ?>
 				<?php endif; ?>
 				<?php echo $field->input; ?></li>

@@ -34,6 +34,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	public function add()
 	{
+
 		if (!parent::add())
 		{
 			// Redirect to the return page.
@@ -210,13 +211,50 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @return  void
 	 * @since   1.6
 	 */
-	protected function postSaveHook(JModelLegacy &$model, $validData = array())
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
+			$task = $this->getTask();
+
+		$item = $model->getItem();
+		if (isset($item->params) && is_array($item->params))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->params);
+			$item->params = (string) $registry;
+		}
+		if (isset($item->images) && is_array($item->images))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->images);
+			$item->images = (string) $registry;
+		}
+		if (isset($item->metadata) && is_array($item->metadata))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($item->metadata);
+			$item->metadata = (string) $registry;
+		}
+		$id = $item->id;
+
+			if (empty($validData['tags']) && !empty($item->tags))
+		{
+			$oldTags = new JTags;
+			$oldTags->unTagItem($id, 'com_weblinks.weblink');
+			return;
+		}
+
+		$tags = $validData['tags'];
+
+		// Store the tag data if the weblink data was saved.
+		if ($tags[0] != '')
+		{
+			$tagsHelper = new JTags;
+			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $isNew, $item, $tags, null);
+		}
 
 		if ($task == 'save')
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=category&id='.$validData['catid'], false));
+			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));
 		}
 	}
 
@@ -231,6 +269,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = 'w_id')
 	{
+
 		$result = parent::save($key, $urlVar);
 
 		// If ok, redirect to the return page.
@@ -238,6 +277,7 @@ class WeblinksControllerWeblink extends JControllerForm
 		{
 			$this->setRedirect($this->getReturnPage());
 		}
+		$model = $this->getModel();
 
 		return $result;
 	}

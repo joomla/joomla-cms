@@ -278,6 +278,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_newsfeeds.newsfeed', $data);
+
 		return $data;
 	}
 
@@ -292,6 +294,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	public function save($data)
 	{
 		$app = JFactory::getApplication();
+
+		// Alter the title for save as copy
+		if ($app->input->get('task') == 'save2copy')
+		{
+			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+			$data['name']	= $name;
+			$data['alias']	= $alias;
+		}
 
 		if (parent::save($data))
 		{
@@ -383,10 +393,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
-		}
 
-		if ($item = parent::getItem($pk))
-		{
 			// Convert the images field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->images);
@@ -403,7 +410,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 			if ($item->id != null)
 			{
-				$associations = NewsfeedsHelper::getAssociations($item->id);
+				$associations = JLanguageAssociations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -411,6 +418,11 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				}
 
 			}
+		}
+		if (!empty($item->id))
+		{
+			$item->tags = new JTags;
+			$item->tags->getTagIds($item->id, 'com_newsfeeds.newsfeed');
 		}
 
 		return $item;
@@ -530,5 +542,32 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		parent::preprocessForm($form, $data, $group);
+	}
+
+	/**
+	 * Method to change the title & alias.
+	 *
+	 * @param   integer  $parent_id  The id of the parent.
+	 * @param   string   $alias      The alias.
+	 * @param   string   $title      The title.
+	 *
+	 * @return  array  Contains the modified title and alias.
+	 *
+	 * @since   3.1
+	 */
+	protected function generateNewTitle($category_id, $alias, $name)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		{
+			if ($name == $table->name)
+			{
+				$name = JString::increment($name);
+			}
+			$alias = JString::increment($alias, 'dash');
+		}
+
+		return array($name, $alias);
 	}
 }

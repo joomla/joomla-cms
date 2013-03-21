@@ -45,7 +45,7 @@ class JAdministratorHelperTest extends TestCase
 	}
 
 	/**
-	 * @covers JAdministratorHelper::findOption
+	 * Tests the findOption() method simulating a guest.
 	 */
 	public function testFindOptionGuest()
 	{
@@ -68,7 +68,7 @@ class JAdministratorHelperTest extends TestCase
 	}
 
 	/**
-	 * @covers JAdministratorHelper::findOption
+	 * Tests the findOption() method simulating an user without login admin permissions.
 	 */
 	public function testFindOptionCanNotLoginAdmin()
 	{
@@ -93,7 +93,7 @@ class JAdministratorHelperTest extends TestCase
 	}
 
 	/**
-	 * @covers JAdministratorHelper::findOption
+	 * Tests the findOption() method simulating an user who is able to log in to admin.
 	 */
 	public function testFindOptionCanLoginAdmin()
 	{
@@ -118,7 +118,7 @@ class JAdministratorHelperTest extends TestCase
 	}
 
 	/**
-	 * @covers JAdministratorHelper::findOption
+	 * Tests the findOption() method simulating the option at a special value.
 	 */
 	public function testFindOptionCanLoginAdminOptionSet()
 	{

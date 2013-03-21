@@ -550,7 +550,9 @@ th.ordering-col a img {
 /**
  * Adminlist Table layout
  */
-
+table.adminlist {
+	float: right;
+}
 	/* Table row styles */
 table.adminlist tr {
 	padding-left: 30px;
@@ -701,6 +703,10 @@ div.pagination {
 	margin: 0 auto;
 }
 
+.pagination a {
+	line-height: 1.6em;
+}
+
 .pagination div.limit {
 	float: right;
 	margin: 0 10px;
@@ -766,8 +772,9 @@ div.toggle-editor {
 /**
  * Tooltips
  */
-.tip {
-	float: right;
+
+.tip-text {
+	text-align: right;
 }
 
 /**
@@ -1199,15 +1206,19 @@ ul.helpmenu li {
 	padding-right: 20px
 }
 
+#installer-database #sidebar {
+	float: none
+}
+
 #installer-database p.nowarning {
 	padding-left: 0;
 	padding-right: 20px
 }
 
 p.nowarning {
-	float: right;
-	margin-left: 15px;
-	margin-right: 3px;
+	float: none;
+	margin-left: 0;
+	margin-right: 15px;
 }
 
 table.adminlist tfoot button {
@@ -1218,4 +1229,60 @@ table.adminlist tfoot button {
 .joomlaupdate_spinner {
 	float: right;
 	margin-left: 15px;
+}
+
+/* Various corrections */
+[class*="span"] {
+	float: none;
+	margin-left: 0;
+	margin-right: 0;
+}
+
+#sidebar {
+	float:right;
+	margin: 15px 0;
+}
+
+#submenu li, #submenu span.nolink {
+	float: right;
+}
+
+div.btn-toolbar {
+	float: right;
+	text-align: right;
+}
+
+.btn-group {
+	float: right;
+	margin-right: 10px;
+}
+
+#module-status div.btn-group {
+	float: right;
+}
+
+.nav-tabs > li, .nav-pills > li {
+	float: none;
+}
+
+.tabs-left > .nav-tabs {
+	border-right: 0 solid #DDDDDD;
+	float: right;
+	margin-right: 19px;
+}
+
+.list-striped, .row-striped {
+	text-align: right;
+}
+
+.row-fluid [class*="span"] {
+	float: none;
+}
+.media .btn {
+	float: none;
+}
+
+.media {
+	float:none;
+	margin: 10px 20px;
 }

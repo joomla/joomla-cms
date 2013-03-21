@@ -28,21 +28,15 @@ jimport('joomla.utilities.utility');
  * @subpackage  Content.pagebreak
  * @since       1.6
  */
-class plgContentPagebreak extends JPlugin
+class PlgContentPagebreak extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * @param   string	The context of the content being passed to the plugin.
@@ -114,9 +108,12 @@ class plgContentPagebreak extends JPlugin
 				// Display TOC.
 				$page = 1;
 				$this->_createToc($row, $matches, $page);
-			} else {
+			}
+			else
+			{
 				$row->toc = '';
 			}
+
 			$row->text = preg_replace($regex, '<br />', $row->text);
 
 			return true;
@@ -153,13 +150,16 @@ class plgContentPagebreak extends JPlugin
 
 			// Reset the text, we already hold it in the $text array.
 			$row->text = '';
-			if ($style == 'pages') {
+			if ($style == 'pages')
+			{
 
 				// Display TOC.
 				if ($hasToc)
 				{
 					$this->_createToc($row, $matches, $page);
-				} else {
+				}
+				else
+				{
 					$row->toc = '';
 				}
 
@@ -191,12 +191,14 @@ class plgContentPagebreak extends JPlugin
 				$row->text .= '</div>';
 
 			}
-			else {
+			else
+			{
 				$t[] = $text[0];
 
 				$t[] = (string) JHtml::_($style.'.start', 'article'.$row->id.'-'.$style);
 
-				foreach ($text as $key => $subtext) {
+				foreach ($text as $key => $subtext)
+				{
 
 					if ($key >= 1)
 					{
@@ -204,14 +206,17 @@ class plgContentPagebreak extends JPlugin
 						$match = (array) JUtility::parseAttributes($match[0]);
 						if (isset($match['alt']))
 						{
-							$title	= stripslashes($match["alt"]);
-						} elseif (isset($match['title']))
+							$title	= stripslashes($match['alt']);
+						}
+						elseif (isset($match['title']))
 						{
 							$title	= stripslashes($match['title']);
-						} else {
-							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key);
 						}
-						$t[] = (string) JHtml::_($style.'.panel', $match['title'], 'article'.$row->id.'-'.$style.$key);
+						else
+						{
+							$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
+						}
+						$t[] = (string) JHtml::_($style.'.panel', $title, 'article'.$row->id.'-'.$style.$key);
 					}
 					$t[] = (string) $subtext;
 				}
@@ -221,6 +226,7 @@ class plgContentPagebreak extends JPlugin
 				$row->text = implode(' ', $t);
 			}
 		}
+
 		return true;
 	}
 
@@ -237,16 +243,16 @@ class plgContentPagebreak extends JPlugin
 		// TOC header.
 		$row->toc .= '<div class="pull-right article-index">';
 
-		if($this->params->get('article_index') == 1)
+		if ($this->params->get('article_index') == 1)
 		{
 			$headingtext = JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
 
-			if($this->params->get('article_index_text'))
+			if ($this->params->get('article_index_text'))
 			{
 				htmlspecialchars($headingtext = $this->params->get('article_index_text'));
 			}
-			$row->toc .= '<h3>' . $headingtext . '</h3>';
 
+			$row->toc .= '<h3>' . $headingtext . '</h3>';
 		}
 
 		// TOC first Page link.
@@ -274,13 +280,18 @@ class plgContentPagebreak extends JPlugin
 				if (@$attrs2['alt'])
 				{
 					$title	= stripslashes($attrs2['alt']);
-				} elseif (@$attrs2['title'])
+				}
+				elseif (@$attrs2['title'])
 				{
 					$title	= stripslashes($attrs2['title']);
-				} else {
+				}
+				else
+				{
 					$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 				}
-			} else {
+			}
+			else
+			{
 				$title	= JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 			$class = ($limitstart == $i - 1) ? 'toclink active' : 'toclink';

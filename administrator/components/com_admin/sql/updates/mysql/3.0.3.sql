@@ -1,1 +1,1 @@
-# Placeholder file for database changes for version 3.0.3
+ALTER TABLE `#__associations` CHANGE `id` `id` INT(11) NOT NULL COMMENT 'A reference to the associated item.';

@@ -61,7 +61,7 @@ class MediaViewMedia extends JViewLegacy
 
 			foreach ($types as $type)
 			{
-				if(!$firstType)
+				if (!$firstType)
 				{
 					$displayTypes .= ', ';
 					$filterTypes .= '; ';

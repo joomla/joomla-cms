@@ -62,6 +62,15 @@ $this->direction = $doc->direction;
 				<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/<?php echo $color ?>_rtl.css" type="text/css" />
 			<?php endif; ?>
 		<?php endif; ?>
+		<?php
+			$debug = JFactory::getConfig()->get('debug_lang');
+			if (JDEBUG || $debug)
+			{
+		?>
+			<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
+		<?php
+			}
+		?>
 		<!--[if lte IE 6]>
 			<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/ieonly.css" rel="stylesheet" type="text/css" />
 		<![endif]-->
@@ -107,10 +116,10 @@ $this->direction = $doc->direction;
 
 						 <h1 id="logo">
 
-                                        <?php if ($logo): ?>
+                                        <?php if ($logo) : ?>
                                         <img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($params->get('sitetitle'));?>" />
                                         <?php endif;?>
-                                        <?php if (!$logo ): ?>
+                                        <?php if (!$logo ) : ?>
                                         <?php echo htmlspecialchars($params->get('sitetitle'));?>
                                         <?php endif; ?>
                                         <span class="header1">

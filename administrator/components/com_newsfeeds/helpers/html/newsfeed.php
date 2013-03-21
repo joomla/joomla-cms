@@ -63,48 +63,69 @@ class JHtmlNewsfeed
 	}
 
 	/**
-	 * @param   int $newsfeedid	The newsfeed item id
+	 * Get the associated language flags
+	 *
+	 * @param   int  $newsfeedid  The item id to search associations
+	 *
+	 * @return  string  The language HTML
 	 */
 	public static function association($newsfeedid)
 	{
+		// Defaults
+		$html = '';
+
 		// Get the associations
-		$associations = NewsfeedsHelper::getAssociations($newsfeedid);
-
-		foreach ($associations as $tag => $associated)
+		if ($associations = JLanguageAssociations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $newsfeedid))
 		{
-			$associations[$tag] = (int) $associated->id;
-		}
-
-		// Get the associated newsfeed items
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('c.*');
-		$query->from('#__newsfeeds as c');
-		$query->select('cat.title as category_title');
-		$query->leftJoin('#__categories as cat ON cat.id=c.catid');
-		$query->where('c.id IN ('.implode(',', array_values($associations)).')');
-		$query->leftJoin('#__languages as l ON c.language=l.lang_code');
-		$query->select('l.image');
-		$query->select('l.title as language_title');
-		$db->setQuery($query);
-		$items = $db->loadObjectList('id');
-
-		// Check for a database error.
-		if ($error = $db->getErrorMsg())
-		{
-			JError::raiseWarning(500, $error);
-			return false;
-		}
-
-		// Construct html
-		$text = array();
-		foreach ($associations as $tag => $associated)
-		{
-			if ($associated != $newsfeedid)
+			foreach ($associations as $tag => $associated)
 			{
-				$text[] = JText::sprintf('COM_NEWSFEEDS_TIP_ASSOCIATED_LANGUAGE', JHtml::_('image', 'mod_languages/'.$items[$associated]->image.'.gif', $items[$associated]->language_title, array('title' => $items[$associated]->language_title), true), $items[$associated]->name, $items[$associated]->category_title);
+				$associations[$tag] = (int) $associated->id;
 			}
+
+			// Get the associated newsfeed items
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select('c.*');
+			$query->from('#__newsfeeds as c');
+			$query->select('cat.title as category_title');
+			$query->leftJoin('#__categories as cat ON cat.id=c.catid');
+			$query->where('c.id IN (' . implode(',', array_values($associations)) . ')');
+			$query->leftJoin('#__languages as l ON c.language=l.lang_code');
+			$query->select('l.image');
+			$query->select('l.title as language_title');
+			$db->setQuery($query);
+
+			try
+			{
+				$items = $db->loadObjectList('id');
+			}
+			catch (runtimeException $e)
+			{
+				throw new Exception($e->getMessage(), 500);
+
+				return false;
+			}
+
+			$tags = array();
+
+			// Construct html
+			foreach ($associations as $tag => $associated)
+			{
+				if ($associated != $newsfeedid)
+				{
+					$tags[] = JText::sprintf('COM_NEWSFEEDS_TIP_ASSOCIATED_LANGUAGE',
+						JHtml::_('image', 'mod_languages/' . $items[$associated]->image . '.gif',
+							$items[$associated]->language_title,
+							array('title' => $items[$associated]->language_title),
+							true
+						),
+						$items[$associated]->name, $items[$associated]->category_title
+					);
+				}
+			}
+			$html = JHtml::_('tooltip', implode('<br />', $tags), JText::_('COM_NEWSFEEDS_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
 		}
-		return JHtml::_('tooltip', implode('<br />', $text), JText::_('COM_NEWSFEEDS_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
+
+		return $html;
 	}
 }

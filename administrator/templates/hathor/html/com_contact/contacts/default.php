@@ -25,7 +25,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -110,7 +110,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<th class="title access-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
-				<?php if ($assoc): ?>
+				<?php if ($assoc) : ?>
 					<th width="5%">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
@@ -188,7 +188,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<td class="center">
 					<?php echo $item->access_level; ?>
 				</td>
-				<?php if ($assoc): ?>
+				<?php if ($assoc) : ?>
 					<td class="center">
 						<?php if ($item->association) : ?>
 							<?php echo JHtml::_('contact.association', $item->id); ?>

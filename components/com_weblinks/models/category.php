@@ -82,14 +82,17 @@ class WeblinksModelCategory extends JModelList
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach ($items as $item)
 		{
 			if (!isset($this->_params))
 			{
 				$params = new JRegistry;
-				$params->loadString($items[$i]->params);
-				$items[$i]->params = $params;
+				$params->loadString($item->params);
+				$item->params = $params;
 			}
+			// Get the tags
+			$item->tags = new JTags;
+			$item->tags->getItemTags('com_weblinks.category', $item->id);
 		}
 
 		return $items;
@@ -240,14 +243,14 @@ class WeblinksModelCategory extends JModelList
 	 */
 	public function getCategory()
 	{
-		if(!is_object($this->_item))
+		if (!is_object($this->_item))
 		{
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new JRegistry;
 
-			if($active)
+			if ($active)
 			{
 				$params->loadString($active->params);
 			}
@@ -256,11 +259,11 @@ class WeblinksModelCategory extends JModelList
 			$options['countItems'] = $params->get('show_cat_num_links_cat', 1) || $params->get('show_empty_categories', 0);
 			$categories = JCategories::getInstance('Weblinks', $options);
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
-			if(is_object($this->_item))
+			if (is_object($this->_item))
 			{
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
-				if($this->_item->getParent())
+				if ($this->_item->getParent())
 				{
 					$this->_parent = $this->_item->getParent();
 				}
@@ -284,7 +287,7 @@ class WeblinksModelCategory extends JModelList
 	 */
 	public function getParent()
 	{
-		if(!is_object($this->_item))
+		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -298,7 +301,7 @@ class WeblinksModelCategory extends JModelList
 	 */
 	function &getLeftSibling()
 	{
-		if(!is_object($this->_item))
+		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -307,7 +310,7 @@ class WeblinksModelCategory extends JModelList
 
 	function &getRightSibling()
 	{
-		if(!is_object($this->_item))
+		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}
@@ -323,7 +326,7 @@ class WeblinksModelCategory extends JModelList
 	 */
 	function &getChildren()
 	{
-		if(!is_object($this->_item))
+		if (!is_object($this->_item))
 		{
 			$this->getCategory();
 		}

@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Content
  * @since       2.5
  */
-class plgFinderContent extends FinderIndexerAdapter
+class PlgFinderContent extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -61,18 +61,12 @@ class plgFinderContent extends FinderIndexerAdapter
 	protected $table = '#__content';
 
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   2.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Method to update the item link information when the item category is

@@ -14,7 +14,7 @@ require_once __DIR__ . '/helper.php';
 
 $params->def('format', 'rss');
 
-$link = modSyndicateHelper::getLink($params);
+$link = ModSyndicateHelper::getLink($params);
 
 if (is_null($link))
 {

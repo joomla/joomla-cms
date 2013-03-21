@@ -80,7 +80,7 @@ $params = $this->state->get('params');
 				<?php echo $this->form->getInput('url'); ?>
 			</div>
 		</div>
-		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')): ?>
+		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('state'); ?>
