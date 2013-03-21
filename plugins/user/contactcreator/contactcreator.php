@@ -44,11 +44,21 @@ class PlgUserContactCreator extends JPlugin
 		$id = array('user_id' => $user_id ); // table access via secondary key
 		if ($contact->load( array('user_id' => $user_id ) ))
 		{
-			$id = $contact->id;
-			if (!$contact->delete($id))
+			if ( $this->params->get('userunlink', '') )
 			{
-				$this->setError($contact->getError());
-				return false;
+				// only unlink the user from the contact
+				$contact->user_id = 0;
+				$result = $contact->store();
+			}
+			else
+			{
+				// contact has to be deleted
+				$id = $contact->id;
+				if (!$contact->delete($id))
+				{
+					$this->setError($contact->getError());
+					return false;
+				}
 			}
 		}
 	}
