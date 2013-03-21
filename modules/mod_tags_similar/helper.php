@@ -66,7 +66,7 @@ abstract class ModTagssimilarHelper
 					$db->qn('cc.core_alias')
 				)
 			);
-			$query->group($db->qn(array('tag_id', 'm.content_item_id', 'm.type_alias', 'uniquename', 'count', 't.access')));
+			$query->group($db->qn(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')));
 			$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
 			$query->having('t.access IN (' . $groups . ')');
 			$query->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
