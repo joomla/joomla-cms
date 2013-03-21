@@ -6457,7 +6457,7 @@ h6 {
 	}
 }
 .nav-collapse .nav li a {
-	 background-position: 2px 50%;
+	 background-image: none;
 }
 @media (max-width: 738px) {
 	.navbar-fixed-top .navbar-inner,
@@ -6504,7 +6504,6 @@ h6 {
 		margin-bottom: 0;
 		border-top: 1px solid rgba(255,255,255,0.25);
 		border-bottom: 1px solid rgba(0,0,0,0.5);
-		background-image: none;
 	}
 	.nav-collapse .nav li ul li ul.dropdown-menu,
 	.nav-collapse .nav li ul li:hover ul.dropdown-menu,
