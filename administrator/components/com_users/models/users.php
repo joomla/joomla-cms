@@ -40,6 +40,7 @@ class UsersModelUsers extends JModelList
 				'registerDate', 'a.registerDate',
 				'lastvisitDate', 'a.lastvisitDate',
 				'activation', 'a.activation',
+				'group_title', 'ug.group_title',
 			);
 		}
 
@@ -266,6 +267,13 @@ class UsersModelUsers extends JModelList
 
 		$query->from($db->quoteName('#__users').' AS a');
 
+		// Join over the usergroup map.
+		$query->join('LEFT', $db->quoteName('#__user_usergroup_map').' AS map2  ON a.id = map2.user_id');
+
+		// Join over the usergroups.
+		$query->select('ug.title AS group_title');
+		$query->join('LEFT', $db->quoteName('#__usergroups').' AS ug ON map2.group_id = ug.id');
+
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
 
@@ -295,7 +303,6 @@ class UsersModelUsers extends JModelList
 
 		if ($groupId || isset($groups))
 		{
-			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
 			$query->group($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
 
 			if ($groupId)
@@ -310,7 +317,7 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Filter the items over the search string if set.
-		if ($this->getState('filter.search') !== '')
+		if ($this->getState('filter.search') !== '' && $this->getState('filter.search') !== null)
 		{
 			// Escape the search token.
 			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');

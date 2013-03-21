@@ -35,6 +35,7 @@ class UsersModelGroups extends JModelList
 				'title', 'a.title',
 				'lft', 'a.lft',
 				'rgt', 'a.rgt',
+				'user_count',
 			);
 		}
 
@@ -108,45 +109,6 @@ class UsersModelGroups extends JModelList
 				return $items;
 			}
 
-			// First pass: get list of the group id's and reset the counts.
-			$groupIds = array();
-			foreach ($items as $item)
-			{
-				$groupIds[] = (int) $item->id;
-				$item->user_count = 0;
-			}
-
-			// Get the counts from the database only for the users in the list.
-			$query	= $db->getQuery(true);
-
-			// Count the objects in the user group.
-			$query->select('map.group_id, COUNT(DISTINCT map.user_id) AS user_count')
-				->from($db->quoteName('#__user_usergroup_map').' AS map')
-				->where('map.group_id IN ('.implode(',', $groupIds).')')
-				->group('map.group_id');
-
-			$db->setQuery($query);
-
-			// Load the counts into an array indexed on the user id field.
-			try
-			{
-				$users = $db->loadObjectList('group_id');
-			}
-			catch (RuntimeException $e)
-			{
-				$this->setError($e->getMessage);
-				return false;
-			}
-
-			// Second pass: collect the group counts into the master items array.
-			foreach ($items as &$item)
-			{
-				if (isset($users[$item->id]))
-				{
-					$item->user_count = $users[$item->id]->user_count;
-				}
-			}
-
 			// Add the items to the internal cache.
 			$this->cache[$store] = $items;
 		}
@@ -177,6 +139,11 @@ class UsersModelGroups extends JModelList
 		// Add the level in the tree.
 		$query->select('COUNT(DISTINCT c2.id) AS level');
 		$query->join('LEFT OUTER', $db->quoteName('#__usergroups').' AS c2 ON a.lft > c2.lft AND a.rgt < c2.rgt');
+
+		// Join over the usergroup map.
+		$query->select('COUNT(DISTINCT map.user_id) AS user_count');
+		$query->join('LEFT', $db->quoteName('#__user_usergroup_map').' AS map ON a.id = map.group_id');
+		
 		$query->group('a.id, a.lft, a.rgt, a.parent_id, a.title');
 
 		// Filter the comments over the search string if set.
