@@ -537,9 +537,9 @@ class InstallationModelDatabase extends JModelBase
 
 				// Update the language settings in the language manager.
 				$query = $db->getQuery(true);
-				$query->update($db->quoteName('#__extensions'));
-				$query->set($db->quoteName('params') . ' = ' . $db->quote($params));
-				$query->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
+				$query->update($db->quoteName('#__extensions'))
+					->set($db->quoteName('params') . ' = ' . $db->quote($params))
+					->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
 				$db->setQuery($query);
 
 			try

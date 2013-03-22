@@ -198,8 +198,8 @@ class MenusHelper
 		if (empty($menuType))
 		{
 			// If the menutype is empty, group the items by menutype.
-			$query->clear();
-			$query->select('*')
+			$query->clear()
+				->select('*')
 				->from('#__menu_types')
 				->where('menutype <> '.$db->quote(''))
 				->order('title, menutype');

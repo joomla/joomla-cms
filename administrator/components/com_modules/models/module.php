@@ -229,8 +229,8 @@ class ModulesModelModule extends JModelAdmin
 				// Insert the new records into the table
 				foreach ($menus as $menu)
 				{
-					$query->clear();
-					$query->insert($db->quoteName('#__modules_menu'))
+					$query->clear()
+						->insert($db->quoteName('#__modules_menu'))
 						->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 						->values($newId . ', ' . $menu);
 					$db->setQuery($query);
@@ -983,8 +983,8 @@ class ModulesModelModule extends JModelAdmin
 				//  ' SET moduleid = ' . (int) $table->id . ', menuid = 0'
 				// )
 
-				$query->clear();
-				$query->insert('#__modules_menu')
+				$query->clear()
+					->insert('#__modules_menu')
 					->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 					->values((int) $table->id . ', 0');
 				$db->setQuery((string) $query);

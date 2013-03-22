@@ -287,9 +287,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Update the content items.
 		$query = $this->db->getQuery(true);
-		$query->update($this->db->quoteName('#__finder_links'));
-		$query->set($this->db->quoteName($property) . ' = ' . (int) $value);
-		$query->where($this->db->quoteName('url') . ' = ' . $item);
+		$query->update($this->db->quoteName('#__finder_links'))
+			->set($this->db->quoteName($property) . ' = ' . (int) $value)
+			->where($this->db->quoteName('url') . ' = ' . $item);
 		$this->db->setQuery($query);
 		$this->db->execute();
 
@@ -516,9 +516,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 		if ($query instanceof JDatabaseQuery)
 		{
 			$query = clone($query);
-			$query->clear('select');
-			$query->select('COUNT(*)');
-			$query->clear('order');
+			$query->clear('select')
+				->select('COUNT(*)')
+				->clear('order');
 		}
 
 		// Get the total number of content items to index.

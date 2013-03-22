@@ -130,16 +130,16 @@ class JTableMenuType extends JTable
 
 			// Update the menu items
 			$query = $this->_db->getQuery(true);
-			$query->update('#__menu');
-			$query->set('menutype=' . $this->_db->quote($this->menutype));
-			$query->where('menutype=' . $this->_db->quote($table->menutype));
+			$query->update('#__menu')
+				->set('menutype=' . $this->_db->quote($this->menutype))
+				->where('menutype=' . $this->_db->quote($table->menutype));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
 			// Update the module items
 			$query = $this->_db->getQuery(true);
-			$query->update('#__modules');
-			$query->set(
+			$query->update('#__modules')
+				->set(
 				'params=REPLACE(params,' . $this->_db->quote('"menutype":' . json_encode($table->menutype)) . ',' .
 				$this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')'
 			);

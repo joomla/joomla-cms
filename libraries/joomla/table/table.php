@@ -660,9 +660,9 @@ abstract class JTable extends JObject
 			$this->asset_id = (int) $asset->id;
 
 			$query = $this->_db->getQuery(true);
-			$query->update($this->_db->quoteName($this->_tbl));
-			$query->set('asset_id = ' . (int) $this->asset_id);
-			$query->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
+			$query->update($this->_db->quoteName($this->_tbl))
+				->set('asset_id = ' . (int) $this->asset_id)
+				->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
 			$this->_db->setQuery($query);
 
 			$this->_db->execute();
@@ -824,10 +824,10 @@ abstract class JTable extends JObject
 
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set($this->_db->quoteName('checked_out') . ' = ' . (int) $userId);
-		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time));
-		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$query->update($this->_tbl)
+			->set($this->_db->quoteName('checked_out') . ' = ' . (int) $userId)
+			->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time))
+			->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -868,10 +868,10 @@ abstract class JTable extends JObject
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set($this->_db->quoteName('checked_out') . ' = 0');
-		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
-		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$query->update($this->_tbl)
+			->set($this->_db->quoteName('checked_out') . ' = 0')
+			->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()))
+			->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
@@ -913,9 +913,9 @@ abstract class JTable extends JObject
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set($this->_db->quoteName('hits') . ' = (' . $this->_db->quoteName('hits') . ' + 1)');
-		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+		$query->update($this->_tbl)
+			->set($this->_db->quoteName('hits') . ' = (' . $this->_db->quoteName('hits') . ' + 1)')
+			->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -1046,9 +1046,9 @@ abstract class JTable extends JObject
 				{
 					// Update the row ordering field.
 					$query = $this->_db->getQuery(true);
-					$query->update($this->_tbl);
-					$query->set('ordering = ' . ($i + 1));
-					$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
+					$query->update($this->_tbl)
+						->set('ordering = ' . ($i + 1))
+						->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 					$this->_db->setQuery($query);
 					$this->_db->execute();
 				}
@@ -1122,16 +1122,16 @@ abstract class JTable extends JObject
 		{
 			// Update the ordering field for this instance to the row's ordering value.
 			$query = $this->_db->getQuery(true);
-			$query->update($this->_tbl);
-			$query->set('ordering = ' . (int) $row->ordering)
+			$query->update($this->_tbl)
+				->set('ordering = ' . (int) $row->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
 			// Update the ordering field for the row to this instance's ordering value.
 			$query = $this->_db->getQuery(true);
-			$query->update($this->_tbl);
-			$query->set('ordering = ' . (int) $this->ordering)
+			$query->update($this->_tbl)
+				->set('ordering = ' . (int) $this->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -1143,8 +1143,8 @@ abstract class JTable extends JObject
 		{
 			// Update the ordering field for this instance.
 			$query = $this->_db->getQuery(true);
-			$query->update($this->_tbl);
-			$query->set('ordering = ' . (int) $this->ordering)
+			$query->update($this->_tbl)
+				->set('ordering = ' . (int) $this->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -1193,8 +1193,8 @@ abstract class JTable extends JObject
 
 		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('published = ' . (int) $state);
+		$query->update($this->_tbl)
+			->set('published = ' . (int) $state);
 
 		// Determine if there is checkin support for the table.
 		if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))

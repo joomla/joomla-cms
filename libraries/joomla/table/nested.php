@@ -1324,9 +1324,9 @@ class JTableNested extends JTable
 
 		// Update the path field for the node.
 		$query = $this->_db->getQuery(true);
-		$query->update($this->_tbl);
-		$query->set('path = ' . $this->_db->quote($path));
-		$query->where($this->_tbl_key . ' = ' . (int) $pk);
+		$query->update($this->_tbl)
+			->set('path = ' . $this->_db->quote($path))
+			->where($this->_tbl_key . ' = ' . (int) $pk);
 
 		$this->_db->setQuery($query)->execute();
 

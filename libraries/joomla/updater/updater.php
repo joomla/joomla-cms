@@ -181,9 +181,9 @@ class JUpdater extends JAdapter
 
 			// Finally, update the last update check timestamp
 			$query = $dbo->getQuery(true);
-			$query->update($dbo->quoteName('#__update_sites'));
-			$query->set($dbo->quoteName('last_check_timestamp') . ' = ' . $dbo->quote($now));
-			$query->where($dbo->quoteName('update_site_id') . ' = ' . $dbo->quote($result['update_site_id']));
+			$query->update($dbo->quoteName('#__update_sites'))
+				->set($dbo->quoteName('last_check_timestamp') . ' = ' . $dbo->quote($now))
+				->where($dbo->quoteName('update_site_id') . ' = ' . $dbo->quote($result['update_site_id']));
 			$dbo->setQuery($query);
 			$dbo->execute();
 		}

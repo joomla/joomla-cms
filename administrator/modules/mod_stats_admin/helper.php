@@ -84,15 +84,15 @@ class ModStatsHelper
 			$db->setQuery($query);
 			$users = $db->loadResult();
 
-			$query->clear();
-			$query->select('COUNT(id) AS count_items')
+			$query->clear()
+				->select('COUNT(id) AS count_items')
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
 			$items = $db->loadResult();
 
-			$query->clear();
-			$query->select('COUNT(id) AS count_links ')
+			$query->clear()
+				->select('COUNT(id) AS count_links ')
 				->from('#__weblinks')
 				->where('state = 1');
 			$db->setQuery($query);
@@ -128,8 +128,8 @@ class ModStatsHelper
 
 		if ($counter)
 		{
-			$query->clear();
-			$query->select('SUM(hits) AS count_hits')
+			$query->clear()
+				->select('SUM(hits) AS count_hits')
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);

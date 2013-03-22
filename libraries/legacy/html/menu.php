@@ -76,8 +76,8 @@ abstract class JHtmlMenu
 			$db->setQuery($query);
 			$menus = $db->loadObjectList();
 
-			$query->clear();
-			$query->select('a.id AS value, a.title AS text, a.level, a.menutype')
+			$query->clear()
+				->select('a.id AS value, a.title AS text, a.level, a.menutype')
 				->from('#__menu AS a')
 				->where('a.parent_id > 0')
 				->where('a.type <> ' . $db->quote('url'))

@@ -83,8 +83,8 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 			for ($i = 0; $i <= 15; $i++)
 			{
 				// Flush the maps for the link.
-				$query->clear();
-				$query->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
+				$query->clear()
+					->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
 					->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 				$db->setQuery($query);
 				$db->execute();
@@ -123,8 +123,8 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 			);
 
 			// Insert the link.
-			$query->clear();
-			$query->insert($db->quoteName('#__finder_links'))
+			$query->clear()
+				->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
 				$db->quote($item->url) . ', '
@@ -154,24 +154,24 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		else
 		{
 			// Update the link.
-			$query->clear();
-			$query->update($db->quoteName('#__finder_links'));
-			$query->set($db->quoteName('route') . ' = ' . $db->quote($item->route));
-			$query->set($db->quoteName('title') . ' = ' . $db->quote($item->title));
-			$query->set($db->quoteName('description') . ' = ' . $db->quote($item->description));
-			$query->set($db->quoteName('indexdate') . ' = ' . $query->currentTimestamp());
-			$query->set($db->quoteName('state') . ' = ' . (int) $item->state);
-			$query->set($db->quoteName('access') . ' = ' . (int) $item->access);
-			$query->set($db->quoteName('language') . ' = ' . $db->quote($item->language));
-			$query->set($db->quoteName('type_id') . ' = ' . (int) $item->type_id);
-			$query->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)));
-			$query->set($db->quoteName('publish_start_date') . ' = ' . $db->quote($item->publish_start_date));
-			$query->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date));
-			$query->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date));
-			$query->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date));
-			$query->set($db->quoteName('list_price') . ' = ' . $db->quote($item->list_price));
-			$query->set($db->quoteName('sale_price') . ' = ' . $db->quote($item->sale_price));
-			$query->where('link_id = ' . (int) $linkId);
+			$query->clear()
+				->update($db->quoteName('#__finder_links'))
+				->set($db->quoteName('route') . ' = ' . $db->quote($item->route))
+				->set($db->quoteName('title') . ' = ' . $db->quote($item->title))
+				->set($db->quoteName('description') . ' = ' . $db->quote($item->description))
+				->set($db->quoteName('indexdate') . ' = ' . $query->currentTimestamp())
+				->set($db->quoteName('state') . ' = ' . (int) $item->state)
+				->set($db->quoteName('access') . ' = ' . (int) $item->access)
+				->set($db->quoteName('language') . ' = ' . $db->quote($item->language))
+				->set($db->quoteName('type_id') . ' = ' . (int) $item->type_id)
+				->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)))
+				->set($db->quoteName('publish_start_date') . ' = ' . $db->quote($item->publish_start_date))
+				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
+				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
+				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
+				->set($db->quoteName('list_price') . ' = ' . $db->quote($item->list_price))
+				->set($db->quoteName('sale_price') . ' = ' . $db->quote($item->sale_price))
+				->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -348,9 +348,9 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		 * new term ids.
 		 */
 		$query = $db->getQuery(true);
-		$query->update('ta');
-		$query->set('ta.term_id = t.term_id from #__finder_tokens_aggregate AS ta INNER JOIN #__finder_terms AS t ON t.term = ta.term');
-		$query->where('ta.term_id IS NULL');
+		$query->update('ta')
+			->set('ta.term_id = t.term_id from #__finder_tokens_aggregate AS ta INNER JOIN #__finder_terms AS t ON t.term = ta.term')
+			->where('ta.term_id IS NULL');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -362,9 +362,9 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		 * and the aggregate table has the correct term ids, we need to update
 		 * the links counter for each term by one.
 		 */
-		$query->clear();
-		$query->update('t');
-		$query->set($db->quoteName('t.links') . ' = t.links + 1 FROM #__finder_terms AS t INNER JOIN #__finder_tokens_aggregate AS ta ON ta.term_id = t.term_id');
+		$query->clear()
+			->update('t')
+			->set($db->quoteName('t.links') . ' = t.links + 1 FROM #__finder_terms AS t INNER JOIN #__finder_tokens_aggregate AS ta ON ta.term_id = t.term_id');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -378,9 +378,9 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		 * the first character of the term. In php, it would be expressed as
 		 * substr(md5(substr($token, 0, 1)), 0, 1)
 		 */
-		$query->clear();
-		$query->update($db->quoteName('#__finder_tokens_aggregate'));
-		$query->set($db->quoteName('map_suffix') . " = SUBSTRING(HASHBYTES('MD5', SUBSTRING(" . $db->quoteName('term') . ', 1, 1)), 1, 1)');
+		$query->clear()
+			->update($db->quoteName('#__finder_tokens_aggregate'))
+			->set($db->quoteName('map_suffix') . " = SUBSTRING(HASHBYTES('MD5', SUBSTRING(" . $db->quoteName('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -420,10 +420,10 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
 		// Update the signature.
-		$query->clear();
-		$query->update($db->quoteName('#__finder_links'));
-		$query->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig));
-		$query->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
+		$query->clear()
+			->update($db->quoteName('#__finder_links'))
+			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
+			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -464,30 +464,30 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			$query->update('t');
-			$query->set('t.links = t.links - 1 from #__finder_terms AS t INNER JOIN #__finder_links_terms' . dechex($i) . ' AS AS m ON m.term_id = t.term_id');
-			$query->where('m.link_id = ' . $db->quote((int) $linkId));
+			$query->update('t')
+				->set('t.links = t.links - 1 from #__finder_terms AS t INNER JOIN #__finder_links_terms' . dechex($i) . ' AS AS m ON m.term_id = t.term_id')
+				->where('m.link_id = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->execute();
 
 			// Remove all records from the mapping tables.
-			$query->clear();
-			$query->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
+			$query->clear()
+				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
 				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
 		}
 
 		// Delete all orphaned terms.
-		$query->clear();
-		$query->delete($db->quoteName('#__finder_terms'))
+		$query->clear()
+			->delete($db->quoteName('#__finder_terms'))
 			->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
 		$db->execute();
 
 		// Delete the link from the index.
-		$query->clear();
-		$query->delete($db->quoteName('#__finder_links'))
+		$query->clear()
+			->delete($db->quoteName('#__finder_links'))
 			->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 		$db->setQuery($query);
 		$db->execute();

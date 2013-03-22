@@ -337,8 +337,8 @@ class JTags
 			$query = $db->getQuery(true);
 
 			// Load the tags.
-			$query->clear();
-			$query->select($db->quoteName('t.id'))
+			$query->clear()
+				->select($db->quoteName('t.id'))
 				->from($db->quoteName('#__tags') . ' AS t ')
 				->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
 					. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')

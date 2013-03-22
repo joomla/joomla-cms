@@ -277,8 +277,8 @@ class MenusModelItem extends JModelAdmin
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
-			$query->clear();
-			$query->select('id')
+			$query->clear()
+				->select('id')
 				->from($db->quoteName('#__menu'))
 				->where('lft > ' . (int) $table->lft)
 				->where('rgt < ' . (int) $table->rgt);
@@ -456,8 +456,8 @@ class MenusModelItem extends JModelAdmin
 			if ($menuType != $table->menutype)
 			{
 				// Add the child node ids to the children array.
-				$query->clear();
-				$query->select($db->quoteName('id'))
+				$query->clear()
+					->select($db->quoteName('id'))
 					->from($db->quoteName('#__menu'))
 					->where($db->quoteName('lft') .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
 				$db->setQuery($query);
@@ -494,10 +494,10 @@ class MenusModelItem extends JModelAdmin
 			JArrayHelper::toInteger($children);
 
 			// Update the menutype field in all nodes where necessary.
-			$query->clear();
-			$query->update($db->quoteName('#__menu'));
-			$query->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
-			$query->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
+			$query->clear()
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType))
+				->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
 			$db->setQuery($query);
 
 			try
@@ -1269,8 +1269,8 @@ class MenusModelItem extends JModelAdmin
 			{
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
-				$query->clear();
-				$query->insert('#__associations');
+				$query->clear()
+					->insert('#__associations');
 				foreach ($associations as $tag => $id)
 				{
 					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));

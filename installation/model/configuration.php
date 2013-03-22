@@ -274,18 +274,18 @@ class InstallationModelConfiguration extends JModelBase
 		if ($db->loadResult())
 		{
 			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__users'));
-			$query->set($db->quoteName('name') . ' = ' . $db->quote('Super User'));
-			$query->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user));
-			$query->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email));
-			$query->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass));
-			$query->set($db->quoteName('block') . ' = 0');
-			$query->set($db->quoteName('sendEmail') . ' = 1');
-			$query->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate));
-			$query->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate));
-			$query->set($db->quoteName('activation') . ' = ' . $db->quote('0'));
-			$query->set($db->quoteName('params') . ' = ' . $db->quote(''));
-			$query->where($db->quoteName('id') . ' = ' . $db->quote($userId));
+			$query->update($db->quoteName('#__users'))
+				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
+				->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user))
+				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
+				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
+				->set($db->quoteName('block') . ' = 0')
+				->set($db->quoteName('sendEmail') . ' = 1')
+				->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate))
+				->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate))
+				->set($db->quoteName('activation') . ' = ' . $db->quote('0'))
+				->set($db->quoteName('params') . ' = ' . $db->quote(''))
+				->where($db->quoteName('id') . ' = ' . $db->quote($userId));
 		}
 		else
 		{
@@ -329,9 +329,9 @@ class InstallationModelConfiguration extends JModelBase
 		if ($db->loadResult())
 		{
 			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__user_usergroup_map'));
-			$query->set($db->quoteName('user_id') . ' = ' . $db->quote($userId));
-			$query->set($db->quoteName('group_id') . ' = 8');
+			$query->update($db->quoteName('#__user_usergroup_map'))
+				->set($db->quoteName('user_id') . ' = ' . $db->quote($userId))
+				->set($db->quoteName('group_id') . ' = 8');
 		}
 		else
 		{

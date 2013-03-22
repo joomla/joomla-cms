@@ -74,8 +74,8 @@ abstract class JHtmlFilter
 		}
 
 		// Build the query to get the branch data and the number of child nodes.
-		$query->clear();
-		$query->select('t.*, count(c.id) AS children')
+		$query->clear()
+			->select('t.*, count(c.id) AS children')
 			->from($db->quoteName('#__finder_taxonomy') . ' AS t')
 			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
 			->where($db->quoteName('t.parent_id') . ' = 1')
@@ -160,8 +160,8 @@ abstract class JHtmlFilter
 			}
 
 			// Build the query to get the child nodes for this branch.
-			$query->clear();
-			$query->select('t.*')
+			$query->clear()
+				->select('t.*')
 				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
 				->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk)
 				->where($db->quoteName('t.state') . ' = 1')
@@ -287,8 +287,8 @@ abstract class JHtmlFilter
 			}
 
 			// Build the query to get the branch data and the number of child nodes.
-			$query->clear();
-			$query->select('t.*, count(c.id) AS children')
+			$query->clear()
+				->select('t.*, count(c.id) AS children')
 				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
 				->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
 				->where($db->quoteName('t.parent_id') . ' = 1')
@@ -333,8 +333,8 @@ abstract class JHtmlFilter
 				}
 
 				// Build the query to get the child nodes for this branch.
-				$query->clear();
-				$query->select('t.*')
+				$query->clear()
+					->select('t.*')
 					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
 					->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk)
 					->where($db->quoteName('t.state') . ' = 1')

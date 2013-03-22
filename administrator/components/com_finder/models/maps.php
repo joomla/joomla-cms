@@ -344,8 +344,8 @@ class FinderModelMaps extends JModelList
 		$db->setQuery($query);
 		$db->execute();
 
-		$query->clear();
-		$query->delete($db->quoteName('#__finder_taxonomy_map'))
+		$query->clear()
+			->delete($db->quoteName('#__finder_taxonomy_map'))
 			->where('1');
 		$db->setQuery($query);
 		$db->execute();

@@ -537,8 +537,8 @@ class FinderIndexerQuery
 		 * two reasons: one, it allows us to ensure that the filters being used
 		 * are real; two, we need to sort the filters by taxonomy branch.
 		 */
-		$query->clear();
-		$query->select('t1.id, t1.title, t2.title AS branch')
+		$query->clear()
+			->select('t1.id, t1.title, t2.title AS branch')
 			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
 			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
 			->where('t1.state = 1')
@@ -1316,8 +1316,8 @@ class FinderIndexerQuery
 		{
 			// Create a database query to get the similar terms.
 			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
-			$query->clear();
-			$query->select('DISTINCT t.term_id AS id, t.term AS term')
+			$query->clear()
+				->select('DISTINCT t.term_id AS id, t.term AS term')
 				->from('#__finder_terms AS t')
 				// ->where('t.soundex = ' . soundex($db->quote($token->term)))
 				->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')')

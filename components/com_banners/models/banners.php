@@ -214,8 +214,8 @@ class BannersModelBanners extends JModelList
 		{
 			// Increment impression made
 			$id = $item->id;
-			$query->clear();
-			$query->update('#__banners')
+			$query->clear()
+				->update('#__banners')
 				->set('impmade = (impmade + 1)')
 				->where('id = ' . (int) $id);
 			$db->setQuery((string) $query);
@@ -245,8 +245,8 @@ class BannersModelBanners extends JModelList
 			if ($trackImpressions > 0)
 			{
 				// is track already created ?
-				$query->clear();
-				$query->select($db->quoteName('count'))
+				$query->clear()
+					->select($db->quoteName('count'))
 					->from('#__banner_tracks')
 					->where('track_type=1')
 					->where('banner_id=' . (int) $id)

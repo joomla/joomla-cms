@@ -171,8 +171,8 @@ class InstallerModelUpdate extends JModelList
 		{
 			// Reset the last update check timestamp
 			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__update_sites'));
-			$query->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
+			$query->update($db->quoteName('#__update_sites'))
+				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 			$db->setQuery($query);
 			$db->execute();
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');

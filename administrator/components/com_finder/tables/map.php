@@ -72,9 +72,9 @@ class FinderTableMap extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true);
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
-		$query->where($where);
+		$query->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('state') . ' = ' . (int) $state)
+			->where($where);
 		$this->_db->setQuery($query);
 
 		try

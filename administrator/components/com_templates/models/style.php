@@ -460,9 +460,9 @@ class TemplatesModelStyle extends JModelAdmin
 
 				// Update the mapping for menu items that this style IS assigned to.
 				$query = $db->getQuery(true);
-				$query->update('#__menu');
-				$query->set('template_style_id='.(int) $table->id);
-				$query->where('id IN ('.implode(',', $data['assigned']).')')
+				$query->update('#__menu')
+					->set('template_style_id='.(int) $table->id)
+					->where('id IN ('.implode(',', $data['assigned']).')')
 					->where('template_style_id!='.(int) $table->id)
 					->where('checked_out in (0,'.(int) $user->id.')');
 				$db->setQuery($query);
@@ -473,8 +473,8 @@ class TemplatesModelStyle extends JModelAdmin
 			// Remove style mappings for menu items this style is NOT assigned to.
 			// If unassigned then all existing maps will be removed.
 			$query = $db->getQuery(true);
-			$query->update('#__menu');
-			$query->set('template_style_id=0');
+			$query->update('#__menu')
+				->set('template_style_id=0');
 			if (!empty($data['assigned']))
 			{
 				$query->where('id NOT IN ('.implode(',', $data['assigned']).')');

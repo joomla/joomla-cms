@@ -114,9 +114,9 @@ class MessagesModelMessage extends JModelAdmin
 					// Mark message read
 					$db		= $this->getDbo();
 					$query	= $db->getQuery(true);
-					$query->update('#__messages');
-					$query->set('state = 1');
-					$query->where('message_id = '.$this->item->message_id);
+					$query->update('#__messages')
+						->set('state = 1')
+						->where('message_id = '.$this->item->message_id);
 					$db->setQuery($query)->execute();
 				}
 			}

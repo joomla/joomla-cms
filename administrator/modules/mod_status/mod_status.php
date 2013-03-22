@@ -25,8 +25,8 @@ $db->setQuery($query);
 $unread = (int) $db->loadResult();
 
 // Get the number of back-end logged in users.
-$query->clear();
-$query->select('COUNT(session_id)')
+$query->clear()
+	->select('COUNT(session_id)')
 	->from('#__session')
 	->where('guest = 0 AND client_id = 1');
 
@@ -52,8 +52,8 @@ if ($unread)
 }
 
 // Get the number of frontend logged in users.
-$query->clear();
-$query->select('COUNT(session_id)')
+$query->clear()
+	->select('COUNT(session_id)')
 	->from('#__session')
 	->where('guest = 0 AND client_id = 0');
 

@@ -125,8 +125,8 @@ abstract class MultilangstatusHelper
 			->where('(l.published=1 or cd.language='.$db->quote('*').')')
 			->where('cd.published=1')
 			->group('u.id')
-			->having('(counted !=' . count(JLanguageHelper::getLanguages()).' OR all_languages=1)');
-		$query->having('(counted !=1 OR all_languages=0)');
+			->having('(counted !=' . count(JLanguageHelper::getLanguages()).' OR all_languages=1)')
+			->having('(counted !=1 OR all_languages=0)');
 		$db->setQuery($query);
 		return $db->loadObjectList();
 	}

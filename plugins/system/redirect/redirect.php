@@ -101,9 +101,9 @@ class PlgSystemRedirect extends JPlugin
 				} else {
 					// Existing error url, increase hit counter
 					$query = $db->getQuery(true);
-					$query->update($db->quoteName('#__redirect_links'));
-					$query->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1');
-					$query->where('id = ' . (int) $res);
+					$query->update($db->quoteName('#__redirect_links'))
+						->set($db->quoteName('hits').' = '.$db->quoteName('hits').' + 1')
+						->where('id = ' . (int) $res);
 					$db->setQuery((string) $query);
 					$db->execute();
 				}

@@ -531,8 +531,8 @@ class ContactModelContact extends JModelAdmin
 				{
 					// Adding new association for these items
 					$key = md5(json_encode($associations));
-					$query->clear();
-					$query->insert('#__associations');
+					$query->clear()
+						->insert('#__associations');
 
 					foreach ($associations as $tag => $id)
 					{

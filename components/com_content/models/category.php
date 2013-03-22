@@ -454,9 +454,9 @@ class ContentModelCategory extends JModelList
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$query->update('#__categories');
-		$query->set('hits = hits + 1');
-		$query->where('id = ' . (int) $pk);
+		$query->update('#__categories')
+			->set('hits = hits + 1')
+			->where('id = ' . (int) $pk);
 		$db->setQuery($query);
 
 		try

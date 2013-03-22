@@ -236,9 +236,9 @@ class JUpdaterCollection extends JUpdateAdapter
 		if (200 != $response->code)
 		{
 			$query = $dbo->getQuery(true);
-			$query->update('#__update_sites');
-			$query->set('enabled = 0');
-			$query->where('update_site_id = ' . $this->updateSiteId);
+			$query->update('#__update_sites')
+				->set('enabled = 0')
+				->where('update_site_id = ' . $this->updateSiteId);
 			$dbo->setQuery($query);
 			$dbo->execute();
 

@@ -184,8 +184,8 @@ class JTableUsergroup extends JTable
 		// @todo Remove all related threads, posts and subscriptions
 
 		// Delete the usergroup and its children
-		$query->clear();
-		$query->delete($db->quoteName($this->_tbl))
+		$query->clear()
+			->delete($db->quoteName($this->_tbl))
 			->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();
@@ -223,16 +223,16 @@ class JTableUsergroup extends JTable
 		if (!empty($match_ids))
 		{
 			$query = $db->getQuery(true);
-			$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace));
-			$query->update('#__viewlevels');
-			$query->where('id IN (' . implode(',', $match_ids) . ')');
+			$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace))
+				->update('#__viewlevels')
+				->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);
 			$db->execute();
 		}
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
-		$query->clear();
-		$query->delete($db->quoteName('#__user_usergroup_map'))
+		$query->clear()
+			->delete($db->quoteName('#__user_usergroup_map'))
 			->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();

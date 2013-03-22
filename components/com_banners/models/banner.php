@@ -72,8 +72,8 @@ class BannersModelBanner extends JModelLegacy
 		{
 			$trackDate = JFactory::getDate()->format('Y-m-d H');
 
-			$query->clear();
-			$query->select($db->quoteName('count'))
+			$query->clear()
+				->select($db->quoteName('count'))
 				->from('#__banner_tracks')
 				->where('track_type=2')
 				->where('banner_id=' . (int) $id)

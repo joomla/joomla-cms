@@ -68,8 +68,8 @@ abstract class ModRelatedItemsHelper
 				if (count($likes))
 				{
 					// select other items based on the metakey field 'like' the keys found
-					$query->clear();
-					$query->select('a.id')
+					$query->clear()
+						->select('a.id')
 						->select('a.title')
 						->select('DATE_FORMAT(a.created, "%Y-%m-%d") as created')
 						->select('a.catid')

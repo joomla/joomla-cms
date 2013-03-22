@@ -68,9 +68,9 @@ abstract class ModTagssimilarHelper
 			);
 			$query->group($db->quoteName(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')))
 				->from($db->quoteName('#__contentitem_tag_map', 'm'))
-				->having('t.access IN (' . $groups . ')');
-			$query->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
-			$query->having($db->quoteName('m.content_item_id') . ' <> ' . $id);
+				->having('t.access IN (' . $groups . ')')
+				->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')')
+				->having($db->quoteName('m.content_item_id') . ' <> ' . $id);
 
 			if ($matchtype == 'all' && $tagCount > 0)
 			{

@@ -80,9 +80,9 @@ class TemplatesTableStyle extends JTable
 		if ($this->home != '0')
 		{
 			$query = $this->_db->getQuery(true);
-			$query->update('#__template_styles');
-			$query->set('home=\'0\'');
-			$query->where('client_id=' . (int) $this->client_id)
+			$query->update('#__template_styles')
+				->set('home=\'0\'')
+				->where('client_id=' . (int) $this->client_id)
 				->where('home='.$this->_db->quote($this->home));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
