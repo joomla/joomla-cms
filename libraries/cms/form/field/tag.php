@@ -29,12 +29,33 @@ class JFormFieldTag extends JFormFieldList
 	public $type = 'Tag';
 
 	/**
-	 * An array of tags
+	 * Flag to work with nested tag field
 	 *
-	 * @var    string
+	 * @var    boolean
 	 * @since  3.1
 	 */
-	public $tags;
+	public $isNested = null;
+
+	/**
+	 * com_tags parameters
+	 *
+	 * @var    JRegistry
+	 * @since  3.1
+	 */
+	protected $comParams = null;
+
+	/**
+	 * Constructor
+	 *
+	 * @since  3.1
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+
+		// Load com_tags config
+		$this->comParams = JComponentHelper::getParams('com_tags');
+	}
 
 	/**
 	 * Method to get the field input for a tag field.
@@ -45,18 +66,32 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getInput()
 	{
+		// AJAX mode requires ajax-chosen
+		if (!$this->isNested())
+		{
+			// Get the field id
+			$id    = isset($this->element['id']) ? $this->element['id'] : null;
+			$cssId = '#' . $this->getId($id, $this->element['name']);
+
+			// Load the ajax-chosen customised field
+			JHtml::_('tag.ajaxfield', $cssId);
+		}
+
 		if (!is_array($this->value) && !empty($this->value))
 		{
-			if (empty($this->value->tags))
+			if ($this->value instanceof JTags)
 			{
-				// $this->value->tags = new JTags;
-				$this->value = array();
-			}
-			if (is_object($this->value))
-			{
-				$this->value = $this->value->tags;
+				if (empty($this->value->tags))
+				{
+					$this->value = array();
+				}
+				else
+				{
+					$this->value = $this->value->tags;
+				}
 			}
 
+			// String in format 2,5,4
 			if (is_string($this->value))
 			{
 				$this->value = explode(',', $this->value);
@@ -78,6 +113,7 @@ class JFormFieldTag extends JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
+
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
 		$name = (string) $this->element['name'];
 
@@ -88,6 +124,15 @@ class JFormFieldTag extends JFormFieldList
 		$query->from('#__tags AS a');
 		$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
+		// Ajax tag only loads assigned values
+		if (!$this->isNested())
+		{
+			// Only item assigned values
+			$values = (array) $this->value;
+			JArrayHelper::toInteger($values);
+			$query->where('a.id IN (' . implode(',', $values) . ')');
+		}
+
 		// Filter language
 		if (!empty($this->element['language']))
 		{
@@ -95,6 +140,8 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+
+		// Filter to only load active items
 
 		// Filter on the published state
 		if (is_numeric($published))
@@ -125,6 +172,57 @@ class JFormFieldTag extends JFormFieldList
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
 
+		// Prepare nested data
+		if ($this->isNested())
+		{
+			$this->prepareOptionsNested($options);
+		}
+
 		return $options;
+	}
+
+	/**
+	 * Add "-" before nested tags, depending on level
+	 *
+	 * @param   array  &$options  Array of tags
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   3.1
+	 */
+	protected function prepareOptionsNested(&$options)
+	{
+		if ($options)
+		{
+			foreach ($options as &$option)
+			{
+				$repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
+				$option->text = str_repeat('- ', $repeat) . $option->text;
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Determine if the field has to be tagnested
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function isNested()
+	{
+		if (is_null($this->isNested))
+		{
+			// If mode="nested" || ( mode not set & config = nested )
+			if ((isset($this->element['mode']) && $this->element['mode'] == 'nested')
+				|| (!isset($this->element['mode']) && $this->comParams->get('tag_field_ajax_mode', 1) == 0))
+			{
+				$this->isNested = true;
+			}
+		}
+
+		return $this->isNested;
 	}
 }

@@ -74,4 +74,87 @@ abstract class JHtmlFormbehavior
 
 		return;
 	}
+
+	/**
+	 * Method to load the AJAX Chosen library
+	 *
+	 * If debugging mode is on an uncompressed version of AJAX Chosen is included for easier debugging.
+	 *
+	 * @param   JRegistry  $options  Options in a JRegistry object
+	 * @param   mixed      $debug    Is debugging mode on? [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function ajaxchosen(JRegistry $options, $debug = null)
+	{
+		// Retrieve options/defaults
+		$selector       = $options->get('selector', '.tagfield');
+		$type           = $options->get('type', 'GET');
+		$url            = $options->get('url', null);
+		$dataType       = $options->get('dataType', 'json');
+		$jsonTermKey    = $options->get('jsonTermKey', 'term');
+		$afterTypeDelay = $options->get('afterTypeDelay', '500');
+		$minTermLength  = $options->get('minTermLength', '3');
+
+		JText::script('JGLOBAL_KEEP_TYPING');
+		JText::script('JGLOBAL_LOOKING_FOR');
+
+		// Ajax URL is mandatory
+		if (!empty($url))
+		{
+			if (isset(self::$loaded[__METHOD__][$selector]))
+			{
+				return;
+			}
+			// Include jQuery
+			JHtml::_('jquery.framework');
+
+			// Requires chosen to work
+			self::chosen($selector, $debug);
+
+			JHtml::_('script', 'jui/ajax-chosen.min.js', false, true, false, false, $debug);
+			JFactory::getDocument()->addScriptDeclaration("
+				(function($){
+					$(document).ready(function () {
+						$('" . $selector . "').ajaxChosen({
+							type: '" . $type . "',
+							url: '" . $url . "',
+							dataType: '" . $dataType . "',
+							jsonTermKey: '" . $jsonTermKey . "',
+							afterTypeDelay: '" . $afterTypeDelay . "',
+							minTermLength: '" . $minTermLength . "'
+						}, function (data) {
+							var results = [];
+
+							$.each(data, function (i, val) {
+								results.push({ value: val.value, text: val.text });
+							});
+
+							return results;
+						});
+						// Method to add tags pressing enter
+						$('" . $selector . "_chzn input').keydown(function(event) {
+							// tag is greater than 3 chars and enter pressed
+							if (this.value.length >= 3 && event.which === 13) {
+								// Create the option
+								var option = $('<option>');
+								option.text(this.value).val('#new#' + this.value);
+								option.attr('selected','selected');
+								// Add the option an repopulate the chosen field
+								$('" . $selector . "').append(option).trigger('liszt:updated');
+								this.value = '';
+							}
+						});
+					});
+				})(jQuery);
+				"
+			);
+
+			self::$loaded[__METHOD__][$selector] = true;
+		}
+
+		return;
+	}
 }
