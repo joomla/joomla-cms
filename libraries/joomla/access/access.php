@@ -376,7 +376,7 @@ class JAccess
 			->from('#__usergroups as ug1')
 			->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt')
 			->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id')
-			->where('ug1.id=' . $db->Quote($groupId));
+			->where('ug1.id=' . $db->quote($groupId));
 
 		$db->setQuery($query);
 

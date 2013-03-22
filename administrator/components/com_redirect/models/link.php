@@ -161,7 +161,7 @@ class RedirectModelLink extends JModelAdmin
 			// Update the link rows.
 			$db->setQuery(
 				'UPDATE '.$db->quoteName('#__redirect_links') .
-				' SET '.$db->quoteName('new_url').' = '.$db->Quote($url).', '.$db->quoteName('published').' = 1, '.$db->quoteName('comment').' = '.$db->Quote($comment) .
+				' SET '.$db->quoteName('new_url').' = '.$db->quote($url).', '.$db->quoteName('published').' = 1, '.$db->quoteName('comment').' = '.$db->quote($comment) .
 				' WHERE '.$db->quoteName('id').' IN ('.implode(',', $pks).')'
 			);
 

@@ -168,7 +168,7 @@ class BannersModelBanners extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		$query->order('a.sticky DESC,'. ($randomise ? 'RAND()' : 'a.ordering'));
@@ -250,7 +250,7 @@ class BannersModelBanners extends JModelList
 					->from('#__banner_tracks')
 					->where('track_type=1')
 					->where('banner_id=' . (int) $id)
-					->where('track_date=' . $db->Quote($trackDate));
+					->where('track_date=' . $db->quote($trackDate));
 
 				$db->setQuery((string) $query);
 
@@ -274,7 +274,7 @@ class BannersModelBanners extends JModelList
 						->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)')
 						->where('track_type=1')
 						->where('banner_id=' . (int) $id)
-						->where('track_date='.$db->Quote($trackDate));
+						->where('track_date='.$db->quote($trackDate));
 				}
 				else {
 					// insert new count
@@ -284,7 +284,7 @@ class BannersModelBanners extends JModelList
 						array($db->quoteName('count'), $db->quoteName('track_type'),
 							$db->quoteName('banner_id'), $db->quoteName('track_date'))
 					)
-						->values('1, 1, ' . (int) $id . ', ' . $db->Quote($trackDate));
+						->values('1, 1, ' . (int) $id . ', ' . $db->quote($trackDate));
 				}
 
 				$db->setQuery((string) $query);

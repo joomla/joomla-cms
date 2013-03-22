@@ -126,7 +126,7 @@ class MessagesModelConfig extends JModelForm
 			$tuples = array();
 			foreach ($data as $k => $v)
 			{
-				$tuples[] = '(' . $userId.', ' . $db->Quote($k) . ', ' . $db->Quote($v) . ')';
+				$tuples[] = '(' . $userId.', ' . $db->quote($k) . ', ' . $db->quote($v) . ')';
 			}
 
 			if ($tuples)

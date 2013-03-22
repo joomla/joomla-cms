@@ -645,7 +645,7 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$db->setQuery(
 				'UPDATE ' . $db->quoteName('#__' . $table) .
-				' SET ' . $db->quoteName($field) . ' = ' . $db->Quote($userId)
+				' SET ' . $db->quoteName($field) . ' = ' . $db->quote($userId)
 			);
 			$db->execute();
 		}

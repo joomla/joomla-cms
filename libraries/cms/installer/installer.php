@@ -1948,9 +1948,9 @@ class JInstaller extends JAdapter
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->delete($db->quoteName('#__extensions'))
-			->where('type = ' . $db->Quote($type))
-			->where('element = ' . $db->Quote($element))
-			->where('folder = ' . $db->Quote($folder))
+			->where('type = ' . $db->quote($type))
+			->where('element = ' . $db->quote($element))
+			->where('folder = ' . $db->quote($folder))
 			->where('client_id = ' . (int) $client)
 			->where('state = -1');
 

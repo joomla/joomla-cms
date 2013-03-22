@@ -160,8 +160,8 @@ class ContactModelCategory extends JModelList
 			$query->where('a.published = '.(int) $state);
 		}
 		// Filter by start and end dates.
-		$nullDate = $db->Quote($db->getNullDate());
-		$nowDate = $db->Quote(JFactory::getDate()->toSql());
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate = $db->quote(JFactory::getDate()->toSql());
 
 		if ($this->getState('filter.publish_date')){
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
@@ -172,14 +172,14 @@ class ContactModelCategory extends JModelList
 		$search = $this->getState('list.filter');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%' . $db->escape($search, true) . '%');
+			$search = $db->quote('%' . $db->escape($search, true) . '%');
 			$query->where('(a.name LIKE ' . $search . ')');
 		}
 
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Set sortname ordering if selected

@@ -382,7 +382,7 @@ class ContentModelArticles extends JModelList
 		if (is_string($authorAlias))
 		{
 			$type = $this->getState('filter.author_alias.include', true) ? '= ' : '<> ';
-			$authorAliasWhere = 'a.created_by_alias '.$type.$db->Quote($authorAlias);
+			$authorAliasWhere = 'a.created_by_alias '.$type.$db->quote($authorAlias);
 		}
 		elseif (is_array($authorAlias))
 		{
@@ -394,7 +394,7 @@ class ContentModelArticles extends JModelList
 
 				foreach ($authorAlias as $key => $alias)
 				{
-					$authorAlias[$key] = $db->Quote($alias);
+					$authorAlias[$key] = $db->quote($alias);
 				}
 
 				$authorAlias = implode(',', $authorAlias);
@@ -423,8 +423,8 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by start and end dates.
-		$nullDate	= $db->Quote($db->getNullDate());
-		$nowDate	= $db->Quote(JFactory::getDate()->toSql());
+		$nullDate	= $db->quote($db->getNullDate());
+		$nowDate	= $db->quote(JFactory::getDate()->toSql());
 
 		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
 			->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
@@ -436,8 +436,8 @@ class ContentModelArticles extends JModelList
 		switch ($dateFiltering)
 		{
 			case 'range':
-				$startDateRange = $db->Quote($this->getState('filter.start_date_range', $nullDate));
-				$endDateRange = $db->Quote($this->getState('filter.end_date_range', $nullDate));
+				$startDateRange = $db->quote($this->getState('filter.start_date_range', $nullDate));
+				$endDateRange = $db->quote($this->getState('filter.end_date_range', $nullDate));
 				$query->where('('.$dateField.' >= '.$startDateRange.' AND '.$dateField .
 					' <= '.$endDateRange.')');
 				break;
@@ -463,7 +463,7 @@ class ContentModelArticles extends JModelList
 			// clean filter variable
 			$filter = JString::strtolower($filter);
 			$hitsFilter = (int) $filter;
-			$filter = $db->Quote('%'.$db->escape($filter, true).'%', false);
+			$filter = $db->quote('%'.$db->escape($filter, true).'%', false);
 
 			switch ($params->get('filter_field'))
 			{

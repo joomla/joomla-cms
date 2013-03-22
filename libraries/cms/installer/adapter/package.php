@@ -552,14 +552,14 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->select('extension_id')
 			->from('#__extensions')
-			->where('type = ' . $db->Quote($type))
-			->where('element = ' . $db->Quote($id));
+			->where('type = ' . $db->quote($type))
+			->where('element = ' . $db->quote($id));
 
 		switch ($type)
 		{
 			case 'plugin':
 				// Plugins have a folder but not a client
-				$query->where('folder = ' . $db->Quote($group));
+				$query->where('folder = ' . $db->quote($group));
 				break;
 
 			case 'library':

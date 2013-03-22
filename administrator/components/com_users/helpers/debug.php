@@ -33,7 +33,7 @@ class UsersHelperDebug
 		$query->select('name AS text, element AS value')
 			->from('#__extensions')
 			->where('enabled >= 1')
-			->where('type ='.$db->Quote('component'));
+			->where('type ='.$db->quote('component'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 

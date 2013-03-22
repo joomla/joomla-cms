@@ -90,9 +90,9 @@ class PlgSystemRedirect extends JPlugin
 					$query->insert($db->quoteName('#__redirect_links'), false)
 						->columns($columns)
 						->values(
-							$db->Quote($current) . ', '. $db->Quote('') .
-								' ,'.$db->Quote($referer).', '.$db->Quote('').',1,0, '.
-								$db->Quote(JFactory::getDate()->toSql())
+							$db->quote($current) . ', '. $db->quote('') .
+								' ,'.$db->quote($referer).', '.$db->quote('').',1,0, '.
+								$db->quote(JFactory::getDate()->toSql())
 						);
 
 					$db->setQuery($query);

@@ -313,7 +313,7 @@ class UsersModelUsers extends JModelList
 		if ($this->getState('filter.search') !== '')
 		{
 			// Escape the search token.
-			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
+			$token	= $db->quote('%'.$db->escape($this->getState('filter.search')).'%');
 
 			// Compile the different search clauses.
 			$searches	= array();

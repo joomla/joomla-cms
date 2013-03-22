@@ -143,9 +143,9 @@ class ContactModelFeatured extends JModelList
 			$query->where('a.published = '.(int) $state);
 
 			// Filter by start and end dates.
-			$nullDate = $db->Quote($db->getNullDate());
+			$nullDate = $db->quote($db->getNullDate());
 			$date = JFactory::getDate();
-			$nowDate = $db->Quote($date->toSql());
+			$nowDate = $db->quote($date->toSql());
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
 				->where($publishedWhere . ' = ' . (int) $state);
@@ -154,7 +154,7 @@ class ContactModelFeatured extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Add the list ordering clause.

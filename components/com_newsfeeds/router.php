@@ -183,7 +183,7 @@ function NewsfeedsParseRoute($segments)
 			if ($advanced)
 			{
 				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__newsfeeds WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
+				$query = 'SELECT id FROM #__newsfeeds WHERE catid = '.$vars['catid'].' AND alias = '.$db->quote($segment);
 				$db->setQuery($query);
 				$nid = $db->loadResult();
 			}

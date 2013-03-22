@@ -84,7 +84,7 @@ class PlgSearchNewsfeeds extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
+				$text		= $db->quote('%'.$db->escape($text, true).'%', false);
 				$wheres2	= array();
 				$wheres2[]	= 'a.name LIKE '.$text;
 				$wheres2[]	= 'a.link LIKE '.$text;
@@ -98,7 +98,7 @@ class PlgSearchNewsfeeds extends JPlugin
 				$wheres = array();
 				foreach ($words as $word)
 				{
-					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
+					$word		= $db->quote('%'.$db->escape($word, true).'%', false);
 					$wheres2	= array();
 					$wheres2[]	= 'a.name LIKE '.$word;
 					$wheres2[]	= 'a.link LIKE '.$word;
@@ -149,7 +149,7 @@ class PlgSearchNewsfeeds extends JPlugin
 			$case_when1 .= $c_id.' END as catslug';
 
 			$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when."," . $case_when1)
-				->select($query->concatenate(array($db->Quote($searchNewsfeeds), 'c.title'), " / ").' AS section')
+				->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), " / ").' AS section')
 				->select('\'1\' AS browsernav')
 				->from('#__newsfeeds AS a')
 				->innerJoin('#__categories as c ON c.id = a.catid')
@@ -160,8 +160,8 @@ class PlgSearchNewsfeeds extends JPlugin
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')')
-					->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);

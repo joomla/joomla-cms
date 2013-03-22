@@ -808,7 +808,7 @@ class MenusModelItem extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'menutype = ' . $this->_db->Quote($table->menutype);
+		return 'menutype = ' . $this->_db->quote($table->menutype);
 	}
 
 	/**

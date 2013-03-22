@@ -151,9 +151,9 @@ class WeblinksModelCategory extends JModelList
 		$query->where('a.state != -2');
 
 		// Filter by start and end dates.
-		$nullDate = $db->Quote($db->getNullDate());
+		$nullDate = $db->quote($db->getNullDate());
 		$date = JFactory::getDate();
-		$nowDate = $db->Quote($date->toSql());
+		$nowDate = $db->quote($date->toSql());
 
 		if ($this->getState('filter.publish_date')){
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
@@ -163,14 +163,14 @@ class WeblinksModelCategory extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Filter by search in title
 		$search = $this->getState('list.filter');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%' . $db->escape($search, true) . '%');
+			$search = $db->quote('%' . $db->escape($search, true) . '%');
 			$query->where('(a.title LIKE ' . $search . ')');
 		}
 

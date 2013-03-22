@@ -122,10 +122,10 @@ class ContentModelArticle extends JModelItem
 					->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
-				$nullDate = $db->Quote($db->getNullDate());
+				$nullDate = $db->quote($db->getNullDate());
 				$date = JFactory::getDate();
 
-				$nowDate = $db->Quote($date->toSql());
+				$nowDate = $db->quote($date->toSql());
 
 				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
@@ -294,7 +294,7 @@ class ContentModelArticle extends JModelItem
 				// There are no ratings yet, so lets insert our rating
 				$db->setQuery(
 						'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-						' VALUES ( '.(int) $pk.', '.$db->Quote($userIP).', '.(int) $rate.', 1 )'
+						' VALUES ( '.(int) $pk.', '.$db->quote($userIP).', '.(int) $rate.', 1 )'
 				);
 
 				try
@@ -311,7 +311,7 @@ class ContentModelArticle extends JModelItem
 				{
 					$db->setQuery(
 							'UPDATE #__content_rating' .
-							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.(int) $rate.', lastip = '.$db->Quote($userIP) .
+							' SET rating_count = rating_count + 1, rating_sum = rating_sum + '.(int) $rate.', lastip = '.$db->quote($userIP) .
 							' WHERE content_id = '.(int) $pk
 					);
 

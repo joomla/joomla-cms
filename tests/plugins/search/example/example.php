@@ -95,7 +95,7 @@ class plgSearchExample extends JPlugin
 			//Exact match - match the whole search text:
 			case 'exact':
 				//Prepare the search text to be a mySQL wildcard and construct the where statement:
-				$searchText	= $db->Quote('%'.$searchText.'%', true);
+				$searchText	= $db->quote('%'.$searchText.'%', true);
 				$where 		= 'b.description LIKE '.$searchText;
 				break;
 			case 'all':
@@ -111,7 +111,7 @@ class plgSearchExample extends JPlugin
 				foreach ($words as $word)
 				{
 					//Prepare the search text as a mySQL wildcard and append to the where statement array:
-					$word = $db->Quote('%' . $word . '%', true);
+					$word = $db->quote('%' . $word . '%', true);
 					//$wheres	= array();
 					$wheres[] = 'b.description LIKE ' . $word;
 				}

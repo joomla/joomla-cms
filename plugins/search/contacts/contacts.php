@@ -99,7 +99,7 @@ class PlgSearchContacts extends JPlugin
 				$order = 'a.name DESC';
 		}
 
-		$text	= $db->Quote('%'.$db->escape($text, true).'%', false);
+		$text	= $db->quote('%'.$db->escape($text, true).'%', false);
 
 		$rows = array();
 		if (!empty($state))
@@ -125,7 +125,7 @@ class PlgSearchContacts extends JPlugin
 			$query->select('a.name AS title, \'\' AS created, a.con_position, a.misc, '
 					.$case_when.','.$case_when1.', '
 					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",").' AS text,'
-					. $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
+					. $query->concatenate(array($db->quote($section), "c.title"), " / ").' AS section,'
 					. '\'2\' AS browsernav');
 			$query->from('#__contact_details AS a')
 				->innerJoin('#__categories AS c ON c.id = a.catid')
@@ -141,8 +141,8 @@ class PlgSearchContacts extends JPlugin
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')')
-					->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);

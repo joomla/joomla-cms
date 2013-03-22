@@ -249,11 +249,11 @@ class MenusModelItems extends JModelList
 			{
 				if ($search = substr($search, 5))
 				{
-					$search = $db->Quote('%'.$db->escape($search, true).'%');
+					$search = $db->quote('%'.$db->escape($search, true).'%');
 					$query->where('a.link LIKE '.$search);
 				}
 			} else {
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$search = $db->quote('%'.$db->escape($search, true).'%');
 				$query->where('('.'a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}

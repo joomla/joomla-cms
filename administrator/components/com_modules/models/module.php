@@ -1074,7 +1074,7 @@ class ModulesModelModule extends JModelAdmin
 	{
 		$condition = array();
 		$condition[] = 'client_id = ' . (int) $table->client_id;
-		$condition[] = 'position = ' . $this->_db->Quote($table->position);
+		$condition[] = 'position = ' . $this->_db->quote($table->position);
 
 		return $condition;
 	}

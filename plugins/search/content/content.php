@@ -78,7 +78,7 @@ class PlgSearchContent extends JPlugin
 		switch ($phrase)
 		{
 			case 'exact':
-				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
+				$text		= $db->quote('%'.$db->escape($text, true).'%', false);
 				$wheres2	= array();
 				$wheres2[]	= 'a.title LIKE '.$text;
 				$wheres2[]	= 'a.introtext LIKE '.$text;
@@ -95,7 +95,7 @@ class PlgSearchContent extends JPlugin
 				$wheres = array();
 				foreach ($words as $word)
 				{
-					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
+					$word		= $db->quote('%'.$db->escape($word, true).'%', false);
 					$wheres2	= array();
 					$wheres2[]	= 'a.title LIKE '.$word;
 					$wheres2[]	= 'a.introtext LIKE '.$word;
@@ -166,16 +166,16 @@ class PlgSearchContent extends JPlugin
 				->innerJoin('#__categories AS c ON c.id=a.catid')
 				->where('('. $where .')' . 'AND a.state=1 AND c.published = 1 AND a.access IN ('.$groups.') '
 						.'AND c.access IN ('.$groups.') '
-						.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
-						.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
+						.'AND (a.publish_up = '.$db->quote($nullDate).' OR a.publish_up <= '.$db->quote($now).') '
+						.'AND (a.publish_down = '.$db->quote($nullDate).' OR a.publish_down >= '.$db->quote($now).')' );
 			$query->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
 				->order($order);
 
 			// Filter by language
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')')
-					->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
@@ -222,15 +222,15 @@ class PlgSearchContent extends JPlugin
 				->innerJoin('#__categories AS c ON c.id=a.catid AND c.access IN ('. $groups .')')
 				->where('('. $where .') AND a.state = 2 AND c.published = 1 AND a.access IN ('. $groups
 				.') AND c.access IN ('. $groups .') '
-				.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
-				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
+				.'AND (a.publish_up = '.$db->quote($nullDate).' OR a.publish_up <= '.$db->quote($now).') '
+				.'AND (a.publish_down = '.$db->quote($nullDate).' OR a.publish_down >= '.$db->quote($now).')' );
 			$query->order($order);
 
 			// Filter by language
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')')
-					->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);

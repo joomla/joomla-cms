@@ -324,8 +324,8 @@ abstract class JModuleHelper
 		$date = JFactory::getDate();
 		$now = $date->toSql();
 		$nullDate = $db->getNullDate();
-		$query->where('(m.publish_up = ' . $db->Quote($nullDate) . ' OR m.publish_up <= ' . $db->Quote($now) . ')')
-			->where('(m.publish_down = ' . $db->Quote($nullDate) . ' OR m.publish_down >= ' . $db->Quote($now) . ')')
+		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
+			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
 
 			->where('m.access IN (' . $groups . ')')
 			->where('m.client_id = ' . $clientId)
@@ -334,7 +334,7 @@ abstract class JModuleHelper
 		// Filter by language
 		if ($app->isSite() && $app->getLanguageFilter())
 		{
-			$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
+			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 		}
 
 		$query->order('m.position, m.ordering');

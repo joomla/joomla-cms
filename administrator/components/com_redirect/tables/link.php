@@ -66,7 +66,7 @@ class RedirectTableLink extends JTable
 		$db = $this->getDbo();
 
 		// Check for existing name
-		$query = 'SELECT id FROM #__redirect_links WHERE old_url ='.$db->Quote($this->old_url);
+		$query = 'SELECT id FROM #__redirect_links WHERE old_url ='.$db->quote($this->old_url);
 		$db->setQuery($query);
 
 		$xid = (int) $db->loadResult();

@@ -88,7 +88,7 @@ class PlgSearchCategories extends JPlugin
 		switch($phrase)
 		{
 			case 'exact':
-				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
+				$text		= $db->quote('%'.$db->escape($text, true).'%', false);
 				$wheres2 	= array();
 				$wheres2[]	= 'a.title LIKE '.$text;
 				$wheres2[]	= 'a.description LIKE '.$text;
@@ -102,7 +102,7 @@ class PlgSearchCategories extends JPlugin
 				$wheres = array();
 				foreach ($words as $word)
 				{
-					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
+					$word		= $db->quote('%'.$db->escape($word, true).'%', false);
 					$wheres2 	= array();
 					$wheres2[]	= 'a.title LIKE '.$word;
 					$wheres2[]	= 'a.description LIKE '.$word;
@@ -126,7 +126,7 @@ class PlgSearchCategories extends JPlugin
 				$order = 'a.title DESC';
 		}
 
-		$text	= $db->Quote('%'.$db->escape($text, true).'%', false);
+		$text	= $db->quote('%'.$db->escape($text, true).'%', false);
 		$query	= $db->getQuery(true);
 
 		$return = array();
@@ -148,7 +148,7 @@ class PlgSearchCategories extends JPlugin
 				->order($order);
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
-				$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);

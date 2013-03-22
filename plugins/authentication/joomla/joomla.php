@@ -45,7 +45,7 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		$query->select('id, password')
 			->from('#__users')
-			->where('username=' . $db->Quote($credentials['username']));
+			->where('username=' . $db->quote($credentials['username']));
 
 		$db->setQuery($query);
 		$result = $db->loadObject();

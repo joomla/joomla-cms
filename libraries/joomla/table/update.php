@@ -95,7 +95,7 @@ class JTableUpdate extends JTable
 		$where = array();
 		foreach ($options as $col => $val)
 		{
-			$where[] = $col . ' = ' . $this->_db->Quote($val);
+			$where[] = $col . ' = ' . $this->_db->quote($val);
 		}
 		$query = $this->_db->getQuery(true);
 		$query->select($this->_db->quoteName($this->_tbl_key))

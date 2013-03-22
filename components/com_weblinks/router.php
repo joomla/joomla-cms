@@ -201,7 +201,7 @@ function WeblinksParseRoute($segments)
 			if ($advanced)
 			{
 				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__weblinks WHERE catid = '.$vars['id'].' AND alias = '.$db->Quote(str_replace(':', '-', $segment));
+				$query = 'SELECT id FROM #__weblinks WHERE catid = '.$vars['id'].' AND alias = '.$db->quote(str_replace(':', '-', $segment));
 				$db->setQuery($query);
 				$id = $db->loadResult();
 			}

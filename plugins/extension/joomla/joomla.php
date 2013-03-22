@@ -53,7 +53,7 @@ class PlgExtensionJoomla extends JPlugin
 		// look if the location is used already; doesn't matter what type
 		// you can't have two types at the same address, doesn't make sense
 		$query = $db->getQuery(true);
-		$query->select('update_site_id')->from('#__update_sites')->where('location = '. $db->Quote($location));
+		$query->select('update_site_id')->from('#__update_sites')->where('location = '. $db->quote($location));
 		$db->setQuery($query);
 		$update_site_id = (int) $db->loadResult();
 

@@ -103,8 +103,8 @@ class PlgContentPagenavigation extends JPlugin
 			}
 
 			$xwhere = ' AND (a.state = 1 OR a.state = -1)' .
-			' AND (publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).')' .
-			' AND (publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).')';
+			' AND (publish_up = '.$db->quote($nullDate).' OR publish_up <= '.$db->quote($now).')' .
+			' AND (publish_down = '.$db->quote($nullDate).' OR publish_down >= '.$db->quote($now).')';
 
 			// Array of articles in same category correctly ordered.
 			$query	= $db->getQuery(true);

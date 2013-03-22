@@ -270,19 +270,19 @@ class ModulesModelModules extends JModelList
 		$position = $this->getState('filter.position');
 		if ($position && $position != 'none')
 		{
-			$query->where('a.position = '.$db->Quote($position));
+			$query->where('a.position = '.$db->quote($position));
 		}
 
 		elseif ($position == 'none')
 		{
-			$query->where('a.position = '.$db->Quote(''));
+			$query->where('a.position = '.$db->quote(''));
 		}
 
 		// Filter by module
 		$module = $this->getState('filter.module');
 		if ($module)
 		{
-			$query->where('a.module = '.$db->Quote($module));
+			$query->where('a.module = '.$db->quote($module));
 		}
 
 		// Filter by client.
@@ -302,7 +302,7 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$search = $db->quote('%'.$db->escape($search, true).'%');
 				$query->where('('.'a.title LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}

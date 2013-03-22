@@ -371,7 +371,7 @@ function ContentParseRoute($segments)
 			if ($advanced)
 			{
 				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
+				$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->quote($segment);
 				$db->setQuery($query);
 				$cid = $db->loadResult();
 			}

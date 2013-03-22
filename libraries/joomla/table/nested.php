@@ -472,12 +472,12 @@ class JTableNested extends JTable
 
 			if (property_exists($this, 'title') && $this->title !== null)
 			{
-				$query->set('title = ' . $this->_db->Quote($this->title));
+				$query->set('title = ' . $this->_db->quote($this->title));
 			}
 
 			if (array_key_exists('alias', $fields)  && $this->alias !== null)
 			{
-				$query->set('alias = ' . $this->_db->Quote($this->alias));
+				$query->set('alias = ' . $this->_db->quote($this->alias));
 			}
 
 			$query->set('parent_id = ' . (int) $repositionData->new_parent_id)

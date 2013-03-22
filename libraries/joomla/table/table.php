@@ -719,7 +719,7 @@ abstract class JTable extends JObject
 		if ($orderingFilter)
 		{
 			$filterValue = $this->$orderingFilter;
-			$this->reorder($orderingFilter ? $this->_db->quoteName($orderingFilter) . ' = ' . $this->_db->Quote($filterValue) : '');
+			$this->reorder($orderingFilter ? $this->_db->quoteName($orderingFilter) . ' = ' . $this->_db->quote($filterValue) : '');
 		}
 
 		// Set the error to empty and return true.

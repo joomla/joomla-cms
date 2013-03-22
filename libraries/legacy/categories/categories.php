@@ -228,7 +228,7 @@ class JCategories
 		$query->select($case_when)
 
 			->from('#__categories as c')
-			->where('(c.extension=' . $db->Quote($extension) . ' OR c.extension=' . $db->Quote('system') . ')');
+			->where('(c.extension=' . $db->quote($extension) . ' OR c.extension=' . $db->quote('system') . ')');
 
 		if ($this->_options['access'])
 		{
@@ -283,8 +283,8 @@ class JCategories
 		if (empty($this->_options['allLanguages']) && $app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$query->where(
-				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' .
-				$db->Quote('*') . '))'
+				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' .
+				$db->quote('*') . '))'
 			);
 		}
 

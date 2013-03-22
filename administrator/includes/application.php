@@ -343,7 +343,7 @@ class JAdministrator extends JApplication
 			$pastStamp = $past->toSql();
 
 			$query = 'DELETE FROM #__messages'
-			. ' WHERE date_time < ' . $db->Quote($pastStamp)
+			. ' WHERE date_time < ' . $db->quote($pastStamp)
 			. ' AND user_id_to = ' . (int) $userid;
 
 			$db->setQuery($query);

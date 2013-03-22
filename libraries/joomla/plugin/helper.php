@@ -273,7 +273,7 @@ abstract class JPluginHelper
 			$query->select('folder AS type, element AS name, params')
 				->from('#__extensions')
 				->where('enabled >= 1')
-				->where('type =' . $db->Quote('plugin'))
+				->where('type =' . $db->quote('plugin'))
 				->where('state >= 0')
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
