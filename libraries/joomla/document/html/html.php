@@ -511,18 +511,18 @@ class JDocumentHTML extends JDocument
 
 		if (!isset($children))
 		{
-			$dbo = JFactory::getDbo();
+			$db = JFactory::getDbo();
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			if ($active)
 			{
-				$query = $dbo->getQuery(true);
+				$query = $db->getQuery(true);
 				$query->select('COUNT(*)')
 					->from('#__menu')
 					->where('parent_id = ' . $active->id)
 					->where('published = 1');
-				$children = $dbo->loadResult();
+				$children = $db->loadResult();
 			}
 			else
 			{

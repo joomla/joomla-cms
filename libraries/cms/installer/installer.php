@@ -1945,16 +1945,16 @@ class JInstaller extends JAdapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
-		$query->delete($dbo->quoteName('#__extensions'))
-			->where('type = ' . $dbo->Quote($type))
-			->where('element = ' . $dbo->Quote($element))
-			->where('folder = ' . $dbo->Quote($folder))
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->delete($db->quoteName('#__extensions'))
+			->where('type = ' . $db->Quote($type))
+			->where('element = ' . $db->Quote($element))
+			->where('folder = ' . $db->Quote($folder))
 			->where('client_id = ' . (int) $client)
 			->where('state = -1');
 
-		return $dbo->execute();
+		return $db->execute();
 	}
 
 	/**

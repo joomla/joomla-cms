@@ -49,26 +49,26 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
-		$dbo = JFactory::getDBO();
+		$db = JFactory::getDBO();
 		// look if the location is used already; doesn't matter what type
 		// you can't have two types at the same address, doesn't make sense
-		$query = $dbo->getQuery(true);
-		$query->select('update_site_id')->from('#__update_sites')->where('location = '. $dbo->Quote($location));
-		$dbo->setQuery($query);
-		$update_site_id = (int) $dbo->loadResult();
+		$query = $db->getQuery(true);
+		$query->select('update_site_id')->from('#__update_sites')->where('location = '. $db->Quote($location));
+		$db->setQuery($query);
+		$update_site_id = (int) $db->loadResult();
 
 		// if it doesn't exist, add it!
 		if (!$update_site_id)
 		{
 			$query->clear()
 				->insert('#__update_sites')
-				->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')))
-				->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
-			$dbo->setQuery($query);
-			if ($dbo->execute())
+				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')))
+				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
+			$db->setQuery($query);
+			if ($db->execute())
 			{
 				// link up this extension to the update site
-				$update_site_id = $dbo->insertid();
+				$update_site_id = $db->insertid();
 			}
 		}
 
@@ -79,17 +79,17 @@ class PlgExtensionJoomla extends JPlugin
 			// look for an update site entry that exists
 			$query->select('update_site_id')->from('#__update_sites_extensions')
 				->where('update_site_id = '. $update_site_id)->where('extension_id = '. $this->eid);
-			$dbo->setQuery($query);
-			$tmpid = (int) $dbo->loadResult();
+			$db->setQuery($query);
+			$tmpid = (int) $db->loadResult();
 			if (!$tmpid)
 			{
 				// link this extension to the relevant update site
 				$query->clear()
 					->insert('#__update_sites_extensions')
-					->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')))
+					->columns(array($db->quoteName('update_site_id'), $db->quoteName('extension_id')))
 					->values($update_site_id . ', ' . $this->eid);
-				$dbo->setQuery($query);
-				$dbo->execute();
+				$db->setQuery($query);
+				$db->execute();
 			}
 		}
 	}
