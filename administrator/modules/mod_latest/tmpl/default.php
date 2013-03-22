@@ -18,24 +18,25 @@ JHtml::_('bootstrap.tooltip');
 				<div class="span9">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, '', false); ?>
 					<?php if ($item->checked_out) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
+						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 					<?php endif; ?>
 
 					<strong class="row-title">
-						<?php if ($item->link) :?>
+						<?php if ($item->link) : ?>
 							<a href="<?php echo $item->link; ?>">
 								<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');?></a>
-						<?php else :
-							echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
-						endif; ?>
+						<?php else : ?>
+							<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+						<?php endif; ?>
 					</strong>
 
-					<small class="small" class="hasTooltip" title="<?php echo JText::_('MOD_LATEST_CREATED_BY');?>">
+					<small class="small" class="hasTooltip" title="<?php echo JText::_('MOD_LATEST_CREATED_BY'); ?>">
 						<?php echo $item->author_name;?>
 					</small>
 				</div>
 				<div class="span3">
-					<span class="small"><i class="icon-calendar"></i> <?php echo JHtml::_('date', $item->created, 'Y-m-d'); ?></span>
+					<span class="small"><i
+							class="icon-calendar"></i> <?php echo JHtml::_('date', $item->created, 'Y-m-d'); ?></span>
 				</div>
 			</div>
 		<?php endforeach; ?>
