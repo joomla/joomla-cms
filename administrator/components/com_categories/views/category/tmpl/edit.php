@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -141,6 +141,8 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->loadTemplate('metadata'); ?>
 					</fieldset>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+
+				<?php echo $this->loadTemplate('extrafields'); ?>
 
 				<?php if ($this->assoc) : ?>
 					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>

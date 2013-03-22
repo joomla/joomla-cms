@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system">
 	<name>plg_system_languagecode</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2011</creationDate>

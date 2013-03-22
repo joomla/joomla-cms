@@ -421,6 +421,8 @@ class BannersModelBanner extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_banners.banner', $data);
+
 		return $data;
 	}
 

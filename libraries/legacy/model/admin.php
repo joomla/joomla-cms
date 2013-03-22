@@ -1142,7 +1142,7 @@ abstract class JModelAdmin extends JModelForm
 			// This is needed not to have warning in tagItem method.
 			$item->params = new JRegistry($item->params);
 			$context = explode('.', $contexts[$pk]);
-			$tagsHelper->tagItem($pk, $context[0] . '.' . $context[1], array($value), null, false, $item);
+			$tagsHelper->tagItem($pk, $context[0] . '.' . $context[1], false, $item, array($value), null);
 		}
 		return true;
 	}

@@ -110,6 +110,8 @@ class PluginsModelPlugin extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_plugins.plugin', $data);
+
 		return $data;
 	}
 

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<fields name="urls">
+		<field
+			name="urla"
+			type="hidden"/>
+	</fields>
 	<field
 		name="id"
 		type="text"
@@ -8,7 +13,7 @@
 		description ="JGLOBAL_FIELD_ID_DESC"
 		class="readonly"
 		readonly="true"/>
-		
+
 	<field
 		name="hits"
 		type="text"
@@ -20,7 +25,8 @@
 
 	<field
 		name="parent_id"
-		type="tagnested"
+		type="tag"
+		mode="nested"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
 		description="COM_TAGS_FIELD_PARENT_DESC"
 		validate="notequals"
@@ -155,12 +161,12 @@
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
 		/>
-		<field name="created_by_alias" 
+		<field name="created_by_alias"
 			type="text"
-			label="COM_TAGS_FIELD_CREATED_BY_ALIAS_LABEL" 
+			label="COM_TAGS_FIELD_CREATED_BY_ALIAS_LABEL"
 			description="COM_TAGS_FIELD_CREATED_BY_ALIAS_DESC"
-			class="inputbox" 
-			size="20" 
+			class="inputbox"
+			size="20"
 			labelclass="control-label" />
 	<field
 		name="created_time"
@@ -204,6 +210,13 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				useglobal="true"
 				extension="com_tags" view="tag" labelclass="control-label" />
+
+			<field name="tag_link_class" type="text"
+				label="COM_TAGS_FIELD_TAG_LINK_CLASS"
+				description="COM_TAGS_FIELD_TAG_LINK_CLASS_DESC"
+				class="inputbox"
+				size="20"
+				labelclass="control-label" default="label label-info" />
 
 		</fieldset>
 	</fields>

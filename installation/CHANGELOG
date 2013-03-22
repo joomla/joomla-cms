@@ -12,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6, 1.7, 2.5 and 3.0.x, including alpha and beta versions.
+Joomla! 3, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -26,8 +26,111 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Mar-2013 Michael Babker
+ ^ [#30319] Accessibility fixes to JForm Platform Synch.  Thanks Elin
+ ^ [#30353] Clean up left over debugging.  Thanks Elin
+
+21-Mar-2013 Jean-Marie Simonet
+ # [#30340] Fix regression in Similar Tags Module. Thanks Elin
+ $ Duplicate lang string +
+ # [#30320] *Deleted Tagged items are not deleted from the map table and core_content table. Thanks Elin
+ # [#30346] *Contact creator does not include default language "All" for the contact created
+ # [#30330] *Correcting alignment of metadata labels in Category edit
+ # [#30339] Component Update Info URL - open in new tab. Thanks Glen
+
+-------------------- 3.1 Beta 2 Release [20-Mar-2012] ------------------
+
+20-Mar-2013 Mark Dexter
+ # [#30326] Cannot add position in Module Manager. Thanks Roberto Segura.
+ # [#30314] Move to new JFeed. Thanks Elin.
+ # [#29520] Cannot add new menu item. [qlsrv]. Thanks Cliff Galiher.
+
+20-Mar-2013 Jean-Marie Simonet
+ # [#30333] *TAGS: Notice when entering 2 tags in a tags menu item. Thanks Roberto
+ # [#30328] AJAX field improvements/fixes. Thanks Roberto
+ # [#30304] Cant add fields to the category form using a plugin. Thanks all.
+ # [#29734] Joomla Newsfeed problem. Thanks Tessa
+ # [#30327] PHP Notice using new layouts (from pull request 814). Thanks Elin.
+
+19-Mar-2013 Jean-Marie Simonet
+ $ Missing strings in com_tags frontend
+
+18-Mar-2013 Jean-Marie Simonet
+ # [#26860] A Contact name *must not* be unique. Thanks Christophe and Janich
+ # [#28874] Registration activation email links. Thanks Marco
+ $ Updating Installation ini files: af-ZA, eo-XX, es-ES, pl-PL, uk-UA
+
+17-Mar-2013 Michael Babker
+ ^ [#30262] Add PostgreSQL schema for tags, sync with MySQL, update script additions
+ + [#30251] Add single tag feed view.  Thanks Elin
+ # [#30256] Error in field mapping for contact.  Thanks Elin
+ #+ [#29677] robots.txt in updates. Thanks Mark
+ ^ [#30311] Move code from tag model to tags class.  Thanks Elin
+
+17-Mar-2013 Jean-Marie Simonet
+ # [#30121] Save as copy does not work in com_weblinks, com_contacts, com_newsfeeds. Thanks Lemings
+ # [#30267] *Modifying constant in logged in module (back-end)
+ # [#30190] allow string-based input fields to use the "multiple" attribute. Thanks Randy.
+ # [#30305] Correcting the similar tags module. Thanks Elin
+ # [#30264] AJAX field for tagging. Thanks Roberto
+ # [#29810] File deletion issue. Thanks Elin
+ # [#28803] Bug in com_contact. Thanks Ben
+ # [#28171] Com_content category view incorrect ordering of "featured" articles. Thanks Christophe Demko
+
+16-Mar-2013 Michael Babker
+ # [#30259] Added (min) height to table cells with context.  Thanks Peter
+ ^ [#30258] Added purge to find/update methods. Removed purge buttons.  Thanks Peter
+ ^ [#29295] Show Correct Meta Titles in Joomla Admin for better usability.  Thanks Parth
+ + [#28924] Add SQL Server subclass for FinderIndexer
+ ^ [#30083] Update PHPMailer to 5.2.3
+ + [#30222] Add dateAdd method and implement
+ # [#30248] Show Intro Text = Hide currently has no effect in Featured and Category menu items.  Thanks Matt
+ ^ [#24792] onContentPrepareData event is not implemented in all components generating forms to allow manipulation of the form data.  Thanks Niels
+ + [#29891] Begin using reusable layouts
+
+16-Mar-2013 Jean-Marie Simonet
+ #$ [#30231] *TAGS: does not filter on language. Thanks Elin
+ # [#30283] *Missing filter field parameter for contacts, newsfeeds, weblinks List All Categories menu items + error in Article categories menu item
+ $ Updating Installation ini files: et-EE, fi-FI, ug-CN, zh-cn
+ +$ [#27945] Hide Subcategories text. Thanks Aka.
+ + [#30230] JPlugin autoloadLanguage property. Thanks Elijah
+ # [#29319] SEF plugin gives wrong canonical url (of category, not from article)
+ #$ [#29563] Error msg when an invalid back-end template is selected. Thanks Lukas
+
+15-Mar-2013 Jean-Marie Simonet
+ # [#30261] Contact tagging not working and contact notice in front end. Thanks Elin
+
+14-Mar-2013 Jean-Marie Simonet
+ # [#30265] Make options in the content type field translatable.
+ $ Updating Installation ini files: bs-BA, sy-IQ
+
+13-Mar-2013 Jean-Marie Simonet
+ $ Updating Installation ini files: de-DE, fa-IR, ko-KR, sk-SK, vi-VN
+ # Updating version for installation language xml
+
+12-Mar-2013 Jean-Marie Simonet
+ # Merging platform strict standards cache issue. https://github.com/joomla/joomla-platform/pull/1710
+ $ [#30270] Wrong string. Thanks Elin
+
+10-Mar-2013 Jean-Marie Simonet
+ $ Updating Installation ini files: ca-ES, hr-HR.
+
+09-Mar-2013 Michael Babker
+ # [#30221] JTags method declarations are not optimal
+ + [#30242] Add class to TAGs layout in order it looks like a bootrstap label
+
+08-Mar-2013 Michael Babker
+ ^ [#29803] Encourage proper use of JHtml APIs dealing with scripts and stylesheets
+ ^ [#30120] Rename and move classes in the install library from Platform to CMS
+ + [#30102] Update to Platform version code.  Thanks Elin
+ + [#30243] Add TAGs in front end articles single view in BEEZ3.  Thanks Javier
+ # [#29717] Typo in Formbehavior::Chosen.  Thanks Thomas
+ # [#30241] Horizontal scroll appears when in edit articles.  Thanks Javier
+ # [#29266] Uncaught exception in user profile when entering string for birth date.  Thanks Aleksander
+
 08-Mar-2013 Jean-Marie Simonet
  $ Missing string for com_tags
+ $ Updating Installation ini files: ar-AA, bg-BG, id-ID, ja-JP, lv-LV, sv-SE, sw-KE, tr-TR
 
 07-Mar-2013 Michael Babker
  + [#30237] Set minimum type_id.  Thanks Elin

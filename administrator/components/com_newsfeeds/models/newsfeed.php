@@ -278,6 +278,8 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_newsfeeds.newsfeed', $data);
+
 		return $data;
 	}
 
@@ -292,6 +294,14 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	public function save($data)
 	{
 		$app = JFactory::getApplication();
+
+		// Alter the title for save as copy
+		if ($app->input->get('task') == 'save2copy')
+		{
+			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+			$data['name']	= $name;
+			$data['alias']	= $alias;
+		}
 
 		if (parent::save($data))
 		{
@@ -532,5 +542,32 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		parent::preprocessForm($form, $data, $group);
+	}
+
+	/**
+	 * Method to change the title & alias.
+	 *
+	 * @param   integer  $parent_id  The id of the parent.
+	 * @param   string   $alias      The alias.
+	 * @param   string   $title      The title.
+	 *
+	 * @return  array  Contains the modified title and alias.
+	 *
+	 * @since   3.1
+	 */
+	protected function generateNewTitle($category_id, $alias, $name)
+	{
+		// Alter the title & alias
+		$table = $this->getTable();
+		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		{
+			if ($name == $table->name)
+			{
+				$name = JString::increment($name);
+			}
+			$alias = JString::increment($alias, 'dash');
+		}
+
+		return array($name, $alias);
 	}
 }

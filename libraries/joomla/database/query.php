@@ -1755,4 +1755,26 @@ abstract class JDatabaseQuery
 		 */
 		return preg_replace_callback('#%(((([\d]+)\$)?([aeEnqQryYmMdDhHiIsStzZ]))|(%))#', $func, $format);
 	}
+
+	/**
+	 * Add to the current date and time.
+	 * Usage:
+	 * $query->select($query->dateAdd());
+	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
+	 * Note: Not all drivers support all units.
+	 *
+	 * @param   datetime  $date      The date to add to. May be date or datetime
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
+	 *
+	 * @return  sring  The string with the appropriate sql for addition of dates
+	 *
+	 * @since   13.1
+	 *
+	 * @see http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
+	 */
+	public function dateAdd($date, $interval, $datePart)
+	{
+		return trim("DATE_ADD('" . $date . "', INTERVAL " . $interval . ' ' . $datePart . ')');
+	}
 }

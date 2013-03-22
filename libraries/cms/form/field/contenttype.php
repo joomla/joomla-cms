@@ -90,6 +90,13 @@ class JFormFieldContenttype extends JFormFieldList
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
 
+		foreach ($options as $option)
+		{
+			$option->text = mb_strtoupper(str_replace(' ', '_', $option->text), 'UTF-8');
+			$option->text = 'COM_TAGS_CONTENT_TYPE_' . $option->text;
+			$option->text = JText::_($option->text);
+		}
+
 		return $options;
 	}
 }

@@ -19,18 +19,12 @@ defined('_JEXEC') or die;
 class PlgQuickiconJoomlaupdate extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 *
-	 * @since       2.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * This method is called when the Quick Icons module is constructing its set
@@ -67,7 +61,7 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 			JURI::base(true) .'/templates/'. $cur_template .'/images/header/icon-48-jupdate-updatefound.png'."\"};\n";
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
-		JHtml::script('plg_quickicon_joomlaupdate/jupdatecheck.js', false, true);
+		JHtml::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.js', false, true);
 
 		return array(array(
 			'link' => 'index.php?option=com_joomlaupdate',

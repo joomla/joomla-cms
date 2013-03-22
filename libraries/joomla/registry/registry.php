@@ -334,8 +334,13 @@ class JRegistry implements JsonSerializable
 	{
 		$result = null;
 
-		// Explode the registry path into an array
-		if ($nodes = explode('.', $path))
+		/**
+		 * Explode the registry path into an array and remove empty
+		 * nodes, then re-key the array so it's sequential.
+		 */
+		$nodes = array_values(array_filter(explode('.', $path), 'strlen'));
+
+		if ($nodes)
 		{
 			// Initialize the current node to be the registry root.
 			$node = $this->data;

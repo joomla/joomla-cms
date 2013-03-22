@@ -70,6 +70,8 @@ class LanguagesModelOverride extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_languages.override', $data);
+
 		return $data;
 	}
 

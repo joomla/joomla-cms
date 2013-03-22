@@ -330,7 +330,7 @@ class FinderIndexerTaxonomy
 	{
 		// Delete all orphaned nodes.
 		$db = JFactory::getDBO();
-		$query = 'DELETE t.*' .
+		$query = 'DELETE t' .
 			' FROM ' . $db->quoteName('#__finder_taxonomy') . ' AS t' .
 			' LEFT JOIN ' . $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id' .
 			' WHERE ' . $db->quoteName('t.parent_id') . ' > 1' .

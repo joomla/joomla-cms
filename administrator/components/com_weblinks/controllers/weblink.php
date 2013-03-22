@@ -151,7 +151,7 @@ class WeblinksControllerWeblink extends JControllerForm
 		if ($tags[0] != '')
 		{
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $tags, null, $isNew, $item);
+			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $isNew, $item, $tags, null);
 		}
 
 		if ($task == 'save')

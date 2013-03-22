@@ -6591,3 +6591,6 @@ ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
 }
+td.has-context {
+	height: 23px;
+}

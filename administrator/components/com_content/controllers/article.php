@@ -197,7 +197,7 @@ class ContentControllerArticle extends JControllerForm
 		{
 			$isNew = $item->id == 0 ? 1 : 0;
 			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_content.article', $tags, null, $isNew, $item);
+			$tagsHelper->tagItem($id, 'com_content.article', $isNew, $item, $tags, null);
 		}
 		return;
 	}

@@ -613,15 +613,15 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			JHtml::_('stylesheet', 'media/jui/css/bootstrap.min.css', $attribs, false);
-			JHtml::_('stylesheet', 'media/jui/css/bootstrap-responsive.min.css', $attribs, false);
-			JHtml::_('stylesheet', 'media/jui/css/bootstrap-extended.css', $attribs, false);
+			JHtml::_('stylesheet', 'jui/bootstrap.min.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', $attribs, true);
 		}
 
 		// Load Bootstrap RTL CSS
 		if ($direction === 'rtl')
 		{
-			JHtml::_('stylesheet', 'media/jui/css/bootstrap-rtl.css', $attribs, false);
+			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
 		}
 	}
 }
