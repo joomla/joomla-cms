@@ -48,7 +48,7 @@ abstract class JInstallerHelper
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
 
-		if (302 == $response->code && isset($response->headers['Location']))
+		if (302 == $response->code && isset($response->headers['Location']) && $jumps > 0)
 		{
 			return self::downloadPackage($response->headers['Location'], $target, $jumps-1);
 		}
