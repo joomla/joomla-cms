@@ -402,7 +402,7 @@ class JApplication extends JObject
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='" . htmlspecialchars($url) . "';</script>\n";
+			echo "<script>document.location.href='" . $url . "';</script>\n";
 		}
 		else
 		{
