@@ -279,8 +279,8 @@
 
 /* Panel styles */
 .minicolors-theme-bootstrap .minicolors-panel {
-	top: 31px;
-	left: -6px;
+	top: -68px;
+	left: 100%;
 	z-index: 13;
 	padding: 5px;
 	border: 1px solid #dddddd;
@@ -313,10 +313,12 @@
 /* Handle panel positions (top / left) */
 .minicolors-theme-bootstrap.minicolors-position-top .minicolors-panel {
 	top: -154px;
+	left: -6px;
 }
 
 .minicolors-theme-bootstrap.minicolors-position-left .minicolors-panel {
 	left: -63px;
+	top: 31px;
 }
 
 /* Don't forget to adjust the left position in case the opacity slider is visible! */

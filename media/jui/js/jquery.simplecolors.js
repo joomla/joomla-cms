@@ -68,8 +68,8 @@
 			var bootstrapArrowWidth = 16; // Empirical value
 			var pos = this.icon.offset();
 			this.panel.css({
-				left: pos.left + this.icon.width() / 2 - bootstrapArrowWidth, // Middle of the icon
-				top: pos.top + this.icon.outerHeight()
+				left: pos.left + this.icon.outerHeight(),
+				top: pos.top - ( (this.panel.outerHeight() - this.icon.outerHeight() ) / 2 ) - 1
 			});
 
 			this.panel.show(this.options.delay);
