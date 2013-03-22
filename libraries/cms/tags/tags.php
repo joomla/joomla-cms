@@ -441,7 +441,7 @@ class JTags
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
-			$anyOrAll = true, $languageFilter = 'all')
+		$anyOrAll = true, $languageFilter = 'all')
 	{
 		// Create a new query object.
 		$db = JFactory::getDbo();
@@ -855,27 +855,29 @@ class JTags
 	/**
 	 * Method to delete the tag mappings and #__core_content record for for an item
 	 *
-	 * @param  integer    $contentItemIds  Array of values of the primary key from the table for the type
-	 * @param  typealias  $typeAlias      The type alias for the type
+	 * @param   integer  $contentItemIds  Array of values of the primary key from the table for the type
+	 * @param   string   $typeAlias       The type alias for the type
 	 *
-	 * return  boolean
+	 * @return  boolean
+	 *
+	 * @since   3.1
 	 */
-	function deleteTagData($contentItemIds, $typeAlias)
+	public function deleteTagData($contentItemIds, $typeAlias)
 	{
-			foreach ($contentItemIds as $contentItemId)
-			{
-				self::unTagItem($contentItemId, $typeAlias);
-			}
+		foreach ($contentItemIds as $contentItemId)
+		{
+			self::unTagItem($contentItemId, $typeAlias);
+		}
 
-			$idList = implode(',', $contentItemIds);
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->delete('#__core_content');
-			$query->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias));
-			$query->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
+		$idList = implode(',', $contentItemIds);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete('#__core_content');
+		$query->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias));
+		$query->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
 
-			$db->setQuery($query);
-			$db->execute();
+		$db->setQuery($query);
+		$db->execute();
 
 		return;
 	}
