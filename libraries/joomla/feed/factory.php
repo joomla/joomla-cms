@@ -1,46 +1,28 @@
 <?php
 /**
- * @package     Joomla.Libraries
+ * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Feed factory class.
  *
- * @package     Joomla.Libraries
+ * @package     Joomla.Platform
  * @subpackage  Feed
- * @since       3.0
+ * @since       12.3
  */
 class JFeedFactory
 {
 	/**
-	 * @var    JHttp  The HTTP client object for requesting feeds as necessary.
-	 * @since  3.0
-	 */
-	protected $http;
-
-	/**
 	 * @var    array  The list of registered parser classes for feeds.
-	 * @since  3.0
+	 * @since  12.3
 	 */
 	protected $parsers = array('rss' => 'JFeedParserRss', 'feed' => 'JFeedParserAtom');
-
-	/**
-	 * Constructor.
-	 *
-	 * @param   JHttp  $http  The HTTP client object.
-	 *
-	 * @since   3.0
-	 */
-	public function __construct(JHttp $http = null)
-	{
-		$this->http   = isset($http) ? $http : new JHttp;
-	}
 
 	/**
 	 * Method to load a URI into the feed reader for parsing.
@@ -49,27 +31,17 @@ class JFeedFactory
 	 *
 	 * @return  JFeedReader
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
 	public function getFeed($uri)
 	{
-		// Make sure the file exists.
-		try
-		{
-			$this->http->get($uri);
-		}
-		catch (RunTimeException $e)
-		{
-			throw new InvalidArgumentException('The file ' . $uri . ' does not exist.');
-		}
-
 		// Create the XMLReader object.
 		$reader = new XMLReader;
 
 		// Open the URI within the stream reader.
-		if (!@$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+		if (!$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 		{
 			throw new RuntimeException('Unable to open the feed.');
 		}
@@ -77,7 +49,11 @@ class JFeedFactory
 		try
 		{
 			// Skip ahead to the root node.
-			while ($reader->read() && ($reader->nodeType !== XMLReader::ELEMENT));
+			do
+			{
+				$reader->read();
+			}
+			while ($reader->nodeType !== XMLReader::ELEMENT);
 		}
 		catch (Exception $e)
 		{
@@ -99,7 +75,7 @@ class JFeedFactory
 	 *
 	 * @return  JFeedFactory
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 * @throws  InvalidArgumentException
 	 */
 	public function registerParser($tagName, $className, $overwrite = false)
@@ -133,7 +109,7 @@ class JFeedFactory
 	 *
 	 * @return  JFeedParser
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 * @throws  LogicException
 	 */
 	private function _fetchFeedParser($type, XMLReader $reader)

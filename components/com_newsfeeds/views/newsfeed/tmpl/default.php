@@ -101,21 +101,21 @@ else
 <?php endif; ?>
 
 	<!-- Show items -->
-	<?php if (!empty($this->rssDoc[0])){ ?>
+	<?php if (!empty($this->rssDoc[0])) { ?>
 	<ol>
-		<?php for ($i = 0; $i < $this->item->numarticles; $i++) {  ?>
+		<?php for ($i = 0; $i < $this->item->numarticles; $i++) { ?>
 
 	<?php
 		$uri = !empty($this->rssDoc[$i]->guid) || !is_null($this->rssDoc[$i]->guid) ? $this->rssDoc[$i]->guid : $this->rssDoc[$i]->uri;
 		$uri = substr($uri, 0, 4) != 'http' ? $this->item->link : $uri;
-		$text = !empty($this->rssDoc[$i]->content) ||  !is_null($this->rssDoc[$i]->content) ? $this->rssDoc[$i]->content : $this->rssDoc[$i]->description;
+		$text = !empty($this->rssDoc[$i]->content) || !is_null($this->rssDoc[$i]->content) ? $this->rssDoc[$i]->content : $this->rssDoc[$i]->description;
 	?>
 			<li>
-				<?php if (!empty($uri)) : ?>
-					<a href="<?php echo $uri; ?>" target="_blank">
+				<?php if (!empty($this->rssDoc[$i]->uri)) : ?>
+					<a href="<?php echo $this->rssDoc[$i]->uri; ?>" target="_blank">
 					<?php  echo $this->rssDoc[$i]->title; ?></a>
 				<?php else : ?>
-					<h3><?php  echo $this->rssDoc[$i]->title; ?></h3>
+					<h3><?php  echo '<a target="_blank" href="' .$this->rssDoc[$i]->uri . '">' .$this->rssDoc[$i]->title. '</a>'; ?></h3>
 				<?php  endif; ?>
 				<?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
 					<div class="feed-item-description">

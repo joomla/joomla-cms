@@ -228,7 +228,7 @@
 				default="4"
 				filter="integer"
 				label="COM_TAGS_COMPACT_COLUMNS_LABEL"
-				description="COM_TAGS_COMPACT_COLUMNS_DESC">
+				description="COM_TAGS_NUMBER_COLUMNS_DESC">
 			</field>
 
 	</fieldset>

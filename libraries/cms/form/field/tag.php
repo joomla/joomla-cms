@@ -74,7 +74,7 @@ class JFormFieldTag extends JFormFieldList
 			$cssId = '#' . $this->getId($id, $this->element['name']);
 
 			// Load the ajax-chosen customised field
-			JHtml::_('tag.ajaxfield', $cssId);
+			JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
 		}
 
 		if (!is_array($this->value) && !empty($this->value))
@@ -120,7 +120,7 @@ class JFormFieldTag extends JFormFieldList
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 
-		$query->select('a.id AS value, a.title AS text, a.level, a.published');
+		$query->select('a.id AS value, a.path, a.title AS text, a.level, a.published');
 		$query->from('#__tags AS a');
 		$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -177,6 +177,10 @@ class JFormFieldTag extends JFormFieldList
 		{
 			$this->prepareOptionsNested($options);
 		}
+		else
+		{
+			$options = JTags::convertPathsToNames($options);
+		}
 
 		return $options;
 	}
@@ -224,5 +228,20 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		return $this->isNested;
+	}
+
+	/**
+	 * Determines if the field allows or denies custom values
+	 *
+	 * @return  boolean
+	 */
+	public function allowCustom()
+	{
+		if (isset($this->element['custom']) && $this->element['custom'] == 'deny')
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

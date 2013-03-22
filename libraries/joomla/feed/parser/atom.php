@@ -1,27 +1,27 @@
 <?php
 /**
- * @package     Joomla.Libraries
+ * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * ATOM Feed Parser class.
  *
- * @package     Joomla.Libraries
+ * @package     Joomla.Platform
  * @subpackage  Feed
  * @link        http://www.atomenabled.org/developers/syndication/
- * @since       3.0
+ * @since       12.3
  */
 class JFeedParserAtom extends JFeedParser
 {
 	/**
 	 * @var    string  The feed format version.
-	 * @since  3.0
+	 * @since  12.3
 	 */
 	protected $version;
 
@@ -33,7 +33,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleAuthor(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -49,7 +49,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleContributor(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -64,7 +64,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleGenerator(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -79,7 +79,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleId(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -94,7 +94,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleLink(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -117,7 +117,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleRights(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -132,7 +132,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleSubtitle(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -147,7 +147,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleTitle(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -162,7 +162,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function handleUpdated(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -175,7 +175,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since  3.0
+	 * @since   12.3
 	 */
 	protected function initialise()
 	{
@@ -194,7 +194,7 @@ class JFeedParserAtom extends JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	protected function processFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
 	{

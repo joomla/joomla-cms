@@ -1,16 +1,16 @@
 <?php
 /**
- * @package     Joomla.Libraries
+ * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die();
+defined('JPATH_PLATFORM') or die();
 
 /**
- * Class to encapsulate a feed for the Joomla CMS.
+ * Class to encapsulate a feed for the Joomla Platform.
  *
  * @property  JFeedPerson  $author         Person responsible for feed content.
  * @property  array        $categories     Categories to which the feed belongs.
@@ -24,15 +24,15 @@ defined('JPATH_BASE') or die();
  * @property  JDate        $updatedDate    The last time the content of the feed changed.
  * @property  string       $uri            Universal, permanent identifier for the feed.
  *
- * @package     Joomla.Libraries
+ * @package     Joomla.Platform
  * @subpackage  Feed
- * @since       3.0
+ * @since       12.3
  */
 class JFeed implements ArrayAccess
 {
 	/**
 	 * @var    array  The entry properties.
-	 * @since  3.0
+	 * @since  12.3
 	 */
 	protected $properties = array(
 		'uri' => '',
@@ -45,7 +45,7 @@ class JFeed implements ArrayAccess
 
 	/**
 	 * @var    array  The list of feed entry objects.
-	 * @since  3.0
+	 * @since  12.3
 	 */
 	protected $entries = array();
 
@@ -54,9 +54,9 @@ class JFeed implements ArrayAccess
 	 *
 	 * @param   string  $name  The name of the property.
 	 *
-	 * @return  string  Name if it is set otherwise null
+	 * @return  mixed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function __get($name)
 	{
@@ -71,7 +71,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function __set($name, $value)
 	{
@@ -104,7 +104,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function addCategory($name, $uri = '')
 	{
@@ -123,7 +123,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function addContributor($name, $email, $uri = null, $type = null)
 	{
@@ -151,7 +151,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function addEntry(JFeedEntry $entry)
 	{
@@ -179,7 +179,7 @@ class JFeed implements ArrayAccess
 	 * @return  boolean
 	 *
 	 * @see     ArrayAccess::offsetExists()
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function offsetExists($offset)
 	{
@@ -191,19 +191,14 @@ class JFeed implements ArrayAccess
 	 *
 	 * @param   mixed  $offset  The offset to retrieve.
 	 *
-	 * @return  mixed  The value at the offset or 0 if it is empty.
+	 * @return  mixed  The value at the offset.
 	 *
 	 * @see     ArrayAccess::offsetGet()
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function offsetGet($offset)
 	{
-		if (!empty($this->entries[$offset]))
-		{
-			return $this->entries[$offset];
-		}
-
-		return 0;
+		return $this->entries[$offset];
 	}
 
 	/**
@@ -215,7 +210,7 @@ class JFeed implements ArrayAccess
 	 * @return  boolean
 	 *
 	 * @see    ArrayAccess::offsetSet()
-	 * @since  3.0
+	 * @since  12.3
 	 */
 	public function offsetSet($offset, $value)
 	{
@@ -237,7 +232,7 @@ class JFeed implements ArrayAccess
 	 * @return  void
 	 *
 	 * @see     ArrayAccess::offsetUnset()
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function offsetUnset($offset)
 	{
@@ -251,7 +246,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function removeCategory($name)
 	{
@@ -267,7 +262,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function removeContributor(JFeedPerson $contributor)
 	{
@@ -293,7 +288,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function removeEntry(JFeedEntry $entry)
 	{
@@ -322,7 +317,7 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function setAuthor($name, $email, $uri = null, $type = null)
 	{

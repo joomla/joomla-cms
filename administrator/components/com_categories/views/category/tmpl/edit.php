@@ -142,6 +142,8 @@ JHtml::_('formbehavior.chosen', 'select');
 					</fieldset>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
+				<?php echo $this->loadTemplate('extrafields'); ?>
+
 				<?php if ($this->assoc) : ?>
 					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 						<fieldset>

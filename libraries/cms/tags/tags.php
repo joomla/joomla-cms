@@ -313,8 +313,6 @@ class JTags
 		$query->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
 		$db->execute();
-
-		return;
 	}
 
 	/**
@@ -432,8 +430,10 @@ class JTags
 	 * @param   mixed    $tagId            Tag or array of tags to be matched
 	 * @param   mixed    $typesr           Null, type or array of type aliases for content types to be included in the results
 	 * @param   boolean  $includeChildren  True to include the results from child tags
-	 * @param   boolean  $matchAll         True to include items matching all tags in the array, false to include
-	 *                                     items that match at least one tag.
+	 * @param   string   $orderByOption    Column to order the results by
+	 * @param   string   $orderDir         Direction to sort the results in
+	 * @param   boolean  $anyOrAll         True to include items matching at least one tag, false to include
+	 *                                     items all tags in the array.
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
 	 *
 	 * @return  JDatabaseQuery  Query to retrieve a list of tags
@@ -441,7 +441,7 @@ class JTags
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
-			$matchAll = true, $languageFilter = 'all')
+		$anyOrAll = true, $languageFilter = 'all')
 	{
 		// Create a new query object.
 		$db = JFactory::getDbo();
@@ -535,7 +535,7 @@ class JTags
 		$query->where('m.type_alias IN (' . $typeAliases . ')');
 
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
-		$query->where('c.core_access IN ('.$groups.')');
+		$query->where('c.core_access IN (' . $groups . ')');
 		$query->group('m.type_alias, m.content_item_id, m.core_content_id');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
@@ -779,7 +779,8 @@ class JTags
 		$query	= $db->getQuery(true);
 
 		$query->select('a.id AS value')
-			->select($query->concatenate(array('a.path', 'a.title'), ':') . ' AS text')
+			->select('a.path AS text')
+			->select('a.path')
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -804,7 +805,7 @@ class JTags
 		// Filter title
 		if (!empty($filters['title']))
 		{
-			$query->where($db->quoteName('a.title') . '=' . $db->quote($filters['title']));
+			$query->where($db->quoteName('a.title') . ' = ' . $db->quote($filters['title']));
 		}
 
 		// Filter on the published state
@@ -845,13 +846,47 @@ class JTags
 			return false;
 		}
 
+		// We will replace path aliases with tag names
+		$results = self::convertPathsToNames($results);
+
 		return $results;
 	}
-	 /**
+
+	/**
+	 * Method to delete the tag mappings and #__core_content record for for an item
+	 *
+	 * @param   integer  $contentItemIds  Array of values of the primary key from the table for the type
+	 * @param   string   $typeAlias       The type alias for the type
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function deleteTagData($contentItemIds, $typeAlias)
+	{
+		foreach ($contentItemIds as $contentItemId)
+		{
+			self::unTagItem($contentItemId, $typeAlias);
+		}
+
+		$idList = implode(',', $contentItemIds);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete('#__core_content');
+		$query->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias));
+		$query->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
+
+		$db->setQuery($query);
+		$db->execute();
+
+		return;
+	}
+
+	/**
 	 * Method to get an array of tag ids for the current tag and its children
 	 *
 	 * @param   integer  $id             An optional ID
-	 * @param   array    &$tagTreeArray
+	 * @param   array    &$tagTreeArray  Array containing the tag tree
 	 *
 	 * @return  mixed
 	 *
@@ -878,5 +913,89 @@ class JTags
 			}
 			return $tagTreeArray;
 		}
+	}
+
+	/**
+	 * Function that converts tags paths into paths of names
+	 *
+	 * @param   array  $tags  Array of tags
+	 *
+	 * @return  array
+	 */
+	public static function convertPathsToNames($tags)
+	{
+		// We will replace path aliases with tag names
+		if ($tags)
+		{
+			// Create an array with all the aliases of the results
+			$aliases = array();
+
+			foreach ($tags as $tag)
+			{
+				if (!empty( $tag->path))
+				{
+					if ($pathParts = explode('/', $tag->path))
+					{
+						$aliases = array_merge($aliases, $pathParts);
+					}
+				}
+			}
+
+			// Get the aliases titles in one single query and map the results
+			if ($aliases)
+			{
+				// Remove duplicates
+				$aliases = array_unique($aliases);
+
+				$db = JFactory::getDbo();
+
+				$query = $db->getQuery(true)
+					->select('alias, title')
+					->from('#__tags')
+					->where('alias IN (' . implode(',', array_map(array($db, 'quote'), $aliases)) . ')');
+				$db->setQuery($query);
+
+				try
+				{
+					$aliasesMapper = $db->loadAssocList('alias');
+				}
+				catch (RuntimeException $e)
+				{
+					return false;
+				}
+
+				// Rebuild the items path
+				if ($aliasesMapper)
+				{
+					foreach ($tags as &$tag)
+					{
+						$namesPath = array();
+
+						if (!empty( $tag->path))
+						{
+							if ($pathParts = explode('/', $tag->path))
+							{
+								foreach ($pathParts as $alias)
+								{
+									if (isset($aliasesMapper[$alias]))
+									{
+										$namesPath[] = $aliasesMapper[$alias]['title'];
+									}
+									else
+									{
+										$namesPath[] = $alias;
+									}
+								}
+
+								$tag->text = implode('/', $namesPath);
+							}
+						}
+					}
+				}
+			}
+
+		}
+
+		return $tags;
 	}
 }

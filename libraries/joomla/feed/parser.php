@@ -1,57 +1,50 @@
 <?php
 /**
- * @package     Joomla.Libraries
+ * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_BASE') or die;
+defined('JPATH_PLATFORM') or die;
 
 /**
  * Feed Parser class.
  *
- * @package     Joomla.Libraries
+ * @package     Joomla.Platform
  * @subpackage  Feed
- * @since       3.0
+ * @since       12.3
  */
 abstract class JFeedParser
 {
 	/**
 	 * @var    string  The feed element name for the entry elements.
-	 * @since  3.0
+	 * @since  12.3
 	 */
 	protected $entryElementName = 'entry';
 
 	/**
 	 * @var    array
-	 * @since  3.0
+	 * @since  12.3
 	 */
 	protected $namespaces = array();
 
 	/**
 	 * @var    XMLReader
-	 * @since  3.0
+	 * @since  12.3
 	 */
 	protected $stream;
-
-	/**
-	 * @var    DOMDocument
-	 * @since  3.0
-	 */
-	private $_node;
 
 	/**
 	 * Constructor.
 	 *
 	 * @param   XMLReader  $stream  The XMLReader stream object for the feed.
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function __construct(XMLReader $stream)
 	{
-		$this->_node   = new DOMDocument;
 		$this->stream  = $stream;
 	}
 
@@ -60,7 +53,7 @@ abstract class JFeedParser
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function parse()
 	{
@@ -73,13 +66,14 @@ abstract class JFeedParser
 		do
 		{
 			// Expand the element for processing.
-			$el = $this->expandToSimpleXml();
+			$el = new SimpleXMLElement($this->stream->readOuterXml());
 
 			// Get the list of namespaces used within this element.
 			$ns = $el->getNamespaces(true);
 
 			// Get an array of available namespace objects for the element.
 			$namespaces = array();
+
 			foreach ($ns as $prefix => $uri)
 			{
 				// Ignore the empty namespace prefix.
@@ -90,6 +84,7 @@ abstract class JFeedParser
 
 				// Get the necessary namespace objects for the element.
 				$namespace = $this->fetchNamespace($prefix);
+
 				if ($namespace)
 				{
 					$namespaces[] = $namespace;
@@ -115,7 +110,7 @@ abstract class JFeedParser
 	 *
 	 * @return  JFeed
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	public function registerNamespace($prefix, JFeedParserNamespace $namespace)
 	{
@@ -130,7 +125,7 @@ abstract class JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	abstract protected function initialise();
 
@@ -143,7 +138,7 @@ abstract class JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	protected function processElement(JFeed $feed, SimpleXMLElement $el, array $namespaces)
 	{
@@ -190,39 +185,13 @@ abstract class JFeedParser
 	}
 
 	/**
-	 * Method to expand the current reader node into a SimpleXML node for more detailed reading
-	 * and manipulation.
-	 *
-	 * @return  SimpleXMLElement
-	 *
-	 * @since   3.0
-	 * @throws  RuntimeException
-	 */
-	protected function expandToSimpleXml()
-	{
-		// Whizbang!  And now we have a SimpleXMLElement element from the current stream node. **MAGIC** :-)
-		$el = simplexml_import_dom($this->_node->importNode($this->stream->expand(), true), 'SimpleXMLElement');
-
-		// Let's take care of some sanity checking.
-		if (!($el instanceof SimpleXMLElement))
-		{
-			// @codeCoverageIgnoreStart
-			throw new RuntimeException('Unable to expand node to SimpleXML element.');
-
-			// @codeCoverageIgnoreEnd
-		}
-
-		return $el;
-	}
-
-	/**
 	 * Method to get a namespace object for a given namespace prefix.
 	 *
 	 * @param   string  $prefix  The XML prefix for which to fetch the namespace object.
 	 *
 	 * @return  mixed  JFeedParserNamespace or false if none exists.
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	protected function fetchNamespace($prefix)
 	{
@@ -232,6 +201,7 @@ abstract class JFeedParser
 		}
 
 		$className = get_class($this) . ucfirst($prefix);
+
 		if (class_exists($className))
 		{
 			$this->namespaces[$prefix] = new $className;
@@ -249,7 +219,7 @@ abstract class JFeedParser
 	 *
 	 * @return  boolean  True if the stream parser is on an XML element node.
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 */
 	protected function moveToNextElement($name = null)
 	{
@@ -277,7 +247,7 @@ abstract class JFeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   12.3
 	 * @throws  RuntimeException  If the closing tag cannot be found.
 	 */
 	protected function moveToClosingElement()
@@ -302,9 +272,6 @@ abstract class JFeedParser
 			}
 		}
 
-		// @codeCoverageIgnoreStart
 		throw new RuntimeException('Unable to find the closing XML node.');
-
-		// @codeCoverageIgnoreEnd
 	}
 }
