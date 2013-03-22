@@ -23,7 +23,7 @@ abstract class ModVersionHelper
 	 *
 	 * @param   JRegistry  &$params  The parameters object.
 	 *
-	 * @return  string  String containing the Joomla current version.
+	 * @return  string  String containing the current Joomla version based on the selected format.
 	 */
 	public static function getVersion(&$params)
 	{
