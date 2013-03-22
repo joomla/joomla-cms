@@ -27,6 +27,8 @@ class UsersControllerNotes extends JControllerAdmin
 	protected $text_prefix = 'COM_USERS_NOTES';
 
 	/**
+	 * Proxy for getModel.
+	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.

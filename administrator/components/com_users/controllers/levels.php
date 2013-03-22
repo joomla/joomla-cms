@@ -19,13 +19,20 @@ defined('_JEXEC') or die;
 class UsersControllerLevels extends JControllerAdmin
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * The prefix to use with controller messages
+	 *
+	 * @var		string	.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_USERS_LEVELS';
 
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 *
+	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */

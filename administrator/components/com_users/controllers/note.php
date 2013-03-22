@@ -41,6 +41,7 @@ class UsersControllerNote extends JControllerForm
 		$append = parent::getRedirectToItemAppend($recordId, $key);
 
 		$userId = JFactory::getApplication()->input->get('u_id', 0, 'int');
+
 		if ($userId)
 		{
 			$append .= '&u_id=' . $userId;

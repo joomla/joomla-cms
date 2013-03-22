@@ -21,9 +21,9 @@ class JHtmlUsers
 	/**
 	 * Display an image.
 	 *
-	 * @param   string  $src  The source of the image
+	 * @param   string  $src  The source of the image.
 	 *
-	 * @return  string  A <img> element if the specified file exists, otherwise, a null string
+	 * @return  string  A <img> element if the specified file exists, otherwise, a null string.
 	 *
 	 * @since   2.5
 	 */
@@ -46,9 +46,9 @@ class JHtmlUsers
 	/**
 	 * Displays an icon to add a note for this user.
 	 *
-	 * @param   integer  $userId  The user ID
+	 * @param   integer  $userId  The user ID.
 	 *
-	 * @return  string  A link to add a note
+	 * @return  string  A link to add a note.
 	 *
 	 * @since   2.5
 	 */
@@ -63,10 +63,10 @@ class JHtmlUsers
 	/**
 	 * Displays an icon to filter the notes list on this user.
 	 *
-	 * @param   integer  $count   The number of notes for the user
-	 * @param   integer  $userId  The user ID
+	 * @param   integer  $count   The number of notes for the user.
+	 * @param   integer  $userId  The user ID.
 	 *
-	 * @return  string  A link to apply a filter
+	 * @return  string  A link to apply a filter.
 	 *
 	 * @since   2.5
 	 */
@@ -86,10 +86,10 @@ class JHtmlUsers
 	/**
 	 * Displays a note icon.
 	 *
-	 * @param   integer  $count   The number of notes for the user
-	 * @param   integer  $userId  The user ID
+	 * @param   integer  $count   The number of notes for the user.
+	 * @param   integer  $userId  The user ID.
 	 *
-	 * @return  string  A link to a modal window with the user notes
+	 * @return  string  A link to a modal window with the user notes.
 	 *
 	 * @since   2.5
 	 */
@@ -111,11 +111,11 @@ class JHtmlUsers
 	/**
 	 * Build an array of block/unblock user states to be used by jgrid.state,
 	 * State options will be different for any user
-	 * and for currently logged in user
+	 * and for currently logged in user.
 	 *
-	 * @param   boolean  $self  True if state array is for currently logged in user
+	 * @param   boolean  $self  True if state array is for currently logged in user.
 	 *
-	 * @return  array  a list of possible states to display
+	 * @return  array  a list of possible states to display.
 	 *
 	 * @since  3.0
 	 */
@@ -174,7 +174,7 @@ class JHtmlUsers
 	/**
 	 * Build an array of activate states to be used by jgrid.state,
 	 *
-	 * @return  array  a list of possible states to display
+	 * @return  array  a list of possible states to display.
 	 *
 	 * @since  3.0
 	 */
@@ -200,6 +200,7 @@ class JHtmlUsers
 				'inactive_class'	=> 'publish'
 			)
 		);
+
 		return $states;
 	}
 }

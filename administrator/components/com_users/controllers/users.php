@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class UsersControllerUsers extends JControllerAdmin
 {
 	/**
-	 * @var    string  The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_USERS_USERS';
@@ -28,8 +30,6 @@ class UsersControllerUsers extends JControllerAdmin
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @return  UsersControllerUsers
 	 *
 	 * @since   1.6
 	 * @see     JController
