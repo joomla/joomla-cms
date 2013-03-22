@@ -65,7 +65,7 @@ abstract class MultilangstatusHelper
 		$query	= $db->getQuery(true);
 		$query->select('a.element AS element')
 			->from('#__extensions AS a')
-			->where('a.type = '.$db->Quote('language'))
+			->where('a.type = '.$db->quote('language'))
 			->where('a.client_id = 0')
 			->where('a.enabled = 1');
 		$db->setQuery($query);

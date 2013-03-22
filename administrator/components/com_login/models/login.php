@@ -134,7 +134,7 @@ class LoginModelLogin extends JModelLegacy
 			$query = $db->getQuery(true);
 			$query->select('m.id, m.title, m.module, m.position, m.showtitle, m.params')
 				->from('#__modules AS m')
-				->where('m.module =' . $db->Quote($module) .' AND m.client_id = 1')
+				->where('m.module =' . $db->quote($module) .' AND m.client_id = 1')
 
 				->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
 				->where('e.enabled = 1');
@@ -142,7 +142,7 @@ class LoginModelLogin extends JModelLegacy
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter())
 			{
-				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
+				$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 			}
 
 			$query->order('m.position, m.ordering');

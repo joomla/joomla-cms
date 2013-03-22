@@ -141,7 +141,7 @@ class LanguagesModelLanguages extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%'.$db->escape($search, true).'%', false);
+			$search = $db->quote('%'.$db->escape($search, true).'%', false);
 			$query->where('(a.title LIKE '.$search.')');
 		}
 

@@ -142,14 +142,14 @@ class BannersModelTracks extends JModelList
 		$begin = $this->getState('filter.begin');
 		if (!empty($begin))
 		{
-			$query->where('a.track_date >= '.$db->Quote($begin));
+			$query->where('a.track_date >= '.$db->quote($begin));
 		}
 
 		// Filter by end date
 		$end = $this->getState('filter.end');
 		if (!empty($end))
 		{
-			$query->where('a.track_date <= '.$db->Quote($end));
+			$query->where('a.track_date <= '.$db->quote($end));
 		}
 
 		// Add the list ordering clause.
@@ -199,14 +199,14 @@ class BannersModelTracks extends JModelList
 			$begin = $this->getState('filter.begin');
 			if (!empty($begin))
 			{
-				$query->where('track_date >= '.$db->Quote($begin));
+				$query->where('track_date >= '.$db->quote($begin));
 			}
 
 			// Filter by end date
 			$end = $this->getState('filter.end');
 			if (!empty($end))
 			{
-				$query->where('track_date <= '.$db->Quote($end));
+				$query->where('track_date <= '.$db->quote($end));
 			}
 
 			$where = '1';

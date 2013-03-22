@@ -271,7 +271,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->_db->Quote($table->extension);
+		return 'extension = ' . $this->_db->quote($table->extension);
 	}
 
 	/**

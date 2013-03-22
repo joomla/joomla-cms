@@ -303,7 +303,7 @@ class InstallerModelManage extends InstallerModel
 		}
 		if ($type)
 		{
-			$query->where('type=' . $this->_db->Quote($type));
+			$query->where('type=' . $this->_db->quote($type));
 		}
 		if ($client != '')
 		{
@@ -311,7 +311,7 @@ class InstallerModelManage extends InstallerModel
 		}
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $this->_db->Quote($group == '*' ? '' : $group));
+			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
 		}
 
 		// Filter by search in id

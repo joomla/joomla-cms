@@ -108,7 +108,7 @@ class BannersHelper
 			->from('#__banners')
 			->where("'".$now."' >= ".$db->quoteName('reset'))
 			->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL')
-			->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->Quote($user->id).')');
+			->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->quote($user->id).')');
 		$db->setQuery((string) $query);
 
 		try
@@ -147,19 +147,19 @@ class BannersHelper
 					break;
 				case 2:
 					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
-					$reset = $db->Quote($date->toSql());
+					$reset = $db->quote($date->toSql());
 					break;
 				case 3:
 					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
-					$reset = $db->Quote($date->toSql());
+					$reset = $db->quote($date->toSql());
 					break;
 				case 4:
 					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
-					$reset = $db->Quote($date->toSql());
+					$reset = $db->quote($date->toSql());
 					break;
 				case 5:
 					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
-					$reset = $db->Quote($date->toSql());
+					$reset = $db->quote($date->toSql());
 					break;
 			}
 

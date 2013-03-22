@@ -247,7 +247,7 @@ class LanguagesModelInstalled extends JModelList
 		$query->select($this->getState('list.select', 'a.element'))
 			->from('#__extensions AS a');
 
-		$type = $db->Quote($type);
+		$type = $db->quote($type);
 		$query->where('(a.type = '.$type.')')
 
 			->where('state = 0')

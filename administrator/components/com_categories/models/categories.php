@@ -216,12 +216,12 @@ class CategoriesModelCategories extends JModelList
 			}
 			elseif (stripos($search, 'author:') === 0)
 			{
-				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
+				$search = $db->quote('%'.$db->escape(substr($search, 7), true).'%');
 				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$search = $db->quote('%'.$db->escape($search, true).'%');
 				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
 			}
 		}
