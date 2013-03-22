@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Mar-2013 Jean-Marie Simonet
+ $ Updating Installation ini files: he-IL, nl-NL
+
 21-Mar-2013 Michael Babker
  ^ [#30319] Accessibility fixes to JForm Platform Synch.  Thanks Elin
  ^ [#30353] Clean up left over debugging.  Thanks Elin
