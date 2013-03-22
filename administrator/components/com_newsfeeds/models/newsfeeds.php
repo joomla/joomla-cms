@@ -152,11 +152,11 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
 			)
 		);
-		$query->from($db->qn('#__newsfeeds').' AS a');
+		$query->from($db->quoteName('#__newsfeeds').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title')
-			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
@@ -175,7 +175,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->q('com_newsfeeds.item'))
+				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_newsfeeds.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
 				->group('a.id');
 		}
@@ -229,7 +229,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->q($language));
+			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.

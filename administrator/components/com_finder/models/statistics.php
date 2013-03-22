@@ -33,36 +33,36 @@ class FinderModelStatistics extends JModelLegacy
 		$data = new JObject;
 
 		$query->select('COUNT(term_id)')
-			->from($db->qn('#__finder_terms'));
+			->from($db->quoteName('#__finder_terms'));
 		$db->setQuery($query);
 		$data->term_count = $db->loadResult();
 
 		$query->clear();
 		$query->select('COUNT(link_id)')
-			->from($db->qn('#__finder_links'));
+			->from($db->quoteName('#__finder_links'));
 		$db->setQuery($query);
 		$data->link_count = $db->loadResult();
 
 		$query->clear();
 		$query->select('COUNT(id)')
-			->from($db->qn('#__finder_taxonomy'))
-			->where($db->qn('parent_id') . ' = 1');
+			->from($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('parent_id') . ' = 1');
 		$db->setQuery($query);
 		$data->taxonomy_branch_count = $db->loadResult();
 
 		$query->clear();
 		$query->select('COUNT(id)')
-			->from($db->qn('#__finder_taxonomy'))
-			->where($db->qn('parent_id') . ' > 1');
+			->from($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('parent_id') . ' > 1');
 		$db->setQuery($query);
 		$data->taxonomy_node_count = $db->loadResult();
 
 		$query->clear();
 		$query->select('t.title AS type_title, COUNT(a.link_id) AS link_count')
-			->from($db->qn('#__finder_links') . ' AS a')
-			->join('INNER', $db->qn('#__finder_types') . ' AS t ON t.id = a.type_id')
+			->from($db->quoteName('#__finder_links') . ' AS a')
+			->join('INNER', $db->quoteName('#__finder_types') . ' AS t ON t.id = a.type_id')
 			->group('a.type_id, t.title')
-			->order($db->qn('type_title'), 'ASC');
+			->order($db->quoteName('type_title'), 'ASC');
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 

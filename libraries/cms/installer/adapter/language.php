@@ -522,7 +522,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$registry->set($param_name, '');
 				$query = $db->getQuery(true);
 				$query->update('#__users');
-				$query->set('params=' . $db->q($registry));
+				$query->set('params=' . $db->quote($registry));
 				$query->where('id=' . (int) $user->id);
 				$db->setQuery($query);
 				$db->execute();

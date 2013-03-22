@@ -48,7 +48,7 @@ abstract class JHtmlMenu
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('menutype AS value, title AS text')
-				->from($db->qn('#__menu_types'))
+				->from($db->quoteName('#__menu_types'))
 				->order('title');
 			$db->setQuery($query);
 			self::$menus = $db->loadObjectList();
@@ -71,7 +71,7 @@ abstract class JHtmlMenu
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('menutype AS value, title AS text')
-				->from($db->qn('#__menu_types'))
+				->from($db->quoteName('#__menu_types'))
 				->order('title');
 			$db->setQuery($query);
 			$menus = $db->loadObjectList();
@@ -80,7 +80,7 @@ abstract class JHtmlMenu
 			$query->select('a.id AS value, a.title AS text, a.level, a.menutype')
 				->from('#__menu AS a')
 				->where('a.parent_id > 0')
-				->where('a.type <> ' . $db->q('url'))
+				->where('a.type <> ' . $db->quote('url'))
 				->where('a.client_id = 0');
 
 			// Filter on the published state
@@ -185,10 +185,10 @@ abstract class JHtmlMenu
 		if ($id)
 		{
 			$query->select('ordering AS value, title AS text')
-				->from($db->qn('#__menu'))
-				->where($db->qn('menutype') . ' = ' . $db->q($row->menutype))
-				->where($db->qn('parent_id') . ' = ' . (int) $row->parent_id)
-				->where($db->qn('published') . ' != -2')
+				->from($db->quoteName('#__menu'))
+				->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype))
+				->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id)
+				->where($db->quoteName('published') . ' != -2')
 				->order('ordering');
 			$order = JHtml::_('list.genericordering', $query);
 			$ordering = JHtml::_(
@@ -221,8 +221,8 @@ abstract class JHtmlMenu
 
 		// Get a list of the menu items
 		$query->select('m.id, m.parent_id, m.title, m.menutype')
-			->from($db->qn('#__menu') . ' AS m')
-			->where($db->qn('m.published') . ' = 1')
+			->from($db->quoteName('#__menu') . ' AS m')
+			->where($db->quoteName('m.published') . ' = 1')
 			->order('m.menutype, m.parent_id, m.ordering');
 		$db->setQuery($query);
 

@@ -78,7 +78,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Join over the language
 		$query->select('l.title AS language_title')
-			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the content table.
 		$query->select('fp.ordering')
@@ -158,7 +158,7 @@ class ContentModelFeatured extends ContentModelArticles
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->q($language));
+			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.

@@ -483,7 +483,7 @@ final class JSite extends JApplication
 				->from('#__template_styles as s')
 				->where('s.client_id = 0')
 				->where('e.enabled = 1')
-				->join('LEFT', '#__extensions as e ON e.element=s.template AND e.type='.$db->q('template').' AND e.client_id=s.client_id');
+				->join('LEFT', '#__extensions as e ON e.element=s.template AND e.type='.$db->quote('template').' AND e.client_id=s.client_id');
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');

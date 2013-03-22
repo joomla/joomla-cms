@@ -134,7 +134,7 @@ class ContactModelCategory extends JModelList
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id.' END as catslug';
 		$query->select($this->getState('list.select', 'a.*') . ','.$case_when.','.$case_when1)
-			->from($db->qn('#__contact_details').' AS a')
+			->from($db->quoteName('#__contact_details').' AS a')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid')
 			->where('a.access IN ('.$groups.')');
 

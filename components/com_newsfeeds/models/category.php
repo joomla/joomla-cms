@@ -114,7 +114,7 @@ class NewsfeedsModelCategory extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
-			->from($db->qn('#__newsfeeds').' AS a')
+			->from($db->quoteName('#__newsfeeds').' AS a')
 			->where('a.access IN ('.$groups.')');
 
 		// Filter by category.

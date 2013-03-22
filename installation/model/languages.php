@@ -338,7 +338,7 @@ class InstallationModelLanguages extends JModelBase
 		$query->select('a.element, a.name')
 			->from('#__extensions AS a')
 
-			->where('a.type = ' . $db->q('language'))
+			->where('a.type = ' . $db->quote('language'))
 			->where('state = 0')
 			->where('enabled = 1')
 			->where('client_id=' . (int) $client_id);

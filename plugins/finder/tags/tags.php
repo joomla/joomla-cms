@@ -279,7 +279,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	{
 		// Build an SQL query based on the modified time.
 		$query = $this->db->getQuery(true);
-		$query->where('a.date >= ' . $this->db->q($time));
+		$query->where('a.date >= ' . $this->db->quote($time));
 
 		return $query;
 	}

@@ -101,7 +101,7 @@ class InstallerHelper
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT folder')
 			->from('#__extensions')
-			->where('folder != ' . $db->q(''))
+			->where('folder != ' . $db->quote(''))
 			->order('folder');
 		$db->setQuery($query);
 		$folders = $db->loadColumn();

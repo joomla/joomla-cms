@@ -166,10 +166,10 @@ class ContentModelArticles extends JModelList
 				'a.checked_out, a.checked_out_time, ' .
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// use created if modified is 0
-				'CASE WHEN a.modified = ' . $db->q($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
+				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 					'a.modified_by, uam.name as modified_by_name,' .
 				// use created if publish_up is 0
-				'CASE WHEN a.publish_up = ' . $db->q($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
+				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
 					'a.hits, a.xreference, a.featured,'.' '.$query->length('a.fulltext').' AS readmore'
 			)
@@ -231,7 +231,7 @@ class ContentModelArticles extends JModelList
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
 		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
 		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-		$subquery .= 'WHERE parent.extension = ' . $db->q('com_content');
+		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');
 
 		if ($this->getState('filter.published') == 2)
 		{
@@ -469,7 +469,7 @@ class ContentModelArticles extends JModelList
 			{
 				case 'author':
 					$query->where(
-						'LOWER( CASE WHEN a.created_by_alias > '.$db->q(' ').
+						'LOWER( CASE WHEN a.created_by_alias > '.$db->quote(' ').
 						' THEN a.created_by_alias ELSE ua.name END ) LIKE '.$filter.' '
 					);
 					break;
@@ -488,8 +488,8 @@ class ContentModelArticles extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in ('.$db->q(JFactory::getLanguage()->getTag()).','.$db->q('*').')')
-				->where('(contact.language in ('.$db->q(JFactory::getLanguage()->getTag()).','.$db->q('*').') OR contact.language IS NULL)');
+			$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')')
+				->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
 		}
 
 		// Add the list ordering clause.

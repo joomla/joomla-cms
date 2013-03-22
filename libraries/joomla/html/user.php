@@ -32,8 +32,8 @@ abstract class JHtmlUser
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
-			->from($db->qn('#__usergroups') . ' AS a')
-			->join('LEFT', $db->qn('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->from($db->quoteName('#__usergroups') . ' AS a')
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id, a.title, a.lft, a.rgt')
 			->order('a.lft ASC');
 		$db->setQuery($query);

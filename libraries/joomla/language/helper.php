@@ -42,7 +42,7 @@ class JLanguageHelper
 			$query = $db->getQuery(true);
 			$query->select('element')
 				->from('#__extensions')
-				->where('type=' . $db->q('language'))
+				->where('type=' . $db->quote('language'))
 				->where('state=0')
 				->where('enabled=1')
 				->where('client_id=' . ($basePath == JPATH_ADMINISTRATOR ? 1 : 0));

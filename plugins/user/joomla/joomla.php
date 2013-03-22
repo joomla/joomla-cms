@@ -39,8 +39,8 @@ class PlgUserJoomla extends JPlugin
 
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'DELETE FROM '.$db->qn('#__session') .
-			' WHERE '.$db->qn('userid').' = '.(int) $user['id']
+			'DELETE FROM '.$db->quoteName('#__session') .
+			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id']
 		);
 		$db->execute();
 
@@ -176,11 +176,11 @@ class PlgUserJoomla extends JPlugin
 
 		// Update the user related fields for the Joomla sessions table.
 		$db->setQuery(
-			'UPDATE '.$db->qn('#__session') .
-			' SET '.$db->qn('guest').' = '.$db->q($instance->get('guest')).',' .
-			'	'.$db->qn('username').' = '.$db->q($instance->get('username')).',' .
-			'	'.$db->qn('userid').' = '.(int) $instance->get('id') .
-			' WHERE '.$db->qn('session_id').' = '.$db->q($session->getId())
+			'UPDATE '.$db->quoteName('#__session') .
+			' SET '.$db->quoteName('guest').' = '.$db->quote($instance->get('guest')).',' .
+			'	'.$db->quoteName('username').' = '.$db->quote($instance->get('username')).',' .
+			'	'.$db->quoteName('userid').' = '.(int) $instance->get('id') .
+			' WHERE '.$db->quoteName('session_id').' = '.$db->quote($session->getId())
 		);
 		$db->execute();
 
@@ -224,9 +224,9 @@ class PlgUserJoomla extends JPlugin
 		// Force logout all users with that userid
 		$db = JFactory::getDBO();
 		$db->setQuery(
-			'DELETE FROM '.$db->qn('#__session') .
-			' WHERE '.$db->qn('userid').' = '.(int) $user['id'] .
-			' AND '.$db->qn('client_id').' = '.(int) $options['clientid']
+			'DELETE FROM '.$db->quoteName('#__session') .
+			' WHERE '.$db->quoteName('userid').' = '.(int) $user['id'] .
+			' AND '.$db->quoteName('client_id').' = '.(int) $options['clientid']
 		);
 		$db->execute();
 

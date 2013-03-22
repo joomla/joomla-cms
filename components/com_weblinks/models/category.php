@@ -115,7 +115,7 @@ class WeblinksModelCategory extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
-			->from($db->qn('#__weblinks').' AS a')
+			->from($db->quoteName('#__weblinks').' AS a')
 			->where('a.access IN ('.$groups.')');
 
 		// Filter by category.

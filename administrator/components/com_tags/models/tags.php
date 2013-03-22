@@ -137,11 +137,11 @@ class TagsModelTags extends JModelList
 			)
 		);
 		$query->from('#__tags AS a')
-			->where($db->qn('a.alias') . ' <> ' . $db->q('root'));
+			->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
 		// Join over the language
 		$query->select('l.title AS language_title')
-			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
@@ -207,7 +207,7 @@ class TagsModelTags extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->q($language));
+			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause

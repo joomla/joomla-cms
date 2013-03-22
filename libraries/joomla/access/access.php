@@ -234,7 +234,7 @@ class JAccess
 		}
 		else
 		{
-			$query->where('(a.name = ' . $db->q($asset) . ')');
+			$query->where('(a.name = ' . $db->quote($asset) . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
@@ -257,7 +257,7 @@ class JAccess
 			$query = $db->getQuery(true);
 			$query->select('rules')
 				->from('#__assets')
-				->where('id = ' . $db->q($rootId));
+				->where('id = ' . $db->quote($rootId));
 			$db->setQuery($query);
 			$result = $db->loadResult();
 			$result = array($result);
@@ -411,7 +411,7 @@ class JAccess
 			// Build the base query.
 			$query = $db->getQuery(true);
 			$query->select('id, rules')
-				->from($query->qn('#__viewlevels'));
+				->from($db->quoteName('#__viewlevels'));
 
 			// Set the query for execution.
 			$db->setQuery((string) $query);

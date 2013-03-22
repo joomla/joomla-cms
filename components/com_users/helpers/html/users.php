@@ -86,7 +86,7 @@ abstract class JHtmlUsers
 			$query = $db->getQuery(true);
 			$query->select('title')
 				->from('#__template_styles')
-				->where('id = '.$db->q($value));
+				->where('id = '.$db->quote($value));
 			$db->setQuery($query);
 			$title = $db->loadResult();
 			if ($title)
@@ -166,8 +166,8 @@ abstract class JHtmlUsers
 			$query = $db->getQuery(true);
 			$query->select('name')
 				->from('#__extensions')
-				->where('element = '.$db->q($value))
-				->where('folder = '.$db->q('editors'));
+				->where('element = '.$db->quote($value))
+				->where('folder = '.$db->quote('editors'));
 			$db->setQuery($query);
 			$title = $db->loadResult();
 			if ($title)

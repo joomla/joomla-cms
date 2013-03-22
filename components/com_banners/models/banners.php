@@ -60,7 +60,7 @@ class BannersModelBanners extends JModelList
 		$categoryId = $this->getState('filter.category_id');
 		$keywords	= $this->getState('filter.keywords');
 		$randomise	= ($ordering == 'random');
-		$nullDate	= $db->q($db->getNullDate());
+		$nullDate	= $db->quote($db->getNullDate());
 
 		$query->select(
 			'a.id as id,'.
@@ -144,7 +144,7 @@ class BannersModelBanners extends JModelList
 				foreach ($keywords as $keyword)
 				{
 					$keyword = trim($keyword);
-					$condition1 = "a.own_prefix=1 AND a.metakey_prefix=SUBSTRING(" . $db->q($keyword) . ",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(" . $db->q($keyword) . ",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
+					$condition1 = "a.own_prefix=1 AND a.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH( a.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=1 AND cl.metakey_prefix=SUBSTRING(" . $db->quote($keyword) . ",1,LENGTH(cl.metakey_prefix)) OR a.own_prefix=0 AND cl.own_prefix=0 AND " . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
 					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
@@ -246,7 +246,7 @@ class BannersModelBanners extends JModelList
 			{
 				// is track already created ?
 				$query->clear();
-				$query->select($db->qn('count'))
+				$query->select($db->quoteName('count'))
 					->from('#__banner_tracks')
 					->where('track_type=1')
 					->where('banner_id=' . (int) $id)
@@ -271,7 +271,7 @@ class BannersModelBanners extends JModelList
 				{
 					// update count
 					$query->update('#__banner_tracks')
-						->set($db->qn('count').' = ('.$db->qn('count').' + 1)')
+						->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)')
 						->where('track_type=1')
 						->where('banner_id=' . (int) $id)
 						->where('track_date='.$db->Quote($trackDate));
@@ -281,8 +281,8 @@ class BannersModelBanners extends JModelList
 					//sqlsrv change
 					$query->insert('#__banner_tracks')
 						->columns(
-						array($db->qn('count'), $db->qn('track_type'),
-							$db->qn('banner_id'), $db->qn('track_date'))
+						array($db->quoteName('count'), $db->quoteName('track_type'),
+							$db->quoteName('banner_id'), $db->quoteName('track_date'))
 					)
 						->values('1, 1, ' . (int) $id . ', ' . $db->Quote($trackDate));
 				}

@@ -142,9 +142,9 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 		// Check to see if a template by the same name is already installed.
 		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'))
-			->where($query->qn('type') . ' = ' . $query->q('template'))
-			->where($query->qn('element') . ' = ' . $query->q($element));
+		$query->select($db->quoteName('extension_id'))->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('template'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 
 		try
@@ -317,11 +317,11 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		{
 			$debug = $lang->setDebug(false);
 
-			$columns = array($db->qn('template'),
-				$db->qn('client_id'),
-				$db->qn('home'),
-				$db->qn('title'),
-				$db->qn('params')
+			$columns = array($db->quoteName('template'),
+				$db->quoteName('client_id'),
+				$db->quoteName('home'),
+				$db->quoteName('title'),
+				$db->quoteName('params')
 			);
 
 			$values = array(
@@ -333,7 +333,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 			// Insert record in #__template_styles
 			$query = $db->getQuery(true);
-			$query->insert($db->qn('#__template_styles'))
+			$query->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(implode(',', $values));
 
@@ -578,18 +578,18 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 		if ($this->parent->extension->store())
 		{
+			$db = $this->parent->getDbo();
 			// Insert record in #__template_styles
 			$lang = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
-			$columns = array($db->qn('template'),
-				$db->qn('client_id'),
-				$db->qn('home'),
-				$db->qn('title'),
-				$db->qn('params')
+			$columns = array($db->quoteName('template'),
+				$db->quoteName('client_id'),
+				$db->quoteName('home'),
+				$db->quoteName('title'),
+				$db->quoteName('params')
 			);
-			$db = $this->parent->getDbo();
 			$query = $db->getQuery(true);
-			$query->insert($db->qn('#__template_styles'))
+			$query->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(
 					$db->Quote($this->parent->extension->element)

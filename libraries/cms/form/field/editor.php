@@ -114,8 +114,8 @@ class JFormFieldEditor extends JFormField
 					$query = $db->getQuery(true);
 					$query->select('element')
 						->from('#__extensions')
-						->where('element = ' . $db->q($element))
-						->where('folder = ' . $db->q('editors'))
+						->where('element = ' . $db->quote($element))
+						->where('folder = ' . $db->quote('editors'))
 						->where('enabled = 1');
 
 					// Check of the editor exists.

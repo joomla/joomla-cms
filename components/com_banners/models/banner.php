@@ -73,7 +73,7 @@ class BannersModelBanner extends JModelLegacy
 			$trackDate = JFactory::getDate()->format('Y-m-d H');
 
 			$query->clear();
-			$query->select($db->qn('count'))
+			$query->select($db->quoteName('count'))
 				->from('#__banner_tracks')
 				->where('track_type=2')
 				->where('banner_id=' . (int) $id)
@@ -98,7 +98,7 @@ class BannersModelBanner extends JModelLegacy
 			{
 				// update count
 				$query->update('#__banner_tracks')
-					->set($db->qn('count').' = ('.$db->qn('count') . ' + 1)')
+					->set($db->quoteName('count').' = ('.$db->quoteName('count') . ' + 1)')
 					->where('track_type=2')
 					->where('banner_id=' . (int) $id)
 					->where('track_date='.$db->Quote($trackDate));
@@ -108,8 +108,8 @@ class BannersModelBanner extends JModelLegacy
 				//sqlsrv change
 				$query->insert('#__banner_tracks')
 					->columns(
-						array($db->qn('count'), $db->qn('track_type'),
-							$db->qn('banner_id') , $db->qn('track_date'))
+						array($db->quoteName('count'), $db->quoteName('track_type'),
+							$db->quoteName('banner_id') , $db->quoteName('track_date'))
 					)
 					->values('1, 2,' . (int) $id . ',' . $db->Quote($trackDate));
 			}

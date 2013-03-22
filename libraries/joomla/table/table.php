@@ -522,7 +522,7 @@ abstract class JTable extends JObject
 				throw new UnexpectedValueException(sprintf('Missing field in database: %s &#160; %s.', get_class($this), $field));
 			}
 			// Add the search tuple to the query.
-			$query->where($this->_db->qn($field) . ' = ' . $this->_db->q($value));
+			$query->where($this->_db->quoteName($field) . ' = ' . $this->_db->quote($value));
 		}
 
 		$this->_db->setQuery($query);
@@ -660,9 +660,9 @@ abstract class JTable extends JObject
 			$this->asset_id = (int) $asset->id;
 
 			$query = $this->_db->getQuery(true);
-			$query->update($this->_db->qn($this->_tbl));
+			$query->update($this->_db->quoteName($this->_tbl));
 			$query->set('asset_id = ' . (int) $this->asset_id);
-			$query->where($this->_db->qn($k) . ' = ' . (int) $this->$k);
+			$query->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
 			$this->_db->setQuery($query);
 
 			$this->_db->execute();
@@ -719,7 +719,7 @@ abstract class JTable extends JObject
 		if ($orderingFilter)
 		{
 			$filterValue = $this->$orderingFilter;
-			$this->reorder($orderingFilter ? $this->_db->qn($orderingFilter) . ' = ' . $this->_db->Quote($filterValue) : '');
+			$this->reorder($orderingFilter ? $this->_db->quoteName($orderingFilter) . ' = ' . $this->_db->Quote($filterValue) : '');
 		}
 
 		// Set the error to empty and return true.
@@ -776,7 +776,7 @@ abstract class JTable extends JObject
 		// Delete the row by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->delete($this->_tbl)
-			->where($this->_tbl_key . ' = ' . $this->_db->q($pk));
+			->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
@@ -825,9 +825,9 @@ abstract class JTable extends JObject
 		// Check the row out by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->qn('checked_out') . ' = ' . (int) $userId);
-		$query->set($this->_db->qn('checked_out_time') . ' = ' . $this->_db->q($time));
-		$query->where($this->_tbl_key . ' = ' . $this->_db->q($pk));
+		$query->set($this->_db->quoteName('checked_out') . ' = ' . (int) $userId);
+		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($time));
+		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -869,9 +869,9 @@ abstract class JTable extends JObject
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->qn('checked_out') . ' = 0');
-		$query->set($this->_db->qn('checked_out_time') . ' = ' . $this->_db->q($this->_db->getNullDate()));
-		$query->where($this->_tbl_key . ' = ' . $this->_db->q($pk));
+		$query->set($this->_db->quoteName('checked_out') . ' = 0');
+		$query->set($this->_db->quoteName('checked_out_time') . ' = ' . $this->_db->quote($this->_db->getNullDate()));
+		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 
 		// Check for a database error.
@@ -914,8 +914,8 @@ abstract class JTable extends JObject
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set($this->_db->qn('hits') . ' = (' . $this->_db->qn('hits') . ' + 1)');
-		$query->where($this->_tbl_key . ' = ' . $this->_db->q($pk));
+		$query->set($this->_db->quoteName('hits') . ' = (' . $this->_db->quoteName('hits') . ' + 1)');
+		$query->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
@@ -955,7 +955,7 @@ abstract class JTable extends JObject
 		}
 
 		$db = JFactory::getDBO();
-		$db->setQuery('SELECT COUNT(userid)' . ' FROM ' . $db->qn('#__session') . ' WHERE ' . $db->qn('userid') . ' = ' . (int) $against);
+		$db->setQuery('SELECT COUNT(userid)' . ' FROM ' . $db->quoteName('#__session') . ' WHERE ' . $db->quoteName('userid') . ' = ' . (int) $against);
 		$checkedOut = (boolean) $db->loadResult();
 
 		// If a session exists for the user then it is checked out.
@@ -1048,7 +1048,7 @@ abstract class JTable extends JObject
 					$query = $this->_db->getQuery(true);
 					$query->update($this->_tbl);
 					$query->set('ordering = ' . ($i + 1));
-					$query->where($this->_tbl_key . ' = ' . $this->_db->q($row->$k));
+					$query->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 					$this->_db->setQuery($query);
 					$this->_db->execute();
 				}
@@ -1124,7 +1124,7 @@ abstract class JTable extends JObject
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $row->ordering)
-				->where($this->_tbl_key . ' = ' . $this->_db->q($this->$k));
+				->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
@@ -1132,7 +1132,7 @@ abstract class JTable extends JObject
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $this->ordering)
-				->where($this->_tbl_key . ' = ' . $this->_db->q($row->$k));
+				->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
@@ -1145,7 +1145,7 @@ abstract class JTable extends JObject
 			$query = $this->_db->getQuery(true);
 			$query->update($this->_tbl);
 			$query->set('ordering = ' . (int) $this->ordering)
-				->where($this->_tbl_key . ' = ' . $this->_db->q($this->$k));
+				->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}

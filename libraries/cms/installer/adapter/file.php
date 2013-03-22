@@ -221,10 +221,10 @@ class JInstallerAdapterFile extends JAdapterInstance
 		 * If it isn't, add an entry to extensions
 		 */
 		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'))
-			->where($query->qn('type') . ' = ' . $query->q('file'))
-			->where($query->qn('element') . ' = ' . $query->q($element));
+		$query->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 
 		try
@@ -647,10 +647,10 @@ class JInstallerAdapterFile extends JAdapterInstance
 		$db = $this->parent->getDBO();
 
 		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'))
-			->where($query->qn('type') . ' = ' . $query->q('file'))
-			->where($query->qn('element') . ' = ' . $query->q($extension));
+		$query->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($extension));
 		$db->setQuery($query);
 
 		try

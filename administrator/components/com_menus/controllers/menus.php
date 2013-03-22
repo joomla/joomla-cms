@@ -125,7 +125,7 @@ class MenusControllerMenus extends JControllerLegacy
 			$components = $db->setQuery(
 				'SELECT element, extension_id' .
 				' FROM #__extensions' .
-				' WHERE type = '.$db->q('component')
+				' WHERE type = '.$db->quote('component')
 			)->loadAssocList('element', 'extension_id');
 		}
 		catch (RuntimeException $e)
@@ -139,7 +139,7 @@ class MenusControllerMenus extends JControllerLegacy
 			$items = $db->setQuery(
 				'SELECT id, link, component_id' .
 				' FROM #__menu' .
-				' WHERE type = '.$db->q('component')
+				' WHERE type = '.$db->quote('component')
 			)->loadObjectList();
 		}
 		catch (RuntimeException $e)

@@ -160,8 +160,8 @@ abstract class JHtmlModules
 
 		$query->select('DISTINCT(position) as value')
 			->select('position as text')
-			->from($db->qn('#__modules'))
-			->where($db->qn('client_id') . ' = ' . (int) $clientId)
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
 			->order('position');
 
 		// Get the options.

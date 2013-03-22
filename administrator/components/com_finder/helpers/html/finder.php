@@ -35,8 +35,8 @@ abstract class JHtmlFinder
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT t.title AS text, t.id AS value')
-			->from($db->qn('#__finder_types') . ' AS t')
-			->join('LEFT', $db->qn('#__finder_links') . ' AS l ON l.type_id = t.id')
+			->from($db->quoteName('#__finder_types') . ' AS t')
+			->join('LEFT', $db->quoteName('#__finder_links') . ' AS l ON l.type_id = t.id')
 			->order('t.title ASC');
 		$db->setQuery($query);
 
@@ -78,8 +78,8 @@ abstract class JHtmlFinder
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('title AS text, id AS value')
-			->from($db->qn('#__finder_taxonomy'))
-			->where($db->qn('parent_id') . ' = 1')
+			->from($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('parent_id') . ' = 1')
 			->order('ordering, title ASC');
 		$db->setQuery($query);
 

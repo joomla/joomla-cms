@@ -60,19 +60,19 @@ class JFormFieldCategoryParent extends JFormFieldList
 
 		$query->select('a.id AS value, a.title AS text, a.level')
 			->from('#__categories AS a')
-			->join('LEFT', $db->qn('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
 		if ($extension = $this->form->getValue('extension'))
 		{
-			$query->where('(a.extension = '.$db->q($extension).' OR a.parent_id = 0)');
+			$query->where('(a.extension = '.$db->quote($extension).' OR a.parent_id = 0)');
 		}
 		if ($this->element['parent'])
 		{
 		// Prevent parenting to children of this item.
 			if ($id = $this->form->getValue('id'))
 			{
-				$query->join('LEFT', $db->qn('#__categories').' AS p ON p.id = '.(int) $id)
+				$query->join('LEFT', $db->quoteName('#__categories').' AS p ON p.id = '.(int) $id)
 					->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
 				$rowQuery	= $db->getQuery(true);

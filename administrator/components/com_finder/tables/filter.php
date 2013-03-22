@@ -144,8 +144,8 @@ class FinderTableFilter extends JTable
 
 		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true);
-		$query->update($this->_db->qn($this->_tbl));
-		$query->set($this->_db->qn('state') . ' = ' . (int) $state);
+		$query->update($this->_db->quoteName($this->_tbl));
+		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where($where);
 		$this->_db->setQuery($query . $checkin);
 

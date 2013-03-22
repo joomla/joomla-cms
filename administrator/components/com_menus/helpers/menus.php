@@ -145,12 +145,12 @@ class MenusHelper
 
 		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
 			->from('#__menu AS a')
-			->join('LEFT', $db->qn('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
 		if ($menuType)
 		{
-			$query->where('(a.menutype = '.$db->q($menuType).' OR a.parent_id = 0)');
+			$query->where('(a.menutype = '.$db->quote($menuType).' OR a.parent_id = 0)');
 		}
 
 		if ($parentId)
@@ -201,7 +201,7 @@ class MenusHelper
 			$query->clear();
 			$query->select('*')
 				->from('#__menu_types')
-				->where('menutype <> '.$db->q(''))
+				->where('menutype <> '.$db->quote(''))
 				->order('title, menutype');
 			$db->setQuery($query);
 
@@ -248,7 +248,7 @@ class MenusHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->from('#__menu as m')
-			->innerJoin('#__associations as a ON a.id=m.id AND a.context='.$db->q('com_menus.item'))
+			->innerJoin('#__associations as a ON a.id=m.id AND a.context='.$db->quote('com_menus.item'))
 			->innerJoin('#__associations as a2 ON a.key=a2.key')
 			->innerJoin('#__menu as m2 ON a2.id=m2.id')
 			->where('m.id=' . (int) $pk)

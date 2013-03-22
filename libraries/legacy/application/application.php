@@ -978,8 +978,8 @@ class JApplication extends JApplicationBase
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true);
-			$query->delete($query->qn('#__session'))
-				->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
+			$query->delete($db->quoteName('#__session'))
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
 
 			$db->setQuery($query);
 			$db->execute();
@@ -1013,9 +1013,9 @@ class JApplication extends JApplicationBase
 		$user = JFactory::getUser();
 
 		$query = $db->getQuery(true);
-		$query->select($query->qn('session_id'))
-			->from($query->qn('#__session'))
-			->where($query->qn('session_id') . ' = ' . $query->q($session->getId()));
+		$query->select($db->quoteName('session_id'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
 
 		$db->setQuery($query, 0, 1);
 		$exists = $db->loadResult();
@@ -1026,21 +1026,21 @@ class JApplication extends JApplicationBase
 			$query->clear();
 			if ($session->isNew())
 			{
-				$query->insert($query->qn('#__session'))
-					->columns($query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('time'))
-					->values($query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $query->q((int) time()));
+				$query->insert($db->quoteName('#__session'))
+					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
+					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
 				$db->setQuery($query);
 			}
 			else
 			{
-				$query->insert($query->qn('#__session'))
+				$query->insert($db->quoteName('#__session'))
 					->columns(
-						$query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('guest') . ', ' .
-						$query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username')
+						$db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('guest') . ', ' .
+						$db->quoteName('time') . ', ' . $db->quoteName('userid') . ', ' . $db->quoteName('username')
 					)
 					->values(
-						$query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$query->q((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username'))
+						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
+						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
 					);
 
 				$db->setQuery($query);

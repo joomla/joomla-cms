@@ -1178,7 +1178,7 @@ abstract class JDatabaseQuery
 
 		if ($quoted)
 		{
-			return $this->db->q($result);
+			return $this->db->quote($result);
 		}
 
 		return $result;
@@ -1258,7 +1258,7 @@ abstract class JDatabaseQuery
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		return $this->db->q($text, $escape);
+		return $this->db->quote($text, $escape);
 	}
 
 	/**
@@ -1291,7 +1291,7 @@ abstract class JDatabaseQuery
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		return $this->db->qn($name, $as);
+		return $this->db->quoteName($name, $as);
 	}
 
 	/**
@@ -1767,7 +1767,7 @@ abstract class JDatabaseQuery
 	 * @param   string    $interval  The string representation of the appropriate number of units
 	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
-	 * @return  sring  The string with the appropriate sql for addition of dates
+	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
 	 *

@@ -48,9 +48,9 @@ abstract class JHtmlFilter
 		// Load the predefined filter if specified.
 		if (!empty($filterId))
 		{
-			$query->select($db->qn('f.data') . ', ' . $db->qn('f.params'))
-				->from($db->qn('#__finder_filters') . ' AS f')
-				->where($db->qn('f.filter_id') . ' = ' . (int) $filterId);
+			$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'))
+				->from($db->quoteName('#__finder_filters') . ' AS f')
+				->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
 
 			// Load the filter data.
 			$db->setQuery($query);
@@ -76,13 +76,13 @@ abstract class JHtmlFilter
 		// Build the query to get the branch data and the number of child nodes.
 		$query->clear();
 		$query->select('t.*, count(c.id) AS children')
-			->from($db->qn('#__finder_taxonomy') . ' AS t')
-			->join('INNER', $db->qn('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
-			->where($db->qn('t.parent_id') . ' = 1')
-			->where($db->qn('t.state') . ' = 1')
-			->where($db->qn('t.access') . ' IN (' . $groups . ')')
-			->where($db->qn('c.state') . ' = 1')
-			->where($db->qn('c.access') . ' IN (' . $groups . ')')
+			->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
+			->where($db->quoteName('t.parent_id') . ' = 1')
+			->where($db->quoteName('t.state') . ' = 1')
+			->where($db->quoteName('t.access') . ' IN (' . $groups . ')')
+			->where($db->quoteName('c.state') . ' = 1')
+			->where($db->quoteName('c.access') . ' IN (' . $groups . ')')
 			->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id')
 			->order('t.ordering, t.title');
 
@@ -162,10 +162,10 @@ abstract class JHtmlFilter
 			// Build the query to get the child nodes for this branch.
 			$query->clear();
 			$query->select('t.*')
-				->from($db->qn('#__finder_taxonomy') . ' AS t')
-				->where($db->qn('t.parent_id') . ' = ' . (int) $bk)
-				->where($db->qn('t.state') . ' = 1')
-				->where($db->qn('t.access') . ' IN (' . $groups . ')')
+				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+				->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk)
+				->where($db->quoteName('t.state') . ' = 1')
+				->where($db->quoteName('t.access') . ' IN (' . $groups . ')')
 				->order('t.ordering, t.title');
 
 			// Load the branches.
@@ -261,9 +261,9 @@ abstract class JHtmlFilter
 			// Load the predefined filter if specified.
 			if (!empty($query->filter))
 			{
-				$query->select($db->qn('f.data') . ', '. $db->qn('f.params'))
-					->from($db->qn('#__finder_filters') . ' AS f')
-					->where($db->qn('f.filter_id') . ' = ' . (int) $query->filter);
+				$query->select($db->quoteName('f.data') . ', '. $db->quoteName('f.params'))
+					->from($db->quoteName('#__finder_filters') . ' AS f')
+					->where($db->quoteName('f.filter_id') . ' = ' . (int) $query->filter);
 
 				// Load the filter data.
 				$db->setQuery($query);
@@ -289,14 +289,14 @@ abstract class JHtmlFilter
 			// Build the query to get the branch data and the number of child nodes.
 			$query->clear();
 			$query->select('t.*, count(c.id) AS children')
-				->from($db->qn('#__finder_taxonomy') . ' AS t')
-				->join('INNER', $db->qn('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
-				->where($db->qn('t.parent_id') . ' = 1')
-				->where($db->qn('t.state') . ' = 1')
-				->where($db->qn('t.access') . ' IN (' . $groups . ')')
-				->where($db->qn('c.state') . ' = 1')
-				->where($db->qn('c.access') . ' IN (' . $groups . ')')
-				->group($db->qn('t.id'))
+				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+				->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
+				->where($db->quoteName('t.parent_id') . ' = 1')
+				->where($db->quoteName('t.state') . ' = 1')
+				->where($db->quoteName('t.access') . ' IN (' . $groups . ')')
+				->where($db->quoteName('c.state') . ' = 1')
+				->where($db->quoteName('c.access') . ' IN (' . $groups . ')')
+				->group($db->quoteName('t.id'))
 				->order('t.ordering, t.title');
 
 			// Limit the branch children to a predefined filter.
@@ -335,10 +335,10 @@ abstract class JHtmlFilter
 				// Build the query to get the child nodes for this branch.
 				$query->clear();
 				$query->select('t.*')
-					->from($db->qn('#__finder_taxonomy') . ' AS t')
-					->where($db->qn('t.parent_id') . ' = ' . (int) $bk)
-					->where($db->qn('t.state') . ' = 1')
-					->where($db->qn('t.access') . ' IN (' . $groups . ')')
+					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
+					->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk)
+					->where($db->quoteName('t.state') . ' = 1')
+					->where($db->quoteName('t.access') . ' IN (' . $groups . ')')
 					->order('t.ordering, t.title');
 
 				// Limit the nodes to a predefined filter.

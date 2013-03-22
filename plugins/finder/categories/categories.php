@@ -351,7 +351,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$case_when_item_alias .= $a_id.' END as slug';
 		$query->select($case_when_item_alias)
 			->from('#__categories AS a')
-			->where($db->qn('a.id') . ' > 1');
+			->where($db->quoteName('a.id') . ' > 1');
 
 		return $query;
 	}
@@ -367,10 +367,10 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected function getStateQuery()
 	{
 		$query = $this->db->getQuery(true);
-		$query->select($this->db->qn('a.id'))
-			->select($this->db->qn('a.published') . ' AS cat_state')
-			->select($this->db->qn('a.access') . ' AS cat_access')
-			->from($this->db->qn('#__categories') . ' AS a');
+		$query->select($this->db->quoteName('a.id'))
+			->select($this->db->quoteName('a.published') . ' AS cat_state')
+			->select($this->db->quoteName('a.access') . ' AS cat_access')
+			->from($this->db->quoteName('#__categories') . ' AS a');
 
 		return $query;
 	}

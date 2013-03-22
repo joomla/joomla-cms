@@ -130,9 +130,9 @@ class JTags
 		{
 			$queryid = $db->getQuery(true);
 
-			$queryid->select($db->qn('id'))
-				->from($db->qn($type->table))
-				->where($db->qn('type_alias') . ' = ' . $db->q($prefix));
+			$queryid->select($db->quoteName('id'))
+				->from($db->quoteName($type->table))
+				->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix));
 			$db->setQuery($queryid);
 			$id = $db->loadResult();
 		}
@@ -141,9 +141,9 @@ class JTags
 		{
 			// Delete the old tag maps.
 			$query = $db->getQuery(true);
-			$query->delete($db->qn('#__contentitem_tag_map'))
-				->where($db->qn('type_alias') . ' = ' . $db->q($prefix))
-				->where($db->qn('content_item_id') . ' = ' . (int) $id);
+			$query->delete($db->quoteName('#__contentitem_tag_map'))
+				->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
+				->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -159,12 +159,12 @@ class JTags
 			if ($isNew == 0)
 			{
 				$querycheck = $db->getQuery(true);
-				$querycheck->select($db->qn('core_content_id'))
-					->from($db->qn('#__core_content'))
+				$querycheck->select($db->quoteName('core_content_id'))
+					->from($db->quoteName('#__core_content'))
 					->where(
 						array(
-							$db->qn('core_content_item_id') . ' = ' . $id,
-							$db->qn('core_type_alias') . ' = ' . $db->q($prefix)
+							$db->quoteName('core_content_item_id') . ' = ' . $id,
+							$db->quoteName('core_type_alias') . ' = ' . $db->quote($prefix)
 						)
 				);
 				$db->setQuery($querycheck);
@@ -177,9 +177,9 @@ class JTags
 			if ($id == 0)
 			{
 				$queryid = $db->getQuery(true);
-				$queryid->select($db->qn('id'));
-				$queryid->from($db->qn($type->table));
-				$queryid->where($db->qn($map['core_alias']) . ' = ' . $db->q($fieldMap['core_alias']));
+				$queryid->select($db->quoteName('id'));
+				$queryid->from($db->quoteName($type->table));
+				$queryid->where($db->quoteName($map['core_alias']) . ' = ' . $db->quote($fieldMap['core_alias']));
 				$db->setQuery($queryid);
 				$id = $db->loadResult();
 				$fieldMap['core_content_item_id'] = $id;
@@ -192,16 +192,16 @@ class JTags
 
 				foreach ($fieldMap as $value)
 				{
-					$quotedValues[] = $db->q($value);
+					$quotedValues[] = $db->quote($value);
 				}
 
 				$values = implode(',', $quotedValues);
-				$values = $values . ',' . (int) $typeid . ', ' . $db->q($prefix);
+				$values = $values . ',' . (int) $typeid . ', ' . $db->quote($prefix);
 
-				$querycc->insert($db->qn('#__core_content'))
-					->columns($db->qn(array_keys($fieldMap)))
-					->columns($db->qn('core_type_id'))
-					->columns($db->qn('core_type_alias'))
+				$querycc->insert($db->quoteName('#__core_content'))
+					->columns($db->quoteName(array_keys($fieldMap)))
+					->columns($db->quoteName('core_type_id'))
+					->columns($db->quoteName('core_type_alias'))
 					->values($values);
 			}
 			else
@@ -210,14 +210,14 @@ class JTags
 
 				foreach ($fieldMap as $fieldname => $value)
 				{
-					$setList .= $db->qn($fieldname) . ' = ' . $db->q($value) . ',';
+					$setList .= $db->quoteName($fieldname) . ' = ' . $db->quote($value) . ',';
 				}
 
-				$setList = $setList . ' ' . $db->qn('core_type_id') . ' = ' . $typeid . ',' . $db->qn('core_type_alias') . ' = ' . $db->q($prefix);
+				$setList = $setList . ' ' . $db->quoteName('core_type_id') . ' = ' . $typeid . ',' . $db->quoteName('core_type_alias') . ' = ' . $db->quote($prefix);
 
-				$querycc->update($db->qn('#__core_content'));
-				$querycc->where($db->qn('core_content_item_id') . ' = ' . $id);
-				$querycc->where($db->qn('core_type_alias') . ' = ' . $db->q($prefix));
+				$querycc->update($db->quoteName('#__core_content'));
+				$querycc->where($db->quoteName('core_content_item_id') . ' = ' . $id);
+				$querycc->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($prefix));
 				$querycc->set($setList);
 			}
 
@@ -228,10 +228,10 @@ class JTags
 			if (empty($ccId))
 			{
 				$queryCcid = $db->getQuery(true);
-				$queryCcid->select($db->qn('core_content_id'))
-					->from($db->qn('#__core_content'))
-					->where($db->qn('core_content_item_id') . ' = ' . $id)
-					->where($db->qn('core_type_alias') . ' = ' . $db->q($prefix));
+				$queryCcid->select($db->quoteName('core_content_id'))
+					->from($db->quoteName('#__core_content'))
+					->where($db->quoteName('core_content_item_id') . ' = ' . $id)
+					->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($prefix));
 
 				$db->setQuery($queryCcid);
 				$ccId = $db->loadResult();
@@ -242,9 +242,9 @@ class JTags
 			{
 				$query2 = $db->getQuery(true);
 				$query2->insert('#__contentitem_tag_map')
-					->columns(array($db->qn('type_alias'), $db->qn('content_item_id'), $db->qn('tag_id'), $db->qn('tag_date'), $db->qn('core_content_id')))
+					->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')))
 					->clear('values')
-					->values($db->q($prefix) . ', ' . (int) $id . ', ' . $db->q($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
+					->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
 				$db->setQuery($query2);
 				$db->execute();
 			}
@@ -272,10 +272,10 @@ class JTags
 		// Check whether the tag is present already.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->delete($db->qn('#__contentitem_tag_map'))
-			->where($db->qn('type_alias') . ' = ' . $db->q($prefix))
-			->where($db->qn('content_item_id') . ' = ' . (int) $pk)
-			->where($db->qn('tag_id') . ' = ' . (int) $tag);
+		$query->delete($db->quoteName('#__contentitem_tag_map'))
+			->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
+			->where($db->quoteName('content_item_id') . ' = ' . (int) $pk)
+			->where($db->quoteName('tag_id') . ' = ' . (int) $tag);
 		$db->setQuery($query);
 		$result = $db->loadResult();
 		$query->execute();
@@ -283,11 +283,11 @@ class JTags
 		self::tagItem($id, $prefix, $tags, $isNew, null);
 		$query2 = $db->getQuery(true);
 
-		$query2->insert($db->qn('#__contentitem_tag_map'))
-			->columns(array($db->qn('type_alias'), $db->qn('content_item_id'), $db->qn('tag_id'), $db->qn('tag_date')));
+		$query2->insert($db->quoteName('#__contentitem_tag_map'))
+			->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date')));
 
 		$query2->clear('values');
-		$query2->values($db->q($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
+		$query2->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
 		$db->setQuery($query2);
 		$db->execute();
 	}
@@ -307,8 +307,8 @@ class JTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete('#__contentitem_tag_map')
-			->where($db->qn('type_alias') . ' = ' . $db->q($prefix))
-			->where($db->qn('content_item_id') . ' = ' . (int) $id);
+			->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
+			->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -338,12 +338,12 @@ class JTags
 
 			// Load the tags.
 			$query->clear();
-			$query->select($db->qn('t.id'))
-				->from($db->qn('#__tags') . ' AS t ')
-				->join('INNER', $db->qn('#__contentitem_tag_map') . ' AS m' 
-					. ' ON ' . $db->qn('m.tag_id') . ' = ' . $db->qn('t.id')
-					. ' AND ' . $db->qn('m.type_alias') . ' = ' . $db->q($prefix)
-					. ' AND ' . $db->qn('m.content_item_id') . ' IN ( ' . $id . ')');
+			$query->select($db->quoteName('t.id'))
+				->from($db->quoteName('#__tags') . ' AS t ')
+				->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
+					. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
+					. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
+					. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id . ')');
 
 			$db->setQuery($query);
 
@@ -380,13 +380,13 @@ class JTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select(array($db->qn('m.tag_id'), $db->qn('t') . '.*'))
-			->from($db->qn('#__contentitem_tag_map') . ' AS m ')
+		$query->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') . '.*'))
+			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
 			->where(
 			array(
-				$db->qn('m.type_alias') . ' = ' . $db->q($contentType),
-				$db->qn('m.content_item_id') . ' = ' . $db->q($id),
-				$db->qn('t.published') . ' = 1'
+				$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
+				$db->quoteName('m.content_item_id') . ' = ' . $db->quote($id),
+				$db->quoteName('t.published') . ' = 1'
 			)
 		);
 
@@ -407,12 +407,12 @@ class JTags
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		if ($getTagData)
 		{
-			$query->join('INNER', $db->qn('#__tags') . ' AS t ' . ' ON ' . $db->qn('m.tag_id') . ' = ' . $db->qn('t.id'));
+			$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 		}
 
 		$db->setQuery($query);
@@ -444,7 +444,7 @@ class JTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
-		$nullDate = $db->q($db->getNullDate());
+		$nullDate = $db->quote($db->getNullDate());
 
 		$ntagsr = substr_count($tagId, ',') + 1;
 
@@ -513,7 +513,7 @@ class JTags
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+			$query->where($db->quoteName('core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		$contentTypes = new JTags;
@@ -652,9 +652,9 @@ class JTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('table'))
-			->from($db->qn('#__content_types'))
-			->where($db->qn('type_alias') . ' = ' . $db->q($tagItemAlias));
+		$query->select($db->quoteName('table'))
+			->from($db->quoteName('#__content_types'))
+			->where($db->quoteName('type_alias') . ' = ' . $db->quote($tagItemAlias));
 		$db->setQuery($query);
 		$this->table = $db->loadResult();
 
@@ -676,9 +676,9 @@ class JTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('type_id'))
-			->from($db->qn('#__content_types'))
-			->where($db->qn('type_alias') . ' = ' . $db->q($typeAlias));
+		$query->select($db->quoteName('type_id'))
+			->from($db->quoteName('#__content_types'))
+			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
 		$this->type_id = $db->loadResult();
 
@@ -712,15 +712,15 @@ class JTags
 			}
 			if ($useAlias)
 			{
-				$query->where($db->qn('type_alias') . ' IN (' . $query->q($selectTypes) . ')');
+				$query->where($db->quoteName('type_alias') . ' IN (' . $db->quote($selectTypes) . ')');
 			}
 			else
 			{
-				$query->where($db->qn('type_id') . ' IN (' . $selectTypes . ')');
+				$query->where($db->quoteName('type_id') . ' IN (' . $selectTypes . ')');
 			}
 		}
 
-		$query->from($db->qn('#__content_types'));
+		$query->from($db->quoteName('#__content_types'));
 
 		$db->setQuery($query);
 
@@ -754,8 +754,8 @@ class JTags
 		// Delete the old tag maps.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->delete($db->qn('#__contentitem_tag_map'))
-			->where($db->qn('tag_id') . ' = ' . (int) $tag_id);
+		$query->delete($db->quoteName('#__contentitem_tag_map'))
+			->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -778,30 +778,30 @@ class JTags
 			->select('a.path AS text')
 			->select('a.path')
 			->from('#__tags AS a')
-			->join('LEFT', $db->qn('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
+			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter language
 		if (!empty($filters['flanguage']))
 		{
-			$query->where('a.language IN (' . $db->q($filters['flanguage']) . ',' . $db->q('*') . ') ');
+			$query->where('a.language IN (' . $db->quote($filters['flanguage']) . ',' . $db->quote('*') . ') ');
 		}
 
 		// Do not return root
-		$query->where($db->qn('a.alias') . ' <> ' . $db->q('root'));
+		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
 		// Search in title or path
 		if (!empty($filters['like']))
 		{
 			$query->where(
-				'(' . $db->qn('a.title') . ' LIKE ' . $db->q('%' . $filters['like'] . '%')
-				. ' OR ' . $db->qn('a.path') . ' LIKE ' . $db->q('%' . $filters['like'] . '%') . ')'
+				'(' . $db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%')
+				. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
 			);
 		}
 
 		// Filter title
 		if (!empty($filters['title']))
 		{
-			$query->where($db->qn('a.title') . ' = ' . $db->q($filters['title']));
+			$query->where($db->quoteName('a.title') . ' = ' . $db->quote($filters['title']));
 		}
 
 		// Filter on the published state
@@ -869,8 +869,8 @@ class JTags
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->delete('#__core_content')
-			->where($db->qn('core_type_alias') . ' = ' . $db->q($typeAlias))
-			->where($db->qn('core_content_item_id') . ' IN (' . $idList . ')');
+			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias))
+			->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
 
 		$db->setQuery($query);
 		$db->execute();

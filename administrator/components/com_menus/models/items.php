@@ -180,32 +180,32 @@ class MenusModelItems extends JModelList
 		// Select all fields from the table.
 		$query->select(
 			$this->getState('list.select',
-				$db->qn(
+				$db->quoteName(
 					array('a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id', 'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav', 'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'),
 					array(null, null, null, null, null, null, null, null, null, null, 'apublished', null, null, null, null, null, null, null, null, null, null, null, null, null)
 				)
 			)
 		);
 		$query->select('CASE a.type' .
-			' WHEN ' . $db->q('component') . ' THEN a.published+2*(e.enabled-1) ' .
-			' WHEN ' . $db->q('url') . ' THEN a.published+2 ' .
-			' WHEN ' . $db->q('alias') . ' THEN a.published+4 ' .
-			' WHEN ' . $db->q('separator') . ' THEN a.published+6 ' .
-			' WHEN ' . $db->q('heading') . ' THEN a.published+8 ' .
+			' WHEN ' . $db->quote('component') . ' THEN a.published+2*(e.enabled-1) ' .
+			' WHEN ' . $db->quote('url') . ' THEN a.published+2 ' .
+			' WHEN ' . $db->quote('alias') . ' THEN a.published+4 ' .
+			' WHEN ' . $db->quote('separator') . ' THEN a.published+6 ' .
+			' WHEN ' . $db->quote('heading') . ' THEN a.published+8 ' .
 			' END AS published');
-		$query->from($db->qn('#__menu').' AS a');
+		$query->from($db->quoteName('#__menu').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image as image')
-			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users.
 		$query->select('u.name AS editor')
-			->join('LEFT', $db->qn('#__users').' AS u ON u.id = a.checked_out');
+			->join('LEFT', $db->quoteName('#__users').' AS u ON u.id = a.checked_out');
 
 		//Join over components
 		$query->select('c.element AS componentname')
-			->join('LEFT', $db->qn('#__extensions').' AS c ON c.extension_id = a.component_id');
+			->join('LEFT', $db->quoteName('#__extensions').' AS c ON c.extension_id = a.component_id');
 
 		// Join over the asset groups.
 		$query->select('ag.title AS access_level')
@@ -216,7 +216,7 @@ class MenusModelItems extends JModelList
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->q('com_menus.item'))
+				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context='.$db->quote('com_menus.item'))
 				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
 				->group('a.id');
 		}
@@ -269,7 +269,7 @@ class MenusModelItems extends JModelList
 		$menuType = $this->getState('filter.menutype');
 		if (!empty($menuType))
 		{
-			$query->where('a.menutype = '.$db->q($menuType));
+			$query->where('a.menutype = '.$db->quote($menuType));
 		}
 
 		// Filter on the access level.
@@ -294,7 +294,7 @@ class MenusModelItems extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->q($language));
+			$query->where('a.language = '.$db->quote($language));
 		}
 
 		// Add the list ordering clause.

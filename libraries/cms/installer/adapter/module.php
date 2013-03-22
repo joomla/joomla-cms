@@ -225,8 +225,8 @@ class JInstallerAdapterModule extends JAdapterInstance
 		 * If it isn't, add an entry to extensions
 		 */
 		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'))
-			->where($query->qn('element') . ' = ' . $query->q($element))->where($query->qn('client_id') . ' = ' . (int) $clientId);
+		$query->select($db->quoteName('extension_id'))->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element))->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 		$db->setQuery($query);
 
 		try
@@ -848,9 +848,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 
 		// Let's delete all the module copies for the type we are uninstalling
 		$query = $db->getQuery(true);
-		$query->select($query->qn('id'))->from($query->qn('#__modules'))
-			->where($query->qn('module') . ' = ' . $query->q($row->element))
-			->where($query->qn('client_id') . ' = ' . (int) $row->client_id);
+		$query->select($db->quoteName('id'))->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))
+			->where($db->quoteName('client_id') . ' = ' . (int) $row->client_id);
 		$db->setQuery($query);
 
 		try

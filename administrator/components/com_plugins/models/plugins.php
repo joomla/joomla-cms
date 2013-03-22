@@ -158,7 +158,7 @@ class PluginsModelPlugins extends JModelList
 				$query->order('a.folder ASC');
 				$ordering = 'a.ordering';
 			}
-			$query->order($this->_db->qn($ordering) . ' ' . $this->getState('list.direction'));
+			$query->order($this->_db->quoteName($ordering) . ' ' . $this->getState('list.direction'));
 
 			if ($ordering == 'folder')
 			{
@@ -210,9 +210,9 @@ class PluginsModelPlugins extends JModelList
 				' a.enabled, a.access, a.ordering'
 			)
 		);
-		$query->from($db->qn('#__extensions').' AS a')
+		$query->from($db->quoteName('#__extensions').' AS a')
 
-			->where($db->qn('type').' = '.$db->q('plugin'));
+			->where($db->quoteName('type').' = '.$db->quote('plugin'));
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
@@ -244,7 +244,7 @@ class PluginsModelPlugins extends JModelList
 		// Filter by folder.
 		if ($folder = $this->getState('filter.folder'))
 		{
-			$query->where('a.folder = '.$db->q($folder));
+			$query->where('a.folder = '.$db->quote($folder));
 		}
 
 		// Filter by search in id

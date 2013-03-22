@@ -80,8 +80,8 @@ class RedirectHelper
 		$db->setQuery(
 			'SELECT enabled' .
 			' FROM #__extensions' .
-			' WHERE folder = '.$db->q('system').
-			'  AND element = '.$db->q('redirect')
+			' WHERE folder = '.$db->quote('system').
+			'  AND element = '.$db->quote('redirect')
 		);
 
 		try

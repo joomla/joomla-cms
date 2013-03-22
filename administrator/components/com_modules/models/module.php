@@ -220,9 +220,9 @@ class ModulesModelModule extends JModelAdmin
 				// Now we need to handle the module assignments
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
-				$query->select($db->qn('menuid'))
-					->from($db->qn('#__modules_menu'))
-					->where($db->qn('moduleid') . ' = ' . $pk);
+				$query->select($db->quoteName('menuid'))
+					->from($db->quoteName('#__modules_menu'))
+					->where($db->quoteName('moduleid') . ' = ' . $pk);
 				$db->setQuery($query);
 				$menus = $db->loadColumn();
 
@@ -230,8 +230,8 @@ class ModulesModelModule extends JModelAdmin
 				foreach ($menus as $menu)
 				{
 					$query->clear();
-					$query->insert($db->qn('#__modules_menu'))
-						->columns(array($db->qn('moduleid'), $db->qn('menuid')))
+					$query->insert($db->quoteName('#__modules_menu'))
+						->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 						->values($newId . ', ' . $menu);
 					$db->setQuery($query);
 					$db->execute();
@@ -630,7 +630,7 @@ class ModulesModelModule extends JModelAdmin
 					$query->select('element, client_id')
 						->from('#__extensions')
 						->where('extension_id = ' . $extensionId)
-						->where('type = ' . $db->q('module'));
+						->where('type = ' . $db->quote('module'));
 					$db->setQuery($query);
 
 					try
@@ -985,7 +985,7 @@ class ModulesModelModule extends JModelAdmin
 
 				$query->clear();
 				$query->insert('#__modules_menu')
-					->columns(array($db->qn('moduleid'), $db->qn('menuid')))
+					->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 					->values((int) $table->id . ', 0');
 				$db->setQuery((string) $query);
 

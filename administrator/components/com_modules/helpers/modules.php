@@ -91,7 +91,7 @@ abstract class ModulesHelper
 
 		$query->select('DISTINCT(position)')
 			->from('#__modules')
-			->where($db->qn('client_id') . ' = ' . (int) $clientId)
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
 			->order('position');
 
 		$db->setQuery($query);
@@ -144,15 +144,15 @@ abstract class ModulesHelper
 		$query->select('element, name, enabled')
 			->from('#__extensions')
 			->where('client_id = ' . (int) $clientId)
-			->where('type = ' . $db->q('template'));
+			->where('type = ' . $db->quote('template'));
 		if ($state != '')
 		{
-			$query->where('enabled = ' . $db->q($state));
+			$query->where('enabled = ' . $db->quote($state));
 		}
 
 		if ($template != '')
 		{
-			$query->where('element = ' . $db->q($template));
+			$query->where('element = ' . $db->quote($template));
 		}
 
 		// Set the query and load the templates.
@@ -176,7 +176,7 @@ abstract class ModulesHelper
 		$query->select('element AS value, name AS text')
 			->from('#__extensions as e')
 			->where('e.client_id = ' . (int) $clientId)
-			->where('type = ' . $db->q('module'))
+			->where('type = ' . $db->quote('module'))
 			->join('LEFT', '#__modules as m ON m.module=e.element AND m.client_id=e.client_id')
 			->where('m.module IS NOT NULL')
 			->group('element,name');

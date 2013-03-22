@@ -90,7 +90,7 @@ class TemplatesHelper
 
 		$query->select('element as value, name as text, extension_id as e_id')
 			->from('#__extensions')
-			->where('type='.$db->q('template'))
+			->where('type='.$db->quote('template'))
 			->where('enabled=1')
 			->order('client_id')
 			->order('name');

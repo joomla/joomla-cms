@@ -283,13 +283,13 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 
 		// Get the url for the content id.
-		$item = $this->db->q($this->getUrl($id, $this->extension, $this->layout));
+		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
 		$query = $this->db->getQuery(true);
-		$query->update($this->db->qn('#__finder_links'));
-		$query->set($this->db->qn($property) . ' = ' . (int) $value);
-		$query->where($this->db->qn('url') . ' = ' . $item);
+		$query->update($this->db->quoteName('#__finder_links'));
+		$query->set($this->db->quoteName($property) . ' = ' . (int) $value);
+		$query->where($this->db->quoteName('url') . ' = ' . $item);
 		$this->db->setQuery($query);
 		$this->db->execute();
 
@@ -343,13 +343,13 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function remove($id)
 	{
 		// Get the item's URL
-		$url = $this->db->q($this->getUrl($id, $this->extension, $this->layout));
+		$url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Get the link ids for the content items.
 		$query = $this->db->getQuery(true);
-		$query->select($this->db->qn('link_id'))
-			->from($this->db->qn('#__finder_links'))
-			->where($this->db->qn('url') . ' = ' . $url);
+		$query->select($this->db->quoteName('link_id'))
+			->from($this->db->quoteName('#__finder_links'))
+			->where($this->db->quoteName('url') . ' = ' . $url);
 		$this->db->setQuery($query);
 		$items = $this->db->loadColumn();
 
@@ -461,9 +461,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function checkCategoryAccess($row)
 	{
 		$query = $this->db->getQuery(true);
-		$query->select($this->db->qn('access'))
-			->from($this->db->qn('#__categories'))
-			->where($this->db->qn('id') . ' = ' . (int) $row->id);
+		$query->select($this->db->quoteName('access'))
+			->from($this->db->quoteName('#__categories'))
+			->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
 		$this->db->setQuery($query);
 
 		// Store the access level to determine if it changes
@@ -482,9 +482,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function checkItemAccess($row)
 	{
 		$query = $this->db->getQuery(true);
-		$query->select($this->db->qn('access'))
-			->from($this->db->qn($this->table))
-			->where($this->db->qn('id') . ' = ' . (int) $row->id);
+		$query->select($this->db->quoteName('access'))
+			->from($this->db->quoteName($this->table))
+			->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
 		$this->db->setQuery($query);
 
 		// Store the access level to determine if it changes
@@ -542,7 +542,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Get the list query and add the extra WHERE clause.
 		$query = $this->getListQuery();
-		$query->where($this->db->qn('a.id') . ' = ' . (int) $id);
+		$query->where($this->db->quoteName('a.id') . ' = ' . (int) $id);
 
 		// Get the item to index.
 		$this->db->setQuery($query);
@@ -638,9 +638,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Prepare the query
 		$query = $this->db->getQuery(true);
-		$query->select($this->db->qn('element'))
-			->from($this->db->qn('#__extensions'))
-			->where($this->db->qn('extension_id') . ' = ' . (int) $id);
+		$query->select($this->db->quoteName('element'))
+			->from($this->db->quoteName('#__extensions'))
+			->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
 		$type = $this->db->loadResult();
 
@@ -683,7 +683,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Build an SQL query based on the modified time.
 		$query = $this->db->getQuery(true);
-		$query->where($this->db->qn('a.modified') . ' >= ' . $this->db->q($time));
+		$query->where($this->db->quoteName('a.modified') . ' >= ' . $this->db->quote($time));
 
 		return $query;
 	}
@@ -701,7 +701,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Build an SQL query based on the item ids.
 		$query = $this->db->getQuery(true);
-		$query->where($this->db->qn('a.id') . ' IN(' . implode(',', $ids) . ')');
+		$query->where($this->db->quoteName('a.id') . ' IN(' . implode(',', $ids) . ')');
 
 		return $query;
 	}
@@ -718,9 +718,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Get the type id from the database.
 		$query = $this->db->getQuery(true);
-		$query->select($this->db->qn('id'))
-			->from($this->db->qn('#__finder_types'))
-			->where($this->db->qn('title') . ' = ' . $this->db->q($this->type_title));
+		$query->select($this->db->quoteName('id'))
+			->from($this->db->quoteName('#__finder_types'))
+			->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
 		$this->db->setQuery($query);
 		$result = (int) $this->db->loadResult();
 
@@ -765,11 +765,11 @@ abstract class FinderIndexerAdapter extends JPlugin
 
 		// Build a query to get the menu params.
 		$query = $this->db->getQuery(true);
-		$query->select($this->db->qn('params'))
-			->from($this->db->qn('#__menu'))
-			->where($this->db->qn('link') . ' = ' . $this->db->q($url))
-			->where($this->db->qn('published') . ' = 1')
-			->where($this->db->qn('access') . ' IN (' . $groups . ')');
+		$query->select($this->db->quoteName('params'))
+			->from($this->db->quoteName('#__menu'))
+			->where($this->db->quoteName('link') . ' = ' . $this->db->quote($url))
+			->where($this->db->quoteName('published') . ' = 1')
+			->where($this->db->quoteName('access') . ' IN (' . $groups . ')');
 
 		// Get the menu params from the database.
 		$this->db->setQuery($query);

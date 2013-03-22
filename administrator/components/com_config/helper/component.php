@@ -31,7 +31,7 @@ class ConfigHelperComponent
 		$query = $db->getQuery(true);
 		$query->select('element')
 			->from('#__extensions')
-			->where('type = ' . $db->q('component'))
+			->where('type = ' . $db->quote('component'))
 			->where('enabled = 1');
 		$db->setQuery($query);
 		$result = $db->loadColumn();

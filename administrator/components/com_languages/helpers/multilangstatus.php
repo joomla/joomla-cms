@@ -24,7 +24,7 @@ abstract class MultilangstatusHelper
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('COUNT(*)')
-			->from($db->qn('#__menu'))
+			->from($db->quoteName('#__menu'))
 			->where('home = 1')
 			->where('published = 1')
 			->where('client_id = 0');
@@ -38,8 +38,8 @@ abstract class MultilangstatusHelper
 		$db			= JFactory::getDBO();
 		$query		= $db->getQuery(true);
 		$query->select('COUNT(*)')
-			->from($db->qn('#__modules'))
-			->where('module = ' . $db->q('mod_languages'))
+			->from($db->quoteName('#__modules'))
+			->where('module = ' . $db->quote('mod_languages'))
 			->where('published = 1')
 			->where('client_id = 0');
 		$db->setQuery($query);
@@ -78,7 +78,7 @@ abstract class MultilangstatusHelper
 		$db		= JFactory::getDBO();
 		$query	= $db->getQuery(true);
 		$query->select('language')
-			->from($db->qn('#__menu'))
+			->from($db->quoteName('#__menu'))
 			->where('home = 1')
 			->where('published = 1')
 			->where('client_id = 0');
@@ -117,12 +117,12 @@ abstract class MultilangstatusHelper
 	{
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);
-		$query->select('u.name, count(cd.language) as counted, MAX(cd.language='.$db->q('*').') as all_languages')
+		$query->select('u.name, count(cd.language) as counted, MAX(cd.language='.$db->quote('*').') as all_languages')
 			->from('#__users AS u')
 			->join('LEFT', '#__contact_details AS cd ON cd.user_id=u.id')
 			->join('LEFT', '#__languages as l on cd.language=l.lang_code')
 			->where('EXISTS (SELECT * from #__content as c where  c.created_by=u.id)')
-			->where('(l.published=1 or cd.language='.$db->q('*').')')
+			->where('(l.published=1 or cd.language='.$db->quote('*').')')
 			->where('cd.published=1')
 			->group('u.id')
 			->having('(counted !=' . count(JLanguageHelper::getLanguages()).' OR all_languages=1)');

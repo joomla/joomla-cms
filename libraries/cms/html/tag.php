@@ -69,13 +69,13 @@ abstract class JHtmlTag
 			{
 				if (is_string($config['filter.language']))
 				{
-					$query->where('a.language = ' . $db->q($config['filter.language']));
+					$query->where('a.language = ' . $db->quote($config['filter.language']));
 				}
 				elseif (is_array($config['filter.language']))
 				{
 					foreach ($config['filter.language'] as &$language)
 					{
-						$language = $db->q($language);
+						$language = $db->quote($language);
 					}
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}

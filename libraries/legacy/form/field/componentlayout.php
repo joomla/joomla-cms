@@ -94,12 +94,12 @@ class JFormFieldComponentlayout extends JFormField
 			$query->select('e.element, e.name')
 				->from('#__extensions as e')
 				->where('e.client_id = ' . (int) $clientId)
-				->where('e.type = ' . $db->q('template'))
+				->where('e.type = ' . $db->quote('template'))
 				->where('e.enabled = 1');
 
 			if ($template)
 			{
-				$query->where('e.element = ' . $db->q($template));
+				$query->where('e.element = ' . $db->quote($template));
 			}
 
 			if ($template_style_id)

@@ -40,9 +40,9 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 		// Check if the item is in the database.
 		$query = $db->getQuery(true);
-		$query->select($db->qn('link_id') . ', ' . $db->qn('md5sum'))
-			->from($db->qn('#__finder_links'))
-			->where($db->qn('url') . ' = ' . $db->q($item->url));
+		$query->select($db->quoteName('link_id') . ', ' . $db->quoteName('md5sum'))
+			->from($db->quoteName('#__finder_links'))
+			->where($db->quoteName('url') . ' = ' . $db->quote($item->url));
 
 		// Load the item  from the database.
 		$db->setQuery($query);
@@ -76,8 +76,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			{
 				// Flush the maps for the link.
 				$query->clear();
-				$query->delete($db->qn('#__finder_links_terms' . dechex($i)))
-					->where($db->qn('link_id') . ' = ' . (int) $linkId);
+				$query->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
+					->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -107,35 +107,35 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		if ($isNew)
 		{
 			$columnsArray = array(
-				$db->qn('url'), $db->qn('route'), $db->qn('title'), $db->qn('description'),
-				$db->qn('indexdate'), $db->qn('published'), $db->qn('state'), $db->qn('access'),
-				$db->qn('language'), $db->qn('type_id'), $db->qn('object'), $db->qn('publish_start_date'),
-				$db->qn('publish_end_date'), $db->qn('start_date'), $db->qn('end_date'), $db->qn('list_price'),
-				$db->qn('sale_price')
+				$db->quoteName('url'), $db->quoteName('route'), $db->quoteName('title'), $db->quoteName('description'),
+				$db->quoteName('indexdate'), $db->quoteName('published'), $db->quoteName('state'), $db->quoteName('access'),
+				$db->quoteName('language'), $db->quoteName('type_id'), $db->quoteName('object'), $db->quoteName('publish_start_date'),
+				$db->quoteName('publish_end_date'), $db->quoteName('start_date'), $db->quoteName('end_date'), $db->quoteName('list_price'),
+				$db->quoteName('sale_price')
 			);
 
 			// Insert the link.
 			$query->clear();
-			$query->insert($db->qn('#__finder_links'))
+			$query->insert($db->quoteName('#__finder_links'))
 				->columns($columnsArray)
 				->values(
-				$db->q($item->url) . ', '
-				. $db->q($item->route) . ', '
-				. $db->q($item->title) . ', '
-				. $db->q($item->description) . ', '
+				$db->quote($item->url) . ', '
+				. $db->quote($item->route) . ', '
+				. $db->quote($item->title) . ', '
+				. $db->quote($item->description) . ', '
 				. $query->currentTimestamp() . ', '
 				. '1, '
 				. (int) $item->state . ', '
 				. (int) $item->access . ', '
-				. $db->q($item->language) . ', '
+				. $db->quote($item->language) . ', '
 				. (int) $item->type_id . ', '
-				. $db->q(serialize($item)) . ', '
-				. $db->q($item->publish_start_date) . ', '
-				. $db->q($item->publish_end_date) . ', '
-				. $db->q($item->start_date) . ', '
-				. $db->q($item->end_date) . ', '
-				. $db->q(($item->list_price ? $item->list_price : 0)) . ', '
-				. $db->q(($item->sale_price ? $item->sale_price : 0))
+				. $db->quote(serialize($item)) . ', '
+				. $db->quote($item->publish_start_date) . ', '
+				. $db->quote($item->publish_end_date) . ', '
+				. $db->quote($item->start_date) . ', '
+				. $db->quote($item->end_date) . ', '
+				. $db->quote(($item->list_price ? $item->list_price : 0)) . ', '
+				. $db->quote(($item->sale_price ? $item->sale_price : 0))
 			);
 			$db->setQuery($query);
 			$db->execute();
@@ -147,22 +147,22 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		{
 			// Update the link.
 			$query->clear();
-			$query->update($db->qn('#__finder_links'));
-			$query->set($db->qn('route') . ' = ' . $db->q($item->route));
-			$query->set($db->qn('title') . ' = ' . $db->q($item->title));
-			$query->set($db->qn('description') . ' = ' . $db->q($item->description));
-			$query->set($db->qn('indexdate') . ' = ' . $query->currentTimestamp());
-			$query->set($db->qn('state') . ' = ' . (int) $item->state);
-			$query->set($db->qn('access') . ' = ' . (int) $item->access);
-			$query->set($db->qn('language') . ' = ' . $db->q($item->language));
-			$query->set($db->qn('type_id') . ' = ' . (int) $item->type_id);
-			$query->set($db->qn('object') . ' = ' . $db->q(serialize($item)));
-			$query->set($db->qn('publish_start_date') . ' = ' . $db->q($item->publish_start_date));
-			$query->set($db->qn('publish_end_date') . ' = ' . $db->q($item->publish_end_date));
-			$query->set($db->qn('start_date') . ' = ' . $db->q($item->start_date));
-			$query->set($db->qn('end_date') . ' = ' . $db->q($item->end_date));
-			$query->set($db->qn('list_price') . ' = ' . $db->q($item->list_price));
-			$query->set($db->qn('sale_price') . ' = ' . $db->q($item->sale_price));
+			$query->update($db->quoteName('#__finder_links'));
+			$query->set($db->quoteName('route') . ' = ' . $db->quote($item->route));
+			$query->set($db->quoteName('title') . ' = ' . $db->quote($item->title));
+			$query->set($db->quoteName('description') . ' = ' . $db->quote($item->description));
+			$query->set($db->quoteName('indexdate') . ' = ' . $query->currentTimestamp());
+			$query->set($db->quoteName('state') . ' = ' . (int) $item->state);
+			$query->set($db->quoteName('access') . ' = ' . (int) $item->access);
+			$query->set($db->quoteName('language') . ' = ' . $db->quote($item->language));
+			$query->set($db->quoteName('type_id') . ' = ' . (int) $item->type_id);
+			$query->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)));
+			$query->set($db->quoteName('publish_start_date') . ' = ' . $db->quote($item->publish_start_date));
+			$query->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date));
+			$query->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date));
+			$query->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date));
+			$query->set($db->quoteName('list_price') . ' = ' . $db->quote($item->list_price));
+			$query->set($db->quoteName('sale_price') . ' = ' . $db->quote($item->sale_price));
 			$query->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
@@ -277,26 +277,26 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * aggregated data will be inserted into #__finder_tokens_aggregate
 		 * table.
 		 */
-		$query	= 'INSERT INTO ' . $db->qn('#__finder_tokens_aggregate') .
-				' (' . $db->qn('term_id') .
-				', ' . $db->qn('term') .
-				', ' . $db->qn('stem') .
-				', ' . $db->qn('common') .
-				', ' . $db->qn('phrase') .
-				', ' . $db->qn('term_weight') .
-				', ' . $db->qn('context') .
-				', ' . $db->qn('context_weight') .
-				', ' . $db->qn('language') . ')' .
+		$query	= 'INSERT INTO ' . $db->quoteName('#__finder_tokens_aggregate') .
+				' (' . $db->quoteName('term_id') .
+				', ' . $db->quoteName('term') .
+				', ' . $db->quoteName('stem') .
+				', ' . $db->quoteName('common') .
+				', ' . $db->quoteName('phrase') .
+				', ' . $db->quoteName('term_weight') .
+				', ' . $db->quoteName('context') .
+				', ' . $db->quoteName('context_weight') .
+				', ' . $db->quoteName('language') . ')' .
 				' SELECT' .
 				' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
 				' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
 				' FROM (' .
 				'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
-				'   FROM ' . $db->qn('#__finder_tokens') . ' AS t1' .
+				'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
 				'   WHERE t1.context = %d' .
 				' ) AS t1' .
-				' JOIN ' . $db->qn('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
-				' LEFT JOIN ' . $db->qn('#__finder_terms') . ' AS t ON t.term = t1.term' .
+				' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
+				' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
 				' WHERE t2.context = %d' .
 				' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 				' ORDER BY t1.term DESC';
@@ -322,22 +322,22 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		/* Emulation of IGNORE INTO behaviour */
 		$db->setQuery(
 			' SELECT ta.term' .
-			' FROM ' . $db->qn('#__finder_tokens_aggregate') . ' AS ta' .
+			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 			' WHERE ta.term_id = 0'
 		);
 		if ($db->loadRow() == null)
 		{
 			$db->setQuery(
-				'INSERT INTO ' . $db->qn('#__finder_terms') .
-				' (' . $db->qn('term') .
-				', ' . $db->qn('stem') .
-				', ' . $db->qn('common') .
-				', ' . $db->qn('phrase') .
-				', ' . $db->qn('weight') .
-				', ' . $db->qn('soundex') .
-				', ' . $db->qn('language') . ')' .
+				'INSERT INTO ' . $db->quoteName('#__finder_terms') .
+				' (' . $db->quoteName('term') .
+				', ' . $db->quoteName('stem') .
+				', ' . $db->quoteName('common') .
+				', ' . $db->quoteName('phrase') .
+				', ' . $db->quoteName('weight') .
+				', ' . $db->quoteName('soundex') .
+				', ' . $db->quoteName('language') . ')' .
 				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
-				' FROM ' . $db->qn('#__finder_tokens_aggregate') . ' AS ta' .
+				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
 				' WHERE ta.term_id = 0' .
 				' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 			);
@@ -350,8 +350,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * new term ids.
 		 */
 		$query = $db->getQuery(true);
-		$query->update($db->qn('#__finder_tokens_aggregate') . ' AS ta');
-		$query->join('INNER', $db->qn('#__finder_terms') . ' AS t ON t.term = ta.term')
+		$query->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta');
+		$query->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
 			->set('ta.term_id = t.term_id');
 		$query->where('ta.term_id = 0');
 		$db->setQuery($query);
@@ -366,9 +366,9 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * the links counter for each term by one.
 		 */
 		$query->clear();
-		$query->update($db->qn('#__finder_terms') . ' AS t');
-		$query->join('INNER', $db->qn('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id')
-			->set('t.' . $db->qn('links') . ' = t.links + 1');
+		$query->update($db->quoteName('#__finder_terms') . ' AS t');
+		$query->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id')
+			->set('t.' . $db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -383,8 +383,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * substr(md5(substr($token, 0, 1)), 0, 1)
 		 */
 		$query->clear();
-		$query->update($db->qn('#__finder_tokens_aggregate'));
-		$query->set($db->qn('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->qn('term') . ', 1, 1)), 1, 1)');
+		$query->update($db->quoteName('#__finder_tokens_aggregate'));
+		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -406,16 +406,16 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			 * mapping table.
 			 */
 			$db->setQuery(
-				'INSERT INTO ' . $db->qn('#__finder_links_terms' . $suffix) .
-				' (' . $db->qn('link_id') .
-				', ' . $db->qn('term_id') .
-				', ' . $db->qn('weight') . ')' .
-				' SELECT ' . (int) $linkId . ', ' . $db->qn('term_id') . ',' .
-				' ROUND(SUM(' . $db->qn('context_weight') . '), 8)' .
-				' FROM ' . $db->qn('#__finder_tokens_aggregate') .
-				' WHERE ' . $db->qn('map_suffix') . ' = ' . $db->q($suffix) .
-				' GROUP BY ' . $db->qn('term') .
-				' ORDER BY ' . $db->qn('term') . ' DESC'
+				'INSERT INTO ' . $db->quoteName('#__finder_links_terms' . $suffix) .
+				' (' . $db->quoteName('link_id') .
+				', ' . $db->quoteName('term_id') .
+				', ' . $db->quoteName('weight') . ')' .
+				' SELECT ' . (int) $linkId . ', ' . $db->quoteName('term_id') . ',' .
+				' ROUND(SUM(' . $db->quoteName('context_weight') . '), 8)' .
+				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') .
+				' WHERE ' . $db->quoteName('map_suffix') . ' = ' . $db->quote($suffix) .
+				' GROUP BY ' . $db->quoteName('term') .
+				' ORDER BY ' . $db->quoteName('term') . ' DESC'
 			);
 			$db->execute();
 		}
@@ -425,9 +425,9 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 		// Update the signature.
 		$query->clear();
-		$query->update($db->qn('#__finder_links'));
-		$query->set($db->qn('md5sum') . ' = ' . $db->q($curSig));
-		$query->where($db->qn('link_id') . ' = ' . $db->q($linkId));
+		$query->update($db->quoteName('#__finder_links'));
+		$query->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig));
+		$query->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -471,32 +471,32 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			$query->update($db->qn('#__finder_terms') . ' AS t');
-			$query->join('INNER', $db->qn('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
-				->set($db->qn('t'). '.' . $db->qn('links') . ' ='.  $db->qn('t') .'.' . $db->qn('links') . ' - 1');
-			$query->where($db->qn('m') . '.' . $db->qn('link_id') . ' = ' . $db->q((int) $linkId));
+			$query->update($db->quoteName('#__finder_terms') . ' AS t');
+			$query->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
+				->set($db->quoteName('t'). '.' . $db->quoteName('links') . ' ='.  $db->quoteName('t') .'.' . $db->quoteName('links') . ' - 1');
+			$query->where($db->quoteName('m') . '.' . $db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->execute();
 
 			// Remove all records from the mapping tables.
 			$query->clear();
-			$query->delete($db->qn('#__finder_links_terms' . dechex($i)))
-				->where($db->qn('link_id') . ' = ' . (int) $linkId);
+			$query->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
+				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
 		}
 
 		// Delete all orphaned terms.
 		$query->clear();
-		$query->delete($db->qn('#__finder_terms'))
-			->where($db->qn('links') . ' <= 0');
+		$query->delete($db->quoteName('#__finder_terms'))
+			->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
 		$db->execute();
 
 		// Delete the link from the index.
 		$query->clear();
-		$query->delete($db->qn('#__finder_links'))
-			->where($db->qn('link_id') . ' = ' . $db->q((int) $linkId));
+		$query->delete($db->quoteName('#__finder_links'))
+			->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -525,35 +525,35 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
-		$query->delete($db->qn('#__finder_terms'))
-			->where($db->qn('links') . ' <= 0');
+		$query->delete($db->quoteName('#__finder_terms'))
+			->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
 		$db->execute();
 
 		// Optimize the links table.
-		$db->setQuery('VACUUM ' . $db->qn('#__finder_links'));
+		$db->setQuery('VACUUM ' . $db->quoteName('#__finder_links'));
 		$db->execute();
-		$db->setQuery('REINDEX TABLE ' . $db->qn('#__finder_links'));
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links'));
 		$db->execute();
 
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Optimize the terms mapping table.
-			$db->setQuery('VACUUM ' . $db->qn('#__finder_links_terms' . dechex($i)));
+			$db->setQuery('VACUUM ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
 			$db->execute();
-			$db->setQuery('REINDEX TABLE ' . $db->qn('#__finder_links_terms' . dechex($i)));
+			$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms' . dechex($i)));
 			$db->execute();
 		}
 
 		// Optimize the terms mapping table.
-		$db->setQuery('REINDEX TABLE ' . $db->qn('#__finder_links_terms'));
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms'));
 		$db->execute();
 
 		// Remove the orphaned taxonomy nodes.
 		FinderIndexerTaxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.
-		$db->setQuery('REINDEX TABLE ' . $db->qn('#__finder_taxonomy_map'));
+		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
 		$db->execute();
 
 		return true;
@@ -583,16 +583,16 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$values = 0;
 
 		// Insert the tokens into the database.
-		$query->insert($db->qn('#__finder_tokens'))
+		$query->insert($db->quoteName('#__finder_tokens'))
 			->columns(
 				array(
-					$db->qn('term'),
-					$db->qn('stem'),
-					$db->qn('common'),
-					$db->qn('phrase'),
-					$db->qn('weight'),
-					$db->qn('context'),
-					$db->qn('language')
+					$db->quoteName('term'),
+					$db->quoteName('stem'),
+					$db->quoteName('common'),
+					$db->quoteName('phrase'),
+					$db->quoteName('weight'),
+					$db->quoteName('context'),
+					$db->quoteName('language')
 				)
 			);
 
@@ -600,13 +600,13 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		foreach ($tokens as $token)
 		{
 			$query->values(
-				$db->q($token->term) . ', '
-					. $db->q($token->stem) . ', '
+				$db->quote($token->term) . ', '
+					. $db->quote($token->stem) . ', '
 					. (int) $token->common . ', '
 					. (int) $token->phrase . ', '
 					. (float) $token->weight . ', '
 					. (int) $context . ', '
-					. $db->q($token->language)
+					. $db->quote($token->language)
 			);
 			$values++;
 		}

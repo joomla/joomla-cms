@@ -1145,8 +1145,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		// Remove categories for this component
 		$query = $db->getQuery(true);
-		$query->delete()->from('#__categories')->where('extension=' . $db->q($element), 'OR')
-			->where('extension LIKE ' . $db->q($element . '.%'));
+		$query->delete()->from('#__categories')->where('extension=' . $db->quote($element), 'OR')
+			->where('extension LIKE ' . $db->quote($element . '.%'));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -1217,7 +1217,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
 			->where('m.parent_id = 1')
 			->where('m.client_id = 1')
-			->where('e.element = ' . $db->q($option));
+			->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
 
@@ -1247,7 +1247,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			$query->clear();
 			$query->select('e.extension_id')
 				->from('#__extensions AS e')
-				->where('e.element = ' . $db->q($option));
+				->where('e.element = ' . $db->quote($option));
 
 			$db->setQuery($query);
 
@@ -1290,10 +1290,10 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$query = $db->getQuery(true);
 				$query->select('id')
 					->from('#__menu')
-					->where('menutype = ' . $db->q('main'))
+					->where('menutype = ' . $db->quote('main'))
 					->where('client_id = 1')
-					->where('link = ' . $db->q('index.php?option=' . $option))
-					->where('type = ' . $db->q('component'))
+					->where('link = ' . $db->quote('index.php?option=' . $option))
+					->where('type = ' . $db->quote('component'))
 					->where('parent_id = 1')
 					->where('home = 0');
 
@@ -1492,8 +1492,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		$query = $db->getQuery(true);
 		$query->select('id')
 			->from('#__menu')
-			->where($query->qn('client_id') . ' = 1')
-			->where($query->qn('component_id') . ' = ' . (int) $id);
+			->where($db->quoteName('client_id') . ' = 1')
+			->where($db->quoteName('component_id') . ' = ' . (int) $id);
 
 		$db->setQuery($query);
 

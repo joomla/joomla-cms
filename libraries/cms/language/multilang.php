@@ -52,10 +52,10 @@ class JLanguageMultilang
 			$query = $db->getQuery(true);
 
 			$query->select('enabled')
-				->from($db->qn('#__extensions'))
-				->where($db->qn('type') . ' = ' . $db->q('plugin'))
-				->where($db->qn('folder') . ' = ' . $db->q('system'))
-				->where($db->qn('element') . ' = ' . $db->q('languagefilter'));
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+				->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
 			$db->setQuery($query);
 
 			$enabled = $db->loadResult();

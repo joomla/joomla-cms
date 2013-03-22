@@ -87,7 +87,7 @@ abstract class ModArticlesLatestHelper
 		// Set ordering
 		$order_map = array(
 			'm_dsc' => 'a.modified DESC, a.created',
-			'mc_dsc' => 'CASE WHEN (a.modified = '.$db->q($db->getNullDate()).') THEN a.created ELSE a.modified END',
+			'mc_dsc' => 'CASE WHEN (a.modified = '.$db->quote($db->getNullDate()).') THEN a.created ELSE a.modified END',
 			'c_dsc' => 'a.created',
 			'p_dsc' => 'a.publish_up',
 		);

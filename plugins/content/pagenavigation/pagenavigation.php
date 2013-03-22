@@ -135,7 +135,7 @@ class PlgContentPagenavigation extends JPlugin
 			$query->order($orderby);
 			if ($app->isSite() && $app->getLanguageFilter())
 			{
-				$query->where('a.language in ('.$db->q($lang->getTag()).','.$db->q('*').')');
+				$query->where('a.language in ('.$db->quote($lang->getTag()).','.$db->quote('*').')');
 			}
 
 			$db->setQuery($query);

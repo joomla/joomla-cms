@@ -114,7 +114,7 @@ class TemplatesModelStyles extends JModelList
 				'a.id, a.template, a.title, a.home, a.client_id, l.title AS language_title, l.image as image'
 			)
 		);
-		$query->from($db->qn('#__template_styles').' AS a');
+		$query->from($db->quoteName('#__template_styles').' AS a');
 
 		// Join on menus.
 		$query->select('COUNT(m.template_style_id) AS assigned')
@@ -128,12 +128,12 @@ class TemplatesModelStyles extends JModelList
 		$query->select('extension_id AS e_id')
 			->join('LEFT', '#__extensions AS e ON e.element = a.template')
 			->where('e.enabled = 1')
-			->where($db->qn('e.type') . '=' . $db->q('template'));
+			->where($db->quoteName('e.type') . '=' . $db->quote('template'));
 
 		// Filter by template.
 		if ($template = $this->getState('filter.template'))
 		{
-			$query->where('a.template = '.$db->q($template));
+			$query->where('a.template = '.$db->quote($template));
 		}
 
 		// Filter by client.

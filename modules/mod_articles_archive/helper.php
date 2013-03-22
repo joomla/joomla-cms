@@ -36,7 +36,7 @@ class ModArchiveHelper
 		// Filter by language
 		if (JFactory::getApplication()->getLanguageFilter())
 		{
-			$query->where('language in ('.$db->q(JFactory::getLanguage()->getTag()).','.$db->q('*').')');
+			$query->where('language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 		}
 
 		$db->setQuery($query, 0, (int) $params->get('count'));

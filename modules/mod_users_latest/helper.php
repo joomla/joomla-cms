@@ -22,8 +22,8 @@ class ModUsersLatestHelper
 	{
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
-		$query->select($db->qn(array('a.id', 'a.name', 'a.username', 'a.registerDate')))
-			->order($db->qn('a.registerDate') . ' DESC')
+		$query->select($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.registerDate')))
+			->order($db->quoteName('a.registerDate') . ' DESC')
 			->from('#__users AS a');
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)

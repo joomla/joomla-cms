@@ -37,9 +37,9 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			// Get the session data from the database table.
 			$query = $db->getQuery(true);
-			$query->select($db->qn('data'))
-			->from($db->qn('#__session'))
-			->where($db->qn('session_id') . ' = ' . $db->q($id));
+			$query->select($db->quoteName('data'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
@@ -75,10 +75,10 @@ class JSessionStorageDatabase extends JSessionStorage
 		try
 		{
 			$query = $db->getQuery(true);
-			$query->update($db->qn('#__session'))
-			->set($db->qn('data') . ' = ' . $db->q($data))
-			->set($db->qn('time') . ' = ' . $db->q((int) time()))
-			->where($db->qn('session_id') . ' = ' . $db->q($id));
+			$query->update($db->quoteName('#__session'))
+			->set($db->quoteName('data') . ' = ' . $db->quote($data))
+			->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
@@ -115,8 +115,8 @@ class JSessionStorageDatabase extends JSessionStorage
 		try
 		{
 			$query = $db->getQuery(true);
-			$query->delete($db->qn('#__session'))
-			->where($db->qn('session_id') . ' = ' . $db->q($id));
+			$query->delete($db->quoteName('#__session'))
+			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			// Remove a session from the database.
 			$db->setQuery($query);
@@ -149,8 +149,8 @@ class JSessionStorageDatabase extends JSessionStorage
 		try
 		{
 			$query = $db->getQuery(true);
-			$query->delete($db->qn('#__session'))
-			->where($db->qn('time') . ' < ' . $db->q((int) $past));
+			$query->delete($db->quoteName('#__session'))
+			->where($db->quoteName('time') . ' < ' . $db->quote((int) $past));
 
 			// Remove expired sessions from the database.
 			$db->setQuery($query);

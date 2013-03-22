@@ -62,7 +62,7 @@ class UsersModelLevel extends JModelAdmin
 				{
 					// Lookup the distinct values of the field.
 					$query->clear('from')
-						->from($db->qn($table));
+						->from($db->quoteName($table));
 					$db->setQuery($query);
 
 					try

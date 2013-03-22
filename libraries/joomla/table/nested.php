@@ -923,7 +923,7 @@ class JTableNested extends JTable
 			if ($node->parent_id)
 			{
 				// Get any ancestor nodes that have a lower publishing state.
-				$query = $this->_db->getQuery(true)->select('n.' . $k)->from($this->_db->qn($this->_tbl) . ' AS n')
+				$query = $this->_db->getQuery(true)->select('n.' . $k)->from($this->_db->quoteName($this->_tbl) . ' AS n')
 					->where('n.lft < ' . (int) $node->lft)->where('n.rgt > ' . (int) $node->rgt)->where('n.parent_id > 0')
 					->where('n.published < ' . (int) $compareState);
 
@@ -943,7 +943,7 @@ class JTableNested extends JTable
 			}
 
 			// Update and cascade the publishing state.
-			$query = $this->_db->getQuery(true)->update($this->_db->qn($this->_tbl))->set('published = ' . (int) $state)
+			$query = $this->_db->getQuery(true)->update($this->_db->quoteName($this->_tbl))->set('published = ' . (int) $state)
 				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ')' . ' OR ' . $k . ' = ' . (int) $pk);
 			$this->_db->setQuery($query)->execute();
 
@@ -1173,7 +1173,7 @@ class JTableNested extends JTable
 			$query = $this->_db->getQuery(true);
 			$query->select($k)
 				->from($this->_tbl)
-				->where('alias = ' . $this->_db->q('root'));
+				->where('alias = ' . $this->_db->quote('root'));
 
 			$result = $this->_db->setQuery($query)->loadColumn();
 
@@ -1270,7 +1270,7 @@ class JTableNested extends JTable
 			->set('lft = ' . (int) $leftId)
 			->set('rgt = ' . (int) $rightId)
 			->set('level = ' . (int) $level)
-			->set('path = ' . $this->_db->q($path))
+			->set('path = ' . $this->_db->quote($path))
 			->where($this->_tbl_key . ' = ' . (int) $parentId);
 		$this->_db->setQuery($query)->execute();
 
@@ -1325,7 +1325,7 @@ class JTableNested extends JTable
 		// Update the path field for the node.
 		$query = $this->_db->getQuery(true);
 		$query->update($this->_tbl);
-		$query->set('path = ' . $this->_db->q($path));
+		$query->set('path = ' . $this->_db->quote($path));
 		$query->where($this->_tbl_key . ' = ' . (int) $pk);
 
 		$this->_db->setQuery($query)->execute();

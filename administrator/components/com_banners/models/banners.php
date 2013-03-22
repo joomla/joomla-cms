@@ -64,7 +64,7 @@ class BannersModelBanners extends JModelList
 		{
 			$db		= $this->getDbo();
 			$query	= $db->getQuery(true);
-			$query->select('MAX(ordering) as '.$db->qn('max').', catid')
+			$query->select('MAX(ordering) as '.$db->quoteName('max').', catid')
 				->select('catid')
 				->from('#__banners')
 				->group('catid');
@@ -99,11 +99,11 @@ class BannersModelBanners extends JModelList
 				'a.language, a.publish_up, a.publish_down'
 			)
 		);
-		$query->from($db->qn('#__banners').' AS a');
+		$query->from($db->quoteName('#__banners').' AS a');
 
 		// Join over the language
 		$query->select('l.title AS language_title')
-			->join('LEFT', $db->qn('#__languages').' AS l ON l.lang_code = a.language');
+			->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
@@ -157,7 +157,7 @@ class BannersModelBanners extends JModelList
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->q($language));
+			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.

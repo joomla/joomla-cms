@@ -101,11 +101,11 @@ class JFormRuleEmail extends JFormRule
 			// Build the query.
 			$query->select('COUNT(*)')
 				->from('#__users')
-				->where('email = ' . $db->q($value));
+				->where('email = ' . $db->quote($value));
 
 			// Get the extra field check attribute.
 			$userId = ($form instanceof JForm) ? $form->getValue('id') : '';
-			$query->where($db->qn('id') . ' <> ' . (int) $userId);
+			$query->where($db->quoteName('id') . ' <> ' . (int) $userId);
 
 			// Set and query the database.
 			$db->setQuery($query);

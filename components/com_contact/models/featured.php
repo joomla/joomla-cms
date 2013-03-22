@@ -113,7 +113,7 @@ class ContactModelFeatured extends JModelList
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
-			->from($db->qn('#__contact_details').' AS a')
+			->from($db->quoteName('#__contact_details').' AS a')
 			->where('a.access IN ('.$groups.')')
 			->where('a.featured=1')
 			->join('INNER', '#__categories AS c ON c.id = a.catid')
@@ -128,7 +128,7 @@ class ContactModelFeatured extends JModelList
 		$query->select('c.published as cat_published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
 		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
 		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-		$subquery .= 'WHERE parent.extension = ' . $db->q('com_contact');
+		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_contact');
 		// Find any up-path categories that are not published
 		// If all categories are published, badcats.id will be null, and we just use the contact state
 		$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';

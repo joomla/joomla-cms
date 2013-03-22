@@ -377,8 +377,8 @@ class JComponentHelper
 		$query = $db->getQuery(true);
 		$query->select('extension_id AS id, element AS "option", params, enabled')
 			->from('#__extensions')
-			->where($query->qn('type') . ' = ' . $db->q('component'))
-			->where($query->qn('element') . ' = ' . $db->q($option));
+			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($option));
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache('_system', 'callback');

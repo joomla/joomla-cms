@@ -439,14 +439,14 @@ class InstallationModelDatabase extends JModelBase
 			}
 		}
 		$query = $db->getQuery(true);
-		$query->insert($db->qn('#__schemas'))
+		$query->insert($db->quoteName('#__schemas'))
 			->columns(
 				array(
-					$db->qn('extension_id'),
-					$db->qn('version_id')
+					$db->quoteName('extension_id'),
+					$db->quoteName('version_id')
 				)
 			)
-			->values('700, ' . $db->q($version));
+			->values('700, ' . $db->quote($version));
 		$db->setQuery($query);
 
 		try
@@ -537,9 +537,9 @@ class InstallationModelDatabase extends JModelBase
 
 				// Update the language settings in the language manager.
 				$query = $db->getQuery(true);
-				$query->update($db->qn('#__extensions'));
-				$query->set($db->qn('params') . ' = ' . $db->q($params));
-				$query->where($db->qn('element') . ' = ' . $db->q('com_languages'));
+				$query->update($db->quoteName('#__extensions'));
+				$query->set($db->quoteName('params') . ' = ' . $db->quote($params));
+				$query->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
 				$db->setQuery($query);
 
 			try
@@ -644,8 +644,8 @@ class InstallationModelDatabase extends JModelBase
 		foreach ($updates_array as $table => $field)
 		{
 			$db->setQuery(
-				'UPDATE ' . $db->qn('#__' . $table) .
-				' SET ' . $db->qn($field) . ' = ' . $db->Quote($userId)
+				'UPDATE ' . $db->quoteName('#__' . $table) .
+				' SET ' . $db->quoteName($field) . ' = ' . $db->Quote($userId)
 			);
 			$db->execute();
 		}
@@ -846,7 +846,7 @@ class InstallationModelDatabase extends JModelBase
 	{
 		// Run the create database query.
 		$db->setQuery($db->getAlterDbCharacterSet($name));
-			/*'ALTER DATABASE '.$db->qn($name).' CHARACTER' .
+			/*'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
 			' SET `utf8`'
 		);*/
 

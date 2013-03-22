@@ -50,7 +50,7 @@ abstract class JHtmlAccess
 			->from('#__viewlevels AS a')
 			->group('a.id, a.title, a.ordering')
 			->order('a.ordering ASC')
-			->order($query->qn('title') . ' ASC');
+			->order($db->quoteName('title') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -98,8 +98,8 @@ abstract class JHtmlAccess
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
-			->from($db->qn('#__usergroups') . ' AS a')
-			->join('LEFT', $db->qn('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->from($db->quoteName('#__usergroups') . ' AS a')
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id, a.title, a.lft, a.rgt')
 			->order('a.lft ASC');
 		$db->setQuery($query);
@@ -141,8 +141,8 @@ abstract class JHtmlAccess
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('a.*, COUNT(DISTINCT b.id) AS level')
-			->from($db->qn('#__usergroups') . ' AS a')
-			->join('LEFT', $db->qn('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->from($db->quoteName('#__usergroups') . ' AS a')
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
 			->order('a.lft ASC');
 		$db->setQuery($query);
@@ -245,7 +245,7 @@ abstract class JHtmlAccess
 			$query = $db->getQuery(true);
 
 			$query->select('a.id AS value, a.title AS text')
-				->from($db->qn('#__viewlevels') . ' AS a')
+				->from($db->quoteName('#__viewlevels') . ' AS a')
 				->group('a.id, a.title, a.ordering')
 				->order('a.ordering ASC');
 

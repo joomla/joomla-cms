@@ -147,7 +147,7 @@ class ContentModelArticle extends JModelAdmin
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true);
-				$query->insert($db->qn('#__content_frontpage'))
+				$query->insert($db->quoteName('#__content_frontpage'))
 					->values($newId . ', 0');
 				$db->setQuery($query);
 				$db->execute();
@@ -490,7 +490,7 @@ class ContentModelArticle extends JModelAdmin
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
 				$query->delete('#__associations')
-					->where('context='.$db->q('com_content.item'))
+					->where('context='.$db->quote('com_content.item'))
 					->where('id IN ('.implode(',', $associations).')');
 				$db->setQuery($query);
 				$db->execute();
@@ -510,7 +510,7 @@ class ContentModelArticle extends JModelAdmin
 
 					foreach ($associations as $tag => $id)
 					{
-						$query->values($id.','.$db->q('com_content.item') . ',' . $db->q($key));
+						$query->values($id.','.$db->quote('com_content.item') . ',' . $db->quote($key));
 					}
 
 					$db->setQuery($query);
@@ -594,7 +594,7 @@ class ContentModelArticle extends JModelAdmin
 				if (count($tuples))
 				{
 					$db->setQuery(
-						'INSERT INTO #__content_frontpage ('.$db->qn('content_id').', '.$db->qn('ordering').')' .
+						'INSERT INTO #__content_frontpage ('.$db->quoteName('content_id').', '.$db->quoteName('ordering').')' .
 						' VALUES '.implode(',', $tuples)
 					);
 					$db->execute();

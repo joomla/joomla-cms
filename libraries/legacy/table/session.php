@@ -102,9 +102,9 @@ class JTableSession extends JTable
 		$clientIds = implode(',', $clientIds);
 
 		$query = $this->_db->getQuery(true);
-		$query->delete($this->_db->qn($this->_tbl))
-			->where($this->_db->qn('userid') . ' = ' . $this->_db->q($userId))
-			->where($this->_db->qn('client_id') . ' IN (' . $clientIds . ')');
+		$query->delete($this->_db->quoteName($this->_tbl))
+			->where($this->_db->quoteName('userid') . ' = ' . $this->_db->quote($userId))
+			->where($this->_db->quoteName('client_id') . ' IN (' . $clientIds . ')');
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->execute())
@@ -129,8 +129,8 @@ class JTableSession extends JTable
 	{
 		$past = time() - $maxLifetime;
 		$query = $this->_db->getQuery(true);
-		$query->delete($this->_db->qn($this->_tbl))
-			->where($this->_db->qn('time') . ' < ' . (int) $past);
+		$query->delete($this->_db->quoteName($this->_tbl))
+			->where($this->_db->quoteName('time') . ' < ' . (int) $past);
 		$this->_db->setQuery($query);
 
 		return $this->_db->execute();
@@ -149,8 +149,8 @@ class JTableSession extends JTable
 	{
 		$query = $this->_db->getQuery(true);
 		$query->select('COUNT(userid)')
-			->from($this->_db->qn($this->_tbl))
-			->where($this->_db->qn('userid') . ' = ' . $this->_db->q($userid));
+			->from($this->_db->quoteName($this->_tbl))
+			->where($this->_db->quoteName('userid') . ' = ' . $this->_db->quote($userid));
 		$this->_db->setQuery($query);
 
 		if (!$result = $this->_db->loadResult())
@@ -182,8 +182,8 @@ class JTableSession extends JTable
 		}
 
 		$query = $this->_db->getQuery(true);
-		$query->delete($this->_db->qn($this->_tbl))
-			->where($this->_db->qn($this->_tbl_key) . ' = ' . $this->_db->q($this->$k));
+		$query->delete($this->_db->quoteName($this->_tbl))
+			->where($this->_db->quoteName($this->_tbl_key) . ' = ' . $this->_db->quote($this->$k));
 		$this->_db->setQuery($query);
 
 		$this->_db->execute();

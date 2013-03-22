@@ -52,7 +52,7 @@ class JTableUsergroup extends JTable
 		$query = $db->getQuery(true)
 			->select('COUNT(title)')
 			->from($this->_tbl)
-			->where('title = ' . $db->q(trim($this->title)))
+			->where('title = ' . $db->quote(trim($this->title)))
 			->where('parent_id = ' . (int) $this->parent_id)
 			->where('id <> ' . (int) $this->id);
 		$db->setQuery($query);
@@ -169,10 +169,10 @@ class JTableUsergroup extends JTable
 
 		// Select the usergroup ID and its children
 		$query = $db->getQuery(true);
-		$query->select($db->qn('c.id'))
-			->from($db->qn($this->_tbl) . 'AS c')
-			->where($db->qn('c.lft') . ' >= ' . (int) $this->lft)
-			->where($db->qn('c.rgt') . ' <= ' . (int) $this->rgt);
+		$query->select($db->quoteName('c.id'))
+			->from($db->quoteName($this->_tbl) . 'AS c')
+			->where($db->quoteName('c.lft') . ' >= ' . (int) $this->lft)
+			->where($db->quoteName('c.rgt') . ' <= ' . (int) $this->rgt);
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if (empty($ids))
@@ -185,8 +185,8 @@ class JTableUsergroup extends JTable
 
 		// Delete the usergroup and its children
 		$query->clear();
-		$query->delete($db->qn($this->_tbl))
-			->where($db->qn('id') . ' IN (' . implode(',', $ids) . ')');
+		$query->delete($db->quoteName($this->_tbl))
+			->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -194,10 +194,10 @@ class JTableUsergroup extends JTable
 		$replace = array();
 		foreach ($ids as $id)
 		{
-			$replace[] = ',' . $db->q("[$id,") . ',' . $db->q("[") . ')';
-			$replace[] = ',' . $db->q(",$id,") . ',' . $db->q(",") . ')';
-			$replace[] = ',' . $db->q(",$id]") . ',' . $db->q("]") . ')';
-			$replace[] = ',' . $db->q("[$id]") . ',' . $db->q("[]") . ')';
+			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote("[") . ')';
+			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(",") . ')';
+			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote("]") . ')';
+			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
 		}
 
 		$query->clear();
@@ -232,8 +232,8 @@ class JTableUsergroup extends JTable
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
 		$query->clear();
-		$query->delete($db->qn('#__user_usergroup_map'))
-			->where($db->qn('group_id') . ' IN (' . implode(',', $ids) . ')');
+		$query->delete($db->quoteName('#__user_usergroup_map'))
+			->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();
 

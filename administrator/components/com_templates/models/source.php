@@ -71,7 +71,7 @@ class TemplatesModelSource extends JModelForm
 		$query = $db->getQuery(true);
 		$query->select('COUNT(*)')
 			->from('#__extensions as a')
-			->where('(a.name ='.$db->q('plg_editors_codemirror').' AND a.enabled = 1) OR (a.name ='.$db->q('plg_editors_none').' AND a.enabled = 1)');
+			->where('(a.name ='.$db->quote('plg_editors_codemirror').' AND a.enabled = 1) OR (a.name ='.$db->quote('plg_editors_none').' AND a.enabled = 1)');
 		$db->setQuery($query);
 		$state = $db->loadResult();
 		if ((int) $state < 1 )
@@ -160,7 +160,7 @@ class TemplatesModelSource extends JModelForm
 			'SELECT extension_id, client_id, element' .
 			' FROM #__extensions' .
 			' WHERE extension_id = '.(int) $pk.
-			'  AND type = '.$db->q('template')
+			'  AND type = '.$db->quote('template')
 		);
 
 		try

@@ -66,23 +66,23 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		$query->select('a.id AS value, a.title AS text, a.level, a.published')
 			->from('#__categories AS a')
-			->join('LEFT', $db->qn('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the extension type
 		if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 		{
-			$query->where('(a.extension = '.$db->q($extension).' OR a.parent_id = 0)');
+			$query->where('(a.extension = '.$db->quote($extension).' OR a.parent_id = 0)');
 		}
 		else
 		{
-			$query->where('(a.extension = '.$db->q($extension).')');
+			$query->where('(a.extension = '.$db->quote($extension).')');
 		}
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
 		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
 		{
 			// Prevent parenting to children of this item.
 			// To rearrange parents and children move the children up, not the parents down.
-			$query->join('LEFT', $db->qn('#__categories').' AS p ON p.id = '.(int) $oldCat)
+			$query->join('LEFT', $db->quoteName('#__categories').' AS p ON p.id = '.(int) $oldCat)
 				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
 			$rowQuery = $db->getQuery(true);
@@ -96,7 +96,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		// Filter language
 		if (!empty($this->element['language'])) {
 
-			$query->where('a.language = ' . $db->q($this->element['language']));
+			$query->where('a.language = ' . $db->quote($this->element['language']));
 
 		}
 

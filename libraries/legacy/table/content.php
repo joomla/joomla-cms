@@ -76,9 +76,9 @@ class JTableContent extends JTable
 		{
 			// Build the query to get the asset id for the parent category.
 			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->qn('asset_id'))
-				->from($this->_db->qn('#__categories'))
-				->where($this->_db->qn('id') . ' = ' . (int) $this->catid);
+			$query->select($this->_db->quoteName('asset_id'))
+				->from($this->_db->quoteName('#__categories'))
+				->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -327,8 +327,8 @@ class JTableContent extends JTable
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->qn($this->_tbl));
-		$query->set($this->_db->qn('state') . ' = ' . (int) $state);
+		$query->update($this->_db->quoteName($this->_tbl));
+		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
 		$query->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
 

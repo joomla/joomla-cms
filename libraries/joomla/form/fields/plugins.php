@@ -46,7 +46,7 @@ class JFormFieldPlugins extends JFormFieldList
 			$query  = $db->getQuery(true);
 			$query->select('element AS value, name AS text')
 				->from('#__extensions')
-				->where('folder = ' . $db->q($folder))
+				->where('folder = ' . $db->quote($folder))
 				->where('enabled = 1')
 				->order('ordering, name');
 			$db->setQuery($query);

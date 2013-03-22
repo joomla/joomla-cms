@@ -254,7 +254,7 @@ class FinderIndexerHelper
 		{
 			// Build the query to get the types.
 			$query->select('*')
-				->from($db->qn('#__finder_types'));
+				->from($db->quoteName('#__finder_types'));
 
 			// Get the types.
 			$db->setQuery($query);
@@ -269,9 +269,9 @@ class FinderIndexerHelper
 
 		// Add the type.
 		$query->clear();
-		$query->insert($db->qn('#__finder_types'))
-			->columns(array($db->qn('title'), $db->qn('mime')))
-			->values($db->q($title) . ', ' . $db->q($mime));
+		$query->insert($db->quoteName('#__finder_types'))
+			->columns(array($db->quoteName('title'), $db->quoteName('mime')))
+			->values($db->quote($title) . ', ' . $db->quote($mime));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -326,9 +326,9 @@ class FinderIndexerHelper
 
 		// Create the query to load all the common terms for the language.
 		$query = $db->getQuery(true);
-		$query->select($db->qn('term'))
-			->from($db->qn('#__finder_terms_common'))
-			->where($db->qn('language') . ' = ' . $db->q($lang));
+		$query->select($db->quoteName('term'))
+			->from($db->quoteName('#__finder_terms_common'))
+			->where($db->quoteName('language') . ' = ' . $db->quote($lang));
 
 		// Load all of the common terms for the language.
 		$db->setQuery($query);

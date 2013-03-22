@@ -28,15 +28,15 @@ abstract class ModTagsPopularHelper
 
 		$query = $db->getQuery(true);
 
-		$query->select(array($db->qn('tag_id'), $db->qn('type_alias'), $db->qn('content_item_id'), ' COUNT(*) AS count', 't.title', 't.access', 't.alias'))
-			->group($db->qn(array('tag_id', 'type_alias', 'content_item_id', 't.title', 't.access', 't.alias')))
-			->from($db->qn('#__contentitem_tag_map'))
+		$query->select(array($db->quoteName('tag_id'), $db->quoteName('type_alias'), $db->quoteName('content_item_id'), ' COUNT(*) AS count', 't.title', 't.access', 't.alias'))
+			->group($db->quoteName(array('tag_id', 'type_alias', 'content_item_id', 't.title', 't.access', 't.alias')))
+			->from($db->quoteName('#__contentitem_tag_map'))
 			->where('t.access IN (' . $groups . ')');
 
 		if ($timeframe != 'alltime')
 		{
 			$now = new JDate;
-			$query->where($db->qn('tag_date') . ' > ' . $query->dateAdd($now->toSql('date'), '-1', strtoupper($timeframe)));
+			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($now->toSql('date'), '-1', strtoupper($timeframe)));
 		}
 
 		$query->join('LEFT', '#__tags AS t ON tag_id=t.id')

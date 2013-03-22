@@ -488,9 +488,9 @@ class FinderIndexerQuery
 
 		// Load the predefined filter.
 		$query = $db->getQuery(true);
-		$query->select($db->qn('f.data') . ', ' . $db->qn('f.params'))
-			->from($db->qn('#__finder_filters') . ' AS f')
-			->where($db->qn('f.filter_id') . ' = ' . (int) $filterId);
+		$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'))
+			->from($db->quoteName('#__finder_filters') . ' AS f')
+			->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
 
 		$db->setQuery($query);
 		$return = $db->loadObject();
@@ -539,13 +539,13 @@ class FinderIndexerQuery
 		 */
 		$query->clear();
 		$query->select('t1.id, t1.title, t2.title AS branch')
-			->from($db->qn('#__finder_taxonomy') . ' AS t1')
-			->join('INNER', $db->qn('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
+			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
 			->where('t1.state = 1')
-			->where($db->qn('t1.access') . ' IN (' . $groups . ')')
+			->where($db->quoteName('t1.access') . ' IN (' . $groups . ')')
 			->where('t1.id IN (' . implode(',', $filters) . ')')
 			->where('t2.state = 1')
-			->where($db->qn('t2.access') . ' IN (' . $groups . ')');
+			->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -606,13 +606,13 @@ class FinderIndexerQuery
 		 * are real; two, we need to sort the filters by taxonomy branch.
 		 */
 		$query->select('t1.id, t1.title, t2.title AS branch')
-			->from($db->qn('#__finder_taxonomy') . ' AS t1')
-			->join('INNER', $db->qn('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
+			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
 			->where('t1.state = 1')
-			->where($db->qn('t1.access') . ' IN (' . $groups . ')')
+			->where($db->quoteName('t1.access') . ' IN (' . $groups . ')')
 			->where('t1.id IN (' . implode(',', $filters) . ')')
 			->where('t2.state = 1')
-			->where($db->qn('t2.access') . ' IN (' . $groups . ')');
+			->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -1275,19 +1275,19 @@ class FinderIndexerQuery
 		if ($token->phrase)
 		{
 			// Add the phrase to the query.
-			$query->where('t.term = ' . $db->q($token->term))
+			$query->where('t.term = ' . $db->quote($token->term))
 				->where('t.phrase = 1');
 		}
 		else
 		{
 			// Add the term to the query.
-			$query->where('t.term = ' . $db->q($token->term))
+			$query->where('t.term = ' . $db->quote($token->term))
 				->where('t.phrase = 0');
 
 			// Clone the query, replace the WHERE clause.
 			$sub = clone($query);
 			$sub->clear('where');
-			$sub->where('t.stem = '.$db->q($token->stem));
+			$sub->where('t.stem = '.$db->quote($token->stem));
 			$sub->where('t.phrase = 0');
 
 			// Union the two queries.
@@ -1319,8 +1319,8 @@ class FinderIndexerQuery
 			$query->clear();
 			$query->select('DISTINCT t.term_id AS id, t.term AS term')
 				->from('#__finder_terms AS t');
-			//$query->where('t.soundex = ' . soundex($db->q($token->term)))
-				->where('t.soundex = SOUNDEX(' . $db->q($token->term) . ')')
+			//$query->where('t.soundex = ' . soundex($db->quote($token->term)))
+				->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')')
 				->where('t.phrase = ' . (int) $token->phrase);
 
 			// Get the terms.

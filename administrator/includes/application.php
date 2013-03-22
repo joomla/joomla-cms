@@ -268,12 +268,12 @@ class JAdministrator extends JApplication
 			$query = $db->getQuery(true);
 			$query->select('template, s.params')
 				->from('#__template_styles as s')
-				->join('LEFT', '#__extensions as e ON e.type='.$db->q('template').' AND e.element=s.template AND e.client_id=s.client_id');
+				->join('LEFT', '#__extensions as e ON e.type='.$db->quote('template').' AND e.element=s.template AND e.client_id=s.client_id');
 			if ($admin_style)
 			{
 				$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
 			}
-			$query->where('s.client_id = 1 AND home = ' . $db->q('1'), 'OR')
+			$query->where('s.client_id = 1 AND home = ' . $db->quote('1'), 'OR')
 				->order('home');
 			$db->setQuery($query);
 			$template = $db->loadObject();
@@ -318,7 +318,7 @@ class JAdministrator extends JApplication
 		$query = 'SELECT *'
 		. ' FROM #__messages_cfg'
 		. ' WHERE user_id = ' . (int) $userid
-		. ' AND cfg_name = ' . $db->q('auto_purge');
+		. ' AND cfg_name = ' . $db->quote('auto_purge');
 
 		$db->setQuery($query);
 		$config = $db->loadObject();

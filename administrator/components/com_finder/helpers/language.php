@@ -82,10 +82,10 @@ class FinderHelperLanguage
 		$query = $db->getQuery(true);
 
 		$query->select('name')
-			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . ' = ' .  $db->q('plugin'))
-			->where($db->qn('folder') . ' = ' .  $db->q('finder'))
-			->where($db->qn('enabled') . ' = 1');
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' .  $db->quote('finder'))
+			->where($db->quoteName('enabled') . ' = 1');
 		$db->setQuery($query);
 		$plugins = $db->loadObjectList();
 

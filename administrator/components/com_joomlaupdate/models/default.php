@@ -65,17 +65,17 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('us') . '.*')
+			->select($db->quoteName('us') . '.*')
 			->from(
-				$db->qn('#__update_sites_extensions') . ' AS ' . $db->qn('map')
+				$db->quoteName('#__update_sites_extensions') . ' AS ' . $db->quoteName('map')
 			)
 			->innerJoin(
-				$db->qn('#__update_sites') . ' AS ' . $db->qn('us') . ' ON (' .
-				$db->qn('us') . '.' . $db->qn('update_site_id') . ' = ' .
-					$db->qn('map') . '.' . $db->qn('update_site_id') . ')'
+				$db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us') . ' ON (' .
+				$db->quoteName('us') . '.' . $db->quoteName('update_site_id') . ' = ' .
+					$db->quoteName('map') . '.' . $db->quoteName('update_site_id') . ')'
 			)
 			->where(
-				$db->qn('map') . '.' . $db->qn('extension_id') . ' = ' . $db->q(700)
+				$db->quoteName('map') . '.' . $db->quoteName('extension_id') . ' = ' . $db->quote(700)
 			);
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
@@ -89,8 +89,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			// Remove cached updates
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__updates'))
-				->where($db->qn('extension_id').' = '.$db->q('700'));
+				->delete($db->quoteName('#__updates'))
+				->where($db->quoteName('extension_id').' = '.$db->quote('700'));
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -141,8 +141,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__updates'))
-			->where($db->qn('extension_id') . ' = ' . $db->q(700));
+			->from($db->quoteName('#__updates'))
+			->where($db->quoteName('extension_id') . ' = ' . $db->quote(700));
 		$db->setQuery($query);
 		$updateObject = $db->loadObject();
 
@@ -213,8 +213,8 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
 		$query = $db->getQuery(true)
-			->delete($db->qn('#__updates'))
-			->where($db->qn('update_site_id') . ' = ' . $db->q('1'));
+			->delete($db->quoteName('#__updates'))
+			->where($db->quoteName('update_site_id') . ' = ' . $db->quote('1'));
 		$db->setQuery($query);
 
 		if ($db->execute())
@@ -549,10 +549,10 @@ ENDDATA;
 		// we can assume that it was (badly) uninstalled
 		// If it isn't, add an entry to extensions
 		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'))
-			->where($query->qn('type') . ' = ' . $query->q('file'))
-			->where($query->qn('element') . ' = ' . $query->q('joomla'));
+		$query->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));
 		$db->setQuery($query);
 		try
 		{

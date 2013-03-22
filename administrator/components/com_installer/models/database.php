@@ -108,7 +108,7 @@ class InstallerModelDatabase extends InstallerModel
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select('version_id')->from($db->qn('#__schemas'))
+		$query->select('version_id')->from($db->quoteName('#__schemas'))
 			->where('extension_id = 700');
 		$db->setQuery($query);
 		$result = $db->loadResult();
@@ -140,16 +140,16 @@ class InstallerModelDatabase extends InstallerModel
 		{
 			// Delete old row
 			$query = $db->getQuery(true);
-			$query->delete($db->qn('#__schemas'))
-				->where($db->qn('extension_id') . ' = 700');
+			$query->delete($db->quoteName('#__schemas'))
+				->where($db->quoteName('extension_id') . ' = 700');
 			$db->setQuery($query);
 			$db->execute();
 
 			// Add new row
 			$query = $db->getQuery(true);
-			$query->insert($db->qn('#__schemas'))
-				->set($db->qn('extension_id') . '= 700');
-			$query->set($db->qn('version_id') . '= ' . $db->q($schema));
+			$query->insert($db->quoteName('#__schemas'))
+				->set($db->quoteName('extension_id') . '= 700');
+			$query->set($db->quoteName('version_id') . '= ' . $db->quote($schema));
 			$db->setQuery($query);
 			if ($db->execute())
 			{

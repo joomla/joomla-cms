@@ -238,7 +238,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
 		$query->select('COUNT(id)')
-			->from($db->qn('#__menu'));
+			->from($db->quoteName('#__menu'));
 		$db->setQuery($query);
 
 		try
@@ -279,7 +279,7 @@ class MenusModelItem extends JModelAdmin
 			// Copy is a bit tricky, because we also need to copy the children
 			$query->clear();
 			$query->select('id')
-				->from($db->qn('#__menu'))
+				->from($db->quoteName('#__menu'))
 				->where('lft > ' . (int) $table->lft)
 				->where('rgt < ' . (int) $table->rgt);
 			$db->setQuery($query);
@@ -457,9 +457,9 @@ class MenusModelItem extends JModelAdmin
 			{
 				// Add the child node ids to the children array.
 				$query->clear();
-				$query->select($db->qn('id'))
-					->from($db->qn('#__menu'))
-					->where($db->qn('lft') .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$query->select($db->quoteName('id'))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('lft') .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
 				$db->setQuery($query);
 				$children = array_merge($children, (array) $db->loadColumn());
 			}
@@ -495,9 +495,9 @@ class MenusModelItem extends JModelAdmin
 
 			// Update the menutype field in all nodes where necessary.
 			$query->clear();
-			$query->update($db->qn('#__menu'));
-			$query->set($db->qn('menutype') . ' = ' . $db->q($menuType));
-			$query->where($db->qn('id') . ' IN (' . implode(',', $children) . ')');
+			$query->update($db->quoteName('#__menu'));
+			$query->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
+			$query->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
 			$db->setQuery($query);
 
 			try
@@ -773,7 +773,7 @@ class MenusModelItem extends JModelAdmin
 		$query->select('a.id, a.title, a.position, a.published, map.menuid')
 			->from('#__modules AS a')
 			->join('LEFT', sprintf('#__modules_menu AS map ON map.moduleid = a.id AND map.menuid IN (0, %1$d, -%1$d)', $this->getState('item.id')))
-			->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->qn('except'));
+			->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->quoteName('except'));
 
 		// Join on the asset groups table.
 		$query->select('ag.title AS access_title')
@@ -1080,8 +1080,8 @@ class MenusModelItem extends JModelAdmin
 		$db->setQuery(
 			'SELECT id, params' .
 			' FROM #__menu' .
-			' WHERE params NOT LIKE '.$db->q('{%') .
-			'  AND params <> '.$db->q('')
+			' WHERE params NOT LIKE '.$db->quote('{%') .
+			'  AND params <> '.$db->quote('')
 		);
 
 		try
@@ -1102,7 +1102,7 @@ class MenusModelItem extends JModelAdmin
 
 			$db->setQuery(
 				'UPDATE #__menu' .
-				' SET params = '.$db->q($params).
+				' SET params = '.$db->quote($params).
 				' WHERE id = '.(int) $item->id
 			);
 			if (!$db->execute())
@@ -1251,7 +1251,7 @@ class MenusModelItem extends JModelAdmin
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 			$query->delete('#__associations')
-				->where('context='.$db->q('com_menus.item'))
+				->where('context='.$db->quote('com_menus.item'))
 				->where('id IN ('.implode(',', $associations).')');
 			$db->setQuery($query);
 
@@ -1273,7 +1273,7 @@ class MenusModelItem extends JModelAdmin
 				$query->insert('#__associations');
 				foreach ($associations as $tag => $id)
 				{
-					$query->values($id.','.$db->q('com_menus.item').','.$db->q($key));
+					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));
 				}
 				$db->setQuery($query);
 

@@ -174,26 +174,26 @@ class FinderModelIndex extends JModelList
 
 		$query->select('l.*')
 			->select('t.title AS t_title')
-			->from($db->qn('#__finder_links') . ' AS l')
-			->join('INNER', $db->qn('#__finder_types') . ' AS t ON t.id = l.type_id');
+			->from($db->quoteName('#__finder_links') . ' AS l')
+			->join('INNER', $db->quoteName('#__finder_types') . ' AS t ON t.id = l.type_id');
 
 		// Check the type filter.
 		if ($this->getState('filter.type'))
 		{
-			$query->where($db->qn('l.type_id') . ' = ' . (int) $this->getState('filter.type'));
+			$query->where($db->quoteName('l.type_id') . ' = ' . (int) $this->getState('filter.type'));
 		}
 
 		// Check for state filter.
 		if (is_numeric($this->getState('filter.state')))
 		{
-			$query->where($db->qn('l.published') . ' = ' . (int) $this->getState('filter.state'));
+			$query->where($db->quoteName('l.published') . ' = ' . (int) $this->getState('filter.state'));
 		}
 
 		// Check the search phrase.
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->escape($this->getState('filter.search'));
-			$query->where($db->qn('l.title') . ' LIKE ' . $db->q('%' . $db->escape($search) . '%') . ' OR ' . $db->qn('l.url') . ' LIKE ' . $db->q('%' . $db->escape($search) . '%') . ' OR ' . $db->qn('l.indexdate') . ' LIKE  ' . $db->q('%' . $db->escape($search) . '%'));
+			$query->where($db->quoteName('l.title') . ' LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR ' . $db->quoteName('l.indexdate') . ' LIKE  ' . $db->quote('%' . $db->escape($search) . '%'));
 		}
 
 		// Handle the list ordering.
@@ -220,10 +220,10 @@ class FinderModelIndex extends JModelList
 		$query = $db->getQuery(true);
 
 		$query->select('name, enabled')
-			->from($db->qn('#__extensions'))
-			->where($db->qn('type') . ' = ' .  $db->q('plugin'))
-			->where($db->qn('folder') . ' IN(' .  $db->q('system') . ',' . $db->q('content') . ')')
-			->where($db->qn('element') . ' = ' .  $db->q('finder'));
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' IN(' .  $db->quote('system') . ',' . $db->quote('content') . ')')
+			->where($db->quoteName('element') . ' = ' .  $db->quote('finder'));
 		$db->setQuery($query);
 		$db->execute();
 		$plugins = $db->loadObjectList('name');
@@ -302,8 +302,8 @@ class FinderModelIndex extends JModelList
 
 		// Delete all the taxonomy nodes except the root.
 		$query = $db->getQuery(true);
-		$query->delete($db->qn('#__finder_taxonomy'))
-			->where($db->qn('id') . ' > 1');
+		$query->delete($db->quoteName('#__finder_taxonomy'))
+			->where($db->quoteName('id') . ' > 1');
 		$db->setQuery($query);
 		$db->execute();
 

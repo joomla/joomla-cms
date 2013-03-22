@@ -93,7 +93,7 @@ class TagsHelper
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->from('#__tags as c')
-			->innerJoin('#__associations as a ON a.id = c.id AND a.context=' . $db->q('com_tags.item'))
+			->innerJoin('#__associations as a ON a.id = c.id AND a.context=' . $db->quote('com_tags.item'))
 			->innerJoin('#__associations as a2 ON a.key = a2.key')
 			->innerJoin('#__tags as c2 ON a2.id = c2.id')
 			->where('c.id =' . (int) $pk);

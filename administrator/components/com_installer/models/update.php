@@ -102,7 +102,7 @@ class InstallerModelUpdate extends JModelList
 
 		if ($type)
 		{
-			$query->where('type=' . $db->q($type));
+			$query->where('type=' . $db->quote($type));
 		}
 		if ($client != '')
 		{
@@ -110,25 +110,25 @@ class InstallerModelUpdate extends JModelList
 		}
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $db->q($group == '*' ? '' : $group));
+			$query->where('folder=' . $db->quote($group == '*' ? '' : $group));
 		}
 
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id'))
 		{
-			$query->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
+			$query->where($db->quoteName('extension_id') . ' = ' . $db->quote((int) $eid));
 		}
 		else
 		{
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(0))
-				->where($db->qn('extension_id') . ' != ' . $db->q(700));
+			$query->where($db->quoteName('extension_id') . ' != ' . $db->quote(0))
+				->where($db->quoteName('extension_id') . ' != ' . $db->quote(700));
 		}
 
 		// Filter by search
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$query->where('name LIKE ' . $db->q('%' . $search . '%'));
+			$query->where('name LIKE ' . $db->quote('%' . $search . '%'));
 		}
 		return $query;
 	}
@@ -171,8 +171,8 @@ class InstallerModelUpdate extends JModelList
 		{
 			// Reset the last update check timestamp
 			$query = $db->getQuery(true);
-			$query->update($db->qn('#__update_sites'));
-			$query->set($db->qn('last_check_timestamp') . ' = ' . $db->q(0));
+			$query->update($db->quoteName('#__update_sites'));
+			$query->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 			$db->setQuery($query);
 			$db->execute();
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
