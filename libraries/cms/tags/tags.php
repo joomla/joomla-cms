@@ -313,6 +313,8 @@ class JTags
 		$query->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
 		$db->execute();
+
+		return;
 	}
 
 	/**
@@ -435,13 +437,14 @@ class JTags
 	 * @param   boolean  $anyOrAll         True to include items matching at least one tag, false to include
 	 *                                     items all tags in the array.
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
+	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
 	 *
 	 * @return  JDatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all')
+		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
 	{
 		// Create a new query object.
 		$db = JFactory::getDbo();
@@ -503,6 +506,7 @@ class JTags
 		$query->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id');
 
 		$query->where('m.tag_id IN (' . $tagId . ')');
+		$query->where('c.core_state IN (' . $stateFilter . ')');
 
 		// Optionally filter on language
 		if (empty($language))
