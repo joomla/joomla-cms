@@ -29,18 +29,19 @@ abstract class ModTagsPopularHelper
 		$query = $db->getQuery(true);
 
 		$query->select(array($db->quoteName('tag_id'), $db->quoteName('type_alias'), $db->quoteName('content_item_id'), ' COUNT(*) AS count', 't.title', 't.access', 't.alias'));
-		$query->group($db->quoteName('tag_id'));
+		$query->group($db->quoteName(array('tag_id', 'type_alias', 'content_item_id', 't.title', 't.access', 't.alias')));
 		$query->from($db->quoteName('#__contentitem_tag_map'));
 		$query->where('t.access IN (' . $groups . ')');
 
 		if ($timeframe != 'alltime')
 		{
-			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd(JFactory::getDate()->toSql('date'), '1', strtoupper($timeframe)));
+			$now = new JDate;
+			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($now->toSql('date'), '-1', strtoupper($timeframe)));
 		}
 
 		$query->join('LEFT', '#__tags AS t ON tag_id=t.id');
-		$query->order('count DESC LIMIT 0,' . $maximum);
-		$db->setQuery($query);
+		$query->order('count DESC');
+		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
 		return $results;

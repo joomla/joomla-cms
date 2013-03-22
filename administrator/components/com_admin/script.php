@@ -94,6 +94,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_config', '', 1);
 		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
+		$extensions[] = array('component', 'com_tags', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -126,6 +127,8 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
 		$extensions[] = array('module', 'mod_articles_categories', '', 0);
 		$extensions[] = array('module', 'mod_languages', '', 0);
+		$extensions[] = array('module', 'mod_tags_popular', '', 0);
+		$extensions[] = array('module', 'mod_tags_similar', '', 0);
 
 		// Administrator
 		$extensions[] = array('module', 'mod_custom', '', 1);
@@ -182,6 +185,12 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
+		$extensions[] = array('plugin', 'categories', 'finder', 0);
+		$extensions[] = array('plugin', 'contacts', 'finder', 0);
+		$extensions[] = array('plugin', 'content', 'finder', 0);
+		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
+		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
+		$extensions[] = array('plugin', 'tags', 'finder', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);

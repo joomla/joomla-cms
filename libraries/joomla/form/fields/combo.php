@@ -46,6 +46,7 @@ class JFormFieldCombo extends JFormFieldList
 		$attr .= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';

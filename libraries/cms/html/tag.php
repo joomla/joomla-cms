@@ -39,6 +39,7 @@ abstract class JHtmlTag
 	public static function options($config = array('filter.published' => array(0, 1)))
 	{
 		$hash = md5(serialize($config));
+
 		if (!isset(self::$items[$hash]))
 		{
 			$config = (array) $config;
@@ -148,5 +149,56 @@ abstract class JHtmlTag
 			self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 		}
 		return self::$items[$hash];
+	}
+
+	/**
+	 * This is just a proxy for the formbehavior.ajaxchosen method
+	 *
+	 * @param   string   $selector     DOM id of the tag field
+	 * @param   boolean  $allowCustom  Flag to allow custom values
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public static function ajaxfield($selector='#jform_tags', $allowCustom = true)
+	{
+		// Tags field ajax
+		$chosenAjaxSettings = new JRegistry(
+			array(
+				'selector'    => $selector,
+				'type'        => 'GET',
+				'url'         => JURI::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'dataType'    => 'json',
+				'jsonTermKey' => 'like'
+			)
+		);
+		JHtml::_('formbehavior.ajaxchosen', $chosenAjaxSettings);
+
+		// Allow custom values ?
+		if ($allowCustom)
+		{
+			JFactory::getDocument()->addScriptDeclaration("
+				(function($){
+					$(document).ready(function () {
+						// Method to add tags pressing enter
+						$('" . $selector . "_chzn input').keydown(function(event) {
+							// tag is greater than 3 chars and enter pressed
+							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {
+								// Create the option
+								var option = $('<option>');
+								option.text(this.value).val('#new#' + this.value);
+								option.attr('selected','selected');
+								// Add the option an repopulate the chosen field
+								$('" . $selector . "').append(option).trigger('liszt:updated');
+								this.value = '';
+								event.preventDefault();
+							}
+						});
+					});
+				})(jQuery);
+				"
+			);
+		}
 	}
 }

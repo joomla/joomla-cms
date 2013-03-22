@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+	<fields name="urls">
+		<field
+			name="urla"
+			type="hidden"/>
+	</fields>
 	<field
 		name="id"
 		type="text"
@@ -20,7 +25,8 @@
 
 	<field
 		name="parent_id"
-		type="tagnested"
+		type="tag"
+		mode="nested"
 		label="COM_TAGS_FIELD_PARENT_LABEL"
 		description="COM_TAGS_FIELD_PARENT_DESC"
 		validate="notequals"

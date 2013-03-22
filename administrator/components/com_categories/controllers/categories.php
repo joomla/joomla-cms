@@ -44,7 +44,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$extension = $this->input->get('extension');
-		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension='.$extension, false));
+		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
 		$model = $this->getModel();
 
@@ -121,4 +121,27 @@ class CategoriesControllerCategories extends JControllerAdmin
 		JFactory::getApplication()->close();
 
 	}
+	/**
+	 * Function that allows child controller access to model data
+	 * after the item has been deleted.
+	 *
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   integer       $ids    The array of ids for items being deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
+		// If an item has been tagged we need to untag it and delete it from #__core_content.
+		$task = $this->getTask();
+		$extension = $this->input->get('extension');
+		$item = $model->getItem();
+
+		$tags = new JTags;
+		$tags->deleteTagData($ids, $extension . '.category');
+
+	}
+
 }
