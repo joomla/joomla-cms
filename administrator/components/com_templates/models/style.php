@@ -241,6 +241,8 @@ class TemplatesModelStyle extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_templates.style', $data);
+
 		return $data;
 	}
 

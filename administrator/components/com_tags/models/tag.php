@@ -223,6 +223,8 @@ class TagsModelTag extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_tags.tag', $data);
+
 		return $data;
 	}
 
@@ -276,6 +278,20 @@ class TagsModelTag extends JModelAdmin
 		if ($table->parent_id != $data['parent_id'] || $data['id'] == 0)
 		{
 			$table->setLocation($data['parent_id'], 'last-child');
+		}
+
+		if (isset($data['images']) && is_array($data['images']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['images']);
+			$data['images'] = (string) $registry;
+		}
+
+		if (isset($data['urls']) && is_array($data['urls']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['urls']);
+			$data['urls'] = (string) $registry;
 		}
 
 		// Alter the title for save as copy

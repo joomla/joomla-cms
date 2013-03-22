@@ -105,6 +105,8 @@ class TemplatesModelSource extends JModelForm
 			$data = $this->getSource();
 		}
 
+		$this->preprocessData('com_templates.source', $data);
+
 		return $data;
 	}
 

@@ -32,7 +32,7 @@ $version = '3.1';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '0_beta1';
+$release = '0_beta2';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -93,7 +93,7 @@ $filesArray = array(
 		"index.php\n" => true,
 		"LICENSE.txt\n" => true,
 		"README.txt\n" => true,
-		"robots.txt\n" => true,
+		"robots.txt.dist\n" => true,
 		"web.config.txt\n" => true,
 		"joomla.xml\n" => true,
 );
@@ -143,7 +143,7 @@ for($num=$release-1; $num >= 0; $num--) {
 
 		continue;
 	}
-	
+
 	$fromName = $num == 0 ? 'x' : $num;
 	// Create the diff archive packages using the file name list.
 	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');

@@ -85,6 +85,18 @@ class InstallationControllerRemovefolder extends JControllerBase
 				}
 			}
 
+			// Rename the robots.txt.dist file to robots.txt
+			if ($return)
+			{
+				$robotsFile = JPath::clean($options->ftp_root . '/robots.txt');
+				$distFile = JPath::clean($options->ftp_root . '/robots.txt.dist');
+
+				if (!file_exists($robotsFile) && file_exists($distFile))
+				{
+					$return = $ftp->rename($distFile, $robotsFile);
+				}
+			}
+
 			$ftp->quit();
 		}
 		else
@@ -96,6 +108,13 @@ class InstallationControllerRemovefolder extends JControllerBase
 			 */
 			ob_start();
 			$return = JFolder::delete($path) && (!file_exists(JPATH_ROOT . '/joomla.xml') || JFile::delete(JPATH_ROOT . '/joomla.xml'));
+
+			// Rename the robots.txt.dist file if robots.txt doesn't exist
+			if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
+			{
+				$return = JFile::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
+			}
+
 			ob_end_clean();
 		}
 

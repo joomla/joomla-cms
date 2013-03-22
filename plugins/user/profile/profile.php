@@ -27,6 +27,14 @@ class PlgUserProfile extends JPlugin
 	private $_date = '';
 
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   object  $subject  The object to observe
@@ -37,7 +45,6 @@ class PlgUserProfile extends JPlugin
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage();
 		JFormHelper::addFieldPath(__DIR__ . '/fields');
 	}
 

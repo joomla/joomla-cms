@@ -114,19 +114,9 @@ class UsersModelUser extends JModelAdmin
 			$data = $this->getItem();
 		}
 
-		// TODO: Maybe this can go into the parent model somehow?
-		// Get the dispatcher and load the users plugins.
-		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
-		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
-
-		// Check for errors encountered while preparing the data.
-		if (count($results) && in_array(false, $results, true))
-		{
-			$this->setError($dispatcher->getError());
-		}
+		$this->preprocessData('com_users.profile', $data);
 
 		return $data;
 	}

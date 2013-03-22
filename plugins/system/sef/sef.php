@@ -43,9 +43,8 @@ class PlgSystemSef extends JPlugin
 			$domain = $uri->toString(array('scheme', 'host', 'port'));
 		}
 
-		$link = 'index.php' . $uri->toString(array('query', 'fragment'));
+		$link = 'index.php' . $uri->toString(array('query','fragment'));
 		$link = $domain . JRoute::_($link);
-
 		if ($current !== $link)
 		{
 			$doc->addHeadLink($link, 'canonical');

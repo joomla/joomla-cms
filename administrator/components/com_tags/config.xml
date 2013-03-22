@@ -91,7 +91,6 @@
 				<option value="modified_date">JGLOBAL_MODIFIED</option>
 				<option value="publish_up">JPUBLISHED</option>
 		</field>
-
 		<field name="tag_list_show_item_image" type="radio" class="btn-group"
 			description="COM_TAGS_SHOW_ITEM_IMAGE_DESC"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
@@ -100,12 +99,29 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+
+		<field name="tag_field_ajax_mode" type="radio" class="btn-group"
+			description="COM_TAGS_TAG_FIELD_MODE_DESC"
+			label="COM_TAGS_TAG_FIELD_MODE_LABEL"
+			default="1"
+		>
+			<option value="1">COM_TAGS_TAG_FIELD_MODE_AJAX</option>
+			<option value="0">COM_TAGS_TAG_FIELD_MODE_NESTED</option>
+		</field>
 		<field
 			name="tag_list_item_maximum_characters"
 			type="text"
 			filter="integer"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC">
+		</field>
+		<field name="tag_list_language_filter"
+			type="contentlanguage"
+			default="all"
+			label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
+			description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC">
+				<option value="all">JALL</option>
+				<option value="current_language">JCURRENT</option>
 		</field>
 
 	</fieldset>
@@ -123,7 +139,6 @@
 			extension="com_tags"
 			view="tags"
 		/>
-
 		<field name="all_tags_show_description_image" type="radio" class="btn-group"
 			description="COM_TAGS_SHOW_ALL_TAGS_IMAGE_DESC"
 			label="COM_TAGS_SHOW_ALL_TAGS_IMAGE_LABEL"
@@ -196,7 +211,7 @@
 			type="text"
 			filter="integer"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
-			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC" 
+			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 		/>
 		<field name="all_tags_show_tag_hits" type="list"
 			description="COM_TAGS_FIELD_CONFIG_HITS_DESC"
@@ -213,7 +228,7 @@
 				default="4"
 				filter="integer"
 				label="COM_TAGS_COMPACT_COLUMNS_LABEL"
-				description="COM_TAGS_COMPACT_COLUMNS_DESC">
+				description="COM_TAGS_NUMBER_COLUMNS_DESC">
 			</field>
 
 	</fieldset>

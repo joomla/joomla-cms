@@ -413,6 +413,8 @@ class ContentModelArticle extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_content.article', $data);
+
 		return $data;
 	}
 

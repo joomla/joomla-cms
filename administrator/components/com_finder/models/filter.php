@@ -148,6 +148,9 @@ class FinderModelFilter extends JModelAdmin
 		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_finder.filter', $data);
+
 		return $data;
 	}
 }

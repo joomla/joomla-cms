@@ -51,6 +51,8 @@ class UsersModelMail extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_users.display.mail.data', array());
 
+		$this->preprocessData('com_users.mail', $data);
+
 		return $data;
 	}
 
