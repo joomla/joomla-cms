@@ -43,11 +43,12 @@ class JFormFieldTextarea extends JFormField
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
 		$rows = $this->element['rows'] ? ' rows="' . (int) $this->element['rows'] . '"' : '';
+		$required = $this->required ? ' required="required" aria-required="true"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class . $disabled . $onchange . '>'
+		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class . $disabled . $onchange . $required . '>'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }

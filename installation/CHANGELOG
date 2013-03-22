@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Mar-2013 Michael Babker
+ ^ [#30319] Accessibility fixes to JForm Platform Synch.  Thanks Elin
+ ^ [#30353] Clean up left over debugging.  Thanks Elin
+
 21-Mar-2013 Jean-Marie Simonet
  # [#30340] Fix regression in Similar Tags Module. Thanks Elin
  $ Duplicate lang string +

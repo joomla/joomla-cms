@@ -147,7 +147,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * after the item has been deleted.
 	 *
 	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $id      The validated data.
+	 * @param   integer       $id     The validated data.
 	 *
 	 * @return  void
 	 *
@@ -156,7 +156,6 @@ class JControllerAdmin extends JControllerLegacy
 	protected function postDeleteHook(JModelLegacy $model, $id = null)
 	{
 	}
-
 
 	/**
 	 * Display is not supported by this controller.
