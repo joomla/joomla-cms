@@ -1318,8 +1318,8 @@ class FinderIndexerQuery
 			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
 			$query->clear();
 			$query->select('DISTINCT t.term_id AS id, t.term AS term')
-				->from('#__finder_terms AS t');
-			//$query->where('t.soundex = ' . soundex($db->quote($token->term)))
+				->from('#__finder_terms AS t')
+				// ->where('t.soundex = ' . soundex($db->quote($token->term)))
 				->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')')
 				->where('t.phrase = ' . (int) $token->phrase);
 
