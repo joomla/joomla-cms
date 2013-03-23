@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Mar-2013 Jean-Marie Simonet
+ # [#30361] Chosen minified and un-minified versions are different. Thanks Roberto
+ # [#30348] Popular Tags Module showing multiple copies of links. Thanks Elin
+
 22-Mar-2013 Jean-Marie Simonet
  $ Updating Installation ini files: he-IL, nl-NL
 
