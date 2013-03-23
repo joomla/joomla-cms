@@ -59,27 +59,27 @@ abstract class ModTagssimilarHelper
 					$db->quoteName('m.core_content_id'),
 					$db->quoteName('m.content_item_id'),
 					$db->quoteName('m.type_alias'),
-					'COUNT( '  . $db->qn('tag_id') . ') AS ' . $db->qn('count'),
-					$db->qn('t.access'),
-					$db->qn('t.id'),
-					$db->qn('cc.core_title'),
-					$db->qn('cc.core_alias')
+					'COUNT( '  . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
+					$db->quoteName('t.access'),
+					$db->quoteName('t.id'),
+					$db->quoteName('cc.core_title'),
+					$db->quoteName('cc.core_alias')
 				)
 			);
-			$query->group($db->qn(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')));
-			$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
-			$query->having('t.access IN (' . $groups . ')');
-			$query->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
-			$query->having($db->qn('m.content_item_id') . ' <> ' . $id);
+			$query->group($db->quoteName(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')))
+				->from($db->quoteName('#__contentitem_tag_map', 'm'))
+				->having('t.access IN (' . $groups . ')')
+				->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')')
+				->having($db->quoteName('m.content_item_id') . ' <> ' . $id);
 
 			if ($matchtype == 'all' && $tagCount > 0)
 			{
-				$query->having('COUNT( '  . $db->qn('tag_id') . ')  = ' . $tagCount);
+				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  = ' . $tagCount);
 			}
 			elseif ($matchtype == 'half' && $tagCount > 0)
 			{
 				$tagCountHalf = ceil($tagCount / 2);
-				$query->having('COUNT( '  . $db->qn('tag_id') . ')  >= ' . $tagCountHalf);
+				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 			}
 
 			// Only return published tags
@@ -94,13 +94,13 @@ abstract class ModTagssimilarHelper
 				{
 					$language = JHelperContent::getCurrentLanguage();
 				}
-				$query->where($db->qn('cc.core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+				$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 			}
 
-			$query->join('INNER', $db->qn('#__tags', 't') . ' ON ' . $db->qn('m.tag_id') . ' = ' . $db->qn('t.id'));
-			$query->join('INNER', $db->qn('#__core_content', 'cc') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('cc.core_content_id'));
+			$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'))
+				->join('INNER', $db->quoteName('#__core_content', 'cc') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('cc.core_content_id'))
 
-			$query->order($db->qn('count') . ' DESC');
+				->order($db->quoteName('count') . ' DESC');
 			$db->setQuery($query, 0, $maximum);
 			$results = $db->loadObjectList();
 
