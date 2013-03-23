@@ -21,7 +21,7 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 				<span class="tag-<?php echo $tag->tag_id; ?> tag-list<?php echo $i ?>">
 				<?php JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php'); ?>
 				<?php $this->route = new TagsHelperRoute; ?>
-					<a href="<?php echo JRoute::_($this->route->getRoute($tag->tag_id)) ?>" class="<?php echo $link_class; ?>">
+					<a href="<?php echo JRoute::_($this->route->getRoute($tag->tag_id . ':' . $tag->alias)) ?>" class="<?php echo $link_class; ?>">
 						<?php echo $this->escape($tag->title); ?>
 					</a>
 				</span>&nbsp;
