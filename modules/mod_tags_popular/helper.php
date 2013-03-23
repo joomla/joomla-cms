@@ -32,10 +32,10 @@ abstract class ModTagsPopularHelper
 					' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
 					'MAX(' .$db->quoteName('t.access') . ') AS access',
 					'MAX(' .$db->quoteName('t.alias') . ') AS alias')
-				);
-		$query->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')));
-		$query->from($db->quoteName('#__contentitem_tag_map'));
-		$query->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
+				)
+			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
+			->from($db->quoteName('#__contentitem_tag_map'))
+			->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
 
 		// Only return published tags
 		$query->where($db->quoteName('t.published') . ' = 1 ');
@@ -58,8 +58,8 @@ abstract class ModTagsPopularHelper
 			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($now->toSql('date'), '-1', strtoupper($timeframe)));
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'));
-		$query->order('count DESC');
+		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
+			->order('count DESC');
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
