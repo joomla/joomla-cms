@@ -609,7 +609,7 @@ class JTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$explodedTypeAlias = self::explodedTypeAlias($typeAlias);
+			$explodedTypeAlias = $this->explodedTypeAlias($typeAlias);
 		}
 
 		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
@@ -632,7 +632,7 @@ class JTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$explodedTypeAlias = self::explodeTypeAlias($typeAlias);
+			$explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
 		}
 
 		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
