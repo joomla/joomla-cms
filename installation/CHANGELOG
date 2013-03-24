@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ [#30356] Update JImage to latest platform version.  Thanks Don
  # [#30266] Array to string conversion in smart search.  Thanks Edgars
  # [#28978] Smart search (com_finder) - problem when using "Allow Empty Search".  Thanks Valentin
+ # [#30338] Wrong contact items publishing state from Contact details > state.  Thanks Piotr
 
 24-Mar-2013 Jean-Marie Simonet
  # [#30234] Route work classes for Tags. Thanks Elin
