@@ -1102,7 +1102,7 @@ class FinderModelSearch extends JModelList
 		$options['filter'] = $filter->clean($options['filter'], 'int');
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = !is_null($request->get('t')) ? $request->get('t', '', 'array') : $params->get('t');
+		$options['filters'] = !is_null($request->get('t', '', 'array')) ? $request->get('t', '', 'array') : $params->get('t');
 		$options['filters'] = $filter->clean($options['filters'], 'array');
 		JArrayHelper::toInteger($options['filters']);
 
