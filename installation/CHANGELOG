@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 24-Mar-2013 Mark Dexter
  # [#30345] *TAGS routing: SImilar tag module. Wrong query for article. Thanks Elin.
+ # [#30223] TAGS: Missing 'Help' Button in Toolbar. 
 
 24-Mar-2013 Michael Babker
  + [#30318] Pull in media wiki package from platform.  Thanks Elin
