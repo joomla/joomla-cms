@@ -301,7 +301,7 @@ class Updatesnotifier extends JApplicationCli
 		try
 		{
 			$recipient = $this->config->get('mailfrom');
-			$siteName = $this->config->get('fromname');
+			$siteName = $this->config->get('sitename');
 			$mailer = JFactory::getMailer();
 			$body = JText::sprintf('CLI_UPDATESNOTIFIER_MAIL_BODY_INTRO', $siteName);
 			$body .= implode("\n", $this->messages);
