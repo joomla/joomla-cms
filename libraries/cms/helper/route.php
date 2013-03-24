@@ -12,47 +12,51 @@ defined('_JEXEC') or die;
 /**
  * Route Helper
  *
+ * A class providing basic routing for urls that are for content types found in
+ * the #__content_types table and rows found in the #__core_content table.
+ *
  * @package     Joomla.Libraries
  * @subpackage  CMS
  * @since       3.1
  */
 class JHelperRoute
 {
-	/*
-	 * A class providing basic routing for urls that are for content types found in
-	 * the #__content_types table and rows found in the #__core_content table.
-	 */
-
-	/*
-	 * @var array  Holds the reverse lookup
+	/**
+	 * @var    array  Holds the reverse lookup
+	 * @since  3.1
 	 */
 	protected static $lookup;
 
-	/*
-	 * @var  string  Option for the extension (such as com_content)
+	/**
+	 * @var    string  Option for the extension (such as com_content)
+	 * @since  3.1
 	 */
 	protected  $extension;
 
-	/*
-	 * @var  string  Value of the primary key in the content type table
+	/**
+	 * @var    string  Value of the primary key in the content type table
+	 * @since  3.1
 	 */
 	protected  $id;
 
-	/*
-	 * @var  string  Name of the view for the url
+	/**
+	 * @var    string  Name of the view for the url
+	 * @since  3.1
 	 */
 	protected  $view;
 
 	/**
 	 * A method to get the route for a specific item
 	 *
-	 * @param  integer  $id         Value of the primary key for the item in its content table
-	 * @param  string   $typealias  The type_alias for the item being routed. Of the form extension.view.
-	 * @param  string   $link       The link to be routed
-	 * @param  string   $language   The language of the content for multilingual sites
-	 * @param  integer  $catid      Optional category id
+	 * @param   integer  $id         Value of the primary key for the item in its content table
+	 * @param   string   $typealias  The type_alias for the item being routed. Of the form extension.view.
+	 * @param   string   $link       The link to be routed
+	 * @param   string   $language   The language of the content for multilingual sites
+	 * @param   integer  $catid      Optional category id
 	 *
 	 * @return  string  The route of the item
+	 *
+	 * @since   3.1
 	 */
 	public function getRoute($id, $typealias, $link = '', $language = null, $catid = null)
 	{
@@ -60,7 +64,6 @@ class JHelperRoute
 
 		$this->view = $typeExploded[1];
 		$this->extension = $typeExploded[0];
-		$name = '';
 		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
 
 		if (isset($this->view))
@@ -71,7 +74,7 @@ class JHelperRoute
 		}
 		if (!isset($link))
 		{
-			//Create the link
+			// Create the link
 			$link = 'index.php?option=' . $this->extension . '&view=' . $this->view . '&id=' . $id;
 		}
 
@@ -102,7 +105,7 @@ class JHelperRoute
 			{
 				if ($language == $lang->lang_code)
 				{
-					$link .= '&lang='.$lang->sef;
+					$link .= '&lang=' . $lang->sef;
 					$needles['language'] = $language;
 				}
 			}
@@ -120,7 +123,16 @@ class JHelperRoute
 		return $link;
 	}
 
-	protected function findItem($needles = null)
+	/**
+	 * Method to find the item in the menu structure
+	 *
+	 * @param   array  $needles  Array of lookup values
+	 *
+	 * @return  mixed
+	 *
+	 * @since   3.1
+	 */
+	protected function findItem($needles = array())
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu('site');
@@ -159,9 +171,12 @@ class JHelperRoute
 						{
 							$item->query['id'] = $item->query['id'][0];
 						}
-						// Here it will become a bit tricky
-						// $language != * can override existing entries
-						// $language == * cannot override existing entries
+
+						/*
+						 * Here it will become a bit tricky
+						 * $language != * can override existing entries
+						 * $language == * cannot override existing entries
+						 */
 						if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
 						{
 							self::$lookup[$language][$view][$item->query['id']] = $item->id;
@@ -200,5 +215,3 @@ class JHelperRoute
 		return !empty($default->id) ? $default->id : null;
 	}
 }
-
-
