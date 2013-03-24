@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Mar-2013 Jean-Marie Simonet
+ # [#30234] Route work classes for Tags. Thanks Elin
+
 23-Mar-2013 Jean-Marie Simonet
  # [#30361] Chosen minified and un-minified versions are different. Thanks Roberto
  # [#30348] Popular Tags Module showing multiple copies of links. Thanks Elin

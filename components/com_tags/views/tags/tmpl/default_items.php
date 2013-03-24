@@ -34,9 +34,9 @@ $n = count($this->items);
 					<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 						<?php if ($item->published == 0) : ?>
 							<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-						<?php else: ?>
+						<?php else: ?><?php $route = new TagsHelperRoute ?>
 							<li class="cat-list-row<?php echo $i % 2; ?>" >
-								<?php  echo '<h3> <a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)) . '">'
+								<?php  echo '<h3> <a href="' . JRoute::_($route->getRoute($item->id . ':' . $item->alias)) . '">'
 								. $this->escape($item->title) . '</a> </h3>';  ?>
 						<?php endif; ?>
 						<?php  if ($this->params->get('all_tags_show_tag_hits')) : ?>
