@@ -21,21 +21,32 @@ $canEdit = $user->authorise('core.edit', 'com_tags');
 $canCreate = $user->authorise('core.create', 'com_tags');
 $canEditState = $user->authorise('core.edit.state', 'com_tags');
 
+$columns = $this->params->get('tag_columns', 1);
+// Avoid division by 0 and negative columns.
+if ($columns < 1)
+{
+	$columns = 1;
+}
+$bsspans = floor(12 / $columns);
+if ($bsspans < 1)
+{
+	$bsspans = 1;
+}
+
+$bscolumns = min($columns, floor(12 / $bsspans));
 $n = count($this->items);
 ?>
 
 <?php if ($this->items == false || $n == 0) : ?>
 	<p> <?php echo JText::_('COM_TAGS_NO_TAGS'); ?></p>
 <?php else : ?>
-		<ul class="category list-striped list-condensed">
 			<?php foreach ($this->items as $i => $item) : ?>
-				<?php if ($item->parent_id != 0) : ?>
-				<div>
+				<?php if ($n == 1 || $i == 0 || $bscolumns == 1 || $i % $bscolumns == 0) : ?>
+						<ul class="thumbnails">
+				<?php endif; ?>
 					<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-						<?php if ($item->published == 0) : ?>
-							<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-						<?php else: ?><?php $route = new TagsHelperRoute ?>
-							<li class="cat-list-row<?php echo $i % 2; ?>" >
+                            <?php $route = new TagsHelperRoute ?>
+						<li class="cat-list-row<?php echo $i % 2; ?>" >
 								<?php  echo '<h3> <a href="' . JRoute::_($route->getRoute($item->id . ':' . $item->alias)) . '">'
 								. $this->escape($item->title) . '</a> </h3>';  ?>
 						<?php endif; ?>
@@ -54,19 +65,28 @@ $n = count($this->items);
 										echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"';
 								endif; ?>
 								src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
-							<?php endif; ?>
 							</span>
 							<?php endif; ?>
-						<?php  if ($this->state->get('all_tags_show_tag_description', 1)) : ?>
-							<span class="tag-body">
-								<?php echo $item->description; ?>
-							</span>
-						<?php endif; ?>
-						<div class="clearfix"></div>
-					<?php  endif;?></div>
-				<?php  endif;?>
-							</li>
-				<?php endforeach; ?>
-		</ul>
+							<div class="caption">
+								<?php  echo '<h3><a href="' . JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)) . '">'
+										. $this->escape($item->title) . '</a> </h3>';  ?>
+								<?php  if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
+									<span class="tag-body">
+										<?php echo JHtmlString::truncate($item->description, $this->params->get('tag_list_item_maximum_characters')); ?>
+									</span>
+								<?php endif; ?>
+								<?php  if ($this->params->get('all_tags_show_tag_hits')) : ?>
+										<span class="list-hits badge badge-info">
+											<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
+										</span>
+								<?php endif; ?>
+							</div>
+						</li>
+					<?php endif;?>
 
-	<?php  endif;?>
+				<?php if (($i == 0 && $n == 1) || $i == $n - 1 || $bscolumns == 1 || (($i + 1) % $bscolumns == 0)) :  ?>
+					</ul>
+				<?php endif; ?>
+
+			<?php endforeach; ?>
+<?php endif;?>
