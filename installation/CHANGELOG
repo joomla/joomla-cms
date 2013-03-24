@@ -32,6 +32,8 @@ $ -> Language fix or change
  # [#30266] Array to string conversion in smart search.  Thanks Edgars
  # [#28978] Smart search (com_finder) - problem when using "Allow Empty Search".  Thanks Valentin
  # [#30338] Wrong contact items publishing state from Contact details > state.  Thanks Piotr
+ + [#30369] Pull in OpenStreetMap package from the platform.  Thanks Elin
+ + [#30364] Add UNION ALL feature from platform.  Thanks Elin
 
 24-Mar-2013 Jean-Marie Simonet
  # [#30234] Route work classes for Tags. Thanks Elin
