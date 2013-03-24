@@ -123,6 +123,9 @@ class TagsModelTags extends JModelList
 		if (!empty($pid))
 		{
 			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
+		} else {
+			// Exclude the root.
+			$query->where($db->quoteName('a.parent_id') . ' <> 0');
 		}
 
 		// Optionally filter on language
