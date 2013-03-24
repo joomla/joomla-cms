@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Mar-2013 Michael Babker
+ # [#28978] Smart search (com_finder) - problem when using "Allow Empty Search".  Thanks Valentin
+
 21-Mar-2013 Jean-Marie Simonet
 # [#30346] *Contact creator does not include default language "All" for the contact created
 
