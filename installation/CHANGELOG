@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Mar-2013 Michael Babker
+ + [#30318] Pull in media wiki package from platform.  Thanks Elin
+ ^ [#30356] Update JImage to latest platform version.  Thanks Don
+
 24-Mar-2013 Jean-Marie Simonet
  # [#30234] Route work classes for Tags. Thanks Elin
 
