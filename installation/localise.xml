@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localise version="2.5" client="installation" >
-	<forceLang></forceLang>
+	<forceLang>es-ES</forceLang>
 	<helpurl></helpurl>
 	<debug>0</debug>
 	<sampledata></sampledata>
