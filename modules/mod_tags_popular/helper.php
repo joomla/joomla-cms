@@ -28,11 +28,14 @@ abstract class ModTagsPopularHelper
 
 		$query = $db->getQuery(true);
 
-		$query->select(array('MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-					' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
-					'MAX(' .$db->quoteName('t.access') . ') AS access',
-					'MAX(' .$db->quoteName('t.alias') . ') AS alias')
-				);
+		$query->select(
+			array(
+				'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
+				' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
+				'MAX(' .$db->quoteName('t.access') . ') AS access',
+				'MAX(' .$db->quoteName('t.alias') . ') AS alias'
+			)
+		);
 		$query->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')));
 		$query->from($db->quoteName('#__contentitem_tag_map'));
 		$query->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
