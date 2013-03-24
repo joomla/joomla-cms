@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Mar-2013 Mark Dexter
+ # [#30345] *TAGS routing: SImilar tag module. Wrong query for article. Thanks Elin.
+
 24-Mar-2013 Michael Babker
  + [#30318] Pull in media wiki package from platform.  Thanks Elin
  ^ [#30356] Update JImage to latest platform version.  Thanks Don
