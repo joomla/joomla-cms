@@ -170,6 +170,7 @@ class ModulesModelModule extends JModelAdmin
 		// Set the variables
 		$user = JFactory::getUser();
 		$table = $this->getTable();
+		$newIds = array();
 		$i = 0;
 
 		foreach ($pks as $pk)
