@@ -149,7 +149,7 @@ class MediaViewMedia extends JViewLegacy
 		// Add a create folder button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			$title = JText::_('COM_MEDIA_CREATE_FOLDER');
+			$title = JText::_('COM_MEDIA_CREATE_NEW_FOLDER');
 			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn btn-small\">
 						<i class=\"icon-folder\" title=\"$title\"></i>
 						$title</button>";
