@@ -277,6 +277,11 @@ class ContentModelArticle extends JModelAdmin
 			$registry->loadString($item->urls);
 			$item->urls = $registry->toArray();
 
+            // Convertir los documentos adjuntos en un Arreglo
+            $registry = new JRegistry;
+            $registry->loadString($item->attachments);
+            $item->attachments = $registry->toArray();
+
 
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\" />" . $item->fulltext : $item->introtext;
@@ -403,6 +408,14 @@ class ContentModelArticle extends JModelAdmin
 				$data['urls'] = (string)$registry;
 
 			}
+
+			if (isset($data['attachments']) && is_array($data['attachments'])) {
+				$registry = new JRegistry;
+				$registry->loadArray($data['attachments']);
+				$data['attachments'] = (string)$registry;
+
+			}
+
 		// Alter the title for save as copy
 		if (JRequest::getVar('task') == 'save2copy') {
 			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
