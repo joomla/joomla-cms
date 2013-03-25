@@ -75,10 +75,10 @@ class UsersViewNotes extends JViewLegacy
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		// Get the component HTML helpers
+		// Get the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-		// turn parameters into registry objects
+		// Turn parameters into registry objects.
 		foreach ($this->items as $item)
 		{
 			$item->cparams = new JRegistry;
@@ -87,6 +87,7 @@ class UsersViewNotes extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 
@@ -99,6 +100,7 @@ class UsersViewNotes extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
+		// Initialise view variables.
 		$canDo = UsersHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
@@ -140,6 +142,7 @@ class UsersViewNotes extends JViewLegacy
 			JToolbarHelper::preferences('com_users');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_USERS_USER_NOTES');
 
 		JHtmlSidebar::setAction('index.php?option=com_users&view=notes');

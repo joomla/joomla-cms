@@ -15,21 +15,21 @@ JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
-$canDo = UsersHelper::getActions();
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn = $this->escape($this->state->get('list.direction'));
+// Initialise variables.
+$canDo      = UsersHelper::getActions();
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
 ?>
-
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
-	<?php if (!empty( $this->sidebar)) : ?>
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
+	<?php if (!empty( $this->sidebar)): ?>
 		<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 		</div>
 		<div id="j-main-container" class="span10">
-	<?php else : ?>
+	<?php else: ?>
 		<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="filter-search btn-group pull-left">
 			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" />
@@ -96,15 +96,15 @@ $loggeduser = JFactory::getUser();
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
-					<?php if ($canEdit) : ?>
+					<?php if ($canEdit): ?>
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					<?php endif; ?>
 				</td>
 				<td>
-					<?php if ($canEdit) : ?>
+					<?php if ($canEdit): ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
 							<?php echo $this->escape($item->name); ?></a>
-					<?php else : ?>
+					<?php else: ?>
 						<?php echo $this->escape($item->name); ?>
 					<?php endif; ?>
 					<div>
@@ -112,21 +112,21 @@ $loggeduser = JFactory::getUser();
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.addNote', $item->id); ?>
 					</div>
-					<?php if (JDEBUG) : ?>
-						<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id='.(int) $item->id);?>">
-						<?php echo JText::_('COM_USERS_DEBUG_USER');?></a></div>
+					<?php if (JDEBUG): ?>
+						<div class="small"><a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id='.(int) $item->id); ?>">
+						<?php echo JText::_('COM_USERS_DEBUG_USER'); ?></a></div>
 					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->username); ?>
 				</td>
 				<td class="center">
-					<?php if ($canChange) : ?>
+					<?php if ($canChange): ?>
 						<?php
 						$self = $loggeduser->id == $item->id;
 						echo JHtml::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self);
 						?>
-					<?php else : ?>
+					<?php else: ?>
 						<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 					<?php endif; ?>
 				</td>
@@ -137,9 +137,9 @@ $loggeduser = JFactory::getUser();
 					?>
 				</td>
 				<td class="center">
-					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
+					<?php if (substr_count($item->group_names, "\n") > 1): ?>
 						<span class="hasTip" title="<?php echo JText::_('COM_USERS_HEADING_GROUPS').'::'.nl2br($item->group_names); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
-					<?php else : ?>
+					<?php else: ?>
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
 				</td>
@@ -147,11 +147,11 @@ $loggeduser = JFactory::getUser();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
+					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'): ?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
-					<?php else:?>
+					<?php else: ?>
 						<?php echo JText::_('JNEVER'); ?>
-					<?php endif;?>
+					<?php endif; ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>

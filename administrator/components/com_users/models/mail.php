@@ -21,17 +21,21 @@ class UsersModelMail extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array  $data		An optional array of data for the form to interogate.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return  JForm	A JForm object on success, false on failure
+	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm  A JForm object on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		// Get the application.
 		$app = JFactory::getApplication();
 
 		// Get the form.
 		$form = $this->loadForm('com_users.mail', 'mail', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -44,6 +48,7 @@ class UsersModelMail extends JModelAdmin
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -59,9 +64,13 @@ class UsersModelMail extends JModelAdmin
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   object	A form object.
-	 * @param   mixed	The data expected for the form.
-	 * @throws	Exception if there is an error in the form event.
+	 * @param   object  $form   A form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception if there is an error in the form event.
 	 * @since   1.6
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
@@ -69,29 +78,37 @@ class UsersModelMail extends JModelAdmin
 		parent::preprocessForm($form, $data, $group);
 	}
 
+	/**
+	 * Send the mail.
+	 *
+	 * @return  boolean  Returns true on success, false on failure.
+	 *
+	 * @since   1.6
+	 */
 	public function send()
 	{
+		// Initialiase variables.
 		$app    = JFactory::getApplication();
 		$data   = $app->input->post->get('jform', array(), 'array');
 		$user   = JFactory::getUser();
 		$access = new JAccess;
 		$db     = $this->getDbo();
 
-		$mode		= array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
-		$subject	= array_key_exists('subject', $data) ? $data['subject'] : '';
-		$grp		= array_key_exists('group', $data) ? (int) $data['group'] : 0;
-		$recurse	= array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
-		$bcc		= array_key_exists('bcc', $data) ? (int) $data['bcc'] : 0;
-		$disabled	= array_key_exists('disabled', $data) ? (int) $data['disabled'] : 0;
+		$mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
+		$subject      = array_key_exists('subject', $data) ? $data['subject'] : '';
+		$grp          = array_key_exists('group', $data) ? (int) $data['group'] : 0;
+		$recurse      = array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
+		$bcc          = array_key_exists('bcc', $data) ? (int) $data['bcc'] : 0;
+		$disabled     = array_key_exists('disabled', $data) ? (int) $data['disabled'] : 0;
 		$message_body = array_key_exists('message', $data) ? $data['message'] : '';
 
-		// automatically removes html formatting
+		// Automatically removes html formatting.
 		if (!$mode)
 		{
 			$message_body = JFilterInput::getInstance()->clean($message_body, 'string');
 		}
 
-		// Check for a message body and subject
+		// Check for a message body and subject.
 		if (!$message_body || !$subject)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
@@ -99,32 +116,36 @@ class UsersModelMail extends JModelAdmin
 			return false;
 		}
 
-		// get users in the group out of the acl
+		// Get users in the group out of the acl.
 		$to = $access->getUsersByGroup($grp, $recurse);
 
-		// Get all users email and group except for senders
-		$query	= $db->getQuery(true);
+		// Get all users email and group except for senders.
+		$query = $db->getQuery(true);
 		$query->select('email');
 		$query->from('#__users');
-		$query->where('id != '.(int) $user->get('id'));
+		$query->where('id != ' . (int) $user->get('id'));
+
 		if ($grp !== 0)
 		{
 			if (empty($to))
 			{
 				$query->where('0');
-			} else {
+			}
+			else
+			{
 				$query->where('id IN (' . implode(',', $to) . ')');
 			}
 		}
 
-		if ($disabled == 0){
+		if ($disabled == 0)
+		{
 			$query->where("block = 0");
 		}
 
 		$db->setQuery($query);
 		$rows = $db->loadColumn();
 
-		// Check to see if there are any users in this group before we continue
+		// Check to see if there are any users in this group before we continue.
 		if (!count($rows))
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
@@ -149,7 +170,7 @@ class UsersModelMail extends JModelAdmin
 		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
 		$mailer->IsHTML($mode);
 
-		// Add recipients
+		// Add recipients.
 		if ($bcc)
 		{
 			$mailer->addBCC($rows);
@@ -160,16 +181,17 @@ class UsersModelMail extends JModelAdmin
 			$mailer->addRecipient($rows);
 		}
 
-		// Send the Mail
-		$rs	= $mailer->Send();
+		// Send the Mail.
+		$rs = $mailer->Send();
 
-		// Check for an error
+		// Check for an error.
 		if ($rs instanceof Exception)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError($rs->getError());
 			return false;
-		} elseif (empty($rs))
+		}
+		elseif (empty($rs))
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
@@ -178,8 +200,7 @@ class UsersModelMail extends JModelAdmin
 		else
 		{
 			// Fill the data (specially for the 'mode', 'group' and 'bcc': they could not exist in the array
-			// when the box is not checked and in this case, the default value would be used instead of the '0'
-			// one)
+			// when the box is not checked and in this case, the default value would be used instead of the '0' one).
 			$data['mode'] = $mode;
 			$data['subject'] = $subject;
 			$data['group'] = $grp;
@@ -188,6 +209,7 @@ class UsersModelMail extends JModelAdmin
 			$data['message'] = $message_body;
 			$app->setUserState('com_users.display.mail.data', array());
 			$app->enqueueMessage(JText::plural('COM_USERS_MAIL_EMAIL_SENT_TO_N_USERS', count($rows)), 'message');
+
 			return true;
 		}
 	}

@@ -21,9 +21,9 @@ class UsersModelNotes extends JModelList
 	/**
 	 * Class constructor.
 	 *
-	 * @param  array  $config  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since  2.5
+	 * @since   2.5
 	 */
 	public function __construct($config = array())
 	{
@@ -53,94 +53,42 @@ class UsersModelNotes extends JModelList
 	}
 
 	/**
-	 * Build an SQL query to load the list data.
+	 * Method to auto-populate the model state.
 	 *
-	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since   2.5
+	 * @param   string  $ordering   An optional ordering field. [optional]
+	 * @param   string  $direction  An optional direction. [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-	protected function getListQuery()
+	protected function populateState($ordering = null, $direction = null)
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$section = $this->getState('filter.category_id');
+		// Initialiase variables.
+		$app   = JFactory::getApplication();
+		$input = $app->input;
 
-		// Select the required fields from the table.
-		$query->select(
-			$this->getState('list.select',
-				'a.id, a.subject, a.checked_out, a.checked_out_time,' .
-				'a.catid, a.created_time, a.review_time,' .
-				'a.state, a.publish_up, a.publish_down'
-			)
-		);
-		$query->from('#__user_notes AS a');
-
-		// Join over the category
-		$query->select('c.title AS category_title, c.params AS category_params');
-		$query->leftJoin('#__categories AS c ON c.id = a.catid');
-
-		// Join over the users for the note user.
-		$query->select('u.name AS user_name');
-		$query->leftJoin('#__users AS u ON u.id = a.user_id');
-
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->leftJoin('#__users AS uc ON uc.id = a.checked_out');
-
-		// Filter by search in title
-		$search = $this->getState('filter.search');
-		if (!empty($search))
+		// Adjust the context to support modal layouts.
+		if ($layout = $input->get('layout'))
 		{
-			if (stripos($search, 'id:') === 0)
-			{
-				$query->where('a.id = ' . (int) substr($search, 3));
-			}
-			elseif (stripos($search, 'uid:') === 0)
-			{
-				$query->where('a.user_id = ' . (int) substr($search, 4));
-			}
-			else
-			{
-				$search = $db->Quote('%' . $db->escape($search, true) . '%');
-				$query->where('((a.subject LIKE ' . $search . ') OR (u.name LIKE ' . $search . ') OR (u.username LIKE ' . $search . '))');
-			}
+			$this->context .= '.' . $layout;
 		}
 
-		// Filter by published state
-		$published = $this->getState('filter.state');
-		if (is_numeric($published))
-		{
-			$query->where('a.state = '.(int) $published);
-		} elseif ($published === '')
-		{
-			$query->where('(a.state IN (0, 1))');
-		}
+		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $value);
 
-		// Filter by a single or group of categories.
-		$categoryId = (int) $this->getState('filter.category_id');
-		if ($categoryId)
-		{
-			if (is_scalar($section))
-			{
-				$query->where('a.catid = ' . $categoryId);
-			}
-		}
+		$published = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_published', '', 'string');
+		$this->setState('filter.state', $published);
 
-		// Filter by a single user.
-		$userId = (int) $this->getState('filter.user_id');
-		if ($userId)
-		{
-			// Add the body and where filter.
-			$query->select('a.body');
-			$query->where('a.user_id = ' . $userId);
-		}
+		$section = $app->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
+		$this->setState('filter.category_id', $section);
 
-		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering');
-		$orderDirn = $this->state->get('list.direction');
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$userId = $input->get('u_id', 0, 'int');
+		$this->setState('filter.user_id', $userId);
 
-		return $query;
+		parent::populateState('a.review_time', 'DESC');
 	}
 
 	/**
@@ -167,58 +115,122 @@ class UsersModelNotes extends JModelList
 	}
 
 	/**
+	 * Build an SQL query to load the list data.
+	 *
+	 * @return  JDatabaseQuery  A JDatabaseQuery object to retrieve the data set.
+	 *
+	 * @since   2.5
+	 */
+	protected function getListQuery()
+	{
+		// Initialiase variables.
+		$db      = $this->getDbo();
+		$query   = $db->getQuery(true);
+		$section = $this->getState('filter.category_id');
+
+		// Select the required fields from the table.
+		$query->select(
+			$this->getState('list.select',
+				'a.id, a.subject, a.checked_out, a.checked_out_time,' .
+				'a.catid, a.created_time, a.review_time,' .
+				'a.state, a.publish_up, a.publish_down'
+			)
+		);
+		$query->from('#__user_notes AS a');
+
+		// Join over the category.
+		$query->select('c.title AS category_title, c.params AS category_params');
+		$query->leftJoin('#__categories AS c ON c.id = a.catid');
+
+		// Join over the users for the note user.
+		$query->select('u.name AS user_name');
+		$query->leftJoin('#__users AS u ON u.id = a.user_id');
+
+		// Join over the users for the checked out user.
+		$query->select('uc.name AS editor');
+		$query->leftJoin('#__users AS uc ON uc.id = a.checked_out');
+
+		// Filter by search in title.
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			elseif (stripos($search, 'uid:') === 0)
+			{
+				$query->where('a.user_id = ' . (int) substr($search, 4));
+			}
+			else
+			{
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$query->where('((a.subject LIKE ' . $search . ') OR (u.name LIKE ' . $search . ') OR (u.username LIKE ' . $search . '))');
+			}
+		}
+
+		// Filter by published state.
+		$published = $this->getState('filter.state');
+
+		if (is_numeric($published))
+		{
+			$query->where('a.state = ' . (int) $published);
+		}
+		elseif ($published === '')
+		{
+			$query->where('(a.state IN (0, 1))');
+		}
+
+		// Filter by a single or group of categories.
+		$categoryId = (int) $this->getState('filter.category_id');
+
+		if ($categoryId)
+		{
+			if (is_scalar($section))
+			{
+				$query->where('a.catid = ' . $categoryId);
+			}
+		}
+
+		// Filter by a single user.
+		$userId = (int) $this->getState('filter.user_id');
+
+		if ($userId)
+		{
+			// Add the body and where filter.
+			$query->select('a.body');
+			$query->where('a.user_id = ' . $userId);
+		}
+
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering');
+		$orderDirn = $this->state->get('list.direction');
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+
+		return $query;
+	}
+
+	/**
 	 * Gets a user object if the user filter is set.
 	 *
-	 * @return  JUser  The JUser object
+	 * @return  JUser  The JUser object.
 	 *
 	 * @since   2.5
 	 */
 	public function getUser()
 	{
+		// Get the current user object.
 		$user = new JUser;
 
-		// Filter by search in title
+		// Filter by search in title.
 		$search = JFactory::getApplication()->input->get('u_id', 0, 'int');
+
 		if ($search != 0)
 		{
 			$user->load((int) $search);
 		}
 
 		return $user;
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function populateState($ordering = null, $direction = null)
-	{
-		$app = JFactory::getApplication();
-		$input = $app->input;
-
-		// Adjust the context to support modal layouts.
-		if ($layout = $input->get('layout'))
-		{
-			$this->context .= '.' . $layout;
-		}
-
-		$value = $app->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $value);
-
-		$published = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_published', '', 'string');
-		$this->setState('filter.state', $published);
-
-		$section = $app->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
-		$this->setState('filter.category_id', $section);
-
-		$userId = $input->get('u_id', 0, 'int');
-		$this->setState('filter.user_id', $userId);
-
-		parent::populateState('a.review_time', 'DESC');
 	}
 }

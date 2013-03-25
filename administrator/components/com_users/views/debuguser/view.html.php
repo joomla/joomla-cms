@@ -27,17 +27,24 @@ class UsersViewDebugUser extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->actions		= $this->get('DebugActions');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->user			= $this->get('User');
-		$this->levels		= UsersHelperDebug::getLevelsOptions();
-		$this->components	= UsersHelperDebug::getComponents();
+		// Initialiase variables.
+		$this->actions    = $this->get('DebugActions');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->user       = $this->get('User');
+		$this->levels     = UsersHelperDebug::getLevelsOptions();
+		$this->components = UsersHelperDebug::getComponents();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -48,11 +55,14 @@ class UsersViewDebugUser extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -65,6 +75,7 @@ class UsersViewDebugUser extends JViewLegacy
 		JHtmlSidebar::setAction('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('filter.user_id'));
 
 		$option = '';
+
 		if (!empty($this->components))
 		{
 			$option = JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));

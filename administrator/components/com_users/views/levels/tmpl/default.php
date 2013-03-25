@@ -10,27 +10,28 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
-$user		= JFactory::getUser();
-$listOrder	= $this->escape($this->state->get('list.ordering'));
-$listDirn	= $this->escape($this->state->get('list.direction'));
-$canOrder	= $user->authorise('core.edit.state', 'com_users');
-$saveOrder	= $listOrder == 'a.ordering';
+// Initialise variables.
+$user      = JFactory::getUser();
+$listOrder = $this->escape($this->state->get('list.ordering'));
+$listDirn  = $this->escape($this->state->get('list.direction'));
+$canOrder  = $user->authorise('core.edit.state', 'com_users');
+$saveOrder = $listOrder == 'a.ordering';
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=levels');?>" method="post" id="adminForm" name="adminForm">
-<?php if (!empty( $this->sidebar)) : ?>
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=levels'); ?>" method="post" id="adminForm" name="adminForm">
+<?php if (!empty( $this->sidebar)): ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
-<?php else : ?>
+<?php else: ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_ACCESS_LEVELS'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_TITLE_LEVELS'); ?>" />
@@ -53,7 +54,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					</th>
 					<th width="10%" class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
-						<?php if ($canOrder && $saveOrder) :?>
+						<?php if ($canOrder && $saveOrder): ?>
 							<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'levels.saveorder'); ?>
 						<?php endif; ?>
 					</th>
@@ -85,29 +86,29 @@ $saveOrder	= $listOrder == 'a.ordering';
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td>
-						<?php if ($canEdit) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&id='.$item->id);?>">
+						<?php if ($canEdit): ?>
+						<a href="<?php echo JRoute::_('index.php?option=com_users&task=level.edit&id=' . $item->id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
-						<?php else : ?>
+						<?php else: ?>
 							<?php echo $this->escape($item->title); ?>
 						<?php endif; ?>
 					</td>
 					<td class="order">
-						<?php if ($canChange) : ?>
+						<?php if ($canChange): ?>
 							<div class="input-prepend">
-							<?php if ($saveOrder) :?>
-								<?php if ($listDirn == 'asc') : ?>
+							<?php if ($saveOrder): ?>
+								<?php if ($listDirn == 'asc'): ?>
 									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'levels.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $count, true, 'levels.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-								<?php elseif ($listDirn == 'desc') : ?>
+								<?php elseif ($listDirn == 'desc'): ?>
 									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'levels.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $count, true, 'levels.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 								<?php endif; ?>
 							<?php endif; ?>
 							<?php $disabled = $saveOrder ? '' : 'disabled="disabled"'; ?>
-						 	<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="width-20 text-area-order" />
+						 	<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" <?php echo $disabled ?> class="width-20 text-area-order" />
 						 </div>
-						<?php else : ?>
+						<?php else: ?>
 							<?php echo $item->ordering; ?>
 						<?php endif; ?>
 					</td>
@@ -121,11 +122,12 @@ $saveOrder	= $listOrder == 'a.ordering';
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-
-		<input type="hidden" name="task" value="" />
-		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-		<?php echo JHtml::_('form.token'); ?>
+		<div>
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="boxchecked" value="0" />
+			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
+			<?php echo JHtml::_('form.token'); ?>
+		</div>
 	</div>
 </form>

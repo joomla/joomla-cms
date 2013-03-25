@@ -179,7 +179,7 @@ class UsersModelGroup extends JModelAdmin
 			}
 		}
 
-		// Check for super-admin changing self to be non-super-admin
+		// Check for super-admin changing self to be non-super-admin.
 		// First, are we a super admin>
 		if ($iAmSuperAdmin)
 		{

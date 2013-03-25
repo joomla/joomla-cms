@@ -45,8 +45,8 @@ class UsersHelperDebug
 			foreach ($items as &$item)
 			{
 				// Load language.
-				$extension  = $item->value;
-				$source     = JPATH_ADMINISTRATOR . '/components/' . $extension;
+				$extension = $item->value;
+				$source    = JPATH_ADMINISTRATOR . '/components/' . $extension;
 				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, false)
 				|| $lang->load("$extension.sys", $source, null, false, false)
 				|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)

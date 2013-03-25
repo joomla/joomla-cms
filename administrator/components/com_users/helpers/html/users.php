@@ -29,6 +29,7 @@ class JHtmlUsers
 	 */
 	public static function image($src)
 	{
+		// Initialiase variables.
 		$src = preg_replace('#[^A-Z0-9\-_\./]#i', '', $src);
 		$file = JPATH_SITE . '/' . $src;
 
@@ -125,22 +126,22 @@ class JHtmlUsers
 		{
 			$states = array(
 				1 => array(
-					'task'				=> 'unblock',
-					'text'				=> '',
-					'active_title'		=> 'COM_USERS_USER_FIELD_BLOCK_DESC',
-					'inactive_title'	=> '',
-					'tip'				=> true,
-					'active_class'		=> 'unpublish',
-					'inactive_class'	=> 'unpublish'
+					'task'           => 'unblock',
+					'text'           => '',
+					'active_title'   => 'COM_USERS_USER_FIELD_BLOCK_DESC',
+					'inactive_title' => '',
+					'tip'            => true,
+					'active_class'   => 'unpublish',
+					'inactive_class' => 'unpublish'
 				),
 				0 => array(
-					'task'				=> 'block',
-					'text'				=> '',
-					'active_title'		=> '',
-					'inactive_title'	=> 'COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF',
-					'tip'				=> true,
-					'active_class'		=> 'publish',
-					'inactive_class'	=> 'publish'
+					'task'           => 'block',
+					'text'           => '',
+					'active_title'   => '',
+					'inactive_title' => 'COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF',
+					'tip'            => true,
+					'active_class'   => 'publish',
+					'inactive_class' => 'publish'
 				)
 			);
 		}
@@ -148,22 +149,22 @@ class JHtmlUsers
 		{
 			$states = array(
 				1 => array(
-					'task'				=> 'unblock',
-					'text'				=> '',
-					'active_title'		=> 'COM_USERS_TOOLBAR_UNBLOCK',
-					'inactive_title'	=> '',
-					'tip'				=> true,
-					'active_class'		=> 'unpublish',
-					'inactive_class'	=> 'unpublish'
+					'task'           => 'unblock',
+					'text'           => '',
+					'active_title'   => 'COM_USERS_TOOLBAR_UNBLOCK',
+					'inactive_title' => '',
+					'tip'            => true,
+					'active_class'   => 'unpublish',
+					'inactive_class' => 'unpublish'
 				),
 				0 => array(
-					'task'				=> 'block',
-					'text'				=> '',
-					'active_title'		=> 'COM_USERS_USER_FIELD_BLOCK_DESC',
-					'inactive_title'	=> '',
-					'tip'				=> true,
-					'active_class'		=> 'publish',
-					'inactive_class'	=> 'publish'
+					'task'           => 'block',
+					'text'           => '',
+					'active_title'   => 'COM_USERS_USER_FIELD_BLOCK_DESC',
+					'inactive_title' => '',
+					'tip'            => true,
+					'active_class'   => 'publish',
+					'inactive_class' => 'publish'
 				)
 			);
 		}
@@ -172,32 +173,32 @@ class JHtmlUsers
 	}
 
 	/**
-	 * Build an array of activate states to be used by jgrid.state,
+	 * Build an array of activate states to be used by jgrid.state.
 	 *
 	 * @return  array  a list of possible states to display.
 	 *
-	 * @since  3.0
+	 * @since   3.0
 	 */
 	public static function activateStates()
 	{
 		$states = array(
-			1	=> array(
-				'task'				=> 'activate',
-				'text'				=> '',
-				'active_title'		=> 'COM_USERS_TOOLBAR_ACTIVATE',
-				'inactive_title'	=> '',
-				'tip'				=> true,
-				'active_class'		=> 'unpublish',
-				'inactive_class'	=> 'unpublish'
+			1 => array(
+				'task'           => 'activate',
+				'text'           => '',
+				'active_title'   => 'COM_USERS_TOOLBAR_ACTIVATE',
+				'inactive_title' => '',
+				'tip'            => true,
+				'active_class'   => 'unpublish',
+				'inactive_class' => 'unpublish'
 			),
-			0	=> array(
-				'task'				=> '',
-				'text'				=> '',
-				'active_title'		=> '',
-				'inactive_title'	=> 'COM_USERS_ACTIVATED',
-				'tip'				=> true,
-				'active_class'		=> 'publish',
-				'inactive_class'	=> 'publish'
+			0 => array(
+				'task'           => '',
+				'text'           => '',
+				'active_title'   => '',
+				'inactive_title' => 'COM_USERS_ACTIVATED',
+				'tip'            => true,
+				'active_class'   => 'publish',
+				'inactive_class' => 'publish'
 			)
 		);
 

@@ -20,7 +20,7 @@ JHtml::_('formbehavior.chosen', 'select');
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">x</button>
-		<h3><?php echo JText::_('COM_USERS_BATCH_OPTIONS');?></h3>
+		<h3><?php echo JText::_('COM_USERS_BATCH_OPTIONS'); ?></h3>
 	</div>
 	<div class="modal-body">
 		<div id="batch-choose-action" class="combo control-group">

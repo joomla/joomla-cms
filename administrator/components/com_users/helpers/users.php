@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class UsersHelper
 {
 	/**
-	 * @var    JObject  A cache for the available actions.
+	 * A cache for the available actions.
+	 *
+	 * @var    JObject
 	 * @since  1.6
 	 */
 	protected static $actions;
@@ -63,6 +65,7 @@ class UsersHelper
 			);
 
 			$extension = JFactory::getApplication()->input->getString('extension');
+
 			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
 				'index.php?option=com_categories&extension=com_users',
@@ -169,7 +172,7 @@ class UsersHelper
 
 	/**
 	 * Creates a list of range options used in filter select list
-	 * used in com_users on users view
+	 * used in com_users on users view.
 	 *
 	 * @return  array
 	 *

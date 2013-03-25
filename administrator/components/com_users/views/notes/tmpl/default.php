@@ -19,15 +19,15 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $canEdit = $user->authorise('core.edit', 'com_users');
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=notes');?>" method="post" name="adminForm" id="adminForm">
-<?php if (!empty( $this->sidebar)) : ?>
+<form action="<?php echo JRoute::_('index.php?option=com_users&view=notes'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)): ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
 	<div id="j-main-container" class="span10">
-<?php else : ?>
+<?php else: ?>
 	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?>" />
@@ -73,32 +73,32 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 				</tr>
 			</tfoot>
 			<tbody>
-			<?php foreach ($this->items as $i => $item) : ?>
+			<?php foreach ($this->items as $i => $item): ?>
 				<?php $canChange = $user->authorise('core.edit.state', 'com_users'); ?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="center checklist">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td>
-						<?php if ($item->checked_out) : ?>
+						<?php if ($item->checked_out): ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 						<?php endif; ?>
-						<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id='.$item->id);?>">
+						<?php if ($canEdit): ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=note.edit&id='.$item->id); ?>">
 								<?php echo $this->escape($item->user_name); ?></a>
-						<?php else : ?>
+						<?php else: ?>
 							<?php echo $this->escape($item->user_name); ?>
 						<?php endif; ?>
 					</td>
 					<td>
-						<?php if ($item->subject) : ?>
+						<?php if ($item->subject): ?>
 							<?php echo $this->escape($item->subject); ?>
-						<?php else : ?>
+						<?php else: ?>
 							<?php echo JText::_('COM_USERS_EMPTY_SUBJECT'); ?>
 						<?php endif; ?>
 					</td>
 					<td class="center">
-						<?php if ($item->catid && $item->cparams->get('image')) : ?>
+						<?php if ($item->catid && $item->cparams->get('image')): ?>
 							<?php echo JHtml::_('users.image', $item->cparams->get('image')); ?>
 						<?php endif; ?>
 						<?php echo $this->escape($item->category_title); ?>
@@ -107,9 +107,9 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'notes.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 					</td>
 					<td class="center">
-						<?php if (intval($item->review_time)) : ?>
+						<?php if (intval($item->review_time)): ?>
 							<?php echo $this->escape($item->review_time); ?>
-						<?php else : ?>
+						<?php else: ?>
 							<?php echo JText::_('COM_USERS_EMPTY_REVIEW'); ?>
 						<?php endif; ?>
 					</td>
