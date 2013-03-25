@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-
-if (!empty($version)) :
-echo '<p align="center">' . $version . '</p>';
-endif;
+?>
+<?php if (!empty($version)) : ?>
+	<p align="center"><?php echo $version ?></p>
+<?php endif; ?>

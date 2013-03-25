@@ -21,23 +21,26 @@ abstract class ModVersionHelper
 	/**
 	 * Get the member items of the submenu.
 	 *
-	 * @return  mixed	An arry of menu items, or false on error.
+	 * @param   JRegistry  &$params  The parameters object.
+	 *
+	 * @return  string  String containing the current Joomla version based on the selected format.
 	 */
 	public static function getVersion(&$params)
 	{
-		$format = $params->get('format', 'short');
+		$format  = $params->get('format', 'short');
 		$product = $params->get('product', 0);
-		$method = 'get' . ucfirst($format) . "Version";
+		$method  = 'get' . ucfirst($format) . "Version";
 
 		// Get the joomla version
 		$instance = new JVersion;
-		$version = call_user_func(array($instance, $method));//$instance->{$method};
+		$version  = call_user_func(array($instance, $method));
 
 		if ($format == 'short' && !empty($product))
 		{
-			//add the product name to short format only (in long format it's included)
+			// Add the product name to short format only (in long format it's included)
 			$version = $instance->PRODUCT . ' ' . $version;
 		}
+
 		return $version;
 	}
 }
