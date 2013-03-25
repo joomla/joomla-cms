@@ -308,6 +308,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
+  `attachments` text NOT NULL,
   `attribs` varchar(5120) NOT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT '1',
   `parentid` int(10) unsigned NOT NULL DEFAULT '0',
