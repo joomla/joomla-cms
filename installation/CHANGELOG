@@ -45,6 +45,7 @@ $ -> Language fix or change
  ^ [#30363] Fix code style in admin modules: mod_logged.  Thanks Javier
  # [#29353] Smart Search Module Not Using Selected Filter.  Thanks Sam
  # [#30214] JLog::add in JFolder::create logs erroneous error messages
+ ^ [#30286] Corrections to SQL Server DDL.  Thanks Sam
 
 24-Mar-2013 Jean-Marie Simonet
  # [#30234] Route work classes for Tags. Thanks Elin
