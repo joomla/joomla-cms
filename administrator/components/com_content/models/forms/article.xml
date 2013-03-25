@@ -629,6 +629,7 @@
 			<field
 				name="image_intro"
 				type="media"
+                fileType="image"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
 				description="COM_CONTENT_FIELD_INTRO_DESC" />
 			<field
@@ -661,6 +662,7 @@
 			<field
 				name="image_fulltext"
 				type="media"
+                fileType="image"
 				label="COM_CONTENT_FIELD_FULL_LABEL"
 				description="COM_CONTENT_FIELD_FULL_DESC" />
 			<field
@@ -786,6 +788,18 @@
 			</field>
 
 		</fields>
+        <!-- Campos para agregar attachments -->
+        <fields name="attachments">
+            <field
+                name="attach"
+                type="media"
+                directory="documents"
+                fileType="document"
+                label="COM_CONTENT_FIELD_ATTACHMENT_LABEL"
+                description="COM_CONTENT_FIELD_ATTACHMENT_DESC" />
+
+        </fields>
+
 		<fields name="metadata">
 
 			<field name="robots"
