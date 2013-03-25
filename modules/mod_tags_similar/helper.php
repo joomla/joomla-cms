@@ -31,6 +31,7 @@ abstract class ModTagssimilarHelper
 		$view       = $app->input->get('view');
 		$prefix     = $option . '.' . $view;
 		$id         = $app->input->getObject('id');
+		$sefState   = JFactory::getConfig()->get('sef');
 
 		// Strip off any slug data.
 		$id = (array) $id;
@@ -114,7 +115,14 @@ abstract class ModTagssimilarHelper
 			foreach ($results as $result)
 			{
 				$explodedAlias = explode('.', $result->type_alias);
-				$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
+				if ($sefState == 1)
+				{
+					$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
+				}
+				else
+				{
+					$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . ':' . $result->core_alias;
+				}
 			}
 
 			return $results;
