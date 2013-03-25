@@ -48,7 +48,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="advanced">
 				<field name="showSiteName" type="radio" default="0" label="TPL_HATHOR_SHOW_SITE_NAME_LABEL" description="TPL_HATHOR_SHOW_SITE_NAME_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

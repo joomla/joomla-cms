@@ -2,21 +2,6 @@
 <form>
 	<fieldset>
 		<field
-			name="extension_id"
-			label="JGLOBAL_FIELD_ID_LABEL"
-			description ="JGLOBAL_FIELD_ID_DESC"
-			type="text"
-			default="0"
-			readonly="true"
-			class="readonly" />
-
-		<field
-			name="name"
-			type="hidden"
-			label="COM_PLUGINS_FIELD_NAME_LABEL"
-			description="COM_PLUGINS_FIELD_NAME_DESC" />
-
-		<field
 			name="enabled"
 			type="radio"
 			class="btn-group"
@@ -27,24 +12,6 @@
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
 		</field>
-
-		<field
-			name="folder"
-			type="text"
-			class="readonly"
-			size="20"
-			label="COM_PLUGINS_FIELD_FOLDER_LABEL"
-			description="COM_PLUGINS_FIELD_FOLDER_DESC"
-			readonly="true" />
-
-		<field
-			name="element"
-			type="text"
-			class="readonly"
-			size="20"
-			label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
-			description="COM_PLUGINS_FIELD_ELEMENT_DESC"
-			readonly="true" />
 
 		<field
 			name="access"

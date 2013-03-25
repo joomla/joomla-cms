@@ -3,12 +3,11 @@
 	<fieldset>
 		<field
 			name="home"
-			type="contentlanguage"
+			type="radio"
+			class="btn-group"
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
 			description="COM_TEMPLATES_FIELD_HOME_SITE_DESC"
-			class="inputbox"
 			default="0">
-			<option value="0">JNO</option>
 			<option value="1">JALL</option>
 		</field>
 	</fieldset>

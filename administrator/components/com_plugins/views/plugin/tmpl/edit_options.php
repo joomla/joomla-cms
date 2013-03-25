@@ -8,31 +8,28 @@
  */
 
 defined('_JEXEC') or die;
-
-foreach ($this->fieldsets as $name => $fieldset) :
-	$label = !empty($fieldset->label) ? JText::_($fieldset->label, true) : JText::_('COM_PLUGINS_'.$fieldset->name.'_FIELDSET_LABEL', true);
-	$optionsname = 'options-' . $fieldset->name;
-	echo JHtml::_('bootstrap.addPanel', 'myTab', $optionsname,  $label);
-	if (isset($fieldset->description) && trim($fieldset->description)) :
-		echo '<p class="tip">'.$this->escape(JText::_($fieldset->description)).'</p>';
-	endif;
-	?>
-	<?php $hidden_fields = ''; ?>
-	<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-		<?php if (!$field->hidden) : ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $field->label; ?>
-			</div>
-			<div class="controls">
-				<?php echo $field->input; ?>
-			</div>
+?>
+<?php foreach ($this->fieldsets as $name => $fieldset) : ?>
+	<?php if (!in_array($fieldset->name, array('description', 'basic'))) : ?>
+		<div class="tab-pane" id="tab-<?php echo $name; ?>">
+			<?php $label = !empty($fieldset->label) ? $fieldset->label : 'COM_PLUGINS_' . $name . '_FIELDSET_LABEL'; ?>
+			<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
+				<p class="tip"><?php echo $this->escape(JText::_($fieldset->description)); ?></p>
+			<?php endif; ?>
+			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+				<?php if ($field->hidden) : ?>
+					<?php echo $field->input; ?>
+				<?php else : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
 		</div>
-		<?php else : $hidden_fields .= $field->input; ?>
-		<?php endif; ?>
-	<?php endforeach; ?>
-	<?php echo $hidden_fields; ?>
-
-<?php echo JHtml::_('bootstrap.endPanel'); ?>
-
+	<?php endif; ?>
 <?php endforeach; ?>
