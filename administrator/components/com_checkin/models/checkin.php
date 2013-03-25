@@ -84,10 +84,6 @@ class CheckinModelCheckin extends JModelList
 				->set('checked_out = 0')
 				->set('checked_out_time = '.$db->Quote($nullDate))
 				->where('checked_out > 0');
-			if (isset($fields[$tn]['editor']))
-			{
-				$query->set('editor = NULL');
-			}
 
 			$db->setQuery($query);
 			if ($db->execute())
