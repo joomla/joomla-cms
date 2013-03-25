@@ -177,7 +177,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
-			'SELECT CONSTRAINT_NAME FROM' . ' INFORMATION_SCHEMA.TABLE_CONSTRAINTS' . ' WHERE TABLE_NAME = ' . $query->quote($tableName)
+			'SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = ' . $query->quote($tableName)
 		);
 
 		return $this->loadColumn();
@@ -266,7 +266,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($ifExists)
 		{
 			$this->setQuery(
-				'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE ' . $tableName
+				'IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE ' . $tableName
 			);
 		}
 		else
@@ -342,7 +342,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Set the query to get the table fields statement.
 		$this->setQuery(
 			'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
-			' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table_temp)
+			' FROM information_schema.columns WHERE table_name = ' . $this->quote($table_temp)
 		);
 		$fields = $this->loadObjectList();
 

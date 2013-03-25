@@ -542,7 +542,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Get the list query and add the extra WHERE clause.
 		$query = $this->getListQuery();
-		$query->where($this->db->quoteName('a.id') . ' = ' . (int) $id);
+		$query->where('a.id = ' . (int) $id);
 
 		// Get the item to index.
 		$this->db->setQuery($query);
@@ -683,7 +683,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Build an SQL query based on the modified time.
 		$query = $this->db->getQuery(true);
-		$query->where($this->db->quoteName('a.modified') . ' >= ' . $this->db->quote($time));
+		$query->where('a.modified >= ' . $this->db->quote($time));
 
 		return $query;
 	}
@@ -701,7 +701,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		// Build an SQL query based on the item ids.
 		$query = $this->db->getQuery(true);
-		$query->where($this->db->quoteName('a.id') . ' IN(' . implode(',', $ids) . ')');
+		$query->where('a.id IN(' . implode(',', $ids) . ')');
 
 		return $query;
 	}

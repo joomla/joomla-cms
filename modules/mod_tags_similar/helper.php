@@ -99,8 +99,8 @@ abstract class ModTagssimilarHelper
 				$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 			}
 
-			$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'))
-				->join('INNER', $db->quoteName('#__core_content', 'cc') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('cc.core_content_id'))
+			$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON m.tag_id = t.id')
+				->join('INNER', $db->quoteName('#__core_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
 
 				->order($db->quoteName('count') . ' DESC');
 			$db->setQuery($query, 0, $maximum);

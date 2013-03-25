@@ -141,7 +141,7 @@ class plgSearchExample extends JPlugin
 			'c.title AS section, b.description AS text, b.created AS created');
 		$query->from('#__banners AS b')
 			->innerJoin('#__categories AS c ON c.id = b.catid')
-			->where('('.$where.')' . ' AND (b.state=1) AND  (c.published=1)')
+			->where('('.$where.') AND (b.state=1) AND  (c.published=1)')
 			->order($order);
 
 		//Prepare & execute the query - offset & limit can be parameterised:

@@ -870,7 +870,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$modID = implode(',', $modules);
 
 			// Wipe out any items assigned to menus
-			$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid IN (' . $modID . ')';
+			$query = 'DELETE FROM #__modules_menu WHERE moduleid IN (' . $modID . ')';
 			$db->setQuery($query);
 
 			try
@@ -884,7 +884,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 			}
 
 			// Wipe out any instances in the modules table
-			$query = 'DELETE' . ' FROM #__modules' . ' WHERE id IN (' . $modID . ')';
+			$query = 'DELETE FROM #__modules WHERE id IN (' . $modID . ')';
 			$db->setQuery($query);
 
 			try
@@ -941,7 +941,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
-		$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid=' . (int) $arg['id'];
+		$query = 'DELETE FROM #__modules_menu WHERE moduleid=' . (int) $arg['id'];
 		$db->setQuery($query);
 
 		try
@@ -970,7 +970,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
-		$query = 'DELETE' . ' FROM #__modules' . ' WHERE id=' . (int) $arg['id'];
+		$query = 'DELETE FROM #__modules WHERE id=' . (int) $arg['id'];
 		$db->setQuery($query);
 
 		try

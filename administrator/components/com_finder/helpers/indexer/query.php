@@ -488,9 +488,9 @@ class FinderIndexerQuery
 
 		// Load the predefined filter.
 		$query = $db->getQuery(true);
-		$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'))
+		$query->select('f.data, f.params')
 			->from($db->quoteName('#__finder_filters') . ' AS f')
-			->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
+			->where('f.filter_id = ' . (int) $filterId);
 
 		$db->setQuery($query);
 		$return = $db->loadObject();
@@ -542,10 +542,10 @@ class FinderIndexerQuery
 			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
 			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
 			->where('t1.state = 1')
-			->where($db->quoteName('t1.access') . ' IN (' . $groups . ')')
+			->where('t1.access IN (' . $groups . ')')
 			->where('t1.id IN (' . implode(',', $filters) . ')')
 			->where('t2.state = 1')
-			->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
+			->where('t2.access IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -609,10 +609,10 @@ class FinderIndexerQuery
 			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
 			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
 			->where('t1.state = 1')
-			->where($db->quoteName('t1.access') . ' IN (' . $groups . ')')
+			->where('t1.access IN (' . $groups . ')')
 			->where('t1.id IN (' . implode(',', $filters) . ')')
 			->where('t2.state = 1')
-			->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
+			->where('t2.access IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);

@@ -164,7 +164,7 @@ class PlgSearchContent extends JPlugin
 
 				->from('#__content AS a')
 				->innerJoin('#__categories AS c ON c.id=a.catid')
-				->where('('. $where .')' . 'AND a.state=1 AND c.published = 1 AND a.access IN ('.$groups.') '
+				->where('('. $where .')AND a.state=1 AND c.published = 1 AND a.access IN ('.$groups.') '
 						.'AND c.access IN ('.$groups.') '
 						.'AND (a.publish_up = '.$db->quote($nullDate).' OR a.publish_up <= '.$db->quote($now).') '
 						.'AND (a.publish_down = '.$db->quote($nullDate).' OR a.publish_down >= '.$db->quote($now).')' );

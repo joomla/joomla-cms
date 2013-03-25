@@ -341,9 +341,9 @@ class JTags
 				->select($db->quoteName('t.id'))
 				->from($db->quoteName('#__tags') . ' AS t ')
 				->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
-					. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
-					. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
-					. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id . ')');
+					. ' ON m.tag_id = t.id'
+					. ' AND m.type_alias = ' . $db->quote($prefix)
+					. ' AND m.content_item_id IN ( ' . $id . ')');
 
 			$db->setQuery($query);
 
@@ -412,7 +412,7 @@ class JTags
 
 		if ($getTagData)
 		{
-			$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+			$query->join('INNER', $db->quoteName('#__tags') . ' AS t  ON m.tag_id = t.id');
 		}
 
 		$db->setQuery($query);
@@ -793,8 +793,8 @@ class JTags
 		if (!empty($filters['like']))
 		{
 			$query->where(
-				'(' . $db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%')
-				. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
+				'(a.title LIKE ' . $db->quote('%' . $filters['like'] . '%')
+				. ' OR a.path LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
 			);
 		}
 

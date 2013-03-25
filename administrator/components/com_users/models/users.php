@@ -376,14 +376,14 @@ class UsersModelUsers extends JModelList
 			if ($range == 'post_year')
 			{
 				$query->where(
-					$db->quoteName('a.registerDate') . ' < '.$db->quote($dStart->format('Y-m-d H:i:s'))
+					'a.registerDate < '.$db->quote($dStart->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					$db->quoteName('a.registerDate') . ' >= '.$db->quote($dStart->format('Y-m-d H:i:s')).
-					' AND ' . $db->quoteName('a.registerDate') . ' <='.$db->quote($dNow->format('Y-m-d H:i:s'))
+					'a.registerDate >= '.$db->quote($dStart->format('Y-m-d H:i:s')).
+					' AND a.registerDate <='.$db->quote($dNow->format('Y-m-d H:i:s'))
 				);
 			}
 		}

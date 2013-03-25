@@ -48,9 +48,9 @@ abstract class JHtmlFilter
 		// Load the predefined filter if specified.
 		if (!empty($filterId))
 		{
-			$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'))
+			$query->select('f.data, f.params')
 				->from($db->quoteName('#__finder_filters') . ' AS f')
-				->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
+				->where('f.filter_id = ' . (int) $filterId);
 
 			// Load the filter data.
 			$db->setQuery($query);
@@ -78,11 +78,11 @@ abstract class JHtmlFilter
 			->select('t.*, count(c.id) AS children')
 			->from($db->quoteName('#__finder_taxonomy') . ' AS t')
 			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
-			->where($db->quoteName('t.parent_id') . ' = 1')
-			->where($db->quoteName('t.state') . ' = 1')
-			->where($db->quoteName('t.access') . ' IN (' . $groups . ')')
-			->where($db->quoteName('c.state') . ' = 1')
-			->where($db->quoteName('c.access') . ' IN (' . $groups . ')')
+			->where('t.parent_id = 1')
+			->where('t.state = 1')
+			->where('t.access IN (' . $groups . ')')
+			->where('c.state = 1')
+			->where('c.access IN (' . $groups . ')')
 			->group('t.id, t.parent_id, t.state, t.access, t.ordering, t.title, c.parent_id')
 			->order('t.ordering, t.title');
 
@@ -163,9 +163,9 @@ abstract class JHtmlFilter
 			$query->clear()
 				->select('t.*')
 				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-				->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk)
-				->where($db->quoteName('t.state') . ' = 1')
-				->where($db->quoteName('t.access') . ' IN (' . $groups . ')')
+				->where('t.parent_id = ' . (int) $bk)
+				->where('t.state = 1')
+				->where('t.access IN (' . $groups . ')')
 				->order('t.ordering, t.title');
 
 			// Load the branches.
@@ -261,9 +261,9 @@ abstract class JHtmlFilter
 			// Load the predefined filter if specified.
 			if (!empty($query->filter))
 			{
-				$query->select($db->quoteName('f.data') . ', '. $db->quoteName('f.params'))
+				$query->select('f.data, '. $db->quoteName('f.params'))
 					->from($db->quoteName('#__finder_filters') . ' AS f')
-					->where($db->quoteName('f.filter_id') . ' = ' . (int) $query->filter);
+					->where('f.filter_id = ' . (int) $query->filter);
 
 				// Load the filter data.
 				$db->setQuery($query);
@@ -291,11 +291,11 @@ abstract class JHtmlFilter
 				->select('t.*, count(c.id) AS children')
 				->from($db->quoteName('#__finder_taxonomy') . ' AS t')
 				->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS c ON c.parent_id = t.id')
-				->where($db->quoteName('t.parent_id') . ' = 1')
-				->where($db->quoteName('t.state') . ' = 1')
-				->where($db->quoteName('t.access') . ' IN (' . $groups . ')')
-				->where($db->quoteName('c.state') . ' = 1')
-				->where($db->quoteName('c.access') . ' IN (' . $groups . ')')
+				->where('t.parent_id = 1')
+				->where('t.state = 1')
+				->where('t.access IN (' . $groups . ')')
+				->where('c.state = 1')
+				->where('c.access IN (' . $groups . ')')
 				->group($db->quoteName('t.id'))
 				->order('t.ordering, t.title');
 
@@ -336,9 +336,9 @@ abstract class JHtmlFilter
 				$query->clear()
 					->select('t.*')
 					->from($db->quoteName('#__finder_taxonomy') . ' AS t')
-					->where($db->quoteName('t.parent_id') . ' = ' . (int) $bk)
-					->where($db->quoteName('t.state') . ' = 1')
-					->where($db->quoteName('t.access') . ' IN (' . $groups . ')')
+					->where('t.parent_id = ' . (int) $bk)
+					->where('t.state = 1')
+					->where('t.access IN (' . $groups . ')')
 					->order('t.ordering, t.title');
 
 				// Limit the nodes to a predefined filter.

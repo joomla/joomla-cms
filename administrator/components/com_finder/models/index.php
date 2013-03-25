@@ -180,20 +180,20 @@ class FinderModelIndex extends JModelList
 		// Check the type filter.
 		if ($this->getState('filter.type'))
 		{
-			$query->where($db->quoteName('l.type_id') . ' = ' . (int) $this->getState('filter.type'));
+			$query->where('l.type_id = ' . (int) $this->getState('filter.type'));
 		}
 
 		// Check for state filter.
 		if (is_numeric($this->getState('filter.state')))
 		{
-			$query->where($db->quoteName('l.published') . ' = ' . (int) $this->getState('filter.state'));
+			$query->where('l.published = ' . (int) $this->getState('filter.state'));
 		}
 
 		// Check the search phrase.
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->escape($this->getState('filter.search'));
-			$query->where($db->quoteName('l.title') . ' LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR ' . $db->quoteName('l.url') . ' LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR ' . $db->quoteName('l.indexdate') . ' LIKE  ' . $db->quote('%' . $db->escape($search) . '%'));
+			$query->where('l.title LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR l.url LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR l.indexdate LIKE  ' . $db->quote('%' . $db->escape($search) . '%'));
 		}
 
 		// Handle the list ordering.

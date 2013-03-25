@@ -173,7 +173,7 @@ abstract class JHtmlRules
 		// Get the user groups from the database.
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, b.id as parent'
-			. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
+			. ' FROM #__usergroups AS a LEFT JOIN #__usergroups AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
 			. ' ORDER BY a.lft ASC, b.lft ASC'
 		);
 		$result = $db->loadObjectList();

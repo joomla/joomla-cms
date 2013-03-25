@@ -848,11 +848,11 @@ abstract class JHtmlBehavior
 				. JText::_('FRIDAY', true) . '", "' . JText::_('SATURDAY', true) . '", "' . JText::_('SUNDAY', true) . '");'
 				. ' Calendar._SDN = new Array ("' . JText::_('SUN', true) . '", "' . JText::_('MON', true) . '", "' . JText::_('TUE', true) . '", "'
 				. JText::_('WED', true) . '", "' . JText::_('THU', true) . '", "' . JText::_('FRI', true) . '", "' . JText::_('SAT', true) . '", "'
-				. JText::_('SUN', true) . '");' . ' Calendar._FD = 0;' . ' Calendar._MN = new Array ("' . JText::_('JANUARY', true) . '", "'
+				. JText::_('SUN', true) . '"); Calendar._FD = 0; Calendar._MN = new Array ("' . JText::_('JANUARY', true) . '", "'
 				. JText::_('FEBRUARY', true) . '", "' . JText::_('MARCH', true) . '", "' . JText::_('APRIL', true) . '", "' . JText::_('MAY', true)
 				. '", "' . JText::_('JUNE', true) . '", "' . JText::_('JULY', true) . '", "' . JText::_('AUGUST', true) . '", "'
 				. JText::_('SEPTEMBER', true) . '", "' . JText::_('OCTOBER', true) . '", "' . JText::_('NOVEMBER', true) . '", "'
-				. JText::_('DECEMBER', true) . '");' . ' Calendar._SMN = new Array ("' . JText::_('JANUARY_SHORT', true) . '", "'
+				. JText::_('DECEMBER', true) . '"); Calendar._SMN = new Array ("' . JText::_('JANUARY_SHORT', true) . '", "'
 				. JText::_('FEBRUARY_SHORT', true) . '", "' . JText::_('MARCH_SHORT', true) . '", "' . JText::_('APRIL_SHORT', true) . '", "'
 				. JText::_('MAY_SHORT', true) . '", "' . JText::_('JUNE_SHORT', true) . '", "' . JText::_('JULY_SHORT', true) . '", "'
 				. JText::_('AUGUST_SHORT', true) . '", "' . JText::_('SEPTEMBER_SHORT', true) . '", "' . JText::_('OCTOBER_SHORT', true) . '", "'
@@ -875,19 +875,19 @@ Calendar._TT["ABOUT_TIME"] = "\n\n" +
 "- or Shift-click to decrease it\n" +
 "- or click and drag for faster selection.";
 
-		Calendar._TT["PREV_YEAR"] = "' . JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["PREV_MONTH"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["GO_TODAY"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY', true) . '";' . ' Calendar._TT["NEXT_MONTH"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["NEXT_YEAR"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_NEXT_YEAR_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["SEL_DATE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE', true) . '";' . ' Calendar._TT["DRAG_TO_MOVE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE', true) . '";' . ' Calendar._TT["PART_TODAY"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_TODAY', true) . '";' . ' Calendar._TT["DAY_FIRST"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true) . '";' . ' Calendar._TT["WEEKEND"] = "0,6";' . ' Calendar._TT["CLOSE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true) . '";' . ' Calendar._TT["TODAY"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TODAY', true)
-				. '";' . ' Calendar._TT["TIME_PART"] = "' . JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true) . '";'
-				. ' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";' . ' Calendar._TT["TT_DATE_FORMAT"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true) . '";' . ' Calendar._TT["WK"] = "' . JText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
+		Calendar._TT["PREV_YEAR"] = "' . JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU', true) . '"; Calendar._TT["PREV_MONTH"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU', true) . '"; Calendar._TT["GO_TODAY"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY', true) . '"; Calendar._TT["NEXT_MONTH"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU', true) . '"; Calendar._TT["NEXT_YEAR"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_NEXT_YEAR_HOLD_FOR_MENU', true) . '"; Calendar._TT["SEL_DATE"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE', true) . '"; Calendar._TT["DRAG_TO_MOVE"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE', true) . '"; Calendar._TT["PART_TODAY"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_TODAY', true) . '"; Calendar._TT["DAY_FIRST"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true) . '"; Calendar._TT["WEEKEND"] = "0,6"; Calendar._TT["CLOSE"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true) . '"; Calendar._TT["TODAY"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TODAY', true)
+				. '"; Calendar._TT["TIME_PART"] = "' . JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true) . '";'
+				. ' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d"; Calendar._TT["TT_DATE_FORMAT"] = "'
+				. JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true) . '"; Calendar._TT["WK"] = "' . JText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
 				. ' Calendar._TT["TIME"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TIME', true) . '";';
 			$jsscript = 1;
 			return $return;

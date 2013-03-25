@@ -153,7 +153,7 @@ class PlgSearchNewsfeeds extends JPlugin
 				->select('\'1\' AS browsernav')
 				->from('#__newsfeeds AS a')
 				->innerJoin('#__categories as c ON c.id = a.catid')
-				->where('('. $where .')' . 'AND a.published IN ('.implode(',', $state).') AND c.published = 1 AND c.access IN ('. $groups .')')
+				->where('('. $where .')AND a.published IN ('.implode(',', $state).') AND c.published = 1 AND c.access IN ('. $groups .')')
 				->order($order);
 
 			// Filter by language

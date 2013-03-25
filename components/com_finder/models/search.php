@@ -226,16 +226,16 @@ class FinderModelSearch extends JModelList
 
 		$query->select('l.link_id')
 			->from($db->quoteName('#__finder_links') . ' AS l')
-			->where($db->quoteName('l.access') . ' IN (' . $groups . ')')
-			->where($db->quoteName('l.state') . ' = 1');
+			->where('l.access IN (' . $groups . ')')
+			->where('l.state = 1');
 
 		// Get the null date and the current date, minus seconds.
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(substr_replace(JFactory::getDate()->toSQL(), '00', -2));
 
 		// Add the publish up and publish down filters.
-		$query->where('(' . $db->quoteName('l.publish_start_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_start_date') . ' <= ' . $nowDate . ')')
-			->where('(' . $db->quoteName('l.publish_end_date') . ' = ' . $nullDate . ' OR ' . $db->quoteName('l.publish_end_date') . ' >= ' . $nowDate . ')');
+		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_end_date <= ' . $nowDate . ')')
+			->where('(l.publish_end_date = ' . $nullDate . ' OR l.publish_end_date >= ' . $nowDate . ')');
 
 		/*
 		 * Add the taxonomy filters to the query. We have to join the taxonomy

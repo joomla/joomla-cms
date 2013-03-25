@@ -364,7 +364,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 		 */
 		$query->clear()
 			->update('t')
-			->set($db->quoteName('t.links') . ' = t.links + 1 FROM #__finder_terms AS t INNER JOIN #__finder_tokens_aggregate AS ta ON ta.term_id = t.term_id');
+			->set('t.links = t.links + 1 FROM #__finder_terms AS t INNER JOIN #__finder_tokens_aggregate AS ta ON ta.term_id = t.term_id');
 		$db->setQuery($query);
 		$db->execute();
 

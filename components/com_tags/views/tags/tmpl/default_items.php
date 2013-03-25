@@ -62,7 +62,7 @@ $n = count($this->items);
 									<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
 									<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
 									<?php if ($images->image_intro_caption):
-										echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"';
+										echo 'class="caption" title="' . htmlspecialchars($images->image_intro_caption) . '"';
 								endif; ?>
 								src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
 							</span>

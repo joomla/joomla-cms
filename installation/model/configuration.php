@@ -338,7 +338,7 @@ class InstallationModelConfiguration extends JModelBase
 			$query = $db->getQuery(true);
 			$query->insert($db->quoteName('#__user_usergroup_map'), false)
 				->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
-				->values($db->quote($userId) . ', ' . '8');
+				->values($db->quote($userId) . ', 8');
 		}
 
 		$db->setQuery($query);

@@ -30,7 +30,7 @@ abstract class ModTagsPopularHelper
 
 		$query->select(array(
 				'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-				' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
+				' COUNT(*) AS count', 'MAX(t.title) AS title',
 				'MAX(' .$db->quoteName('t.access') . ') AS access',
 				'MAX(' .$db->quoteName('t.alias') . ') AS alias'
 			))
@@ -59,7 +59,7 @@ abstract class ModTagsPopularHelper
 			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($now->toSql('date'), '-1', strtoupper($timeframe)));
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
+		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
 			->order('count DESC');
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();

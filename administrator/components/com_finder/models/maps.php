@@ -170,21 +170,21 @@ class FinderModelMaps extends JModelList
 		// If the model is set to check item state, add to the query.
 		if (is_numeric($this->getState('filter.state')))
 		{
-			$query->where($db->quoteName('a.state') . ' = ' . (int) $this->getState('filter.state'));
+			$query->where('a.state = ' . (int) $this->getState('filter.state'));
 		}
 
 		// Filter the maps over the branch if set.
 		$branch_id = $this->getState('filter.branch');
 		if (!empty($branch_id))
 		{
-			$query->where($db->quoteName('a.parent_id') . ' = ' . (int) $branch_id);
+			$query->where('a.parent_id = ' . (int) $branch_id);
 		}
 
 		// Filter the maps over the search string if set.
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$query->where($db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $search . '%'));
+			$query->where('a.title LIKE ' . $db->quote('%' . $search . '%'));
 		}
 
 		// Handle the list ordering.

@@ -70,13 +70,13 @@ class FinderModelFilters extends JModelList
 		// Check for a search filter.
 		if ($this->getState('filter.search'))
 		{
-			$query->where('( ' . $db->quoteName('a.title') . ' LIKE \'%' . $db->escape($this->getState('filter.search')) . '%\' )');
+			$query->where('( a.title LIKE \'%' . $db->escape($this->getState('filter.search')) . '%\' )');
 		}
 
 		// If the model is set to check item state, add to the query.
 		if (is_numeric($this->getState('filter.state')))
 		{
-			$query->where($db->quoteName('a.state') . ' = ' . (int) $this->getState('filter.state'));
+			$query->where('a.state = ' . (int) $this->getState('filter.state'));
 		}
 
 		// Add the list ordering clause.

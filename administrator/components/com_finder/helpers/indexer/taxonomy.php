@@ -280,12 +280,12 @@ class FinderIndexerTaxonomy
 		$query->select('t1.*')
 			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
 			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
-			->where($db->quoteName('t1.access') . ' IN (' . $groups . ')')
-			->where($db->quoteName('t1.state') . ' = 1')
-			->where($db->quoteName('t1.title') . ' LIKE ' . $db->quote($db->escape($title) . '%'))
-			->where($db->quoteName('t2.access') . ' IN (' . $groups . ')')
-			->where($db->quoteName('t2.state') . ' = 1')
-			->where($db->quoteName('t2.title') . ' = ' . $db->quote($branch));
+			->where('t1.access IN (' . $groups . ')')
+			->where('t1.state = 1')
+			->where('t1.title LIKE ' . $db->quote($db->escape($title) . '%'))
+			->where('t2.access IN (' . $groups . ')')
+			->where('t2.state = 1')
+			->where('t2.title = ' . $db->quote($branch));
 
 		// Get the node.
 		$db->setQuery($query, 0, 1);
@@ -332,8 +332,8 @@ class FinderIndexerTaxonomy
 		$query = 'DELETE t' .
 			' FROM ' . $db->quoteName('#__finder_taxonomy') . ' AS t' .
 			' LEFT JOIN ' . $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id' .
-			' WHERE ' . $db->quoteName('t.parent_id') . ' > 1' .
-			' AND ' . $db->quoteName('m.link_id') . ' IS NULL';
+			' WHERE t.parent_id > 1' .
+			' AND m.link_id IS NULL';
 		$db->setQuery($query);
 		$db->execute();
 

@@ -955,7 +955,7 @@ abstract class JTable extends JObject
 		}
 
 		$db = JFactory::getDBO();
-		$db->setQuery('SELECT COUNT(userid)' . ' FROM ' . $db->quoteName('#__session') . ' WHERE ' . $db->quoteName('userid') . ' = ' . (int) $against);
+		$db->setQuery('SELECT COUNT(userid) FROM ' . $db->quoteName('#__session') . ' WHERE ' . $db->quoteName('userid') . ' = ' . (int) $against);
 		$checkedOut = (boolean) $db->loadResult();
 
 		// If a session exists for the user then it is checked out.
