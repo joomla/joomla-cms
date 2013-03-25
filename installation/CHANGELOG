@@ -40,6 +40,7 @@ $ -> Language fix or change
  + [#30369] Pull in OpenStreetMap package from the platform.  Thanks Elin
  + [#30364] Add UNION ALL feature from platform.  Thanks Elin
  ^ [#30180] argument three in phpdoc should be the variable name.  Thanks Alexander
+ ^ [#30365] Fix code style in admin modules: mod_login.  Thanks Javier
 
 24-Mar-2013 Jean-Marie Simonet
  # [#30234] Route work classes for Tags. Thanks Elin

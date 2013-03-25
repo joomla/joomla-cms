@@ -39,7 +39,7 @@ abstract class ModLoginHelper
 	public static function getReturnURI()
 	{
 		$uri    = JUri::getInstance();
-		$return = 'index.php'.$uri->toString(array('query'));
+		$return = 'index.php' . $uri->toString(array('query'));
 
 		if ($return != 'index.php?option=com_login')
 		{
