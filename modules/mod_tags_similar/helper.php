@@ -63,7 +63,9 @@ abstract class ModTagssimilarHelper
 					$db->quoteName('t.access'),
 					$db->quoteName('t.id'),
 					$db->quoteName('cc.core_title'),
-					$db->quoteName('cc.core_alias')
+					$db->quoteName('cc.core_alias'),
+					$db->quoteName('cc.core_catid'),
+					$db->quoteName('cc.core_language')
 				)
 			);
 			$query->group($db->quoteName(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')))
@@ -107,7 +109,7 @@ abstract class ModTagssimilarHelper
 			foreach ($results as $result)
 			{
 				$explodedAlias = explode('.', $result->type_alias);
-				$result->url = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
+				$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
 			}
 
 			return $results;
