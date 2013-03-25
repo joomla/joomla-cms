@@ -41,6 +41,7 @@ class JFormFieldColor extends JFormField
 		$control = (string) $this->element['control'];
 
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$required = $this->required ? ' required="required" aria-required="true"' : '';
 		$class = (string) $this->element['class'];
 
 		$color = strtolower($this->value);
@@ -87,7 +88,7 @@ class JFormFieldColor extends JFormField
 
 			$html = array();
 			$html[] = '<select ' . $onchange . ' name="' . $this->name . '" id="' . $this->id . '"'
-				. $class . ' style="visibility:hidden;width:22px;height:1px">';
+				. $class . $required . ' style="visibility:hidden;width:22px;height:1px">';
 
 			foreach ($colors as $i => $c) {
 				$html[] = '<option' . ($c == $color ? ' selected="selected"' : '') . '>' . $c . '</option>';
