@@ -66,17 +66,12 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
-			->from(
-				$db->quoteName('#__update_sites_extensions') . ' AS ' . $db->quoteName('map')
-			)
+			->from($db->quoteName('#__update_sites_extensions') . ' AS ' . $db->quoteName('map'))
 			->innerJoin(
 				$db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us') . ' ON (' .
-				$db->quoteName('us') . '.' . $db->quoteName('update_site_id') . ' = ' .
-					$db->quoteName('map') . '.' . $db->quoteName('update_site_id') . ')'
+				'us.update_site_id = map.update_site_id)'
 			)
-			->where(
-				$db->quoteName('map') . '.' . $db->quoteName('extension_id') . ' = ' . $db->quote(700)
-			);
+			->where('map.extension_id = ' . $db->quote(700));
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
 

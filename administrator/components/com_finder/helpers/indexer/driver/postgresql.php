@@ -473,8 +473,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			// Update the link counts for the terms.
 			$query->update($db->quoteName('#__finder_terms') . ' AS t')
 				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
-				->set($db->quoteName('t'). '.' . $db->quoteName('links') . ' ='.  $db->quoteName('t') .'.' . $db->quoteName('links') . ' - 1')
-				->where($db->quoteName('m') . '.' . $db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
+				->set('t.links = t.links - 1')
+				->where('m.link_id = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->execute();
 
