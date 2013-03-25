@@ -14,6 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
 $params		= $this->item->params;
+$images = json_decode($this->item->images);
+
 $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
 
@@ -183,6 +185,7 @@ endif; ?>
 <?php if (isset ($this->item->toc)) : ?>
 	<?php echo $this->item->toc; ?>
 <?php endif; ?>
+    <?php $attribs = json_decode($this->item->attribs); ?>
 <?php if ($params->get('access-view')):?>
 	<?php 
 	// Nuevo Jokte v1.2.2 
@@ -191,6 +194,34 @@ endif; ?>
 	endif; 
 	?>
 	<?php echo $this->item->text; ?>
+    <?php if ($attribs->{'show_attachments'} == '1') : ?>
+        <?php if(isset($this->item->attachments) AND (!empty($this->item->attachments))) : ?>
+            <?php  
+                // por el momento solo tenemos un archivo;
+                $file = json_decode($this->item->attachments);
+                // Extraigo el el nombre de archivo
+                $fileName = end(explode("/", $file->{"attach"}));
+            ?>
+            <div id="attachments">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nombre de Archivo</th>
+                            <th>Descarga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td><?php echo $fileName; ?></td>
+                            <td>
+                            <a class="btn btn-small" href="<?php echo $file->{"attach"} ?>"><i class="icon-download"></i>PDF</a>
+                            </td> 
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <?php endif; ?> 
+    <?php endif; ?> 
 
 	<?php //optional teaser intro text for guests ?>
 <?php elseif ($params->get('show_noauth') == true and  $user->get('guest') ) : ?>
