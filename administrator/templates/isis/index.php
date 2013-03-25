@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -24,8 +24,8 @@ $doc->addScript('templates/' .$this->template. '/js/template.js');
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
-// Load optional rtl bootstrap css and bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -114,7 +114,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" <?php if ($stickyToolbar): ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif;?>>
+<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif;?>>
 	<!-- Top Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
@@ -234,13 +234,13 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			<!-- End Content -->
 		</section>
 		<hr />
-		<?php if (!$this->countModules('status')): ?>
+		<?php if (!$this->countModules('status')) : ?>
 			<footer class="footer">
 				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 			</footer>
 		<?php endif; ?>
 	</div>
-	<?php if (($statusFixed) && ($this->countModules('status'))): ?>
+	<?php if (($statusFixed) && ($this->countModules('status'))) : ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">
@@ -253,30 +253,34 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 	<?php endif; ?>
 	<jdoc:include type="modules" name="debug" style="none" />
-	<?php if ($stickyToolbar): ?>
+	<?php if ($stickyToolbar) : ?>
 	<script>
 		(function($){
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')
-			  , navTop = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed): ?>40<?php else:?>20<?php endif;?>
+			  , navTop = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 			  , isFixed = 0
 
 			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function () {
+			$nav.on('click', function ()
+			{
 				if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
 			})
 
 			$win.on('scroll', processScroll)
 
-			function processScroll() {
+			function processScroll()
+			{
 				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
+				if (scrollTop >= navTop && !isFixed)
+				{
 					isFixed = 1
 					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
+				} else if (scrollTop <= navTop && isFixed)
+				{
 					isFixed = 0
 					$nav.removeClass('subhead-fixed')
 				}

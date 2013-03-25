@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
@@ -30,33 +30,39 @@ $input = $app->input;
 
 $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
-if (!$editoroptions):
+if (!$editoroptions)
+{
 	$params['show_publishing_options'] = '1';
 	$params['show_article_options'] = '1';
 	$params['show_urls_images_backend'] = '0';
 	$params['show_urls_images_frontend'] = '0';
-endif;
+}
 
 // Check if the article uses configuration settings besides global. If so, use them.
-if (!empty($this->item->attribs['show_publishing_options'])):
-		$params['show_publishing_options'] = $this->item->attribs['show_publishing_options'];
-endif;
-if (!empty($this->item->attribs['show_article_options'])):
-		$params['show_article_options'] = $this->item->attribs['show_article_options'];
-endif;
-if (!empty($this->item->attribs['show_urls_images_backend'])):
-		$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
-endif;
+if (!empty($this->item->attribs['show_publishing_options']))
+{
+	$params['show_publishing_options'] = $this->item->attribs['show_publishing_options'];
+}
+
+if (!empty($this->item->attribs['show_article_options']))
+{
+	$params['show_article_options'] = $this->item->attribs['show_article_options'];
+}
+
+if (!empty($this->item->attribs['show_urls_images_backend']))
+{
+	$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
+}
 
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task) {
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
-		} else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
 		}
 	}
 </script>
@@ -65,32 +71,9 @@ endif;
 	<div class="row-fluid">
 		<!-- Begin Content -->
 		<div class="span10 form-horizontal">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#general" data-toggle="tab"><?php echo JText::_('COM_CONTENT_ARTICLE_DETAILS');?></a></li>
-				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_CONTENT_FIELDSET_PUBLISHING');?></a></li>
-				<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
-					<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-					<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))): ?>
-						<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
-							<li><a href="#attrib-<?php echo $name;?>" data-toggle="tab"><?php echo JText::_($fieldSet->label);?></a></li>
-						<?php endif ?>
-					<?php endif; ?>
-				<?php endforeach; ?>
-				<?php if ( $this->canDo->get('core.admin')   ):  ?>
-					<li><a href="#editor" data-toggle="tab"><?php echo JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG');?></a></li>
-				<?php endif ?>
-				<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
-				<?php if ($assoc): ?>
-					<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
-				<?php endif; ?>
-				<?php if ($this->canDo->get('core.admin')): ?>
-					<li><a href="#permissions" data-toggle="tab"><?php echo JText::_('COM_CONTENT_FIELDSET_RULES');?></a></li>
-				<?php endif ?>
-			</ul>
+			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'general')); ?>
 
-			<div class="tab-content">
-				<!-- Begin Tabs -->
-				<div class="tab-pane active" id="general">
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'general', JText::_('COM_CONTENT_ARTICLE_DETAILS', true)); ?>
 					<fieldset class="adminform">
 						<div class="control-group form-inline">
 							<?php echo $this->form->getLabel('title'); ?> <?php echo $this->form->getInput('title'); ?> <?php echo $this->form->getLabel('catid'); ?> <?php echo $this->form->getInput('catid'); ?>
@@ -100,7 +83,7 @@ endif;
 					<?php
 						// The url and images fields only show if the configuration is set to allow them. This is for legacy reasons.
 					?>
-					<?php if ($params['show_urls_images_backend']): ?>
+					<?php if ($params['show_urls_images_backend']) : ?>
 						<div class="row-fluid">
 							<div class="span6">
 								<h4><?php echo JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES');?></h4>
@@ -110,9 +93,9 @@ endif;
 										<?php echo $this->form->getInput('images'); ?>
 									</div>
 								</div>
-								<?php foreach($this->form->getGroup('images') as $field): ?>
+								<?php foreach ($this->form->getGroup('images') as $field) : ?>
 									<div class="control-group">
-										<?php if (!$field->hidden): ?>
+										<?php if (!$field->hidden) : ?>
 											<?php echo $field->label; ?>
 										<?php endif; ?>
 										<div class="controls">
@@ -122,9 +105,9 @@ endif;
 								<?php endforeach; ?>
 							</div>
 							<div class="span6">
-								<?php foreach($this->form->getGroup('urls') as $field): ?>
+								<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 									<div class="control-group">
-										<?php if (!$field->hidden): ?>
+										<?php if (!$field->hidden) : ?>
 												<?php echo $field->label; ?>
 										<?php endif; ?>
 										<div class="controls">
@@ -135,11 +118,11 @@ endif;
 							</div>
 						</div>
 					<?php endif; ?>
-				</div>
+				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 				<?php // Do not show the publishing options if the edit form is configured not to. ?>
-					<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ): ?>
-						<div class="tab-pane" id="publishing">
+					<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ) : ?>
+						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING', true)); ?>
 							<div class="row-fluid">
 								<div class="span6">
 									<div class="control-group">
@@ -224,46 +207,56 @@ endif;
 									<?php endif; ?>
 								</div>
 							</div>
-						</div>
+						<?php echo JHtml::_('bootstrap.endPanel'); ?>
 					<?php  endif; ?>
-					<?php  $fieldSets = $this->form->getFieldsets('attribs'); ?>
-						<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-							<div class="tab-pane" id="attrib-<?php echo $name;?>">
+
+					<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))) : ?>
+							<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
+							<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+								<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+									<?php $attribtabs = 'attrib-' . $name; ?>
+									<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $attribtabs, JText::_($fieldSet->label, true)); ?>
+								<?php endif; ?>
+
 							<?php
 								// If the parameter says to show the article options or if the parameters have never been set, we will
 								// show the article options.
 
-								if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))):
-									// Go through all the fieldsets except the configuration and basic-limited, which are
+								if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))) : ?>
+								<?php	// Go through all the fieldsets except the configuration and basic-limited, which are
 									// handled separately below.
+								?>
 
-									if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+									<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
 										<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 											<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
-										<?php endif;
-										foreach ($this->form->getFieldset($name) as $field) : ?>
+										<?php endif; ?>
+										<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 											<div class="control-group">
 												<?php echo $field->label; ?>
 												<div class="controls">
 													<?php echo $field->input; ?>
 												</div>
 											</div>
-										<?php endforeach;
-									endif;
-								// If we are not showing the options we need to use the hidden fields so the values are not lost.
-								elseif ($name == 'basic-limited'):
+										<?php endforeach; ?>
+									<?php endif; ?>
+								<?php // If we are not showing the options we need to use the hidden fields so the values are not lost.
+								?>
+								<?php elseif ($name == 'basic-limited'):
 									foreach ($this->form->getFieldset('basic-limited') as $field) :
 										echo $field->input;
 									endforeach;
 								endif;
 							?>
-							</div>
-						<?php endforeach;
-						// We need to make a separate space for the configuration
-						// so that those fields always show to those wih permissions
+						<?php endforeach; ?>
+						<?php echo JHtml::_('bootstrap.endPanel'); ?>
+					<?php endif; ?>
 
-						if ($this->canDo->get('core.admin')):  ?>
-						<div class="tab-pane" id="editor">
+					<?php // We need to make a separate space for the configuration
+						// so that those fields always show to those wih permissions
+					?>
+					<?php if ($this->canDo->get('core.admin')):  ?>
+						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG', true)); ?>
 							<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
 								<div class="control-group">
 									<?php echo $field->label; ?>
@@ -272,34 +265,32 @@ endif;
 									</div>
 								</div>
 							<?php endforeach; ?>
-						</div>
+						<?php echo JHtml::_('bootstrap.endPanel'); ?>
 					<?php endif ?>
 
-					<div class="tab-pane" id="metadata">
-						<fieldset>
+					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 							<?php echo $this->loadTemplate('metadata'); ?>
-						</fieldset>
-					</div>
+					<?php echo JHtml::_('bootstrap.endPanel'); ?>
+
 					<?php if ($assoc) : ?>
-					<div class="tab-pane" id="associations">
-						<fieldset>
+						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 							<?php echo $this->loadTemplate('associations'); ?>
-						</fieldset>
-					</div>
+						<?php echo JHtml::_('bootstrap.endPanel'); ?>
 					<?php endif; ?>
 
-					<?php if ($this->canDo->get('core.admin')): ?>
-						<div class="tab-pane" id="permissions">
+					<?php if ($this->canDo->get('core.admin')) : ?>
+						<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES', true)); ?>
 							<fieldset>
 								<?php echo $this->form->getInput('rules'); ?>
 							</fieldset>
-						</div>
+						<?php echo JHtml::_('bootstrap.endPanel'); ?>
 					<?php endif; ?>
-				<!-- End Tabs -->
-			</div>
-				<input type="hidden" name="task" value="" />
-				<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />
-				<?php echo JHtml::_('form.token'); ?>
+
+			<?php echo JHtml::_('bootstrap.endPane'); ?>
+
+			<input type="hidden" name="task" value="" />
+			<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />
+			<?php echo JHtml::_('form.token'); ?>
 		</div>
 		<!-- End Content -->
 		<!-- Begin Sidebar -->
@@ -338,6 +329,15 @@ endif;
 						<?php echo $this->form->getInput('language'); ?>
 					</div>
 				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('tags'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('tags'); ?>
+					</div>
+				</div>
+
 			</fieldset>
 		</div>
 		<!-- End Sidebar -->

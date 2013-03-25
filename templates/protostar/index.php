@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+// Getting params from template
+$params = JFactory::getApplication()->getTemplate(true)->params;
 
 $app = JFactory::getApplication();
 $doc = JFactory::getDocument();
@@ -37,8 +40,8 @@ JHtml::_('bootstrap.framework');
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
-// Load optional rtl Bootstrap css and Bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Add current user information
 $user = JFactory::getUser();
@@ -129,30 +132,36 @@ else
 	<![endif]-->
 </head>
 
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?> <?php if ($this->params->get('fluidContainer')) { echo "fluid"; } ?>">
+<body class="site <?php echo $option
+	. ' view-' . $view
+	. ($layout ? ' layout-' . $layout : ' no-layout')
+	. ($task ? ' task-' . $task : ' no-task')
+	. ($itemid ? ' itemid-' . $itemid : '')
+	. ($params->get('fluidContainer') ? ' fluid' : '');
+?>">
+
 	<!-- Body -->
 	<div class="body">
-		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<!-- Header -->
 			<div class="header">
-				<div class="header-inner">
+				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
 					</a>
 					<div class="header-search pull-right">
 						<jdoc:include type="modules" name="position-0" style="none" />
 					</div>
-					<div class="clearfix"></div>
 				</div>
 			</div>
-			<?php if ($this->countModules('position-1')): ?>
+			<?php if ($this->countModules('position-1')) : ?>
 			<div class="navigation">
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
 			<?php endif; ?>
 			<jdoc:include type="modules" name="banner" style="xhtml" />
 			<div class="row-fluid">
-				<?php if ($this->countModules('position-8')): ?>
+				<?php if ($this->countModules('position-8')) : ?>
 				<!-- Begin Sidebar -->
 				<div id="sidebar" class="span3">
 					<div class="sidebar-nav">
@@ -181,7 +190,7 @@ else
 	</div>
 	<!-- Footer -->
 	<div class="footer">
-		<div class="container<?php if ($this->params->get('fluidContainer')) { echo "-fluid"; } ?>">
+		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
 			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>

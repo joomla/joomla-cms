@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,18 +15,20 @@ defined('_JEXEC') or die;
  * @package     Joomla.Plugin
  * @subpackage  System.cache
  */
-class plgSystemCache extends JPlugin
+class PlgSystemCache extends JPlugin
 {
 
-	var $_cache = null;
+	var $_cache		= null;
+
+	var $_cache_key	= null;
 
 	/**
 	 * Constructor
 	 *
 	 * @access	protected
-	 * @param	object	$subject The object to observe
-	 * @param	array	$config  An array that holds the plugin configuration
-	 * @since	1.0
+	 * @param   object	$subject The object to observe
+	 * @param   array  $config  An array that holds the plugin configuration
+	 * @since   1.0
 	 */
 	function __construct(& $subject, $config)
 	{
@@ -40,7 +42,8 @@ class plgSystemCache extends JPlugin
 			'caching'		=> false,
 		);
 
-		$this->_cache = JCache::getInstance('page', $options);
+		$this->_cache		= JCache::getInstance('page', $options);
+		$this->_cache_key	= JRequest::getURI();
 	}
 
 	/**
@@ -53,19 +56,22 @@ class plgSystemCache extends JPlugin
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		if ($app->isAdmin() || JDEBUG) {
+		if ($app->isAdmin() || JDEBUG)
+		{
 			return;
 		}
 
-		if (count($app->getMessageQueue())) {
+		if (count($app->getMessageQueue()))
+		{
 			return;
 		}
 
-		if ($user->get('guest') && $app->input->getMethod() == 'GET') {
+		if ($user->get('guest') && $app->input->getMethod() == 'GET')
+		{
 			$this->_cache->setCaching(true);
 		}
 
-		$data  = $this->_cache->get();
+		$data = $this->_cache->get($this->_cache_key);
 
 		if ($data !== false)
 		{
@@ -87,18 +93,21 @@ class plgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin() || JDEBUG) {
+		if ($app->isAdmin() || JDEBUG)
+		{
 			return;
 		}
 
-		if (count($app->getMessageQueue())) {
+		if (count($app->getMessageQueue()))
+		{
 			return;
 		}
 
 		$user = JFactory::getUser();
-		if ($user->get('guest')) {
+		if ($user->get('guest'))
+		{
 			//We need to check again here, because auto-login plugins have not been fired before the first aid check
-			$this->_cache->store();
+			$this->_cache->store($this->_cache_key);
 		}
 	}
 }

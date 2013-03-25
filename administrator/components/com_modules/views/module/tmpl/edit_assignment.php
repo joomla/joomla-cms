@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,16 +16,22 @@ $menuTypes = MenusHelper::getMenuLinks();
 JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', false, true);
 
 $script = "
-	jQuery(document).ready(function() {
+	jQuery(document).ready(function()
+	{
 		menuHide(jQuery('#jform_assignment').val());
-		jQuery('#jform_assignment').change(function() {
+		jQuery('#jform_assignment').change(function()
+		{
 			menuHide(jQuery(this).val());
 		})
 	});
-	function menuHide(val) {
-		if(val == 0 || val == '-') {
+	function menuHide(val)
+	{
+		if (val == 0 || val == '-')
+		{
 			jQuery('#menuselect-group').hide();
-		} else {
+		}
+		else
+		{
 			jQuery('#menuselect-group').show();
 		}
 	}
@@ -77,19 +83,24 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<label class="pull-left nav-header"><?php echo $type->title; ?></label></div>
 					<?php foreach ($type->links as $i => $link) : ?>
 						<?php
-						if ($prevlevel < $link->level) {
+						if ($prevlevel < $link->level)
+						{
 							echo '<ul class="treeselect-sub">';
-						} elseif ($prevlevel > $link->level) {
+						} elseif ($prevlevel > $link->level)
+						{
 							echo str_repeat('</li></ul>', $prevlevel - $link->level);
 						} else {
 							echo '</li>';
 						}
 						$selected = 0;
-						if ($this->item->assignment == 0) {
+						if ($this->item->assignment == 0)
+						{
 							$selected = 1;
-						} elseif ($this->item->assignment < 0) {
+						} elseif ($this->item->assignment < 0)
+						{
 							$selected = in_array(-$link->value, $this->item->assigned);
-						} elseif ($this->item->assignment > 0) {
+						} elseif ($this->item->assignment > 0)
+						{
 							$selected = in_array($link->value, $this->item->assigned);
 						}
 						?>
@@ -100,7 +111,8 @@ JFactory::getDocument()->addScriptDeclaration($script);
 								</div>
 						<?php
 
-						if (!isset($type->links[$i + 1])) {
+						if (!isset($type->links[$i + 1]))
+						{
 							echo str_repeat('</li></ul>', $link->level);
 						}
 						$prevlevel = $link->level;

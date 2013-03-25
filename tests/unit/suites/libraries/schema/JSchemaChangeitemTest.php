@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,6 @@ class JSchemaChangeitemTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeitem::getInstance
 	 * @todo   Implement testGetInstance().
 	 */
 	public function testGetInstance()
@@ -47,7 +46,6 @@ class JSchemaChangeitemTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeitem::check
 	 * @todo   Implement testCheck().
 	 */
 	public function testCheck()
@@ -58,7 +56,6 @@ class JSchemaChangeitemTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeitem::fix
 	 * @todo   Implement testFix().
 	 */
 	public function testFix()

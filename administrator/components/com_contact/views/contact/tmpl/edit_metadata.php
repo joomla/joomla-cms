@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 $fieldSets = $this->form->getFieldsets('metadata');
 foreach ($fieldSets as $name => $fieldSet) :
-	?>
-	<div class="tab-pane" id="metadata-<?php echo $name;?>">
-	<?php
+	$metadatatabs = 'metadata-' . $name;
+	echo JHtml::_('bootstrap.addPanel', 'myTab', $metadatatabs, JText::_($fieldSet->label, true));
+
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
 		echo '<p class="alert alert-info">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 	endif;
@@ -39,5 +39,5 @@ foreach ($fieldSets as $name => $fieldSet) :
 					<div class="controls"><?php echo $field->input; ?></div>
 				</div>
 			<?php endforeach; ?>
-	</div>
+	<?php echo JHtml::_('bootstrap.endPanel'); ?>
 <?php endforeach; ?>

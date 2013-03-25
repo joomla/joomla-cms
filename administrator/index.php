@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,11 +17,13 @@ if (version_compare(PHP_VERSION, '5.3.1', '<'))
  */
 define('_JEXEC', 1);
 
-if (file_exists(__DIR__ . '/defines.php')) {
+if (file_exists(__DIR__ . '/defines.php'))
+{
 	include_once __DIR__ . '/defines.php';
 }
 
-if (!defined('_JDEFINES')) {
+if (!defined('_JDEFINES'))
+{
 	define('JPATH_BASE', __DIR__);
 	require_once JPATH_BASE.'/includes/defines.php';
 }

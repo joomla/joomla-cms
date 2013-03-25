@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,9 +19,9 @@ class plgExtensionExample extends JPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param	JInstaller	Installer object
-	 * @param	int			Extension Identifier
-	 * @since	1.6
+	 * @param   JInstaller	Installer object
+	 * @param   integer  	Extension Identifier
+	 * @since   1.6
 	 */
 	function onExtensionAfterInstall($installer, $eid)
 	{

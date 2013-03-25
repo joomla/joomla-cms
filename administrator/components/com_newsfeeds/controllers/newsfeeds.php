@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,5 +58,16 @@ class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 
 		// Close the application
 		JFactory::getApplication()->close();
+	}
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
+		// If an item has been tagged we need to untag it and delete it from #__core_content.
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+
+		$tags = new JTags;
+		$tags->deleteTagData($ids, 'com_newsfeeds.newsfeed');
+
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ if ($this->params->get('presentation_style') == 'sliders'):?>
 			<div class="contact-links">
 				<ul class="nav nav-list">
 					<?php
-					foreach(range('a', 'e') as $char) :// letters 'a' to 'e'
+					foreach (range('a', 'e') as $char) :// letters 'a' to 'e'
 						$link = $this->contact->params->get('link'.$char);
 						$label = $this->contact->params->get('link'.$char.'_name');
 

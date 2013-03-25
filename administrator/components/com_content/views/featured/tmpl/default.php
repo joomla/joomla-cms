@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,26 +23,7 @@ $canOrder	= $user->authorise('core.edit.state', 'com_content.article');
 $archived	= $this->state->get('filter.published') == 2 ? true : false;
 $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $saveOrder	= $listOrder == 'fp.ordering';
-if ($saveOrder)
-{
-	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component';
-	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
-}
-$sortFields = $this->getSortFields();
 ?>
-<script type="text/javascript">
-	Joomla.orderTable = function() {
-		table = document.getElementById("sortTable");
-		direction = document.getElementById("directionTable");
-		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>') {
-			dirn = 'asc';
-		} else {
-			dirn = direction.options[direction.selectedIndex].value;
-		}
-		Joomla.tableOrdering(order, dirn, '');
-	}
-</script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
@@ -66,30 +47,12 @@ $sortFields = $this->getSortFields();
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
-			<div class="btn-group pull-right hidden-phone">
-				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></label>
-				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
-					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING'); ?></option>
-					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING'); ?></option>
-				</select>
-			</div>
-			<div class="btn-group pull-right">
-				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
-				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY'); ?></option>
-					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
-				</select>
-			</div>
 		</div>
 		<div class="clearfix"> </div>
 
 		<table class="table table-striped" id="articleList">
 			<thead>
 				<tr>
-					<th width="1%" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
-					</th>
 					<th width="1%" class="hidden-phone">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
@@ -98,6 +61,12 @@ $sortFields = $this->getSortFields();
 					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+					</th>
+					<th width="10%" class="nowrap">
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'fp.ordering', $listDirn, $listOrder); ?>
+						<?php if ($canOrder && $saveOrder) :?>
+							<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'featured.saveorder'); ?>
+						<?php endif; ?>
 					</th>
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
@@ -124,6 +93,7 @@ $sortFields = $this->getSortFields();
 				</tr>
 			</tfoot>
 			<tbody>
+			<?php $count = count($this->items); ?>
 			<?php foreach ($this->items as $i => $item) :
 				$item->max_ordering = 0;
 				$ordering	= ($listOrder == 'fp.ordering');
@@ -134,25 +104,6 @@ $sortFields = $this->getSortFields();
 				$canChange	= $user->authorise('core.edit.state', 'com_content.article.'.$item->id) && $canCheckin;
 				?>
 				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
-					<td class="order nowrap center hidden-phone">
-						<?php if ($canChange) :
-							$disableClassName = '';
-							$disabledLabel	  = '';
-							if (!$saveOrder) :
-								$disabledLabel    = JText::_('JORDERINGDISABLED');
-								$disableClassName = 'inactive tip-top';
-							endif; ?>
-							<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
-								<i class="icon-menu"></i>
-							</span>
-							<input type="text" style="display:none" name="order[]" size="5"
-							value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
-						<?php else : ?>
-							<span class="sortable-handler inactive" >
-								<i class="icon-menu"></i>
-							</span>
-						<?php endif; ?>
-					</td>
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
@@ -212,6 +163,25 @@ $sortFields = $this->getSortFields();
 								echo JHtml::_('dropdown.render');
 							?>
 						</div>
+					</td>
+					<td class="order">
+						<?php if ($canChange) : ?>
+							<div class="input-prepend">
+							<?php if ($saveOrder) :?>
+								<?php if ($listDirn == 'asc') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'featured.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $count, true, 'featured.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<?php elseif ($listDirn == 'desc') : ?>
+									<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'featured.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
+									<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $count, true, 'featured.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
+								<?php endif; ?>
+							<?php endif; ?>
+							<?php $disabled = $saveOrder ? '' : 'disabled="disabled"'; ?>
+						 	<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="width-20 text-area-order" />
+						 </div>
+						<?php else : ?>
+							<?php echo $item->ordering; ?>
+						<?php endif; ?>
 					</td>
 					<td class="small hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.0" client="administrator">
+<metafile version="3.1" client="administrator">
 	<name>English (United Kingdom)</name>
-	<version>3.0.2</version>
-	<creationDate>2008-03-15</creationDate>
+	<version>3.1.0</version>
+	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB administrator language</description>
 	<files>
@@ -55,6 +55,8 @@
 		<filename>en-GB.com_redirect.sys.ini</filename>
 		<filename>en-GB.com_search.ini</filename>
 		<filename>en-GB.com_search.sys.ini</filename>
+		<filename>en-GB.com_tags.ini</filename>
+		<filename>en-GB.com_tags.sys.ini</filename>
 		<filename>en-GB.com_templates.ini</filename>
 		<filename>en-GB.com_templates.sys.ini</filename>
 		<filename>en-GB.com_users.ini</filename>
@@ -108,8 +110,6 @@
 		<filename>en-GB.plg_content_emailcloak.sys.ini</filename>
 		<filename>en-GB.plg_content_finder.ini</filename>
 		<filename>en-GB.plg_content_finder.sys.ini</filename>
-		<filename>en-GB.plg_content_geshi.ini</filename>
-		<filename>en-GB.plg_content_geshi.sys.ini</filename>
 		<filename>en-GB.plg_content_joomla.ini</filename>
 		<filename>en-GB.plg_content_joomla.sys.ini</filename>
 		<filename>en-GB.plg_content_loadmodule.ini</filename>
@@ -144,6 +144,8 @@
 		<filename>en-GB.plg_finder_content.sys.ini</filename>
 		<filename>en-GB.plg_finder_newsfeeds.ini</filename>
 		<filename>en-GB.plg_finder_newsfeeds.sys.ini</filename>
+		<filename>en-GB.plg_finder_tags.ini</filename>
+		<filename>en-GB.plg_finder_tags.sys.ini</filename>
 		<filename>en-GB.plg_finder_weblinks.ini</filename>
 		<filename>en-GB.plg_finder_weblinks.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_extensionupdate.ini</filename>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,8 @@ class SearchViewSearch extends JViewLegacy
 		// Find the menu item for the search
 		$menu	= $app->getMenu();
 		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
-		if (isset($items[0])) {
+		if (isset($items[0]))
+		{
 			$searchUri .= '&Itemid='.$items[0]->id;
 		}
 

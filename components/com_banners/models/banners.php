@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,10 +27,10 @@ class BannersModelBanners extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -47,8 +47,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Gets a list of banners
 	 *
-	 * @return	array	An array of banner objects.
-	 * @since	1.6
+	 * @return  array  An array of banner objects.
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -80,7 +80,8 @@ class BannersModelBanners extends JModelList
 		$query->where('('.$query->currentTimestamp().' <= a.publish_down OR a.publish_down = '.$nullDate.')');
 		$query->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
 
-		if ($cid) {
+		if ($cid)
+		{
 			$query->join('LEFT', '#__categories as cat ON a.catid = cat.id');
 			$query->where('a.cid = ' . (int) $cid);
 			$query->where('cl.state = 1');
@@ -90,14 +91,16 @@ class BannersModelBanners extends JModelList
 		$categoryId = $this->getState('filter.category_id');
 		$catid		= $this->getState('filter.category_id', array());
 
-		if (is_numeric($categoryId)) {
+		if (is_numeric($categoryId))
+		{
 			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
 
 			// Add subcategory check
 			$includeSubcategories = $this->getState('filter.subcategories', false);
 			$categoryEquals = 'a.catid '.$type.(int) $categoryId;
 
-			if ($includeSubcategories) {
+			if ($includeSubcategories)
+			{
 				$levels = (int) $this->getState('filter.max_category_levels', '1');
 				// Create a subquery for the subcategory list
 				$subQuery = $db->getQuery(true);
@@ -110,24 +113,30 @@ class BannersModelBanners extends JModelList
 				// Add the subquery to the main query
 				$query->where('('.$categoryEquals.' OR a.catid IN ('.$subQuery->__toString().'))');
 			}
-			else {
+			else
+			{
 				$query->where($categoryEquals);
 			}
 		}
-		elseif ((is_array($categoryId)) && (count($categoryId) > 0)) {
+		elseif ((is_array($categoryId)) && (count($categoryId) > 0))
+		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
-			if($categoryId != '0') {
+			if ($categoryId != '0')
+			{
 				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
 				$query->where('a.catid '.$type.' ('.$categoryId.')');
 			}
 		}
 
-		if ($tagSearch) {
-			if (count($keywords) == 0) {
+		if ($tagSearch)
+		{
+			if (count($keywords) == 0)
+			{
 				$query->where('0');
 			}
-			else {
+			else
+			{
 				$temp = array();
 				$config = JComponentHelper::getParams('com_banners');
 				$prefix = $config->get('metakey_prefix');
@@ -139,11 +148,13 @@ class BannersModelBanners extends JModelList
 
 					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
-					if ($cid) {
+					if ($cid)
+					{
 						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
-					if ($catid) {
+					if ($catid)
+					{
 						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
@@ -155,7 +166,8 @@ class BannersModelBanners extends JModelList
 		}
 
 		// Filter by language
-		if ($this->getState('filter.language')) {
+		if ($this->getState('filter.language'))
+		{
 			$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 		}
 
@@ -166,12 +178,13 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Get a list of banners.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
-		if (!isset($this->cache['items'])) {
+		if (!isset($this->cache['items']))
+		{
 			$this->cache['items'] = parent::getItems();
 
 			foreach ($this->cache['items'] as &$item)
@@ -187,8 +200,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Makes impressions on a list of banners
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function impress()
 	{
@@ -218,16 +231,19 @@ class BannersModelBanners extends JModelList
 
 			// track impressions
 			$trackImpressions = $item->track_impressions;
-			if ($trackImpressions < 0 && $item->cid) {
+			if ($trackImpressions < 0 && $item->cid)
+			{
 				$trackImpressions = $item->client_track_impressions;
 			}
 
-			if ($trackImpressions < 0) {
+			if ($trackImpressions < 0)
+			{
 				$config = JComponentHelper::getParams('com_banners');
 				$trackImpressions = $config->get('track_impressions');
 			}
 
-			if ($trackImpressions > 0) {
+			if ($trackImpressions > 0)
+			{
 				// is track already created ?
 				$query->clear();
 				$query->select($db->quoteName('count'));
@@ -251,7 +267,8 @@ class BannersModelBanners extends JModelList
 
 				$query->clear();
 
-				if ($count) {
+				if ($count)
+				{
 					// update count
 					$query->update('#__banner_tracks');
 					$query->set($db->quoteName('count').' = ('.$db->quoteName('count').' + 1)');

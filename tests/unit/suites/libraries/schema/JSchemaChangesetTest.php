@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,8 +60,6 @@ class JSchemaChangesetTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JSchemaChangeset::__construct
 	 */
 	public function test__construct()
 	{
@@ -77,8 +75,6 @@ class JSchemaChangesetTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JSchemaChangeset::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -89,7 +85,6 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeset::check
 	 * @todo   Implement testCheck().
 	 */
 	public function testCheck()
@@ -100,7 +95,6 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeset::fix
 	 * @todo   Implement testFix().
 	 */
 	public function testFix()
@@ -111,7 +105,6 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeset::getStatus
 	 * @todo   Implement testGetStatus().
 	 */
 	public function testGetStatus()
@@ -128,8 +121,6 @@ class JSchemaChangesetTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JSchemaChangeset::getSchema
 	 */
 	public function testGetSchema()
 	{

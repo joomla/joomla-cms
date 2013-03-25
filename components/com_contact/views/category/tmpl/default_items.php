@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,25 +19,31 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+	<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
+	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
-				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTACT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
+				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_CONTACT_FILTER_LABEL').'&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="display-limit">
-				<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>&#160;
+			<div class="btn-group pull-right">
+				<label for="limit" class="element-invisible">
+					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
+				</label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		<?php endif; ?>
+	</fieldset>
+	<?php endif; ?>
 
 		<ul class="category list-striped">
 			<?php foreach ($this->items as $i => $item) : ?>
 
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-					<?php if ($this->items[$i]->state == 0) : ?>
+					<?php if ($this->items[$i]->published == 0) : ?>
 						<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else: ?>
 						<li class="cat-list-row<?php echo $i % 2; ?>" >
@@ -61,7 +67,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<strong class="list-title">
 							<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?></a>
-							<?php if ($this->items[$i]->published == 0): ?>
+							<?php if ($this->items[$i]->published == 0) : ?>
 								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 							<?php endif; ?>
 
@@ -103,5 +109,5 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 			<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		</div>
-	</form>
+</form>
 <?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_whosonline
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_whosonline
  * @since       1.5
  */
-class modWhosonlineHelper
+class ModWhosonlineHelper
 {
 	// show online count
 	public static function getOnlineCount()
@@ -33,15 +33,18 @@ class modWhosonlineHelper
 		$db->setQuery($query);
 		$sessions = (array) $db->loadObjectList();
 
-		if (count($sessions)) {
-			foreach ($sessions as $session) {
+		if (count($sessions))
+		{
+			foreach ($sessions as $session)
+			{
 				// if guest increase guest count by 1
 				if ($session->guest == 1)
 				{
 					$guest_array ++;
 				}
 				// if member increase member count by 1
-				if ($session->guest == 0) {
+				if ($session->guest == 0)
+				{
 					$user_array ++;
 				}
 			}

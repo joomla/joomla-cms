@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,8 @@ abstract class ModMenuHelper
 	/**
 	 * Get a list of the available menus.
 	 *
-	 * @return	array	An array of the available menus (from the menu types table).
-	 * @since	1.6
+	 * @return  array  An array of the available menus (from the menu types table).
+	 * @since   1.6
 	 */
 	public static function getMenus()
 	{
@@ -51,10 +51,10 @@ abstract class ModMenuHelper
 	/**
 	 * Get a list of the authorised, non-special components to display in the components menu.
 	 *
-	 * @param	boolean	$authCheck	An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
+	 * @param   boolean	$authCheck	An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
 	 *
-	 * @return	array	A nest array of component objects and submenus
-	 * @since	1.6
+	 * @return  array  A nest array of component objects and submenus
+	 * @since   1.6
 	 */
 	public static function getComponents($authCheck = true)
 	{
@@ -83,25 +83,31 @@ abstract class ModMenuHelper
 		$components	= $db->loadObjectList();
 
 		// Parse the list of extensions.
-		foreach ($components as &$component) {
+		foreach ($components as &$component)
+		{
 			// Trim the menu link.
 			$component->link = trim($component->link);
 
-			if ($component->parent_id == 1) {
+			if ($component->parent_id == 1)
+			{
 				// Only add this top level if it is authorised and enabled.
-				if ($authCheck == false || ($authCheck && $user->authorise('core.manage', $component->element))) {
+				if ($authCheck == false || ($authCheck && $user->authorise('core.manage', $component->element)))
+				{
 					// Root level.
 					$result[$component->id] = $component;
-					if (!isset($result[$component->id]->submenu)) {
+					if (!isset($result[$component->id]->submenu))
+					{
 						$result[$component->id]->submenu = array();
 					}
 
 					// If the root menu link is empty, add it in.
-					if (empty($component->link)) {
+					if (empty($component->link))
+					{
 						$component->link = 'index.php?option='.$component->element;
 					}
 
-					if (!empty($component->element)) {
+					if (!empty($component->element))
+					{
 						// Load the core file then
 						// Load extension-local file.
 						$lang->load($component->element.'.sys', JPATH_BASE, null, false, false)
@@ -113,9 +119,11 @@ abstract class ModMenuHelper
 				}
 			} else {
 				// Sub-menu level.
-				if (isset($result[$component->parent_id])) {
+				if (isset($result[$component->parent_id]))
+				{
 					// Add the submenu link if it is defined.
-					if (isset($result[$component->parent_id]->submenu) && !empty($component->link)) {
+					if (isset($result[$component->parent_id]->submenu) && !empty($component->link))
+					{
 						$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 						$result[$component->parent_id]->submenu[] = &$component;
 					}

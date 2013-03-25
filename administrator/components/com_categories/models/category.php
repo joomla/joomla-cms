@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
@@ -178,6 +178,13 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$result->modified_time = null;
 			}
+
+			if (!empty($result->id))
+			{
+				$db = JFactory::getDbo();
+				$result->tags = new JTags;
+				$result->tags->getTagIds($result->id, $result->extension . '.category');
+			}
 		}
 
 		$app = JFactory::getApplication();
@@ -283,6 +290,8 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_categories.category', $data);
 
 		return $data;
 	}
@@ -978,7 +987,7 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Custom clean the cache of com_content and content modules
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
@@ -1009,7 +1018,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
-	 * @since	1.7
+	 * @since   1.7
 	 */
 	protected function generateNewTitle($parent_id, $alias, $title)
 	{

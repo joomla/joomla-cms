@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage  System.sef
  * @since       1.5
  */
-class plgSystemSef extends JPlugin
+class PlgSystemSef extends JPlugin
 {
 	/**
 	 * Add the canonical uri to the head
@@ -43,9 +43,8 @@ class plgSystemSef extends JPlugin
 			$domain = $uri->toString(array('scheme', 'host', 'port'));
 		}
 
-		$link = 'index.php' . $uri->toString(array('query', 'fragment'));
+		$link = 'index.php' . $uri->toString(array('query','fragment'));
 		$link = $domain . JRoute::_($link);
-
 		if ($current !== $link)
 		{
 			$doc->addHeadLink($link, 'canonical');
@@ -71,7 +70,7 @@ class plgSystemSef extends JPlugin
 		$buffer = JResponse::getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';
-		$buffer = preg_replace_callback($regex, array('plgSystemSef', 'route'), $buffer);
+		$buffer = preg_replace_callback($regex, array('PlgSystemSef', 'route'), $buffer);
 		$this->checkBuffer($buffer);
 
 		$protocols = '[a-zA-Z0-9]+:'; //To check for all unknown protocals (a protocol must contain at least one alpahnumeric fillowed by :

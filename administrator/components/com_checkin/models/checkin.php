@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,9 +25,13 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @Note. Calling getState in this method will result in recursion.
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -41,9 +45,10 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Checks in requested tables
 	 *
-	 * @param	array	An array of table names. Optional.
-	 * @return	int		Checked in item count
-	 * @since	1.6
+	 * @param   array  $ids  An array of table names. Optional.
+	 *
+	 * @return  integer   Checked in item count
+	 * @since   1.6
 	 */
 	public function checkin($ids = array())
 	{
@@ -51,22 +56,26 @@ class CheckinModelCheckin extends JModelList
 		$db			= $this->_db;
 		$nullDate	= $db->getNullDate();
 
-		if (!is_array($ids)) {
+		if (!is_array($ids))
+		{
 			return;
 		}
 
 		// this int will hold the checked item count
 		$results = 0;
 
-		foreach ($ids as $tn) {
+		foreach ($ids as $tn)
+		{
 			// make sure we get the right tables based on prefix
-			if (stripos($tn, $app->getCfg('dbprefix')) !== 0) {
+			if (stripos($tn, $app->getCfg('dbprefix')) !== 0)
+			{
 				continue;
 			}
 
 			$fields = $db->getTableColumns($tn);
 
-			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time']))) {
+			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
+			{
 				continue;
 			}
 
@@ -75,9 +84,14 @@ class CheckinModelCheckin extends JModelList
 				->set('checked_out = 0')
 				->set('checked_out_time = '.$db->Quote($nullDate))
 				->where('checked_out > 0');
+			if (isset($fields[$tn]['editor']))
+			{
+				$query->set('editor = NULL');
+			}
 
 			$db->setQuery($query);
-			if ($db->execute()) {
+			if ($db->execute())
+			{
 				$results = $results + $db->getAffectedRows();
 			}
 		}
@@ -87,8 +101,8 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Get total of tables
 	 *
-	 * @return	int	Total to check-in tables
-	 * @since	1.6
+	 * @return  int	Total to check-in tables
+	 * @since   1.6
 	 */
 	public function getTotal()
 	{
@@ -101,8 +115,8 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Get tables
 	 *
-	 * @return	array	Checked in table names as keys and checked in item count as values
-	 * @since	1.6
+	 * @return  array  Checked in table names as keys and checked in item count as values
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -146,7 +160,8 @@ class CheckinModelCheckin extends JModelList
 					->where('checked_out > 0');
 
 				$db->setQuery($query);
-				if ($db->execute()) {
+				if ($db->execute())
+				{
 					$results[$tn] = $db->loadResult();
 				} else {
 					continue;

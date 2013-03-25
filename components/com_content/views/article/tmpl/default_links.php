@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,13 +24,13 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 			array($urls->urlb, $urls->urlbtext, $urls->targetb, 'b'),
 			array($urls->urlc, $urls->urlctext, $urls->targetc, 'c')
 			);
-			foreach($urlarray as $url) :
+			foreach ($urlarray as $url) :
 				$link = $url[0];
 				$label = $url[1];
 				$target = $url[2];
 				$id = $url[3];
 
-				if( ! $link) :
+				if ( ! $link) :
 					continue;
 				endif;
 

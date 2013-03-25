@@ -1888,7 +1888,6 @@ table .span24 {
 	position: relative;
 	height: 0;
 	overflow: hidden;
-	overflow: visible \9;
 	-webkit-transition: height .35s ease;
 	-moz-transition: height .35s ease;
 	-o-transition: height .35s ease;
@@ -5554,6 +5553,9 @@ fieldset.radio.btn-group {
 input.invalid {
 	border: 1px solid #9d261d;
 }
+.tip-text {
+	text-align: left;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../media/jui/fonts/IcoMoon.eot');
@@ -5624,9 +5626,11 @@ input.invalid {
 .icon-pencil-2:before {
 	content: "\2c";
 }
+.icon-folder-open:before,
 .icon-folder:before {
 	content: "\2d";
 }
+.icon-folder-close:before,
 .icon-folder-2:before {
 	content: "\2e";
 }
@@ -5709,6 +5713,7 @@ input.invalid {
 .icon-support:before {
 	content: "\46";
 }
+.icon-pending:before,
 .icon-warning:before {
 	content: "\48";
 }
@@ -5719,7 +5724,6 @@ input.invalid {
 	content: "\47";
 }
 .icon-unpublish:before,
-.icon-trash:before,
 .icon-cancel:before {
 	content: "\4a";
 }
@@ -6413,4 +6417,47 @@ h6 {
 	#login-form .input-small {
 		width: 62px;
 	}
+}
+dl.tabs {
+	float: left;
+	margin-bottom: -1px;
+}
+dl.tabs dt.tabs {
+	float: left;
+	margin-left: 3px;
+	padding: 4px 10px;
+	background-color: #F0F0F0;
+	border-top: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+}
+dl.tabs dt:hover {
+	background-color: #F9F9F9;
+}
+dl.tabs dt.open {
+	background-color: #FFF;
+	border-bottom: 1px solid #FFF;
+}
+dl.tabs dt.tabs h3 {
+	margin: 0;
+	font-size: 1.1em;
+	font-weight: normal;
+}
+dl.tabs dt.tabs h3 a {
+	color: #0088CC;
+}
+dl.tabs dt.tabs h3 a:hover {
+	color: #005580;
+	text-decoration: none;
+}
+dl.tabs dt.open h3 a {
+	color: #000;
+	text-decoration: none;
+}
+div.current dd.tabs {
+	margin: 0;
+	padding: 10px;
+	clear: both;
+	border: 1px solid #CCC;
+	background-color: #FFF;
 }

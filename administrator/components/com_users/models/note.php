@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -110,8 +110,9 @@ class UsersModelNote extends JModelAdmin
 			{
 				$data->user_id = $userId;
 			}
-
 		}
+
+		$this->preprocessData('com_users.note', $data);
 
 		return $data;
 	}
@@ -121,7 +122,7 @@ class UsersModelNote extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -148,27 +149,31 @@ class UsersModelNote extends JModelAdmin
 		$table	= $this->getTable();
 		$isNew	= empty($pk);
 
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 
 			return false;
 		}
 
 		// JTableCategory doesn't bind the params, so we need to do that by hand.
-		if (isset($data['params']) && is_array($data['params'])) {
+		if (isset($data['params']) && is_array($data['params']))
+		{
 			$registry = new JRegistry();
 			$registry->loadArray($data['params']);
 			$table->params = $registry->toString();
 			// This will give us INI format.
 		}
 
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 
 			return false;
 		}
 
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 
 			return false;

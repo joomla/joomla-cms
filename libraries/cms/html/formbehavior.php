@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ abstract class JHtmlFormbehavior
 	 *
 	 * @since   3.0
 	 */
-	public static function chosen($selector = '.advandedSelect', $debug = null)
+	public static function chosen($selector = '.advancedSelect', $debug = null)
 	{
 		if (isset(self::$loaded[__METHOD__][$selector]))
 		{
@@ -71,6 +71,76 @@ abstract class JHtmlFormbehavior
 		);
 
 		self::$loaded[__METHOD__][$selector] = true;
+
+		return;
+	}
+
+	/**
+	 * Method to load the AJAX Chosen library
+	 *
+	 * If debugging mode is on an uncompressed version of AJAX Chosen is included for easier debugging.
+	 *
+	 * @param   JRegistry  $options  Options in a JRegistry object
+	 * @param   mixed      $debug    Is debugging mode on? [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function ajaxchosen(JRegistry $options, $debug = null)
+	{
+		// Retrieve options/defaults
+		$selector       = $options->get('selector', '.tagfield');
+		$type           = $options->get('type', 'GET');
+		$url            = $options->get('url', null);
+		$dataType       = $options->get('dataType', 'json');
+		$jsonTermKey    = $options->get('jsonTermKey', 'term');
+		$afterTypeDelay = $options->get('afterTypeDelay', '500');
+		$minTermLength  = $options->get('minTermLength', '3');
+
+		JText::script('JGLOBAL_KEEP_TYPING');
+		JText::script('JGLOBAL_LOOKING_FOR');
+
+		// Ajax URL is mandatory
+		if (!empty($url))
+		{
+			if (isset(self::$loaded[__METHOD__][$selector]))
+			{
+				return;
+			}
+			// Include jQuery
+			JHtml::_('jquery.framework');
+
+			// Requires chosen to work
+			self::chosen($selector, $debug);
+
+			JHtml::_('script', 'jui/ajax-chosen.min.js', false, true, false, false, $debug);
+			JFactory::getDocument()->addScriptDeclaration("
+				(function($){
+					$(document).ready(function () {
+						$('" . $selector . "').ajaxChosen({
+							type: '" . $type . "',
+							url: '" . $url . "',
+							dataType: '" . $dataType . "',
+							jsonTermKey: '" . $jsonTermKey . "',
+							afterTypeDelay: '" . $afterTypeDelay . "',
+							minTermLength: '" . $minTermLength . "'
+						}, function (data) {
+							var results = [];
+
+							$.each(data, function (i, val) {
+								results.push({ value: val.value, text: val.text });
+							});
+
+							return results;
+						});
+					});
+				})(jQuery);
+				"
+			);
+
+			self::$loaded[__METHOD__][$selector] = true;
+		}
 
 		return;
 	}
