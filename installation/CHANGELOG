@@ -44,6 +44,7 @@ $ -> Language fix or change
  # [#30260] Fix for Undefined index: custom_position.  Thanks Peter
  ^ [#30363] Fix code style in admin modules: mod_logged.  Thanks Javier
  # [#29353] Smart Search Module Not Using Selected Filter.  Thanks Sam
+ # [#30214] JLog::add in JFolder::create logs erroneous error messages
 
 24-Mar-2013 Jean-Marie Simonet
  # [#30234] Route work classes for Tags. Thanks Elin
