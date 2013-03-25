@@ -58,17 +58,17 @@ class PlgExtensionJoomla extends JPlugin
 		$query = $db->getQuery(true);
 		$query->select('update_site_id')
 			->from('#__update_sites')
-			->where('location = ' . $db->Quote($location));
+			->where('location = ' . $db->quote($location));
 		$db->setQuery($query);
 		$update_site_id = (int) $db->loadResult();
 
 		// If it doesn't exist, add it!
 		if (!$update_site_id)
 		{
-			$query->clear();
-			$query->insert('#__update_sites');
-			$query->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')));
-			$query->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
+			$query->clear()
+				->insert('#__update_sites')
+				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')))
+				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
 			$db->setQuery($query);
 			if ($db->execute())
 			{
@@ -146,8 +146,8 @@ class PlgExtensionJoomla extends JPlugin
 			$db->execute();
 
 			// Delete any unused update sites
-			$query->clear();
-			$query->select('update_site_id')
+			$query->clear()
+				->select('update_site_id')
 				->from('#__update_sites_extensions');
 			$db->setQuery($query);
 			$results = $db->loadColumn();
@@ -176,8 +176,8 @@ class PlgExtensionJoomla extends JPlugin
 				{
 					// Nuke any pending updates with this site before we delete it
 					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
-					$query->clear();
-					$query->delete('#__updates')
+					$query->clear()
+						->delete('#__updates')
 						->where('update_site_id IN (' . implode(',', $update_sites_pending_delete) . ')');
 					$db->setQuery($query);
 					$db->execute();
@@ -190,8 +190,8 @@ class PlgExtensionJoomla extends JPlugin
 			}
 
 			// Last but not least we wipe out any pending updates for the extension
-			$query->clear();
-			$query->delete('#__updates')
+			$query->clear()
+				->delete('#__updates')
 				->where('extension_id = '. $eid);
 			$db->setQuery($query);
 			$db->execute();
