@@ -30,13 +30,17 @@ abstract class ModTagssimilarHelper
 		$option     = $app->input->get('option');
 		$view       = $app->input->get('view');
 		$prefix     = $option . '.' . $view;
-		$id         = $app->input->getString('id');
+		$id         = $app->input->getObject('id');
 
 		// Strip off any slug data.
-		if (substr_count($id, ':') > 0)
+		$id = (array) $id;
+		foreach ($id as $id)
 		{
-			$idexplode = explode(':', $id);
-			$id        = $idexplode[0];
+			if (substr_count($id, ':') > 0)
+			{
+				$idexplode = explode(':', $id);
+				$id        = $idexplode[0];
+			}
 		}
 
 		// For now assume com_tags and com_users do not have tags.
