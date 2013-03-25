@@ -78,8 +78,6 @@ class InstallerViewUpdate extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		$canDo = InstallerHelper::getActions();
-
 		JToolbarHelper::custom('update.update', 'upload', 'upload', 'COM_INSTALLER_TOOLBAR_UPDATE', true, false);
 		JToolbarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false, false);
 		JToolbarHelper::divider();

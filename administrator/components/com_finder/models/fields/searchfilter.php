@@ -37,8 +37,6 @@ class JFormFieldSearchFilter extends JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$options = array();
-
 		// Build the query.
 		$db = JFactory::getDBO();
 		$query = $db->getQuery(true);

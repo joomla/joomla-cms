@@ -48,7 +48,6 @@ class MediaControllerFile extends JControllerLegacy
 		// Get some data from the request
 		$file   = JRequest::getVar('Filedata', '', 'files', 'array');
 		$folder = $input->get('folder', '', 'path');
-		$return = $input->post->get('return-url', null, 'base64');
 
 		if (
 			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||

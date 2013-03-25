@@ -64,7 +64,7 @@ abstract class JHtmlContact
 			$flags = array();
 
 			// Construct html
-			foreach ($associations as $tag => $associated)
+			foreach ($associations as $associated)
 			{
 				if ($associated != $contactid)
 				{

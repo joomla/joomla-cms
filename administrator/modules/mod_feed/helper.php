@@ -31,13 +31,6 @@ class ModFeedHelper
 		$rssurl = $params->get('rssurl', '');
 
 		// Get RSS parsed object
-		$cache_time = 0;
-
-		if ($params->get('cache'))
-		{
-			$cache_time = $params->get('cache_time', 15) * 60;
-		}
-
 		try
 		{
 			jimport('joomla.feed.factory');
@@ -58,8 +51,6 @@ class ModFeedHelper
 
 			return $msg;
 		}
-
-		$lists = array();
 
 		if ($rssDoc)
 		{

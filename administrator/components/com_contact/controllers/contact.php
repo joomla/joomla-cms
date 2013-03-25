@@ -115,7 +115,6 @@ class ContactControllerContact extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
 		$item = $model->getItem();
 		if (isset($item->params) && is_array($item->params))
 		{

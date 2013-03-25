@@ -154,8 +154,6 @@ class ContentControllerArticle extends JControllerForm
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
 		//Most of this should go into JAdminFormcontent
-		$task = $this->getTask();
-
 		$item = $model->getItem();
 		if (isset($item->attribs) && is_array($item->attribs))
 		{

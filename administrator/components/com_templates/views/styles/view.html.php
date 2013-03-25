@@ -66,7 +66,6 @@ class TemplatesViewStyles extends JViewLegacy
 	{
 		$state	= $this->get('State');
 		$canDo	= TemplatesHelper::getActions();
-		$isSite	= ($state->get('filter.client_id') == 0);
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
 

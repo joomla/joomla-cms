@@ -181,13 +181,11 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (!empty($result->id))
 			{
-				$db = JFactory::getDbo();
 				$result->tags = new JTags;
 				$result->tags->getTagIds($result->id, $result->extension . '.category');
 			}
 		}
 
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -371,7 +369,6 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Association category items
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{

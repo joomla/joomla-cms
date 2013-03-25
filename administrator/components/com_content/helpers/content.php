@@ -109,7 +109,6 @@ class ContentHelper
 		$whiteListTags			= array();
 		$whiteListAttributes	= array();
 
-		$noHtml				= false;
 		$whiteList			= false;
 		$blackList			= false;
 		$customList			= false;
@@ -132,7 +131,6 @@ class ContentHelper
 			if ($filterType == 'NH')
 			{
 				// Maximum HTML filtering.
-				$noHtml = true;
 			}
 			elseif ($filterType == 'NONE')
 			{
@@ -246,7 +244,7 @@ class ContentHelper
 				// Remove white listed attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
-					$filter->attrBlacklist = array_diff($filter->attrBlacklist);
+					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
 				}
 
 			}

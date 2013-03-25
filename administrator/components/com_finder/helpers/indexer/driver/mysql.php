@@ -178,7 +178,6 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		}
 
 		// Set up the variables we will need during processing.
-		$tokens = array();
 		$count = 0;
 
 		// Mark afterLinking in the profiler.

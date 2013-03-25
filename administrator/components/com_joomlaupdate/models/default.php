@@ -118,7 +118,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates(700, $cache_timeout);
+		$updater->findUpdates(700, $cache_timeout);
 	}
 
 	/**

@@ -115,10 +115,9 @@ class UsersControllerUser extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
-
 		$item = $model->getItem();
 		$id = $item->get('id');
+		$isNew = ($id == 0);
 
 		if (empty($validData['tags']) && !empty($item->tags))
 		{

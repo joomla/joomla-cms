@@ -1146,7 +1146,6 @@ class MenusModelItem extends JModelAdmin
 	{
 		$pk    = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew = true;
-		$db    = $this->getDbo();
 		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
@@ -1285,7 +1284,7 @@ class MenusModelItem extends JModelAdmin
 				$key = md5(json_encode($associations));
 				$query->clear();
 				$query->insert('#__associations');
-				foreach ($associations as $tag => $id)
+				foreach ($associations as $id)
 				{
 					$query->values($id.','.$db->quote('com_menus.item').','.$db->quote($key));
 				}
@@ -1360,7 +1359,6 @@ class MenusModelItem extends JModelAdmin
 	{
 		$table		= $this->getTable();
 		$pks		= (array) $pks;
-		$user		= JFactory::getUser();
 
 		$languages	= array();
 		$onehome	= false;
