@@ -9,7 +9,7 @@
 // No direct access.
 defined('_JEXEC') or die;
 ?>
-<?php if (count($this->images) > 0 || count($this->folders) > 0) { ?>
+<?php if (count($this->images) > 0 || count($this->folders) > 0 || count($this->documents) > 0) { ?>
 <div class="manager">
 
 		<?php for ($i=0, $n=count($this->folders); $i<$n; $i++) :
@@ -17,10 +17,17 @@ defined('_JEXEC') or die;
 			echo $this->loadTemplate('folder');
 		endfor; ?>
 
-		<?php for ($i=0, $n=count($this->images); $i<$n; $i++) :
-			$this->setImage($i);
-			echo $this->loadTemplate('image');
-		endfor; ?>
+        <?php if($this->state->fileType == 'document'): ?>
+            <?php for ($i=0, $n=count($this->documents); $i<$n; $i++) :
+                $this->setDocument($i);
+                echo $this->loadTemplate('document');
+            endfor; ?>
+        <?php elseif($this->state->fileType == 'image'): ?> 
+            <?php for ($i=0, $n=count($this->images); $i<$n; $i++) :
+                $this->setImage($i);
+                echo $this->loadTemplate('image');
+            endfor; ?>
+        <?php endif; ?>
 
 </div>
 <?php } else { ?>

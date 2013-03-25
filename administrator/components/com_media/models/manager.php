@@ -24,6 +24,9 @@ class MediaModelManager extends JModelLegacy
 			$folder = JRequest::getVar('folder', '', '', 'path');
 			$this->setState('folder', $folder);
 
+            $fileType = JRequest::getVar('fileType', '', 'path');
+            $this->setState('fileType', $fileType);
+
 			$fieldid = JRequest::getCmd('fieldid', '');
 			$this->setState('field.id', $fieldid);
 
@@ -80,8 +83,16 @@ class MediaModelManager extends JModelLegacy
 		$asset = $input->get('asset', 0, 'integer');
 		$author = $input->get('author', 0, 'integer');
 
+        // Obtengo el tipo de archivo desde el request, que 
+        // será enviado al cliente para ser procesado en 
+        // popup-imagemanager.js
+
+        $fileType = JRequest::getVar('fileType', '', 'path');
+
+
 		// Create the drop-down folder select list
-		$list = JHtml::_('select.genericlist',  $options, 'folderlist', 'class="inputbox" size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$asset.', '.$author.')" ', 'value', 'text', $base);
+		$list = JHtml::_('select.genericlist',  $options, 'folderlist', 'class="inputbox" size="1" onchange="ImageManager.setFolder(this.options[this.selectedIndex].value, '.$fileType.', '.$asset.', '.$author.')" ', 'value', 'text', $base);
+
 
 		return $list;
 	}

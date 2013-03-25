@@ -33,11 +33,13 @@ class MediaViewImagesList extends JViewLegacy
 		$document->addScriptDeclaration("var ImageManager = window.parent.ImageManager;");
 
 		$images = $this->get('images');
+		$documents = $this->get('documents');
 		$folders = $this->get('folders');
 		$state = $this->get('state');
 
 		$this->baseURL = COM_MEDIA_BASEURL;
 		$this->assignRef('images', $images);
+		$this->assignRef('documents', $documents);
 		$this->assignRef('folders', $folders);
 		$this->assignRef('state', $state);
 
@@ -62,4 +64,13 @@ class MediaViewImagesList extends JViewLegacy
 			$this->_tmp_img = new JObject;
 		}
 	}
+
+    function setDocument($index = 0) 
+    {
+        if (isset($this->documents[$index])) {
+            $this->_tmp_doc = &$this->documents[$index];
+        } else {
+            $this->_tmp_doc = new JObject;
+        }
+    }
 }

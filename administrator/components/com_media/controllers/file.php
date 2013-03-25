@@ -38,11 +38,12 @@ class MediaControllerFile extends JControllerLegacy
 		$files			= JRequest::getVar('Filedata', '', 'files', 'array');
 		$return			= JRequest::getVar('return-url', null, 'post', 'base64');
 		$this->folder	= JRequest::getVar('folder', '', '', 'path');
+		$this->fileType = JRequest::getVar('fileType', '', '', 'path');
 
 		// Set the redirect
 		if ($return)
 		{
-			$this->setRedirect(base64_decode($return) . '&folder=' . $this->folder);
+			$this->setRedirect(base64_decode($return) . '&folder=' . $this->folder . '&fileType=' . $this->fileType);
 		}
 
 		// Authorize the user
@@ -198,8 +199,9 @@ class MediaControllerFile extends JControllerLegacy
 		$tmpl	= JRequest::getCmd('tmpl');
 		$paths	= JRequest::getVar('rm', array(), '', 'array');
 		$folder = JRequest::getVar('folder', '', '', 'path');
+		$fileType = JRequest::getVar('fileType', '', '', 'path');
 
-		$redirect = 'index.php?option=com_media&folder=' . $folder;
+		$redirect = 'index.php?option=com_media&folder=' . $folder . '&fileType=' . $fileType;
 		if ($tmpl == 'component')
 		{
 			// We are inside the iframe
@@ -237,7 +239,7 @@ class MediaControllerFile extends JControllerLegacy
 				continue;
 			}
 
-			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
+			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $fileType, $path)));
 			$object_file = new JObject(array('filepath' => $fullPath));
 			if (is_file($fullPath))
 			{
