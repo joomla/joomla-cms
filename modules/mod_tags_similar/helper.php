@@ -63,8 +63,11 @@ abstract class ModTagssimilarHelper
 					$db->qn('t.access'),
 					$db->qn('t.id'),
 					$db->qn('cc.core_title'),
-					$db->qn('cc.core_alias')
-				)
+					$db->qn('cc.core_alias'),
+					$db->qn('cc.core_catid'),
+					$db->qn('cc.core_language')
+
+					)
 			);
 			$query->group($db->qn(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')));
 			$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
@@ -82,6 +85,21 @@ abstract class ModTagssimilarHelper
 				$query->having('COUNT( '  . $db->qn('tag_id') . ')  >= ' . $tagCountHalf);
 			}
 
+			// Only return published tags
+			$query->where($db->quoteName('cc.core_state') . ' = 1 ');
+
+			// Optionally filter on language
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+
+			if ($language != 'all')
+			{
+				if ($language == 'current_language')
+				{
+					$language = JHelperContent::getCurrentLanguage();
+				}
+				$query->where($db->qn('cc.core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+			}
+
 			$query->join('INNER', $db->qn('#__tags', 't') . ' ON ' . $db->qn('m.tag_id') . ' = ' . $db->qn('t.id'));
 			$query->join('INNER', $db->qn('#__core_content', 'cc') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('cc.core_content_id'));
 
@@ -92,7 +110,7 @@ abstract class ModTagssimilarHelper
 			foreach ($results as $result)
 			{
 				$explodedAlias = explode('.', $result->type_alias);
-				$result->url = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
+				$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
 			}
 
 			return $results;

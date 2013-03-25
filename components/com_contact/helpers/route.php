@@ -179,7 +179,8 @@ abstract class ContactHelperRoute
 					{
 						self::$lookup[$language][$view] = array();
 					}
-					if (isset($item->query['id'])) {
+					if (isset($item->query['id']))
+					{
 
 						// here it will become a bit tricky
 						// language != * can override existing entries
