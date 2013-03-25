@@ -92,7 +92,7 @@ class ContentModelArticle extends JModelItem
 				// use created if modified is 0
 				'CASE WHEN a.modified = 0 THEN a.created ELSE a.modified END as modified, ' .
 					'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
-					'a.images, a.urls, a.attribs, a.version, a.parentid, a.ordering, ' .
+					'a.images, a.urls, a.attribs, a.attachments, a.version, a.parentid, a.ordering, ' .
 					'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
 					)
 				);
@@ -170,6 +170,9 @@ class ContentModelArticle extends JModelItem
 				// Convert parameter fields to objects.
 				$registry = new JRegistry;
 				$registry->loadString($data->attribs);
+
+                $registry = new JRegistry;
+                $registry->loadString($data->attachments);
 
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);

@@ -350,6 +350,18 @@
 				<option value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
 			</field>
+
+            <field
+                name="show_attachments"
+                type="list"
+                label="JGLOBAL_SHOW_ATTACHMENTS_LABEL"
+                description="JGLOBAL_SHOW_ATTACHMENTS_DESC"
+            >
+                <option value="">JGLOBAL_USE_GLOBAL</option>
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+            </field>
+
 			<field
 				name="show_hits"
 				type="list"
@@ -589,8 +601,14 @@
 				name="show_vote"
 				type="hidden"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
-				description="JGLOBAL_SHOW_VOTE_DESC"
-			>
+				description="JGLOBAL_SHOW_VOTE_DESC">
+            </field>
+            <field
+                name="show_attachments"
+                type="hidden"
+                label="JGLOBAL_SHOW_ATTACHMENTS_LABEL"
+                description="JGLOBAL_SHOW_ATTACHMENTS_DESC"
+            >
 			</field>
 			<field
 				name="show_hits"

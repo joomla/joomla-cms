@@ -303,6 +303,19 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
+
+        <field
+            name="show_attachments"
+            type="radio"
+            label="JGLOBAL_SHOW_ATTACHMENTS_LABEL"
+            description="JGLOBAL_SHOW_ATTACHMENTS_DESC"
+            default="0">
+            <option
+                value="0">JHIDE</option>
+            <option
+                value="1">JSHOW</option>
+        </field>
+
 		<field
 			name="show_readmore"
 			type="radio"
@@ -623,6 +636,30 @@
 			<option
 				value="1">JYES</option>
 		</field>	
+        <field 
+            name="show_attachments_front_end"
+            type="radio"
+            default="0"
+            label="COM_CONTENT_SHOW_ATTACHMENTS_FRONT_LABEL"
+            description="COM_CONTENT_SHOW_ATTACHMENTS_FRONT_DESC"
+            >
+            <option
+                value="0">JNO</option>
+            <option
+                value="1">JYES</option>
+        </field>
+        <field 
+            name="show_attachments_back_end"
+            type="radio"
+            default="0"
+            label="COM_CONTENT_SHOW_ATTACHMENTS_BACK_LABEL"
+            description="COM_CONTENT_SHOW_ATTACHMENTS_BACK_DESC"
+            >
+            <option
+                value="0">JNO</option>
+            <option
+                value="1">JYES</option>
+        </field>
 		<field
 			name="spacer3"
 			type="spacer"
@@ -979,6 +1016,14 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
+
+        <field name="list_show_attachments"
+            type="radio" default="0"
+            label="JGLOBAL_LIST_ATTACHMENTS_LABEL"
+            description="JGLOBAL_LIST_ATTACHMENTS_DESC">
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+        </field>
 
 	</fieldset>
 
