@@ -6456,6 +6456,9 @@ h6 {
 		display: none;
 	}
 }
+.nav-collapse .nav li a {
+	 background-image: none;
+}
 @media (max-width: 738px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
