@@ -354,7 +354,7 @@ class JLinkedinGroups extends JLinkedinObject
 	/**
 	 * Method to leave a group.
 	 *
-	 * @param  string   $group_id  The unique identifier for a group.
+	 * @param   string  $group_id  The unique identifier for a group.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

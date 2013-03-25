@@ -122,7 +122,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<td><?php echo $item->detailsurl ?>
 						<?php if (isset($item->infourl)) : ?>
 							<br />
-							<a href="<?php echo $item->infourl; ?>">
+							<a href="<?php echo $item->infourl; ?>" target="_blank">
 							<?php echo $this->escape($item->infourl); ?>
 							</a>
 						<?php endif; ?>
