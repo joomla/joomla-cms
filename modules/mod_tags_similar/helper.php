@@ -59,9 +59,10 @@ abstract class ModTagssimilarHelper
 					$db->quoteName('m.core_content_id'),
 					$db->quoteName('m.content_item_id'),
 					$db->quoteName('m.type_alias'),
-					'COUNT( '  . $db->qn('tag_id') . ') AS ' . $db->qn('count'),
+						'COUNT( '  . $db->qn('tag_id') . ') AS ' . $db->qn('count'),
 					$db->qn('t.access'),
 					$db->qn('t.id'),
+					$db->quoteName('ct.router'),
 					$db->qn('cc.core_title'),
 					$db->qn('cc.core_alias'),
 					$db->qn('cc.core_catid'),
@@ -69,7 +70,7 @@ abstract class ModTagssimilarHelper
 
 					)
 			);
-			$query->group($db->qn(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')));
+			$query->group($db->qn(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access', 'ct.router')));
 			$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
 			$query->having('t.access IN (' . $groups . ')');
 			$query->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
@@ -102,6 +103,7 @@ abstract class ModTagssimilarHelper
 
 			$query->join('INNER', $db->qn('#__tags', 't') . ' ON ' . $db->qn('m.tag_id') . ' = ' . $db->qn('t.id'));
 			$query->join('INNER', $db->qn('#__core_content', 'cc') . ' ON ' . $db->qn('m.core_content_id') . ' = ' . $db->qn('cc.core_content_id'));
+			$query->join('INNER', $db->qn('#__content_types', 'ct') . ' ON ' . $db->qn('m.type_alias') . ' = ' . $db->qn('ct.type_alias'));
 
 			$query->order($db->qn('count') . ' DESC');
 			$db->setQuery($query, 0, $maximum);

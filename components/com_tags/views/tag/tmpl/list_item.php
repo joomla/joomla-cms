@@ -66,17 +66,17 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 						<td headers="categorylist_header_title" class="list-title">
-							<?php if (in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
-								<a href="<?php echo JRoute::_($item->link); ?>">
-									<?php echo $this->escape($item->core_title); ?>
-								</a>
-							<?php endif; ?>
-							<?php if ($item->core_state == 0) : ?>
-								<span class="list-published label label-warning">
-									<?php echo JText::_('JUNPUBLISHED'); ?>
-								</span>
-							<?php endif; ?>
-						</td>
+					<?php $explodedAlias = explode('.', $item->type_alias); ?>
+					<?php $explodedRouter = explode('::', $item->router);?>
+					<?php JLoader::register($explodedRouter[0],JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php')?>
+					<?php $routerClass = $explodedRouter[0]; ?>
+					<?php $routerMethod = $explodedRouter[1]; ?>
+						<?php  $link = $routerClass::$routerMethod($item->content_item_id . ':' . $item->core_alias, $item->core_catid); ?>
+
+						<?php echo  '<a href="' . JRoute::_($link) . '">'; ?>
+						<?php echo $item->core_title; ?>
+					</a>
+					</td>
 						<?php if ($this->params->get('list_show_date')) : ?>
 							<td headers="categorylist_header_date" class="list-date small">
 								<?php

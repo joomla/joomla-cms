@@ -36,11 +36,16 @@ $n = count($this->items);
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else: ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<?php $item->route = new JHelperRoute; ?>
+					<?php $explodedAlias = explode('.', $item->type_alias); ?>
+					<?php $explodedRouter = explode('::', $item->router);?>
+					<?php JLoader::register($explodedRouter[0],JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php')?>
+					<?php $routerClass = $explodedRouter[0]; ?>
+					<?php $routerMethod = $explodedRouter[1]; ?>
+						<?php  $link = $routerClass::$routerMethod($item->content_item_id . ':' . $item->core_alias, $item->core_catid); ?>
 					<h3>
-						<a href="<?php echo JRoute::_($item->route->getRoute($item->content_item_id, $item->type_alias, $item->link, $item->core_language, $item->core_catid)); ?>">
-							<?php echo $this->escape($item->core_title); ?>
-						</a>
+						<?php echo  '<a href="' . JRoute::_($link) . '">'; ?>
+						<?php echo $item->core_title; ?>
+					</a>
 					</h3>
 				<?php endif; ?>
 				<?php $images  = json_decode($item->core_images);?>

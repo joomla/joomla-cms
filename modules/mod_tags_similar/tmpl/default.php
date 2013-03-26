@@ -15,12 +15,14 @@ defined('_JEXEC') or die;
 	<ul>
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
-			<?php $item->route = new JHelperRoute; ?>
-
-			<a href="<?php echo JRoute::_($item->route->getRoute($item->content_item_id, $item->type_alias, $item->link, $item->core_language, $item->core_catid)); ?>">
-				<?php if (!empty($item->core_title)) :
-					echo htmlspecialchars($item->core_title);
-				endif; ?>
+			<?php $explodedAlias = explode('.', $item->type_alias); ?>
+			<?php $explodedRouter = explode('::', $item->router);?>
+			<?php JLoader::register($explodedRouter[0],JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php')?>
+			<?php $routerClass = $explodedRouter[0]; ?>
+			<?php $routerMethod = $explodedRouter[1]; ?>
+				<?php  $link = $routerClass::$routerMethod($item->content_item_id . ':' . $item->core_alias, $item->core_catid); ?>
+				<?php echo  '<a href="' . JRoute::_($link) . '">'; ?>
+				<?php echo $item->core_title; ?>
 			</a>
 		</li>
 	<?php endforeach; ?>
