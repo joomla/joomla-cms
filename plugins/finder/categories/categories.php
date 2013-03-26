@@ -82,8 +82,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * This is true because categories does not have a catid field ans is managed separately
 	 * using nested sets.
 	 *
-	 * @var    string
-	 * @since  2.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
 	protected $noCategories = true;
 

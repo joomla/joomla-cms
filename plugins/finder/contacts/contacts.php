@@ -79,8 +79,8 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	/**
 	 * The true if the type does not support categories.
 	 *
-	 * @var    string
-	 * @since  2.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
 	protected $noCategories = false;
 
