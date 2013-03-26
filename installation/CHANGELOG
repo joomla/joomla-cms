@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Mar-2013 Michael Babker
+ # [#30375] When state is changed in a list view it isn't changed in core_content
+ # Incorrect field names used in JTableContenttype (discovered implementing unit tests)
+
 24-Mar-2013 Mark Dexter
  # [#30223] TAGS: Missing 'Help' Button in Toolbar.
  # [#30366] Help Screens, key wrong, missing or not created correctly.
