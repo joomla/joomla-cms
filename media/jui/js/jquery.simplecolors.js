@@ -65,12 +65,35 @@
 
 		show: function()
 		{
-			var bootstrapArrowWidth = 16; // Empirical value
+			var panelpadding = 7; // Empirical value
 			var pos = this.icon.offset();
-			this.panel.css({
-				left: pos.left + this.icon.outerHeight(),
-				top: pos.top - ( (this.panel.outerHeight() - this.icon.outerHeight() ) / 2 ) - 1
-			});
+			switch (this.select.attr('data-position')) {
+				case 'top':
+					this.panel.css({
+						left: pos.left - panelpadding,
+						top: pos.top - this.panel.outerHeight() - 1
+					});
+					break;
+				case 'bottom':
+					this.panel.css({
+						left: pos.left - panelpadding,
+						top: pos.top + this.icon.outerHeight()
+					});
+					break;
+				case 'left':
+					this.panel.css({
+						left: pos.left - this.panel.outerWidth(),
+						top: pos.top - ( (this.panel.outerHeight() - this.icon.outerHeight() ) / 2 ) - 1
+					});
+					break;
+				case 'right':
+				default:
+					this.panel.css({
+						left: pos.left + this.icon.outerWidth(),
+						top: pos.top - ( (this.panel.outerHeight() - this.icon.outerHeight() ) / 2 ) - 1
+					});
+					break;
+			}
 
 			this.panel.show(this.options.delay);
 		},

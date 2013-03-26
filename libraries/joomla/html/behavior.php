@@ -664,6 +664,7 @@ abstract class JHtmlBehavior
 					jQuery('.minicolors').each(function() {
 						jQuery(this).minicolors({
 							control: jQuery(this).attr('data-control') || 'hue',
+							position: jQuery(this).attr('data-position') || 'right',
 							theme: 'bootstrap'
 						});
 					});

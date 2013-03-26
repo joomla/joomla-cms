@@ -40,8 +40,11 @@ class JFormFieldColor extends JFormField
 		// control value can be: hue (default), saturation, brightness, wheel or simpel
 		$control = (string) $this->element['control'];
 
+		// position of the panel can be: right (default), left, top or bottom
+		$position = $this->element['position'] ? (string) $this->element['position'] : 'right';
+		$position = ' data-position="' . $position . '"';
+
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-		$required = $this->required ? ' required="required" aria-required="true"' : '';
 		$class = (string) $this->element['class'];
 
 		$color = strtolower($this->value);
@@ -87,8 +90,8 @@ class JFormFieldColor extends JFormField
 			$split = $split ? $split : 3;
 
 			$html = array();
-			$html[] = '<select ' . $onchange . ' name="' . $this->name . '" id="' . $this->id . '"'
-				. $class . $required . ' style="visibility:hidden;width:22px;height:1px">';
+			$html[] = '<select name="' . $this->name . '" id="' . $this->id . '"'
+				. $class. $position . $onchange . ' style="visibility:hidden;width:22px;height:1px">';
 
 			foreach ($colors as $i => $c) {
 				$html[] = '<option' . ($c == $color ? ' selected="selected"' : '') . '>' . $c . '</option>';
@@ -107,7 +110,7 @@ class JFormFieldColor extends JFormField
 			JHtml::_('behavior.colorpicker');
 
 			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $class . $disabled . $control . $onchange . '/>';
+				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $class . $position . $control . $disabled . $onchange . '/>';
 		}
 	}
 }
