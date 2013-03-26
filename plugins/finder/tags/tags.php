@@ -144,7 +144,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	 */
 	public function onFinderChangeState($context, $pks, $value)
 	{
-		// We only want to handle web links here
+		// We only want to handle tags here
 		if ($context == 'com_tags.tag')
 		{
 			$this->itemStateChange($pks, $value);
@@ -180,7 +180,8 @@ class PlgFinderTags extends FinderIndexerAdapter
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
-		$item->params = $registry;
+		$item->params = JComponentHelper::getParams('com_tags', true);
+		$item->params->merge($registry);
 
 		$registry = new JRegistry;
 		$registry->loadString($item->metadata);
@@ -190,6 +191,15 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
 		$item->route = TagsHelperRoute::getTagRoute($item->slug);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
+
+		// Get the menu title if it exists.
+		$title = $this->getItemMenuTitle($item->url);
+
+		// Adjust the title if necessary.
+		if (!empty($title) && $this->params->get('use_menu_title', true))
+		{
+			$item->title = $title;
+		}
 
 		/*
 		 * Add the meta-data processing instructions based on the newsfeeds
@@ -208,6 +218,12 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Tag');
+
+		// Add the author taxonomy data.
+		if (!empty($item->author) || !empty($item->created_by_alias))
+		{
+			$item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author);
+		}
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
@@ -246,8 +262,9 @@ class PlgFinderTags extends FinderIndexerAdapter
 		// Check if we can use the supplied SQL query.
 		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
 		$sql->select('a.id, a.title, a.alias, a.description AS summary');
+		$sql->select('a.created_time AS start_date, a.created_user_id AS created_by');
 		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access');
-		$sql->select('a.modified_time AS modified, a.modified_user_id AS modified_by');
+		$sql->select('a.created_by_alias, a.modified_time AS modified, a.modified_user_id AS modified_by');
 		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
 		$sql->select('a.published AS state, a.access, a.created_time AS start_date, a.params');
 
@@ -261,6 +278,9 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$case_when_item_alias .= $a_id.' END as slug';
 		$sql->select($case_when_item_alias);
 
+
+		$sql->select('u.name AS author');
+		$sql->join('LEFT', '#__users AS u ON u.id = a.created_user_id');
 		$sql->from('#__tags AS a');
 
 		return $sql;
