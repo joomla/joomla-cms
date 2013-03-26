@@ -9,7 +9,7 @@
 		<field
 			name="updatesource"
 			type="list"
-			default="lts"
+			default="sts"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"
 			>
