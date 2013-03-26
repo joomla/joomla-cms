@@ -855,7 +855,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 			$item = $this->db->loadObject();
 
 			// Translate the state.
-			$temp = $this->translateState($value, $item->cat_state);
+			if (!$this->noCategories)
+			{
+				$temp = $this->translateState($value, $item->cat_state);
+			}
+			else
+			{
+				$temp = $this->translateState($value);
+			}
 
 			// Update the item.
 			$this->change($pk, 'state', $temp);

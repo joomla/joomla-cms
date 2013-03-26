@@ -145,6 +145,44 @@ class PlgFinderTags extends FinderIndexerAdapter
 		return true;
 	}
 
+
+	/**
+	 * Method to reindex the link information for an item that has been saved.
+	 * This event is fired before the data is actually saved so we are going
+	 * to queue the item to be indexed later.
+	 *
+	 * @param   string   $context  The context of the content passed to the plugin.
+	 * @param   JTable   $row     A JTable object
+	 * @param   boolean  $isNew    If the content is just about to be created
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 * @throws  Exception on database error.
+	 */
+	public function onFinderBeforeSave($context, $row, $isNew)
+	{
+		// We only want to handle news feeds here
+		if ($context == 'com_tags.tag')
+		{
+			// Query the database for the old access level if the item isn't new
+			if (!$isNew)
+			{
+				$this->checkItemAccess($row);
+			}
+		}
+
+			// Query the database for the old access level if the item isn't new
+			if (!$isNew)
+			{
+				$this->checkCategoryAccess($row);
+			}
+
+		return true;
+	}
+
+
+
 	/**
 	 * Method to update the link information for items that have been changed
 	 * from outside the edit screen. This is fired when the item is published,
