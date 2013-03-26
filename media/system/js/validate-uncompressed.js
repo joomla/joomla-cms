@@ -158,18 +158,24 @@ var JFormValidator = new Class({
 			}
 		});
 
-		if (!valid) {
-			var message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
-			var errors = jQuery("label.invalid");
-			var error = new Object();
-			error.error = new Array();
-			for (var i=0;i < errors.length; i++) {
-				var label = jQuery(errors[i]).text();
-				if (label != 'undefined') {
-					error.error[i] = message+label.replace("*", "");
+		// Show up validation errors as system messages
+		if (!valid && document.formvalidator.suppressMessages !== true){
+			var message = Joomla.JText._('JLIB_FORM_FIELD_INVALID'),
+				errors  = [],
+				labelText
+			;
+
+			form.getElements('label.invalid').each(function( $label, i )
+			{
+				labelText = $label.get('text');
+
+				if ( labelText )
+				{
+					errors.push( message + labelText.replace( '*', '' ));
 				}
-			}
-			Joomla.renderMessages(error);
+			});
+
+			Joomla.renderMessages({ error: errors });
 		}
 
 		return valid;
