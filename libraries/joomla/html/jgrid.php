@@ -24,7 +24,7 @@ abstract class JHtmlJGrid
 	 * @param   integer       $i               The row index
 	 * @param   string        $task            The task to fire
 	 * @param   string|array  $prefix          An optional task prefix or an array of options
-	 * @param   string        $text            An optional text to display
+	 * @param   string        $text            Not used
 	 * @param   string        $active_title    An optional active tooltip to display if $enable is true
 	 * @param   string        $inactive_title  An optional inactive tooltip to display if $enable is true
 	 * @param   boolean       $tip             An optional setting for tooltip
@@ -44,7 +44,6 @@ abstract class JHtmlJGrid
 		if (is_array($prefix))
 		{
 			$options = $prefix;
-			$text = array_key_exists('text', $options) ? $options['text'] : $text;
 			$active_title = array_key_exists('active_title', $options) ? $options['active_title'] : $active_title;
 			$inactive_title = array_key_exists('inactive_title', $options) ? $options['inactive_title'] : $inactive_title;
 			$tip = array_key_exists('tip', $options) ? $options['tip'] : $tip;

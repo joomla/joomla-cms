@@ -142,7 +142,6 @@ abstract class JHtmlGrid
 		$user = JFactory::getUser();
 		$userid = $user->get('id');
 
-		$result = false;
 		if ($row instanceof JTable)
 		{
 			$result = $row->isCheckedOut($userid);
@@ -152,7 +151,6 @@ abstract class JHtmlGrid
 			$result = false;
 		}
 
-		$checked = '';
 		if ($result)
 		{
 			$checked = self::_checkedOut($row);

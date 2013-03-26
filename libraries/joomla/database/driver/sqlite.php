@@ -255,7 +255,6 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 
 		$query = $this->getQuery(true);
 
-		$tables = array();
 		$type = 'table';
 
 		$query->select('name');

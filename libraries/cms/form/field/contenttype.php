@@ -64,9 +64,6 @@ class JFormFieldContenttype extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = array();
-		$name = (string) $this->element['name'];
-
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 

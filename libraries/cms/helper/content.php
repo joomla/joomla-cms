@@ -87,7 +87,6 @@ class JHelperContent
 		$whiteListTags       = array();
 		$whiteListAttributes = array();
 
-		$noHtml     = false;
 		$whiteList  = false;
 		$blackList  = false;
 		$customList = false;
@@ -110,7 +109,6 @@ class JHelperContent
 			if ($filterType == 'NH')
 			{
 				// Maximum HTML filtering.
-				$noHtml = true;
 			}
 			elseif ($filterType == 'NONE')
 			{

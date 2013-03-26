@@ -251,7 +251,6 @@ class JTableNested extends JTable
 		{
 			$query->where($where);
 		}
-		$position = 'after';
 		if ($delta > 0)
 		{
 			$query->where('rgt > ' . $this->rgt);

@@ -199,7 +199,6 @@ class JRouterSite extends JRouter
 	 */
 	protected function _parseSefRoute($uri)
 	{
-		$vars  = array();
 		$app   = JApplication::getInstance('site');
 		$menu  = $app->getMenu(true);
 		$route = $uri->getPath();

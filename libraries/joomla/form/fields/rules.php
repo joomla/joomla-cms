@@ -138,8 +138,6 @@ class JFormFieldRules extends JFormField
 				$active = " active";
 			}
 
-			$difLevel = $group->level - $curLevel;
-
 			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
 			$html[] = '<table class="table table-striped">';
 			$html[] = '<thead>';

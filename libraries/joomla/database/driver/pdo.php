@@ -109,8 +109,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			return;
 		}
 
-		// Initialize the connection string variable:
-		$connectionString = '';
 		$replace = array();
 		$with = array();
 

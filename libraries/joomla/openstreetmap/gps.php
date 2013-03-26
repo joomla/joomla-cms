@@ -21,15 +21,15 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 {
 	/**
 	 * Method to retrieve GPS points
-	 * 
+	 *
 	 * @param   float  $left    left boundary
 	 * @param   float  $bottom  bottom boundary
 	 * @param   float  $right   right boundary
 	 * @param   float  $top     top boundary
 	 * @param   int    $page    page number
-	 * 
+	 *
 	 * @return	array	The xml response containing GPS points
-	 * 
+	 *
 	 * @since	13.1
 	 */
 	public function retrieveGps($left,$bottom,$right,$top,$page=0)
@@ -50,7 +50,7 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 
 	/**
 	 * Method to upload GPS Traces
-	 * 
+	 *
 	 * @param   string  $file         file name that contains trace points
 	 * @param   string  $description  description on trace points
 	 * @param   string  $tags         tags for trace
@@ -58,9 +58,9 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 	 * @param   string  $visibility   One of the following: private, public, trackable, identifiable
 	 * @param   string  $username     username
 	 * @param   string  $password     password
-	 * 
+	 *
 	 * @return  JHttpResponse the response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function uploadTrace($file, $description, $tags, $public, $visibility, $username, $password)
@@ -93,13 +93,13 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 
 	/**
 	 * Method to download Trace details
-	 * 
+	 *
 	 * @param   int     $id        trace identifier
 	 * @param   string  $username  username
 	 * @param   string  $password  password
-	 * 
+	 *
 	 * @return  array  The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function downloadTraceMetadetails($id, $username, $password)
@@ -118,13 +118,13 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 
 	/**
 	 * Method to download Trace data
-	 * 
+	 *
 	 * @param   int     $id        trace identifier
 	 * @param   string  $username  username
 	 * @param   string  $password  password
-	 * 
+	 *
 	 * @return  array  The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function downloadTraceMetadata($id, $username, $password)
@@ -134,8 +134,6 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;
-
-		$client = JHttpFactory::getHttp();
 
 		// Send the request.
 		$xml_string = $this->sendRequest($path, 'GET', array('Authorization' => 'Basic ' . base64_encode($username . ':' . $password)));

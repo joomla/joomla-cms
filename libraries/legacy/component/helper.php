@@ -120,7 +120,6 @@ class JComponentHelper
 		$whiteListTags			= array();
 		$whiteListAttributes	= array();
 
-		$noHtml		= false;
 		$whiteList	= false;
 		$blackList	= false;
 		$customList	= false;
@@ -143,7 +142,6 @@ class JComponentHelper
 			if ($filterType == 'NH')
 			{
 				// Maximum HTML filtering.
-				$noHtml = true;
 			}
 			elseif ($filterType == 'NONE')
 			{

@@ -186,7 +186,6 @@ class JInstallerAdapterModule extends JAdapterInstance
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$cname = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
 		}

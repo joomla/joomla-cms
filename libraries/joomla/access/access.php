@@ -143,7 +143,6 @@ class JAccess
 		{
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
-			$rootId = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -461,7 +460,7 @@ class JAccess
 	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
 	 *
 	 * @codeCoverageIgnore
-	 * 
+	 *
 	 */
 	public static function getActions($component, $section = 'component')
 	{

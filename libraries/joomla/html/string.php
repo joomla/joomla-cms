@@ -138,9 +138,9 @@ abstract class JHtmlString
 	}
 
 	/**
-	* Method to extend the truncate method to more complex situations 
+	* Method to extend the truncate method to more complex situations
 	*
-	* The goal is to get the proper length plain text string with as much of 
+	* The goal is to get the proper length plain text string with as much of
 	* the html intact as possible with all tags properly closed.
 	*
 	* @param   string   $html       The content of the introtext to be truncated
@@ -180,11 +180,6 @@ abstract class JHtmlString
 			$tag = substr($html, 1, $endTagPos);
 
 			$l = $endTagPos + 1;
-			if ($noSplit)
-			{
-				return substr($html, 0, $l) . '</' . $tag . '...';
-			}
-			$character = substr(strip_tags($html), 0, 1);
 
 			return substr($html, 0, $l) . '</' . $tag . '...';
 		}
