@@ -242,12 +242,12 @@ class JTableCorecontent extends JTable
 		// Update the publishing state for rows with the given primary keys.
 		$query->update($this->_db->quoteName($this->_tbl));
 		$query->set($this->_db->quoteName('core_state') . ' = ' . (int) $state);
-		$query->where($this->_db->quoteName($k) . 'IN (' . $pksImploded .')');
+		$query->where($this->_db->quoteName($k) . 'IN (' . $pksImploded . ')');
 
 		// Determine if there is checkin support for the table.
 		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
 		{
-			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')' );
+			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
 		}
 		$this->_db->setQuery($query);
 
