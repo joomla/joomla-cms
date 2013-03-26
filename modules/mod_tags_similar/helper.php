@@ -30,13 +30,18 @@ abstract class ModTagssimilarHelper
 		$option     = $app->input->get('option');
 		$view       = $app->input->get('view');
 		$prefix     = $option . '.' . $view;
-		$id         = $app->input->getString('id');
+		$id         = $app->input->getObject('id');
+		$sefState   = JFactory::getConfig()->get('sef');
 
 		// Strip off any slug data.
-		if (substr_count($id, ':') > 0)
+		$id = (array) $id;
+		foreach ($id as $id)
 		{
-			$idexplode = explode(':', $id);
-			$id        = $idexplode[0];
+			if (substr_count($id, ':') > 0)
+			{
+				$idexplode = explode(':', $id);
+				$id        = $idexplode[0];
+			}
 		}
 
 		// For now assume com_tags and com_users do not have tags.
@@ -110,7 +115,14 @@ abstract class ModTagssimilarHelper
 			foreach ($results as $result)
 			{
 				$explodedAlias = explode('.', $result->type_alias);
-				$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
+				if ($sefState == 1)
+				{
+					$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
+				}
+				else
+				{
+					$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . ':' . $result->core_alias;
+				}
 			}
 
 			return $results;

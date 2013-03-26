@@ -44,6 +44,12 @@ function ContentBuildRoute(&$query)
 		unset($query['Itemid']);
 	}
 
+	// Articles behave differently than other content types.
+	if (isset($query['id']) && (strpos($query['id'], '-') == true))
+	{
+		$query['id'] = stristr($query['id'], '-', true);
+	}
+
 	if (isset($query['view']))
 	{
 		$view = $query['view'];

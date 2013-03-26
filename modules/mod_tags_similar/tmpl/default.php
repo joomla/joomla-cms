@@ -16,7 +16,6 @@ defined('_JEXEC') or die;
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
 			<?php $item->route = new JHelperRoute; ?>
-
 			<a href="<?php echo JRoute::_($item->route->getRoute($item->content_item_id, $item->type_alias, $item->link, $item->core_language, $item->core_catid)); ?>">
 				<?php if (!empty($item->core_title)) :
 					echo htmlspecialchars($item->core_title);
