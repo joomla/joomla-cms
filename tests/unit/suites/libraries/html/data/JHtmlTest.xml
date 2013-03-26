@@ -387,6 +387,15 @@
 		<column>language</column>
 		<column>xreference</column>
 	</table>
+	<table name="jos_content_types">
+		<column>type_id</column>
+		<column>type_title</column>
+		<column>type_alias</column>
+		<column>table</column>
+		<column>rules</column>
+		<column>field_mappings</column>
+		<column>router</column>
+	</table>
 	<table name="jos_core_log_searches">
 		<column>search_term</column>
 		<column>hits</column>

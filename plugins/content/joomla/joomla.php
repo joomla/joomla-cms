@@ -241,4 +241,31 @@ class PlgContentJoomla extends JPlugin
 			return 0;
 		}
 	}
+	/**
+	 * Change the state in core_content if the state in a table is changed
+	 *
+	 * @param   string   $context  The context for the content passed to the plugin.
+	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
+	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function onContentChangeState($context, $pks, $value)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('core_content_id'));
+		$query->from($db->quoteName('#__core_content'));
+		$query->where($db->quoteName('core_type_alias') . ' = ' .$db->quote($context));
+		$query->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) .')');
+		$db->setQuery($query);
+		$ccIds = $db->loadColumn();
+
+		$cctable = new JTableCorecontent($db);
+		$cctable->publish($ccIds, $value);
+
+		return true;
+	}
 }
