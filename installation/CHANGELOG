@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Mar-2013 Jean-Marie Simonet
+ $ Updating installation ini files: pt-BR, ckb-IQ
+
 25-Mar-2013 Michael Babker
  # [#30375] When state is changed in a list view it isn't changed in core_content
  # Incorrect field names used in JTableContenttype (discovered implementing unit tests)
