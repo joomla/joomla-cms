@@ -1654,13 +1654,6 @@ class JInstaller extends JAdapter
 
 		$retval = true;
 
-		$debug = false;
-
-		if (isset($GLOBALS['installerdebug']) && $GLOBALS['installerdebug'])
-		{
-			$debug = true;
-		}
-
 		// Get the client info if we're using a specific client
 		if ($cid > -1)
 		{
@@ -1792,7 +1785,7 @@ class JInstaller extends JAdapter
 
 		if (!empty($folder))
 		{
-			$val = JFolder::delete($source);
+			JFolder::delete($source);
 		}
 
 		return $retval;

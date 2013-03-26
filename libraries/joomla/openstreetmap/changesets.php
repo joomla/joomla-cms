@@ -185,7 +185,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 		$header['format'] = 'text/xml';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'PUT', $parameters, $header);
+		$this->oauth->oauthRequest($path, 'PUT', $parameters, $header);
 
 	}
 

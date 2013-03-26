@@ -370,8 +370,6 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 	 */
 	public function uninstall($id)
 	{
-		$retval = true;
-
 		// First order of business will be to load the template object table from the database.
 		// This should give us the necessary information to proceed.
 		$row = JTable::getInstance('extension');

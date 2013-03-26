@@ -95,9 +95,6 @@ class JFormFieldRules extends JFormField
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
 
-		// Build the form control.
-		$curLevel = 0;
-
 		// Prepare output
 		$html = array();
 

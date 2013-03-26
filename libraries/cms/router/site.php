@@ -553,8 +553,6 @@ class JRouterSite extends JRouter
 
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			$app = JApplication::getInstance('site');
-
 			if ($limitstart = $uri->getVar('limitstart'))
 			{
 				$uri->setVar('start', (int) $limitstart);

@@ -142,6 +142,7 @@ class JAccess
 		if (empty($asset))
 		{
 			$db = JFactory::getDbo();
+			// TODO: $assets doesn't seem to be used!
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 		}
 

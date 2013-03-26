@@ -362,7 +362,6 @@ class JFilterInput
 			}
 
 			// Let's get some information about our tag and setup attribute pairs
-			$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
 			$currentTag = substr($fromTagOpen, 0, $tagOpen_end);
 			$tagLength = strlen($currentTag);
 			$tagLeft = $currentTag;
@@ -410,9 +409,6 @@ class JFilterInput
 				$nextSpace = strpos($fromSpace, ' ');
 				$openQuotes = strpos($fromSpace, '"');
 				$closeQuotes = strpos(substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
-
-				$startAtt = '';
-				$startAttPosition = 0;
 
 				// Find position of equal and open quotes ignoring
 				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))

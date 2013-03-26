@@ -210,7 +210,6 @@ abstract class JHtmlString
 		$ptString = rtrim($ptString, '.');
 
 		// Now deal with more complex truncation.
-		$diffLength = 0;
 		while ($maxLength <= $baseLength)
 		{
 			// Get the truncated string assuming HTML is allowed.
