@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#30375] When state is changed in a list view it isn't changed in core_content
  # Incorrect field names used in JTableContenttype (discovered implementing unit tests)
  # [#30382] Fatal error in mod_weblinks.  Thanks Elin
+ ^ [#30142] Add optional class param to accordion slider.  Thanks Anderson
 
 24-Mar-2013 Mark Dexter
  # [#30223] TAGS: Missing 'Help' Button in Toolbar.
