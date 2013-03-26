@@ -467,16 +467,18 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  Identifier of the accordion group.
 	 * @param   string  $text      Text to display.
 	 * @param   string  $id        Identifier of the slide.
+	 * @param   string  $class     Class of the accordion group.
 	 *
 	 * @return  string  HTML to add the slide
 	 *
 	 * @since   3.0
 	 */
-	public static function addSlide($selector, $text, $id)
+	public static function addSlide($selector, $text, $id, $class = '')
 	{
 		$in = (self::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
+		$class = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="accordion-group">'
+		$html = '<div class="accordion-group' . $class . '">'
 				. '<div class="accordion-heading">'
 				. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
 				. $text
