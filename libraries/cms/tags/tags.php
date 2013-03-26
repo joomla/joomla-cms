@@ -35,8 +35,6 @@ class JTags
 	 */
 	public function tagItem($id, $prefix, $isNew, $item, $tags = array(), $fieldMap = array())
 	{
-		$app = JFactory::getApplication();
-
 		// Pre-process tags for adding new ones
 		if (is_array($tags) && !empty($tags))
 		{
@@ -568,7 +566,7 @@ class JTags
 	 */
 	public function explodeTypeAlias($typeAlias)
 	{
-		return $explodedTypeAlias = explode('.', $typeAlias);
+		return explode('.', $typeAlias);
 	}
 
 	/**
@@ -606,7 +604,7 @@ class JTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$explodedTypeAlias = self::explodedTypeAlias($typeAlias);
+			$explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
 		}
 
 		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
@@ -617,21 +615,14 @@ class JTags
 	/**
 	 * Returns the url segment for a tag map record.
 	 *
-	 * @param   string   $typeAlias          Unknown
-	 * @param   integer  $id                 The item ID
-	 * @param   string   $explodedTypeAlias  The tag item name.
+	 * @param   integer  $id  The item ID
 	 *
 	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
 	 *
 	 * @since   3.1
 	 */
-	public function getTagUrl($typeAlias, $id, $explodedTypeAlias = null)
+	public function getTagUrl($id)
 	{
-		if (!isset($explodedTypeAlias))
-		{
-			$explodedTypeAlias = self::explodeTypeAlias($typeAlias);
-		}
-
 		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
 
 		return $this->url;
@@ -769,10 +760,8 @@ class JTags
 	 */
 	public static function searchTags($filters = array())
 	{
-		$results = array();
-		$db  = JFactory::getDbo();
-
-		$query	= $db->getQuery(true);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('a.id AS value')
 			->select('a.path AS text')

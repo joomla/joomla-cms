@@ -41,23 +41,26 @@ class JTableContenttype extends JTable
 	public function check()
 	{
 		// Check for valid name.
-		if (trim($this->title) == '')
+		if (trim($this->type_title) == '')
 		{
 			throw new UnexpectedValueException(sprintf('The title is empty'));
 		}
 
-		$this->title = ucfirst($this->title);
+		$this->type_title = ucfirst($this->type_title);
 
-		if (empty($this->alias))
+		if (empty($this->type_alias))
 		{
-			$this->alias = strtolower($this->title);
+			$this->type_alias = strtolower($this->type_title);
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		$this->type_alias = JApplication::stringURLSafe($this->type_alias);
+
+		if (trim(str_replace('-', '', $this->type_alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			$this->type_alias = JFactory::getDate()->format("Y-m-d-H-i-s");
 		}
+
+		return true;
 	}
 
 	/**
@@ -72,8 +75,8 @@ class JTableContenttype extends JTable
 	public function store($updateNulls = false)
 	{
 		// Verify that the alias is unique
-		$table = JTable::getInstance('Contenttype', 'Table');
-		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
+		$table = JTable::getInstance('Contenttype', 'JTable');
+		if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0))
 		{
 			$this->setError(JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
 
