@@ -277,7 +277,6 @@ class WeblinksControllerWeblink extends JControllerForm
 		{
 			$this->setRedirect($this->getReturnPage());
 		}
-		$model = $this->getModel();
 
 		return $result;
 	}

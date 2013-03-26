@@ -363,7 +363,6 @@ class FinderModelSearch extends JModelList
 		 * process of getting the result total is more complicated.
 		 */
 		$start = 0;
-		$more = false;
 		$items = array();
 		$sorted = array();
 		$maps = array();
@@ -519,7 +518,6 @@ class FinderModelSearch extends JModelList
 				else
 				{
 					// Setup containers in case we have to make multiple passes.
-					$reqMore = false;
 					$reqStart = 0;
 					$reqTemp = array();
 
@@ -841,7 +839,6 @@ class FinderModelSearch extends JModelList
 				else
 				{
 					// Setup containers in case we have to make multiple passes.
-					$reqMore = false;
 					$reqStart = 0;
 					$reqTemp = array();
 

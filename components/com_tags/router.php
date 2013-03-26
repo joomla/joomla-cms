@@ -66,10 +66,6 @@ function TagsBuildRoute(&$query)
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
 			if ($view == 'tag') {
-				$tagid = $query['id'];
-			}
-
-			if ($view == 'tag') {
 				if ($advanced) {
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				}
@@ -118,7 +114,6 @@ function TagsParseRoute($segments)
 	$menu	= $app->getMenu();
 	$item	= $menu->getActive();
 	$params = JComponentHelper::getParams('com_tags');
-	$advanced = $params->get('sef_advanced_link', 0);
 
 	// Count route segments
 	$count = count($segments);

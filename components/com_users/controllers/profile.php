@@ -184,10 +184,7 @@ class UsersControllerProfile extends UsersController
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
-
 		$item = $model->getData();
-		$id = $item->get('id');
 		$tags = $validData['tags'];
 
 		if ($tags)

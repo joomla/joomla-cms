@@ -92,12 +92,11 @@ function ContentBuildRoute(&$query)
 				if (strpos($query['id'], ':') === false)
 				{
 					$db = JFactory::getDbo();
-					$aquery = $db->setQuery(
-						$db->getQuery(true)
-						->select('alias')
+					$query = $db->getQuery(true);
+					$query->select('alias')
 						->from('#__content')
-						->where('id=' . (int) $query['id'])
-					);
+						->where('id=' . (int) $query['id']);
+					$db->setQuery($query);
 					$alias = $db->loadResult();
 					$query['id'] = $query['id'].':'.$alias;
 				}

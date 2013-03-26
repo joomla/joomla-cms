@@ -122,8 +122,6 @@ class UsersModelRegistration extends JModelForm
 			$user->set('activation', '');
 			$user->set('block', '0');
 
-			$uri = JURI::getInstance();
-
 			// Compile the user activated notification mail values.
 			$data = $user->getProperties();
 			$user->setParam('activate', 0);

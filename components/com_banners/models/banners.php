@@ -58,6 +58,7 @@ class BannersModelBanners extends JModelList
 		$tagSearch	= $this->getState('filter.tag_search');
 		$cid		= $this->getState('filter.client_id');
 		$categoryId = $this->getState('filter.category_id');
+		$catid		= $this->getState('filter.category_id', array());
 		$keywords	= $this->getState('filter.keywords');
 		$randomise	= ($ordering == 'random');
 		$nullDate	= $db->quote($db->getNullDate());
@@ -88,9 +89,6 @@ class BannersModelBanners extends JModelList
 		}
 
 		// Filter by a single or group of categories
-		$categoryId = $this->getState('filter.category_id');
-		$catid		= $this->getState('filter.category_id', array());
-
 		if (is_numeric($categoryId))
 		{
 			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';

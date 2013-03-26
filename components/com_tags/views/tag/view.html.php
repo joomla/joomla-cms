@@ -143,7 +143,6 @@ class TagsViewTag extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,
@@ -163,7 +162,7 @@ class TagsViewTag extends JViewLegacy
 
 		if ($menu && ($menu->query['option'] != 'com_tags' /* || $id != $this->id */))
 		{
-			$this->params->set('page_subheading', $item->title);
+			$this->params->set('page_subheading', $menu->title);
 		}
 
 		// If this is not a single tag menu item, set the page title to the tag titles
@@ -179,7 +178,6 @@ class TagsViewTag extends JViewLegacy
 				$title .= $itemElement->title;
 			}
 		}
-		$path = array(array('title' => $title, 'link' => ''));
 
 		if (empty($title))
 		{
@@ -196,7 +194,7 @@ class TagsViewTag extends JViewLegacy
 
 		$this->document->setTitle($title);
 
-		foreach ($this->item as $j => $itemElement)
+		foreach ($this->item as $itemElement)
 		{
 			if ($itemElement->metadesc)
 			{

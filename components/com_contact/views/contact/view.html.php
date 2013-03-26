@@ -32,7 +32,6 @@ class ContactViewContact extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher = JEventDispatcher::getInstance();
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$this->form	= $this->get('Form');
