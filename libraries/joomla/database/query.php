@@ -1556,7 +1556,6 @@ abstract class JDatabaseQuery
 		// Otherwise append the second UNION.
 		else
 		{
-			$glue = '';
 			$this->union->append($query);
 		}
 
@@ -1824,7 +1823,6 @@ abstract class JDatabaseQuery
 		// Otherwise append the second UNION.
 		else
 		{
-			$glue = '';
 			$this->unionAll->append($query);
 		}
 

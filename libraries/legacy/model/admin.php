@@ -925,7 +925,6 @@ abstract class JModelAdmin extends JModelForm
 					continue;
 				}
 
-				$where = array();
 				$where = $this->getReorderConditions($table);
 
 				if (!$table->move($delta, $where))

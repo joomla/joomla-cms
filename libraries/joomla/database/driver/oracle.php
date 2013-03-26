@@ -336,8 +336,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 		$query = $this->getQuery(true);
 
-		$tables = array();
-
 		if ($includeDatabaseName)
 		{
 			$query->select('owner, table_name');
@@ -525,7 +523,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		$escaped = false;
 		$startPos = 0;
 		$quoteChar = "'";
 		$literal = '';

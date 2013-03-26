@@ -321,10 +321,6 @@ class JFilterInput
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag = null;
 		$postTag = $source;
-		$currentSpace = false;
-
-		// Setting to null to deal with undefined variables
-		$attr = '';
 
 		// Is there a tag? If so it will certainly start with a '<'.
 		$tagOpen_start = strpos($source, '<');

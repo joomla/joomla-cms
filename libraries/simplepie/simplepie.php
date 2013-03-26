@@ -1606,10 +1606,6 @@ class SimplePie
 										$cache->touch();
 										return true;
 									}
-									else
-									{
-										$headers = $file->headers;
-									}
 								}
 								else
 								{

@@ -1026,7 +1026,6 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
 	{
-		$files = array();
 		$update_count = 0;
 
 		// Ensure we have an XML element and a valid extension id

@@ -309,7 +309,6 @@ class idna_convert
                 } else {
                     // Skip first char
                     if ($k) {
-                        $encoded = '';
                         $encoded = $this->_encode(array_slice($decoded, $last_begin, (($k)-$last_begin)));
                         if ($encoded) {
                             $output .= $encoded;

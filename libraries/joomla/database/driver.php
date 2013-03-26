@@ -1475,9 +1475,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		$escaped = false;
 		$startPos = 0;
-		$quoteChar = '';
 		$literal = '';
 
 		$sql = trim($sql);

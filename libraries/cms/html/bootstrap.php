@@ -524,8 +524,6 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			$options = JHtml::getJSObject($opt);
-
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"(function($){

@@ -264,7 +264,6 @@ class JControllerLegacy extends JObject
 		{
 			// Base controller.
 			$type = null;
-			$task = $command;
 
 			// Define the controller filename and path.
 			$file       = self::createFileName('controller', array('name' => 'controller', 'format' => $format));
