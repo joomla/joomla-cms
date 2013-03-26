@@ -269,6 +269,94 @@ class AdmintoolsHelperDownload
 	}
 
 	/**
+	 * Download from a URL using URL fopen() wrappers
+	 *
+	 * @param   string    $url  The URL to download from
+	 * @param   resource  $fp   The file pointer to download to; leave null to return the d/l file as a string
+	 *
+	 * @return  bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
+	 *
+	 * @since   2.5.4
+	 */
+	private static function &getFOPEN($url, $fp = null)
+	{
+		$result = false;
+
+		// Track errors
+		if ( function_exists('ini_set') )
+		{
+			$track_errors = ini_set('track_errors', true);
+		}
+
+		// Open the URL for reading
+		if (function_exists('stream_context_create'))
+		{
+			$httpopts = array('user_agent' => 'Joomla/' . JVERSION);
+			$context = stream_context_create(array( 'http' => $httpopts ));
+			$ih = @fopen($url, 'r', false, $context);
+		}
+		else
+		{
+
+			// PHP 4 way (actually, it's just a fallback)
+			if ( function_exists('ini_set') )
+			{
+				ini_set('user_agent', 'Joomla/' . JVERSION);
+			}
+			$ih = @fopen($url, 'r');
+		}
+
+		// If fopen() fails, abort
+		if ( !is_resource($ih) )
+		{
+			return $result;
+		}
+
+		// Try to download
+		$bytes = 0;
+		$result = true;
+		$return = '';
+		while (!feof($ih) && $result)
+		{
+			$contents = fread($ih, 4096);
+			if ($contents === false)
+			{
+				@fclose($ih);
+				$result = false;
+				return $result;
+			}
+			else
+			{
+				$bytes += strlen($contents);
+				if (is_resource($fp))
+				{
+					$result = @fwrite($fp, $contents);
+				}
+				else
+				{
+					$return .= $contents;
+					unset($contents);
+				}
+			}
+		}
+
+		@fclose($ih);
+
+		if (is_resource($fp))
+		{
+			return $result;
+		}
+		elseif ( $result === true )
+		{
+			return $return;
+		}
+		else
+		{
+			return $result;
+		}
+	}
+
+	/**
 	 * Detect and return available download "adapters" (not really adapters, as
 	 * we don't follow the Adapter pattern, yet)
 	 *
