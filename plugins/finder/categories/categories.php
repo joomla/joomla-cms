@@ -76,6 +76,17 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected $autoloadLanguage = true;
 
+
+	/**
+	 * The true if the type does not support categories.
+	 * This is true because categories does not have a catid field ans is managed separately
+	 * using nested sets.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $noCategories = true;
+
 	/**
 	 * Method to remove the link information for items that have been deleted.
 	 *

@@ -70,6 +70,22 @@ class PlgFinderTags extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * The field the published state is stored in.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $state_field = 'published';
+
+	/**
+	 * The true if the type does not support categories.
+	 *
+	 * @var    string
+	 * @since  2.5
+	 */
+	protected $noCategories = true;
+
+	/**
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.

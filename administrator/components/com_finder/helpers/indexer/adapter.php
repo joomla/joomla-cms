@@ -659,14 +659,19 @@ abstract class FinderIndexerAdapter extends JPlugin
 	{
 		$sql = $this->db->getQuery(true);
 		// Item ID
-		$sql->select('a.id');
-		// Item and category published state
-		$sql->select('a.' . $this->state_field . ' AS state, c.published AS cat_state');
-		// Item and category access levels
-		$sql->select('a.access, c.access AS cat_access');
-		$sql->from($this->table . ' AS a');
-		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$sql->select($this->db->quoteName('a.id'))
+			// Item  published state and access level
+			->select($this->db->quoteName('a.' . $this->state_field,'state'), $this->db->quoteName('a.access') )
+			->from($this->db->quoteName($this->table,'a'));
 
+				// Get category data where needed
+			if (!$this->noCategories)
+			{
+				$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
+				$sql->select('c.published AS cat_state');
+				// Item and category access levels
+				$sql->select('c.access AS cat_access');
+			}
 		return $sql;
 	}
 
@@ -812,7 +817,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$item = $this->db->loadObject();
 
 		// Set the access level.
-		$temp = max($row->access, $item->cat_access);
+		if (!$this->noCategories)
+		{
+			$temp = max($row->access, $item->cat_access);
+		}
+		else
+		{
+			$temp = $row->access;
+		}
 
 		// Update the item.
 		$this->change((int) $row->id, 'access', $temp);
