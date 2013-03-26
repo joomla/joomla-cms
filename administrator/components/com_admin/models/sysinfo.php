@@ -207,7 +207,7 @@ class AdminModelSysInfo extends JModelLegacy
 					continue;
 				}
 
-				$this->_addDirectory('administrator/language/' . $name, JPATH_ADMINISTRATOR . '/language/' . $folder->getFilename());
+				$this->_addDirectory('administrator/language/' . $folder->getFilename(), JPATH_ADMINISTRATOR . '/language/' . $folder->getFilename());
 			}
 
 			// List all manifests folders
@@ -219,7 +219,7 @@ class AdminModelSysInfo extends JModelLegacy
 					continue;
 				}
 
-				$this->_addDirectory('administrator/manifests/' . $name, JPATH_ADMINISTRATOR . '/manifests/' . $folder->getFilename());
+				$this->_addDirectory('administrator/manifests/' . $folder->getFilename(), JPATH_ADMINISTRATOR . '/manifests/' . $folder->getFilename());
 			}
 
 			$this->_addDirectory('administrator/modules', JPATH_ADMINISTRATOR . '/modules');
@@ -238,7 +238,7 @@ class AdminModelSysInfo extends JModelLegacy
 					continue;
 				}
 
-				$this->_addDirectory('images/' . $name, JPATH_SITE . '/' . $cparams->get('image_path') . '/' . $folder->getFilename());
+				$this->_addDirectory('images/' . $folder->getFilename(), JPATH_SITE . '/' . $cparams->get('image_path') . '/' . $folder->getFilename());
 			}
 
 			$this->_addDirectory('language', JPATH_SITE . '/language');
@@ -252,7 +252,7 @@ class AdminModelSysInfo extends JModelLegacy
 					continue;
 				}
 
-				$this->_addDirectory('language/' . $name, JPATH_SITE . '/language/' . $folder->getFilename());
+				$this->_addDirectory('language/' . $folder->getFilename(), JPATH_SITE . '/language/' . $folder->getFilename());
 			}
 
 			$this->_addDirectory('libraries', JPATH_LIBRARIES);
@@ -269,7 +269,7 @@ class AdminModelSysInfo extends JModelLegacy
 					continue;
 				}
 
-				$this->_addDirectory('plugins/' . $name, JPATH_PLUGINS . '/' . $folder->getFilename());
+				$this->_addDirectory('plugins/' . $folder->getFilename(), JPATH_PLUGINS . '/' . $folder->getFilename());
 			}
 
 			$this->_addDirectory('templates', JPATH_SITE . '/templates');
