@@ -172,7 +172,6 @@ final class JSite extends JApplication
 		}
 
 		$document	= JFactory::getDocument();
-		$user		= JFactory::getUser();
 		$router		= $this->getRouter();
 		$params		= $this->getParams();
 
@@ -457,7 +456,6 @@ final class JSite extends JApplication
 		if (is_object($item)) { // valid item retrieved
 			$id = $item->template_style_id;
 		}
-		$condition = '';
 
 		$tid = $this->input->get('templateStyle', 0, 'uint');
 		if (is_numeric($tid) && (int) $tid > 0)
