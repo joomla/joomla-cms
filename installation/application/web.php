@@ -91,7 +91,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 		{
 			$output .= '<ul>';
 
-			foreach ($errorfiles as $file => $error)
+			foreach ($errorfiles as $error)
 			{
 				$output .= "<li>$error</li>";
 			}
@@ -111,6 +111,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 		{
 			ksort($orphans, SORT_STRING);
 
+			$guesses = array();
 			foreach ($orphans as $key => $occurance)
 			{
 				$guess = str_replace('_', ' ', $key);
