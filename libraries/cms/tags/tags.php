@@ -309,6 +309,8 @@ class JTags
 			->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
 		$db->execute();
+
+		return;
 	}
 
 	/**
@@ -339,9 +341,9 @@ class JTags
 				->select($db->quoteName('t.id'))
 				->from($db->quoteName('#__tags') . ' AS t ')
 				->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
-					. ' ON m.tag_id = t.id'
-					. ' AND m.type_alias = ' . $db->quote($prefix)
-					. ' AND m.content_item_id IN ( ' . $id . ')');
+					. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
+					. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
+					. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id . ')');
 
 			$db->setQuery($query);
 
@@ -410,7 +412,7 @@ class JTags
 
 		if ($getTagData)
 		{
-			$query->join('INNER', $db->quoteName('#__tags') . ' AS t  ON m.tag_id = t.id');
+			$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 		}
 
 		$db->setQuery($query);
@@ -430,13 +432,14 @@ class JTags
 	 * @param   boolean  $anyOrAll         True to include items matching at least one tag, false to include
 	 *                                     items all tags in the array.
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
+	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
 	 *
 	 * @return  JDatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all')
+		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
 	{
 		// Create a new query object.
 		$db = JFactory::getDbo();
@@ -497,7 +500,8 @@ class JTags
 
 			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
 
-			->where('m.tag_id IN (' . $tagId . ')');
+			->where('m.tag_id IN (' . $tagId . ')')
+			->where('c.core_state IN (' . $stateFilter . ')');
 
 		// Optionally filter on language
 		if (empty($language))
@@ -782,8 +786,8 @@ class JTags
 		if (!empty($filters['like']))
 		{
 			$query->where(
-				'(a.title LIKE ' . $db->quote('%' . $filters['like'] . '%')
-				. ' OR a.path LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
+				'(' . $db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%')
+				. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
 			);
 		}
 
