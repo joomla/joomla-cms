@@ -35,7 +35,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function constructor_OpenEditScreen_MenuEditOpened()
 	{
@@ -50,7 +50,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
@@ -89,7 +89,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function addMenuItem_WithFieldDefaults_MenuItemAdded()
 	{
@@ -103,7 +103,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function addMenuItem_SingleContact_MenuAdded()
 	{
@@ -130,7 +130,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function addMenuItem_CategoryBlog_MenuAdded()
 	{
@@ -157,7 +157,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function editMenuItem_ChangeFields_FieldsChanged()
 	{

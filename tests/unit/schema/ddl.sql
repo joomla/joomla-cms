@@ -121,6 +121,24 @@ CREATE INDEX `idx_content_xreference` ON `jos_content` (`xreference`);
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jos_content_types`
+--
+
+CREATE TABLE `jos_content_types` (
+  `type_id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `type_title` TEXT NOT NULL DEFAULT '',
+  `type_alias` TEXT NOT NULL DEFAULT '',
+  `table` TEXT NOT NULL DEFAULT '',
+  `rules` TEXT NOT NULL DEFAULT '',
+  `field_mappings` TEXT NOT NULL DEFAULT '',
+  `router` TEXT NOT NULL DEFAULT ''
+);
+
+CREATE INDEX `idx_alias` ON `jos_content_types` (`type_alias`);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jos_core_log_searches`
 --
 
@@ -478,7 +496,11 @@ CREATE TABLE `jos_viewlevels` (
   CONSTRAINT `idx_viewlevels_title` UNIQUE (`title`)
 );
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `jos_dbtest`
+--
 
 CREATE TABLE `jos_dbtest` (
   `id` INTEGER PRIMARY KEY AUTOINCREMENT,
