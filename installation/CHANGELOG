@@ -8,7 +8,6 @@ License:		GNU General Public License version 2 or later; see LICENSE.txt
 This application is opensource software released under the GPL.  Please
 see source code and the LICENSE file
 
-
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
@@ -25,6 +24,28 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+27-Mar-2013 Jean-Marie Simonet
+ # [#29319] SEF plugin gives wrong canonical url (of category, not from article). Thanks Rouven and Mark
+ # [#30380] Joomla 3.1 should *not* suggest to use "admin" as the default admin username. Thanks Phil
+ # [#30384] *TAGS: "Compact List of Tagged items" menu item issues in multilanguage
+ # [#30377] Add a tag filter to the sidebars in content managers. Thanks Elin
+ # [#30355] Tagged item list is showing unpublished, trashed and archived items. Thanks Elin.
+
+26-Mar-2013 Jean-Marie Simonet
+ $ Updating installation ini files: pt-BR, ckb-IQ
+
+26-Mar-2013 Michael Babker
+ # [#28972] Smart Search: suggestions are not filtered by current language
+ ^ [#30104] Messages close button in Isis.  Thanks Mario
+ # Undefined variable in JSchemaChangeitemPostgresql (discovered via unit test implementation)
+
+25-Mar-2013 Michael Babker
+ # [#30375] When state is changed in a list view it isn't changed in core_content
+ # Incorrect field names used in JTableContenttype (discovered implementing unit tests)
+ # [#30382] Fatal error in mod_weblinks.  Thanks Elin
+ ^ [#30142] Add optional class param to accordion slider.  Thanks Anderson
+ - [#30387] Remove compact.xml.  Thanks Elin
 
 24-Mar-2013 Mark Dexter
  # [#30223] TAGS: Missing 'Help' Button in Toolbar.

@@ -14,28 +14,6 @@
 class JHtmlBatchTest extends TestCaseDatabase
 {
 	/**
-	 * @var JHtmlBatch
-	 */
-	protected $object;
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
-	}
-
-	/**
 	 * Gets the data set to be loaded into the database during setup
 	 */
 	protected function getDataSet()
