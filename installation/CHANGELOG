@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#30380] Joomla 3.1 should *not* suggest to use "admin" as the default admin username. Thanks Phil
  # [#30384] *TAGS: "Compact List of Tagged items" menu item issues in multilanguage
  # [#30377] Add a tag filter to the sidebars in content managers. Thanks Elin
+ # [#30355] Tagged item list is showing unpublished, trashed and archived items. Thanks Elin.
 
 26-Mar-2013 Jean-Marie Simonet
  $ Updating installation ini files: pt-BR, ckb-IQ
