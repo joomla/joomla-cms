@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Mar-2013 Mark Dexter
+ # Fix failing system tests due to login markup change, Tags menu item change
+
 25-Mar-2013 Michael Babker
  +# Test JTableContenttype, fix bugs found in class
  +# Start testing JTags
