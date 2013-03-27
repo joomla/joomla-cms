@@ -45,7 +45,7 @@ $n = count($this->items);
 			<ul class="thumbnails">
 		<?php endif; ?>
 		<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-            <?php $route = new TagsHelperRoute ?>
+			<?php $route = new TagsHelperRoute ?>
 				<li class="cat-list-row<?php echo $i % 2; ?>" >
 					<h3>
 						<a href="<?php echo JRoute::_($route->getRoute($item->id . ':' . $item->alias)); ?>">
@@ -73,11 +73,6 @@ $n = count($this->items);
 					<?php endif; ?>
 					</span>
 					<div class="caption">
-						<h3>
-							<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)); ?>">
-								<?php echo $this->escape($item->title); ?>
-							</a>
-						</h3>
 						<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
 						<span class="tag-body">
 							<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('tag_list_item_maximum_characters')); ?>

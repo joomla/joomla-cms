@@ -97,19 +97,19 @@ class TagsHelperRoute extends JHelperRoute
 							self::$lookup[$view] = array();
 						}
 
-						if (isset($item->query['id[0]']))
+						if (isset($item->query['id'][0]))
 						{
 							// Here it will become a bit tricky
 							// language != * can override existing entries
 							// language == * cannot override existing entries
-							if (!isset(self::$lookup[$language][$view][$item->query['id[0]']]) || $item->language != '*')
+							if (!isset(self::$lookup[$language][$view][$item->query['id'][0]]) || $item->language != '*')
 							{
-								self::$lookup[$language][$view][$item->query['id[0]']] = $item->id;
+								self::$lookup[$language][$view][$item->query['id'][0]] = $item->id;
 							}
 
-							self::$lookup[$view][$item->query['id[0]']] = $item->id;
+							self::$lookup[$view][$item->query['id'][0]] = $item->id;
 						}
-						if (isset($item->query["tag_list_language_filter"]))
+						if (isset($item->query["tag_list_language_filter"]) && $item->query["tag_list_language_filter"] != '')
 						{
 							$language = $item->query["tag_list_language_filter"];
 						}
