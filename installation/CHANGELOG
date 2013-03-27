@@ -35,6 +35,7 @@ $ -> Language fix or change
  $ [#30402] Clarification of tags description (en-GB). Thanks Brian.
  $ [#30397] Correct en-GB grammar in installation. Thanks Brian.
  # [#30329] Missing tags feed and related items. Thanks Elin
+ # [#29165] Sort table of articles by featured is missing. Thanks Ram
 
 26-Mar-2013 Jean-Marie Simonet
  $ Updating installation ini files: pt-BR, ckb-IQ
