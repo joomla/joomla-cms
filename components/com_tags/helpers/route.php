@@ -86,7 +86,8 @@ class TagsHelperRoute extends JHelperRoute
 			$component	= JComponentHelper::getComponent('com_tags');
 			$items		= $menus->getItems('component_id', $component->id);
 
-			if ($items) {
+			if ($items)
+			{
 				foreach ($items as $item)
 				{
 					if (isset($item->query) && isset($item->query['view'])) {
