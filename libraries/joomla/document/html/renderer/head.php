@@ -141,7 +141,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
 			{
-				$buffer .= $tab . $tab . '<![CDATA[' . $lnEnd;
+				$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
 			}
 
 			$buffer .= $content . $lnEnd;
@@ -149,7 +149,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// See above note
 			if ($document->_mime != 'text/html')
 			{
-				$buffer .= $tab . $tab . ']]>' . $lnEnd;
+				$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
 			}
 			$buffer .= $tab . '</style>' . $lnEnd;
 		}
@@ -181,7 +181,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
 			{
-				$buffer .= $tab . $tab . '<![CDATA[' . $lnEnd;
+				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
 			}
 
 			$buffer .= $content . $lnEnd;
@@ -189,7 +189,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			// See above note
 			if ($document->_mime != 'text/html')
 			{
-				$buffer .= $tab . $tab . ']]>' . $lnEnd;
+				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
 			}
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
@@ -198,6 +198,12 @@ class JDocumentRendererHead extends JDocumentRenderer
 		if (count(JText::script()))
 		{
 			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
+
+			if ($document->_mime != 'text/html')
+			{
+				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
+			}
+
 			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
 			$buffer .= $tab . $tab . $tab . 'var strings = ' . json_encode(JText::script()) . ';' . $lnEnd;
 			$buffer .= $tab . $tab . $tab . 'if (typeof Joomla == \'undefined\') {' . $lnEnd;
@@ -208,6 +214,12 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . $tab . $tab . $tab . 'Joomla.JText.load(strings);' . $lnEnd;
 			$buffer .= $tab . $tab . $tab . '}' . $lnEnd;
 			$buffer .= $tab . $tab . '})();' . $lnEnd;
+
+			if ($document->_mime != 'text/html')
+			{
+				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
+			}
+
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
