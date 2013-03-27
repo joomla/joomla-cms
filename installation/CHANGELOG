@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Mar-2013 Jean-Marie Simonet
+ # [#29319] SEF plugin gives wrong canonical url (of category, not from article). Thanks Rouven and Mark
+
 26-Mar-2013 Jean-Marie Simonet
  $ Updating installation ini files: pt-BR, ckb-IQ
 
