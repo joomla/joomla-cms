@@ -161,6 +161,43 @@ class PlgUserJoomla extends JPlugin
 			return false;
 		}
 
+		$app = JFactory::getApplication();
+		$db = JFactory::getDBO();
+
+		// Check for single login
+		$singlelogin = isset($options['singlelogin']) ? $options['singlelogin'] :  $this->params->get('singlelogin', 0);
+
+		if($singlelogin)
+		{
+			$query 	= $db->getQuery(true);
+
+			$query->select($db->quoteName('session_id'));
+			$query->from('#__session');
+			$query->where($db->quoteName('userid').' = '.(int) $instance->get('id'));
+			$query->where($db->quoteName('client_id').' = '.(int) $app->getClientId());
+
+			$db->setQuery($query);
+
+			$session_id = $db->loadResult();
+
+			// Only check singlelogin if a session exists
+			if($session_id)
+			{
+				// Deny simultaneous login
+				if($singlelogin==1)
+				{
+					JError::raiseWarning(401, JText::_('PLG_USER_JOOMLA_ERROR_SINGLELOGIN_DENIED'));
+					return false;
+				}
+				// Logout existing user
+				else if($singlelogin==2)
+				{
+					$app->logout($instance->get('id'));
+				}
+			}
+			
+		}
+
 		// Mark the user as logged in
 		$instance->set('guest', 0);
 
@@ -168,10 +205,7 @@ class PlgUserJoomla extends JPlugin
 		$session = JFactory::getSession();
 		$session->set('user', $instance);
 
-		$db = JFactory::getDBO();
-
 		// Check to see the the session already exists.
-		$app = JFactory::getApplication();
 		$app->checkSession();
 
 		// Update the user related fields for the Joomla sessions table.
