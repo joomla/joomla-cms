@@ -250,7 +250,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
+				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), $attribs, true);
 			}
 			else
 			{
