@@ -31,6 +31,7 @@ $ -> Language fix or change
 26-Mar-2013 Michael Babker
  # [#28972] Smart Search: suggestions are not filtered by current language
  ^ [#30104] Messages close button in Isis.  Thanks Mario
+ # Undefined variable in JSchemaChangeitemPostgresql (discovered via unit test implementation)
 
 25-Mar-2013 Michael Babker
  # [#30375] When state is changed in a list view it isn't changed in core_content
