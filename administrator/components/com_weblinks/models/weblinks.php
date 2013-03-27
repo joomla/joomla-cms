@@ -78,6 +78,9 @@ class WeblinksModelWeblinks extends JModelList
 		$language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
+		$tag = $this->getUserStateFromRequest($this->context.'.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_weblinks');
 		$this->setState('params', $params);
@@ -153,21 +156,21 @@ class WeblinksModelWeblinks extends JModelList
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->where('a.access = '.(int) $access);
+			$query->where('a.access = ' . (int) $access);
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN ('.$groups.')');
+			$query->where('a.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
 		if (is_numeric($published))
 		{
-			$query->where('a.state = '.(int) $published);
+			$query->where('a.state = ' . (int) $published);
 		} elseif ($published === '')
 		{
 			$query->where('(a.state IN (0, 1))');
@@ -177,7 +180,7 @@ class WeblinksModelWeblinks extends JModelList
 		$categoryId = $this->getState('filter.category_id');
 		if (is_numeric($categoryId))
 		{
-			$query->where('a.catid = '.(int) $categoryId);
+			$query->where('a.catid = ' . (int) $categoryId);
 		}
 
 		// Filter by search in title
@@ -186,10 +189,10 @@ class WeblinksModelWeblinks extends JModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = '.(int) substr($search, 3));
+				$query->where('a.id = ' . (int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
-				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
 			}
 		}
 
@@ -197,6 +200,17 @@ class WeblinksModelWeblinks extends JModelList
 		if ($language = $this->getState('filter.language'))
 		{
 			$query->where('a.language = ' . $db->quote($language));
+		}
+
+		$tagId = $this->getState('filter.tag');
+		// Filter by a single tag.
+		if (is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' .  $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_weblinks.weblink'))
+					;
 		}
 
 		// Add the list ordering clause.

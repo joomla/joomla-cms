@@ -13,6 +13,7 @@ function renderMessage($msgList)
 {
 	$buffer  = null;
 	$buffer .= "\n<div id=\"system-message-container\">";
+	$buffer .= '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 	$alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-info', 'message' => 'alert-success');
 
 	if (is_array($msgList))
