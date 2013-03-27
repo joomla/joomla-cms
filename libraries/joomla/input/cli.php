@@ -110,82 +110,93 @@ class JInputCLI extends JInput
 	/**
 	 * Initialise the options and arguments
 	 *
+	 * Not supported: -abc c-value
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected function parseArguments()
-	{
-		// Get the list of argument values from the environment.
-		$args = $_SERVER['argv'];
+    protected function parseArguments()
+    {
+        $argv                           = $_SERVER['argv'];
 
-		// Set the path used for program execution and remove it form the program arguments.
-		$this->executable = array_shift($args);
+        $this->executable = array_shift($argv);
 
-		// We use a for loop because in some cases we need to look ahead.
-		for ($i = 0; $i < count($args); $i++)
-		{
-			// Get the current argument to analyze.
-			$arg = $args[$i];
+        $out                            = array();
 
-			// First let's tackle the long argument case.  eg. --foo
-			if (strlen($arg) > 2 && substr($arg, 0, 2) == '--')
-			{
+        for ($i = 0, $j = count($argv); $i < $j; $i++)
+        {
+            $arg                        = $argv[$i];
 
-				// Attempt to split the thing over equals so we can get the key/value pair if an = was used.
-				$arg = substr($arg, 2);
-				$parts = explode('=', $arg);
-				$this->data[$parts[0]] = true;
+            // --foo --bar=baz
+            if (substr($arg, 0, 2) === '--')
+            {
+                $eqPos                  = strpos($arg, '=');
 
-				// Does not have an =, so let's look ahead to the next argument for the value.
-				if (count($parts) == 1 && isset($args[$i + 1]) && preg_match('/^--?.+/', $args[$i + 1]) == 0)
-				{
-					$this->data[$parts[0]] = $args[$i + 1];
+                // --foo
+                if ($eqPos === false)
+                {
+                    $key                = substr($arg, 2);
 
-					// Since we used the next argument, increment the counter so we don't use it again.
-					$i++;
-				}
-				// We have an equals sign so take the second "part" of the argument as the value.
-				elseif (count($parts) == 2)
-				{
-					$this->data[$parts[0]] = $parts[1];
-				}
-			}
+                    // --foo value
+                    if ($i + 1 < $j && $argv[$i + 1][0] !== '-')
+                    {
+                        $value          = $argv[$i + 1];
+                        $i++;
+                    }
+                    else
+                    {
+                        $value          = isset($out[$key]) ? $out[$key] : true;
+                    }
+                    $out[$key]          = $value;
+                }
 
-			// Next let's see if we are dealing with a "bunch" of short arguments.  eg. -abc
-			elseif (strlen($arg) > 2 && $arg[0] == '-')
-			{
+                // --bar=baz
+                else
+                {
+                    $key                = substr($arg, 2, $eqPos - 2);
+                    $value              = substr($arg, $eqPos + 1);
+                    $out[$key]          = $value;
+                }
+            }
 
-				// For each of these arguments set the value to TRUE since the flag has been set.
-				for ($j = 1; $j < strlen($arg); $j++)
-				{
-					$this->data[$arg[$j]] = true;
-				}
-			}
+            // -k=value -abc
+            else if (substr($arg, 0, 1) === '-')
+            {
+                // -k=value
+                if (substr($arg, 2, 1) === '=')
+                {
+                    $key                = substr($arg, 1, 1);
+                    $value              = substr($arg, 3);
+                    $out[$key]          = $value;
+                }
+                // -abc
+                else
+                {
+                    $chars              = str_split(substr($arg, 1));
+                    foreach ($chars as $char)
+                    {
+                        $key            = $char;
+                        $value          = isset($out[$key]) ? $out[$key] : true;
+                        $out[$key]      = $value;
+                    }
 
-			// OK, so it isn't a long argument or bunch of short ones, so let's look and see if it is a single
-			// short argument.  eg. -h
-			elseif (strlen($arg) == 2 && $arg[0] == '-')
-			{
+                    // -a a-value
+                    if ((count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
+                    {
+                        $out[$key]      = $argv[$i + 1];
+                        $i++;
+                    }
+                }
+            }
 
-				// Go ahead and set the value to TRUE and if we find a value later we'll overwrite it.
-				$this->data[$arg[1]] = true;
+            // plain-arg
+            else
+            {
+                $this->args[]           = $arg;
+            }
+        }
 
-				// Let's look ahead to see if the next argument is a "value".  If it is, use it for this value.
-				if (isset($args[$i + 1]) && preg_match('/^--?.+/', $args[$i + 1]) == 0)
-				{
-					$this->data[$arg[1]] = $args[$i + 1];
-
-					// Since we used the next argument, increment the counter so we don't use it again.
-					$i++;
-				}
-			}
-
-			// Last but not least, we don't have a key/value based argument so just add it to the arguments list.
-			else
-			{
-				$this->args[] = $arg;
-			}
-		}
-	}
+        $this->data                     = $out;
+    }
 }
