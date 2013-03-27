@@ -96,10 +96,17 @@ class TagsModelTag extends JModelList
 		$includeChildren = $this->state->params->get('include_children', 0);
 		$orderDir = $this->getState('params')->get('tag_list_orderby_direction', 'ASC');
 		$matchAll = $this->getState('params')->get('return_any_or_all', 1);
-		$languageFilter = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		$language = $this->getState('tag.language');
+		$stateFilter = $this->getState('tag.state');
+
+	// Optionally filter on language
+		if (empty($language))
+		{
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		}
 
 		$listQuery = New JTags;
-		$query = $listQuery->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $languageFilter);
+		$query = $listQuery->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
 
 		return $query;
 	}
@@ -151,11 +158,7 @@ class TagsModelTag extends JModelList
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		$user = JFactory::getUser();
-		if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags')))
-		{
-			$this->setState('filter.published', 1);
-		}
+		$this->setState('tag.state', 1);
 
 		// Optional filter text
 		$this->setState('list.filter', $app->input->getString('filter-search'));
