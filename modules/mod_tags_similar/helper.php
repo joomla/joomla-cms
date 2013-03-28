@@ -30,13 +30,16 @@ abstract class ModTagssimilarHelper
 		$option     = $app->input->get('option');
 		$view       = $app->input->get('view');
 		$prefix     = $option . '.' . $view;
-		$id         = $app->input->getString('id');
+		$id         = (array) $app->input->getObject('id');
 
 		// Strip off any slug data.
-		if (substr_count($id, ':') > 0)
+		foreach ($id as $id)
 		{
-			$idexplode = explode(':', $id);
-			$id        = $idexplode[0];
+			if (substr_count($id, ':') > 0)
+			{
+				$idexplode = explode(':', $id);
+				$id        = $idexplode[0];
+			}
 		}
 
 		// For now assume com_tags and com_users do not have tags.
@@ -59,16 +62,17 @@ abstract class ModTagssimilarHelper
 					$db->quoteName('m.core_content_id'),
 					$db->quoteName('m.content_item_id'),
 					$db->quoteName('m.type_alias'),
-					'COUNT( '  . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
+						'COUNT( '  . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
 					$db->quoteName('t.access'),
 					$db->quoteName('t.id'),
+					$db->quoteName('ct.router'),
 					$db->quoteName('cc.core_title'),
 					$db->quoteName('cc.core_alias'),
 					$db->quoteName('cc.core_catid'),
 					$db->quoteName('cc.core_language')
-				)
+					)
 			);
-			$query->group($db->quoteName(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access')))
+			$query->group($db->quoteName(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access', 'ct.router')))
 				->from($db->quoteName('#__contentitem_tag_map', 'm'))
 				->having('t.access IN (' . $groups . ')')
 				->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')')
@@ -101,6 +105,7 @@ abstract class ModTagssimilarHelper
 
 			$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON m.tag_id = t.id')
 				->join('INNER', $db->quoteName('#__core_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
+				->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias')
 
 				->order($db->quoteName('count') . ' DESC');
 			$db->setQuery($query, 0, $maximum);
@@ -109,7 +114,7 @@ abstract class ModTagssimilarHelper
 			foreach ($results as $result)
 			{
 				$explodedAlias = explode('.', $result->type_alias);
-				$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . (int) $result->content_item_id . '-' . $result->core_alias;
+				$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . $result->content_item_id . '-' . $result->core_alias;
 			}
 
 			return $results;
