@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30388] Routing on the compact list tagged items layout, default tagged items layout and similar tags module. Thanks Mark.
  # [#30410] Notice: Array to string conversion in Tags View. Thanks Mark
  # [#30414] Pagination limit not changeable in com_redirect. Thanks Constantin
+ # [#30406] Set state to unpublished when save2copy.
 
 27-Mar-2013 Mark Dexter
  # [#30405] Warning in compact tag view when images is empty.
