@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_newsfeeds
  * @since       1.6
  */
-class NewsfeedsHelper
+class NewsfeedsHelper extends JHelperContent
 {
 	public static $extension = 'com_newsfeeds';
 
@@ -52,11 +52,8 @@ class NewsfeedsHelper
 	 *
 	 * @return  JObject
 	 */
-	public static function getActions($categoryId = 0, $newsfeedId = 0)
+	public static function getActions($categoryId = 0, $id = 0,  $assetName = '')
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
 		if (empty($categoryId))
 		{
 			$assetName = 'com_newsfeeds';
@@ -70,11 +67,6 @@ class NewsfeedsHelper
 
 		$actions = JAccess::getActions('com_newsfeeds', $level);
 
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
+		return parent::getActions($categoryId, $id, $assetName);
 	}
 }

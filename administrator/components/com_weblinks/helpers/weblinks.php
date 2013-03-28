@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.6
  */
-class WeblinksHelper
+class WeblinksHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
@@ -51,11 +51,8 @@ class WeblinksHelper
 	 * @return  JObject
 	 * @since   1.6
 	 */
-	public static function getActions($categoryId = 0)
+	public static function getActions($categoryId = 0 , $id = 0,  $assetName = '')
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
 		if (empty($categoryId))
 		{
 			$assetName = 'com_weblinks';
@@ -69,11 +66,6 @@ class WeblinksHelper
 
 		$actions = JAccess::getActions('com_weblinks', $level);
 
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
+		return parent::getActions($categoryId, $id, $assetName);
 	}
 }

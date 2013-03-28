@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_contact
  * @since       1.6
  */
-class ContactHelper
+class ContactHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
@@ -56,34 +56,26 @@ class ContactHelper
 	 * @return  JObject
 	 * @since   1.6
 	 */
-	public static function getActions($categoryId = 0, $contactId = 0)
+	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		if (empty($contactId) && empty($categoryId))
+		if (empty($id) && empty($categoryId))
 		{
 			$assetName = 'com_contact';
 			$level = 'component';
 		}
-		elseif (empty($contactId))
+		elseif (empty($id))
 		{
 			$assetName = 'com_contact.category.'.(int) $categoryId;
 			$level = 'category';
 		}
 		else
 		{
-			$assetName = 'com_contact.contact.'.(int) $contactId;
+			$assetName = 'com_contact.contact.'.(int) $id;
 			$level = 'category';
 		}
 
 		$actions = JAccess::getActions('com_contact', $level);
 
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
+		return parent::getActions($categoryId, $id, $assetName);
 	}
 }

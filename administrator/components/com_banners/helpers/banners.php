@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_banners
  * @since       1.6
  */
-class BannersHelper
+class BannersHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
@@ -67,11 +67,8 @@ class BannersHelper
 	 * @return  JObject
 	 * @since   1.6
 	 */
-	public static function getActions($categoryId = 0)
+	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
 		if (empty($categoryId))
 		{
 			$assetName = 'com_banners';
@@ -82,15 +79,10 @@ class BannersHelper
 			$assetName = 'com_banners.category.'.(int) $categoryId;
 			$level = 'category';
 		}
+		$actions = JAccess::getActions('com_contact', $level);
 
-		$actions = JAccess::getActions('com_banners', $level);
+		return parent::getActions($categoryId, $id, $assetName);
 
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
 	}
 
 	/**
