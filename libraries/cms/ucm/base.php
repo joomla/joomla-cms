@@ -35,6 +35,14 @@ abstract class JUcmBase implements JUcm
 	protected $type;
 
 	/**
+	 * The UCM data array
+	 *
+	 * @var    Array
+	 * @since  13.1
+	 */
+	protected $ucmData;
+
+	/**
 	 * Instantiate the UcmBase.
 	 *
 	 * @param   JTable  	$table    The table object
@@ -42,25 +50,75 @@ abstract class JUcmBase implements JUcm
 	 *
 	 * @since  13.1
 	 */
-	public function __construct(JTable $table = null, JUcmType $type = null)
+	public function __construct(JTable $table, JUcmType $type = null)
 	{
 		// Setup dependencies.
-		$this->table = isset($table) ? $table : null;
+		$this->table = $table;
 		$this->type = isset($type) ? $type : $this->getType();
 	}
 
 	/**
 	*
-	* @param	Array	$data	The content to be saved
-	* @param	String	$type	The UCM Type string
+	* @param	Array	$original	The original data to be saved
+	* @param	Object	$type		The UCM Type object
 	*
 	* @return	boolean	true
 	*
 	* @since	13.1
 	**/
-	public function save($data = null, $type = null)
+	public function save($original = null, JUcmType $type = null)
 	{
 
+		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
+
+		//Store the Common fields
+		$this->store($ucmData['common']);
+		
+		//Store the special fields
+		if( isset($ucmData['special']))
+		{
+			$this->store($ucmData['special'], $this->table);
+		}
+
+		return true;
+	}
+
+	/**
+	* Map the original content to the Core Content fields
+	*
+	* @param	Array	$original	The original data array
+	* @param	
+	*
+	* @return	Objecct	$ucmData	The mapped UCM data
+	*
+	* @since 	13.1
+	*/
+	public function mapData($original, JUcmType $type = null)
+	{
+		$type = $type ? $type : $this->type;
+		$fields = json_decode($type->field_mappings, true);
+
+		$ucmData = array();
+
+		foreach ($fields['common'][0] as $i => $field)
+		{
+			if ($field && $field != 'null' && array_key_exists($original, $field))
+			{
+				$ucmData['common'][$i] = $original[$field];
+			}
+		}
+
+		foreach ($fields['special'][0] as $i => $field)
+		{
+			if ($field && $field != 'null' && array_key_exists($original, $field))
+			{
+				$ucmData['special'][$i] = $original[$field];
+			}
+		}
+
+		$this->ucmData = $ucmData;
+
+		return $this->ucmData;
 	}
 
 	/**
@@ -75,5 +133,29 @@ abstract class JUcmBase implements JUcm
 		$type = new JUcmType($this->table);
 
 		return $type;
+	}
+
+	/**
+	* Store data to the appropriate table
+	*
+	* @param	Array	$data	Data to be stored
+	* @param	JTable	$table	JTable Object
+	*
+	*/
+	private function store($data, JTable $table = null)
+	{
+
+		$table = $table ? $table : JTable::getInstance('Corecontent');
+
+		if (isset($data['core_content_id']))
+		{
+			$table->load($data['core_content_id']);
+		}
+
+		$table->bind($data);
+
+		$table->check($data);
+
+		$table->store($data);	
 	}
 }
