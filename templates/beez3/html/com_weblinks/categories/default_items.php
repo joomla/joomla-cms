@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,10 +13,10 @@ $class = ' class="first"';
 if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 ?>
 <ul>
-<?php foreach($this->items[$this->parent->id] as $id => $item) : ?>
+<?php foreach ($this->items[$this->parent->id] as $id => $item) : ?>
 	<?php
-	if($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) :
-	if(!isset($this->items[$this->parent->id][$id + 1]))
+	if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) :
+	if (!isset($this->items[$this->parent->id][$id + 1]))
 	{
 		$class = ' class="last"';
 	}
@@ -40,7 +40,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 			</dl>
 		<?php endif; ?>
 
-		<?php if(count($item->getChildren()) > 0) :
+		<?php if (count($item->getChildren()) > 0) :
 			$this->items[$item->id] = $item->getChildren();
 			$this->parent = $item;
 			$this->maxLevelcat--;

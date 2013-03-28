@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,16 +20,16 @@ class BannersControllerBanners extends JControllerAdmin
 {
 	/**
 	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_BANNERS';
 
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -40,7 +40,7 @@ class BannersControllerBanners extends JControllerAdmin
 
 	/**
 	 * Proxy for getModel.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Banner', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
@@ -49,7 +49,7 @@ class BannersControllerBanners extends JControllerAdmin
 	}
 
 	/**
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function sticky_publish()
 	{
@@ -61,17 +61,22 @@ class BannersControllerBanners extends JControllerAdmin
 		$task   = $this->getTask();
 		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('COM_BANNERS_NO_BANNERS_SELECTED'));
-		} else {
+		}
+		else
+		{
 			// Get the model.
 			$model	= $this->getModel();
 
 			// Change the state of the records.
-			if (!$model->stick($ids, $value)) {
+			if (!$model->stick($ids, $value))
+			{
 				JError::raiseWarning(500, $model->getError());
 			} else {
-				if ($value == 1) {
+				if ($value == 1)
+				{
 					$ntext = 'COM_BANNERS_N_BANNERS_STUCK';
 				} else {
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
@@ -86,7 +91,7 @@ class BannersControllerBanners extends JControllerAdmin
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   3.0
 	 */

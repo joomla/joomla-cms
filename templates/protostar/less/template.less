@@ -476,3 +476,47 @@ h6 { font-size: 12px; line-height: 14px; }
 		width: 62px;
 	}
 }
+// Page break
+dl.tabs {
+	float: left;
+	margin-bottom: -1px;
+}
+dl.tabs dt.tabs {
+	float: left;
+	margin-left: 3px;
+	padding: 4px 10px;
+	background-color: #F0F0F0;
+	border-top: 1px solid #CCC;
+	border-left: 1px solid #CCC;
+	border-right: 1px solid #CCC;
+}
+dl.tabs dt:hover {
+	background-color: #F9F9F9;
+}
+dl.tabs dt.open {
+	background-color: #FFF;
+	border-bottom: 1px solid #FFF;
+}
+dl.tabs dt.tabs h3 {
+	margin: 0;
+	font-size: 1.1em;
+	font-weight: normal;
+}
+dl.tabs dt.tabs h3 a {
+	color: #0088CC;
+}
+dl.tabs dt.tabs h3 a:hover {
+	color: #005580;
+	text-decoration: none;
+}
+dl.tabs dt.open h3 a {
+	color: #000;
+	text-decoration: none;
+}
+div.current dd.tabs {
+	margin: 0;
+	padding: 10px;
+	clear: both;
+	border: 1px solid #CCC;
+	background-color: #FFF;
+}

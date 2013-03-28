@@ -387,6 +387,15 @@
 		<column>language</column>
 		<column>xreference</column>
 	</table>
+	<table name="jos_content_types">
+		<column>type_id</column>
+		<column>type_title</column>
+		<column>type_alias</column>
+		<column>table</column>
+		<column>rules</column>
+		<column>field_mappings</column>
+		<column>router</column>
+	</table>
 	<table name="jos_core_log_searches">
 		<column>search_term</column>
 		<column>hits</column>
@@ -1675,25 +1684,6 @@
 			<value>0</value>
 			<value></value>
 			<value>{&quot;mode&quot;:&quot;1&quot;}</value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
-			<value>68</value>
-			<value>Content - Code Highlighter (GeSHi)</value>
-			<value>plugin</value>
-			<value>geshi</value>
-			<value>content</value>
-			<value>0</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value>{}</value>
 			<value></value>
 			<value></value>
 			<value>0</value>

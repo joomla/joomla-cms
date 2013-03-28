@@ -19,6 +19,12 @@
 		>
 		</field>
 
+		<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox" multiple="true"
+		>
+		</field>
+
 		<field name="url" type="url" class="inputbox"
 			filter="url"
 			size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ class JHtmlTemplates
 	/**
 	 * Display the thumb for the template.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string	The name of the active view.
 	 */
 	public static function thumb($template, $clientId = 0)
 	{

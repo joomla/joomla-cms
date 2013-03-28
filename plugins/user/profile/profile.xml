@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="user">
+<extension version="3.1" type="plugin" group="user">
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2008</creationDate>
-	<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -156,7 +156,6 @@
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
-
 				<field name="spacer1" type="spacer"
 					hr="true"
 				/>
@@ -225,7 +224,6 @@
 				</field>
 
 				<field name="profile-require_phone" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_PHONE_DESC"
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
 				>
@@ -245,7 +243,6 @@
 				</field>
 				<field 	name="profile-require_favoritebook"
 					type="list"
-
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
 					description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC">
 					<option value="2">JOPTION_REQUIRED</option>
@@ -256,7 +253,6 @@
 				<field
 					name="profile-require_aboutme"
 					type="list"
-
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
 					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC">
 					<option	value="2">JOPTION_REQUIRED</option>
@@ -266,7 +262,6 @@
 				<field
 					name="profile-require_dob"
 					type="list"
-
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 					description="PLG_USER_PROFILE_FIELD_DOB_DESC"
 				 >
@@ -274,6 +269,7 @@
 					<option	value="1">JOPTION_OPTIONAL</option>
 					<option	value="0">JDISABLED</option>
 				</field>
+
 			</fieldset>
 
 		</fields>

@@ -3,15 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$notice_homes		= $this->homes == 2 || $this->homes == 1 && ($this->language_filter || $this->switchers != 0);
-$notice_disabled	= !$this->language_filter	&& ($this->homes > 1 || $this->switchers != 0);
-$notice_switchers	= !$this->switchers && ($this->homes > 1 || $this->language_filter);
+$notice_homes     = $this->homes == 2 || $this->homes == 1 || $this->homes - 1 != count($this->contentlangs) && ($this->language_filter || $this->switchers != 0);
+$notice_disabled  = !$this->language_filter	&& ($this->homes > 1 || $this->switchers != 0);
+$notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_filter);
 ?>
 <div class="mod-multilangstatus">
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>

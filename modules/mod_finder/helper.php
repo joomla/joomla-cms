@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,13 +31,14 @@ class ModFinderHelper
 	public static function getGetFields($route = null)
 	{
 		$fields = null;
-		$uri = JURI::getInstance(JRoute::_($route));
+		$uri = JUri::getInstance(JRoute::_($route));
 		$uri->delVar('q');
+		$elements = $uri->getQuery(true);
 
 		// Create hidden input elements for each part of the URI.
 		// Add the current menu id if it doesn't have one
 		$needId = true;
-		foreach ($uri->getQuery(true) as $n => $v)
+		foreach ($elements as $n => $v)
 		{
 			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
 			if ($n == 'Itemid')
@@ -49,6 +50,7 @@ class ModFinderHelper
 		{
 			$fields .= '<input type="hidden" name="Itemid" value="' . JFactory::getApplication()->input->get('Itemid', '0', 'int') . '" />';
 		}
+
 		return $fields;
 	}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,11 +21,11 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Proxy for getModel
 	 *
-	 * @param	string	$name	The model name. Optional.
-	 * @param	string	$prefix	The class prefix. Optional.
+	 * @param   string	$name	The model name. Optional.
+	 * @param   string	$prefix	The class prefix. Optional.
 	 *
-	 * @return	object	The model.
-	 * @since	1.6
+	 * @return  object  The model.
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
@@ -36,23 +36,26 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Rebuild the nested set tree.
 	 *
-	 * @return	bool	False on failure or error, true on success.
-	 * @since	1.6
+	 * @return  bool	False on failure or error, true on success.
+	 * @since   1.6
 	 */
 	public function rebuild()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$extension = $this->input->get('extension');
-		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension='.$extension, false));
+		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
 		$model = $this->getModel();
 
-		if ($model->rebuild()) {
+		if ($model->rebuild())
+		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
 			return true;
-		} else {
+		}
+		else
+		{
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
 			return false;
@@ -62,8 +65,8 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Save the manual order inputs from the categories list page.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function saveorder()
 	{
@@ -74,9 +77,12 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
-		if (!($order === $originalOrder)) {
+		if (!($order === $originalOrder))
+		{
 			parent::saveorder();
-		} else {
+		}
+		else
+		{
 			// Nothing to reorder
 			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
 			return true;
@@ -86,7 +92,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   3.0
 	 */
@@ -100,7 +106,8 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$originalOrder = explode(',', $this->input->getString('original_order_values'));
 
 		// Make sure something has changed
-		if (!($order === $originalOrder)) {
+		if (!($order === $originalOrder))
+		{
 			// Get the model
 			$model = $this->getModel();
 			// Save the ordering
@@ -114,4 +121,27 @@ class CategoriesControllerCategories extends JControllerAdmin
 		JFactory::getApplication()->close();
 
 	}
+	/**
+	 * Function that allows child controller access to model data
+	 * after the item has been deleted.
+	 *
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   integer       $ids    The array of ids for items being deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
+		// If an item has been tagged we need to untag it and delete it from #__core_content.
+		$task = $this->getTask();
+		$extension = $this->input->get('extension');
+		$item = $model->getItem();
+
+		$tags = new JTags;
+		$tags->deleteTagData($ids, $extension . '.category');
+
+	}
+
 }

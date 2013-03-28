@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ $document = JFactory::getDocument();
 <script type="text/javascript">
 	setmenutype = function(type)
 	{
-		<?php if($tmpl) : ?>
+		<?php if ($tmpl) : ?>
 			window.parent.Joomla.submitbutton('item.setType', type);
 			window.parent.SqueezeBox.close();
 		<?php else : ?>
@@ -30,18 +30,14 @@ $document = JFactory::getDocument();
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php
 		$i = 0;
-		foreach ($this->types as $name => $list): ?>
+		foreach ($this->types as $name => $list) : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($name), 'collapse' . $i++); ?>
 			<ul class="nav nav-tabs nav-stacked">
-				<?php foreach ($list as $item): ?>
+				<?php foreach ($list as $item) : ?>
 					<li>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
 							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => $item->title, 'request' => $item->request))); ?>')">
-							<?php if ($document->direction != "rtl") : ?>
-								<?php echo JText::_($item->title);?> <small class="muted"><?php echo JText::_($item->description); ?></small>
-							<?php else : ?>
-								<small class="muted"><?php echo JText::_($item->description); ?></small> <?php echo JText::_($item->title);?>
-							<?php endif?>
+							<?php echo JText::_($item->title);?> <small class="muted"><?php echo JText::_($item->description); ?></small>
 						</a>
 					</li>
 				<?php endforeach; ?>
@@ -52,35 +48,22 @@ $document = JFactory::getDocument();
 		<ul class="nav nav-tabs nav-stacked">
 			<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?>"
 					onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'url'))); ?>')">
-					<?php if ($document->direction != "rtl") : ?>
-						<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?></small>
-					<?php else : ?>
-						<small class="muted"><?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?> </small> <?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL'); ?>
-					<?php endif?>
+					<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?></small>
 				</a>
 			</li>
 			<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?>"
 					onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'alias'))); ?>')">
-					<?php if ($document->direction != "rtl") : ?>
-						<?php echo JText::_('COM_MENUS_TYPE_ALIAS'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?></small>
-					<?php else : ?>
-						<small class="muted"><?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?></small> <?php echo JText::_('COM_MENUS_TYPE_ALIAS'); ?>
-					<?php endif?>
+					<?php echo JText::_('COM_MENUS_TYPE_ALIAS'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?></small>
 				</a>
 			</li>
 			<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?>"
 					onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'separator'))); ?>')">
-					<?php if ($document->direction != "rtl") : ?>
-						<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?></small>
-					<?php else : ?>
-						<small class="muted"><?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?></small> <?php echo JText::_('COM_MENUS_TYPE_SEPARATOR'); ?>
-					<?php endif?>
+					<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?></small>
 				</a>
 			</li>
 			<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_HEADING_DESC'); ?>"
 					onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'heading'))); ?>')">
 					<?php echo JText::_('COM_MENUS_TYPE_HEADING'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_HEADING_DESC'); ?></small>
-				</a>
 			</li>
 		</ul>
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>

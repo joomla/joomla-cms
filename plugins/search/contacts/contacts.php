@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.contacts
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,21 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  Search.contacts
  * @since       1.6
  */
-class plgSearchContacts extends JPlugin
+class PlgSearchContacts extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	* @return array An array of search areas
@@ -59,8 +53,10 @@ class plgSearchContacts extends JPlugin
 		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -69,21 +65,25 @@ class plgSearchContacts extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit     = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent) {
+		if ($sContent)
+		{
 			$state[] = 1;
 		}
-		if ($sArchived) {
+		if ($sArchived)
+		{
 			$state[] = 2;
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 
 		$section = JText::_('PLG_SEARCH_CONTACTS_CONTACTS');
 
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'alpha':
 				$order = 'a.name ASC';
 				break;
@@ -102,7 +102,8 @@ class plgSearchContacts extends JPlugin
 		$text	= $db->Quote('%'.$db->escape($text, true).'%', false);
 
 		$rows = array();
-		if (!empty($state)) {
+		if (!empty($state))
+		{
 			$query	= $db->getQuery(true);
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
@@ -137,7 +138,8 @@ class plgSearchContacts extends JPlugin
 			$query->order($order);
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
 				$tag = JFactory::getLanguage()->getTag();
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
@@ -146,8 +148,10 @@ class plgSearchContacts extends JPlugin
 			$db->setQuery($query, 0, $limit);
 			$rows = $db->loadObjectList();
 
-			if ($rows) {
-				foreach($rows as $key => $row) {
+			if ($rows)
+			{
+				foreach ($rows as $key => $row)
+				{
 					$rows[$key]->href = 'index.php?option=com_contact&view=contact&id='.$row->slug.'&catid='.$row->catslug;
 					$rows[$key]->text = $row->title;
 					$rows[$key]->text .= ($row->con_position) ? ', '.$row->con_position : '';

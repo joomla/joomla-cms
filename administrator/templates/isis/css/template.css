@@ -1888,7 +1888,6 @@ table .span24 {
 	position: relative;
 	height: 0;
 	overflow: hidden;
-	overflow: visible \9;
 	-webkit-transition: height .35s ease;
 	-moz-transition: height .35s ease;
 	-o-transition: height .35s ease;
@@ -5554,6 +5553,9 @@ fieldset.radio.btn-group {
 input.invalid {
 	border: 1px solid #9d261d;
 }
+.tip-text {
+	text-align: left;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../../media/jui/fonts/IcoMoon.eot');
@@ -6388,6 +6390,9 @@ h6 {
 	body {
 		padding-top: 30px;
 	}
+	body.component {
+		padding-top: 0;
+	}
 }
 @media (max-width: 738px) {
 	.navbar .brand {
@@ -6450,6 +6455,10 @@ h6 {
 	.view-login .navbar-fixed-bottom {
 		display: none;
 	}
+}
+.nav-collapse .nav li a,
+.dropdown-menu a {
+	background-image: none;
 }
 @media (max-width: 738px) {
 	.navbar-fixed-top .navbar-inner,
@@ -6529,6 +6538,9 @@ h6 {
 	padding-right: 5px;
 	text-align: left;
 }
+.form-horizontal #jform_catid_chzn {
+	vertical-align: middle;
+}
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;
 	width: 35px;
@@ -6582,4 +6594,7 @@ ul.treeselect ul.dropdown-menu {
 ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
+}
+td.has-context {
+	height: 23px;
 }

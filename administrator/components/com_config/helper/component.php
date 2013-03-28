@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,8 @@ class ConfigHelperComponent
 
 		foreach ($components as $component)
 		{
-			if (!empty($component)) {
+			if (!empty($component))
+				{
 					// Load the core file then
 					// Load extension-local file.
 					$lang->load($component . '.sys', JPATH_BASE, null, false, false)

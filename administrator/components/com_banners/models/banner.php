@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ class BannersModelBanner extends JModelAdmin
 	 * @param   array   $pks        An array of item ids.
 	 * @param   array   $contexts   An array of item contexts.
 	 *
-	 * @return	boolean	 Returns true on success, false on failure.
+	 * @return  boolean   Returns true on success, false on failure.
 	 *
 	 * @since	2.5
 	 */
@@ -421,6 +421,8 @@ class BannersModelBanner extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_banners.banner', $data);
+
 		return $data;
 	}
 
@@ -489,12 +491,14 @@ class BannersModelBanner extends JModelAdmin
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		if (empty($table->id)) {
+		if (empty($table->id))
+		{
 			// Set the values
 			$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
-			if (empty($table->ordering)) {
+			if (empty($table->ordering))
+			{
 				$db = JFactory::getDbo();
 				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
 				$max = $db->loadResult();
@@ -502,7 +506,8 @@ class BannersModelBanner extends JModelAdmin
 				$table->ordering = $max + 1;
 			}
 		}
-		else {
+		else
+		{
 			// Set the values
 			$table->modified	= $date->toSql();
 			$table->modified_by	= $user->get('id');

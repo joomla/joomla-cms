@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,10 +22,10 @@ class JAdministrator extends JApplication
 	/**
 	 * Class constructor
 	 *
-	 * @param	array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 * Recognized key values include 'clientId' (this list is not meant to be comprehensive).
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function __construct($config = array())
 	{
@@ -39,10 +39,10 @@ class JAdministrator extends JApplication
 	/**
 	 * Initialise the application.
 	 *
-	 * @param	array	$options	An optional associative array of configuration settings.
+	 * @param   array  $options	An optional associative array of configuration settings.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   1.5
 	 */
 	public function initialise($options = array())
 	{
@@ -63,7 +63,8 @@ class JAdministrator extends JApplication
 			$lang = $user->getParam('admin_language');
 
 			// Make sure that the user's language exists
-			if ($lang && JLanguage::exists($lang)) {
+			if ($lang && JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			} else {
 				$params = JComponentHelper::getParams('com_languages');
@@ -73,9 +74,11 @@ class JAdministrator extends JApplication
 		}
 
 		// One last check to make sure we have something
-		if (!JLanguage::exists($options['language'])) {
+		if (!JLanguage::exists($options['language']))
+		{
 			$lang = $config->get('language', 'en-GB');
-			if (JLanguage::exists($lang)) {
+			if (JLanguage::exists($lang))
+			{
 				$options['language'] = $lang;
 			} else {
 				$options['language'] = 'en-GB'; // as a last ditch fail to english
@@ -93,14 +96,15 @@ class JAdministrator extends JApplication
 	/**
 	 * Route the application
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   1.5
 	 */
 	public function route()
 	{
 		$uri = JURI::getInstance();
 
-		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https') {
+		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
+		{
 			//forward to https
 			$uri->setScheme('https');
 			$this->redirect((string) $uri);
@@ -114,8 +118,8 @@ class JAdministrator extends JApplication
 	/**
 	 * Return a reference to the JRouter object.
 	 *
-	 * @return	JRouter
-	 * @since	1.5
+	 * @return  JRouter
+	 * @since   1.5
 	 */
 	static public function getRouter($name = null, array $options = array())
 	{
@@ -126,21 +130,23 @@ class JAdministrator extends JApplication
 	/**
 	 * Dispatch the application
 	 *
-	 * @param	string	$component	The component to dispatch.
+	 * @param   string	$component	The component to dispatch.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   1.5
 	 */
 	public function dispatch($component = null)
 	{
-		if ($component === null) {
+		if ($component === null)
+		{
 			$component = JAdministratorHelper::findOption();
 		}
 
 		$document	= JFactory::getDocument();
 		$user		= JFactory::getUser();
 
-		switch ($document->getType()) {
+		switch ($document->getType())
+		{
 			case 'html':
 				$document->setMetaData('keywords', $this->getCfg('MetaKeys'));
 				break;
@@ -164,8 +170,8 @@ class JAdministrator extends JApplication
 	/**
 	 * Display the application.
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   1.5
 	 */
 	public function render()
 	{
@@ -173,15 +179,17 @@ class JAdministrator extends JApplication
 		$template	= $this->getTemplate(true);
 		$file		= $this->input->get('tmpl', 'index');
 
-		if ($component == 'com_login') {
+		if ($component == 'com_login')
+		{
 			$file = 'login';
 		}
 
 		// Safety check for when configuration.php root_user is in use.
 		$config		= JFactory::getConfig();
 		$rootUser	= $config->get('root_user');
-		if (property_exists('JConfig', 'root_user') &&
-				(JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)) {
+		if (property_exists('JConfig', 'root_user')
+			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
+		{
 			JError::raiseNotice(200, JText::sprintf('JWARNING_REMOVE_ROOT_USER', 'index.php?option=com_config&task=application.removeroot&'. JSession::getFormToken() .'=1'));
 		}
 
@@ -204,12 +212,12 @@ class JAdministrator extends JApplication
 	/**
 	 * Login authentication function
 	 *
-	 * @param	array	Array('username' => string, 'password' => string)
-	 * @param	array	Array('remember' => boolean)
+	 * @param   array  Array('username' => string, 'password' => string)
+	 * @param   array  Array('remember' => boolean)
 	 *
-	 * @return	boolean True on success.
-	 * @see		JApplication::login
-	 * @since	1.5
+	 * @return  boolean True on success.
+	 * @see     JApplication::login
+	 * @since   1.5
 	 */
 	public function login($credentials, $options = array())
 	{
@@ -220,7 +228,8 @@ class JAdministrator extends JApplication
 		$options['autoregister'] = false;
 
 		//Set the application login entry point
-		if (!array_key_exists('entry_url', $options)) {
+		if (!array_key_exists('entry_url', $options))
+		{
 			$options['entry_url'] = JURI::base().'index.php?option=com_users&task=login';
 		}
 
@@ -244,8 +253,8 @@ class JAdministrator extends JApplication
 	/**
 	 * Get the template
 	 *
-	 * @return	string	The template name
-	 * @since	1.0
+	 * @return  string	The template name
+	 * @since   1.0
 	 */
 	public function getTemplate($params = false)
 	{
@@ -274,11 +283,19 @@ class JAdministrator extends JApplication
 
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
+				$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 				$template->params = new JRegistry;
 				$template->template = 'isis';
 			}
 		}
-		if ($params) {
+
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		{
+			throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+		}
+
+		if ($params)
+		{
 			return $template;
 		}
 
@@ -288,8 +305,8 @@ class JAdministrator extends JApplication
 	/**
 	 * Purge the jos_messages table of old messages
 	 *
-	 * @return	void
-	 * @since	1.5
+	 * @return  void
+	 * @since   1.5
 	 */
 	public static function purgeMessages()
 	{
@@ -307,16 +324,20 @@ class JAdministrator extends JApplication
 		$config = $db->loadObject();
 
 		// check if auto_purge value set
-		if (is_object($config) and $config->cfg_name == 'auto_purge') {
+		if (is_object($config) and $config->cfg_name == 'auto_purge')
+		{
 			$purge	= $config->cfg_value;
-		} else {
+		}
+		else
+		{
 			// if no value set, default is 7 days
 			$purge	= 7;
 		}
 		// calculation of past date
 
 		// if purge value is not 0, then allow purging of old messages
-		if ($purge > 0) {
+		if ($purge > 0)
+		{
 			// purge old messages at day set in message configuration
 			$past = JFactory::getDate(time() - $purge * 86400);
 			$pastStamp = $past->toSql();

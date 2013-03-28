@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -151,7 +151,7 @@ if ($params->get('show_title')) : ?>
 	<?php endif; ?>
 
 <?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '0')) OR ($params->get('urls_position') == '0' AND empty($urls->urls_position)))
-		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))): ?>
+		OR (empty($urls->urls_position) AND (!$params->get('urls_position')))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 <?php endif; ?>
@@ -172,12 +172,19 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item
 endif;
 ?>
 	<?php echo $this->item->text; ?>
+
+<?php // TAGS ?>
+<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+<?php endif; ?>
+
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
 	echo $this->item->pagination;?>
 <?php endif; ?>
 
-	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))): ?>
+	<?php if (isset($urls) AND ((!empty($urls->urls_position) AND ($urls->urls_position == '1')) OR ( $params->get('urls_position') == '1'))) : ?>
 
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>

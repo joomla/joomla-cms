@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -503,6 +503,9 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
+			$this->errorNum = (int) mysqli_errno($this->connection);
+			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
+
 			// Check if the server was disconnected.
 			if (!$this->connected())
 			{
@@ -515,9 +518,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					$this->errorNum = (int) mysqli_errno($this->connection);
-					$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
-
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 					throw new RuntimeException($this->errorMsg, $this->errorNum);
 				}
@@ -528,9 +528,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
-				$this->errorNum = (int) mysqli_errno($this->connection);
-				$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
-
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
 				throw new RuntimeException($this->errorMsg, $this->errorNum);
 			}

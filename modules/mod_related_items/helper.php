@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
  * @subpackage  mod_related_items
  * @since       1.5
  */
-abstract class modRelatedItemsHelper
+abstract class ModRelatedItemsHelper
 {
 	public static function getList($params)
 	{
@@ -59,7 +59,8 @@ abstract class modRelatedItemsHelper
 				foreach ($keys as $key)
 				{
 					$key = trim($key);
-					if ($key) {
+					if ($key)
+					{
 						$likes[] = $db->escape($key);
 					}
 				}
@@ -105,7 +106,8 @@ abstract class modRelatedItemsHelper
 					$query->where('(a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')');
 
 					// Filter by language
-					if ($app->getLanguageFilter()) {
+					if (JLanguageMultilang::isEnabled())
+					{
 						$query->where('a.language in (' . $db->Quote(JFactory::getLanguage()->getTag()) . ',' . $db->Quote('*') . ')');
 					}
 

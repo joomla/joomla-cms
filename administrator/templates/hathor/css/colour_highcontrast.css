@@ -3,7 +3,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
@@ -758,12 +758,12 @@ button:hover, button:focus {
  * Tooltips
  */
 .tip {
-	background: #10254a;
-	border: 1px solid #1b3f7c;
+	background: #000000;
+	border: 1px solid #FFFFFF;
 }
 
 .tip-title {
-	background: url(../images/selector-arrow-hc.png) no-repeat;
+	background: url(../images/selector-arrow-std.png) no-repeat;
 }
 
 /**

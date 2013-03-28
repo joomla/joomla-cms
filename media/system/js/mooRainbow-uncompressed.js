@@ -169,7 +169,7 @@ var MooRainbow = new Class({
 		inputs = this.arrRGB.concat(this.arrHSB, this.hexInput);
 
 		document.addEvent('click', function() { 
-			if(this.visible) this.hide(this.layout); 
+			if (this.visible) this.hide(this.layout); 
 		}.bind(this));
 
 		inputs.each(function(el) {
@@ -180,7 +180,7 @@ var MooRainbow = new Class({
 			el.addEvents({
 				'click': function(e) { e.stop(); },
 				'keyup': function(e) {
-					if(e.key == 'esc' && this.visible) this.hide(this.layout);
+					if (e.key == 'esc' && this.visible) this.hide(this.layout);
 				}.bind(this)
 			}, this);
 		}, this);
@@ -206,7 +206,7 @@ var MooRainbow = new Class({
 		}.bind(this));
 		
 		this.okButton.addEvent('click', function() {
-			if(this.currentColor == this.options.startColor) {
+			if (this.currentColor == this.options.startColor) {
 				this.hide();
 				this.fireEvent('onComplete', [this.sets, this]);
 			}

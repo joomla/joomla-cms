@@ -10,7 +10,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 <body>
 <table border="1">
 	<tr><td colspan="2"><h1>Simple Template</h1></td></tr>
-	<?php if($this->countModules('top')) { ?>
+	<?php if ($this->countModules('top')) { ?>
 	<tr><td colspan="2"><jdoc:include type="modules" name="top" /></td></tr>
 	<?php } ?>
 	<tr>
@@ -21,7 +21,7 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
 
 		</td>
 	</tr>
-	<?php if($this->countModules('footer')) { ?>
+	<?php if ($this->countModules('footer')) { ?>
 	<tr>
 		<td colspan="2"><jdoc:include type="modules" name="footer" style="xhtml"/></td>
 	</tr>

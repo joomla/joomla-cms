@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class InstallerModelWarnings extends JModelList
 	 *
 	 * @param   string  $val  String optionally with G, M or K suffix
 	 *
-	 * @return	int		size in bytes
+	 * @return  integer   size in bytes
 	 *
 	 * @since 1.6
 	 */
@@ -56,7 +56,7 @@ class InstallerModelWarnings extends JModelList
 	 *
 	 * @return  array  Messages
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getItems()
 	{

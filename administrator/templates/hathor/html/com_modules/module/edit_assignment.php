@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $menuTypes = MenusHelper::getMenuLinks();
 			function validate(){
 				var value	= document.id('jform_assignment').value;
 				var list	= document.id('menu-assignment');
-				if(value == '-' || value == '0'){
+				if (value == '-' || value == '0'){
 					$$('.jform-assignments-button').each(function(el) {el.setProperty('disabled', true); });
 					list.getElements('input').each(function(el){
 						el.setProperty('disabled', true);

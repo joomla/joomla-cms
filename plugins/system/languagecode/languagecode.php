@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Content.languagecode
  * @since       2.5
  */
-class plgSystemLanguagecode extends JPlugin
+class PlgSystemLanguagecode extends JPlugin
 {
 	/**
 	 * Plugin that change the language code used in the <html /> tag
@@ -82,10 +82,10 @@ class plgSystemLanguagecode extends JPlugin
 	}
 
 	/**
-	 * @param	JForm	$form	The form to be altered.
-	 * @param	array	$data	The associated data for the form.
+	 * @param   JForm	$form	The form to be altered.
+	 * @param   array  $data	The associated data for the form.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 * @since	2.5
 	 */
 	public function onContentPrepareForm($form, $data)
