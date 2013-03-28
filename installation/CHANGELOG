@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Mar-2013 Mark Dexter
+ # [#30405] Warning in compact tag view when images is empty.
+
 27-Mar-2013 Jean-Marie Simonet
  # [#29319] SEF plugin gives wrong canonical url (of category, not from article). Thanks Rouven and Mark
  # [#30380] Joomla 3.1 should *not* suggest to use "admin" as the default admin username. Thanks Phil
