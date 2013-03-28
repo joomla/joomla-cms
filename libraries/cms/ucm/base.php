@@ -153,7 +153,7 @@ abstract class JUcmBase implements JUcm
 
 		if ($primaryKeyName && isset($data[$primaryKeyName]))
 		{
-			$table->load($data[$pkField]);
+			$table->load($data[$primaryKeyName]);
 		}
 
 		try
