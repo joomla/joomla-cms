@@ -25,12 +25,25 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Mar-2013 Jean-Marie Simonet
+ # [#30415] *Multilanguage 3.1: SIngle article display does not filter correctly author contact per language.
+ $ Updating installation file: ckb-IQ.ini
+ # [#30388] Routing on the compact list tagged items layout, default tagged items layout and similar tags module. Thanks Mark.
+
+27-Mar-2013 Mark Dexter
+ # [#30405] Warning in compact tag view when images is empty.
+
 27-Mar-2013 Jean-Marie Simonet
  # [#29319] SEF plugin gives wrong canonical url (of category, not from article). Thanks Rouven and Mark
  # [#30380] Joomla 3.1 should *not* suggest to use "admin" as the default admin username. Thanks Phil
  # [#30384] *TAGS: "Compact List of Tagged items" menu item issues in multilanguage
  # [#30377] Add a tag filter to the sidebars in content managers. Thanks Elin
  # [#30355] Tagged item list is showing unpublished, trashed and archived items. Thanks Elin.
+ # [#30389] List All Tags Not Routing to Single Tag Menu Item + . Thanks Mark.
+ $ [#30402] Clarification of tags description (en-GB). Thanks Brian.
+ $ [#30397] Correct en-GB grammar in installation. Thanks Brian.
+ # [#30329] Missing tags feed and related items. Thanks Elin
+ # [#29165] Sort table of articles by featured is missing. Thanks Ram
 
 26-Mar-2013 Jean-Marie Simonet
  $ Updating installation ini files: pt-BR, ckb-IQ

@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 ?>
+<?php JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php'); ?>
 <div class="tagssimilar<?php echo $moduleclass_sfx; ?>">
 <?php if ($list) : ?>
 	<ul>
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
 			<?php $item->route = new JHelperRoute; ?>
-
-			<a href="<?php echo JRoute::_($item->route->getRoute($item->content_item_id, $item->type_alias, $item->link, $item->core_language, $item->core_catid)); ?>">
+			<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 				<?php if (!empty($item->core_title)) :
 					echo htmlspecialchars($item->core_title);
 				endif; ?>
