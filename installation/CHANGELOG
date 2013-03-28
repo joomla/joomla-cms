@@ -30,6 +30,7 @@ $ -> Language fix or change
  $ Updating installation file: ckb-IQ.ini
  # [#30388] Routing on the compact list tagged items layout, default tagged items layout and similar tags module. Thanks Mark.
  # [#30410] Notice: Array to string conversion in Tags View. Thanks Mark
+ # [#30414] Pagination limit not changeable in com_redirect. Thanks Constantin
 
 27-Mar-2013 Mark Dexter
  # [#30405] Warning in compact tag view when images is empty.
