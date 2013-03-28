@@ -71,6 +71,10 @@ class MenusViewItems extends JViewLegacy
 					$value = JText::_('COM_MENUS_TYPE_HEADING');
 					break;
 
+				case 'logout':
+					$value = JText::_('COM_MENUS_TYPE_LOGOUT');
+					break;
+
 				case 'component':
 				default:
 					// load language

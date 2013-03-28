@@ -46,7 +46,7 @@
 				<field
 					name="login"
 					type="menuitem"
-					disable="separator"
+					disable="separator,heading,logout"
 					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC" >
 					<option
@@ -55,7 +55,7 @@
 				<field
 					name="logout"
 					type="menuitem"
-					disable="separator"
+					disable="separator,heading,logout"
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC" >
 					<option

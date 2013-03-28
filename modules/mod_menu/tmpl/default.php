@@ -62,7 +62,7 @@ foreach ($list as $i => &$item) :
 
 	if (!empty($class))
 	{
-		$class = ' class="'.trim($class) .'"';
+		$class = ' class="' . trim($class) . '"';
 	}
 
 	echo '<li'.$class.'>';
@@ -73,7 +73,8 @@ foreach ($list as $i => &$item) :
 		case 'url':
 		case 'component':
 		case 'heading':
-			require JModuleHelper::getLayoutPath('mod_menu', 'default_'.$item->type);
+		case 'logout':
+			require JModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
 			break;
 
 		default:

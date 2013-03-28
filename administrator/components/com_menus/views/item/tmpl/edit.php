@@ -37,7 +37,8 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				document.id('item-form').elements['jform[menutype]'].value = type;
 			}
 			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		}
+		else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
 		{
 			Joomla.submitform(task, document.id('item-form'));
 		}
@@ -77,6 +78,17 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								</div>
 								<div class="controls">
 									<?php echo $this->form->getInput('link'); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+
+						<?php if ($this->item->type == 'logout'): ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php //echo $this->form->getLabel('returnUrl'); ?>
+								</div>
+								<div class="controls">
+									<?php // echo $this->form->getInput('returnUrl'); ?>
 								</div>
 							</div>
 						<?php endif; ?>

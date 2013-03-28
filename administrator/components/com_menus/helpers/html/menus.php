@@ -77,6 +77,25 @@ abstract class MenusHtmlMenus
 	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states	= array(
+			11	=> array(
+				'unpublish',
+				'',
+				'COM_MENUS_HTML_UNPUBLISH_LOGOUT',
+				'',
+				false,
+				'publish',
+				'publish'
+			),
+			10	=> array(
+				'publish',
+				'',
+				'COM_MENUS_HTML_PUBLISH_LOGOUT',
+				'',
+				false,
+				'unpublish',
+				'unpublish'
+			),
+
 			9	=> array(
 				'unpublish',
 				'',
