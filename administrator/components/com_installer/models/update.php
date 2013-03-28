@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,8 +25,8 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see		JController
-	 * @since	1.6
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -56,7 +56,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -86,7 +86,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  JDatabaseQuery  The database query
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -141,10 +141,13 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  boolean Result
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0)
 	{
+		// Purge the updates list
+		$this->purge();
+
 		$updater = JUpdater::getInstance();
 		$results = $updater->findUpdates($eid, $cache_timeout);
 		return true;
@@ -153,9 +156,9 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Removes all of the updates from the table.
 	 *
-	 * @return	boolean result of operation
+	 * @return  boolean result of operation
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function purge()
 	{
@@ -185,9 +188,9 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Enables any disabled rows in #__update_sites table
 	 *
-	 * @return	boolean result of operation
+	 * @return  boolean result of operation
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function enableSites()
 	{
@@ -219,7 +222,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function update($uids)
 	{
@@ -251,9 +254,9 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   JUpdate  $update  An update definition
 	 *
-	 * @return  boolean	 Result of install
+	 * @return  boolean   Result of install
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private function install($update)
 	{

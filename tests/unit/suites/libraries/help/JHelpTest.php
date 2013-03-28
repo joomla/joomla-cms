@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Help
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,8 +57,6 @@ class JHelpTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHelp::createURL
 	 */
 	public function testCreateURL_com_content()
 	{
@@ -75,8 +73,6 @@ class JHelpTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHelp::createSiteList
 	 */
 	public function testCreateSiteList_noXML()
 	{
@@ -93,8 +89,6 @@ class JHelpTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JHelp::createSiteList
 	 */
 	public function testCreateSiteList_withXML()
 	{

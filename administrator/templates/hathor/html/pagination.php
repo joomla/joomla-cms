@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,32 +91,36 @@ function pagination_list_footer($list)
 
 function pagination_list_render($list)
 {
-	$lang = JFactory::getLanguage();
 	$html = null;
 
-	if ($list['start']['active']) {
+	if ($list['start']['active'])
+	{
 		$html .= "<div class=\"button2-right\"><div class=\"start\">".$list['start']['data']."</div></div>";
 	} else {
 		$html .= "<div class=\"button2-right off\"><div class=\"start\">".$list['start']['data']."</div></div>";
 	}
-	if ($list['previous']['active']) {
+	if ($list['previous']['active'])
+	{
 		$html .= "<div class=\"button2-right\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
 	} else {
 		$html .= "<div class=\"button2-right off\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
 	}
 
 	$html .= "\n<div class=\"button2-left\"><div class=\"page\">";
-	foreach($list['pages'] as $page) {
+	foreach ($list['pages'] as $page)
+	{
 		$html .= $page['data'];
 	}
 	$html .= "\n</div></div>";
 
-	if ($list['next']['active']) {
+	if ($list['next']['active'])
+	{
 		$html .= "<div class=\"button2-left\"><div class=\"next\">".$list['next']['data']."</div></div>";
 	} else {
 		$html .= "<div class=\"button2-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
 	}
-	if ($list['end']['active']) {
+	if ($list['end']['active'])
+	{
 		$html .= "<div class=\"button2-left\"><div class=\"end\">".$list['end']['data']."</div></div>";
 	} else {
 		$html .= "<div class=\"button2-left off\"><div class=\"end\">".$list['end']['data']."</div></div>";
@@ -139,5 +143,13 @@ function pagination_item_active(&$item)
 
 function pagination_item_inactive(&$item)
 {
-	return "<span>".$item->text."</span>";
+	if ($item->active)
+	{
+		$class = 'class="active"';
+	}
+	else
+	{
+		$class = '';
+	}
+	return '<span ' . $class . '>' . $item->text . '</span>';
 }

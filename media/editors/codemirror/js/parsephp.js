@@ -401,7 +401,7 @@ var PHPParser = Editor.Parser = (function() {
     }
     
     function altsyntax(token){
-    	if(token.content==':')
+    	if (token.content==':')
     		cont(altsyntaxBlock,poplex);
     }
     

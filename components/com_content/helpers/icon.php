@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,8 +125,8 @@ abstract class JHtmlIcon
 	 * @param   array      $attribs  Optional attributes for the link
 	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
-	 * @return	string	The HTML for the article edit icon.
-	 * @since	1.6
+	 * @return  string	The HTML for the article edit icon.
+	 * @since   1.6
 	 */
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{
@@ -255,7 +255,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = $text = '<span class="icon-print"></i>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = $text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
 			}
 		}
 		else

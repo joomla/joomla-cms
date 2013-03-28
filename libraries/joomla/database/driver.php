@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1678,17 +1678,17 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
-	 * @param   string   $table   The name of the database table to update.
-	 * @param   object   $object  A reference to an object whose public properties match the table fields.
-	 * @param   array    $key     The name of the primary key.
-	 * @param   boolean  $nulls   True to update null fields or false to ignore them.
+	 * @param   string   $table    The name of the database table to update.
+	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
+	 * @param   array    $key      The name of the primary key.
+	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
 	 */
-	public function updateObject($table, $object, $key, $nulls = false)
+	public function updateObject($table, &$object, $key, $nulls = false)
 	{
 		$fields = array();
 		$where = array();

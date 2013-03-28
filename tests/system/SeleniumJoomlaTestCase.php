@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.FunctionalTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 	public $cfg; // configuration so tests can get at the fields
 	protected $captureScreenshotOnFailure = false;
+
 	protected $screenshotPath = null;
+
 	protected $screenshotUrl = null;
 
 	public function setUp()
@@ -84,13 +86,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 		$this->type("mod-login-username", $username);
 		$this->type("mod-login-password", $password);
-		if ($this->isElementPresent("//button[contains(text(), 'Log in')]"))
+		if ($this->isElementPresent("//button[contains(., 'Log in')]"))
 		{
-			$this->click("//button[contains(text(), 'Log in')]");
+			$this->click("//button[contains(., 'Log in')]");
 		}
-		elseif ($this->isElementPresent("//a[contains(text(), 'Log in')]"))
+		elseif ($this->isElementPresent("//a[contains(., 'Log in')]"))
 		{
-			$this->click("//a[contains(text(), 'Log in')]");
+			$this->click("//a[contains(., 'Log in')]");
 		}
 		$this->waitForPageToLoad("30000");
 	}
@@ -594,9 +596,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 				break;
 		}
 
+
 		$this->select("id=jform_editor", $select);
+
 		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
+
 	}
 
 	function setTinyText($text)

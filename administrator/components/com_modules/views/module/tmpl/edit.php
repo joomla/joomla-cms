@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,11 +24,13 @@ $this->fieldsets = $this->form->getFieldsets('params');
 $script = "Joomla.submitbutton = function(task)
 	{
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
-if ($hasContent) {
+if ($hasContent)
+{
 	$script .= $this->form->getField('content')->save();
 }
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
-				if (self != top) {
+				if (self != top)
+				{
 					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 				}
 			}

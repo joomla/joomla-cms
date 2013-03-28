@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,9 +21,9 @@ class ConfigControllerComponent extends JControllerLegacy
 	/**
 	 * Class Constructor
 	 *
-	 * @param	array	$config		An optional associative array of configuration settings.
-	 * @return	void
-	 * @since	1.5
+	 * @param   array  $config		An optional associative array of configuration settings.
+	 * @return  void
+	 * @since   1.5
 	 */
 	public function __construct($config = array())
 	{
@@ -91,13 +91,16 @@ class ConfigControllerComponent extends JControllerLegacy
 		$return = $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if ($errors[$i] instanceof Exception) {
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');

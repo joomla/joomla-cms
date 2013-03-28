@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,15 +24,15 @@ class JFormFieldCategoryParent extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $type = 'CategoryParent';
 
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @return  array  The field option objects.
+	 * @since   1.6
 	 */
 	protected function getOptions()
 	{
@@ -63,13 +63,15 @@ class JFormFieldCategoryParent extends JFormFieldList
 		$query->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
-		if ($extension = $this->form->getValue('extension')) {
+		if ($extension = $this->form->getValue('extension'))
+		{
 			$query->where('(a.extension = '.$db->quote($extension).' OR a.parent_id = 0)');
 		}
 		if ($this->element['parent'])
 		{
 		// Prevent parenting to children of this item.
-			if ($id = $this->form->getValue('id')) {
+			if ($id = $this->form->getValue('id'))
+			{
 				$query->join('LEFT', $db->quoteName('#__categories').' AS p ON p.id = '.(int) $id);
 				$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
@@ -101,7 +103,8 @@ class JFormFieldCategoryParent extends JFormFieldList
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			// Translate ROOT
-			if ($options[$i]->level == 0) {
+			if ($options[$i]->level == 0)
+			{
 				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 			}
 
@@ -154,8 +157,10 @@ class JFormFieldCategoryParent extends JFormFieldList
 			}
 		}
 
-		if (isset($row) && !isset($options[0])) {
-			if ($row->parent_id == '1') {
+		if (isset($row) && !isset($options[0]))
+		{
+			if ($row->parent_id == '1')
+			{
 				$parent = new stdClass;
 				$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);

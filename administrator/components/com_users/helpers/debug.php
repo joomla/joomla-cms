@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,8 @@ class UsersHelperDebug
 	/**
 	 * Get a list of the components.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public static function getComponents()
 	{
@@ -37,7 +37,8 @@ class UsersHelperDebug
 
 		$items = $db->setQuery($query)->loadObjectList();
 
-		if (count($items)) {
+		if (count($items))
+		{
 			$lang = JFactory::getLanguage();
 
 			foreach ($items as &$item)
@@ -64,21 +65,23 @@ class UsersHelperDebug
 	/**
 	 * Get a list of the actions for the component or code actions.
 	 *
-	 * @param	string	The name of the component.
+	 * @param   string	The name of the component.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	public static function getDebugActions($component = null)
 	{
 		$actions	= array();
 
 		// Try to get actions for the component
-		if (!empty($component)) {
+		if (!empty($component))
+		{
 			$component_actions = JAccess::getActions($component);
 
-			if (!empty($component_actions)) {
-				foreach($component_actions as &$action)
+			if (!empty($component_actions))
+			{
+				foreach ($component_actions as &$action)
 				{
 					$actions[$action->title] = array($action->name, $action->description);
 				}
@@ -86,18 +89,22 @@ class UsersHelperDebug
 		}
 
 		// Use default actions from configuration if no component selected or component doesn't have actions
-		if (empty($actions)) {
+		if (empty($actions))
+		{
 			$filename = JPATH_ADMINISTRATOR.'/components/com_config/models/forms/application.xml';
 
-			if (is_file($filename)) {
+			if (is_file($filename))
+			{
 				$xml = simplexml_load_file($filename);
 
-				foreach($xml->children()->fieldset as $fieldset)
+				foreach ($xml->children()->fieldset as $fieldset)
 				{
-					if ('permissions' == (string) $fieldset['name']) {
+					if ('permissions' == (string) $fieldset['name'])
+					{
 						foreach ($fieldset->children() as $field)
 						{
-							if ('rules' == (string) $field['name']) {
+							if ('rules' == (string) $field['name'])
+							{
 								foreach ($field->children() as $action)
 								{
 									$actions[(string) $action['title']] = array(
@@ -131,7 +138,7 @@ class UsersHelperDebug
 	/**
 	 * Get a list of filter options for the levels.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getLevelsOptions()
 	{

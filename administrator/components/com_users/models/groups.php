@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,13 +21,14 @@ class UsersModelGroups extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'parent_id', 'a.parent_id',
@@ -45,7 +46,7 @@ class UsersModelGroups extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -69,9 +70,9 @@ class UsersModelGroups extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -85,8 +86,8 @@ class UsersModelGroups extends JModelList
 	/**
 	 * Gets the list of groups and adds expensive joins to the result set.
 	 *
-	 * @return	mixed	An array of data items on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  An array of data items on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -95,11 +96,13 @@ class UsersModelGroups extends JModelList
 		$store = $this->getStoreId();
 
 		// Try to load the data from internal storage.
-		if (empty($this->cache[$store])) {
+		if (empty($this->cache[$store]))
+		{
 			$items = parent::getItems();
 
 			// Bail out on an error or empty list.
-			if (empty($items)) {
+			if (empty($items))
+			{
 				$this->cache[$store] = $items;
 
 				return $items;
@@ -138,7 +141,8 @@ class UsersModelGroups extends JModelList
 			// Second pass: collect the group counts into the master items array.
 			foreach ($items as &$item)
 			{
-				if (isset($users[$item->id])) {
+				if (isset($users[$item->id]))
+				{
 					$item->user_count = $users[$item->id]->user_count;
 				}
 			}
@@ -153,7 +157,7 @@ class UsersModelGroups extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -177,8 +181,10 @@ class UsersModelGroups extends JModelList
 
 		// Filter the comments over the search string if set.
 		$search = $this->getState('filter.search');
-		if (!empty($search)) {
-			if (stripos($search, 'id:') === 0) {
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
 				$query->where('a.id = '.(int) substr($search, 3));
 			} else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');

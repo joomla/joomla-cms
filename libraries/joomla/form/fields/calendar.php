@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -67,6 +67,11 @@ class JFormFieldCalendar extends JFormField
 		if ($this->element['onchange'])
 		{
 			$attributes['onchange'] = (string) $this->element['onchange'];
+		}
+		if ($this->required)
+		{
+			$attributes['required'] = 'required';
+			$attributes['aria-required'] = 'true';
 		}
 
 		// Handle the special case for "now".

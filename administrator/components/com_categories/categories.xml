@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.0" method="upgrade">
+<extension type="component" version="3.1" method="upgrade">
 	<name>com_categories</name>
 		<author>Joomla! Project</author>
 	<creationDate>December 2007</creationDate>
-		<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+		<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 		<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 		<authorEmail>admin@joomla.org</authorEmail>
 		<authorUrl>www.joomla.org</authorUrl>
@@ -21,8 +21,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_categories.ini
-			</language>
+			<language tag="en-GB">language/en-GB.com_categories.ini</language>
+			<language tag="en-GB">language/en-GB.com_categories.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

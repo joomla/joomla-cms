@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,14 +18,14 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models
  * @subpackage  mod_popular
  * @since       1.6
  */
-abstract class modPopularHelper
+abstract class ModPopularHelper
 {
 	/**
 	 * Get a list of the most popular articles
 	 *
-	 * @param	JObject		The module parameters.
+	 * @param   JObject		The module parameters.
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public static function getList($params)
 	{
@@ -50,7 +50,8 @@ abstract class modPopularHelper
 
 		// Set User Filter.
 		$userId = $user->get('id');
-		switch ($params->get('user_id')) {
+		switch ($params->get('user_id'))
+		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
 				break;
@@ -67,13 +68,15 @@ abstract class modPopularHelper
 
 		$items = $model->getItems();
 
-		if ($error = $model->getError()) {
+		if ($error = $model->getError())
+		{
 			JError::raiseError(500, $error);
 			return false;
 		}
 
 		// Set the links
-		foreach ($items as &$item) {
+		foreach ($items as &$item)
+		{
 			if ($user->authorise('core.edit', 'com_content.article.'.$item->id)){
 				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);
 			} else {
@@ -87,8 +90,8 @@ abstract class modPopularHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param	JObject	The module parameters.
-	 * @return	string	The alternate title for the module.
+	 * @param   JObject	The module parameters.
+	 * @return  string	The alternate title for the module.
 	 */
 	public static function getTitle($params)
 	{
@@ -97,7 +100,8 @@ abstract class modPopularHelper
 		if ($catid)
 		{
 			$category = JCategories::getInstance('Content')->get($catid);
-			if ($category) {
+			if ($category)
+			{
 				$title = $category->title;
 			}
 			else {

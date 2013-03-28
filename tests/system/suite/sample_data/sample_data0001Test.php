@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -58,6 +58,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->jPrint("Load search" . "\n");
 		$this->type("mod-search-searchword", "search");
 		$this->keyPress("mod-search-searchword", "13");
+
 		$this->waitForPageToLoad("30000");
 
 		$this->click("link=Home");

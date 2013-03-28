@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="3.0">
+<extension type="library" version="3.1">
 	<name>Joomla! Platform</name>
 	<libraryname>joomla</libraryname>
 	<version>12.2</version>
 	<description>LIB_JOOMLA_XML_DESCRIPTION</description>
 	<creationDate>2008</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>

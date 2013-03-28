@@ -194,7 +194,7 @@ class JCrypt
 					}
 					$microEnd = microtime(true) * 1000000;
 					$entropy .= $microStart . $microEnd;
-					if ($microStart > $microEnd)
+					if ($microStart >= $microEnd)
 					{
 						$microEnd += 1000000;
 					}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  Content.pagenavigation
  * @since       1.5
  */
-class plgContentPagenavigation extends JPlugin
+class PlgContentPagenavigation extends JPlugin
 {
 	/**
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
@@ -32,8 +32,8 @@ class plgContentPagenavigation extends JPlugin
 			return false;
 		}
 
-		if ($params->get('show_item_navigation') && ($context == 'com_content.article') && ($view == 'article')) {
-			$html = '';
+		if ($params->get('show_item_navigation') && ($context == 'com_content.article') && ($view == 'article'))
+		{
 			$db		= JFactory::getDbo();
 			$user	= JFactory::getUser();
 			$lang	= JFactory::getLanguage();
@@ -50,18 +50,23 @@ class plgContentPagenavigation extends JPlugin
 			// For Blogs the `orderby_sec` param is the order controlling param.
 			// For Table and List views it is the `orderby` param.
 			$params_list = $params->toArray();
-			if (array_key_exists('orderby_sec', $params_list)) {
+			if (array_key_exists('orderby_sec', $params_list))
+			{
 				$order_method = $params->get('orderby_sec', '');
-			} else {
+			}
+			else
+			{
 				$order_method = $params->get('orderby', '');
 			}
 			// Additional check for invalid sort ordering.
-			if ($order_method == 'front') {
+			if ($order_method == 'front')
+			{
 				$order_method = '';
 			}
 
 			// Determine sort order.
-			switch ($order_method) {
+			switch ($order_method)
+			{
 				case 'date' :
 					$orderby = 'a.created';
 					break;
@@ -128,7 +133,8 @@ class plgContentPagenavigation extends JPlugin
 				. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere
 			);
 			$query->order($orderby);
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && $app->getLanguageFilter())
+			{
 				$query->where('a.language in ('.$db->quote($lang->getTag()).','.$db->quote('*').')');
 			}
 
@@ -136,7 +142,8 @@ class plgContentPagenavigation extends JPlugin
 			$list = $db->loadObjectList('id');
 
 			// This check needed if incorrect Itemid is given resulting in an incorrect result.
-			if (!is_array($list)) {
+			if (!is_array($list))
+			{
 				$list = array();
 			}
 
@@ -163,47 +170,42 @@ class plgContentPagenavigation extends JPlugin
 			}
 
 			$pnSpace = "";
-			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT')) {
+			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
+			{
 				$pnSpace = " ";
 			}
 
-			if ($row->prev) {
+			if ($row->prev)
+			{
 				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));
-			} else {
+			}
+			else
+			{
 				$row->prev = '';
 			}
 
-			if ($row->next) {
+			if ($row->next)
+			{
 				$row->next = JRoute::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catslug));
-			} else {
+			}
+			else
+			{
 				$row->next = '';
 			}
 
 			// Output.
-			if ($row->prev || $row->next) {
-				// Note: The pagenav class is deprecated. Use pager instead.
-				$html = '
-				<ul class="pager pagenav">';
-				if ($row->prev) {
-					$html .= '
-					<li class="previous">
-						<a href="'. $row->prev .'" rel="prev">'
-							. JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV') . '</a>
-					</li>';
-				}
+			if ($row->prev || $row->next)
+			{
+				// Get the path for the layout file
+				$path = JPluginHelper::getLayoutPath('content', 'pagenavigation');
 
-				if ($row->next) {
-					$html .= '
-					<li class="next">
-						<a href="'. $row->next .'" rel="next">'
-							. JText::_('JNEXT') . $pnSpace . JText::_('JGLOBAL_GT') .'</a>
-					</li>';
-				}
-				$html .= '
-				</ul>';
+				// Render the pagenav
+				ob_start();
+				include $path;
+				$row->pagination = ob_get_clean();
 
-				$row->pagination = $html;
 				$row->paginationposition = $this->params->get('position', 1);
+
 				// This will default to the 1.5 and 1.6-1.7 behavior.
 				$row->paginationrelative = $this->params->get('relative', 0);
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,13 +36,15 @@ class ConfigViewApplication extends JViewLegacy
 		$user = JFactory::getUser();
 
 		// Check for model errors.
-		if ($errors = $this->get('Errors')) {
+		if ($errors = $this->get('Errors'))
+		{
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
 
 		// Bind the form to the data.
-		if ($form && $data) {
+		if ($form && $data)
+		{
 			$form->bind($data);
 		}
 
@@ -73,7 +75,7 @@ class ConfigViewApplication extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{

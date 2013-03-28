@@ -39,7 +39,7 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 			return;
 		}
 
-		if(0 !== strpos($comment, '//'))
+		if (0 !== strpos($comment, '//'))
 		{
 			// Not of our concern
 
@@ -65,18 +65,18 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 		*    The term is code and is case sensitive.(@todo)
 		*/
 
-		if(isset($comment{3}) && $comment{3} != strtoupper($comment{3}))
+		if (isset($comment{3}) && $comment{3} != strtoupper($comment{3}))
 		{
 			// Comment does not start with an upper case letter
 
 			$previous = $phpcsFile->findPrevious(T_COMMENT, $stackPtr - 1);
 
-			if($tokens[$previous]['line'] == $tokens[$stackPtr]['line'] - 1)
+			if ($tokens[$previous]['line'] == $tokens[$stackPtr]['line'] - 1)
 			{
 				// There is a comment on the previous line.
 				$test = trim($tokens[$previous]['content']);
 
-				if('.' != substr($test, strlen($test) - 1))
+				if ('.' != substr($test, strlen($test) - 1))
 				{
 					// If the previous comment does not end with a full stop "." we
 					// assume a sentence spanned over multiple lines.
@@ -98,7 +98,7 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 
 		$previous = $phpcsFile->findPrevious(T_SEMICOLON, $stackPtr);
 
-		if($tokens[$previous]['line'] == $tokens[$stackPtr]['line'])
+		if ($tokens[$previous]['line'] == $tokens[$stackPtr]['line'])
 		{
 			$phpcsFile->addError('Please put your comment on a separate line *preceding* your code; found "%s"'
 					, $stackPtr, 'Inline', array($comment));
@@ -110,7 +110,7 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 		 * Always have a single blank line before a comment or block of comments.
 		 * -- Don't allow preceding "code" - identified by a semicolon ;)
 		 */
-		if($tokens[$previous]['line'] == $tokens[$stackPtr]['line'] - 1)
+		if ($tokens[$previous]['line'] == $tokens[$stackPtr]['line'] - 1)
 		{
 			$phpcsFile->addError('Please consider a blank line preceding your comment'
 					, $stackPtr, 'TooClose');
@@ -127,12 +127,12 @@ class Joomla_Sniffs_Commenting_SingleCommentSniff implements PHP_CodeSniffer_Sni
 
 		$next = $phpcsFile->findNext(T_COMMENT, $stackPtr + 1);
 
-		if($tokens[$next]['line'] == $tokens[$stackPtr]['line'] + 1)
+		if ($tokens[$next]['line'] == $tokens[$stackPtr]['line'] + 1)
 		{
 			// The following line contains also a comment
 			$nextNext = $phpcsFile->findNext(T_COMMENT, $next + 1);
 
-			if($tokens[$nextNext]['line'] == $tokens[$next]['line'] + 1)
+			if ($tokens[$nextNext]['line'] == $tokens[$next]['line'] + 1)
 			{
 				// Found 3 lines of // comments - too much.
 				$phpcsFile->addError('Please consider the /* */ style for comments that span over multiple lines.'

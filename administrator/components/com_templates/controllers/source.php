@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,8 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
+	 * @param   array An optional associative array of configuration settings.
+	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{
@@ -37,10 +37,10 @@ class TemplatesControllerSource extends JControllerLegacy
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array  An array of input data.
+	 * @param   string	The name of the key for the primary key.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	protected function allowEdit()
 	{
@@ -52,10 +52,10 @@ class TemplatesControllerSource extends JControllerLegacy
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array  An array of input data.
+	 * @param   string	The name of the key for the primary key.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	protected function allowSave()
 	{
@@ -65,11 +65,11 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string	The model name. Optional.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Configuration array for model. Optional (note, the empty array is atypical compared to other models).
+	 * @param   string	The model name. Optional.
+	 * @param   string	The class prefix. Optional.
+	 * @param   array  Configuration array for model. Optional (note, the empty array is atypical compared to other models).
 	 *
-	 * @return	object	The model.
+	 * @return  object  The model.
 	 */
 	public function getModel($name = 'Source', $prefix = 'TemplatesModel', $config = array())
 	{
@@ -80,11 +80,11 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * This controller does not have a display method. Redirect back to the list view of the component.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -94,7 +94,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function edit()
 	{
@@ -103,12 +103,14 @@ class TemplatesControllerSource extends JControllerLegacy
 		$recordId	= JRequest::getVar('id');
 		$context	= 'com_templates.edit.source';
 
-		if (preg_match('#\.\.#', base64_decode($recordId))) {
+		if (preg_match('#\.\.#', base64_decode($recordId)))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 		}
 
 		// Access check.
-		if (!$this->allowEdit()) {
+		if (!$this->allowEdit())
+		{
 			return JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 		}
 
@@ -122,7 +124,7 @@ class TemplatesControllerSource extends JControllerLegacy
 	/**
 	 * Method to cancel an edit
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function cancel()
 	{
@@ -155,18 +157,22 @@ class TemplatesControllerSource extends JControllerLegacy
 		$model   = $this->getModel();
 
 		// Access check.
-		if (!$this->allowSave()) {
+		if (!$this->allowSave())
+		{
 			return JError::raiseWarning(403, JText::_('JERROR_SAVE_NOT_PERMITTED'));
 		}
 
 		// Match the stored id's with the submitted.
-		if (empty($data['extension_id']) || empty($data['filename'])) {
+		if (empty($data['extension_id']) || empty($data['filename']))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		elseif ($data['extension_id'] != $model->getState('extension.id')) {
+		elseif ($data['extension_id'] != $model->getState('extension.id'))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		elseif ($data['filename'] != $model->getState('filename')) {
+		elseif ($data['filename'] != $model->getState('filename'))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
 
@@ -188,7 +194,8 @@ class TemplatesControllerSource extends JControllerLegacy
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if ($errors[$i] instanceof Exception) {
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else {
