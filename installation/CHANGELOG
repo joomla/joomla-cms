@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Mar-2013 Jean-Marie Simonet
+ # *Multilanguage 3.1: SIngle article display does not filter correctly author contact per language.
+
 27-Mar-2013 Mark Dexter
  # [#30405] Warning in compact tag view when images is empty.
 
