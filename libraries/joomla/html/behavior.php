@@ -324,20 +324,26 @@ abstract class JHtmlBehavior
 			$opt['size']      = array('x' => '\\window.getSize().x-80', 'y' => '\\window.getSize().y-80');
 		}
 
-		$options = JHtml::getJSObject($opt);
+		$js = array();
+		$js[] = 'window.addEvent("domready", function() {';
+		if (!sizeof(self::$loaded[__METHOD__])) 
+		{
+			$options = JHtml::getJSObject($opt);
+
+			$js[] = '    SqueezeBox.initialize(' . $options . ');';
+			$js[] = '    SqueezeBox.assign($$("' . $selector . '"), {parse: "rel"});';
+		}
+		else
+		{
+			$opt['parse'] = isset($params['parse']) ? $params['parse'] : 'rel';
+			$options = JHtml::getJSObject($opt);
+			
+			$js[] = '    SqueezeBox.assign($$("' . $selector . '"), ' . $options . ');';
+		}
+		$js[] = '});';
 
 		// Attach modal behavior to document
-		$document
-			->addScriptDeclaration(
-			"
-		window.addEvent('domready', function() {
-
-			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($$('" . $selector . "'), {
-				parse: 'rel'
-			});
-		});"
-		);
+		$document->addScriptDeclaration(implode("\r\n", $js));
 
 		// Set static array
 		self::$loaded[__METHOD__][$sig] = true;
