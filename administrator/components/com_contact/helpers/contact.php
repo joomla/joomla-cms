@@ -58,19 +58,19 @@ class ContactHelper extends JHelperContent
 	 */
 	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
-		if (empty($contactId) && empty($categoryId))
+		if (empty($id) && empty($categoryId))
 		{
 			$assetName = 'com_contact';
 			$level = 'component';
 		}
-		elseif (empty($contactId))
+		elseif (empty($id))
 		{
 			$assetName = 'com_contact.category.'.(int) $categoryId;
 			$level = 'category';
 		}
 		else
 		{
-			$assetName = 'com_contact.contact.'.(int) $contactId;
+			$assetName = 'com_contact.contact.'.(int) $id;
 			$level = 'category';
 		}
 

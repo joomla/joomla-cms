@@ -57,17 +57,17 @@ class ContentHelper extends JHelperContent
 	 */
 	public static function getActions($categoryId = 0, $id = 0,  $assetName = '')
 	{
-		if (empty($articleId) && empty($categoryId))
+		if (empty($id) && empty($categoryId))
 		{
 			$assetName = 'com_content';
 		}
-		elseif (empty($articleId))
+		elseif (empty($id))
 		{
 			$assetName = 'com_content.category.'.(int) $categoryId;
 		}
 		else
 		{
-			$assetName = 'com_content.article.'.(int) $articleId;
+			$assetName = 'com_content.article.'.(int) $id;
 		}
 
 		return parent::getActions($categoryId, $id, $assetName);
