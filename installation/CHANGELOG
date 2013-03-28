@@ -28,6 +28,7 @@ $ -> Language fix or change
 28-Mar-2013 Jean-Marie Simonet
  # [#30415] *Multilanguage 3.1: SIngle article display does not filter correctly author contact per language.
  $ Updating installation file: ckb-IQ.ini
+ # [#30388] Routing on the compact list tagged items layout, default tagged items layout and similar tags module. Thanks Mark.
 
 27-Mar-2013 Mark Dexter
  # [#30405] Warning in compact tag view when images is empty.
