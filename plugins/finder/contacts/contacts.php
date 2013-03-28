@@ -77,6 +77,14 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * The true if the type does not support categories.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $noCategories = false;
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.

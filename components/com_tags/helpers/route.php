@@ -47,7 +47,7 @@ class TagsHelperRoute extends JHelperRoute
 		return $link;
 	}
 
-	public function getRoute($id, $typealias = 'com_tags.tag', $link = '', $language = null, $catid = null)
+	public function getTagRoute($id, $typealias = 'com_tags.tag', $link = '', $language = null, $catid = null)
 	{
 		$needles = array(
 			'tag'  => array((int) $id)
