@@ -138,24 +138,54 @@ abstract class JUcmBase implements JUcm
 	/**
 	* Store data to the appropriate table
 	*
-	* @param	Array	$data	Data to be stored
-	* @param	JTable	$table	JTable Object
+	* @param	Array	$data		Data to be stored
+	* @param	JTable	$table		JTable Object
 	*
+	* @return	Boolean	true
 	*/
 	private function store($data, JTable $table = null)
 	{
 
+		//If no table is set we use the core content table
 		$table = $table ? $table : JTable::getInstance('Corecontent');
 
-		if (isset($data['core_content_id']))
+		$primaryKeyName = $table->getKeyName();
+
+		if ($primaryKeyName && isset($data[$primaryKeyName]))
 		{
-			$table->load($data['core_content_id']);
+			$table->load($data[$pkField]);
 		}
 
-		$table->bind($data);
+		try
+   		{
+  			$table->bind($data);
+   		}
+   		catch (RuntimeException $e)
+		{
+			throw new Exception($e->getMessage(), 500);
+			return false;
+		}
 
-		$table->check($data);
+		try
+   		{
+  			$table->check();
+   		}
+   		catch (RuntimeException $e)
+		{
+			throw new Exception($e->getMessage(), 500);
+			return false;
+		}
 
-		$table->store($data);	
+		try
+   		{
+  			$table->store();
+   		}
+   		catch (RuntimeException $e)
+		{
+			throw new Exception($e->getMessage(), 500);
+			return false;
+		}	
+		
+		return true;
 	}
 }
