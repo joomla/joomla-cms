@@ -14,7 +14,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
-$canDo	= BannersHelper::getActions();
+$canDo	= BannersHelper::getActions(0, 0, 'com_banners');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)

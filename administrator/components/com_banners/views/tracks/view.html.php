@@ -55,16 +55,17 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo	= BannersHelper::getActions($this->state->get('filter.category_id'));
+		$canDo	= BannersHelper::getActions($this->state->get('filter.category_id'), 0, 'com_banners');
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'banners-tracks.png');
 
 		$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton('Slider', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+		$bar->appendButton('Slider', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
 		$document = JFactory::getDocument();
 		$app = JFactory::getApplication();
+
 		if ($canDo->get('core.delete'))
 		{
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);

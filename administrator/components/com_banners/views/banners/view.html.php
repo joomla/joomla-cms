@@ -72,12 +72,14 @@ class BannersViewBanners extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo = BannersHelper::getActions($this->state->get('filter.category_id'));
+		$canDo = BannersHelper::getActions($this->state->get('filter.category_id'), 0, 'com_banners');
 		$user = JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'banners.png');
+
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('banner.add');

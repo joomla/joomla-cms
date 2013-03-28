@@ -72,7 +72,6 @@ class JHelperContent
 		{
 			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
-		echo $assetName;
 
 		return $result;
 	}
