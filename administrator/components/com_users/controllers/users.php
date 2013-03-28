@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class UsersControllerUsers extends JControllerAdmin
 {
 	/**
-	 * @var    string  The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_USERS_USERS';
@@ -28,8 +30,6 @@ class UsersControllerUsers extends JControllerAdmin
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @return  UsersControllerUsers
 	 *
 	 * @since   1.6
 	 * @see     JController
@@ -70,6 +70,7 @@ class UsersControllerUsers extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
+		// Initialiase variables.
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('block' => 1, 'unblock' => 0);
 		$task   = $this->getTask();

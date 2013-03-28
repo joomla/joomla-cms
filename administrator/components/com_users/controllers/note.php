@@ -38,9 +38,10 @@ class UsersControllerNote extends JControllerForm
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $key = 'id')
 	{
+		// Initialiase variables.
 		$append = parent::getRedirectToItemAppend($recordId, $key);
-
 		$userId = JFactory::getApplication()->input->get('u_id', 0, 'int');
+
 		if ($userId)
 		{
 			$append .= '&u_id=' . $userId;

@@ -25,13 +25,20 @@ class UsersViewGroup extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->state	= $this->get('State');
-		$this->item		= $this->get('Item');
-		$this->form		= $this->get('Form');
+		// Initialiase variables.
+		$this->state = $this->get('State');
+		$this->item  = $this->get('Item');
+		$this->form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -41,11 +48,14 @@ class UsersViewGroup extends JViewLegacy
 		}
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -53,6 +63,7 @@ class UsersViewGroup extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
+		// Initialiase variables.
 		$user  = JFactory::getUser();
 		$isNew = ($this->item->id == 0);
 		$canDo = UsersHelper::getActions();
@@ -64,10 +75,12 @@ class UsersViewGroup extends JViewLegacy
 			JToolbarHelper::apply('group.apply');
 			JToolbarHelper::save('group.save');
 		}
+
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::save2new('group.save2new');
 		}
+
 		// If an existing item, can save to a copy.
 		if (!$isNew && $canDo->get('core.create'))
 		{

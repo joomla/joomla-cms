@@ -14,28 +14,38 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_users
+ * @since       1.6
  */
 class UsersViewMail extends JViewLegacy
 {
 	/**
-	 * @var object form object
+	 * @var object form object.
 	 */
 	protected $form;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
+		// Get data from the model.
 		$this->form = $this->get('Form');
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

@@ -25,13 +25,20 @@ class UsersViewUsers extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		// Initialiase variables.
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		UsersHelper::addSubmenu('users');
 
@@ -47,17 +54,21 @@ class UsersViewUsers extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
+
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		// Initialiase variables.
+		$canDo = UsersHelper::getActions();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -68,6 +79,7 @@ class UsersViewUsers extends JViewLegacy
 		{
 			JToolbarHelper::addNew('user.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('user.edit');
@@ -88,7 +100,7 @@ class UsersViewUsers extends JViewLegacy
 			JToolbarHelper::divider();
 		}
 
-		// Add a batch button
+		// Add a batch button.
 		if ($canDo->get('core.edit'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');

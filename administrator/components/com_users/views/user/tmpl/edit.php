@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
@@ -33,12 +33,12 @@ $fieldsets = $this->form->getFieldsets();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
+<form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
 
 			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('COM_USERS_USER_ACCOUNT_DETAILS', true)); ?>
-				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
+				<?php foreach ($this->form->getFieldset('user_details') as $field): ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>
@@ -50,7 +50,7 @@ $fieldsets = $this->form->getFieldsets();
 				<?php endforeach; ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php if ($this->grouplist) : ?>
+			<?php if ($this->grouplist): ?>
 				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS', true)); ?>
 					<?php echo $this->loadTemplate('groups'); ?>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
@@ -63,8 +63,8 @@ $fieldsets = $this->form->getFieldsets();
 				endif;
 			?>
 			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $fieldset->name, JText::_($fieldset->label, true)); ?>
-				<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
-					<?php if ($field->hidden) : ?>
+				<?php foreach ($this->form->getFieldset($fieldset->name) as $field): ?>
+					<?php if ($field->hidden): ?>
 						<div class="control-group">
 							<div class="controls">
 								<?php echo $field->input; ?>
@@ -86,7 +86,8 @@ $fieldsets = $this->form->getFieldsets();
 
 		<?php echo JHtml::_('bootstrap.endPane'); ?>
 	</fieldset>
-
-	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<div>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

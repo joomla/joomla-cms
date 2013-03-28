@@ -19,13 +19,15 @@ defined('_JEXEC') or die;
 class UsersControllerUser extends JControllerForm
 {
 	/**
-	 * @var    string  The prefix to use with controller messages.
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_USERS_USER';
 
 	/**
-	 * Overrides JControllerForm::allowEdit
+	 * Overrides JControllerForm::allowEdit.
 	 *
 	 * Checks that non-Super Admins are not editing Super Admins.
 	 *
@@ -38,7 +40,7 @@ class UsersControllerUser extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		// Check if this person is a Super Admin
+		// Check if this person is a Super Admin.
 		if (JAccess::check($data[$key], 'core.admin'))
 		{
 			// If I'm not a Super Admin, then disallow the edit.
@@ -56,18 +58,19 @@ class UsersControllerUser extends JControllerForm
 	 *
 	 * @param   object  $model  The model.
 	 *
-	 * @return  boolean  True on success, false on failure
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   2.5
 	 */
-	public function batch($model = null)
+	public function  batch($model = null)
 	{
+		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Set the model
+		// Set the model.
 		$model = $this->getModel('User', '', array());
 
-		// Preset the redirect
+		// Preset the redirect.
 		$this->setRedirect(JRoute::_('index.php?option=com_users&view=users' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
@@ -85,6 +88,7 @@ class UsersControllerUser extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
+		// Get the data from POST.
 		$data = $this->input->post->get('jform', array(), 'array');
 
 		// TODO: JForm should really have a validation handler for this.
@@ -115,10 +119,10 @@ class UsersControllerUser extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
+		// Initialiase variables.
 		$task = $this->getTask();
-
 		$item = $model->getItem();
-		$id = $item->get('id');
+		$id   = $item->get('id');
 
 		if (empty($validData['tags']) && !empty($item->tags))
 		{
@@ -134,6 +138,7 @@ class UsersControllerUser extends JControllerForm
 			$tagsHelper = new JTags;
 			$tagsHelper->tagItem($id, 'com_users.user', $isNew, $item, $tags, null);
 		}
+
 		return;
 	}
 }

@@ -14,15 +14,24 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_users
+ * @since       1.6
  */
 class UsersControllerMail extends JControllerLegacy
 {
+	/**
+	 * Send the mail.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public function send()
 	{
 		// Check for request forgeries.
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Mail');
+
 		if ($model->send())
 		{
 			$type = 'message';
@@ -33,13 +42,22 @@ class UsersControllerMail extends JControllerLegacy
 		}
 
 		$msg = $model->getError();
+
 		$this->setredirect('index.php?option=com_users&view=mail', $msg, $type);
 	}
 
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public function cancel()
 	{
 		// Check for request forgeries.
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+
 		$this->setRedirect('index.php');
 	}
 }

@@ -25,13 +25,20 @@ class UsersViewLevel extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
+		// Initialiase variables.
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -41,11 +48,14 @@ class UsersViewLevel extends JViewLegacy
 		}
 
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -53,9 +63,10 @@ class UsersViewLevel extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user   = JFactory::getUser();
-		$isNew	= ($this->item->id == 0);
-		$canDo  = UsersHelper::getActions();
+		// Initialiase variables.
+		$user  = JFactory::getUser();
+		$isNew = ($this->item->id == 0);
+		$canDo = UsersHelper::getActions();
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'levels-add');
 
@@ -64,23 +75,28 @@ class UsersViewLevel extends JViewLegacy
 			JToolbarHelper::apply('level.apply');
 			JToolbarHelper::save('level.save');
 		}
+
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::save2new('level.save2new');
 		}
+
 		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')){
-				JToolbarHelper::save2copy('level.save2copy');
-			}
-		if (empty($this->item->id)){
-				JToolbarHelper::cancel('level.cancel');
+		if (!$isNew && $canDo->get('core.create'))
+		{
+			JToolbarHelper::save2copy('level.save2copy');
+		}
+
+		if (empty($this->item->id))
+		{
+			JToolbarHelper::cancel('level.cancel');
 		}
 		else
 		{
-				JToolbarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::cancel('level.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-			JToolbarHelper::divider();
-			JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS_EDIT');
 	}
 }

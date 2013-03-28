@@ -32,6 +32,7 @@ class UsersModelNote extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_users.note', 'note', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -88,7 +89,7 @@ class UsersModelNote extends JModelAdmin
 	 */
 	protected function loadFormData()
 	{
-		// Get the application
+		// Get the application.
 		$app = JFactory::getApplication();
 
 		// Check the session for previously entered form data.
@@ -145,6 +146,7 @@ class UsersModelNote extends JModelAdmin
 	 */
 	/*public function save($data)
 	{
+		// Initialiase variables.
 		$pk		= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('note.id');
 		$table	= $this->getTable();
 		$isNew	= empty($pk);
