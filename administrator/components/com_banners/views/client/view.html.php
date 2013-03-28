@@ -58,7 +58,7 @@ class BannersViewClient extends JViewLegacy
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		$canDo		= BannersHelper::getActions();
+		$canDo		= BannersHelper::getActions(0, 0, 'com_banners');
 
 		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'banners-clients.png');
 

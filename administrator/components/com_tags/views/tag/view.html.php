@@ -34,14 +34,16 @@ class TagsViewTag extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = TagsHelper::getActions($this->state->get('tags.component'));
+		$this->canDo = TagsHelper::getActions(0, 0, 'com_tags');
 		$this->assoc = $this->get('Assoc');
 
 		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -67,20 +69,20 @@ class TagsViewTag extends JViewLegacy
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
 			$lang->load('com_tags', JPATH_BASE, null, false, false)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR.'/components/com_tags', null, false, false)
+		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, false)
 		||	$lang->load('com_tags', JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR.'/components/com_tags', $lang->getDefault(), false, false);
+		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', $lang->getDefault(), false, false);
 
 		// Load the tags helper.
-		require_once JPATH_COMPONENT.'/helpers/tags.php';
+		require_once JPATH_COMPONENT . '/helpers/tags.php';
 
 		// Get the results for each action.
-		$canDo = TagsHelper::getActions('com_tags', $this->item->id);
+		$canDo = $this->canDo;
 
-		$title = JText::_('COM_TAGS_BASE_'.($isNew?'ADD':'EDIT').'_TITLE');
+		$title = JText::_('COM_TAGS_BASE_' . ($isNew?'ADD':'EDIT') . '_TITLE');
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'tag-'.($isNew?'add':'edit').($isNew?'add':'edit'));
+		JToolbarHelper::title($title, 'tag-' . ($isNew?'add':'edit') . ($isNew?'add':'edit'));
 
 		// For new records, check the create permission.
 		if ($isNew)

@@ -64,9 +64,10 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/contact.php';
-		$canDo	= ContactHelper::getActions($this->state->get('filter.category_id'));
+		require_once JPATH_COMPONENT . '/helpers/contact.php';
+		$canDo	= ContactHelper::getActions($this->state->get('filter.category_id'), 0, 'com_contact');
 		$user	= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
