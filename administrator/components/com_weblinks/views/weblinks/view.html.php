@@ -26,6 +26,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -128,6 +130,13 @@ class WeblinksViewWeblinks extends JViewLegacy
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
+
+		JHtmlSidebar::addFilter(
+		'-' . JText::_('JSELECT') . ' ' . JText::_('JTAG') . '-',
+		'filter_tag',
+		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+		);
+
 	}
 
 	/**

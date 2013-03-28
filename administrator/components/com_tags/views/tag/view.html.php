@@ -110,7 +110,7 @@ class TagsViewTag extends JViewLegacy
 		else {
 			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
-
+		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
 		JToolbarHelper::divider();
 
 	}

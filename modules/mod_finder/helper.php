@@ -31,13 +31,14 @@ class ModFinderHelper
 	public static function getGetFields($route = null)
 	{
 		$fields = null;
-		$uri = JURI::getInstance(JRoute::_($route));
+		$uri = JUri::getInstance(JRoute::_($route));
 		$uri->delVar('q');
+		$elements = $uri->getQuery(true);
 
 		// Create hidden input elements for each part of the URI.
 		// Add the current menu id if it doesn't have one
 		$needId = true;
-		foreach ($uri->getQuery(true) as $n => $v)
+		foreach ($elements as $n => $v)
 		{
 			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
 			if ($n == 'Itemid')
@@ -49,6 +50,7 @@ class ModFinderHelper
 		{
 			$fields .= '<input type="hidden" name="Itemid" value="' . JFactory::getApplication()->input->get('Itemid', '0', 'int') . '" />';
 		}
+
 		return $fields;
 	}
 

@@ -35,8 +35,6 @@ class JTags
 	 */
 	public function tagItem($id, $prefix, $isNew, $item, $tags = array(), $fieldMap = array())
 	{
-		$app = JFactory::getApplication();
-
 		// Pre-process tags for adding new ones
 		if (is_array($tags) && !empty($tags))
 		{
@@ -313,6 +311,8 @@ class JTags
 		$query->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
 		$db->execute();
+
+		return;
 	}
 
 	/**
@@ -435,13 +435,14 @@ class JTags
 	 * @param   boolean  $anyOrAll         True to include items matching at least one tag, false to include
 	 *                                     items all tags in the array.
 	 * @param   string   $languageFilter   Optional filter on language. Options are 'all', 'current' or any string.
+	 * @param   string   $stateFilter      Optional filtering on publication state, defaults to published or unpublished.
 	 *
 	 * @return  JDatabaseQuery  Query to retrieve a list of tags
 	 *
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all')
+		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
 	{
 		// Create a new query object.
 		$db = JFactory::getDbo();
@@ -488,7 +489,7 @@ class JTags
 		$query->select('MAX(c.core_metadata) AS core_metadata, MAX(c.core_created_user_id) AS core_created_user_id, MAX(c.core_created_by_alias) AS core_created_by_alias');
 		$query->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images');
 		$query->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time');
-		$query->select('MAX(c.core_language) AS core_language');
+		$query->select('MAX(c.core_language) AS core_language, MAX(c.core_catid) AS core_catid');
 		$query->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down');
 		$query->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router');
 
@@ -503,6 +504,7 @@ class JTags
 		$query->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id');
 
 		$query->where('m.tag_id IN (' . $tagId . ')');
+		$query->where('c.core_state IN (' . $stateFilter . ')');
 
 		// Optionally filter on language
 		if (empty($language))
@@ -571,7 +573,7 @@ class JTags
 	 */
 	public function explodeTypeAlias($typeAlias)
 	{
-		return $explodedTypeAlias = explode('.', $typeAlias);
+		return explode('.', $typeAlias);
 	}
 
 	/**
@@ -609,7 +611,7 @@ class JTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$explodedTypeAlias = self::explodedTypeAlias($typeAlias);
+			$explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
 		}
 
 		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
@@ -620,21 +622,14 @@ class JTags
 	/**
 	 * Returns the url segment for a tag map record.
 	 *
-	 * @param   string   $typeAlias          Unknown
-	 * @param   integer  $id                 The item ID
-	 * @param   string   $explodedTypeAlias  The tag item name.
+	 * @param   integer  $id  The item ID
 	 *
 	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
 	 *
 	 * @since   3.1
 	 */
-	public function getTagUrl($typeAlias, $id, $explodedTypeAlias = null)
+	public function getTagUrl($id)
 	{
-		if (!isset($explodedTypeAlias))
-		{
-			$explodedTypeAlias = self::explodeTypeAlias($typeAlias);
-		}
-
 		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
 
 		return $this->url;
@@ -773,10 +768,8 @@ class JTags
 	 */
 	public static function searchTags($filters = array())
 	{
-		$results = array();
-		$db  = JFactory::getDbo();
-
-		$query	= $db->getQuery(true);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$query->select('a.id AS value')
 			->select('a.path AS text')

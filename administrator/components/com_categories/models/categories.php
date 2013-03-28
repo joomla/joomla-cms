@@ -92,6 +92,9 @@ class CategoriesModelCategories extends JModelList
 		$language = $this->getUserStateFromRequest($context.'.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
+		$tag = $this->getUserStateFromRequest($this->context.'.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
+
 		// List state information.
 		parent::populateState('a.lft', 'asc');
 	}
@@ -173,13 +176,13 @@ class CategoriesModelCategories extends JModelList
 		// Filter by extension
 		if ($extension = $this->getState('filter.extension'))
 		{
-			$query->where('a.extension = '.$db->quote($extension));
+			$query->where('a.extension = ' . $db->quote($extension));
 		}
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where('a.level <= '.(int) $level);
+			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter by access level.
@@ -192,7 +195,7 @@ class CategoriesModelCategories extends JModelList
 		if (!$user->authorise('core.admin'))
 		{
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN ('.$groups.')');
+			$query->where('a.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
@@ -212,24 +215,35 @@ class CategoriesModelCategories extends JModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = '.(int) substr($search, 3));
+				$query->where('a.id = ' . (int) substr($search, 3));
 			}
 			elseif (stripos($search, 'author:') === 0)
 			{
 				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
-				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
+				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
-				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
+				$search = $db->Quote('%' . $db->escape($search, true) . '%');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.language = ' . $db->quote($language));
+		}
+
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+		if (is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' .  $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote($extension . '.category'))
+					;
 		}
 
 		// Add the list ordering clause
@@ -237,11 +251,11 @@ class CategoriesModelCategories extends JModelList
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
 		if ($listOrdering == 'a.access')
 		{
-			$query->order('a.access '.$listDirn.', a.lft '.$listDirn);
+			$query->order('a.access '.$listDirn.', a.lft ' . $listDirn);
 		}
 		else
 		{
-			$query->order($db->escape($listOrdering).' '.$listDirn);
+			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
