@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  com_content
+ * @package     Joomla.Libraries
+ * @subpackage  HTML
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Content Component HTML Helper
  *
- * @package     Joomla.Site
- * @subpackage  com_content
- * @since       1.5
+ * @package     Joomla.CMS
+ * @subpackage  JHTML
+ * @since       3.2
  */
 abstract class JHtmlIcon
 {
@@ -25,12 +25,14 @@ abstract class JHtmlIcon
 	 * @param   JRegistry  $params       The item parameters
 	 * @param   array      $attribs      Optional attributes for the link
 	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
-	 * @param   array      $urlSegments  Segments of the form url, defaults to those for com_content articles
+	 * @param   array      $urlSegments  Segments of the form url
 	 * @param   string     $tooltip      Language key for display in the tooltip.
 	 *
 	 * @return  string  The HTML markup for the create item link
+	 *
+	 * @since  3.1
 	 */
-	public static function create($category, $params, $attribs = array(), $legacy = false, $urlSegments = array('com_content', 'article', 'a_id' ), $tooltip = '')
+	public static function create($category, $params, $attribs = array(), $legacy = false, $urlSegments = array(), $tooltip = '')
 	{
 		$uri = JURI::getInstance();
 
@@ -80,6 +82,8 @@ abstract class JHtmlIcon
 	 * @param   string     $typeAlias    Of the form com_content.article
 	 *
 	 * @return  string  The HTML markup for the email item link
+	 *
+	 * @since  3.1
 	 */
 	public static function email($contentItem, $params, $attribs = array(), $legacy = false, $router, $typeAlias)
 	{
@@ -122,7 +126,7 @@ abstract class JHtmlIcon
 	/**
 	 * Display an edit icon for the content item.
 	 *
-	 * This icon will not display in a popup window, nor if the iten is trashed.
+	 * This icon will not display in a popup window or if the item is trashed.
 	 * Edit access checks must be performed in the calling code.
 	 *
 	 * @param   object     $contentItem  The content item information
@@ -132,9 +136,10 @@ abstract class JHtmlIcon
 	 * @param   array      $urlSegments  Url segments for the edit form
 	 *
 	 * @return  string  The HTML for the edit icon.
+	 *
 	 * @since   3.1
 	 */
-	public static function edit($contentItem, $params, $attribs = array(), $legacy = false,  $urlSegments = array('com_content', 'article', 'a_id' ))
+	public static function edit($contentItem, $params, $attribs = array(), $legacy = false,  $urlSegments = array())
 	{
 		$user = JFactory::getUser();
 		$uri  = JURI::getInstance();
@@ -160,7 +165,7 @@ abstract class JHtmlIcon
 			$checkoutUser = JFactory::getUser($contentItem->checked_out);
 			$button       = JHtml::_('image', 'system/checked_out.png', null, null, true);
 			$date         = JHtml::_('date', $contentItem->checked_out_time);
-			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name) . ' <br /> ' . $date;
+			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('JLIB_HTML_CHECKED_OUT', $checkoutUser->name) . ' <br /> ' . $date;
 
 			return '<span class="hasTip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $button . '</span>';
 		}
@@ -182,7 +187,7 @@ abstract class JHtmlIcon
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
 		$overlib .= '&lt;br /&gt;';
-		$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
+		$overlib .= JText::sprintf('JAUTHOR' . ':', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
 		if ($legacy)
 		{
@@ -192,7 +197,7 @@ abstract class JHtmlIcon
 		else
 		{
 			$icon = $contentItem->state ? 'edit' : 'eye-close';
-			$text = '<span class="hasTip icon-' . $icon . ' tip" title="' . JText::_('COM_CONTENT_EDIT_ITEM') . ' :: ' . $overlib . '"></span>&#160;' . JText::_('JGLOBAL_EDIT') . '&#160;';
+			$text = '<span class="hasTip icon-' . $icon . ' tip" title="' . JText::_('JEDIT_ITEM') . ' :: ' . $overlib . '"></span>&#160;' . JText::_('JGLOBAL_EDIT') . '&#160;';
 		}
 
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);
@@ -208,12 +213,15 @@ abstract class JHtmlIcon
 	 * @param   array      $attribs      Optional attributes for the link
 	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
 	 * @param   string     $router       Custom Router for the page in form Class::Method
+	 * @param   string     $typeAlias    In the form of com_weblinks.weblink.
 	 *
 	 * @return  string  The HTML markup for the popup link
+	 *
+	 * @since  3.1
 	 */
-	public static function print_popup($contentItem, $params, $attribs = array(), $legacy = false, $router = '')
+	public static function print_popup($contentItem, $params, $attribs = array(), $legacy = false, $router = '', $typeAlias)
 	{
-		$url  = ContentHelperRoute::getArticleRoute($contentItem->slug, $contentItem->catid);
+		$url  = JHelperContent::getItemRoute($contentItem->id, $contentItem->alias, $contentItem->catid, $contentItem->language, $typeAlias, $router);
 		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
@@ -250,6 +258,8 @@ abstract class JHtmlIcon
 	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
+	 *
+	 * @since  3.1
 	 */
 	public static function print_screen($params, $attribs = array(), $legacy = false)
 	{
