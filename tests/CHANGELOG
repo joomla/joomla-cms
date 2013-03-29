@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2013 Mark Dexter
+ # Fix failing system tests.
+
 26-Mar-2013 Mark Dexter
  # Fix failing system tests due to login markup change, Tags menu item change
 
