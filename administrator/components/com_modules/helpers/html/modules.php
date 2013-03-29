@@ -22,6 +22,7 @@ abstract class JHtmlModules
 	 */
 	static public function templates($clientId = 0, $state = '')
 	{
+		$options = array();
 		$templates = ModulesHelper::getTemplates($clientId, $state);
 		foreach ($templates as $template)
 		{
