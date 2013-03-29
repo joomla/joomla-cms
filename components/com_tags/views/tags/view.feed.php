@@ -77,4 +77,3 @@ class TagsViewTags extends JViewLegacy
 
 	}
 }
-
