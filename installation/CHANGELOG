@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2013 Michael Babker
+ # [#30391] Fixes array not being initialized.  Thanks Peter
+
 29-Mar-2013 Mark Dexter
  # [#30205] findmanifest should prioritize main folder manifests. Thanks Roberto.
 
