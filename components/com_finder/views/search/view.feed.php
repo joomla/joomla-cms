@@ -71,6 +71,12 @@ class FinderViewSearch extends JViewLegacy
 		// Set the document link.
 		$this->document->link = JRoute::_($query->toURI());
 
+		// If we don't have any results, we are done.
+		if (empty($results))
+		{
+			return;
+		}
+
 		// Convert the results to feed entries.
 		foreach ($results as $result)
 		{

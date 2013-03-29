@@ -28,6 +28,7 @@ $ -> Language fix or change
 29-Mar-2013 Michael Babker
  # [#30391] Fixes array not being initialized.  Thanks Peter
  # [#30317] Synch session check bug fix from platform.  Thanks Elin
+ # [#30419] using foreach with nonarray in com_finder's feed view.  Thanks Elijah
 
 29-Mar-2013 Mark Dexter
  # [#30205] findmanifest should prioritize main folder manifests. Thanks Roberto.
