@@ -156,7 +156,11 @@ for($num=$release-1; $num >= 0; $num--) {
 
 // Delete the directories we exclude from the packages (tests, docs, build).
 echo "Delete folders not included in packages.\n";
-system('rm -rf '.$full.'/tests ' . $full.'/docs ' . $full.'.gitignore ' . $full . '/build ' . $full . '/build.xml ');
+$doNotPackage = array('tests', 'docs', '.gitignore', 'build', 'build.xml', 'README.md', 'CONTRIBUTING.md');
+foreach ($doNotPackage as $removeFile)
+{
+	system('rm -rf ' . $full . '/' . $removeFile);
+}
 
 // Recreate empty directories before creating new archives.
 system('mkdir packages_full'.$full);
