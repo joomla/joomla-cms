@@ -162,6 +162,7 @@ abstract class JHtmlAccess
 
 				// Don't call in_array unless something is selected
 				$checked = '';
+
 				if ($selected)
 				{
 					$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
@@ -203,7 +204,10 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$actions = JAccess::getActions($component, $section);
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
 		$html = array();
 		$html[] = '<ul class="checklist access-actions">';
@@ -273,6 +277,7 @@ abstract class JHtmlAccess
 		static $count;
 
 		$options = self::assetgroups();
+
 		if (isset($config['title']))
 		{
 			array_unshift($options, JHtml::_('select.option', '', $config['title']));
