@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30419] using foreach with nonarray in com_finder's feed view.  Thanks Elijah
  ^ [#30426] Sync HTML package to the Platform
  ^ [#30297] Changed MooTools to jQuery based color picker.  Thanks Peter
+ ^ [#30425] Remove duplicated filterText() methods
 
 29-Mar-2013 Mark Dexter
  # [#30205] findmanifest should prioritize main folder manifests. Thanks Roberto.
