@@ -1742,6 +1742,7 @@ table .span24 {
 	line-height: 18px;
 	color: #333;
 	white-space: nowrap;
+	background-position: 2px 4px;
 }
 .dropdown-menu li > a:hover,
 .dropdown-menu li > a:focus,
