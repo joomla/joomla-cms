@@ -209,17 +209,18 @@ class BannersModelBanners extends JModelList
 		$items	= $this->getItems();
 		$db	= $this->getDbo();
 		$query	= $db->getQuery(true);
-
-		foreach ($items as $item)
+		
+		// Increment impression made
+		$ids = JArrayHelper::getColumn($items, 'id');
+		JArrayHelper::toInteger($ids);
+		if(!empty($ids))
 		{
-			// Increment impression made
-			$id = $item->id;
 			$query->clear();
 			$query->update('#__banners');
 			$query->set('impmade = (impmade + 1)');
-			$query->where('id = ' . (int) $id);
-			$db->setQuery((string) $query);
-
+			$query->where('id IN ('. implode(',', $ids) .')');
+			$db->setQuery((string)$query);
+	
 			try
 			{
 				$db->execute();
@@ -228,8 +229,14 @@ class BannersModelBanners extends JModelList
 			{
 				JError::raiseError(500, $e->getMessage());
 			}
+			
+		}
+		
+		// track impressions
+		foreach ($items as $item)
+		{
+			$id = $item->id;
 
-			// track impressions
 			$trackImpressions = $item->track_impressions;
 			if ($trackImpressions < 0 && $item->cid)
 			{
