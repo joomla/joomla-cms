@@ -37,11 +37,11 @@ $ -> Language fix or change
 
 29-Mar-2013 Mark Dexter
  # [#30205] findmanifest should prioritize main folder manifests. Thanks Roberto.
+ # [#29680] JLIB_DATABASE_QUERY_FAILED when upgrading to 3.0.2 (Postgresql: invalid input syntax for integer). Thanks Pierre-Louis Bonicoli.
+ # [#30107] Redirect plugin needs to be disabled by default. Thanks Ram Tripathi.
 
 29-Mar-2013 Jean-Marie Simonet
  # [#29709] Imposed translation on menu description. Thanks Marco and Brian.
- # [#29680] JLIB_DATABASE_QUERY_FAILED when upgrading to 3.0.2 (Postgresql: invalid input syntax for integer). Thanks Pierre-Louis Bonicoli.
- # [#30107] Redirect plugin needs to be disabled by default. Thanks Ram Tripathi.
 
 28-Mar-2013 Jean-Marie Simonet
  # [#30415] *Multilanguage 3.1: SIngle article display does not filter correctly author contact per language.

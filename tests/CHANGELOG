@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 29-Mar-2013 Mark Dexter
  # Fix failing system tests.
+ # More system test fixes, fix CHANGELOG typo.
 
 26-Mar-2013 Mark Dexter
  # Fix failing system tests due to login markup change, Tags menu item change
