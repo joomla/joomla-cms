@@ -192,9 +192,9 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['backdrop'] = (isset($params['backdrop']) && ($params['backdrop'])) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = (isset($params['keyboard']) && ($params['keyboard'])) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = (isset($params['show']) && ($params['show'])) ? (boolean) $params['show'] : true;
+			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
+			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
+			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
 			$opt['remote']   = (isset($params['remote']) && ($params['remote'])) ? (boolean) $params['remote'] : '';
 
 			$options = JHtml::getJSObject($opt);
@@ -428,8 +428,8 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['parent'] = (isset($params['parent']) && ($params['parent'])) ? (boolean) $params['parent'] : false;
-			$opt['toggle'] = (isset($params['toggle']) && ($params['toggle'])) ? (boolean) $params['toggle'] : true;
+			$opt['parent'] = isset($params['parent']) ? (boolean) $params['parent'] : false;
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : true;
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
 			$options = JHtml::getJSObject($opt);
