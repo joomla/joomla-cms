@@ -248,10 +248,10 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			</div>
 			<div class="control-group">
 				<div class="control-label">
-					<?php echo $this->form->getLabel('tags'); ?>
+					<?php // echo $this->form->getLabel('tags'); ?>
 				</div>
 				<div class="controls">
-					<?php echo $this->form->getInput('tags'); ?>
+					<?php // echo $this->form->getInput('tags'); ?>
 				</div>
 			</div>
 

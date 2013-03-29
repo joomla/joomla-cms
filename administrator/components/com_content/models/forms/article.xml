@@ -38,12 +38,6 @@
 		>
 		</field>
 
-		<field name="tags" type="tag"
-			label="JTAG" description="JTAG_DESC"
-			class="inputbox span12 small" multiple="true"
-		>
-		</field>
-
 		<field
 			name="buttonspacer"
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
@@ -801,6 +795,11 @@
 
 		</fields>
 		<fields name="metadata">
+			<field name="tags" type="tag"
+				label="JTAG" description="JTAG_DESC"
+				class="inputbox span12 small" multiple="true"
+			>
+			</field>
 
 			<field name="robots"
 				type="list"

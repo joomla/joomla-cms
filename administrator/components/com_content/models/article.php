@@ -453,10 +453,8 @@ class ContentModelArticle extends JModelAdmin
 			$data['state']	= 0;
 		}
 
-		if (parent::save($data)) {
-
-			$ucm = new JUcmBase($this->getTable(),'com_content.article');
-			$ucm->save($data);
+		if (parent::save($data))
+		{
 
 			if (isset($data['featured']))
 			{

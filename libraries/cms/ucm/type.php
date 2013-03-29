@@ -20,7 +20,7 @@ class JUcmType implements JUcm
 {
 	/**
 	 * The UCM Type
-	 * 
+	 *
 	 * @param	String $alias	The table alias for the content type
 	 *
 	 * @var		JUcmType Object
@@ -36,9 +36,9 @@ class JUcmType implements JUcm
 	/**
 	* Get the Content Type
 	*
-	* @param	JInput	$input	The input object
+	* @param   JInput  $input  The input object
 	*
-	* @return	Object	$type	The UCM Type
+	* @return  JUcmType   The UCM Type
 	*
 	* @since 13.1
 	*/
@@ -46,17 +46,18 @@ class JUcmType implements JUcm
 	{
 		$db		= JFactory::getDbo();
 
-		$query	= $db->getQuery(TRUE);
+		$query	= $db->getQuery(true);
 		$query->select('ct.*');
-		$query->from($db->qn('#__content_types') . ' AS ct');
+		$query->from($db->quoteName('#__content_types', 'ct'));
 
-		if (!$alias) 
+		if (!$alias)
 		{
+			// Make the best guess we can in the absence of information.
 			$input = $input ? $input : JFactory::getApplication()->input;
 			$alias = $input->get('option') . '.' . $input->get('view');
 		}
 
-		$query->where($db->qn('ct.type_alias') . ' = ' . $db->q($alias));			
+		$query->where($db->quoteName('ct.type_alias') . ' = ' . $db->q($alias));
 		$db->setQuery($query);
 
 		$type = $db->loadObject();

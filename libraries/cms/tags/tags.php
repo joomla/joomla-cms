@@ -22,18 +22,17 @@ class JTags
 	/**
 	 * Method to add or update tags associated with an item. Generally used as a postSaveHook.
 	 *
-	 * @param   integer          $id        The id (primary key) of the item to be tagged.
-	 * @param   string           $prefix    Dot separated string with the option and view for a url.
-	 * @param   array            $isNew     Flag indicating this item is new.
-	 * @param   JControllerForm  $item      A JControllerForm object usually from a Post Save Hook
-	 * @param   array            $tags      Array of tags to be applied.
-	 * @param   array            $fieldMap  Associative array of values to core_content field.
+	 * @param   integer  $id      The id (primary key) of the item to be tagged.
+	 * @param   string   $prefix  Dot separated string with the option and view for a url and type alias.
+	 * @param   boolean  $isNew   Flag indicating this item is new.
+	 * @param   integer  $ccId    Value of the primary key in the core_content table
+	 * @param   array    $tags    Array of tags to be applied.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public function tagItem($id, $prefix, $isNew, $item, $tags = array(), $fieldMap = array())
+	public function tagItem($id, $prefix, $isNew, $ccId, $tags = array())
 	{
 		// Pre-process tags for adding new ones
 		if (is_array($tags) && !empty($tags))
@@ -102,39 +101,6 @@ class JTags
 
 		$db = JFactory::getDbo();
 
-		// Set up the field mapping array
-		if (empty($fieldMap))
-		{
-			$typeId = $this->getTypeId($prefix);
-			$contenttype = JTable::getInstance('Contenttype');
-			$contenttype->load($typeId);
-			$map = json_decode($contenttype->field_mappings, true);
-
-			foreach ($map['common'][0] as $i => $field)
-			{
-				if ($field && $field != 'null' && property_exists($item, $field))
-				{
-					$fieldMap[$i] = $item->$field;
-				}
-			}
-		}
-
-		$types = $this->getTypes('objectList', $prefix, true);
-		$type = $types[0];
-
-		$typeid = $type->type_id;
-
-		if ($id == 0)
-		{
-			$queryid = $db->getQuery(true);
-
-			$queryid->select($db->qn('id'))
-				->from($db->qn($type->table))
-				->where($db->qn('type_alias') . ' = ' . $db->q($prefix));
-			$db->setQuery($queryid);
-			$id = $db->loadResult();
-		}
-
 		if ($isNew == 0)
 		{
 			// Delete the old tag maps.
@@ -150,92 +116,6 @@ class JTags
 		// Set the new tag maps.
 		if (!empty($tags))
 		{
-			// First we fill in the core_content table.
-			$querycc = $db->getQuery(true);
-
-			// Check if the record is already there in a content table if it is not a new item.
-			// It could be old but never tagged.
-			if ($isNew == 0)
-			{
-				$querycheck = $db->getQuery(true);
-				$querycheck->select($db->qn('core_content_id'))
-					->from($db->qn('#__core_content'))
-					->where(
-						array(
-							$db->qn('core_content_item_id') . ' = ' . $id,
-							$db->qn('core_type_alias') . ' = ' . $db->q($prefix)
-						)
-				);
-				$db->setQuery($querycheck);
-
-				$ccId = $db->loadResult();
-			}
-
-			// For new items we need to get the id from the actual table.
-			// Throw an exception if there is no matching record
-			if ($id == 0)
-			{
-				$queryid = $db->getQuery(true);
-				$queryid->select($db->qn('id'));
-				$queryid->from($db->qn($type->table));
-				$queryid->where($db->qn($map['core_alias']) . ' = ' . $db->q($fieldMap['core_alias']));
-				$db->setQuery($queryid);
-				$id = $db->loadResult();
-				$fieldMap['core_content_item_id'] = $id;
-			}
-
-			// If there is no record in #__core_content we do an insert. Otherwise an update.
-			if ($isNew == 1 || empty($ccId))
-			{
-				$quotedValues = array();
-
-				foreach ($fieldMap as $value)
-				{
-					$quotedValues[] = $db->q($value);
-				}
-
-				$values = implode(',', $quotedValues);
-				$values = $values . ',' . (int) $typeid . ', ' . $db->q($prefix);
-
-				$querycc->insert($db->quoteName('#__core_content'))
-					->columns($db->quoteName(array_keys($fieldMap)))
-					->columns($db->qn('core_type_id'))
-					->columns($db->qn('core_type_alias'))
-					->values($values);
-			}
-			else
-			{
-				$setList = '';
-
-				foreach ($fieldMap as $fieldname => $value)
-				{
-					$setList .= $db->qn($fieldname) . ' = ' . $db->q($value) . ',';
-				}
-
-				$setList = $setList . ' ' . $db->qn('core_type_id') . ' = ' . $typeid . ',' . $db->qn('core_type_alias') . ' = ' . $db->q($prefix);
-
-				$querycc->update($db->qn('#__core_content'));
-				$querycc->where($db->qn('core_content_item_id') . ' = ' . $id);
-				$querycc->where($db->qn('core_type_alias') . ' = ' . $db->q($prefix));
-				$querycc->set($setList);
-			}
-
-			$db->setQuery($querycc);
-			$db->execute();
-
-			// Get the core_core_content_id from the new record if we do not have it.
-			if (empty($ccId))
-			{
-				$queryCcid = $db->getQuery(true);
-				$queryCcid->select($db->qn('core_content_id'));
-				$queryCcid->from($db->qn('#__core_content'));
-				$queryCcid->where($db->qn('core_content_item_id') . ' = ' . $id);
-				$queryCcid->where($db->qn('core_type_alias') . ' = ' . $db->q($prefix));
-
-				$db->setQuery($queryCcid);
-				$ccId = $db->loadResult();
-			}
-
 			// Have to break this up into individual queries for cross-database support.
 			foreach ($tags as $tag)
 			{
@@ -243,7 +123,8 @@ class JTags
 				$query2->insert('#__contentitem_tag_map');
 				$query2->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
 				$query2->clear('values');
-				$query2->values($db->q($prefix) . ', ' . (int) $id . ', ' . $db->q($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
+				$query2->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
+
 				$db->setQuery($query2);
 				$db->execute();
 			}

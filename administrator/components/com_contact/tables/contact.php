@@ -85,7 +85,7 @@ class ContactTableContact extends JTable
 		}
 		else
 		{
-			// New newsfeed. A feed created and created_by field can be set by the user,
+			// New contact. A contact created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!(int) $this->created)
 			{
@@ -113,6 +113,37 @@ class ContactTableContact extends JTable
 		if (!$this->xreference)
 		{
 			$this->xreference = '';
+		}
+
+		$metadata = json_decode($this->metadata);
+		$tags = (array) $metadata->tags;
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($tags) == false)
+		{
+			$fields = $this->getFields();
+			$data = array();
+			$fields = $this->getFields();
+
+			foreach ($fields as $field)
+			{
+				$columnName = $field->Field;
+				$value = $this->$columnName;
+				$data[$columnName] =  $value;
+			}
+
+			$typeAlias = 'com_contact.contact';
+			$type = new JUcmType($typeAlias);
+
+			$ucm = new JUcmBase($this, $typeAlias);
+			$ucm->save($data, $type, false);
+			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
+
+			$id = $data['id'];
+			$isNew = $id == 0 ? 1 : 0;
+			$tagsHelper = new JTags;
+
+			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
 		}
 
 		// Verify that the alias is unique

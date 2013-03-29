@@ -136,12 +136,6 @@
 		description="JFIELD_ACCESS_DESC"
 		class="span12 small"/>
 
-		<field name="tags" type="tag"
-			label="JTAG" description="JTAG_DESC"
-			class="inputbox" multiple="true"
-		>
-		</field>
-
 	<field
 		name="metadesc"
 		type="textarea"
@@ -239,6 +233,12 @@
 			label="JAUTHOR"
 			description="JFIELD_METADATA_AUTHOR_DESC"
 			size="30"/>
+
+		<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox" multiple="true"
+		>
+		</field>
 
 		<field name="robots"
 			type="list"
