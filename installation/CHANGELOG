@@ -33,6 +33,7 @@ $ -> Language fix or change
  ^ [#30297] Changed MooTools to jQuery based color picker.  Thanks Peter
  ^ [#30425] Remove duplicated filterText() methods
  # [#29551] Fixed list_price and sale_price.  Thanks Gabriele
+ # [#30076] Pagination does not work for components with more than one administrative view.  Thanks Ram
 
 29-Mar-2013 Mark Dexter
  # [#30205] findmanifest should prioritize main folder manifests. Thanks Roberto.
