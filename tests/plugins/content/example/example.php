@@ -50,7 +50,6 @@ class plgContentExample extends JPlugin
 
 	/**
 	 * Example after save content method
-	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
 	 * @param	string		The context of the content passed to the plugin (added in 1.6)
@@ -58,7 +57,7 @@ class plgContentExample extends JPlugin
 	 * @param	bool		If the content is just about to be created
 	 * @since	1.6
 	 */
-	public function onContentAfterSave($context, &$article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew)
 	{
 		$app = JFactory::getApplication();
 
@@ -120,7 +119,6 @@ class plgContentExample extends JPlugin
 	 * Example before save content method
 	 *
 	 * Method is called right before content is saved into the database.
-	 * Article object is passed by reference, so any changes will be saved!
 	 * NOTE:  Returning false will abort the save with an error.
 	 *You can set the error by calling $article->setError($message)
 	 *
@@ -130,7 +128,7 @@ class plgContentExample extends JPlugin
 	 * @return	bool		If false, abort the save
 	 * @since	1.6
 	 */
-	public function onContentBeforeSave($context, &$article, $isNew)
+	public function onContentBeforeSave($context, $article, $isNew)
 	{
 		$app = JFactory::getApplication();
 
