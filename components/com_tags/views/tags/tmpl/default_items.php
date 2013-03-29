@@ -45,14 +45,13 @@ $n = count($this->items);
 			<ul class="thumbnails">
 		<?php endif; ?>
 		<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-			<?php $route = new TagsHelperRoute ?>
-				<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<h3>
-						<a href="<?php echo JRoute::_($route->getRoute($item->id . ':' . $item->alias)); ?>">
-							<?php echo $this->escape($item->title); ?>
-						</a>
-					</h3>
-				<?php endif; ?>
+ 			<li class="cat-list-row<?php echo $i % 2; ?>" >
+				<h3>
+					<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)); ?>">
+						<?php echo $this->escape($item->title); ?>
+					</a>
+				</h3>
+		<?php endif; ?>
 				<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
 					<span class="list-hits badge badge-info pull-right">
 						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>

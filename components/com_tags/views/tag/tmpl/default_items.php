@@ -36,9 +36,8 @@ $n = count($this->items);
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else: ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<?php $item->route = new JHelperRoute; ?>
 					<h3>
-						<a href="<?php echo JRoute::_($item->route->getRoute($item->content_item_id, $item->type_alias, $item->link, $item->core_language, $item->core_catid)); ?>">
+						<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 							<?php echo $this->escape($item->core_title); ?>
 						</a>
 					</h3>

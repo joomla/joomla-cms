@@ -93,6 +93,7 @@ abstract class JHtml
 	public static function _($key)
 	{
 		list($key, $prefix, $file, $func) = self::extract($key);
+
 		if (array_key_exists($key, self::$registry))
 		{
 			$function = self::$registry[$key];
@@ -100,6 +101,7 @@ abstract class JHtml
 
 			// Remove function name from arguments
 			array_shift($args);
+
 			return self::call($function, $args);
 		}
 
@@ -108,6 +110,7 @@ abstract class JHtml
 		if (!class_exists($className))
 		{
 			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
+
 			if ($path)
 			{
 				require_once $path;
@@ -124,6 +127,7 @@ abstract class JHtml
 		}
 
 		$toCall = array($className, $func);
+
 		if (is_callable($toCall))
 		{
 			self::register($key, $toCall);
@@ -131,6 +135,7 @@ abstract class JHtml
 
 			// Remove function name from arguments
 			array_shift($args);
+
 			return self::call($toCall, $args);
 		}
 		else
@@ -152,9 +157,11 @@ abstract class JHtml
 	public static function register($key, $function)
 	{
 		list($key) = self::extract($key);
+
 		if (is_callable($function))
 		{
 			self::$registry[$key] = $function;
+
 			return true;
 		}
 		return false;
@@ -172,9 +179,11 @@ abstract class JHtml
 	public static function unregister($key)
 	{
 		list($key) = self::extract($key);
+
 		if (isset(self::$registry[$key]))
 		{
 			unset(self::$registry[$key]);
+
 			return true;
 		}
 
@@ -193,14 +202,15 @@ abstract class JHtml
 	public static function isRegistered($key)
 	{
 		list($key) = self::extract($key);
+
 		return isset(self::$registry[$key]);
 	}
 
 	/**
 	 * Function caller method
 	 *
-	 * @param   string  $function  Function or method to call
-	 * @param   array   $args      Arguments to be passed to function
+	 * @param   callable  $function  Function or method to call
+	 * @param   array     $args      Arguments to be passed to function
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
@@ -210,20 +220,19 @@ abstract class JHtml
 	 */
 	protected static function call($function, $args)
 	{
-		if (is_callable($function))
-		{
-			// PHP 5.3 workaround
-			$temp = array();
-			foreach ($args as &$arg)
-			{
-				$temp[] = &$arg;
-			}
-			return call_user_func_array($function, $temp);
-		}
-		else
+		if (!is_callable($function))
 		{
 			throw new InvalidArgumentException('Function not supported', 500);
 		}
+
+		// PHP 5.3 workaround
+		$temp = array();
+
+		foreach ($args as &$arg)
+		{
+			$temp[] = &$arg;
+		}
+		return call_user_func_array($function, $temp);
 	}
 
 	/**
@@ -274,7 +283,7 @@ abstract class JHtml
 	 *
 	 * @param   string   $folder          folder name to search into (images, css, js, ...)
 	 * @param   string   $file            path to file
-	 * @param   boolean  $relative        path to file is relative to /media folder
+	 * @param   boolean  $relative        path to file is relative to /media folder  (and searches in template)
 	 * @param   boolean  $detect_browser  detect browser to include specific browser files
 	 * @param   boolean  $detect_debug    detect debug to include compressed files if debug is on
 	 *
@@ -358,6 +367,7 @@ abstract class JHtml
 					{
 						// If the file is in the template folder
 						$path = JPATH_THEMES . "/$template/$folder/$file";
+
 						if (file_exists($path))
 						{
 							$md5 = dirname($path) . '/MD5SUM';
@@ -381,6 +391,7 @@ abstract class JHtml
 
 									// Try to deal with plugins group in the media folder
 									$path = JPATH_ROOT . "/media/$extension/$element/$folder/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -391,6 +402,7 @@ abstract class JHtml
 
 									// Try to deal with classical file in a a media subfolder called element
 									$path = JPATH_ROOT . "/media/$extension/$folder/$element/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -401,6 +413,7 @@ abstract class JHtml
 
 									// Try to deal with system files in the template folder
 									$path = JPATH_THEMES . "/$template/$folder/system/$element/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -411,6 +424,7 @@ abstract class JHtml
 
 									// Try to deal with system files in the media folder
 									$path = JPATH_ROOT . "/media/system/$folder/$element/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -423,6 +437,7 @@ abstract class JHtml
 								{
 									// Try to deals in the extension media folder
 									$path = JPATH_ROOT . "/media/$extension/$folder/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -433,6 +448,7 @@ abstract class JHtml
 
 									// Try to deal with system files in the template folder
 									$path = JPATH_THEMES . "/$template/$folder/system/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -443,6 +459,7 @@ abstract class JHtml
 
 									// Try to deal with system files in the media folder
 									$path = JPATH_ROOT . "/media/system/$folder/$file";
+
 									if (file_exists($path))
 									{
 										$md5 = dirname($path) . '/MD5SUM';
@@ -456,6 +473,7 @@ abstract class JHtml
 							else
 							{
 								$path = JPATH_ROOT . "/media/system/$folder/$file";
+
 								if (file_exists($path))
 								{
 									$md5 = dirname($path) . '/MD5SUM';
@@ -503,6 +521,7 @@ abstract class JHtml
 					foreach ($files as $file)
 					{
 						$path = JPATH_ROOT . "/$file";
+
 						if (file_exists($path))
 						{
 							$md5 = dirname($path) . '/MD5SUM';
@@ -520,40 +539,33 @@ abstract class JHtml
 	/**
 	 * Write a <img></img> element
 	 *
-	 * @param   string   $file       The relative or absolute URL to use for the src attribute
-	 * @param   string   $alt        The alt text.
-	 * @param   string   $attribs    The target attribute to use
-	 * @param   array    $relative   An associative array of attributes to add
-	 * @param   boolean  $path_only  If set to true, it tries to find an override for the file in the template
+	 * @param   string   $file      The relative or absolute URL to use for the src attribute
+	 * @param   string   $alt       The alt text.
+	 * @param   mixed    $attribs   String or associative array of attribute(s) to use
+	 * @param   boolean  $relative  Path to file is relative to /media folder (and searches in template)
+	 * @param   mixed    $path_rel  Return html tag without (-1) or with file computing(false). Return computed path only (true)
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 */
-	public static function image($file, $alt, $attribs = null, $relative = false, $path_only = false)
+	public static function image($file, $alt, $attribs = null, $relative = false, $path_rel = false)
 	{
-		if (is_array($attribs))
+		if ($path_rel !== -1)
 		{
-			$attribs = JArrayHelper::toString($attribs);
+			$includes = self::includeRelativeFiles('images', $file, $relative, false, false);
+			$file = count($includes) ? $includes[0] : null;
 		}
-
-		$includes = self::includeRelativeFiles('images', $file, $relative, false, false);
-
 		// If only path is required
-		if ($path_only)
+		if ($path_rel)
 		{
-			if (count($includes))
-			{
-				return $includes[0];
-			}
-			else
-			{
-				return null;
-			}
+			return $file;
 		}
 		else
 		{
-			return '<img src="' . (count($includes) ? $includes[0] : '') . '" alt="' . $alt . '" ' . $attribs . ' />';
+			return	'<img src="' . $file . '" alt="' . $alt . '" ' .
+				(is_array($attribs) ? JArrayHelper::toString($attribs) : $attribs) .
+				' />';
 		}
 	}
 
@@ -620,6 +632,7 @@ abstract class JHtml
 		else
 		{
 			$document = JFactory::getDocument();
+
 			foreach ($includes as $include)
 			{
 				$document->addStylesheet($include, 'text/css', null, $attribs);
@@ -672,6 +685,7 @@ abstract class JHtml
 		else
 		{
 			$document = JFactory::getDocument();
+
 			foreach ($includes as $include)
 			{
 				$document->addScript($include);
@@ -863,6 +877,7 @@ abstract class JHtml
 
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
+
 		if (is_array($attribs))
 		{
 			$attribs = JArrayHelper::toString($attribs);
@@ -895,14 +910,15 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<div class="input-append"><input type="text" title="' . (false !== is_numeric($value) ? self::_('date', $value) : '') . '" name="' . $name . '" id="' . $id
-				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' /><button class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
+			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
+				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. '<button class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
 
 		}
 		else
 		{
-			return '<input type="text" title="' . (false !== is_numeric($value) ? self::_('date', $value, null, null) : '')
-				. '" value="' . (false !== is_numeric($value) ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
@@ -945,41 +961,47 @@ abstract class JHtml
 	 */
 	public static function getJSObject(array $array = array())
 	{
-		$object = '{';
+		$elements = array();
 
-		// Iterate over array to build objects
-		foreach ((array) $array as $k => $v)
+		foreach ($array as $k => $v)
 		{
-			if (is_null($v))
+			// Don't encode either of these types
+			if (is_null($v) || is_resource($v))
 			{
 				continue;
 			}
 
+			// Safely encode as a Javascript string
+			$key = json_encode((string) $k);
+
 			if (is_bool($v))
 			{
-				$object .= ' ' . $k . ': ';
-				$object .= ($v) ? 'true' : 'false';
-				$object .= ',';
+				$elements[] = $key . ': ' . ($v ? 'true' : 'false');
 			}
-			elseif (!is_array($v) && !is_object($v))
+			elseif (is_numeric($v))
 			{
-				$object .= ' ' . $k . ': ';
-				$object .= (is_numeric($v) || strpos($v, '\\') === 0) ? (is_numeric($v)) ? $v : substr($v, 1) : "'" . str_replace("'", "\\'", trim($v, "'")) . "'";
-				$object .= ',';
+				$elements[] = $key . ': ' . ($v + 0);
+			}
+			elseif (is_string($v))
+			{
+				if (strpos($v, '\\') === 0)
+				{
+					// Items such as functions and JSON objects are prefixed with \, strip the prefix and don't encode them
+					$elements[] = $key . ': ' . substr($v, 1);
+				}
+				else
+				{
+					// The safest way to insert a string
+					$elements[] = $key . ': ' . json_encode((string) $v);
+				}
 			}
 			else
 			{
-				$object .= ' ' . $k . ': ' . self::getJSObject($v) . ',';
+				$elements[] = $key . ': ' . self::getJSObject(is_object($v) ? get_object_vars($v) : $v);
 			}
 		}
 
-		if (substr($object, -1) == ',')
-		{
-			$object = substr($object, 0, -1);
-		}
+		return '{' . implode(',', $elements) . '}';
 
-		$object .= '}';
-
-		return $object;
 	}
 }

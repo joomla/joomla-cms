@@ -49,6 +49,7 @@ abstract class JHtmlUser
 		if (!$includeSuperAdmin)
 		{
 			$filteredGroups = array();
+
 			foreach ($groups as $group)
 			{
 				if (!JAccess::checkGroup($group->value, 'core.admin'))

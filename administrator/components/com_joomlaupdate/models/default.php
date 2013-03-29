@@ -663,7 +663,7 @@ ENDDATA;
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $element, 'type' => 'file', 'client_id' => '', 'folder' => '')
+			array('element' => $element, 'type' => 'file', 'client_id' => '0', 'folder' => '')
 		);
 
 		if ($uid)
