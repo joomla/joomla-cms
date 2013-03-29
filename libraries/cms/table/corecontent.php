@@ -186,6 +186,8 @@ class JTableCorecontent extends JTable
 				$this->core_created_by_user_id = $user->get('id');
 			}
 		}
+		
+		/*
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Corecontent', 'JTable');
 		if ($table->load(array('alias' => $this->core_alias, 'catid' => $this->core_catid)) && ($table->core_content_id != $this->core_content_id || $this->core_content_id == 0))
@@ -193,7 +195,8 @@ class JTableCorecontent extends JTable
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 			return false;
 		}
-
+		*/
+		
 		return parent::store($updateNulls);
 	}
 

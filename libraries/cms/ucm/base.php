@@ -16,7 +16,7 @@ defined('JPATH_BASE') or die;
  * @subpackage  UCM
  * @since       3.1
  */
-abstract class JUcmBase implements JUcm
+class JUcmBase implements JUcm
 {
 	/**
 	 * The related table object
@@ -35,12 +35,20 @@ abstract class JUcmBase implements JUcm
 	protected $type;
 
 	/**
+	 * The alias for the content table
+	 *
+	 * @var    String
+	 * @since  13.1
+	 */
+	protected $alias;
+
+	/**
 	 * The UCM data array
 	 *
 	 * @var    Array
 	 * @since  13.1
 	 */
-	protected $ucmData;
+	public $ucmData;
 
 	/**
 	 * Instantiate the UcmBase.
@@ -50,10 +58,14 @@ abstract class JUcmBase implements JUcm
 	 *
 	 * @since  13.1
 	 */
-	public function __construct(JTable $table, JUcmType $type = null)
+	public function __construct(JTable $table, $alias = null, JUcmType $type = null)
 	{
 		// Setup dependencies.
 		$this->table = $table;
+
+		$input = JFactory::getApplication()->input;
+		$this->alias = isset($alias) ? $alias : $input->get('option') . '.' . $input->get('view');
+
 		$this->type = isset($type) ? $type : $this->getType();
 	}
 
@@ -68,7 +80,6 @@ abstract class JUcmBase implements JUcm
 	**/
 	public function save($original = null, JUcmType $type = null)
 	{
-
 		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
 
 		//Store the Common fields
@@ -77,7 +88,7 @@ abstract class JUcmBase implements JUcm
 		//Store the special fields
 		if( isset($ucmData['special']))
 		{
-			$this->store($ucmData['special'], $this->table);
+			$this->store($ucmData['special'], $this->alias);
 		}
 
 		return true;
@@ -95,14 +106,15 @@ abstract class JUcmBase implements JUcm
 	*/
 	public function mapData($original, JUcmType $type = null)
 	{
-		$type = $type ? $type : $this->type;
-		$fields = json_decode($type->field_mappings, true);
+		$contentType = isset($type) ? $type : $this->type;
+		
+		$fields = json_decode($contentType->type->field_mappings, true);
 
 		$ucmData = array();
 
 		foreach ($fields['common'][0] as $i => $field)
 		{
-			if ($field && $field != 'null' && array_key_exists($original, $field))
+			if ($field && $field != 'null' && array_key_exists($field, $original))
 			{
 				$ucmData['common'][$i] = $original[$field];
 			}
@@ -110,7 +122,7 @@ abstract class JUcmBase implements JUcm
 
 		foreach ($fields['special'][0] as $i => $field)
 		{
-			if ($field && $field != 'null' && array_key_exists($original, $field))
+			if ($field && $field != 'null' && array_key_exists($field, $original))
 			{
 				$ucmData['special'][$i] = $original[$field];
 			}
@@ -130,7 +142,8 @@ abstract class JUcmBase implements JUcm
 	**/
 	public function getType()
 	{
-		$type = new JUcmType($this->table);
+
+		$type = new JUcmType($this->alias);
 
 		return $type;
 	}
@@ -159,16 +172,6 @@ abstract class JUcmBase implements JUcm
 		try
    		{
   			$table->bind($data);
-   		}
-   		catch (RuntimeException $e)
-		{
-			throw new Exception($e->getMessage(), 500);
-			return false;
-		}
-
-		try
-   		{
-  			$table->check();
    		}
    		catch (RuntimeException $e)
 		{

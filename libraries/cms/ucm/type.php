@@ -16,36 +16,21 @@ defined('JPATH_BASE') or die;
  * @subpackage  UCM
  * @since       3.1
  */
-abstract class JUcmType implements JUcm
+class JUcmType implements JUcm
 {
 	/**
 	 * The UCM Type
+	 * 
+	 * @param	String $alias	The table alias for the content type
 	 *
-	 * @var    JUcmType Object
-	 * @since  13.1
+	 * @var		JUcmType Object
+	 * @since	13.1
 	 */
-	protected $type;
+	public $type;
 
-	/**
-	 * The related table object
-	 *
-	 * @var    JTable Object
-	 * @since  13.1
-	 */
-	protected $table;
-
-	/**
-	 * Instantiate the UcmBase.
-	 *
-	 * @param   JModel  	$model    The model object
-	 * @param   JUcmType  	$model    The type object
-	 *
-	 * @since  13.1
-	 */
-	public function __construct(JTable $table = null)
+	public function __construct($alias = null)
 	{
-		// Setup dependencies.
-		$this->table = isset($table) ? $table : null;
+		$this->type = $this->getType($alias);
 	}
 
 	/**
@@ -57,28 +42,25 @@ abstract class JUcmType implements JUcm
 	*
 	* @since 13.1
 	*/
-	public function getType(JInput $input = null)
+	public function getType($alias = null, JInput $input = null)
 	{
 		$db		= JFactory::getDbo();
 
-		$query	= $db->getQuery();
+		$query	= $db->getQuery(TRUE);
 		$query->select('ct.*');
 		$query->from($db->qn('#__content_types') . ' AS ct');
 
-		if ($this->table)
-		{
-			$query->where($db->qn('ct.table') . ' = ' . $db->q($this->tablle));
-		} else 
+		if (!$alias) 
 		{
 			$input = $input ? $input : JFactory::getApplication()->input;
 			$alias = $input->get('option') . '.' . $input->get('view');
-			$query->where($db->qn('ct.alias') . ' = ' . $db->q($alias));
 		}
 
+		$query->where($db->qn('ct.type_alias') . ' = ' . $db->q($alias));			
 		$db->setQuery($query);
 
-		$this->type = $db->loadObject();
+		$type = $db->loadObject();
 
-		return $this->type;
+		return $type;
 	}
 }
