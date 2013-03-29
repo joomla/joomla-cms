@@ -124,6 +124,48 @@ class JHelperRoute
 	}
 
 	/**
+	 * Tries to load the router for the component and calls it. Otherwise uses getRoute.
+	 * Assumes conformity to standard Joomla locations and naming structures.
+	 *
+	 * @param  integer   $contentItemId      component item id
+	 * @param  string    $contentItemAlias  component item alias
+	 * @param  integer   $contentCatId      component item category id
+	 * @param  string    $language          component item language
+	 * @param  string    $typeAlias         component type alias of the form com_content.article
+	 * @param  string    $routerName        component router of the form Class::Method
+	 *
+	 * @return string   $link              URL link to pass to JRouter
+	 */
+	public static function getItemRoute($contentItemId, $contentItemAlias, $contentCatId, $language, $typeAlias, $routerName)
+	{
+		$link = '';
+		$explodedAlias = explode('.', $typeAlias);
+		$explodedRouter = explode('::', $routerName);
+		if (file_exists ($routerFile = JPATH_BASE . '/components/' . $explodedAlias[0] . '/helpers/route.php'))
+		{
+			JLoader::register($explodedRouter[0], $routerFile);
+			$routerClass = $explodedRouter[0];
+			$routerMethod = $explodedRouter[1];
+			if (class_exists($routerClass) && method_exists($routerClass, $routerMethod))
+			{
+				if ($routerMethod == 'getCategoryRoute')
+				{
+					$link = $routerClass::$routerMethod($contentItemId, $language);
+				}
+				else
+				{
+					$link = $routerClass::$routerMethod($contentItemId . ':' . $contentItemAlias, $contentCatId, $language);
+				}
+			}
+		}
+		if ($link == '')
+		{
+			$link = self::getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
+		}
+		return $link;
+	}
+
+	/**
 	 * Method to find the item in the menu structure
 	 *
 	 * @param   array  $needles  Array of lookup values

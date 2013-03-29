@@ -69,7 +69,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 					<?php if ($canEdit) : ?>
 						<span class="list-edit pull-left width-50">
-							<?php echo JHtml::_('icon.edit', $item, $params); ?>
+							<?php echo JHtml::_('icon.edit', $item, $params, array(), false, array('com_weblinks', 'weblink', 'w_id')); ?>
 						</span>
 					<?php endif; ?>
 
@@ -143,9 +143,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</ul>
 
 		<?php // Code to add a link to submit a weblink. ?>
-		<?php /* if ($canCreate) : // TODO This is not working due to some problem in the router, I think. Ref issue #23685 ?>
-			<?php echo JHtml::_('icon.create', $item, $item->params); ?>
-		<?php  endif; */ ?>
+		<?php  if ($canCreate) : // TODO This is not working due to some problem in the router, I think. Ref issue #23685 ?>
+			<?php echo JHtml::_('icon.create', $item, $item->params, array(), false,  array('com_weblinks', 'weblink', 'w_id'), 'COM_WEBLINKS_FORM_CREATE_WEBLINK'); ?>
+		<?php  endif;  ?>
 		<?php if ($this->params->get('show_pagination')) : ?>
 		 <div class="pagination">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>

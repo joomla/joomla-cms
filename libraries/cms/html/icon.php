@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,25 +15,26 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_content
  * @since       1.5
- * @deprecated  3.1   Use JHtmlIcon from the html package instead.
  */
 abstract class JHtmlIcon
 {
 	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
-	 * @param   object     $category  The category information
-	 * @param   JRegistry  $params    The item parameters
-	 * @param   array      $attribs   Optional attributes for the link
-	 * @param   boolean    $legacy    True to use legacy images, false to use icomoon based graphic
+	 * @param   object     $category     The category information
+	 * @param   JRegistry  $params       The item parameters
+	 * @param   array      $attribs      Optional attributes for the link
+	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
+	 * @param   array      $urlSegments  Segments of the form url, defaults to those for com_content articles
+	 * @param   string     $tooltip      Language key for display in the tooltip.
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 */
-	public static function create($category, $params, $attribs = array(), $legacy = false)
+	public static function create($category, $params, $attribs = array(), $legacy = false, $urlSegments = array('com_content', 'article', 'a_id' ), $tooltip = '')
 	{
 		$uri = JURI::getInstance();
 
-		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
+		$url = 'index.php?option='. $urlSegments[0] . '&task='.$urlSegments[1]. '.add&return=' . base64_encode($uri) . '&' . $urlSegments[2] .'=0&catid=' . $category->id;
 
 		if ($params->get('show_icons'))
 		{
@@ -63,29 +64,33 @@ abstract class JHtmlIcon
 
 		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
-		$output = '<span class="hasTip" title="' . JText::_('COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
+		$output = '<span class="hasTip" title="' . JText::sprintf($tooltip) . '">' . $button . '</span>';
 
 		return $output;
 	}
 
 	/**
-	 * Method to generate a link to the email item page for the given article
+	 * Method to generate a link to the email item page for the given item
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object     $contentItem  The item information
+	 * @param   JRegistry  $params       The item parameters
+	 * @param   array      $attribs      Optional attributes for the link
+	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
+	 * @param   string     $router       Custom Router for the page in form Class::Method
+	 * @param   string     $typeAlias    Of the form com_content.article
 	 *
 	 * @return  string  The HTML markup for the email item link
 	 */
-	public static function email($article, $params, $attribs = array(), $legacy = false)
+	public static function email($contentItem, $params, $attribs = array(), $legacy = false, $router, $typeAlias)
 	{
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 
 		$uri      = JURI::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
-		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
+
+		$link = JHelperRoute::getItemRoute($contentItem->id, $contentItem->alias, $contentItem->CatId, $contentItem->language, $typeAlias, $routerName);
+
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
@@ -115,20 +120,21 @@ abstract class JHtmlIcon
 	}
 
 	/**
-	 * Display an edit icon for the article.
+	 * Display an edit icon for the content item.
 	 *
-	 * This icon will not display in a popup window, nor if the article is trashed.
+	 * This icon will not display in a popup window, nor if the iten is trashed.
 	 * Edit access checks must be performed in the calling code.
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object     $contentItem  The content item information
+	 * @param   JRegistry  $params       The item parameters
+	 * @param   array      $attribs      Optional attributes for the link
+	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
+	 * @param   array      $urlSegments  Url segments for the edit form
 	 *
-	 * @return  string	The HTML for the article edit icon.
-	 * @since   1.6
+	 * @return  string  The HTML for the edit icon.
+	 * @since   3.1
 	 */
-	public static function edit($article, $params, $attribs = array(), $legacy = false)
+	public static function edit($contentItem, $params, $attribs = array(), $legacy = false,  $urlSegments = array('com_content', 'article', 'a_id' ))
 	{
 		$user = JFactory::getUser();
 		$uri  = JURI::getInstance();
@@ -140,27 +146,28 @@ abstract class JHtmlIcon
 		}
 
 		// Ignore if the state is negative (trashed).
-		if ($article->state < 0)
+		if ($contentItem->state < 0)
 		{
 			return;
 		}
 
 		JHtml::_('behavior.tooltip');
 
-		// Show checked_out icon if the article is checked out by a different user
-		if (property_exists($article, 'checked_out') && property_exists($article, 'checked_out_time') && $article->checked_out > 0 && $article->checked_out != $user->get('id'))
+		// Show checked_out icon if the item is checked out by a different user
+		if (property_exists($contentItem, 'checked_out') && property_exists($contentItem, 'checked_out_time') && $contentItem->checked_out > 0
+			&& $contentItem->checked_out != $user->get('id'))
 		{
-			$checkoutUser = JFactory::getUser($article->checked_out);
+			$checkoutUser = JFactory::getUser($contentItem->checked_out);
 			$button       = JHtml::_('image', 'system/checked_out.png', null, null, true);
-			$date         = JHtml::_('date', $article->checked_out_time);
+			$date         = JHtml::_('date', $contentItem->checked_out_time);
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name) . ' <br /> ' . $date;
 
 			return '<span class="hasTip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $button . '</span>';
 		}
 
-		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
+		$url = 'index.php?option=' . $urlSegments[0] . '&task=' . $urlSegments[1] . '.edit&'. $urlSegments[2] . '=' . $contentItem->id . '&return=' . base64_encode($uri);
 
-		if ($article->state == 0)
+		if ($contentItem->state == 0)
 		{
 			$overlib = JText::_('JUNPUBLISHED');
 		}
@@ -169,8 +176,8 @@ abstract class JHtmlIcon
 			$overlib = JText::_('JPUBLISHED');
 		}
 
-		$date   = JHtml::_('date', $article->created);
-		$author = $article->created_by_alias ? $article->created_by_alias : $article->author;
+		$date   = JHtml::_('date', $contentItem->created);
+		$author = $contentItem->created_by_alias ? $contentItem->created_by_alias : $contentItem->author;
 
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
@@ -179,12 +186,12 @@ abstract class JHtmlIcon
 
 		if ($legacy)
 		{
-			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
+			$icon = $contentItem->state ? 'edit.png' : 'edit_unpublished.png';
 			$text = JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true);
 		}
 		else
 		{
-			$icon = $article->state ? 'edit' : 'eye-close';
+			$icon = $contentItem->state ? 'edit' : 'eye-close';
 			$text = '<span class="hasTip icon-' . $icon . ' tip" title="' . JText::_('COM_CONTENT_EDIT_ITEM') . ' :: ' . $overlib . '"></span>&#160;' . JText::_('JGLOBAL_EDIT') . '&#160;';
 		}
 
@@ -194,18 +201,19 @@ abstract class JHtmlIcon
 	}
 
 	/**
-	 * Method to generate a popup link to print an article
+	 * Method to generate a popup link to print an item
 	 *
-	 * @param   object     $article  The article information
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Optional attributes for the link
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   object     $contentItem  The content item information
+	 * @param   JRegistry  $params       The item parameters
+	 * @param   array      $attribs      Optional attributes for the link
+	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
+	 * @param   string     $router       Custom Router for the page in form Class::Method
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 */
-	public static function print_popup($article, $params, $attribs = array(), $legacy = false)
+	public static function print_popup($contentItem, $params, $attribs = array(), $legacy = false, $router = '')
 	{
-		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid);
+		$url  = ContentHelperRoute::getArticleRoute($contentItem->slug, $contentItem->catid);
 		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
@@ -235,16 +243,15 @@ abstract class JHtmlIcon
 	}
 
 	/**
-	 * Method to generate a link to print an article
+	 * Method to generate a link to print an item
 	 *
-	 * @param   object     $article  Not used, @deprecated for 4.0
-	 * @param   JRegistry  $params   The item parameters
-	 * @param   array      $attribs  Not used, @deprecated for 4.0
-	 * @param   boolean    $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   JRegistry  $params       The item parameters
+	 * @param   array      $attribs      Not used, @deprecated for 4.0
+	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 */
-	public static function print_screen($article, $params, $attribs = array(), $legacy = false)
+	public static function print_screen($params, $attribs = array(), $legacy = false)
 	{
 		// Checks template image directory for image, if none found default are loaded
 		if ($params->get('show_icons'))
@@ -255,7 +262,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = $text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = $text = '<span class="icon-print"></i>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
 			}
 		}
 		else
