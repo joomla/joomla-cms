@@ -21,7 +21,7 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
-	 * @param   object     $category     The category information
+	 * @param   object     $categoryId   The category information
 	 * @param   JRegistry  $params       The item parameters
 	 * @param   array      $attribs      Optional attributes for the link
 	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
@@ -32,11 +32,11 @@ abstract class JHtmlIcon
 	 *
 	 * @since  3.1
 	 */
-	public static function create($category, $params, $attribs = array(), $legacy = false, $urlSegments = array(), $tooltip = '')
+	public static function create($categoryId, $params = array(), $attribs = array(), $legacy = false, $urlSegments, $tooltip = '')
 	{
 		$uri = JURI::getInstance();
 
-		$url = 'index.php?option='. $urlSegments[0] . '&task='.$urlSegments[1]. '.add&return=' . base64_encode($uri) . '&' . $urlSegments[2] .'=0&catid=' . $category->id;
+		$url = 'index.php?option='. $urlSegments[0] . '&task=' . $urlSegments[1] . '.add&return=' . base64_encode($uri) . '&' . $urlSegments[2] .'=0&catid=' . $categoryId;
 
 		if ($params->get('show_icons'))
 		{
@@ -76,16 +76,15 @@ abstract class JHtmlIcon
 	 *
 	 * @param   object     $contentItem  The item information
 	 * @param   JRegistry  $params       The item parameters
-	 * @param   array      $attribs      Optional attributes for the link
+	 * @param   array      $attribs      Attributes for the link
 	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
 	 * @param   string     $router       Custom Router for the page in form Class::Method
-	 * @param   string     $typeAlias    Of the form com_content.article
 	 *
 	 * @return  string  The HTML markup for the email item link
 	 *
 	 * @since  3.1
 	 */
-	public static function email($contentItem, $params, $attribs = array(), $legacy = false, $router, $typeAlias)
+	public static function email($contentItem, $params, $attribs, $legacy = false, $urlSegments, $router = '')
 	{
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 
@@ -93,13 +92,15 @@ abstract class JHtmlIcon
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
 
+		$typeAlias = $urlSegments[0] . '.' . $urlSegments[1];
+
 		$link = JHelperRoute::getItemRoute($contentItem->id, $contentItem->alias, $contentItem->CatId, $contentItem->language, $typeAlias, $routerName);
 
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailToHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
-		if ($params->get('show_icons'))
+		if ($params['show_icons'])
 		{
 			if ($legacy)
 			{
@@ -139,7 +140,7 @@ abstract class JHtmlIcon
 	 *
 	 * @since   3.1
 	 */
-	public static function edit($contentItem, $params, $attribs = array(), $legacy = false,  $urlSegments = array())
+	public static function edit($contentItem, $params, $attribs = array(), $legacy = false,  $urlSegments = array(), $router = '', $tipstring)
 	{
 		$user = JFactory::getUser();
 		$uri  = JURI::getInstance();
@@ -212,22 +213,28 @@ abstract class JHtmlIcon
 	 * @param   JRegistry  $params       The item parameters
 	 * @param   array      $attribs      Optional attributes for the link
 	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
+	 * @param   array      $urlSegments  Url segments for the edit form
 	 * @param   string     $router       Custom Router for the page in form Class::Method
-	 * @param   string     $typeAlias    In the form of com_weblinks.weblink.
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
 	 * @since  3.1
 	 */
-	public static function print_popup($contentItem, $params, $attribs = array(), $legacy = false, $router = '', $typeAlias)
+	public static function print_popup($contentItem, $params = array(), $attribs, $legacy = false, $urlSegments, $router = '')
 	{
-		$url  = JHelperContent::getItemRoute($contentItem->id, $contentItem->alias, $contentItem->catid, $contentItem->language, $typeAlias, $router);
+
+		// Make a type alias from the $urlSegments
+
+		$typeAlias = $urlSegments[0] . $urlSegments[1];
+
+
+		$url  = JHelperRoute::getItemRoute($contentItem->id, $contentItem->alias, $contentItem->catid, $contentItem->language, $router, $typeAlias);
 		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';
 
 		// checks template image directory for image, if non found default are loaded
-		if ($params->get('show_icons'))
+		if ($params['show_icons'])
 		{
 			if ($legacy)
 			{
@@ -253,15 +260,16 @@ abstract class JHtmlIcon
 	/**
 	 * Method to generate a link to print an item
 	 *
+	 * @param   object     $contentItem  Content item
 	 * @param   JRegistry  $params       The item parameters
-	 * @param   array      $attribs      Not used, @deprecated for 4.0
+	 * @param   array      $attribs      Optional attributes for the icon
 	 * @param   boolean    $legacy       True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
 	 * @since  3.1
 	 */
-	public static function print_screen($params, $attribs = array(), $legacy = false)
+	public static function print_screen($contentItem, $params, $attribs = array(), $legacy = false, $urlSegments,  $router = '')
 	{
 		// Checks template image directory for image, if none found default are loaded
 		if ($params->get('show_icons'))

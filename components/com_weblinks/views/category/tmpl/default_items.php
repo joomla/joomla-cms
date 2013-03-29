@@ -31,6 +31,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php if (empty($this->items)) : ?>
 	<p> <?php echo JText::_('COM_WEBLINKS_NO_WEBLINKS'); ?></p>
 <?php else : ?>
+		<ul class="dropdown-menu actions">
+d
+				<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $this->item, $params,  array('com_weblinks', 'category', 'id'), false, array()); ?> </li>
+
+
+				<li class="email-icon"> <?php echo JHtml::_('icon.email', $this->item, $params,  array(), false); ?> </li>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
@@ -69,7 +75,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 					<?php if ($canEdit) : ?>
 						<span class="list-edit pull-left width-50">
-							<?php echo JHtml::_('icon.edit', $item, $params, array(), false, array('com_weblinks', 'weblink', 'w_id')); ?>
+							<?php// $urlSegments = array('com_weblinks', 'weblink', 'w_id'); ?>
+							<?php // $attribs = array(); ?>
+							<?php echo JHtml::_('icon.edit', $item, $this->params, array(), false, array('com_weblinks', 'weblink', 'w_id'),  'WeblinksHelperRoute::getWeblinkRoute', 'COM_WEBLINKS_FORM_CREATE_WEBLINK'); ?>
 						</span>
 					<?php endif; ?>
 
@@ -143,8 +151,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</ul>
 
 		<?php // Code to add a link to submit a weblink. ?>
-		<?php  if ($canCreate) : // TODO This is not working due to some problem in the router, I think. Ref issue #23685 ?>
-			<?php echo JHtml::_('icon.create', $item, $item->params, array(), false,  array('com_weblinks', 'weblink', 'w_id'), 'COM_WEBLINKS_FORM_CREATE_WEBLINK'); ?>
+		<?php  if ($canCreate) : ?>
+			<?php echo JHtml::_('icon.create', $item->catid, $item->params, array(), false,  array('com_weblinks', 'weblink', 'w_id'), 'COM_WEBLINKS_FORM_CREATE_WEBLINK'); ?>
 		<?php  endif;  ?>
 		<?php if ($this->params->get('show_pagination')) : ?>
 		 <div class="pagination">

@@ -58,18 +58,18 @@ class JHelperRoute
 	 *
 	 * @since   3.1
 	 */
-	public function getRoute($id, $typealias, $link = '', $language = null, $catid = null)
+	public static function getRoute($id, $typeAlias, $link = '', $language = null, $catid = null)
 	{
-		$typeExploded = explode('.', $typealias);
+		$typeExploded = explode('.', $typeAlias);
 
-		$this->view = $typeExploded[1];
-		$this->extension = $typeExploded[0];
-		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
+		$view = $typeExploded[1];
+		$extension = $typeExploded[0];
+		$name = ucfirst(substr_replace($extension, '', 0, 4));
 
-		if (isset($this->view))
+		if (isset($view))
 		{
 			$needles = array(
-				$this->view  => array((int) $id)
+				$view  => array((int) $id)
 			);
 		}
 		if (!isset($link))
@@ -79,8 +79,8 @@ class JHelperRoute
 		}
 
 		if ($catid > 1)
-		{
-			$categories = JCategories::getInstance($name);
+		{var_dump($name);die;
+			$categories = JCategories::getInstance($name);var_dump($categories);
 			$category = $categories->get((int) $catid);
 			if ($category)
 			{
@@ -174,7 +174,7 @@ class JHelperRoute
 	 *
 	 * @since   3.1
 	 */
-	protected function findItem($needles = array())
+	protected static function findItem($needles = array())
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu('site');
@@ -185,7 +185,8 @@ class JHelperRoute
 		{
 			self::$lookup[$language] = array();
 
-			$component = JComponentHelper::getComponent($this->extension);
+			$extension = $item->query['option'];
+			$component = JComponentHelper::getComponent($extension);
 
 			$attributes = array('component_id');
 			$values = array($component->id);
@@ -246,7 +247,7 @@ class JHelperRoute
 		}
 
 		$active = $menus->getActive();
-		if ($active && $active->component == $this->extension && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active && $active->component == $item->query['id'] && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}
