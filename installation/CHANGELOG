@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2013 Jean-Marie Simonet
+# [#29709] Imposed translation on menu description. Thanks Marco and Brian.
+
 28-Mar-2013 Jean-Marie Simonet
  # [#30415] *Multilanguage 3.1: SIngle article display does not filter correctly author contact per language.
  $ Updating installation file: ckb-IQ.ini
