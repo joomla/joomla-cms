@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ROOT . '/components/com_banners/helpers/banner.php';
-$baseurl = JURI::base();
 ?>
 <div class="bannergroup<?php echo $moduleclass_sfx ?>">
 <?php if ($headerText) : ?>
@@ -29,6 +28,8 @@ $baseurl = JURI::base();
 			<?php $height = $item->params->get('height');?>
 			<?php if (BannerHelper::isImage($imageurl)) :?>
 				<?php // Image based banner ?>
+				<?php $baseurl = (JURI::isInternal($imageurl) ? JURI::base() : ''); ?>
+				<?php // Checks if the image path is external ?>
 				<?php $alt = $item->params->get('alt');?>
 				<?php $alt = $alt ? $alt : $item->name; ?>
 				<?php $alt = $alt ? $alt : JText::_('MOD_BANNERS_BANNER'); ?>
