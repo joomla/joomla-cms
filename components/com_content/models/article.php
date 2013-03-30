@@ -103,13 +103,13 @@ class ContentModelArticle extends JModelItem
 					->join('LEFT', '#__users AS u on u.id = a.created_by');
 
 				// Join on contact table
-				$subQuery = $db->getQuery(true);
-				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language')
+				$subQuery = $db->getQuery(true)
+					->select('contact.user_id, MAX(contact.id) AS id, contact.language')
 					->from('#__contact_details AS contact')
 					->where('contact.published = 1')
-					->group('contact.user_id, contact.language')
+					->group('contact.user_id, contact.language');
 
-					->select('contact.id as contactid')
+				$query->select('contact.id as contactid')
 					->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 
 				// Filter by language

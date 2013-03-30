@@ -210,13 +210,13 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Join on contact table
-		$subQuery = $db->getQuery(true);
-		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language')
+		$subQuery = $db->getQuery(true)
+			->select('contact.user_id, MAX(contact.id) AS id, contact.language')
 			->from('#__contact_details AS contact')
 			->where('contact.published = 1')
-			->group('contact.user_id, contact.language')
+			->group('contact.user_id, contact.language');
 
-			->select('contact.id as contactid')
+		$query->select('contact.id as contactid')
 			->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 
 		// Join over the categories to get parent category titles
@@ -326,8 +326,8 @@ class ContentModelArticles extends JModelList
 			{
 				$levels = (int) $this->getState('filter.max_category_levels', '1');
 				// Create a subquery for the subcategory list
-				$subQuery = $db->getQuery(true);
-				$subQuery->select('sub.id')
+				$subQuery = $db->getQuery(true)
+					->select('sub.id')
 					->from('#__categories as sub')
 					->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
 					->where('this.id = '.(int) $categoryId);

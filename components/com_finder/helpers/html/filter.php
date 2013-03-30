@@ -230,14 +230,14 @@ abstract class JHtmlFilter
 	/**
 	 * Method to generate filters using select box drop down controls.
 	 *
-	 * @param   FinderIndexerQuery  $query    A FinderIndexerQuery object.
+	 * @param   FinderIndexerQuery  $idxQuery A FinderIndexerQuery object.
 	 * @param   array               $options  An array of options.
 	 *
 	 * @return  mixed  A rendered HTML widget on success, null otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public static function select($query, $options)
+	public static function select($idxQuery, $options)
 	{
 		$user 	= JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
@@ -250,7 +250,7 @@ abstract class JHtmlFilter
 
 		// Try to load the results from cache.
 		$cache = JFactory::getCache('com_finder', '');
-		$cacheId = 'filter_select_' . serialize(array($query->filter, $options, $groups, JFactory::getLanguage()->getTag()));
+		$cacheId = 'filter_select_' . serialize(array($idxQuery->filter, $options, $groups, JFactory::getLanguage()->getTag()));
 
 		// Check the cached results.
 		if (!($branches = $cache->get($cacheId)))
@@ -259,11 +259,11 @@ abstract class JHtmlFilter
 			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.
-			if (!empty($query->filter))
+			if (!empty($idxQuery->filter))
 			{
 				$query->select('f.data, '. $db->quoteName('f.params'))
 					->from($db->quoteName('#__finder_filters') . ' AS f')
-					->where('f.filter_id = ' . (int) $query->filter);
+					->where('f.filter_id = ' . (int) $idxQuery->filter);
 
 				// Load the filter data.
 				$db->setQuery($query);
@@ -383,7 +383,7 @@ abstract class JHtmlFilter
 		// Add the dates if enabled.
 		if ($showDates)
 		{
-			$html .= JHtml::_('filter.dates', $query, $options);
+			$html .= JHtml::_('filter.dates', $idxQuery, $options);
 		}
 
 		$html .= '<div id="finder-filter-select-list" class="form-horizontal">';
@@ -400,13 +400,13 @@ abstract class JHtmlFilter
 			$active = null;
 
 			// Check if the branch is in the filter.
-			if (array_key_exists($bv->title, $query->filters))
+			if (array_key_exists($bv->title, $idxQuery->filters))
 			{
 				// Get the request filters.
 				$temp = JFactory::getApplication()->input->request->get('t', array(), 'array');
 
 				// Search for active nodes in the branch and get the active node.
-				$active = array_intersect($temp, $query->filters[$bv->title]);
+				$active = array_intersect($temp, $idxQuery->filters[$bv->title]);
 				$active = count($active) === 1 ? array_shift($active) : null;
 			}
 
@@ -435,14 +435,14 @@ abstract class JHtmlFilter
 	/**
 	 * Method to generate fields for filtering dates
 	 *
-	 * @param   FinderIndexerQuery  $query    A FinderIndexerQuery object.
+	 * @param   FinderIndexerQuery  $idxQuery A FinderIndexerQuery object.
 	 * @param   array               $options  An array of options.
 	 *
 	 * @return  mixed  A rendered HTML widget on success, null otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public static function dates($query, $options)
+	public static function dates($idxQuery, $options)
 	{
 		$html = '';
 
@@ -474,8 +474,8 @@ abstract class JHtmlFilter
 			$html .= JText::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
 			$html .= '<br />';
-			$html .= JHtml::_('select.genericlist', $operators, 'w1', 'class="inputbox filter-date-operator"', 'value', 'text', $query->when1, 'finder-filter-w1');
-			$html .= JHtml::calendar($query->date1, 'd1', 'filter_date1', '%Y-%m-%d', 'title="' . JText::_('COM_FINDER_FILTER_DATE1_DESC') . '"');
+			$html .= JHtml::_('select.genericlist', $operators, 'w1', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1');
+			$html .= JHtml::calendar($idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', 'title="' . JText::_('COM_FINDER_FILTER_DATE1_DESC') . '"');
 			$html .= '</li>';
 
 			// End date filter.
@@ -484,8 +484,8 @@ abstract class JHtmlFilter
 			$html .= JText::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
 			$html .= '<br />';
-			$html .= JHtml::_('select.genericlist', $operators, 'w2', 'class="inputbox filter-date-operator"', 'value', 'text', $query->when2, 'finder-filter-w2');
-			$html .= JHtml::calendar($query->date2, 'd2', 'filter_date2', '%Y-%m-%d', 'title="' . JText::_('COM_FINDER_FILTER_DATE2_DESC') . '"');
+			$html .= JHtml::_('select.genericlist', $operators, 'w2', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2');
+			$html .= JHtml::calendar($idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', 'title="' . JText::_('COM_FINDER_FILTER_DATE2_DESC') . '"');
 			$html .= '</li>';
 
 			// Close the widget.

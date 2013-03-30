@@ -106,9 +106,9 @@ class BannersHelper
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__banners')
-			->where("'".$now."' >= ".$db->quote('reset'))
-			->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL')
-			->where('('.$db->quoteName('checked_out').' = 0 OR '.$db->quoteName('checked_out').' = '.(int) $db->quote($user->id).')');
+			->where($db->quote($now) . ' >= ' . $db->quote('reset'))
+			->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!=NULL')
+			->where('(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = ' . (int) $db->quote($user->id) . ')');
 		$db->setQuery((string) $query);
 
 		try
@@ -166,10 +166,10 @@ class BannersHelper
 			// Update the row ordering field.
 			$query->clear()
 				->update($db->quoteName('#__banners'))
-				->set($db->quoteName('reset').' = '.$db->quote($reset))
-				->set($db->quoteName('impmade').' = '.$db->quote(0))
-				->set($db->quoteName('clicks').' = '.$db->quote(0))
-				->where($db->quoteName('id').' = '.$db->quote($row->id));
+				->set($db->quoteName('reset') . ' = ' . $db->quote($reset))
+				->set($db->quoteName('impmade') . ' = ' . $db->quote(0))
+				->set($db->quoteName('clicks') . ' = ' . $db->quote(0))
+				->where($db->quoteName('id') . ' = ' . $db->quote($row->id));
 			$db->setQuery((string) $query);
 
 			try
@@ -190,8 +190,8 @@ class BannersHelper
 	{
 		$options = array();
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('id As value, name As text')
 			->from('#__banner_clients AS a')
 			->order('a.name');
