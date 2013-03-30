@@ -91,10 +91,9 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// get all admin users
-			$query = 'SELECT name, email, sendEmail, id' .
-						' FROM #__users' .
-						' WHERE sendEmail=1';
-
+			$query->select($db->qoteName(array('name', 'email', 'sendEmail', 'id')))
+					->from($db->quoteName('#__users')
+					->where($db->qoteName('sendEmail') . ' = ' . (int) 1));
 			$db->setQuery($query);
 			$rows = $db->loadObjectList();
 
