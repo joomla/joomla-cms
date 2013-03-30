@@ -299,8 +299,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if ($app->input->get('task') == 'save2copy')
 		{
 			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-			$data['name']	= $name;
-			$data['alias']	= $alias;
+			$data['name']		= $name;
+			$data['alias']		= $alias;
+			$data['published']	= 0;
 		}
 
 		if (parent::save($data))

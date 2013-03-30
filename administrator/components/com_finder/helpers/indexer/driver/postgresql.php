@@ -134,8 +134,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				. $db->quote($item->publish_end_date) . ', '
 				. $db->quote($item->start_date) . ', '
 				. $db->quote($item->end_date) . ', '
-				. $db->quote(($item->list_price ? $item->list_price : 0)) . ', '
-				. $db->quote(($item->sale_price ? $item->sale_price : 0))
+				. (double) ($item->list_price ? $item->list_price : 0) . ', '
+				. (double) ($item->sale_price ? $item->sale_price : 0)
 			);
 			$db->setQuery($query);
 			$db->execute();
@@ -146,8 +146,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		else
 		{
 			// Update the link.
-			$query->clear()
-				->update($db->quoteName('#__finder_links'))
+			$query->clear();
+			$query->update($db->quoteName('#__finder_links'))
 				->set($db->quoteName('route') . ' = ' . $db->quote($item->route))
 				->set($db->quoteName('title') . ' = ' . $db->quote($item->title))
 				->set($db->quoteName('description') . ' = ' . $db->quote($item->description))
@@ -161,8 +161,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
 				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
 				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
-				->set($db->quoteName('list_price') . ' = ' . $db->quote($item->list_price))
-				->set($db->quoteName('sale_price') . ' = ' . $db->quote($item->sale_price))
+				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ? $item->list_price : 0))
+				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ? $item->sale_price : 0))
 				->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();

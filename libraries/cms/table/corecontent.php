@@ -101,10 +101,10 @@ class JTableCorecontent extends JTable
 
 		if (trim($this->core_alias) == '')
 		{
-			$this->alias = $this->core_title;
+			$this->core_alias = $this->core_title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->core_alias = JApplication::stringURLSafe($this->core_alias);
 
 		if (trim(str_replace('-', '', $this->core_alias)) == '')
 		{
@@ -166,29 +166,32 @@ class JTableCorecontent extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		if ($this->id)
+		if ($this->core_content_id)
 		{
 			// Existing item
 			$this->core_modified_time = $date->toSql();
-			$this->core_modified_by_user_id = $user->get('id');
+			$this->core_modified_user_id = $user->get('id');
 		}
 		else
 		{
-			// New content item. A content item core_created_time and core_created_by_user_id field can be set by the user,
+			// New content item. A content item core_created_time and core_created_user_id field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!(int) $this->core_created_time)
 			{
 				$this->core_created_time = $date->toSql();
 			}
 
-			if (empty($this->core_created_by_user_id))
+			if (empty($this->core_created_user_id))
 			{
-				$this->core_created_by_user_id = $user->get('id');
+				$this->core_created_user_id = $user->get('id');
 			}
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Corecontent', 'JTable');
-		if ($table->load(array('alias' => $this->core_alias, 'catid' => $this->core_catid)) && ($table->core_content_id != $this->core_content_id || $this->core_content_id == 0))
+		if (
+			$table->load(array('core_alias' => $this->core_alias, 'core_catid' => $this->core_catid))
+			&& ($table->core_content_id != $this->core_content_id || $this->core_content_id == 0)
+		)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 			return false;
@@ -245,8 +248,10 @@ class JTableCorecontent extends JTable
 			->where($this->_db->quoteName($k) . 'IN (' . $pksImploded . ')');
 
 		// Determine if there is checkin support for the table.
+		$checkin = false;
 		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
 		{
+			$checkin = true;
 			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
 		}
 		$this->_db->setQuery($query);
