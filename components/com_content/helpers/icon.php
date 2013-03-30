@@ -49,7 +49,7 @@ class JHtmlIcon
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), NULL, true);
+			$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), $attribs, true);
 		} else {
 			$text = '&#160;'.JText::_('JGLOBAL_EMAIL');
 		}
@@ -104,7 +104,7 @@ class JHtmlIcon
 
 		$url	= 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&return='.base64_encode(urlencode($uri));
 		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
-		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), NULL, true);
+		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), $attribs, true);
 
 		if ($article->state == 0) {
 			$overlib = JText::_('JUNPUBLISHED');
@@ -138,7 +138,7 @@ class JHtmlIcon
 
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons')) {
-			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), NULL, true);
+			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), $attribs, true);
 		} else {
 			$text = JText::_('JGLOBAL_ICON_SEP') .'&#160;'. JText::_('JGLOBAL_PRINT') .'&#160;'. JText::_('JGLOBAL_ICON_SEP');
 		}
