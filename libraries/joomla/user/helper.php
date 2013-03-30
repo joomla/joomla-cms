@@ -42,8 +42,8 @@ abstract class JUserHelper
 		{
 			// Get the title of the group.
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('title'))
+			$query = $db->getQuery(true)
+				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
 				->where($db->quoteName('id') . ' = ' . (int) $groupId);
 			$db->setQuery($query);
@@ -160,8 +160,8 @@ abstract class JUserHelper
 
 		// Get the titles for the user groups.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id') . ', ' . $db->quoteName('title'))
 			->from($db->quoteName('#__usergroups'))
 			->where($db->quoteName('id') . ' = ' . implode(' OR ' . $db->quoteName('id') . ' = ', $user->groups));
 		$db->setQuery($query);
@@ -287,8 +287,8 @@ abstract class JUserHelper
 	{
 		// Initialise some variables
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('username') . ' = ' . $db->quote($username));
 		$db->setQuery($query, 0, 1);

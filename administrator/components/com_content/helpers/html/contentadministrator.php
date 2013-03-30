@@ -40,8 +40,8 @@ abstract class JHtmlContentAdministrator
 
 			// Get the associated menu items
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('c.*')
+			$query = $db->getQuery(true)
+				->select('c.*')
 				->from('#__content as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')

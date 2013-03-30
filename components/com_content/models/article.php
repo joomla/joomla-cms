@@ -77,9 +77,8 @@ class ContentModelArticle extends JModelItem
 
 			try {
 				$db = $this->getDbo();
-				$query = $db->getQuery(true);
-
-				$query->select(
+				$query = $db->getQuery(true)
+					->select(
 					$this->getState(
 						'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
 						// If badcats is not null, this means that the article is inside an unpublished category
@@ -108,16 +107,16 @@ class ContentModelArticle extends JModelItem
 				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language')
 					->from('#__contact_details AS contact')
 					->where('contact.published = 1')
-					->group('contact.user_id, contact.language');
+					->group('contact.user_id, contact.language')
 
-				$query->select('contact.id as contactid')
+					->select('contact.id as contactid')
 					->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
-					$query->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
+					$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')')
+						->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
 				}
 
 				// Join over the categories to get parent category titles

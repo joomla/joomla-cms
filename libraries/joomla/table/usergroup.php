@@ -168,8 +168,8 @@ class JTableUsergroup extends JTable
 		$db = $this->_db;
 
 		// Select the usergroup ID and its children
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('c.id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('c.id'))
 			->from($db->quoteName($this->_tbl) . 'AS c')
 			->where($db->quoteName('c.lft') . ' >= ' . (int) $this->lft)
 			->where($db->quoteName('c.rgt') . ' <= ' . (int) $this->rgt);
@@ -222,8 +222,8 @@ class JTableUsergroup extends JTable
 
 		if (!empty($match_ids))
 		{
-			$query = $db->getQuery(true);
-			$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace))
+			$query = $db->getQuery(true)
+				->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace))
 				->update('#__viewlevels')
 				->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);

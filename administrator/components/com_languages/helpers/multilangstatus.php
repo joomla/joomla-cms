@@ -22,8 +22,8 @@ abstract class MultilangstatusHelper
 	{
 		// Check for multiple Home pages
 		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
-		$query->select('COUNT(*)')
+		$query	= $db->getQuery(true)
+			->select('COUNT(*)')
 			->from($db->quoteName('#__menu'))
 			->where('home = 1')
 			->where('published = 1')
@@ -36,8 +36,8 @@ abstract class MultilangstatusHelper
 	{
 		// Check if switcher is published
 		$db			= JFactory::getDBO();
-		$query		= $db->getQuery(true);
-		$query->select('COUNT(*)')
+		$query		= $db->getQuery(true)
+			->select('COUNT(*)')
 			->from($db->quoteName('#__modules'))
 			->where('module = ' . $db->quote('mod_languages'))
 			->where('published = 1')
@@ -50,8 +50,8 @@ abstract class MultilangstatusHelper
 	{
 		// Check for published Content Languages
 		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
-		$query->select('a.lang_code AS lang_code')
+		$query	= $db->getQuery(true)
+			->select('a.lang_code AS lang_code')
 			->select('a.published AS published')
 			->from('#__languages AS a');
 		$db->setQuery($query);
@@ -62,8 +62,8 @@ abstract class MultilangstatusHelper
 	{
 		// check for published Site Languages
 		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
-		$query->select('a.element AS element')
+		$query	= $db->getQuery(true)
+			->select('a.element AS element')
 			->from('#__extensions AS a')
 			->where('a.type = '.$db->quote('language'))
 			->where('a.client_id = 0')
@@ -76,8 +76,8 @@ abstract class MultilangstatusHelper
 	{
 		// Check for Home pages languages
 		$db		= JFactory::getDBO();
-		$query	= $db->getQuery(true);
-		$query->select('language')
+		$query	= $db->getQuery(true)
+			->select('language')
 			->from($db->quoteName('#__menu'))
 			->where('home = 1')
 			->where('published = 1')
@@ -116,8 +116,8 @@ abstract class MultilangstatusHelper
 	public static function getContacts()
 	{
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('u.name, count(cd.language) as counted, MAX(cd.language='.$db->quote('*').') as all_languages')
+		$query = $db->getQuery(true)
+			->select('u.name, count(cd.language) as counted, MAX(cd.language='.$db->quote('*').') as all_languages')
 			->from('#__users AS u')
 			->join('LEFT', '#__contact_details AS cd ON cd.user_id=u.id')
 			->join('LEFT', '#__languages as l on cd.language=l.lang_code')

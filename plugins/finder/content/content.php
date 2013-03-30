@@ -338,8 +338,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true);
-		$query->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
 			->select('a.state, a.catid, a.created AS start_date, a.created_by')
 			->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering')

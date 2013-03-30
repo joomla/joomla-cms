@@ -140,7 +140,7 @@ class plgSearchExample extends JPlugin
 		$query->select('b.name AS title, b.clickurl as href, "1" AS browsernav, ' .
 			'c.title AS section, b.description AS text, b.created AS created');
 		$query->from('#__banners AS b')
-			->innerJoin('#__categories AS c ON c.id = b.catid')
+			->join('INNER', '#__categories AS c ON c.id = b.catid')
 			->where('('.$where.') AND (b.state=1) AND  (c.published=1)')
 			->order($order);
 

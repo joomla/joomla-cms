@@ -284,8 +284,8 @@ class InstallerModelManage extends InstallerModel
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
-		$query = JFactory::getDBO()->getQuery(true);
-		$query->select('*')
+		$query = JFactory::getDBO()->getQuery(true)
+			->select('*')
 			->select('2*protected+(1-protected)*enabled as status')
 			->from('#__extensions')
 			->where('state=0');

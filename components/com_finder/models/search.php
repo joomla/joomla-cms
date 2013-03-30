@@ -109,9 +109,8 @@ class FinderModelSearch extends JModelList
 
 		// Create the query to get the search results.
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select($db->quoteName('link_id') . ', ' . $db->quoteName('object'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('link_id') . ', ' . $db->quoteName('object'))
 			->from($db->quoteName('#__finder_links'))
 			->where($db->quoteName('link_id') . ' IN (' . implode(',', array_keys($items)) . ')');
 
@@ -222,9 +221,8 @@ class FinderModelSearch extends JModelList
 
 		// Create a new query object.
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('l.link_id')
+		$query = $db->getQuery(true)
+			->select('l.link_id')
 			->from($db->quoteName('#__finder_links') . ' AS l')
 			->where('l.access IN (' . $groups . ')')
 			->where('l.state = 1');
@@ -1007,8 +1005,8 @@ class FinderModelSearch extends JModelList
 		// Create the SQL query to get the matching link ids.
 		//@TODO: Impact of removing SQL_NO_CACHE?
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select('SQL_NO_CACHE link_id')
+		$query = $db->getQuery(true)
+			->select('SQL_NO_CACHE link_id')
 			->from('#__finder_links_terms')
 			->where('term_id IN (' . implode(',', $terms) . ')');
 

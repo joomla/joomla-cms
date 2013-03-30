@@ -79,8 +79,8 @@ class TemplatesTableStyle extends JTable
 	{
 		if ($this->home != '0')
 		{
-			$query = $this->_db->getQuery(true);
-			$query->update('#__template_styles')
+			$query = $this->_db->getQuery(true)
+				->update('#__template_styles')
 				->set('home=\'0\'')
 				->where('client_id=' . (int) $this->client_id)
 				->where('home='.$this->_db->quote($this->home));
@@ -105,8 +105,8 @@ class TemplatesTableStyle extends JTable
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 		if (!is_null($pk))
 		{
-			$query = $this->_db->getQuery(true);
-			$query->from('#__template_styles')
+			$query = $this->_db->getQuery(true)
+				->from('#__template_styles')
 				->select('id')
 				->where('client_id=' . (int) $this->client_id)
 				->where('template='.$this->_db->quote($this->template));

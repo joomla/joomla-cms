@@ -26,9 +26,8 @@ abstract class ModTagsPopularHelper
 		$timeframe = $params->get('timeframe', 'alltime');
 		$maximum   = $params->get('maximum', 5);
 
-		$query = $db->getQuery(true);
-
-		$query->select(array(
+		$query = $db->getQuery(true)
+			->select(array(
 				'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
 				' COUNT(*) AS count', 'MAX(t.title) AS title',
 				'MAX(' .$db->quoteName('t.access') . ') AS access',
@@ -50,7 +49,7 @@ abstract class ModTagsPopularHelper
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('t.language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		if ($timeframe != 'alltime')

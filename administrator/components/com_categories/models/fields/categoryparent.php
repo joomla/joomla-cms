@@ -56,9 +56,8 @@ class JFormFieldCategoryParent extends JFormFieldList
 		}
 
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('a.id AS value, a.title AS text, a.level')
+		$query	= $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, a.level')
 			->from('#__categories AS a')
 			->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 

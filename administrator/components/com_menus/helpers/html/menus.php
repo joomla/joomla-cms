@@ -27,8 +27,8 @@ abstract class MenusHtmlMenus
 
 		// Get the associated menu items
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('m.*')
+		$query = $db->getQuery(true)
+			->select('m.*')
 			->select('mt.title as menu_title')
 			->from('#__menu as m')
 			->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')

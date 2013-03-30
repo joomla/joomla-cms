@@ -977,8 +977,8 @@ class JApplication extends JApplicationBase
 		{
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
-			$query = $db->getQuery(true);
-			$query->delete($db->quoteName('#__session'))
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
 				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
 
 			$db->setQuery($query);
@@ -1012,8 +1012,8 @@ class JApplication extends JApplicationBase
 		$session = JFactory::getSession();
 		$user = JFactory::getUser();
 
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('session_id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('session_id'))
 			->from($db->quoteName('#__session'))
 			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
 

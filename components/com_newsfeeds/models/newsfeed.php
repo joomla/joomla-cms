@@ -78,9 +78,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 			try
 			{
 				$db = $this->getDbo();
-				$query = $db->getQuery(true);
-
-				$query->select($this->getState('item.select', 'a.*'))
+				$query = $db->getQuery(true)
+					->select($this->getState('item.select', 'a.*'))
 					->from('#__newsfeeds AS a');
 
 				// Join on category table.

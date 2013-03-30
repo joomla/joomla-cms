@@ -197,8 +197,9 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		// Check if we should enable overwrite settings
 
 		// Check to see if a plugin by the same name is already installed.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'))->from($db->quoteName('#__extensions'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote($group))
 			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
@@ -721,8 +722,9 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->languages, 1);
 
 		// Remove the schema version
-		$query = $db->getQuery(true);
-		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
 		$db->execute();
 

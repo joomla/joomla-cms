@@ -54,9 +54,8 @@ abstract class ModTagssimilarHelper
 
 			$tagCount = substr_count($tagsToMatch, ',') + 1;
 
-			$query = $db->getQuery(true);
-
-			$query->select(
+			$query = $db->getQuery(true)
+				->select(
 				array(
 					$db->quoteName('m.tag_id'),
 					$db->quoteName('m.core_content_id'),

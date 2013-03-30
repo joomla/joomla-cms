@@ -146,8 +146,8 @@ class ContentModelArticle extends JModelAdmin
 			if ($featured == 1)
 			{
 				$db = $this->getDbo();
-				$query = $db->getQuery(true);
-				$query->insert($db->quoteName('#__content_frontpage'))
+				$query = $db->getQuery(true)
+					->insert($db->quoteName('#__content_frontpage'))
 					->values($newId . ', 0');
 				$db->setQuery($query);
 				$db->execute();
@@ -489,8 +489,8 @@ class ContentModelArticle extends JModelAdmin
 
 				// Deleting old association for these items
 				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->delete('#__associations')
+				$query = $db->getQuery(true)
+					->delete('#__associations')
 					->where('context='.$db->quote('com_content.item'))
 					->where('id IN ('.implode(',', $associations).')');
 				$db->setQuery($query);
@@ -574,8 +574,8 @@ class ContentModelArticle extends JModelAdmin
 				$db->execute();
 			} else {
 				// first, we find out which of our new featured articles are already featured.
-				$query = $db->getQuery(true);
-				$query->select('f.content_id')
+				$query = $db->getQuery(true)
+					->select('f.content_id')
 					->from('#__content_frontpage AS f')
 					->where('content_id IN ('.implode(',', $pks).')');
 				//echo $query;

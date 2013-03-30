@@ -47,8 +47,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('link_id') . ', ' . $db->quoteName('md5sum'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('link_id') . ', ' . $db->quoteName('md5sum'))
 			->from($db->quoteName('#__finder_links'))
 			->where($db->quoteName('url') . ' = ' . $db->quote($item->url));
 
@@ -154,8 +154,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		else
 		{
 			// Update the link.
-			$query->clear();
-			$query->update($db->quoteName('#__finder_links'))
+			$query->clear()
+				->update($db->quoteName('#__finder_links'))
 				->set($db->quoteName('route') . ' = ' . $db->quote($item->route))
 				->set($db->quoteName('title') . ' = ' . $db->quote($item->title))
 				->set($db->quoteName('description') . ' = ' . $db->quote($item->description))
@@ -348,8 +348,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		 * so we need to go back and update the aggregate table with all the
 		 * new term ids.
 		 */
-		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
 			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
 			->set('ta.term_id = t.term_id')
 			->where('ta.term_id = 0');

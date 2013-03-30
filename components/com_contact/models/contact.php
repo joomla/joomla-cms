@@ -308,8 +308,8 @@ class ContactModelContact extends JModelForm
 				$groups	= implode(',', $user->getAuthorisedViewLevels());
 
 				//get the content by the linked user
-				$query	= $db->getQuery(true);
-				$query->select('a.id')
+				$query	= $db->getQuery(true)
+					->select('a.id')
 					->select('a.title')
 					->select('a.state')
 					->select('a.access')

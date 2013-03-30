@@ -141,8 +141,9 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		$this->set('element', $element);
 
 		// Check to see if a template by the same name is already installed.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'))->from($db->quoteName('#__extensions'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('template'))
 			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
@@ -332,8 +333,8 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 			$lang->setDebug($debug);
 
 			// Insert record in #__template_styles
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__template_styles'))
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(implode(',', $values));
 
@@ -588,8 +589,8 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 				$db->quoteName('title'),
 				$db->quoteName('params')
 			);
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__template_styles'))
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(
 					$db->quote($this->parent->extension->element)

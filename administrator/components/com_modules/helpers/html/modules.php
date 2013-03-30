@@ -171,9 +171,8 @@ abstract class JHtmlModules
 	public static function positionList($clientId = 0)
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('DISTINCT(position) as value')
+		$query	= $db->getQuery(true)
+			->select('DISTINCT(position) as value')
 			->select('position as text')
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)

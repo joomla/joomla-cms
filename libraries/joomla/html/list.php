@@ -179,9 +179,8 @@ abstract class JHtmlList
 	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('u.id AS value, u.name AS text')
+		$query = $db->getQuery(true)
+			->select('u.id AS value, u.name AS text')
 			->from('#__users AS u')
 			->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id')
 			->where('u.block = 0')

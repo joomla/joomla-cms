@@ -62,9 +62,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		}
 
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('a.id AS value, a.title AS text, a.level, a.published')
+		$query	= $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, a.level, a.published')
 			->from('#__categories AS a')
 			->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 

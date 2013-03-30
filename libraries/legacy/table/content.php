@@ -75,8 +75,8 @@ class JTableContent extends JTable
 		if ($this->catid)
 		{
 			// Build the query to get the asset id for the parent category.
-			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('asset_id'))
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('asset_id'))
 				->from($this->_db->quoteName('#__categories'))
 				->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
 

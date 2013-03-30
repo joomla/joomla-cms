@@ -68,9 +68,8 @@ class JFormFieldContenttype extends JFormFieldList
 		$name = (string) $this->element['name'];
 
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('a.type_id AS value, a.type_title AS text')
+		$query	= $db->getQuery(true)
+			->select('a.type_id AS value, a.type_title AS text')
 			->from('#__content_types AS a')
 
 			->order('a.type_title ASC');

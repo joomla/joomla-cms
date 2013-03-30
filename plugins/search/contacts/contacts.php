@@ -128,7 +128,7 @@ class PlgSearchContacts extends JPlugin
 					. $query->concatenate(array($db->quote($section), "c.title"), " / ").' AS section,'
 					. '\'2\' AS browsernav');
 			$query->from('#__contact_details AS a')
-				->innerJoin('#__categories AS c ON c.id = a.catid')
+				->join('INNER', '#__categories AS c ON c.id = a.catid')
 				->where('(a.name LIKE '. $text .' OR a.misc LIKE '. $text .' OR a.con_position LIKE '. $text
 						.' OR a.address LIKE '. $text .' OR a.suburb LIKE '. $text .' OR a.state LIKE '. $text
 						.' OR a.country LIKE '. $text .' OR a.postcode LIKE '. $text .' OR a.telephone LIKE '. $text

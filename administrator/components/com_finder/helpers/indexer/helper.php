@@ -325,8 +325,8 @@ class FinderIndexerHelper
 		$db = JFactory::getDBO();
 
 		// Create the query to load all the common terms for the language.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('term'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('term'))
 			->from($db->quoteName('#__finder_terms_common'))
 			->where($db->quoteName('language') . ' = ' . $db->quote($lang));
 

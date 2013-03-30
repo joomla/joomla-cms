@@ -56,8 +56,8 @@ class FinderIndexerTaxonomy
 
 		// Check to see if the branch is in the table.
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('*')
+		$query = $db->getQuery(true)
+			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('parent_id') . ' = 1')
 			->where($db->quoteName('title') . ' = ' . $db->quote($title));
@@ -133,8 +133,8 @@ class FinderIndexerTaxonomy
 
 		// Check to see if the node is in the table.
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('*')
+		$query = $db->getQuery(true)
+			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('parent_id') . ' = ' . $db->quote($branchId))
 			->where($db->quoteName('title') . ' = ' . $db->quote($title));
@@ -200,8 +200,8 @@ class FinderIndexerTaxonomy
 		// Insert the map.
 		$db = JFactory::getDBO();
 
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('link_id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('link_id'))
 			->from($db->quoteName('#__finder_taxonomy_map'))
 			->where($db->quoteName('link_id') . ' = ' . (int) $linkId)
 			->where($db->quoteName('node_id') . ' = ' . (int) $nodeId);
@@ -242,8 +242,8 @@ class FinderIndexerTaxonomy
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a query to get the taxonomy branch titles.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('title'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('title'))
 			->from($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('parent_id') . ' = 1')
 			->where($db->quoteName('state') . ' = 1')
@@ -276,8 +276,8 @@ class FinderIndexerTaxonomy
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a query to get the node.
-		$query = $db->getQuery(true);
-		$query->select('t1.*')
+		$query = $db->getQuery(true)
+			->select('t1.*')
 			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
 			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
 			->where('t1.access IN (' . $groups . ')')
@@ -308,8 +308,8 @@ class FinderIndexerTaxonomy
 	{
 		// Delete the maps.
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__finder_taxonomy_map'))
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_taxonomy_map'))
 			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query);
 		$db->execute();

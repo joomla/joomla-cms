@@ -549,8 +549,8 @@ class JInstallerAdapterPackage extends JAdapterInstance
 	{
 		$db = $this->parent->getDbo();
 
-		$query = $db->getQuery(true);
-		$query->select('extension_id')
+		$query = $db->getQuery(true)
+			->select('extension_id')
 			->from('#__extensions')
 			->where('type = ' . $db->quote($type))
 			->where('element = ' . $db->quote($id));

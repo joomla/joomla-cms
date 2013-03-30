@@ -210,8 +210,8 @@ class JoomlaInstallerScript
 
 		// Attempt to refresh manifest caches
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*')
+		$query = $db->getQuery(true)
+			->select('*')
 			->from('#__extensions');
 		foreach ($extensions as $extension)
 		{

@@ -163,7 +163,7 @@ class PlgSearchContent extends JPlugin
 				->select('c.title AS section, '.$case_when.','.$case_when1.', '.'\'2\' AS browsernav')
 
 				->from('#__content AS a')
-				->innerJoin('#__categories AS c ON c.id=a.catid')
+				->join('INNER', '#__categories AS c ON c.id=a.catid')
 				->where('('. $where .')AND a.state=1 AND c.published = 1 AND a.access IN ('.$groups.') '
 						.'AND c.access IN ('.$groups.') '
 						.'AND (a.publish_up = '.$db->quote($nullDate).' OR a.publish_up <= '.$db->quote($now).') '
@@ -219,7 +219,7 @@ class PlgSearchContent extends JPlugin
 			.'c.title AS section, \'2\' AS browsernav');
 			//.'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
 			$query->from('#__content AS a')
-				->innerJoin('#__categories AS c ON c.id=a.catid AND c.access IN ('. $groups .')')
+				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN ('. $groups .')')
 				->where('('. $where .') AND a.state = 2 AND c.published = 1 AND a.access IN ('. $groups
 				.') AND c.access IN ('. $groups .') '
 				.'AND (a.publish_up = '.$db->quote($nullDate).' OR a.publish_up <= '.$db->quote($now).') '

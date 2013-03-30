@@ -39,8 +39,8 @@ abstract class JHtmlContact
 
 			// Get the associated contact items
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('c.*')
+			$query = $db->getQuery(true)
+				->select('c.*')
 				->from('#__contact_details as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')

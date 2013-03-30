@@ -442,8 +442,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$query = $this->getQuery(true);
-		$query->select('table_name')
+		$query = $this->getQuery(true)
+			->select('table_name')
 				->from('information_schema.tables')
 				->where('table_type=' . $this->quote('BASE TABLE'))
 				->where(
@@ -488,8 +488,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Get the details columns information.
-			$query = $this->getQuery(true);
-			$query->select($this->quoteName($name, $as))
+			$query = $this->getQuery(true)
+				->select($this->quoteName($name, $as))
 					->from('pg_class AS s')
 					->join('LEFT', "pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
 					->join('LEFT', 'pg_class t ON t.oid=d.refobjid')
@@ -989,9 +989,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Create the base insert statement.
-		$query = $this->getQuery(true);
-
-		$query->insert($this->quoteName($table))
+		$query = $this->getQuery(true)
+			->insert($this->quoteName($table))
 				->columns($fields)
 				->values(implode(',', $values));
 
@@ -1046,8 +1045,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$query = $this->getQuery(true);
-		$query->select('table_name')
+		$query = $this->getQuery(true)
+			->select('table_name')
 				->from('information_schema.tables')
 				->where('table_type=' . $this->quote('BASE TABLE'))
 				->where(
@@ -1270,8 +1269,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$where = '';
 
 		// Create the base update statement.
-		$query = $this->getQuery(true);
-		$query->update($table);
+		$query = $this->getQuery(true)
+			->update($table);
 		$stmt = '%s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.

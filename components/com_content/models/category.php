@@ -453,8 +453,8 @@ class ContentModelCategory extends JModelList
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->update('#__categories')
+		$query = $db->getQuery(true)
+			->update('#__categories')
 			->set('hits = hits + 1')
 			->where('id = ' . (int) $pk);
 		$db->setQuery($query);

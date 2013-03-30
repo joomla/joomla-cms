@@ -141,9 +141,8 @@ class MenusHelper
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array(), $languages=array())
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
@@ -246,11 +245,11 @@ class MenusHelper
 	{
 		$associations = array();
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->from('#__menu as m')
-			->innerJoin('#__associations as a ON a.id=m.id AND a.context='.$db->quote('com_menus.item'))
-			->innerJoin('#__associations as a2 ON a.key=a2.key')
-			->innerJoin('#__menu as m2 ON a2.id=m2.id')
+		$query = $db->getQuery(true)
+			->from('#__menu as m')
+			->join('INNER', '#__associations as a ON a.id=m.id AND a.context='.$db->quote('com_menus.item'))
+			->join('INNER', '#__associations as a2 ON a.key=a2.key')
+			->join('INNER', '#__menu as m2 ON a2.id=m2.id')
 			->where('m.id=' . (int) $pk)
 			->select('m2.language, m2.id');
 		$db->setQuery($query);

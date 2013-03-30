@@ -76,8 +76,8 @@ class JTableUser extends JTable
 		$this->reset();
 
 		// Load the user data.
-		$query = $this->_db->getQuery(true);
-		$query->select('*')
+		$query = $this->_db->getQuery(true)
+			->select('*')
 			->from($this->_db->quoteName('#__users'))
 			->where($this->_db->quoteName('id') . ' = ' . (int) $userId);
 		$this->_db->setQuery($query);
@@ -138,8 +138,8 @@ class JTableUser extends JTable
 			JArrayHelper::toInteger($this->groups);
 
 			// Get the titles for the user groups.
-			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('id'))
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('id'))
 				->select($this->_db->quoteName('title'))
 				->from($this->_db->quoteName('#__usergroups'))
 				->where($this->_db->quoteName('id') . ' = ' . implode(' OR ' . $this->_db->quoteName('id') . ' = ', $this->groups));
@@ -206,8 +206,8 @@ class JTableUser extends JTable
 		}
 
 		// Check for existing username
-		$query = $this->_db->getQuery(true);
-		$query->select($this->_db->quoteName('id'))
+		$query = $this->_db->getQuery(true)
+			->select($this->_db->quoteName('id'))
 			->from($this->_db->quoteName('#__users'))
 			->where($this->_db->quoteName('username') . ' = ' . $this->_db->quote($this->username))
 			->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
@@ -301,8 +301,8 @@ class JTableUser extends JTable
 		if (is_array($this->groups) && count($this->groups))
 		{
 			// Delete the old user group maps.
-			$query = $this->_db->getQuery(true);
-			$query->delete($this->_db->quoteName('#__user_usergroup_map'))
+			$query = $this->_db->getQuery(true)
+				->delete($this->_db->quoteName('#__user_usergroup_map'))
 				->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
@@ -344,8 +344,8 @@ class JTableUser extends JTable
 		}
 
 		// Delete the user.
-		$query = $this->_db->getQuery(true);
-		$query->delete($this->_db->quoteName($this->_tbl))
+		$query = $this->_db->getQuery(true)
+			->delete($this->_db->quoteName($this->_tbl))
 			->where($this->_db->quoteName($this->_tbl_key) . ' = ' . (int) $this->$k);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
@@ -406,8 +406,8 @@ class JTableUser extends JTable
 
 		// Update the database row for the user.
 		$db = $this->_db;
-		$query = $db->getQuery(true);
-		$query->update($db->quoteName($this->_tbl))
+		$query = $db->getQuery(true)
+			->update($db->quoteName($this->_tbl))
 			->set($db->quoteName('lastvisitDate') . '=' . $db->quote($date->toSql()))
 			->where($db->quoteName('id') . '=' . (int) $userId);
 		$db->setQuery($query);

@@ -169,8 +169,8 @@ class TemplatesModelTemplate extends JModelLegacy
 	public function checkNewName()
 	{
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select('COUNT(*)')
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
 			->from('#__extensions')
 			->where('name = ' . $db->quote($this->getState('new_name')));
 		$db->setQuery($query);

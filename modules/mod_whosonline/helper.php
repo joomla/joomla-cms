@@ -26,8 +26,8 @@ class ModWhosonlineHelper
 		$result	= array();
 		$user_array  = 0;
 		$guest_array = 0;
-		$query	= $db->getQuery(true);
-		$query->select('guest, client_id')
+		$query	= $db->getQuery(true)
+			->select('guest, client_id')
 			->from('#__session')
 			->where('client_id = 0');
 		$db->setQuery($query);
@@ -60,8 +60,8 @@ class ModWhosonlineHelper
 	public static function getOnlineUserNames($params)
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-		$query->select($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')))
+		$query	= $db->getQuery(true)
+			->select($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')))
 			->from('#__session AS a')
 			->where($db->quoteName('a.userid') . ' != 0')
 			->where($db->quoteName('a.client_id') . ' = 0')

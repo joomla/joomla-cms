@@ -67,9 +67,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
 			->from($db->quoteName('#__update_sites_extensions') . ' AS ' . $db->quoteName('map'))
-			->innerJoin(
-				$db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us') . ' ON (' .
-				'us.update_site_id = map.update_site_id)'
+			->join(
+				'INNER', $db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us')
+				. ' ON (' . 'us.update_site_id = map.update_site_id)'
 			)
 			->where('map.extension_id = ' . $db->quote(700));
 		$db->setQuery($query);
@@ -543,8 +543,8 @@ ENDDATA;
 		// If it is, then update the table because if the files aren't there
 		// we can assume that it was (badly) uninstalled
 		// If it isn't, add an entry to extensions
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));

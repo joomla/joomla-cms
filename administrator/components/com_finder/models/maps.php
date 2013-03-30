@@ -338,8 +338,8 @@ class FinderModelMaps extends JModelList
 	public function purge()
 	{
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__finder_taxonomy'))
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('parent_id') . ' > 1');
 		$db->setQuery($query);
 		$db->execute();

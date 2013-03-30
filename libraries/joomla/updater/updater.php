@@ -180,8 +180,8 @@ class JUpdater extends JAdapter
 			}
 
 			// Finally, update the last update check timestamp
-			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__update_sites'))
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__update_sites'))
 				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote($now))
 				->where($db->quoteName('update_site_id') . ' = ' . $db->quote($result['update_site_id']));
 			$db->setQuery($query);

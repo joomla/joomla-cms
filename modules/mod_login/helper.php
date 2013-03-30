@@ -26,9 +26,8 @@ class ModLoginHelper
 		if ($itemid = $params->get($type))
 		{
 			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true);
-
-			$query->select($db->quoteName('link'))
+			$query	= $db->getQuery(true)
+				->select($db->quoteName('link'))
 				->from($db->quoteName('#__menu'))
 				->where($db->quoteName('published') . '=1')
 				->where($db->quoteName('id') . '=' . $db->quote($itemid));

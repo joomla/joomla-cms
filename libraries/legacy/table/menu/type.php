@@ -54,8 +54,8 @@ class JTableMenuType extends JTable
 		}
 
 		// Check for unique menutype.
-		$query = $this->_db->getQuery(true);
-		$query->select('COUNT(id)')
+		$query = $this->_db->getQuery(true)
+			->select('COUNT(id)')
 			->from($this->_db->quoteName('#__menu_types'))
 			->where($this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($this->menutype))
 			->where($this->_db->quoteName('id') . ' <> ' . (int) $this->id);
@@ -96,8 +96,8 @@ class JTableMenuType extends JTable
 			$table->load($this->id);
 
 			// Verify that no items are checked out
-			$query = $this->_db->getQuery(true);
-			$query->select('id')
+			$query = $this->_db->getQuery(true)
+				->select('id')
 				->from('#__menu')
 				->where('menutype=' . $this->_db->quote($table->menutype))
 				->where('checked_out !=' . (int) $userId)
@@ -112,8 +112,8 @@ class JTableMenuType extends JTable
 			}
 
 			// Verify that no module for this menu are checked out
-			$query = $this->_db->getQuery(true);
-			$query->select('id')
+			$query = $this->_db->getQuery(true)
+				->select('id')
 				->from('#__modules')
 				->where('module=' . $this->_db->quote('mod_menu'))
 				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'))
@@ -129,16 +129,16 @@ class JTableMenuType extends JTable
 			}
 
 			// Update the menu items
-			$query = $this->_db->getQuery(true);
-			$query->update('#__menu')
+			$query = $this->_db->getQuery(true)
+				->update('#__menu')
 				->set('menutype=' . $this->_db->quote($this->menutype))
 				->where('menutype=' . $this->_db->quote($table->menutype));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
 			// Update the module items
-			$query = $this->_db->getQuery(true);
-			$query->update('#__modules')
+			$query = $this->_db->getQuery(true)
+				->update('#__modules')
 				->set(
 				'params=REPLACE(params,' . $this->_db->quote('"menutype":' . json_encode($table->menutype)) . ',' .
 				$this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')'
@@ -177,8 +177,8 @@ class JTableMenuType extends JTable
 			$table->load($pk);
 
 			// Verify that no items are checked out
-			$query = $this->_db->getQuery(true);
-			$query->select('id')
+			$query = $this->_db->getQuery(true)
+				->select('id')
 				->from('#__menu')
 				->where('menutype=' . $this->_db->quote($table->menutype))
 				->where('client_id=0')
@@ -191,8 +191,8 @@ class JTableMenuType extends JTable
 			}
 
 			// Verify that no module for this menu are checked out
-			$query = $this->_db->getQuery(true);
-			$query->select('id')
+			$query = $this->_db->getQuery(true)
+				->select('id')
 				->from('#__modules')
 				->where('module=' . $this->_db->quote('mod_menu'))
 				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'))
@@ -206,16 +206,16 @@ class JTableMenuType extends JTable
 			}
 
 			// Delete the menu items
-			$query = $this->_db->getQuery(true);
-			$query->delete('#__menu')
+			$query = $this->_db->getQuery(true)
+				->delete('#__menu')
 				->where('menutype=' . $this->_db->quote($table->menutype))
 				->where('client_id=0');
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
 			// Update the module items
-			$query = $this->_db->getQuery(true);
-			$query->delete('#__modules')
+			$query = $this->_db->getQuery(true)
+				->delete('#__modules')
 				->where('module=' . $this->_db->quote('mod_menu'))
 				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
 			$this->_db->setQuery($query);

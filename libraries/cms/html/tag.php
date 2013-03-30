@@ -44,9 +44,8 @@ abstract class JHtmlTag
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select('a.id, a.title, a.level')
+			$query = $db->getQuery(true)
+				->select('a.id, a.title, a.level')
 				->from('#__tags AS a')
 				->where('a.parent_id > 0');
 
@@ -114,9 +113,8 @@ abstract class JHtmlTag
 		$hash = md5(serialize($config));
 		$config = (array) $config;
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('a.id, a.title, a.level, a.parent_id')
+		$query = $db->getQuery(true)
+			->select('a.id, a.title, a.level, a.parent_id')
 			->from('#__tags AS a')
 			->where('a.parent_id > 0');
 

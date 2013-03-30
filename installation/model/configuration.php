@@ -264,8 +264,8 @@ class InstallationModelConfiguration extends JModelBase
 		$nullDate    = $db->getNullDate();
 
 		// Sqlsrv change
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('id') . ' = ' . $db->quote($userId));
 
@@ -273,8 +273,8 @@ class InstallationModelConfiguration extends JModelBase
 
 		if ($db->loadResult())
 		{
-			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__users'))
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__users'))
 				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
 				->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
@@ -319,8 +319,8 @@ class InstallationModelConfiguration extends JModelBase
 		}
 
 		// Map the super admin to the Super Admin Group
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('user_id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('user_id'))
 			->from($db->quoteName('#__user_usergroup_map'))
 			->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
 
@@ -328,15 +328,15 @@ class InstallationModelConfiguration extends JModelBase
 
 		if ($db->loadResult())
 		{
-			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__user_usergroup_map'))
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__user_usergroup_map'))
 				->set($db->quoteName('user_id') . ' = ' . $db->quote($userId))
 				->set($db->quoteName('group_id') . ' = 8');
 		}
 		else
 		{
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__user_usergroup_map'), false)
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__user_usergroup_map'), false)
 				->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
 				->values($db->quote($userId) . ', 8');
 		}

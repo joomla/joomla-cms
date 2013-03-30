@@ -55,8 +55,8 @@ class PlgExtensionJoomla extends JPlugin
 		$db = JFactory::getDBO();
 
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
-		$query = $db->getQuery(true);
-		$query->select('update_site_id')
+		$query = $db->getQuery(true)
+			->select('update_site_id')
 			->from('#__update_sites')
 			->where('location = ' . $db->quote($location));
 		$db->setQuery($query);
@@ -83,8 +83,10 @@ class PlgExtensionJoomla extends JPlugin
 			$query->clear();
 
 			// Look for an update site entry that exists
-			$query->select('update_site_id')->from('#__update_sites_extensions')
-				->where('update_site_id = ' . $update_site_id)->where('extension_id = ' . $this->eid);
+			$query->select('update_site_id')
+				->from('#__update_sites_extensions')
+				->where('update_site_id = ' . $update_site_id)
+				->where('extension_id = ' . $this->eid);
 			$db->setQuery($query);
 			$tmpid = (int) $db->loadResult();
 			if (!$tmpid)
@@ -139,8 +141,8 @@ class PlgExtensionJoomla extends JPlugin
 		{
 			// Wipe out any update_sites_extensions links
 			$db = JFactory::getDBO();
-			$query = $db->getQuery(true);
-			$query->delete('#__update_sites_extensions')
+			$query = $db->getQuery(true)
+				->delete('#__update_sites_extensions')
 				->where('extension_id = ' . $eid);
 			$db->setQuery($query);
 			$db->execute();

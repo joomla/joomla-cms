@@ -138,8 +138,8 @@ class JTags
 		if ($isNew == 0)
 		{
 			// Delete the old tag maps.
-			$query = $db->getQuery(true);
-			$query->delete($db->quoteName('#__contentitem_tag_map'))
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__contentitem_tag_map'))
 				->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
 				->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 			$db->setQuery($query);
@@ -269,8 +269,8 @@ class JTags
 
 		// Check whether the tag is present already.
 		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__contentitem_tag_map'))
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
 			->where($db->quoteName('content_item_id') . ' = ' . (int) $pk)
 			->where($db->quoteName('tag_id') . ' = ' . (int) $tag);
@@ -303,8 +303,8 @@ class JTags
 	public function unTagItem($id, $prefix)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->delete('#__contentitem_tag_map')
+		$query = $db->getQuery(true)
+			->delete('#__contentitem_tag_map')
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
 			->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
 		$db->setQuery($query);
@@ -340,10 +340,12 @@ class JTags
 			$query->clear()
 				->select($db->quoteName('t.id'))
 				->from($db->quoteName('#__tags') . ' AS t ')
-				->join('INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
+				->join(
+					'INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
 					. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
 					. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
-					. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id . ')');
+					. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id . ')'
+				);
 
 			$db->setQuery($query);
 
@@ -378,9 +380,8 @@ class JTags
 		}
 		// Initialize some variables.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') . '.*'))
+		$query = $db->getQuery(true)
+			->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') . '.*'))
 			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
 			->where(
 			array(
@@ -645,9 +646,8 @@ class JTags
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select($db->quoteName('table'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('table'))
 			->from($db->quoteName('#__content_types'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($tagItemAlias));
 		$db->setQuery($query);
@@ -669,9 +669,8 @@ class JTags
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select($db->quoteName('type_id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('type_id'))
 			->from($db->quoteName('#__content_types'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
@@ -696,8 +695,8 @@ class JTags
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*');
+		$query = $db->getQuery(true)
+			->select('*');
 
 		if (!empty($selectTypes))
 		{
@@ -748,8 +747,8 @@ class JTags
 	{
 		// Delete the old tag maps.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__contentitem_tag_map'))
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
 		$db->setQuery($query);
 		$db->execute();
@@ -765,9 +764,8 @@ class JTags
 	public static function searchTags($filters = array())
 	{
 		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('a.id AS value')
+		$query = $db->getQuery(true)
+			->select('a.id AS value')
 			->select('a.path AS text')
 			->select('a.path')
 			->from('#__tags AS a')
@@ -860,8 +858,8 @@ class JTags
 
 		$idList = implode(',', $contentItemIds);
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->delete('#__core_content')
+		$query = $db->getQuery(true)
+			->delete('#__core_content')
 			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias))
 			->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
 

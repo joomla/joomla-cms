@@ -29,8 +29,8 @@ abstract class JHtmlCategoriesAdministrator
 
 		// Get the associated categories
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('c.*')
+		$query = $db->getQuery(true)
+			->select('c.*')
 			->from('#__categories as c')
 			->where('c.id IN ('.implode(',', array_values($associations)).')')
 			->join('LEFT', '#__languages as l ON c.language=l.lang_code')

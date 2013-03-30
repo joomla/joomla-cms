@@ -518,8 +518,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 			// Deleting old association for these items
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->delete('#__associations')
+			$query = $db->getQuery(true)
+				->delete('#__associations')
 				->where('context='.$db->quote('com_categories.item'))
 				->where('id IN ('.implode(',', $associations).')');
 			$db->setQuery($query);
@@ -730,8 +730,8 @@ class CategoriesModelCategory extends JModelAdmin
 		$parents = array();
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
-		$query = $db->getQuery(true);
-		$query->select('COUNT(id)')
+		$query = $db->getQuery(true)
+			->select('COUNT(id)')
 			->from($db->quoteName('#__categories'));
 		$db->setQuery($query);
 

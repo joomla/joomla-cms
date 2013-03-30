@@ -68,8 +68,8 @@ class TemplatesModelSource extends JModelForm
 
 		// Codemirror or Editor None should be enabled
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('COUNT(*)')
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
 			->from('#__extensions as a')
 			->where('(a.name ='.$db->quote('plg_editors_codemirror').' AND a.enabled = 1) OR (a.name ='.$db->quote('plg_editors_none').' AND a.enabled = 1)');
 		$db->setQuery($query);

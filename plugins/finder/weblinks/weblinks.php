@@ -321,8 +321,8 @@ class PlgFinderWeblinks extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true);
-		$query->select('a.id, a.catid, a.title, a.alias, a.url AS link, a.description AS summary')
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.catid, a.title, a.alias, a.url AS link, a.description AS summary')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.ordering')
 			->select('a.created_by_alias, a.modified, a.modified_by')
 			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
@@ -366,8 +366,8 @@ class PlgFinderWeblinks extends FinderIndexerAdapter
 	protected function getUpdateQueryByTime($time)
 	{
 		// Build an SQL query based on the modified time.
-		$query = $this->db->getQuery(true);
-		$query->where('a.date >= ' . $this->db->quote($time));
+		$query = $this->db->getQuery(true)
+			->where('a.date >= ' . $this->db->quote($time));
 
 		return $query;
 	}

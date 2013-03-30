@@ -994,9 +994,8 @@ class JInstaller extends JAdapter
 					usort($files, 'version_compare');
 
 					// Update the database
-					$query = $db->getQuery(true);
-					$query->delete()
-						->from('#__schemas')
+					$query = $db->getQuery(true)
+						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
@@ -1067,8 +1066,8 @@ class JInstaller extends JAdapter
 						return false;
 					}
 
-					$query = $db->getQuery(true);
-					$query->select('version_id')
+					$query = $db->getQuery(true)
+						->select('version_id')
 						->from('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
@@ -1124,9 +1123,8 @@ class JInstaller extends JAdapter
 					}
 
 					// Update the database
-					$query = $db->getQuery(true);
-					$query->delete()
-						->from('#__schemas')
+					$query = $db->getQuery(true)
+						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
@@ -1952,8 +1950,8 @@ class JInstaller extends JAdapter
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__extensions'))
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__extensions'))
 			->where('type = ' . $db->quote($type))
 			->where('element = ' . $db->quote($element))
 			->where('folder = ' . $db->quote($folder))

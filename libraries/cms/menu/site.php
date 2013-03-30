@@ -26,9 +26,8 @@ class JMenuSite extends JMenu
 	public function load()
 	{
 		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
+		$query = $db->getQuery(true)
+			->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
 			->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
 			->select('e.element as component')
 			->from('#__menu AS m')

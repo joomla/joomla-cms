@@ -330,8 +330,8 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true);
-		$query->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link')
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link')
 			->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access')
 			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
 			->select('a.metakey, a.metadesc, a.metadata, a.language')

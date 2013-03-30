@@ -39,8 +39,8 @@ class JLanguageHelper
 		if ($installed)
 		{
 			$db = JFactory::getDBO();
-			$query = $db->getQuery(true);
-			$query->select('element')
+			$query = $db->getQuery(true)
+				->select('element')
 				->from('#__extensions')
 				->where('type=' . $db->quote('language'))
 				->where('state=0')
@@ -149,8 +149,8 @@ class JLanguageHelper
 				if (!$languages = $cache->get('languages'))
 				{
 					$db = JFactory::getDBO();
-					$query = $db->getQuery(true);
-					$query->select('*')
+					$query = $db->getQuery(true)
+						->select('*')
 						->from('#__languages')
 						->where('published=1')
 						->order('ordering ASC');

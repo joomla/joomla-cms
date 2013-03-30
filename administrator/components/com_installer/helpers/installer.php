@@ -74,8 +74,9 @@ class InstallerHelper
 	public static function getExtensionTypes()
 	{
 		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('DISTINCT type')->from('#__extensions');
+		$query = $db->getQuery(true)
+			->select('DISTINCT type')
+			->from('#__extensions');
 		$db->setQuery($query);
 		$types = $db->loadColumn();
 
@@ -98,8 +99,8 @@ class InstallerHelper
 	public static function getExtensionGroupes()
 	{
 		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('DISTINCT folder')
+		$query = $db->getQuery(true)
+			->select('DISTINCT folder')
 			->from('#__extensions')
 			->where('folder != ' . $db->quote(''))
 			->order('folder');

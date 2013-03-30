@@ -46,8 +46,8 @@ abstract class JHtmlMenu
 		if (empty(self::$menus))
 		{
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('menutype AS value, title AS text')
+			$query = $db->getQuery(true)
+				->select('menutype AS value, title AS text')
 				->from($db->quoteName('#__menu_types'))
 				->order('title');
 			$db->setQuery($query);
@@ -69,8 +69,8 @@ abstract class JHtmlMenu
 		if (empty(self::$items))
 		{
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('menutype AS value, title AS text')
+			$query = $db->getQuery(true)
+				->select('menutype AS value, title AS text')
 				->from($db->quoteName('#__menu_types'))
 				->order('title');
 			$db->setQuery($query);

@@ -97,7 +97,9 @@ class InstallerModelUpdate extends JModelList
 		$group = $this->getState('filter.group');
 
 		// Grab updates ignoring new installs
-		$query->select('*')->from('#__updates')->where('extension_id != 0')
+		$query->select('*')
+			->from('#__updates')
+			->where('extension_id != 0')
 			->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
 
 		if ($type)
@@ -170,8 +172,8 @@ class InstallerModelUpdate extends JModelList
 		if ($db->execute())
 		{
 			// Reset the last update check timestamp
-			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__update_sites'))
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__update_sites'))
 				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 			$db->setQuery($query);
 			$db->execute();
@@ -195,8 +197,10 @@ class InstallerModelUpdate extends JModelList
 	public function enableSites()
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->update('#__update_sites')->set('enabled = 1')->where('enabled = 0');
+		$query = $db->getQuery(true)
+			->update('#__update_sites')
+			->set('enabled = 1')
+			->where('enabled = 0');
 		$db->setQuery($query);
 		if ($db->execute())
 		{

@@ -54,8 +54,8 @@ class InstallerModelDiscover extends InstallerModel
 	protected function getListQuery()
 	{
 		$db		= JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('*')
+		$query = $db->getQuery(true)
+			->select('*')
 			->from('#__extensions')
 			->where('state=-1');
 		return $query;
@@ -80,8 +80,9 @@ class InstallerModelDiscover extends InstallerModel
 
 		// Get all templates, including discovered ones
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('extension_id, element, folder, client_id, type')->from('#__extensions');
+		$query = $db->getQuery(true)
+			->select('extension_id, element, folder, client_id, type')
+			->from('#__extensions');
 
 		$db->setQuery($query);
 		$installedtmp = $db->loadObjectList();
@@ -161,8 +162,8 @@ class InstallerModelDiscover extends InstallerModel
 	public function purge()
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-		$query->delete('#__extensions')
+		$query	= $db->getQuery(true)
+			->delete('#__extensions')
 			->where('state = -1');
 		$db->setQuery((string) $query);
 		if ($db->execute())

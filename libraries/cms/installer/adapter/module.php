@@ -224,9 +224,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 		 * we can assume that it was (badly) uninstalled
 		 * If it isn't, add an entry to extensions
 		 */
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'))->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('element') . ' = ' . $db->quote($element))->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element))
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 		$db->setQuery($query);
 
 		try
@@ -837,8 +839,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 		}
 
 		// Remove the schema version
-		$query = $db->getQuery(true);
-		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -847,8 +850,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->languages, $row->client_id);
 
 		// Let's delete all the module copies for the type we are uninstalling
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id'))->from($db->quoteName('#__modules'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))
 			->where($db->quoteName('client_id') . ' = ' . (int) $row->client_id);
 		$db->setQuery($query);

@@ -86,8 +86,8 @@ class PlgSystemRedirect extends JPlugin
 						$db->quoteName('published'),
 						$db->quoteName('created_date')
 					);
-					$query = $db->getQuery(true);
-					$query->insert($db->quoteName('#__redirect_links'), false)
+					$query = $db->getQuery(true)
+						->insert($db->quoteName('#__redirect_links'), false)
 						->columns($columns)
 						->values(
 							$db->quote($current) . ', '. $db->quote('') .
@@ -100,8 +100,8 @@ class PlgSystemRedirect extends JPlugin
 
 				} else {
 					// Existing error url, increase hit counter
-					$query = $db->getQuery(true);
-					$query->update($db->quoteName('#__redirect_links'))
+					$query = $db->getQuery(true)
+						->update($db->quoteName('#__redirect_links'))
 						->set($db->quoteName('hits').' = '.$db->quote('hits').' + 1')
 						->where('id = ' . (int) $res);
 					$db->setQuery((string) $query);

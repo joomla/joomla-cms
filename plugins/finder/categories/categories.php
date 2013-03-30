@@ -335,8 +335,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true);
-		$query->select('a.id, a.title, a.alias, a.description AS summary, a.extension')
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.title, a.alias, a.description AS summary, a.extension')
 			->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level')
 			->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
@@ -366,8 +366,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getStateQuery()
 	{
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('a.id'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('a.id'))
 			->select($this->db->quoteName('a.published') . ' AS cat_state')
 			->select($this->db->quoteName('a.access') . ' AS cat_access')
 			->from($this->db->quoteName('#__categories') . ' AS a');

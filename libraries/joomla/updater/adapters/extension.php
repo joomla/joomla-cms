@@ -174,8 +174,8 @@ class JUpdaterExtension extends JUpdateAdapter
 		$response = $http->get($url);
 		if (!empty($response->code) && 200 != $response->code)
 		{
-			$query = $db->getQuery(true);
-			$query->update('#__update_sites')
+			$query = $db->getQuery(true)
+				->update('#__update_sites')
 				->set('enabled = 0')
 				->where('update_site_id = ' . $this->updateSiteId);
 			$db->setQuery($query);

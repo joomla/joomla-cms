@@ -222,8 +222,8 @@ class ModulesModelModule extends JModelAdmin
 
 				// Now we need to handle the module assignments
 				$db = $this->getDbo();
-				$query = $db->getQuery(true);
-				$query->select($db->quoteName('menuid'))
+				$query = $db->getQuery(true)
+					->select($db->quoteName('menuid'))
 					->from($db->quoteName('#__modules_menu'))
 					->where($db->quoteName('moduleid') . ' = ' . $pk);
 				$db->setQuery($query);
@@ -354,8 +354,8 @@ class ModulesModelModule extends JModelAdmin
 				{
 					// Delete the menu assignments
 					$db    = $this->getDbo();
-					$query = $db->getQuery(true);
-					$query->delete('#__modules_menu')
+					$query = $db->getQuery(true)
+						->delete('#__modules_menu')
 						->where('moduleid=' . (int) $pk);
 					$db->setQuery((string) $query);
 					$db->execute();
@@ -429,8 +429,8 @@ class ModulesModelModule extends JModelAdmin
 				//	. ' WHERE moduleid = ' . (int) $pk
 				//	;
 
-				$query	= $db->getQuery(true);
-				$query->select('menuid')
+				$query	= $db->getQuery(true)
+					->select('menuid')
 					->from('#__modules_menu')
 					->where('moduleid=' . (int) $pk);
 
@@ -630,8 +630,8 @@ class ModulesModelModule extends JModelAdmin
 			{
 				if ($extensionId = (int) $this->getState('extension.id'))
 				{
-					$query	= $db->getQuery(true);
-					$query->select('element, client_id')
+					$query	= $db->getQuery(true)
+						->select('element, client_id')
 						->from('#__extensions')
 						->where('extension_id = ' . $extensionId)
 						->where('type = ' . $db->quote('module'));
@@ -950,8 +950,8 @@ class ModulesModelModule extends JModelAdmin
 		// );
 
 		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->delete('#__modules_menu')
+		$query = $db->getQuery(true)
+			->delete('#__modules_menu')
 			->where('moduleid = ' . (int) $table->id);
 		$db->setQuery((string) $query);
 
@@ -1036,8 +1036,8 @@ class ModulesModelModule extends JModelAdmin
 		$dispatcher->trigger('onExtensionAfterSave', array('com_modules.module', &$table, $isNew));
 
 		// Compute the extension id of this module in case the controller wants it.
-		$query	= $db->getQuery(true);
-		$query->select('extension_id')
+		$query	= $db->getQuery(true)
+			->select('extension_id')
 			->from('#__extensions AS e')
 			->join('LEFT', '#__modules AS m ON e.element = m.module')
 			->where('m.id = ' . (int) $table->id);

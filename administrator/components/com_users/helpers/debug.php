@@ -28,9 +28,8 @@ class UsersHelperDebug
 	{
 		// Initialise variable.
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('name AS text, element AS value')
+		$query	= $db->getQuery(true)
+			->select('name AS text, element AS value')
 			->from('#__extensions')
 			->where('enabled >= 1')
 			->where('type ='.$db->quote('component'));

@@ -118,9 +118,8 @@ class JFormFieldTag extends JFormFieldList
 		$name = (string) $this->element['name'];
 
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
+		$query	= $db->getQuery(true)
+			->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 

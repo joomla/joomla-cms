@@ -63,8 +63,8 @@ class BannersModelBanners extends JModelList
 		if (!isset($this->cache['categoryorders']))
 		{
 			$db		= $this->getDbo();
-			$query	= $db->getQuery(true);
-			$query->select('MAX(ordering) as '.$db->quoteName('max').', catid')
+			$query	= $db->getQuery(true)
+				->select('MAX(ordering) as '.$db->quoteName('max').', catid')
 				->select('catid')
 				->from('#__banners')
 				->group('catid');

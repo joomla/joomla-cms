@@ -374,8 +374,8 @@ class JComponentHelper
 	protected static function _load($option)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('extension_id AS id, element AS "option", params, enabled')
+		$query = $db->getQuery(true)
+			->select('extension_id AS id, element AS "option", params, enabled')
 			->from('#__extensions')
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 			->where($db->quoteName('element') . ' = ' . $db->quote($option));

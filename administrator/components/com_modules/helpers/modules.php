@@ -87,9 +87,8 @@ abstract class ModulesHelper
 	public static function getPositions($clientId, $editPositions = false)
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('DISTINCT(position)')
+		$query	= $db->getQuery(true)
+			->select('DISTINCT(position)')
 			->from('#__modules')
 			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
 			->order('position');
@@ -171,9 +170,8 @@ abstract class ModulesHelper
 	public static function getModules($clientId)
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('element AS value, name AS text')
+		$query	= $db->getQuery(true)
+			->select('element AS value, name AS text')
 			->from('#__extensions as e')
 			->where('e.client_id = ' . (int) $clientId)
 			->where('type = ' . $db->quote('module'))

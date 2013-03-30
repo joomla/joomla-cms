@@ -459,8 +459,8 @@ class TemplatesModelStyle extends JModelAdmin
 				JArrayHelper::toInteger($data['assigned']);
 
 				// Update the mapping for menu items that this style IS assigned to.
-				$query = $db->getQuery(true);
-				$query->update('#__menu')
+				$query = $db->getQuery(true)
+					->update('#__menu')
 					->set('template_style_id='.(int) $table->id)
 					->where('id IN ('.implode(',', $data['assigned']).')')
 					->where('template_style_id!='.(int) $table->id)
@@ -472,8 +472,8 @@ class TemplatesModelStyle extends JModelAdmin
 
 			// Remove style mappings for menu items this style is NOT assigned to.
 			// If unassigned then all existing maps will be removed.
-			$query = $db->getQuery(true);
-			$query->update('#__menu')
+			$query = $db->getQuery(true)
+				->update('#__menu')
 				->set('template_style_id=0');
 			if (!empty($data['assigned']))
 			{

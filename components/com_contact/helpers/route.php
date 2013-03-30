@@ -44,8 +44,8 @@ abstract class ContactHelperRoute
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
 			$db		= JFactory::getDBO();
-			$query	= $db->getQuery(true);
-			$query->select('a.sef AS sef')
+			$query	= $db->getQuery(true)
+				->select('a.sef AS sef')
 				->select('a.lang_code AS lang_code')
 				->from('#__languages AS a');
 
@@ -101,8 +101,8 @@ abstract class ContactHelperRoute
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
 				$db		= JFactory::getDBO();
-				$query	= $db->getQuery(true);
-				$query->select('a.sef AS sef')
+				$query	= $db->getQuery(true)
+					->select('a.sef AS sef')
 					->select('a.lang_code AS lang_code')
 					->from('#__languages AS a');
 

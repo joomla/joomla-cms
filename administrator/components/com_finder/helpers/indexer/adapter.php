@@ -286,8 +286,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
-		$query = $this->db->getQuery(true);
-		$query->update($this->db->quoteName('#__finder_links'))
+		$query = $this->db->getQuery(true)
+			->update($this->db->quoteName('#__finder_links'))
 			->set($this->db->quoteName($property) . ' = ' . (int) $value)
 			->where($this->db->quoteName('url') . ' = ' . $item);
 		$this->db->setQuery($query);
@@ -346,8 +346,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Get the link ids for the content items.
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('link_id'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('link_id'))
 			->from($this->db->quoteName('#__finder_links'))
 			->where($this->db->quoteName('url') . ' = ' . $url);
 		$this->db->setQuery($query);
@@ -460,8 +460,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function checkCategoryAccess($row)
 	{
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('access'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('access'))
 			->from($this->db->quoteName('#__categories'))
 			->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
 		$this->db->setQuery($query);
@@ -481,8 +481,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function checkItemAccess($row)
 	{
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('access'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('access'))
 			->from($this->db->quoteName($this->table))
 			->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
 		$this->db->setQuery($query);
@@ -637,8 +637,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getPluginType($id)
 	{
 		// Prepare the query
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('element'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('element'))
 			->from($this->db->quoteName('#__extensions'))
 			->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
@@ -682,8 +682,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getUpdateQueryByTime($time)
 	{
 		// Build an SQL query based on the modified time.
-		$query = $this->db->getQuery(true);
-		$query->where('a.modified >= ' . $this->db->quote($time));
+		$query = $this->db->getQuery(true)
+			->where('a.modified >= ' . $this->db->quote($time));
 
 		return $query;
 	}
@@ -700,8 +700,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getUpdateQueryByIds($ids)
 	{
 		// Build an SQL query based on the item ids.
-		$query = $this->db->getQuery(true);
-		$query->where('a.id IN(' . implode(',', $ids) . ')');
+		$query = $this->db->getQuery(true)
+			->where('a.id IN(' . implode(',', $ids) . ')');
 
 		return $query;
 	}
@@ -717,8 +717,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getTypeId()
 	{
 		// Get the type id from the database.
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('id'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('id'))
 			->from($this->db->quoteName('#__finder_types'))
 			->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
 		$this->db->setQuery($query);
@@ -764,8 +764,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Build a query to get the menu params.
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('params'))
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('params'))
 			->from($this->db->quoteName('#__menu'))
 			->where($this->db->quoteName('link') . ' = ' . $this->db->quote($url))
 			->where($this->db->quoteName('published') . ' = 1')

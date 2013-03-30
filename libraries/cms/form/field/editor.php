@@ -111,8 +111,8 @@ class JFormFieldEditor extends JFormField
 				foreach ($types as $element)
 				{
 					// Build the query.
-					$query = $db->getQuery(true);
-					$query->select('element')
+					$query = $db->getQuery(true)
+						->select('element')
 						->from('#__extensions')
 						->where('element = ' . $db->quote($element))
 						->where('folder = ' . $db->quote('editors'))

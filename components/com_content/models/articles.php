@@ -214,9 +214,9 @@ class ContentModelArticles extends JModelList
 		$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language')
 			->from('#__contact_details AS contact')
 			->where('contact.published = 1')
-			->group('contact.user_id, contact.language');
+			->group('contact.user_id, contact.language')
 
-		$query->select('contact.id as contactid')
+			->select('contact.id as contactid')
 			->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
 
 		// Join over the categories to get parent category titles

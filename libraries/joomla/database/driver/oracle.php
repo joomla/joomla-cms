@@ -140,9 +140,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$query = $this->getQuery(true);
-
-		$query->setQuery('DROP TABLE :tableName');
+		$query = $this->getQuery(true)
+			->setQuery('DROP TABLE :tableName');
 		$query->bind(':tableName', $tableName);
 
 		$this->setQuery($query);
@@ -210,9 +209,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$result = array();
-		$query = $this->getQuery(true);
-
-		$query->select('dbms_metadata.get_ddl(:type, :tableName)')
+		$query = $this->getQuery(true)
+			->select('dbms_metadata.get_ddl(:type, :tableName)')
 			->from('dual')
 
 			->bind(':type', 'TABLE');

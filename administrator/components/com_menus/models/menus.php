@@ -211,9 +211,8 @@ class MenusModelMenus extends JModelList
 	public function getModMenuId()
 	{
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('e.extension_id')
+		$query = $db->getQuery(true)
+			->select('e.extension_id')
 			->from('#__extensions AS e')
 			->where('e.type = ' . $db->quote('module'))
 			->where('e.element = ' . $db->quote('mod_menu'))

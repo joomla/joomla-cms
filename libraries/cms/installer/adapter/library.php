@@ -74,8 +74,8 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
 			->where($db->quoteName('element') . ' = ' . $db->quote($element));
@@ -246,8 +246,8 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		// We don't want to compromise this instance!
 		$installer = new JInstaller;
 		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
 			->where($db->quoteName('element') . ' = ' . $db->quote($element));

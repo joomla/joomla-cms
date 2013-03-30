@@ -487,8 +487,8 @@ class FinderIndexerQuery
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Load the predefined filter.
-		$query = $db->getQuery(true);
-		$query->select('f.data, f.params')
+		$query = $db->getQuery(true)
+			->select('f.data, f.params')
 			->from($db->quoteName('#__finder_filters') . ' AS f')
 			->where('f.filter_id = ' . (int) $filterId);
 
@@ -1261,8 +1261,8 @@ class FinderIndexerQuery
 		$db = JFactory::getDBO();
 
 		// Create a database query to build match the token.
-		$query = $db->getQuery(true);
-		$query->select('t.term, t.term_id')
+		$query = $db->getQuery(true)
+			->select('t.term, t.term_id')
 			->from('#__finder_terms AS t');
 
 		/*

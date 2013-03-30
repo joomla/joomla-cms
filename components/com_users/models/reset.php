@@ -230,8 +230,8 @@ class UsersModelReset extends JModelForm
 
 		// Find the user id for the given token.
 		$db	= $this->getDbo();
-		$query	= $db->getQuery(true);
-		$query->select('activation')
+		$query	= $db->getQuery(true)
+			->select('activation')
 			->select('id')
 			->select('block')
 			->from($db->quoteName('#__users'))
@@ -329,8 +329,8 @@ class UsersModelReset extends JModelForm
 
 		// Find the user id for the given email address.
 		$db	= $this->getDbo();
-		$query	= $db->getQuery(true);
-		$query->select('id')
+		$query	= $db->getQuery(true)
+			->select('id')
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('email').' = '.$db->quote($data['email']));
 

@@ -103,8 +103,8 @@ class BannersHelper
 		$db = JFactory::getDBO();
 		$nullDate = $db->getNullDate();
 		$now = JFactory::getDate();
-		$query = $db->getQuery(true);
-		$query->select('*')
+		$query = $db->getQuery(true)
+			->select('*')
 			->from('#__banners')
 			->where("'".$now."' >= ".$db->quote('reset'))
 			->where($db->quoteName('reset').' != '.$db->quote($nullDate).' AND '.$db->quoteName('reset').'!=NULL')
@@ -191,9 +191,8 @@ class BannersHelper
 		$options = array();
 
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('id As value, name As text')
+		$query	= $db->getQuery(true)
+			->select('id As value, name As text')
 			->from('#__banner_clients AS a')
 			->order('a.name');
 

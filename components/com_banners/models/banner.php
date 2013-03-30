@@ -35,8 +35,8 @@ class BannersModelBanner extends JModelLegacy
 
 		// update click count
 		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-		$query->update('#__banners')
+		$query	= $db->getQuery(true)
+			->update('#__banners')
 			->set('clicks = (clicks + 1)')
 			->where('id = ' . (int) $id);
 
@@ -146,8 +146,8 @@ class BannersModelBanner extends JModelLegacy
 			{
 				// redirect to banner url
 				$db		= $this->getDbo();
-				$query	= $db->getQuery(true);
-				$query->select(
+				$query	= $db->getQuery(true)
+					->select(
 					'a.clickurl as clickurl,'.
 					'a.cid as cid,'.
 					'a.track_clicks as track_clicks'

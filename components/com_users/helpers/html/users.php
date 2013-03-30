@@ -83,8 +83,8 @@ abstract class JHtmlUsers
 		else
 		{
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('title')
+			$query = $db->getQuery(true)
+				->select('title')
 				->from('#__template_styles')
 				->where('id = '.$db->quote($value));
 			$db->setQuery($query);
@@ -163,8 +163,8 @@ abstract class JHtmlUsers
 		{
 			$db = JFactory::getDbo();
 			$lang = JFactory::getLanguage();
-			$query = $db->getQuery(true);
-			$query->select('name')
+			$query = $db->getQuery(true)
+				->select('name')
 				->from('#__extensions')
 				->where('element = '.$db->quote($value))
 				->where('folder = '.$db->quote('editors'));

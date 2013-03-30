@@ -932,8 +932,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// Create the base insert statement.
-		$query = $this->getQuery(true);
-		$query->insert($this->quoteName($table))
+		$query = $this->getQuery(true)
+			->insert($this->quoteName($table))
 				->columns($fields)
 				->values(implode(',', $values));
 

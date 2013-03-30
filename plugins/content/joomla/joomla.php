@@ -217,8 +217,8 @@ class PlgContentJoomla extends JPlugin
 		if (count($childCategoryIds))
 		{
 			// Count the items in this category
-			$query = $db->getQuery(true);
-			$query->select('COUNT(id)')
+			$query = $db->getQuery(true)
+				->select('COUNT(id)')
 				->from($table)
 				->where('catid IN (' . implode(',', $childCategoryIds) . ')');
 			$db->setQuery($query);
@@ -255,11 +255,11 @@ class PlgContentJoomla extends JPlugin
 	public function onContentChangeState($context, $pks, $value)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('core_content_id'));
-		$query->from($db->quoteName('#__core_content'));
-		$query->where($db->quoteName('core_type_alias') . ' = ' .$db->quote($context));
-		$query->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) .')');
+		$query = $db->getQuery(true)
+			->select($db->quoteName('core_content_id'))
+			->from($db->quoteName('#__core_content'))
+			->where($db->quoteName('core_type_alias') . ' = ' .$db->quote($context))
+			->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) .')');
 		$db->setQuery($query);
 		$ccIds = $db->loadColumn();
 

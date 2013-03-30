@@ -104,8 +104,8 @@ class UsersModelRemind extends JModelForm
 
 		// Find the user id for the given email address.
 		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-		$query->select('*')
+		$query	= $db->getQuery(true)
+			->select('*')
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('email').' = '.$db->quote($data['email']));
 

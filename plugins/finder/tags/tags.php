@@ -244,8 +244,8 @@ class PlgFinderTags extends FinderIndexerAdapter
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true);
-		$query->select('a.id, a.title, a.alias, a.description AS summary')
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.title, a.alias, a.description AS summary')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')
 			->select('a.modified_time AS modified, a.modified_user_id AS modified_by')
 			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
@@ -278,8 +278,8 @@ class PlgFinderTags extends FinderIndexerAdapter
 	protected function getUpdateQueryByTime($time)
 	{
 		// Build an SQL query based on the modified time.
-		$query = $this->db->getQuery(true);
-		$query->where('a.date >= ' . $this->db->quote($time));
+		$query = $this->db->getQuery(true)
+			->where('a.date >= ' . $this->db->quote($time));
 
 		return $query;
 	}

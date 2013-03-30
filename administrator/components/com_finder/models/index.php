@@ -170,9 +170,8 @@ class FinderModelIndex extends JModelList
 	protected function getListQuery()
 	{
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('l.*')
+		$query = $db->getQuery(true)
+			->select('l.*')
 			->select('t.title AS t_title')
 			->from($db->quoteName('#__finder_links') . ' AS l')
 			->join('INNER', $db->quoteName('#__finder_types') . ' AS t ON t.id = l.type_id');
@@ -217,9 +216,8 @@ class FinderModelIndex extends JModelList
 	public function getPluginState()
 	{
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('name, enabled')
+		$query = $db->getQuery(true)
+			->select('name, enabled')
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' IN(' .  $db->quote('system') . ',' . $db->quote('content') . ')')
@@ -301,8 +299,8 @@ class FinderModelIndex extends JModelList
 		$db->truncateTable('#__finder_taxonomy_map');
 
 		// Delete all the taxonomy nodes except the root.
-		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__finder_taxonomy'))
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__finder_taxonomy'))
 			->where($db->quoteName('id') . ' > 1');
 		$db->setQuery($query);
 		$db->execute();
