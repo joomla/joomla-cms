@@ -64,7 +64,9 @@ class JFormFieldColor extends JFormField
 			JHtml::_('behavior.simplecolorpicker');
 
 			$colors = (string) $this->element['colors'];
-			if (empty($colors)) {
+
+			if (empty($colors))
+			{
 				$colors = array(
 					'none',
 					'#049cdb',
@@ -90,11 +92,13 @@ class JFormFieldColor extends JFormField
 			if (!$split)
 			{
 				$count = count($colors);
+
 				if ($count % 5 == 0)
 				{
 					$split = 5;
 				}
-				else {
+				else
+				{
 					if ($count % 4 == 0)
 					{
 						$split = 4;
@@ -106,7 +110,7 @@ class JFormFieldColor extends JFormField
 
 			$html = array();
 			$html[] = '<select name="' . $this->name . '" id="' . $this->id . '"'
-				. $class. $position . $onchange . ' style="visibility:hidden;width:22px;height:1px">';
+				. $class . $position . $onchange . ' style="visibility:hidden;width:22px;height:1px">';
 
 			foreach ($colors as $i => $c)
 			{
