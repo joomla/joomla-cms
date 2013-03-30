@@ -34,6 +34,7 @@ $ -> Language fix or change
  ^ [#30425] Remove duplicated filterText() methods
  # [#29551] Fixed list_price and sale_price.  Thanks Gabriele
  # [#30076] Pagination does not work for components with more than one administrative view.  Thanks Ram
+ # Incorrect field names used in JTableCorecontent (discovered implementing unit tests)
 
 29-Mar-2013 Mark Dexter
  # [#30205] findmanifest should prioritize main folder manifests. Thanks Roberto.

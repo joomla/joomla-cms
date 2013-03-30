@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2013 Michael Babker
+ +# Test JTableCorecontent, fix bugs found in class
+
 29-Mar-2013 Mark Dexter
  # Fix failing system tests.
  # More system test fixes, fix CHANGELOG typo.
