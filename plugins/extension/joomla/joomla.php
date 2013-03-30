@@ -80,10 +80,9 @@ class PlgExtensionJoomla extends JPlugin
 		// Check if it has an update site id (creation might have faileD)
 		if ($update_site_id)
 		{
-			$query->clear();
-
 			// Look for an update site entry that exists
-			$query->select('update_site_id')
+			$query->clear()
+				->select('update_site_id')
 				->from('#__update_sites_extensions')
 				->where('update_site_id = ' . $update_site_id)
 				->where('extension_id = ' . $this->eid);

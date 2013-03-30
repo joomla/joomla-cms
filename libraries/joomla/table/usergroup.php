@@ -200,10 +200,9 @@ class JTableUsergroup extends JTable
 			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
 		}
 
-		$query->clear();
-
 		// SQLSsrv change. Alternative for regexp
-		$query->select('id, rules')
+		$query->clear()
+			->select('id, rules')
 			->from('#__viewlevels');
 		$db->setQuery($query);
 		$rules = $db->loadObjectList();
