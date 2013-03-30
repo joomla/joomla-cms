@@ -10,19 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the syndicate functions only once
-require_once __DIR__ . '/helper.php';
-
-$link	= $params->get('link');
-
-$folder	= ModRandomImageHelper::getFolder($params);
-$images	= ModRandomImageHelper::getImages($params, $folder);
-
-if (!count($images))
-{
-	echo JText::_('MOD_RANDOM_IMAGE_NO_IMAGES');
-	return;
-}
-
-$image = ModRandomImageHelper::getRandomImage($params, $images);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
-require JModuleHelper::getLayoutPath('mod_random_image', $params->get('layout', 'default'));
+require_once dirname(__FILE__).'/helper.php';
+require_once dirname(__FILE__).'/JoomlaGlue.php';
+$randomImage = new ModRandomImageHelper($params, new ModRandomImageGlue);
+$randomImage->createOutput();
