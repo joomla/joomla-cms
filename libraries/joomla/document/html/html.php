@@ -522,6 +522,7 @@ class JDocumentHTML extends JDocument
 				$query->from('#__menu');
 				$query->where('parent_id = ' . $active->id);
 				$query->where('published = 1');
+				$dbo->setQuery($query);
 				$children = $dbo->loadResult();
 			}
 			else
