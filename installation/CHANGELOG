@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Mar-2013 Jean-Marie Simonet
+ # *Multilanguage 2.5: SIngle article display does not filter correctly author contact per language.
+ # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto.
+ 
 24-Mar-2013 Michael Babker
  # [#28978] Smart search (com_finder) - problem when using "Allow Empty Search".  Thanks Valentin
 
