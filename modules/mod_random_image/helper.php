@@ -16,33 +16,62 @@ defined('_JEXEC') or die;
  * @subpackage  mod_random_image
  * @since       1.5
  */
-class ModRandomImageHelper
+class ModRandomImageHelper extends JModuleHelper
 {
 	/**
 	 * @var	params	the params array for the module
 	 */
 	protected $params;
-	
+
 	/**
-	 * @var	cms	the glue object for talking to the cms
+	 * @var	juri	the glue object for talking to JURI
 	 */
-	protected $cms;
-	
+	protected $juri;
+
+	/**
+	 * @var	jstring	the glue object for talking to JString
+	 */
+	protected $jstring;
+
+	/**
+	 * @var	jtext	the glue object for talking to JText
+	 */
+	protected $jtext;
+
+	/**
+	 * @var	jhtml	the glue object for talking to JHTML
+	 */
+	protected $jhtml;
+
+	/**
+	 * @var	self	the glue object for talking to myself
+	 */
+	protected $self;
+
 	/**
 	 *
 	 * Constructor.
 	 *
-	 * @param	params	JRegistry		params
-	 * @param	cms		CMS Glue object	glue for cms API
+	 * @param	params	JRegistry	params
+	 * @param	juri	String		glue for cms JURI
+	 * @param	jstring	String		glue for cms JString
+	 * @param	jtext	String		glue for cms JText
+	 * @param	jhtml	String		glue for cms JHTML
+	 * @param	self	String		glue for myself
 	 *
 	 * @return	modRandomImageHelper object
 	 *
 	 * @since Unspecified Possible Future Version
 	 */
-	public function __construct( $params, $cms )
+	public function __construct( $params, $juri="JURI", $jstring="JString",
+		$jtext="JText", $jhtml="JHTML", $self="self" )
 	{
 		$this->params = $params;
-		$this->cms = $cms;
+		$this->juri = $juri;
+		$this->jstring = $jstring;
+		$this->jtext = $jtext;
+		$this->jhtml = $jhtml;
+		$this->self = $self;
 	}
 	/**
 	 * getRandomImage.
@@ -135,6 +164,10 @@ class ModRandomImageHelper
 	 */
 	public function createOutput()
 	{
+		$jhtml = $this->jhtml;
+		$jtext = $this->jtext;
+		$self = $this->self;
+	
  		$link	= $this->params->get('link');
 		$moduleclass_sfx = $this->params->get('moduleclass_sfx');
 
@@ -143,10 +176,10 @@ class ModRandomImageHelper
 		);
 
 		if (!count($images)) {
-			echo $this->cms->getTranslatedText('MOD_RANDOM_IMAGE_NO_IMAGES');
+			echo $jtext::_('MOD_RANDOM_IMAGE_NO_IMAGES');
 		} else {
 			$image = $this->getRandomImage($images);
-			require $this->cms->getLayoutPath($this->params->get('layout'));
+			require $self::getLayoutPath('mod_random_image', $this->params->get('layout'));
 		}
 	}
 	/**
@@ -161,10 +194,13 @@ class ModRandomImageHelper
 	 */
 	 private function removeLiveSite( $path )
 	 {
-		$LiveSite	= $this->cms->getBaseURL();
+	 	$juri = $this->juri;
+	 	$jstring = $this->jstring;
+	 	
+		$LiveSite	= $juri::Base();
 
 		// if folder includes livesite info, remove
-		if ($this->cms->strpos($path, $LiveSite) === 0) {
+		if ($jstring::strpos($path, $LiveSite) === 0) {
 			$path = str_replace($LiveSite, '', $path);
 		}
 		
@@ -183,8 +219,9 @@ class ModRandomImageHelper
 	 */
 	 private function makeRelativePath( $path, $base )
 	 {
-		// if folder includes absolute path, remove
-		if ($this->cms->strpos($path, $base) === 0) {
+	 	$jstring = $this->jstring;
+
+		if ($jstring::strpos($path, $base) === 0) {
 			$path= str_replace($base . '/', '', $path);
 		}
 		return $path;
