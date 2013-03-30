@@ -153,7 +153,7 @@ abstract class JDatabaseQuery
 	 * @var    string  The SQL query (if a direct query string was provided).
 	 * @since  12.1
 	 */
-	protected $query = null;
+	protected $sql = null;
 
 	/**
 	 * @var    string  The query type.

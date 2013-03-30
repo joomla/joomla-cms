@@ -124,7 +124,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @var    mixed  The current SQL statement to execute.
 	 * @since  11.1
 	 */
-	protected $query;
+	protected $sql;
 
 	/**
 	 * @var    string  The common database table prefix.
