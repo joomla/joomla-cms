@@ -23,7 +23,9 @@ $ -> Language fix or change
 + -> Addition
 ^ -> Change
 - -> Removed
-! -> Note
+! -> Note3
+
+-------------------- 3.1 Beta 3 Release [30-Mar-2012] ------------------
 
 29-Mar-2013 Michael Babker
  # [#30391] Fixes array not being initialized.  Thanks Peter
