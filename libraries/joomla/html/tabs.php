@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  HTML
  * @since       11.2
+ * @deprecated	13.2
  */
 abstract class JHtmlTabs
 {
@@ -75,6 +76,8 @@ abstract class JHtmlTabs
 	protected static function _loadBehavior($group, $params = array())
 	{
 		static $loaded = array();
+		
+		JLog::add('JHtml tabs is deprecated, use bootstrap tabs instead.', JLog::WARNING, 'deprecated');
 
 		if (!array_key_exists((string) $group, $loaded))
 		{
