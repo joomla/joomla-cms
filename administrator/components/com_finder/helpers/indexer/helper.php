@@ -102,35 +102,81 @@ class FinderIndexerHelper
 		// Explode the normalized string to get the terms.
 		$terms = explode(' ', $input);
 
+		// In the future these should be moved to a lexer class.
+
 		/*
-		 * If we have Unicode support and are dealing with Chinese text, Chinese
-		 * has to be handled specially because there are not necessarily any spaces
-		 * between the "words". So, we have to test if the words belong to the Chinese
-		 * character set and if so, explode them into single glyphs or "words".
+		 * Chinese, Japanese, Lao, Khmer, Thai, Myanmar and Tibetan have to be handled specially because there are not
+		 * necessarily any spaces between the "words." So, we have to test if the words belong to the specific
+		 * character set and if so, explode them into single glyphs or "words."
+		 * Note: Modern Korean uses spaces so Korean texts do not need to be separated.
 		 */
-		if ($lang === 'zh')
+		if ($lang === 'ja' || $lang === 'zh' || $lang === 'th'|| $lang === 'km'|| $lang === 'lo'|| $lang === 'my'|| $lang === 'bo' )
 		{
-			// Iterate through the terms and test if they contain Chinese.
+			// Iterate through the terms and test if they contain the relevant characters.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
 				$charMatches = array();
-				$charCount = preg_match_all('#[\p{Han}]#mui', $terms[$i], $charMatches);
+				if ($lang === 'zh')
+				{
+					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
+				}
 
-				// Split apart any groups of Chinese characters.
+				elseif ($lang === 'ja')
+				{
+					// Kanji (Han), Katakana and Hiragana are each checked
+					$charCount = preg_match_all('#[\x{4E00}-\x{9FCF}]#mui', $terms[$i], $charMatches);
+					$charCount += preg_match_all('#[\x{3040–\x{309F}]#mui', $terms[$i], $charMatches);
+					$charCount += preg_match_all('#[\x{30A0}-\x{30FF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'th')
+				{
+					$charCount = preg_match_all('#[\x{0E00}-\x{0E7F}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'km')
+				{
+					$charCount = preg_match_all('#[\x{1780}-\x{17FF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'lo')
+				{
+					$charCount = preg_match_all('#[\x{0E80}-\x{30EFF}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'my')
+				{
+					$charCount = preg_match_all('#[\x{1000}-\x{109F}]#mui', $terms[$i], $charMatches);
+				}
+				elseif ($lang === 'bo')
+				{
+					$charCount = preg_match_all('#[\x{0F00}-\x{0FFF}]#mui', $terms[$i], $charMatches);
+				}
+				// Split apart any groups of characters.
 				for ($j = 0; $j < $charCount; $j++)
 				{
-					$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], false);
-					if (!empty($tSplit))
+					if (isset($charMatches[0][$j]))
 					{
-						$terms[$i] = $tSplit;
-					}
-					else
-					{
-						unset($terms[$i]);
-					}
+						// Some languages may throw notices while being processed. Most commonly because of diacritical marks in lo and bo.
+						$php_errormsg = 'Turn off notices while splitting characters';
+						$track_errors = ini_get('track_errors');
+						ini_set('track_errors', true);
+						error_reporting($track_errors & ~E_NOTICE);
 
-					$terms[] = $charMatches[0][$j];
+						$tSplit = JString::str_ireplace($charMatches[0][$j], '', $terms[$i], null);
+
+						// Restore error tracking to what it was before
+						ini_set('track_errors', $track_errors);
+
+						if (!empty($tSplit))
+						{
+							$terms[$i] = $tSplit;
+						}
+						else
+						{
+							unset($terms[$i]);
+						}
+
+						$terms[] = $charMatches[0][$j];
+					}
 				}
+
 			}
 
 			// Reset array keys.
@@ -165,8 +211,12 @@ class FinderIndexerHelper
 				// Create the two word phrase.
 				if ($i2 < $n && isset($tokens[$i2]))
 				{
-					// Tokenize the two word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $lang, $lang === 'zh' ? '' : ' ');
+					// Tokenize the two word phrase. Use special handling for languages that do not use spaces.
+					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $lang, in_array($lang,  array('zh', 'ja', 'th', 'my', 'bo', 'lo', 'km')) ? '' : ' ');
+					if (in_array($lang, array('zh', 'ja', 'th', 'my', 'bo', 'lo', 'km')))
+					{
+
+					}
 					$token->derived = true;
 
 					// Add the token to the stack.
@@ -177,7 +227,7 @@ class FinderIndexerHelper
 				if ($i3 < $n && isset($tokens[$i3]))
 				{
 					// Tokenize the three word phrase.
-					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $lang, $lang === 'zh' ? '' : ' ');
+					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term, $tokens[$i3]->term), $lang, in_array($lang,  array('zh', 'ja', 'th', 'my', 'bo', 'lo', 'km')) ? '' : ' ');
 					$token->derived = true;
 
 					// Add the token to the stack.

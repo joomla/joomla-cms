@@ -415,9 +415,9 @@ class FinderIndexerResult
 	}
 	public function setLanguage()
 	{
-		if ($this->language = '*' || $this->language = '')
+		if ($this->language == '*' || $this->language == '')
 		{
-			$this->language = $this->defaultLanguage;
+			$this->language == $this->defaultLanguage;
 		}
 	}
 }
