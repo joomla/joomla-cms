@@ -242,9 +242,8 @@ class JUser extends JObject
 		{
 			if (!$id = JUserHelper::getUserId($identifier))
 			{
-				JLog::add(JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier), JLog::WARNING, 'jerror');
-				$retval = false;
-				return $retval;
+				// If the $identifier doesn't match with any id, just return an empty JUser.
+				return new JUser;
 			}
 		}
 		else
