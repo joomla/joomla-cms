@@ -59,11 +59,11 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 
 		$testElements = $menuItemEditPage->getAllInputFields($menuItemEditPage->getTabIds());
 		$actualFields = array();
-// 		foreach ($testElements as $el)
-// 		{
-// 			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-// 			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-// 		}
+		foreach ($testElements as $el)
+		{
+			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
+			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
+		}
 		$this->assertEquals($menuItemEditPage->inputFields, $actualFields);
 		$menuItemEditPage->clickButton('toolbar-cancel');
 		$this->menuItemsManagerPage = $this->getPageObject('menuItemsManagerPage');
@@ -97,6 +97,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$this->menuItemsManagerPage->addMenuItem();
 		$message = $this->menuItemsManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Menu successfully saved') >= 0, 'Menu save should return success');
+		$this->menuItemsManagerPage->setFilter('menutype', 'Main Menu');
 		$this->assertTrue($this->menuItemsManagerPage->getRowNumber('Test Menu') > 0, 'Test menu should be in list');
 		$this->menuItemsManagerPage->deleteItem('Test Menu');
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber('Test Menu'), 'Test menu should not be present');
