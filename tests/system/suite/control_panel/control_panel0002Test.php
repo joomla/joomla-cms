@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * loads each menu choice in back end
  */
@@ -19,10 +19,10 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->setUp();
 		$this->gotoAdmin();
 		$this->doAdminLogin();
-		echo "Navigate to Control Panel.\n";
+		$this->jPrint ("Navigate to Control Panel.\n");
 		$this->click("link=Control Panel");
 		$this->waitForPageToLoad("30000");
-		echo "Navigate to Global Config.\n";
+		$this->jPrint ("Navigate to Global Config.\n");
 		$this->click("link=Global Configuration");
 		$this->waitForPageToLoad("30000");
 		$this->click("//a[@href='#page-site']");
@@ -33,15 +33,15 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("Server Settings"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Navigate to Global Check-in.\n";
+		$this->jPrint ("Navigate to Global Check-in.\n");
 		$this->click("link=Global Check-in");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Global Check-in"));
-		echo "Navigate to Clear Cache.\n";
+		$this->jPrint ("Navigate to Clear Cache.\n");
 		$this->click("link=Clear Cache");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Clear Cache"));
-		echo "Navigate to Purge Expired Cache.\n";
+		$this->jPrint ("Navigate to Purge Expired Cache.\n");
 		$this->click("link=Purge Expired Cache");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Purge Expired Cache"));
@@ -57,7 +57,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertElementPresent("//div[@id='directory'][@class='tab-pane active']");
 		$this->click("//a[@href='#phpinfo']");
 		$this->assertElementPresent("//div[@id='phpinfo'][@class='tab-pane active']");
-		echo "Navigate to User Manager.\n";
+		$this->jPrint ("Navigate to User Manager.\n");
 		$this->click("link=User Manager");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("User Manager: Users"));
@@ -73,7 +73,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->click("link=Access Levels");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Levels"));
-		echo "Navigate to Add New User.\n";
+		$this->jPrint ("Navigate to Add New User.\n");
 		$this->click("link=User Manager");
 		$this->waitForPageToLoad("30000");
 		$this->click("//div[@id='toolbar-new']/button");
@@ -81,7 +81,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("User Manager: Add New User"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Navigate to Add New Group.\n";
+		$this->jPrint ("Navigate to Add New Group.\n");
 		$this->click("link=User Groups");
 		$this->waitForPageToLoad("30000");
 		$this->click("//div[@id='toolbar-new']/button");
@@ -89,7 +89,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("User Manager: Add New User Group"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Navigate to Add New Access Level.\n";
+		$this->jPrint ("Navigate to Add New Access Level.\n");
 		$this->click("link=Viewing Access Levels");
 		$this->waitForPageToLoad("30000");
 		$this->click("//div[@id='toolbar-new']/button");
@@ -97,34 +97,34 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isTextPresent("User Manager: Add New Viewing Access"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Navigate to Mass Mail.\n";
+		$this->jPrint ("Navigate to Mass Mail.\n");
 		$this->click("link=Mass Mail Users");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Mass Mail"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Navigate to Read Private Messages.\n";
+		$this->jPrint ("Navigate to Read Private Messages.\n");
 		$this->click("link=0");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Private Messages"));
-		echo "Navigate to New Private Message.\n";
+		$this->jPrint ("Navigate to New Private Message.\n");
 		$this->click("//div[@id='toolbar-new']/button");
 		$this->waitForPageToLoad("30000");
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
 
-		echo "Open Options modal \n";
+		$this->jPrint ("Open Options modal \n");
 		$this->click("//div[@id='toolbar-options']/button");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue(($this->isElementPresent("//li[@class='active'][contains(., 'Messaging')]")));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
 
-		echo "Navigate to Menu Manager.\n";
+		$this->jPrint ("Navigate to Menu Manager.\n");
 		$this->click("link=Menu Manager");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Menu Manager: Menus"));
-		echo "Navigate to Article Manager.\n";
+		$this->jPrint ("Navigate to Article Manager.\n");
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Article Manager: Articles"));
@@ -136,7 +136,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Category Manager.\n";
+		$this->jPrint ("Navigate to Category Manager.\n");
 		$this->click("link=Category Manager");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager"));
@@ -148,7 +148,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-refresh']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Featured Articles.\n";
+		$this->jPrint ("Navigate to Featured Articles.\n");
 		$this->click("link=Featured Articles");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Article Manager: Featured Articles"));
@@ -160,7 +160,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Add New Article.\n";
+		$this->jPrint ("Navigate to Add New Article.\n");
 		$this->click("//div[@id='toolbar-new']/button");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Article Manager: Add New Article"));
@@ -171,7 +171,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
-		echo "Navigate to Add New Category.\n";
+		$this->jPrint ("Navigate to Add New Category.\n");
 		$this->click("//a[contains(@href, 'option=com_categories&extension=com_content')]");
 		$this->waitForPageToLoad("30000");
 		$this->click("//div[@id='toolbar-new']/button");
@@ -185,9 +185,9 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->click("//div[@id='toolbar-cancel']/button");
 		$this->waitForPageToLoad("30000");
 
-		echo "Navigate to Control Panel.\n";
+		$this->jPrint ("Navigate to Control Panel.\n");
 		$this->gotoAdmin();
-		echo "Navigate to Banner Manager.\n";
+		$this->jPrint ("Navigate to Banner Manager.\n");
 		$this->click("link=Banners");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Banner Manager: Banners"));
@@ -199,7 +199,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Banner Clients.\n";
+		$this->jPrint ("Navigate to Banner Clients.\n");
 		$this->click("link=Clients");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Banner Manager: Clients"));
@@ -212,7 +212,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
 
-		echo "Navigate to Banner Tracks.\n";
+		$this->jPrint ("Navigate to Banner Tracks.\n");
 		$this->click("link=Tracks");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Banner Manager: Tracks"));
@@ -220,7 +220,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-COM_BANNERS_DELETE_MSG']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
 
-		echo "Navigate to Banner Categories.\n";
+		$this->jPrint ("Navigate to Banner Categories.\n");
 		$this->click("//a[contains(@href, 'option=com_categories&extension=com_banners')]");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager: Banners"));
@@ -233,7 +233,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-refresh']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
 
-		echo "Navigate to Contact Manager.\n";
+		$this->jPrint ("Navigate to Contact Manager.\n");
 		$this->click("link=Contacts");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Contact Manager"));
@@ -244,7 +244,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Contact Category.\n";
+		$this->jPrint ("Navigate to Contact Category.\n");
 		$this->click("//a[contains(@href, 'option=com_categories&extension=com_contact')]");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager: Contacts"));
@@ -256,7 +256,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-refresh']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to News Feed Manager.\n";
+		$this->jPrint ("Navigate to News Feed Manager.\n");
 		$this->click("link=Newsfeeds");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("News Feed Manager"));
@@ -268,7 +268,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to News Feed Categories.\n";
+		$this->jPrint ("Navigate to News Feed Categories.\n");
 		$this->click("//a[contains(@href, 'option=com_categories&extension=com_newsfeeds')]");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Category Manager"));
@@ -280,7 +280,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-refresh']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Redirect.\n";
+		$this->jPrint ("Navigate to Redirect.\n");
 		$this->click("link=Redirect");
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-new']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-edit']/button"));
@@ -289,14 +289,14 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-archive']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Search Statistics.\n";
+		$this->jPrint ("Navigate to Search Statistics.\n");
 		$this->click("link=Search");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Search Manager: Search Term Analysis"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-refresh']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Weblinks Manager.\n";
+		$this->jPrint ("Navigate to Weblinks Manager.\n");
 		$this->click("link=Weblinks");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-new']/button"));
@@ -306,7 +306,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-trash']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-options']/button"));
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
-		echo "Navigate to Web Links Categories.\n";
+		$this->jPrint ("Navigate to Web Links Categories.\n");
 		$this->click("//a[contains(@href, 'option=com_categories&extension=com_weblinks')]");
 		$this->waitForPageToLoad("30000");
 		$this->click("//a[contains(@href, 'option=com_categories&extension=com_weblinks')]");
@@ -321,7 +321,7 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='toolbar-help']/button"));
 		$this->gotoAdmin();
 		$this->doAdminLogout();
-		print("Finish control_panel0002Test.php." . "\n");
+		$this->jPrint("Finish control_panel0002Test.php." . "\n");
 		$this->deleteAllVisibleCookies();
 	}
 }

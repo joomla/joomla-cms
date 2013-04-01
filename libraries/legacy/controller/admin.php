@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -136,8 +136,25 @@ class JControllerAdmin extends JControllerLegacy
 				$this->setMessage($model->getError());
 			}
 		}
+		// Invoke the postDelete method to allow for the child class to access the model.
+		$this->postDeleteHook($model, $cid);
 
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+	}
+
+	/**
+	 * Function that allows child controller access to model data
+	 * after the item has been deleted.
+	 *
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   integer       $id     The validated data.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 */
+	protected function postDeleteHook(JModelLegacy $model, $id = null)
+	{
 	}
 
 	/**

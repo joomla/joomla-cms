@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
@@ -29,23 +29,26 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 $sortFields = $this->getSortFields();
-$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
-	Joomla.orderTable = function() {
+	Joomla.orderTable = function()
+	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>') {
+		if (order != '<?php echo $listOrder; ?>')
+		{
 			dirn = 'asc';
-		} else {
+		}
+		else
+		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, '');
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -102,11 +105,11 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<th width="10%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 				</th>
-				<?php if ($assoc): ?>
+				<?php if ($this->assoc) : ?>
 				<th width="5%" class="hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 				</th>
-				<?php endif;?>
+				<?php endif; ?>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
@@ -137,8 +140,8 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					{
 						$parentsStr = "";
 						$_currentParentId = $item->parent_id;
-						$parentsStr = " ".$_currentParentId;
-						for ($i = 0; $i < $item->level; $i++)
+						$parentsStr = " " . $_currentParentId;
+						for ($i2 = 0; $i2 < $item->level; $i2++)
 						{
 							foreach ($this->ordering as $k => $v)
 							{
@@ -146,7 +149,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 								$v = "-".$v."-";
 								if (strpos($v, "-" . $_currentParentId . "-") !== false)
 								{
-									$parentsStr .= " ".$k;
+									$parentsStr .= " " . $k;
 									$_currentParentId = $k;
 									break;
 								}
@@ -195,7 +198,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 						<?php else : ?>
 							<?php echo $this->escape($item->title); ?>
 						<?php endif; ?>
-						<span class="small" title="<?php echo $this->escape($item->path);?>">
+						<span class="small" title="<?php echo $this->escape($item->path); ?>">
 							<?php if (empty($item->note)) : ?>
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
 							<?php else : ?>
@@ -206,22 +209,22 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<td class="small hidden-phone">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
-				<?php if ($assoc): ?>
+				<?php if ($this->assoc) : ?>
 				<td class="center hidden-phone">
 					<?php if ($item->association):?>
-						<?php echo JHtml::_('CategoriesAdministrator.association', $item->id);?>
+						<?php echo JHtml::_('CategoriesAdministrator.association', $item->id, $extension); ?>
 					<?php endif;?>
 				</td>
 				<?php endif;?>
 				<td class="small nowrap hidden-phone">
-				<?php if ($item->language == '*'):?>
+				<?php if ($item->language == '*') : ?>
 					<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 					<?php endif;?>
 					</td>
 					<td class="center hidden-phone">
-						<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt);?>">
+						<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
 							<?php echo (int) $item->id; ?></span>
 					</td>
 				</tr>
@@ -231,7 +234,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 		<?php //Load the batch processing form. ?>
 		<?php echo $this->loadTemplate('batch'); ?>
 
-		<input type="hidden" name="extension" value="<?php echo $extension;?>" />
+		<input type="hidden" name="extension" value="<?php echo $extension; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
 		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

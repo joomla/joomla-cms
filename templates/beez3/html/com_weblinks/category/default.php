@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif; ?>
-<?php if($this->params->get('show_category_title', 1)) : ?>
+<?php if ($this->params->get('show_category_title', 1)) : ?>
 <h2>
 	<?php echo JHtml::_('content.prepare', $this->category->title, '', 'com_weblinks.category'); ?>
 </h2>

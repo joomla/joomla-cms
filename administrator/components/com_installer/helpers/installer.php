@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,9 @@ class InstallerHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName = 'install')
 	{
@@ -71,14 +73,14 @@ class InstallerHelper
 	 */
 	public static function getExtensionTypes()
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('DISTINCT type')->from('#__extensions');
 		$db->setQuery($query);
 		$types = $db->loadColumn();
 
 		$options = array();
-		foreach($types as $type)
+		foreach ($types as $type)
 		{
 			$options[] = JHtml::_('select.option', $type, 'COM_INSTALLER_TYPE_' . strtoupper($type));
 		}
@@ -105,7 +107,7 @@ class InstallerHelper
 		$folders = $db->loadColumn();
 
 		$options = array();
-		foreach($folders as $folder)
+		foreach ($folders as $folder)
 		{
 			$options[] = JHtml::_('select.option', $folder, $folder);
 		}
@@ -116,8 +118,9 @@ class InstallerHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
-	 * @since	1.6
+	 * @return  JObject
+	 *
+	 * @since   1.6
 	 */
 	public static function getActions()
 	{
@@ -128,7 +131,8 @@ class InstallerHelper
 
 		$actions = JAccess::getActions($assetName);
 
-		foreach ($actions as $action) {
+		foreach ($actions as $action)
+		{
 			$result->set($action->name,	$user->authorise($action->name, $assetName));
 		}
 

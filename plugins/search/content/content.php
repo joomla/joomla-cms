@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ require_once JPATH_SITE.'/components/com_content/router.php';
  * @subpackage  Search.content
  * @since       1.6
  */
-class plgSearchContent extends JPlugin
+class PlgSearchContent extends JPlugin
 {
 	/**
 	 * @return array An array of search areas
@@ -52,8 +52,10 @@ class plgSearchContent extends JPlugin
 		require_once JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php';
 
 		$searchText = $text;
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -67,12 +69,14 @@ class plgSearchContent extends JPlugin
 		$now = $date->toSql();
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 
 		$wheres = array();
-		switch ($phrase) {
+		switch ($phrase)
+		{
 			case 'exact':
 				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
 				$wheres2	= array();
@@ -89,7 +93,8 @@ class plgSearchContent extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
-				foreach ($words as $word) {
+				foreach ($words as $word)
+				{
 					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
 					$wheres2	= array();
 					$wheres2[]	= 'a.title LIKE '.$word;
@@ -104,7 +109,8 @@ class plgSearchContent extends JPlugin
 		}
 
 		$morder = '';
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'oldest':
 				$order = 'a.created ASC';
 				break;
@@ -166,7 +172,8 @@ class plgSearchContent extends JPlugin
 			$query->order($order);
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
@@ -177,7 +184,7 @@ class plgSearchContent extends JPlugin
 
 			if (isset($list))
 			{
-				foreach($list as $key => $item)
+				foreach ($list as $key => $item)
 				{
 					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 				}
@@ -220,7 +227,8 @@ class plgSearchContent extends JPlugin
 			$query->order($order);
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
 				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
 			}
@@ -234,7 +242,7 @@ class plgSearchContent extends JPlugin
 
 			if (isset($list3))
 			{
-				foreach($list3 as $key => $item)
+				foreach ($list3 as $key => $item)
 				{
 					$date = JFactory::getDate($item->created);
 
@@ -251,11 +259,13 @@ class plgSearchContent extends JPlugin
 		$results = array();
 		if (count($rows))
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$new_row = array();
-				foreach($row as $key => $article) {
-					if (searchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey'))) {
+				foreach ($row as $key => $article)
+				{
+					if (searchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
+					{
 						$new_row[] = $article;
 					}
 				}

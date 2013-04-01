@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,21 +33,25 @@ $sortFields = $this->getSortFields();
 $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
-	Joomla.orderTable = function() {
+	Joomla.orderTable = function()
+	{
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>') {
+		if (order != '<?php echo $listOrder; ?>')
+		{
 			dirn = 'asc';
-		} else {
+		}
+		else
+		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, '');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -57,7 +61,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
-				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC');?></label>
+				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?></label>
 				<input type="text" name="filter_search" placeholder="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 			<div class="btn-group pull-left hidden-phone">
@@ -65,22 +69,22 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<button class="btn tip hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
-				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
+				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
-				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC');?></label>
+				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></label>
 				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC');?></option>
-					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING');?></option>
-					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');?></option>
+					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></option>
+					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING'); ?></option>
+					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');  ?></option>
 				</select>
 			</div>
 			<div class="btn-group pull-right">
-				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY');?></label>
+				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
 				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
-					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder);?>
+					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
 				</select>
 			</div>
 		</div>
@@ -104,7 +108,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<th width="10%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 				</th>
-				<?php if ($assoc): ?>
+				<?php if ($assoc) : ?>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 				</th>
@@ -133,7 +137,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.'.$item->id) && $item->created_by == $userId;
 				$canChange  = $user->authorise('core.edit.state', 'com_content.article.'.$item->id) && $canCheckin;
 				?>
-				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
+				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
 					<td class="order nowrap center hidden-phone">
 					<?php if ($canChange) :
 						$disableClassName = '';
@@ -143,10 +147,10 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 							$disabledLabel    = JText::_('JORDERINGDISABLED');
 							$disableClassName = 'inactive tip-top';
 						endif; ?>
-						<span class="sortable-handler hasTooltip <?php echo $disableClassName?>" title="<?php echo $disabledLabel?>">
+						<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
 							<i class="icon-menu"></i>
 						</span>
-						<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
+						<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 					<?php else : ?>
 						<span class="sortable-handler inactive" >
 							<i class="icon-menu"></i>
@@ -173,10 +177,10 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 								<?php $language = $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 							<?php endif;?>
 							<?php if ($canEdit || $canEditOwn) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);?>" title="<?php echo JText::_('JACTION_EDIT');?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
 									<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
-								<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias));?>"><?php echo $this->escape($item->title); ?></span>
+								<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 							<?php endif; ?>
 							<div class="small">
 								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
@@ -222,19 +226,24 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 								?>
 						</div>
 					</td>
-				<td class="small hidden-phone">
-					<?php echo $this->escape($item->access_level); ?>
-				</td>
-				<?php if ($assoc): ?>
-				<td class="hidden-phone">
-					<?php if ($item->association):?>
-						<?php echo JHtml::_('contentadministrator.association', $item->id);?>
+					<td class="small hidden-phone">
+						<?php echo $this->escape($item->access_level); ?>
+					</td>
+					<?php if ($assoc) : ?>
+					<td class="hidden-phone">
+						<?php if ($item->association) : ?>
+							<?php echo JHtml::_('contentadministrator.association', $item->id); ?>
+						<?php endif; ?>
+					</td>
 					<?php endif;?>
-				</td>
-				<?php endif;?>
-				<td class="small hidden-phone">
-					<?php echo $this->escape($item->author_name); ?>
-				</td>
+					<td class="small hidden-phone">
+						<?php if ($item->created_by_alias) : ?>
+							<?php echo $this->escape($item->author_name); ?>
+							<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+						<?php else : ?>
+							<?php echo $this->escape($item->author_name); ?>
+						<?php endif; ?>
+					</td>
 					<td class="small hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>

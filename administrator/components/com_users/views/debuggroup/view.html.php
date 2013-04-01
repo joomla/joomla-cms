@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,8 @@ class UsersViewDebugGroup extends JViewLegacy
 		$this->components	= UsersHelperDebug::getComponents();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -53,7 +54,7 @@ class UsersViewDebugGroup extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{

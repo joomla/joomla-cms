@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class ContentModelFeatured extends ContentModelArticles
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -56,7 +56,8 @@ class ContentModelFeatured extends ContentModelArticles
 			// filter on published for those who do not have edit or edit.state rights.
 			$this->setState('filter.published', 1);
 		}
-		else {
+		else
+		{
 			$this->setState('filter.published', array(0, 1, 2));
 		}
 
@@ -71,7 +72,7 @@ class ContentModelFeatured extends ContentModelArticles
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
 	 */
 	public function getItems()
 	{
@@ -93,9 +94,9 @@ class ContentModelFeatured extends ContentModelArticles
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -106,7 +107,7 @@ class ContentModelFeatured extends ContentModelArticles
 	}
 
 	/**
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -131,7 +132,8 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// Filter by categories
-		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories'))) {
+		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories')))
+		{
 			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
 		}
 

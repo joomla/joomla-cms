@@ -2,7 +2,7 @@
  * @author Design & Accessible Team ( Angie Radtke  )
  * @package Joomla
  * @subpackage Accessible-Template-Beez
- * @copyright Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @copyright Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
  * @license GNU/GPL, see LICENSE.php
  * Joomla! is free software. This version may have been modified pursuant to the
  * GNU General Public License, and as distributed it includes or is derivative
@@ -240,6 +240,10 @@ table.weblinks th, table.category th {
 	text-align: right;
 }
 
+table th, table td {
+	text-align: right;
+}
+
 dl.tabs {
 	float: right;
 	margin: 50px 0 0 0;
@@ -332,7 +336,6 @@ padding:4px 0;
 #login-form label
 {
 	margin-right:0px;
-	float:right
 }
 
 #form-login-remember label
@@ -352,7 +355,7 @@ button.validate
 #modlgn-username,
 #modlgn-passwd
 {
-	margin-right:-30px;
+	margin-right: 0;
 }
 
 .module_content #form-login-username label,
@@ -496,4 +499,9 @@ ul.menu li ul li ul li ul li ul {
 	float: left;
 	margin-right: 10px;
 	margin-bottom: 10px;
+}
+
+/* ++++++ Bootstrap markup ++++++++++++++ */
+.pull-left {
+	float: right;
 }

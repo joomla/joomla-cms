@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,12 +30,13 @@ class MenusModelMenutypes extends JModelLegacy
 	/**
 	 * Method to get the reverse lookup of the base link URL to Title
 	 *
-	 * @return	array	Array of reverse lookup of the base link URL to Title
-	 * @since	1.6
+	 * @return  array  Array of reverse lookup of the base link URL to Title
+	 * @since   1.6
 	 */
 	public function getReverseLookup()
 	{
-		if (empty($this->rlu)) {
+		if (empty($this->rlu))
+		{
 			$this->getTypeOptions();
 		}
 		return $this->rlu;
@@ -44,8 +45,8 @@ class MenusModelMenutypes extends JModelLegacy
 	/**
 	 * Method to get the available menu item type options.
 	 *
-	 * @return	array	Array of groups with menu item types.
-	 * @since	1.6
+	 * @return  array  Array of groups with menu item types.
+	 * @since   1.6
 	 */
 	public function getTypeOptions()
 	{
@@ -67,16 +68,19 @@ class MenusModelMenutypes extends JModelLegacy
 
 		foreach ($components as $component)
 		{
-			if ($options = $this->getTypeOptionsByComponent($component->option)) {
+			if ($options = $this->getTypeOptionsByComponent($component->option))
+			{
 				$list[$component->name] = $options;
 
 				// Create the reverse lookup for link-to-name.
 				foreach ($options as $option)
 				{
-					if (isset($option->request)) {
+					if (isset($option->request))
+					{
 						$this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
 
-						if (isset($option->request['option'])) {
+						if (isset($option->request['option']))
+						{
 								$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, null, false, false)
 							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], null, false, false)
 							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
@@ -96,11 +100,13 @@ class MenusModelMenutypes extends JModelLegacy
 
 		$mainXML = JPATH_SITE.'/components/'.$component.'/metadata.xml';
 
-		if (is_file($mainXML)) {
+		if (is_file($mainXML))
+		{
 			$options = $this->getTypeOptionsFromXML($mainXML, $component);
 		}
 
-		if (empty($options)) {
+		if (empty($options))
+		{
 			$options = $this->getTypeOptionsFromMVC($component);
 		}
 
@@ -112,15 +118,18 @@ class MenusModelMenutypes extends JModelLegacy
 		$options = array();
 
 		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($file)) {
+		if (!$xml = simplexml_load_file($file))
+		{
 			return false;
 		}
 
 		// Look for the first menu node off of the root node.
-		if (!$menu = $xml->xpath('menu[1]')) {
+		if (!$menu = $xml->xpath('menu[1]'))
+		{
 			return false;
 		}
-		else {
+		else
+		{
 			$menu = $menu[0];
 		}
 
@@ -139,22 +148,27 @@ class MenusModelMenutypes extends JModelLegacy
 		}
 
 		// Look for the first options node off of the menu node.
-		if (!$optionsNode = $menu->xpath('options[1]')) {
+		if (!$optionsNode = $menu->xpath('options[1]'))
+		{
 			return false;
 		}
-		else {
+		else
+		{
 			$optionsNode = $optionsNode[0];
 		}
 
 		// Make sure the options node has children.
-		if (!$children = $optionsNode->children()) {
+		if (!$children = $optionsNode->children())
+		{
 			return false;
 		}
-		else {
+		else
+		{
 			// Process each child as an option.
 			foreach ($children as $child)
 			{
-				if ($child->getName() == 'option') {
+				if ($child->getName() == 'option')
+				{
 					// Create the menu option for the component.
 					$o = new JObject;
 					$o->title		= (string) $child['name'];
@@ -163,7 +177,8 @@ class MenusModelMenutypes extends JModelLegacy
 
 					$options[] = $o;
 				}
-				elseif ($child->getName() == 'default') {
+				elseif ($child->getName() == 'default')
+				{
 					// Create the menu option for the component.
 					$o = new JObject;
 					$o->title		= (string) $child['name'];
@@ -189,41 +204,50 @@ class MenusModelMenutypes extends JModelLegacy
 		{
 			$views = JFolder::folders($path);
 		}
-		else {
+		else
+		{
 			return false;
 		}
 
 		foreach ($views as $view)
 		{
 			// Ignore private views.
-			if (strpos($view, '_') !== 0) {
+			if (strpos($view, '_') !== 0)
+			{
 				// Determine if a metadata file exists for the view.
 				$file = $path.'/'.$view.'/metadata.xml';
 
-				if (is_file($file)) {
+				if (is_file($file))
+				{
 					// Attempt to load the xml file.
-					if ($xml = simplexml_load_file($file)) {
+					if ($xml = simplexml_load_file($file))
+					{
 						// Look for the first view node off of the root node.
-						if ($menu = $xml->xpath('view[1]')) {
+						if ($menu = $xml->xpath('view[1]'))
+						{
 							$menu = $menu[0];
 
 							// If the view is hidden from the menu, discard it and move on to the next view.
-							if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
+							if (!empty($menu['hidden']) && $menu['hidden'] == 'true')
+							{
 								unset($xml);
 								continue;
 							}
 
 							// Do we have an options node or should we process layouts?
 							// Look for the first options node off of the menu node.
-							if ($optionsNode = $menu->xpath('options[1]')) {
+							if ($optionsNode = $menu->xpath('options[1]'))
+							{
 								$optionsNode = $optionsNode[0];
 
 								// Make sure the options node has children.
-								if ($children = $optionsNode->children()) {
+								if ($children = $optionsNode->children())
+								{
 									// Process each child as an option.
 									foreach ($children as $child)
 									{
-										if ($child->getName() == 'option') {
+										if ($child->getName() == 'option')
+										{
 											// Create the menu option for the component.
 											$o = new JObject;
 											$o->title		= (string) $child['name'];
@@ -232,7 +256,8 @@ class MenusModelMenutypes extends JModelLegacy
 
 											$options[] = $o;
 										}
-										elseif ($child->getName() == 'default') {
+										elseif ($child->getName() == 'default')
+										{
 											// Create the menu option for the component.
 											$o = new JObject;
 											$o->title		= (string) $child['name'];
@@ -271,10 +296,12 @@ class MenusModelMenutypes extends JModelLegacy
 
 		// Get the layouts from the view folder.
 		$path = JPATH_SITE . '/components/' . $component . '/views/' . $view . '/tmpl';
-		if (is_dir($path)) {
+		if (is_dir($path))
+		{
 			$layouts = array_merge($layouts, JFolder::files($path, '.xml$', false, true));
 		}
-		else {
+		else
+		{
 			return $options;
 		}
 
@@ -295,9 +322,10 @@ class MenusModelMenutypes extends JModelLegacy
 		$folders = JFolder::folders(JPATH_SITE . '/templates', '', false, true);
 		// Array to hold association between template file names and templates
 		$templateName = array();
-		foreach($folders as $folder)
+		foreach ($folders as $folder)
 		{
-			if (is_dir($folder . '/html/' . $component . '/' . $view)) {
+			if (is_dir($folder . '/html/' . $component . '/' . $view))
+			{
 				$template = basename($folder);
 				$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
 				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, null, false, false)
@@ -313,7 +341,8 @@ class MenusModelMenutypes extends JModelLegacy
 					$templateLayoutName = basename($layout, '.xml');
 
 					// add to the list only if it is not a standard layout
-					if (array_search($templateLayoutName, $layoutNames) === false) {
+					if (array_search($templateLayoutName, $layoutNames) === false)
+					{
 						$layouts[] = $layout;
 						// Set template name array so we can get the right template for the layout
 						$templateName[$layout] = basename($folder);
@@ -326,7 +355,8 @@ class MenusModelMenutypes extends JModelLegacy
 		foreach ($layouts as $layout)
 		{
 			// Ignore private layouts.
-			if (strpos(basename($layout), '_') === false) {
+			if (strpos(basename($layout), '_') === false)
+			{
 				$file = $layout;
 				// Get the layout name.
 				$layout = basename($layout, '.xml');
@@ -338,32 +368,39 @@ class MenusModelMenutypes extends JModelLegacy
 				$o->request		= array('option' => $component, 'view' => $view);
 
 				// Only add the layout request argument if not the default layout.
-				if ($layout != 'default') {
+				if ($layout != 'default')
+				{
 					// If the template is set, add in format template:layout so we save the template name
 					$o->request['layout'] = (isset($templateName[$file])) ? $templateName[$file] . ':' . $layout : $layout;
 				}
 
 				// Load layout metadata if it exists.
-				if (is_file($file)) {
+				if (is_file($file))
+				{
 					// Attempt to load the xml file.
-					if ($xml = simplexml_load_file($file)) {
+					if ($xml = simplexml_load_file($file))
+					{
 						// Look for the first view node off of the root node.
-						if ($menu = $xml->xpath('layout[1]')) {
+						if ($menu = $xml->xpath('layout[1]'))
+						{
 							$menu = $menu[0];
 
 							// If the view is hidden from the menu, discard it and move on to the next view.
-							if (!empty($menu['hidden']) && $menu['hidden'] == 'true') {
+							if (!empty($menu['hidden']) && $menu['hidden'] == 'true')
+							{
 								unset($xml);
 								unset($o);
 								continue;
 							}
 
 							// Populate the title and description if they exist.
-							if (!empty($menu['title'])) {
+							if (!empty($menu['title']))
+							{
 								$o->title = trim((string) $menu['title']);
 							}
 
-							if (!empty($menu->message[0])) {
+							if (!empty($menu->message[0]))
+							{
 								$o->description = trim((string) $menu->message[0]);
 							}
 						}

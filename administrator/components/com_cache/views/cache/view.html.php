@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,8 @@ class CacheViewCache extends JViewLegacy
 		$this->state		= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -44,7 +45,7 @@ class CacheViewCache extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -54,7 +55,8 @@ class CacheViewCache extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'clear.png');
 		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
 		JToolbarHelper::divider();
-		if (JFactory::getUser()->authorise('core.admin', 'com_cache')) {
+		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))
+		{
 			JToolbarHelper::preferences('com_cache');
 		}
 		JToolbarHelper::divider();

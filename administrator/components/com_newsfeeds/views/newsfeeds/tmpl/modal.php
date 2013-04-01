@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,12 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('bootstrap.tooltip');
 
+$input     = JFactory::getApplication()->input;
 $function  = JFactory::getApplication()->input->getCmd('function', 'jSelectNewsfeed');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component');?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+<form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&view=newsfeeds&layout=modal&tmpl=component&function='.$function);?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<fieldset class="filter clearfix">
 		<div class="btn-toolbar">
 			<div class="btn-group pull-left">
@@ -31,6 +32,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<button type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();">
 					<i class="icon-remove"></i></button>
 			</div>
+				<input onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('0', '<?php echo $this->escape(addslashes(JText::_('COM_NEWSFEEDS_SELECT_A_FEED'))); ?>', null, null);" class="btn" type="button" value="<?php echo JText::_('COM_NEWSFEEDS_FIELD_VALUE_NONE'); ?>" />
 			<div class="clearfix"></div>
 		</div>
 		<hr class="hr-condensed" />
@@ -45,15 +47,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
+			<?php if ($this->state->get('filter.forcedLanguage')) : ?>
+			<select name="filter_category_id" class="input-medium" onchange="this.form.submit()">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds', array('filter.language' => array('*', $this->state->get('filter.forcedLanguage')))), 'value', 'text', $this->state->get('filter.category_id'));?>
+			</select>
+			<input type="hidden" name="forcedLanguage" value="<?php echo $this->escape($this->state->get('filter.forcedLanguage')); ?>" />
+			<input type="hidden" name="filter_language" value="<?php echo $this->escape($this->state->get('filter.language')); ?>" />
+			<?php else : ?>
 			<select name="filter_category_id" class="input-medium" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_CATEGORY');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_newsfeeds'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
-
 			<select name="filter_language" class="input-medium" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
+			<?php endif; ?>
 		</div>
 	</fieldset>
 

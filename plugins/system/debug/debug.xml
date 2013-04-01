@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="system">
+<extension version="3.1" type="plugin" group="system">
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -66,6 +66,44 @@
 				>
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
+				</field>
+
+				<field name="logs" type="radio"
+					class="btn-group"
+					default="1"
+					description="PLG_DEBUG_FIELD_LOGS_DESC"
+					label="PLG_DEBUG_FIELD_LOGS_LABEL"
+				>
+					<option value="1">JYes</option>
+					<option value="0">JNo</option>
+				</field>
+
+				<field name="log_priorities" type="list" multiple="true" default="all"
+					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
+					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
+				>
+					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
+					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
+					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
+					<option value="critical">PLG_DEBUG_FIELD_LOG_PRIORITIES_CRITICAL</option>
+					<option value="error">PLG_DEBUG_FIELD_LOG_PRIORITIES_ERROR</option>
+					<option value="warning">PLG_DEBUG_FIELD_LOG_PRIORITIES_WARNING</option>
+					<option value="notice">PLG_DEBUG_FIELD_LOG_PRIORITIES_NOTICE</option>
+					<option value="info">PLG_DEBUG_FIELD_LOG_PRIORITIES_INFO</option>
+					<option value="debug">PLG_DEBUG_FIELD_LOG_PRIORITIES_DEBUG</option>
+				</field>
+
+				<field name="log_categories" type="text" size="60" default=""
+					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
+					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
+				/>
+
+				<field name="log_category_mode" type="hidden" default="0"
+					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
+					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
+				>
+					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
+					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 				</field>
 			</fieldset>
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class UsersControllerLevel extends JControllerForm
 {
 	/**
 	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_USERS_LEVEL';
 
@@ -29,11 +29,11 @@ class UsersControllerLevel extends JControllerForm
 	 *
 	 * Overrides JControllerForm::allowSave to check the core.admin permission.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array  An array of input data.
+	 * @param   string	The name of the key for the primary key.
 	 *
-	 * @return	boolean
-	 * @since	1.6
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	protected function allowSave($data, $key = 'id')
 	{
@@ -51,21 +51,25 @@ class UsersControllerLevel extends JControllerForm
 		$user = JFactory::getUser();
 		$ids  = $this->input->get('cid', array(), 'array');
 
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
-		elseif (empty($ids)) {
+		elseif (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('COM_USERS_NO_LEVELS_SELECTED'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
 			JArrayHelper::toInteger($ids);
 
 			// Remove the items.
-			if (!$model->delete($ids)) {
+			if (!$model->delete($ids))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 			else {

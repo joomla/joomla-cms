@@ -1,12 +1,12 @@
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /* The main calendar widget.  DIV containing a table. */
 div.calendar {
 	position: relative;
-	z-index: 100;
+	z-index: 10000;
 	width: 226px;
 }
 

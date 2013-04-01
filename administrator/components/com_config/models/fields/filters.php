@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class JFormFieldFilters extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public $type = 'Filters';
 
@@ -31,8 +31,8 @@ class JFormFieldFilters extends JFormField
 	 *
 	 * TODO: Add access check.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string	The field input markup.
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -65,8 +65,10 @@ class JFormFieldFilters extends JFormField
 		// The table body.
 		$html[] = '	<tbody>';
 
-		foreach ($groups as $group) {
-			if (!isset($this->value[$group->value])) {
+		foreach ($groups as $group)
+		{
+			if (!isset($this->value[$group->value]))
+			{
 				$this->value[$group->value] = array('filter_type' => 'BL', 'filter_tags' => '', 'filter_attributes' => '');
 			}
 			$group_filter = $this->value[$group->value];
@@ -76,7 +78,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '			'.str_repeat('<span class="gi">|&mdash;</span>', $group->level).$group->text;
 			$html[] = '		</th>';
 			$html[] = '		<td>';
-			$html[] = '				<select name="'.$this->name.'['.$group->value.'][filter_type]" id="'.$this->id.$group->value.'_filter_type" class="hasTip" title="'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'::'.JText::_('JGLOBAL_FILTER_TYPE_DESC').'">';
+			$html[] = '				<select name="'.$this->name.'['.$group->value.'][filter_type]" id="'.$this->id.$group->value.'_filter_type">';
 			$html[] = '					<option value="BL"'.($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '').'>'.JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST').'</option>';
 			$html[] = '					<option value="CBL"'.($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '').'>'.JText::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST').'</option>';
 			$html[] = '					<option value="WL"'.($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '').'>'.JText::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST').'</option>';
@@ -96,14 +98,22 @@ class JFormFieldFilters extends JFormField
 
 		// Close the table.
 		$html[] = '</table>';
+
+		// Add notes
+		$html[] = '<div class="alert">';
+		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
+		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
+		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
+		$html[] = '</div>';
+
 		return implode("\n", $html);
 	}
 
 	/**
 	 * A helper to get the list of user groups.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	protected function getUserGroups()
 	{

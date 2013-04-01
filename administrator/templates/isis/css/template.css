@@ -1888,7 +1888,6 @@ table .span24 {
 	position: relative;
 	height: 0;
 	overflow: hidden;
-	overflow: visible \9;
 	-webkit-transition: height .35s ease;
 	-moz-transition: height .35s ease;
 	-o-transition: height .35s ease;
@@ -2433,7 +2432,7 @@ input[type="submit"].btn.btn-mini {
 .btn-mini .caret,
 .btn-small .caret,
 .btn-large .caret {
-	margin-top: 5px;
+	margin-top: 6px;
 }
 .btn-large .caret {
 	border-left-width: 5px;
@@ -5214,10 +5213,7 @@ a.disabled:hover {
 	line-height: 27px;
 }
 .btn .caret {
-	margin-bottom: 5px;
-}
-.table td.has-context {
-	line-height: 20px;
+	margin-bottom: 7px;
 }
 .blog-row-rule,
 .blog-item-rule {
@@ -5550,6 +5546,16 @@ fieldset.radio.btn-group {
 .accordion-body.in:hover {
 	overflow: visible;
 }
+.invalid {
+	color: #9d261d;
+	font-weight: bold;
+}
+input.invalid {
+	border: 1px solid #9d261d;
+}
+.tip-text {
+	text-align: left;
+}
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../../media/jui/fonts/IcoMoon.eot');
@@ -5712,8 +5718,10 @@ fieldset.radio.btn-group {
 .icon-support:before {
 	content: "\46";
 }
+.icon-pending:before,
 .icon-warning:before {
 	content: "\48";
+	color: #f89406;
 }
 .icon-publish:before,
 .icon-save:before,
@@ -6382,6 +6390,9 @@ h6 {
 	body {
 		padding-top: 30px;
 	}
+	body.component {
+		padding-top: 0;
+	}
 }
 @media (max-width: 738px) {
 	.navbar .brand {
@@ -6444,6 +6455,10 @@ h6 {
 	.view-login .navbar-fixed-bottom {
 		display: none;
 	}
+}
+.nav-collapse .nav li a,
+.dropdown-menu a {
+	background-image: none;
 }
 @media (max-width: 738px) {
 	.navbar-fixed-top .navbar-inner,
@@ -6523,6 +6538,9 @@ h6 {
 	padding-right: 5px;
 	text-align: left;
 }
+.form-horizontal #jform_catid_chzn {
+	vertical-align: middle;
+}
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;
 	width: 35px;
@@ -6576,4 +6594,7 @@ ul.treeselect ul.dropdown-menu {
 ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
+}
+td.has-context {
+	height: 23px;
 }

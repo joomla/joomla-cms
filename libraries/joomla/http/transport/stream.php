@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -143,7 +143,21 @@ class JHttpTransportStream implements JHttpTransport
 		// Close the stream.
 		fclose($stream);
 
-		return $this->getResponse($metadata['wrapper_data'], $content);
+		if (isset($metadata['wrapper_data']['headers']))
+		{
+			$headers = $metadata['wrapper_data']['headers'];
+		}
+		elseif (isset($metadata['wrapper_data']))
+		{
+			$headers = $metadata['wrapper_data'];
+		}
+		else
+		{
+			$headers = array();
+		}
+
+		return $this->getResponse($headers, $content);
+
 	}
 
 	/**

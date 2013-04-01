@@ -3,18 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 $class = ' class="first"';
 
+$lang	= JFactory::getLanguage();
+
 JHtml::_('bootstrap.tooltip');
 ?>
 
 <?php if (count($this->children[$this->category->id]) > 0) : ?>
-	<?php foreach($this->children[$this->category->id] as $id => $child) : ?>
+	<?php foreach ($this->children[$this->category->id] as $id => $child) : ?>
 		<?php
 		if ($this->params->get('show_empty_categories') || $child->getNumItems(true) || count($child->getChildren())) :
 			if (!isset($this->children[$this->category->id][$id + 1])) :
@@ -24,25 +26,39 @@ JHtml::_('bootstrap.tooltip');
 
 		<div<?php echo $class; ?>>
 			<?php $class = ''; ?>
+			<?php if ($lang->isRTL()) : ?>
+			<h3 class="page-header item-title">
+				<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
+					<span class="badge badge-info tip hasTooltip" title="<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>">
+						<?php echo $child->getNumItems(true); ?>
+					</span>
+				<?php endif; ?>
+				<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
+				<?php echo $this->escape($child->title); ?></a>
+
+				<?php if (count($child->getChildren()) > 0) : ?>
+					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+				<?php endif;?>
+			<?php else : ?>
 			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
 				<?php echo $this->escape($child->title); ?></a>
 				<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-				<span class="badge badge-info tip hasTooltip" title="<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>">
-					<?php echo $child->getNumItems(true); ?>
-				</span>
+					<span class="badge badge-info tip hasTooltip" title="<?php echo JText::_('COM_CONTENT_NUM_ITEMS'); ?>">
+						<?php echo $child->getNumItems(true); ?>
+					</span>
 				<?php endif; ?>
 
 				<?php if (count($child->getChildren()) > 0) : ?>
-				<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><i class="icon-plus"></i></a>
+					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
+				<?php endif;?>
 			<?php endif;?>
-
 			</h3>
 			<?php if ($this->params->get('show_subcat_desc') == 1) :?>
-			<?php if ($child->description) : ?>
-				<div class="category-desc">
-					<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
-				</div>
-			<?php endif; ?>
+				<?php if ($child->description) : ?>
+					<div class="category-desc">
+						<?php echo JHtml::_('content.prepare', $child->description, '', 'com_content.category'); ?>
+					</div>
+				<?php endif; ?>
 			<?php endif; ?>
 
 			<?php if (count($child->getChildren()) > 0) :?>
@@ -60,7 +76,7 @@ JHtml::_('bootstrap.tooltip');
 			</div>
 			<?php endif; ?>
 
-			</div>
+		</div>
 		<?php endif; ?>
 	<?php endforeach; ?>
 <?php endif; ?>

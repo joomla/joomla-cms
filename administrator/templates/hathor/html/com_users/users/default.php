@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ $loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -123,7 +123,8 @@ $loggeduser = JFactory::getUser();
 			$canEdit	= $canDo->get('core.edit');
 			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin')) {
+			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin'))
+			{
 				$canEdit	= false;
 				$canChange	= false;
 			}
@@ -179,7 +180,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'): ?>
+					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00') : ?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>

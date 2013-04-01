@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -307,7 +307,8 @@ class MenusControllerItem extends JControllerForm
 		$title = isset($type->title) ? $type->title : null;
 		$recordId = isset($type->id) ? $type->id : 0;
 
-		if ($title != 'alias' && $title != 'separator' && $title != 'url')
+		$specialTypes = array('alias', 'separator', 'url', 'heading');
+		if (!in_array($title, $specialTypes))
 		{
 			$title = 'component';
 		}

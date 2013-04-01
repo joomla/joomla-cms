@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,7 +77,7 @@ abstract class JHtmlGrid
 		JHtml::_('behavior.tooltip');
 
 		$direction = strtolower($direction);
-		$icon = array('arrow-down', 'arrow-up');
+		$icon = array('arrow-up-3', 'arrow-down-3');
 		$index = (int) ($direction == 'desc');
 
 		if ($order != $selected)
@@ -89,7 +89,7 @@ abstract class JHtmlGrid
 			$direction = ($direction == 'desc') ? 'asc' : 'desc';
 		}
 
-		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');"'
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
 			. ' class="hasTip" title="' . JText::_($tip ? $tip : $title) . '::' . JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
@@ -143,6 +143,7 @@ abstract class JHtmlGrid
 		$userid = $user->get('id');
 
 		$result = false;
+
 		if ($row instanceof JTable)
 		{
 			$result = $row->isCheckedOut($userid);
@@ -153,6 +154,7 @@ abstract class JHtmlGrid
 		}
 
 		$checked = '';
+
 		if ($result)
 		{
 			$checked = self::_checkedOut($row);
@@ -246,7 +248,7 @@ abstract class JHtmlGrid
 	 * Method to create an icon for saving a new ordering in a grid
 	 *
 	 * @param   array   $rows   The array of rows of rows
-	 * @param   string  $image  The image
+	 * @param   string  $image  The image [UNUSED]
 	 * @param   string  $task   The task to use, defaults to save order
 	 *
 	 * @return  string
@@ -255,7 +257,6 @@ abstract class JHtmlGrid
 	 */
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		// $image = JHtml::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
 		$href = '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests error messages associated with actions performed when nothing is selected.
  */
@@ -22,7 +22,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Activate';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -34,7 +34,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Block';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -46,7 +46,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-delete']/button");
 	$button='Delete';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -62,7 +62,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Delete')]");
 	$button='Delete';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -78,7 +78,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Delete')]");
 	$button='Delete';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -95,7 +95,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Publish')]");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -107,7 +107,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -119,7 +119,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -131,7 +131,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Check In')]");
 	$button='Check In';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -143,7 +143,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Home')]");
 	$button='Default';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -158,7 +158,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -170,7 +170,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -182,7 +182,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -194,7 +194,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Check In')]");
 	$button='Check In';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -206,7 +206,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -222,7 +222,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Publish')]");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -235,7 +235,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -248,7 +248,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Archive')]");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -261,7 +261,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Check In')]");
 	$button='Check In';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -274,7 +274,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-trash']/button");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -290,7 +290,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Publish')]");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -302,7 +302,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -314,7 +314,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Archive')]");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -326,7 +326,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -338,7 +338,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -355,7 +355,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -367,7 +367,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -379,7 +379,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Archive')]");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -391,7 +391,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Check In')]");
 	$button='Check In';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -403,7 +403,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -419,7 +419,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Publish')]");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -431,7 +431,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -443,7 +443,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Archive')]");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
        $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -455,7 +455,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Check In')]");
 	$button='Check In';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -467,7 +467,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -483,7 +483,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -496,7 +496,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -509,7 +509,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Archive')]");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -522,7 +522,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -535,7 +535,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -551,7 +551,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Publish')]");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -563,7 +563,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -575,7 +575,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -587,7 +587,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -599,7 +599,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -615,7 +615,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Publish')]");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -628,7 +628,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -641,7 +641,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -653,7 +653,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -666,7 +666,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -682,7 +682,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -694,7 +694,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -706,7 +706,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Archive')]");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -718,7 +718,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -730,7 +730,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -746,7 +746,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Publish')]");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -759,7 +759,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -772,7 +772,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Archive')]");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -784,7 +784,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -797,7 +797,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -813,7 +813,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -825,7 +825,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -837,7 +837,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -849,7 +849,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -861,7 +861,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -877,7 +877,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -890,7 +890,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -903,7 +903,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -915,7 +915,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Check In')]");
 	$button='Check In';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -928,7 +928,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -944,7 +944,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -956,7 +956,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -968,7 +968,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-archive']/button");
 	$button='Archive';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -980,7 +980,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1007,7 +1007,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1018,7 +1018,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
     	$this->assertEquals("Please first make a selection from the list", $this->getAlert());
@@ -1029,7 +1029,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->click("//Button[contains(., 'Uninstall')]");
 	$button='Uninstall';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
     	$this->assertEquals("Please first make a selection from the list", $this->getAlert());
@@ -1045,7 +1045,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-copy']/button");
 	$button='Copy';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1057,7 +1057,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1069,7 +1069,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1081,7 +1081,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Check In')]");
 	$button='Check In';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1093,7 +1093,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1109,7 +1109,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-publish']/button");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1121,7 +1121,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-unpublish']/button");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1133,7 +1133,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//div[@id='toolbar-checkin']/button");
 	$button='Check in';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1148,7 +1148,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	$this->filterView($filterOn);
     $this->click("//div[@id='toolbar-star']/button");
 	$button='Default';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
     	$this->assertEquals("Please first make a selection from the list", $this->getAlert());
@@ -1159,7 +1159,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->click("//div[@id='toolbar-edit']/button");
 	$button='Edit';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
     	$this->assertEquals("Please first make a selection from the list", $this->getAlert());
@@ -1170,7 +1170,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->click("//Button[contains(., 'Duplicate')]");
 	$button='Duplicate';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
 
     try
 	{
@@ -1182,7 +1182,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     }
     $this->click("//Button[contains(., 'Delete')]");
 	$button='Delete';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
     	$this->assertEquals("Please first make a selection from the list", $this->getAlert());
@@ -1200,7 +1200,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Publish')]");
 	$button='Publish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1212,7 +1212,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Unpublish')]");
 	$button='Unpublish';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1224,7 +1224,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
     $this->click("checkall-toggle");
     $this->click("//Button[contains(., 'Trash')]");
 	$button='Trash';
-    echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+    $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try
 	{
         $this->assertEquals("Please first make a selection from the list", $this->getAlert(), 'Should get alert message');
@@ -1258,7 +1258,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	$this->type("jform_message", "test");
     $this->click("//div[@id='toolbar-envelope']/button");
 	$button='Send';
-   echo "Testing error message when clicking $button button with nothing selected at $screen screen.\n";
+   $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
    $this->waitForPageToLoad("30000");
    try
 	{

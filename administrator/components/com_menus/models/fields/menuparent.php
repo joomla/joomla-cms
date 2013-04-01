@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,15 +24,15 @@ class JFormFieldMenuParent extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $type = 'MenuParent';
 
 	/**
 	 * Method to get the field options.
 	 *
-	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @return  array  The field option objects.
+	 * @since   1.6
 	 */
 	protected function getOptions()
 	{
@@ -45,15 +45,18 @@ class JFormFieldMenuParent extends JFormFieldList
 		$query->from('#__menu AS a');
 		$query->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
-		if ($menuType = $this->form->getValue('menutype')) {
+		if ($menuType = $this->form->getValue('menutype'))
+		{
 			$query->where('a.menutype = '.$db->quote($menuType));
 		}
-		else {
+		else
+		{
 			$query->where('a.menutype != '.$db->quote(''));
 		}
 
 		// Prevent parenting to children of this item.
-		if ($id = $this->form->getValue('id')) {
+		if ($id = $this->form->getValue('id'))
+		{
 			$query->join('LEFT', $db->quoteName('#__menu').' AS p ON p.id = '.(int) $id);
 			$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 		}
@@ -75,7 +78,8 @@ class JFormFieldMenuParent extends JFormFieldList
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
-		for ($i = 0, $n = count($options); $i < $n; $i++) {
+		for ($i = 0, $n = count($options); $i < $n; $i++)
+		{
 			$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
 		}
 

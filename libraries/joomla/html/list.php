@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,13 +97,16 @@ abstract class JHtmlList
 		if (empty($items))
 		{
 			$options[] = JHtml::_('select.option', 1, JText::_('JOPTION_ORDER_FIRST'));
+
 			return $options;
 		}
 
 		$options[] = JHtml::_('select.option', 0, '0 ' . JText::_('JOPTION_ORDER_FIRST'));
+
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
 			$items[$i]->text = JText::_($items[$i]->text);
+
 			if (JString::strlen($items[$i]->text) > $chop)
 			{
 				$text = JString::substr($items[$i]->text, 0, $chop) . "...";
@@ -229,6 +232,7 @@ abstract class JHtmlList
 		$id = false)
 	{
 		$pos = array();
+
 		if ($none)
 		{
 			$pos[''] = JText::_('JNONE');

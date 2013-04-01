@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,8 @@ class MailtoViewMailto extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$data = $this->getData();
-		if ($data === false) {
+		if ($data === false)
+		{
 			return false;
 		}
 
@@ -42,7 +43,8 @@ class MailtoViewMailto extends JViewLegacy
 
 		$data->link = urldecode(JRequest::getVar('link', '', 'method', 'base64'));
 
-		if ($data->link == '') {
+		if ($data->link == '')
+		{
 			JError::raiseError(403, JText::_('COM_MAILTO_LINK_IS_MISSING'));
 			$false = false;
 			return $false;
@@ -54,7 +56,8 @@ class MailtoViewMailto extends JViewLegacy
 		$from    = $app->input->post->getString('from', '');
 		$subject = $app->input->post->getString('subject', '');
 
-		if ($user->get('id') > 0) {
+		if ($user->get('id') > 0)
+		{
 			$data->sender = $user->get('name');
 			$data->from   = $user->get('email');
 		}

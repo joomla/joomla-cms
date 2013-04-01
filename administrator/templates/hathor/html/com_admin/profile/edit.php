@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,8 @@ $fieldsets = $this->form->getFieldsets();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'profile.cancel' || document.formvalidator.isValid(document.id('profile-form'))) {
+		if (task == 'profile.cancel' || document.formvalidator.isValid(document.id('profile-form')))
+		{
 			Joomla.submitform(task, document.getElementById('profile-form'));
 		}
 	}
@@ -34,7 +35,7 @@ $fieldsets = $this->form->getFieldsets();
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_ADMIN_USER_ACCOUNT_DETAILS'); ?></legend>
 			<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('user_details') as $field) :?>
+			<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 				<li><?php echo $field->label; ?>
 				<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
@@ -54,8 +55,8 @@ $fieldsets = $this->form->getFieldsets();
 		<fieldset class="panelform">
 		<legend class="element-invisible"><?php echo JText::_($fieldset->label); ?></legend>
 		<ul class="adminformlist">
-		<?php foreach($this->form->getFieldset($fieldset->name) as $field): ?>
-			<?php if ($field->hidden): ?>
+		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>
+			<?php if ($field->hidden) : ?>
 				<?php echo $field->input; ?>
 			<?php else: ?>
 				<li><?php echo $field->label; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -127,7 +127,7 @@ class FinderViewSearch extends JViewLegacy
 		$fields = null;
 
 		// Get the URI.
-		$uri = JURI::getInstance(JRoute::_($this->query->toURI()));
+		$uri = JUri::getInstance(JRoute::_($this->query->toURI()));
 		$uri->delVar('q');
 		$uri->delVar('o');
 		$uri->delVar('t');
@@ -135,9 +135,10 @@ class FinderViewSearch extends JViewLegacy
 		$uri->delVar('d2');
 		$uri->delVar('w1');
 		$uri->delVar('w2');
+		$elements = $uri->getQuery(true);
 
 		// Create hidden input elements for each part of the URI.
-		foreach ($uri->getQuery(true) as $n => $v)
+		foreach ($elements as $n => $v)
 		{
 			if (is_scalar($v))
 			{

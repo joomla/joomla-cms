@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,9 @@ class TestMockDatabaseDriver
 	/**
 	 * Creates and instance of the mock JDatabase object.
 	 *
-	 * @param   object  $test   A test object.
+	 * @param   object  $test        A test object.
+	 * @param   string  $nullDate    A null date string for the driver.
+	 * @param   string  $dateFormat  A date format for the driver.
 	 *
 	 * @return  object
 	 *
@@ -115,10 +117,11 @@ class TestMockDatabaseDriver
 		$test->assignMockCallbacks(
 			$mockObject,
 			array(
-				'getQuery' => array((is_callable(array($test, 'mockGetQuery')) ? $test : get_called_class()), 'mockGetQuery'),
-				'quote' => array((is_callable(array($test, 'mockQuote')) ? $test : get_called_class()), 'mockQuote'),
-				'quoteName' => array((is_callable(array($test, 'mockQuoteName')) ? $test : get_called_class()), 'mockQuoteName'),
-				'setQuery' => array((is_callable(array($test, 'mockSetQuery')) ? $test : get_called_class()), 'mockSetQuery'),
+				'escape' => array((is_callable(array($test, 'mockEscape')) ? $test : __CLASS__), 'mockEscape'),
+				'getQuery' => array((is_callable(array($test, 'mockGetQuery')) ? $test : __CLASS__), 'mockGetQuery'),
+				'quote' => array((is_callable(array($test, 'mockQuote')) ? $test : __CLASS__), 'mockQuote'),
+				'quoteName' => array((is_callable(array($test, 'mockQuoteName')) ? $test : __CLASS__), 'mockQuoteName'),
+				'setQuery' => array((is_callable(array($test, 'mockSetQuery')) ? $test : __CLASS__), 'mockSetQuery'),
 			)
 		);
 
@@ -126,15 +129,29 @@ class TestMockDatabaseDriver
 	}
 
 	/**
+	 * Callback for the dbo escape method.
+	 *
+	 * @param   string  $text  The input text.
+	 *
+	 * @return  string
+	 *
+	 * @since   11.3
+	 */
+	public function mockEscape($text)
+	{
+		return "_{$text}_";
+	}
+
+	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param  string  $new  True to get a new query, false to get the last query.
+	 * @param   boolean  $new  True to get a new query, false to get the last query.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  11.3
+	 * @since   11.3
 	 */
-	public function mockGetQuery($new = false)
+	public static function mockGetQuery($new = false)
 	{
 		if ($new)
 		{
@@ -149,27 +166,37 @@ class TestMockDatabaseDriver
 	/**
 	 * Mocking the quote method.
 	 *
-	 * @param  string  $value  The value to be quoted.
+	 * @param   string  $value  The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since  11.3
+	 * @since   11.3
 	 */
-	public function mockQuote($value)
+	public static function mockQuote($value, $escape = true)
 	{
-		return "'$value'";
+		if (is_array($value))
+		{
+			foreach ($value as $k => $v)
+			{
+				$value[$k] = self::mockQuote($v, $escape);
+			}
+
+			return $value;
+		}
+
+		return '\'' . ($escape ? self::mockEscape($value) : $value) . '\'';
 	}
 
 	/**
 	 * Mock quoteName method.
 	 *
-	 * @param  string  $value  The value to be quoted.
+	 * @param   string  $value  The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since  11.3
+	 * @since   11.3
 	 */
-	public function mockQuoteName($value)
+	public static function mockQuoteName($value)
 	{
 		return "`$value`";
 	}
@@ -177,13 +204,13 @@ class TestMockDatabaseDriver
 	/**
 	 * Callback for the dbo setQuery method.
 	 *
-	 * @param  string  $query  The query.
+	 * @param   string  $query  The query.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  11.3
+	 * @since   11.3
 	 */
-	public function mockSetQuery($query)
+	public static function mockSetQuery($query)
 	{
 		self::$lastQuery = $query;
 	}

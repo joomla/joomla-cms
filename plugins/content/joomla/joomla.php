@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,32 +16,35 @@ defined('_JEXEC') or die;
  * @subpackage  Content.joomla
  * @since       1.6
  */
-class plgContentJoomla extends JPlugin
+class PlgContentJoomla extends JPlugin
 {
 	/**
 	 * Example after save content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 * @param	string		The context of the content passed to the plugin (added in 1.6)
-	 * @param	object		A JTableContent object
-	 * @param	bool		If the content is just about to be created
-	 * @since	1.6
+	 * @param   string  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object		A JTableContent object
+	 * @param   bool		If the content is just about to be created
+	 * @since   1.6
 	 */
-	public function onContentAfterSave($context, &$article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew)
 	{
 		// Check we are handling the frontend edit form.
-		if ($context != 'com_content.form') {
+		if ($context != 'com_content.form')
+		{
 			return true;
 		}
 
 		// Check if this function is enabled.
-		if (!$this->params->def('email_new_fe', 1)) {
+		if (!$this->params->def('email_new_fe', 1))
+		{
 			return true;
 		}
 
 		// Check this is a new article.
-		if (!$isNew) {
+		if (!$isNew)
+		{
 			return true;
 		}
 
@@ -60,7 +63,8 @@ class plgContentJoomla extends JPlugin
 
 		foreach ($users as $user_id)
 		{
-			if ($user_id != $user->id) {
+			if ($user_id != $user->id)
+			{
 				// Load language for messaging
 				$receiver = JUser::getInstance($user_id);
 				$lang = JLanguage::getInstance($receiver->getParam('admin_language', $default_language), $debug);
@@ -71,30 +75,32 @@ class plgContentJoomla extends JPlugin
 					'message'		=> sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
 				$model_message = JModelLegacy::getInstance('Message', 'MessagesModel');
-				$model_message->save($message);
+				$result = $model_message->save($message);
 			}
 		}
 
-		return true;
+		return $result;
 	}
 
 	/**
 	 * Don't allow categories to be deleted if they contain items or subcategories with items
 	 *
-	 * @param	string	The context for the content passed to the plugin.
-	 * @param	object	The data relating to the content that was deleted.
-	 * @return	boolean
-	 * @since	1.6
+	 * @param   string	The context for the content passed to the plugin.
+	 * @param   object	The data relating to the content that was deleted.
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function onContentBeforeDelete($context, $data)
 	{
 		// Skip plugin if we are deleting something other than categories
-		if ($context != 'com_categories.category') {
+		if ($context != 'com_categories.category')
+		{
 			return true;
 		}
 
 		// Check if this function is enabled.
-		if (!$this->params->def('check_categories', 1)) {
+		if (!$this->params->def('check_categories', 1))
+		{
 			return true;
 		}
 
@@ -126,14 +132,16 @@ class plgContentJoomla extends JPlugin
 			else
 			{
 				// Show error if items are found in the category
-				if ($count > 0 ) {
+				if ($count > 0 )
+				{
 					$msg = JText::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title')) .
 					JText::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
 					JError::raiseWarning(403, $msg);
 					$result = false;
 				}
 				// Check for items in any child categories (if it is a leaf, there are no child categories)
-				if (!$data->isLeaf()) {
+				if (!$data->isLeaf())
+				{
 					$count = $this->_countItemsInChildren($table, $data->get('id'), $data);
 					if ($count === false)
 					{
@@ -156,10 +164,10 @@ class plgContentJoomla extends JPlugin
 	/**
 	 * Get count of items in a category
 	 *
-	 * @param	string	table name of component table (column is catid)
-	 * @param	int		id of the category to check
-	 * @return	mixed	count of items found or false if db error
-	 * @since	1.6
+	 * @param   string	table name of component table (column is catid)
+	 * @param   integer  id of the category to check
+	 * @return  mixed  count of items found or false if db error
+	 * @since   1.6
 	 */
 	private function _countItemsInCategory($table, $catid)
 	{
@@ -187,10 +195,10 @@ class plgContentJoomla extends JPlugin
 	/**
 	 * Get count of items in a category's child categories
 	 *
-	 * @param	string	table name of component table (column is catid)
-	 * @param	int		id of the category to check
-	 * @return	mixed	count of items found or false if db error
-	 * @since	1.6
+	 * @param   string	table name of component table (column is catid)
+	 * @param   integer  id of the category to check
+	 * @return  mixed  count of items found or false if db error
+	 * @since   1.6
 	 */
 	private function _countItemsInChildren($table, $catid, $data)
 	{
@@ -200,7 +208,8 @@ class plgContentJoomla extends JPlugin
 		// First element in tree is the current category, so we can skip that one
 		unset($childCategoryTree[0]);
 		$childCategoryIds = array();
-		foreach ($childCategoryTree as $node) {
+		foreach ($childCategoryTree as $node)
+		{
 			$childCategoryIds[] = $node->id;
 		}
 
@@ -231,5 +240,32 @@ class plgContentJoomla extends JPlugin
 		{
 			return 0;
 		}
+	}
+	/**
+	 * Change the state in core_content if the state in a table is changed
+	 *
+	 * @param   string   $context  The context for the content passed to the plugin.
+	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
+	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function onContentChangeState($context, $pks, $value)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('core_content_id'));
+		$query->from($db->quoteName('#__core_content'));
+		$query->where($db->quoteName('core_type_alias') . ' = ' .$db->quote($context));
+		$query->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) .')');
+		$db->setQuery($query);
+		$ccIds = $db->loadColumn();
+
+		$cctable = new JTableCorecontent($db);
+		$cctable->publish($ccIds, $value);
+
+		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,7 +150,8 @@ else
 					<?php
 					// Display menu modules
 					$this->menumodules = JModuleHelper::getModules('menu');
-					foreach ($this->menumodules as $menumodule) {
+					foreach ($this->menumodules as $menumodule)
+					{
 						$output = JModuleHelper::renderModule($menumodule, array('style' => 'none'));
 						$params = new JRegistry;
 						$params->loadString($menumodule->params);
@@ -213,7 +214,8 @@ else
 			<?php
 			// Display status modules
 			$this->statusmodules = JModuleHelper::getModules('status');
-			foreach ($this->statusmodules as $statusmodule) {
+			foreach ($this->statusmodules as $statusmodule)
+			{
 				$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
 				$params = new JRegistry;
 				$params->loadString($statusmodule->params);
@@ -234,18 +236,22 @@ else
 			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function () {
+			$nav.on('click', function ()
+			{
 				if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
 			})
 
 			$win.on('scroll', processScroll)
 
-			function processScroll() {
+			function processScroll()
+			{
 				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
+				if (scrollTop >= navTop && !isFixed)
+				{
 					isFixed = 1
 					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
+				} else if (scrollTop <= navTop && isFixed)
+				{
 					isFixed = 0
 					$nav.removeClass('subhead-fixed')
 				}

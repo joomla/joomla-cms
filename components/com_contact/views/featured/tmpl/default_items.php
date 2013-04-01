@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -94,14 +94,14 @@ $params = &$this->item->params;
 		<?php endif; ?>
 
 		<tbody>
-			<?php foreach($this->items as $i => $item) : ?>
+			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="<?php echo ($i % 2) ? "odd" : "even"; ?>">
 					<td class="item-num">
 						<?php echo $i; ?>
 					</td>
 
 					<td class="item-title">
-						<?php if ($this->items[$i]->published == 0): ?>
+						<?php if ($this->items[$i]->published == 0) : ?>
 							<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 						<?php endif; ?>
 						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">

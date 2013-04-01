@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -199,7 +199,7 @@ class JFormFieldMedia extends JFormField
 		if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 		{
 			$folder = explode('/', $this->value);
-			array_diff_assoc($folder, explode('/', JComponentHelper::getParams('com_media')->get('image_path', 'images')));
+			$folder = array_diff_assoc($folder, explode('/', JComponentHelper::getParams('com_media')->get('image_path', 'images')));
 			array_pop($folder);
 			$folder = implode('/', $folder);
 		}

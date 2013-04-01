@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $field->label; ?>
-						<?php if (!$field->required && $field->type != 'Spacer'): ?>
+						<?php if (!$field->required && $field->type != 'Spacer') : ?>
 						<span class="optional"><?php echo JText::_('COM_USERS_OPTIONAL'); ?></span>
 						<?php endif; ?>
 					</div>

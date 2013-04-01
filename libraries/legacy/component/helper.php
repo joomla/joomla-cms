@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -397,6 +397,7 @@ class JComponentHelper
 		if (empty(self::$components[$option]))
 		{
 			// Fatal error.
+			$error = JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND');
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
 			return false;
 		}

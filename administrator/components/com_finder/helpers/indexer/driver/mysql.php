@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -143,8 +143,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				. $db->quote($item->publish_end_date) . ', '
 				. $db->quote($item->start_date) . ', '
 				. $db->quote($item->end_date) . ', '
-				. $db->quote($item->list_price) . ', '
-				. $db->quote($item->sale_price)
+				. (double) ($item->list_price ? $item->list_price : 0) . ', '
+				. (double) ($item->sale_price ? $item->sale_price : 0)
 			);
 			$db->setQuery($query);
 			$db->execute();
@@ -170,8 +170,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			$query->set($db->qn('publish_end_date') . ' = ' . $db->quote($item->publish_end_date));
 			$query->set($db->qn('start_date') . ' = ' . $db->quote($item->start_date));
 			$query->set($db->qn('end_date') . ' = ' . $db->quote($item->end_date));
-			$query->set($db->qn('list_price') . ' = ' . $db->quote($item->list_price));
-			$query->set($db->qn('sale_price') . ' = ' . $db->quote($item->sale_price));
+			$query->set($db->qn('list_price') . ' = ' . (double) ($item->list_price ? $item->list_price : 0));
+			$query->set($db->qn('sale_price') . ' = ' . (double) ($item->sale_price ? $item->sale_price : 0));
 			$query->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
@@ -518,7 +518,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   2.5
+	 * @since   3.0
 	 * @throws  Exception on database error.
 	 */
 	public function optimize()
@@ -567,7 +567,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *
-	 * @since   2.5
+	 * @since   3.0
 	 * @throws  Exception on database error.
 	 */
 	protected function addTokensToDB($tokens, $context = '')
@@ -624,7 +624,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   2.5
+	 * @since   3.0
 	 * @throws  Exception on database error.
 	 */
 	protected function toggleTables($memory)

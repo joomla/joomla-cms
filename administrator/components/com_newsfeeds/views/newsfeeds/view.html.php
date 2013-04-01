@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,7 +36,8 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		NewsfeedsHelper::addSubmenu('newsfeeds');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -49,7 +50,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -59,23 +60,29 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
-		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0) {
+		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
+		{
 			JToolbarHelper::addNew('newsfeed.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('newsfeed.edit');
 		}
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::archiveList('newsfeeds.archive');
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::checkin('newsfeeds.checkin');
 			}
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('newsfeeds.trash');
 		}
 		// Add a batch button
@@ -88,7 +95,8 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_newsfeeds');
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
@@ -117,6 +125,12 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JText::_('JOPTION_SELECT_LANGUAGE'),
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
+
+		JHtmlSidebar::addFilter(
+		'-' . JText::_('JSELECT') . ' ' . JText::_('JTAG') . '-',
+		'filter_tag',
+		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
 		);
 	}
 

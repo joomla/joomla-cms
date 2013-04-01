@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,8 +60,6 @@ class JSchemaChangesetTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JSchemaChangeset::__construct
 	 */
 	public function test__construct()
 	{
@@ -72,24 +70,55 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * Tests the getInstance method
+	 * Tests the __construct method with the PostgreSQL driver
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JSchemaChangeset::getInstance
 	 */
-	public function testGetInstance()
+	public function test__constructPostgresql()
+	{
+		$this->db->name = 'postgresql';
+
+		$this->assertThat(
+			new JSchemaChangeset($this->db, null),
+			$this->isInstanceOf('JSchemaChangeset')
+		);
+	}
+
+	/**
+	 * Tests the __construct method with the SQL Server driver
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function test__constructSqlsrv()
+	{
+		$this->db->name = 'sqlsrv';
+
+		$this->assertThat(
+			new JSchemaChangeset($this->db, null),
+			$this->isInstanceOf('JSchemaChangeset')
+		);
+	}
+
+
+	/**
+	 * Tests the getInstance method with the MySQL driver
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function testGetInstanceMysql()
 	{
 		$this->assertThat(
 			JSchemaChangeset::getInstance($this->db, null),
 			$this->isInstanceOf('JSchemaChangeset')
 		);
 	}
-
 	/**
-	 * @covers JSchemaChangeset::check
 	 * @todo   Implement testCheck().
 	 */
 	public function testCheck()
@@ -100,7 +129,6 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeset::fix
 	 * @todo   Implement testFix().
 	 */
 	public function testFix()
@@ -111,7 +139,6 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * @covers JSchemaChangeset::getStatus
 	 * @todo   Implement testGetStatus().
 	 */
 	public function testGetStatus()
@@ -128,8 +155,6 @@ class JSchemaChangesetTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JSchemaChangeset::getSchema
 	 */
 	public function testGetSchema()
 	{

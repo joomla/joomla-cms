@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,9 +21,9 @@ class MenusModelMenus extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array	An optional associative array of configuration settings.
+	 * @param   array  An optional associative array of configuration settings.
 	 *
-	 * @see		JController
+	 * @see     JController
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -165,6 +165,13 @@ class MenusModelMenus extends JModelList
 
 		$query->group('a.id, a.menutype, a.title, a.description');
 
+		// Filter by search in title or menutype
+		if ($search = trim($this->getState('filter.search')))
+		{
+			$search = $db->Quote('%'.$db->escape($search, true).'%');
+			$query->where('('.'a.title LIKE '.$search.' OR a.menutype LIKE '.$search.')');
+		}
+
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.id')).' '.$db->escape($this->getState('list.direction', 'ASC')));
 
@@ -186,6 +193,9 @@ class MenusModelMenus extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');
+
+		$search = $this->getUserStateFromRequest($this->context.'.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
 		// List state information.
 		parent::populateState('a.id', 'asc');

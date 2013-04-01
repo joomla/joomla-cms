@@ -10,21 +10,19 @@
 	</layout>
 
 	<!-- Add fields to the parameters object for the layout. -->
+		<fields name="params">
+		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL">
 
-		<fields name="request">
-			<fieldset name="request">
-				<field name="url" type="text"
-					description="COM_WRAPPER_FIELD_URL_DESC"
-					label="COM_WRAPPER_FIELD_URL_LABEL"
-					size="30"
-					required="true"
-				/>
-			</fieldset>
-		</fields>
+			<field name="url" type="text"
+				description="COM_WRAPPER_FIELD_URL_DESC"
+				label="COM_WRAPPER_FIELD_URL_LABEL"
+				size="30"
+				required="true"
+			/>
+		</fieldset>
 
 		<!-- Add fields to the parameters object for the layout. -->
 
-		<fields name="params">
 		<!-- Scroll. -->
 		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
 

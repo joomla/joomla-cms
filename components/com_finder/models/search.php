@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1102,7 +1102,7 @@ class FinderModelSearch extends JModelList
 		$options['filter'] = $filter->clean($options['filter'], 'int');
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = !is_null($request->get('t')) ? $request->get('t', '', 'array') : $params->get('t');
+		$options['filters'] = !is_null($request->get('t', '', 'array')) ? $request->get('t', '', 'array') : $params->get('t');
 		$options['filters'] = $filter->clean($options['filters'], 'array');
 		JArrayHelper::toInteger($options['filters']);
 
@@ -1142,9 +1142,12 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'l.list_price');
 				break;
 
-			default:
 			case ($order == 'relevance' && !empty($this->includedTerms)):
 				$this->setState('list.ordering', 'm.weight');
+				break;
+
+			default:
+				$this->setState('list.ordering', 'l.link_id');
 				break;
 		}
 

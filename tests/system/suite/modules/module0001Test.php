@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -16,14 +16,14 @@ class Module0001 extends SeleniumJoomlaTestCase
 	function testUnpublishModule()
 	{
 		$this->setUp();
-		echo ("testUnpublishModule"."\n");
+		$this->jPrint ("testUnpublishModule"."\n");
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->gotoSite();
-		echo ("Check that login form is present"."\n");
+		$this->jPrint ("Check that login form is present"."\n");
 		$this->assertTrue($this->isTextPresent("Login Form"));
 		$this->gotoAdmin();
-		echo ("Goto module manager and disable login module"."\n");
+		$this->jPrint("Goto module manager and disable login module"."\n");
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
 
@@ -34,11 +34,11 @@ class Module0001 extends SeleniumJoomlaTestCase
     	$this->click("//div[@id='toolbar-unpublish']/button");
 		$this->waitForPageToLoad("30000");
 
-		echo ("Go back to front end and check that login is not shown"."\n");
+		$this->jPrint("Go back to front end and check that login is not shown"."\n");
 		$this->gotoSite();
 		$this->assertFalse($this->isTextPresent("Login Form"));
 
-		echo ("Go back to module manager and enable login module"."\n");
+		$this->jPrint("Go back to module manager and enable login module"."\n");
 		$this->gotoAdmin();
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
@@ -57,13 +57,13 @@ class Module0001 extends SeleniumJoomlaTestCase
 	function testPublishModule()
 	{
 		$this->setUp();
-		echo ("testPublishModule"."\n");
+		$this->jPrint("testPublishModule"."\n");
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
 
-		echo ("Go to back end and disable login module"."\n");
+		$this->jPrint("Go to back end and disable login module"."\n");
 		$this->type("filter_search", "Login Form");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
@@ -72,10 +72,10 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		$this->gotoSite();
-		echo ("Go to front and check that login form is not shown"."\n");
+		$this->jPrint("Go to front and check that login form is not shown"."\n");
 		$this->assertFalse($this->isTextPresent("Login Form"));
 
-		echo ("Go to module manager and enable login module"."\n");
+		$this->jPrint("Go to module manager and enable login module"."\n");
 		$this->gotoAdmin();
 		$this->click("link=Module Manager");
 		$this->waitForPageToLoad("30000");
@@ -87,7 +87,7 @@ class Module0001 extends SeleniumJoomlaTestCase
     	$this->click("//div[@id='toolbar-publish']/button");
 		$this->waitForPageToLoad("30000");
 
-		echo ("Go to front end and check that login form is present"."\n");
+		$this->jPrint("Go to front end and check that login form is present"."\n");
 		$this->gotoSite();
 		$this->assertTrue($this->isTextPresent("Login Form"));
 

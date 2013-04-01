@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ $canOrder  = $user->authorise('core.edit.state', 'com_banners.category');
 $saveOrder = $listOrder == 'ordering';
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=banners'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -100,7 +100,7 @@ $saveOrder = $listOrder == 'ordering';
 				</th>
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
-					<?php if ($canOrder && $saveOrder): ?>
+					<?php if ($canOrder && $saveOrder) : ?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'banners.saveorder'); ?>
 					<?php endif;?>
 				</th>

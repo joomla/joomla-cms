@@ -18,7 +18,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package		Joomla.Build
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
 
  */
@@ -28,11 +28,11 @@ umask(022);
 
 // Set version for each build
 // Version is first 2 digits (like '1.7', '2.5', or '3.0')
-$version = '3.0';
+$version = '3.1';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '1';
+$release = '0_beta3';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -93,7 +93,7 @@ $filesArray = array(
 		"index.php\n" => true,
 		"LICENSE.txt\n" => true,
 		"README.txt\n" => true,
-		"robots.txt\n" => true,
+		"robots.txt.dist\n" => true,
 		"web.config.txt\n" => true,
 		"joomla.xml\n" => true,
 );
@@ -112,9 +112,9 @@ for($num=$release-1; $num >= 0; $num--) {
 	$files = file('diffdocs/'.$version.'.'.$num);
 
 	// Loop through and add all files except: tests, installation, build, .git, or docs
-	foreach($files AS $file)
+	foreach ($files AS $file)
 	{
-		if(substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file,2,5) != 'build'
+		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file,2,5) != 'build'
 		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' )
 		{
 			// Don't add deleted files to the list
@@ -137,23 +137,30 @@ for($num=$release-1; $num >= 0; $num--) {
 	file_put_contents('diffconvert/'.$version.'.'.$num.'-deleted', $deletedFiles);
 
 	// Only create archives for 0 and most recent versions. Skip other update versions.
-	if ($num != 0 && ($num != $release - 1)) {
+	if ($num != 0 && ($num != $release - 1))
+	{
 		echo "Skipping create archive for version $version.$num\n";
+
 		continue;
 	}
 
+	$fromName = $num == 0 ? 'x' : $num;
 	// Create the diff archive packages using the file name list.
-	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
-	system('tar --create --gzip  --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.tar.gz  --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('tar --create --bzip2 --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.bz2 --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('tar --create --gzip  --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.gz  --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
 
 	chdir(''.$full);
-	system('zip ../packages'.$version.'/Joomla_'.$version.'.'.$num.'_to_'.$full.'-Stable-Patch_Package.zip -@ < ../diffconvert/'.$version.'.'.$num . '> /dev/null');
+	system('zip ../packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.zip -@ < ../diffconvert/'.$version.'.'.$num . '> /dev/null');
 	chdir('..');
 }
 
 // Delete the directories we exclude from the packages (tests, docs, build).
 echo "Delete folders not included in packages.\n";
-system('rm -rf '.$full.'/tests ' . $full.'/docs ' . $full.'.gitignore ' . $full . '/build ' . $full . '/build.xml ');
+$doNotPackage = array('tests', 'docs', '.gitignore', 'build', 'build.xml', 'phpunit.xml.dist', 'README.md', 'CONTRIBUTING.md');
+foreach ($doNotPackage as $removeFile)
+{
+	system('rm -rf ' . $full . '/' . $removeFile);
+}
 
 // Recreate empty directories before creating new archives.
 system('mkdir packages_full'.$full);

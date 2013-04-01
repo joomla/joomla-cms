@@ -44,7 +44,7 @@ function init() {
 }
 
 function setFormValue(name, value) {
-	if(value && document.forms[0].elements[name]){
+	if (value && document.forms[0].elements[name]){
 		document.forms[0].elements[name].value = value;
 	}
 }
