@@ -197,10 +197,9 @@ endif; ?>
     <?php if ($attribs->{'show_attachments'} == '1') : ?>
         <?php if(isset($this->item->attachments) AND (!empty($this->item->attachments))) : ?>
             <?php  
-                // por el momento solo tenemos un archivo;
-                $file = json_decode($this->item->attachments);
-                // Extraigo el el nombre de archivo
-                $fileName = end(explode("/", $file->{"attach"}));
+                // obtengo los archivos de los adjuntos;
+                $files = json_decode($this->item->attachments);
+
             ?>
             <div id="attachments">
                 <table class="table">
@@ -211,12 +210,19 @@ endif; ?>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                        <td><?php echo $fileName; ?></td>
-                            <td>
-                            <a class="btn btn-small" href="<?php echo $file->{"attach"} ?>"><i class="icon-download"></i>PDF</a>
-                            </td> 
-                        </tr>
+                        <?php
+                            foreach ($files as $file) : 
+                                // Extraigo el el nombre de archivo
+                                $fileName = end(explode("/", $file));
+                                // Extraigo la extensión
+                                $fileExtension = strtoupper(end(explode(".", $file)));
+                                ?>
+                                <tr>
+                                    <td><?php echo $fileName ?></td>
+                                    <td><a class="btn btn-small" href="<?php echo $file ?>"><i class="icon-download"></i><?php echo $fileExtension ?></a></td>
+                                </tr>
+                            <?php endforeach; 
+                        ?>
                     </tbody>
                 </table>
             </div>

@@ -809,13 +809,26 @@
         <!-- Campos para agregar attachments -->
         <fields name="attachments">
             <field
-                name="attach"
+                name="attacha"
                 type="media"
-                directory="documents"
-                fileType="document"
-                label="COM_CONTENT_FIELD_ATTACHMENT_LABEL"
-                description="COM_CONTENT_FIELD_ATTACHMENT_DESC" />
 
+                fileType="document"
+                label="COM_CONTENT_FIELD_ATTACHMENTA_LABEL"
+                description="COM_CONTENT_FIELD_ATTACHMENTA_DESC" />
+
+            <field
+                name="attachb"
+                type="media"
+                fileType="document"
+                label="COM_CONTENT_FIELD_ATTACHMENTB_LABEL"
+                description="COM_CONTENT_FIELD_ATTACHMENTB_DESC" />
+            
+            <field
+                name="attachc"
+                type="media"
+                fileType="document"
+                label="COM_CONTENT_FIELD_ATTACHMENTC_LABEL"
+                description="COM_CONTENT_FIELD_ATTACHMENTC_DESC" />
         </fields>
 
 		<fields name="metadata">
