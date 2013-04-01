@@ -521,7 +521,7 @@ class JHelperTags
 			$query->where($db->qn('core_language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
 		}
 
-		$contentTypes = new JTags;
+		$contentTypes = new JHelperTags;
 
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = $contentTypes->getTypes('assocList', $typesr, false);
