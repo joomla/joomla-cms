@@ -147,7 +147,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function batch($commands, $pks, $contexts)
 	{
-		// Sanitize user ids.
+		// Sanitize ids.
 		$pks = array_unique($pks);
 		JArrayHelper::toInteger($pks);
 
@@ -258,12 +258,14 @@ abstract class JModelAdmin extends JModelForm
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 			}
 			else
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
 				return false;
 			}
 		}
@@ -1142,7 +1144,9 @@ abstract class JModelAdmin extends JModelForm
 			// This is needed not to have warning in tagItem method.
 			$item->params = new JRegistry($item->params);
 			$context = explode('.', $contexts[$pk]);
-			$tagsHelper->tagItem($pk, $context[0] . '.' . $context[1], false, $item, array($value), null);
+
+			// In batch we will default to not replacing old tags
+			$tagsHelper->tagItem($pk, $context[0] . '.' . $context[1], false, $item, array($value), null, false);
 		}
 		return true;
 	}
