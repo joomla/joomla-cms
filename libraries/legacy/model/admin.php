@@ -490,7 +490,7 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		// Parent exists so we let's proceed
+		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
 			if (!$user->authorise('core.edit', $contexts[$pk]))
@@ -1134,7 +1134,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchTag($value, $pks, $contexts)
 	{
-		$tagsHelper = new JTags;
+		$tagsHelper = new JHelperTags;
 		foreach ($pks as $pk)
 		{
 			$item = $this->getItem($pk);

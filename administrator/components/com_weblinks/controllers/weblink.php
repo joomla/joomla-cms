@@ -140,7 +140,7 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		if (empty($validData['tags']) && !empty($item->tags))
 		{
-			$oldTags = new JTags;
+			$oldTags = new JHelperTags;
 			$oldTags->unTagItem($id, 'com_weblinks.weblink');
 			return;
 		}
@@ -150,7 +150,7 @@ class WeblinksControllerWeblink extends JControllerForm
 		// Store the tag data if the weblink data was saved.
 		if ($tags[0] != '')
 		{
-			$tagsHelper = new JTags;
+			$tagsHelper = new JHelperTags;
 			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $isNew, $item, $tags, null);
 		}
 

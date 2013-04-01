@@ -10,7 +10,7 @@
 /**
  * Test class for JTags.
  */
-class JTagsTest extends PHPUnit_Framework_TestCase
+class JHelperTagsTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JTags
