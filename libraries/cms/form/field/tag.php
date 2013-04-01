@@ -153,7 +153,7 @@ class JFormFieldTag extends JFormFieldList
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published')
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
 			->order('a.lft ASC');
 
 		// Get the options.
