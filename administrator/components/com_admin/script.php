@@ -94,6 +94,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_config', '', 1);
 		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
+		$extensions[] = array('component', 'com_tags', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -126,6 +127,8 @@ class JoomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
 		$extensions[] = array('module', 'mod_articles_categories', '', 0);
 		$extensions[] = array('module', 'mod_languages', '', 0);
+		$extensions[] = array('module', 'mod_tags_popular', '', 0);
+		$extensions[] = array('module', 'mod_tags_similar', '', 0);
 
 		// Administrator
 		$extensions[] = array('module', 'mod_custom', '', 1);
@@ -148,7 +151,6 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
 		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
 		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
-		$extensions[] = array('plugin', 'geshi', 'content', 0);
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
 		$extensions[] = array('plugin', 'pagenavigation', 'content', 0);
@@ -183,6 +185,12 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
+		$extensions[] = array('plugin', 'categories', 'finder', 0);
+		$extensions[] = array('plugin', 'contacts', 'finder', 0);
+		$extensions[] = array('plugin', 'content', 'finder', 0);
+		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
+		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
+		$extensions[] = array('plugin', 'tags', 'finder', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -543,6 +551,23 @@ class JoomlaInstallerScript
 			'/libraries/joomla/form/rules/tel.php',
 			'/libraries/joomla/form/rules/url.php',
 			'/libraries/joomla/form/rules/username.php',
+			'/libraries/joomla/installer/adapters/component.php',
+			'/libraries/joomla/installer/adapters/file.php',
+			'/libraries/joomla/installer/adapters/index.html',
+			'/libraries/joomla/installer/adapters/language.php',
+			'/libraries/joomla/installer/adapters/library.php',
+			'/libraries/joomla/installer/adapters/module.php',
+			'/libraries/joomla/installer/adapters/package.php',
+			'/libraries/joomla/installer/adapters/plugin.php',
+			'/libraries/joomla/installer/adapters/template.php',
+			'/libraries/joomla/installer/extension.php',
+			'/libraries/joomla/installer/helper.php',
+			'/libraries/joomla/installer/index.html',
+			'/libraries/joomla/installer/librarymanifest.php',
+			'/libraries/joomla/installer/packagemanifest.php',
+			'/media/system/css/mooRainbow.css',
+			'/media/system/js/mooRainbow-uncompressed.js',
+			'/media/system/js/mooRainbow.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -581,6 +606,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/log/loggers',
 			// Joomla! 3.1
 			'/libraries/joomla/form/rules',
+			'/libraries/joomla/installer/adapters',
+			'/libraries/joomla/installer',
 		);
 
 		jimport('joomla.filesystem.file');

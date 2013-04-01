@@ -156,6 +156,7 @@ class ContactModelCategory extends JModelList
 
 		// Filter by state
 		$state = $this->getState('filter.published');
+
 		if (is_numeric($state))
 		{
 			$query->where('a.published = '.(int) $state);
@@ -310,6 +311,8 @@ class ContactModelCategory extends JModelList
 				$this->_parent = false;
 			}
 		}
+		$this->tags = new JTags;
+		$this->tags->getItemTags('com_contact.category', $this->_item->get('id'));
 
 		return $this->_item;
 	}

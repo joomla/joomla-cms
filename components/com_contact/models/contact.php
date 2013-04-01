@@ -91,12 +91,17 @@ class ContactModelContact extends JModelForm
 	protected function loadFormData()
 	{
 		$data = (array) JFactory::getApplication()->getUserState('com_contact.contact.data', array());
+
+		$this->preprocessData('com_contact.contact', $data);
+
 		return $data;
 	}
 
 	/**
-	 * Gets a list of contacts
-	 * @param array
+	 * Gets a contact
+	 *
+	 * @param integer $pk  Id for the contact
+	 *
 	 * @return mixed Object or null
 	 */
 	public function &getItem($pk = null)
@@ -183,6 +188,9 @@ class ContactModelContact extends JModelForm
 				$registry = new JRegistry;
 				$registry->loadString($data->metadata);
 				$data->metadata = $registry;
+
+				$data->tags = new JTags;
+				$data->tags->getItemTags('com_contact.contact', $data->id);
 
 				// Compute access permissions.
 				if ($access = $this->getState('filter.access')) {

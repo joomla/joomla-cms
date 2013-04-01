@@ -112,7 +112,8 @@ class WeblinksTableWeblink extends JTable
 			$this->setError(JText::_('COM_WEBLINKS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}
-		// Attempt to store the user data.
+
+		// Attempt to store the data.
 		return parent::store($updateNulls);
 	}
 

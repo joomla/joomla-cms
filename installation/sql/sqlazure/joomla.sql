@@ -389,7 +389,7 @@ CREATE TABLE [#__contact_details](
 	[misc] [nvarchar](max) NULL DEFAULT NULL,
 	[image] [nvarchar](255) NULL DEFAULT NULL,
 	[email_to] [nvarchar](255) NULL DEFAULT NULL,
-	[default_con] [int] NOT NULL DEFAULT '0', 
+	[default_con] [int] NOT NULL DEFAULT '0',
 	[published] [int] NOT NULL ,
 	[checked_out] [int] NOT NULL,
 	[checked_out_time] [datetime] NOT NULL DEFAULT '1900-01-01T00:00:00.000',
@@ -796,8 +796,6 @@ SELECT 402, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0,
 UNION ALL
 SELECT 404, 'plg_content_emailcloak', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, '', '{"mode":"1"}', '', '', 0, '1900-01-01 00:00:00', 1, 0
 UNION ALL
-SELECT 405, 'plg_content_geshi', 'plugin', 'geshi', 'content', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 2, 0
-UNION ALL
 SELECT 406, 'plg_content_loadmodule', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '{"name":"plg_content_loadmodule","type":"plugin","creationDate":"November 2005","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2011 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"1.7.0","description":"PLG_LOADMODULE_XML_DESCRIPTION","group":""}', '{"style":"xhtml"}', '', '', 0, '2011-09-18 15:22:50', 0, 0
 UNION ALL
 SELECT 407, 'plg_content_pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 1, 0, '', '{"title":"1","multipage_toc":"1","showall":"1"}', '', '', 0, '1900-01-01 00:00:00', 4, 0
@@ -840,7 +838,7 @@ SELECT 425, 'plg_system_debug', 'plugin', 'debug', 'system', 0, 1, 1, 0, '', '{"
 UNION ALL
 SELECT 426, 'plg_system_log', 'plugin', 'log', 'system', 0, 1, 1, 1, '', '{}', '', '', 0, '1900-01-01 00:00:00', 5, 0
 UNION ALL
-SELECT 427, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 1, 1, 1, '', '{}', '', '', 0, '1900-01-01 00:00:00', 6, 0
+SELECT 427, 'plg_system_redirect', 'plugin', 'redirect', 'system', 0, 0, 1, 1, '', '{}', '', '', 0, '1900-01-01 00:00:00', 6, 0
 UNION ALL
 SELECT 428, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '{}', '', '', 0, '1900-01-01 00:00:00', 7, 0
 UNION ALL
@@ -881,8 +879,6 @@ UNION ALL
 SELECT 446, 'plg_finder_weblinks', 'plugin', 'weblinks', 'finder', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 5, 0;
 
 INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
-SELECT 500, 'atomic', 'template', 'atomic', '', 0, 1, 1, 0, '{"name":"atomic","type":"template","creationDate":"10\/10\/09","author":"Ron Severdia","copyright":"Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.","authorEmail":"contact@kontentdesign.com","authorUrl":"http:\/\/www.kontentdesign.com","version":"2.5.0","description":"TPL_ATOMIC_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0
-UNION ALL
 SELECT 503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '{"name":"beez3","type":"template","creationDate":"25 November 2009","author":"Angie Radtke","copyright":"Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.","authorEmail":"a.radtke@derauftritt.de","authorUrl":"http:\/\/www.der-auftritt.de","version":"2.5.0","description":"TPL_BEEZ3_XML_DESCRIPTION","group":""}', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 504, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '{"name":"hathor","type":"template","creationDate":"May 2010","author":"Andrea Tarr","copyright":"Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.","authorEmail":"hathor@tarrconsulting.com","authorUrl":"http:\/\/www.tarrconsulting.com","version":"2.5.0","description":"TPL_HATHOR_XML_DESCRIPTION","group":""}', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -897,10 +893,7 @@ UNION ALL
 SELECT 601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
-VALUES (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '{"name":"files_joomla","type":"file","creationDate":"February 2013","author":"Joomla!","copyright":"(C) 2005 - 2013 Open Source Matters. All rights reserved","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.0.3","description":"FILES_JOOMLA_XML_DESCRIPTION","group":""}', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
-
-INSERT INTO #__extensions (extension_id, name,type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
-(800, 'joomla', 'package', 'pkg_joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
+VALUES (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '{"name":"files_joomla","type":"file","creationDate":"March 2013","author":"Joomla!","copyright":"(C) 2005 - 2013 Open Source Matters. All rights reserved","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.1.0","description":"FILES_JOOMLA_XML_DESCRIPTION","group":""}', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
 
 SET IDENTITY_INSERT #__extensions  OFF;
 
@@ -1486,7 +1479,7 @@ CREATE TABLE [#__finder_terms](
 	[stem] [nvarchar](75) NOT NULL,
 	[common] [tinyint] NOT NULL DEFAULT '0',
 	[phrase] [tinyint] NOT NULL DEFAULT '0',
-	[weight] [real] NOT NULL DEFAULT '0', 
+	[weight] [real] NOT NULL DEFAULT '0',
 	[soundex] [nvarchar](75) NOT NULL,
 	[links] [int] NOT NULL DEFAULT '0',
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
@@ -1684,14 +1677,14 @@ CREATE NONCLUSTERED INDEX [idx_word] ON [#__finder_tokens]
 SET QUOTED_IDENTIFIER ON;
 
 CREATE TABLE [#__finder_tokens_aggregate](
-	[term_id] [bigint] NOT NULL,
-	[map_suffix] [nchar](1) NOT NULL,
+	[term_id] [bigint] NULL,
+	[map_suffix] [nchar](1) NULL,
 	[term] [nvarchar](75) NOT NULL,
 	[stem] [nvarchar](75) NOT NULL,
 	[common] [tinyint] NOT NULL DEFAULT '0',
 	[phrase] [tinyint] NOT NULL DEFAULT '0',
 	[term_weight] [real] NOT NULL,
-	[context] [tinyint] NOT NULL DEFAULT '2', 
+	[context] [tinyint] NOT NULL DEFAULT '2',
 	[context_weight] [real] NOT NULL,
 	[total_weight] [real] NOT NULL,
 	[language] [nvarchar](3) NOT NULL DEFAULT ''
@@ -2302,7 +2295,6 @@ CREATE NONCLUSTERED INDEX [idx_template] ON [#__template_styles]
 
 SET IDENTITY_INSERT #__template_styles ON;
 
-INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (3, 'atomic', '0', '0', 'Atomic - Default', '{}');
 INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (4, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');
 INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (5, 'hathor', '1', '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
 INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (7, 'protostar', 0, 1, 'Protostar - Default Site', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}');
@@ -2675,5 +2667,4 @@ CREATE NONCLUSTERED INDEX [idx_xreference] ON [#__weblinks]
 (
 	[xreference] ASC
 )WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
-
 

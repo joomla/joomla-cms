@@ -586,7 +586,11 @@ class MenusModelItem extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		return array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+		$data = array_merge((array) $this->getItem(), (array) JFactory::getApplication()->getUserState('com_menus.edit.item.data', array()));
+
+		$this->preprocessData('com_menus.item', $data);
+
+		return $data;
 	}
 
 	/**
@@ -976,17 +980,31 @@ class MenusModelItem extends JModelAdmin
 
 			// Get the help data from the XML file if present.
 			$help = $xml->xpath('/metadata/layout/help');
-			if (!empty($help))
-			{
-				$helpKey = trim((string) $help[0]['key']);
-				$helpURL = trim((string) $help[0]['url']);
-				$helpLoc = trim((string) $help[0]['local']);
+		}
+		else
+		{
+			// We don't have a component. Load the form XML to get the help path
+			$xmlFile = JPath::find(JPATH_ROOT . '/administrator/components/com_menus/models/forms', 'item_' . $type . '.xml');
 
-				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
-				$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
+			// Attempt to load the xml file.
+			if ($xmlFile && !$xml = simplexml_load_file($xmlFile))
+			{
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 
+			// Get the help data from the XML file if present.
+			$help = $xml->xpath('/form/help');
+		}
+
+		if (!empty($help))
+		{
+			$helpKey = trim((string) $help[0]['key']);
+			$helpURL = trim((string) $help[0]['url']);
+			$helpLoc = trim((string) $help[0]['local']);
+
+			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
+			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
+			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 		}
 
 		// Now load the component params.
@@ -1190,9 +1208,10 @@ class MenusModelItem extends JModelAdmin
 		// Alter the title & alias for save as copy.  Also, unset the home record.
 		if (!$isNew && $data['id'] == 0){
 			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-			$table->title	= $title;
-			$table->alias	= $alias;
-			$table->home	= 0;
+			$table->title		= $title;
+			$table->alias		= $alias;
+			$table->published	= 0;
+			$table->home		= 0;
 		}
 
 		// Check the data.

@@ -132,7 +132,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		 * This segment of code sets up the autocompleter.
 		 */
 		<?php if ($params->get('show_autosuggest', 1)) : ?>
-			<?php JHtml::script('com_finder/autocompleter.js', false, true); ?>
+			<?php JHtml::_('script', 'com_finder/autocompleter.js', false, true); ?>
 			var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
 			var ModCompleter = new Autocompleter.Request.JSON(document.id('mod-finder-searchword'), url, {'postVar': 'q'});
 		<?php endif; ?>

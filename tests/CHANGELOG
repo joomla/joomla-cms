@@ -26,6 +26,30 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Mar-2013 Michael Babker
+ +# Test JTableCorecontent, fix bugs found in class
+
+29-Mar-2013 Mark Dexter
+ # Fix failing system tests.
+ # More system test fixes, fix CHANGELOG typo.
+
+26-Mar-2013 Mark Dexter
+ # Fix failing system tests due to login markup change, Tags menu item change
+
+26-Mar-2013 Michael Babker
+ +# Expand Schema test coverage
+
+25-Mar-2013 Michael Babker
+ +# Test JTableContenttype, fix bugs found in class
+ +# Start testing JTags
+
+05-Mar-2013 Mark Dexter
+ # Fix system tests for tags component and modules
+
+03-Mar-2013 Michael Babker
+ + Add tests for FinderIndexerToken, JHtmlBootstrap, and JHtmlJquery
+ + Add tests for JFormField and JHtml instances
+
 27-Feb-2013 Mark Dexter
  # Fix failing system change from markup change in [#30157] *Bootstrapping tabs in administration (big patch)
 

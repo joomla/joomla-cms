@@ -37,10 +37,18 @@
 			class="inputbox" required="true"
 		>
 		</field>
+
+		<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox span12 small" multiple="true"
+		>
+		</field>
+
 		<field
 			name="buttonspacer"
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 			type="spacer" />
+
 		<field name="created" type="calendar" label="COM_CONTENT_FIELD_CREATED_LABEL"
 			description="COM_CONTENT_FIELD_CREATED_DESC" class="inputbox" size="22"
 			format="%Y-%m-%d %H:%M:%S" filter="user_utc" labelclass="control-label" />
@@ -148,6 +156,17 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option	value="0">JNO</option>
 				<option value="1">JYES</option>
+			</field>
+
+			<field name="show_tags" type="radio"
+				class="btn-group"
+				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
+				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
+				labelclass="control-label"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_intro"

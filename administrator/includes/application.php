@@ -283,10 +283,17 @@ class JAdministrator extends JApplication
 
 			if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 			{
+				$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
 				$template->params = new JRegistry;
 				$template->template = 'isis';
 			}
 		}
+
+		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
+		{
+			throw new InvalidArgumentException(JText::sprintf('JERROR_COULD_NOT_FIND_TEMPLATE', $template->template));
+		}
+
 		if ($params)
 		{
 			return $template;

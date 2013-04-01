@@ -59,4 +59,15 @@ class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 		// Close the application
 		JFactory::getApplication()->close();
 	}
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
+		// If an item has been tagged we need to untag it and delete it from #__core_content.
+		$task = $this->getTask();
+
+		$item = $model->getItem();
+
+		$tags = new JTags;
+		$tags->deleteTagData($ids, 'com_newsfeeds.newsfeed');
+
+	}
 }

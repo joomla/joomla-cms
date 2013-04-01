@@ -178,6 +178,13 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$result->modified_time = null;
 			}
+
+			if (!empty($result->id))
+			{
+				$db = JFactory::getDbo();
+				$result->tags = new JTags;
+				$result->tags->getTagIds($result->id, $result->extension . '.category');
+			}
 		}
 
 		$app = JFactory::getApplication();
@@ -283,6 +290,8 @@ class CategoriesModelCategory extends JModelAdmin
 		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_categories.category', $data);
 
 		return $data;
 	}
@@ -440,8 +449,9 @@ class CategoriesModelCategory extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-			$data['title'] = $title;
-			$data['alias'] = $alias;
+			$data['title']		= $title;
+			$data['alias']		= $alias;
+			$data['published']	= 0;
 		}
 
 		// Bind the data.

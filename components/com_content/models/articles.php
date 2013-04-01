@@ -96,7 +96,7 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.published', 1);
 		}
 
-		$this->setState('filter.language', $app->getLanguageFilter());
+		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// process show_noauth parameter
 		if (!$params->get('show_noauth'))
@@ -615,20 +615,28 @@ class ContentModelArticles extends JModelList
 				// If the access filter has been set, we already have only the articles this user can view.
 				$item->params->set('access-view', true);
 			}
-			else {
+			else
+			{
 				// If no access filter is set, the layout takes some responsibility for display of limited information.
 				if ($item->catid == 0 || $item->category_access === null)
 				{
 					$item->params->set('access-view', in_array($item->access, $groups));
 				}
-				else {
+				else
+				{
 					$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
 				}
 			}
+
+			// Get the tags
+			$item->tags = new JTags;
+			$item->tags->getItemTags('com_content.article', $item->id);
+
 		}
 
 		return $items;
 	}
+
 	public function getStart()
 	{
 		return $this->getState('list.start');

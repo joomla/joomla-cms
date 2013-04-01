@@ -158,7 +158,7 @@ if ($params->get('show_title')) : ?>
 	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 
-	<div class="img-fulltext-"<?php echo htmlspecialchars($imgfloat); ?>">
+	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):
 			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
@@ -172,6 +172,13 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item
 endif;
 ?>
 	<?php echo $this->item->text; ?>
+
+<?php // TAGS ?>
+<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+	<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+	<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+<?php endif; ?>
+
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
 	echo $this->item->pagination;?>

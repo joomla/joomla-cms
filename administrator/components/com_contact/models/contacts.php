@@ -105,6 +105,9 @@ class ContactModelContacts extends JModelList
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
 
+		$tag = $this->getUserStateFromRequest($this->context.'.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
+
 		// List state information.
 		parent::populateState('a.name', 'asc');
 	}
@@ -248,6 +251,18 @@ class ContactModelContacts extends JModelList
 		if ($language = $this->getState('filter.language'))
 		{
 			$query->where('a.language = '.$db->quote($language));
+		}
+
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+		if (is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+			$query->join(
+				'LEFT',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap') . ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' .  $db->quoteName('a.id')
+				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_contact.contact')
+			);
 		}
 
 		// Add the list ordering clause.

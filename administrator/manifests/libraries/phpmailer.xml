@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<extension type="library" version="3.0">
+<extension type="library" version="3.1">
 	<name>PHPMailer</name>
 	<libraryname>phpmailer</libraryname>
-	<version>5.2.1</version>
+	<version>5.2.3</version>
 	<description>LIB_PHPMAILER_XML_DESCRIPTION</description>
 	<creationDate>2001</creationDate>
-	<copyright>(c) 2001-2003, Brent R. Matzelle, (c) 2004-2009, Andy Prevost. All Rights Reserved., (c) 2010-2012, Jim Jagielski. All Rights Reserved.</copyright>
+	<copyright>(c) 2001-2003, Brent R. Matzelle, (c) 2004-2009, Andy Prevost. All Rights Reserved., (c) 2010-2013, Jim Jagielski. All Rights Reserved.</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
 	<author>PHPMailer</author>
 	<authorEmail>jimjag@gmail.com</authorEmail>

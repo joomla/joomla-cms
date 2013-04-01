@@ -71,6 +71,8 @@ class MessagesModelConfig extends JModelForm
 			$item->set($row->cfg_name, $row->cfg_value);
 		}
 
+		$this->preprocessData('com_messages.config', $item);
+
 		return $item;
 	}
 

@@ -23,7 +23,6 @@
  <exclude-pattern>libraries/phpmailer/phpmailer.php</exclude-pattern>
  <exclude-pattern>libraries/phpmailer/smtp.php</exclude-pattern>
  <exclude-pattern>libraries/phpmailer/pop3.php</exclude-pattern>
- <exclude-pattern>*/geshi/*</exclude-pattern>
  <exclude-pattern>*/mootree*.css</exclude-pattern>
  <exclude-pattern>*/mooRainbow.css</exclude-pattern>
  <exclude-pattern>*/modal.css</exclude-pattern>
@@ -42,16 +41,18 @@
 
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength">
-  <!-- We only want this for cli for now -->
+	 <!-- These exceptions are temporary -->
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/libraries/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
+  <exclude-pattern>/includes/*</exclude-pattern>
+  <!-- These exceptions are permanent -->
+  <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/includes/*</exclude-pattern>
+  <exclude-pattern>/installation/template/index.php</exclude-pattern>
  </rule>
  <rule ref="Zend.Files.ClosingTag">
   <exclude-pattern>*/tmpl/*</exclude-pattern>
@@ -76,7 +77,10 @@
   <exclude-pattern>/libraries/cms/*</exclude-pattern>
  </rule>
 
- <rule ref="PEAR.NamingConventions.ValidClassName"/>
+ <rule ref="PEAR.NamingConventions.ValidClassName">
+  <!-- These exceptions are temporary for now -->
+  <exclude-pattern>/installation/controller/install/database_*</exclude-pattern>
+ </rule>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 
  <rule ref="Generic.PHP.DisallowShortOpenTag"/>
@@ -84,6 +88,7 @@
  <rule ref="Generic.PHP.ForbiddenFunctions"/>
 
  <rule ref="Squiz.Operators.IncrementDecrementUsage">
+  <exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment"/>
   <!-- These exceptions are temporary -->
   <exclude-pattern>/administrator/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
@@ -99,6 +104,7 @@
   <exclude-pattern>/modules/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/layouts/*</exclude-pattern>
+  <exclude-pattern>*/tmpl/*</exclude-pattern>
  </rule>
 
  <!-- Lines can be 85 chars long, but never show errors -->
@@ -128,7 +134,6 @@
   <exclude-pattern>/administrator/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.FunctionComment">
@@ -137,7 +142,6 @@
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
@@ -149,7 +153,6 @@
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
@@ -169,7 +172,6 @@
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
   <exclude-pattern>/layouts/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
@@ -181,7 +183,6 @@
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
   <exclude-pattern>/includes/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern>*/tmpl/*</exclude-pattern>
@@ -194,7 +195,6 @@
   <!-- These exceptions are temporary -->
   <exclude-pattern>/administrator/components/*</exclude-pattern>
   <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>
@@ -208,7 +208,6 @@
   <exclude-pattern>/components/*</exclude-pattern>
   <exclude-pattern>/plugins/*</exclude-pattern>
   <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/installation/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern>*/tmpl/*</exclude-pattern>
   <exclude-pattern>/templates/*</exclude-pattern>

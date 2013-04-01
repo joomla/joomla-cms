@@ -113,8 +113,8 @@ abstract class JHtmlFilter
 		// Load the CSS/JS resources.
 		if ($loadMedia)
 		{
-			JHtml::stylesheet('com_finder/sliderfilter.css', false, true, false);
-			JHtml::script('com_finder/sliderfilter.js', false, true);
+			JHtml::_('stylesheet', 'com_finder/sliderfilter.css', false, true, false);
+			JHtml::_('script', 'com_finder/sliderfilter.js', false, true);
 		}
 
 		// Load plug-in language files.

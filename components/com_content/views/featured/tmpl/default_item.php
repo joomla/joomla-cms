@@ -144,7 +144,11 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?> <?php echo $this->item->introtext; ?>
+<?php echo $this->item->event->beforeDisplayContent; ?>
+
+<?php if ($params->get('show_intro')) : ?>
+<?php echo $this->item->introtext; ?>
+<?php endif; ?>
 
 <?php if ($useDefList && ($info == 1 ||  $info == 2)) : ?>
 	<dl class="article-info muted">
@@ -217,6 +221,12 @@ $info    = $this->item->params->get('info_block_position', 0);
 			</dd>
 		<?php endif; ?>
 	</dl>
+
+	<?php if ($this->params->get('show_tags', 1)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+	<?php endif; ?>
+
 <?php endif; ?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :

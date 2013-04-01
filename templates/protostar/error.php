@@ -59,6 +59,16 @@ else
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="language" content="<?php echo $this->language; ?>" />
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+
+	<?php
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if (JDEBUG || $debug)
+		{
+	?>
+		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />
+	<?php
+		}
+	?>
 	<?php
 	// If Right-to-Left
 	if ($this->direction == 'rtl')

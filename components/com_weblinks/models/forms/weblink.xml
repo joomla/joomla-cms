@@ -2,11 +2,11 @@
 <form>
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id" type="hidden"
-			default="0"
 			label="WEBLINK_ID_LABEL"
 			readonly="true"
 			required="true"
 			size="10"
+			default="0"
 		/>
 
 		<field name="title" type="text"
@@ -53,6 +53,11 @@
 			label="COM_WEBLINKS_FIELD_URL_LABEL"
 			required="true"
 			size="45"
+		/>
+
+		<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox" multiple="true"
 		/>
 
 		<field

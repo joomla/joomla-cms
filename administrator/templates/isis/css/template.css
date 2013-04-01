@@ -6456,6 +6456,10 @@ h6 {
 		display: none;
 	}
 }
+.nav-collapse .nav li a,
+.dropdown-menu a {
+	background-image: none;
+}
 @media (max-width: 738px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -6590,4 +6594,7 @@ ul.treeselect ul.dropdown-menu {
 ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
+}
+td.has-context {
+	height: 23px;
 }
