@@ -93,7 +93,7 @@ class JHelperRoute
 		// Deal with languages only if needed
 		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
 		{
-			$db		= JFactory::getDBO();
+			$db		= JFactory::getDbo();
 			$query	= $db->getQuery(true)
 				->select('a.sef AS sef')
 				->select('a.lang_code AS lang_code')

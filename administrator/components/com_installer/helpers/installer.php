@@ -98,7 +98,7 @@ class InstallerHelper
 	 */
 	public static function getExtensionGroupes()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT folder')
 			->from('#__extensions')

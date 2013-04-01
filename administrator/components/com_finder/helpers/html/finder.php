@@ -32,7 +32,7 @@ abstract class JHtmlFinder
 		$lang = JFactory::getLanguage();
 
 		// Load the finder types.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT t.title AS text, t.id AS value')
 			->from($db->quoteName('#__finder_types') . ' AS t')
@@ -75,7 +75,7 @@ abstract class JHtmlFinder
 		$lang = JFactory::getLanguage();
 
 		// Load the finder types.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('title AS text, id AS value')
 			->from($db->quoteName('#__finder_taxonomy'))

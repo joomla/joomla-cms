@@ -170,7 +170,7 @@ class PlgUserJoomla extends JPlugin
 		$session = JFactory::getSession();
 		$session->set('user', $instance);
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Check to see the the session already exists.
 		$app = JFactory::getApplication();
@@ -224,7 +224,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Force logout all users with that userid
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__session'))
 			->where($db->quoteName('userid') . ' = ' . (int) $user['id'])

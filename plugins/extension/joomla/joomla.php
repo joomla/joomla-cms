@@ -52,7 +52,7 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
 		$query = $db->getQuery(true)
@@ -139,7 +139,7 @@ class PlgExtensionJoomla extends JPlugin
 		if ($eid)
 		{
 			// Wipe out any update_sites_extensions links
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__update_sites_extensions')
 				->where('extension_id = ' . $eid);

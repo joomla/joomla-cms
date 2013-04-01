@@ -43,7 +43,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -457,7 +457,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	 */
 	public function remove($linkId)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Update the link counts and remove the mapping records.
@@ -513,7 +513,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -542,7 +542,7 @@ class FinderIndexerDriverSqlsrv extends FinderIndexer
 	protected function addTokensToDB($tokens, $context = '')
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Force tokens to an array.

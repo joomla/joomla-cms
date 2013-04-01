@@ -954,7 +954,7 @@ abstract class JTable extends JObject
 			return false;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$db->setQuery('SELECT COUNT(userid) FROM ' . $db->quoteName('#__session') . ' WHERE ' . $db->quoteName('userid') . ' = ' . (int) $against);
 		$checkedOut = (boolean) $db->loadResult();
 

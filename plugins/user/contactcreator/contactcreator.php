@@ -56,7 +56,7 @@ class PlgUserContactCreator extends JPlugin
 			return false; // bail out if we don't have a category
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		// grab the contact ID for this user; note $user_id is cleaned above
 		$db->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
 		$id = $db->loadResult();

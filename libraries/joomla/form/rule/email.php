@@ -95,7 +95,7 @@ class JFormRuleEmail extends JFormRule
 		{
 
 			// Get the database object and a new query object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.

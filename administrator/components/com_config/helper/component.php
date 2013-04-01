@@ -27,7 +27,7 @@ class ConfigHelperComponent
 	 */
 	public static function getAllComponents()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('element')
 			->from('#__extensions')

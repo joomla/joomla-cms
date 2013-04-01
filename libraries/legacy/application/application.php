@@ -969,7 +969,7 @@ class JApplication extends JApplicationBase
 
 		// TODO: At some point we need to get away from having session data always in the db.
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Remove expired sessions from the database.
 		$time = time();
@@ -1008,7 +1008,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function checkSession()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$session = JFactory::getSession();
 		$user = JFactory::getUser();
 

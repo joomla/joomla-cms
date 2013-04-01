@@ -38,7 +38,7 @@ class JLanguageHelper
 		$langs = JLanguage::getKnownLanguages($basePath);
 		if ($installed)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('element')
 				->from('#__extensions')
@@ -148,7 +148,7 @@ class JLanguageHelper
 				$cache = JFactory::getCache('com_languages', '');
 				if (!$languages = $cache->get('languages'))
 				{
-					$db = JFactory::getDBO();
+					$db = JFactory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
 						->from('#__languages')

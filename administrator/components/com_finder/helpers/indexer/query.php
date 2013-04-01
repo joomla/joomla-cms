@@ -480,7 +480,7 @@ class FinderIndexerQuery
 	protected function processStaticTaxonomy($filterId)
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Initialize user variables
 		$user = JFactory::getUser();
@@ -597,7 +597,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		/*
@@ -1258,7 +1258,7 @@ class FinderIndexerQuery
 	protected function getTokenData($token)
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Create a database query to build match the token.
 		$query = $db->getQuery(true)

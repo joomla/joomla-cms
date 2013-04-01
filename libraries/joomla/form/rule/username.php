@@ -36,7 +36,7 @@ class JFormRuleUsername extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		// Get the database object and a new query object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Build the query.

@@ -21,7 +21,7 @@ abstract class MultilangstatusHelper
 	public static function getHomes()
 	{
 		// Check for multiple Home pages
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__menu'))
@@ -35,7 +35,7 @@ abstract class MultilangstatusHelper
 	public static function getLangswitchers()
 	{
 		// Check if switcher is published
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from($db->quoteName('#__modules'))
@@ -49,7 +49,7 @@ abstract class MultilangstatusHelper
 	public static function getContentlangs()
 	{
 		// Check for published Content Languages
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.lang_code AS lang_code')
 			->select('a.published AS published')
@@ -61,7 +61,7 @@ abstract class MultilangstatusHelper
 	public static function getSitelangs()
 	{
 		// check for published Site Languages
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.element AS element')
 			->from('#__extensions AS a')
@@ -75,7 +75,7 @@ abstract class MultilangstatusHelper
 	public static function getHomepages()
 	{
 		// Check for Home pages languages
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('language')
 			->from($db->quoteName('#__menu'))
@@ -89,7 +89,7 @@ abstract class MultilangstatusHelper
 	public static function getStatus()
 	{
 		//check for combined status
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select all fields from the languages table.
@@ -115,7 +115,7 @@ abstract class MultilangstatusHelper
 
 	public static function getContacts()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('u.name, count(cd.language) as counted, MAX(cd.language=' . $db->quote('*') . ') as all_languages')
 			->from('#__users AS u')

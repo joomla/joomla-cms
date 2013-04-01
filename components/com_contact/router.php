@@ -186,7 +186,7 @@ function ContactParseRoute($segments)
 		{
 			if ($advanced)
 			{
-				$db = JFactory::getDBO();
+				$db = JFactory::getDbo();
 				$query = 'SELECT id FROM #__contact_details WHERE catid = '.$vars['catid'].' AND alias = '.$db->quote($segment);
 				$db->setQuery($query);
 				$nid = $db->loadResult();

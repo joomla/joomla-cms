@@ -55,7 +55,7 @@ class PlgSystemRedirect extends JPlugin
 			}
 
 			// See if the current url exists in the database as a redirect.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('new_url'))
 				->select($db->quoteName('published'))

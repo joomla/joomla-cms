@@ -958,7 +958,7 @@ class JInstaller extends JAdapter
 	{
 		if ($eid && $schema)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -1031,7 +1031,7 @@ class JInstaller extends JAdapter
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (count($schemapaths))
@@ -1949,7 +1949,7 @@ class JInstaller extends JAdapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__extensions'))
 			->where('type = ' . $db->quote($type))

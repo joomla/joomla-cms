@@ -133,7 +133,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	public function __construct(&$subject, $config)
 	{
 		// Get the database object.
-		$this->db = JFactory::getDBO();
+		$this->db = JFactory::getDbo();
 
 		// Call the parent constructor.
 		parent::__construct($subject, $config);

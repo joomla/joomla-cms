@@ -406,7 +406,7 @@ class JAccess
 		if (empty(self::$viewLevels))
 		{
 			// Get a database object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			// Build the base query.
 			$query = $db->getQuery(true)

@@ -53,7 +53,7 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$db		= JFactory::getDBO();
+		$db		= JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions')

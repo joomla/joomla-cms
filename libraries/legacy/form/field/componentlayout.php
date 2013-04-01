@@ -87,7 +87,7 @@ class JFormFieldComponentlayout extends JFormField
 				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, $lang->getDefault(), false, false);
 
 			// Get the database object and a new query object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.

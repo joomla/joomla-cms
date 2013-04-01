@@ -35,7 +35,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
@@ -461,7 +461,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	 */
 	public function remove($linkId)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Get the indexer state.
@@ -521,7 +521,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
@@ -573,7 +573,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	protected function addTokensToDB($tokens, $context = '')
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Force tokens to an array.

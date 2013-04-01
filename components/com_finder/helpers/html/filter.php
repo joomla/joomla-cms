@@ -32,7 +32,7 @@ abstract class JHtmlFilter
 	 */
 	public static function slider($options = array())
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
@@ -255,7 +255,7 @@ abstract class JHtmlFilter
 		// Check the cached results.
 		if (!($branches = $cache->get($cacheId)))
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Load the predefined filter if specified.

@@ -105,7 +105,7 @@ class JFormFieldEditor extends JFormField
 				$types = explode('|', $type);
 
 				// Get the database object.
-				$db = JFactory::getDBO();
+				$db = JFactory::getDbo();
 
 				// Iterate over teh types looking for an existing editor.
 				foreach ($types as $element)

@@ -82,7 +82,7 @@ class JFormFieldModulelayout extends JFormField
 				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module, $lang->getDefault(), false, false);
 
 			// Get the database object and a new query object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.

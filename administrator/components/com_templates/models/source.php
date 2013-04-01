@@ -67,7 +67,7 @@ class TemplatesModelSource extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Codemirror or Editor None should be enabled
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
 			->from('#__extensions as a')

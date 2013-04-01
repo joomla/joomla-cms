@@ -301,7 +301,7 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getUserGroups()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')

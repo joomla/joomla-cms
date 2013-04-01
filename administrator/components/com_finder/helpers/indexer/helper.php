@@ -246,7 +246,7 @@ class FinderIndexerHelper
 	{
 		static $types;
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
@@ -322,7 +322,7 @@ class FinderIndexerHelper
 	 */
 	public static function getCommonWords($lang)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Create the query to load all the common terms for the language.
 		$query = $db->getQuery(true)

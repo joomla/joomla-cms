@@ -55,7 +55,7 @@ class FinderIndexerTaxonomy
 		}
 
 		// Check to see if the branch is in the table.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
@@ -132,7 +132,7 @@ class FinderIndexerTaxonomy
 		$branchId = self::addBranch($branch);
 
 		// Check to see if the node is in the table.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
@@ -198,7 +198,7 @@ class FinderIndexerTaxonomy
 	public static function addMap($linkId, $nodeId)
 	{
 		// Insert the map.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('link_id'))
@@ -235,7 +235,7 @@ class FinderIndexerTaxonomy
 	 */
 	public static function getBranchTitles()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Set user variables
 		$user = JFactory::getUser();
@@ -269,7 +269,7 @@ class FinderIndexerTaxonomy
 	 */
 	public static function getNodeByTitle($branch, $title)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Set user variables
 		$user = JFactory::getUser();
@@ -307,7 +307,7 @@ class FinderIndexerTaxonomy
 	public static function removeMaps($linkId)
 	{
 		// Delete the maps.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__finder_taxonomy_map'))
 			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
@@ -328,7 +328,7 @@ class FinderIndexerTaxonomy
 	public static function removeOrphanNodes()
 	{
 		// Delete all orphaned nodes.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = 'DELETE t' .
 			' FROM ' . $db->quoteName('#__finder_taxonomy') . ' AS t' .
 			' LEFT JOIN ' . $db->quoteName('#__finder_taxonomy_map') . ' AS m ON m.node_id = t.id' .
@@ -352,7 +352,7 @@ class FinderIndexerTaxonomy
 	 */
 	protected static function storeNode($item)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Check if we are updating or inserting the item.
 		if (empty($item->id))

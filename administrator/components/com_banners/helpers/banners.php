@@ -100,7 +100,7 @@ class BannersHelper
 	public static function updateReset()
 	{
 		$user = JFactory::getUser();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$nullDate = $db->getNullDate();
 		$now = JFactory::getDate();
 		$query = $db->getQuery(true)

@@ -149,7 +149,7 @@ abstract class JHtmlRules
 	protected static function _getParentAssetId($assetId)
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Get the user groups from the database.
@@ -171,7 +171,7 @@ abstract class JHtmlRules
 	protected static function _getUserGroups()
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Get the user groups from the database.
 		$db->setQuery(

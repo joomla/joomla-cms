@@ -250,7 +250,7 @@ function ContentParseRoute($segments)
 	$item	= $menu->getActive();
 	$params = JComponentHelper::getParams('com_content');
 	$advanced = $params->get('sef_advanced_link', 0);
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 
 	// Count route segments
 	$count = count($segments);
@@ -370,7 +370,7 @@ function ContentParseRoute($segments)
 		{
 			if ($advanced)
 			{
-				$db = JFactory::getDBO();
+				$db = JFactory::getDbo();
 				$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->quote($segment);
 				$db->setQuery($query);
 				$cid = $db->loadResult();

@@ -86,7 +86,7 @@ class PlgEditorTinymce extends JPlugin
 		/*
 		 * Lets get the default template for the site application
 		 */
-		$db		= JFactory::getDBO();
+		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
 			->select('template')
 			->from('#__template_styles')
