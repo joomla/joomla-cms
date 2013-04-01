@@ -213,10 +213,6 @@ class FinderIndexerHelper
 				{
 					// Tokenize the two word phrase. Use special handling for languages that do not use spaces.
 					$token = new FinderIndexerToken(array($tokens[$i]->term, $tokens[$i2]->term), $lang, in_array($lang,  array('zh', 'ja', 'th', 'my', 'bo', 'lo', 'km')) ? '' : ' ');
-					if (in_array($lang, array('zh', 'ja', 'th', 'my', 'bo', 'lo', 'km')))
-					{
-
-					}
 					$token->derived = true;
 
 					// Add the token to the stack.

@@ -417,7 +417,7 @@ class FinderIndexerResult
 	{
 		if ($this->language == '*' || $this->language == '')
 		{
-			$this->language == $this->defaultLanguage;
+			$this->language = $this->defaultLanguage;
 		}
 	}
 }
