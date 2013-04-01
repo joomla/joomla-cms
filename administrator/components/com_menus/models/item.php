@@ -1150,7 +1150,6 @@ class MenusModelItem extends JModelAdmin
 	{
 		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew = true;
-		$db = $this->getDbo();
 		$table = $this->getTable();
 
 		// Load the row if saving an existing item.

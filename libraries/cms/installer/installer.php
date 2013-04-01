@@ -1957,6 +1957,7 @@ class JInstaller extends JAdapter
 			->where('folder = ' . $db->quote($folder))
 			->where('client_id = ' . (int) $client)
 			->where('state = -1');
+		$db->setQuery($query);
 
 		return $db->execute();
 	}
