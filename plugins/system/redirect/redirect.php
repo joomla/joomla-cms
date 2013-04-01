@@ -107,7 +107,7 @@ class PlgSystemRedirect extends JPlugin
 						->update($db->quoteName('#__redirect_links'))
 						->set($db->quoteName('hits') . ' = ' . $db->quote('hits') . ' + 1')
 						->where('id = ' . (int) $res);
-					$db->setQuery((string) $query);
+					$db->setQuery($query);
 					$db->execute();
 				}
 				// Render the error page.

@@ -165,7 +165,7 @@ class InstallerModelDiscover extends InstallerModel
 		$query	= $db->getQuery(true)
 			->delete('#__extensions')
 			->where('state = -1');
-		$db->setQuery((string) $query);
+		$db->setQuery($query);
 		if ($db->execute())
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');

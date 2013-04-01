@@ -225,7 +225,7 @@ class BannersModelTracks extends JModelList
 
 			$query->where('banner_id IN (SELECT id FROM ' . $db->quoteName('#__banners') . ' WHERE ' . $where . ')');
 
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 			$this->setError((string) $query);
 
 			try
@@ -360,7 +360,7 @@ class BannersModelTracks extends JModelList
 				->select('title')
 				->from($db->quoteName('#__categories'))
 				->where($db->quoteName('id') . '=' . $db->quote($categoryId));
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			try
 			{
@@ -397,7 +397,7 @@ class BannersModelTracks extends JModelList
 				->select('name')
 				->from($db->quoteName('#__banner_clients'))
 				->where($db->quoteName('id') . '=' . $db->quote($clientId));
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			try
 			{

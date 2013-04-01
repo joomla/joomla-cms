@@ -109,7 +109,7 @@ class BannersHelper
 			->where($db->quote($now) . ' >= ' . $db->quote('reset'))
 			->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!=NULL')
 			->where('(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = ' . (int) $db->quote($user->id) . ')');
-		$db->setQuery((string) $query);
+		$db->setQuery($query);
 
 		try
 		{
@@ -170,7 +170,7 @@ class BannersHelper
 				->set($db->quoteName('impmade') . ' = ' . $db->quote(0))
 				->set($db->quoteName('clicks') . ' = ' . $db->quote(0))
 				->where($db->quoteName('id') . ' = ' . $db->quote($row->id));
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			try
 			{

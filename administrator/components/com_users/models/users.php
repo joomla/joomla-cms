@@ -207,7 +207,7 @@ class UsersModelUsers extends JModelList
 				->where('n.state >= 0')
 				->group('n.user_id');
 
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			// Load the counts into an array indexed on the aro.value field (the user id).
 			try

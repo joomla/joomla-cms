@@ -357,7 +357,7 @@ class ModulesModelModule extends JModelAdmin
 					$query = $db->getQuery(true)
 						->delete('#__modules_menu')
 						->where('moduleid=' . (int) $pk);
-					$db->setQuery((string) $query);
+					$db->setQuery($query);
 					$db->execute();
 				}
 
@@ -434,7 +434,7 @@ class ModulesModelModule extends JModelAdmin
 					->from('#__modules_menu')
 					->where('moduleid=' . (int) $pk);
 
-				$this->_db->setQuery((string) $query);
+				$this->_db->setQuery($query);
 				$rows = $this->_db->loadColumn();
 
 				foreach ($rows as $menuid)
@@ -953,7 +953,7 @@ class ModulesModelModule extends JModelAdmin
 		$query = $db->getQuery(true)
 			->delete('#__modules_menu')
 			->where('moduleid = ' . (int) $table->id);
-		$db->setQuery((string) $query);
+		$db->setQuery($query);
 
 		try
 		{
@@ -991,7 +991,7 @@ class ModulesModelModule extends JModelAdmin
 					->insert('#__modules_menu')
 					->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
 					->values((int) $table->id . ', 0');
-				$db->setQuery((string) $query);
+				$db->setQuery($query);
 
 				try
 				{

@@ -218,7 +218,7 @@ class BannersModelBanners extends JModelList
 				->update('#__banners')
 				->set('impmade = (impmade + 1)')
 				->where('id = ' . (int) $id);
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			try
 			{
@@ -252,7 +252,7 @@ class BannersModelBanners extends JModelList
 					->where('banner_id=' . (int) $id)
 					->where('track_date=' . $db->quote($trackDate));
 
-				$db->setQuery((string) $query);
+				$db->setQuery($query);
 
 				try
 				{
@@ -290,7 +290,7 @@ class BannersModelBanners extends JModelList
 						->values('1, 1, ' . (int) $id . ', ' . $db->quote($trackDate));
 				}
 
-				$db->setQuery((string) $query);
+				$db->setQuery($query);
 
 				try
 				{

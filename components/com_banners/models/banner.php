@@ -40,7 +40,7 @@ class BannersModelBanner extends JModelLegacy
 			->set('clicks = (clicks + 1)')
 			->where('id = ' . (int) $id);
 
-		$db->setQuery((string) $query);
+		$db->setQuery($query);
 
 		try
 		{
@@ -79,7 +79,7 @@ class BannersModelBanner extends JModelLegacy
 				->where('banner_id=' . (int) $id)
 				->where('track_date=' . $db->quote($trackDate));
 
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			try
 			{
@@ -117,7 +117,7 @@ class BannersModelBanner extends JModelLegacy
 					->values('1, 2,' . (int) $id . ',' . $db->quote($trackDate));
 			}
 
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			try
 			{
@@ -161,7 +161,7 @@ class BannersModelBanner extends JModelLegacy
 					->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
 					->select('cl.track_clicks as client_track_clicks');
 
-				$db->setQuery((string) $query);
+				$db->setQuery($query);
 
 				try
 				{

@@ -724,7 +724,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 					// Run the queries to upgrade the data structure.
 					foreach ($queries as $query)
 					{
-						$this->db->setQuery((string) $query);
+						$this->db->setQuery($query);
 
 						try
 						{
@@ -745,7 +745,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 				// This is a new table.
 				$query = $this->xmlToCreate($table);
 
-				$this->db->setQuery((string) $query);
+				$this->db->setQuery($query);
 				try
 				{
 					$this->db->execute();

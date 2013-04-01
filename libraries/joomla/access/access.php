@@ -414,7 +414,7 @@ class JAccess
 				->from($db->quoteName('#__viewlevels'));
 
 			// Set the query for execution.
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			// Build the view levels array.
 			foreach ($db->loadAssocList() as $level)
