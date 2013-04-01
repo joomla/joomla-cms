@@ -130,12 +130,12 @@ class TemplatesModelTemplate extends JModelLegacy
 			$result	= false;
 
 			// Get the template information.
-			$db->setQuery(
-				'SELECT extension_id, client_id, element' .
-				' FROM #__extensions' .
-				' WHERE extension_id = '.(int) $pk.
-				'  AND type = '.$db->quote('template')
-			);
+			$query = $db->getQuery(true)
+				->select('extension_id, client_id, element')
+				->from('#__extensions')
+				->where($db->quoteName('extension_id') . ' = ' . (int) $pk)
+				->where($db->quoteName('type') . ' = ' . $db->quote('template'));
+			$db->setQuery($query);
 
 			try
 			{

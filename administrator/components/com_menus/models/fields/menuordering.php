@@ -23,7 +23,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var        string
 	 * @since   1.7
 	 */
 	protected $type = 'MenuOrdering';
@@ -41,7 +41,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		// Get the parent
 		$parent_id = $this->form->getValue('parent_id', 0);
-		if ( empty($parent_id))
+		if (empty($parent_id))
 		{
 			return false;
 		}
@@ -54,11 +54,11 @@ class JFormFieldMenuOrdering extends JFormFieldList
 			->where('a.parent_id =' . (int) $parent_id);
 		if ($menuType = $this->form->getValue('menutype'))
 		{
-			$query->where('a.menutype = '.$db->quote($menuType));
+			$query->where('a.menutype = ' . $db->quote($menuType));
 		}
 		else
 		{
-			$query->where('a.menutype != '.$db->quote(''));
+			$query->where('a.menutype != ' . $db->quote(''));
 		}
 
 		$query->order('a.lft ASC');
@@ -86,6 +86,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		return $options;
 	}
+
 	/**
 	 * Method to get the field input markup
 	 *

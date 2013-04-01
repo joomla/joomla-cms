@@ -48,7 +48,7 @@ abstract class JHtmlUsers
 		}
 		else
 		{
-			$pathToXml = JPATH_ADMINISTRATOR.'/help/helpsites.xml';
+			$pathToXml = JPATH_ADMINISTRATOR . '/help/helpsites.xml';
 
 			$text = $value;
 			if (!empty($pathToXml) && $xml = simplexml_load_file($pathToXml))
@@ -66,10 +66,11 @@ abstract class JHtmlUsers
 			$value = htmlspecialchars($value);
 			if (substr($value, 0, 4) == "http")
 			{
-				return '<a href="'.$value.'">'.$text.'</a>';
+				return '<a href="' . $value . '">' . $text . '</a>';
 			}
-			else {
-				return '<a href="http://'.$value.'">'.$text.'</a>';
+			else
+			{
+				return '<a href="http://' . $value . '">' . $text . '</a>';
 			}
 		}
 	}
@@ -86,14 +87,15 @@ abstract class JHtmlUsers
 			$query = $db->getQuery(true)
 				->select('title')
 				->from('#__template_styles')
-				->where('id = '.$db->quote($value));
+				->where('id = ' . $db->quote($value));
 			$db->setQuery($query);
 			$title = $db->loadResult();
 			if ($title)
 			{
 				return htmlspecialchars($title);
 			}
-			else {
+			else
+			{
 				return self::value('');
 			}
 		}
@@ -120,7 +122,8 @@ abstract class JHtmlUsers
 			{
 				return htmlspecialchars($result['name']);
 			}
-			else {
+			else
+			{
 				return self::value('');
 			}
 		}
@@ -147,7 +150,8 @@ abstract class JHtmlUsers
 			{
 				return htmlspecialchars($result['name']);
 			}
-			else {
+			else
+			{
 				return self::value('');
 			}
 		}
@@ -166,17 +170,17 @@ abstract class JHtmlUsers
 			$query = $db->getQuery(true)
 				->select('name')
 				->from('#__extensions')
-				->where('element = '.$db->quote($value))
-				->where('folder = '.$db->quote('editors'));
+				->where('element = ' . $db->quote($value))
+				->where('folder = ' . $db->quote('editors'));
 			$db->setQuery($query);
 			$title = $db->loadResult();
 			if ($title)
 			{
-					$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, false)
-				||	$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				||	$lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, $lang->getDefault(), false, false);
-				$lang->load($title.'.sys');
+				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, false)
+					|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, false)
+					|| $lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+					|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, $lang->getDefault(), false, false);
+				$lang->load($title . '.sys');
 				return JText::_($title);
 			}
 			else
@@ -185,5 +189,4 @@ abstract class JHtmlUsers
 			}
 		}
 	}
-
 }

@@ -87,7 +87,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @return  JTable  A JTable object
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function getTable($type = 'Category', $prefix = 'CategoriesTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -301,7 +301,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @param   JForm   $form    A JForm object.
 	 * @param   mixed   $data    The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
+	 * @param   string  $group   The name of the plugin group to import.
 	 *
 	 * @return  void
 	 *
@@ -449,9 +449,9 @@ class CategoriesModelCategory extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-			$data['title']		= $title;
-			$data['alias']		= $alias;
-			$data['published']	= 0;
+			$data['title'] = $title;
+			$data['alias'] = $alias;
+			$data['published'] = 0;
 		}
 
 		// Bind the data.
@@ -520,8 +520,8 @@ class CategoriesModelCategory extends JModelAdmin
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->delete('#__associations')
-				->where('context='.$db->quote('com_categories.item'))
-				->where('id IN ('.implode(',', $associations).')');
+				->where($db->quoteName('context') . ' = ' . $db->quote('com_categories.item'))
+				->where($db->quoteName('id') . ' IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
 			$db->execute();
 
@@ -540,7 +540,7 @@ class CategoriesModelCategory extends JModelAdmin
 
 				foreach ($associations as $tag => $id)
 				{
-					$query->values($id.','.$db->quote('com_categories.item') . ',' . $db->quote($key));
+					$query->values($id . ',' . $db->quote('com_categories.item') . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);
@@ -593,8 +593,8 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		if (parent::publish($pks, $value))
 		{
-			$dispatcher	= JEventDispatcher::getInstance();
-			$extension	= JFactory::getApplication()->input->get('extension');
+			$dispatcher = JEventDispatcher::getInstance();
+			$extension = JFactory::getApplication()->input->get('extension');
 
 			// Include the content plugins for the change of category state event.
 			JPluginHelper::importPlugin('content');
@@ -641,7 +641,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @return  boolean  False on failure or error, True otherwise
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.

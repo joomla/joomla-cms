@@ -60,18 +60,17 @@ class JTags
 					if ($tagTable->load(array('title' => $tagText)))
 					{
 						$tags[] = $tagTable->id;
-
 					}
 					else
 					{
 						// Prepare tag data
-						$tagTable->id        = 0;
-						$tagTable->title     = $tagText;
+						$tagTable->id = 0;
+						$tagTable->title = $tagText;
 						$tagTable->published = 1;
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';
-						$tagTable->access   = property_exists($item, 'access') ? $item->access : 0;
+						$tagTable->access = property_exists($item, 'access') ? $item->access : 0;
 
 						// Make this item a child of the root tag
 						$tagTable->setLocation($tagTable->getRootId(), 'last-child');
@@ -164,7 +163,7 @@ class JTags
 							$db->quoteName('core_content_item_id') . ' = ' . $id,
 							$db->quoteName('core_type_alias') . ' = ' . $db->quote($prefix)
 						)
-				);
+					);
 				$db->setQuery($querycheck);
 
 				$ccId = $db->loadResult();
@@ -174,10 +173,10 @@ class JTags
 			// Throw an exception if there is no matching record
 			if ($id == 0)
 			{
-				$queryid = $db->getQuery(true);
-				$queryid->select($db->quoteName('id'));
-				$queryid->from($db->quoteName($type->table));
-				$queryid->where($db->quoteName($map['core_alias']) . ' = ' . $db->quote($fieldMap['core_alias']));
+				$queryid = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName($type->table))
+					->where($db->quoteName($map['core_alias']) . ' = ' . $db->quote($fieldMap['core_alias']));
 				$db->setQuery($queryid);
 				$id = $db->loadResult();
 				$fieldMap['core_content_item_id'] = $id;
@@ -268,7 +267,7 @@ class JTags
 		return;
 
 		// Check whether the tag is present already.
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
@@ -384,15 +383,15 @@ class JTags
 			->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') . '.*'))
 			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
 			->where(
-			array(
-				$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
-				$db->quoteName('m.content_item_id') . ' = ' . $db->quote($id),
-				$db->quoteName('t.published') . ' = 1'
-			)
-		);
+				array(
+					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
+					$db->quoteName('m.content_item_id') . ' = ' . $db->quote($id),
+					$db->quoteName('t.published') . ' = 1'
+				)
+			);
 
 		$user = JFactory::getUser();
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		$query->where('t.access IN (' . $groups . ')');
 
@@ -440,8 +439,8 @@ class JTags
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
-	{
+		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
+	) {
 		// Create a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -534,12 +533,12 @@ class JTags
 		$typeAliases = rtrim($typeAliases, ',');
 		$query->where('m.type_alias IN (' . $typeAliases . ')');
 
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$query->where('c.core_access IN (' . $groups . ')')
 			->group('m.type_alias, m.content_item_id, m.core_content_id');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
-		if ($ntagsr > 1  && $anyOrAll != 1 && $includeChildren != 1)
+		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
 		{
 			// The number of results should equal the number of tags requested.
 			$query->having("COUNT('m.tag_id') = " . $ntagsr);
@@ -763,7 +762,7 @@ class JTags
 	 */
 	public static function searchTags($filters = array())
 	{
-		$db    = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value')
 			->select('a.path AS text')
@@ -785,7 +784,7 @@ class JTags
 		{
 			$query->where(
 				'(' . $db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%')
-				. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
+					. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
 			);
 		}
 
@@ -919,7 +918,7 @@ class JTags
 
 			foreach ($tags as $tag)
 			{
-				if (!empty( $tag->path))
+				if (!empty($tag->path))
 				{
 					if ($pathParts = explode('/', $tag->path))
 					{
@@ -958,7 +957,7 @@ class JTags
 					{
 						$namesPath = array();
 
-						if (!empty( $tag->path))
+						if (!empty($tag->path))
 						{
 							if ($pathParts = explode('/', $tag->path))
 							{
@@ -980,7 +979,6 @@ class JTags
 					}
 				}
 			}
-
 		}
 
 		return $tags;

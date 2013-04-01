@@ -119,7 +119,7 @@ class FinderIndexerQuery
 	 * $filters = array(
 	 *     'Type' = array(10, 32, 29, 11, ...);
 	 *     'Label' = array(20, 314, 349, 91, 82, ...);
-	 * 		...
+	 *        ...
 	 * );
 	 *
 	 * @var    array
@@ -825,7 +825,7 @@ class FinderIndexerQuery
 
 					// Handle a taxonomy branch filter.
 					default:
-					{
+						{
 						// Try to find the node id.
 						$return = FinderIndexerTaxonomy::getNodeByTitle($modifier, $value);
 
@@ -847,7 +847,7 @@ class FinderIndexerQuery
 						}
 
 						break;
-					}
+						}
 				}
 
 				// Clean up the input string again.
@@ -1287,7 +1287,7 @@ class FinderIndexerQuery
 			// Clone the query, replace the WHERE clause.
 			$sub = clone($query);
 			$sub->clear('where');
-			$sub->where('t.stem = '.$db->quote($token->stem));
+			$sub->where('t.stem = ' . $db->quote($token->stem));
 			$sub->where('t.phrase = 0');
 
 			// Union the two queries.
