@@ -339,6 +339,7 @@ class PlgUserProfile extends JPlugin
 					->delete($db->quoteName('#__user_profiles'))
 					->where($db->quoteName('userid') . ' = ' . (int) $userId)
 					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
+				$db->setQuery($query);
 				$db->execute();
 
 				$tuples = array();
