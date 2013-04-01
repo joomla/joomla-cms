@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.'/components/com_content/helpers/route.php';
+require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 /**
  * Helper for mod_related_items
@@ -22,23 +22,23 @@ abstract class ModRelatedItemsHelper
 {
 	public static function getList($params)
 	{
-		$db			= JFactory::getDbo();
-		$app		= JFactory::getApplication();
-		$user		= JFactory::getUser();
-		$groups		= implode(',', $user->getAuthorisedViewLevels());
-		$date		= JFactory::getDate();
+		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$date = JFactory::getDate();
 
-		$option		= $app->input->get('option');
-		$view		= $app->input->get('view');
+		$option = $app->input->get('option');
+		$view = $app->input->get('view');
 
-		$temp		= $app->input->getString('id');
-		$temp		= explode(':', $temp);
-		$id			= $temp[0];
+		$temp = $app->input->getString('id');
+		$temp = explode(':', $temp);
+		$id = $temp[0];
 
-		$nullDate	= $db->getNullDate();
-		$now		= $date->toSql();
-		$related	= array();
-		$query		= $db->getQuery(true);
+		$nullDate = $db->getNullDate();
+		$now = $date->toSql();
+		$related = array();
+		$query = $db->getQuery(true);
 
 		if ($option == 'com_content' && $view == 'article' && $id)
 		{
@@ -53,7 +53,7 @@ abstract class ModRelatedItemsHelper
 			{
 				// explode the meta keys on a comma
 				$keys = explode(',', $metakey);
-				$likes = array ();
+				$likes = array();
 
 				// assemble any non-blank word(s)
 				foreach ($keys as $key)
@@ -83,7 +83,7 @@ abstract class ModRelatedItemsHelper
 					$a_id = $query->castAsChar('a.id');
 					$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 					$case_when .= ' ELSE ';
-					$case_when .= $a_id.' END as slug';
+					$case_when .= $a_id . ' END as slug';
 					$query->select($case_when);
 
 					$case_when = ' CASE WHEN ';
@@ -92,7 +92,7 @@ abstract class ModRelatedItemsHelper
 					$c_id = $query->castAsChar('cc.id');
 					$case_when .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 					$case_when .= ' ELSE ';
-					$case_when .= $c_id.' END as catslug';
+					$case_when .= $c_id . ' END as catslug';
 					$query->select($case_when)
 						->from('#__content AS a')
 						->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
@@ -101,9 +101,9 @@ abstract class ModRelatedItemsHelper
 						->where('a.state = 1')
 						->where('a.access IN (' . $groups . ')');
 					$concat_string = $query->concatenate(array('","', ' REPLACE(a.metakey, ", ", ",")', ' ","'));
-					$query->where('('.$concat_string.' LIKE "%'.implode('%" OR '.$concat_string.' LIKE "%', $likes).'%")') //remove single space after commas in keywords)
-						->where('(a.publish_up = '.$db->quote($nullDate).' OR a.publish_up <= '.$db->quote($now).')')
-						->where('(a.publish_down = '.$db->quote($nullDate).' OR a.publish_down >= '.$db->quote($now).')');
+					$query->where('(' . $concat_string . ' LIKE "%' . implode('%" OR ' . $concat_string . ' LIKE "%', $likes) . '%")') //remove single space after commas in keywords)
+						->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
+						->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
 
 					// Filter by language
 					if (JLanguageMultilang::isEnabled())

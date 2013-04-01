@@ -163,7 +163,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws	Exception on error.
+	 * @throws    Exception on error.
 	 */
 	public function onStartIndex()
 	{
@@ -272,7 +272,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws	Exception on database error.
+	 * @throws    Exception on database error.
 	 */
 	protected function change($id, $property, $value)
 	{

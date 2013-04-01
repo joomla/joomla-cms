@@ -34,8 +34,8 @@ class BannersModelBanner extends JModelLegacy
 		$id = $this->getState('banner.id');
 
 		// update click count
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true)
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
 			->update('#__banners')
 			->set('clicks = (clicks + 1)')
 			->where('id = ' . (int) $id);
@@ -77,7 +77,7 @@ class BannersModelBanner extends JModelLegacy
 				->from('#__banner_tracks')
 				->where('track_type=2')
 				->where('banner_id=' . (int) $id)
-				->where('track_date='.$db->quote($trackDate));
+				->where('track_date=' . $db->quote($trackDate));
 
 			$db->setQuery((string) $query);
 
@@ -98,18 +98,21 @@ class BannersModelBanner extends JModelLegacy
 			{
 				// update count
 				$query->update('#__banner_tracks')
-					->set($db->quoteName('count').' = ('.$db->quote('count') . ' + 1)')
+					->set($db->quoteName('count') . ' = (' . $db->quote('count') . ' + 1)')
 					->where('track_type=2')
 					->where('banner_id=' . (int) $id)
-					->where('track_date='.$db->quote($trackDate));
+					->where('track_date=' . $db->quote($trackDate));
 			}
-			else {
+			else
+			{
 				// insert new count
 				//sqlsrv change
 				$query->insert('#__banner_tracks')
 					->columns(
-						array($db->quoteName('count'), $db->quoteName('track_type'),
-							$db->quoteName('banner_id') , $db->quoteName('track_date'))
+						array(
+							$db->quoteName('count'), $db->quoteName('track_type'),
+							$db->quoteName('banner_id'), $db->quoteName('track_date')
+						)
 					)
 					->values('1, 2,' . (int) $id . ',' . $db->quote($trackDate));
 			}
@@ -145,12 +148,12 @@ class BannersModelBanner extends JModelLegacy
 			if ($this->_item === false)
 			{
 				// redirect to banner url
-				$db		= $this->getDbo();
-				$query	= $db->getQuery(true)
+				$db = $this->getDbo();
+				$query = $db->getQuery(true)
 					->select(
-					'a.clickurl as clickurl,'.
-					'a.cid as cid,'.
-					'a.track_clicks as track_clicks'
+						'a.clickurl as clickurl,' .
+							'a.cid as cid,' .
+							'a.track_clicks as track_clicks'
 					)
 					->from('#__banners as a')
 					->where('a.id = ' . (int) $id)

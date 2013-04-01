@@ -261,7 +261,8 @@ class JCategories
 		{
 			if ($this->_options['published'] == 1)
 			{
-				$query->join('LEFT',
+				$query->join(
+					'LEFT',
 					$db->quoteName($this->_table) . ' AS i ON i.' . $db->quoteName($this->_field) . ' = c.id AND i.' . $this->_statefield . ' = 1'
 				);
 			}
@@ -274,17 +275,19 @@ class JCategories
 		}
 
 		// Group by
-		$query->group('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
- 			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-		 	c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
- 			c.path, c.published, c.rgt, c.title, c.modified_user_id');
+		$query->group(
+			'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
+						 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
+						 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
+						 c.path, c.published, c.rgt, c.title, c.modified_user_id'
+		);
 
 		// Filter by language
 		if (empty($this->_options['allLanguages']) && $app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$query->where(
 				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' .
-				$db->quote('*') . '))'
+					$db->quote('*') . '))'
 			);
 		}
 
@@ -359,7 +362,6 @@ class JCategories
 						$this->_nodes[$result->id]->setAllLoaded();
 						$childrenLoaded = true;
 					}
-
 				}
 			}
 		}
@@ -722,7 +724,7 @@ class JCategoryNode extends JObject
 			{
 				end($parent->_children);
 				$this->_leftSibling = prev($parent->_children);
-				$this->_leftSibling->_rightsibling = &$this;
+				$this->_leftSibling->_rightsibling = & $this;
 			}
 		}
 	}
@@ -864,7 +866,7 @@ class JCategoryNode extends JObject
 	 * @return  mixed  JCategoryNode object with the sibling information or
 	 *                 NULL if there is no sibling on that side.
 	 *
-	 * @since   11.1
+	 * @since          11.1
 	 */
 	public function getSibling($right = true)
 	{

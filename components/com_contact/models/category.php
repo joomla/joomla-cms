@@ -34,16 +34,16 @@ class ContactModelCategory extends JModelList
 	/**
 	 * The category that applies.
 	 *
-	 * @access	protected
-	 * @var		object
+	 * @access    protected
+	 * @var        object
 	 */
 	protected $_category = null;
 
 	/**
 	 * The list of other newfeed categories.
 	 *
-	 * @access	protected
-	 * @var		array
+	 * @access    protected
+	 * @var        array
 	 */
 	protected $_categories = null;
 
@@ -89,7 +89,7 @@ class ContactModelCategory extends JModelList
 		// Convert the params field into an object, saving original in _params
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$item = &$items[$i];
+			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
 				$params = new JRegistry;
@@ -104,17 +104,17 @@ class ContactModelCategory extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string	An SQL query
+	 * @return  string    An SQL query
 	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
-		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select required fields from the categories.
 		//sqlsrv changes
@@ -124,7 +124,7 @@ class ContactModelCategory extends JModelList
 		$a_id = $query->castAsChar('a.id');
 		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when .= ' ELSE ';
-		$case_when .= $a_id.' END as slug';
+		$case_when .= $a_id . ' END as slug';
 
 		$case_when1 = ' CASE WHEN ';
 		$case_when1 .= $query->charLength('c.alias', '!=', '0');
@@ -132,17 +132,17 @@ class ContactModelCategory extends JModelList
 		$c_id = $query->castAsChar('c.id');
 		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when1 .= ' ELSE ';
-		$case_when1 .= $c_id.' END as catslug';
-		$query->select($this->getState('list.select', 'a.*') . ','.$case_when.','.$case_when1)
-			->from($db->quoteName('#__contact_details').' AS a')
+		$case_when1 .= $c_id . ' END as catslug';
+		$query->select($this->getState('list.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
+			->from($db->quoteName('#__contact_details') . ' AS a')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid')
-			->where('a.access IN ('.$groups.')');
+			->where('a.access IN (' . $groups . ')');
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where('a.catid = '.(int) $categoryId)
-				->where('c.access IN ('.$groups.')');
+			$query->where('a.catid = ' . (int) $categoryId)
+				->where('c.access IN (' . $groups . ')');
 		}
 
 		// Join over the users for the author and modified_by names.
@@ -157,13 +157,14 @@ class ContactModelCategory extends JModelList
 
 		if (is_numeric($state))
 		{
-			$query->where('a.published = '.(int) $state);
+			$query->where('a.published = ' . (int) $state);
 		}
 		// Filter by start and end dates.
 		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(JFactory::getDate()->toSql());
 
-		if ($this->getState('filter.publish_date')){
+		if ($this->getState('filter.publish_date'))
+		{
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
@@ -185,13 +186,13 @@ class ContactModelCategory extends JModelList
 		// Set sortname ordering if selected
 		if ($this->getState('list.ordering') == 'sortname')
 		{
-			$query->order($db->escape('a.sortname1').' '.$db->escape($this->getState('list.direction', 'ASC')))
-				->order($db->escape('a.sortname2').' '.$db->escape($this->getState('list.direction', 'ASC')))
-				->order($db->escape('a.sortname3').' '.$db->escape($this->getState('list.direction', 'ASC')));
+			$query->order($db->escape('a.sortname1') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
+				->order($db->escape('a.sortname2') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
+				->order($db->escape('a.sortname3') . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 		}
 		else
 		{
-			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 		}
 
 		return $query;
@@ -206,9 +207,9 @@ class ContactModelCategory extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app	= JFactory::getApplication();
-		$params	= JComponentHelper::getParams('com_contact');
-		$db		= $this->getDbo();
+		$app = JFactory::getApplication();
+		$params = JComponentHelper::getParams('com_contact');
+		$db = $this->getDbo();
 
 		// List state information
 		$format = $app->input->getWord('format');
@@ -237,14 +238,14 @@ class ContactModelCategory extends JModelList
 		$mergedParams = clone $params;
 		$mergedParams->merge($menuParams);
 
-		$orderCol	= $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
+		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
-		$listOrder	= $app->input->get('filter_order_Dir', 'ASC');
+		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
@@ -255,7 +256,8 @@ class ContactModelCategory extends JModelList
 		$this->setState('category.id', $id);
 
 		$user = JFactory::getUser();
-		if ((!$user->authorise('core.edit.state', 'com_contact')) &&  (!$user->authorise('core.edit', 'com_contact'))){
+		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
+		{
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
 
@@ -304,7 +306,9 @@ class ContactModelCategory extends JModelList
 				}
 				$this->_rightsibling = $this->_item->getSibling();
 				$this->_leftsibling = $this->_item->getSibling(false);
-			} else {
+			}
+			else
+			{
 				$this->_children = false;
 				$this->_parent = false;
 			}

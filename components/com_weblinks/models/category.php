@@ -58,16 +58,16 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * The category that applies.
 	 *
-	 * @access	protected
-	 * @var		object
+	 * @access    protected
+	 * @var        object
 	 */
 	protected $_category = null;
 
 	/**
 	 * The list of other weblink categories.
 	 *
-	 * @access	protected
-	 * @var		array
+	 * @access    protected
+	 * @var        array
 	 */
 	protected $_categories = null;
 
@@ -101,35 +101,35 @@ class WeblinksModelCategory extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string	An SQL query
+	 * @return  string    An SQL query
 	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
-		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select required fields from the categories.
 		$query->select($this->getState('list.select', 'a.*'))
-			->from($db->quoteName('#__weblinks').' AS a')
-			->where('a.access IN ('.$groups.')');
+			->from($db->quoteName('#__weblinks') . ' AS a')
+			->where('a.access IN (' . $groups . ')');
 
 		// Filter by category.
 		if ($categoryId = $this->getState('category.id'))
 		{
-			$query->where('a.catid = '.(int) $categoryId)
+			$query->where('a.catid = ' . (int) $categoryId)
 				->join('LEFT', '#__categories AS c ON c.id = a.catid')
-				->where('c.access IN ('.$groups.')');
+				->where('c.access IN (' . $groups . ')');
 
 			//Filter by published category
 			$cpublished = $this->getState('filter.c.published');
 			if (is_numeric($cpublished))
 			{
-				$query->where('c.published = '.(int) $cpublished);
+				$query->where('c.published = ' . (int) $cpublished);
 			}
 		}
 
@@ -145,7 +145,7 @@ class WeblinksModelCategory extends JModelList
 		$state = $this->getState('filter.state');
 		if (is_numeric($state))
 		{
-			$query->where('a.state = '.(int) $state);
+			$query->where('a.state = ' . (int) $state);
 		}
 		// do not show trashed links on the front-end
 		$query->where('a.state != -2');
@@ -155,7 +155,8 @@ class WeblinksModelCategory extends JModelList
 		$date = JFactory::getDate();
 		$nowDate = $db->quote($date->toSql());
 
-		if ($this->getState('filter.publish_date')){
+		if ($this->getState('filter.publish_date'))
+		{
 			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
@@ -175,7 +176,7 @@ class WeblinksModelCategory extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 		return $query;
 	}
 
@@ -188,7 +189,7 @@ class WeblinksModelCategory extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app    = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_weblinks');
 
 		// List state information
@@ -219,9 +220,10 @@ class WeblinksModelCategory extends JModelList
 		$this->setState('category.id', $id);
 
 		$user = JFactory::getUser();
-		if ((!$user->authorise('core.edit.state', 'com_weblinks')) &&  (!$user->authorise('core.edit', 'com_weblinks'))){
+		if ((!$user->authorise('core.edit.state', 'com_weblinks')) && (!$user->authorise('core.edit', 'com_weblinks')))
+		{
 			// limit to published for people who can't edit or edit.state.
-			$this->setState('filter.state',	1);
+			$this->setState('filter.state', 1);
 
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
@@ -269,7 +271,9 @@ class WeblinksModelCategory extends JModelList
 				}
 				$this->_rightsibling = $this->_item->getSibling();
 				$this->_leftsibling = $this->_item->getSibling(false);
-			} else {
+			}
+			else
+			{
 				$this->_children = false;
 				$this->_parent = false;
 			}

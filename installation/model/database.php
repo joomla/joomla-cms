@@ -101,7 +101,7 @@ class InstallationModelDatabase extends JModelBase
 		$options = JArrayHelper::toObject($options);
 
 		// Load the back-end language files so that the DB error messages work
-		$lang        = JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$currentLang = $lang->getTag();
 
 		// Load the selected language
@@ -176,9 +176,9 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   array  $options  The configuration options
 	 *
-	 * @return	boolean	True on success.
+	 * @return    boolean    True on success.
 	 *
-	 * @since	3.1
+	 * @since    3.1
 	 */
 	public function createDatabase($options)
 	{
@@ -535,12 +535,12 @@ class InstallationModelDatabase extends JModelBase
 			}
 			$params = json_encode($params);
 
-				// Update the language settings in the language manager.
-				$query = $db->getQuery(true)
-					->update($db->quoteName('#__extensions'))
-					->set($db->quoteName('params') . ' = ' . $db->quote($params))
-					->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
-				$db->setQuery($query);
+			// Update the language settings in the language manager.
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = ' . $db->quote($params))
+				->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
+			$db->setQuery($query);
 
 			try
 			{
@@ -645,11 +645,10 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$db->setQuery(
 				'UPDATE ' . $db->quoteName('#__' . $table) .
-				' SET ' . $db->quoteName($field) . ' = ' . $db->quote($userId)
+					' SET ' . $db->quoteName($field) . ' = ' . $db->quote($userId)
 			);
 			$db->execute();
 		}
-
 	}
 
 	/**
@@ -660,7 +659,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since	3.1
+	 * @since    3.1
 	 */
 	public function backupDatabase($db, $prefix)
 	{
@@ -711,10 +710,10 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   JDatabaseDriver  $db       JDatabase object.
-	 * @param   JObject          $options  JObject coming from "initialise" function to pass user
-	 * 										and database name to database driver.
-	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
+	 * @param   JDatabaseDriver  $db          JDatabase object.
+	 * @param   JObject          $options     JObject coming from "initialise" function to pass user
+	 *                                        and database name to database driver.
+	 * @param   boolean          $utf         True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -846,9 +845,6 @@ class InstallationModelDatabase extends JModelBase
 	{
 		// Run the create database query.
 		$db->setQuery($db->getAlterDbCharacterSet($name));
-			/*'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
-			' SET `utf8`'
-		);*/
 
 		try
 		{
@@ -873,8 +869,8 @@ class InstallationModelDatabase extends JModelBase
 	 */
 	protected function _splitQueries($query)
 	{
-		$buffer    = array();
-		$queries   = array();
+		$buffer = array();
+		$queries = array();
 		$in_string = false;
 
 		// Trim any whitespace.
