@@ -26,7 +26,7 @@ $n = count($this->items);
 ?>
 
 <?php if ($this->items == false || $n == 0) : ?>
-	<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
+	<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p></div>
 <?php else : ?>
 
 	<ul class="category list-striped list-condensed">
