@@ -53,12 +53,12 @@ class plgSearchExample extends JPlugin
 	 *
 	 * The sql must return the following fields that are used in a common display
 	 * routine:
-	- title;
-	- href:			link associated with the title;
-	- browsernav	if 1, link opens in a new window, otherwise in the same window;
-	- section		in parenthesis below the title;
-	- text;
-	- created;
+	 * - title;
+	 * - href:         link associated with the title;
+	 * - browsernav    if 1, link opens in a new window, otherwise in the same window;
+	 * - section       in parenthesis below the title;
+	 * - text;
+	 * - created;
 	 * @param string Target search string
 	 * @param string matching option, exact|any|all
 	 * @param string ordering option, newest|oldest|popular|alpha|category
