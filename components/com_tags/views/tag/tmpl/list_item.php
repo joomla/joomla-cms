@@ -16,7 +16,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <?php if (empty($this->items)) : ?>
-	<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
+	<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p></div>
 <?php else : ?>
 	<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 		<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
