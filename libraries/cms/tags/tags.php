@@ -278,14 +278,11 @@ class JTags
 		$query->execute();
 
 		self::tagItem($id, $prefix, $tags, $isNew, null);
-		$query2 = $db->getQuery(true);
-
-		$query2->insert($db->quoteName('#__contentitem_tag_map'))
-			->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date')));
-
-		$query2->clear('values');
-		$query2->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
-		$db->setQuery($query2);
+		$query->clear()
+			->insert($db->quoteName('#__contentitem_tag_map'))
+			->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date')))
+			->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
+		$db->setQuery($query);
 		$db->execute();
 	}
 

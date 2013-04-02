@@ -336,7 +336,7 @@ class ContentModelArticles extends JModelList
 			->order('u.name');
 
 		// Setup the query
-		$db->setQuery($query->__toString());
+		$db->setQuery($query);
 
 		// Return the result
 		return $db->loadObjectList();
