@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ class MessagesModelMessage extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -49,11 +49,11 @@ class MessagesModelMessage extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it.
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
-	 * @since	1.6
+	 * @param   type	The table type to instantiate
+	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   array  Configuration array for model. Optional.
+	 * @return  JTable	A database object
+	 * @since   1.6
 	*/
 	public function getTable($type = 'Message', $prefix = 'MessagesTable', $config = array())
 	{
@@ -63,15 +63,16 @@ class MessagesModelMessage extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param	integer	The id of the primary key.
-	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
+	 * @param   integer	The id of the primary key.
+	 * @return  mixed  Object on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItem($pk = null)
 	{
 		if (!isset($this->item))
 		{
-			if ($this->item = parent::getItem($pk)) {
+			if ($this->item = parent::getItem($pk))
+			{
 				// Prime required properties.
 				if (empty($this->item->message_id))
 				{
@@ -98,7 +99,8 @@ class MessagesModelMessage extends JModelAdmin
 
 						$this->item->set('user_id_to', $message->user_id_from);
 						$re = JText::_('COM_MESSAGES_RE');
-						if (stripos($message->subject, $re) !== 0) {
+						if (stripos($message->subject, $re) !== 0)
+						{
 							$this->item->set('subject', $re.$message->subject);
 						}
 					}
@@ -120,7 +122,8 @@ class MessagesModelMessage extends JModelAdmin
 			}
 
 			// Get the user name for an existing messasge.
-			if ($this->item->user_id_from && $fromUser = new JUser($this->item->user_id_from)) {
+			if ($this->item->user_id_from && $fromUser = new JUser($this->item->user_id_from))
+			{
 				$this->item->set('from_user_name', $fromUser->name);
 			}
 		}
@@ -130,16 +133,17 @@ class MessagesModelMessage extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array  $data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_messages.message', 'message', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -149,17 +153,20 @@ class MessagesModelMessage extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_messages.edit.message.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_messages.message', $data);
 
 		return $data;
 	}
@@ -167,30 +174,34 @@ class MessagesModelMessage extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
+	 * @param   array  The form data.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  True on success.
 	 */
 	public function save($data)
 	{
 		$table = $this->getTable();
 
 		// Bind the data.
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Assign empty values.
-		if (empty($table->user_id_from)) {
+		if (empty($table->user_id_from))
+		{
 			$table->user_id_from = JFactory::getUser()->get('id');
 		}
-		if ((int) $table->date_time == 0) {
+		if ((int) $table->date_time == 0)
+		{
 			$table->date_time = JFactory::getDate()->toSql();
 		}
 
 		// Check the data.
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -199,23 +210,27 @@ class MessagesModelMessage extends JModelAdmin
 		$model = JModelLegacy::getInstance('Config', 'MessagesModel', array('ignore_request' => true));
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
-		if (empty($config)) {
+		if (empty($config))
+		{
 			$this->setError($model->getError());
 			return false;
 		}
 
-		if ($config->get('locked', false)) {
+		if ($config->get('locked', false))
+		{
 			$this->setError(JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
 			return false;
 		}
 
 		// Store the data.
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
-		if ($config->get('mail_on_new', true)) {
+		if ($config->get('mail_on_new', true))
+		{
 			// Load the user details (already valid from table check).
 			$fromUser = JUser::getInstance($table->user_id_from);
 			$toUser = JUser::getInstance($table->user_id_to);

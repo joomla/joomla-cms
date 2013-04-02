@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,8 @@ class MenusViewItems extends JViewLegacy
 		MenusHelper::addSubmenu('items');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -47,11 +48,13 @@ class MenusViewItems extends JViewLegacy
 		$this->ordering = array();
 
 		// Preprocess the list of items to find ordering divisions.
-		foreach ($this->items as $item) {
+		foreach ($this->items as $item)
+		{
 			$this->ordering[$item->parent_id][] = $item->id;
 
 			// item type text
-			switch ($item->type) {
+			switch ($item->type)
+			{
 				case 'url':
 					$value = JText::_('COM_MENUS_TYPE_EXTERNAL_URL');
 					break;
@@ -76,18 +79,23 @@ class MenusViewItems extends JViewLegacy
 					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, $lang->getDefault(), false, false);
 
-					if (!empty($item->componentname)) {
+					if (!empty($item->componentname))
+					{
 						$value	= JText::_($item->componentname);
 						$vars	= null;
 
 						parse_str($item->link, $vars);
-						if (isset($vars['view'])) {
+						if (isset($vars['view']))
+						{
 							// Attempt to load the view xml file.
 							$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/metadata.xml';
-							if (is_file($file) && $xml = simplexml_load_file($file)) {
+							if (is_file($file) && $xml = simplexml_load_file($file))
+							{
 								// Look for the first view node off of the root node.
-								if ($view = $xml->xpath('view[1]')) {
-									if (!empty($view[0]['title'])) {
+								if ($view = $xml->xpath('view[1]'))
+								{
+									if (!empty($view[0]['title']))
+									{
 										$vars['layout'] = isset($vars['layout']) ? $vars['layout'] : 'default';
 
 										// Attempt to load the layout xml file.
@@ -109,14 +117,18 @@ class MenusViewItems extends JViewLegacy
 											// Get XML file from component folder for standard layouts
 											$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
 										}
-										if (is_file($file) && $xml = simplexml_load_file($file)) {
+										if (is_file($file) && $xml = simplexml_load_file($file))
+										{
 											// Look for the first view node off of the root node.
-											if ($layout = $xml->xpath('layout[1]')) {
-												if (!empty($layout[0]['title'])) {
+											if ($layout = $xml->xpath('layout[1]'))
+											{
+												if (!empty($layout[0]['title']))
+												{
 													$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
 												}
 											}
-											if (!empty($layout[0]->message[0])) {
+											if (!empty($layout[0]->message[0]))
+											{
 												$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
 											}
 										}
@@ -124,14 +136,17 @@ class MenusViewItems extends JViewLegacy
 								}
 								unset($xml);
 							}
-							else {
+							else
+							{
 								// Special case for absent views
-								$value .= ' » ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
+								$value .= ' » ' . $vars['view'];
 							}
 						}
 					}
-					else {
-						if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result)) {
+					else
+					{
+						if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result))
+						{
 							$value = JText::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
 						}
 						else {
@@ -166,7 +181,7 @@ class MenusViewItems extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -179,32 +194,40 @@ class MenusViewItems extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
 
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::addNew('item.add');
 		}
 
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('item.edit');
 		}
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
-		if (JFactory::getUser()->authorise('core.admin')) {
+		if (JFactory::getUser()->authorise('core.admin'))
+		{
 			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state')) {
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('items.trash');
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 		}
-		if (JFactory::getUser()->authorise('core.admin')) {
+		if (JFactory::getUser()->authorise('core.admin'))
+		{
 			JToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
 		}
 

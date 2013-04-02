@@ -1,13 +1,14 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_login
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
+
 JHtml::_('behavior.keepalive');
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="form-login">
@@ -22,6 +23,8 @@ JHtml::_('behavior.keepalive');
 		<label id="mod-login-language-lbl" for="lang"><?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?></label>
 		<?php echo $langs; ?>
 
+		<div class="clr"></div>
+
 		<div class="button-holder">
 			<div class="button1">
 				<div class="next">
@@ -32,7 +35,7 @@ JHtml::_('behavior.keepalive');
 		</div>
 
 		<div class="clr"></div>
-		<input type="submit" class="hidebtn" value="<?php echo JText::_( 'MOD_LOGIN_LOGIN' ); ?>" />
+		<input type="submit" class="hidebtn" value="<?php echo JText::_('MOD_LOGIN_LOGIN'); ?>" />
 		<input type="hidden" name="option" value="com_login" />
 		<input type="hidden" name="task" value="login" />
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />

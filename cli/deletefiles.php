@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Cli
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,10 +61,10 @@ class DeletefilesCli extends JApplicationCli
 		jimport('joomla.filesystem.folder');
 
 		// We need the update script
-		JLoader::register('joomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
+		JLoader::register('JoomlaInstallerScript', JPATH_ADMINISTRATOR . '/components/com_admin/script.php');
 
 		// Instantiate the class
-		$class = new joomlaInstallerScript;
+		$class = new JoomlaInstallerScript;
 
 		// Run the delete method
 		$class->deleteUnexistingFiles();

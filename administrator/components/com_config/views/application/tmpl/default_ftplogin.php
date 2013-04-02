@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 <fieldset title="<?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?>" class="form-horizontal">
 	<legend><?php echo JText::_('COM_CONFIG_FTP_DETAILS'); ?></legend>
 	<?php echo JText::_('COM_CONFIG_FTP_DETAILS_TIP'); ?>
-	<?php if ($this->ftp instanceof Exception): ?>
+	<?php if ($this->ftp instanceof Exception) : ?>
 		<p><?php echo JText::_($this->ftp->message); ?></p>
 	<?php endif; ?>
 	<div class="control-group">

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class MenusModelMenu extends JModelForm
 {
 	/**
 	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_MENU';
 
@@ -34,10 +34,10 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param	object	A record object.
+	 * @param   object	A record object.
 	 *
-	 * @return	boolean	True if allowed to delete the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
@@ -49,10 +49,10 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param	object	A record object.
+	 * @param   object	A record object.
 	 *
-	 * @return	boolean	True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 * @since	1.6
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @since   1.6
 	 */
 	protected function canEditState($record)
 	{
@@ -64,10 +64,10 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param	type	The table type to instantiate
-	 * @param	string	A prefix for the table class name. Optional.
-	 * @param	array	Configuration array for model. Optional.
-	 * @return	JTable	A database object
+	 * @param   type	The table type to instantiate
+	 * @param   string	A prefix for the table class name. Optional.
+	 * @param   array  Configuration array for model. Optional.
+	 * @return  JTable	A database object
 	*/
 	public function getTable($type = 'MenuType', $prefix = 'JTable', $config = array())
 	{
@@ -79,7 +79,7 @@ class MenusModelMenu extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -97,9 +97,9 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to get a menu item.
 	 *
-	 * @param	integer	The id of the menu item to get.
+	 * @param   integer	The id of the menu item to get.
 	 *
-	 * @return	mixed	Menu item data object on success, false on failure.
+	 * @return  mixed  Menu item data object on success, false on failure.
 	 */
 	public function &getItem($itemId = null)
 	{
@@ -113,7 +113,8 @@ class MenusModelMenu extends JModelForm
 		$return = $table->load($itemId);
 
 		// Check for a table object error.
-		if ($return === false && $table->getError()) {
+		if ($return === false && $table->getError())
+		{
 			$this->setError($table->getError());
 			return $false;
 		}
@@ -126,16 +127,17 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to get the menu item form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array  $data		Data for the form.
+	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @return  JForm	A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
 		$form = $this->loadForm('com_menus.menu', 'menu', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -145,17 +147,20 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_menus.edit.menu.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_menus.menu', $data);
 
 		return $data;
 	}
@@ -163,8 +168,8 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param	array	The form data.
-	 * @return	boolean	True on success.
+	 * @param   array  The form data.
+	 * @return  boolean  True on success.
 	 */
 	public function save($data)
 	{
@@ -175,25 +180,29 @@ class MenusModelMenu extends JModelForm
 		$table = $this->getTable();
 
 		// Load the row if saving an existing item.
-		if ($id > 0) {
+		if ($id > 0)
+		{
 			$table->load($id);
 			$isNew = false;
 		}
 
 		// Bind the data.
-		if (!$table->bind($data)) {
+		if (!$table->bind($data))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Check the data.
-		if (!$table->check()) {
+		if (!$table->check())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
 
 		// Store the data.
-		if (!$table->store()) {
+		if (!$table->store())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -209,8 +218,8 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to delete groups.
 	 *
-	 * @param	array	An array of item ids.
-	 * @return	boolean	Returns true on success, false on failure.
+	 * @param   array  An array of item ids.
+	 * @return  boolean  Returns true on success, false on failure.
 	 */
 	public function delete($itemIds)
 	{
@@ -222,7 +231,8 @@ class MenusModelMenu extends JModelForm
 		$table = $this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($itemIds as $itemId) {
+		foreach ($itemIds as $itemId)
+		{
 			// TODO: Delete the menu associations - Menu items and Modules
 
 			if (!$table->delete($itemId))
@@ -241,7 +251,7 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Gets a list of all mod_mainmenu modules and collates them by menutype
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	public function &getModules()
 	{
@@ -259,12 +269,14 @@ class MenusModelMenu extends JModelForm
 
 		$result = array();
 
-		foreach ($modules as &$module) {
+		foreach ($modules as &$module)
+		{
 			$params = new JRegistry;
 			$params->loadString($module->params);
 
 			$menuType = $params->get('menutype');
-			if (!isset($result[$menuType])) {
+			if (!isset($result[$menuType]))
+			{
 				$result[$menuType] = array();
 			}
 			$result[$menuType][] = &$module;
@@ -276,7 +288,7 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Custom clean cache method
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{

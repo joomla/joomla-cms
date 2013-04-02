@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,13 +41,16 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  mixed	Object on success, false on failure.
+	 * @return  mixed  Object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
 	public function getItem($pk = null)
 	{
 		$result = parent::getItem($pk);
+
+		$result->tags = new JTags;
+		$result->tags->getTagIds($result->id, 'com_users.user');
 
 		// Get the dispatcher and load the users plugins.
 		$dispatcher	= JEventDispatcher::getInstance();
@@ -111,19 +114,9 @@ class UsersModelUser extends JModelAdmin
 			$data = $this->getItem();
 		}
 
-		// TODO: Maybe this can go into the parent model somehow?
-		// Get the dispatcher and load the users plugins.
-		$dispatcher	= JEventDispatcher::getInstance();
 		JPluginHelper::importPlugin('user');
 
-		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.profile', $data));
-
-		// Check for errors encountered while preparing the data.
-		if (count($results) && in_array(false, $results, true))
-		{
-			$this->setError($dispatcher->getError());
-		}
+		$this->preprocessData('com_users.profile', $data);
 
 		return $data;
 	}
@@ -320,7 +313,7 @@ class UsersModelUser extends JModelAdmin
 
 				// Prepare the logout options.
 				$options = array(
-					'clientid' => array(0, 1)
+					'clientid' => 0
 				);
 
 				if ($allow)
@@ -540,7 +533,7 @@ class UsersModelUser extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function batchUser($group_id, $user_ids, $action)
 	{

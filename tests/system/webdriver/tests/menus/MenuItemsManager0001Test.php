@@ -97,6 +97,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$this->menuItemsManagerPage->addMenuItem();
 		$message = $this->menuItemsManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Menu successfully saved') >= 0, 'Menu save should return success');
+		$this->menuItemsManagerPage->setFilter('menutype', 'Main Menu');
 		$this->assertTrue($this->menuItemsManagerPage->getRowNumber('Test Menu') > 0, 'Test menu should be in list');
 		$this->menuItemsManagerPage->deleteItem('Test Menu');
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber('Test Menu'), 'Test menu should not be present');

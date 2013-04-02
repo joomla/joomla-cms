@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,13 +21,14 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -58,8 +59,8 @@ class ContentModelArticles extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -73,13 +74,15 @@ class ContentModelArticles extends JModelList
 		$this->setState('list.start', $value);
 
 		$orderCol = $app->input->get('filter_order', 'a.ordering');
-		if (!in_array($orderCol, $this->filter_fields)) {
+		if (!in_array($orderCol, $this->filter_fields))
+		{
 			$orderCol = 'a.ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		{
 			$listOrder = 'ASC';
 		}
 		$this->setState('list.direction', $listOrder);
@@ -93,13 +96,15 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.published', 1);
 		}
 
-		$this->setState('filter.language', $app->getLanguageFilter());
+		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// process show_noauth parameter
-		if (!$params->get('show_noauth')) {
+		if (!$params->get('show_noauth'))
+		{
 			$this->setState('filter.access', true);
 		}
-		else {
+		else
+		{
 			$this->setState('filter.access', false);
 		}
 
@@ -113,10 +118,10 @@ class ContentModelArticles extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id	A prefix for the store id.
 	 *
-	 * @return	string		A store id.
-	 * @since	1.6
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -144,8 +149,8 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Get the master query for retrieving a list of articles subject to the model state.
 	 *
-	 * @return	JDatabaseQuery
-	 * @since	1.6
+	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -171,12 +176,14 @@ class ContentModelArticles extends JModelList
 		);
 
 		// Process an Archived Article layout
-		if ($this->getState('filter.published') == 2) {
+		if ($this->getState('filter.published') == 2)
+		{
 			// If badcats is not null, this means that the article is inside an archived category
 			// In this case, the state is set to 2 to indicate Archived (even if the article state is Published)
 			$query->select($this->getState('list.select', 'CASE WHEN badcats.id is null THEN a.state ELSE 2 END AS state'));
 		}
-		else {
+		else
+		{
 			// Process non-archived layout
 			// If badcats is not null, this means that the article is inside an unpublished category
 			// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
@@ -186,7 +193,8 @@ class ContentModelArticles extends JModelList
 		$query->from('#__content AS a');
 
 		// Join over the frontpage articles.
-		if ($this->context != 'com_content.featured') {
+		if ($this->context != 'com_content.featured')
+		{
 			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
 
@@ -224,14 +232,16 @@ class ContentModelArticles extends JModelList
 		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
 		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');
 
-		if ($this->getState('filter.published') == 2) {
+		if ($this->getState('filter.published') == 2)
+		{
 			// Find any up-path categories that are archived
 			// If any up-path categories are archived, include all children in archived layout
 			$subquery .= ' AND parent.published = 2 GROUP BY cat.id ';
 			// Set effective state to archived if up-path category is archived
 			$publishedWhere = 'CASE WHEN badcats.id is null THEN a.state ELSE 2 END';
 		}
-		else {
+		else
+		{
 			// Find any up-path categories that are not published
 			// If all categories are published, badcats.id will be null, and we just use the article state
 			$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
@@ -241,7 +251,8 @@ class ContentModelArticles extends JModelList
 		$query->join('LEFT OUTER', '(' . $subquery . ') AS badcats ON badcats.id = c.id');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
+		if ($access = $this->getState('filter.access'))
+		{
 			$user	= JFactory::getUser();
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
@@ -251,11 +262,13 @@ class ContentModelArticles extends JModelList
 		// Filter by published state
 		$published = $this->getState('filter.published');
 
-		if (is_numeric($published)) {
+		if (is_numeric($published))
+		{
 			// Use article state if badcats.id is null, otherwise, force 0 for unpublished
 			$query->where($publishedWhere . ' = ' . (int) $published);
 		}
-		elseif (is_array($published)) {
+		elseif (is_array($published))
+		{
 			JArrayHelper::toInteger($published);
 			$published = implode(',', $published);
 			// Use article state if badcats.id is null, otherwise, force 0 for unpublished
@@ -284,11 +297,13 @@ class ContentModelArticles extends JModelList
 		// Filter by a single or group of articles.
 		$articleId = $this->getState('filter.article_id');
 
-		if (is_numeric($articleId)) {
+		if (is_numeric($articleId))
+		{
 			$type = $this->getState('filter.article_id.include', true) ? '= ' : '<> ';
 			$query->where('a.id '.$type.(int) $articleId);
 		}
-		elseif (is_array($articleId)) {
+		elseif (is_array($articleId))
+		{
 			JArrayHelper::toInteger($articleId);
 			$articleId = implode(',', $articleId);
 			$type = $this->getState('filter.article_id.include', true) ? 'IN' : 'NOT IN';
@@ -298,14 +313,16 @@ class ContentModelArticles extends JModelList
 		// Filter by a single or group of categories
 		$categoryId = $this->getState('filter.category_id');
 
-		if (is_numeric($categoryId)) {
+		if (is_numeric($categoryId))
+		{
 			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
 
 			// Add subcategory check
 			$includeSubcategories = $this->getState('filter.subcategories', false);
 			$categoryEquals = 'a.catid '.$type.(int) $categoryId;
 
-			if ($includeSubcategories) {
+			if ($includeSubcategories)
+			{
 				$levels = (int) $this->getState('filter.max_category_levels', '1');
 				// Create a subquery for the subcategory list
 				$subQuery = $db->getQuery(true);
@@ -313,7 +330,8 @@ class ContentModelArticles extends JModelList
 				$subQuery->from('#__categories as sub');
 				$subQuery->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt');
 				$subQuery->where('this.id = '.(int) $categoryId);
-				if ($levels >= 0) {
+				if ($levels >= 0)
+				{
 					$subQuery->where('sub.level <= this.level + '.$levels);
 				}
 
@@ -324,10 +342,12 @@ class ContentModelArticles extends JModelList
 				$query->where($categoryEquals);
 			}
 		}
-		elseif (is_array($categoryId) && (count($categoryId) > 0)) {
+		elseif (is_array($categoryId) && (count($categoryId) > 0))
+		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
-			if (!empty($categoryId)) {
+			if (!empty($categoryId))
+			{
 				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
 				$query->where('a.catid '.$type.' ('.$categoryId.')');
 			}
@@ -337,15 +357,18 @@ class ContentModelArticles extends JModelList
 		$authorId = $this->getState('filter.author_id');
 		$authorWhere = '';
 
-		if (is_numeric($authorId)) {
+		if (is_numeric($authorId))
+		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<> ';
 			$authorWhere = 'a.created_by '.$type.(int) $authorId;
 		}
-		elseif (is_array($authorId)) {
+		elseif (is_array($authorId))
+		{
 			JArrayHelper::toInteger($authorId);
 			$authorId = implode(',', $authorId);
 
-			if ($authorId) {
+			if ($authorId)
+			{
 				$type = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
 				$authorWhere = 'a.created_by '.$type.' ('.$authorId.')';
 			}
@@ -355,14 +378,17 @@ class ContentModelArticles extends JModelList
 		$authorAlias = $this->getState('filter.author_alias');
 		$authorAliasWhere = '';
 
-		if (is_string($authorAlias)) {
+		if (is_string($authorAlias))
+		{
 			$type = $this->getState('filter.author_alias.include', true) ? '= ' : '<> ';
 			$authorAliasWhere = 'a.created_by_alias '.$type.$db->Quote($authorAlias);
 		}
-		elseif (is_array($authorAlias)) {
+		elseif (is_array($authorAlias))
+		{
 			$first = current($authorAlias);
 
-			if (!empty($first)) {
+			if (!empty($first))
+			{
 				JArrayHelper::toString($authorAlias);
 
 				foreach ($authorAlias as $key => $alias)
@@ -372,7 +398,8 @@ class ContentModelArticles extends JModelList
 
 				$authorAlias = implode(',', $authorAlias);
 
-				if ($authorAlias) {
+				if ($authorAlias)
+				{
 					$type = $this->getState('filter.author_alias.include', true) ? 'IN' : 'NOT IN';
 					$authorAliasWhere = 'a.created_by_alias '.$type.' ('.$authorAlias .
 						')';
@@ -380,13 +407,16 @@ class ContentModelArticles extends JModelList
 			}
 		}
 
-		if (!empty($authorWhere) && !empty($authorAliasWhere)) {
+		if (!empty($authorWhere) && !empty($authorAliasWhere))
+		{
 			$query->where('('.$authorWhere.' OR '.$authorAliasWhere.')');
 		}
-		elseif (empty($authorWhere) && empty($authorAliasWhere)) {
+		elseif (empty($authorWhere) && empty($authorAliasWhere))
+		{
 			// If both are empty we don't want to add to the query
 		}
-		else {
+		else
+		{
 			// One of these is empty, the other is not so we just add both
 			$query->where($authorWhere.$authorAliasWhere);
 		}
@@ -427,7 +457,8 @@ class ContentModelArticles extends JModelList
 		// process the filter for list views with user-entered filters
 		$params = $this->getState('params');
 
-		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter'))) {
+		if ((is_object($params)) && ($params->get('filter_field') != 'hide') && ($filter = $this->getState('list.filter')))
+		{
 			// clean filter variable
 			$filter = JString::strtolower($filter);
 			$hitsFilter = (int) $filter;
@@ -454,7 +485,8 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by language
-		if ($this->getState('filter.language')) {
+		if ($this->getState('filter.language'))
+		{
 			$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
 			$query->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
 		}
@@ -470,8 +502,8 @@ class ContentModelArticles extends JModelList
 	 *
 	 * Overriden to inject convert the attribs field into a JParameter object.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  An array of objects on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -501,16 +533,19 @@ class ContentModelArticles extends JModelList
 			// Otherwise, menu item params control the layout
 			// If menu item is 'use_article' and there is no article param, use global
 			if (($input->getString('layout') == 'blog') || ($input->getString('view') == 'featured')
-				|| ($this->getState('params')->get('layout_type') == 'blog')) {
+				|| ($this->getState('params')->get('layout_type') == 'blog'))
+			{
 				// create an array of just the params set to 'use_article'
 				$menuParamsArray = $this->getState('params')->toArray();
 				$articleArray = array();
 
 				foreach ($menuParamsArray as $key => $value)
 				{
-					if ($value === 'use_article') {
+					if ($value === 'use_article')
+					{
 						// if the article has a value, use it
-						if ($articleParams->get($key) != '') {
+						if ($articleParams->get($key) != '')
+						{
 							// get the value from the article
 							$articleArray[$key] = $articleParams->get($key);
 						}
@@ -522,7 +557,8 @@ class ContentModelArticles extends JModelList
 				}
 
 				// merge the selected article params
-				if (count($articleArray) > 0) {
+				if (count($articleArray) > 0)
+				{
 					$articleParams = new JRegistry;
 					$articleParams->loadArray($articleArray);
 					$item->params->merge($articleParams);
@@ -552,17 +588,21 @@ class ContentModelArticles extends JModelList
 
 			// Compute the asset access permissions.
 			// Technically guest could edit an article, but lets not check that to improve performance a little.
-			if (!$guest) {
+			if (!$guest)
+			{
 				$asset	= 'com_content.article.'.$item->id;
 
 				// Check general edit permission first.
-				if ($user->authorise('core.edit', $asset)) {
+				if ($user->authorise('core.edit', $asset))
+				{
 					$item->params->set('access-edit', true);
 				}
 				// Now check if edit.own is available.
-				elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+				elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+				{
 					// Check for a valid user and that they are the owner.
-					if ($userId == $item->created_by) {
+					if ($userId == $item->created_by)
+					{
 						$item->params->set('access-edit', true);
 					}
 				}
@@ -570,23 +610,33 @@ class ContentModelArticles extends JModelList
 
 			$access = $this->getState('filter.access');
 
-			if ($access) {
+			if ($access)
+			{
 				// If the access filter has been set, we already have only the articles this user can view.
 				$item->params->set('access-view', true);
 			}
-			else {
+			else
+			{
 				// If no access filter is set, the layout takes some responsibility for display of limited information.
-				if ($item->catid == 0 || $item->category_access === null) {
+				if ($item->catid == 0 || $item->category_access === null)
+				{
 					$item->params->set('access-view', in_array($item->access, $groups));
 				}
-				else {
+				else
+				{
 					$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
 				}
 			}
+
+			// Get the tags
+			$item->tags = new JTags;
+			$item->tags->getItemTags('com_content.article', $item->id);
+
 		}
 
 		return $items;
 	}
+
 	public function getStart()
 	{
 		return $this->getState('list.start');

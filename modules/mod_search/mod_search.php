@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_search
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,8 @@ require_once __DIR__ . '/helper.php';
 $lang = JFactory::getLanguage();
 $app  = JFactory::getApplication();
 
-if ($params->get('opensearch', 1)) {
+if ($params->get('opensearch', 1))
+{
 	$doc = JFactory::getDocument();
 
 	$ostitle = $params->get('opensearch_title', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT').' '.$app->getCfg('sitename'));
@@ -35,8 +36,9 @@ $label			= htmlspecialchars($params->get('label', JText::_('MOD_SEARCH_LABEL_TEX
 $set_Itemid		= (int) $params->get('set_itemid', 0);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
-if ($imagebutton) {
-	$img = modSearchHelper::getSearchImage($button_text);
+if ($imagebutton)
+{
+	$img = ModSearchHelper::getSearchImage($button_text);
 }
 $mitemid = $set_Itemid > 0 ? $set_Itemid : $app->input->get('Itemid');
 require JModuleHelper::getLayoutPath('mod_search', $params->get('layout', 'default'));

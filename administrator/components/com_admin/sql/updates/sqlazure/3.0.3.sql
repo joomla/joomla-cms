@@ -1,1 +1,1 @@
-# Placeholder file for database changes for version 3.0.3
+ALTER TABLE #__associations ALTER COLUMN id INT;

@@ -136,6 +136,12 @@
 		description="JFIELD_ACCESS_DESC"
 		class="span12 small"/>
 
+		<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox" multiple="true"
+		>
+		</field>
+
 	<field
 		name="metadesc"
 		type="textarea"

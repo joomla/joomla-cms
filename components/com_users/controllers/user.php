@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to log in a user.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function login()
 	{
@@ -38,7 +38,8 @@ class UsersControllerUser extends UsersController
 		$data['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
 
 		// Set the return URL if empty.
-		if (empty($data['return'])) {
+		if (empty($data['return']))
+		{
 			$data['return'] = 'index.php?option=com_users&view=profile';
 		}
 
@@ -56,11 +57,14 @@ class UsersControllerUser extends UsersController
 		$credentials['password'] = $data['password'];
 
 		// Perform the log in.
-		if (true === $app->login($credentials, $options)) {
+		if (true === $app->login($credentials, $options))
+		{
 			// Success
 			$app->setUserState('users.login.form.data', array());
 			$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
-		} else {
+		}
+		else
+		{
 			// Login failed !
 			$data['remember'] = (int) $options['remember'];
 			$app->setUserState('users.login.form.data', $data);
@@ -71,7 +75,7 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to log out a user.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function logout()
 	{
@@ -83,17 +87,21 @@ class UsersControllerUser extends UsersController
 		$error = $app->logout();
 
 		// Check if the log out succeeded.
-		if (!($error instanceof Exception)) {
+		if (!($error instanceof Exception))
+		{
 			// Get the return url from the request and validate that it is internal.
 			$return = JRequest::getVar('return', '', 'method', 'base64');
 			$return = base64_decode($return);
-			if (!JURI::isInternal($return)) {
+			if (!JURI::isInternal($return))
+			{
 				$return = '';
 			}
 
 			// Redirect the user.
 			$app->redirect(JRoute::_($return, false));
-		} else {
+		}
+		else
+		{
 			$app->redirect(JRoute::_('index.php?option=com_users&view=login', false));
 		}
 	}
@@ -101,7 +109,7 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to register a user.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function register()
 	{
@@ -115,14 +123,17 @@ class UsersControllerUser extends UsersController
 		$return	= $model->validate($data);
 
 		// Check for errors.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Get the validation messages.
 			$app	= &JFactory::getApplication();
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if ($errors[$i] instanceof Exception) {
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
 				} else {
 					$app->enqueueMessage($errors[$i], 'notice');
@@ -141,7 +152,8 @@ class UsersControllerUser extends UsersController
 		$return	= $model->register($data);
 
 		// Check for errors.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Save the data in the session.
 			$app->setUserState('users.registration.form.data', $data);
 
@@ -160,7 +172,7 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to login a user.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function remind()
 	{
@@ -175,9 +187,11 @@ class UsersControllerUser extends UsersController
 		$return	= $model->processRemindRequest($data);
 
 		// Check for a hard error.
-		if ($return instanceof Exception) {
+		if ($return instanceof Exception)
+		{
 			// Get the error message to display.
-			if ($app->getCfg('error_reporting')) {
+			if ($app->getCfg('error_reporting'))
+			{
 				$message = $return->getMessage();
 			} else {
 				$message = JText::_('COM_USERS_REMIND_REQUEST_ERROR');
@@ -191,7 +205,8 @@ class UsersControllerUser extends UsersController
 			// Go back to the complete form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		} elseif ($return === false) {
+		} elseif ($return === false)
+		{
 			// Complete failed.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getRemindRoute();
@@ -202,7 +217,9 @@ class UsersControllerUser extends UsersController
 			$message = JText::sprintf('COM_USERS_REMIND_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_($route, false), $message, 'notice');
 			return false;
-		} else {
+		}
+		else
+		{
 			// Complete succeeded.
 			// Get the route to the next page.
 			$itemid = UsersHelperRoute::getLoginRoute();
@@ -219,7 +236,7 @@ class UsersControllerUser extends UsersController
 	/**
 	 * Method to login a user.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function resend()
 	{

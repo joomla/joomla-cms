@@ -119,7 +119,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$title = 'Module' . $salt;
 		$client = 'Administrator';
 		$type = 'Custom HTML';
-		$position = 'Submenu [submenu]';
+		$position = 'mynewposition';
 		$suffix = 'mysuffix';
 		$otherFields = array('Position' => $position, 'Module Class Suffix' => $suffix);
 		$this->moduleManagerPage->setFilter('filter_client_id', $client)->searchFor($title);
@@ -147,7 +147,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$title = 'Module' . $salt;
 		$client = 'Administrator';
 		$type = 'Custom HTML';
-		$position = 'Submenu [submenu]';
+		$position = 'myposition';
 		$suffix = 'mysuffix';
 		$otherFields = array('Position' => $position, 'Module Class Suffix' => $suffix);
 		$this->moduleManagerPage->setFilter('filter_client_id', $client)->searchFor($title);
@@ -162,7 +162,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals(array($position, $suffix), $values, 'Actual position and suffix should match expected');
 
 		$newTitle = 'New Module Title' . $salt;
-		$newPosition = 'Toolbar [toolbar]';
+		$newPosition = 'mynewposition';
 		$newSuffix = 'mynewsuffix';
 		$newNote = 'my new note';
 		$this->moduleManagerPage->editModule($title, array('Title' => $newTitle, 'Position' => $newPosition, 'Module Class Suffix' => $newSuffix, 'Note' => $newNote));

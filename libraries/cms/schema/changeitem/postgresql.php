@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -155,7 +155,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 			$this->checkQueryExpected = 0;
 			$this->msgElements = array($this->fixQuote($idx));
 		}
-		elseif ($alterCommand == 'CREATE INDEX' || (strtoupper($alterCommand . $wordArray[2]) == 'CREATE UNIQUE INDEX'))
+		elseif ($command == 'CREATE INDEX' || (strtoupper($command . $wordArray[2]) == 'CREATE UNIQUE INDEX'))
 		{
 			if ($wordArray[1] === 'UNIQUE')
 			{

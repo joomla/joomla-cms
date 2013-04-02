@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,6 @@ class JMenuSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JMenuSite::load
 	 * @todo   Implement testLoad().
 	 */
 	public function testLoad()
@@ -47,7 +46,6 @@ class JMenuSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JMenuSite::getItems
 	 * @todo   Implement testGetItems().
 	 */
 	public function testGetItems()
@@ -58,7 +56,6 @@ class JMenuSiteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JMenuSite::getDefault
 	 * @todo   Implement testGetDefault().
 	 */
 	public function testGetDefault()

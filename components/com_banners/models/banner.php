@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ class BannersModelBanner extends JModelLegacy
 	/**
 	 * Clicks the URL, incrementing the counter
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
@@ -57,16 +57,19 @@ class BannersModelBanner extends JModelLegacy
 
 		$trackClicks = $item->track_clicks;
 
-		if ($trackClicks < 0 && $item->cid) {
+		if ($trackClicks < 0 && $item->cid)
+		{
 			$trackClicks = $item->client_track_clicks;
 		}
 
-		if ($trackClicks < 0) {
+		if ($trackClicks < 0)
+		{
 			$config = JComponentHelper::getParams('com_banners');
 			$trackClicks = $config->get('track_clicks');
 		}
 
-		if ($trackClicks > 0) {
+		if ($trackClicks > 0)
+		{
 			$trackDate = JFactory::getDate()->format('Y-m-d H');
 
 			$query->clear();
@@ -91,7 +94,8 @@ class BannersModelBanner extends JModelLegacy
 
 			$query->clear();
 
-			if ($count) {
+			if ($count)
+			{
 				// update count
 				$query->update('#__banner_tracks');
 				$query->set($db->quoteName('count').' = ('.$db->quoteName('count') . ' + 1)');
@@ -126,7 +130,7 @@ class BannersModelBanner extends JModelLegacy
 	/**
 	 * Get the data for a banner.
 	 *
-	 * @return	object
+	 * @return  object
 	 */
 	public function &getItem()
 	{
@@ -138,7 +142,8 @@ class BannersModelBanner extends JModelLegacy
 
 			$this->_item = $cache->get($id);
 
-			if ($this->_item === false) {
+			if ($this->_item === false)
+			{
 				// redirect to banner url
 				$db		= $this->getDbo();
 				$query	= $db->getQuery(true);
@@ -175,7 +180,7 @@ class BannersModelBanner extends JModelLegacy
 	/**
 	 * Get the URL for a banner
 	 *
-	 * @return	string
+	 * @return  string
 	 *
 	 * @since   1.5
 	 */
@@ -185,7 +190,8 @@ class BannersModelBanner extends JModelLegacy
 		$url = $item->clickurl;
 
 		// check for links
-		if (!preg_match('#http[s]?://|index[2]?\.php#', $url)) {
+		if (!preg_match('#http[s]?://|index[2]?\.php#', $url))
+		{
 			$url = "http://$url";
 		}
 

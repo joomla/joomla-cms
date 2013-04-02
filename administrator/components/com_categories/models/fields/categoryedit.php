@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 * A flexible category list that respects access controls
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public $type = 'CategoryEdit';
 
@@ -33,8 +33,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 * either category assignment or parent category assignment in edit screens.
 	 * Use the parent element to indicate that the field will be used for assigning parent categories.
 	 *
-	 * @return	array	The field option objects.
-	 * @since	1.6
+	 * @return  array  The field option objects.
+	 * @since   1.6
 	 */
 	protected function getOptions()
 	{
@@ -207,7 +207,8 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		if (($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 			&& (isset($row) && !isset($options[0])) && isset($this->element['show_root']))
 			{
-				if ($row->parent_id == '1') {
+				if ($row->parent_id == '1')
+				{
 					$parent = new stdClass;
 					$parent->text = JText::_('JGLOBAL_ROOT_PARENT');
 					array_unshift($options, $parent);

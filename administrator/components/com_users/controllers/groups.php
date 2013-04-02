@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,14 +20,14 @@ class UsersControllerGroups extends JControllerAdmin
 {
 	/**
 	 * @var		string	The prefix to use with controller messages.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_USERS_GROUPS';
 
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Group', $prefix = 'UsersModel')
 	{
@@ -39,11 +39,12 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * Overrides JControllerAdmin::delete to check the core.admin permission.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function delete()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
@@ -56,11 +57,12 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * Overrides JControllerAdmin::publish to check the core.admin permission.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function publish()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
@@ -73,11 +75,12 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * Overrides JControllerAdmin::reorder to check the core.admin permission.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function reorder()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
@@ -90,11 +93,12 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * Overrides JControllerAdmin::saveorder to check the core.admin permission.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function saveorder()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}
@@ -107,11 +111,12 @@ class UsersControllerGroups extends JControllerAdmin
 	 *
 	 * Overrides JControllerAdmin::checkin to check the core.admin permission.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function checkin()
 	{
-		if (!JFactory::getUser()->authorise('core.admin', $this->option)) {
+		if (!JFactory::getUser()->authorise('core.admin', $this->option))
+		{
 			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
 			jexit();
 		}

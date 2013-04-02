@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -335,12 +335,6 @@ Feedcreator
 Author:		Kai Blankenhorn
 Copyright:	Copyright (C) Kai Blankenhorn
 License:	GNU Lesser General Public License (LGPL) 2.1 or later
-
-Geshi
------
-Author:		Nigel McNie
-Copyright:	Copyright (C) 2004 - 2007 Nigel McNie
-License:	GNU General Public License (GPL) 2 or later
 
 js-calendar
 -----------

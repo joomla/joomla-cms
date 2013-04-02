@@ -295,8 +295,7 @@ abstract class AdminEditPage extends AdminPage
 			elseif (strpos($type, 'chzn-container-single') > 0)
 			{
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//input"))->sendKeys($values['value']);
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $values['value'] . "')]"))->click();
+				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//input"))->sendKeys($values['value'] . "\n");
 			}
 		}
 		else

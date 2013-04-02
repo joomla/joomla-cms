@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -110,13 +110,16 @@ class JCacheControllerPage extends JCacheController
 	/**
 	 * Stop the cache buffer and store the cached data
 	 *
+	 * @param   mixed    $data        The data to store
+	 * @param   string   $id          The cache data id
+	 * @param   string   $group       The cache data group
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if cache stored
 	 *
 	 * @since   11.1
 	 */
-	public function store($wrkarounds = true)
+	public function store($data, $id, $group = null, $wrkarounds = true)
 	{
 		// Get page data from JResponse body
 		$data = JResponse::getBody();

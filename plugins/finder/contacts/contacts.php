@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Contacts
  * @since       2.5
  */
-class plgFinderContacts extends FinderIndexerAdapter
+class PlgFinderContacts extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -69,18 +69,12 @@ class plgFinderContacts extends FinderIndexerAdapter
 	protected $state_field = 'published';
 
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   2.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Method to update the item link information when the item category is
@@ -445,7 +439,7 @@ class plgFinderContacts extends FinderIndexerAdapter
 		$case_when_category_alias .= $c_id.' END as catslug';
 		$sql->select($case_when_category_alias);
 
-		$sql->select('u.name AS user');
+		$sql->select('u.name');
 		$sql->from('#__contact_details AS a');
 		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
 		$sql->join('LEFT', '#__users AS u ON u.id = a.user_id');

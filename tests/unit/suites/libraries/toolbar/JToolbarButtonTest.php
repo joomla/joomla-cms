@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -49,8 +49,6 @@ class JToolbarButtonTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButton::__construct
 	 */
 	public function test__construct()
 	{
@@ -66,8 +64,6 @@ class JToolbarButtonTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButton::getName
 	 */
 	public function testGetName()
 	{
@@ -78,7 +74,6 @@ class JToolbarButtonTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * @covers JToolbarButton::render
 	 * @todo   Implement testRender().
 	 */
 	public function testRender()
@@ -94,8 +89,6 @@ class JToolbarButtonTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  JToolbarButton::fetchIconClass
 	 */
 	public function testFetchIconClass()
 	{

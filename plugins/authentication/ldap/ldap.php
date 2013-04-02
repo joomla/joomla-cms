@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,16 +16,16 @@ defined('_JEXEC') or die;
  * @subpackage  Authentication.ldap
  * @since       1.5
  */
-class plgAuthenticationLdap extends JPlugin
+class PlgAuthenticationLdap extends JPlugin
 {
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
 	 * @access	public
-	 * @param   array	$credentials Array holding the user credentials
-	 * @param	array   $options	Array of extra options
-	 * @param	object	$response	Authentication response object
-	 * @return	object	boolean
+	 * @param   array  $credentials Array holding the user credentials
+	 * @param   array   $options	Array of extra options
+	 * @param   object	$response	Authentication response object
+	 * @return  object  boolean
 	 * @since 1.5
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
@@ -78,7 +78,8 @@ class plgAuthenticationLdap extends JPlugin
 				{
 					// Search for users DN
 					$binddata = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
-					if (isset($binddata[0]) && isset($binddata[0]['dn'])) {
+					if (isset($binddata[0]) && isset($binddata[0]['dn']))
+					{
 						// Verify Users Credentials
 						$success = $ldap->bind($binddata[0]['dn'], $credentials['password'], 1);
 						// Get users details
@@ -99,7 +100,8 @@ class plgAuthenticationLdap extends JPlugin
 			{
 				// We just accept the result here
 				$success = $ldap->bind($credentials['username'], $credentials['password']);
-				if ($success) {
+				if ($success)
+				{
 					$userdetails = $ldap->simple_search(str_replace("[search]", $credentials['username'], $this->params->get('search_string')));
 				} else {
 					$response->status = JAuthentication::STATUS_FAILURE;
@@ -119,15 +121,18 @@ class plgAuthenticationLdap extends JPlugin
 		else
 		{
 			// Grab some details from LDAP and return them
-			if (isset($userdetails[0][$ldap_uid][0])) {
+			if (isset($userdetails[0][$ldap_uid][0]))
+			{
 				$response->username = $userdetails[0][$ldap_uid][0];
 			}
 
-			if (isset($userdetails[0][$ldap_email][0])) {
+			if (isset($userdetails[0][$ldap_email][0]))
+			{
 				$response->email = $userdetails[0][$ldap_email][0];
 			}
 
-			if (isset($userdetails[0][$ldap_fullname][0])) {
+			if (isset($userdetails[0][$ldap_fullname][0]))
+			{
 				$response->fullname = $userdetails[0][$ldap_fullname][0];
 			} else {
 				$response->fullname = $credentials['username'];
