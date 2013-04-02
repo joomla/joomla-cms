@@ -72,10 +72,10 @@ class UsersModelUsers extends JModelList
 		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$active = $this->getUserStateFromRequest($this->context.'.filter.active', 'filter_active');
+		$active = $this->getUserStateFromRequest($this->context.'.filter.active', 'filter_active', '*');
 		$this->setState('filter.active', $active);
 
-		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
+		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '*');
 		$this->setState('filter.state', $state);
 
 		$groupId = $this->getUserStateFromRequest($this->context.'.filter.group', 'filter_group_id', null, 'int');
