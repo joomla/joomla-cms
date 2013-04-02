@@ -212,16 +212,17 @@ endif; ?>
                     <tbody>
                         <?php
                             foreach ($files as $file) : 
-                                // Extraigo el el nombre de archivo
-                                $fileName = end(explode("/", $file));
-                                // Extraigo la extensión
-                                $fileExtension = strtoupper(end(explode(".", $file)));
-                                ?>
-                                <tr>
-                                    <td><?php echo $fileName ?></td>
-                                    <td><a class="btn btn-small" href="<?php echo $file ?>"><i class="icon-download"></i><?php echo $fileExtension ?></a></td>
-                                </tr>
-                            <?php endforeach; 
+                                if (!empty($file) || $file != "") :
+                                    // Extraigo el el nombre de archivo
+                                    $fileName = end(explode("/", $file));
+                                    // Extraigo la extensión
+                                    $fileExtension = strtoupper(end(explode(".", $file)));
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $fileName ?></td>
+                                        <td><a class="btn btn-small" href="<?php echo $file ?>"><i class="icon-download"></i><?php echo $fileExtension ?></a></td>
+                                    </tr>
+                            <?php endif; endforeach; 
                         ?>
                     </tbody>
                 </table>
