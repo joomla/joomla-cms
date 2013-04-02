@@ -56,27 +56,27 @@ class FinderModelFilters extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
-		$query->select('a.*');
-		$query->from($db->quoteName('#__finder_filters') . ' AS a');
+		$query->select('a.*')
+			->from($db->quoteName('#__finder_filters') . ' AS a');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', $db->quoteName('#__users') . ' AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', $db->quoteName('#__users') . ' AS uc ON uc.id=a.checked_out');
 
 		// Join over the users for the author.
-		$query->select('ua.name AS user_name');
-		$query->join('LEFT', $db->quoteName('#__users') . ' AS ua ON ua.id = a.created_by');
+		$query->select('ua.name AS user_name')
+			->join('LEFT', $db->quoteName('#__users') . ' AS ua ON ua.id = a.created_by');
 
 		// Check for a search filter.
 		if ($this->getState('filter.search'))
 		{
-			$query->where('( ' . $db->quoteName('a.title') . ' LIKE \'%' . $db->escape($this->getState('filter.search')) . '%\' )');
+			$query->where('( a.title LIKE \'%' . $db->escape($this->getState('filter.search')) . '%\' )');
 		}
 
 		// If the model is set to check item state, add to the query.
 		if (is_numeric($this->getState('filter.state')))
 		{
-			$query->where($db->quoteName('a.state') . ' = ' . (int) $this->getState('filter.state'));
+			$query->where('a.state = ' . (int) $this->getState('filter.state'));
 		}
 
 		// Add the list ordering clause.

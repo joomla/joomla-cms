@@ -79,11 +79,11 @@ class TemplatesTableStyle extends JTable
 	{
 		if ($this->home != '0')
 		{
-			$query = $this->_db->getQuery(true);
-			$query->update('#__template_styles');
-			$query->set('home=\'0\'');
-			$query->where('client_id=' . (int) $this->client_id);
-			$query->where('home='.$this->_db->quote($this->home));
+			$query = $this->_db->getQuery(true)
+				->update('#__template_styles')
+				->set('home=\'0\'')
+				->where('client_id=' . (int) $this->client_id)
+				->where('home='.$this->_db->quote($this->home));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -105,11 +105,11 @@ class TemplatesTableStyle extends JTable
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 		if (!is_null($pk))
 		{
-			$query = $this->_db->getQuery(true);
-			$query->from('#__template_styles');
-			$query->select('id');
-			$query->where('client_id=' . (int) $this->client_id);
-			$query->where('template='.$this->_db->quote($this->template));
+			$query = $this->_db->getQuery(true)
+				->from('#__template_styles')
+				->select('id')
+				->where('client_id=' . (int) $this->client_id)
+				->where('template='.$this->_db->quote($this->template));
 			$this->_db->setQuery($query);
 			$results = $this->_db->loadColumn();
 			if (count($results) == 1 && $results[0] == $pk)

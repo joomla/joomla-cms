@@ -14,17 +14,17 @@ defined('_JEXEC') or die;
  *
  * @return  array  An array of URL arguments
  * @return  array  The URL arguments to use to assemble the subsequent URL.
- * @since	1.5
+ * @since    1.5
  */
 function ContentBuildRoute(&$query)
 {
-	$segments	= array();
+	$segments = array();
 
 	// get a menu item based on Itemid or currently active
-	$app		= JFactory::getApplication();
-	$menu		= $app->getMenu();
-	$params		= JComponentHelper::getParams('com_content');
-	$advanced	= $params->get('sef_advanced_link', 0);
+	$app = JFactory::getApplication();
+	$menu = $app->getMenu();
+	$params = JComponentHelper::getParams('com_content');
+	$advanced = $params->get('sef_advanced_link', 0);
 
 	// we need a menu item.  Either the one specified in the query, or the current active one if none specified
 	if (empty($query['Itemid']))
@@ -32,7 +32,8 @@ function ContentBuildRoute(&$query)
 		$menuItem = $menu->getActive();
 		$menuItemGiven = false;
 	}
-	else {
+	else
+	{
 		$menuItem = $menu->getItem($query['Itemid']);
 		$menuItemGiven = true;
 	}
@@ -94,12 +95,12 @@ function ContentBuildRoute(&$query)
 					$db = JFactory::getDbo();
 					$aquery = $db->setQuery(
 						$db->getQuery(true)
-						->select('alias')
-						->from('#__content')
-						->where('id=' . (int) $query['id'])
+							->select('alias')
+							->from('#__content')
+							->where('id=' . (int) $query['id'])
 					);
 					$alias = $db->loadResult();
-					$query['id'] = $query['id'].':'.$alias;
+					$query['id'] = $query['id'] . ':' . $alias;
 				}
 			}
 			else
@@ -230,27 +231,25 @@ function ContentBuildRoute(&$query)
 	return $segments;
 }
 
-
-
 /**
  * Parse the segments of a URL.
  *
  * @return  array  The segments of the URL to parse.
  *
  * @return  array  The URL attributes to be used by the application.
- * @since	1.5
+ * @since    1.5
  */
 function ContentParseRoute($segments)
 {
 	$vars = array();
 
 	//Get the active menu item.
-	$app	= JFactory::getApplication();
-	$menu	= $app->getMenu();
-	$item	= $menu->getActive();
+	$app = JFactory::getApplication();
+	$menu = $app->getMenu();
+	$item = $menu->getActive();
 	$params = JComponentHelper::getParams('com_content');
 	$advanced = $params->get('sef_advanced_link', 0);
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 
 	// Count route segments
 	$count = count($segments);
@@ -259,8 +258,8 @@ function ContentParseRoute($segments)
 	// the first segment is the view and the last segment is the id of the article or category.
 	if (!isset($item))
 	{
-		$vars['view']	= $segments[0];
-		$vars['id']		= $segments[$count - 1];
+		$vars['view'] = $segments[0];
+		$vars['id'] = $segments[$count - 1];
 
 		return $vars;
 	}
@@ -370,8 +369,12 @@ function ContentParseRoute($segments)
 		{
 			if ($advanced)
 			{
-				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__content WHERE catid = '.$vars['catid'].' AND alias = '.$db->Quote($segment);
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from('#__content')
+					->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
+					->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote($segment)));
 				$db->setQuery($query);
 				$cid = $db->loadResult();
 			}
@@ -384,9 +387,9 @@ function ContentParseRoute($segments)
 
 			if ($item->query['view'] == 'archive' && $count != 1)
 			{
-				$vars['year']  = $count >= 2 ? $segments[$count - 2] : null;
+				$vars['year'] = $count >= 2 ? $segments[$count - 2] : null;
 				$vars['month'] = $segments[$count - 1];
-				$vars['view']  = 'archive';
+				$vars['view'] = 'archive';
 			}
 			else
 			{

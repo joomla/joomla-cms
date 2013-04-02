@@ -78,9 +78,9 @@ class JTableAsset extends JTableNested
 		$query = $this->_db->getQuery(true);
 
 		// Get the asset id for the asset.
-		$query->select($this->_db->quoteName('id'));
-		$query->from($this->_db->quoteName('#__assets'));
-		$query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
+		$query->select($this->_db->quoteName('id'))
+			->from($this->_db->quoteName('#__assets'))
+			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
 		$this->_db->setQuery($query);
 		$assetId = (int) $this->_db->loadResult();
 		if (empty($assetId))
@@ -107,11 +107,10 @@ class JTableAsset extends JTableNested
 		if ($this->parent_id > 0)
 		{
 			// Get the JDatabaseQuery object
-			$query = $this->_db->getQuery(true);
-
-			$query->select('COUNT(id)');
-			$query->from($this->_db->quoteName($this->_tbl));
-			$query->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+			$query = $this->_db->getQuery(true)
+				->select('COUNT(id)')
+				->from($this->_db->quoteName($this->_tbl))
+				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 			$this->_db->setQuery($query);
 			if ($this->_db->loadResult())
 			{

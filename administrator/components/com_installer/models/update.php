@@ -97,8 +97,10 @@ class InstallerModelUpdate extends JModelList
 		$group = $this->getState('filter.group');
 
 		// Grab updates ignoring new installs
-		$query->select('*')->from('#__updates')->where('extension_id != 0');
-		$query->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
+		$query->select('*')
+			->from('#__updates')
+			->where('extension_id != 0')
+			->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
 
 		if ($type)
 		{
@@ -116,12 +118,12 @@ class InstallerModelUpdate extends JModelList
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id'))
 		{
-			$query->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
+			$query->where($db->quoteName('extension_id') . ' = ' . $db->quote((int) $eid));
 		}
 		else
 		{
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(0));
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(700));
+			$query->where($db->quoteName('extension_id') . ' != ' . $db->quote(0))
+				->where($db->quoteName('extension_id') . ' != ' . $db->quote(700));
 		}
 
 		// Filter by search
@@ -170,9 +172,9 @@ class InstallerModelUpdate extends JModelList
 		if ($db->execute())
 		{
 			// Reset the last update check timestamp
-			$query = $db->getQuery(true);
-			$query->update($db->qn('#__update_sites'));
-			$query->set($db->qn('last_check_timestamp') . ' = ' . $db->q(0));
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__update_sites'))
+				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 			$db->setQuery($query);
 			$db->execute();
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
@@ -195,8 +197,10 @@ class InstallerModelUpdate extends JModelList
 	public function enableSites()
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->update('#__update_sites')->set('enabled = 1')->where('enabled = 0');
+		$query = $db->getQuery(true)
+			->update('#__update_sites')
+			->set('enabled = 1')
+			->where('enabled = 0');
 		$db->setQuery($query);
 		if ($db->execute())
 		{

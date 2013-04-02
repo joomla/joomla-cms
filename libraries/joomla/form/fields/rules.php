@@ -65,10 +65,10 @@ class JFormFieldRules extends JFormField
 		{
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('id'));
-			$query->from($db->quoteName('#__assets'));
-			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 		}
@@ -301,11 +301,11 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getUserGroups()
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
-			->leftJoin($db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
 			->order('a.lft ASC');
 		$db->setQuery($query);

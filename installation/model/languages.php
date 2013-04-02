@@ -335,13 +335,13 @@ class InstallationModelLanguages extends JModelBase
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select('a.element, a.name');
-		$query->from('#__extensions AS a');
+		$query->select('a.element, a.name')
+			->from('#__extensions AS a')
 
-		$query->where('a.type = ' . $db->quote('language'));
-		$query->where('state = 0');
-		$query->where('enabled = 1');
-		$query->where('client_id=' . (int) $client_id);
+			->where('a.type = ' . $db->quote('language'))
+			->where('state = 0')
+			->where('enabled = 1')
+			->where('client_id=' . (int) $client_id);
 
 		$db->setQuery($query);
 
