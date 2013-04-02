@@ -186,6 +186,8 @@ class JTableCorecontent extends JTable
 				$this->core_created_user_id = $user->get('id');
 			}
 		}
+		
+		/*
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Corecontent', 'JTable');
 		if (
@@ -196,7 +198,8 @@ class JTableCorecontent extends JTable
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 			return false;
 		}
-
+		*/
+		
 		return parent::store($updateNulls);
 	}
 
