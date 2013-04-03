@@ -44,6 +44,8 @@ class JFormFieldCheckbox extends JFormField
 		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
+		$required = $this->required ? ' required="required" aria-required="true"' : '';
+
 		if (empty($this->value))
 		{
 			$checked = (isset($this->element['checked'] )) ? ' checked="checked"' : '';
@@ -56,7 +58,7 @@ class JFormFieldCheckbox extends JFormField
 		// Initialize JavaScript field attributes.
 		$onclick = $this->element['onclick'] ? ' onclick="' . (string) $this->element['onclick'] . '"' : '';
 
-		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . ' />';
+		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
+			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $required . ' />';
 	}
 }

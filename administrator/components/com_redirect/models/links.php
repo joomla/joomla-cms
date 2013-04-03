@@ -60,10 +60,10 @@ class RedirectModelLinks extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '', 'string');
+		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
 		$this->setState('filter.state', $state);
 
 		// Load the parameters.
@@ -81,16 +81,16 @@ class RedirectModelLinks extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string	A prefix for the store id.
+	 * @param   string    A prefix for the store id.
 	 *
-	 * @return  string	A store id.
+	 * @return  string    A store id.
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.state');
 
 		return parent::getStoreId($id);
 	}
@@ -104,8 +104,8 @@ class RedirectModelLinks extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -114,14 +114,15 @@ class RedirectModelLinks extends JModelList
 				'a.*'
 			)
 		);
-		$query->from($db->quoteName('#__redirect_links').' AS a');
+		$query->from($db->quoteName('#__redirect_links') . ' AS a');
 
 		// Filter by published state
 		$state = $this->getState('filter.state');
 		if (is_numeric($state))
 		{
-			$query->where('a.published = '.(int) $state);
-		} elseif ($state === '')
+			$query->where('a.published = ' . (int) $state);
+		}
+		elseif ($state === '')
 		{
 			$query->where('(a.published IN (0,1,2))');
 		}
@@ -132,20 +133,22 @@ class RedirectModelLinks extends JModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = '.(int) substr($search, 3));
-			} else {
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
 				$query->where(
-					'('.$db->quoteName('old_url').' LIKE '.$search .
-					' OR '.$db->quoteName('new_url').' LIKE '.$search .
-					' OR '.$db->quoteName('comment').' LIKE '.$search .
-					' OR '.$db->quoteName('referer').' LIKE '.$search.')'
+					'(' . $db->quoteName('old_url') . ' LIKE ' . $search .
+						' OR ' . $db->quoteName('new_url') . ' LIKE ' . $search .
+						' OR ' . $db->quoteName('comment') . ' LIKE ' . $search .
+						' OR ' . $db->quoteName('referer') . ' LIKE ' . $search . ')'
 				);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.old_url')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.old_url')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/helpers/debug.php';
+require_once JPATH_COMPONENT . '/helpers/debug.php';
 
 /**
  * Methods supporting a list of user records.
@@ -43,7 +43,8 @@ class UsersModelDebugUser extends JModelList
 	{
 		$userId = $this->getState('filter.user_id');
 
-		if (($assets = parent::getItems()) && $userId) {
+		if (($assets = parent::getItems()) && $userId)
+		{
 
 			$actions = $this->getDebugActions();
 
@@ -53,8 +54,8 @@ class UsersModelDebugUser extends JModelList
 
 				foreach ($actions as $action)
 				{
-					$name	= $action[0];
-					$level	= $action[1];
+					$name = $action[0];
+					$level = $action[1];
 
 					// Check that we check this action for the level of the asset.
 					if ($action[1] === null || $action[1] >= $asset->level)
@@ -62,7 +63,8 @@ class UsersModelDebugUser extends JModelList
 						// We need to test this action.
 						$asset->checks[$name] = JAccess::check($userId, $action[0], $asset->name);
 					}
-					else {
+					else
+					{
 						// We ignore this action.
 						$asset->checks[$name] = 'skip';
 					}
@@ -89,27 +91,27 @@ class UsersModelDebugUser extends JModelList
 		$layout = $app->input->get('layout', 'default');
 		if ($layout)
 		{
-			$this->context .= '.'.$layout;
+			$this->context .= '.' . $layout;
 		}
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$value = $this->getUserStateFromRequest($this->context.'.filter.user_id', 'user_id', 0, 'int');
+		$value = $this->getUserStateFromRequest($this->context . '.filter.user_id', 'user_id', 0, 'int');
 		$this->setState('filter.user_id', $value);
 
-		$levelStart = $this->getUserStateFromRequest($this->context.'.filter.level_start', 'filter_level_start', 0, 'int');
+		$levelStart = $this->getUserStateFromRequest($this->context . '.filter.level_start', 'filter_level_start', 0, 'int');
 		$this->setState('filter.level_start', $levelStart);
 
-		$value = $this->getUserStateFromRequest($this->context.'.filter.level_end', 'filter_level_end', 0, 'int');
+		$value = $this->getUserStateFromRequest($this->context . '.filter.level_end', 'filter_level_end', 0, 'int');
 		if ($value > 0 && $value < $levelStart)
 		{
 			$value = $levelStart;
 		}
 		$this->setState('filter.level_end', $value);
 
-		$component = $this->getUserStateFromRequest($this->context.'.filter.component', 'filter_component');
+		$component = $this->getUserStateFromRequest($this->context . '.filter.component', 'filter_component');
 		$this->setState('filter.component', $component);
 
 		// Load the parameters.
@@ -127,7 +129,7 @@ class UsersModelDebugUser extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id	A prefix for the store id.
+	 * @param   string  $id    A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 * @since   1.6
@@ -135,11 +137,11 @@ class UsersModelDebugUser extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.user_id');
-		$id	.= ':'.$this->getState('filter.level_start');
-		$id	.= ':'.$this->getState('filter.level_end');
-		$id	.= ':'.$this->getState('filter.component');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.user_id');
+		$id .= ':' . $this->getState('filter.level_start');
+		$id .= ':' . $this->getState('filter.level_end');
+		$id .= ':' . $this->getState('filter.component');
 
 		return parent::getStoreId($id);
 	}
@@ -166,8 +168,8 @@ class UsersModelDebugUser extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -176,55 +178,55 @@ class UsersModelDebugUser extends JModelList
 				'a.id, a.name, a.title, a.level, a.lft, a.rgt'
 			)
 		);
-		$query->from($db->quoteName('#__assets').' AS a');
+		$query->from($db->quoteName('#__assets') . ' AS a');
 
 		// Filter the items over the group id if set.
 		if ($groupId = $this->getState('filter.group_id'))
 		{
-			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->where('map2.group_id = '.(int) $groupId);
+			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
+				->where('map2.group_id = ' . (int) $groupId);
 		}
 
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search'))
 		{
 			// Escape the search token.
-			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
+			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
 
 			// Compile the different search clauses.
-			$searches	= array();
-			$searches[]	= 'a.name LIKE '.$token;
-			$searches[]	= 'a.title LIKE '.$token;
+			$searches = array();
+			$searches[] = 'a.name LIKE ' . $token;
+			$searches[] = 'a.title LIKE ' . $token;
 
 			// Add the clauses to the query.
-			$query->where('('.implode(' OR ', $searches).')');
+			$query->where('(' . implode(' OR ', $searches) . ')');
 		}
 
 		// Filter on the start and end levels.
-		$levelStart	= (int) $this->getState('filter.level_start');
-		$levelEnd	= (int) $this->getState('filter.level_end');
+		$levelStart = (int) $this->getState('filter.level_start');
+		$levelEnd = (int) $this->getState('filter.level_end');
 		if ($levelEnd > 0 && $levelEnd < $levelStart)
 		{
 			$levelEnd = $levelStart;
 		}
 		if ($levelStart > 0)
 		{
-			$query->where('a.level >= '.$levelStart);
+			$query->where('a.level >= ' . $levelStart);
 		}
 		if ($levelEnd > 0)
 		{
-			$query->where('a.level <= '.$levelEnd);
+			$query->where('a.level <= ' . $levelEnd);
 		}
 
 		// Filter the items over the component if set.
 		if ($this->getState('filter.component'))
 		{
 			$component = $this->getState('filter.component');
-			$query->where('(a.name = '.$db->quote($component).' OR a.name LIKE '.$db->quote($component.'.%').')');
+			$query->where('(a.name = ' . $db->quote($component) . ' OR a.name LIKE ' . $db->quote($component . '.%') . ')');
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.lft')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}

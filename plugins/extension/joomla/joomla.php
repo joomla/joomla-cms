@@ -19,14 +19,14 @@ defined('_JEXEC') or die;
 class PlgExtensionJoomla extends JPlugin
 {
 	/**
-	 * @var		integer Extension Identifier
-	 * @since   1.6
+	 * @var    integer Extension Identifier
+	 * @since  1.6
 	 */
 	private $eid = 0;
 
 	/**
-	 * @var		JInstaller Installer object
-	 * @since   1.6
+	 * @var    JInstaller Installer object
+	 * @since  1.6
 	 */
 	private $installer = null;
 
@@ -41,55 +41,62 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * Adds an update site to the table if it doesn't exist.
 	 *
-	 * @param   string	The friendly name of the site
-	 * @param   string	The type of site (e.g. collection or extension)
-	 * @param   string	The URI for the site
-	 * @param   boolean	If this site is enabled
+	 * @param   string   $name      The friendly name of the site
+	 * @param   string   $type      The type of site (e.g. collection or extension)
+	 * @param   string   $location  The URI for the site
+	 * @param   boolean  $enabled   If this site is enabled
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
-		$dbo = JFactory::getDBO();
-		// look if the location is used already; doesn't matter what type
-		// you can't have two types at the same address, doesn't make sense
-		$query = $dbo->getQuery(true);
-		$query->select('update_site_id')->from('#__update_sites')->where('location = '. $dbo->Quote($location));
-		$dbo->setQuery($query);
-		$update_site_id = (int) $dbo->loadResult();
+		$db = JFactory::getDbo();
 
-		// if it doesn't exist, add it!
+		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
+		$query = $db->getQuery(true)
+			->select('update_site_id')
+			->from('#__update_sites')
+			->where('location = ' . $db->quote($location));
+		$db->setQuery($query);
+		$update_site_id = (int) $db->loadResult();
+
+		// If it doesn't exist, add it!
 		if (!$update_site_id)
 		{
-			$query->clear();
-			$query->insert('#__update_sites');
-			$query->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')));
-			$query->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
-			$dbo->setQuery($query);
-			if ($dbo->execute())
+			$query->clear()
+				->insert('#__update_sites')
+				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')))
+				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
+			$db->setQuery($query);
+			if ($db->execute())
 			{
-				// link up this extension to the update site
-				$update_site_id = $dbo->insertid();
+				// Link up this extension to the update site
+				$update_site_id = $db->insertid();
 			}
 		}
 
-		// check if it has an update site id (creation might have faileD)
+		// Check if it has an update site id (creation might have faileD)
 		if ($update_site_id)
 		{
-			$query->clear();
-			// look for an update site entry that exists
-			$query->select('update_site_id')->from('#__update_sites_extensions');
-			$query->where('update_site_id = '. $update_site_id)->where('extension_id = '. $this->eid);
-			$dbo->setQuery($query);
-			$tmpid = (int) $dbo->loadResult();
+			// Look for an update site entry that exists
+			$query->clear()
+				->select('update_site_id')
+				->from('#__update_sites_extensions')
+				->where('update_site_id = ' . $update_site_id)
+				->where('extension_id = ' . $this->eid);
+			$db->setQuery($query);
+			$tmpid = (int) $db->loadResult();
 			if (!$tmpid)
 			{
-				// link this extension to the relevant update site
-				$query->clear();
-				$query->insert('#__update_sites_extensions');
-				$query->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')));
-				$query->values($update_site_id . ', ' . $this->eid);
-				$dbo->setQuery($query);
-				$dbo->execute();
+				// Link this extension to the relevant update site
+				$query->clear()
+					->insert('#__update_sites_extensions')
+					->columns(array($db->quoteName('update_site_id'), $db->quoteName('extension_id')))
+					->values($update_site_id . ', ' . $this->eid);
+				$db->setQuery($query);
+				$db->execute();
 			}
 		}
 	}
@@ -97,11 +104,14 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * Handle post extension install update sites
 	 *
-	 * @param   JInstaller	Installer object
-	 * @param   integer  	Extension Identifier
+	 * @param   JInstaller  $installer  Installer object
+	 * @param   integer     $eid        Extension Identifier
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
-	public function onExtensionAfterInstall($installer, $eid)
+	public function onExtensionAfterInstall($installer, $eid )
 	{
 		if ($eid)
 		{
@@ -116,64 +126,74 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * Handle extension uninstall
 	 *
-	 * @param   JInstaller	Installer instance
-	 * @param   integer  	extension id
-	 * @param   integer  	installation result
+	 * @param   JInstaller  $installer  Installer instance
+	 * @param   integer     $eid        Extension id
+	 * @param   integer     $result     Installation result
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
 		if ($eid)
 		{
-			// wipe out any update_sites_extensions links
-			$db = JFactory::getDBO();
-			$query = $db->getQuery(true);
-			$query->delete()->from('#__update_sites_extensions')->where('extension_id = '. $eid);
+			// Wipe out any update_sites_extensions links
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete('#__update_sites_extensions')
+				->where('extension_id = ' . $eid);
 			$db->setQuery($query);
 			$db->execute();
 
-			// delete any unused update sites
-			$query->clear();
-			$query->select('update_site_id')->from('#__update_sites_extensions');
+			// Delete any unused update sites
+			$query->clear()
+				->select('update_site_id')
+				->from('#__update_sites_extensions');
 			$db->setQuery($query);
 			$results = $db->loadColumn();
 
 			if (is_array($results))
 			{
-				// so we need to delete the update sites and their associated updates
+				// So we need to delete the update sites and their associated updates
 				$updatesite_delete = $db->getQuery(true);
-				$updatesite_delete->delete()->from('#__update_sites');
+				$updatesite_delete->delete('#__update_sites');
 				$updatesite_query = $db->getQuery(true);
-				$updatesite_query->select('update_site_id')->from('#__update_sites');
+				$updatesite_query->select('update_site_id')
+					->from('#__update_sites');
 
-				// if we get results back then we can exclude them
+				// If we get results back then we can exclude them
 				if (count($results))
 				{
-					$updatesite_query->where('update_site_id NOT IN ('. implode(',', $results) .')');
-					$updatesite_delete->where('update_site_id NOT IN ('. implode(',', $results) .')');
+					$updatesite_query->where('update_site_id NOT IN (' . implode(',', $results) . ')');
+					$updatesite_delete->where('update_site_id NOT IN (' . implode(',', $results) . ')');
 				}
-				// so lets find what update sites we're about to nuke and remove their associated extensions
+
+				// So let's find what update sites we're about to nuke and remove their associated extensions
 				$db->setQuery($updatesite_query);
 				$update_sites_pending_delete = $db->loadColumn();
+
 				if (is_array($update_sites_pending_delete) && count($update_sites_pending_delete))
 				{
-					// nuke any pending updates with this site before we delete it
+					// Nuke any pending updates with this site before we delete it
 					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
-					$query->clear();
-					$query->delete()->from('#__updates')->where('update_site_id IN ('. implode(',', $update_sites_pending_delete) .')');
+					$query->clear()
+						->delete('#__updates')
+						->where('update_site_id IN (' . implode(',', $update_sites_pending_delete) . ')');
 					$db->setQuery($query);
 					$db->execute();
 				}
 
-				// note: this might wipe out the entire table if there are no extensions linked
+				// Note: this might wipe out the entire table if there are no extensions linked
 				$db->setQuery($updatesite_delete);
 				$db->execute();
 
 			}
 
-			// last but not least we wipe out any pending updates for the extension
-			$query->clear();
-			$query->delete()->from('#__updates')->where('extension_id = '. $eid);
+			// Last but not least we wipe out any pending updates for the extension
+			$query->clear()
+				->delete('#__updates')
+				->where('extension_id = '. $eid);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -182,8 +202,11 @@ class PlgExtensionJoomla extends JPlugin
 	/**
 	 * After update of an extension
 	 *
-	 * @param   JInstaller	Installer object
-	 * @param   integer  	Extension identifier
+	 * @param   JInstaller  $installer  Installer object
+	 * @param   integer     $eid        Extension identifier
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
@@ -200,6 +223,8 @@ class PlgExtensionJoomla extends JPlugin
 
 	/**
 	 * Processes the list of update sites for an extension.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -231,7 +256,7 @@ class PlgExtensionJoomla extends JPlugin
 
 			if (strlen($data))
 			{
-				// 	we have a single entry in the update server line, let us presume this is an extension line
+				// We have a single entry in the update server line, let us presume this is an extension line
 				$this->addUpdateSite(JText::_('PLG_EXTENSION_JOOMLA_UNKNOWN_SITE'), 'extension', $data, true);
 			}
 		}

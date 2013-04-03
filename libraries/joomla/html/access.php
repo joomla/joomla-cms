@@ -44,13 +44,12 @@ abstract class JHtmlAccess
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('a.id AS value, a.title AS text');
-		$query->from('#__viewlevels AS a');
-		$query->group('a.id, a.title, a.ordering');
-		$query->order('a.ordering ASC');
-		$query->order($query->qn('title') . ' ASC');
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text')
+			->from('#__viewlevels AS a')
+			->group('a.id, a.title, a.ordering')
+			->order('a.ordering ASC')
+			->order($db->quoteName('title') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -96,12 +95,12 @@ abstract class JHtmlAccess
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
-		$query->from($db->quoteName('#__usergroups') . ' AS a');
-		$query->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-		$query->group('a.id, a.title, a.lft, a.rgt');
-		$query->order('a.lft ASC');
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
+			->from($db->quoteName('#__usergroups') . ' AS a')
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->group('a.id, a.title, a.lft, a.rgt')
+			->order('a.lft ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
@@ -139,12 +138,12 @@ abstract class JHtmlAccess
 		$isSuperAdmin = JFactory::getUser()->authorise('core.admin');
 
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('a.*, COUNT(DISTINCT b.id) AS level');
-		$query->from($db->quoteName('#__usergroups') . ' AS a');
-		$query->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
-		$query->group('a.id, a.title, a.lft, a.rgt, a.parent_id');
-		$query->order('a.lft ASC');
+		$query = $db->getQuery(true)
+			->select('a.*, COUNT(DISTINCT b.id) AS level')
+			->from($db->quoteName('#__usergroups') . ' AS a')
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
+			->order('a.lft ASC');
 		$db->setQuery($query);
 		$groups = $db->loadObjectList();
 
@@ -162,6 +161,7 @@ abstract class JHtmlAccess
 
 				// Don't call in_array unless something is selected
 				$checked = '';
+
 				if ($selected)
 				{
 					$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
@@ -203,7 +203,10 @@ abstract class JHtmlAccess
 
 		$count++;
 
-		$actions = JAccess::getActions($component, $section);
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
 		$html = array();
 		$html[] = '<ul class="checklist access-actions">';
@@ -242,12 +245,11 @@ abstract class JHtmlAccess
 		if (empty(self::$asset_groups))
 		{
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select('a.id AS value, a.title AS text');
-			$query->from($db->quoteName('#__viewlevels') . ' AS a');
-			$query->group('a.id, a.title, a.ordering');
-			$query->order('a.ordering ASC');
+			$query = $db->getQuery(true)
+				->select('a.id AS value, a.title AS text')
+				->from($db->quoteName('#__viewlevels') . ' AS a')
+				->group('a.id, a.title, a.ordering')
+				->order('a.ordering ASC');
 
 			$db->setQuery($query);
 			self::$asset_groups = $db->loadObjectList();
@@ -273,6 +275,7 @@ abstract class JHtmlAccess
 		static $count;
 
 		$options = self::assetgroups();
+
 		if (isset($config['title']))
 		{
 			array_unshift($options, JHtml::_('select.option', '', $config['title']));

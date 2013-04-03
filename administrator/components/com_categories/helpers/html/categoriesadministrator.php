@@ -29,13 +29,13 @@ abstract class JHtmlCategoriesAdministrator
 
 		// Get the associated categories
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('c.*');
-		$query->from('#__categories as c');
-		$query->where('c.id IN ('.implode(',', array_values($associations)).')');
-		$query->leftJoin('#__languages as l ON c.language=l.lang_code');
-		$query->select('l.image');
-		$query->select('l.title as language_title');
+		$query = $db->getQuery(true)
+			->select('c.*')
+			->from('#__categories as c')
+			->where('c.id IN ('.implode(',', array_values($associations)).')')
+			->join('LEFT', '#__languages as l ON c.language=l.lang_code')
+			->select('l.image')
+			->select('l.title as language_title');
 		$db->setQuery($query);
 		$items = $db->loadObjectList('id');
 

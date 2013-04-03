@@ -22,7 +22,7 @@ class CategoriesHelper
 	/**
 	 * Configure the Submenu links.
 	 *
-	 * @param   string	The extension being used for the categories.
+	 * @param   string    The extension being used for the categories.
 	 *
 	 * @return  void
 	 * @since   1.6
@@ -44,15 +44,15 @@ class CategoriesHelper
 		}
 
 		// Try to find the component helper.
-		$eName	= str_replace('com_', '', $component);
-		$file	= JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component.'/helpers/'.$eName.'.php');
+		$eName = str_replace('com_', '', $component);
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
 
 		if (file_exists($file))
 		{
 			require_once $file;
 
-			$prefix	= ucfirst(str_replace('com_', '', $component));
-			$cName	= $prefix.'Helper';
+			$prefix = ucfirst(str_replace('com_', '', $component));
+			$cName = $prefix . 'Helper';
 
 			if (class_exists($cName))
 			{
@@ -62,12 +62,12 @@ class CategoriesHelper
 					$lang = JFactory::getLanguage();
 					// loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
-						$lang->load($component, JPATH_BASE, null, false, false)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component), null, false, false)
-					||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR.'/components/'.$component), $lang->getDefault(), false, false);
+					$lang->load($component, JPATH_BASE, null, false, false)
+						|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
+						|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
+						|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
 
-					call_user_func(array($cName, 'addSubmenu'), 'categories'.(isset($section)?'.'.$section:''));
+					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 				}
 			}
 		}
@@ -76,18 +76,18 @@ class CategoriesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   string	$extension	The extension.
-	 * @param   integer  $categoryId	The category ID.
+	 * @param   string    $extension     The extension.
+	 * @param   integer   $categoryId    The category ID.
 	 *
 	 * @return  JObject
 	 * @since   1.6
 	 */
 	public static function getActions($extension, $categoryId = 0)
 	{
-		$user		= JFactory::getUser();
-		$result		= new JObject;
-		$parts		= explode('.', $extension);
-		$component	= $parts[0];
+		$user = JFactory::getUser();
+		$result = new JObject;
+		$parts = explode('.', $extension);
+		$component = $parts[0];
 
 		if (empty($categoryId))
 		{
@@ -96,7 +96,7 @@ class CategoriesHelper
 		}
 		else
 		{
-			$assetName = $component.'.category.'.(int) $categoryId;
+			$assetName = $component . '.category.' . (int) $categoryId;
 			$level = 'category';
 		}
 
@@ -114,13 +114,13 @@ class CategoriesHelper
 	{
 		$associations = array();
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->from('#__categories as c');
-		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context='.$db->q('com_categories.item'));
-		$query->innerJoin('#__associations as a2 ON a.key = a2.key');
-		$query->innerJoin('#__categories as c2 ON a2.id = c2.id AND c2.extension = '.$db->q($extension));
-		$query->where('c.id =' . (int) $pk);
-		$query->where('c.extension = ' . $db->q($extension));
+		$query = $db->getQuery(true)
+			->from('#__categories as c')
+			->join('INNER', '#__associations as a ON a.id = c.id AND a.context=' . $db->quote('com_categories.item'))
+			->join('INNER', '#__associations as a2 ON a.key = a2.key')
+			->join('INNER', '#__categories as c2 ON a2.id = c2.id AND c2.extension = ' . $db->quote($extension))
+			->where('c.id =' . (int) $pk)
+			->where('c.extension = ' . $db->quote($extension));
 		$select = array(
 			'c2.language',
 			$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id'

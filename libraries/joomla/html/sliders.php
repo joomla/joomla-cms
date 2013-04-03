@@ -76,6 +76,7 @@ abstract class JHtmlSliders
 	protected static function _loadBehavior($group, $params = array())
 	{
 		static $loaded = array();
+
 		if (!array_key_exists($group, $loaded))
 		{
 			// Get the JInput object
@@ -107,7 +108,7 @@ abstract class JHtmlSliders
 			$opt['opacity'] = (isset($params['opacityTransition']) && ($params['opacityTransition'])) ? 'true' : 'false';
 			$opt['alwaysHide'] = (isset($params['allowAllClose']) && (!$params['allowAllClose'])) ? 'false' : 'true';
 
-			$options = JHTML::getJSObject($opt);
+			$options = JHtml::getJSObject($opt);
 
 			$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#" . $group
 				. ".pane-sliders > .panel > h3.pane-toggler'), $$('div#" . $group . ".pane-sliders > .panel > div.pane-slider'), " . $options

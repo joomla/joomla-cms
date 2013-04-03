@@ -158,7 +158,7 @@ if ($params->get('show_title')) : ?>
 	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 
-	<div class="img-fulltext-"<?php echo htmlspecialchars($imgfloat); ?>">
+	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):
 			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
