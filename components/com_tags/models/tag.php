@@ -105,7 +105,7 @@ class TagsModelTag extends JModelList
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
 
-		$listQuery = New JTags;
+		$listQuery = New JHelperTags;
 		$query = $listQuery->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
 
 		return $query;

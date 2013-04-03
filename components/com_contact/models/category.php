@@ -316,7 +316,7 @@ class ContactModelCategory extends JModelList
 				$this->_parent = false;
 			}
 		}
-		$this->tags = new JTags;
+		$this->tags = new JHelperTags;
 		$this->tags->getItemTags('com_contact.category', $this->_item->get('id'));
 
 		return $this->_item;

@@ -195,7 +195,7 @@ class TagsTableTag extends JTableNested
 	public function delete($pk = null, $children = false)
 	{
 		return parent::delete($pk, $children);
-		$helper = new JTags;
+		$helper = new JHelperTags;
 		$helper->tagDeleteInstances($pk);
 	}
 }
