@@ -53,11 +53,11 @@ class InstallerModelDiscover extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$db		= JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__extensions');
-		$query->where('state=-1');
+		$db		= JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__extensions')
+			->where('state=-1');
 		return $query;
 	}
 
@@ -79,12 +79,13 @@ class InstallerModelDiscover extends InstallerModel
 		$results	= $installer->discover();
 
 		// Get all templates, including discovered ones
-		$dbo = JFactory::getDbo();
-		$query = $dbo->getQuery(true);
-		$query->select('extension_id, element, folder, client_id, type')->from('#__extensions');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('extension_id, element, folder, client_id, type')
+			->from('#__extensions');
 
-		$dbo->setQuery($query);
-		$installedtmp = $dbo->loadObjectList();
+		$db->setQuery($query);
+		$installedtmp = $db->loadObjectList();
 		$extensions = array();
 
 		foreach ($installedtmp as $install)
@@ -161,11 +162,10 @@ class InstallerModelDiscover extends InstallerModel
 	public function purge()
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-		$query->delete();
-		$query->from('#__extensions');
-		$query->where('state = -1');
-		$db->setQuery((string) $query);
+		$query	= $db->getQuery(true)
+			->delete('#__extensions')
+			->where('state = -1');
+		$db->setQuery($query);
 		if ($db->execute())
 		{
 			$this->_message = JText::_('COM_INSTALLER_MSG_DISCOVER_PURGEDDISCOVEREDEXTENSIONS');

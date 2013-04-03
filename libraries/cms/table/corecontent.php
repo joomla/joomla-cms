@@ -246,9 +246,9 @@ class JTableCorecontent extends JTable
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('core_state') . ' = ' . (int) $state);
-		$query->where($this->_db->quoteName($k) . 'IN (' . $pksImploded . ')');
+		$query->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('core_state') . ' = ' . (int) $state)
+			->where($this->_db->quoteName($k) . 'IN (' . $pksImploded . ')');
 
 		// Determine if there is checkin support for the table.
 		$checkin = false;

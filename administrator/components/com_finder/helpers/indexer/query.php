@@ -119,7 +119,7 @@ class FinderIndexerQuery
 	 * $filters = array(
 	 *     'Type' = array(10, 32, 29, 11, ...);
 	 *     'Label' = array(20, 314, 349, 91, 82, ...);
-	 * 		...
+	 *        ...
 	 * );
 	 *
 	 * @var    array
@@ -480,17 +480,17 @@ class FinderIndexerQuery
 	protected function processStaticTaxonomy($filterId)
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Initialize user variables
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Load the predefined filter.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('f.data') . ', ' . $db->quoteName('f.params'));
-		$query->from($db->quoteName('#__finder_filters') . ' AS f');
-		$query->where($db->quoteName('f.filter_id') . ' = ' . (int) $filterId);
+		$query = $db->getQuery(true)
+			->select('f.data, f.params')
+			->from($db->quoteName('#__finder_filters') . ' AS f')
+			->where('f.filter_id = ' . (int) $filterId);
 
 		$db->setQuery($query);
 		$return = $db->loadObject();
@@ -537,15 +537,15 @@ class FinderIndexerQuery
 		 * two reasons: one, it allows us to ensure that the filters being used
 		 * are real; two, we need to sort the filters by taxonomy branch.
 		 */
-		$query->clear();
-		$query->select('t1.id, t1.title, t2.title AS branch');
-		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t1');
-		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id');
-		$query->where('t1.state = 1');
-		$query->where($db->quoteName('t1.access') . ' IN (' . $groups . ')');
-		$query->where('t1.id IN (' . implode(',', $filters) . ')');
-		$query->where('t2.state = 1');
-		$query->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
+		$query->clear()
+			->select('t1.id, t1.title, t2.title AS branch')
+			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
+			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+			->where('t1.state = 1')
+			->where('t1.access IN (' . $groups . ')')
+			->where('t1.id IN (' . implode(',', $filters) . ')')
+			->where('t2.state = 1')
+			->where('t2.access IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -597,7 +597,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		/*
@@ -605,14 +605,14 @@ class FinderIndexerQuery
 		 * two reasons: one, it allows us to ensure that the filters being used
 		 * are real; two, we need to sort the filters by taxonomy branch.
 		 */
-		$query->select('t1.id, t1.title, t2.title AS branch');
-		$query->from($db->quoteName('#__finder_taxonomy') . ' AS t1');
-		$query->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id');
-		$query->where('t1.state = 1');
-		$query->where($db->quoteName('t1.access') . ' IN (' . $groups . ')');
-		$query->where('t1.id IN (' . implode(',', $filters) . ')');
-		$query->where('t2.state = 1');
-		$query->where($db->quoteName('t2.access') . ' IN (' . $groups . ')');
+		$query->select('t1.id, t1.title, t2.title AS branch')
+			->from($db->quoteName('#__finder_taxonomy') . ' AS t1')
+			->join('INNER', $db->quoteName('#__finder_taxonomy') . ' AS t2 ON t2.id = t1.parent_id')
+			->where('t1.state = 1')
+			->where('t1.access IN (' . $groups . ')')
+			->where('t1.id IN (' . implode(',', $filters) . ')')
+			->where('t2.state = 1')
+			->where('t2.access IN (' . $groups . ')');
 
 		// Load the filters.
 		$db->setQuery($query);
@@ -825,7 +825,7 @@ class FinderIndexerQuery
 
 					// Handle a taxonomy branch filter.
 					default:
-					{
+						{
 						// Try to find the node id.
 						$return = FinderIndexerTaxonomy::getNodeByTitle($modifier, $value);
 
@@ -847,7 +847,7 @@ class FinderIndexerQuery
 						}
 
 						break;
-					}
+						}
 				}
 
 				// Clean up the input string again.
@@ -1258,12 +1258,12 @@ class FinderIndexerQuery
 	protected function getTokenData($token)
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Create a database query to build match the token.
-		$query = $db->getQuery(true);
-		$query->select('t.term, t.term_id');
-		$query->from('#__finder_terms AS t');
+		$query = $db->getQuery(true)
+			->select('t.term, t.term_id')
+			->from('#__finder_terms AS t');
 
 		/*
 		 * If the token is a phrase, the lookup process is fairly simple. If
@@ -1275,19 +1275,19 @@ class FinderIndexerQuery
 		if ($token->phrase)
 		{
 			// Add the phrase to the query.
-			$query->where('t.term = ' . $db->quote($token->term));
-			$query->where('t.phrase = 1');
+			$query->where('t.term = ' . $db->quote($token->term))
+				->where('t.phrase = 1');
 		}
 		else
 		{
 			// Add the term to the query.
-			$query->where('t.term = ' . $db->quote($token->term));
-			$query->where('t.phrase = 0');
+			$query->where('t.term = ' . $db->quote($token->term))
+				->where('t.phrase = 0');
 
 			// Clone the query, replace the WHERE clause.
 			$sub = clone($query);
 			$sub->clear('where');
-			$sub->where('t.stem = '.$db->quote($token->stem));
+			$sub->where('t.stem = ' . $db->quote($token->stem));
 			$sub->where('t.phrase = 0');
 
 			// Union the two queries.
@@ -1316,12 +1316,12 @@ class FinderIndexerQuery
 		{
 			// Create a database query to get the similar terms.
 			//@TODO: PostgreSQL doesn't support SOUNDEX out of the box
-			$query->clear();
-			$query->select('DISTINCT t.term_id AS id, t.term AS term');
-			$query->from('#__finder_terms AS t');
-			//$query->where('t.soundex = ' . soundex($db->quote($token->term)));
-			$query->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')');
-			$query->where('t.phrase = ' . (int) $token->phrase);
+			$query->clear()
+				->select('DISTINCT t.term_id AS id, t.term AS term')
+				->from('#__finder_terms AS t')
+				// ->where('t.soundex = ' . soundex($db->quote($token->term)))
+				->where('t.soundex = SOUNDEX(' . $db->quote($token->term) . ')')
+				->where('t.phrase = ' . (int) $token->phrase);
 
 			// Get the terms.
 			$db->setQuery($query);

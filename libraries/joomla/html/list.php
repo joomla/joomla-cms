@@ -79,18 +79,18 @@ abstract class JHtmlList
 	/**
 	 * Returns an array of options
 	 *
-	 * @param   string   $sql  	SQL with 'ordering' AS value and 'name field' AS text
-	 * @param   integer  $chop  The length of the truncated headline
+	 * @param   string   $query  SQL with 'ordering' AS value and 'name field' AS text
+	 * @param   integer  $chop   The length of the truncated headline
 	 *
 	 * @return  array  An array of objects formatted for JHtml list processing
 	 *
 	 * @since   11.1
 	 */
-	public static function genericordering($sql, $chop = 30)
+	public static function genericordering($query, $chop = 30)
 	{
 		$db = JFactory::getDbo();
 		$options = array();
-		$db->setQuery($sql);
+		$db->setQuery($query);
 
 		$items = $db->loadObjectList();
 
@@ -158,7 +158,7 @@ abstract class JHtmlList
 			{
 				$text = JText::_('JGLOBAL_NEWITEMSFIRST_DESC');
 			}
-			$html = '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '" />' . '<span class="readonly">' . $text . '</span>';
+			$html = '<input type="hidden" name="' . $name . '" value="' . (int) $selected . '" /><span class="readonly">' . $text . '</span>';
 		}
 		return $html;
 	}
@@ -179,14 +179,13 @@ abstract class JHtmlList
 	public static function users($name, $active, $nouser = 0, $javascript = null, $order = 'name')
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('u.id AS value, u.name AS text');
-		$query->from('#__users AS u');
-		$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id');
-		$query->where('u.block = 0');
-		$query->order($order);
-		$query->group('u.id');
+		$query = $db->getQuery(true)
+			->select('u.id AS value, u.name AS text')
+			->from('#__users AS u')
+			->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id')
+			->where('u.block = 0')
+			->order($order)
+			->group('u.id');
 		$db->setQuery($query);
 
 		if ($nouser)
