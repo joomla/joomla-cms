@@ -680,7 +680,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->toggleCheckBox($title, $type);
 		$this->click("//div[@id='toolbar-" . $newState . "']/button");
 		$this->waitForPageToLoad("30000");
-		$this->click("//button[@type='button']");
+		$this->click("//button[@type='button'][contains(@onclick, \".value=''\")]");
 		$this->waitForPageToLoad("30000");
 		$this->select($filter, "label=- Select Status -");
 		$this->waitForPageToLoad("30000");

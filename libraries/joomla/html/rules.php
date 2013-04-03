@@ -56,6 +56,7 @@ abstract class JHtmlRules
 		$html[] = '			<caption>' . JText::_('JLIB_HTML_ACCESS_SUMMARY_DESC_CAPTION') . '</caption>';
 		$html[] = '			<tr>';
 		$html[] = '				<th class="col1 hidelabeltxt">' . JText::_('JLIB_RULES_GROUPS') . '</th>';
+
 		foreach ($actions as $i => $action)
 		{
 			$html[] = '				<th class="col' . ($i + 2) . '">' . JText::_($action->title) . '</th>';
@@ -66,6 +67,7 @@ abstract class JHtmlRules
 		{
 			$html[] = '			<tr class="row' . ($i % 2) . '">';
 			$html[] = '				<td class="col1">' . $group->text . '</td>';
+
 			foreach ($actions as $j => $action)
 			{
 				$html[] = '				<td class="col' . ($j + 2) . '">'
@@ -147,14 +149,15 @@ abstract class JHtmlRules
 	protected static function _getParentAssetId($assetId)
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Get the user groups from the database.
-		$query->select($db->quoteName('parent_id'));
-		$query->from($db->quoteName('#__assets'));
-		$query->where($db->quoteName('id') . ' = ' . (int) $assetId);
+		$query->select($db->quoteName('parent_id'))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('id') . ' = ' . (int) $assetId);
 		$db->setQuery($query);
+
 		return (int) $db->loadResult();
 	}
 
@@ -168,12 +171,12 @@ abstract class JHtmlRules
 	protected static function _getUserGroups()
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Get the user groups from the database.
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, b.id as parent'
-			. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
+			. ' FROM #__usergroups AS a LEFT JOIN #__usergroups AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
 			. ' ORDER BY a.lft ASC, b.lft ASC'
 		);
 		$result = $db->loadObjectList();
@@ -183,6 +186,7 @@ abstract class JHtmlRules
 		foreach ($result as $option)
 		{
 			$end = end($options);
+
 			if ($end === false || $end->value != $option->value)
 			{
 				$end = $option;

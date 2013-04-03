@@ -21,10 +21,10 @@ function WeblinksBuildRoute(&$query)
 	$segments = array();
 
 	// get a menu item based on Itemid or currently active
-	$app		= JFactory::getApplication();
-	$menu		= $app->getMenu();
-	$params		= JComponentHelper::getParams('com_weblinks');
-	$advanced	= $params->get('sef_advanced_link', 0);
+	$app = JFactory::getApplication();
+	$menu = $app->getMenu();
+	$params = JComponentHelper::getParams('com_weblinks');
+	$advanced = $params->get('sef_advanced_link', 0);
 
 	// we need a menu item.  Either the one specified in the query, or the current active one if none specified
 	if (empty($query['Itemid']))
@@ -37,7 +37,7 @@ function WeblinksBuildRoute(&$query)
 	}
 
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	$mId = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
 	if (isset($query['view']))
 	{
@@ -65,7 +65,7 @@ function WeblinksBuildRoute(&$query)
 		return $segments;
 	}
 
-	if (isset($view) and ($view == 'category' or $view == 'weblink' ))
+	if (isset($view) and ($view == 'category' or $view == 'weblink'))
 	{
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
@@ -112,7 +112,8 @@ function WeblinksBuildRoute(&$query)
 				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				}
-				else {
+				else
+				{
 					$id = $query['id'];
 				}
 
@@ -144,6 +145,7 @@ function WeblinksBuildRoute(&$query)
 
 	return $segments;
 }
+
 /**
  * Parse the segments of a URL.
  *
@@ -156,9 +158,9 @@ function WeblinksParseRoute($segments)
 	$vars = array();
 
 	//Get the active menu item.
-	$app	= JFactory::getApplication();
-	$menu	= $app->getMenu();
-	$item	= $menu->getActive();
+	$app = JFactory::getApplication();
+	$menu = $app->getMenu();
+	$item = $menu->getActive();
 	$params = JComponentHelper::getParams('com_weblinks');
 	$advanced = $params->get('sef_advanced_link', 0);
 
@@ -168,8 +170,8 @@ function WeblinksParseRoute($segments)
 	// Standard routing for weblinks.
 	if (!isset($item))
 	{
-		$vars['view']	= $segments[0];
-		$vars['id']		= $segments[$count - 1];
+		$vars['view'] = $segments[0];
+		$vars['id'] = $segments[$count - 1];
 		return $vars;
 	}
 
@@ -200,8 +202,12 @@ function WeblinksParseRoute($segments)
 		{
 			if ($advanced)
 			{
-				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__weblinks WHERE catid = '.$vars['id'].' AND alias = '.$db->Quote(str_replace(':', '-', $segment));
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from('#__weblinks')
+					->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
+					->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote(str_replace(':', '-', $segment))));
 				$db->setQuery($query);
 				$id = $db->loadResult();
 			}

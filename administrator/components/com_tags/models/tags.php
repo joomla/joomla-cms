@@ -21,9 +21,9 @@ class TagsModelTags extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	3.0.3
+	 * @param    array    An optional associative array of configuration settings.
+	 * @see        JController
+	 * @since      3.0.3
 	 */
 	public function __construct($config = array())
 	{
@@ -58,27 +58,27 @@ class TagsModelTags extends JModelList
 	 * @param   string  $ordering   An optional ordering field.
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
-	 * @return	void
-	 * @since	3.1
+	 * @return    void
+	 * @since    3.1
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app		= JFactory::getApplication();
-		$context	= $this->context;
+		$app = JFactory::getApplication();
+		$context = $this->context;
 
-		$search = $this->getUserStateFromRequest($context.'.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $this->getUserStateFromRequest($context.'.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level', 0, 'int');
 		$this->setState('filter.level', $level);
 
-		$access = $this->getUserStateFromRequest($context.'.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access', 0, 'int');
 		$this->setState('filter.access', $access);
 
-		$published = $this->getUserStateFromRequest($context.'.filter.published', 'filter_published', '');
+		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
-		$language = $this->getUserStateFromRequest($context.'.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
@@ -104,9 +104,9 @@ class TagsModelTags extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.published');
-		$id	.= ':'.$this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -121,43 +121,43 @@ class TagsModelTags extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-		$user	= JFactory::getUser();
-		$app	= JFactory::getApplication();
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.note, a.published, a.access' .
-				', a.checked_out, a.checked_out_time, a.created_user_id' .
-				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-				', a.language'
+					', a.checked_out, a.checked_out_time, a.created_user_id' .
+					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
+					', a.language'
 			)
 		);
-		$query->from('#__tags AS a');
-		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+		$query->from('#__tags AS a')
+			->where('a.alias <> ' . $db->quote('root'));
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the users for the author.
-		$query->select('ua.name AS author_name');
-		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+		$query->select('ua.name AS author_name')
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id')
 
-		$query->select('ug.title AS access_title');
-		$query->join('LEFT', '#__usergroups AS ug on ug.id = a.access');
+			->select('ug.title AS access_title')
+			->join('LEFT', '#__usergroups AS ug on ug.id = a.access');
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where('a.level <= '.(int) $level);
+			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter by access level.
@@ -169,8 +169,8 @@ class TagsModelTags extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups	= implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN ('.$groups.')');
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
@@ -190,24 +190,24 @@ class TagsModelTags extends JModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = '.(int) substr($search, 3));
+				$query->where('a.id = ' . (int) substr($search, 3));
 			}
 			elseif (stripos($search, 'author:') === 0)
 			{
-				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
-				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
+				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
+				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
 			else
 			{
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
-				$query->where('(a.title LIKE '.$search.' OR a.alias LIKE '.$search.' OR a.note LIKE '.$search.')');
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause
@@ -215,16 +215,17 @@ class TagsModelTags extends JModelList
 		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
 		if ($listOrdering == 'a.access')
 		{
-			$query->order('a.access '.$listDirn.', a.lft '.$listDirn);
+			$query->order('a.access ' . $listDirn . ', a.lft ' . $listDirn);
 		}
 		else
 		{
-			$query->order($db->escape($listOrdering).' '.$listDirn);
+			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
+
 	/**
 	 * Method override to check-in a record or an array of record
 	 *

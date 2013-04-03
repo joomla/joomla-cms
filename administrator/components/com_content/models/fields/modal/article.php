@@ -57,7 +57,7 @@ class JFormFieldModal_Article extends JFormField
 			$link .= '&amp;forcedLanguage='.$this->element['language'];
 		}
 
-		$db	= JFactory::getDBO();
+		$db	= JFactory::getDbo();
 		$db->setQuery(
 			'SELECT title' .
 			' FROM #__content' .

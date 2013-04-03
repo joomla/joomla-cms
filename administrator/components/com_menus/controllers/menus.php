@@ -21,10 +21,10 @@ class MenusControllerMenus extends JControllerLegacy
 	/**
 	 * Display the view
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean            If true, the view output will be cached
+	 * @param   array              An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController        This object to support chaining.
 	 * @since   1.6
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -76,8 +76,10 @@ class MenusControllerMenus extends JControllerLegacy
 			if (!$model->delete($cid))
 			{
 				$this->setMessage($model->getError());
-			} else {
-			$this->setMessage(JText::plural('COM_MENUS_N_MENUS_DELETED', count($cid)));
+			}
+			else
+			{
+				$this->setMessage(JText::plural('COM_MENUS_N_MENUS_DELETED', count($cid)));
 			}
 		}
 
@@ -87,7 +89,7 @@ class MenusControllerMenus extends JControllerLegacy
 	/**
 	 * Rebuild the menu tree.
 	 *
-	 * @return  bool	False on failure or error, true on success.
+	 * @return  bool    False on failure or error, true on success.
 	 */
 	public function rebuild()
 	{
@@ -124,8 +126,8 @@ class MenusControllerMenus extends JControllerLegacy
 			// Load a lookup table of all the component id's.
 			$components = $db->setQuery(
 				'SELECT element, extension_id' .
-				' FROM #__extensions' .
-				' WHERE type = '.$db->quote('component')
+					' FROM #__extensions' .
+					' WHERE type = ' . $db->quote('component')
 			)->loadAssocList('element', 'extension_id');
 		}
 		catch (RuntimeException $e)
@@ -136,11 +138,15 @@ class MenusControllerMenus extends JControllerLegacy
 		try
 		{
 			// Load all the component menu links
-			$items = $db->setQuery(
-				'SELECT id, link, component_id' .
-				' FROM #__menu' .
-				' WHERE type = '.$db->quote('component')
-			)->loadObjectList();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->select($db->quoteName('link'))
+				->select($db->quoteName('component_id'))
+				->from('#__menu')
+				->where($db->quoteName('type') . ' = ' . $db->quote('component.item'));
+			$db->setQuery($query);
+
+			$items = $db->loadObjectList();
 		}
 		catch (RuntimeException $e)
 		{
@@ -161,7 +167,9 @@ class MenusControllerMenus extends JControllerLegacy
 				if (isset($components[$option]))
 				{
 					$componentId = $components[$option];
-				} else {
+				}
+				else
+				{
 					// Mismatch. Needs human intervention.
 					$componentId = -1;
 				}
@@ -177,8 +185,8 @@ class MenusControllerMenus extends JControllerLegacy
 					{
 						$db->setQuery(
 							'UPDATE #__menu' .
-							' SET component_id = '.$componentId.
-							' WHERE id = '.$item->id
+								' SET component_id = ' . $componentId .
+								' WHERE id = ' . $item->id
 						)->execute();
 					}
 					catch (RuntimeException $e)

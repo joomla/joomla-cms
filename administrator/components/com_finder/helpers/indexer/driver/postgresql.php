@@ -35,14 +35,14 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('link_id') . ', ' . $db->quoteName('md5sum'));
-		$query->from($db->quoteName('#__finder_links'));
-		$query->where($db->quoteName('url') . ' = ' . $db->quote($item->url));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('link_id') . ', ' . $db->quoteName('md5sum'))
+			->from($db->quoteName('#__finder_links'))
+			->where($db->quoteName('url') . ' = ' . $db->quote($item->url));
 
 		// Load the item  from the database.
 		$db->setQuery($query);
@@ -75,10 +75,9 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			for ($i = 0; $i <= 15; $i++)
 			{
 				// Flush the maps for the link.
-				$query->clear();
-				$query->delete();
-				$query->from($db->quoteName('#__finder_links_terms' . dechex($i)));
-				$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+				$query->clear()
+					->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
+					->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -116,10 +115,10 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			);
 
 			// Insert the link.
-			$query->clear();
-			$query->insert($db->quoteName('#__finder_links'));
-			$query->columns($columnsArray);
-			$query->values(
+			$query->clear()
+				->insert($db->quoteName('#__finder_links'))
+				->columns($columnsArray)
+				->values(
 				$db->quote($item->url) . ', '
 				. $db->quote($item->route) . ', '
 				. $db->quote($item->title) . ', '
@@ -135,8 +134,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				. $db->quote($item->publish_end_date) . ', '
 				. $db->quote($item->start_date) . ', '
 				. $db->quote($item->end_date) . ', '
-				. $db->quote(($item->list_price ? $item->list_price : 0)) . ', '
-				. $db->quote(($item->sale_price ? $item->sale_price : 0))
+				. (double) ($item->list_price ? $item->list_price : 0) . ', '
+				. (double) ($item->sale_price ? $item->sale_price : 0)
 			);
 			$db->setQuery($query);
 			$db->execute();
@@ -147,24 +146,24 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		else
 		{
 			// Update the link.
-			$query->clear();
-			$query->update($db->qn('#__finder_links'));
-			$query->set($db->qn('route') . ' = ' . $db->quote($item->route));
-			$query->set($db->qn('title') . ' = ' . $db->quote($item->title));
-			$query->set($db->qn('description') . ' = ' . $db->quote($item->description));
-			$query->set($db->qn('indexdate') . ' = ' . $query->currentTimestamp());
-			$query->set($db->qn('state') . ' = ' . (int) $item->state);
-			$query->set($db->qn('access') . ' = ' . (int) $item->access);
-			$query->set($db->qn('language') . ' = ' . $db->quote($item->language));
-			$query->set($db->qn('type_id') . ' = ' . (int) $item->type_id);
-			$query->set($db->qn('object') . ' = ' . $db->quote(serialize($item)));
-			$query->set($db->qn('publish_start_date') . ' = ' . $db->quote($item->publish_start_date));
-			$query->set($db->qn('publish_end_date') . ' = ' . $db->quote($item->publish_end_date));
-			$query->set($db->qn('start_date') . ' = ' . $db->quote($item->start_date));
-			$query->set($db->qn('end_date') . ' = ' . $db->quote($item->end_date));
-			$query->set($db->qn('list_price') . ' = ' . $db->quote($item->list_price));
-			$query->set($db->qn('sale_price') . ' = ' . $db->quote($item->sale_price));
-			$query->where('link_id = ' . (int) $linkId);
+			$query->clear()
+				->update($db->quoteName('#__finder_links'))
+				->set($db->quoteName('route') . ' = ' . $db->quote($item->route))
+				->set($db->quoteName('title') . ' = ' . $db->quote($item->title))
+				->set($db->quoteName('description') . ' = ' . $db->quote($item->description))
+				->set($db->quoteName('indexdate') . ' = ' . $query->currentTimestamp())
+				->set($db->quoteName('state') . ' = ' . (int) $item->state)
+				->set($db->quoteName('access') . ' = ' . (int) $item->access)
+				->set($db->quoteName('language') . ' = ' . $db->quote($item->language))
+				->set($db->quoteName('type_id') . ' = ' . (int) $item->type_id)
+				->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)))
+				->set($db->quoteName('publish_start_date') . ' = ' . $db->quote($item->publish_start_date))
+				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
+				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
+				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
+				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ? $item->list_price : 0))
+				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ? $item->sale_price : 0))
+				->where('link_id = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -350,11 +349,11 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * so we need to go back and update the aggregate table with all the
 		 * new term ids.
 		 */
-		$query = $db->getQuery(true);
-		$query->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta');
-		$query->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term');
-		$query->set('ta.term_id = t.term_id');
-		$query->where('ta.term_id = 0');
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
+			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
+			->set('ta.term_id = t.term_id')
+			->where('ta.term_id = 0');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -366,10 +365,10 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * and the aggregate table has the correct term ids, we need to update
 		 * the links counter for each term by one.
 		 */
-		$query->clear();
-		$query->update($db->quoteName('#__finder_terms') . ' AS t');
-		$query->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id');
-		$query->set('t.' . $db->quoteName('links') . ' = t.links + 1');
+		$query->clear()
+			->update($db->quoteName('#__finder_terms') . ' AS t')
+			->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id')
+			->set('t.' . $db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -383,9 +382,9 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * the first character of the term. In php, it would be expressed as
 		 * substr(md5(substr($token, 0, 1)), 0, 1)
 		 */
-		$query->clear();
-		$query->update($db->quoteName('#__finder_tokens_aggregate'));
-		$query->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
+		$query->clear()
+			->update($db->quoteName('#__finder_tokens_aggregate'))
+			->set($db->quoteName('map_suffix') . ' = SUBSTR(MD5(SUBSTR(' . $db->quoteName('term') . ', 1, 1)), 1, 1)');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -425,10 +424,10 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
 		// Update the signature.
-		$query->clear();
-		$query->update($db->quoteName('#__finder_links'));
-		$query->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig));
-		$query->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
+		$query->clear()
+			->update($db->quoteName('#__finder_links'))
+			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
+			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -462,7 +461,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	 */
 	public function remove($linkId)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Get the indexer state.
@@ -472,35 +471,32 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		for ($i = 0; $i <= 15; $i++)
 		{
 			// Update the link counts for the terms.
-			$query->update($db->quoteName('#__finder_terms') . ' AS t');
-			$query->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id');
-			$query->set($db->quoteName('t'). '.' . $db->quoteName('links') . ' ='.  $db->quoteName('t') .'.' . $db->quoteName('links') . ' - 1');
-			$query->where($db->quoteName('m') . '.' . $db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
+			$query->update($db->quoteName('#__finder_terms') . ' AS t')
+				->join('INNER', $db->quoteName('#__finder_links_terms' . dechex($i)) . ' AS m ON m.term_id = t.term_id')
+				->set('t.links = t.links - 1')
+				->where('m.link_id = ' . $db->quote((int) $linkId));
 			$db->setQuery($query);
 			$db->execute();
 
 			// Remove all records from the mapping tables.
-			$query->clear();
-			$query->delete();
-			$query->from($db->quoteName('#__finder_links_terms' . dechex($i)));
-			$query->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+			$query->clear()
+				->delete($db->quoteName('#__finder_links_terms' . dechex($i)))
+				->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
 			$db->setQuery($query);
 			$db->execute();
 		}
 
 		// Delete all orphaned terms.
-		$query->clear();
-		$query->delete();
-		$query->from($db->quoteName('#__finder_terms'));
-		$query->where($db->quoteName('links') . ' <= 0');
+		$query->clear()
+			->delete($db->quoteName('#__finder_terms'))
+			->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
 		$db->execute();
 
 		// Delete the link from the index.
-		$query->clear();
-		$query->delete();
-		$query->from($db->quoteName('#__finder_links'));
-		$query->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
+		$query->clear()
+			->delete($db->quoteName('#__finder_links'))
+			->where($db->quoteName('link_id') . ' = ' . $db->quote((int) $linkId));
 		$db->setQuery($query);
 		$db->execute();
 
@@ -525,13 +521,12 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	public function optimize()
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Delete all orphaned terms.
-		$query->delete();
-		$query->from($db->quoteName('#__finder_terms'));
-		$query->where($db->quoteName('links') . ' <= 0');
+		$query->delete($db->quoteName('#__finder_terms'))
+			->where($db->quoteName('links') . ' <= 0');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -578,7 +573,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	protected function addTokensToDB($tokens, $context = '')
 	{
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Force tokens to an array.
@@ -587,34 +582,34 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		// Count the number of token values.
 		$values = 0;
 
+		// Insert the tokens into the database.
+		$query->insert($db->quoteName('#__finder_tokens'))
+			->columns(
+				array(
+					$db->quoteName('term'),
+					$db->quoteName('stem'),
+					$db->quoteName('common'),
+					$db->quoteName('phrase'),
+					$db->quoteName('weight'),
+					$db->quoteName('context'),
+					$db->quoteName('language')
+				)
+			);
+
 		// Iterate through the tokens to create SQL value sets.
 		foreach ($tokens as $token)
 		{
 			$query->values(
 				$db->quote($token->term) . ', '
-				. $db->quote($token->stem) . ', '
-				. (int) $token->common . ', '
-				. (int) $token->phrase . ', '
-				. (float) $token->weight . ', '
-				. (int) $context . ', '
-				. $db->quote($token->language)
+					. $db->quote($token->stem) . ', '
+					. (int) $token->common . ', '
+					. (int) $token->phrase . ', '
+					. (float) $token->weight . ', '
+					. (int) $context . ', '
+					. $db->quote($token->language)
 			);
 			$values++;
 		}
-
-		// Insert the tokens into the database.
-		$query->insert($db->quoteName('#__finder_tokens'));
-		$query->columns(
-					array(
-						$db->quoteName('term'),
-						$db->quoteName('stem'),
-						$db->quoteName('common'),
-						$db->quoteName('phrase'),
-						$db->quoteName('weight'),
-						$db->quoteName('context'),
-						$db->quoteName('language')
-					)
-		);
 		$db->setQuery($query);
 		$db->execute();
 
