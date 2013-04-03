@@ -36,7 +36,7 @@ class LanguagesModelStrings extends JModelLegacy
 		// Empty the database cache first
 		try
 		{
-			$this->_db->setQuery('TRUNCATE TABLE '.$this->_db->qn('#__overrider'));
+			$this->_db->setQuery('TRUNCATE TABLE '.$this->_db->quoteName('#__overrider'));
 			$this->_db->execute();
 		}
 		catch (RuntimeException $e)
@@ -46,7 +46,7 @@ class LanguagesModelStrings extends JModelLegacy
 
 		// Create the insert query
 		$query = $this->_db->getQuery(true)
-					->insert($this->_db->qn('#__overrider'))
+					->insert($this->_db->quoteName('#__overrider'))
 					->columns('constant, string, file');
 
 		// Initialize some variables
@@ -86,7 +86,7 @@ class LanguagesModelStrings extends JModelLegacy
 				$query->clear('values');
 				foreach ($strings as $key => $string)
 				{
-					$query->values($this->_db->q($key).','.$this->_db->q($string).','.$this->_db->q(JPath::clean($file)));
+					$query->values($this->_db->quote($key).','.$this->_db->quote($string).','.$this->_db->quote(JPath::clean($file)));
 				}
 
 				try
@@ -123,12 +123,12 @@ class LanguagesModelStrings extends JModelLegacy
 
 		try
 		{
-			$searchstring = $this->_db->q('%' . $input->getString('searchstring') . '%');
+			$searchstring = $this->_db->quote('%' . $input->getString('searchstring') . '%');
 
 			// Create the search query
 			$query = $this->_db->getQuery(true)
 						->select('constant, string, file')
-						->from($this->_db->qn('#__overrider'));
+						->from($this->_db->quoteName('#__overrider'));
 			if ($input->get('searchtype') == 'constant')
 			{
 				$query->where('constant LIKE '.$searchstring);
