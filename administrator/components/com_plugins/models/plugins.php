@@ -64,19 +64,19 @@ class PluginsModelPlugins extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $this->getUserStateFromRequest($this->context.'.filter.access', 'filter_access', null, 'int');
+		$accessId = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
 		$state = $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string');
 		$this->setState('filter.enabled', $state);
 
-		$folder = $this->getUserStateFromRequest($this->context.'.filter.folder', 'filter_folder', null, 'cmd');
+		$folder = $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', null, 'cmd');
 		$this->setState('filter.folder', $folder);
 
-		$language = $this->getUserStateFromRequest($this->context.'.filter.language', 'filter_language', '');
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
 		// Load the parameters.
@@ -94,18 +94,18 @@ class PluginsModelPlugins extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string	A prefix for the store id.
+	 * @param   string    A prefix for the store id.
 	 *
-	 * @return  string	A store id.
+	 * @return  string    A store id.
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.access');
-		$id	.= ':'.$this->getState('filter.state');
-		$id	.= ':'.$this->getState('filter.folder');
-		$id	.= ':'.$this->getState('filter.language');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.access');
+		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.folder');
+		$id .= ':' . $this->getState('filter.language');
 
 		return parent::getStoreId($id);
 	}
@@ -114,11 +114,11 @@ class PluginsModelPlugins extends JModelList
 	 * Returns an object list
 	 *
 	 * @param   string The query
-	 * @param   int Offset
-	 * @param   int The number of records
+	 * @param   int    Offset
+	 * @param   int    The number of records
 	 * @return  array
 	 */
-	protected function _getList($query, $limitstart=0, $limit=0)
+	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
 		$search = $this->getState('filter.search');
 		$ordering = $this->getState('list.ordering', 'ordering');
@@ -184,13 +184,14 @@ class PluginsModelPlugins extends JModelList
 		{
 			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
 			$extension = 'plg_' . $item->folder . '_' . $item->element;
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-			||	$lang->load($extension . '.sys', $source, null, false, false)
-			||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-			||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+				|| $lang->load($extension . '.sys', $source, null, false, false)
+				|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+				|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
 			$item->name = JText::_($item->name);
 		}
 	}
+
 	/**
 	 * Build an SQL query to load the list data.
 	 *
@@ -199,41 +200,41 @@ class PluginsModelPlugins extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
 				'a.extension_id , a.name, a.element, a.folder, a.checked_out, a.checked_out_time,' .
-				' a.enabled, a.access, a.ordering'
+					' a.enabled, a.access, a.ordering'
 			)
-		);
-		$query->from($db->quoteName('#__extensions').' AS a');
-
-		$query->where($db->quoteName('type').' = '.$db->quote('plugin'));
+		)
+			->from($db->quoteName('#__extensions') . ' AS a')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->where('a.access = '.(int) $access);
+			$query->where('a.access = ' . (int) $access);
 		}
 
 		// Filter by published state
 		$published = $this->getState('filter.enabled');
 		if (is_numeric($published))
 		{
-			$query->where('a.enabled = '.(int) $published);
-		} elseif ($published === '')
+			$query->where('a.enabled = ' . (int) $published);
+		}
+		elseif ($published === '')
 		{
 			$query->where('(a.enabled IN (0, 1))');
 		}
@@ -244,14 +245,14 @@ class PluginsModelPlugins extends JModelList
 		// Filter by folder.
 		if ($folder = $this->getState('filter.folder'))
 		{
-			$query->where('a.folder = '.$db->quote($folder));
+			$query->where('a.folder = ' . $db->quote($folder));
 		}
 
 		// Filter by search in id
 		$search = $this->getState('filter.search');
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
-				$query->where('a.extension_id = '.(int) substr($search, 3));
+			$query->where('a.extension_id = ' . (int) substr($search, 3));
 		}
 
 		return $query;
