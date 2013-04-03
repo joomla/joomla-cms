@@ -77,12 +77,12 @@ class RedirectHelper
 	public static function isEnabled()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT enabled' .
-			' FROM #__extensions' .
-			' WHERE folder = '.$db->quote('system').
-			'  AND element = '.$db->quote('redirect')
-		);
+		$query = $db->getQuery(true)
+			->select($db->quoteName('enabled'))
+			->from('#__extensions')
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('redirect'));
+		$db->setQuery($query);
 
 		try
 		{

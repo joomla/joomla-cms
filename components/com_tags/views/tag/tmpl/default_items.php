@@ -31,25 +31,28 @@ $n = count($this->items);
 
 	<ul class="category list-striped list-condensed">
 		<?php foreach ($items as $i => $item) : ?>
-			<?php
-			if ((!empty($item->core_access)) && in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
+			<?php if ((!empty($item->core_access)) && in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
 				<?php if ($item->core_state == 0) : ?>
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-				<?php else: ?><?php $r = $item->router;?>
+				<?php else: ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<?php  echo '<h3> <a href="' . JRoute::_($item->link) . '">' . $this->escape($item->core_title) . '</a> </h3>'; ?>
-					<?php endif; ?>
-					<?php  $images  = json_decode($item->core_images);?>
-					<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
-						<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
-					<?php endif; ?>
-				<?php  if ($this->params->get('tag_list_show_item_description', 1)) : ?>
+					<h3>
+						<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+							<?php echo $this->escape($item->core_title); ?>
+						</a>
+					</h3>
+				<?php endif; ?>
+				<?php $images  = json_decode($item->core_images);?>
+				<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
+					<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+				<?php endif; ?>
+				<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
 					<span class="tag-body">
-						<?php echo JHtmlString::truncate($item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
+						<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
 					</span>
 				<?php endif; ?>
 					</li>
-			<?php  endif;?>
+			<?php endif;?>
 			<div class="clearfix"></div>
 		<?php endforeach; ?>
 	</ul>

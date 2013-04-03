@@ -71,7 +71,7 @@ class JToolbarButtonSlider extends JToolbarButton
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName() . '-' . 'slider-' . $name;
+		return $this->_parent->getName() . '-slider-' . $name;
 	}
 
 	/**

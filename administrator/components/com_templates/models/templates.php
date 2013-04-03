@@ -73,8 +73,8 @@ class TemplatesModelTemplates extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -83,16 +83,16 @@ class TemplatesModelTemplates extends JModelList
 				'a.extension_id, a.name, a.element, a.client_id'
 			)
 		);
-		$query->from($db->quoteName('#__extensions').' AS a');
+		$query->from($db->quoteName('#__extensions') . ' AS a');
 
 		// Filter by extension type.
-		$query->where($db->quoteName('type').' = '.$db->quote('template'));
+		$query->where($db->quoteName('type') . ' = ' . $db->quote('template'));
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
 		if (is_numeric($clientId))
 		{
-			$query->where('a.client_id = '.(int) $clientId);
+			$query->where('a.client_id = ' . (int) $clientId);
 		}
 
 		// Filter by search in title
@@ -101,15 +101,17 @@ class TemplatesModelTemplates extends JModelList
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = '.(int) substr($search, 3));
-			} else {
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
-				$query->where('a.element LIKE '.$search.' OR a.name LIKE '.$search);
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$query->where('a.element LIKE ' . $search . ' OR a.name LIKE ' . $search);
 			}
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.folder')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.folder')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -121,15 +123,15 @@ class TemplatesModelTemplates extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id	A prefix for the store id.
+	 * @param   string  $id    A prefix for the store id.
 	 * @return  string  A store id.
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.client_id');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.client_id');
 
 		return parent::getStoreId($id);
 	}
@@ -146,10 +148,10 @@ class TemplatesModelTemplates extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$clientId = $this->getUserStateFromRequest($this->context.'.filter.client_id', 'filter_client_id', null);
+		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null);
 		$this->setState('filter.client_id', $clientId);
 
 		// Load the parameters.
