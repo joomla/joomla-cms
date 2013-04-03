@@ -51,11 +51,10 @@ abstract class JHtmlBanner
 	public static function clientlist()
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('id As value, name As text');
-		$query->from('#__banner_clients AS a');
-		$query->order('a.name');
+		$query	= $db->getQuery(true)
+			->select('id As value, name As text')
+			->from('#__banner_clients AS a')
+			->order('a.name');
 
 		// Get the options.
 		$db->setQuery($query);

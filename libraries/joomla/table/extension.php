@@ -100,8 +100,8 @@ class JTableExtension extends JTable
 			$query->where($col . ' = ' . $this->_db->quote($val));
 		}
 
-		$query->select($this->_db->quoteName('extension_id'));
-		$query->from($this->_db->quoteName('#__extensions'));
+		$query->select($this->_db->quoteName('extension_id'))
+			->from($this->_db->quoteName('#__extensions'));
 		$this->_db->setQuery($query);
 		return $this->_db->loadResult();
 	}
@@ -161,9 +161,9 @@ class JTableExtension extends JTable
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('enabled') . ' = ' . (int) $state);
-		$query->where('(' . $where . ')' . $checkin);
+		$query->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('enabled') . ' = ' . (int) $state)
+			->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

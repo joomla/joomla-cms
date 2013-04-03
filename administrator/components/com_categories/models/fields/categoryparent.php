@@ -23,7 +23,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var        string
 	 * @since   1.6
 	 */
 	protected $type = 'CategoryParent';
@@ -49,43 +49,42 @@ class JFormFieldCategoryParent extends JFormFieldList
 			$oldParent = $this->form->getValue($name);
 		}
 		else
-		// For items the old category is the category they are in when opened or 0 if new.
+			// For items the old category is the category they are in when opened or 0 if new.
 		{
 			$thisItem = $jinput->get('id', 0);
 			$oldCat = $this->form->getValue($name);
 		}
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('a.id AS value, a.title AS text, a.level');
-		$query->from('#__categories AS a');
-		$query->join('LEFT', $db->quoteName('#__categories').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, a.level')
+			->from('#__categories AS a')
+			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
 		if ($extension = $this->form->getValue('extension'))
 		{
-			$query->where('(a.extension = '.$db->quote($extension).' OR a.parent_id = 0)');
+			$query->where('(a.extension = ' . $db->quote($extension) . ' OR a.parent_id = 0)');
 		}
 		if ($this->element['parent'])
 		{
-		// Prevent parenting to children of this item.
+			// Prevent parenting to children of this item.
 			if ($id = $this->form->getValue('id'))
 			{
-				$query->join('LEFT', $db->quoteName('#__categories').' AS p ON p.id = '.(int) $id);
-				$query->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
+				$query->join('LEFT', $db->quoteName('#__categories') . ' AS p ON p.id = ' . (int) $id)
+					->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
 
-				$rowQuery	= $db->getQuery(true);
-				$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id');
-				$rowQuery->from('#__categories AS a');
-				$rowQuery->where('a.id = ' . (int) $id);
+				$rowQuery = $db->getQuery(true);
+				$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id')
+					->from('#__categories AS a')
+					->where('a.id = ' . (int) $id);
 				$db->setQuery($rowQuery);
 				$row = $db->loadObject();
 			}
 		}
-		$query->where('a.published IN (0,1)');
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id');
-		$query->order('a.lft ASC');
+		$query->where('a.published IN (0,1)')
+			->group('a.id, a.title, a.level, a.lft, a.rgt, a.extension, a.parent_id')
+			->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -108,7 +107,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 				$options[$i]->text = JText::_('JGLOBAL_ROOT_PARENT');
 			}
 
-			$options[$i]->text = str_repeat('- ', $options[$i]->level).$options[$i]->text;
+			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
 		}
 
 		// Get the current user object.
@@ -122,7 +121,7 @@ class JFormFieldCategoryParent extends JFormFieldList
 				// To take save or create in a category you need to have create rights for that category
 				// unless the item is already in that category.
 				// Unset the option if the user isn't authorised for it. In this field assets are always categories.
-				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true )
+				if ($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
 				{
 					unset($options[$i]);
 				}
@@ -148,8 +147,9 @@ class JFormFieldCategoryParent extends JFormFieldList
 				// However, if you can edit.state you can also move this to another category for which you have
 				// create permission and you should also still be able to save in the current category.
 				elseif
-					(($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
-					&& $option->value != $oldCat)
+				(($user->authorise('core.create', $extension . '.category.' . $option->value) != true)
+					&& $option->value != $oldCat
+				)
 				{
 					echo 'x';
 					unset($options[$i]);

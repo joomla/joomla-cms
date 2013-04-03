@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+03-Apr-2013 Jean-Marie Simonet
+ # [#30349] Cleaned up use of database & query objects. Thanks Peter van Westen and Michael Babker
+
 -------------------- 3.1 Beta 3 Release [30-Mar-2012] ------------------
 
 29-Mar-2013 Michael Babker
