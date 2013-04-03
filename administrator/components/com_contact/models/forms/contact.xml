@@ -63,12 +63,6 @@
 			required="true"
 		/>
 
-		<field name="tags" type="tag"
-			label="JTAG" description="JTAG_DESC"
-			class="inputbox" multiple="true"
-		>
-		</field>
-
 		<field name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
@@ -715,6 +709,13 @@
 				label="JFIELD_METADATA_RIGHTS_LABEL"
 				description="JFIELD_METADATA_RIGHTS_DESC"
 				size="20" />
+		<field name="tags" type="tag"
+			label="JTAG" description="JTAG_DESC"
+			class="inputbox" multiple="true"
+		>
+		</field>
+
+
 		</fieldset>
 	</fields>
 		<field name="hits"

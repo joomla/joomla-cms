@@ -23,7 +23,39 @@ $ -> Language fix or change
 + -> Addition
 ^ -> Change
 - -> Removed
-! -> Note
+! -> Note3
+
+-------------------- 3.1 Beta 3 Release [30-Mar-2012] ------------------
+
+29-Mar-2013 Michael Babker
+ # [#30391] Fixes array not being initialized.  Thanks Peter
+ # [#30317] Synch session check bug fix from platform.  Thanks Elin
+ # [#30419] using foreach with nonarray in com_finder's feed view.  Thanks Elijah
+ ^ [#30426] Sync HTML package to the Platform
+ ^ [#30297] Changed MooTools to jQuery based color picker.  Thanks Peter
+ ^ [#30425] Remove duplicated filterText() methods
+ # [#29551] Fixed list_price and sale_price.  Thanks Gabriele
+ # [#30076] Pagination does not work for components with more than one administrative view.  Thanks Ram
+ # Incorrect field names used in JTableCorecontent (discovered implementing unit tests)
+
+29-Mar-2013 Mark Dexter
+ # [#30205] findmanifest should prioritize main folder manifests. Thanks Roberto.
+ # [#29680] JLIB_DATABASE_QUERY_FAILED when upgrading to 3.0.2 (Postgresql: invalid input syntax for integer). Thanks Pierre-Louis Bonicoli.
+ # [#30107] Redirect plugin needs to be disabled by default. Thanks Ram Tripathi.
+
+29-Mar-2013 Jean-Marie Simonet
+ # [#29709] Imposed translation on menu description. Thanks Marco and Brian.
+
+28-Mar-2013 Jean-Marie Simonet
+ # [#30415] *Multilanguage 3.1: SIngle article display does not filter correctly author contact per language.
+ $ Updating installation file: ckb-IQ.ini
+ # [#30388] Routing on the compact list tagged items layout, default tagged items layout and similar tags module. Thanks Mark.
+ # [#30410] Notice: Array to string conversion in Tags View. Thanks Mark
+ # [#30414] Pagination limit not changeable in com_redirect. Thanks Constantin
+ # [#30406] Set state to unpublished when save2copy.
+
+27-Mar-2013 Mark Dexter
+ # [#30405] Warning in compact tag view when images is empty.
 
 27-Mar-2013 Jean-Marie Simonet
  # [#29319] SEF plugin gives wrong canonical url (of category, not from article). Thanks Rouven and Mark

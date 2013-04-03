@@ -449,8 +449,9 @@ class CategoriesModelCategory extends JModelAdmin
 		if ($input->get('task') == 'save2copy')
 		{
 			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-			$data['title'] = $title;
-			$data['alias'] = $alias;
+			$data['title']		= $title;
+			$data['alias']		= $alias;
+			$data['published']	= 0;
 		}
 
 		// Bind the data.

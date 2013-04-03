@@ -17,7 +17,7 @@ $cacheparams->cachemode = 'safeuri';
 $cacheparams->class = 'ModTagsPopularHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams = array('id' => 'int', 'Itemid' => 'int');
+$cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
 
 $list = JModuleHelper::moduleCache($module, $params, $cacheparams);
 

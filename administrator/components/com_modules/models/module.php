@@ -51,6 +51,7 @@ class ModulesModelModule extends JModelAdmin
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
+
 		if (!$pk)
 		{
 			if ($extensionId = (int) $app->getUserState('com_modules.add.module.extension_id'))
@@ -58,6 +59,7 @@ class ModulesModelModule extends JModelAdmin
 				$this->setState('extension.id', $extensionId);
 			}
 		}
+
 		$this->setState('module.id', $pk);
 
 		// Load the parameters.
@@ -163,13 +165,14 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   11.1
+	 * @since   2.5
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
 		// Set the variables
 		$user = JFactory::getUser();
 		$table = $this->getTable();
+		$newIds = array();
 		$i = 0;
 
 		foreach ($pks as $pk)
@@ -259,7 +262,7 @@ class ModulesModelModule extends JModelAdmin
 	 *
 	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
-	 * @since   11.1
+	 * @since   2.5
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
@@ -323,6 +326,7 @@ class ModulesModelModule extends JModelAdmin
 	 * @return  boolean  Returns true on success, false on failure.
 	 *
 	 * @since   1.6
+	 * @throws  Exception
 	 */
 	public function delete(&$pks)
 	{

@@ -450,12 +450,11 @@ class ContentModelArticle extends JModelAdmin
 			list($title, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 			$data['title']	= $title;
 			$data['alias']	= $alias;
+			$data['state']	= 0;
 		}
 
-		if (parent::save($data)) {
-
-			$ucm = new JUcmBase($this->getTable(),'com_content.article');
-			$ucm->save($data);
+		if (parent::save($data))
+		{
 
 			if (isset($data['featured']))
 			{

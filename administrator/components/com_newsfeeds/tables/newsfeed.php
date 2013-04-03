@@ -149,6 +149,36 @@ class NewsfeedsTableNewsfeed extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
+		$metadata = json_decode($this->metadata);
+		$tags = (array) $metadata->tags;
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($tags) == false)
+		{
+			$fields = $this->getFields();
+			$data = array();
+			$fields = $this->getFields();
+
+			foreach ($fields as $field)
+			{
+				$columnName = $field->Field;
+				$value = $this->$columnName;
+				$data[$columnName] =  $value;
+			}
+
+			$typeAlias = 'com_newsfeeds.newsfeed';
+			$type = new JUcmType($typeAlias);
+
+			$ucm = new JUcmBase($this, $typeAlias);
+			$ucm->save($data, $type, false);
+			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
+
+			$id = $data['id'];
+			$isNew = $id == 0 ? 1 : 0;
+			$tagsHelper = new JTags;
+
+			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
+		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))

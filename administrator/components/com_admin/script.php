@@ -565,6 +565,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/installer/index.html',
 			'/libraries/joomla/installer/librarymanifest.php',
 			'/libraries/joomla/installer/packagemanifest.php',
+			'/media/system/css/mooRainbow.css',
+			'/media/system/js/mooRainbow-uncompressed.js',
+			'/media/system/js/mooRainbow.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
