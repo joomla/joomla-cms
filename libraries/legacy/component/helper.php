@@ -374,11 +374,11 @@ class JComponentHelper
 	protected static function _load($option)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('extension_id AS id, element AS "option", params, enabled');
-		$query->from('#__extensions');
-		$query->where($query->qn('type') . ' = ' . $db->quote('component'));
-		$query->where($query->qn('element') . ' = ' . $db->quote($option));
+		$query = $db->getQuery(true)
+			->select('extension_id AS id, element AS "option", params, enabled')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($option));
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache('_system', 'callback');

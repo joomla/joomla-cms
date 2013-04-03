@@ -68,7 +68,6 @@ class MenuItemEditPage extends AdminEditPage
 		array('group' => 'Search', 'type' => 'Search Form or Search Results '),
 		array('group' => 'Tags', 'type' => 'Tagged Items '),
 		array('group' => 'Tags', 'type' => 'Compact list of tagged items '),
-		array('group' => 'Tags', 'type' => 'Compact Tags View '),
 		array('group' => 'Tags', 'type' => 'List of all tags '),
 		array('group' => 'Users Manager', 'type' => 'Login Form '),
 		array('group' => 'Users Manager', 'type' => 'User Profile '),

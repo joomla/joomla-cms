@@ -74,7 +74,7 @@ class BannersTableBanner extends JTable
 		} elseif (empty($this->ordering))
 		{
 			// Set ordering to last if ordering was 0
-			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->Quote($this->catid).' AND state>=0');
+			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->quote($this->catid).' AND state>=0');
 		}
 
 		return true;
@@ -152,19 +152,19 @@ class BannersTableBanner extends JTable
 					break;
 				case 2:
 					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
-					$reset = $this->_db->Quote($date->toSql());
+					$reset = $this->_db->quote($date->toSql());
 					break;
 				case 3:
 					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
-					$reset = $this->_db->Quote($date->toSql());
+					$reset = $this->_db->quote($date->toSql());
 					break;
 				case 4:
 					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
-					$reset = $this->_db->Quote($date->toSql());
+					$reset = $this->_db->quote($date->toSql());
 					break;
 				case 5:
 					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
-					$reset = $this->_db->Quote($date->toSql());
+					$reset = $this->_db->quote($date->toSql());
 					break;
 			}
 			// Store the row
@@ -194,7 +194,7 @@ class BannersTableBanner extends JTable
 			if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
 			{
 				// Reorder the oldrow
-				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
+				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->quote($oldrow->catid).' AND state>=0');
 			}
 		}
 		return count($this->getErrors()) == 0;

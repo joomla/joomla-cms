@@ -115,15 +115,18 @@ class TagsModelTags extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('a.*');
+		$query->select('a.*')
 
-		$query->from($db->quoteName('#__tags') . ' AS a');
-		$query->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
+			->from($db->quoteName('#__tags') . ' AS a')
+			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 
 		if (!empty($pid))
 		{
 			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
 		}
+
+		// Exclude the root.
+		$query->where($db->quoteName('a.parent_id') . ' <> 0');
 
 		// Optionally filter on language
 		if (empty($language))
@@ -136,7 +139,7 @@ class TagsModelTags extends JModelList
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		$query->order($db->quoteName($orderby) . ' ' . $orderDirection);
