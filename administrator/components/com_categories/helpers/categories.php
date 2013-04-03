@@ -138,7 +138,11 @@ class CategoriesHelper
 
 		foreach ($contentitems as $tag => $item)
 		{
-			$associations[$tag] = $item->id;
+			// Do not return itself as result
+			if ((int) $item->id != $pk)
+			{
+				$associations[$tag] = $item->id;
+			}
 		}
 
 		return $associations;
