@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Tags
+ * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,10 +14,10 @@ defined('JPATH_PLATFORM') or die;
  * tagging of content.
  *
  * @package     Joomla.Libraries
- * @subpackage  Tags
+ * @subpackage  Helper
  * @since       3.1
  */
-class JTags
+class JHelperTags
 {
 	/**
 	 * Method to add or update tags associated with an item. Generally used as a postSaveHook.
@@ -515,7 +515,7 @@ class JTags
 			$query->where($db->quoteName('core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		$contentTypes = new JTags;
+		$contentTypes = new JHelperTags;
 
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = $contentTypes->getTypes('assocList', $typesr, false);
