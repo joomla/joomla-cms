@@ -52,7 +52,7 @@ class JAdapterInstance extends JObject
 		$this->parent = $parent;
 
 		// Pull in the global dbo in case something happened to it.
-		$this->db = $db ? $db : JFactory::getDBO();
+		$this->db = $db ? $db : JFactory::getDbo();
 	}
 
 	/**

@@ -149,13 +149,13 @@ abstract class JHtmlRules
 	protected static function _getParentAssetId($assetId)
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Get the user groups from the database.
-		$query->select($db->quoteName('parent_id'));
-		$query->from($db->quoteName('#__assets'));
-		$query->where($db->quoteName('id') . ' = ' . (int) $assetId);
+		$query->select($db->quoteName('parent_id'))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('id') . ' = ' . (int) $assetId);
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();
@@ -171,12 +171,12 @@ abstract class JHtmlRules
 	protected static function _getUserGroups()
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Get the user groups from the database.
 		$db->setQuery(
 			'SELECT a.id AS value, a.title AS text, b.id as parent'
-			. ' FROM #__usergroups AS a' . ' LEFT JOIN #__usergroups AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
+			. ' FROM #__usergroups AS a LEFT JOIN #__usergroups AS b ON a.lft >= b.lft AND a.rgt <= b.rgt'
 			. ' ORDER BY a.lft ASC, b.lft ASC'
 		);
 		$result = $db->loadObjectList();

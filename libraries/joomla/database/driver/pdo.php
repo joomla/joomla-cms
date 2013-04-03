@@ -296,7 +296,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 		catch (PDOException $e)
 		{
-			throw new RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2, $e);
+			throw new RuntimeException('Could not connect to PDO: ' . $e->getMessage(), 2, $e);
 		}
 	}
 
@@ -366,11 +366,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->replacePrefix((string) $this->sql);
+		$query = $this->replacePrefix((string) $this->sql);
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			// @TODO
-			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
 		// Increment the query counter.
@@ -380,9 +380,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		if ($this->debug)
 		{
 			// Add the query to the object queue.
-			$this->log[] = $sql;
+			$this->log[] = $query;
 
-			JLog::add($sql, JLog::DEBUG, 'databasequery');
+			JLog::add($query, JLog::DEBUG, 'databasequery');
 		}
 
 		// Reset the error values.
@@ -539,7 +539,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		// Backup the query state.
-		$sql = $this->sql;
+		$query = $this->sql;
 		$limit = $this->limit;
 		$offset = $this->offset;
 		$prepared = $this->prepared;
@@ -560,7 +560,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		// Restore the query state.
-		$this->sql = $sql;
+		$this->sql = $query;
 		$this->limit = $limit;
 		$this->offset = $offset;
 		$this->prepared = $prepared;
@@ -679,9 +679,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$query->setLimit($limit, $offset);
 		}
 
-		$sql = $this->replacePrefix((string) $query);
+		$query = $this->replacePrefix((string) $query);
 
-		$this->prepared = $this->connection->prepare($sql, $driverOptions);
+		$this->prepared = $this->connection->prepare($query, $driverOptions);
 
 		// Store reference to the JDatabaseQuery instance:
 		parent::setQuery($query, $offset, $limit);

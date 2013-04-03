@@ -708,8 +708,8 @@ abstract class JHtmlSelect
 			{
 				$extra .= ((string) $k == (string) $selected ? ' checked="checked"' : '');
 			}
-			$html .= "\n\t" . '<label for="' . $id_text . $k . '"' . ' id="' . $id_text . $k . '-lbl" class="radio">';
-			$html .= "\n\t" . "\n\t" . '<input type="radio" name="' . $name . '"' . ' id="' . $id_text . $k . '" value="' . $k . '"' . ' ' . $extra . ' '
+			$html .= "\n\t" . '<label for="' . $id_text . $k . '" id="' . $id_text . $k . '-lbl" class="radio">';
+			$html .= "\n\t" . "\n\t" . '<input type="radio" name="' . $name . '" id="' . $id_text . $k . '" value="' . $k . '" ' . $extra . ' '
 				. $attribs . '>' . $t;
 			$html .= "\n\t" . '</label>';
 		}

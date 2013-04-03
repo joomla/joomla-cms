@@ -63,13 +63,13 @@ class LanguagesModelLanguages extends JModelList
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$accessId = $this->getUserStateFromRequest($this->context.'.access', 'filter_access', null, 'int');
+		$accessId = $this->getUserStateFromRequest($this->context . '.access', 'filter_access', null, 'int');
 		$this->setState('filter.access', $accessId);
 
-		$published = $this->getUserStateFromRequest($this->context.'.published', 'filter_published', '');
+		$published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
 		// Load the parameters.
@@ -87,7 +87,7 @@ class LanguagesModelLanguages extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id	A prefix for the store id.
+	 * @param   string  $id    A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 * @since   1.6
@@ -95,9 +95,9 @@ class LanguagesModelLanguages extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.access');
-		$id	.= ':'.$this->getState('filter.published');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.access');
+		$id .= ':' . $this->getState('filter.published');
 
 		return parent::getStoreId($id);
 	}
@@ -105,7 +105,7 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Method to build an SQL query to load the list data.
 	 *
-	 * @return  string	An SQL query
+	 * @return  string    An SQL query
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -115,22 +115,22 @@ class LanguagesModelLanguages extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the languages table.
-		$query->select($this->getState('list.select', 'a.*', 'l.home'));
-		$query->from($db->quoteName('#__languages').' AS a');
+		$query->select($this->getState('list.select', 'a.*', 'l.home'))
+			->from($db->quoteName('#__languages') . ' AS a');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Select the language home pages
-		$query->select('l.home AS home');
-		$query->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
+		$query->select('l.home AS home')
+			->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
 		if (is_numeric($published))
 		{
-			$query->where('a.published = '.(int) $published);
+			$query->where('a.published = ' . (int) $published);
 		}
 		elseif ($published === '')
 		{
@@ -141,18 +141,18 @@ class LanguagesModelLanguages extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%'.$db->escape($search, true).'%', false);
-			$query->where('(a.title LIKE '.$search.')');
+			$search = $db->quote('%' . $db->escape($search, true) . '%', false);
+			$query->where('(a.title LIKE ' . $search . ')');
 		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->where('a.access = '.(int) $access);
+			$query->where('a.access = ' . (int) $access);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -160,8 +160,8 @@ class LanguagesModelLanguages extends JModelList
 	/**
 	 * Set the published language(s)
 	 *
-	 * @param   array  $cid	An array of language IDs.
-	 * @param   integer  $value	The value of the published state.
+	 * @param   array    $cid      An array of language IDs.
+	 * @param   integer  $value    The value of the published state.
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 * @since   1.6
@@ -214,5 +214,4 @@ class LanguagesModelLanguages extends JModelList
 		parent::cleanCache('_system');
 		parent::cleanCache('com_languages');
 	}
-
 }
