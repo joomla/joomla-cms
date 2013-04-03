@@ -32,6 +32,17 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->type("jform_new_url", $goodLink);
 		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
+
+		$this->jPrint("Goto plugin manager and enable redirect plugin\n");
+		$this->click("link=Plug-in Manager");
+		$this->waitForPageToLoad("30000");
+
+		$this->type("filter_search", "redirect");
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-publish']/button");
+		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 
 		$this->jPrint ("Go to front end and try bad url \n");
@@ -64,67 +75,47 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 	function testDeleteRedirect()
 	{
 		$this->jPrint ("Starting testDeleteRedirect.\n");
-
 		$this->deleteAllVisibleCookies();
-
 		$this->gotoAdmin();
-
 		$this->doAdminLogin();
-
-
 
 		$badLink = $this->cfg->host . $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/single-articlexxx';
-
 		$goodLink = $this->cfg->host . $this->cfg->path . 'index.php/getting-started';
-
 		$this->jPrint ("Go to front end and try bad URL now without redirect\n");
-
 		$this->gotoSite();
-
 		$this->open($badLink, "true"); // need true to allow selenium to load error page
-
 		$this->assertTrue($this->isElementPresent("//h1[contains(text(),'page cannot be found')]"));
 
-
-
 		$this->jPrint ("Go to back end and check that this link has been added as a redirect\n");
-
 		$this->gotoAdmin();
-
 		$this->doAdminLogin();
-
 		$this->click("link=Redirect");
-
 		$this->waitForPageToLoad("30000");
-
 		$this->jPrint ("Check that bad link is there\n");
-
 		$this->assertTrue($this->isElementPresent("//td/a[@title='" . $badLink . "']"));
 
-
-
 		$this->jPrint ("Delete redirect item and log out\n");
-
 		$this->click("checkall-toggle");
-
 		$this->click("//div[@id='toolbar-trash']/button");
-
 		$this->waitForPageToLoad("30000");
-
 		$this->select("filter_state", "label=Trashed");
-
 		$this->waitForPageToLoad("30000");
-
 		$this->click("checkall-toggle");
-
 		$this->click("//div[@id='toolbar-delete']/button");
-
 		$this->waitForPageToLoad("30000");
-
 		$this->select("filter_state", "label=- Select Status -");
-
 		$this->waitForPageToLoad("30000");
 
+		$this->jPrint("Goto plugin manager and disable redirect plugin\n");
+		$this->click("link=Plug-in Manager");
+		$this->waitForPageToLoad("30000");
+
+		$this->type("filter_search", "redirect");
+		$this->click("//button[@type='submit']");
+		$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-unpublish']/button");
+		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 	}
 
