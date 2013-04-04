@@ -21,47 +21,91 @@ class JUcmType implements JUcm
 	/**
 	 * The UCM Type
 	 *
-	 * @param	String $alias	The table alias for the content type
-	 *
 	 * @var		JUcmType Object
 	 * @since	13.1
 	 */
 	public $type;
 
-	public function __construct($alias = null)
+	/**
+	* The Database object
+	*
+	* @var		JDatabase Object
+	* @since	13.1
+	*/
+	protected $db;
+
+	/**
+	* The alias for the content type
+	*
+	* @var	String name for content type
+	* @since	13.1
+	*/
+	protected $alias;
+
+
+	public function __construct($alias = null, JDatabase $database = null, JApplication $application = null)
 	{
-		$this->type = $this->getType($alias);
+		$this->db 		= $database ? $database : JFactory::getDbo();
+		$application = $application ? $application : JFactory::getApplication();
+
+		// Make the best guess we can in the absence of information.
+		$this->alias = $alias ? $alias : $app->input->get('option') . '.' . $app->input->get('view');
+		$this->type 	= $this->getType();
 	}
 
 	/**
 	* Get the Content Type
 	*
-	* @param   JInput  $input  The input object
+	* @param	Int		$pk		The primary key of the alias type
 	*
-	* @return  JUcmType   The UCM Type
+	* @return  JUcmType   		The UCM Type
 	*
 	* @since 13.1
 	*/
-	public function getType($alias = null, JInput $input = null)
+	public function getType($pk = null)
 	{
-		$db		= JFactory::getDbo();
-
-		$query	= $db->getQuery(true);
-		$query->select('ct.*');
-		$query->from($db->quoteName('#__content_types', 'ct'));
-
-		if (!$alias)
+		if (!$pk)
 		{
-			// Make the best guess we can in the absence of information.
-			$input = $input ? $input : JFactory::getApplication()->input;
-			$alias = $input->get('option') . '.' . $input->get('view');
+			$pk = $this->getTypeId();
 		}
 
-		$query->where($db->quoteName('ct.type_alias') . ' = ' . $db->q($alias));
-		$db->setQuery($query);
+		$query	= $this->db->getQuery(true);
+		$query->select('ct.*');
+		$query->from($this->db->quoteName('#__content_types', 'ct'));
 
-		$type = $db->loadObject();
+		$query->where($this->db->quoteName('ct.type_id') . ' = ' . (int) $pk);
+		$this->db->setQuery($query);
+
+		$type = $this->db->loadObject();
 
 		return $type;
+	}
+
+	/**
+	*
+	* @param	String	$alias	The string of the type alias
+	*
+	* @return	Int		The ID of the requested type
+	*
+	* @since 13.1
+	*/
+	public function getTypeId($alias = null)
+	{
+		if (!$alias)
+		{
+			$alias = $this->alias;
+		}
+
+		$query = $this->db->getQuery(true);
+		$query->select('ct.type_id');
+		$query->from($ths->db->quoteName('#__content_types','ct'));
+		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->q($alias));
+
+		$this->db->setQuery($query);
+		
+		$id = $this->db->loadResult();
+
+		return $id;
+
 	}
 }
