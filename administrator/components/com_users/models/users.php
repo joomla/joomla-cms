@@ -62,23 +62,23 @@ class UsersModelUsers extends JModelList
 		// Adjust the context to support modal layouts.
 		if ($layout = $app->input->get('layout', 'default', 'cmd'))
 		{
-			$this->context .= '.'.$layout;
+			$this->context .= '.' . $layout;
 		}
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$active = $this->getUserStateFromRequest($this->context.'.filter.active', 'filter_active');
+		$active = $this->getUserStateFromRequest($this->context . '.filter.active', 'filter_active');
 		$this->setState('filter.active', $active);
 
-		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
+		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state');
 		$this->setState('filter.state', $state);
 
-		$groupId = $this->getUserStateFromRequest($this->context.'.filter.group', 'filter_group_id', null, 'int');
+		$groupId = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group_id', null, 'int');
 		$this->setState('filter.group_id', $groupId);
 
-		$range = $this->getUserStateFromRequest($this->context.'.filter.range', 'filter_range');
+		$range = $this->getUserStateFromRequest($this->context . '.filter.range', 'filter_range');
 		$this->setState('filter.range', $range);
 
 		$groups = json_decode(base64_decode($app->input->get('groups', '', 'BASE64')));
@@ -119,11 +119,11 @@ class UsersModelUsers extends JModelList
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.active');
-		$id	.= ':'.$this->getState('filter.state');
-		$id	.= ':'.$this->getState('filter.group_id');
-		$id .= ':'.$this->getState('filter.range');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.active');
+		$id .= ':' . $this->getState('filter.state');
+		$id .= ':' . $this->getState('filter.group_id');
+		$id .= ':' . $this->getState('filter.range');
 
 		return parent::getStoreId($id);
 	}
@@ -182,7 +182,7 @@ class UsersModelUsers extends JModelList
 			// Join over the group mapping table.
 			$query->select('map.user_id, COUNT(map.group_id) AS group_count')
 				->from('#__user_usergroup_map AS map')
-				->where('map.user_id IN ('.implode(',', $userIds).')')
+				->where('map.user_id IN (' . implode(',', $userIds) . ')')
 				->group('map.user_id')
 				// Join over the user groups table.
 				->join('LEFT', '#__usergroups AS g2 ON g2.id = map.group_id');
@@ -203,11 +203,11 @@ class UsersModelUsers extends JModelList
 			$query->clear()
 				->select('n.user_id, COUNT(n.id) As note_count')
 				->from('#__user_notes AS n')
-				->where('n.user_id IN ('.implode(',', $userIds).')')
+				->where('n.user_id IN (' . implode(',', $userIds) . ')')
 				->where('n.state >= 0')
 				->group('n.user_id');
 
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			// Load the counts into an array indexed on the aro.value field (the user id).
 			try
@@ -264,14 +264,14 @@ class UsersModelUsers extends JModelList
 			)
 		);
 
-		$query->from($db->quoteName('#__users').' AS a');
+		$query->from($db->quoteName('#__users') . ' AS a');
 
 		// If the model is set to check item state, add to the query.
 		$state = $this->getState('filter.state');
 
 		if (is_numeric($state))
 		{
-			$query->where('a.block = '.(int) $state);
+			$query->where('a.block = ' . (int) $state);
 		}
 
 		// If the model is set to check the activated state, add to the query.
@@ -281,11 +281,11 @@ class UsersModelUsers extends JModelList
 		{
 			if ($active == '0')
 			{
-				$query->where('a.activation = '.$db->quote(''));
+				$query->where('a.activation = ' . $db->quote(''));
 			}
 			elseif ($active == '1')
 			{
-				$query->where($query->length('a.activation').' = 32');
+				$query->where($query->length('a.activation') . ' = 32');
 			}
 		}
 
@@ -295,17 +295,17 @@ class UsersModelUsers extends JModelList
 
 		if ($groupId || isset($groups))
 		{
-			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id');
-			$query->group($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
+			$query->join('LEFT', '#__user_usergroup_map AS map2 ON map2.user_id = a.id')
+				->group($db->quoteName(array('a.id', 'a.name', 'a.username', 'a.password', 'a.block', 'a.sendEmail', 'a.registerDate', 'a.lastvisitDate', 'a.activation', 'a.params', 'a.email')));
 
 			if ($groupId)
 			{
-				$query->where('map2.group_id = '.(int) $groupId);
+				$query->where('map2.group_id = ' . (int) $groupId);
 			}
 
 			if (isset($groups))
 			{
-				$query->where('map2.group_id IN ('.implode(',', $groups).')');
+				$query->where('map2.group_id IN (' . implode(',', $groups) . ')');
 			}
 		}
 
@@ -313,16 +313,16 @@ class UsersModelUsers extends JModelList
 		if ($this->getState('filter.search') !== '')
 		{
 			// Escape the search token.
-			$token	= $db->Quote('%'.$db->escape($this->getState('filter.search')).'%');
+			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
 
 			// Compile the different search clauses.
-			$searches	= array();
-			$searches[]	= 'a.name LIKE '.$token;
-			$searches[]	= 'a.username LIKE '.$token;
-			$searches[]	= 'a.email LIKE '.$token;
+			$searches = array();
+			$searches[] = 'a.name LIKE ' . $token;
+			$searches[] = 'a.username LIKE ' . $token;
+			$searches[] = 'a.email LIKE ' . $token;
 
 			// Add the clauses to the query.
-			$query->where('('.implode(' OR ', $searches).')');
+			$query->where('(' . implode(' OR ', $searches) . ')');
 		}
 
 		// Add filter for registration ranges select list
@@ -360,11 +360,11 @@ class UsersModelUsers extends JModelList
 
 				case 'today':
 					// Ranges that need to align with local 'days' need special treatment.
-					$app	= JFactory::getApplication();
-					$offset	= $app->getCfg('offset');
+					$app = JFactory::getApplication();
+					$offset = $app->getCfg('offset');
 
 					// Reset the start time to be the beginning of today, local time.
-					$dStart	= new JDate('now', $offset);
+					$dStart = new JDate('now', $offset);
 					$dStart->setTime(0, 0, 0);
 
 					// Now change the timezone back to UTC.
@@ -376,14 +376,14 @@ class UsersModelUsers extends JModelList
 			if ($range == 'post_year')
 			{
 				$query->where(
-					$db->quoteName('a.registerDate') . ' < '.$db->quote($dStart->format('Y-m-d H:i:s'))
+					'a.registerDate < ' . $db->quote($dStart->format('Y-m-d H:i:s'))
 				);
 			}
 			else
 			{
 				$query->where(
-					$db->quoteName('a.registerDate') . ' >= '.$db->quote($dStart->format('Y-m-d H:i:s')).
-					' AND ' . $db->quoteName('a.registerDate') . ' <='.$db->quote($dNow->format('Y-m-d H:i:s'))
+					'a.registerDate >= ' . $db->quote($dStart->format('Y-m-d H:i:s')) .
+						' AND a.registerDate <=' . $db->quote($dNow->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -392,23 +392,24 @@ class UsersModelUsers extends JModelList
 		$excluded = $this->getState('filter.excluded');
 		if (!empty($excluded))
 		{
-			$query->where('id NOT IN ('.implode(',', $excluded).')');
+			$query->where('id NOT IN (' . implode(',', $excluded) . ')');
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.name')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
+
 	//sqlsrv change
 	function _getUserDisplayedGroups($user_id)
 	{
 		$db = JFactory::getDbo();
-		$sql = "SELECT title FROM ".$db->quoteName('#__usergroups')." ug left join ".
-				$db->quoteName('#__user_usergroup_map')." map on (ug.id = map.group_id)".
-				" WHERE map.user_id=".$user_id;
+		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .
+			$db->quoteName('#__user_usergroup_map') . " map on (ug.id = map.group_id)" .
+			" WHERE map.user_id=" . $user_id;
 
-		$db->setQuery($sql);
+		$db->setQuery($query);
 		$result = $db->loadColumn();
 		return implode("\n", $result);
 	}

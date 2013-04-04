@@ -85,7 +85,7 @@ class MenusModelMenus extends JModelList
 			->select('m.menutype, COUNT(DISTINCT m.id) AS count_published')
 			->from('#__menu AS m')
 			->where('m.published = 1')
-			->where('m.menutype IN ('.$menuTypes.')')
+			->where('m.menutype IN (' . $menuTypes . ')')
 			->group('m.menutype');
 
 		$db->setQuery($query);
@@ -103,7 +103,7 @@ class MenusModelMenus extends JModelList
 		// Get the unpublished menu counts.
 		$query->clear('where')
 			->where('m.published = 0')
-			->where('m.menutype IN ('.$menuTypes.')');
+			->where('m.menutype IN (' . $menuTypes . ')');
 		$db->setQuery($query);
 
 		try
@@ -119,7 +119,7 @@ class MenusModelMenus extends JModelList
 		// Get the trashed menu counts.
 		$query->clear('where')
 			->where('m.published = -2')
-			->where('m.menutype IN ('.$menuTypes.')');
+			->where('m.menutype IN (' . $menuTypes . ')');
 		$db->setQuery($query);
 
 		try
@@ -160,20 +160,20 @@ class MenusModelMenus extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select all fields from the table.
-		$query->select($this->getState('list.select', 'a.*'));
-		$query->from($db->quoteName('#__menu_types').' AS a');
+		$query->select($this->getState('list.select', 'a.*'))
+			->from($db->quoteName('#__menu_types') . ' AS a')
 
-		$query->group('a.id, a.menutype, a.title, a.description');
+			->group('a.id, a.menutype, a.title, a.description');
 
 		// Filter by search in title or menutype
 		if ($search = trim($this->getState('filter.search')))
 		{
-			$search = $db->Quote('%'.$db->escape($search, true).'%');
-			$query->where('('.'a.title LIKE '.$search.' OR a.menutype LIKE '.$search.')');
+			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$query->where('(' . 'a.title LIKE ' . $search . ' OR a.menutype LIKE ' . $search . ')');
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.id')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.id')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -194,7 +194,7 @@ class MenusModelMenus extends JModelList
 	{
 		$app = JFactory::getApplication('administrator');
 
-		$search = $this->getUserStateFromRequest($this->context.'.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
 		// List state information.
@@ -211,9 +211,8 @@ class MenusModelMenus extends JModelList
 	public function getModMenuId()
 	{
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('e.extension_id')
+		$query = $db->getQuery(true)
+			->select('e.extension_id')
 			->from('#__extensions AS e')
 			->where('e.type = ' . $db->quote('module'))
 			->where('e.element = ' . $db->quote('mod_menu'))
@@ -230,8 +229,8 @@ class MenusModelMenus extends JModelList
 	 */
 	public function &getModules()
 	{
-		$model	= JModelLegacy::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
-		$result	= &$model->getModules();
+		$model = JModelLegacy::getInstance('Menu', 'MenusModel', array('ignore_request' => true));
+		$result = & $model->getModules();
 
 		return $result;
 	}

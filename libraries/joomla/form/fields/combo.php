@@ -58,7 +58,7 @@ class JFormFieldCombo extends JFormFieldList
 		JHtml::_('behavior.combobox');
 
 		// Build the input for the combo box.
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
+		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $attr . '/>';
 
 		// Build the list for the combo box.

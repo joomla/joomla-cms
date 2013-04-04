@@ -140,10 +140,11 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		$this->set('element', $element);
 
 		// Check to see if a template by the same name is already installed.
-		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('template'));
-		$query->where($query->qn('element') . ' = ' . $query->q($element));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('template'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 
 		try
@@ -324,15 +325,15 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 			);
 
 			$values = array(
-				$db->Quote($row->element), $clientId, $db->Quote(0),
-				$db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))),
-				$db->Quote($row->params) );
+				$db->quote($row->element), $clientId, $db->quote(0),
+				$db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', JText::_($this->get('name')))),
+				$db->quote($row->params) );
 
 			$lang->setDebug($debug);
 
 			// Insert record in #__template_styles
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__template_styles'))
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(implode(',', $values));
 
@@ -403,7 +404,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 		// Deny remove default template
 		$db = $this->parent->getDbo();
-		$query = "SELECT COUNT(*) FROM #__template_styles WHERE home = '1' AND template = " . $db->Quote($name);
+		$query = "SELECT COUNT(*) FROM #__template_styles WHERE home = '1' AND template = " . $db->quote($name);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)
@@ -463,12 +464,12 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 			. ' SET template_style_id = 0'
 			. ' WHERE template_style_id in ('
 			. '	SELECT s.id FROM #__template_styles s'
-			. ' WHERE s.template = ' . $db->Quote(strtolower($name)) . ' AND s.client_id = ' . $clientId . ')';
+			. ' WHERE s.template = ' . $db->quote(strtolower($name)) . ' AND s.client_id = ' . $clientId . ')';
 
 		$db->setQuery($query);
 		$db->execute();
 
-		$query = 'DELETE FROM #__template_styles WHERE template = ' . $db->Quote($name) . ' AND client_id = ' . $clientId;
+		$query = 'DELETE FROM #__template_styles WHERE template = ' . $db->quote($name) . ' AND client_id = ' . $clientId;
 		$db->setQuery($query);
 		$db->execute();
 
@@ -575,10 +576,8 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 		if ($this->parent->extension->store())
 		{
-			// Insert record in #__template_styles
 			$db = $this->parent->getDbo();
-			$query = $db->getQuery(true);
-			$query->insert($db->quoteName('#__template_styles'));
+			// Insert record in #__template_styles
 			$lang = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);
 			$columns = array($db->quoteName('template'),
@@ -587,14 +586,16 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 				$db->quoteName('title'),
 				$db->quoteName('params')
 			);
-			$query->columns($columns);
-			$query->values(
-				$db->Quote($this->parent->extension->element)
-				. ',' . $db->Quote($this->parent->extension->client_id)
-				. ',' . $db->Quote(0)
-				. ',' . $db->Quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
-				. ',' . $db->Quote($this->parent->extension->params)
-			);
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__template_styles'))
+				->columns($columns)
+				->values(
+					$db->quote($this->parent->extension->element)
+						. ',' . $db->quote($this->parent->extension->client_id)
+						. ',' . $db->quote(0)
+						. ',' . $db->quote(JText::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', $this->parent->extension->name))
+						. ',' . $db->quote($this->parent->extension->params)
+				);
 			$lang->setDebug($debug);
 			$db->setQuery($query);
 			$db->execute();

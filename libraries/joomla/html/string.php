@@ -61,6 +61,7 @@ abstract class JHtmlString
 		if ($length > 0 && JString::strlen($text) > $length)
 		{
 			$tmp = trim(JString::substr($text, 0, $length));
+
 			if (substr($tmp, 0, 1) == '<' && strpos($tmp, '>') === false)
 			{
 					return '...';

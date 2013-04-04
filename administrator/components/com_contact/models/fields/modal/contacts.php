@@ -51,7 +51,7 @@ class JFormFieldModal_Contacts extends JFormField
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Get the title of the linked chart
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$db->setQuery(
 			'SELECT name' .
 			' FROM #__contact_details' .

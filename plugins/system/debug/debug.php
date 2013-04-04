@@ -478,23 +478,23 @@ class PlgSystemDebug extends JPlugin
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
 
-		foreach ($log as $k => $sql)
+		foreach ($log as $k => $query)
 		{
 			// Start Query Type Ticker Additions
-			$fromStart = stripos($sql, 'from');
-			$whereStart = stripos($sql, 'where', $fromStart);
+			$fromStart = stripos($query, 'from');
+			$whereStart = stripos($query, 'where', $fromStart);
 
 			if ($whereStart === false)
 			{
-				$whereStart = stripos($sql, 'order by', $fromStart);
+				$whereStart = stripos($query, 'order by', $fromStart);
 			}
 
 			if ($whereStart === false)
 			{
-				$whereStart = strlen($sql) - 1;
+				$whereStart = strlen($query) - 1;
 			}
 
-			$fromString = substr($sql, 0, $whereStart);
+			$fromString = substr($query, 0, $whereStart);
 			$fromString = str_replace("\t", " ", $fromString);
 			$fromString = str_replace("\n", " ", $fromString);
 			$fromString = trim($fromString);
@@ -511,7 +511,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			// Increment the count:
-			if (stripos($sql, 'select') === 0)
+			if (stripos($query, 'select') === 0)
 			{
 				$selectQueryTypeTicker[$fromString] = $selectQueryTypeTicker[$fromString] + 1;
 				unset($otherQueryTypeTicker[$fromString]);
@@ -522,7 +522,7 @@ class PlgSystemDebug extends JPlugin
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
-			$text = $this->highlightQuery($sql);
+			$text = $this->highlightQuery($query);
 
 			$html .= '<li><code>' . $text . '</code></li>';
 		}
@@ -741,19 +741,19 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Simple highlight for SQL queries.
 	 *
-	 * @param   string  $sql  The query to highlight
+	 * @param   string  $query  The query to highlight
 	 *
 	 * @return  string
 	 *
 	 * @since   2.5
 	 */
-	protected function highlightQuery($sql)
+	protected function highlightQuery($query)
 	{
 		$newlineKeywords = '#\b(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND|CASE)\b#i';
 
-		$sql = htmlspecialchars($sql, ENT_QUOTES);
+		$query = htmlspecialchars($query, ENT_QUOTES);
 
-		$sql = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $sql);
+		$query = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $query);
 
 		$regex = array(
 
@@ -771,11 +771,11 @@ class PlgSystemDebug extends JPlugin
 
 		);
 
-		$sql = preg_replace(array_keys($regex), array_values($regex), $sql);
+		$query = preg_replace(array_keys($regex), array_values($regex), $query);
 
-		$sql = str_replace('*', '<b style="color: red;">*</b>', $sql);
+		$query = str_replace('*', '<b style="color: red;">*</b>', $query);
 
-		return $sql;
+		return $query;
 	}
 
 	/**

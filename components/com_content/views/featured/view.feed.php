@@ -46,7 +46,7 @@ class ContentViewFeatured extends JViewLegacy
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 
 			// Get row fulltext
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = 'SELECT' .$db->quoteName('fulltext'). 'FROM #__content WHERE id ='.$row->id;
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();

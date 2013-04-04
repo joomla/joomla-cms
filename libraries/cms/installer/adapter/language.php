@@ -494,9 +494,9 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 
 		// Setting the language of users which have this language as the default language
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->from('#__users');
-		$query->select('*');
+		$query = $db->getQuery(true)
+			->from('#__users')
+			->select('*');
 		$db->setQuery($query);
 		$users = $db->loadObjectList();
 
@@ -519,10 +519,10 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			if ($registry->get($param_name) == $element)
 			{
 				$registry->set($param_name, '');
-				$query = $db->getQuery(true);
-				$query->update('#__users');
-				$query->set('params=' . $db->quote($registry));
-				$query->where('id=' . (int) $user->id);
+				$query = $db->getQuery(true)
+					->update('#__users')
+					->set('params=' . $db->quote($registry))
+					->where('id=' . (int) $user->id);
 				$db->setQuery($query);
 				$db->execute();
 				$count++;

@@ -136,13 +136,15 @@ class MenusViewItems extends JViewLegacy
 								}
 								unset($xml);
 							}
-							else {
+							else
+							{
 								// Special case for absent views
-								$value .= ' » ' . JText::_($item->componentname.'_'.$vars['view'].'_VIEW_DEFAULT_TITLE');
+								$value .= ' » ' . $vars['view'];
 							}
 						}
 					}
-					else {
+					else
+					{
 						if (preg_match("/^index.php\?option=([a-zA-Z\-0-9_]*)/", $item->link, $result))
 						{
 							$value = JText::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);

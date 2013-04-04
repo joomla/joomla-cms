@@ -73,14 +73,14 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->jPrint("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
 		$this->jPrint("Change filter to Select State." . "\n");
-		$this->click("//button[@type='button']");
+		$this->click("//button[@type='button'][contains(@onclick, \".value=''\")]");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_published", "label=- Select Status -");
 		$this->waitForPageToLoad("30000");
 		$this->jPrint("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
 		$this->jPrint("Change filter to Select State." . "\n");
-		$this->click("//button[@type='button']");
+		$this->click("//button[@type='button'][contains(@onclick, \".value=''\")]");
 		$this->waitForPageToLoad("30000");
 		$this->jPrint("Check that reordering still works." . "\n");
 		$this->jPrint("Check that Templates and Modules categories are in original order." . "\n");

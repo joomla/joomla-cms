@@ -271,6 +271,7 @@ class WeblinksModelWeblink extends JModelAdmin
 			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['title']);
 			$data['title']	= $name;
 			$data['alias']	= $alias;
+			$data['state']	= 0;
 		}
 		$return = parent::save($data);
 
