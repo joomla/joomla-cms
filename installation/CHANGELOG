@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#29377] Image select. Thanks Constantin Romankiewicz
  # [#29961] RAW filter is missing for JInput. Thanks Cedric Keiflin
  # [#30427] Remove 1.5 html methods from com_newsfeeds. Thanks Elin
+ # [#30430] Severe bug with "com_content" component routing. Thanks sajal soni and Elin.
 
 03-Apr-2013 Jean-Marie Simonet
  # [#30349] Cleaned up use of database & query objects. Thanks Peter van Westen and Michael Babker
