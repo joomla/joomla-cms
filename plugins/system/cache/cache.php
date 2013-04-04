@@ -114,7 +114,7 @@ class PlgSystemCache extends JPlugin
 		if ($user->get('guest'))
 		{
 			//We need to check again here, because auto-login plugins have not been fired before the first aid check
-			$this->_cache->store($this->_cache_key);
+			$this->_cache->store(array(), $this->_cache_key);
 		}
 	}
 }
