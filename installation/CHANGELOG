@@ -31,6 +31,12 @@ $ -> Language fix or change
  # [#30464] ACL Undefined variable error in contentadministrator.php on line 112. Thanks Constantin Romankiewicz 
  # [#30062] Base Item option in mod_menu has no effect [regression]. Thanks René Alain Erichsen
  # [#30422] Tags drill down incorrectly finds match to multi-tag tagged items menu item. Thanks Mark
+ # [#30210] Undefined index errors by using the style 'beezTabs' at an beez template. Thanks Constantin Romankiewicz
+ # [#30444] Newfeeds Hide icon wrong colour
+ # [#30450] Remove moduleclass suffix from <input> and <button> elements in mod_search. Thanks Thomas Hunziker
+ # [#29377] Image select. Thanks Constantin Romankiewicz
+ # [#29961] RAW filter is missing for JInput. Thanks Cedric Keiflin
+ # [#30427] Remove 1.5 html methods from com_newsfeeds. Thanks Elin
 
 03-Apr-2013 Jean-Marie Simonet
  # [#30349] Cleaned up use of database & query objects. Thanks Peter van Westen and Michael Babker
