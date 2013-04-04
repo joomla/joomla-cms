@@ -66,7 +66,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 
 	if ($modulecount < 1)
 	{
-		$modulecount = count(JModuleHelper::getModules($attribs['name']));
+		$modulecount = count(JModuleHelper::getModules($module->position));
 		$modules = array();
 	}
 
