@@ -54,46 +54,27 @@ class JUcmBase implements JUcm
 	}
 
 	/**
-	*
-	* @param   Array   $data	  The original data to be saved
-	* @param   Object  $type      The UCM Type object
-	*
-	* @return  boolean  true
-	*
-	* @since   3.1
-	**/
-	public function save($data, JUcmType $type = null)
-	{
-		$type = $type ? $type : $this->type;
-
-		if (!isset($data['ucm_type_id'])) 
-		{
-			$data['ucm_type_id'] = $type->id;
-		}
-
-		//Store the Common fields
-		$this->store($data);
-
-		return true;
-	}
-
-	/**
 	* Store data to the appropriate table
 	*
 	* @param   array    $data         Data to be stored
 	* @param   JTable   $table        JTable Object
-	* @param   boolean  $corecontent  Flag that is true for data that are using #__core_content as their primary table
+	* @param   string  $primaryKey	  The primary key name
 	*
 	* @return  Boolean  true on success
 	*
 	* @since   3.1
 	*/
-	private function store($data)
+	private function store($data, JTable $table = null, $primaryKey = null)
 	{
-		$table = JTable::getInstance('Ucm');
+		if (!$table) 
+		{
+			$table = JTable::getInstance('Ucm');
+		}
 
-		if (isset($data['ucm_id']) {
-			$table->load($data['ucm_id']);
+		$primaryKey = $primaryKey ? $primaryKey : $data['ucm_id'];
+
+		if (isset($primaryKey) {
+			$table->load($primaryKey);
 		}
 
 		try
@@ -133,6 +114,25 @@ class JUcmBase implements JUcm
 		$type = new JUcmType($this->alias);
 
 		return $type;
+	}
+
+	/**
+	*
+	* @return	array	Data array of UCM mappings
+	*
+	* @since 13.1
+	**/
+	public function mapBase($original, JUcmType $type = null)
+	{
+		$type = $type ? $type : $this->type;
+
+		$data = array(
+					'ucm_type_id' = $type->id,
+					'ucm_item_id' = $original[$type->primary_key],
+					'ucm_language_id' = $original['language'];
+				);
+
+		return $data;
 	}
 
 }

@@ -110,7 +110,7 @@ class JUcmContent extends JUcmBase
 		$baseData['ucm_item_id'] 		= $ucmData['core_content_item_id'];
 		$baseData['ucm_language_id']	= $ucmData['core_language'];
 
-		parent::save($baseData);
+		parent::store($baseData);
 
 		return true;
 	}
@@ -175,27 +175,7 @@ class JUcmContent extends JUcmBase
 			$typeAlias = $this->getType()->type->type_alias;
 			$primaryKey = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
 
-			$table->load($primaryKey);
-
-			try
-			{
-				$table->bind($data);
-			}
-			catch (RuntimeException $e)
-			{
-				throw new Exception($e->getMessage(), 500);
-				return false;
-			}
-
-			try
-			{
-				$table->store();
-			}
-			catch (RuntimeException $e)
-			{
-				throw new Exception($e->getMessage(), 500);
-				return false;
-			}
+			parent::store($data, $table, $primaryKey);
 		}
 		else
 		{
@@ -207,26 +187,8 @@ class JUcmContent extends JUcmBase
 			$primaryKeyName = $table->getKeyName();
 
 			$data[$primaryKeyName] = $data['core_content_item_id'];
-			$table->load($data[$primaryKeyName]);
-			try
-			{
-				$table->bind($data);
-			}
-			catch (RuntimeException $e)
-			{
-				throw new Exception($e->getMessage(), 500);
-				return false;
-			}
-
-			try
-			{
-				$table->store();
-			}
-			catch (RuntimeException $e)
-			{
-				throw new Exception($e->getMessage(), 500);
-				return false;
-			}
+			
+			parent::store($data, $table, $data[$primaryKeyName]);
 		}
 
 		return true;
