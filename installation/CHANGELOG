@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-04-Apr-2013 Jean-Marie Simonet
+04-Apr-2013 Mark Dexter
+ # Revert [#30430] Severe bug with "com_content" component routing.
+
+04-Apr-2013 Jean-Mari Simonet
  # [#30430] Severe bug with "com_content" component routing. Thanks sajal soni.
 
 28-Mar-2013 Jean-Marie Simonet
