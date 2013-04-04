@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#30450] Remove moduleclass suffix from <input> and <button> elements in mod_search. Thanks Thomas Hunziker
  # [#29377] Image select. Thanks Constantin Romankiewicz
  # [#29961] RAW filter is missing for JInput. Thanks Cedric Keiflin
+ # [#30427] Remove 1.5 html methods from com_newsfeeds. Thanks Elin
 
 03-Apr-2013 Jean-Marie Simonet
  # [#30349] Cleaned up use of database & query objects. Thanks Peter van Westen and Michael Babker
