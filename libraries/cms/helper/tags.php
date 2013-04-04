@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Tags
+ * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,10 +14,10 @@ defined('JPATH_PLATFORM') or die;
  * tagging of content.
  *
  * @package     Joomla.Libraries
- * @subpackage  Tags
+ * @subpackage  Helper
  * @since       3.1
  */
-class JTags
+class JHelperTags
 {
 	/**
 	 * Method to add or update tags associated with an item. Generally used as a postSaveHook.
@@ -28,16 +28,37 @@ class JTags
 	 * @param   JControllerForm  $item      A JControllerForm object usually from a Post Save Hook
 	 * @param   array            $tags      Array of tags to be applied.
 	 * @param   array            $fieldMap  Associative array of values to core_content field.
+	 * @param   boolean          $replace   Flag indicating if all exising tags should be replaced
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public function tagItem($id, $prefix, $isNew, $item, $tags = array(), $fieldMap = array())
+	public function tagItem($id, $prefix, $isNew, $item, $tags = array(), $fieldMap = array(), $replace = true)
 	{
 		// Pre-process tags for adding new ones
 		if (is_array($tags) && !empty($tags))
 		{
+			// If we want to keep old tags we need to make sure to add them to the array
+			if (!$replace && !$isNew)
+			{
+				// Check for exising tags
+				$existingTags = $this->getItemTags($prefix, $id);
+
+				if (!empty($existingTags))
+				{
+					$existingTagList = '';
+
+					foreach ($existingTags as $tag)
+					{
+						$tags[] = $tag->tag_id;
+					}
+					$tags = array_unique($tags, SORT_STRING);
+				}
+			}
+
+
+
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');
@@ -251,21 +272,21 @@ class JTags
 	}
 
 	/**
-	 * Method to add tags associated to a list of items. Generally used for batch processing.
+	 * Method to add tags to a list of items. Generally used for batch processing.
 	 *
 	 * @param   array    $tag       Tag to be applied. Note that his method handles single tags only.
 	 * @param   integer  $ids       The id (primary key) of the items to be tagged.
 	 * @param   string   $contexts  Dot separated string with the option and view for a url.
+	 * @param   boolean  $replace   True if current tags should be replaced, false to only add a new tag
 	 *
 	 * @return  void
 	 *
 	 * @since   3.1
 	 */
-	public function tagItems($tag, $ids, $contexts)
+	public function tagItems($tag, $ids, $contexts, $replace)
 	{
 		// Method is not ready for use
 		return;
-
 		// Check whether the tag is present already.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -287,7 +308,7 @@ class JTags
 	}
 
 	/**
-	 * Method to remove  tags associated with a list of items. Generally used for batch processing.
+	 * Method to remove all tags associated with a list of items. Generally used for batch processing.
 	 *
 	 * @param   integer  $id      The id (primary key) of the item to be untagged.
 	 * @param   string   $prefix  Dot separated string with the option and view for a url.
@@ -360,8 +381,8 @@ class JTags
 	/**
 	 * Method to get a list of tags for an item, optionally with the tag data.
 	 *
-	 * @param   integer  $contentType  Name of an item. Dot separated.
-	 * @param   integer  $id           Item ID
+	 * @param   integer  $contentType  Content type alias. Dot separated.
+	 * @param   integer  $id           Id of the item to retrieve tags for.
 	 * @param   boolean  $getTagData   If true, data from the tags table will be included, defaults to true.
 	 *
 	 * @return  array    Array of of tag objects
@@ -515,7 +536,7 @@ class JTags
 			$query->where($db->quoteName('core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		$contentTypes = new JTags;
+		$contentTypes = new JHelperTags;
 
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = $contentTypes->getTypes('assocList', $typesr, false);
