@@ -55,8 +55,10 @@ class PlgSearchNewsfeeds extends JPlugin
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -65,22 +67,28 @@ class PlgSearchNewsfeeds extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent) {
+		if ($sContent)
+		{
 			$state[] = 1;
 		}
-		if ($sArchived) {
+		if ($sArchived)
+		{
 			$state[] = 2;
 		}
-		if (!empty($state)) {
+
+		if (!empty($state))
+		{
 			return array();
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 
-		switch ($phrase) {
+		switch ($phrase)
+		{
 			case 'exact':
 				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 				$wheres2 = array();
@@ -94,7 +102,8 @@ class PlgSearchNewsfeeds extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
-				foreach ($words as $word) {
+				foreach ($words as $word)
+				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
 					$wheres2 = array();
 					$wheres2[] = 'a.name LIKE ' . $word;
@@ -105,7 +114,8 @@ class PlgSearchNewsfeeds extends JPlugin
 				break;
 		}
 
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'alpha':
 				$order = 'a.name ASC';
 				break;
@@ -150,7 +160,8 @@ class PlgSearchNewsfeeds extends JPlugin
 			->order($order);
 
 		// Filter by language
-		if ($app->isSite() && JLanguageMultilang::isEnabled()) {
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 				->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -159,8 +170,10 @@ class PlgSearchNewsfeeds extends JPlugin
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 
-		if ($rows) {
-			foreach ($rows as $key => $row) {
+		if ($rows)
+		{
+			foreach ($rows as $key => $row)
+			{
 				$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid=' . $row->catslug . '&id=' . $row->slug;
 			}
 		}

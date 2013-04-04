@@ -54,8 +54,10 @@ class PlgSearchContacts extends JPlugin
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -64,24 +66,30 @@ class PlgSearchContacts extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent) {
+		if ($sContent)
+		{
 			$state[] = 1;
 		}
-		if ($sArchived) {
+		if ($sArchived)
+		{
 			$state[] = 2;
 		}
-		if (!empty($state)) {
+
+		if (!empty($state))
+		{
 			return array();
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 
 		$section = JText::_('PLG_SEARCH_CONTACTS_CONTACTS');
 
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'alpha':
 				$order = 'a.name ASC';
 				break;
@@ -137,7 +145,8 @@ class PlgSearchContacts extends JPlugin
 			->order($order);
 
 		// Filter by language
-		if ($app->isSite() && JLanguageMultilang::isEnabled()) {
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 				->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -146,8 +155,10 @@ class PlgSearchContacts extends JPlugin
 		$db->setQuery($query, 0, $limit);
 		$rows = $db->loadObjectList();
 
-		if ($rows) {
-			foreach ($rows as $key => $row) {
+		if ($rows)
+		{
+			foreach ($rows as $key => $row)
+			{
 				$rows[$key]->href = 'index.php?option=com_contact&view=contact&id=' . $row->slug . '&catid=' . $row->catslug;
 				$rows[$key]->text = $row->title;
 				$rows[$key]->text .= ($row->con_position) ? ', ' . $row->con_position : '';

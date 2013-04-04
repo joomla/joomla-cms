@@ -59,8 +59,10 @@ class PlgSearchCategories extends JPlugin
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$searchText = $text;
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -69,19 +71,23 @@ class PlgSearchCategories extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent) {
+		if ($sContent)
+		{
 			$state[] = 1;
 		}
-		if ($sArchived) {
+		if ($sArchived)
+		{
 			$state[] = 2;
 		}
 
-		if (!empty($state)) {
+		if (!empty($state))
+		{
 			return array();
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 
@@ -114,7 +120,8 @@ class PlgSearchCategories extends JPlugin
 		}
 		*/
 
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'alpha':
 				$order = 'a.title ASC';
 				break;
@@ -146,7 +153,8 @@ class PlgSearchCategories extends JPlugin
 			)
 			->group('a.id')
 			->order($order);
-		if ($app->isSite() && JLanguageMultilang::isEnabled()) {
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
@@ -154,15 +162,19 @@ class PlgSearchCategories extends JPlugin
 		$rows = $db->loadObjectList();
 
 		$return = array();
-		if ($rows) {
+		if ($rows)
+		{
 			$count = count($rows);
-			for ($i = 0; $i < $count; $i++) {
+			for ($i = 0; $i < $count; $i++)
+			{
 				$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
 				$rows[$i]->section = JText::_('JCATEGORY');
 			}
 
-			foreach ($rows as $category) {
-				if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text'))) {
+			foreach ($rows as $category)
+			{
+				if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
+				{
 					$return[] = $category;
 				}
 			}

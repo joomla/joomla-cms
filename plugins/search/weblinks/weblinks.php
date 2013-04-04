@@ -59,8 +59,10 @@ class PlgSearchWeblinks extends JPlugin
 
 		$searchText = $text;
 
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
@@ -69,18 +71,23 @@ class PlgSearchWeblinks extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent) {
+		if ($sContent)
+		{
 			$state[] = 1;
 		}
-		if ($sArchived) {
+		if ($sArchived)
+		{
 			$state[] = 2;
 		}
-		if (!empty($state)) {
+
+		if (!empty($state))
+		{
 			return array();
 		}
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 		$section = JText::_('PLG_SEARCH_WEBLINKS');
@@ -116,7 +123,8 @@ class PlgSearchWeblinks extends JPlugin
 		}
 		*/
 
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'oldest':
 				$order = 'a.created ASC';
 				break;
@@ -160,14 +168,15 @@ class PlgSearchWeblinks extends JPlugin
 			'a.title AS title, a.description AS text, a.created AS created, a.url, '
 				. $case_when . ',' . $case_when1 . ', '
 				. $query->concatenate(array($db->quote($section), "c.title"), " / ") . ' AS section, \'1\' AS browsernav'
-			)
+		)
 			->from('#__weblinks AS a')
 			->join('INNER', '#__categories AS c ON c.id = a.catid')
 			->where('(' . $where . ') AND a.state in (' . implode(',', $state) . ') AND  c.published=1 AND  c.access IN (' . $groups . ')')
 			->order($order);
 
 		// Filter by language
-		if ($app->isSite() && JLanguageMultilang::isEnabled()) {
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
+		{
 			$tag = JFactory::getLanguage()->getTag();
 			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
 				->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
@@ -177,13 +186,17 @@ class PlgSearchWeblinks extends JPlugin
 		$rows = $db->loadObjectList();
 
 		$return = array();
-		if ($rows) {
-			foreach ($rows as $key => $row) {
+		if ($rows)
+		{
+			foreach ($rows as $key => $row)
+			{
 				$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
 			}
 
-			foreach ($rows as $weblink) {
-				if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title'))) {
+			foreach ($rows as $weblink)
+			{
+				if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title')))
+				{
 					$return[] = $weblink;
 				}
 			}
