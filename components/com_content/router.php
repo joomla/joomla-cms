@@ -51,7 +51,7 @@ function ContentBuildRoute(&$query)
 		if (isset($query['catid'])) {
 			unset($query['catid']);
 		}
-		
+
 		if (isset($query['layout'])) {
 			unset($query['layout']);
 		}
@@ -261,18 +261,25 @@ function ContentParseRoute($segments)
 	// if there was more than one segment, then we can determine where the URL points to
 	// because the first segment will have the target category id prepended to it.  If the
 	// last segment has a number prepended, it is an article, otherwise, it is a category.
-	if (!$advanced) {
+	if (!$advanced)
+	{
 		$cat_id = (int)$segments[0];
 
 		$article_id = (int)$segments[$count - 1];
 
-		if ($article_id > 0) {
+		if ($article_id > 0)
+		{
 			$vars['view'] = 'article';
 			$vars['catid'] = $cat_id;
 			$vars['id'] = $article_id;
-		} else {
-			$vars['view'] = 'category';
-			$vars['id'] = $cat_id;
+		}
+		else
+		{
+			if ($cat_id > 0)
+			{
+				$vars['view'] = 'category';
+				$vars['id'] = $cat_id;
+			}
 		}
 
 		return $vars;

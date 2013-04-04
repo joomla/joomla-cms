@@ -230,31 +230,33 @@ class JRouterSite extends JRouter
 					$item->language = trim($item->language);
 				}
 				$length = strlen($item->route); //get the length of the route
-				if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink' && (!$app->getLanguageFilter() || $item->language == '*' || $item->language == $lang_tag)) {
+				if ($length > 0 && JString::strpos($route_lowercase.'/', $item->route.'/') === 0 && $item->type != 'menulink' && (!JLanguageMultilang::isEnabled() || $item->language == '*' || $item->language == $lang_tag))
+				{
 					// We have exact item for this language
-					if ($item->language == $lang_tag) {
+					if ($item->language == $lang_tag)
+					{
 						$found = $item;
 						break;
 					}
 					// Or let's remember an item for all languages
-					elseif (!$found) {
+					elseif (!$found)
+					{
 						$found = $item;
 					}
 				}
 			}
 
-			if (!$found) {
-				$found = $menu->getDefault($lang_tag);
-			}
-			else {
-				$route = substr($route, strlen($found->route));
-				if ($route) {
-					$route = substr($route, 1);
-				}
+			$route = substr($route, strlen($found->route));
+			if ($route)
+			{
+				$route = substr($route, 1);
 			}
 
-			$vars['Itemid'] = $found->id;
-			$vars['option'] = $found->component;
+			if (isset($found->id) && $found->id)
+			{
+ 				$vars['Itemid'] = $found->id;
+ 				$vars['option'] = $found->component;
+			}
 		}
 
 		// Set the active menu item
