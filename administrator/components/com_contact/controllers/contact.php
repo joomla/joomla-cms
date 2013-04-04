@@ -133,7 +133,7 @@ class ContactControllerContact extends JControllerForm
 
 		if (empty($validData['tags']) && !empty($item->tags))
 		{
-			$oldTags = new JTags;
+			$oldTags = new JHelperTags;
 			$oldTags->unTagItem($id, 'com_contact.contact');
 		}
 
@@ -142,7 +142,7 @@ class ContactControllerContact extends JControllerForm
 		if ($tags[0] != '')
 		{
 			$isNew = $item->id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
+			$tagsHelper = new JHelperTags;
 			$tagsHelper->tagItem($id, 'com_contact.contact', $isNew, $item, $tags, null);
 		}
 	}

@@ -33,15 +33,15 @@ class ModMenuHelper
 		$menu = $app->getMenu();
 
 		// Get active menu item
-		$active = self::getActive($params);
+		$base = self::getBase($params);
 		$user = JFactory::getUser();
 		$levels = $user->getAuthorisedViewLevels();
 		asort($levels);
-		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $active->id;
+		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 		$cache = JFactory::getCache('mod_menu', '');
 		if (!($items = $cache->get($key)))
 		{
-			$path    = $active->tree;
+			$path    = $base->tree;
 			$start   = (int) $params->get('startLevel');
 			$end     = (int) $params->get('endLevel');
 			$showAll = $params->get('showAllChildren');

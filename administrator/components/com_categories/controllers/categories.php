@@ -137,7 +137,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		// If an item has been tagged we need to untag it and delete it from #__core_content.
 		$extension = $this->input->get('extension');
 
-		$tags = new JTags;
+		$tags = new JHelperTags;
 		$tags->deleteTagData($ids, $extension . '.category');
 
 	}
