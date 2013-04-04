@@ -192,7 +192,7 @@ class UsersControllerProfile extends UsersController
 
 		if ($tags)
 		{
-			$item->tags = new JTags;
+			$item->tags = new JHelperTags;
 			$item->tags->getTagIds($item->id, 'com_users.user');
 
 		}

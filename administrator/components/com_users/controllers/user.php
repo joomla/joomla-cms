@@ -122,7 +122,7 @@ class UsersControllerUser extends JControllerForm
 
 		if (empty($validData['tags']) && !empty($item->tags))
 		{
-			$oldTags = new JTags;
+			$oldTags = new JHelperTags;
 			$oldTags->unTagItem($id, 'com_newsfeeds.newsfeed');
 			return;
 		}
@@ -131,7 +131,7 @@ class UsersControllerUser extends JControllerForm
 
 		if ($tags[0] != '')
 		{
-			$tagsHelper = new JTags;
+			$tagsHelper = new JHelperTags;
 			$tagsHelper->tagItem($id, 'com_users.user', $isNew, $item, $tags, null);
 		}
 		return;
