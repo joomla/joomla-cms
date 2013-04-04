@@ -64,9 +64,9 @@ class LoginModelLogin extends JModelLegacy
 	 */
 	public static function getLoginModule($name = 'mod_login', $title = null)
 	{
-		$result  = null;
+		$result = null;
 		$modules = self::_load($name);
-		$total   = count($modules);
+		$total = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -74,27 +74,28 @@ class LoginModelLogin extends JModelLegacy
 			if (!$title || $modules[$i]->title == $title)
 			{
 				$result = $modules[$i];
-				break;	// Found it
+				break; // Found it
 			}
 		}
 
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result				= new stdClass;
-			$result->id			= 0;
-			$result->title		= '';
-			$result->module		= $name;
-			$result->position	= '';
-			$result->content	= '';
-			$result->showtitle	= 0;
-			$result->control	= '';
-			$result->params		= '';
-			$result->user		= 0;
+			$result = new stdClass;
+			$result->id = 0;
+			$result->title = '';
+			$result->module = $name;
+			$result->position = '';
+			$result->content = '';
+			$result->showtitle = 0;
+			$result->control = '';
+			$result->params = '';
+			$result->user = 0;
 		}
 
 		return $result;
 	}
+
 	/**
 	 * Load login modules.
 	 *
@@ -119,30 +120,30 @@ class LoginModelLogin extends JModelLegacy
 			return $clean;
 		}
 
-		$app      = JFactory::getApplication();
-		$lang     = JFactory::getLanguage()->getTag();
+		$app = JFactory::getApplication();
+		$lang = JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
-		$cache       = JFactory::getCache('com_modules', '');
-		$cacheid     = md5(serialize(array($clientId, $lang)));
+		$cache = JFactory::getCache('com_modules', '');
+		$cacheid = md5(serialize(array($clientId, $lang)));
 		$loginmodule = array();
 
 		if (!($clean = $cache->get($cacheid)))
 		{
-			$db	= JFactory::getDbo();
+			$db = JFactory::getDbo();
 
-			$query = $db->getQuery(true);
-			$query->select('m.id, m.title, m.module, m.position, m.showtitle, m.params');
-			$query->from('#__modules AS m');
-			$query->where('m.module =' . $db->Quote($module) .' AND m.client_id = 1');
+			$query = $db->getQuery(true)
+				->select('m.id, m.title, m.module, m.position, m.showtitle, m.params')
+				->from('#__modules AS m')
+				->where('m.module =' . $db->quote($module) . ' AND m.client_id = 1')
 
-			$query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
-			$query->where('e.enabled = 1');
+				->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
+				->where('e.enabled = 1');
 
 			// Filter by language
 			if ($app->isSite() && $app->getLanguageFilter())
 			{
-				$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
+				$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 			}
 
 			$query->order('m.position, m.ordering');

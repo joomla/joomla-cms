@@ -26,17 +26,16 @@ class JMenuSite extends JMenu
 	public function load()
 	{
 		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language');
-		$query->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id');
-		$query->select('e.element as component');
-		$query->from('#__menu AS m');
-		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
-		$query->where('m.published = 1');
-		$query->where('m.parent_id > 0');
-		$query->where('m.client_id = 0');
-		$query->order('m.lft');
+		$query = $db->getQuery(true)
+			->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
+			->select($db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
+			->select('e.element as component')
+			->from('#__menu AS m')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('m.published = 1')
+			->where('m.parent_id > 0')
+			->where('m.client_id = 0')
+			->order('m.lft');
 
 		// Set the query
 		$db->setQuery($query);

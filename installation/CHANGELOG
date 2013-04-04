@@ -25,6 +25,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+04-Apr-2013 Jean-Marie Simonet
+ # [#30454] Tags: Adding Tags via Batch function replaces all previous tags. Thanks David and Elin.
+ # [#30463] Missing closing div in compact tag layout. Thanks Thomas Hunziker and Constantin Romankiewicz
+ # [#30464] ACL Undefined variable error in contentadministrator.php on line 112. Thanks Constantin Romankiewicz 
+ # [#30062] Base Item option in mod_menu has no effect [regression]. Thanks René Alain Erichsen
+ # [#30422] Tags drill down incorrectly finds match to multi-tag tagged items menu item. Thanks Mark
+
+03-Apr-2013 Jean-Marie Simonet
+ # [#30349] Cleaned up use of database & query objects. Thanks Peter van Westen and Michael Babker
+
 -------------------- 3.1 Beta 3 Release [30-Mar-2012] ------------------
 
 29-Mar-2013 Michael Babker

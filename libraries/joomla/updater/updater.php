@@ -71,7 +71,7 @@ class JUpdater extends JAdapter
 	public function findUpdates($eid = 0, $cacheTimeout = 0)
 	{
 
-		$dbo = $this->getDBO();
+		$db = $this->getDBO();
 		$retval = false;
 
 		// Push it into an array
@@ -85,8 +85,8 @@ class JUpdater extends JAdapter
 				' WHERE update_site_id IN' .
 				'  (SELECT update_site_id FROM #__update_sites_extensions WHERE extension_id IN (' . implode(',', $eid) . '))';
 		}
-		$dbo->setQuery($query);
-		$results = $dbo->loadAssocList();
+		$db->setQuery($query);
+		$results = $db->loadAssocList();
 		$result_count = count($results);
 		$now = time();
 		for ($i = 0; $i < $result_count; $i++)
@@ -180,12 +180,12 @@ class JUpdater extends JAdapter
 			}
 
 			// Finally, update the last update check timestamp
-			$query = $dbo->getQuery(true);
-			$query->update($dbo->quoteName('#__update_sites'));
-			$query->set($dbo->quoteName('last_check_timestamp') . ' = ' . $dbo->quote($now));
-			$query->where($dbo->quoteName('update_site_id') . ' = ' . $dbo->quote($result['update_site_id']));
-			$dbo->setQuery($query);
-			$dbo->execute();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__update_sites'))
+				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote($now))
+				->where($db->quoteName('update_site_id') . ' = ' . $db->quote($result['update_site_id']));
+			$db->setQuery($query);
+			$db->execute();
 		}
 		return $retval;
 	}
