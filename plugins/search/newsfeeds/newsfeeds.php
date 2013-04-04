@@ -42,6 +42,7 @@ class PlgSearchNewsfeeds extends JPlugin
 	 *
 	 * The sql must return the following fields that are used in a common display
 	 * routine: href, title, section, created, text, browsernav
+	 *
 	 * @param string Target search string
 	 * @param string mathcing option, exact|any|all
 	 * @param string ordering option, newest|oldest|popular|alpha|category
@@ -54,10 +55,8 @@ class PlgSearchNewsfeeds extends JPlugin
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
-		if (is_array($areas))
-		{
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
-			{
+		if (is_array($areas)) {
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
 				return array();
 			}
 		}
@@ -66,23 +65,22 @@ class PlgSearchNewsfeeds extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
-		if ($sContent)
-		{
+		if ($sContent) {
 			$state[] = 1;
 		}
-		if ($sArchived)
-		{
+		if ($sArchived) {
 			$state[] = 2;
 		}
-
-		$text = trim($text);
-		if ($text == '')
-		{
+		if (!empty($state)) {
 			return array();
 		}
 
-		switch ($phrase)
-		{
+		$text = trim($text);
+		if ($text == '') {
+			return array();
+		}
+
+		switch ($phrase) {
 			case 'exact':
 				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 				$wheres2 = array();
@@ -96,8 +94,7 @@ class PlgSearchNewsfeeds extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
-				foreach ($words as $word)
-				{
+				foreach ($words as $word) {
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
 					$wheres2 = array();
 					$wheres2[] = 'a.name LIKE ' . $word;
@@ -108,8 +105,7 @@ class PlgSearchNewsfeeds extends JPlugin
 				break;
 		}
 
-		switch ($ordering)
-		{
+		switch ($ordering) {
 			case 'alpha':
 				$order = 'a.name ASC';
 				break;
@@ -127,52 +123,45 @@ class PlgSearchNewsfeeds extends JPlugin
 
 		$searchNewsfeeds = JText::_('PLG_SEARCH_NEWSFEEDS_NEWSFEEDS');
 
-		$rows = array();
-		if (!empty($state))
-		{
-			$query = $db->getQuery(true);
-			//sqlsrv changes
-			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias', '!=', '0');
-			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
-			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ';
-			$case_when .= $a_id . ' END as slug';
+		$query = $db->getQuery(true);
+		//sqlsrv changes
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('a.alias', '!=', '0');
+		$case_when .= ' THEN ';
+		$a_id = $query->castAsChar('a.id');
+		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $a_id . ' END as slug';
 
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('c.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
+		$case_when1 = ' CASE WHEN ';
+		$case_when1 .= $query->charLength('c.alias', '!=', '0');
+		$case_when1 .= ' THEN ';
+		$c_id = $query->castAsChar('c.id');
+		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when1 .= ' ELSE ';
+		$case_when1 .= $c_id . ' END as catslug';
 
-			$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . "," . $case_when1)
-				->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), " / ") . ' AS section')
-				->select('\'1\' AS browsernav')
-				->from('#__newsfeeds AS a')
-				->join('INNER', '#__categories as c ON c.id = a.catid')
-				->where('(' . $where . ')AND a.published IN (' . implode(',', $state) . ') AND c.published = 1 AND c.access IN (' . $groups . ')')
-				->order($order);
+		$query->select('a.name AS title, \'\' AS created, a.link AS text, ' . $case_when . "," . $case_when1)
+			->select($query->concatenate(array($db->quote($searchNewsfeeds), 'c.title'), " / ") . ' AS section')
+			->select('\'1\' AS browsernav')
+			->from('#__newsfeeds AS a')
+			->join('INNER', '#__categories as c ON c.id = a.catid')
+			->where('(' . $where . ')AND a.published IN (' . implode(',', $state) . ') AND c.published = 1 AND c.access IN (' . $groups . ')')
+			->order($order);
 
-			// Filter by language
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
-			{
-				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
-					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
-			}
+		// Filter by language
+		if ($app->isSite() && JLanguageMultilang::isEnabled()) {
+			$tag = JFactory::getLanguage()->getTag();
+			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+				->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+		}
 
-			$db->setQuery($query, 0, $limit);
-			$rows = $db->loadObjectList();
+		$db->setQuery($query, 0, $limit);
+		$rows = $db->loadObjectList();
 
-			if ($rows)
-			{
-				foreach ($rows as $key => $row)
-				{
-					$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid=' . $row->catslug . '&id=' . $row->slug;
-				}
+		if ($rows) {
+			foreach ($rows as $key => $row) {
+				$rows[$key]->href = 'index.php?option=com_newsfeeds&view=newsfeed&catid=' . $row->catslug . '&id=' . $row->slug;
 			}
 		}
 		return $rows;

@@ -169,12 +169,6 @@ class PlgContentPagenavigation extends JPlugin
 				$row->next = $rows[$location + 1];
 			}
 
-			$pnSpace = "";
-			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
-			{
-				$pnSpace = " ";
-			}
-
 			if ($row->prev)
 			{
 				$row->prev = JRoute::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catslug));

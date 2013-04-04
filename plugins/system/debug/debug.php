@@ -478,7 +478,7 @@ class PlgSystemDebug extends JPlugin
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
 
-		foreach ($log as $k => $query)
+		foreach ($log as $query)
 		{
 			// Start Query Type Ticker Additions
 			$fromStart = stripos($query, 'from');
@@ -624,7 +624,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html .= '<ul>';
 
-		foreach (JFactory::getLanguage()->getPaths() as $extension => $files)
+		foreach (JFactory::getLanguage()->getPaths() as $files)
 		{
 			foreach ($files as $file => $status)
 			{
@@ -879,7 +879,7 @@ class PlgSystemDebug extends JPlugin
 
 	/**
 	 * Store log messages so they can be displayed later.
-	 * This function is passed log entries by JLogLoggerCallback. 
+	 * This function is passed log entries by JLogLoggerCallback.
 	 *
 	 * @param   JLogEntry  $entry  A log entry.
 	 *
