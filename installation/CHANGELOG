@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+04-Apr-2013 Mark Dexter
+ # Reverting [#30430] Severe bug with "com_content" component routing.
+
 04-Apr-2013 Jean-Marie Simonet
  # [#30454] Tags: Adding Tags via Batch function replaces all previous tags. Thanks David and Elin.
  # [#30463] Missing closing div in compact tag layout. Thanks Thomas Hunziker and Constantin Romankiewicz
