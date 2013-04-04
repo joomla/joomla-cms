@@ -27,17 +27,16 @@ abstract class ModMenuHelper
 	public static function getMenus()
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('a.*, SUM(b.home) AS home');
-		$query->from('#__menu_types AS a');
-		$query->leftJoin('#__menu AS b ON b.menutype = a.menutype AND b.home != 0');
-		$query->select('b.language');
-		$query->leftJoin('#__languages AS l ON l.lang_code = language');
-		$query->select('l.image');
-		$query->select('l.sef');
-		$query->select('l.title_native');
-		$query->where('(b.client_id = 0 OR b.client_id IS NULL)');
+		$query	= $db->getQuery(true)
+			->select('a.*, SUM(b.home) AS home')
+			->from('#__menu_types AS a')
+			->join('LEFT', '#__menu AS b ON b.menutype = a.menutype AND b.home != 0')
+			->select('b.language')
+			->join('LEFT', '#__languages AS l ON l.lang_code = language')
+			->select('l.image')
+			->select('l.sef')
+			->select('l.title_native')
+			->where('(b.client_id = 0 OR b.client_id IS NULL)');
 		//sqlsrv change
 		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
 
@@ -66,14 +65,14 @@ abstract class ModMenuHelper
 		$langs	= array();
 
 		// Prepare the query.
-		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element');
-		$query->from('#__menu AS m');
+		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element')
+			->from('#__menu AS m');
 
 		// Filter on the enabled states.
-		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
-		$query->where('m.client_id = 1');
-		$query->where('e.enabled = 1');
-		$query->where('m.id > 1');
+		$query->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('m.client_id = 1')
+			->where('e.enabled = 1')
+			->where('m.id > 1');
 
 		// Order by lft.
 		$query->order('m.lft');

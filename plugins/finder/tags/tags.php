@@ -234,36 +234,36 @@ class PlgFinderTags extends FinderIndexerAdapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $sql  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A JDatabaseQuery object or null.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   3.1
 	 */
-	protected function getListQuery($sql = null)
+	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
-		$sql->select('a.id, a.title, a.alias, a.description AS summary');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access');
-		$sql->select('a.modified_time AS modified, a.modified_user_id AS modified_by');
-		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
-		$sql->select('a.published AS state, a.access, a.created_time AS start_date, a.params');
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.title, a.alias, a.description AS summary')
+			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')
+			->select('a.modified_time AS modified, a.modified_user_id AS modified_by')
+			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
+			->select('a.published AS state, a.access, a.created_time AS start_date, a.params');
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
+		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $sql->castAsChar('a.id');
-		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
+		$a_id = $query->castAsChar('a.id');
+		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id.' END as slug';
-		$sql->select($case_when_item_alias);
+		$query->select($case_when_item_alias)
 
-		$sql->from('#__tags AS a');
+			->from('#__tags AS a');
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -278,9 +278,9 @@ class PlgFinderTags extends FinderIndexerAdapter
 	protected function getUpdateQueryByTime($time)
 	{
 		// Build an SQL query based on the modified time.
-		$sql = $this->db->getQuery(true);
-		$sql->where('a.date >= ' . $this->db->quote($time));
+		$query = $this->db->getQuery(true)
+			->where('a.date >= ' . $this->db->quote($time));
 
-		return $sql;
+		return $query;
 	}
 }

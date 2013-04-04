@@ -45,11 +45,10 @@ abstract class JHtmlCategory
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select('a.id, a.title, a.level');
-			$query->from('#__categories AS a');
-			$query->where('a.parent_id > 0');
+			$query = $db->getQuery(true)
+				->select('a.id, a.title, a.level')
+				->from('#__categories AS a')
+				->where('a.parent_id > 0');
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
@@ -122,11 +121,10 @@ abstract class JHtmlCategory
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select('a.id, a.title, a.level, a.parent_id');
-			$query->from('#__categories AS a');
-			$query->where('a.parent_id > 0');
+			$query = $db->getQuery(true)
+				->select('a.id, a.title, a.level, a.parent_id')
+				->from('#__categories AS a')
+				->where('a.parent_id > 0');
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));

@@ -164,7 +164,7 @@ abstract class JHtmlJGrid
 		// Special state for dates
 		if ($publish_up || $publish_down)
 		{
-			$nullDate = JFactory::getDBO()->getNullDate();
+			$nullDate = JFactory::getDbo()->getNullDate();
 			$nowDate = JFactory::getDate()->toUnix();
 
 			$tz = new DateTimeZone(JFactory::getUser()->getParam('timezone', JFactory::getConfig()->get('offset')));

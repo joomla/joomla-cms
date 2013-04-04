@@ -187,11 +187,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			// before we change anything.
 			foreach ($pks as $pk)
 			{
-				$sql = clone($this->getStateQuery());
-				$sql->where('a.id = ' . (int) $pk);
+				$query = clone($this->getStateQuery());
+				$query->where('a.id = ' . (int) $pk);
 
 				// Get the published states.
-				$this->db->setQuery($sql);
+				$this->db->setQuery($query);
 				$item = $this->db->loadObject();
 
 				// Translate the state.
@@ -325,35 +325,35 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $sql  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A JDatabaseQuery object or null.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
-	protected function getListQuery($sql = null)
+	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
-		$sql->select('a.id, a.title, a.alias, a.description AS summary, a.extension');
-		$sql->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level');
-		$sql->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.title, a.alias, a.description AS summary, a.extension')
+			->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by')
+			->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level')
+			->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
+		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $sql->castAsChar('a.id');
-		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
+		$a_id = $query->castAsChar('a.id');
+		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id.' END as slug';
-		$sql->select($case_when_item_alias);
-		$sql->from('#__categories AS a');
-		$sql->where($db->quoteName('a.id') . ' > 1');
+		$query->select($case_when_item_alias)
+			->from('#__categories AS a')
+			->where($db->quoteName('a.id') . ' > 1');
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -366,12 +366,12 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getStateQuery()
 	{
-		$sql = $this->db->getQuery(true);
-		$sql->select($this->db->quoteName('a.id'));
-		$sql->select($this->db->quoteName('a.published') . ' AS cat_state');
-		$sql->select($this->db->quoteName('a.access') . ' AS cat_access');
-		$sql->from($this->db->quoteName('#__categories') . ' AS a');
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('a.id'))
+			->select($this->db->quoteName('a.published') . ' AS cat_state')
+			->select($this->db->quoteName('a.access') . ' AS cat_access')
+			->from($this->db->quoteName('#__categories') . ' AS a');
 
-		return $sql;
+		return $query;
 	}
 }

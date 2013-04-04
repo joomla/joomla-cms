@@ -139,7 +139,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		$extension = $this->input->get('extension');
 		$item = $model->getItem();
 
-		$tags = new JTags;
+		$tags = new JHelperTags;
 		$tags->deleteTagData($ids, $extension . '.category');
 
 	}

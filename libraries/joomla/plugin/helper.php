@@ -54,7 +54,7 @@ abstract class JPluginHelper
 		// Build the template and base path for the layout
 		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
 		$bPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
-		$dPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/' . 'default.php';
+		$dPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/default.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))
@@ -268,12 +268,11 @@ abstract class JPluginHelper
 		if (!self::$plugins = $cache->get($levels))
 		{
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select('folder AS type, element AS name, params')
+			$query = $db->getQuery(true)
+				->select('folder AS type, element AS name, params')
 				->from('#__extensions')
 				->where('enabled >= 1')
-				->where('type =' . $db->Quote('plugin'))
+				->where('type =' . $db->quote('plugin'))
 				->where('state >= 0')
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
