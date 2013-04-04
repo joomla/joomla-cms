@@ -237,6 +237,10 @@ class JTableCategory extends JTableNested
 			$ucm->save($data, $type, false);
 			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
 
+			// Fix the need to do this
+			$metadata['tags'] = $tags;
+			$this->metadata = json_encode($metadata);
+
 			$id = $data['id'];
 			$isNew = $id == 0 ? 1 : 0;
 			$tagsHelper = new JTags;

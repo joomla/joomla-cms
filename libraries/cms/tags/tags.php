@@ -254,6 +254,7 @@ class JTags
 		{
 			$id = implode($id);
 		}
+
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -830,7 +831,7 @@ class JTags
 				// Rebuild the items path
 				if ($aliasesMapper)
 				{
-					foreach ($tags as &$tag)
+					foreach ($tags as $tag)
 					{
 						$namesPath = array();
 

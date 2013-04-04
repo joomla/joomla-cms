@@ -173,6 +173,15 @@ class NewsfeedsTableNewsfeed extends JTable
 			$ucm->save($data, $type, false);
 			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
 
+			foreach ($tags as $tagText)
+			{
+				// Remove the #new# prefix that identifies new tags
+				$tagText = str_replace('#new#', '', $tag);
+			}
+			// Fix the need to do this
+			$metadata->tags = $tagText;
+			$this->metadata = json_encode($metadata);
+
 			$id = $data['id'];
 			$isNew = $id == 0 ? 1 : 0;
 			$tagsHelper = new JTags;

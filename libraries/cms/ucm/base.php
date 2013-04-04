@@ -140,6 +140,18 @@ class JUcmBase implements JUcm
 		}
 		$ucmData['special']['core_content_item_id'] = $ucmData['common']['core_content_item_id'];
 
+		$db = JFactory::getDbo();
+		$queryid = $db->getQuery(true);
+
+		$queryid->select($db->quoteName('id'))
+		->from($db->quoteName($type->table))
+		->where($db->quoteName('type_alias') . ' = ' . $db->quote($type->type_alias));
+		$db->setQuery($queryid);
+		$id = $db->loadResult();
+		var_dump($id);
+		echo ' special ' ;var_dump($ucmData['special']);
+		echo ' common ' ;var_dump($ucmData['common']);die;
+
 		$this->ucmData = $ucmData;
 
 		return $this->ucmData;

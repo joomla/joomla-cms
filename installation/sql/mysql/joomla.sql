@@ -413,12 +413,14 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
   `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
   `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
- CONSTRAINT uc_ItemnameTagid UNIQUE (`type_alias`, `content_item_id`, `tag_id`),
- KEY idx_tag_name (`tag_id`, `type_alias`),
- KEY idx_date_id (`tag_date`, `tag_id`),
- KEY idx_tag (`tag_id`),
- KEY idx_core_content_id (`core_content_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
+  `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
+  UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
+  KEY `idx_tag_type` (`tag_id`,`type_id`),
+  KEY `idx_date_id` (`tag_date`,`tag_id`),
+  KEY `idx_tag` (`tag_id`),
+  KEY `idx_type` (`type_id`),
+  KEY `idx_core_content_id` (`core_content_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
 
 -- --------------------------------------------------------
 
@@ -460,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `#__core_content` (
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `core_type_id` int(10) unsigned,
   PRIMARY KEY (`core_content_id`),
-  UNIQUE KEY `idx_type_alias_item_id` (`core_type_alias`,`core_content_item_id`),
+  UNIQUE KEY `idx_type_id_item_id` (`core_type_id`,`core_content_item_id`),
   KEY `tag_idx` (`core_state`,`core_access`),
   KEY `idx_access` (`core_access`),
   KEY `idx_alias` (`core_alias`),
@@ -476,7 +478,18 @@ CREATE TABLE IF NOT EXISTS `#__core_content` (
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
 
 -- --------------------------------------------------------
-
+CREATE TABLE IF NOT EXISTS `core_content_map` (
+  `core_content_id` int(10) NOT NULL,
+  `content_item_id` int(10) NOT NULL,
+  `type_id` int(5) NOT NULL,
+  `language_id` int(5) NOT NULL,
+  PRIMARY KEY (`core_content_id`),
+   UNIQUE KEY `idx_type_id_item_id` (`core_type_id`,`core_content_item_id`),
+  UNIQUE KEY `idx_lang_id_item_id` (`core_type_id`,`core_lang_id`),
+  KEY `idx_all` (`core_type_id`, `core_lang_id`,`content_item_id`),
+  KEY `idx_content_item_id` (`content_item_id`),
+  KEY `idx_type_id` (`type_id`),
+  KEY `idx_language_id` (`language_id`)
 --
 -- Table structure for table `#__core_log_searches`
 --

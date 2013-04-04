@@ -269,6 +269,13 @@ class JTableContent extends JTable
 		// Store the tag data if the article data was saved and run related methods.
 		if (empty($tags) == false)
 		{
+			$tagText = implode($tags);
+			$tagText = str_replace('#new#', '', $tagText);
+
+			// Fix the need to do this
+			$metadata->tags = $tagText;
+			$this->metadata = json_encode($metadata);
+
 			$fields = $this->getFields();
 			$data = array();
 			$fields = $this->getFields();
@@ -286,6 +293,7 @@ class JTableContent extends JTable
 			$ucm = new JUcmBase($this, $typeAlias);
 			$ucm->save($data, $type, false);
 			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
+
 
 			$id = $data['id'];
 			$isNew = $id == 0 ? 1 : 0;
