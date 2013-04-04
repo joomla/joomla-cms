@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class MenusModelMenu extends JModelForm
 {
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_MENU';
@@ -27,14 +27,14 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Model context string.
 	 *
-	 * @var		string
+	 * @var        string
 	 */
-	protected $_context		= 'com_menus.menu';
+	protected $_context = 'com_menus.menu';
 
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	A record object.
+	 * @param   object    A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
@@ -43,13 +43,13 @@ class MenusModelMenu extends JModelForm
 	{
 		$user = JFactory::getUser();
 
-		return $user->authorise('core.delete', 'com_menus.menu.'.(int) $record->id);
+		return $user->authorise('core.delete', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	A record object.
+	 * @param   object    A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since   1.6
@@ -58,17 +58,17 @@ class MenusModelMenu extends JModelForm
 	{
 		$user = JFactory::getUser();
 
-		return $user->authorise('core.edit.state', 'com_menus.menu.'.(int) $record->id);
+		return $user->authorise('core.edit.state', 'com_menus.menu.' . (int) $record->id);
 	}
 
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type	The table type to instantiate
-	 * @param   string	A prefix for the table class name. Optional.
-	 * @param   array  Configuration array for model. Optional.
-	 * @return  JTable	A database object
-	*/
+	 * @param   type      The table type to instantiate
+	 * @param   string    A prefix for the table class name. Optional.
+	 * @param   array     Configuration array for model. Optional.
+	 * @return  JTable    A database object
+	 */
 	public function getTable($type = 'MenuType', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -97,14 +97,14 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to get a menu item.
 	 *
-	 * @param   integer	The id of the menu item to get.
+	 * @param   integer    The id of the menu item to get.
 	 *
 	 * @return  mixed  Menu item data object on success, false on failure.
 	 */
 	public function &getItem($itemId = null)
 	{
 		$itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
-		$false	= false;
+		$false = false;
 
 		// Get a menu item row instance.
 		$table = $this->getTable();
@@ -127,9 +127,9 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Method to get the menu item form.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return  JForm	A JForm object on success, false on failure
+	 * @param   array      $data        Data for the form.
+	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 * @return  JForm    A JForm object on success, false on failure
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -173,7 +173,7 @@ class MenusModelMenu extends JModelForm
 	 */
 	public function save($data)
 	{
-		$id	= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
+		$id = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
 		$isNew = true;
 
 		// Get a row instance.
@@ -257,12 +257,12 @@ class MenusModelMenu extends JModelForm
 	{
 		$db = $this->getDbo();
 
-		$query = $db->getQuery(true);
-		$query->from('#__modules as a');
-		$query->select('a.id, a.title, a.params, a.position');
-		$query->where('module = '.$db->quote('mod_menu'));
-		$query->select('ag.title AS access_title');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query = $db->getQuery(true)
+			->from('#__modules as a')
+			->select('a.id, a.title, a.params, a.position')
+			->where('module = ' . $db->quote('mod_menu'))
+			->select('ag.title AS access_title')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 		$db->setQuery($query);
 
 		$modules = $db->loadObjectList();
@@ -279,7 +279,7 @@ class MenusModelMenu extends JModelForm
 			{
 				$result[$menuType] = array();
 			}
-			$result[$menuType][] = &$module;
+			$result[$menuType][] = & $module;
 		}
 
 		return $result;

@@ -19,7 +19,7 @@ class TemplatesModelSource extends JModelForm
 	/**
 	 * Cache for the template information.
 	 *
-	 * @var		object
+	 * @var        object
 	 */
 	private $_template = null;
 
@@ -50,16 +50,16 @@ class TemplatesModelSource extends JModelForm
 		$app->setUserState('editor.source.syntax', JFile::getExt($fileName));
 
 		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_templates');
+		$params = JComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
 	}
 
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return  JForm	A JForm object on success, false on failure
+	 * @param   array      $data        Data for the form.
+	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 * @return  JForm    A JForm object on success, false on failure
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -67,14 +67,14 @@ class TemplatesModelSource extends JModelForm
 		$app = JFactory::getApplication();
 
 		// Codemirror or Editor None should be enabled
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('COUNT(*)');
-		$query->from('#__extensions as a');
-		$query->where('(a.name ='.$db->quote('plg_editors_codemirror').' AND a.enabled = 1) OR (a.name ='.$db->quote('plg_editors_none').' AND a.enabled = 1)');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('#__extensions as a')
+			->where('(a.name =' . $db->quote('plg_editors_codemirror') . ' AND a.enabled = 1) OR (a.name =' . $db->quote('plg_editors_none') . ' AND a.enabled = 1)');
 		$db->setQuery($query);
 		$state = $db->loadResult();
-		if ((int) $state < 1 )
+		if ((int) $state < 1)
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
 		}
@@ -127,15 +127,17 @@ class TemplatesModelSource extends JModelForm
 		if ($this->_template)
 		{
 			$fileName = $this->getState('filename');
-			$client   = JApplicationHelper::getClientInfo($this->_template->client_id);
-			$filePath = JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
+			$client = JApplicationHelper::getClientInfo($this->_template->client_id);
+			$filePath = JPath::clean($client->path . '/templates/' . $this->_template->element . '/' . $fileName);
 
 			if (file_exists($filePath))
 			{
 				$item->extension_id = $this->getState('extension.id');
-				$item->filename     = $this->getState('filename');
-				$item->source       = file_get_contents($filePath);
-			} else {
+				$item->filename = $this->getState('filename');
+				$item->source = file_get_contents($filePath);
+			}
+			else
+			{
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 			}
 		}
@@ -151,16 +153,16 @@ class TemplatesModelSource extends JModelForm
 	 */
 	public function &getTemplate()
 	{
-		$pk		= $this->getState('extension.id');
-		$db		= $this->getDbo();
-		$result	= false;
+		$pk = $this->getState('extension.id');
+		$db = $this->getDbo();
+		$result = false;
 
 		// Get the template information.
 		$db->setQuery(
 			'SELECT extension_id, client_id, element' .
-			' FROM #__extensions' .
-			' WHERE extension_id = '.(int) $pk.
-			'  AND type = '.$db->quote('template')
+				' FROM #__extensions' .
+				' WHERE extension_id = ' . (int) $pk .
+				'  AND type = ' . $db->quote('template')
 		);
 
 		try
@@ -207,9 +209,9 @@ class TemplatesModelSource extends JModelForm
 		}
 
 		$dispatcher = JEventDispatcher::getInstance();
-		$fileName	= $this->getState('filename');
-		$client		= JApplicationHelper::getClientInfo($template->client_id);
-		$filePath	= JPath::clean($client->path.'/templates/'.$template->element.'/'.$fileName);
+		$fileName = $this->getState('filename');
+		$client = JApplicationHelper::getClientInfo($template->client_id);
+		$filePath = JPath::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
 
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
@@ -240,7 +242,8 @@ class TemplatesModelSource extends JModelForm
 		{
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'));
 			return false;
-		} elseif (!$return)
+		}
+		elseif (!$return)
 		{
 			$this->setError(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName));
 			return false;

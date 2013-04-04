@@ -39,11 +39,10 @@ class JFormFieldNewsfeeds extends JFormFieldList
 		$options = array();
 
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('id As value, name As text');
-		$query->from('#__newsfeeds AS a');
-		$query->order('a.name');
+		$query	= $db->getQuery(true)
+			->select('id As value, name As text')
+			->from('#__newsfeeds AS a')
+			->order('a.name');
 
 		// Get the options.
 		$db->setQuery($query);

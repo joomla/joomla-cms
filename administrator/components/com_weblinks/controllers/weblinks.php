@@ -67,7 +67,7 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 
 		$item = $model->getItem();
 
-		$tags = new JTags;
+		$tags = new JHelperTags;
 		$tags->deleteTagData($ids, 'com_weblinks.weblink');
 
 	}
