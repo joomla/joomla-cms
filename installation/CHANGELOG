@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 04-Apr-2013 Jean-Marie Simonet
  # [#30454] Tags: Adding Tags via Batch function replaces all previous tags. Thanks David and Elin.
+ # [#30463] Missing closing div in compact tag layout. Thanks Thomas Hunziker and Constantin Romankiewicz
 
 03-Apr-2013 Jean-Marie Simonet
  # [#30349] Cleaned up use of database & query objects. Thanks Peter van Westen and Michael Babker
