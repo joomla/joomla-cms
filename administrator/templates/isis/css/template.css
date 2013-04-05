@@ -6534,6 +6534,9 @@ h6 {
 	padding-right: 5px;
 	text-align: left;
 }
+.form-horizontal .control-label .spacer hr {
+	width: 380px;
+}
 .form-horizontal #jform_catid_chzn {
 	vertical-align: middle;
 }
