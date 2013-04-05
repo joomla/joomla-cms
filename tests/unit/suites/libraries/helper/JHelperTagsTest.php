@@ -8,12 +8,12 @@
  */
 
 /**
- * Test class for JTags.
+ * Test class for JHelperTags.
  */
-class JTagsTest extends PHPUnit_Framework_TestCase
+class JHelperTagsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JTags
+	 * @var    JHelperTags
 	 * @since  3.1
 	 */
 	protected $object;
@@ -28,7 +28,7 @@ class JTagsTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->object = new JTags;
+		$this->object = new JHelperTags;
 	}
 
 	/**

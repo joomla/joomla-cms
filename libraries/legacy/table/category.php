@@ -77,10 +77,10 @@ class JTableCategory extends JTableNested
 		if ($this->parent_id > 1)
 		{
 			// Build the query to get the asset id for the parent category.
-			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('asset_id'));
-			$query->from($this->_db->quoteName('#__categories'));
-			$query->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('asset_id'))
+				->from($this->_db->quoteName('#__categories'))
+				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -93,10 +93,10 @@ class JTableCategory extends JTableNested
 		elseif ($assetId === null)
 		{
 			// Build the query to get the asset id for the parent category.
-			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('id'));
-			$query->from($this->_db->quoteName('#__assets'));
-			$query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__assets'))
+				->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -213,6 +213,8 @@ class JTableCategory extends JTableNested
 			$this->created_user_id = $user->get('id');
 		}
 
+		$return = parent::store($updateNulls);
+
 		$metadata = json_decode($this->metadata);
 		$tags = (array) $metadata->tags;
 
@@ -233,25 +235,30 @@ class JTableCategory extends JTableNested
 			$typeAlias = $this->extension . '.category';
 			$type = new JUcmType($typeAlias);
 
-			$ucm = new JUcmBase($this, $typeAlias);
+			$ucm = new JUcmContent($this, $typeAlias, $type);
 			$ucm->save($data, $type, false);
 			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
 
+			// Fix the need to do this
+			$metadata['tags'] = $tags;
+			$this->metadata = json_encode($metadata);
+
 			$id = $data['id'];
 			$isNew = $id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
+			$tagsHelper = new JHelperTags;
 
 			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
-			&& ($table->id != $this->id || $this->id == 0))
+				&& ($table->id != $this->id || $this->id == 0))
 		{
 
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 			return false;
 		}
-		return parent::store($updateNulls);
+
+		return $return;
 	}
 }

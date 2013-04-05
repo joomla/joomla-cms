@@ -413,12 +413,14 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
   `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
   `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
- CONSTRAINT uc_ItemnameTagid UNIQUE (`type_alias`, `content_item_id`, `tag_id`),
- KEY idx_tag_name (`tag_id`, `type_alias`),
- KEY idx_date_id (`tag_date`, `tag_id`),
- KEY idx_tag (`tag_id`),
- KEY idx_core_content_id (`core_content_id`)
-  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
+  `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
+  UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
+  KEY `idx_tag_type` (`tag_id`,`type_id`),
+  KEY `idx_date_id` (`tag_date`,`tag_id`),
+  KEY `idx_tag` (`tag_id`),
+  KEY `idx_type` (`type_id`),
+  KEY `idx_core_content_id` (`core_content_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
 
 -- --------------------------------------------------------
 
@@ -460,7 +462,7 @@ CREATE TABLE IF NOT EXISTS `#__core_content` (
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `core_type_id` int(10) unsigned,
   PRIMARY KEY (`core_content_id`),
-  UNIQUE KEY `idx_type_alias_item_id` (`core_type_alias`,`core_content_item_id`),
+  UNIQUE KEY `idx_type_id_item_id` (`core_type_id`,`core_content_item_id`),
   KEY `tag_idx` (`core_state`,`core_access`),
   KEY `idx_access` (`core_access`),
   KEY `idx_alias` (`core_alias`),
@@ -475,16 +477,6 @@ CREATE TABLE IF NOT EXISTS `#__core_content` (
   KEY `idx_core_type_id` (`core_type_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
 
--- --------------------------------------------------------
-
---
--- Table structure for table `#__core_log_searches`
---
-
-CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
-  `search_term` varchar(128) NOT NULL DEFAULT '',
-  `hits` int(10) unsigned NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1641,6 +1633,17 @@ INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`
 (8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
 
 -- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `#__ucm_map` (
+  `ucm_id` int(10) NOT NULL,
+  `ucm_item_id` int(10) NOT NULL,
+  `ucm_type_id` int(11) NOT NULL,
+  `ucm_language_id` int(11) NOT NULL,
+  PRIMARY KEY (`ucm_id`),
+  KEY `ucm_item_id` (`ucm_id`),
+  KEY `ucm_type_id` (`ucm_id`),
+  KEY `ucm_language_id` (`ucm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `#__updates`

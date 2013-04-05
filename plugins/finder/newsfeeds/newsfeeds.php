@@ -320,46 +320,46 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $sql  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A JDatabaseQuery object or null.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
-	protected function getListQuery($sql = null)
+	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
-		$sql->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link');
-		$sql->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access');
-		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language');
-		$sql->select('a.created_by, a.created_by_alias, a.modified, a.modified_by');
-		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.catid, a.name AS title, a.alias, a.link AS link')
+			->select('a.published AS state, a.ordering, a.created AS start_date, a.params, a.access')
+			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
+			->select('a.metakey, a.metadesc, a.metadata, a.language')
+			->select('a.created_by, a.created_by_alias, a.modified, a.modified_by')
+			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
+		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $sql->castAsChar('a.id');
-		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
+		$a_id = $query->castAsChar('a.id');
+		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id.' END as slug';
-		$sql->select($case_when_item_alias);
+		$query->select($case_when_item_alias);
 
 		$case_when_category_alias = ' CASE WHEN ';
-		$case_when_category_alias .= $sql->charLength('c.alias', '!=', '0');
+		$case_when_category_alias .= $query->charLength('c.alias', '!=', '0');
 		$case_when_category_alias .= ' THEN ';
-		$c_id = $sql->castAsChar('c.id');
-		$case_when_category_alias .= $sql->concatenate(array($c_id, 'c.alias'), ':');
+		$c_id = $query->castAsChar('c.id');
+		$case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when_category_alias .= ' ELSE ';
 		$case_when_category_alias .= $c_id.' END as catslug';
-		$sql->select($case_when_category_alias);
+		$query->select($case_when_category_alias)
 
-		$sql->from('#__newsfeeds AS a');
-		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
+			->from('#__newsfeeds AS a')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
-		return $sql;
+		return $query;
 	}
 }

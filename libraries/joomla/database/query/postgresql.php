@@ -608,7 +608,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * @param   string    $interval  The string representation of the appropriate number of units
 	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
-	 * @return  sring  The string with the appropriate sql for addition of dates
+	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
 	 * @note Not all drivers support all units. Check appropriate references

@@ -22,47 +22,6 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
 class JHtmlNewsfeed
 {
 	/**
-	 * @param   int $value	The state value
-	 * @param   int $i
-	 */
-	public static function state($value = 0, $i)
-	{
-		// Array of image, task, title, action
-		$states	= array(
-			1	=> array('tick.png',		'newsfeeds.unpublish',	'JPUBLISHED',			'COM_NEWSFEEDS_UNPUBLISH_ITEM'),
-			0	=> array('publish_x.png',	'newsfeeds.publish',		'JUNPUBLISHED',		'COM_NEWSFEEDS_PUBLISH_ITEM')
-		);
-		$state	= JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" title="'.JText::_($state[3]).'">'
-				. JHtml::_('image', 'admin/'.$state[0], JText::_($state[2]), null, true).'</a>';
-
-		return $html;
-	}
-
-	/**
-	 * Display an HTML select list of state filters
-	 *
-	 * @param   int $selected	The selected value of the list
-	 * @return  string  	The HTML code for the select tag
-	 * @since   1.6
-	 */
-	public static function filterstate($selected)
-	{
-		// Build the active state filter options.
-		$options	= array();
-		$options[]	= JHtml::_('select.option', '*', JText::_('JOPTION_ANY'));
-		$options[]	= JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
-		$options[]	= JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
-
-		return JHtml::_('select.genericlist', $options, 'filter_published',
-			array(
-				'list.attr' => 'class="inputbox" onchange="this.form.submit();"',
-				'list.select' => $selected
-			)
-		);
-	}
-
-	/**
 	 * Get the associated language flags
 	 *
 	 * @param   int  $newsfeedid  The item id to search associations
@@ -84,15 +43,15 @@ class JHtmlNewsfeed
 
 			// Get the associated newsfeed items
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('c.*');
-			$query->from('#__newsfeeds as c');
-			$query->select('cat.title as category_title');
-			$query->leftJoin('#__categories as cat ON cat.id=c.catid');
-			$query->where('c.id IN (' . implode(',', array_values($associations)) . ')');
-			$query->leftJoin('#__languages as l ON c.language=l.lang_code');
-			$query->select('l.image');
-			$query->select('l.title as language_title');
+			$query = $db->getQuery(true)
+				->select('c.*')
+				->from('#__newsfeeds as c')
+				->select('cat.title as category_title')
+				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
+				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
+				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
+				->select('l.image')
+				->select('l.title as language_title');
 			$db->setQuery($query);
 
 			try

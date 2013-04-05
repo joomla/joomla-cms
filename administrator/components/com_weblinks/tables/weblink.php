@@ -104,36 +104,7 @@ class WeblinksTableWeblink extends JTable
 		{
 			$this->publish_down = $this->_db->getNullDate();
 		}
-		$metadata = json_decode($this->metadata);
-		$tags = (array) $metadata->tags;
 
-		// Store the tag data if the article data was saved and run related methods.
-		if (empty($tags) == false)
-		{
-			$fields = $this->getFields();
-			$data = array();
-			$fields = $this->getFields();
-
-			foreach ($fields as $field)
-			{
-				$columnName = $field->Field;
-				$value = $this->$columnName;
-				$data[$columnName] =  $value;
-			}
-
-			$typeAlias = 'com_weblinks.weblink';
-			$type = new JUcmType($typeAlias);
-
-			$ucm = new JUcmBase($this, $typeAlias);
-			$ucm->save($data, $type, false);
-			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
-
-			$id = $data['id'];
-			$isNew = $id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
-
-			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
-		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Weblink', 'WeblinksTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
@@ -142,8 +113,39 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
+		$tagsHelper = new JHelperTags;
+		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+
 		// Attempt to store the data.
-		return parent::store($updateNulls);
+		$return = parent::store($updateNulls);
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($tags) == false)
+		{
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($this);
+
+			$typeAlias = 'com_weblinks.weblink';
+			$type = new JUcmType($typeAlias);
+
+			$ucm = new JUcmContent($this, $typeAlias, $type);
+			$ucm->save($data, $type, false);
+			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
+
+			foreach ($tags as $tag)
+			{
+				// Remove the #new# prefix that identifies new tags
+				$tag = str_replace('#new#', '', $tag);
+			}
+
+			$id = $data['id'];
+			$isNew = $id == 0 ? 1 : 0;
+			$tagsHelper = new JHelperTags;
+
+			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
+		}
+
+		return $return;
 	}
 
 	/**
@@ -167,7 +169,7 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		// check for existing name
-		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->Quote($this->title).' AND catid = '.(int) $this->catid;
+		$query = 'SELECT id FROM #__weblinks WHERE title = '.$this->_db->quote($this->title).' AND catid = '.(int) $this->catid;
 		$this->_db->setQuery($query);
 
 		$xid = (int) $this->_db->loadResult();

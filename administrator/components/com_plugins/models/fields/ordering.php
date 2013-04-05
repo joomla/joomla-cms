@@ -53,7 +53,7 @@ class JFormFieldOrdering extends JFormField
 		// Build the query for the ordering list.
 		$query = 'SELECT ordering AS value, name AS text, type AS type, folder AS folder, extension_id AS extension_id' .
 				' FROM #__extensions' .
-				' WHERE (type =' .$db->Quote('plugin'). 'AND folder='. $db->Quote($folder) . ')'.
+				' WHERE (type =' .$db->quote('plugin'). 'AND folder='. $db->quote($folder) . ')'.
 				' ORDER BY ordering';
 
 		// Create a read-only list (no name) with a hidden input to store the value.

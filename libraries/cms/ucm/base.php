@@ -64,16 +64,17 @@ class JUcmBase implements JUcm
 	*
 	* @since   3.1
 	*/
-	private function store($data, JTable $table = null, $primaryKey = null)
+	protected function store(&$data, JTable $table = null, $primaryKey = null)
 	{
-		if (!$table) 
+		if (!$table)
 		{
 			$table = JTable::getInstance('Ucm');
 		}
 
 		$primaryKey = $primaryKey ? $primaryKey : $data['ucm_id'];
 
-		if (isset($primaryKey) {
+		if (isset($primaryKey))
+		{
 			$table->load($primaryKey);
 		}
 
@@ -127,9 +128,9 @@ class JUcmBase implements JUcm
 		$type = $type ? $type : $this->type;
 
 		$data = array(
-					'ucm_type_id' = $type->id,
-					'ucm_item_id' = $original[$type->primary_key],
-					'ucm_language_id' = $original['language'];
+					'ucm_type_id' => $type->id,
+					'ucm_item_id' => $original[$type->primary_key],
+					'ucm_language_id' => $original['language']
 				);
 
 		return $data;

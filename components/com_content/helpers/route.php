@@ -31,6 +31,7 @@ abstract class ContentHelperRoute
 		);
 		//Create the link
 		$link = 'index.php?option=com_content&view=article&id='. $id;
+
 		if ((int) $catid > 1)
 		{
 			$categories = JCategories::getInstance('Content');
@@ -44,11 +45,11 @@ abstract class ContentHelperRoute
 		}
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			$db		= JFactory::getDBO();
-			$query	= $db->getQuery(true);
-			$query->select('a.sef AS sef');
-			$query->select('a.lang_code AS lang_code');
-			$query->from('#__languages AS a');
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true)
+				->select('a.sef AS sef')
+				->select('a.lang_code AS lang_code')
+				->from('#__languages AS a');
 
 			$db->setQuery($query);
 			$langs = $db->loadObjectList();
@@ -101,11 +102,11 @@ abstract class ContentHelperRoute
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
-				$db		= JFactory::getDBO();
-				$query	= $db->getQuery(true);
-				$query->select('a.sef AS sef');
-				$query->select('a.lang_code AS lang_code');
-				$query->from('#__languages AS a');
+				$db		= JFactory::getDbo();
+				$query	= $db->getQuery(true)
+					->select('a.sef AS sef')
+					->select('a.lang_code AS lang_code')
+					->from('#__languages AS a');
 
 				$db->setQuery($query);
 				$langs = $db->loadObjectList();

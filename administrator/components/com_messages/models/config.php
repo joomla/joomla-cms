@@ -49,10 +49,10 @@ class MessagesModelConfig extends JModelForm
 		$item = new JObject;
 
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select('cfg_name, cfg_value');
-		$query->from('#__messages_cfg');
-		$query->where('user_id = '.(int) $this->getState('user.id'));
+		$query = $db->getQuery(true)
+			->select('cfg_name, cfg_value')
+			->from('#__messages_cfg')
+			->where('user_id = '.(int) $this->getState('user.id'));
 
 		$db->setQuery($query);
 
@@ -126,7 +126,7 @@ class MessagesModelConfig extends JModelForm
 			$tuples = array();
 			foreach ($data as $k => $v)
 			{
-				$tuples[] = '(' . $userId.', ' . $db->Quote($k) . ', ' . $db->Quote($v) . ')';
+				$tuples[] = '(' . $userId.', ' . $db->quote($k) . ', ' . $db->quote($v) . ')';
 			}
 
 			if ($tuples)
