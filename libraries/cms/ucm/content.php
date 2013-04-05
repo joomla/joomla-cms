@@ -120,7 +120,7 @@ class JUcmContent extends JUcmBase
 //var_dump($ucmData['common']);die;
 		//Store the core UCM mappings
 		$baseData = array();
-		$baseData['ucm_id']				= $ccId; //TODO
+		$baseData['ucm_id']				= $ucmData['common']['core_content_id']; //TODO
 		$baseData['ucm_type_id'] 		= $type->type->type_id;
 		$baseData['ucm_item_id'] 		= $ucmData['special']['core_content_item_id'];
 		$baseData['ucm_language_id']	= $ucmData['common']['core_language'];
@@ -156,15 +156,17 @@ class JUcmContent extends JUcmBase
 			}
 		}
 
-		foreach ($fields['special'][0] as $i => $field)
+		if (!empty($fields['special']))
 		{
-			if ($field && $field != 'null' && array_key_exists($field, $original))
+			foreach ($fields['special'][0] as $i => $field)
 			{
-				$ucmData['special'][$i] = $original[$field];
+				if ($field && $field != 'null' && array_key_exists($field, $original))
+				{
+					$ucmData['special'][$i] = $original[$field];
+				}
 			}
+			$ucmData['special']['core_content_item_id'] = $ucmData['common']['core_content_item_id'];
 		}
-		$ucmData['special']['core_content_item_id'] = $ucmData['common']['core_content_item_id'];
-
 		$this->ucmData = $ucmData;
 
 		return $this->ucmData;
@@ -181,7 +183,7 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	*/
-	protected function store(&$data, JTable $table = null, $corecontent = true)
+	protected function store(&$primaryKey, JTable $table = null, $corecontent = true)
 	{
 		$table = $table ? $table : JTable::getInstance('Corecontent');
 
@@ -193,9 +195,13 @@ class JUcmContent extends JUcmBase
 				return true;
 			}
 			$typeAlias = $this->getType()->type->type_alias;
-			$primaryKey = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
+			if (!empty($data['core_content_item_id']))
+			{
+				$primaryKey = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
+			}
 
 			parent::store($data, $table, $primaryKey);
+			$primaryKey2 = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
 
 		}
 		else

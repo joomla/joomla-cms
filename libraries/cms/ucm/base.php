@@ -56,9 +56,9 @@ class JUcmBase implements JUcm
 	/**
 	* Store data to the appropriate table
 	*
-	* @param   array    $data         Data to be stored
-	* @param   JTable   $table        JTable Object
-	* @param   string  $primaryKey	  The primary key name
+	* @param   array   $data         Data to be stored
+	* @param   JTable  $table        JTable Object
+	* @param   string  $primaryKey   The primary key name
 	*
 	* @return  Boolean  true on success
 	*
@@ -105,23 +105,23 @@ class JUcmBase implements JUcm
 	/**
 	* Get the UCM Content type.
 	*
-	* @return	Object	The UCM content type
+	* @return  Object  The UCM content type
 	*
-	* @since	13.1
+	* @since   3.1
 	**/
 	public function getType()
 	{
-
 		$type = new JUcmType($this->alias);
 
 		return $type;
 	}
 
 	/**
+	* Method to map the base ucm fields
 	*
-	* @return	array	Data array of UCM mappings
+	* @return  array  Data array of UCM mappings
 	*
-	* @since 13.1
+	* @since 3.1
 	**/
 	public function mapBase($original, JUcmType $type = null)
 	{
