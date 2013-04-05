@@ -74,11 +74,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 
 					<strong class="list-title">
-						<?php if ($this->params->get('icons') == 0) : ?>
+						<?php if ($this->params->get('icons', 1) == 0) : ?>
 							 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
-						<?php elseif ($this->params->get('icons') == 1) : ?>
+						<?php elseif ($this->params->get('icons', 1) == 1) : ?>
 							<?php if (!$this->params->get('link_icons')) : ?>
-								<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), null, true); ?>
+								<?php echo JHtml::_('image', 'system/weblink.png', JText::_('COM_WEBLINKS_LINK'), null, true); ?>
 							<?php else: ?>
 								<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
 							<?php endif; ?>
