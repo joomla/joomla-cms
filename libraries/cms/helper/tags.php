@@ -806,6 +806,8 @@ class JHelperTags
 	 * @param   array  $tags  Array of tags
 	 *
 	 * @return  array
+	 *
+	 * @since   3.1
 	 */
 	public static function convertPathsToNames($tags)
 	{
@@ -878,6 +880,35 @@ class JHelperTags
 					}
 				}
 			}
+		}
+
+		return $tags;
+	}
+	/**
+	 * Function that converts tags stored as metadata to tags and back, including cleaning
+	 *
+	 * @param   string  $metadata  JSON encoded metadata
+	 *
+	 * @return  array
+	 */
+
+	public function convertTagsMetadata(&$metadata)
+	{
+		$metadata = json_decode($metadata);
+		$tags = (array) $metadata->tags;
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($tags) == false)
+		{
+			// Fix the need to do this
+			foreach ($tags as &$tagText)
+			{
+				// Remove the #new# prefix that identifies new tags
+				$tagText = str_replace('#new#', '', $tagText);
+			}
+
+			$metadata->tags = $tagText;
+			$metadata = json_encode($metadata);
 		}
 
 		return $tags;

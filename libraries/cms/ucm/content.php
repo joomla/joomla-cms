@@ -81,8 +81,8 @@ class JUcmContent extends JUcmBase
 
 	/**
 	*
-	* @param   Array   $original  The original data to be saved
-	* @param   Object  $type      The UCM Type object
+	* @param   Array    $original     The original data to be saved
+	* @param   Object   $type         The UCM Type object
 	* @param   boolean  $corecontent  Flag that is true for data that are using #__core_content as their primary table
 	*
 	* @return  boolean  true
@@ -94,23 +94,37 @@ class JUcmContent extends JUcmBase
 		$type = $type ? $type : $this->type;
 		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
 
-		//Store the Common fields
-		$this->store($ucmData['common']);
+
+		if ($corecontent == false)
+		{
+			//Store the Common fields
+			$this->store($ucmData['common']);
+//var_dump($ucmData['common']);die;
+			//$db = JFactory::getDbo();
+			//$table = new JTableCorecontent($db);
+			//$row = $table->get();
+			//$row = new JHelperContent;
+			//$rowdata = $row->getRowData($table);
+			//var_dump($rowdata);die;
+
+			//$ccId = $rowdata['core_content_id'];var_dump($ccId);die;
+
+		}
 
 		//Store the special fields
-		if( isset($ucmData['special']))
+		if(isset($ucmData['special']))
 		{
 			$table = $this->table;
 			$this->store($ucmData['special'], $table, $corecontent);
 		}
-
+//var_dump($ucmData['common']);die;
 		//Store the core UCM mappings
 		$baseData = array();
-		$baseData['ucm_id']				= $ucmData['core_content_id']; //TODO
-		$baseData['ucm_type_id'] 		= $type->id;
-		$baseData['ucm_item_id'] 		= $ucmData['core_content_item_id'];
-		$baseData['ucm_language_id']	= $ucmData['core_language'];
-
+		$baseData['ucm_id']				= $ccId; //TODO
+		$baseData['ucm_type_id'] 		= $type->type->type_id;
+		$baseData['ucm_item_id'] 		= $ucmData['special']['core_content_item_id'];
+		$baseData['ucm_language_id']	= $ucmData['common']['core_language'];
+		//var_dump($baseData);die;
 		parent::store($baseData);
 
 		return true;
@@ -167,7 +181,7 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	*/
-	protected function store($data, JTable $table = null, $corecontent = true)
+	protected function store(&$data, JTable $table = null, $corecontent = true)
 	{
 		$table = $table ? $table : JTable::getInstance('Corecontent');
 
@@ -182,6 +196,7 @@ class JUcmContent extends JUcmBase
 			$primaryKey = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
 
 			parent::store($data, $table, $primaryKey);
+
 		}
 		else
 		{
@@ -196,6 +211,7 @@ class JUcmContent extends JUcmBase
 			$data[$primaryKeyName] = $data['ucm_id'];
 
 			parent::store($data, $table, $data[$primaryKeyName]);
+
 		}
 
 		return true;

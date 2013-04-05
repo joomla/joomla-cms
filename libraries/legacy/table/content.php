@@ -104,7 +104,7 @@ class JTableContent extends JTable
 	 *
 	 * @param   array  $array   Named array
 	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
+	 *                          to ignore while binding.
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
@@ -272,31 +272,21 @@ class JTableContent extends JTable
 			return false;
 		}
 
+		$tagsHelper = new JHelperTags;
+		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+
 		$return = parent::store($updateNulls);
 
-		$metadata = json_decode($this->metadata);
-		$tags = (array) $metadata->tags;
+		if ($return == false)
+		{
+			return false;
+		}
 
 		// Store the tag data if the article data was saved and run related methods.
 		if (empty($tags) == false)
 		{
-			$tagText = implode($tags);
-			$tagText = str_replace('#new#', '', $tagText);
-
-			// Fix the need to do this
-			$metadata->tags = $tagText;
-			$this->metadata = json_encode($metadata);
-
-			$fields = $this->getFields();
-			$data = array();
-			$fields = $this->getFields();
-
-			foreach ($fields as $field)
-			{
-				$columnName = $field->Field;
-				$value = $this->$columnName;
-				$data[$columnName] =  $value;
-			}
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($this);
 
 			$typeAlias = 'com_content.article';
 			$type = new JUcmType($typeAlias);

@@ -64,7 +64,7 @@ class JUcmBase implements JUcm
 	*
 	* @since   3.1
 	*/
-	protected function store($data, JTable $table = null, $primaryKey = null)
+	protected function store(&$data, JTable $table = null, $primaryKey = null)
 	{
 		if (!$table)
 		{

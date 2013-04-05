@@ -89,4 +89,29 @@ class JHelperContent
 
 		return $langCode;
 	}
+
+	/**
+	 * Gets a row of data from a table
+	 *
+	 * @param   JTable  $table  JTable instance for a row.
+	 *
+	 * @return  array  Associative array of all columns and values for a row in a table.
+	 *
+	 * @since   3.1
+	 */
+	public function getRowData($table)
+	{
+		$fields = $table->getFields();
+		$data = array();
+
+		foreach ($fields as &$field)
+		{
+			$columnName = $field->Field;
+			$value = $table->$columnName;
+			$data[$columnName] =  $value;
+		}
+
+		return $data;
+	}
+
 }

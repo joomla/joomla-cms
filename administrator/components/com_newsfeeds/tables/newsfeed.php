@@ -157,34 +157,18 @@ class NewsfeedsTableNewsfeed extends JTable
 			return false;
 		}
 
-		$return = parent::store($updateNulls);
+		$tagsHelper = new JHelperTags;
+		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
 
-		$metadata = json_decode($this->metadata);
-		$tags = (array) $metadata->tags;
+
+		$return = parent::store($updateNulls);
 
 		// Store the tag data if the article data was saved and run related methods.
 		if (empty($tags) == false)
 		{
-			// Fix the need to do this
-			foreach ($tags as $tagText)
-			{
-				// Remove the #new# prefix that identifies new tags
-				$tagText = str_replace('#new#', '', $tag);
-			}
 
-			$metadata->tags = $tagText;
-			$this->metadata = json_encode($metadata);
-
-			$fields = $this->getFields();
-			$data = array();
-			$fields = $this->getFields();
-
-			foreach ($fields as $field)
-			{
-				$columnName = $field->Field;
-				$value = $this->$columnName;
-				$data[$columnName] =  $value;
-			}
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($this);
 
 			$typeAlias = 'com_newsfeeds.newsfeed';
 			$type = new JUcmType($typeAlias);

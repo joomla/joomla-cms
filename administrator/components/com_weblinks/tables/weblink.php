@@ -113,35 +113,17 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
+		$tagsHelper = new JHelperTags;
+		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+
 		// Attempt to store the data.
 		$return = parent::store($updateNulls);
-
-		$metadata = json_decode($this->metadata);
-		$tags = (array) $metadata->tags;
 
 		// Store the tag data if the article data was saved and run related methods.
 		if (empty($tags) == false)
 		{
-			// Fix the need to do this
-			foreach ($tags as $tagText)
-			{
-				// Remove the #new# prefix that identifies new tags
-				$tagText = str_replace('#new#', '', $tag);
-			}
-
-			$metadata->tags = $tagText;
-			$this->metadata = json_encode($metadata);
-
-			$fields = $this->getFields();
-			$data = array();
-			$fields = $this->getFields();
-
-			foreach ($fields as $field)
-			{
-				$columnName = $field->Field;
-				$value = $this->$columnName;
-				$data[$columnName] =  $value;
-			}
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($this);
 
 			$typeAlias = 'com_weblinks.weblink';
 			$type = new JUcmType($typeAlias);
