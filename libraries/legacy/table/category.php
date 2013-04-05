@@ -213,6 +213,8 @@ class JTableCategory extends JTableNested
 			$this->created_user_id = $user->get('id');
 		}
 
+		$return = parent::store($updateNulls);
+
 		$metadata = json_decode($this->metadata);
 		$tags = (array) $metadata->tags;
 
@@ -233,7 +235,7 @@ class JTableCategory extends JTableNested
 			$typeAlias = $this->extension . '.category';
 			$type = new JUcmType($typeAlias);
 
-			$ucm = new JUcmBase($this, $typeAlias);
+			$ucm = new JUcmContent($this, $typeAlias, $type);
 			$ucm->save($data, $type, false);
 			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
 
@@ -243,19 +245,20 @@ class JTableCategory extends JTableNested
 
 			$id = $data['id'];
 			$isNew = $id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
+			$tagsHelper = new JHelperTags;
 
 			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
 		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
-			&& ($table->id != $this->id || $this->id == 0))
+				&& ($table->id != $this->id || $this->id == 0))
 		{
 
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 			return false;
 		}
-		return parent::store($updateNulls);
+
+		return $return;
 	}
 }

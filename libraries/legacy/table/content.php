@@ -263,6 +263,17 @@ class JTableContent extends JTable
 			}
 		}
 
+
+		// Verify that the alias is unique
+		$table = JTable::getInstance('Content', 'JTable');
+		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		{
+			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+			return false;
+		}
+
+		$return = parent::store($updateNulls);
+
 		$metadata = json_decode($this->metadata);
 		$tags = (array) $metadata->tags;
 
@@ -290,27 +301,19 @@ class JTableContent extends JTable
 			$typeAlias = 'com_content.article';
 			$type = new JUcmType($typeAlias);
 
-			$ucm = new JUcmBase($this, $typeAlias);
+			$ucm = new JUcmContent($this, $typeAlias, $type);
 			$ucm->save($data, $type, false);
 			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
 
 
 			$id = $data['id'];
 			$isNew = $id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
+			$tagsHelper = new JHelperTags;
 
 			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
 		}
 
-		// Verify that the alias is unique
-		$table = JTable::getInstance('Content', 'JTable');
-		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
-			return false;
-		}
-
-		return parent::store($updateNulls);
+		return $return;
 	}
 
 	/**

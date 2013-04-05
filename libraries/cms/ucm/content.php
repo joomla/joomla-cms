@@ -53,8 +53,9 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Instantiate the UcmContent.
 	 *
-	 * @param   JTable    $table    The table object
-	 * @param   JUcmType  $model    The type object
+	 * @param   JTable    $table   The table object
+	 * @param   sring     $alias   The type alias
+	 * @param   JUcmType  $type    The type object
 	 *
 	 * @since  13.1
 	 */
@@ -166,12 +167,17 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	*/
-	private function store($data, JTable $table = null, $corecontent = true)
+	protected function store($data, JTable $table = null, $corecontent = true)
 	{
 		$table = $table ? $table : JTable::getInstance('Corecontent');
 
 		if ($table instanceof JTableCorecontent)
 		{
+			if ($corecontent)
+			{
+				// Avoid a save() within a save() for handling when core content is the primary table.
+				return true;
+			}
 			$typeAlias = $this->getType()->type->type_alias;
 			$primaryKey = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
 
@@ -184,10 +190,11 @@ class JUcmContent extends JUcmBase
 				// Avoid a save() within a save() for legacy handling.
 				return true;
 			}
+
 			$primaryKeyName = $table->getKeyName();
 
-			$data[$primaryKeyName] = $data['core_content_item_id'];
-			
+			$data[$primaryKeyName] = $data['ucm_id'];
+
 			parent::store($data, $table, $data[$primaryKeyName]);
 		}
 

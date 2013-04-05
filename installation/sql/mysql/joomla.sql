@@ -477,27 +477,6 @@ CREATE TABLE IF NOT EXISTS `#__core_content` (
   KEY `idx_core_type_id` (`core_type_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
 
--- --------------------------------------------------------
-CREATE TABLE IF NOT EXISTS `core_content_map` (
-  `core_content_id` int(10) NOT NULL,
-  `content_item_id` int(10) NOT NULL,
-  `type_id` int(5) NOT NULL,
-  `language_id` int(5) NOT NULL,
-  PRIMARY KEY (`core_content_id`),
-   UNIQUE KEY `idx_type_id_item_id` (`core_type_id`,`core_content_item_id`),
-  UNIQUE KEY `idx_lang_id_item_id` (`core_type_id`,`core_lang_id`),
-  KEY `idx_all` (`core_type_id`, `core_lang_id`,`content_item_id`),
-  KEY `idx_content_item_id` (`content_item_id`),
-  KEY `idx_type_id` (`type_id`),
-  KEY `idx_language_id` (`language_id`)
---
--- Table structure for table `#__core_log_searches`
---
-
-CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
-  `search_term` varchar(128) NOT NULL DEFAULT '',
-  `hits` int(10) unsigned NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -1654,6 +1633,17 @@ INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`
 (8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
 
 -- --------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `#__ucm_map` (
+  `ucm_id` int(10) NOT NULL,
+  `ucm_item_id` int(10) NOT NULL,
+  `ucm_type_id` int(11) NOT NULL,
+  `ucm_language_id` int(11) NOT NULL,
+  PRIMARY KEY (`ucm_id`),
+  KEY `ucm_item_id` (`ucm_id`),
+  KEY `ucm_type_id` (`ucm_id`),
+  KEY `ucm_language_id` (`ucm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Table structure for table `#__updates`
