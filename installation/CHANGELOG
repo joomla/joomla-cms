@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+05-Apr-2013 Jean-Marie Simonet
+ # [#30416] duplicate alias in banner manager on pressing save as copy
+
 04-Apr-2013 Mark Dexter
  # Reverting [#30430] Severe bug with "com_content" component routing.
 
