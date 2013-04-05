@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Apr-2013 Mark Dexter
+ # Revert [#30430] Severe bug with "com_content" component routing.
+
+04-Apr-2013 Jean-Mari Simonet
+ # [#30430] Severe bug with "com_content" component routing. Thanks sajal soni.
+
 28-Mar-2013 Jean-Marie Simonet
  # *Multilanguage 2.5: SIngle article display does not filter correctly author contact per language.
  # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto.
