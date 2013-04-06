@@ -52,39 +52,34 @@ $n = count($this->items);
 					</a>
 				</h3>
 		<?php endif; ?>
-				<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
-					<span class="list-hits badge badge-info pull-right">
-						<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
-					</span>
+		<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
+			<?php $images  = json_decode($item->images); ?>
+			<span class="tag-body">
+			<?php if (!empty($images->image_intro)): ?>
+				<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
+				<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
+					<img
+				<?php if ($images->image_intro_caption) : ?>
+					<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
 				<?php endif; ?>
-				<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-					<?php $images  = json_decode($item->images); ?>
-					<span class="tag-body">
-					<?php if (!empty($images->image_intro)): ?>
-						<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
-						<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
-							<img
-						<?php if ($images->image_intro_caption) :
-							echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"';
-						endif; ?>
-							src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
-						</div>
-					<?php endif; ?>
-					</span>
-					<div class="caption">
-						<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
-						<span class="tag-body">
-							<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('tag_list_item_maximum_characters')); ?>
-						</span>
-						<?php endif; ?>
-						<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
-						<span class="list-hits badge badge-info">
-							<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
-						</span>
-						<?php endif; ?>
-					</div>
-				</li>
-			<?php endif;?>
+				src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
+				</div>
+			<?php endif; ?>
+			</span>
+		<?php endif; ?>
+		<div class="caption">
+			<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
+				<span class="tag-body">
+					<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('tag_list_item_maximum_characters')); ?>
+				</span>
+			<?php endif; ?>
+			<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
+				<span class="list-hits badge badge-info">
+					<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
+				</span>
+			<?php endif; ?>
+		</div>
+	</li>
 
 		<?php if (($i == 0 && $n == 1) || $i == $n - 1 || $bscolumns == 1 || (($i + 1) % $bscolumns == 0)) : ?>
 			</ul>

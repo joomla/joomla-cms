@@ -89,8 +89,7 @@ class TagsViewTags extends JViewLegacy
 			// If the current view is the active item and the tags view, then the menu item params take priority
 			if (strpos($currentLink, 'view=tags'))
 			{
-				// $item->params are the article params, $temp are the menu item params
-				// Merge so that the menu item params take priority
+				$this->params = $active->params;
 				$this->params->merge($temp);
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))

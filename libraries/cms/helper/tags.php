@@ -569,7 +569,7 @@ class JHelperTags
 		}
 		else
 		{
-			$orderBy = 'MAX(c.core_' . $orderByOption . ')';
+			$orderBy = 'MAX(' . $orderByOption . ')';
 		}
 
 		$query->order($orderBy . ' ' . $orderDir);
