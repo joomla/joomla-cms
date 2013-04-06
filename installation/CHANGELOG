@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#30486] *Banners Manager:Banners and Banners Manager:Clients Status filter issue. Thanks Jean-Marie Simonet.
  # [#30480] com_contact error in admin->view->contacts search "author:xxxx". Thanks Brent Cordis.
  # [#30481] Missing space between icon-cog and caret in featured view. Thanks Thomas Hunziker.
+ # [#30250] Upgrade jQuery from 1.8.1 to 1.8.3. Thanks George Wilson.
 
 05-Apr-2013 Jean-Marie Simonet
  # [#30416] duplicate alias in banner manager on pressing save as copy
