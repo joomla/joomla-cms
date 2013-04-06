@@ -89,31 +89,13 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	**/
-<<<<<<< HEAD
-	public function save(&$original = null, JUcmType $type = null, $corecontent = true)
-=======
 	public function save($original = null, JUcmType $type = null)
->>>>>>> Fixed problem with UCM and Core Content Saving
 	{
 		$type = $type ? $type : $this->type;
 		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
 
-<<<<<<< HEAD
-		if ($corecontent == false)
-		{
-			$db = JFactory::getDbo();
-			$table = new JTableCorecontent($db);
-			//Store the Common fields
-			$table->store($ucmData['common']);
-		}
-=======
 		//Store the Common fields
 		$this->store($ucmData['common']);
->>>>>>> Fixed problem with UCM and Core Content Saving
-
-		$row = new JHelperContent;
-		$rowdata = $row->getRowData($table);
-		$ccId = $rowdata['core_content_id'];
 
 		//Store the special fields
 		if(isset($ucmData['special']))
@@ -121,18 +103,6 @@ class JUcmContent extends JUcmBase
 			$table = $this->table;
 			$this->store($ucmData['special'], $table,'');
 		}
-<<<<<<< HEAD
-
-		//Store the core UCM mappings
-		$baseData = array();
-		$baseData['ucm_id']				= $rowdata['core_content_id']; //TODO
-		$baseData['ucm_type_id'] 		= $type->type->type_id;
-		$baseData['ucm_item_id'] 		= $ucmData['special']['core_content_item_id'];
-		$baseData['ucm_language_id']	= $ucmData['common']['core_language'];
-
-		parent::store($baseData);
-=======
->>>>>>> Fixed problem with UCM and Core Content Saving
 
 		return true;
 	}
@@ -163,19 +133,13 @@ class JUcmContent extends JUcmBase
 			}
 		}
 
-		if (!empty($fields['special']))
+		foreach ($fields['special'][0] as $i => $field)
 		{
-			foreach ($fields['special'][0] as $i => $field)
+			if ($field && $field != 'null' && array_key_exists($field, $original))
 			{
-				if ($field && $field != 'null' && array_key_exists($field, $original))
-				{
-					$ucmData['special'][$i] = $original[$field];
-				}
+				$ucmData['special'][$i] = $original[$field];
 			}
-			$ucmData['special']['core_content_item_id'] = $ucmData['common']['core_content_item_id'];
 		}
-<<<<<<< HEAD
-=======
 
 		$ucmData['common']['core_type_alias'] 	= $contentType->type->type_alias;
 		$ucmData['common']['core_type_id']		= $contentType->type->type_id;
@@ -185,7 +149,6 @@ class JUcmContent extends JUcmBase
 			$ucmData['special']['ucm_id'] = $ucmData['common']['ucm_id'];
 		}
 
->>>>>>> Fixed problem with UCM and Core Content Saving
 		$this->ucmData = $ucmData;
 
 		return $this->ucmData;
@@ -202,35 +165,12 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	*/
-<<<<<<< HEAD
-	protected function store(&$primaryKey, JTable $table = null, $corecontent = true)
-	{
-		$table = $table ? $table : JTable::getInstance('Corecontent');
-
-
-		if ($table instanceof JTableCorecontent)
-		{
-			if ($corecontent)
-			{
-				// Avoid a save() within a save() for handling when core content is the primary table.
-				return true;
-			}
-			$typeAlias = $this->getType()->type->type_alias;
-			if (!empty($data['core_content_item_id']))
-			{
-				$primaryKey = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
-			}
-
-			parent::store($data, $table, $primaryKey);
-			$primaryKey2 = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
-=======
 	protected function store($data, JTable $table = null, $primaryKey = null)
 	{
 		$table = $table ? $table : JTable::getInstance('Corecontent');
 
 		$typeId 	= $this->getType()->type->type_id;
 		$primaryKey = $primaryKey ? $primaryKey : self::getPrimaryKey($typeId, $data['core_content_item_id']);
->>>>>>> Fixed problem with UCM and Core Content Saving
 
 		if (!$primaryKey)
 		{
