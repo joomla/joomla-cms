@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 06-Apr-2013 Mark Dexter
  # [#30482] Fix tel validation in 2.5.x series. Thanks Don Gilbert.
+ # [#30480] com_contact error in admin->view->contacts search "author:xxxx". Thanks Brent Cordis.
 
 04-Apr-2013 Mark Dexter
  # Revert [#30430] Severe bug with "com_content" component routing.
