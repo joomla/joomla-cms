@@ -181,23 +181,23 @@ class ContentControllerArticle extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-		$id = $item->id;
 
-		if (empty($validData['tags']) && !empty($item->tags))
+		if (empty($validData['metadata']['tags']) && !empty($item->tags))
 		{
 			$oldTags = new JHelperTags;
 			$oldTags->unTagItem($id, 'com_content.article');
 			return;
 		}
 
-		$tags = $validData['tags'];
+		$tags = $validData['metadata']['tags'];
 
 		// Store the tag data if the article data was saved.
 		if ($tags[0] != '')
 		{
-			$isNew = $item->id == 0 ? 1 : 0;
+			$isNew = $validData['id'] == 0 ? 1 : 0;
+
 			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($id, 'com_content.article', $isNew, $item, $tags, null);
+			$tagsHelper->tagItem($item->id, 'com_content.article', $isNew, $item, $tags, null);
 		}
 		return;
 	}
