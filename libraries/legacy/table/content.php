@@ -289,18 +289,23 @@ class JTableContent extends JTable
 			$data = $rowdata->getRowData($this);
 
 			$typeAlias = 'com_content.article';
-			$type = new JUcmType($typeAlias);
+			$ucm = new JUcmContent($this, $typeAlias);
+			$ucm->save($data);
 
+<<<<<<< HEAD
 			$ucm = new JUcmContent($this, $typeAlias, $type);
 			$ucm->save($data, $type, false);
 
 			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
+=======
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
 
-			$id = $data['id'];
-			$isNew = $id == 0 ? 1 : 0;
+			$isNew = $data['id'] ? 0 : 1;
+>>>>>>> Fixed problem with UCM and Core Content Saving
+
 			$tagsHelper = new JHelperTags;
 
-			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
+			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
 		}
 
 		return $return;

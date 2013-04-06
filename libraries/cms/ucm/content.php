@@ -32,7 +32,7 @@ class JUcmContent extends JUcmBase
 	 * @var    JUcmType Object
 	 * @since  13.1
 	 */
-	protected $type;
+	public $type;
 
 	/**
 	 * The alias for the content table
@@ -89,11 +89,16 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	**/
+<<<<<<< HEAD
 	public function save(&$original = null, JUcmType $type = null, $corecontent = true)
+=======
+	public function save($original = null, JUcmType $type = null)
+>>>>>>> Fixed problem with UCM and Core Content Saving
 	{
 		$type = $type ? $type : $this->type;
 		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
 
+<<<<<<< HEAD
 		if ($corecontent == false)
 		{
 			$db = JFactory::getDbo();
@@ -101,6 +106,10 @@ class JUcmContent extends JUcmBase
 			//Store the Common fields
 			$table->store($ucmData['common']);
 		}
+=======
+		//Store the Common fields
+		$this->store($ucmData['common']);
+>>>>>>> Fixed problem with UCM and Core Content Saving
 
 		$row = new JHelperContent;
 		$rowdata = $row->getRowData($table);
@@ -110,8 +119,9 @@ class JUcmContent extends JUcmBase
 		if(isset($ucmData['special']))
 		{
 			$table = $this->table;
-			$this->store($ucmData['special'], $table, $corecontent);
+			$this->store($ucmData['special'], $table,'');
 		}
+<<<<<<< HEAD
 
 		//Store the core UCM mappings
 		$baseData = array();
@@ -121,6 +131,8 @@ class JUcmContent extends JUcmBase
 		$baseData['ucm_language_id']	= $ucmData['common']['core_language'];
 
 		parent::store($baseData);
+=======
+>>>>>>> Fixed problem with UCM and Core Content Saving
 
 		return true;
 	}
@@ -162,6 +174,18 @@ class JUcmContent extends JUcmBase
 			}
 			$ucmData['special']['core_content_item_id'] = $ucmData['common']['core_content_item_id'];
 		}
+<<<<<<< HEAD
+=======
+
+		$ucmData['common']['core_type_alias'] 	= $contentType->type->type_alias;
+		$ucmData['common']['core_type_id']		= $contentType->type->type_id;
+
+		if (isset($ucmData['special']))
+		{
+			$ucmData['special']['ucm_id'] = $ucmData['common']['ucm_id'];
+		}
+
+>>>>>>> Fixed problem with UCM and Core Content Saving
 		$this->ucmData = $ucmData;
 
 		return $this->ucmData;
@@ -178,6 +202,7 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	*/
+<<<<<<< HEAD
 	protected function store(&$primaryKey, JTable $table = null, $corecontent = true)
 	{
 		$table = $table ? $table : JTable::getInstance('Corecontent');
@@ -198,50 +223,57 @@ class JUcmContent extends JUcmBase
 
 			parent::store($data, $table, $primaryKey);
 			$primaryKey2 = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
+=======
+	protected function store($data, JTable $table = null, $primaryKey = null)
+	{
+		$table = $table ? $table : JTable::getInstance('Corecontent');
 
-		}
-		else
+		$typeId 	= $this->getType()->type->type_id;
+		$primaryKey = $primaryKey ? $primaryKey : self::getPrimaryKey($typeId, $data['core_content_item_id']);
+>>>>>>> Fixed problem with UCM and Core Content Saving
+
+		if (!$primaryKey)
 		{
-			if (!$corecontent)
+			//Store the core UCM mappings
+			$baseData = array();
+			$baseData['ucm_type_id']		= $typeId;
+			$baseData['ucm_item_id']		= $data['core_content_item_id'];
+			$baseData['ucm_language_id']	= $data['core_language'];
+
+			if (parent::store($baseData))
 			{
-				// Avoid a save() within a save() for legacy handling.
-				return true;
+				$primaryKey = self::getPrimaryKey($typeId,$data['core_content_item_id']);
 			}
-
-			$primaryKeyName = $table->getKeyName();
-
-			$data[$primaryKeyName] = $data['ucm_id'];
-
-			parent::store($data, $table, $data[$primaryKeyName]);
-
 		}
+
+
+		parent::store($data, $table, $primaryKey);
 
 		return true;
 	}
 
 	/**
-	 * Get the value of the primary key from #__core_content
+	 * Get the value of the primary key from #__ucm_map
 	 *
-	 * @param   string   $primaryKeyName   Name of the primary key field
-	 * @param   string   $typeAlias        The dot separated alias for the type
+	 * @param   string   $typeId	        The ID for the type
 	 * @param   integer  $contentItemId    Value of the primary key in the legacy or secondary table
 	 *
-	 * @return  Boolean  true on success
+	 * @return  Integer  The integer of the primary key
 	 *
 	 * @since   3.1
 	 */
 
-	public function getPrimaryKey($primaryKeyName, $typeAlias, $contentItemId)
+	public function getPrimaryKey($typeId, $contentItemId)
 	{
 		$db = JFactory::getDbo();
 		$queryccid = $db->getQuery(true);
 		$queryccid = $db->getQuery(true);
-		$queryccid->select($db->quoteName($primaryKeyName))
-		->from($db->quoteName('#__core_content'))
+		$queryccid->select($db->quoteName('ucm_id'))
+		->from($db->quoteName('#__ucm_map'))
 		->where(
 			array(
-					$db->quoteName('core_content_item_id') . ' = ' . $db->quote($contentItemId),
-					$db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias)
+					$db->quoteName('ucm_item_id') . ' = ' . $db->quote($contentItemId),
+					$db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId)
 			));
 		$db->setQuery($queryccid);
 		$primaryKey = $db->loadResult();

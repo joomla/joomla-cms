@@ -64,14 +64,15 @@ class JUcmBase implements JUcm
 	*
 	* @since   3.1
 	*/
-	protected function store(&$data, JTable $table = null, $primaryKey = null)
+	protected function store($data, JTable $table = null, $primaryKey = null)
 	{
 		if (!$table)
 		{
 			$table = JTable::getInstance('Ucm');
 		}
 
-		$primaryKey = $primaryKey ? $primaryKey : $data['ucm_id'];
+		$ucmId		= isset($data['ucm_id']) ? $data['ucm_id'] : null;
+		$primaryKey	= $primaryKey ? $primaryKey : $ucmId;
 
 		if (isset($primaryKey))
 		{

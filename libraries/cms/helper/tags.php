@@ -56,8 +56,6 @@ class JHelperTags
 				}
 			}
 
-
-
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');
@@ -110,7 +108,7 @@ class JHelperTags
 				}
 			}
 
-			unset($tag);
+			// unset($tag);
 		}
 
 		// Check again that we have tags
@@ -135,17 +133,20 @@ class JHelperTags
 		// Set the new tag maps.
 		if (!empty($tags))
 		{
+			$query2 = $db->getQuery(true);
+			$query2->insert('#__contentitem_tag_map');
+			$query2->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
+			$query2->clear('values');
+
 			// Have to break this up into individual queries for cross-database support.
 			foreach ($tags as $tag)
 			{
-				$query2 = $db->getQuery(true);
-				$query2->insert('#__contentitem_tag_map')
-					->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')))
-					->clear('values')
-					->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $ccId);
-				$db->setQuery($query2);
-				$db->execute();
+				$query2->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $item);
 			}
+			
+			$db->setQuery($query2);
+			$db->execute();
+
 		}
 
 		return;
