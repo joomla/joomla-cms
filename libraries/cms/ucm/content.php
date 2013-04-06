@@ -89,27 +89,22 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	**/
-	public function save($original = null, JUcmType $type = null, $corecontent = true)
+	public function save(&$original = null, JUcmType $type = null, $corecontent = true)
 	{
 		$type = $type ? $type : $this->type;
 		$ucmData = $original ? $this->mapData($original, $type) : $this->ucmData;
 
-
 		if ($corecontent == false)
 		{
+			$db = JFactory::getDbo();
+			$table = new JTableCorecontent($db);
 			//Store the Common fields
-			$this->store($ucmData['common']);
-//var_dump($ucmData['common']);die;
-			//$db = JFactory::getDbo();
-			//$table = new JTableCorecontent($db);
-			//$row = $table->get();
-			//$row = new JHelperContent;
-			//$rowdata = $row->getRowData($table);
-			//var_dump($rowdata);die;
-
-			//$ccId = $rowdata['core_content_id'];var_dump($ccId);die;
-
+			$table->store($ucmData['common']);
 		}
+
+		$row = new JHelperContent;
+		$rowdata = $row->getRowData($table);
+		$ccId = $rowdata['core_content_id'];
 
 		//Store the special fields
 		if(isset($ucmData['special']))
@@ -117,14 +112,14 @@ class JUcmContent extends JUcmBase
 			$table = $this->table;
 			$this->store($ucmData['special'], $table, $corecontent);
 		}
-//var_dump($ucmData['common']);die;
+
 		//Store the core UCM mappings
 		$baseData = array();
-		$baseData['ucm_id']				= $ccId; //TODO
+		$baseData['ucm_id']				= $rowdata['core_content_id']; //TODO
 		$baseData['ucm_type_id'] 		= $type->type->type_id;
 		$baseData['ucm_item_id'] 		= $ucmData['special']['core_content_item_id'];
 		$baseData['ucm_language_id']	= $ucmData['common']['core_language'];
-		//var_dump($baseData);die;
+
 		parent::store($baseData);
 
 		return true;
@@ -156,15 +151,17 @@ class JUcmContent extends JUcmBase
 			}
 		}
 
-		foreach ($fields['special'][0] as $i => $field)
+		if (!empty($fields['special']))
 		{
-			if ($field && $field != 'null' && array_key_exists($field, $original))
+			foreach ($fields['special'][0] as $i => $field)
 			{
-				$ucmData['special'][$i] = $original[$field];
+				if ($field && $field != 'null' && array_key_exists($field, $original))
+				{
+					$ucmData['special'][$i] = $original[$field];
+				}
 			}
+			$ucmData['special']['core_content_item_id'] = $ucmData['common']['core_content_item_id'];
 		}
-		$ucmData['special']['core_content_item_id'] = $ucmData['common']['core_content_item_id'];
-
 		$this->ucmData = $ucmData;
 
 		return $this->ucmData;
@@ -181,9 +178,10 @@ class JUcmContent extends JUcmBase
 	*
 	* @since   3.1
 	*/
-	protected function store(&$data, JTable $table = null, $corecontent = true)
+	protected function store(&$primaryKey, JTable $table = null, $corecontent = true)
 	{
 		$table = $table ? $table : JTable::getInstance('Corecontent');
+
 
 		if ($table instanceof JTableCorecontent)
 		{
@@ -193,9 +191,13 @@ class JUcmContent extends JUcmBase
 				return true;
 			}
 			$typeAlias = $this->getType()->type->type_alias;
-			$primaryKey = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
+			if (!empty($data['core_content_item_id']))
+			{
+				$primaryKey = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
+			}
 
 			parent::store($data, $table, $primaryKey);
+			$primaryKey2 = self::getPrimaryKey('core_content_id', $typeAlias, $data['core_content_item_id']);
 
 		}
 		else

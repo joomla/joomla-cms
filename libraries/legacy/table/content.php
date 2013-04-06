@@ -293,8 +293,8 @@ class JTableContent extends JTable
 
 			$ucm = new JUcmContent($this, $typeAlias, $type);
 			$ucm->save($data, $type, false);
-			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
 
+			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
 
 			$id = $data['id'];
 			$isNew = $id == 0 ? 1 : 0;
@@ -335,16 +335,17 @@ class JTableContent extends JTable
 			{
 				$pks = array($this->$k);
 			}
-			// Nothing to set publishing state on, return false.
 			else
 			{
+				// Nothing to set publishing state on, return false.
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
 
 		// Build the WHERE clause for the primary keys.
-		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
+		$where = $k . ' = ' . implode(' OR ' . $k . ' = ', $pks);
 
 		// Determine if there is checkin support for the table.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
