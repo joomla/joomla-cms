@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Apr-2013 Mark Dexter
+ # [#30482] Fix tel validation in 2.5.x series. Thanks Don Gilbert.
+
 04-Apr-2013 Mark Dexter
  # Revert [#30430] Severe bug with "com_content" component routing.
 
