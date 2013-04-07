@@ -575,7 +575,7 @@ abstract class JFolder
 				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				// Compute the fullpath
-				$fullpath = $path . '/' . $file;
+				$fullpath = $path . DIRECTORY_SEPARATOR . $file;
 
 				// Compute the isDir flag
 				$isDir = is_dir($fullpath);
