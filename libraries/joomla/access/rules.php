@@ -150,7 +150,7 @@ class JAccessRules
 	}
 
 	/**
-	 * Remove an action
+	 * Remove an action from the rule
 	 *
 	 * @param  string  $action  The name of the action to remove
 	 *
