@@ -29,6 +29,7 @@ $ -> Language fix or change
 07-Apr-2013 Michael Babker
  # [#30091] Help Screens, key wrong, missing or not created correctly.  Thanks Mark Dexter
  # [#30428] nofollw not set correctly in mod_weblinks.  Thanks Ingo Wetsches
+ # [#30209] Undefined index errors by using the style 'beezTabs' at an beez template.  Thanks Constantin Romankiewicz
 
 06-Apr-2013 Mark Dexter
  # [#30482] Fix tel validation in 2.5.x series. Thanks Don Gilbert.
