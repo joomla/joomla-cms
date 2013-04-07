@@ -130,24 +130,19 @@ class JHelperTags
 			$db->execute();
 		}
 
-		// Set the new tag maps.
-		if (!empty($tags))
+		// Insert the new tag maps
+		$query = $db->getQuery(true);
+		$query->insert('#__contentitem_tag_map');
+		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
+
+		foreach ($tags as $tag)
 		{
-			$query2 = $db->getQuery(true);
-			$query2->insert('#__contentitem_tag_map');
-			$query2->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
-			$query2->clear('values');
-
-			// Have to break this up into individual queries for cross-database support.
-			foreach ($tags as $tag)
-			{
-				$query2->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $item);
-			}
-			
-			$db->setQuery($query2);
-			$db->execute();
-
+			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $item);
 		}
+		
+		$db->setQuery($query);
+		$db->execute();
+
 
 		return;
 	}
@@ -253,7 +248,7 @@ class JHelperTags
 		}
 		else
 		{
-			$this->tags = array();
+			$this->tags = null;
 		}
 
 		return $this->tags;
@@ -594,8 +589,8 @@ class JHelperTags
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*');
+		$query = $db->getQuery(true);
+		$query->select('*');
 
 		if (!empty($selectTypes))
 		{
@@ -617,17 +612,20 @@ class JHelperTags
 
 		$db->setQuery($query);
 
-		if (empty($arrayType) || $arrayType == 'objectList')
+		switch ($arrayType)
 		{
-			$types = $db->loadObjectList();
-		}
-		elseif ($arrayType == 'assocList')
-		{
-			$types = $db->loadAssocList();
-		}
-		else
-		{
-			$types = $db->loadRowList();
+			case 'assocList':
+				$types = $db->loadAssocList();
+			break;
+
+			case 'rowList':
+				$types = $db->loadRowList();
+			break;
+
+			case 'objectList':
+			default:
+				$types = $db->loadObjectList();
+			break;
 		}
 
 		return $types;
