@@ -97,6 +97,13 @@ class JUcmContent extends JUcmBase
 		//Store the Common fields
 		$this->store($ucmData['common']);
 
+			$data = new JHelperContent;
+			$rowdata = $data->getRowData($this->table);
+			if (array_key_exists('core_content_id', $rowdata))
+			{
+				$ucmData['common']['core_content_id'] = $rowdata['core_content_id'];
+			}
+
 		//Store the special fields
 		if(isset($ucmData['special']))
 		{
@@ -144,7 +151,7 @@ class JUcmContent extends JUcmBase
 		$ucmData['common']['core_type_alias'] 	= $contentType->type->type_alias;
 		$ucmData['common']['core_type_id']		= $contentType->type->type_id;
 
-		if (isset($ucmData['special']))
+		if (isset($ucmData['special']) && isset($ucmData['common']['ucm_id']))
 		{
 			$ucmData['special']['ucm_id'] = $ucmData['common']['ucm_id'];
 		}
@@ -171,23 +178,28 @@ class JUcmContent extends JUcmBase
 
 		$typeId 	= $this->getType()->type->type_id;
 		$primaryKey = $primaryKey ? $primaryKey : self::getPrimaryKey($typeId, $data['core_content_item_id']);
-
-		if (!$primaryKey)
+		parent::store($data, $table, $primaryKey);
+		if ($primaryKey)
 		{
+			$language = new JHelperContent();
+			$languageId = $language->getLanguageId($data['core_language']);
+
 			//Store the core UCM mappings
 			$baseData = array();
 			$baseData['ucm_type_id']		= $typeId;
 			$baseData['ucm_item_id']		= $data['core_content_item_id'];
-			$baseData['ucm_language_id']	= $data['core_language'];
+			$baseData['ucm_language_id']	= $languageId;
+			$baseData['ucm_id']				= $primaryKey;
+			//var_dump($baseData);die;
 
-			if (parent::store($baseData))
-			{
-				$primaryKey = self::getPrimaryKey($typeId,$data['core_content_item_id']);
-			}
+			//if (parent::store($baseData))
+			//{
+			//			$primaryKey = self::getPrimaryKey($typeId,$data['core_content_item_id']);
+			//}
 		}
 
 
-		parent::store($data, $table, $primaryKey);
+		//parent::store($data, $table, $primaryKey);
 
 		return true;
 	}
@@ -195,8 +207,8 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Get the value of the primary key from #__ucm_map
 	 *
-	 * @param   string   $typeId	        The ID for the type
-	 * @param   integer  $contentItemId    Value of the primary key in the legacy or secondary table
+	 * @param   string   $typeId         The ID for the type
+	 * @param   integer  $contentItemId  Value of the primary key in the legacy or secondary table
 	 *
 	 * @return  Integer  The integer of the primary key
 	 *
@@ -208,13 +220,18 @@ class JUcmContent extends JUcmBase
 		$db = JFactory::getDbo();
 		$queryccid = $db->getQuery(true);
 		$queryccid = $db->getQuery(true);
-		$queryccid->select($db->quoteName('ucm_id'))
-		->from($db->quoteName('#__ucm_map'))
+		$queryccid->select($db->quoteName('core_content_id'))
+			->from($db->quoteName('#__core_content'))
+			->where(array(
+					$db->quoteName('core_content_item_id') . ' = ' . $db->quote($contentItemId),
+					$db->quoteName('core_type_id') . ' = ' . $db->quote($typeId)
+					));
+/*		->from($db->quoteName('#__ucm_map'))
 		->where(
 			array(
 					$db->quoteName('ucm_item_id') . ' = ' . $db->quote($contentItemId),
 					$db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId)
-			));
+			));*/
 		$db->setQuery($queryccid);
 		$primaryKey = $db->loadResult();
 

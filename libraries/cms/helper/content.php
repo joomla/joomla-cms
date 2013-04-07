@@ -113,5 +113,31 @@ class JHelperContent
 
 		return $data;
 	}
+	/**
+	 * Gets the $pk of the language for a content item
+	 *
+	 * @param   string  $languageString  The language string for a conten item
+	 *
+	 * @return  $lang_id  The primary key for the language from the content languages table
+	 *
+	 * @since   3.1
+	 */
+	public function getLanguageId($languageString)
+	{
+		if ($languageString == '*')
+		{
+			return $lang_id = 0;
+		}
+		$query = $this->db->getQuery(true);
+		$query->select('lang_id');
+		$query->from($this->db->quoteName('#__languages'));
+		$query->where($this->db->quoteName('lang_code') . ' = ' . $this->db->qoute($languageString));
+
+		$this->db->setQuery($query);
+
+		$id = $this->db->loadResult();
+
+		return $lang_id;
+	}
 
 }

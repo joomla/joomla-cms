@@ -272,10 +272,10 @@ class JTableContent extends JTable
 			return false;
 		}
 
-		$return = parent::store($updateNulls);
-
 		$tagsHelper = new JHelperTags;
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+
+		$return = parent::store($updateNulls);
 
 		if ($return == false)
 		{
@@ -290,9 +290,11 @@ class JTableContent extends JTable
 
 			$typeAlias = 'com_content.article';
 			$ucm = new JUcmContent($this, $typeAlias);
-			$ucm->save($data);
+			$type = new JUcmType($typeAlias);
 
-			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
+			$ucm->save($data, $type, false);
+
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $data->id);
 
 			$isNew = $data['id'] ? 0 : 1;
 
