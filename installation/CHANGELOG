@@ -28,6 +28,7 @@ $ -> Language fix or change
 07-Apr-2013 Michael Babker
  ^ [#30502] Replace use of JRequest in com_media
  # [#30489] *Regression: Menu Type UTF8 Alias prevents display in Menu Items Manager in J3
+ ^ [#30499] Duplicate "btn" class in login module button.  Thanks Thomas Hunziker
 
 07-Apr-2013 Jean-Marie Simonet
  # [#30226] *TAGS: Getting rid of all aspects concerning lang associations
