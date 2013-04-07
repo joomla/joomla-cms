@@ -84,7 +84,11 @@ class plgSystemDebug extends JPlugin
 
 		// Capture output
 		$contents = ob_get_contents();
-		ob_end_clean();
+
+		if ($contents)
+		{
+			ob_end_clean();
+		}
 
 		// No debug for Safari and Chrome redirection
 		if (strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false
@@ -299,9 +303,12 @@ class plgSystemDebug extends JPlugin
 					$entries = implode($entries);
 				}
 
-				$html .= '<code>';
-				$html .= $sKey . ' &rArr; ' . $entries . '<br />';
-				$html .= '</code>';
+				if (is_string($entries))
+				{
+					$html .= '<code>';
+					$html .= $sKey . ' &rArr; ' . $entries . '<br />';
+					$html .= '</code>';
+				}
 			}
 		}
 
