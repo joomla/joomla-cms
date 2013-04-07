@@ -1,1 +1,1 @@
-# Placeholder file for database changes for version 2.5.10
+UPDATE [#__extensions] SET [protected] = 0 WHERE [name] = 'mod_banners';

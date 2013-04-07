@@ -419,7 +419,7 @@ CREATE TABLE [#__users](
 	[activation] [nvarchar](100) NOT NULL,
 	[params] [nvarchar](max) NOT NULL,
 	[lastResetTime] [datetime] NOT NULL,
-	[resetCount] [int] NOT NULL,	
+	[resetCount] [int] NOT NULL,
  CONSTRAINT [PK_#__users_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
@@ -2692,7 +2692,7 @@ SELECT 201, 'mod_articles_latest', 'module', 'mod_articles_latest', '', 0, 1, 1,
 UNION ALL
 SELECT 202, 'mod_articles_popular', 'module', 'mod_articles_popular', '', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 203, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+SELECT 203, 'mod_banners', 'module', 'mod_banners', '', 0, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 204, 'mod_breadcrumbs', 'module', 'mod_breadcrumbs', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL

@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#30209] Undefined index errors by using the style 'beezTabs' at an beez template.  Thanks Constantin Romankiewicz
  # [#30041] Use of '/' not being handled well on Windows Servers.  Thanks Parth Lawate
  # [#30054] Catchable fatal error: Object of class stdClass could not be converted to string in /plugins/system/debug/debug.php on line 303.  Thanks Ryan K.
+ ^ [#29898] mod_banners module must be unprotected extension.  Thanks Alex B.
 
 06-Apr-2013 Mark Dexter
  # [#30482] Fix tel validation in 2.5.x series. Thanks Don Gilbert.
