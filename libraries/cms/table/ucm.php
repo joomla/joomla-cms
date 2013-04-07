@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Tags table
+ * UCM map table
  *
  * @package     Joomla.Libraries
  * @subpackage  Table
