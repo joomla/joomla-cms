@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+07-Apr-2013 Jean-Marie Simonet
+ # [#30226] *TAGS: Getting rid of all aspects concerning lang associations
+
 06-Apr-2013 Mark Dexter
  # [#30453] Tags: Pagination not working when linking to a tag.
  # [#30486] *Banners Manager:Banners and Banners Manager:Clients Status filter issue. Thanks Jean-Marie Simonet.
