@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 08-Apr-2013 Jean-Marie Simonet
  $ Adding installation language pt-PT
+ # [#30503] *Tags :can't save Compact Layout in Tags Component Options
 
 07-Apr-2013 Michael Babker
  ^ [#30502] Replace use of JRequest in com_media
