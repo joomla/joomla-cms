@@ -203,6 +203,31 @@ class JAccess
 	}
 
 	/**
+	 * Method to return the ID for a group name
+	 *
+	 * @param   string  $groupname   The group name (title)
+	 *
+	 * @return  integer  the group id (0 if not found)
+	 *
+	 * @todo This method is generic and should probably be in a helper class
+	 */
+	public static function getGroupId($groupname)
+	{
+		// Set up
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// The query
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__usergroups'));
+		$query->where($db->quoteName('title') . ' = ' . $db->quote($groupname));
+
+		// Get the results
+		$db->setQuery($query, 0, 1);
+		return $db->loadResult();
+	}
+
+	/**
 	 * Method to return the JAccessRules object for an asset.  The returned object can optionally hold
 	 * only the rules explicitly set for the asset or the summation of all inherited rules from
 	 * parent assets and explicit rules.
@@ -557,12 +582,227 @@ class JAccess
 				$actions[] = (object) array(
 					'name' => (string) $action['name'],
 					'title' => (string) $action['title'],
-					'description' => (string) $action['description']
+					'description' => (string) $action['description'],
+					'default' => (string) $action['default']
 				);
 			}
 		}
 
 		// Finally return the actions array
 		return $actions;
+	}
+
+
+	/**
+	 * Replace the default rules for the target component in the root asset record
+	 *
+	 * The access rules for an component reside in an 'access.xml' file
+	 * belonging to that component.
+	 *
+	 * Each component-specific/custom rule can have a defaulat associated with
+	 * it by adding a 'default' clause.  The value of the default is a
+	 * comma-separated list of default permissions each of which may have one
+	 * of the following forms:
+	 *
+	 *      default="Author"
+	 *           --> True for Author group
+	 *  
+	 *      default="Author:core.edit"
+	 *           --> True for Author if Author has 'core.edit' permission for
+	 *               the target component
+	 * 
+	 *      default="Author:core.edit[com_content]"
+	 *           --> True for Author if Author has 'core.edit' permission for
+	 *               test component ('com_content' here).  If the component
+	 *               (in square brackets) is omitted, the check will default
+	 *               to the target component (as in the previous example).
+	 *  
+	 * No defaults are set if the role is not found.   The core rules may not be overriden.
+	 *
+	 * WARNING: Cannot be called before component initialization (ok in install post-flight)
+	 *
+	 * @param   string   $component  name of the target component (eg, 'com_xyz')
+	 *
+	 * @return  boolean  success or failure
+	 *
+	 * @since   12.1
+	 */
+	public static function installComponentDefaultRules($component)
+	{
+		$app = JFactory::getApplication();
+
+		// make sure we do not try to modify any core rules!
+		if (strtolower($component) == 'com_core')
+		{
+			throw new Exception("ERROR: Override core rule defaults!");
+		}
+
+		// Remove the leading 'com_' to get the match prefix
+		$cprefix = strtolower($component);
+		if (strncmp($cprefix, 'com_', 4) === 0)
+		{
+			$cprefix = substr($cprefix, 4) . ".";
+		}
+		else
+		{
+			throw new Exception("ERROR: Component name is malformed ($component); it should be like 'com_xyz' 1111");
+		}
+
+		// Load the existing rules
+		$new_rules = new JAccessRules();
+
+		// The component-specific (non-core) action names
+		$custom_actions = Array();
+
+		// Get the actions for this component (which contain the defaults)
+		$actions = JAccess::getActions($component);
+		foreach ($actions as $action)
+		{
+			// Make a note of any custom actions for this component
+			if ( strncmp($action->name, $cprefix, strlen($cprefix)) === 0 )
+			{
+				$custom_actions[] = $action->name;
+			}
+
+			// Process each default
+			if ( $action->default )
+			{
+				$rule_name = $action->name;
+
+				// Make sure the rule is not a core rule
+				if ( strncmp($rule_name, 'core.', 5) === 0 )
+				{
+					$app->enqueueMessage("WARNING: Cannot override default core rule '$rule_name' for component '$component'!");
+					continue;
+				}
+
+				// Process each comma-separated clause 
+				$rule_set = explode(',', $action->default);
+				foreach ($rule_set as $raw_rule)
+				{
+					// parse the rule
+					$rule = $raw_rule;
+					if (strpos($rule, ':') === false)
+					{
+						$role = $rule;
+						$perm = '';
+					}
+					else
+					{
+						$parts = explode(':', $rule);
+						$role = $parts[0];
+						$perm = $parts[1];
+					}
+
+					// Extract the test component, if specified
+					$asset = $component;
+					if ( strpos($perm, '[') !== false ) 
+					{
+						$parts = explode('[', $perm);
+						$perm = $parts[0];
+						$asset = trim($parts[1], '[] ');
+					}
+
+					// Verify that the role (group) is valid on this sytem
+					$group_id = JAccess::getGroupId($role);
+
+					// Complain about invalid group name (may have been deleted on this site)
+					if ($group_id == 0)
+					{
+						$app->enqueueMessage("WARNING: Cannot determine default rule for group '$role' which does not exist on this system!");
+						continue;
+					}
+
+					// Decide whether to enforce the rule
+					if ($perm)
+					{
+						$enforce = JAccess::checkGroup($group_id, $perm, $asset);
+					}
+					else
+					{
+						// If the desired permission is ommitted, assume it should be enforced
+						$enforce = true;
+					}
+					if (!$enforce)
+					{
+						continue;
+					}
+
+					// Construct the rule for this action
+					$new_rule = new JAccessRules(Array($rule_name => Array($group_id => 1 )));
+
+					// Merge it with the rest of the new rules
+					$new_rules->merge($new_rule);
+				}
+			}
+		}
+
+		// Purge the custom rules for this component
+		JAccess::purgeComponentDefaultRules($component);
+
+		// Get the root rules
+		$root = JTable::getInstance('asset');
+		$root->loadByName('root.1');
+		$root_rules = new JAccessRules($root->rules);
+
+		// Merge the new rules into the root default rules and save it
+		$root_rules->merge($new_rules);
+		$root->rules = (string)$root_rules;
+
+		// Save the updated root rule
+		return $root->store();
+	}
+
+
+	/**
+	 * Purge all defaults for custom actions/rules for a specified component
+	 *
+	 * NOTE: For component 'com_xyz', this function will remove all top-level
+	 *       default rules for custom actions that belong to the component, in
+	 *       other words, rules with actions that begin with 'xyz.'
+	 *
+	 * WARNING: this is intended for non-core components and will abort if the
+	 *          user attempts to purge any core rules by passing in 'com_core'.
+	 *
+	 * @param   string   $component  name of the target component (eg, 'com_xyz')
+	 *
+	 * @return  boolean  success or failure
+	 */
+	public static function purgeComponentDefaultRules($component)
+	{
+		// make sure we do not want to purge any core rules!
+		if (strtolower($component) == 'com_core')
+		{
+			throw new Exception("Error: Cannot purge core rules!");
+		}
+
+		// Remove the leading 'com_' to get the search prefix
+		$cprefix = strtolower($component);
+		if (strpos($cprefix, 'com_', 0) === 0)
+		{
+			$cprefix = substr($cprefix, 4) . ".";
+		}
+		else
+		{
+			throw new Exception("ERROR: Component name is malformed ($component); it should be like 'com_xyz' 2222");
+		}
+
+		// Get the root rules
+		$root = JTable::getInstance('asset');
+		$root->loadByName('root.1');
+		$root_rules = new JAccessRules($root->rules);
+
+		// remove each custom rule for this component
+		$app = JFactory::getApplication();
+		foreach ($root_rules->getData() as $name => $identities) 
+		{
+			if (strpos($name, $cprefix) === 0 ) {
+				$root_rules->removeAction($name);
+				}
+		}
+
+		// Save the updated root rule
+		$root->rules = (string)$root_rules;
+		return $root->store();
 	}
 }
