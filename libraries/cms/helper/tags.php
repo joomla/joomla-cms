@@ -57,8 +57,6 @@ class JHelperTags
 				}
 			}
 
-
-
 			// We will use the tags table to store them
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');
@@ -287,6 +285,7 @@ class JHelperTags
 	{
 		// Method is not ready for use
 		return;
+
 		// Check whether the tag is present already.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -457,8 +456,8 @@ class JHelperTags
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
-	) {
+		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
+	{
 		// Create a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
