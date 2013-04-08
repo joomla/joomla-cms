@@ -210,7 +210,7 @@ class JUcmContent extends JUcmBase
 			$baseData = array();
 			$baseData['ucm_type_id']		= $typeId;
 			$baseData['ucm_item_id']		= $data['core_content_item_id'];
-			$baseData['ucm_language_id']	= $data['core_language'];
+			$baseData['ucm_language_id']	= JHelperContent::getLanguageId($data['core_language']);
 
 			if (parent::store($baseData))
 			{

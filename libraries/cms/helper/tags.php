@@ -137,7 +137,7 @@ class JHelperTags
 
 		foreach ($tags as $tag)
 		{
-			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $item);
+			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $item);
 		}
 		
 		$db->setQuery($query);
