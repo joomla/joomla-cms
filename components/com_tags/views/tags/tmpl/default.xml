@@ -158,6 +158,18 @@
 				label="COM_TAGS_LIST_MAX_LABEL"
 				description="COM_TAGS_LIST_MAX_DESC"
 			/>
+			<field
+				name="filter_field"
+				type="list"
+				default=""
+				label="JGLOBAL_FILTER_FIELD_LABEL"
+				description="JGLOBAL_FILTER_FIELD_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			
 			<field	
 				name="show_pagination_limit" 
