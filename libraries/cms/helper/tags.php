@@ -148,42 +148,6 @@ class JHelperTags
 	}
 
 	/**
-	 * Method to add tags to a list of items. Generally used for batch processing.
-	 *
-	 * @param   array    $tag       Tag to be applied. Note that his method handles single tags only.
-	 * @param   integer  $ids       The id (primary key) of the items to be tagged.
-	 * @param   string   $contexts  Dot separated string with the option and view for a url.
-	 * @param   boolean  $replace   True if current tags should be replaced, false to only add a new tag
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function tagItems($tag, $ids, $contexts, $replace)
-	{
-		// Method is not ready for use
-		return;
-		// Check whether the tag is present already.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__contentitem_tag_map'))
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
-			->where($db->quoteName('content_item_id') . ' = ' . (int) $pk)
-			->where($db->quoteName('tag_id') . ' = ' . (int) $tag);
-		$db->setQuery($query);
-		$result = $db->loadResult();
-		$query->execute();
-
-		self::tagItem($id, $prefix, $tags, $isNew, null);
-		$query->clear()
-			->insert($db->quoteName('#__contentitem_tag_map'))
-			->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date')))
-			->values($db->quote($prefix) . ', ' . (int) $pk . ', ' . $tag . ', ' . $query->currentTimestamp());
-		$db->setQuery($query);
-		$db->execute();
-	}
-
-	/**
 	 * Method to remove all tags associated with a list of items. Generally used for batch processing.
 	 *
 	 * @param   integer  $id      The id (primary key) of the item to be untagged.
@@ -410,7 +374,7 @@ class JHelperTags
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->quoteName('core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		$contentTypes = new JHelperTags;
@@ -632,7 +596,7 @@ class JHelperTags
 	}
 
 	/**
-	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
+	 * Method to delete all instances of a ` from the mapping table. Generally used when a tag is deleted.
 	 *
 	 * @param   integer  $tag_id  The tag_id (primary key) for the deleted tag.
 	 *
@@ -753,16 +717,9 @@ class JHelperTags
 			self::unTagItem($contentItemId, $typeAlias);
 		}
 
-		$idList = implode(',', $contentItemIds);
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete('#__core_content')
-			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias))
-			->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
-
-		$db->setQuery($query);
-		$db->execute();
-
+		$ucmContent = new JUcmContent(JTable::getInstance('Corecontent'), $typeAlias);
+		$ucmContent->delete($contentItemIds);
+		
 		return;
 	}
 
