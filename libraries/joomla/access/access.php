@@ -599,7 +599,7 @@ class JAccess
 	 * The access rules for an component reside in an 'access.xml' file
 	 * belonging to that component.
 	 *
-	 * Each component-specific/custom rule can have a defaulat associated with
+	 * Each component-specific custom rule can have a defaulat associated with
 	 * it by adding a 'default' clause.  The value of the default is a
 	 * comma-separated list of default permissions each of which may have one
 	 * of the following forms:
@@ -613,9 +613,7 @@ class JAccess
 	 * 
 	 *      default="Author:core.edit[com_content]"
 	 *           --> True for Author if Author has 'core.edit' permission for
-	 *               test component ('com_content' here).  If the component
-	 *               (in square brackets) is omitted, the check will default
-	 *               to the target component (as in the previous example).
+	 *               the component 'com_content' here.  
 	 *  
 	 * No defaults are set if the role is not found.   The core rules may not be overriden.
 	 *
