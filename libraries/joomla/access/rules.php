@@ -150,6 +150,22 @@ class JAccessRules
 	}
 
 	/**
+	 * Remove an action from the rule
+	 *
+	 * @param  string  $action  The name of the action to remove
+	 *
+	 * @return  none
+	 */
+	public function removeAction($action)
+	{
+		if (isset($this->data[$action]))
+		{
+			unset($this->data[$action]);
+		}
+	}
+
+
+	/**
 	 * Checks that an action can be performed by an identity.
 	 *
 	 * The identity is an integer where +ve represents a user group,
