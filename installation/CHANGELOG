@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+08-Apr-2013 Jean-Marie Simonet
+ $ Adding installation language pt-PT
+
 07-Apr-2013 Michael Babker
  ^ [#30502] Replace use of JRequest in com_media
  # [#30489] *Regression: Menu Type UTF8 Alias prevents display in Menu Items Manager in J3
