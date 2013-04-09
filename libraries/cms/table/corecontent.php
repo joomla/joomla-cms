@@ -186,10 +186,11 @@ class JTableCorecontent extends JTable
 				$this->core_created_user_id = $user->get('id');
 			}
 		}
-		
-		/*
+
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Corecontent', 'JTable');
+		/*
 		if (
 			$table->load(array('core_alias' => $this->core_alias, 'core_catid' => $this->core_catid))
 			&& ($table->core_content_id != $this->core_content_id || $this->core_content_id == 0)
@@ -199,7 +200,7 @@ class JTableCorecontent extends JTable
 			return false;
 		}
 		*/
-		
+
 		return parent::store($updateNulls);
 	}
 

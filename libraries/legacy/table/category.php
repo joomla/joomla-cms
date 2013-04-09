@@ -213,42 +213,6 @@ class JTableCategory extends JTableNested
 			$this->created_user_id = $user->get('id');
 		}
 
-		$return = parent::store($updateNulls);
-
-		$metadata = json_decode($this->metadata);
-		$tags = (array) $metadata->tags;
-
-		// Store the tag data if the article data was saved and run related methods.
-		if (empty($tags) == false)
-		{
-			$fields = $this->getFields();
-			$data = array();
-			$fields = $this->getFields();
-
-			foreach ($fields as $field)
-			{
-				$columnName = $field->Field;
-				$value = $this->$columnName;
-				$data[$columnName] =  $value;
-			}
-
-			$typeAlias = $this->extension . '.category';
-			$type = new JUcmType($typeAlias);
-
-			$ucm = new JUcmContent($this, $typeAlias, $type);
-			$ucm->save($data, $type, false);
-			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
-
-			// Fix the need to do this
-			$metadata['tags'] = $tags;
-			$this->metadata = json_encode($metadata);
-
-			$id = $data['id'];
-			$isNew = $id == 0 ? 1 : 0;
-			$tagsHelper = new JHelperTags;
-
-			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
-		}
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
@@ -257,6 +221,34 @@ class JTableCategory extends JTableNested
 
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 			return false;
+		}
+
+		$tagsHelper = new JHelperTags;
+		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+
+		$return = parent::store($updateNulls);
+
+		if ($return == false)
+		{
+			return false;
+		}
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($tags) == false)
+		{
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($this);
+
+			$typeAlias = $this->extension . '.category';
+			$ucm = new JUcmContent($this, $typeAlias);
+			$ucm->save($data);
+
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
+
+			$isNew = $data['id'] ? 0 : 1;
+
+			$tagsHelper = new JHelperTags;
+			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
 		}
 
 		return $return;

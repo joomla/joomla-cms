@@ -116,8 +116,12 @@ class WeblinksTableWeblink extends JTable
 		$tagsHelper = new JHelperTags;
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
 
-		// Attempt to store the data.
 		$return = parent::store($updateNulls);
+
+		if ($return == false)
+		{
+			return false;
+		}
 
 		// Store the tag data if the article data was saved and run related methods.
 		if (empty($tags) == false)
@@ -126,23 +130,15 @@ class WeblinksTableWeblink extends JTable
 			$data = $rowdata->getRowData($this);
 
 			$typeAlias = 'com_weblinks.weblink';
-			$type = new JUcmType($typeAlias);
+			$ucm = new JUcmContent($this, $typeAlias);
+			$ucm->save($data);
 
-			$ucm = new JUcmContent($this, $typeAlias, $type);
-			$ucm->save($data, $type, false);
-			$ccId = $ucm->getPrimaryKey('core_content_id', $typeAlias, $this->id);
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
 
-			foreach ($tags as $tag)
-			{
-				// Remove the #new# prefix that identifies new tags
-				$tag = str_replace('#new#', '', $tag);
-			}
+			$isNew = $data['id'] ? 0 : 1;
 
-			$id = $data['id'];
-			$isNew = $id == 0 ? 1 : 0;
 			$tagsHelper = new JHelperTags;
-
-			$tagsHelper->tagItem($id, $typeAlias, $isNew, $ccId, $tags);
+			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
 		}
 
 		return $return;

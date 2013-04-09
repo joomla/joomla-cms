@@ -50,17 +50,17 @@ class JUcmType implements JUcm
 
 		// Make the best guess we can in the absence of information.
 		$this->alias = $alias ? $alias : $app->input->get('option') . '.' . $app->input->get('view');
-		$this->type 	= $this->getType();
+		$this->type  = $this->getType();
 	}
 
 	/**
 	* Get the Content Type
 	*
-	* @param	Int		$pk		The primary key of the alias type
+	* @param   Integer  $pk  The primary key of the alias type
 	*
-	* @return  JUcmType   		The UCM Type
+	* @return  JUcmType  The UCM Type
 	*
-	* @since 13.1
+	* @since   3.1
 	*/
 	public function getType($pk = null)
 	{
@@ -83,11 +83,11 @@ class JUcmType implements JUcm
 
 	/**
 	*
-	* @param	String	$alias	The string of the type alias
+	* @param   string  $alias  The string of the type alias
 	*
-	* @return	Int		The ID of the requested type
+	* @return  integer  The ID of the requested type
 	*
-	* @since 13.1
+	* @since 3.1
 	*/
 	public function getTypeId($alias = null)
 	{

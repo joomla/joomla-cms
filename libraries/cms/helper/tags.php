@@ -131,7 +131,7 @@ class JHelperTags
 		}
 
 		$typeId = self::getTypeId($prefix);
-		
+
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
@@ -141,7 +141,7 @@ class JHelperTags
 		{
 			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $item . ', ' . (int) $typeId);
 		}
-		
+
 		$db->setQuery($query);
 		$db->execute();
 
@@ -376,6 +376,7 @@ class JHelperTags
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
+
 			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
@@ -598,7 +599,7 @@ class JHelperTags
 	}
 
 	/**
-	 * Method to delete all instances of a ` from the mapping table. Generally used when a tag is deleted.
+	 * Method to delete all instances of a tag from the mapping table. Generally used when a tag is deleted.
 	 *
 	 * @param   integer  $tag_id  The tag_id (primary key) for the deleted tag.
 	 *
@@ -721,7 +722,7 @@ class JHelperTags
 
 		$ucmContent = new JUcmContent(JTable::getInstance('Corecontent'), $typeAlias);
 		$ucmContent->delete($contentItemIds);
-		
+
 		return;
 	}
 
