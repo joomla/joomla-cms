@@ -59,7 +59,7 @@ class JUcmContent extends JUcmBase
 	 *
 	 * @since  13.1
 	 */
-	public function __construct(JTable $table, $alias = null, JUcmType $type = null)
+	public function __construct(JTable $table = null, $alias = null, JUcmType $type = null)
 	{
 		// Setup dependencies.
 		$input = JFactory::getApplication()->input;
@@ -110,6 +110,38 @@ class JUcmContent extends JUcmBase
 			$table = $this->table;
 			$this->store($ucmData['special'], $table,'');
 		}
+
+		return true;
+	}
+
+	/**
+	* Delete content from the Core Content table
+	*
+	* @param	String/Array	$pk		The string/array of id's to delete
+	* @param	Type Object		$type	The content type object
+	*
+	* @return	Boolean	True if success
+	*
+	* @since 3.1
+	*
+	*/
+	public function delete($pk, JUcmType $type = null)
+	{
+		$db		= JFactory::getDbo();
+		$type	= $type ? $type : $this->type;
+
+		if (is_array($pk))
+		{
+			$pk = implode(',', $pk);
+		}
+
+		$query = $db->getQuery(true)
+			->delete('#__core_content')
+			->where($db->quoteName('core_type_id') . ' = ' . (int)$type->type_id)
+			->where($db->quoteName('core_content_item_id') . ' IN (' . $pk . ')');
+
+		$db->setQuery($query);
+		$db->execute();
 
 		return true;
 	}
@@ -188,18 +220,15 @@ class JUcmContent extends JUcmBase
 			$baseData = array();
 			$baseData['ucm_type_id']		= $typeId;
 			$baseData['ucm_item_id']		= $data['core_content_item_id'];
-			$baseData['ucm_language_id']	= $languageId;
-			$baseData['ucm_id']				= $primaryKey;
-			//var_dump($baseData);die;
 
-			//if (parent::store($baseData))
-			//{
-			//			$primaryKey = self::getPrimaryKey($typeId,$data['core_content_item_id']);
-			//}
+			$baseData['ucm_language_id']	= JHelperContent::getLanguageId($data['core_language']);
+
+			if (parent::store($baseData))
+			{
+				$primaryKey = self::getPrimaryKey($typeId,$data['core_content_item_id']);
+			}
+
 		}
-
-
-		//parent::store($data, $table, $primaryKey);
 
 		return true;
 	}
@@ -220,18 +249,13 @@ class JUcmContent extends JUcmBase
 		$db = JFactory::getDbo();
 		$queryccid = $db->getQuery(true);
 		$queryccid = $db->getQuery(true);
-		$queryccid->select($db->quoteName('core_content_id'))
-			->from($db->quoteName('#__core_content'))
-			->where(array(
-					$db->quoteName('core_content_item_id') . ' = ' . $db->quote($contentItemId),
-					$db->quoteName('core_type_id') . ' = ' . $db->quote($typeId)
-					));
-/*		->from($db->quoteName('#__ucm_map'))
+		$queryccid->select($db->quoteName('ucm_id'))
+		->from($db->quoteName('#__ucm_base'))
 		->where(
 			array(
 					$db->quoteName('ucm_item_id') . ' = ' . $db->quote($contentItemId),
 					$db->quoteName('ucm_type_id') . ' = ' . $db->quote($typeId)
-			));*/
+			));
 		$db->setQuery($queryccid);
 		$primaryKey = $db->loadResult();
 

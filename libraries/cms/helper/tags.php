@@ -137,7 +137,7 @@ class JHelperTags
 
 		foreach ($tags as $tag)
 		{
-			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query2->currentTimestamp() . ', ' . (int) $item);
+			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $item);
 		}
 		
 		$db->setQuery($query);
@@ -410,7 +410,8 @@ class JHelperTags
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->quoteName('core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+
+			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		$contentTypes = new JHelperTags;
@@ -753,15 +754,8 @@ class JHelperTags
 			self::unTagItem($contentItemId, $typeAlias);
 		}
 
-		$idList = implode(',', $contentItemIds);
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete('#__core_content')
-			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias))
-			->where($db->quoteName('core_content_item_id') . ' IN (' . $idList . ')');
-
-		$db->setQuery($query);
-		$db->execute();
+		$ucmContent = new JUcmContent(JTable::getInstance('Corecontent'), $typeAlias);
+		$ucmContent->delete($contentItemIds);
 
 		return;
 	}
