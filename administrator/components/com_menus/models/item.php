@@ -851,9 +851,9 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.parent_id', $parentId);
 
 		$menuType = $app->getUserState('com_menus.edit.item.menutype');
-		if ($app->input->get('menutype', false))
+		if ($app->input->getString('menutype', false))
 		{
-			$menuType = $app->input->get('menutype', 'mainmenu');
+			$menuType = $app->input->getString('menutype', 'mainmenu');
 		}
 		$this->setState('item.menutype', $menuType);
 
