@@ -131,7 +131,7 @@ class JHelperTags
 		}
 
 		$typeId = self::getTypeId($prefix);
-		
+
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
@@ -141,7 +141,7 @@ class JHelperTags
 		{
 			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $item . ', ' . (int) $typeId);
 		}
-		
+
 		$db->setQuery($query);
 		$db->execute();
 
