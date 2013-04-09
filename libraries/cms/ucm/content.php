@@ -83,7 +83,7 @@ class JUcmContent extends JUcmBase
 	*
 	* @param   Array    $original     The original data to be saved
 	* @param   Object   $type         The UCM Type object
-	* @param   boolean  $corecontent  Flag that is true for data that are using #__core_content as their primary table
+	* @param   boolean  $corecontent  Flag that is true for data that are using #__ucm_content as their primary table
 	*
 	* @return  boolean  true
 	*
@@ -129,7 +129,7 @@ class JUcmContent extends JUcmBase
 		}
 
 		$query = $db->getQuery(true)
-			->delete('#__core_content')
+			->delete('#__ucm_content')
 			->where($db->quoteName('core_type_id') . ' = ' . (int)$type->type_id)
 			->where($db->quoteName('core_content_item_id') . ' IN (' . $pk . ')');
 
@@ -191,7 +191,7 @@ class JUcmContent extends JUcmBase
 	*
 	* @param   array    $data         Data to be stored
 	* @param   JTable   $table        JTable Object
-	* @param   boolean  $corecontent  Flag that is true for data that are using #__core_content as their primary table
+	* @param   boolean  $corecontent  Flag that is true for data that are using #__ucm_content as their primary table
 	*
 	* @return  Boolean  true on success
 	*

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Route Helper
  *
  * A class providing basic routing for urls that are for content types found in
- * the #__content_types table and rows found in the #__core_content table.
+ * the #__content_types table and rows found in the #__ucm_content table.
  *
  * @package     Joomla.Libraries
  * @subpackage  CMS
