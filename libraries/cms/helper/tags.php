@@ -130,14 +130,16 @@ class JHelperTags
 			$db->execute();
 		}
 
+		$typeId = self::getTypeId($prefix);
+		
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
-		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id')));
+		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id'), $db->quoteName('type_id')));
 
 		foreach ($tags as $tag)
 		{
-			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $item);
+			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $item . ', ' . (int) $typeId);
 		}
 		
 		$db->setQuery($query);
