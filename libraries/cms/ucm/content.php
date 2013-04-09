@@ -241,7 +241,7 @@ class JUcmContent extends JUcmBase
 		$queryccid = $db->getQuery(true);
 		$queryccid = $db->getQuery(true);
 		$queryccid->select($db->quoteName('ucm_id'))
-		->from($db->quoteName('#__ucm_map'))
+		->from($db->quoteName('#__ucm_base'))
 		->where(
 			array(
 					$db->quoteName('ucm_item_id') . ' = ' . $db->quote($contentItemId),

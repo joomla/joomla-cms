@@ -27,7 +27,7 @@ class JTableUcm extends JTable
 	 */
 	public function __construct($db)
 	{
-		parent::__construct('#__ucm_map', 'ucm_id', $db);
+		parent::__construct('#__ucm_base', 'ucm_id', $db);
 	}
 
 }
