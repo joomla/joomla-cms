@@ -272,10 +272,10 @@ class JTableContent extends JTable
 			return false;
 		}
 
-		$return = parent::store($updateNulls);
-
 		$tagsHelper = new JHelperTags;
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+
+		$return = parent::store($updateNulls);
 
 		if ($return == false)
 		{

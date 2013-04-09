@@ -852,7 +852,6 @@ class JHelperTags
 	{
 		$metadata = json_decode($metadata);
 		$tags = (array) $metadata->tags;
-
 		// Store the tag data if the article data was saved and run related methods.
 		if (empty($tags) == false)
 		{
@@ -860,10 +859,10 @@ class JHelperTags
 			foreach ($tags as &$tagText)
 			{
 				// Remove the #new# prefix that identifies new tags
-				$tagText = str_replace('#new#', '', $tagText);
+				$newTags[] = str_replace('#new#', '', $tagText);
 			}
 
-			$metadata->tags = $tagText;
+			$metadata->tags = $newTags;
 			$metadata = json_encode($metadata);
 		}
 
