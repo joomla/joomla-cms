@@ -225,7 +225,7 @@ class JUcmContent extends JUcmBase
 	}
 
 	/**
-	 * Get the value of the primary key from #__ucm_map
+	 * Get the value of the primary key from #__ucm_base
 	 *
 	 * @param   string   $typeId	        The ID for the type
 	 * @param   integer  $contentItemId    Value of the primary key in the legacy or secondary table
@@ -238,7 +238,6 @@ class JUcmContent extends JUcmBase
 	public function getPrimaryKey($typeId, $contentItemId)
 	{
 		$db = JFactory::getDbo();
-		$queryccid = $db->getQuery(true);
 		$queryccid = $db->getQuery(true);
 		$queryccid->select($db->quoteName('ucm_id'))
 		->from($db->quoteName('#__ucm_base'))
