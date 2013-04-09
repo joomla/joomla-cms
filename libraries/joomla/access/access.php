@@ -620,48 +620,41 @@ class JAccess
 	 * WARNING: Cannot be called before component initialization (ok in install post-flight)
 	 *
 	 * @param   string   $component  name of the target component (eg, 'com_xyz')
+	 * @param   file     A file (full path) for the 'access.xml' file to be used (for testing)
 	 *
 	 * @return  boolean  success or failure
 	 *
 	 * @since   12.1
 	 */
-	public static function installComponentDefaultRules($component)
+	public static function installComponentDefaultRules($component, $file = null)
 	{
 		$app = JFactory::getApplication();
 
-		// make sure we do not try to modify any core rules!
+		// Make sure we do not try to modify any core rules!
 		if (strtolower($component) == 'com_core')
 		{
 			throw new Exception("ERROR: Override core rule defaults!");
 		}
 
-		// Remove the leading 'com_' to get the match prefix
-		$cprefix = strtolower($component);
-		if (strncmp($cprefix, 'com_', 4) === 0)
+		// Remove leading 'com_' to get component name for custom rules
+		$cprefix = JAccess::getComponentName($component) . ".";
+
+		// Create an empty set of rules to receive the rules for the component
+		$new_rules = new JAccessRules();
+
+		// Get the actions for this component (which contain the defaults)
+		if ( $file === null )
 		{
-			$cprefix = substr($cprefix, 4) . ".";
+			$actions = JAccess::getActions($component);
 		}
 		else
 		{
-			throw new Exception("ERROR: Component name is malformed ($component); it should be like 'com_xyz' 1111");
+			// Load the actions from the specified file
+			$actions = self::getActionsFromFile($file, "/access/section[@name='" . $section . "']/");
 		}
-
-		// Load the existing rules
-		$new_rules = new JAccessRules();
-
-		// The component-specific (non-core) action names
-		$custom_actions = Array();
-
-		// Get the actions for this component (which contain the defaults)
-		$actions = JAccess::getActions($component);
+		
 		foreach ($actions as $action)
 		{
-			// Make a note of any custom actions for this component
-			if ( strncmp($action->name, $cprefix, strlen($cprefix)) === 0 )
-			{
-				$custom_actions[] = $action->name;
-			}
-
 			// Process each default
 			if ( $action->default )
 			{
@@ -764,7 +757,7 @@ class JAccess
 	 *
 	 * @param   string   $component  name of the target component (eg, 'com_xyz')
 	 *
-	 * @return  boolean  success or failure
+	 * @return  mixed  false for failure, otherwise the updated rules
 	 */
 	public static function purgeComponentDefaultRules($component)
 	{
@@ -774,17 +767,9 @@ class JAccess
 			throw new Exception("Error: Cannot purge core rules!");
 		}
 
-		// Remove the leading 'com_' to get the search prefix
-		$cprefix = strtolower($component);
-		if (strpos($cprefix, 'com_', 0) === 0)
-		{
-			$cprefix = substr($cprefix, 4) . ".";
-		}
-		else
-		{
-			throw new Exception("ERROR: Component name is malformed ($component); it should be like 'com_xyz' 2222");
-		}
-
+		// Remove leading 'com_' to get component name for custom rules
+		$cprefix = JAccess::getComponentName($component) . ".";
+		
 		// Get the root rules
 		$root = JTable::getInstance('asset');
 		$root->loadByName('root.1');
@@ -794,13 +779,38 @@ class JAccess
 		$app = JFactory::getApplication();
 		foreach ($root_rules->getData() as $name => $identities) 
 		{
-			if (strpos($name, $cprefix) === 0 ) {
+			if (strpos($name, $cprefix) === 0 )
+			{
 				$root_rules->removeAction($name);
-				}
+			}
 		}
 
 		// Save the updated root rule
 		$root->rules = (string)$root_rules;
 		return $root->store();
 	}
+
+	/**
+	 * Remove the leading 'com_' prefix to get the component name
+	 *
+	 * @param   string   $component  name of the target component (eg, 'com_xyz')
+	 *
+	 * @return  string  name of the component (with leading 'com_' removed.
+	 */
+	public static function getComponentName($component)
+	{
+		// Remove the leading 'com_' to get the search prefix
+		$cname = strtolower($component);
+		if (strpos($cname, 'com_', 0) === 0)
+		{
+			$cname = substr($cname, 4);
+		}
+		else
+		{
+			throw new Exception("ERROR: Component name ($component) is malformed; it should be like 'com_xyz'");
+		}
+
+		return $cname;
+	}
+
 }
