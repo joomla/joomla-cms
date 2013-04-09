@@ -454,9 +454,9 @@ COMMENT ON COLUMN "#__contentitem_tag_map"."tag_date" IS 'Date of most recent sa
 -- --------------------------------------------------------
 
 --
--- Table: #__core_content
+-- Table: #__ucm_content
 --
-CREATE TABLE "#__core_content" (
+CREATE TABLE "#__ucm_content" (
   "core_content_id" serial NOT NULL,
   "core_type_alias" character varying(255) DEFAULT '' NOT NULL,
   "core_title" character varying(255) NOT NULL,
@@ -490,20 +490,20 @@ CREATE TABLE "#__core_content" (
   "core_xreference" character varying(50) DEFAULT '' NOT NULL,
   "core_type_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("core_content_id"),
-  CONSTRAINT "#__core_content_idx_type_alias_item_id" UNIQUE ("core_type_alias", "core_content_item_id")
+  CONSTRAINT "#__ucm_content_idx_type_alias_item_id" UNIQUE ("core_type_alias", "core_content_item_id")
 );
-CREATE INDEX "#__core_content_tag_idx" ON "#__core_content" ("core_state", "core_access");
-CREATE INDEX "#__core_content_idx_access" ON "#__core_content" ("core_access");
-CREATE INDEX "#__core_content_idx_alias" ON "#__core_content" ("core_alias");
-CREATE INDEX "#__core_content_idx_language" ON "#__core_content" ("core_language");
-CREATE INDEX "#__core_content_idx_title" ON "#__core_content" ("core_title");
-CREATE INDEX "#__core_content_idx_modified_time" ON "#__core_content" ("core_modified_time");
-CREATE INDEX "#__core_content_idx_created_time" ON "#__core_content" ("core_created_time");
-CREATE INDEX "#__core_content_idx_content_type" ON "#__core_content" ("core_type_alias");
-CREATE INDEX "#__core_content_idx_core_modified_user_id" ON "#__core_content" ("core_modified_user_id");
-CREATE INDEX "#__core_content_idx_core_checked_out_user_id" ON "#__core_content" ("core_checked_out_user_id");
-CREATE INDEX "#__core_content_idx_core_created_user_id" ON "#__core_content" ("core_created_user_id");
-CREATE INDEX "#__core_content_idx_core_type_id" ON "#__core_content" ("core_type_id");
+CREATE INDEX "#__ucm_content_tag_idx" ON "#__ucm_content" ("core_state", "core_access");
+CREATE INDEX "#__ucm_content_idx_access" ON "#__ucm_content" ("core_access");
+CREATE INDEX "#__ucm_content_idx_alias" ON "#__ucm_content" ("core_alias");
+CREATE INDEX "#__ucm_content_idx_language" ON "#__ucm_content" ("core_language");
+CREATE INDEX "#__ucm_content_idx_title" ON "#__ucm_content" ("core_title");
+CREATE INDEX "#__ucm_content_idx_modified_time" ON "#__ucm_content" ("core_modified_time");
+CREATE INDEX "#__ucm_content_idx_created_time" ON "#__ucm_content" ("core_created_time");
+CREATE INDEX "#__ucm_content_idx_content_type" ON "#__ucm_content" ("core_type_alias");
+CREATE INDEX "#__ucm_content_idx_core_modified_user_id" ON "#__ucm_content" ("core_modified_user_id");
+CREATE INDEX "#__ucm_content_idx_core_checked_out_user_id" ON "#__ucm_content" ("core_checked_out_user_id");
+CREATE INDEX "#__ucm_content_idx_core_created_user_id" ON "#__ucm_content" ("core_created_user_id");
+CREATE INDEX "#__ucm_content_idx_core_type_id" ON "#__ucm_content" ("core_type_id");
 
 --
 -- Table: "#__core_log_searches

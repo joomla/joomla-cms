@@ -386,7 +386,7 @@ class JHelperTags
 			->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router')
 
 			->from('#__contentitem_tag_map AS m')
-			->join('INNER', '#__core_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id')
+			->join('INNER', '#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id')
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
 			// Join over the users for the author and email
@@ -738,7 +738,7 @@ class JHelperTags
 	}
 
 	/**
-	 * Method to delete the tag mappings and #__core_content record for for an item
+	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
 	 * @param   integer  $contentItemIds  Array of values of the primary key from the table for the type
 	 * @param   string   $typeAlias       The type alias for the type

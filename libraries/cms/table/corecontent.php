@@ -27,7 +27,7 @@ class JTableCorecontent extends JTable
 	 */
 	public function __construct($db)
 	{
-		parent::__construct('#__core_content', 'core_content_id', $db);
+		parent::__construct('#__ucm_content', 'core_content_id', $db);
 	}
 
 	/**

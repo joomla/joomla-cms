@@ -425,10 +425,10 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__core_content`
+-- Table structure for table `#__ucm_content`
 --
 
-CREATE TABLE IF NOT EXISTS `#__core_content` (
+CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `core_type_alias`  varchar(255) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(255) NOT NULL,
@@ -462,7 +462,6 @@ CREATE TABLE IF NOT EXISTS `#__core_content` (
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `core_type_id` int(10) unsigned,
   PRIMARY KEY (`core_content_id`),
-  UNIQUE KEY `idx_type_id_item_id` (`core_type_id`,`core_content_item_id`),
   KEY `tag_idx` (`core_state`,`core_access`),
   KEY `idx_access` (`core_access`),
   KEY `idx_alias` (`core_alias`),
