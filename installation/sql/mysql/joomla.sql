@@ -462,7 +462,6 @@ CREATE TABLE IF NOT EXISTS `#__core_content` (
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `core_type_id` int(10) unsigned,
   PRIMARY KEY (`core_content_id`),
-  UNIQUE KEY `idx_type_id_item_id` (`core_type_id`,`core_content_item_id`),
   KEY `tag_idx` (`core_state`,`core_access`),
   KEY `idx_access` (`core_access`),
   KEY `idx_alias` (`core_alias`),
