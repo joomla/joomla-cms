@@ -41,6 +41,14 @@ abstract class JLoader
 	protected static $prefixes = array();
 
 	/**
+	 * Container for namespace => path map.
+	 *
+	 * @var    array
+	 * @since  12.3
+	 */
+	protected static $namespaces = array();
+
+	/**
 	 * Method to discover classes of a given type in a given path.
 	 *
 	 * @param   string   $classPrefix  The class name prefix to use for discovery.
@@ -195,6 +203,7 @@ abstract class JLoader
 		if (isset(self::$classes[$class]))
 		{
 			include_once self::$classes[$class];
+
 			return true;
 		}
 
@@ -264,6 +273,40 @@ abstract class JLoader
 	}
 
 	/**
+	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
+	 *
+	 * @param   string   $namespace  A case sensitive Namespace to register.
+	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
+	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
+	 *
+	 * @return  void
+	 *
+	 * @throws  RuntimeException
+	 *
+	 * @since   12.3
+	 */
+	public static function registerNamespace($namespace, $path, $reset = false)
+	{
+		// Verify the library path exists.
+		if (!file_exists($path))
+		{
+			throw new RuntimeException('Library path ' . $path . ' cannot be found.', 500);
+		}
+
+		// If the namespace is not yet registered or we have an explicit reset flag then set the path.
+		if (!isset(self::$namespaces[$namespace]) || $reset)
+		{
+			self::$namespaces[$namespace] = array($path);
+		}
+
+		// Otherwise we want to simply add the path to the namespace in LIFO order.
+		else
+		{
+			array_unshift(self::$namespaces[$namespace], $path);
+		}
+	}
+
+	/**
 	 * Method to setup the autoloaders for the Joomla Platform.  Since the SPL autoloaders are
 	 * called in a queue we will add our explicit, class-registration based loader first, then
 	 * fall back on the autoloader based on conventions.  This will allow people to register a
@@ -281,6 +324,64 @@ abstract class JLoader
 		// Register the autoloader functions.
 		spl_autoload_register(array('JLoader', 'load'));
 		spl_autoload_register(array('JLoader', '_autoload'));
+		spl_autoload_register(array('JLoader', 'loadByPsr0'));
+	}
+
+	/**
+	 * Method to autoload classes that are namespaced to the PSR-0 standard.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   13.1
+	 */
+	public static function loadByPsr0($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		// Find the location of the last NS separator.
+		$pos = strrpos($class, '\\');
+
+		// If one is found, we're dealing with a NS'd class.
+		if ($pos !== false)
+		{
+			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
+			$className = substr($class, $pos + 1);
+		}
+		// If not, no need to parse path.
+		else
+		{
+			$classPath = null;
+			$className = $class;
+		}
+
+		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+
+		// Loop through registered namespaces until we find a match.
+		foreach (self::$namespaces as $ns => $paths)
+		{
+			if (strpos($class, $ns) === 0)
+			{
+				// Loop through paths registered to this namespace until we find a match.
+				foreach ($paths as $path)
+				{
+					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
+
+					// We check for class_exists to handle case-sensitive file systems
+					if (file_exists($classFilePath) && !class_exists($class, false))
+					{
+						return (bool) include_once $classFilePath;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -297,6 +398,7 @@ abstract class JLoader
 		foreach (self::$prefixes as $prefix => $lookup)
 		{
 			$chr = strlen($prefix) < strlen($class) ? $class[strlen($prefix)] : 0;
+
 			if (strpos($class, $prefix) === 0 && ($chr === strtoupper($chr)))
 			{
 				return self::_load(substr($class, strlen($prefix)), $lookup);
