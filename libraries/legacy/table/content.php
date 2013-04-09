@@ -297,7 +297,6 @@ class JTableContent extends JTable
 			$isNew = $data['id'] ? 0 : 1;
 
 			$tagsHelper = new JHelperTags;
-
 			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
 		}
 
