@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Apr-2013 Michael Babker
+ # [#29916] MySQL connections are not closed.  Thanks Ian Goldstein
+ # [#30505] Weblink module ignores end publishing date.  Thanks Thomas Hunziker
+
 07-Apr-2013 Michael Babker
  # [#30091] Help Screens, key wrong, missing or not created correctly.  Thanks Mark Dexter
  # [#30428] nofollw not set correctly in mod_weblinks.  Thanks Ingo Wetsches
