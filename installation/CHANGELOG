@@ -25,6 +25,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+08-Apr-2013 Michael Babker
+ # [#29916] MySQL connections are not closed.  Thanks Ian Goldstein
+ # [#30508] Fixed typo $text = $text = '..';.  Thanks Piotr Konieczny
+ # [#30504] List All Tags doesn't have pagination.  Thanks Mark Dexter
+ # [#30505] Weblink module ignores end publishing date.  Thanks Thomas Hunziker
+ # [#30507] *Edit contact display issue with editor.  Thanks Jean-Marie Simonet
+
+08-Apr-2013 Jean-Marie Simonet
+ $ Adding installation language pt-PT
+ # [#30503] *Tags :can't save Compact Layout in Tags Component Options
+
 07-Apr-2013 Michael Babker
  ^ [#30502] Replace use of JRequest in com_media
  # [#30489] *Regression: Menu Type UTF8 Alias prevents display in Menu Items Manager in J3

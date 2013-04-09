@@ -6,6 +6,7 @@
 		description="COM_TAGS_CONFIG_TAG_SETTINGS_DESC">
 
 		<field
+			name="tag_layout"
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_LABEL"
 			description="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_DESC"

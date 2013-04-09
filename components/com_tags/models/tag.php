@@ -221,7 +221,7 @@ class TagsModelTag extends JModelList
 
 		$itemid = $pkString . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
-		$orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby','c.core_title') : $orderCol;
+		$orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'c.core_title';
@@ -229,7 +229,7 @@ class TagsModelTag extends JModelList
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
-		$listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction','ASC') : $listOrder;
+		$listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
