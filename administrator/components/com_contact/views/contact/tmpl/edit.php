@@ -63,10 +63,10 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
 				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('misc'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('misc'); ?></div>
+				<div class="control-group form-inline">
+					<?php echo $this->form->getLabel('misc'); ?>
 				</div>
+					<?php echo $this->form->getInput('misc'); ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
@@ -210,46 +210,36 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		<hr />
 		<fieldset class="form-vertical">
 			<div class="control-group">
-				<div class="control-group">
-					<div class="controls">
-						<?php echo $this->form->getValue('name'); ?>
-					</div>
+				<div class="controls">
+					<?php echo $this->form->getValue('name'); ?>
 				</div>
-				<div class="control-label">
-					<?php echo $this->form->getLabel('published'); ?>
-				</div>
+			</div>
+			<div class="control-group">
+				<?php echo $this->form->getLabel('published'); ?>
 				<div class="controls">
 					<?php echo $this->form->getInput('published'); ?>
 				</div>
 			</div>
 			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('access'); ?>
-				</div>
+				<?php echo $this->form->getLabel('access'); ?>
 				<div class="controls">
 					<?php echo $this->form->getInput('access'); ?>
 				</div>
 			</div>
 			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('featured'); ?>
-				</div>
+				<?php echo $this->form->getLabel('featured'); ?>
 				<div class="controls">
 					<?php echo $this->form->getInput('featured'); ?>
 				</div>
 			</div>
 			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('language'); ?>
-				</div>
+				<?php echo $this->form->getLabel('language'); ?>
 				<div class="controls">
 					<?php echo $this->form->getInput('language'); ?>
 				</div>
 			</div>
 			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('tags'); ?>
-				</div>
+				<?php echo $this->form->getLabel('tags'); ?>
 				<div class="controls">
 					<?php echo $this->form->getInput('tags'); ?>
 				</div>

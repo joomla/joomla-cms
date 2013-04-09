@@ -129,7 +129,7 @@ class ContentModelForm extends ContentModelArticle
 		}
 		if ($itemId)
 		{
-			$value->tags = new JTags;
+			$value->tags = new JHelperTags;
 			$value->tags->getTagIds($value->id, 'com_content.article');
 		}
 

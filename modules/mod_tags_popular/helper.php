@@ -27,12 +27,14 @@ abstract class ModTagsPopularHelper
 		$maximum   = $params->get('maximum', 5);
 
 		$query = $db->getQuery(true)
-			->select(array(
-				'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-				' COUNT(*) AS count', 'MAX(t.title) AS title',
-				'MAX(' .$db->quoteName('t.access') . ') AS access',
-				'MAX(' .$db->quoteName('t.alias') . ') AS alias'
-			))
+			->select(
+				array(
+					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
+					' COUNT(*) AS count', 'MAX(t.title) AS title',
+					'MAX(' .$db->quoteName('t.access') . ') AS access',
+					'MAX(' .$db->quoteName('t.alias') . ') AS alias'
+				)
+			)
 			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
 			->from($db->quoteName('#__contentitem_tag_map'))
 			->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
