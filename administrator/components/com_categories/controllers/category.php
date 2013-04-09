@@ -206,15 +206,6 @@ class CategoriesControllerCategory extends JControllerForm
 			return;
 		}
 
-		$tags = $validData['tags'];
-
-		if ($tags[0] != '')
-		{
-			$isNew = $item->id == 0 ? 1 : 0;
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($id, $item->extension . '.category', $isNew, $item, $tags, null);
-		}
-
 		return;
 	}
 }

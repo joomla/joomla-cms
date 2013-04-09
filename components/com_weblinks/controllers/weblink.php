@@ -243,15 +243,6 @@ class WeblinksControllerWeblink extends JControllerForm
 			return;
 		}
 
-		$tags = $validData['tags'];
-
-		// Store the tag data if the weblink data was saved.
-		if ($tags[0] != '')
-		{
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $isNew, $item, $tags, null);
-		}
-
 		if ($task == 'save')
 		{
 			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));

@@ -189,16 +189,6 @@ class ContentControllerArticle extends JControllerForm
 			return;
 		}
 
-		$tags = $validData['metadata']['tags'];
-
-		// Store the tag data if the article data was saved.
-		if ($tags[0] != '')
-		{
-			$isNew = $validData['id'] == 0 ? 1 : 0;
-
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($item->id, 'com_content.article', $isNew, $item, $tags, null);
-		}
 		return;
 	}
 }

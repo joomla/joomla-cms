@@ -148,15 +148,5 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 			return;
 		}
 
-		$tags = $validData['tags'];
-
-		// Store the tag data if the news data was saved.
-		if ($tags[0] != '')
-		{
-			$isNew = ($item->id == 0) ? 1 : 0;
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($item->id, 'com_newsfeeds.newsfeed', $isNew, $item, $tags, null);
-		}
-
 	}
 }

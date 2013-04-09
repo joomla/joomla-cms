@@ -25,7 +25,7 @@ class JHelperTags
 	 * @param   integer  $id      The id (primary key) of the item to be tagged.
 	 * @param   string   $prefix  Dot separated string with the option and view for a url and type alias.
 	 * @param   boolean  $isNew   Flag indicating this item is new.
-	 * @param   integer  $ccId    Value of the primary key in the core_content table
+	 * @param   integer  $item    Value of the primary key in the core_content table
 	 * @param   array    $tags    Array of tags to be applied.
 	 * @param   boolean          $replace   Flag indicating if all exising tags should be replaced
 	 *
@@ -88,7 +88,7 @@ class JHelperTags
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';
-						$tagTable->access = property_exists($item, 'access') ? $item->access : 0;
+						//$tagTable->access = property_exists($item, 'access') ? $item->access : 0;
 
 						// Make this item a child of the root tag
 						$tagTable->setLocation($tagTable->getRootId(), 'last-child');
@@ -144,8 +144,7 @@ class JHelperTags
 
 		$db->setQuery($query);
 		$db->execute();
-
-
+		
 		return;
 	}
 
@@ -418,6 +417,7 @@ class JHelperTags
 
 		$query->order($orderBy . ' ' . $orderDir);
 
+		echo $query;
 		return $query;
 	}
 

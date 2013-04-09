@@ -127,13 +127,6 @@ class UsersControllerUser extends JControllerForm
 			return;
 		}
 
-		$tags = $validData['tags'];
-
-		if ($tags[0] != '')
-		{
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($id, 'com_users.user', $isNew, $item, $tags, null);
-		}
 		return;
 	}
 }
