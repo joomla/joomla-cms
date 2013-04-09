@@ -272,10 +272,10 @@ class JTableContent extends JTable
 			return false;
 		}
 
-		$return = parent::store($updateNulls);
-
 		$tagsHelper = new JHelperTags;
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+
+		$return = parent::store($updateNulls);
 
 		if ($return == false)
 		{
@@ -297,7 +297,6 @@ class JTableContent extends JTable
 			$isNew = $data['id'] ? 0 : 1;
 
 			$tagsHelper = new JHelperTags;
-
 			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
 		}
 
