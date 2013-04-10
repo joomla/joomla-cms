@@ -240,7 +240,7 @@ class JHelperTags
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select(array($db->quoteName('m.tag_id'))
+			->select($db->quoteName('m.tag_id'))
 			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
 			->where(
 				array(
@@ -844,6 +844,7 @@ class JHelperTags
 
 		return $tags;
 	}
+
 	/**
 	 * Function that converts tags stored as metadata to tags and back, including cleaning
 	 *
@@ -866,7 +867,7 @@ class JHelperTags
 				$newTags[] = str_replace('#new#', '', $tagText);
 			}
 
-			$metadata->tags = $newTags;
+			$metadata->tags = implode(',', $newTags);
 			$metadata = json_encode($metadata);
 		}
 
