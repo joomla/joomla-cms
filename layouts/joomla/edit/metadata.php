@@ -13,14 +13,13 @@ defined('_JEXEC') or die;
 
 
 $fieldSets = $displayData->get('form')->getFieldsets('metadata');
-foreach ($fieldSets as $name => $fieldSet) :
-	$metadatatabs = 'metadata-' . $name;
-	echo JHtml::_('bootstrap.addPanel', 'myTab', $metadatatabs, JText::_($fieldSet->label, true));
-
-	if (isset($fieldSet->description) && trim($fieldSet->description)) :
-		echo '<p class="alert alert-info">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-	endif;
-	?>
+$metadatatabs = 'metadata-' . $name;
+echo JHtml::_('bootstrap.addPanel', 'myTab', $metadatatabs, JText::_($fieldSet->label, true));
+	foreach ($fieldSets as $name => $fieldSet) :
+		if (isset($fieldSet->description) && trim($fieldSet->description)) :
+			echo '<p class="alert alert-info">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+		endif;
+		?>
 			<?php if ($name == 'jmetadata') : // Include the real fields in this panel.
 			?>
 				<div class="control-group">
@@ -46,5 +45,5 @@ foreach ($fieldSets as $name => $fieldSet) :
 				</div>
 				<?php endif; ?>
 			<?php endforeach; ?>
-	<?php echo JHtml::_('bootstrap.endPanel'); ?>
-<?php endforeach; ?>
+	<?php endforeach; ?>
+<?php echo JHtml::_('bootstrap.endPanel'); ?>

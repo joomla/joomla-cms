@@ -846,6 +846,58 @@ class JHelperTags
 	}
 
 	/**
+	* Function that converts tag ids to their tag names
+	*
+	* @param	string	$metadata	A JSON encoded metadata string
+	*
+	* @return	Array	An array of names only
+	*/
+	public function getMetaTagNames(&$metadata)
+	{
+		$db = JFactory::getDbo();
+
+		$metadata = json_decode($metadata);
+		$tags = explode(',', $metadata->tags);
+		
+		$tagIds = array();		
+		$tagNames = array();
+
+		if (!empty($tags))
+		{
+			foreach ($tags as $tag)
+			{
+				if(is_numeric($tag))
+				{
+					$tagIds[] = $tag;
+				} 
+				else 
+				{
+					$tagNames[] = $tag;
+				}
+			}
+
+			if (!empty($tagIds))
+			{
+				$tagIds = implode(',', $tagIds);
+
+				$query = $db->getQuery(TRUE);
+				$query->select('title')
+						->from('#__tags')
+						->where($db->quoteName('id'). ' IN ('. $tagIds .')');
+
+				$db->setQuery($query);
+				$newTagNames = $db->loadColumn();
+				$tagNames = array_merge($tagNames,$newTagNames);
+			}
+		}
+
+		$metadata->tags = implode(',', $tagNames);
+		$metadata = json_encode($metadata);
+
+		return $tagNames;
+	}
+
+	/**
 	 * Function that converts tags stored as metadata to tags and back, including cleaning
 	 *
 	 * @param   string  $metadata  JSON encoded metadata

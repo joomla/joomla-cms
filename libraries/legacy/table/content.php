@@ -274,6 +274,7 @@ class JTableContent extends JTable
 
 		$tagsHelper = new JHelperTags;
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+		$tagsHelper->getMetaTagNames($this->metadata);
 
 		$return = parent::store($updateNulls);
 
