@@ -163,7 +163,7 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 			$errmsg1 = "unmodified custom action '$action' is allowed for group '$group_name'";
 			$this->assertEquals($perm_init, false, $errmsg1);
 			$perm_mod  = $modified_permissions[$action][$gid];
-			$errmsg2 = "default action '$action' for group '$group_name' modified by installing 'access1.xml'";
+			$errmsg2 = "default custom action '$action' for group '$group_name' modified by installing 'access1.xml'";
 			$this->assertEquals($perm_mod, $perm_init, $errmsg2);
 		}
 
