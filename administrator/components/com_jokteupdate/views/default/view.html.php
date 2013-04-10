@@ -39,6 +39,7 @@ class JokteupdateViewDefault extends JViewLegacy
 		// Assign view variables
 		$ftp = $model->getFTPOptions();
 		$this->assign('updateInfo', $model->getUpdateInformation());
+		$this->assign('updateMisc', $model->getUpdateInfoMisc());
 		$this->assign('methodSelect', JokteupdateHelperSelect::getMethods($ftp['enabled']));
 
 		// Set the toolbar information
