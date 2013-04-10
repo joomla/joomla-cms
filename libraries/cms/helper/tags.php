@@ -272,7 +272,7 @@ class JHelperTags
 
 		if ($getTagData)
 		{
-			$query->select($db->quoteName('t') . '.*'));
+			$query->select($db->quoteName('t') . '.*');
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
