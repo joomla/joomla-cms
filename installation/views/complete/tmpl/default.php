@@ -12,18 +12,36 @@ $nfo = $this->getDataInstall();
 ?>
 <div id="step">
 	<div class="far-right">
-<?php if ($this->document->direction == 'ltr') : ?>
-		<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a></div></div>
-		<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><?php echo JText::_('JADMINISTRATOR'); ?></a></div></div>
-<?php elseif ($this->document->direction == 'rtl') : ?>
-		<div class="button1-left"><div class="admin"><a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><?php echo JText::_('JADMINISTRATOR'); ?></a></div></div>
-		<div class="button1-left"><div class="site"><a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a></div></div>
-<?php endif; ?>
+	<?php if ($this->document->direction == 'ltr') : ?>
+		<div class="button1-left"><div class="site">
+			<a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a>
+		</div>
 	</div>
-	<h2><?php echo JText::_('INSTL_COMPLETE'); ?></h2>
+	
+	<div class="button1-left">
+		<div class="admin">
+			<a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><?php echo JText::_('JADMINISTRATOR'); ?></a>
+		</div>
+	</div>
+
+	<?php elseif ($this->document->direction == 'rtl') : ?>
+	<div class="button1-left">
+		<div class="admin">
+			<a href="<?php echo JURI::root(); ?>administrator/" title="<?php echo JText::_('JADMINISTRATOR'); ?>"><?php echo JText::_('JADMINISTRATOR'); ?></a>
+		</div>
+	</div>
+	
+	<div class="button1-left">
+		<div class="site">
+			<a href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JSITE'); ?>"><?php echo JText::_('JSITE'); ?></a>
+		</div>
+	</div>
+	<?php endif; ?>
+</div>
+<h2><?php echo JText::_('INSTL_COMPLETE'); ?></h2>
 </div>
 
-<form action="index.php" method="post" id="adminForm" class="form-validate">    
+<form action="index.php" method="post" id="adminForm" class="form-validate">
 	<div id="installer">
 		<div class="m">
 			<h3><?php echo JText::_('INSTL_COMPLETE_TITLE'); ?></h3>
@@ -41,14 +59,14 @@ $nfo = $this->getDataInstall();
 									<?php echo JText::_('INSTL_COMPLETE_REMOVE_INSTALLATION'); ?>
 								</td>
 							</tr>
-                                                        <tr>
+							<tr>
 								<td>
-                                                                    <input class="button" type="button" name="regInstall" id="regInstall" value="<?php echo JText::_('INSTL_COMPLETE_REG_USER'); ?>" onclick="regInstallUser();"/>
-                                                                    <input type="hidden" name="email" id="emailReg" value="<?php echo $nfo['email']; ?>" />
-                                                                    <input type="hidden" name="name" id="nameReg" value="<?php echo $nfo['name']; ?>" />
-                                                                    <input type="hidden" name="site" id="siteReg" value="<?php echo $nfo['site']; ?>" />
-                                                                    <div id="okReg" class="notice"></div>
-                                                                </td>
+									<input class="button" type="button" name="regInstall" id="regInstall" value="<?php echo JText::_('INSTL_COMPLETE_REG_USER'); ?>" onclick="regInstallUser();"/>
+									<input type="hidden" name="email" id="emailReg" value="<?php echo $nfo['email']; ?>" />
+									<input type="hidden" name="name" id="nameReg" value="<?php echo $nfo['name']; ?>" />
+									<input type="hidden" name="site" id="siteReg" value="<?php echo $nfo['site']; ?>" />
+									<div id="okReg" class="notice"></div>
+								</td>
 							</tr>
 							<tr>
 								<td><input class="button" type="button" name="instDefault" value="<?php echo JText::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>" onclick="Install.removeFolder(this);"/></td>
