@@ -68,11 +68,11 @@ endif;
 				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
 
-                <li><?php echo $this->form->getLabel('subtitle'); ?>
-                <?php echo $this->form->getInput('subtitle'); ?></li>
-
 				<li><?php echo $this->form->getLabel('alias'); ?>
 				<?php echo $this->form->getInput('alias'); ?></li>
+				
+				<li><?php echo $this->form->getLabel('subtitle'); ?>
+				<?php echo $this->form->getInput('subtitle'); ?></li>
 
 				<li><?php echo $this->form->getLabel('catid'); ?>
 				<?php echo $this->form->getInput('catid'); ?></li>
@@ -101,14 +101,19 @@ endif;
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
-				
-				<li><?php echo $this->form->getLabel('copete'); ?>
-				<?php echo $this->form->getInput('copete'); ?></li>
-			</ul>			
+			</ul>
 			<div class="clr"></div>
-			<?php echo $this->form->getLabel('articletext'); ?>
+			
+			<?php
+			// Nuevo en Jokte v1.2.2
+			echo JHtml::_('tabs.start');
+			echo JHtml::_('tabs.panel', JText::_('COM_COPETE_DETAILS'), 'copete-basics'); ?>			
+			<div><?php echo $this->form->getInput('copete'); ?></div>
 			<div class="clr"></div>
-			<?php echo $this->form->getInput('articletext'); ?>			
+			<?php echo JHtml::_('tabs.panel', JText::_('COM_TEXT_DETAILS'), 'text-basics'); ?>			
+			<div><?php echo $this->form->getInput('articletext'); ?></div>			
+			<div class="clr"></div>
+			<?php echo JHtml::_('tabs.end'); ?>	
 		</fieldset>
 	</div>
 
@@ -205,7 +210,7 @@ endif;
 							</ul>
 						</fieldset>
 				<?php endif ?>
-
+		
 		<?php // The url and images fields only show if the configuration is set to allow them.  ?>
 		<?php // This is for legacy reasons. ?>
 		<?php if ($params['show_urls_images_backend']): ?>
@@ -235,28 +240,30 @@ endif;
 				</ul>
 				</fieldset>
 		<?php endif; ?>
-
-        <?php // Agrego nuevo slider para el fieldset attachments ?>
-        <?php if ($params['show_attachments_back_end']): ?>
-        <?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_ATTACHMENTS'), 'attachments-options'); ?>
-            <fieldset class="panelform">
-                <ul class="adminformlist">
-                    <li>
-                        <?php echo $this->form->getLabel('attachments'); ?>
-                        <?php echo $this->form->getInput('attachments'); ?>
-                    </li>
-                    <?php foreach($this->form->getGroup('attachments') as $field): ?>
-                        <li>
-                            <?php if (!$field->hidden): ?>
-                                <?php echo $field->label; ?>
-                            <?php endif; ?>
-                            <?php echo $field->input; ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </fieldset>
-        <?php endif; ?>
-
+		
+		<?php 
+		// Nuevo Jokte v1.3.0
+		// Agrego nuevo slider para el fieldset attachments ?>
+		<?php if ($params['show_attachments_back_end']): ?>
+		<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_ATTACHMENTS'), 'attachments-options'); ?>
+			<fieldset class="panelform">
+				<ul class="adminformlist">
+					<li>
+						<?php echo $this->form->getLabel('attachments'); ?>
+						<?php echo $this->form->getInput('attachments'); ?>
+					</li>
+					<?php foreach($this->form->getGroup('attachments') as $field): ?>
+					<li>
+						<?php if (!$field->hidden): ?>
+							<?php echo $field->label; ?>
+						<?php endif; ?>
+						<?php echo $field->input; ?>
+					</li>
+					<?php endforeach; ?>
+				</ul>
+			</fieldset>
+		<?php endif; ?>
+		
 		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 			<fieldset class="panelform">
 				<?php echo $this->loadTemplate('metadata'); ?>
