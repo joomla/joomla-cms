@@ -149,21 +149,6 @@ class JAccessRules
 		}
 	}
 
-	/**
-	 * Remove an action from the rules
-	 *
-	 * @param  string  $action  The name of the action to remove
-	 *
-	 * @return  none
-	 */
-	public function removeAction($action)
-	{
-		if (isset($this->data[$action]))
-		{
-			unset($this->data[$action]);
-		}
-	}
-
 
 	/**
 	 * Remove actions matching a regular expression from the rules
