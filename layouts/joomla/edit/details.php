@@ -76,7 +76,7 @@ $published = $displayData->get('form')->getValue('published');
 					</div>
 				</div>
 				<div class="control-group">
-					<?php foreach ($displayData->get('form')->getFieldset('jmetadata') as $field) : ?>
+					<?php foreach ($displayData->get('form')->getFieldset('metadata') as $field) : ?>
 						<?php if ($field->name == 'jform[metadata][tags][]') :?>
 						<div class="control-group">
 							<div class="control-label"><?php echo $field->label; ?></div>
