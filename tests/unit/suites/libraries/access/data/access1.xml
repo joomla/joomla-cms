@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_example">
+	<section name="component">
+		<action name="core.admin" title="Configure Example Options"
+			description="Example core.admin permissions" />
+
+		<action name="core.manage" title="Access Example Component"
+			description="Example core.manage permissions" />
+
+		<action name="core.create" title="Example create permission" 
+			description="Example core.create permissions" />
+
+		<action name="core.delete" title="Example delete permission" 
+			description="Example core.delete permissions" />
+
+		<action name="core.edit" title="Example edit permission"
+			description="Example core.edit permissions" />
+
+		<action name="core.edit.own" title="Example edit own permission" 
+			description="Example core.edit.own permissions" />
+
+		<action name="core.edit.state" title="Example edit state permission" 
+			description="Example core.edit.state permissions" />
+
+		<action name="example.default" title="Example custom default"
+			description="Defaults to system default permissions (denied)" />
+
+		<action name="example.custom.author" title="Example custom enable author"
+			description="Should default true for author"
+			default="Author" />
+
+		<action name="example.custom.author.manage" title="Example custom author (manage)"
+			description="Should default to core.manager for Author (denied)" 
+			default="Author:core.manage" />
+
+		<action name="example.custom.author.create" title="Example custom author (create)"
+			description="Should match default for core.create for Author" 
+			default="Author:core.create" />
+
+		<action name="example.custom.editor.edit" title="Example custom editor (edit)"
+			description="Should match default for core.edit for Editor" 
+			default="Editor:core.edit" />
+
+		<action name="example.custom.publisher.edit.state" title="Example custom publisher (edit.state)" 
+			description="Should match default for core.edit.state for Publisher" 
+			default="Publisher:core.edit.state" />
+
+		<action name="example.custom.admin.manage" title="Example custom admin (manage)"
+			description="Should default to core.manage for Administrator"
+		        default="Administrator:core.manage" />
+
+	</section>
+</access>
