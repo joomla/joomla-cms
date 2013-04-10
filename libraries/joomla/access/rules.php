@@ -150,7 +150,7 @@ class JAccessRules
 	}
 
 	/**
-	 * Remove an action from the rule
+	 * Remove an action from the rules
 	 *
 	 * @param  string  $action  The name of the action to remove
 	 *
@@ -162,6 +162,31 @@ class JAccessRules
 		{
 			unset($this->data[$action]);
 		}
+	}
+
+
+	/**
+	 * Remove actions matching a regular expression from the rules
+	 *
+	 * @param  string  $action_regexp  Regular expression for the actions to remove
+	 *
+	 * NOTE: For case-insensitive matching, insert the appropriate flags in
+	 *       the regular expression string
+	 *
+	 * @return  none
+	 */
+	public function removeActions($action_regexp)
+	{
+		foreach ($this->data as $name => $identities)
+		{
+			if (preg_match($action_regexp, $name))
+			{
+				unset($this->data[$name]);
+			}
+		}
+
+		// NOTE: It is apparently ok to delete entries in the foreach loop.  See this reference:
+        // http://stackoverflow.com/questions/2304570/how-to-delete-object-from-array-inside-foreach-loop
 	}
 
 

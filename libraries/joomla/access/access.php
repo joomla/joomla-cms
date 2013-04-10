@@ -636,9 +636,6 @@ class JAccess
 			throw new Exception("ERROR: Override core rule defaults!");
 		}
 
-		// Remove leading 'com_' to get component name for custom rules
-		$cprefix = JAccess::getComponentName($component) . ".";
-
 		// Create an empty set of rules to receive the rules for the component
 		$new_rules = new JAccessRules();
 
@@ -761,44 +758,12 @@ class JAccess
 	 */
 	public static function purgeComponentDefaultRules($component)
 	{
-		// make sure we do not want to purge any core rules!
+		// make sure we do not purge any core rules!
 		if (strtolower($component) == 'com_core')
 		{
 			throw new Exception("Error: Cannot purge core rules!");
 		}
 
-		// Remove leading 'com_' to get component name for custom rules
-		$cprefix = JAccess::getComponentName($component) . ".";
-		
-		// Get the root rules
-		$root = JTable::getInstance('asset');
-		$root->loadByName('root.1');
-		$root_rules = new JAccessRules($root->rules);
-
-		// remove each custom rule for this component
-		$app = JFactory::getApplication();
-		foreach ($root_rules->getData() as $name => $identities) 
-		{
-			if (strpos($name, $cprefix) === 0 )
-			{
-				$root_rules->removeAction($name);
-			}
-		}
-
-		// Save the updated root rule
-		$root->rules = (string)$root_rules;
-		return $root->store();
-	}
-
-	/**
-	 * Remove the leading 'com_' prefix to get the component name
-	 *
-	 * @param   string   $component  name of the target component (eg, 'com_xyz')
-	 *
-	 * @return  string  name of the component (with leading 'com_' removed.
-	 */
-	public static function getComponentName($component)
-	{
 		// Remove the leading 'com_' to get the search prefix
 		$cname = strtolower($component);
 		if (strpos($cname, 'com_', 0) === 0)
@@ -809,8 +774,19 @@ class JAccess
 		{
 			throw new Exception("ERROR: Component name ($component) is malformed; it should be like 'com_xyz'");
 		}
+		
+		// Get the root rules
+		$root = JTable::getInstance('asset');
+		$root->loadByName('root.1');
+		$root_rules = new JAccessRules($root->rules);
 
-		return $cname;
+		// remove each custom rule for this component
+		$action_pattern = '/^' . $cname . '\./';
+		$root_rules->removeActions($action_pattern);
+
+		// Save the updated root rule
+		$root->rules = (string)$root_rules;
+		return $root->store();
 	}
 
 }
