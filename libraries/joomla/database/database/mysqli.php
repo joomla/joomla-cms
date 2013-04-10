@@ -299,7 +299,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 	 */
 	public function getVersion()
 	{
-		return @mysqli_get_server_info($this->connection);
+		return mysqli_get_server_info($this->connection);
 	}
 
 	/**
