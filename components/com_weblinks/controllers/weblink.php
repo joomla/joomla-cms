@@ -234,15 +234,6 @@ class WeblinksControllerWeblink extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-		$id = $item->id;
-
-			if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JHelperTags;
-			$oldTags->unTagItem($id, 'com_weblinks.weblink');
-			return;
-		}
-
 		if ($task == 'save')
 		{
 			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));

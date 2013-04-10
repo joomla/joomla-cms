@@ -144,7 +144,7 @@ class JHelperTags
 
 		$db->setQuery($query);
 		$db->execute();
-		
+
 		return;
 	}
 

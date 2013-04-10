@@ -140,13 +140,5 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 			$item->metadata = (string) $registry;
 		}
 
-		if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JHelperTags;
-			$oldTags->unTagItem($item->id, 'com_newsfeeds.newsfeed');
-
-			return;
-		}
-
 	}
 }

@@ -181,14 +181,7 @@ class ContentControllerArticle extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-
-		if (empty($validData['metadata']['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JHelperTags;
-			$oldTags->unTagItem($id, 'com_content.article');
-			return;
-		}
-
+		
 		return;
 	}
 }
