@@ -87,31 +87,12 @@ class InstallerModelUpdate extends JModelList
 			$query->where($db->nq('u.extension_id') . ' = ' . $db->q((int) $eid));
 		} else {
 			$query->where($db->nq('u.extension_id').' != '.$db->q(0));
-			//$query->where($db->nq('extension_id').' != '.$db->q(700));
+			$query->where($db->nq('u.extension_id').' != '.$db->q(700));
 		}
 
 		return $query;
 	}
-	 
-	protected function ____getListQuery()
-	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
-		// grab updates ignoring new installs
-		$query->select('*')->from('#__updates')->where('extension_id != 0');
-		$query->order($this->getState('list.ordering').' '.$this->getState('list.direction'));
-
-		// Filter by extension_id
-		if ($eid = $this->getState('filter.extension_id')) {
-			$query->where($db->nq('extension_id') . ' = ' . $db->q((int) $eid));
-		} else {
-			$query->where($db->nq('extension_id').' != '.$db->q(0));
-			//$query->where($db->nq('extension_id').' != '.$db->q(700));
-		}
-		var_dump($query->__toString());
-		return $query;
-	}
-
+	
 	/**
 	 * Finds updates for an extension.
 	 *
@@ -251,7 +232,7 @@ class InstallerModelUpdate extends JModelList
 	{
 		$app = JFactory::getApplication();
 		if (isset($update->get('downloadurl')->_data)) {
-			$url = $update->downloadurl->_data;
+			$url = trim($update->downloadurl->_data);
 		} else {
 			JError::raiseWarning('', JText::_('COM_INSTALLER_INVALID_EXTENSION_UPDATE'));
 			return false;
