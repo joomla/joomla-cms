@@ -88,7 +88,7 @@ class JHelperTags
 
 						// $tagTable->language = property_exists ($item, 'language') ? $item->language : '*';
 						$tagTable->language = '*';
-						//$tagTable->access = property_exists($item, 'access') ? $item->access : 0;
+						$tagTable->access = 1;
 
 						// Make this item a child of the root tag
 						$tagTable->setLocation($tagTable->getRootId(), 'last-child');
@@ -338,7 +338,7 @@ class JHelperTags
 		}
 		if (is_array($tagId))
 		{
-			$tagId = implode($tagId);
+			$tagId = implode(',', $tagId);
 		}
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
 		$query->select('m.type_alias, m.content_item_id, m.core_content_id, count(m.tag_id) AS match_count,  MAX(m.tag_date) as tag_date, MAX(c.core_title) AS core_title')
