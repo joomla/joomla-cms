@@ -1146,7 +1146,7 @@ abstract class JModelAdmin extends JModelForm
 			$context = explode('.', $contexts[$pk]);
 
 			// In batch we will default to not replacing old tags
-			$tagsHelper->tagItem($pk, $context[0] . '.' . $context[1], false, $item, array($value), null, false);
+			$tagsHelper->tagItem($pk, $context[0] . '.' . $context[1], false, $item->id, array($value), null, false);
 		}
 		return true;
 	}
