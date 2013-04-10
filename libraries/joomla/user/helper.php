@@ -315,15 +315,15 @@ abstract class JUserHelper
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
-	    // Get the CMS configuration.
-	    $config = JFactory::getConfig();
-	    
+		// Get the CMS configuration.
+		$config = JFactory::getConfig();
+
 		// Get the salt to use.
 		$salt = self::getSalt($encryption, $salt, $plaintext);
-		
+
 		// Use global password secret.
 		if($config->exists("pwsecret")) {
-		    $salt = $config->get("pwsecret") . $salt;
+			$salt = $config->get("pwsecret") . $salt;
 		}
 
 		// Encrypt the password.
