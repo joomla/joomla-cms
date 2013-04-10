@@ -38,6 +38,25 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
+		
+		<field
+			name="show_subtitle"
+			type="list"
+			label="JGLOBAL_SHOW_SUBTITLE_LABEL"
+			description="JGLOBAL_SHOW_SUBTITLE_DESC">
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+			
+		<field name="show_copete" type="list"
+			description="JGLOBAL_SHOW_COPETE_DESC"
+			label="JGLOBAL_SHOW_COPETE_LABEL"
+			>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
 		<field
 			name="link_titles"
@@ -208,7 +227,68 @@
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>
 		</field>
-
+		
+		<field
+			name="show_avatar"
+			type="list"
+			label="JGLOBAL_SHOW_AVATAR_LABEL"
+			description="JGLOBAL_SHOW_AVATAR_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
+		</field>
+			
+		<field
+			name="avatar_position"
+			type="list"
+			label="JGLOBAL_AVATAR_POSITION_LABEL"
+			description="JGLOBAL_AVATAR_POSITION_DESC"
+			default="">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="1">INTEXT_FLOAT_LEFT</option>
+			<option	value="2">INTEXT_FLOAT_RIGHT</option>			
+		</field>
+			
+		<field
+			name="show_disqus"
+			type="list"
+			label="JGLOBAL_SHOW_DISQUS_LABEL"
+			description="JGLOBAL_SHOW_DISQUS_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+			
+		<field
+			name="show_facebook"
+			type="list"
+			label="JGLOBAL_SHOW_FACEBOOK_LABEL"
+			description="JGLOBAL_SHOW_FACEBOOK_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
+		</field>
+			
+		<field
+			name="show_twitter"
+			type="list"
+			label="JGLOBAL_SHOW_TWEETER_LABEL"
+			description="JGLOBAL_SHOW_TWEETER_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
+		</field>
+			
+		<field
+			name="show_one"
+			type="list"
+			label="JGLOBAL_SHOW_ONE_LABEL"
+			description="JGLOBAL_SHOW_ONE_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
+		</field>
+		
 		<field
 			name="show_noauth"
 			type="list"
