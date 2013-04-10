@@ -252,8 +252,12 @@ p.footer-tip {
 	margin-bottom: 5px;
 }
 
-#element-box {
+#element-box-login {
+	box-shadow:1px 6px 12px #1C1C1C;
 	margin-bottom: 11px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;	
 }
 
 #element-box,
@@ -3189,13 +3193,13 @@ div#element-box div.section-box div.m {
 }
 
 .submenu-box, div.m {
-	border: 1px solid #eee;
-	padding: 0 8px;
+	padding: 10px 8px;
 	background-color: #fff;
 	
 }
 
 .submenu-box, #submenu-box div.m {
+	border:1px solid #ccc;
 	padding: 6px 8px;
 }
 
@@ -3262,10 +3266,19 @@ div#cslStyles {
     float: none;
     clear: both;
 }
-/*#Jkfooter {
-    background: url(../images/copyleft.png) no-repeat 50% 100%;
-    height: 70px; 
-}*/
+#Jkfooter-login {
+	margin: 0 auto;
+	font-size:120%;
+	line-height:30px;
+	width:545px;
+	height:30px;
+	background:#FFF;
+	box-shadow:1px 6px 12px #1C1C1C;
+	margin-bottom: 11px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
 #Jkfooter p {
     text-align: center;
 }
@@ -3275,6 +3288,27 @@ div#cslStyles {
 }
 #Jkfooter p.copyleft {
     margin-bottom: 20px !important
+}
+#mainlogin{
+	min-height:100%;
+    position:absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left:0; right:0;
+	/* navegadores sin soporte */
+    background: #fff;
+    /* Safari 4-5, Chrome 1-9 */
+    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(white), to(black));
+    /* Safari 5.1+, Chrome 10+ */
+    background: -webkit-linear-gradient(top, white, #808080);
+    /* Firefox 3.6+ */
+    background: -moz-linear-gradient(top, white, #808080);
+    /* Opera 11.10+ */
+    background: -o-linear-background(top, white, #808080);
+    /* IE 10 */
+    background: -ms-linear-background(top, white, #808080);
+    /* estándar */
+    background: linear-background(top, white, #808080);
 }
 
 #Jkcontent-login a, #Jkfooter a {
@@ -3307,4 +3341,17 @@ float:none;
     padding: 5px 35px 5px 10px;
     bAckground: URL(../images/j_button1_next.png)#ccc no-repeat 100%;
     text-transform: uppercase;
+}
+
+.login-img-back {
+  width: 250px;
+  height: 250px;
+  position: absolute;
+  bottom:  100px; 
+  right: 50px;
+  text-align:center;
+}
+.login-img-text{
+	font-size:200%;
+	text-shadow:#CCCCCC 2px 1px 2px; 
 }
