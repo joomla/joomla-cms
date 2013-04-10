@@ -359,7 +359,7 @@ abstract class JFactory
 			$cache->setLifeTime($cache_time);
 		}
 
-		$simplepie = new SimplePie(null, null, 0);
+		$simplepie = new SimplePie();
 
 		$simplepie->enable_cache(false);
 		$simplepie->set_feed_url($url);
