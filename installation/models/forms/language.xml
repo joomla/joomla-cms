@@ -5,7 +5,7 @@
 			class="inputbox lang"
 			label="INSTL_LANGUAGE_LABEL"
 			size="3"
-			default="es-ES"
+			default=""
 			required="true" />
 	</fieldset>
 </form>
