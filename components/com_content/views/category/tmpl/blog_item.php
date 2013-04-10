@@ -17,6 +17,7 @@ defined('_JEXEC') or die;
 $params = &$this->item->params;
 $images = json_decode($this->item->images);
 $canEdit	= $this->item->params->get('access-edit');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
@@ -27,11 +28,17 @@ JHtml::_('behavior.framework');
 <div class="system-unpublished">
 <?php endif; ?>
 
-<?php if ($params->get('show_copete')) : ?>	
-	<h4>
-	<?php echo $this->item->copete; ?>	
-	</h4>
-<?php endif; ?>
+<?php 
+// Nuevo Jokte v1.2.2 
+if ($params->get('show_copete')) :
+	if (in_array('category', $params->get('show_copete_view'))) :
+		if ($this->item->copete != Null): ?>
+		<h4><?php echo $this->item->copete; ?></h4>
+	<?php 
+		endif; 
+	endif; 
+endif;
+?>
 
 <?php if ($params->get('show_title')) : ?>
 	<h2>
@@ -43,6 +50,18 @@ JHtml::_('behavior.framework');
 		<?php endif; ?>
 	</h2>
 <?php endif; ?>
+
+<?php 
+	// Nuevo Jokte v1.2.2
+	if ($params->get('show_subtitle')) : 
+		if (in_array('category', $params->get('show_subtitle_view'))) :
+		?>
+		<div class="subtitulos">
+			<h3><?php echo $this->escape($this->item->subtitle); ?></h3>
+		</div>	
+<?php 	endif; 
+	endif;
+?>
 
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
 	<ul class="actions">
@@ -63,6 +82,16 @@ JHtml::_('behavior.framework');
 		<?php endif; ?>
 	</ul>
 <?php endif; ?>
+
+<?php 
+	// Nuevo en Jokte v1.2.2
+	if (in_array('category', $params->get('show_socialbuttons'))) :
+		if ($params->get('position_socialbuttons') == 'top') : ?>
+		<?php echo $this->loadTemplate('social'); ?>
+<?php endif; 
+	endif;
+?>
+
 
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
@@ -145,7 +174,25 @@ JHtml::_('behavior.framework');
 		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
 	</div>
 <?php endif; ?>
+
+<?php
+// Nuevo Jokte v1.2.2 
+if ($params->get('show_avatar')) :
+	if (in_array('category', $params->get('show_avatar_view'))) :
+		echo JHtml::_('utiles.avatar',$this->item, $params); 
+	endif; 
+endif;
+?>
 <?php echo $this->item->introtext; ?>
+
+<?php 
+// Nuevo Jokte v1.2.2
+if (in_array('category', $params->get('show_socialbuttons'))) :
+	if ($params->get('position_socialbuttons') == 'bottom') : 
+		echo $this->loadTemplate('social');
+	endif; 
+endif;
+?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
@@ -157,7 +204,7 @@ JHtml::_('behavior.framework');
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
 		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
 		$link = new JURI($link1);
-		$link->setVar('return', base64_encode($returnURL));
+		$link->setVar('return', base64_encode(urlencode($returnURL)));
 	endif;
 ?>
 		<p class="readmore">
@@ -181,6 +228,20 @@ JHtml::_('behavior.framework');
 <?php if ($this->item->state == 0) : ?>
 </div>
 <?php endif; ?>
-
+<?php // Nuevo Jokte v1.2.2 ?>
+<?php 
+	if ($params->get('show_simpletags')) : 
+		if (in_array('category', $params->get('show_simpletags_view'))) :		
+		$tags = JHtml::_('utiles.simpletags', $this->item->metakey);
+		?>
+		<div class="etiquetas">
+			<span class="tagslabel"><?php echo JText::_('COM_CONTENT_LABEL_TAGS').': '; ?></span> 
+			<?php foreach ($tags as $etiqueta): ?>
+				<span class="tag"><?php echo $etiqueta; ?></span>
+			<?php endforeach; ?>	
+		</div>
+<?php 	endif;
+	endif; 
+?>
 <div class="item-separator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>
