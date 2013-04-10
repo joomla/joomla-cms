@@ -148,7 +148,7 @@ class InstallerModelDatabase extends InstallerModel
 
 	public function getUpdateVersion()
 	{
-		$table = JTable::getInstance('Extension');		
+		$table = JTable::getInstance('Extension');
 		$table->load('700');
 		$cache = new JRegistry($table->manifest_cache);
 		return $cache->get('version');
