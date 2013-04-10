@@ -84,7 +84,7 @@ class ContentModelArticle extends JModelItem
 				$query = $db->getQuery(true);
 
 				$query->select($this->getState(
-					'item.select', 'a.id, a.asset_id, a.title, a.alias, a.title_alias, a.subtitle, a.copete, a.introtext, a.fulltext, ' .
+					'item.select', 'a.id, a.asset_id, a.title, a.subtitle, a.alias, a.title_alias, a.copete, a.introtext, a.fulltext, ' .
 					// If badcats is not null, this means that the article is inside an unpublished category
 					// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
 					'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
@@ -145,7 +145,7 @@ class ContentModelArticle extends JModelItem
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
-
+				
 				if (is_numeric($published)) {
 					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
 				}
