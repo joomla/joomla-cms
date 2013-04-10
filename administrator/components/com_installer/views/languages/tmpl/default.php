@@ -90,7 +90,6 @@ $ver_param 	= $this->thisversion;
 								<?php echo $language->update_id; ?>
 							</td>
 						</tr>
-					
 					<?php endif; ?>
 					<?php endforeach; ?>
 				</tbody>
