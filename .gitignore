@@ -16,3 +16,4 @@
 
 # Test Related Files #
 /phpunit.xml
+/tests/system/servers/configdef.php
