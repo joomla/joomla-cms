@@ -1,6 +1,10 @@
 /**
  * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ ***************************************************************************************
+ * Warning: Some modifications and improved were made by the Community Juuntos for
+ * the latinamerican Project Jokte! CMS
+ ***************************************************************************************
  */
 
 /**
@@ -122,7 +126,7 @@ var ImageManager = this.ImageManager = {
 		return false;
 	},
 
-	setFolder: function(folder, fileType, asset, author)
+	setFolder: function(folder, fileType, asset, author) 
 	{
 		//this.showMessage('Loading');
 
@@ -133,9 +137,8 @@ var ImageManager = this.ImageManager = {
 				break;
 			}
 		}
-
-        // agrego el parametro tipo de archivo a la url usada por el iframe
-		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder + '&fileType=' + fileType +  '&asset=' + asset + '&author=' + author;
+		// agrego el parametro tipo de archivo a la url usada por el iframe
+		this.frame.location.href='index.php?option=com_media&view=imagesList&tmpl=component&folder=' + folder + '&fileType=' + fileType +  '&asset=' + asset + '&author=' + author; 
 	},
 
 	getFolder: function() {
@@ -167,15 +170,14 @@ var ImageManager = this.ImageManager = {
 
 			if(thisFolder == search)
 			{
-                // obtengo los parámetros del query para ser usados
-                // al instanciar el nuevo folder evitando retornar
-                // undefined en la función setFolder()
-
-                query = this.parseQuery(this.frameurl);
-                console.log('QUERY', query);
-                fileType = query.fileType;
-                asset = query.asset;
-                author = query.author;
+				// obtengo los parámetros del query para ser usados
+				// al instanciar el nuevo folder evitando retornar
+				// undefined en la función setFolder()
+				query = this.parseQuery(this.frameurl);
+				console.log('QUERY', query);
+				fileType = query.fileType;
+				asset = query.asset;
+				author = query.author;
 
 				this.folderlist.selectedIndex = i;
 				var newFolder = this.folderlist.options[i].value;
