@@ -160,7 +160,26 @@ class JokteupdateModelDefault extends JModelLegacy
 		}		
 		return $ret;
 	}
-
+	
+	/**
+	 * Regreso un array con la información de la actualización de Jokte!
+	 *
+	 * @return array
+	 * @since 1.2.2
+	 */
+	public function getUpdateInfoMisc()
+	{
+		// Busco la información en la BD
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->nq('#__updates'))
+			->where($db->nq('extension_id') . ' = ' . $db->q(700));
+		$db->setQuery($query);
+		$updateMisc = $db->loadObject();
+		return $updateMisc;
+	}
+	
 	/**
 	 * Regreso un array con los opciones configuradas del FTP
 	 *
