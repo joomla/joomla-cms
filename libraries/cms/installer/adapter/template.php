@@ -577,6 +577,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		if ($this->parent->extension->store())
 		{
 			$db = $this->parent->getDbo();
+
 			// Insert record in #__template_styles
 			$lang = JFactory::getLanguage();
 			$debug = $lang->setDebug(false);

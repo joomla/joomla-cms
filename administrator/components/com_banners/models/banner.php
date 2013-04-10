@@ -515,4 +515,35 @@ class BannersModelBanner extends JModelAdmin
 		// Increment the content version number.
 		$table->version++;
 	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  The form data.
+	 *
+	 * @return  boolean  True on success.
+	 * @since   1.6
+	 */
+
+	public function save($data)
+	{
+		$app = JFactory::getApplication();
+
+		// Alter the name for save as copy
+		if ($app->input->get('task') == 'save2copy')
+		{
+			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+			$data['name']	= $name;
+			$data['alias']	= $alias;
+			$data['state']	= 0;
+		}
+
+		if (parent::save($data))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 }

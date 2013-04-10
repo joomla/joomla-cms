@@ -241,7 +241,6 @@ class JRouterSite extends JRouter
 				// Set the active menu item
 				$menu->setActive($vars['Itemid']);
 			}
-
 			return $vars;
 		}
 
@@ -249,7 +248,6 @@ class JRouterSite extends JRouter
 		 * Parse the application route
 		 */
 		$segments	= explode('/', $route);
-
 		if (count($segments) > 1 && $segments[0] == 'component')
 		{
 			$vars['option'] = 'com_' . $segments[1];
@@ -276,7 +274,7 @@ class JRouterSite extends JRouter
 				// Get the length of the route
 				$length = strlen($item->route);
 				if ($length > 0 && JString::strpos($route_lowercase . '/', $item->route . '/') === 0
-					&& $item->type != 'menulink' && (!JLanguageMultilang::isEnabled() || $item->language == '*'
+					&& $item->type != 'menulink' && (!$app->getLanguageFilter() || $item->language == '*'
 					|| $item->language == $lang_tag))
 				{
 					// We have exact item for this language
@@ -295,7 +293,7 @@ class JRouterSite extends JRouter
 
 			if (!$found)
 			{
-				return false;
+				$found = $menu->getDefault($lang_tag);
 			}
 			else
 			{
@@ -305,11 +303,9 @@ class JRouterSite extends JRouter
 					$route = substr($route, 1);
 				}
 			}
-			if (isset($found->id) && $found->id)
-			{
-				$vars['Itemid'] = $found->id;
-				$vars['option'] = $found->component;
-			}
+
+			$vars['Itemid'] = $found->id;
+			$vars['option'] = $found->component;
 		}
 
 		// Set the active menu item

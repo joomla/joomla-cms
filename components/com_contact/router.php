@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Build the route for the com_contact component
  *
- * @return  array  An array of URL arguments
+ * @param   array  &$query  An array of URL arguments
  *
  * @return  array  The URL arguments to use to assemble the subsequent URL.
  */
@@ -133,7 +133,7 @@ function ContactBuildRoute(&$query)
 /**
  * Parse the segments of a URL.
  *
- * @return  array  The segments of the URL to parse.
+ * @param   array  $segments  The segments of the URL to parse.
  *
  * @return  array  The URL attributes to be used by the application.
  */

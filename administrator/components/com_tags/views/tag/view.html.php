@@ -24,8 +24,6 @@ class TagsViewTag extends JViewLegacy
 
 	protected $state;
 
-	protected $assoc;
-
 	/**
 	 * Display the view
 	 */
@@ -35,8 +33,6 @@ class TagsViewTag extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->canDo = TagsHelper::getActions($this->state->get('tags.component'));
-		$this->assoc = $this->get('Assoc');
-
 		$input = JFactory::getApplication()->input;
 
 		// Check for errors.

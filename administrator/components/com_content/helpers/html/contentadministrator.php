@@ -108,7 +108,7 @@ abstract class JHtmlContentAdministrator
 			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" class="btn btn-micro hasTooltip' . ($value == 1 ? ' active' : '') . '" title="'.JText::_($state[3]).'"><i class="icon-'
 					. $icon.'"></i></a>';
 		}
-		else 
+		else
 		{
 			$html	= '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'.JText::_($state[2]).'"><i class="icon-'
 					. $icon.'"></i></a>';
