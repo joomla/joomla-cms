@@ -48,13 +48,15 @@ class ContentViewForm extends JViewLegacy
 			return false;
 		}
 
-		if (!empty($this->item) && isset($this->item->id)) {
+		if (!empty($this->item) && isset($this->item->id)) {			
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
+			$this->item->attachments = json_decode($this->item->attachments);
 
 			$tmp = new stdClass;
 			$tmp->images = $this->item->images;
-			$tmp->urls = $this->item->urls;
+			$tmp->urls = $this->item->urls;			
+			$tmp->attachments = $this->item->attachments;
 			$this->form->bind($tmp);
 
 		}
@@ -74,8 +76,9 @@ class ContentViewForm extends JViewLegacy
 		$this->params	= $params;
 		$this->user		= $user;
 
-		if ($this->params->get('enable_category') == 1) {
+		if ($params->get('enable_category') == 1) {
 			$this->form->setFieldAttribute('catid', 'default',  $params->get('catid', 1));
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 		$this->_prepareDocument();
 		parent::display($tpl);
