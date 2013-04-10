@@ -17,14 +17,9 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
 $params		= $this->item->params;
-$images 	= json_decode($this->item->images);
-$urls 		= json_decode($this->item->urls);
+$urls = json_decode($this->item->urls);
 $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
-// 
-$avatar		= JHtml::_('utiles.avatar',$this->item, $params); 
-$tags		= JHtml::_('utiles.simpletags', $this->item->metakey); 
-$disqus		= JHtml::_('utiles.disqus', $this->item,$params);
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
 <?php if ($this->params->get('show_page_heading')) : ?>
@@ -37,18 +32,21 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 {
  echo $this->item->pagination;
 }
-?>
+ ?>
+
 <?php 
-// Nuevo Jokte v1.2.1 
+// Nuevo Jokte v1.2.2 
 if ($params->get('show_copete')) :
-	if ($this->item->copete != Null): ?>
-	<h4><?php echo $this->item->copete; ?></h4>
-<?php 
+	if (in_array('article', $params->get('show_copete_view'))) :
+		if ($this->item->copete != Null): ?>
+		<h4><?php echo $this->item->copete; ?></h4>
+	<?php 
+		endif; 
 	endif; 
-endif; 
+endif;
 ?>
 
-<?php if ($params->get('show_title')) : ?>	
+<?php if ($params->get('show_title')) : ?>
 	<h2>
 	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 		<a href="<?php echo $this->item->readmore_link; ?>">
@@ -58,13 +56,19 @@ endif;
 	<?php endif; ?>
 	</h2>
 <?php endif; ?>
-<?php
-	// Nuevo Jokte v1.2.2 
-	if ($params->get('show_subtitle')) : ?>
-	<div class="subtitle">
-		<h3><?php echo $this->escape($this->item->subtitle); ?></h3>	
-	</div>
-<?php endif; ?>
+
+<?php 
+	// Nuevo Jokte v1.2.2
+	if ($params->get('show_subtitle')) : 
+		if (in_array('article', $params->get('show_subtitle_view'))) :
+		?>
+		<div class="subtitulos">
+			<h3><?php echo $this->escape($this->item->subtitle); ?></h3>
+		</div>	
+<?php 	endif; 
+	endif;
+?>
+
 <?php if ($canEdit ||  $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
 	<ul class="actions">
 	<?php if (!$this->print) : ?>
@@ -94,6 +98,15 @@ endif;
 
 	</ul>
 <?php endif; ?>
+
+<?php 
+	// Nuevo en Jokte v1.2.2
+	if (in_array('article', $params->get('show_socialbuttons'))) :
+		if ($params->get('position_socialbuttons') == 'top') : ?>
+		<?php echo $this->loadTemplate('social'); ?>
+<?php endif; 
+	endif;
+?>
 
 <?php  if (!$params->get('show_intro')) :
 	echo $this->item->event->afterDisplayTitle;
@@ -157,8 +170,8 @@ endif; ?>
 		$cntlink = !empty($item) ? $needle . '&Itemid=' . $item->id : $needle;
 	?>
 		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $author)); ?>
-	<?php else: ?>		
-		<?php echo JText::sprintf('TPL_JOKTEANTU_ESCRITO_POR', $author); ?>
+	<?php else: ?>
+		<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 	<?php endif; ?>
 	</dd>
 <?php endif; ?>
@@ -181,29 +194,95 @@ endif; ?>
 <?php endif; ?>
 
 <?php if ($params->get('access-view')):?>
-	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
-	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
-	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
-	<img
-		<?php if ($images->image_fulltext_caption):
-			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
-		endif; ?>
-		src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
-	</div>
+<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
+<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
+<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
+<img
+	<?php if ($images->image_fulltext_caption):
+		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';
+	endif; ?>
+	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
+</div>
 <?php endif; ?>
-
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND !$this->item->paginationposition AND !$this->item->paginationrelative):
 	echo $this->item->pagination;
  endif;
 ?>
-<?php 
+<?php
 // Nuevo Jokte v1.2.2 
 if ($params->get('show_avatar')) :
-	echo $avatar;
-endif; 
+	if (in_array('article', $params->get('show_avatar_view'))) :
+		echo JHtml::_('utiles.avatar',$this->item, $params); 
+	endif; 
+endif;
 ?>
 <?php echo $this->item->text; ?>
+
+<?php 
+// Nuevo Jokte v1.2.2
+if (in_array('article', $params->get('show_socialbuttons'))) :
+	if ($params->get('position_socialbuttons') == 'bottom') : 
+		echo $this->loadTemplate('social');
+	endif; 
+endif;
+?>
+
+<?php // Nuevo Jokte v1.2.2 ?>
+<?php if ($this->item->params->get('show_attachments') == '1') : ?>
+	<?php if(isset($this->item->attachments) AND (!empty($this->item->attachments))) : ?>
+		<?php  
+			// Cargo los archivos
+			$files = json_decode($this->item->attachments);				
+		?>
+		<div id="attachments">
+			<table class="table">
+				<thead>
+					<tr class="attach-header">
+						<th>Nombre de Archivo</th>
+						<th>Descarga</th>
+						<th>Tamaño</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$xf = 0;
+					foreach ($files as $file) : 
+						if (!empty($file) || $file != "") :
+							// Extraigo el el nombre de archivo
+							$fileName = JFile::getName($file);
+							//Extraigo la extensión
+							$fileExtension = JFile::getExt($file);
+							$size = round(@filesize($file) / 1024, 2);
+							($xf == 2) ? $xf = 0 : $xf = $xf;
+					?>
+					<tr class="attach-files<?php echo '-'.$xf ?>">
+						<td><?php echo $fileName ?></td>
+						<td style="text-align:center">
+							<?php if ($this->item->params->get('attachments_antileech') == '1') : ?>
+								<a href="<?php echo JRoute::_('index.php?task=download&filename='. $fileName) ?>" 
+									title="<?php echo JText::_('CLICK HERE TO DOWNLOADS');?>">
+									<?php echo JHtml::_('image', 'media/mime-icon-16/'.$fileExtension.'.png', JText::sprintf('COM_MEDIA_IMAGE_TITLE', $fileName), array('height' => 16, 'width' => 16), true); ?>
+							<?php else: ?>
+								<a class="btn btn-small" href="<?php echo $file ?>">
+									<?php echo JHtml::_('image', 'media/mime-icon-16/'.$fileExtension.'.png', JText::sprintf('COM_MEDIA_IMAGE_TITLE', $fileName), array('height' => 16, 'width' => 16), true); ?>
+								</a>
+							<?php endif; ?>
+						</td>
+						<td>
+							<?php echo $size.' Kb'; ?></a>
+						</td>
+					</tr> 
+					<?php 
+						endif;
+						$xf = 1;
+					endforeach; ?> 
+				</tbody>
+			</table>
+		</div>
+	<?php endif; ?> 
+<?php endif; ?>  
+<br />
 <?php
 if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item->paginationposition AND!$this->item->paginationrelative):
 	 echo $this->item->pagination;?>
@@ -246,19 +325,22 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 
 <?php echo $this->item->event->afterDisplayContent; ?>
 </div>
+<?php // Nuevo Jokte v1.2.2 ?>
 <?php 
-	// Nuevo Jokte v1.2.2
-	if ($params->get('show_simpletags')) : ?>
-	<div class="etiquetas">
-		<span class="tagslabel"><?php echo JText::_('COM_CONTENT_LABEL_TAGS').': '; ?></span> 
-		<?php foreach ($tags as $etiqueta): ?>
-			<span class="tag"><?php echo $etiqueta; ?></span>
-		<?php endforeach; ?>	
-	</div>
-<?php endif; ?>
-<?php
-	// Nuevo Jokte v1.2.2 
-	if ($params->get('show_disqus')) :
-		echo $disqus;
+	if ($params->get('show_simpletags')) : 
+		if (in_array('article', $params->get('show_simpletags_view'))) :		
+		$tags = JHtml::_('utiles.simpletags', $this->item->metakey);
+		?>
+		<div class="etiquetas">
+			<span class="tagslabel"><?php echo JText::_('COM_CONTENT_LABEL_TAGS').': '; ?></span> 
+			<?php foreach ($tags as $etiqueta): ?>
+				<span class="tag"><?php echo $etiqueta; ?></span>
+			<?php endforeach; ?>	
+		</div>
+		<br />
+<?php endif;
 	endif; 
+if ($params->get('show_disqus')) : 
+	echo JHtml::_('utiles.disqus', $this->item,$params);
+endif;
 ?>
