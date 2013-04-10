@@ -157,7 +157,6 @@ class NewsfeedsTableNewsfeed extends JTable
 			return false;
 		}
 
-
 		$tagsHelper = new JHelperTags;
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
 		$tagsHelper->getMetaTagNames($this->metadata);
@@ -182,7 +181,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
 
 			$isNew = $data['id'] ? 0 : 1;
-
+			
 			$tagsHelper = new JHelperTags;
 			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
 		}

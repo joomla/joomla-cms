@@ -1150,9 +1150,10 @@ abstract class JModelAdmin extends JModelForm
 			$itemArray = JArrayHelper::fromObject($item);
 
 			$ucm->save($itemArray);
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $item->id);
 
 			// In batch we will default to not replacing old tags
-			$tagsHelper->tagItem($pk, $typeAlias, false, $item->id, array($value), null, false);
+			$tagsHelper->tagItem($pk, $typeAlias, false, $ucmId, array($value), null, false);
 		}
 		return true;
 	}
