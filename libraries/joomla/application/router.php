@@ -180,19 +180,10 @@ class JRouter
 		// Parse SEF URL
 		if ($this->_mode == JROUTER_MODE_SEF)
 		{
-			$routevars = $this->_parseSefRoute($uri);
-
-			if (($routevars === false))
-			{
-				return array();
-			}
-			else
-			{
-				$vars += $routevars;
-
-				return array_merge($this->getVars(), $vars);
-			}
+			$vars += $this->_parseSefRoute($uri);
 		}
+
+		return array_merge($this->getVars(), $vars);
 	}
 
 	/**

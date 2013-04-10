@@ -42,9 +42,6 @@ JHtml::_('formbehavior.chosen', 'select');
 				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_TAGS_FIELDSET_PUBLISHING');?></a></li>
 				<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_TAGS_FIELDSET_OPTIONS');?></a></li>
 				<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
-				<?php if ($this->assoc) : ?>
-					<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
-				<?php endif; ?>
 			</ul>
 
 			<div class="tab-content">
@@ -156,13 +153,6 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->loadTemplate('metadata'); ?>
 					</fieldset>
 				</div>
-				<?php if ($this->assoc) : ?>
-					<div class="tab-pane" id="associations">
-						<fieldset>
-							<?php echo $this->loadTemplate('associations'); ?>
-						</fieldset>
-					</div>
-				<?php endif; ?>
 				<?php if ($this->canDo->get('core.admin')): ?>
 					<div class="tab-pane" id="permissions">
 						<fieldset>

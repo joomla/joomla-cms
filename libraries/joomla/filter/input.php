@@ -227,7 +227,7 @@ class JFilterInput
 			case 'USERNAME':
 				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
 				break;
-				
+
 			case 'RAW':
 				$result = $source;
 				break;
