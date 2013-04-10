@@ -25,6 +25,58 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+10-Apr-2013 Mark Dexter
+ # [#30466] Tags: Not shown in contacts. Thanks Peter Bui.
+
+08-Apr-2013 Michael Babker
+ # [#29916] MySQL connections are not closed.  Thanks Ian Goldstein
+ # [#30508] Fixed typo $text = $text = '..';.  Thanks Piotr Konieczny
+ # [#30504] List All Tags doesn't have pagination.  Thanks Mark Dexter
+ # [#30505] Weblink module ignores end publishing date.  Thanks Thomas Hunziker
+ # [#30507] *Edit contact display issue with editor.  Thanks Jean-Marie Simonet
+
+08-Apr-2013 Jean-Marie Simonet
+ $ Adding installation language pt-PT
+ # [#30503] *Tags :can't save Compact Layout in Tags Component Options
+
+07-Apr-2013 Michael Babker
+ ^ [#30502] Replace use of JRequest in com_media
+ # [#30489] *Regression: Menu Type UTF8 Alias prevents display in Menu Items Manager in J3
+ ^ [#30499] Duplicate "btn" class in login module button.  Thanks Thomas Hunziker
+ # [#30041] Use of '/' not being handled well on Windows Servers.  Thanks Parth Lawate
+ # [#30054] Catchable fatal error: Object of class stdClass could not be converted to string in /plugins/system/debug/debug.php on line 303.  Thanks Ryan K.
+
+07-Apr-2013 Jean-Marie Simonet
+ # [#30226] *TAGS: Getting rid of all aspects concerning lang associations
+
+06-Apr-2013 Mark Dexter
+ # [#30453] Tags: Pagination not working when linking to a tag.
+ # [#30486] *Banners Manager:Banners and Banners Manager:Clients Status filter issue. Thanks Jean-Marie Simonet.
+ # [#30480] com_contact error in admin->view->contacts search "author:xxxx". Thanks Brent Cordis.
+ # [#30481] Missing space between icon-cog and caret in featured view. Thanks Thomas Hunziker.
+ # [#30250] Upgrade jQuery from 1.8.1 to 1.8.3. Thanks George Wilson.
+ # [#30046] Update SQLSRV with platform fixes. Thanks David Hurley.
+
+05-Apr-2013 Jean-Marie Simonet
+ # [#30416] duplicate alias in banner manager on pressing save as copy
+
+04-Apr-2013 Mark Dexter
+ # Reverting [#30430] Severe bug with "com_content" component routing.
+
+04-Apr-2013 Jean-Marie Simonet
+ # [#30454] Tags: Adding Tags via Batch function replaces all previous tags. Thanks David and Elin.
+ # [#30463] Missing closing div in compact tag layout. Thanks Thomas Hunziker and Constantin Romankiewicz
+ # [#30464] ACL Undefined variable error in contentadministrator.php on line 112. Thanks Constantin Romankiewicz
+ # [#30062] Base Item option in mod_menu has no effect [regression]. Thanks René Alain Erichsen
+ # [#30422] Tags drill down incorrectly finds match to multi-tag tagged items menu item. Thanks Mark
+ # [#30210] Undefined index errors by using the style 'beezTabs' at an beez template. Thanks Constantin Romankiewicz
+ # [#30444] Newfeeds Hide icon wrong colour
+ # [#30450] Remove moduleclass suffix from <input> and <button> elements in mod_search. Thanks Thomas Hunziker
+ # [#29377] Image select. Thanks Constantin Romankiewicz
+ # [#29961] RAW filter is missing for JInput. Thanks Cedric Keiflin
+ # [#30427] Remove 1.5 html methods from com_newsfeeds. Thanks Elin
+ # [#30430] Severe bug with "com_content" component routing. Thanks sajal soni and Elin.
+
 03-Apr-2013 Jean-Marie Simonet
  # [#30349] Cleaned up use of database & query objects. Thanks Peter van Westen and Michael Babker
 
