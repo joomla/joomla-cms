@@ -39,7 +39,7 @@ class ContentModelForm extends ContentModelArticle
 		$this->setState('article.catid', JRequest::getInt('catid'));
 
 		$return = JRequest::getVar('return', null, 'default', 'base64');
-		$this->setState('return_page', base64_decode($return));
+		$this->setState('return_page', urldecode(base64_decode($return)));
 
 		// Load the parameters.
 		$params	= $app->getParams();
@@ -62,7 +62,7 @@ class ContentModelForm extends ContentModelArticle
 
 		// Get a row instance.
 		$table = $this->getTable();
-
+		
 		// Attempt to load the row.
 		$return = $table->load($itemId);
 
@@ -74,7 +74,7 @@ class ContentModelForm extends ContentModelArticle
 
 		$properties = $table->getProperties(1);
 		$value = JArrayHelper::toObject($properties, 'JObject');
-
+		
 		// Convert attrib field to Registry.
 		$value->params = new JRegistry;
 		$value->params->loadString($value->attribs);
@@ -118,7 +118,7 @@ class ContentModelForm extends ContentModelArticle
 		if (!empty($value->fulltext)) {
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
-
+		
 		return $value;
 	}
 
@@ -130,6 +130,6 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function getReturnPage()
 	{
-		return base64_encode($this->getState('return_page'));
+		return base64_encode(urlencode($this->getState('return_page')));
 	}
 }
