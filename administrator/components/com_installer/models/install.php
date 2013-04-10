@@ -84,11 +84,11 @@ class InstallerModelInstall extends JModelLegacy
 		$app = JFactory::getApplication();
 		$filters = JRequest::getVar('filters');
 		if (empty($filters)) {
-			$data = $app->getUserState($this->context.'.data');
+			$data = $app->getUserState($this->_context.'.data');
 			$filters = $data['filters'];
 		}
 		else {
-			$app->setUserState($this->context.'.data', array('filters'=>$filters));
+			$app->setUserState($this->_context.'.data', array('filters'=>$filters));
 		}
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
