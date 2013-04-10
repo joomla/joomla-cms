@@ -15,15 +15,28 @@ defined('_JEXEC') or die;
 $params = &$this->item->params;
 $images = json_decode($this->item->images);
 $canEdit	= $this->item->params->get('access-edit');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::core();
-
 ?>
 
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
+
+<?php 
+// Nuevo Jokte v1.2.2 
+if ($params->get('show_copete')) :
+	if (in_array('category', $params->get('show_copete_view'))) :
+		if ($this->item->copete != Null): ?>
+		<h4><?php echo $this->item->copete; ?></h4>
+	<?php 
+		endif; 
+	endif; 
+endif;
+?>
+
 <div id="cabecera-articulo">
 <?php if ($params->get('show_publish_date')) : ?>
 
@@ -39,12 +52,6 @@ JHtml::core();
 	
 <?php endif; ?>
 
-<?php if ($params->get('show_copete')) : ?>	
-	<h4>
-	<?php echo $this->item->copete; ?>	
-	</h4>
-<?php endif; ?>
-
 <?php if ($params->get('show_title')) : ?>
 	<h2>
 		<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
@@ -55,6 +62,18 @@ JHtml::core();
 		<?php endif; ?>
 	</h2>
 <?php endif; ?>
+
+<?php 
+	// Nuevo Jokte v1.2.2
+	if ($params->get('show_subtitle')) : 
+		if (in_array('category', $params->get('show_subtitle_view'))) :
+		?>
+		<div class="subtitulos">
+			<h3><?php echo $this->escape($this->item->subtitle); ?></h3>
+		</div>	
+<?php 	endif; 
+	endif;
+?>
 
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
 	<ul class="actions">
@@ -76,6 +95,15 @@ JHtml::core();
 	</ul>
 <?php endif; ?>
 </div>
+
+<?php 
+	// Nuevo en Jokte v1.2.2
+	if (in_array('category', $params->get('show_socialbuttons'))) :
+		if ($params->get('position_socialbuttons') == 'top') : ?>
+		<?php echo $this->loadTemplate('social'); ?>
+<?php endif; 
+	endif;
+?>
 
 <div id="cls"></div>
 <?php if (!$params->get('show_intro')) : ?>
@@ -158,7 +186,25 @@ JHtml::core();
 		src="<?php echo htmlspecialchars($images->image_intro); ?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>"/>
 	</div>
 <?php endif; ?>
+
+<?php
+// Nuevo Jokte v1.2.2 
+if ($params->get('show_avatar')) :
+	if (in_array('category', $params->get('show_avatar_view'))) :
+		echo JHtml::_('utiles.avatar',$this->item, $params); 
+	endif; 
+endif;
+?>
 <?php echo $this->item->introtext; ?>
+
+<?php 
+// Nuevo Jokte v1.2.2
+if (in_array('category', $params->get('show_socialbuttons'))) :
+	if ($params->get('position_socialbuttons') == 'bottom') : 
+		echo $this->loadTemplate('social');
+	endif; 
+endif;
+?>
 
 <?php if ($params->get('show_readmore') && $this->item->readmore) :
 	if ($params->get('access-view')) :
@@ -195,5 +241,20 @@ JHtml::core();
 </div>
 <?php endif; ?>
 
+<?php // Nuevo Jokte v1.2.2 ?>
+<?php 
+	if ($params->get('show_simpletags')) : 
+		if (in_array('category', $params->get('show_simpletags_view'))) :		
+		$tags = JHtml::_('utiles.simpletags', $this->item->metakey);
+		?>
+		<div class="etiquetas">
+			<span class="tagslabel"><?php echo JText::_('COM_CONTENT_LABEL_TAGS').': '; ?></span> 
+			<?php foreach ($tags as $etiqueta): ?>
+				<span class="tag"><?php echo $etiqueta; ?></span>
+			<?php endforeach; ?>	
+		</div>
+<?php 	endif;
+	endif; 
+?>
 <div class="item-separator"></div>
 <?php echo $this->item->event->afterDisplayContent; ?>
