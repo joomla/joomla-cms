@@ -1145,8 +1145,14 @@ abstract class JModelAdmin extends JModelForm
 			$item->params = new JRegistry($item->params);
 			$context = explode('.', $contexts[$pk]);
 
+			$typeAlias = $context[0] . '.' . $context[1];
+			$ucm = new JUcmContent($this->getTable(), $typeAlias);
+			$itemArray = JArrayHelper::fromObject($item);
+
+			$ucm->save($itemArray);
+
 			// In batch we will default to not replacing old tags
-			$tagsHelper->tagItem($pk, $context[0] . '.' . $context[1], false, $item->id, array($value), null, false);
+			$tagsHelper->tagItem($pk, $typeAlias, false, $item->id, array($value), null, false);
 		}
 		return true;
 	}
