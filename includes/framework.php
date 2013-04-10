@@ -42,7 +42,7 @@ require_once JPATH_LIBRARIES.'/import.php';
 JError::$legacy = true;
 JError::setErrorHandling(E_NOTICE, 'message');
 JError::setErrorHandling(E_WARNING, 'message');
-JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
+JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
 
 // Botstrap the CMS libraries.
 require_once JPATH_LIBRARIES.'/cms.php';
