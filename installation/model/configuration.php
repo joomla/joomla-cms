@@ -143,6 +143,9 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
 
+        // Set 'pwsecret' in the installation configuration.
+        JFactory::getConfig()->set('pwsecret', $registry->get('pwsecret'));
+
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
