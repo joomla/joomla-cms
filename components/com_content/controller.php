@@ -79,4 +79,91 @@ class ContentController extends JControllerLegacy
 
 		return $this;
 	}
+	
+	/*
+	 * Nuevo Jokte v1.2.2
+	 * Función para bloquear el robo de descargas (Anti Leech)
+	 */
+	public function download() 
+	{
+		$app = JFactory::getApplication();
+		jimport('joomla.filesystem.file');
+		$file = JRequest::getVar('filename');
+		
+		// Anti leech sanitize URL
+		$url = JURI::base( false );
+		list($domain,$stuff2) = preg_split('//',$url,2);
+		
+		// Referente
+		$refr = getenv("HTTP_REFERER");
+		// Sanitize
+		list($home,$stuff) = preg_split('//',$refr,2);
+		$home = str_replace('www.', '', $home); 
+		
+		// Revisar leeching
+		$blocking = false; 
+		if ($home != $domain) {
+			return JError::raiseWarning( 100, JText::_( 'COM_CONTENT_ANTELEECH MESSAGE' ));
+		}
+		
+		$basePath = JPATH_SITE.DS.'images';
+		$abspath = str_replace(DS, '/', JPath::clean($basePath.DS.$file));		
+		if (!JFile::exists($abspath)) {
+			return;
+		}
+		$size 	= filesize($abspath);
+		$ext 	= strtolower(JFile::getExt($file));
+		if(ini_get('zlib.output_compression')) {
+			ini_set('zlib.output_compression', 'Off');
+		}
+		switch( $ext ) {
+			case "pdf":	
+				$ctype = "application/pdf"; 
+				break;
+			case "exe":	
+				$ctype="application/octet-stream"; 
+				break;
+			case "rar":
+			case "zip": 
+				$ctype = "application/zip";	
+				break;
+			case "txt":	
+				$ctype = "text/plain"; 
+				break;
+			case "doc":	
+				$ctype = "application/msword"; 
+				break;
+			case "xls":	
+				$ctype = "application/vnd.ms-excel"; 
+				break;
+			case "ppt":	
+				$ctype = "application/vnd.ms-powerpoint"; 
+				break;
+			case "gif":	
+				$ctype = "image/gif"; 
+				break;
+			case "png":	
+				$ctype = "image/png"; 
+				break;
+			case "jpeg":
+			case "jpg":	
+				$ctype = "image/jpg"; 
+				break;
+			case "mp3":	
+				$ctype = "audio/mpeg"; 
+				break;
+			default: 
+				$ctype = "application/force-download";
+		}
+		header("Pragma: public");
+		header("Expires: 0");
+		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+		header("Cache-Control: private",false);
+		header("Content-Type: $ctype");		
+		header("Content-Disposition: attachment; filename=\"".$file."\";" );
+		header("Content-Transfer-Encoding: binary");
+		header("Content-Length: ".$size);
+		readfile($abspath);		
+		$app->close();
+	}
 }
