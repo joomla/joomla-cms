@@ -6,6 +6,8 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.application.component.modellist');
+
 /**
  * This models supports retrieving lists of article categories.
  *
@@ -13,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage	com_weblinks
  * @since		1.6
  */
-class WeblinksModelCategories extends JModelLegacy
+class WeblinksModelCategories extends JModelList
 {
 	/**
 	 * Model context string.
