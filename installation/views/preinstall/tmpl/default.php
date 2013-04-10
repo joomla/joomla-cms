@@ -4,6 +4,7 @@
  * @package		Jokte.Installation
  * @copyright	Copyleft 2012 - 2013  Comunidad Juunots y Jokte.org
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ 
  */
 
 defined('_JEXEC') or die;
