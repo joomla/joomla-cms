@@ -190,7 +190,9 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 			<?php echo $this->loadTemplate('params'); ?>
 
-			<?php echo $this->loadTemplate('metadata'); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+					<?php echo $this->loadTemplate('metadata'); ?>
+			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 			<?php if ($assoc) : ?>
 				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
