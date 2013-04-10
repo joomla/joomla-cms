@@ -10,9 +10,7 @@
 defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
-
 ?>
-
 <?php if (is_null($this->updateInfo['object'])): ?>
 
 <fieldset>
@@ -60,7 +58,71 @@ $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 				<td>
 					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data ?>">
 						<?php echo $this->updateInfo['object']->downloadurl->_data ?>
-					</a>
+					</a>					
+				</td>
+			</tr>
+			<tr class="row1">
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DESCRIPTION') ?>
+				</td>
+				<td>
+					<span style="font-variant: small-caps; font-weight:bold;font-size:120%">
+						<?php echo $this->updateMisc->description ?>
+					</span>
+				</td>
+			</tr>
+			<tr class="row0">
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_RANGETYPE') ?>
+				</td>
+				<?php 
+					switch ($this->updateMisc->rangetype)
+					{
+						case '1':
+							$desc = '<span style="color:green">'.JText::_('JOKTEUPDATE_NUEVA_VERSION').'</span>';
+							break;
+						case '2':
+							$desc = '<span style="color:organge">'.JText::_('JOKTEUPDATE_PATCH_MINOR_FAILS').'</span>';
+							break;
+						case '3':
+							$desc = '<span style="color:blue">'.JText::_('JOKTEUPDATE_PATCH_MAYOR_FAILS').'</span>';
+							break;
+						case '4':
+							$desc = '<span style="color:red">'.JText::_('JOKTEUPDATE_PATCH_SECURITY').'</span>';
+							break;
+						default:
+							$desc = '<span style="color:#808080">'.JText::_('JOKTEUPDATE_NO_APLICABLE').'</span>';
+					}
+				?>
+				<td>
+					<?php echo $desc ?>
+				</td>
+			</tr>
+			<tr class="row1">
+				<td>
+					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_RANGEURL') ?>
+				</td>
+				<td>
+					<?php						
+						$dom = new DOMDocument();
+						$dom->loadHTMLFile($this->updateMisc->rangeurl);
+						$title =  $dom->getElementsByTagName('h1'); 
+						$date = $dom->getElementsByTagName('h2'); 
+						$list = $dom->getElementsByTagName('li');
+						$nl = 1;
+					?>
+					<p>
+						<?php echo JText::_('UPDATE_INFORMATION_TITLE').': ' ?>
+						<b><?php echo $title->item(0)->nodeValue ?></b><br />
+						<?php echo JText::_('UPDATE_INFORMATION_DATE').': ' ?>
+						<b><?php echo $date->item(0)->nodeValue ?></b><br />
+						<?php
+							foreach ($list as $element):
+								echo '#'.$nl.'- <i>'.$element->nodeValue.'</i><br/>';
+								$nl++;
+							endforeach;
+						?>
+					</p>
 				</td>
 			</tr>
 			<tr class="row1">
