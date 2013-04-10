@@ -42,13 +42,12 @@ class ContentViewArticle extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseWarning(500, implode("\n", $errors));
-
 			return false;
 		}
 
 		// Create a shortcut for $item.
 		$item = &$this->item;
-		
+
 		// Add router helpers.
 		$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
 		$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
@@ -60,6 +59,7 @@ class ContentViewArticle extends JViewLegacy
 		// Merge article params. If this is single-article view, menu params override article params
 		// Otherwise, article params override menu item params
 		$this->params	= $this->state->get('params');
+		
 		$active	= $app->getMenu()->getActive();
 		$temp	= clone ($this->params);
 
@@ -104,11 +104,8 @@ class ContentViewArticle extends JViewLegacy
 
 		// Check the view access to the article (the model has already computed the values).
 		if ($item->params->get('access-view') != true && (($item->params->get('show_noauth') != true &&  $user->get('guest') ))) {
-
-						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-
-				return;
-
+			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			return;
 		}
 
 		if ($item->params->get('show_intro', '1')=='1') {
@@ -120,17 +117,7 @@ class ContentViewArticle extends JViewLegacy
 		else  {
 			$item->text = $item->introtext;
 		}
-		
-		/*
-		 * Nuevo en Jokte v1.2.1
-		 * Mostrar o no mostrar copete
-		 */
-		if ($item->params->get('show_copete')=='1') {
-			$item->copete = $item->copete;
-		} else {
-			$item->copete = Null;
-		}
-		
+
 		//
 		// Process the content plugins.
 		//
