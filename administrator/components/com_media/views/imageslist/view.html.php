@@ -68,13 +68,13 @@ class MediaViewImagesList extends JViewLegacy
 			$this->_tmp_img = new JObject;
 		}
 	}
-
-    function setDocument($index = 0) 
-    {
-        if (isset($this->documents[$index])) {
-            $this->_tmp_doc = &$this->documents[$index];
-        } else {
-            $this->_tmp_doc = new JObject;
-        }
-    }
+	
+	function setDocument($index = 0) 
+	{
+		if (isset($this->documents[$index])) {
+			$this->_tmp_doc = &$this->documents[$index];
+		} else {
+			$this->_tmp_doc = new JObject;
+		}
+	} 
 }
