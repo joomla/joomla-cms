@@ -141,14 +141,14 @@ class JInstallation extends JApplication
 			} else {
 				$options['language'] = JLanguageHelper::detectLanguage();
 				if (empty($options['language'])) {
-					$options['language'] = 'en-GB';
+					$options['language'] = 'es-LA';
 				}
 			}
 		}
 
 		// Give the user English
 		if (empty($options['language'])) {
-			$options['language'] = 'en-GB';
+			$options['language'] = 'es-LA';
 		}
 
 		// Set the language in the class
@@ -165,7 +165,7 @@ class JInstallation extends JApplication
 	{
 		ob_start();
 		$lang = JFactory::getLanguage();
-		echo '<h4>Parsing errors in language files</h4>';
+		echo '<h4>Error de análisis sintáctico en archivos de idioma</h4>';
 		$errorfiles = $lang->getErrorFiles();
 
 		if (count($errorfiles)) {
@@ -178,10 +178,10 @@ class JInstallation extends JApplication
 			echo '</ul>';
 		}
 		else {
-			echo '<pre>None</pre>';
+			echo '<pre>No</pre>';
 		}
 
-		echo '<h4>Untranslated Strings</h4>';
+		echo '<h4>Cadenas sin traducir</h4>';
 		echo '<pre>';
 		$orphans = $lang->getOrphans();
 
@@ -213,7 +213,7 @@ class JInstallation extends JApplication
 			echo implode("\n", $guesses);
 		}
 		else {
-			echo 'None';
+			echo 'No';
 		}
 		echo '</pre>';
 		$debug = ob_get_clean();
