@@ -25,6 +25,15 @@
 			class="inputbox"
 			size="30"
 			required="true" />
+		
+		<field 
+			id="subtitle"
+			name="subtitle" 
+			type="text"
+			label="JFIELD_SUBTITLE_LABEL" 
+			description="JFIELD_SUBTITLE_DESC"
+			class="inputbox" 
+			size="30" />
 
 		<field
 			id="alias"
@@ -181,8 +190,10 @@
 			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
 			size="1" />
+		
 	</fieldset>
-		<fields name="images">
+	
+	<fields name="images">		
 		<fieldset name="image-intro">
 			<field
 				name="image_intro"
@@ -210,9 +221,10 @@
 					<option value="right">COM_CONTENT_RIGHT</option>
 					<option value="left">COM_CONTENT_LEFT</option>	
 			</field>
-			</fieldset>
-			<fieldset name="image-full">
-			<field
+		</fieldset>
+		
+		<fieldset name="image-full">
+				<field
 				name="image_fulltext"
 				type="media"
 				label="COM_CONTENT_FIELD_FULL_LABEL"
@@ -238,59 +250,79 @@
 					<option value="right">COM_CONTENT_RIGHT</option>
 					<option value="left">COM_CONTENT_LEFT</option>
 			</field>
-			</fieldset>
-		</fields>
-		<fields name="urls">
-			<field
-				name="urla"
-				type="url"
-				validate="url"
-				label="COM_CONTENT_FIELD_URLA_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC" />
-			<field name="urlatext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox" 
-				size="20" />
-			<field
-				name="targeta"
-				type="hidden"
+		</fieldset>
+	</fields>
+	<fields name="urls">
+		<field
+			name="urla"
+			type="url"
+			validate="url"
+			label="COM_CONTENT_FIELD_URLA_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC" />
+		<field name="urlatext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			class="inputbox" 
+			size="20" />
+		<field
+			name="targeta"
+			type="hidden"
+		 />
+		<field
+			name="urlb"
+			type="url"
+			validate="url"
+			label="COM_CONTENT_FIELD_URLB_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC" />
+		<field name="urlbtext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			class="inputbox" 
+			size="20" />
+		<field
+			name="targetb"
+			type="hidden"
 			 />
-
-			<field
-				name="urlb"
-				type="url"
-				validate="url"
-				label="COM_CONTENT_FIELD_URLB_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC" />
-			<field name="urlbtext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox" 
-				size="20" />
-			<field
-				name="targetb"
-				type="hidden"
-				 />
-			<field
-				name="urlc"
-				type="url"
-				validate="url"
-				label="COM_CONTENT_FIELD_URLC_LABEL"
-				description="COM_CONTENT_FIELD_URL_DESC" />
-			<field 
-				name="urlctext"
-				type="text"
-				label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
-				description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
-				class="inputbox" 
-				size="20" />
-			<field
-				name="targetc"
-				type="hidden"
-				 />
-		</fields>	
-
+		<field
+			name="urlc"
+			type="url"
+			validate="url"
+			label="COM_CONTENT_FIELD_URLC_LABEL"
+			description="COM_CONTENT_FIELD_URL_DESC" />
+		<field 
+			name="urlctext"
+			type="text"
+			label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
+			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
+			class="inputbox" 
+			size="20" />
+		<field
+			name="targetc"
+			type="hidden"
+			 />
+	</fields>
+	<fields name="attachments">
+		<field
+			name="attacha"
+			type="media"
+			fileType="document"
+			label="COM_CONTENT_FIELD_ATTACHMENTA_LABEL"
+			description="COM_CONTENT_FIELD_ATTACHMENTA_DESC" />
+		
+		<field
+			name="attachb"
+			type="media"
+			fileType="document"
+			label="COM_CONTENT_FIELD_ATTACHMENTB_LABEL"
+			description="COM_CONTENT_FIELD_ATTACHMENTB_DESC" />
+		
+		<field
+			name="attachc"
+			type="media"
+			fileType="document"
+			label="COM_CONTENT_FIELD_ATTACHMENTC_LABEL"
+			description="COM_CONTENT_FIELD_ATTACHMENTC_DESC" />		
+	</fields>
 </form>
