@@ -1,8 +1,8 @@
 <?php
 /**
- * @package		Joomla.Administrator
+ * @package		Jokte.Administrator
  * @subpackage	com_media
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyleft	Copyleft 2012 - 2013 Comunidad Juuntos & Jokte!
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 

@@ -1,10 +1,10 @@
 <?php
 /**
- * @package		Jokte.Administrator
- * @subpackage	com_jokteupdate
- * @copyright	Copyleft (C) 2012 - 2013 Comunidad Juuntos. Ningún derecho reservado.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.2.0
+ * @package     Jokte.Administrator
+ * @subpackage  com_jokteupdate
+ * @copyright   Copyleft 2012-2013 Comunidad Juuntos & Jokte.org
+ * @license     GNU General Public License version 3 or later; see LICENSE.txt
+ * @since       1.1.9
  */
 
 defined('_JEXEC') or die;

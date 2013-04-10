@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="1.3"
+	client="installation">
+	<name>Español Latinoamperica (es-LA)</name>
+	<version>1.3.0</version>
+	<creationDate>31-03-2013</creationDate>
+	<author>Comunidad Juuntos</author>
+	<copyright>Copyleft 2012 - 2013 Comunidad Juuntos</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>es-LA.ini</filename>
+	</files>
+	<metadata>
+		<name>Español Latinoamericano</name>
+		<tag>es-LA</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
