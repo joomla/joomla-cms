@@ -27,32 +27,32 @@ class JHtmlUtiles
 	static function avatar($item, $params)
 	{
 		// Parámetros globales
-		$imgdefault_g 	= JURI::root().$params->get('avatar_default');
-		$imgsize_g		= $params->get('avatar_size');
+		$imgdefault_g = JURI::root().$params->get('avatar_default');
+		$imgsize_g = $params->get('avatar_size');
 		
 		// Correo del autor
-		$autor 			= JFactory::getUser($item->created_by);
-		$title_g 		= $item->created_by_alias ? $item->created_by_alias : $item->author;
+		$autor = JFactory::getUser($item->created_by);
+		$title_g = $item->created_by_alias ? $item->created_by_alias : $item->author;
 		
 		// Creo hash
-		$hash			= md5(strtolower(trim($autor->email)));
+		$hash = md5(strtolower(trim($autor->email)));
 		
 		// Position and style
-			$position = $params->get('avatar_position');
+		$position = $params->get('avatar_position');
 		$style =''; 
 		switch ($position) {			
 			case '2':
 				$style = 'float:right';
-				break;			
+				break;
 			default:
-				$style = 'float:left';				
+				$style = 'float:left';
 				break;
 		}
 		
 		// Cargo link a Gravatar
 		$str = @file_get_contents( 'http://www.gravatar.com/'.$hash.'.php' );
 		if($str) {
-			$profile 		= unserialize($str);				
+			$profile = unserialize($str);				
 			if (is_array($profile) && isset( $profile['entry'])) {
 				$link = $profile['entry'][0]['profileUrl'];
 			}
@@ -60,20 +60,19 @@ class JHtmlUtiles
 			$imgautor = "http://www.gravatar.com/avatar/avatar.php?gravatar_id=" . $hash."?d=".$imgdefault_g. "&s=" . $imgsize_g;		
 		} else {
 			$imgautor = $imgdefault_g;
-			$link	= "#";
+			$link = "#";
 		}
-		$gravatar		= '<div class="gravatar" style="'.$style.'">'.
-								'<div class="img_gravatar">'.
-									'<a href="'.$link.'" target="_blank"">'.JHtml::_('image', $imgautor, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')).'</a>'.
-								'</div>'.
-								'<div class="name_gravatar"><small>';
+		$gravatar = '<div class="gravatar" style="'.$style.'">'.
+						'<div class="img_gravatar">'.
+							'<a href="'.$link.'" target="_blank"">'.JHtml::_('image', $imgautor, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')).'</a>'.
+						'</div>'.
+						'<div class="name_gravatar"><small>';
 		
 		if ($params->get('avatar_link')) {
-			$gravatar	.='		<a href="'.$link.'" target="_blank"">'.$title_g.'</a></small></div></div>';
+			$gravatar .=' <a href="'.$link.'" target="_blank"">'.$title_g.'</a></small></div></div>';
 		} else {
-			$gravatar	.=		$title_g.'</small></div></div>';
-		}		
-
+			$gravatar .= $title_g.'</small></div></div>';
+		}
 		return $gravatar;
 	}
 
@@ -85,8 +84,8 @@ class JHtmlUtiles
 	{
 		$itemid = JRequest::getVar('Itemid');
 			
-		$keys 	= explode(',',$metakey);
-		$tags 	= array();				  
+		$keys = explode(',',$metakey);
+		$tags = array();				  
 		foreach ($keys as $tag){
 			$link = 'index.php?searchword='.$tag.'&searchphrase=all&Itemid='.$itemid.'&option=com_search';
 			$tags[] = '<a href="'.JRoute::_($link).'" title="'.Jtext::_('SEARCH_TAGS_TITLE').'">'.$tag.'</a>';
@@ -96,22 +95,43 @@ class JHtmlUtiles
 	
 	
 	/**
-	 * Función Social Buttons
+	 * Función Facebook
 	 * Nuevo en Jokte v1.2.2
 	 */
-	static function socialbuttons($item)
+	static function sbFacebook($title, $link, $params)
 	{
-		$itemid = JRequest::getVar('Itemid');
-			
-		$keys 	= explode(',',$metakey);
-		$tags 	= array();				  
-		foreach ($keys as $tag){
-			$link = 'index.php?searchword='.$tag.'&searchphrase=all&Itemid='.$itemid.'&option=com_search';
-			$tags[] = '<a href="'.JRoute::_($link).'" title="'.Jtext::_('SEARCH_TAGS_TITLE').'">'.$tag.'</a>';
-		}
-		return $buttons;
+		$wbutton = (int) $params->get('like_width') + (int) $params->get('count-width') + 110 + 90; 
+		$url2 = "http://".$_SERVER['HTTP_HOST'].$link;
+		$url2 = urlencode($url2);
+        $button = '<div class="faceandtweet_like" style="float:left;width:'.$params->get('like_width').'px; height:'.$params ->get('like_height').'px;"><iframe src="http://www.facebook.com/plugins/like.php?href='.$url2 .'&amp;layout='.$params->get('like_style').'&amp;width='.$params->get('like_width').'&amp;show_faces=false&amp;action='.$params->get('like_verb').'&amp;colorscheme='.$params->get('like_color_scheme').'&amp;height='.$params->get('like_height').'" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:'.$params->get('like_width').'px; height:'.$params->get('like_height').'px;"></iframe></div>';
+		return $button;
 	}
 	
+	/**
+	 * Función Twitter
+	 * Nuevo en Jokte v1.2.2
+	 */
+	static function sbTwitter($title, $link, $params)
+	{
+		$url2 = "http://".$_SERVER['HTTP_HOST'].$link;
+		$url2 = urlencode($url2);
+		$button = '<div class="faceandtweet_retweet" style="float:left;width:'.$params->get('count-width').'px;"><a href="http://twitter.com/share?url='.$url2.'&amp;text='.$title.'&amp;count='.$params->get('count').'&amp;via='.$params->get('twitter_account').'&amp;related='.$params->get('twitter_account2').'" class="twitter-share-button" >Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></div>';	
+		return $button;
+	}
+	
+	/**
+	 * Función Google Plus
+	 * Nuevo en Jokte v1.2.2
+	 */
+	static function sbGooglePlus($title, $link, $params)
+	{
+		$document = JFactory::getDocument();
+		$gone = "<script type=\"text/javascript\" src=\"http://apis.google.com/js/plusone.js\">{lang: es}</script>";
+		$document->addCustomTag($gone);
+		$url = "http://".$_SERVER['HTTP_HOST'].$link;
+		$button = '<div class="faceandtweet_retweet" style="float:left"><g:plusone size="medium" href="'.$url.'"></g:plusone></div>';
+		return $button;
+	}
 	
 	/**
 	 * Función Disqus
@@ -150,5 +170,6 @@ class JHtmlUtiles
 					<a href="http://disqus.com" class="dq-powered">Sistemas de Comentarios Potenciado por Disqus</a>';
 
 		return $html;
-	}	
+	}
+	
 } 
