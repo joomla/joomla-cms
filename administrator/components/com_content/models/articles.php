@@ -36,6 +36,8 @@ class ContentModelArticles extends JModelList
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
+				'subtitle', 'a.subtitle',
+				'copete', 'a.copete',
 				'alias', 'a.alias',
 				'introtext.','a.introtext',
 				'checked_out', 'a.checked_out',
@@ -45,6 +47,7 @@ class ContentModelArticles extends JModelList
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
+				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
 				'language', 'a.language',
@@ -144,8 +147,8 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.ordering, a.featured, a.language, a.hits' .
+				'a.id, a.title, a.subtitle, a.copete, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid' .
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits' .
 				', a.publish_up, a.publish_down'
 			)
 		);

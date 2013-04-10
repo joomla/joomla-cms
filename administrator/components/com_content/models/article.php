@@ -275,7 +275,7 @@ class ContentModelArticle extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
-
+			
 			// Convert the urls field to an array.
 			$registry = new JRegistry;
 			$registry->loadString($item->urls);
