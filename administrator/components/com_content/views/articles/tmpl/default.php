@@ -93,7 +93,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<th width="10%">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%">
+				<th>
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_CREATED_BY', 'a.created_by', $listDirn, $listOrder); ?>
 				</th>
 				<th width="5%">
@@ -118,7 +118,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) :			
+		<?php foreach ($this->items as $i => $item) :
 			$item->max_ordering = 0; //??
 			$ordering	= ($listOrder == 'a.ordering');
 			$canCreate	= $user->authorise('core.create',		'com_content.category.'.$item->catid);
@@ -137,7 +137,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php endif; ?>
 					<?php if ($canEdit || $canEditOwn) : ?>
 						<?php if ($this->showpreview) : 
-							(strlen($item->introtext) > 0) ? $textintro = htmlentities(utf8_decode($item->introtext)) : $textintro = JTEXT::_(JGLOBAL_NODESC); 
+							(strlen($item->introtext) > 0) ? $textintro = htmlentities(utf8_decode($item->introtext)) : $textintro = JTEXT::_('JGLOBAL_NODESC'); 
 							?>
 							<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_PREVIEW_DESCRIPTION');?>::<?php echo $textintro; ?>">
 							<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
@@ -150,8 +150,20 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php else : ?>
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
+					<?php if (strlen($item->subtitle)>0): ?>
+						<p class="smallsub"><b>
+							<?php echo JTEXT::_('JGLOBAL_SUBTITLE').': '.$this->escape($item->subtitle) ?></b></p>
+					<?php endif; ?>
 					<p class="smallsub">
 						<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?></p>
+					<?php if (strlen($item->copete)>0): ?>
+						<p class="smallsub">
+							<span class="editlinktip hasTip" title="<?php echo JText::_('COM_COPETE_DETAILS');?>::<?php echo htmlentities(utf8_decode($item->copete)); ?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);?>">
+									<?php echo JTEXT::_('JGLOBAL_PREVIEW_COPETE_LINK') ?></a>
+							</span>
+						</p>
+					<?php endif; ?>	
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
@@ -183,7 +195,12 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->author_name); ?>
+					<?php if ($item->created_by_alias) : ?>
+						<?php echo $this->escape($item->author_name); ?>
+						<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+					<?php else : ?>
+						<?php echo $this->escape($item->author_name); ?>
+					<?php endif; ?>
 				</td>
 				<td class="center nowrap">
 					<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
