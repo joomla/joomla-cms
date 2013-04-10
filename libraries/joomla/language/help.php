@@ -138,9 +138,9 @@ class JHelp
 
 			if (!JFile::exists(JPATH_BASE . '/' . $try))
 			{
-				$replace[3] = 'en-GB';
-				$replace[4] = 'en';
-				$replace[5] = 'GB';
+				$replace[3] = 'es-LA';
+				$replace[4] = 'es';
+				$replace[5] = 'LA';
 			}
 		}
 
@@ -171,8 +171,8 @@ class JHelp
 
 		if (!$xml)
 		{
-			$option['text'] = 'English (GB) help.joomla.org';
-			$option['value'] = 'http://help.joomla.org';
+			$option['text'] = 'Ayuda Jokte en Español';
+			$option['value'] = 'http://ayuda.jokte.org';
 			$list[] = $option;
 		}
 		else
