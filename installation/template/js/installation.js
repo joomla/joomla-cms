@@ -13,7 +13,6 @@ function winclose () {
 
 function regInstallUser () {
             var jparams = 'name=' + document.getElementById('nameReg').value + '&email=' + document.getElementById('emailReg').value + '&site=' + document.getElementById('siteReg').value;
-            alert(jparams);
             wnd = window.open('http://www.jokte.org/administrator/components/com_regusjokte/views/reguser/tmpl/ajaxreg.php?' + jparams, 'Comments', 'width=490,height=350,location=no,toolbars=no,status=no,scrollbars=no,titlebar=no,menubar=no');
             setTimeout("winclose()",3000);
         };
