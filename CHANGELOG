@@ -28,7 +28,33 @@ $ -> Idioma corrección o cambio
 - -> Eliminado
 ! -> Nota
 
-
+31-mar-2013
+ + Soporte para subtiulos en los artículos
+ + Agregado soporte para el sistema de comentarios Disqus
+ + Agregado soporte para Gravatar en contenidos
+ + Agregado botones para compartir contenidos con redes sociales (Facebook, Twitter y Google+)
+ + Agregado minisistema para etiquetas metakey al pie de los artículos enlazando búsquedas
+ + Configuración y opciones nuevas para Gravatar, Disqus, Redes Sociales y etiquetas
+ # Se agregaron cabeceras de advertencias en todos los archivos adaptados/modificados para Jokte!
+ * Parcheado componente de contactos en el backend
+ # Actualización del año de copyright en todos los archivos
+ # Correcciones en plugin para ingreso con Gmail
+ # Correcciones en plugin pagebreak
+ # Modificaciones para soportar todo lo nuevo en la plantilla Jokte Antu
+ + Nuevo sistema de ayudas propio disponible también on line o desde el backend.
+ # Mejoras en el sistema de actualización de Jokte!
+ + Varios cambios en librerías Help de la Plataforma
+ + Actualización de Simplepie a la versión 1.3+
+ # Módulos Hilando Juuntos y Novedades de Jokte corregidos
+ # Registre su copia de Jokte! mejorado
+ # Correcciones varias de errores strict en el CMS y en Joomla Platform
+ $ Correcciones en archivos de idioma
+ # Mejora en la vista de listados de artículos (muestra subtítulos y epígrafe en ventana modal)
+ # Acceso al backend mejorado
+ # Instalación forzosa en es-LA
+ + Minisistema de descargas en los artículos (permite adjuntar hasta 3 archivos)
+ 
+ 
 03-Ene-2013
  ^ Nueva presentación de Epígrafe o Copete.Cambio en la salida HTML Jokte Antu
  - Borrado de archivos de idioma que no corresponden
