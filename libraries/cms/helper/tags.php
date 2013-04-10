@@ -240,7 +240,7 @@ class JHelperTags
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select(array($db->quoteName('m.tag_id'), $db->quoteName('t') . '.*'))
+			->select(array($db->quoteName('m.tag_id'))
 			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
 			->where(
 				array(
@@ -272,8 +272,10 @@ class JHelperTags
 
 		if ($getTagData)
 		{
-			$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+			$query->select($db->quoteName('t') . '.*'));
 		}
+
+		$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 
 		$db->setQuery($query);
 		$this->itemTags = $db->loadObjectList();
