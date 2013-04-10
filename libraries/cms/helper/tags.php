@@ -144,7 +144,7 @@ class JHelperTags
 
 		$db->setQuery($query);
 		$db->execute();
-		
+
 		return;
 	}
 
@@ -300,7 +300,7 @@ class JHelperTags
 	 *
 	 * @since   3.1
 	 */
-	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'title', $orderDir = 'ASC',
+	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'c.core_title', $orderDir = 'ASC',
 		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
 	) {
 		// Create a new query object.
