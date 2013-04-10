@@ -48,9 +48,9 @@ JHtml::_('behavior.noframes');
 </script>
 </head>
 <body>
-
+<div id="mainlogin">
 	<div id="Jkcontent-login">
-			<div id="element-box" class="login">
+			<div id="element-box-login" class="login">
 			<jdoc:include type="message" />
 				<div class="m wbg">
 				
@@ -67,11 +67,18 @@ JHtml::_('behavior.noframes');
 			<noscript>
 				<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT') ?>
 			</noscript>
-	</div>
-	<div id="Jkfooter">
+	</div>	
+	<div id="Jkfooter-login">
 		<p class="copyright">
-			<a href="http://www.jokte.org">JOKTE.org</a> Un proyecto de software Libre para Latinoamérica
+			<a href="http://www.jokte.org" target="_blank" title="Jokte! se libera bajo licencia GNU/GPL v3.0 y su nombre y logo tienen licencia Copyleft">JOKTE!</a> es un proyecto de software Libre para Latinoamérica de la <a href="http://juuntos.net" target=_"blank" title="Comunidad Latinoamericana de Tecnología Web">Comunidad Juuntos</a>
 		</p>
+		<p>
+		<p>
 	</div>
+	<div class="login-img-back">
+		<span class="login-img-text">Jokte! Jeyuu</span>
+		<img src="<?php echo $this->baseurl.'/templates/'.$this->template.'/images/back-jeyuu.png' ?>" alt="jeyuu" />	
+	</div>
+</div>
 </body>
 </html>
