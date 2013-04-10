@@ -236,8 +236,11 @@ class UsersModelProfile extends JModelForm
 		$data['email']		= $data['email1'];
 		$data['password']	= $data['password1'];
 
-		// Unset the username so it does not get overwritten
-		unset($data['username']);
+		// Unset the username if it should not be overwritten
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+		{
+			unset($data['username']);
+		}
 
 		// Unset the block so it does not get overwritten
 		unset($data['block']);
