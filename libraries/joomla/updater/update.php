@@ -168,17 +168,38 @@ class JUpdate extends JObject
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
+		
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
-		
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
-
+		if (isset($this->$tag))
+		{
+			$this->$tag->_data = "";
+		}
+		
 		switch ($name)
 		{
-			// This is a new update; create a current update
+			case 'ACTUAL':
+				$this->currentUpdate = new stdClass;
+				break;
+			case 'ACTUALIZAR':
+				$name = strtolower($name);
+				if (isset($this->currentUpdate->$name))
+				{
+					$this->currentUpdate->$name->_data = '';
+				}
+ 				foreach ($attrs as $key => $data)
+ 				{
+ 					$key = strtolower($key);
+					if (!isset($this->currentUpdate->$name))
+					{
+						$this->currentUpdate->$name = new stdClass();
+					}
+ 					$this->currentUpdate->$name->$key = $data;
+ 				}
+ 				break;
 			case 'UPDATE':
-				$this->_current_update = new stdClass;
+				$this->currentUpdate = new stdClass;
 				break;
 			// Don't do anything
 			case 'UPDATES':
@@ -186,13 +207,20 @@ class JUpdate extends JObject
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
-				$this->_current_update->$name->_data = '';
-				foreach ($attrs as $key => $data)
+				if (isset($this->currentUpdate->$name))
 				{
-					$key = strtolower($key);
-					$this->_current_update->$name->$key = $data;
+					$this->currentUpdate->$name->_data = '';
 				}
-				break;
+ 				foreach ($attrs as $key => $data)
+ 				{
+ 					$key = strtolower($key);
+					if (!isset($this->currentUpdate->$name))
+					{
+						$this->currentUpdate->$name = new stdClass();
+					}
+ 					$this->currentUpdate->$name->$key = $data;
+ 				}
+ 				break;				
 		}
 	}
 
@@ -213,24 +241,61 @@ class JUpdate extends JObject
 		switch ($name)
 		{
 			// Closing update, find the latest version and check
-			case 'UPDATE':				
-				$ver = new JVjokte;				
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCTO, 'cmd'));
-				if ($product == $this->_current_update->targetplatform->name
-					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->LIBERACION))
+			case 'ACTUAL':
+				$ver = new JVjokte;
+				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCTO, 'cmd'));				
+				if (isset($this->currentUpdate->targetplatform->name) && 
+					$product == $this->currentUpdate->targetplatform->name && preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->LIBERACION))
 				{
 					if (isset($this->_latest))
 					{
-						if (version_compare($this->_current_update->version->_data, $this->_latest->version->_data, '>') == 1)
+						if (version_compare($this->currentUpdate->version->_data, $this->_latest->version->_data, '>') == 1)
 						{
-							$this->_latest = $this->_current_update;
+							$this->_latest = $this->currentUpdate;
 						}
 					}
 					else
 					{
-						$this->_latest = $this->_current_update;
+						$this->_latest = $this->currentUpdate;
 					}
 				}				
+				break;
+			case 'ACTUALIZAR':
+				// If the latest item is set then we transfer it to where we want to
+				if (isset($this->_latest))
+				{
+					foreach (get_object_vars($this->_latest) as $key => $val)
+					{
+						$this->$key = $val;
+					}
+					unset($this->_latest);
+					unset($this->currentUpdate);
+				}
+				elseif (isset($this->currentUpdate))
+				{
+					// The update might be for an older version of j!
+					unset($this->currentUpdate);
+				}				
+				break;
+			case 'UPDATE':
+				$ver = new JVersion;
+				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
+				if (isset($this->currentUpdate->targetplatform->name)
+					&& $product == $this->currentUpdate->targetplatform->name
+					&& preg_match('/' . $this->_currentUpdate->targetplatform->version . '/', $ver->RELEASE))
+				{
+					if (isset($this->_latest))
+					{
+						if (version_compare($this->_currentUpdate->version->_data, $this->_latest->version->_data, '>') == 1)
+						{
+							$this->_latest = $this->_currentUpdate;
+						}
+					}
+					else
+					{
+						$this->_latest = $this->_currentUpdate;
+					}
+				}
 				break;
 			case 'UPDATES':
 				// If the latest item is set then we transfer it to where we want to
@@ -241,12 +306,12 @@ class JUpdate extends JObject
 						$this->$key = $val;
 					}
 					unset($this->_latest);
-					unset($this->_current_update);
+					unset($this->currentUpdate);
 				}
-				elseif (isset($this->_current_update))
+				elseif (isset($this->currentUpdate))
 				{
 					// The update might be for an older version of j!
-					unset($this->_current_update);
+					unset($this->currentUpdate);
 				}
 				break;
 		}
@@ -269,8 +334,11 @@ class JUpdate extends JObject
 		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
 		//$this->$tag->_data .= $data;
 		// Throw the data for this item together
-		$tag = strtolower($tag);
-		$this->_current_update->$tag->_data .= $data;
+		$tag = strtolower($tag);		
+		if (isset($this->currentUpdate->$tag))
+		{
+			$this->currentUpdate->$tag->_data .= $data;
+		}
 	}
 
 	/**
@@ -292,6 +360,7 @@ class JUpdate extends JObject
 		}		
 		
 		$this->xml_parser = xml_parser_create('');
+		
 		xml_set_object($this->xml_parser, $this);
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');		
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
