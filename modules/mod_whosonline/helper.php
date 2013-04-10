@@ -4,6 +4,10 @@
  * @subpackage	mod_whosonline
  * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ ***************************************************************************************
+ * Warning: Some modifications and improved were made by the Community Juuntos for
+ * the latinamerican Project Jokte! CMS
+ ***************************************************************************************
  */
 
 // no direct access
@@ -48,8 +52,9 @@ class modWhosonlineHelper
 	static function getOnlineUserNames($params) {
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
-		$query->select('a.username, a.time, a.userid, a.usertype, a.client_id');
+		$query->select('a.username, a.time, a.userid, a.usertype, a.client_id, u.name');
 		$query->from('#__session AS a');
+		$query->from('#__users AS u');
 		$query->where('a.userid != 0');
 		$query->where('a.client_id = 0');
 		$query->group('a.userid');
@@ -63,6 +68,9 @@ class modWhosonlineHelper
 			}
 			$query->leftJoin('#__user_usergroup_map AS m ON m.user_id = a.userid');
 			$query->leftJoin('#__usergroups AS ug ON ug.id = m.group_id');
+			if ($params->get('usermode')){
+				$query->leftJoin('#__users AS us ON us.id = a.userid');
+			}
 			$query->where('ug.id in (' . implode(',', $groups) . ')');
 			$query->where('ug.id <> 1');
 		}

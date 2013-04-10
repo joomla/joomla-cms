@@ -28,6 +28,15 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
+				<field 
+					name="a-general" 
+					type="separador" 
+					class="fulltext" 
+					fielname="sepia"
+					value="MOD_WHOSONLINE_SHOWMODE_DESC" 
+					default="MOD_WHOSONLINE_GENERAL" 
+				/>
+				
 				<field
 					name="showmode"
 					type="list"
@@ -41,6 +50,35 @@
 					<option
 						value="2">MOD_WHOSONLINE_FIELD_VALUE_BOTH</option>
 				</field>
+				
+				<field 
+					name="b-general" 
+					type="separador" 
+					class="fulltext"
+					fielname="fish" 
+					value="MOD_WHOSONLINE_USERMODE_DESC" 
+					default="MOD_WHOSONLINE_USERGENERAL" 
+				/>
+				
+				<field
+					name="usermode"
+					type="list"
+					default="0"
+					label="MOD_WHOSONLINE_USERMODE_LABEL"
+					description="MOD_WHOSONLINE_USERMODE_DESC">
+					<option
+						value="0">MOD_WHOSONLINE_FIELD_SHOW_USERNAME</option>
+					<option
+						value="1">MOD_WHOSONLINE_FIELD_SHOW_NAMES</option>
+				</field>
+				
+				<field 
+					name="c-general" 
+					type="separador" 
+					class="about" 
+					logo="logo-juuntos.png"
+					leyend="MOD_WHOSONLINE_LEYEND"
+				/>
 			</fieldset>
 			<fieldset
 				name="advanced">
