@@ -47,7 +47,7 @@ class MediaControllerFile extends JControllerLegacy
 		// Set the redirect
 		if ($return)
 		{
-			$this->setRedirect(base64_decode($return) . '&folder=' . $this->folder . '&fileType=' . $this->fileType);
+			$this->setRedirect(base64_decode($return) . '&folder=' . $this->folder . '&fileType=' . $this->fileType); 
 		}
 
 		// Authorize the user
@@ -59,7 +59,7 @@ class MediaControllerFile extends JControllerLegacy
 			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
 			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('upload_max_filesize'))* 1024 * 1024 ||
 			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('post_max_size'))* 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('memory_limit'))* 1024 * 1024
+			(($_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024) && ((int) (ini_get('memory_limit')) != -1))
 		)
 		{
 			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
@@ -85,7 +85,7 @@ class MediaControllerFile extends JControllerLegacy
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
 			}
-			
+
 			if (JFile::exists($file['filepath']))
 			{
 				// A file with this name already exists
@@ -243,7 +243,7 @@ class MediaControllerFile extends JControllerLegacy
 				continue;
 			}
 
-			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $fileType, $path)));
+			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $fileType, $path))); 
 			$object_file = new JObject(array('filepath' => $fullPath));
 			if (is_file($fullPath))
 			{
