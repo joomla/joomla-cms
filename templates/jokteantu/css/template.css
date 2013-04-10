@@ -1176,11 +1176,12 @@ span.capital{
     margin-top: 17px;
     padding: 0 0 13px;
     }
-    
+
 /* Nuevo Jokte v1.2.2  */
 
 /* Subtítulos */
-.subtitulos{font-size:85%;color:#CCCCCC; font-variant:small-caps; padding:30px 0 0 0;margin:10px 5px;font-weight: bold;}
+.subtitulos{ float:left; font-size:85%;color:#CCCCCC; font-variant:small-caps; margin:10px 5px;font-weight: bold;}
+
 /* Gravatar */
 .gravatar{padding:10px}
 .gravatar a{color:white}
@@ -1190,5 +1191,10 @@ span.capital{
 
 /* Tags */
 .tag{padding:0 10px;background:#fafafa;}
+
+/* Table Attachments */
+.attach-header{color: white; background: black;}
+.attach-files-0{	background: #FAFAFA;}
+.attach-files-1{	background: #CCCCCC;}
 
 
