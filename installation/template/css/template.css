@@ -147,7 +147,7 @@ div#cls_style {
 }
 
 #stepbar .stepBarrHigthLight a, #stepbar .stepBarrHigthLight a:link {
-    font-size: 64px !important;
+    font-size: 54px !important;
 }
 
 #stepbar .stepBarrLnk {
@@ -309,7 +309,7 @@ div#cls_style {
 
 .install-body {
     float: right;
-    width: 68%;
+    width: 69.5%;
 }
 
 .extra-padding {
