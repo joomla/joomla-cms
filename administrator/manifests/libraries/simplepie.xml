@@ -2,10 +2,10 @@
 <extension type="library" version="2.5">
 	<name>SimplePie</name>
 	<libraryname>simplepie</libraryname>
-	<version>1.2</version>
+	<version>1.3.1</version>
 	<description>LIB_SIMPLEPIE_XML_DESCRIPTION</description>
-	<creationDate>2004</creationDate>
-	<copyright>Copyright (c) 2004-2009, Ryan Parman and Geoffrey Sneddon</copyright>
+	<creationDate>2010</creationDate>
+	<copyright>Copyright (c) 2004-2013, Ryan Parman and Geoffrey Sneddon</copyright>
 	<license>http://www.opensource.org/licenses/bsd-license.php BSD License</license>
 	<author>SimplePie</author>
 	<authorEmail></authorEmail>
