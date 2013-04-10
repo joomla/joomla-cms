@@ -66,6 +66,13 @@
 			<option
 				value="1">JYES</option>
 		</field>
+		
+		<field
+			name="spacer20"
+			type="spacer"
+			hr="true"
+			/>
+		
 		<field
 			name="show_subtitle"
 			type="radio"
@@ -79,18 +86,58 @@
 		</field>
 		
 		<field
+			name="show_subtitle_view"
+			type="checkboxes"
+			default="article"
+			label="JGLOBAL_SHOW_SUBTITLE_VIEW_LABEL"
+			description="JGLOBAL_SHOW_SUBTITLE_VIEW_DESC">
+				<option
+					value="frontpage">SB_SHOW_FRONTPAGE</option>	
+				<option
+					value="category">SB_SHOW_CATEGORY</option>
+				<option
+					value="article">SB_SHOW_ARTICLE</option>	
+		</field>
+		
+		<field
+			name="spacer21"
+			type="spacer"
+			hr="true"
+			/>
+			
+		<field
 			name="show_copete"
 			type="radio"
 			default="1"
 			label="JGLOBAL_SHOW_COPETE_LABEL"
 			description="JGLOBAL_SHOW_COPETE_DESC">
-			<option
+			<option 
 				value="0">JHIDE</option>
-			<option
+			<option 
 				value="1">JSHOW</option>
 		</field>
 		
 		<field
+			name="show_copete_view"
+			type="checkboxes"
+			default="article"
+			label="JGLOBAL_SHOW_COPETE_VIEW_LABEL"
+			description="JGLOBAL_SHOW_COPETE_VIEW_DESC">
+				<option	
+					value="frontpage">SB_SHOW_FRONTPAGE</option>	
+				<option	
+					value="category">SB_SHOW_CATEGORY</option>
+				<option	
+					value="article">SB_SHOW_ARTICLE</option>	
+		</field>
+		
+		<field
+			name="spacer22"
+			type="spacer"
+			hr="true"
+			/>
+		
+			<field
 			name="show_intro"
 			type="radio"
 			default="1"
@@ -199,6 +246,20 @@
 		</field>
 		
 		<field
+			name="show_avatar_view"
+			type="checkboxes"
+			default="article"
+			label="JGLOBAL_SHOW_AVATAR_VIEW_LABEL"
+			description="JGLOBAL_SHOW_AVATAR_VIEW_DESC">
+				<option	
+					value="frontpage">SB_SHOW_FRONTPAGE</option>	
+				<option	
+					value="category">SB_SHOW_CATEGORY</option>
+				<option	
+					value="article">SB_SHOW_ARTICLE</option>
+		</field>
+		
+		<field
 			name="avatar_size"
 			type="text"
 			default="200"
@@ -227,23 +288,11 @@
 		</field>
 		
 		<field
-			name="avatar_link"
-			type="radio"
-			label="JGLOBAL_AVATAR_LINK_LABEL"
-			description="JGLOBAL_AVATAR_LINK_DESC"
-			default="1">
-			<option
-				value="1">JYES</option>
-			<option
-				value="0">JNO</option>
-		</field>
-			
-		<field
-			name="spacerxc"
+			name="spacerx2"
 			type="spacer"
 			hr="true"
 			/>
-						
+				
 		<field
 			name="show_create_date"
 			type="radio"
@@ -291,7 +340,7 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-
+		
 		<field
 			name="show_vote"
 			type="radio"
@@ -303,19 +352,6 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-
-        <field
-            name="show_attachments"
-            type="radio"
-            label="JGLOBAL_SHOW_ATTACHMENTS_LABEL"
-            description="JGLOBAL_SHOW_ATTACHMENTS_DESC"
-            default="0">
-            <option
-                value="0">JHIDE</option>
-            <option
-                value="1">JSHOW</option>
-        </field>
-
 		<field
 			name="show_readmore"
 			type="radio"
@@ -353,6 +389,7 @@
 			type="spacer"
 			hr="true"
 			/>
+			
 		<field
 			name="show_icons"
 			type="radio"
@@ -376,15 +413,6 @@
 			<option
 				value="1">JSHOW</option>
 		</field>
-		
-		<field
-				name="show_simpletags"
-				type="radio"
-				label="JGLOBAL_SHOW_SIMPLETAGS_LABEL"
-				description="JGLOBAL_SHOW_SIMPLETAGS_DESC">
-				<option	value="0">JHIDE</option>
-				<option	value="1">JSHOW</option>
-			</field>
 
 		<field
 			name="show_email_icon"
@@ -427,16 +455,60 @@
 			default="0"
 		    label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
-			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
-			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+			<option 
+				value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+			<option 
+				value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
 		
 		<field
-			name="spacery2"
+			name="spacer30"
 			type="spacer"
 			hr="true"
-		/>
-				
+			/>
+		
+		<field name="show_simpletags"
+				type="radio"
+				default="1"
+				label="JFIELD_METAKEY_TAGS_LABEL"
+				description="JFIELD_METAKEY_TAGS_DESC">
+				<option 
+					value="0">JNO</option>
+				<option 
+					value="1">JYES</option>
+		</field>
+		
+		<field
+			name="show_simpletags_view"
+			type="checkboxes"
+			default="article"
+			label="JGLOBAL_SHOW_SIMPLETAGS_VIEW_LABEL"
+			description="JGLOBAL_SHOW_SIMPLETAGS_VIEW_DESC">
+				<option	
+					value="frontpage">SB_SHOW_FRONTPAGE</option>	
+				<option	
+					value="category">SB_SHOW_CATEGORY</option>
+				<option	
+					value="article">SB_SHOW_ARTICLE</option>
+		</field>
+		
+	</fieldset>
+	
+	<fieldset name="socialnetwork" label="COM_CONTENT_SOCIAL_LAYOUT"
+		description="COM_CONTENT_CONFIG_SOCIAL_LAYOUT">
+		
+		<field 
+			name="show_jokteconfig_front_end"
+			type="radio"
+			default="0"
+			label="COM_CONTENT_SHOW_JOKTECONFIG_FRONT_LABEL"
+			description="COM_CONTENT_SHOW_JOKTECONFIG_FRONT_DESC">
+			<option 
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+		
 		<field
 			name="show_disqus"
 			type="radio"
@@ -476,13 +548,51 @@
 		/>
 		
 		<field
+			name="show_socialbuttons"
+			type="checkboxes"
+			default="article"
+			label="JGLOBAL_SHOW_SOCIAL_BUTTONS_LABEL"
+			description="JGLOBAL_SHOW_SOCIAL_BUTTONS_DESC">
+				<option
+					value="frontpage">SB_SHOW_FRONTPAGE</option>	
+				<option
+					value="category">SB_SHOW_CATEGORY</option>
+				<option
+					value="article">SB_SHOW_ARTICLE</option>
+		</field>
+		
+		<field
+			name="position_socialbuttons"
+			type="list"
+			label="JGLOBAL_POSITION_SOCIAL_BUTTONS_LABEL"
+			description="JGLOBAL_POSITION_SOCIAL_BUTTONS_DESC">
+				<option
+					value="top">SB_TOP</option>
+				<option
+					value="bottom">SB_BOTTOM</option>
+		</field>
+		
+		<field
+			name="align_socialbuttons"
+			type="list"
+			label="JGLOBAL_ALIGN_SOCIAL_BUTTONS_LABEL"
+			description="JGLOBAL_ALIGN_SOCIAL_BUTTONS_DESC">
+				<option
+					value="left">SB_LEFT</option>
+				<option
+					value="right">SB_RIGHT</option>
+		</field>
+		
+		<field
 			name="show_facebook"
 			type="list"
+			default="1" 
 			label="JGLOBAL_SHOW_FACEBOOK_LABEL"
 			description="JGLOBAL_SHOW_FACEBOOK_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
-				<option	value="0">JHIDE</option>
-				<option	value="1">JSHOW</option>
+				<option
+					value="0">JHIDE</option>
+				<option
+					value="1">JSHOW</option>
 		</field>
 		<field 
 			name="like_style" 
@@ -490,14 +600,16 @@
 			default="button_count" 
 			label="JGLOBAL_FBLIKESTYLE_LABEL" 
 			description="JGLOBAL_FBLIKESTYLE_DESC">
-				<option value="button_count">FBBUTONCOUNT</option>
-				<option value="standard">FBSTANDARD</option>
+				<option 
+					value="button_count">FBBUTONCOUNT</option>
+				<option 
+					value="standard">FBSTANDARD</option>
 		</field>
 		<field 
 			name="like_width" 
 			type="text" 
 			size="4" 
-			default="90" 
+			default="110" 
 			label="JGLOBAL_FBLIKEWIDTH_LABEL" 
 			description="JGLOBAL_FBLIKEWIDTH_DESC" 
 		/>
@@ -514,9 +626,11 @@
 			type="list" 
 			default="like" 
 			label="JGLOBAL_FBLIKETEXT_LABEL" 
-			description="JGLOBAL_FBLIKETEXT_LABEL">
-				<option value="like">FBLIKE</option>
-				<option value="recommend">FBRECOMM</option>
+			description="JGLOBAL_FBLIKETEXT_DESC">
+				<option 
+					value="like">FBLIKE</option>
+				<option 
+					value="recommend">FBRECOMM</option>
 		</field>		
 		<field 
 			name="like_color_scheme" 
@@ -524,19 +638,24 @@
 			default="light" 
 			label="JGLOBAL_FBSCHEME_LABEL" 
 			description="JGLOBAL_FBSCHEME_DESC">
-				<option value="light">FBSCHEMELIGHT</option>
-				<option value="dark">FBSCHEMEDARK</option>
+				<option 
+					value="light">FBSCHEMELIGHT</option>
+				<option 
+					value="dark">FBSCHEMEDARK</option>
 		</field>
 		
 		<field
-			name="show_tweeter"
+			name="show_twitter"
 			type="list"
+			default="1" 
 			label="JGLOBAL_SHOW_TWEETER_LABEL"
 			description="JGLOBAL_SHOW_TWEETER_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
-				<option	value="0">JHIDE</option>
-				<option	value="1">JSHOW</option>
+				<option
+					value="0">JHIDE</option>
+				<option
+					value="1">JSHOW</option>
 		</field>
+		
 		<field 
 			name="twitter_account" 
 			type="text" 
@@ -559,9 +678,12 @@
 			default="horizontal" 
 			label="JGLOBAL_TWITBUTTONSTYLE_LABEL"
 			description="JGLOBAL_TWITBUTTONSTYLE_DESC">
-				<option value="horizontal">TWITHORCOUNT</option>
-				<option value="vertical">TWITVERCOUNT</option>
-				<option value="none">TWITNOCOUNT</option>
+				<option 
+					value="horizontal">TWITHORCOUNT</option>
+				<option 
+					value="vertical">TWITVERCOUNT</option>
+				<option 
+					value="none">TWITNOCOUNT</option>
 		</field>
 		<field 
 			name="count-width" 
@@ -569,20 +691,83 @@
 			default="horizontal" 
 			label="JGLOBAL_TWITMATHWITH_LABEL" 
 			description="JGLOBAL_TWITMATHWITH_LABEL" >
-				<option value="110">TWITHORZ</option>
-				<option value="55">TWITVER</option>
-				<option value="55">TWITNOCOUNTW</option>
+				<option 
+					value="110">TWITHORZ</option>
+				<option 
+					value="55">TWITVER</option>
+				<option 
+					value="55">TWITNOCOUNTW</option>
 		</field>
 		
 		<field
 			name="show_one"
 			type="list"
+			default="1" 
 			label="JGLOBAL_SHOW_ONE_LABEL"
 			description="JGLOBAL_SHOW_ONE_DESC">
-				<option	value="">JGLOBAL_USE_GLOBAL</option>
 				<option	value="0">JHIDE</option>
 				<option	value="1">JSHOW</option>
+		</field>		
+	</fieldset>
+	
+	<fieldset name="attachments" label="COM_CONTENT_ATTACHMENT_LAYOUT"
+		description="COM_CONTENT_CONFIG_ATTACHMENT_LAYOUT">
+		
+		<field
+			name="show_attachments"
+			type="radio"
+			label="JGLOBAL_SHOW_ATTACHMENTS_LABEL"
+			description="JGLOBAL_SHOW_ATTACHMENTS_DESC"
+			default="0">
+			<option 
+				value="0">JHIDE</option>
+			<option 
+				value="1">JSHOW</option>
+		</field> 
+		
+		<field 
+			name="show_attachments_front_end"
+			type="radio"
+			default="0"
+			label="COM_CONTENT_SHOW_ATTACHMENTS_FRONT_LABEL"
+			description="COM_CONTENT_SHOW_ATTACHMENTS_FRONT_DESC">
+			<option 
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
 		</field>
+		
+		<field 
+			name="show_attachments_back_end"
+			type="radio"
+			default="0"
+			label="COM_CONTENT_SHOW_ATTACHMENTS_BACK_LABEL"
+			description="COM_CONTENT_SHOW_ATTACHMENTS_BACK_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field> 
+		
+		<field name="list_show_attachments"
+			type="radio" default="0"
+			label="JGLOBAL_LIST_ATTACHMENTS_LABEL"
+			description="JGLOBAL_LIST_ATTACHMENTS_DESC">
+			<option 
+				value="0">JHIDE</option>
+			<option 
+				value="1">JSHOW</option>
+		</field> 
+		
+		<field name="attachments_antileech"
+			type="radio" default="1"
+			label="JGLOBAL_ATTACHMENTS_ANTILEECH_LABEL"
+			description="JGLOBAL_ATTACHMENTS_ANTILEECH_DESC">
+			<option 
+				value="0">JHIDE</option>
+			<option 
+				value="1">JSHOW</option>
+		</field> 
 		
 	</fieldset>
 	
@@ -636,30 +821,6 @@
 			<option
 				value="1">JYES</option>
 		</field>	
-        <field 
-            name="show_attachments_front_end"
-            type="radio"
-            default="0"
-            label="COM_CONTENT_SHOW_ATTACHMENTS_FRONT_LABEL"
-            description="COM_CONTENT_SHOW_ATTACHMENTS_FRONT_DESC"
-            >
-            <option
-                value="0">JNO</option>
-            <option
-                value="1">JYES</option>
-        </field>
-        <field 
-            name="show_attachments_back_end"
-            type="radio"
-            default="0"
-            label="COM_CONTENT_SHOW_ATTACHMENTS_BACK_LABEL"
-            description="COM_CONTENT_SHOW_ATTACHMENTS_BACK_DESC"
-            >
-            <option
-                value="0">JNO</option>
-            <option
-                value="1">JYES</option>
-        </field>
 		<field
 			name="spacer3"
 			type="spacer"
@@ -1016,14 +1177,6 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
-
-        <field name="list_show_attachments"
-            type="radio" default="0"
-            label="JGLOBAL_LIST_ATTACHMENTS_LABEL"
-            description="JGLOBAL_LIST_ATTACHMENTS_DESC">
-                <option value="0">JHIDE</option>
-                <option value="1">JSHOW</option>
-        </field>
 
 	</fieldset>
 
