@@ -227,6 +227,16 @@ class JTableCategory extends JTableNested
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
 		$tagsHelper->getMetaTagNames($this->metadata);
 
+		if (empty($tags))
+		{
+			$tagHelper = new JHelperTags;
+			$itemTags = $tagHelper->getItemTags($this->extension .'.category', $this->id);
+			if (!empty($itemTags))
+			{
+				$tagHelper->unTagItem($this->id, $this->extension . '.category');
+			}
+		}
+
 		$return = parent::store($updateNulls);
 
 		if ($return == false)

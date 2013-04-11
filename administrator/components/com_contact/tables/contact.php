@@ -128,6 +128,16 @@ class ContactTableContact extends JTable
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
 		$tagsHelper->getMetaTagNames($this->metadata);
 
+		if (empty($tags))
+		{
+			$tagHelper = new JHelperTags;
+			$itemTags = $tagHelper->getItemTags('com_contact.contact', $this->id);
+			if (!empty($itemTags))
+			{
+				$tagHelper->unTagItem($this->id, 'com_contact.contact');
+			}
+		}
+
 		$return = parent::store($updateNulls);
 
 		if ($return == false)

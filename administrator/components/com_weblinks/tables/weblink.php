@@ -117,6 +117,16 @@ class WeblinksTableWeblink extends JTable
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
 		$tagsHelper->getMetaTagNames($this->metadata);
 
+		if (empty($tags))
+		{
+			$tagHelper = new JHelperTags;
+			$itemTags = $tagHelper->getItemTags('com_weblinks.weblink', $this->id);
+			if (!empty($itemTags))
+			{
+				$tagHelper->unTagItem($this->id, 'com_weblinks.weblink');
+			}
+		}
+
 		$return = parent::store($updateNulls);
 
 		if ($return == false)
