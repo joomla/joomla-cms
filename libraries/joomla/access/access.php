@@ -609,12 +609,10 @@ class JAccess
 	 */
 	public static function installComponentDefaultRules($component, $file = null)
 	{
-		$app = JFactory::getApplication();
-
 		// Make sure we do not try to modify any core rules!
 		if (strtolower($component) == 'com_core')
 		{
-			throw new Exception("ERROR: Override core rule defaults!");
+			throw new InvalidArgumentException("ERROR: Cannot override core rule defaults!");
 		}
 
 		// Create an empty set of rules to receive the rules for the component
@@ -628,7 +626,7 @@ class JAccess
 		else
 		{
 			// Load the actions from the specified file
-			$actions = self::getActionsFromFile($file, "/access/section[@name='" . $section . "']/");
+			$actions = self::getActionsFromFile($file, "/access/section[@name='component']/");
 		}
 		
 		foreach ($actions as $action)
@@ -641,8 +639,7 @@ class JAccess
 				// Make sure the rule is not a core rule
 				if ( strncmp($rule_name, 'core.', 5) === 0 )
 				{
-					$app->enqueueMessage("WARNING: Cannot override default core rule '$rule_name' for component '$component'!");
-					continue;
+					throw new Exception("WARNING: Cannot override default core rule '$rule_name' for component '$component'!");
 				}
 
 				// Process each comma-separated clause 
@@ -650,17 +647,20 @@ class JAccess
 				foreach ($rule_set as $raw_rule)
 				{
 					// parse the rule
-					$rule = $raw_rule;
+					$rule = trim($raw_rule);
 					if (strpos($rule, ':') === false)
 					{
+						// Syntax 1, XML: default="Author"
 						$role = $rule;
 						$perm = '';
 					}
 					else
 					{
+						// Syntax 2, XML: default="Author:core.create" or
+						// Syntax 3, XML: default="Author:core.create[com_test]"
 						$parts = explode(':', $rule);
-						$role = $parts[0];
-						$perm = $parts[1];
+						$role = trim($parts[0]);
+						$perm = trim($parts[1]);
 					}
 
 					// Extract the test component, if specified
@@ -668,8 +668,8 @@ class JAccess
 					if ( strpos($perm, '[') !== false ) 
 					{
 						$parts = explode('[', $perm);
-						$perm = $parts[0];
-						$asset = trim($parts[1], '[] ');
+						$perm = trim($parts[0]);
+						$asset = trim(trim($parts[1], '[] '));
 					}
 
 					// Verify that the role (group) is valid on this sytem
@@ -678,7 +678,7 @@ class JAccess
 					// Complain about invalid group name (may have been deleted on this site)
 					if ($group_id == 0)
 					{
-						$app->enqueueMessage("WARNING: Cannot determine default rule for group '$role' which does not exist on this system!");
+						JLog::add("WARNING: Cannot determine default rule for group '$role' which does not exist on this system!", JLog::WARNING);
 						continue;
 					}
 
@@ -706,7 +706,7 @@ class JAccess
 			}
 		}
 
-		// Purge the custom rules for this component
+		// Purge any existing custom rules for this component
 		JAccess::purgeComponentDefaultRules($component);
 
 		// Get the root rules
@@ -742,7 +742,7 @@ class JAccess
 		// make sure we do not purge any core rules!
 		if (strtolower($component) == 'com_core')
 		{
-			throw new Exception("Error: Cannot purge core rules!");
+			throw new InvalidArgumentException("Error: Cannot purge core rules!");
 		}
 
 		// Remove the leading 'com_' to get the search prefix
