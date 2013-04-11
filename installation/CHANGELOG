@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+11-Apr-2013 Jean-Marie Simonet
+ #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
+
 10-Apr-2013 Mark Dexter
  # [#30466] Tags: Not shown in contacts. Thanks Peter Bui.
 
