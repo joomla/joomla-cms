@@ -631,7 +631,7 @@ class JAccess
 		// Make sure we do not try to modify any core rules!
 		if (strtolower($component) == 'com_core')
 		{
-			throw new Exception("ERROR: Override core rule defaults!");
+			throw new InvalidArgumentException("ERROR: Cannot override core rule defaults!");
 		}
 
 		// Create an empty set of rules to receive the rules for the component
@@ -658,8 +658,7 @@ class JAccess
 				// Make sure the rule is not a core rule
 				if ( strncmp($rule_name, 'core.', 5) === 0 )
 				{
-					JLog::add("WARNING: Cannot override default core rule '$rule_name' for component '$component'!", JLog::WARNING);
-					continue;
+					throw new Exception("WARNING: Cannot override default core rule '$rule_name' for component '$component'!");
 				}
 
 				// Process each comma-separated clause 
@@ -670,11 +669,14 @@ class JAccess
 					$rule = $raw_rule;
 					if (strpos($rule, ':') === false)
 					{
+						// Syntax 1, XML: default="Author"
 						$role = $rule;
 						$perm = '';
 					}
 					else
 					{
+						// Syntax 2, XML: default="Author:core.create" or
+						// Syntax 3, XML: default="Author:core.create[com_test]"
 						$parts = explode(':', $rule);
 						$role = $parts[0];
 						$perm = $parts[1];
@@ -723,7 +725,7 @@ class JAccess
 			}
 		}
 
-		// Purge the custom rules for this component
+		// Purge any existing custom rules for this component
 		JAccess::purgeComponentDefaultRules($component);
 
 		// Get the root rules
@@ -759,7 +761,7 @@ class JAccess
 		// make sure we do not purge any core rules!
 		if (strtolower($component) == 'com_core')
 		{
-			throw new Exception("Error: Cannot purge core rules!");
+			throw new InvalidArgumentException("Error: Cannot purge core rules!");
 		}
 
 		// Remove the leading 'com_' to get the search prefix
