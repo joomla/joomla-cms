@@ -40,7 +40,7 @@ class JLanguage extends JObject
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $default = 'en-GB';
+	protected $default = 'es-LA';
 
 	/**
 	 * An array of orphaned text.
