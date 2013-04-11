@@ -666,7 +666,7 @@ class JAccess
 				foreach ($rule_set as $raw_rule)
 				{
 					// parse the rule
-					$rule = $raw_rule;
+					$rule = trim($raw_rule);
 					if (strpos($rule, ':') === false)
 					{
 						// Syntax 1, XML: default="Author"
@@ -678,8 +678,8 @@ class JAccess
 						// Syntax 2, XML: default="Author:core.create" or
 						// Syntax 3, XML: default="Author:core.create[com_test]"
 						$parts = explode(':', $rule);
-						$role = $parts[0];
-						$perm = $parts[1];
+						$role = trim($parts[0]);
+						$perm = trim($parts[1]);
 					}
 
 					// Extract the test component, if specified
@@ -687,8 +687,8 @@ class JAccess
 					if ( strpos($perm, '[') !== false ) 
 					{
 						$parts = explode('[', $perm);
-						$perm = $parts[0];
-						$asset = trim($parts[1], '[] ');
+						$perm = trim($parts[0]);
+						$asset = trim(trim($parts[1], '[] '));
 					}
 
 					// Verify that the role (group) is valid on this sytem
