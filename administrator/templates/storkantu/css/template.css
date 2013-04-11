@@ -3355,3 +3355,59 @@ float:none;
 	font-size:200%;
 	text-shadow:#CCCCCC 2px 1px 2px; 
 }
+
+/* Nuevo Jokte v1.3.0 */
+/* System - Separadores */
+.separador-textdesc{
+	width:100%;
+	border:1px dotted blue;
+	font-size:90%;
+	text-align:center;
+}
+.separador-title{
+	width:100%;
+	border:1px solid red;
+	line-height:15px;
+	color:#FFF;
+	font-weight:bold;
+	font-variant:small-caps;
+	padding:2px;
+	text-align:center
+}
+.separador-about{
+	color:#000053;
+	text-align:center;
+	text-shadow:1px 1px #FAFAFA;
+}
+.separador-full-title{
+	width:100%;
+	margin:0;
+	border-top:1px solid red;
+	border-left:1px solid red;
+	border-right:1px solid red;
+	line-height:15px;
+	color:#FFF;
+	font-weight:bold;
+	font-variant:small-caps;
+	padding:2px;
+	text-align:center;
+	text-shadow:1px 1px #808080
+}
+.separador-full-textdesc{
+	width:100%;
+	border:1px solid red;
+	background:#ECECEC;
+	color:#000;
+	padding:0 2px;
+	text-align:justify;
+	font-size:90%
+}
+.separador-about{
+	color:#000053;
+	text-align:center;
+	text-shadow:1px 1px #CCC;
+}
+.separador-img{
+	float:left;
+	padding:4px;
+}
