@@ -142,7 +142,9 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 								'example.custom.publisher.edit.state',
 								'example.custom.admin.manage',
 								'example.custom.test8',
-								'example.custom.test9'
+								'example.custom.test9',
+								'example.custom.test10',
+								'example.custom.test11'
 								);
 		$all_actions = array_merge( $this->core_actions, $custom_actions );
 
@@ -391,6 +393,54 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 			$perm_mod = $modified_permissions[$action][$gid];
 			$perm_exp = false;
 			$errmsg = "[Test 9] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
+
+		//------------------------------------------------------------
+		// Test 10: Verify that syntax 1 works with multiple entries
+		//
+		// In the XML file:  default="Editor, Manager"
+		// Should enable for Editor and Manager
+		//
+		$action = 'example.custom.test10';
+		$expected_permission = Array( 1 => false, // Public
+									  6 => true,  // Manager
+									  7 => true,  // Administrator
+									  2 => false, // Registered
+									  3 => false, // Author
+									  4 => true,  // Editor (We set this)
+									  5 => true,  // Publisher (inherits from Publisher)
+									  8 => true,  // Super Users
+									  );
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = $expected_permission[$gid];
+			$errmsg = "[Test 10] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
+
+		//------------------------------------------------------------
+		// Test 11: Verify that syntax 2 works with multiple entries
+		//
+		// In the XML file:  default="Editor:core.edit, Administrator:core.manage"
+		// Should enable for Editor and Administrator
+		//
+		$action = 'example.custom.test11';
+		$expected_permission = Array( 1 => false, // Public
+									  6 => false, // Manager
+									  7 => true,  // Administrator
+									  2 => false, // Registered
+									  3 => false, // Author
+									  4 => true,  // Editor (We set this)
+									  5 => true,  // Publisher (inherits from Publisher)
+									  8 => true,  // Super Users
+									  );
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = $expected_permission[$gid];
+			$errmsg = "[Test 11] Unexpected permission for custom action '$action' for group '$group_name':";
 			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
 		}
 
