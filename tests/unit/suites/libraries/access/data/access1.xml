@@ -22,32 +22,40 @@
 		<action name="core.edit.state" title="Example edit state permission" 
 			description="Example core.edit.state permissions" />
 
-		<action name="example.default" title="Example custom default"
+		<action name="example.default" title="Example custom default [Test 1]"
 			description="Defaults to system default permissions (denied)" />
 
-		<action name="example.custom.author" title="Example custom enable author"
+		<action name="example.custom.author" title="Example custom enable author [Test 2]"
 			description="Should default true for author"
 			default="Author" />
 
-		<action name="example.custom.author.manage" title="Example custom author (manage)"
+		<action name="example.custom.author.manage" title="Example custom author (manage) [Test 3]"
 			description="Should default to core.manager for Author (denied)" 
 			default="Author:core.manage" />
 
-		<action name="example.custom.author.create" title="Example custom author (create)"
+		<action name="example.custom.author.create" title="Example custom author (create) [Test 4]"
 			description="Should match default for core.create for Author" 
 			default="Author:core.create" />
 
-		<action name="example.custom.editor.edit" title="Example custom editor (edit)"
+		<action name="example.custom.editor.edit" title="Example custom editor (edit) [Test 5]"
 			description="Should match default for core.edit for Editor" 
 			default="Editor:core.edit" />
 
-		<action name="example.custom.publisher.edit.state" title="Example custom publisher (edit.state)" 
+		<action name="example.custom.publisher.edit.state" title="Example custom publisher (edit.state) [Test 6]" 
 			description="Should match default for core.edit.state for Publisher" 
 			default="Publisher:core.edit.state" />
 
-		<action name="example.custom.admin.manage" title="Example custom admin (manage)"
+		<action name="example.custom.admin.manage" title="Example custom admin (manage) [Test 7]"
 			description="Should default to core.manage for Administrator"
 		        default="Administrator:core.manage" />
+
+		<action name="example.custom.test8" title="Example custom editor (enable) [Test 8]"
+			description="Verify that we can enable based on other components"
+		        default="Editor:test.custom[com_test]" />
+
+		<action name="example.custom.test9" title="Example custom editor (fails) [Test 9]"
+			description="Verify that we ignore unknown component"
+		        default="Editor:abc123.custom[com_abc123]" />
 
 	</section>
 </access>
