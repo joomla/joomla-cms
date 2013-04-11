@@ -476,6 +476,16 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   KEY `idx_core_type_id` (`core_type_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__core_log_searches`
+--
+
+CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
+  `search_term` varchar(128) NOT NULL DEFAULT '',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
