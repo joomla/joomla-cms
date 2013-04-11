@@ -276,6 +276,16 @@ class JTableContent extends JTable
 		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
 		$tagsHelper->getMetaTagNames($this->metadata);
 
+		if (empty($tags))
+		{
+			$tagHelper = new JHelperTags;
+			$itemTags = $tagHelper->getItemTags('com_content.article', $this->id);
+			if (!empty($itemTags))
+			{
+				$tagHelper->unTagItem($this->id, 'com_content.article');
+			}
+		}
+
 		$return = parent::store($updateNulls);
 
 		if ($return == false)
