@@ -51,8 +51,10 @@ $ -> Idioma corrección o cambio
  $ Correcciones en archivos de idioma
  # Mejora en la vista de listados de artículos (muestra subtítulos y epígrafe en ventana modal)
  # Acceso al backend mejorado
- # Instalación forzosa en es-LA
+ # Instalación forzosa en es-LA y se define como lenguaje por defecto
  + Minisistema de descargas en los artículos (permite adjuntar hasta 3 archivos)
+ + Agregada opción nueva para el módulo Quién está en línea
+ + Agregado nuevo campo para parámetros en las extensiones que permite agregar ayuda con pieles
  
  
 03-Ene-2013
