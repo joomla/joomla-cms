@@ -183,20 +183,6 @@ class JUpdate extends JObject
 				$this->currentUpdate = new stdClass;
 				break;
 			case 'ACTUALIZAR':
-				$name = strtolower($name);
-				if (isset($this->currentUpdate->$name))
-				{
-					$this->currentUpdate->$name->_data = '';
-				}
- 				foreach ($attrs as $key => $data)
- 				{
- 					$key = strtolower($key);
-					if (!isset($this->currentUpdate->$name))
-					{
-						$this->currentUpdate->$name = new stdClass();
-					}
- 					$this->currentUpdate->$name->$key = $data;
- 				}
  				break;
 			case 'UPDATE':
 				$this->currentUpdate = new stdClass;
@@ -243,7 +229,7 @@ class JUpdate extends JObject
 			// Closing update, find the latest version and check
 			case 'ACTUAL':
 				$ver = new JVjokte;
-				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCTO, 'cmd'));				
+				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCTO, 'cmd'));
 				if (isset($this->currentUpdate->targetplatform->name) && 
 					$product == $this->currentUpdate->targetplatform->name && preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->LIBERACION))
 				{
@@ -282,18 +268,18 @@ class JUpdate extends JObject
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
 				if (isset($this->currentUpdate->targetplatform->name)
 					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/' . $this->_currentUpdate->targetplatform->version . '/', $ver->RELEASE))
+					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE))
 				{
 					if (isset($this->_latest))
 					{
-						if (version_compare($this->_currentUpdate->version->_data, $this->_latest->version->_data, '>') == 1)
+						if (version_compare($this->currentUpdate->version->_data, $this->_latest->version->_data, '>') == 1)
 						{
-							$this->_latest = $this->_currentUpdate;
+							$this->_latest = $this->currentUpdate;
 						}
 					}
 					else
 					{
-						$this->_latest = $this->_currentUpdate;
+						$this->_latest = $this->currentUpdate;
 					}
 				}
 				break;
@@ -360,7 +346,6 @@ class JUpdate extends JObject
 		}		
 		
 		$this->xml_parser = xml_parser_create('');
-		
 		xml_set_object($this->xml_parser, $this);
 		xml_set_element_handler($this->xml_parser, '_startElement', '_endElement');		
 		xml_set_character_data_handler($this->xml_parser, '_characterData');
