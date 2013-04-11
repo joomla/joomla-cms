@@ -37,7 +37,7 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 									 "core.edit", "core.edit.own", "core.edit.state" );
 
 	/**
-	 * @var
+	 * @var string representation of default root rule
 	 */
 	protected $reference_root_rule = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 
@@ -91,6 +91,9 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 	 */
 	protected function getDefaultPermissions($actions)
 	{
+		// Force JAccess to throw away its cache and recompute the rules
+		JAccess::clearStatics();
+		
 		$perms = Array();
 
 		foreach ($actions as $action)
@@ -99,9 +102,8 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 
 			foreach ($this->groups as $gid => $group_name)
 			{
-				$perms[$action][$gid] = JAccess::checkGroup($gid, $action);
+				$perms[$action][$gid] = (boolean)JAccess::checkGroup($gid, $action, 'com_example');
 			}
-			
 		}
 
 		return $perms;
@@ -131,14 +133,40 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 	 */
 	public function testInstallAccess1()
 	{
-		$all_actions = $this->core_actions;
-		$all_actions[] = 'example.default';
+		// Lists of the actions to check
+		$custom_actions = Array('example.default',
+								'example.custom.author',
+								'example.custom.author.manage',
+								'example.custom.author.create',
+								'example.custom.editor.edit',
+								'example.custom.publisher.edit.state',
+								'example.custom.admin.manage',
+								'example.custom.test8',
+								'example.custom.test9'
+								);
+		$all_actions = array_merge( $this->core_actions, $custom_actions );
 
 		// Get the pristine, unmodified default permissions
 		$initial_permissions = $this->getDefaultPermissions($all_actions);
 
+		// Verify that the defaults for all the custom rules are 'denied'
+		foreach ($custom_actions as $action)
+		{
+			foreach ($this->groups as $gid => $group_name)
+			{
+				$perm_init = $initial_permissions[$action][$gid];
+				$errmsg = "Custom rule '$action' for group '$group_name' defaulted to true before installing custom defaults";
+				$this->assertFalse($perm_init, $errmsg);
+			}
+		}
+
+		// First install the rule for the other component (com_test)
+		$install_ok = JAccess::installComponentDefaultRules('com_test', __DIR__ . '/data/access_test.xml');
+		$this->assertTrue($install_ok, 'Problem installing component default rules from data/access_test.xml');
+
 		// Install the new default rules form access1.xml
-		JAccess::installComponentDefaultRules('com_example', __DIR__ . '/data/access1.xml');
+		$install_ok = JAccess::installComponentDefaultRules('com_example', __DIR__ . '/data/access1.xml');
+		$this->assertTrue($install_ok, 'Problem installing component default rules from data/access1.xml');
 
 		// Get the modified permissions
 		$modified_permissions = $this->getDefaultPermissions($all_actions);
@@ -151,24 +179,163 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 				$perm_init = $initial_permissions[$action][$gid];
 				$perm_mod  = $modified_permissions[$action][$gid];
 				$errmsg = "Core rule '$action' for group '$group_name' modified by installing 'access1.xml'";
-				$this->assertEquals($perm_mod, $perm_init, $errmsg);
+				$this->assertEquals($perm_init, $perm_mod, $errmsg);
 			}
 		}
 
-		// Verify the default rule is denied for all
+		//------------------------------------------------------------
+		// Test 1: Verify the default rule is denied for all
+		//
+		// No default given in access xml file
+		//
 		$action = 'example.default';
 		foreach ($this->groups as $gid => $group_name)
 		{
 			$perm_init = $initial_permissions[$action][$gid];
-			$errmsg1 = "unmodified custom action '$action' is allowed for group '$group_name'";
+			$errmsg1 = "[Test 1] Unmodified custom action '$action' is allowed for group '$group_name'";
 			$this->assertEquals($perm_init, false, $errmsg1);
 			$perm_mod  = $modified_permissions[$action][$gid];
-			$errmsg2 = "default custom action '$action' for group '$group_name' modified by installing 'access1.xml'";
-			$this->assertEquals($perm_mod, $perm_init, $errmsg2);
+			$errmsg2 = "[Test 1] Default custom action '$action' for group '$group_name' modified by installing 'access1.xml'";
+			$this->assertEquals($perm_init, $perm_mod, $errmsg2);
 		}
 
-		// ??? CHECK MORE RULES HERE!
+		//------------------------------------------------------------
+		// Test 2: Verify that syntax 1 works (enabling permission for Author)
+		//
+		// In the XML file:  default="Author"
+		// Enable permission with no further checks
+		//
+		$action = 'example.custom.author';
+		$expected_permission = Array( 1 => false, // Public
+									  6 => false, // Manager
+									  7 => false, // Administrator
+									  2 => false, // Registered
+									  3 => true,  // Author (We set this)
+									  4 => true,  // Editor (inherits from Author)
+									  5 => true,  // Publisher (inherits from Author)
+									  8 => false, // Super Users
+									  );
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = $expected_permission[$gid];
+			$errmsg = "[Test 2] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
 
+		//------------------------------------------------------------
+		// Test 3: Verify that syntax 2 works (by not enabling)
+		//
+		// In the XML file:  default="Author:core.manage"
+		// Since Author is not permitted to core.manage, no permission is enabled
+		//
+		$action = 'example.custom.author.manage';
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = false;
+			$errmsg = "[Test 3] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
+
+		//------------------------------------------------------------
+		// Test 4: Verify that syntax 2 works (enabling permission for Author)
+		//
+		// In the XML file:  default="Author:core.create"
+		// Since core.create is permitted for Author this enables for Author 
+		//
+		$action = 'example.custom.author.create';
+		$expected_permission = Array( 1 => false, // Public
+									  6 => false, // Manager
+									  7 => false, // Administrator
+									  2 => false, // Registered
+									  3 => true,  // Author (We set this)
+									  4 => true,  // Editor (inherits from Author)
+									  5 => true,  // Publisher (inherits from Author)
+									  8 => false, // Super Users
+									  );
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = $expected_permission[$gid];
+			$errmsg = "[Test 4] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
+
+		//------------------------------------------------------------
+		// Test 5: Verify that syntax 2 works (enabling permission for Editor)
+		//
+		// In the XML file:  default="Editor:core.edit"
+		// Since core.edit is permitted for Editor this enables for Editor
+		//
+		$action = 'example.custom.editor.edit';
+		$expected_permission = Array( 1 => false, // Public
+									  6 => false, // Manager
+									  7 => false, // Administrator
+									  2 => false, // Registered
+									  3 => false, // Author
+									  4 => true,  // Editor (We set this)
+									  5 => true,  // Publisher (inherits from Publisher)
+									  8 => false, // Super Users
+									  );
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = $expected_permission[$gid];
+			$errmsg = "[Test 5] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
+
+		//------------------------------------------------------------
+		// Test 6: Verify that syntax 2 works (enabling permission for Publisher)
+		//
+		// In the XML file:  default="Publisher:core.edit.state"
+		// Since core.edit.state is permitted for Publisher this enables for Publisher 
+		//
+		$action = 'example.custom.publisher.edit.state';
+		$expected_permission = Array( 1 => false, // Public
+									  6 => false, // Manager
+									  7 => false, // Administrator
+									  2 => false, // Registered
+									  3 => false, // Author
+									  4 => false, // Editor
+									  5 => true,  // Publisher (We set this)
+									  8 => false, // Super User
+									  );
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = $expected_permission[$gid];
+			$errmsg = "[Test 6] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
+
+		//------------------------------------------------------------
+		// Test 7: Verify that syntax 2 works (enabling permission for Adminstrator)
+		//
+		// In the XML file:  default="Administrator:core.manage"
+		// Since core.manage is permitted for Administrator this enables for Administrator
+		//
+		// NOTE: In this test, the Super-User inherits from the Administrator group.
+		//       This is not the way most installations are configured.
+		//
+		$action = 'example.custom.admin.manage';
+		$expected_permission = Array( 1 => false, // Public
+									  6 => false, // Manager
+									  7 => true,  // Administrator (We set this)
+									  2 => false, // Registered
+									  3 => false, // Author
+									  4 => false, // Editor
+									  5 => false, // Publisher
+									  8 => true,  // Super Users (inerit from Administrator)
+									  );
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = $expected_permission[$gid];
+			$errmsg = "[Test 7] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
 
 		// Purge the new default rules
 		JAccess::purgeComponentDefaultRules('com_example');
@@ -188,6 +355,112 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 			}
 		}
 
+		//------------------------------------------------------------
+		// Test 8: Verify that syntax 3 works (enabling permission based on other component)
+		//
+		// In the XML file:  default="Editor:test.custom[com_test]
+		// Since core.custom is permitted for Editor for com_test, this enables for Editor
+		//
+		$action = 'example.custom.test8';
+		$expected_permission = Array( 1 => false, // Public
+									  6 => false, // Manager
+									  7 => false, // Administrator (We set this)
+									  2 => false, // Registered
+									  3 => false, // Author
+									  4 => true,  // Editor
+									  5 => true,  // Publisher
+									  8 => false, // Super Users (inerit from Administrator)
+									  );
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = $expected_permission[$gid];
+			$errmsg = "[Test 8] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
+
+		//------------------------------------------------------------
+		// Test 9: Verify that syntax 3 works (not enabled if component is unknown)
+		//
+		// In the XML file:  default="Editor:abc123.custom[com_abc123]"
+		// Should not enable anything because the component is unknown
+		//
+		$action = 'example.custom.test9';
+		foreach ($this->groups as $gid => $group_name)
+		{
+			$perm_mod = $modified_permissions[$action][$gid];
+			$perm_exp = false;
+			$errmsg = "[Test 9] Unexpected permission for custom action '$action' for group '$group_name':";
+			$this->assertEquals($perm_exp, $perm_mod, $errmsg);
+		}
+
+		// Purge the new default rules
+		JAccess::purgeComponentDefaultRules('com_test');
+		JAccess::purgeComponentDefaultRules('com_example');
+
+		// Get the final, hopefully reverted permissions
+		$final_permissions = $this->getDefaultPermissions($all_actions);
+
+		// None of the core rules should have changed
+		foreach ($all_actions as $action)
+		{
+			foreach ($this->groups as $gid => $group_name)
+			{
+				$perm_init = $initial_permissions[$action][$gid];
+				$perm_final = $final_permissions[$action][$gid];
+				$errmsg = "Action '$action' for group '$group_name' was not reverted when purging custom rules";
+				$this->assertEquals($perm_final, $perm_init, $errmsg);
+			}
+		}
+		
+	}
+
+
+	/**
+	 * testInstallInstallFail1
+	 *
+	 * This install will fail because it tries to modify the core rules
+	 */
+	public function testInstallFail1()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		JAccess::installComponentDefaultRules('com_core', __DIR__ . '/data/access_bad1.xml');
+	}
+
+
+	/**
+	 * testInstallInstallFail2
+	 *
+	 * This install will fail because it tries to modify the core rules
+	 */
+	public function testInstallFail2()
+	{
+		$this->setExpectedException('Exception');
+		JAccess::installComponentDefaultRules('com_test', __DIR__ . '/data/access_bad2.xml');
+	}
+	
+
+	/**
+	 * testInstallInstallFail1
+	 *
+	 * This install will fail because it tries to modify the core rules
+	 */
+	public function testPurgeFail1()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		JAccess::purgeComponentDefaultRules('com_core');
+	}
+
+
+	/**
+	 * testInstallInstallFail2
+	 *
+	 * This install will fail because the component name is malformed
+	 */
+	public function testPurgeFail2()
+	{
+		$this->setExpectedException('Exception');
+		JAccess::purgeComponentDefaultRules('mod_example');
 	}
 
 
