@@ -14,7 +14,7 @@ ver el código fuente y el archivo de la CHANGELOG
 2. Historial de cambios
 ------------
 Esta es una lista no exhaustiva (pero aún así casi completa) de cambios para
-Jokte! 1.3.0, entre ellos el alfa y versiones beta.
+Jokte! 1.2.1, entre ellos el alfa y versiones beta.
 Nuestro agradecimiento a todas aquellas personas que han aportado informes de errores y
 correcciones de código.
 
@@ -51,8 +51,10 @@ $ -> Idioma corrección o cambio
  $ Correcciones en archivos de idioma
  # Mejora en la vista de listados de artículos (muestra subtítulos y epígrafe en ventana modal)
  # Acceso al backend mejorado
- # Instalación forzosa en es-LA
+ # Instalación forzosa en es-LA y se define como lenguaje por defecto
  + Minisistema de descargas en los artículos (permite adjuntar hasta 3 archivos)
+ + Agregada opción nueva para el módulo Quién está en línea
+ + Agregado nuevo campo para parámetros en las extensiones que permite agregar ayuda con pieles
  
  
 03-Ene-2013
