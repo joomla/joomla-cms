@@ -26,7 +26,7 @@ class AyudaViewAyuda extends JView
 		$app	 = JFactory::getApplication();
 		$urlkey  = JRequest::getVar('key');
 		$urlang  = JRequest::getVar('lang');
-		$url ="http://ayuda.jokte.com.ar/".$urlang.'/'.$urlkey.'.html'; 
+		$url ="http://ayuda.jokte.org/".$urlang.'/'.$urlkey.'.html'; 
 		$doc = new DOMDocument();
 		$doc->loadHTMLFile($url);
 		echo $doc->saveHTML();
