@@ -164,10 +164,10 @@ class NewsfeedsTableNewsfeed extends JTable
 		if (empty($tags))
 		{
 			$tagHelper = new JHelperTags;
-			$itemTags = $tagHelper->getItemTags('com_newsfeeds.feed', $this->id);
+			$itemTags = $tagHelper->getItemTags('com_newsfeeds.newsfeed', $this->id);
 			if (!empty($itemTags))
 			{
-				$tagHelper->unTagItem($this->id, 'com_newsfeeds.feed');
+				$tagHelper->unTagItem($this->id, 'com_newsfeeds.newsfeed');
 			}
 		}
 
