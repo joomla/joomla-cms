@@ -923,6 +923,11 @@ class JHelperTags
 			$metadata = json_encode($metadata);
 		}
 
+		if (count($tags) == 1 && $tags[0] == '')
+		{
+			$tags = array();
+		}
+
 		return $tags;
 	}
 }
