@@ -57,5 +57,13 @@
 			description="Verify that we ignore unknown component"
 		        default="Editor:abc123.custom[com_abc123]" />
 
+		<action name="example.custom.test10" title="Example custom enable multiple [Test 10]"
+			description="Should enable for Editor and Manager" 
+			default="Editor, Manager" />
+
+		<action name="example.custom.test11" title="Example custom enable multiple [Test 11]"
+			description="Should enable for Editor and Adminstrator" 
+			default="Editor:core.edit, Administrator:core.manage" />
+
 	</section>
 </access>
