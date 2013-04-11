@@ -37,6 +37,8 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 
 		// Add toolbar buttons
 		JToolBarHelper::preferences('com_joomlaupdate');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Load mooTools
 		JHtml::_('behavior.framework', true);

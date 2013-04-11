@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Apr-2013 Jean-Marie Simonet
+ #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
+
 08-Apr-2013 Michael Babker
  # [#29916] MySQL connections are not closed.  Thanks Ian Goldstein
  # [#30505] Weblink module ignores end publishing date.  Thanks Thomas Hunziker
