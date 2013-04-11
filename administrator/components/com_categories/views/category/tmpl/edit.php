@@ -136,13 +136,11 @@ JHtml::_('formbehavior.chosen', 'select');
 					</fieldset>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php $fieldSets = $this->form->getFieldsets('metadata'); ?>
-				<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-					<?php $metadatatabs = 'metadata-' . $name; ?>
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', $metadatatabs, JText::_($fieldSet->label, true)); ?>
+				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+					<fieldset>
 						<?php echo $this->loadTemplate('metadata'); ?>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
-				<?php endforeach; ?>
+					</fieldset>
+				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 				<?php echo $this->loadTemplate('extrafields'); ?>
 
@@ -169,7 +167,51 @@ JHtml::_('formbehavior.chosen', 'select');
 		</div>
 		<!-- End Content -->
 		<!-- Begin Sidebar -->
-		<?php echo JLayoutHelper::render('joomla.edit.details', $this); ?>
+		<div class="span2">
+			<h4><?php echo JText::_('JDETAILS');?></h4>
+			<hr />
+			<fieldset class="form-vertical">
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getValue('title'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php echo $this->form->getLabel('parent_id'); ?>
+					<div class="controls">
+						<?php echo $this->form->getInput('parent_id'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php echo $this->form->getLabel('published'); ?>
+					<div class="controls">
+						<?php echo $this->form->getInput('published'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php echo $this->form->getLabel('access'); ?>
+					<div class="controls">
+						<?php echo $this->form->getInput('access'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php echo $this->form->getLabel('language'); ?>
+					<div class="controls">
+						<?php echo $this->form->getInput('language'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<?php foreach ($this->form->getFieldset('jmetadata') as $field) : ?>
+						<?php if ($field->name == 'jform[metadata][tags][]') :?>
+						<div class="control-group">
+							<div class="control-label"><?php echo $field->label; ?></div>
+							<div class="controls"><?php echo $field->input; ?></div>
+						</div>
+						<?php endif; ?>
+					<?php endforeach; ?>
+				</div>
+			</fieldset>
+		</div>
 		<!-- End Sidebar -->
 	</div>
 </form>
