@@ -97,7 +97,7 @@ class MenusHelper
 		// Only take the option, view and layout parts.
 		foreach ($request as $name => $value)
 		{
-			if (!in_array($name, self::$_filter))
+			if ((!in_array($name, self::$_filter)) && (!($name == 'task' && !array_key_exists('view', $request))))
 			{
 				// Remove the variables we want to ignore.
 				unset($request[$name]);
