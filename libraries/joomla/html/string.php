@@ -72,7 +72,7 @@ abstract class JHtmlString
 			{
 				// Find the position of the last space within the allowed length.
 				$offset = JString::strrpos($tmp, ' ');
-				$tmp = JString::substr($tmp, 0, $offset + 1);
+				$tmp2 = JString::substr($tmp, 0, $offset + 1);
 
 				// If there are no spaces and the string is longer than the maximum
 				// we need to just use the ellipsis. In that case we are done.
@@ -81,9 +81,24 @@ abstract class JHtmlString
 					return '...';
 				}
 
+				// Check if we are within a tag
+				if (JString::strrpos($tmp2, '<') > JString::strrpos($tmp2, '>'))
+				{
+					$offset = JString::strrpos($tmp2, '<');
+				}
+				$tmp = trim(JString::substr($tmp2, 0, $offset));
+
+				// If we don't have 3 characters of room, go to the second space within the limit.
 				if (JString::strlen($tmp) > $length - 3)
 				{
-					$tmp = trim(JString::substr($tmp, 0, JString::strrpos($tmp, ' ')));
+					$tmp2 = JString::substr($tmp, 0, JString::strrpos($tmp, ' '));
+
+					// Check again if we are within a tag
+					if (JString::strrpos($tmp2, '<') > JString::strrpos($tmp2, '>'))
+					{
+						$offset = JString::strrpos($tmp2, '<');
+					}
+					$tmp = trim(JString::substr($tmp2, 0, $offset));
 				}
 			}
 
