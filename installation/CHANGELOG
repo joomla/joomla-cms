@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Apr-2013 Jean-Marie Simonet
+ # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark
+
 11-Apr-2013 Jean-Marie Simonet
  #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
 
