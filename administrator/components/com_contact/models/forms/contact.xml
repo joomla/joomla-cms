@@ -63,12 +63,6 @@
 			required="true"
 		/>
 
-		<field name="tags" type="tag"
-			label="JTAG" description="JTAG_DESC"
-			class="inputbox" multiple="true"
-		>
-		</field>
-
 		<field name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
@@ -698,23 +692,28 @@
 	<fields name="metadata">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-
-		<field name="robots"
-			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
-		</field>
-
-			<field name="rights" type="text"
-				label="JFIELD_METADATA_RIGHTS_LABEL"
-				description="JFIELD_METADATA_RIGHTS_DESC"
-				size="20" />
+	
+			<field name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			</field>
+	
+				<field name="rights" type="text"
+					label="JFIELD_METADATA_RIGHTS_LABEL"
+					description="JFIELD_METADATA_RIGHTS_DESC"
+					size="20" />
+			<field name="tags" type="tag"
+				label="JTAG" description="JTAG_DESC"
+				class="inputbox" multiple="true"
+			>
+			</field>
 		</fieldset>
 	</fields>
 		<field name="hits"
