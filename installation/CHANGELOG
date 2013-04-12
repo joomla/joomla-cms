@@ -26,7 +26,8 @@ $ -> Language fix or change
 ! -> Note3
 
 12-Apr-2013 Jean-Marie Simonet
- # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark
+ # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark Dexter
+ # [#30532] Extension Manager -> Database not displaying Other Information tab. Thanks Mark Dexter
 
 11-Apr-2013 Jean-Marie Simonet
  #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
