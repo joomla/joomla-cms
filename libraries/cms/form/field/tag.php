@@ -79,7 +79,7 @@ class JFormFieldTag extends JFormFieldList
 
 		if (!is_array($this->value) && !empty($this->value))
 		{
-			if ($this->value instanceof JTags)
+			if ($this->value instanceof JHelperTags)
 			{
 				if (empty($this->value->tags))
 				{
@@ -178,7 +178,7 @@ class JFormFieldTag extends JFormFieldList
 		}
 		else
 		{
-			$options = JTags::convertPathsToNames($options);
+			$options = JHelperTags::convertPathsToNames($options);
 		}
 
 		return $options;

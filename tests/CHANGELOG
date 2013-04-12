@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Apr-2013
+ # Fix failing system test. 
+
 29-Mar-2013 Michael Babker
  +# Test JTableCorecontent, fix bugs found in class
 

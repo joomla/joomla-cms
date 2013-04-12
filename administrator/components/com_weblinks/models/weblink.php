@@ -190,7 +190,7 @@ class WeblinksModelWeblink extends JModelAdmin
 
 			if (!empty($item->id))
 			{
-				$item->tags = new JTags;
+				$item->tags = new JHelperTags;
 				$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
 			}
 		}

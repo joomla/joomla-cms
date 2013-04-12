@@ -341,7 +341,7 @@ abstract class JFormField
 			}
 			else
 			{
-				$this->element->addAttribute('class', 'required');
+				$this->element['class'] = 'required';
 			}
 		}
 
