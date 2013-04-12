@@ -1,53 +1,3 @@
-CREATE TABLE IF NOT EXISTS `#__tags` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `lft` int(11) NOT NULL DEFAULT '0',
-  `rgt` int(11) NOT NULL DEFAULT '0',
-  `level` int(10) unsigned NOT NULL DEFAULT '0',
-  `path` varchar(255) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL,
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `note` varchar(255) NOT NULL DEFAULT '',
-  `description` mediumtext NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT '0',
-  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `access` int(10) unsigned NOT NULL DEFAULT '0',
-  `params` text NOT NULL,
-  `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
-  `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
-  `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-  `modified_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `images` text NOT NULL,
-  `urls` text NOT NULL,
-  `hits` int(10) unsigned NOT NULL DEFAULT '0',
-  `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT '1',
-  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
-
-  PRIMARY KEY (`id`),
-  KEY `tag_idx` (`published`,`access`),
-  KEY `idx_access` (`access`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_path` (`path`),
-  KEY `idx_left_right` (`lft`,`rgt`),
-  KEY `idx_alias` (`alias`),
-  KEY `idx_language` (`language`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `#__tags`
---
-
-INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`,`created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`)
-VALUES (1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', '', '2011-01-01 00:00:01','', 0, '0000-00-00 00:00:00', '', '',  0, '*', 1);
-
-
 --
 -- Table structure for table `#__content_types`
 --
@@ -63,21 +13,6 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
   PRIMARY KEY (`type_id`),
   KEY `idx_alias` (`type_alias`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
-
---
--- Table structure for table `#__ucm_base`
---
-
-CREATE TABLE IF NOT EXISTS `#__ucm_base` (
-  `ucm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `ucm_item_id` int(10) NOT NULL,
-  `ucm_type_id` int(11) NOT NULL,
-  `ucm_language_id` int(11) NOT NULL,
-  PRIMARY KEY (`ucm_id`),
-  KEY `ucm_item_id` (`ucm_id`),
-  KEY `ucm_type_id` (`ucm_id`),
-  KEY `ucm_language_id` (`ucm_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `#__content_types`
@@ -109,6 +44,70 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
   KEY `idx_type` (`type_id`),
   KEY `idx_core_content_id` (`core_content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
+
+CREATE TABLE IF NOT EXISTS `#__tags` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `lft` int(11) NOT NULL DEFAULT '0',
+  `rgt` int(11) NOT NULL DEFAULT '0',
+  `level` int(10) unsigned NOT NULL DEFAULT '0',
+  `path` varchar(255) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `note` varchar(255) NOT NULL DEFAULT '',
+  `description` mediumtext NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `params` text NOT NULL,
+  `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
+  `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
+  `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `images` text NOT NULL,
+  `urls` text NOT NULL,
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `language` char(7) NOT NULL,
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
+  `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `tag_idx` (`published`,`access`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_path` (`path`),
+  KEY `idx_left_right` (`lft`,`rgt`),
+  KEY `idx_alias` (`alias`),
+  KEY `idx_language` (`language`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `#__tags`
+--
+
+INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`,`created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`)
+VALUES (1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', '', '2011-01-01 00:00:01','', 0, '0000-00-00 00:00:00', '', '',  0, '*', 1);
+
+--
+-- Table structure for table `#__ucm_base`
+--
+
+CREATE TABLE IF NOT EXISTS `#__ucm_base` (
+  `ucm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ucm_item_id` int(10) NOT NULL,
+  `ucm_type_id` int(11) NOT NULL,
+  `ucm_language_id` int(11) NOT NULL,
+  PRIMARY KEY (`ucm_id`),
+  KEY `ucm_item_id` (`ucm_id`),
+  KEY `ucm_type_id` (`ucm_id`),
+  KEY `ucm_language_id` (`ucm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -144,7 +143,6 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `core_type_id` int(10) unsigned,
   PRIMARY KEY (`core_content_id`),
-  UNIQUE KEY `idx_type_alias_item_id` (`core_type_alias`,`core_content_item_id`),
   KEY `tag_idx` (`core_state`,`core_access`),
   KEY `idx_access` (`core_access`),
   KEY `idx_alias` (`core_alias`),
