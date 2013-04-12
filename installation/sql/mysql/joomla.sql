@@ -425,60 +425,6 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__ucm_content`
---
-
-CREATE TABLE IF NOT EXISTS `#__ucm_content` (
-  `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `core_type_alias`  varchar(255) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
-  `core_title` varchar(255) NOT NULL,
-  `core_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `core_body` mediumtext NOT NULL,
-  `core_state` tinyint(1) NOT NULL DEFAULT '0',
-  `core_checked_out_time`  varchar(255) NOT NULL DEFAULT '',
-  `core_checked_out_user_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `core_access` int(10) unsigned NOT NULL DEFAULT '0',
-  `core_params` text NOT NULL,
-  `core_featured` tinyint(4) unsigned NOT NULL DEFAULT '0',
-  `core_metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `core_created_user_id` int(10) unsigned  NOT NULL DEFAULT '0',
-  `core_created_by_alias` varchar(255) NOT NULL DEFAULT '',
-  `core_created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_modified_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Most recent user that modified',
-  `core_modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_language` char(7) NOT NULL,
-  `core_publish_up` datetime NOT NULL,
-  `core_publish_down` datetime NOT NULL,
-  `core_content_item_id` int(10) unsigned COMMENT 'ID from the individual type table',
-  `asset_id` int(10) unsigned COMMENT 'FK to the #__assets table.',
-  `core_images` text NOT NULL,
-  `core_urls` text NOT NULL,
-  `core_hits` int(10) unsigned NOT NULL DEFAULT '0',
-  `core_version` int(10) unsigned NOT NULL DEFAULT '1',
-  `core_ordering` int(11) NOT NULL DEFAULT '0',
-  `core_metakey` text NOT NULL,
-  `core_metadesc` text NOT NULL,
-  `core_catid` int(10) unsigned NOT NULL DEFAULT '0',
-  `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
-  `core_type_id` int(10) unsigned,
-  PRIMARY KEY (`core_content_id`),
-  KEY `tag_idx` (`core_state`,`core_access`),
-  KEY `idx_access` (`core_access`),
-  KEY `idx_alias` (`core_alias`),
-  KEY `idx_language` (`core_language`),
-  KEY `idx_title` (`core_title`),
-  KEY `idx_modified_time` (`core_modified_time`),
-  KEY `idx_created_time` (`core_created_time`),
-  KEY `idx_content_type` (`core_type_alias`),
-  KEY `idx_core_modified_user_id` (`core_modified_user_id`),
-  KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`),
-  KEY `idx_core_created_user_id` (`core_created_user_id`),
-  KEY `idx_core_type_id` (`core_type_id`)
- ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__core_log_searches`
 --
 
@@ -1653,6 +1599,62 @@ CREATE TABLE IF NOT EXISTS `#__ucm_base` (
   KEY `ucm_type_id` (`ucm_id`),
   KEY `ucm_language_id` (`ucm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__ucm_content`
+--
+
+CREATE TABLE IF NOT EXISTS `#__ucm_content` (
+  `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `core_type_alias`  varchar(255) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
+  `core_title` varchar(255) NOT NULL,
+  `core_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
+  `core_body` mediumtext NOT NULL,
+  `core_state` tinyint(1) NOT NULL DEFAULT '0',
+  `core_checked_out_time`  varchar(255) NOT NULL DEFAULT '',
+  `core_checked_out_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `core_access` int(10) unsigned NOT NULL DEFAULT '0',
+  `core_params` text NOT NULL,
+  `core_featured` tinyint(4) unsigned NOT NULL DEFAULT '0',
+  `core_metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
+  `core_created_user_id` int(10) unsigned  NOT NULL DEFAULT '0',
+  `core_created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `core_created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `core_modified_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Most recent user that modified',
+  `core_modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `core_language` char(7) NOT NULL,
+  `core_publish_up` datetime NOT NULL,
+  `core_publish_down` datetime NOT NULL,
+  `core_content_item_id` int(10) unsigned COMMENT 'ID from the individual type table',
+  `asset_id` int(10) unsigned COMMENT 'FK to the #__assets table.',
+  `core_images` text NOT NULL,
+  `core_urls` text NOT NULL,
+  `core_hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `core_version` int(10) unsigned NOT NULL DEFAULT '1',
+  `core_ordering` int(11) NOT NULL DEFAULT '0',
+  `core_metakey` text NOT NULL,
+  `core_metadesc` text NOT NULL,
+  `core_catid` int(10) unsigned NOT NULL DEFAULT '0',
+  `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  `core_type_id` int(10) unsigned,
+  PRIMARY KEY (`core_content_id`),
+  KEY `tag_idx` (`core_state`,`core_access`),
+  KEY `idx_access` (`core_access`),
+  KEY `idx_alias` (`core_alias`),
+  KEY `idx_language` (`core_language`),
+  KEY `idx_title` (`core_title`),
+  KEY `idx_modified_time` (`core_modified_time`),
+  KEY `idx_created_time` (`core_created_time`),
+  KEY `idx_content_type` (`core_type_alias`),
+  KEY `idx_core_modified_user_id` (`core_modified_user_id`),
+  KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`),
+  KEY `idx_core_created_user_id` (`core_created_user_id`),
+  KEY `idx_core_type_id` (`core_type_id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
+ 
+ -- --------------------------------------------------------
 
 --
 -- Table structure for table `#__updates`

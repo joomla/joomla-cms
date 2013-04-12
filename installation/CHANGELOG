@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+12-Apr-2013 Mark Dexter
+ # [#30523] Fix Tag Batch Creation and Tag Library Cleanup. Thanks David and Elin.
+
 12-Apr-2013 Jean-Marie Simonet
  # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark Dexter
  # [#30532] Extension Manager -> Database not displaying Other Information tab. Thanks Mark Dexter
