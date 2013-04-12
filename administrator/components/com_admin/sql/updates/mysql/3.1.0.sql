@@ -65,6 +65,21 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
 
 --
+-- Table structure for table `#__ucm_base`
+--
+
+CREATE TABLE IF NOT EXISTS `#__ucm_base` (
+  `ucm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ucm_item_id` int(10) NOT NULL,
+  `ucm_type_id` int(11) NOT NULL,
+  `ucm_language_id` int(11) NOT NULL,
+  PRIMARY KEY (`ucm_id`),
+  KEY `ucm_item_id` (`ucm_id`),
+  KEY `ucm_type_id` (`ucm_id`),
+  KEY `ucm_language_id` (`ucm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Dumping data for table `#__content_types`
 --
 
@@ -93,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
  KEY idx_core_content_id (`core_content_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Maps items from content tables to tags';
 
-CREATE TABLE IF NOT EXISTS `#__core_content` (
+CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `core_type_alias`  varchar(255) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(255) NOT NULL,

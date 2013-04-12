@@ -55,11 +55,6 @@
 			size="45"
 		/>
 
-		<field name="tags" type="tag"
-			label="JTAG" description="JTAG_DESC"
-			class="inputbox" multiple="true"
-		/>
-
 		<field
 			name="language"
 			type="contentlanguage"
@@ -70,4 +65,56 @@
 		</field>
 
 	</fieldset>
+	<fields name="metadata">
+		<fieldset name="jmetadata"
+			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+				<field name="tags" type="tag"
+					label="JTAG" description="JTAG_DESC"
+					class="inputbox" multiple="true"
+				>
+				</field>
+	
+				<field name="robots"
+					type="hidden"
+					filter="unset"
+					label="JFIELD_METADATA_ROBOTS_LABEL"
+					description="JFIELD_METADATA_ROBOTS_DESC"
+					labelclass="control-label"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+					<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				</field>
+	
+				<field name="author" 
+					type="hidden"
+					filter="unset"
+					label="JAUTHOR" 
+					description="JFIELD_METADATA_AUTHOR_DESC"
+					size="20" 
+					labelclass="control-label" 
+				/>
+
+				<field name="rights" 
+					type="hidden" 
+					label="JFIELD_META_RIGHTS_LABEL"
+					filter="unset"
+					description="JFIELD_META_RIGHTS_DESC" 
+					required="false" 
+					labelclass="control-label" 
+				/>
+
+				<field name="xreference" 
+					type="hidden"
+					filter="unset"
+					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
+					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
+					class="inputbox"
+					size="20" 
+					labelclass="control-label" />
+
+		</fieldset>
+	</fields>
 </form>
