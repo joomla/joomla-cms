@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 12-Apr-2013 Mark Dexter
  # [#30523] Fix Tag Batch Creation and Tag Library Cleanup. Thanks David and Elin.
+ # [#30553] jos_contentitem_tag_map error.
 
 12-Apr-2013 Jean-Marie Simonet
  # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark Dexter
