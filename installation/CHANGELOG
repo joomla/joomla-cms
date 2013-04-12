@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30537] Menus with default view in URL and sub-tasks are missing in other defined attributes and do not display correctly in menu type input in backend. Thanks Beat
  #+ [#30139] Memcache handler Issue (Not working at all). Thanks Ofer Cohen and sajal suni
  # [#29250] *Com_content caches article view no matter of Itemid. Thanks Dennis Hermatski
+ # [#29787] array_diff_assoc() fix for PHP 5.4. Thanks Rouven Weßling
 
 11-Apr-2013 Jean-Marie Simonet
  #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
