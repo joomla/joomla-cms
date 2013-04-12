@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark Dexter
  # [#30532] Extension Manager -> Database not displaying Other Information tab. Thanks Mark Dexter
  $ [#30511] Capitalise Custom output title (en-GB only). Thanks Brian Teeman
+ # [#30537] Menus with default view in URL and sub-tasks are missing in other defined attributes and do not display correctly in menu type input in backend. Thanks Beat
 
 11-Apr-2013 Jean-Marie Simonet
  #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
