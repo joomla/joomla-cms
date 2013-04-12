@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#30537] Menus with default view in URL and sub-tasks are missing in other defined attributes and do not display correctly in menu type input in backend. Thanks Beat
  # [#30446] Fix Strict warning 'Attribute already exists'. Thanks Piotr Konieczny
  # [#30539] *Memcache cache time issue. Thanks Ofer Cohen and sajal soni
+ # [#30154] Allow ability to upload file (eg: profile picture) through com_users registration view. Thanks Cy Lee
 
 11-Apr-2013 Jean-Marie Simonet
  #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
