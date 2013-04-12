@@ -32,6 +32,7 @@ $ -> Language fix or change
  #+ [#30139] Memcache handler Issue (Not working at all). Thanks Ofer Cohen and sajal suni
  # [#29250] *Com_content caches article view no matter of Itemid. Thanks Dennis Hermatski
  # [#30206] findmanifest should prioritize main folder manifests. Thanks Roberto Segura
+ # [#30154] Allow ability to upload file (eg: profile picture) through com_users registration view. Thanks Cy Lee
 
 11-Apr-2013 Jean-Marie Simonet
  #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
