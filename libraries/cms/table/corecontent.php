@@ -187,7 +187,6 @@ class JTableCorecontent extends JTable
 			}
 		}
 
-
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Corecontent', 'JTable');
 		/*

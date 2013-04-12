@@ -263,7 +263,6 @@ class JTableContent extends JTable
 			}
 		}
 
-
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Content', 'JTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))

@@ -93,19 +93,19 @@ class JHelperContent
 	/**
 	* Gets the associated language ID
 	*
-	* @param	string	The language code to look up
+	* @param   string  $langCode  The language code to look up
 	*
-	* @return	int		The language ID
+	* @return  integer  The language ID
 	*
-	* @since	3.1
+	* @since   3.1
 	*/
 	public static function getLanguageId($langCode)
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(TRUE)
-				->select('lang_id')
-				->from('#__languages')
-				->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('lang_id')
+			->from('#__languages')
+			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
 		$db->setQuery($query);
 
 		$id = $db->loadResult();
@@ -131,10 +131,9 @@ class JHelperContent
 		{
 			$columnName = $field->Field;
 			$value = $table->$columnName;
-			$data[$columnName] =  $value;
+			$data[$columnName] = $value;
 		}
 
 		return $data;
 	}
-
 }

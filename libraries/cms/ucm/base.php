@@ -21,27 +21,26 @@ class JUcmBase implements JUcm
 	/**
 	 * The UCM type object
 	 *
-	 * @var    JUcmType Object
-	 * @since  13.1
+	 * @var    JUcmType
+	 * @since  3.1
 	 */
 	protected $type;
 
 	/**
 	 * The alias for the content table
 	 *
-	 * @var    String
-	 * @since  13.1
+	 * @var    string
+	 * @since  3.1
 	 */
 	protected $alias;
-
 
 	/**
 	 * Instantiate the UcmBase.
 	 *
-	 * @param   String    $alias    The alias string
-	 * @param   JUcmType  $model    The type object
+	 * @param   string    $alias  The alias string
+	 * @param   JUcmType  $type   The type object
 	 *
-	 * @since  13.1
+	 * @since   3.1
 	 */
 	public function __construct($alias = null, JUcmType $type = null)
 	{
@@ -50,20 +49,20 @@ class JUcmBase implements JUcm
 		$this->alias = isset($alias) ? $alias : $input->get('option') . '.' . $input->get('view');
 
 		$this->type = isset($type) ? $type : $this->getType();
-
 	}
 
 	/**
-	* Store data to the appropriate table
-	*
-	* @param   array   $data         Data to be stored
-	* @param   JTable  $table        JTable Object
-	* @param   string  $primaryKey   The primary key name
-	*
-	* @return  Boolean  true on success
-	*
-	* @since   3.1
-	*/
+	 * Store data to the appropriate table
+	 *
+	 * @param   array   $data        Data to be stored
+	 * @param   JTable  $table       JTable Object
+	 * @param   string  $primaryKey  The primary key name
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.1
+	 * @throws  Exception
+	 */
 	protected function store($data, JTable $table = null, $primaryKey = null)
 	{
 		if (!$table)
@@ -86,7 +85,6 @@ class JUcmBase implements JUcm
 		catch (RuntimeException $e)
 		{
 			throw new Exception($e->getMessage(), 500);
-			return false;
 		}
 
 		try
@@ -96,20 +94,18 @@ class JUcmBase implements JUcm
 		catch (RuntimeException $e)
 		{
 			throw new Exception($e->getMessage(), 500);
-			return false;
 		}
 
 		return true;
 	}
 
-
 	/**
-	* Get the UCM Content type.
-	*
-	* @return  Object  The UCM content type
-	*
-	* @since   3.1
-	**/
+	 * Get the UCM Content type.
+	 *
+	 * @return  object  The UCM content type
+	 *
+	 * @since   3.1
+	 */
 	public function getType()
 	{
 		$type = new JUcmType($this->alias);
@@ -118,23 +114,25 @@ class JUcmBase implements JUcm
 	}
 
 	/**
-	* Method to map the base ucm fields
-	*
-	* @return  array  Data array of UCM mappings
-	*
-	* @since 3.1
-	**/
+	 * Method to map the base ucm fields
+	 *
+	 * @param   array     $original  Data array
+	 * @param   JUcmType  $type      UCM Content Type
+	 *
+	 * @return  array  Data array of UCM mappings
+	 *
+	 * @since   3.1
+	 */
 	public function mapBase($original, JUcmType $type = null)
 	{
 		$type = $type ? $type : $this->type;
 
 		$data = array(
-					'ucm_type_id' => $type->id,
-					'ucm_item_id' => $original[$type->primary_key],
-					'ucm_language_id' => JHelperContent::getLanguageId($original['language'])
-				);
+			'ucm_type_id' => $type->id,
+			'ucm_item_id' => $original[$type->primary_key],
+			'ucm_language_id' => JHelperContent::getLanguageId($original['language'])
+		);
 
 		return $data;
 	}
-
 }

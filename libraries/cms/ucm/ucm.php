@@ -18,5 +18,4 @@ defined('JPATH_BASE') or die;
  */
 interface JUcm
 {
-	
 }
