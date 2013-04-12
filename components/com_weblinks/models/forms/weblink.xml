@@ -55,12 +55,6 @@
 			size="45"
 		/>
 
-		<field name="tags" type="tag"
-			label="JTAG" description="JTAG_DESC"
-			class="inputbox" multiple="true"
-			size="30"
-		/>
-
 		<field
 			name="language"
 			type="contentlanguage"
