@@ -25,10 +25,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+13-Apr-2013 Mark Dexter
+ # [#30560] Tagged Item menu options Child Tags always saves as Include. Thanks Elin.
+ # [#30559] 'joomla_310.ddfre_updates' doesn't exist 
+
 -------------------- 3.1 Beta 4 Release [12-Apr-2012] ------------------
 
 12-Apr-2013 Mark Dexter
  # [#30523] Fix Tag Batch Creation and Tag Library Cleanup. Thanks David and Elin.
+ # [#30553] jos_contentitem_tag_map error.
 
 12-Apr-2013 Jean-Marie Simonet
  # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark Dexter

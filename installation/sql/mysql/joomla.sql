@@ -377,8 +377,8 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
   `type_alias` varchar(255) NOT NULL DEFAULT '',
   `table` varchar(255) NOT NULL DEFAULT '',
   `rules` text NOT NULL,
-   `field_mappings` text NOT NULL,
-   `router` varchar(255) NOT NULL  DEFAULT '',
+  `field_mappings` text NOT NULL,
+  `router` varchar(255) NOT NULL  DEFAULT '',
   PRIMARY KEY (`type_id`),
   KEY `idx_alias` (`type_alias`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
@@ -1653,8 +1653,8 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   KEY `idx_core_created_user_id` (`core_created_user_id`),
   KEY `idx_core_type_id` (`core_type_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
- 
- -- --------------------------------------------------------
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `#__updates`

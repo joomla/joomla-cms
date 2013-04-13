@@ -22,12 +22,12 @@ class JHelperTags
 	/**
 	 * Method to add or update tags associated with an item. Generally used as a postSaveHook.
 	 *
-	 * @param   integer  $id      The id (primary key) of the item to be tagged.
-	 * @param   string   $prefix  Dot separated string with the option and view for a url and type alias.
-	 * @param   boolean  $isNew   Flag indicating this item is new.
-	 * @param   integer  $item    Value of the primary key in the core_content table
-	 * @param   array    $tags    Array of tags to be applied.
-	 * @param   boolean          $replace   Flag indicating if all exising tags should be replaced
+	 * @param   integer  $id       The id (primary key) of the item to be tagged.
+	 * @param   string   $prefix   Dot separated string with the option and view for a url and type alias.
+	 * @param   boolean  $isNew    Flag indicating this item is new.
+	 * @param   integer  $item     Value of the primary key in the core_content table
+	 * @param   array    $tags     Array of tags to be applied.
+	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
 	 *
 	 * @return  void
 	 *
@@ -108,7 +108,7 @@ class JHelperTags
 				}
 			}
 
-			// unset($tag);
+			// Commented: unset($tag);
 		}
 
 		// Check again that we have tags
@@ -301,8 +301,8 @@ class JHelperTags
 	 * @since   3.1
 	 */
 	public function getTagItemsQuery($tagId, $typesr = null, $includeChildren = false, $orderByOption = 'c.core_title', $orderDir = 'ASC',
-		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1'
-	) {
+		$anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1')
+	{
 		// Create a new query object.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -846,31 +846,31 @@ class JHelperTags
 	}
 
 	/**
-	* Function that converts tag ids to their tag names
-	*
-	* @param	string	$metadata	A JSON encoded metadata string
-	*
-	* @return	Array	An array of names only
-	*/
+	 * Function that converts tag ids to their tag names
+	 *
+	 * @param   string  &$metadata  A JSON encoded metadata string
+	 *
+	 * @return  array  An array of names only
+	 *
+	 * @since   3.1
+	 */
 	public function getMetaTagNames(&$metadata)
 	{
-		$db = JFactory::getDbo();
-
 		$metadata = json_decode($metadata);
 		$tags = explode(',', $metadata->tags);
-		
-		$tagIds = array();		
+
+		$tagIds = array();
 		$tagNames = array();
 
 		if (!empty($tags))
 		{
 			foreach ($tags as $tag)
 			{
-				if(is_numeric($tag))
+				if (is_numeric($tag))
 				{
 					$tagIds[] = $tag;
-				} 
-				else 
+				}
+				else
 				{
 					$tagNames[] = $tag;
 				}
@@ -880,14 +880,15 @@ class JHelperTags
 			{
 				$tagIds = implode(',', $tagIds);
 
-				$query = $db->getQuery(TRUE);
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true);
 				$query->select('title')
-						->from('#__tags')
-						->where($db->quoteName('id'). ' IN ('. $tagIds .')');
+					->from('#__tags')
+					->where($db->quoteName('id') . ' IN (' . $tagIds . ')');
 
 				$db->setQuery($query);
 				$newTagNames = $db->loadColumn();
-				$tagNames = array_merge($tagNames,$newTagNames);
+				$tagNames = array_merge($tagNames, $newTagNames);
 			}
 		}
 
@@ -900,15 +901,17 @@ class JHelperTags
 	/**
 	 * Function that converts tags stored as metadata to tags and back, including cleaning
 	 *
-	 * @param   string  $metadata  JSON encoded metadata
+	 * @param   string  &$metadata  JSON encoded metadata
 	 *
 	 * @return  array
+	 *
+	 * @since   3.1
 	 */
-
 	public function convertTagsMetadata(&$metadata)
 	{
 		$metadata = json_decode($metadata);
 		$tags = (array) $metadata->tags;
+
 		// Store the tag data if the article data was saved and run related methods.
 		if (empty($tags) == false)
 		{

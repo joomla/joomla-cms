@@ -21,32 +21,36 @@ class JUcmType implements JUcm
 	/**
 	 * The UCM Type
 	 *
-	 * @var		JUcmType Object
-	 * @since	13.1
+	 * @var    JUcmType
+	 * @since  3.1
 	 */
 	public $type;
 
 	/**
 	* The Database object
 	*
-	* @var		JDatabase Object
-	* @since	13.1
+	* @var    JDatabaseDriver
+	* @since  3.1
 	*/
 	protected $db;
 
 	/**
 	* The alias for the content type
 	*
-	* @var	String name for content type
-	* @since	13.1
+	* @var	  string
+	* @since  3.1
 	*/
 	protected $alias;
 
-
-	public function __construct($alias = null, JDatabase $database = null, JApplication $application = null)
+	/**
+	 * @param  string            $alias        The alias for the item
+	 * @param  JDatabaseDriver   $database     The database object
+	 * @param  JApplicationBase  $application  The application object
+	 */
+	public function __construct($alias = null, JDatabaseDriver $database = null, JApplicationBase $application = null)
 	{
-		$this->db 		= $database ? $database : JFactory::getDbo();
-		$application = $application ? $application : JFactory::getApplication();
+		$this->db = $database ? $database : JFactory::getDbo();
+		$app      = $application ? $application : JFactory::getApplication();
 
 		// Make the best guess we can in the absence of information.
 		$this->alias = $alias ? $alias : $app->input->get('option') . '.' . $app->input->get('view');
@@ -56,9 +60,9 @@ class JUcmType implements JUcm
 	/**
 	* Get the Content Type
 	*
-	* @param   Integer  $pk  The primary key of the alias type
+	* @param   integer  $pk  The primary key of the alias type
 	*
-	* @return  JUcmType  The UCM Type
+	* @return  object  The UCM Type data
 	*
 	* @since   3.1
 	*/
@@ -82,13 +86,14 @@ class JUcmType implements JUcm
 	}
 
 	/**
-	*
-	* @param   string  $alias  The string of the type alias
-	*
-	* @return  integer  The ID of the requested type
-	*
-	* @since 3.1
-	*/
+	 * Retrieves the UCM type ID
+	 *
+	 * @param   string  $alias  The string of the type alias
+	 *
+	 * @return  integer  The ID of the requested type
+	 *
+	 * @since   3.1
+	 */
 	public function getTypeId($alias = null)
 	{
 		if (!$alias)
@@ -98,7 +103,7 @@ class JUcmType implements JUcm
 
 		$query = $this->db->getQuery(true);
 		$query->select('ct.type_id');
-		$query->from($this->db->quoteName('#__content_types','ct'));
+		$query->from($this->db->quoteName('#__content_types', 'ct'));
 		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . $this->db->q($alias));
 
 		$this->db->setQuery($query);

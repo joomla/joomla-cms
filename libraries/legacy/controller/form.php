@@ -682,7 +682,8 @@ class JControllerForm extends JControllerLegacy
 			return false;
 		}
 
-		if(!isset($validData['metadata']['tags'])) {
+		if (!isset($validData['metadata']['tags']))
+		{
 			$validData['metadata']['tags'] = null;
 		}
 
