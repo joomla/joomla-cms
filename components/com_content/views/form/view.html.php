@@ -30,6 +30,13 @@ class ContentViewForm extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
+		$doc		= JFactory::getDocument();
+
+		//Ensure the relevant bootstrap elements are loaded so that this view works with non-bootstrap templates
+		JHtml::_('bootstrap.framework');
+		$doc->addStyleDeclaration('.tab-content > .tab-pane, .pill-content > .pill-pane {display: none;}'.
+					  '.tab-content > .active, .pill-content > .active {display: block;}');
+
 
 		// Get model data.
 		$this->state		= $this->get('State');
