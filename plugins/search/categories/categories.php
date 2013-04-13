@@ -146,7 +146,7 @@ class PlgSearchCategories extends JPlugin
 					'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = \'com_content\''
 						. 'AND a.access IN (' . $groups . ')'
 				);
-			$query->group('a.id')
+			$query->group('a.id, a.title, a.description, a.alias')
 				->order($order);
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
