@@ -38,13 +38,22 @@ class UsersModelRegistration extends JModelForm
 		$db = $this->getDbo();
 
 		// Get the user id based on the token.
-		$db->setQuery(
-			'SELECT ' . $db->quoteName('id') . ' FROM ' . $db->quoteName('#__users') .
-				' WHERE ' . $db->quoteName('activation') . ' = ' . $db->quote($token) .
-				' AND ' . $db->quoteName('block') . ' = 1' .
-				' AND ' . $db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate())
-		);
-		$userId = (int) $db->loadResult();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('activation') . ' = ' . $db->Quote($token))
+			->where($db->quoteName('block') . ' = ' . (int) 1)
+			->where($db->quoteName('lastvisitDate') . ' = ' . $db->Quote($db->getNullDate()));
+		$db->setQuery($query);
+		try
+		{
+			$userId = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			return false;
+		}
 
 		// Check for a valid user id.
 		if (!$userId)
@@ -91,12 +100,21 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// get all admin users
-			$query = 'SELECT name, email, sendEmail, id' .
-				' FROM #__users' .
-				' WHERE sendEmail=1';
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+				->from($db->quoteName('#__users')
+				->where($db->quoteName('sendEmail') . ' = ' . (int) 1));
 
 			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			try
+			{
+				$rows = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				return false;
+			}
 
 			// Send mail to all users with users creating permissions and receiving system emails
 			foreach ($rows as $row)
@@ -485,12 +503,21 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// get all admin users
-			$query = 'SELECT name, email, sendEmail' .
-				' FROM #__users' .
-				' WHERE sendEmail=1';
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName(array('name', 'email', 'sendEmail')))
+				->from($db->quoteName('#__users')
+				->where($db->quoteName('sendEmail') . ' = ' . (int) 1));
 
 			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+			try
+			{
+				$rows = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				return false;
+			}
 
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
@@ -512,28 +539,43 @@ class UsersModelRegistration extends JModelForm
 
 			// Send a system message to administrators receiving system mails
 			$db = JFactory::getDbo();
-			$q = "SELECT id
-				FROM #__users
-				WHERE block = 0
-				AND sendEmail = 1";
-			$db->setQuery($q);
-			$sendEmail = $db->loadColumn();
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('block') . ' = ' . (int) 0)
+				->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
+			$db->setQuery($query);
+			try
+			{
+				$sendEmail = $db->loadColumn();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				return false;
+			}
 			if (count($sendEmail) > 0)
 			{
 				$jdate = new JDate;
 				// Build the query to add the messages
-				$q = "INSERT INTO " . $db->quoteName('#__messages') . " (" . $db->quoteName('user_id_from') .
-					", " . $db->quoteName('user_id_to') . ", " . $db->quoteName('date_time') .
-					", " . $db->quoteName('subject') . ", " . $db->quoteName('message') . ") VALUES ";
-				$messages = array();
-
 				foreach ($sendEmail as $userid)
 				{
-					$messages[] = "(" . $userid . ", " . $userid . ", '" . $jdate->toSql() . "', '" . JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT') . "', '" . JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']) . "')";
+					$values = array($db->quote($userid), $db->quote($userid), $db->quote($jdate->toSql()), $db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')), $db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])));
+					$query = $db->getQuery(true);
+					$query->insert($db->quoteName('#__messages'))
+						->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
+						->values(implode(',', $values));
+					$db->setQuery($query);
+					try
+					{
+						$db->execute();
+					}
+					catch (RuntimeException $e)
+					{
+						$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+						return false;
+					}
 				}
-				$q .= implode(',', $messages);
-				$db->setQuery($q);
-				$db->execute();
 			}
 			return false;
 		}
