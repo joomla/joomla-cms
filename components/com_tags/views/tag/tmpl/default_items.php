@@ -82,7 +82,6 @@ $n = count($this->items);
 				<?php endif; ?>
 					</li>
 			<?php endif;?>
-			<div class="clearfix"></div>
 		<?php endforeach; ?>
 	</ul>
 
