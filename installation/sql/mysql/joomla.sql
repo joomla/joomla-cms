@@ -1654,7 +1654,7 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   KEY `idx_core_type_id` (`core_type_id`)
  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Contains core content data in name spaced fields';
 
- -- --------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `#__updates`
