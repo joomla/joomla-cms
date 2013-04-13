@@ -60,8 +60,16 @@ abstract class JHtmlString
 		// Whether or not allowing HTML, truncate the item text if it is too long.
 		if ($length > 0 && JString::strlen($text) > $length)
 		{
-			$tmp = trim(JString::substr($text, 0, $length));
 
+			// Because we are adding { ...} to the end we only need to look at the
+			// length - 4 substring but we need to make sure that length is bigger then 4
+			if ($length <= 4)
+			{
+				return '...';
+			}
+			$tmp = trim(JString::substr($text, 0, $length - 4));
+
+			// We are within a html tag add the tag doesn't end within the lenght.
 			if (substr($tmp, 0, 1) == '<' && strpos($tmp, '>') === false)
 			{
 					return '...';
@@ -70,16 +78,28 @@ abstract class JHtmlString
 			// $noSplit true means that we do not allow splitting of words.
 			if ($noSplit)
 			{
-				// Find the position of the last space within the allowed length.
+				// Find the position of the last space within the substring.
 				$offset = JString::strrpos($tmp, ' ');
-				$tmp2 = JString::substr($tmp, 0, $offset + 1);
 
-				// If there are no spaces and the string is longer than the maximum
-				// we need to just use the ellipsis. In that case we are done.
-				if ($offset === false && strlen($text) > $length)
+				// Handling multibyte spaces
+				$multiByteSpace = mb_convert_encoding('&#12288;', 'UTF-8', 'HTML-ENTITIES');
+				$mb_offset = JString::strrpos($tmp, $multiByteSpace);
+
+				if ($mb_offset !== false)
+				{
+					if ($offset === false || $mb_offset > $offset)
+					{
+						$offset = $mb_offset;
+					}
+
+				}
+
+				// If there are no spaces we need to just use the ellipsis.
+				if ($offset === false)
 				{
 					return '...';
 				}
+				$tmp2 = JString::substr($tmp, 0, $offset);
 
 				// Check if we are within a tag
 				if (JString::strrpos($tmp2, '<') > JString::strrpos($tmp2, '>'))
@@ -87,19 +107,6 @@ abstract class JHtmlString
 					$offset = JString::strrpos($tmp2, '<');
 				}
 				$tmp = trim(JString::substr($tmp2, 0, $offset));
-
-				// If we don't have 3 characters of room, go to the second space within the limit.
-				if (JString::strlen($tmp) > $length - 3)
-				{
-					$tmp2 = JString::substr($tmp, 0, JString::strrpos($tmp, ' '));
-
-					// Check again if we are within a tag
-					if (JString::strrpos($tmp2, '<') > JString::strrpos($tmp2, '>'))
-					{
-						$offset = JString::strrpos($tmp2, '<');
-					}
-					$tmp = trim(JString::substr($tmp2, 0, $offset));
-				}
 			}
 
 			if ($allowHtml)
