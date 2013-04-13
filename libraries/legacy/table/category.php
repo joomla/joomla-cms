@@ -212,6 +212,7 @@ class JTableCategory extends JTableNested
 			$this->created_time = $date->toSql();
 			$this->created_user_id = $user->get('id');
 		}
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
@@ -221,6 +222,46 @@ class JTableCategory extends JTableNested
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
 			return false;
 		}
-		return parent::store($updateNulls);
+
+		$tagsHelper = new JHelperTags;
+		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+		$tagsHelper->getMetaTagNames($this->metadata);
+
+		if (empty($tags))
+		{
+			$tagHelper = new JHelperTags;
+			$itemTags = $tagHelper->getItemTags($this->extension . '.category', $this->id);
+			if (!empty($itemTags))
+			{
+				$tagHelper->unTagItem($this->id, $this->extension . '.category');
+			}
+		}
+
+		$return = parent::store($updateNulls);
+
+		if ($return == false)
+		{
+			return false;
+		}
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($tags) == false)
+		{
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($this);
+
+			$typeAlias = $this->extension . '.category';
+			$ucm = new JUcmContent($this, $typeAlias);
+			$ucm->save($data);
+
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
+
+			$isNew = $data['id'] ? 0 : 1;
+
+			$tagsHelper = new JHelperTags;
+			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
+		}
+
+		return $return;
 	}
 }

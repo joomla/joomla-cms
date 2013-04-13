@@ -136,7 +136,7 @@ class ContentViewArticle extends JViewLegacy
 		else  {
 			$item->text = $item->introtext;
 		}
-		$item->tags = new JTags;
+		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_content.article', $this->item->id);
 
 		// Process the content plugins.

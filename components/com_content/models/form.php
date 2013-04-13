@@ -127,10 +127,17 @@ class ContentModelForm extends ContentModelArticle
 		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
+
+		// Convert the metadata field to an array.
+		$registry = new JRegistry;
+		$registry->loadString($value->metadata);
+		$value->metadata = $registry->toArray();
+
 		if ($itemId)
 		{
-			$value->tags = new JTags;
+			$value->tags = new JHelperTags;
 			$value->tags->getTagIds($value->id, 'com_content.article');
+			$value->metadata['tags'] = $value->tags;
 		}
 
 		return $value;

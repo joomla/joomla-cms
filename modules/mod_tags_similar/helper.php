@@ -26,7 +26,7 @@ abstract class ModTagssimilarHelper
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
-		$tagsHelper = new JTags;
+		$tagsHelper = new JHelperTags;
 		$option     = $app->input->get('option');
 		$view       = $app->input->get('view');
 		$prefix     = $option . '.' . $view;
@@ -103,7 +103,7 @@ abstract class ModTagssimilarHelper
 			}
 
 			$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON m.tag_id = t.id')
-				->join('INNER', $db->quoteName('#__core_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
+				->join('INNER', $db->quoteName('#__ucm_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
 				->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias')
 
 				->order($db->quoteName('count') . ' DESC');

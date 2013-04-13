@@ -134,7 +134,11 @@ class PlgSystemDebug extends JPlugin
 
 		// Capture output
 		$contents = ob_get_contents();
-		ob_end_clean();
+
+		if ($contents)
+		{
+			ob_end_clean();
+		}
 
 		// No debug for Safari and Chrome redirection
 		if (strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false
@@ -368,9 +372,12 @@ class PlgSystemDebug extends JPlugin
 					$entries = implode($entries);
 				}
 
-				$html .= '<code>';
-				$html .= $sKey . ' &rArr; ' . $entries . '<br />';
-				$html .= '</code>';
+				if (is_string($entries))
+				{
+					$html .= '<code>';
+					$html .= $sKey . ' &rArr; ' . $entries . '<br />';
+					$html .= '</code>';
+				}
 			}
 		}
 
@@ -879,7 +886,7 @@ class PlgSystemDebug extends JPlugin
 
 	/**
 	 * Store log messages so they can be displayed later.
-	 * This function is passed log entries by JLogLoggerCallback. 
+	 * This function is passed log entries by JLogLoggerCallback.
 	 *
 	 * @param   JLogEntry  $entry  A log entry.
 	 *

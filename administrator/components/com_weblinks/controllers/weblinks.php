@@ -62,12 +62,12 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 	}
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
-		// If an item has been tagged we need to untag it and delete it from #__core_content.
+		// If an item has been tagged we need to untag it and delete it from #__ucm_content.
 		$task = $this->getTask();
 
 		$item = $model->getItem();
 
-		$tags = new JTags;
+		$tags = new JHelperTags;
 		$tags->deleteTagData($ids, 'com_weblinks.weblink');
 
 	}

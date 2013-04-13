@@ -182,8 +182,9 @@ class CategoriesModelCategory extends JModelAdmin
 			if (!empty($result->id))
 			{
 				$db = JFactory::getDbo();
-				$result->tags = new JTags;
+				$result->tags = new JHelperTags;
 				$result->tags->getTagIds($result->id, $result->extension . '.category');
+				$result->metadata['tags'] = $result->tags;
 			}
 		}
 

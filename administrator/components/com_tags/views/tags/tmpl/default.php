@@ -102,11 +102,6 @@ $sortFields = $this->getSortFields();
 				<th width="10%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 				</th>
-				<?php if ($this->assoc) : ?>
-				<th width="5%" class="hidden-phone">
-					<?php echo JHtml::_('grid.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-				</th>
-				<?php endif; ?>
 				<th width="5%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 				</th>
@@ -207,13 +202,6 @@ $sortFields = $this->getSortFields();
 					<td class="small hidden-phone">
 						<?php echo $this->escape($item->access_title); ?>
 					</td>
-					<?php if ($this->assoc): ?>
-					<td class="center hidden-phone">
-						<?php if ($item->association):?>
-							<?php echo JHtml::_('TagsAdministrator.association', $item->id); ?>
-						<?php endif;?>
-					</td>
-					<?php endif;?>
 					<td class="small nowrap hidden-phone">
 					<?php if ($item->language == '*') : ?>
 						<?php echo JText::alt('JALL', 'language'); ?>

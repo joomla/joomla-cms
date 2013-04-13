@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Apr-2013 Michael Babker
+ # Fix failing unit tests from UCM refactor
+
+06-Apr-2013 Mark Dexter
+ # Fix failing system test.
+
 29-Mar-2013 Michael Babker
  +# Test JTableCorecontent, fix bugs found in class
 
