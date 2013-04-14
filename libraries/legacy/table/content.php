@@ -104,7 +104,7 @@ class JTableContent extends JTable
 	 *
 	 * @param   array  $array   Named array
 	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
+	 *                          to ignore while binding.
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
@@ -262,6 +262,7 @@ class JTableContent extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Content', 'JTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
@@ -270,7 +271,46 @@ class JTableContent extends JTable
 			return false;
 		}
 
-		return parent::store($updateNulls);
+		$tagsHelper = new JHelperTags;
+		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+		$tagsHelper->getMetaTagNames($this->metadata);
+
+		if (empty($tags))
+		{
+			$tagHelper = new JHelperTags;
+			$itemTags = $tagHelper->getItemTags('com_content.article', $this->id);
+			if (!empty($itemTags))
+			{
+				$tagHelper->unTagItem($this->id, 'com_content.article');
+			}
+		}
+
+		$return = parent::store($updateNulls);
+
+		if ($return == false)
+		{
+			return false;
+		}
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($tags) == false)
+		{
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($this);
+
+			$typeAlias = 'com_content.article';
+			$ucm = new JUcmContent($this, $typeAlias);
+			$ucm->save($data);
+
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
+
+			$isNew = $data['id'] ? 0 : 1;
+
+			$tagsHelper = new JHelperTags;
+			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
+		}
+
+		return $return;
 	}
 
 	/**

@@ -183,6 +183,7 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				$result->tags = new JHelperTags;
 				$result->tags->getTagIds($result->id, $result->extension . '.category');
+				$result->metadata['tags'] = $result->tags;
 			}
 		}
 

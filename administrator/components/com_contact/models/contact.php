@@ -429,6 +429,7 @@ class ContactModelContact extends JModelAdmin
 		{
 			$item->tags = new JHelperTags;
 			$item->tags->getTagIds($item->id, 'com_contact.contact');
+			$item->metadata['tags'] = $item->tags;
 		}
 
 		return $item;

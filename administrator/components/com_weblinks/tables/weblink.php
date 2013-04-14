@@ -113,8 +113,46 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		// Attempt to store the data.
-		return parent::store($updateNulls);
+		$tagsHelper = new JHelperTags;
+		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
+		$tagsHelper->getMetaTagNames($this->metadata);
+
+		if (empty($tags))
+		{
+			$tagHelper = new JHelperTags;
+			$itemTags = $tagHelper->getItemTags('com_weblinks.weblink', $this->id);
+			if (!empty($itemTags))
+			{
+				$tagHelper->unTagItem($this->id, 'com_weblinks.weblink');
+			}
+		}
+
+		$return = parent::store($updateNulls);
+
+		if ($return == false)
+		{
+			return false;
+		}
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($tags) == false)
+		{
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($this);
+
+			$typeAlias = 'com_weblinks.weblink';
+			$ucm = new JUcmContent($this, $typeAlias);
+			$ucm->save($data);
+
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
+
+			$isNew = $data['id'] ? 0 : 1;
+
+			$tagsHelper = new JHelperTags;
+			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
+		}
+
+		return $return;
 	}
 
 	/**
