@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Apr-2013 Michael Babker
+ # [#29240] Undefined property: JSite::$registeredurlparams.  Thanks Mark Stanton
+
 12-Apr-2013 Jean-Marie Simonet
  # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark Dexter
  # [#30537] Menus with default view in URL and sub-tasks are missing in other defined attributes and do not display correctly in menu type input in backend. Thanks Beat
