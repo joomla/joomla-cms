@@ -264,7 +264,7 @@
 				type="list"
 				label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 				description="COM_TAGS_INCLUDE_CHILDREN_DESC"
-				default="1"
+				default=""
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">COM_TAGS_EXCLUDE</option>

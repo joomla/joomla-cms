@@ -19,11 +19,6 @@
 		>
 		</field>
 
-		<field name="tags" type="tag"
-			label="JTAG" description="JTAG_DESC"
-			class="inputbox" multiple="true"
-		>
-		</field>
 
 		<field name="url" type="url" class="inputbox"
 			filter="url"
@@ -224,6 +219,11 @@
 	</fields>
 	<fields name="metadata">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+			<field name="tags" type="tag"
+				label="JTAG" description="JTAG_DESC"
+				class="inputbox" multiple="true"
+			>
+			</field>
 
 			<field name="robots"
 			type="list"
