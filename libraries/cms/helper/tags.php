@@ -130,7 +130,7 @@ class JHelperTags
 			$db->execute();
 		}
 
-		$typeId = self::getTypeId($prefix);
+		$typeId = $this->getTypeId($prefix);
 
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
@@ -209,14 +209,14 @@ class JHelperTags
 
 			// Add the tags to the content data.
 			$tagsList = $db->loadColumn();
-			$this->tags = implode(',', $tagsList);
+			$tags = implode(',', $tagsList);
 		}
 		else
 		{
-			$this->tags = null;
+			$tags = null;
 		}
 
-		return $this->tags;
+		return $tags;
 	}
 
 	/**
@@ -450,10 +450,10 @@ class JHelperTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$this->explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
+			$explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
 		}
 
-		return $this->explodedTypeAlias[0];
+		return $explodedTypeAlias[0];
 	}
 
 	/**
@@ -474,9 +474,9 @@ class JHelperTags
 			$explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
 		}
 
-		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
+		$url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
 
-		return $this->url;
+		return $url;
 	}
 
 	/**
@@ -490,9 +490,9 @@ class JHelperTags
 	 */
 	public function getTagUrl($id)
 	{
-		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
+		$url = 'index.php&option=com_tags&view=tag&id=' . $id;
 
-		return $this->url;
+		return $url;
 	}
 
 	/**
@@ -513,9 +513,9 @@ class JHelperTags
 			->from($db->quoteName('#__content_types'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($tagItemAlias));
 		$db->setQuery($query);
-		$this->table = $db->loadResult();
+		$table = $db->loadResult();
 
-		return $this->table;
+		return $table;
 	}
 
 	/**
@@ -536,9 +536,9 @@ class JHelperTags
 			->from($db->quoteName('#__content_types'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
-		$this->type_id = $db->loadResult();
+		$type_id = $db->loadResult();
 
-		return $this->type_id;
+		return $type_id;
 	}
 
 	/**
@@ -625,6 +625,8 @@ class JHelperTags
 	 * @param   array  $filters  Filter to apply to the search
 	 *
 	 * @return  array
+	 *
+	 * @since   3.1
 	 */
 	public static function searchTags($filters = array())
 	{
@@ -683,7 +685,7 @@ class JHelperTags
 			}
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published')
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
 			->order('a.lft ASC');
 
 		// Get the options.
@@ -707,8 +709,8 @@ class JHelperTags
 	/**
 	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
-	 * @param   integer  $contentItemIds  Array of values of the primary key from the table for the type
-	 * @param   string   $typeAlias       The type alias for the type
+	 * @param   array   $contentItemIds  Array of values of the primary key from the table for the type
+	 * @param   string  $typeAlias       The type alias for the type
 	 *
 	 * @return  boolean
 	 *
