@@ -345,7 +345,7 @@
 	<fieldset
 		name="data_entry"
 		label="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_LABEL"
-		description="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_LABEL">
+		description="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_DESC">
 		
 		<field 
 			name="tag_field_ajax_mode" 

@@ -69,7 +69,7 @@ class JTableCorecontentTest extends TestCaseDatabase
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
 		$dataSet->addTable('jos_assets', __DIR__ . '/stubs/jos_assets.csv');
-		$dataSet->addTable('jos_core_content', __DIR__ . '/stubs/jos_core_content.csv');
+		$dataSet->addTable('jos_ucm_content', __DIR__ . '/stubs/jos_ucm_content.csv');
 
 		return $dataSet;
 	}
@@ -156,8 +156,9 @@ class JTableCorecontentTest extends TestCaseDatabase
 		$table->load('3');
 		$originalAlias = $table->core_alias;
 		$table->core_title = 'New Title';
+		/* Alias check has been removed
 		$table->core_alias = 'archive-module';
-		$this->assertFalse($table->store(), 'Line: ' . __LINE__ . ' Table store should fail due to a duplicated alias');
+		$this->assertFalse($table->store(), 'Line: ' . __LINE__ . ' Table store should fail due to a duplicated alias');*/
 		$table->core_alias = 'article-categories-module';
 		$this->assertTrue($table->store(), 'Line: ' . __LINE__ . ' Table store should succeed');
 		$table->reset();

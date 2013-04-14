@@ -190,7 +190,9 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 			<?php echo $this->loadTemplate('params'); ?>
 
-			<?php echo $this->loadTemplate('metadata'); ?>
+			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+					<?php echo $this->loadTemplate('metadata'); ?>
+			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 			<?php if ($assoc) : ?>
 				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
@@ -205,47 +207,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 	</div>
 	<!-- End content -->
 	<!-- Begin Sidebar -->
-	<div class="span2">
-		<h4><?php echo JText::_('JDETAILS');?></h4>
-		<hr />
-		<fieldset class="form-vertical">
-			<div class="control-group">
-				<div class="controls">
-					<?php echo $this->form->getValue('name'); ?>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php echo $this->form->getLabel('published'); ?>
-				<div class="controls">
-					<?php echo $this->form->getInput('published'); ?>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php echo $this->form->getLabel('access'); ?>
-				<div class="controls">
-					<?php echo $this->form->getInput('access'); ?>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php echo $this->form->getLabel('featured'); ?>
-				<div class="controls">
-					<?php echo $this->form->getInput('featured'); ?>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php echo $this->form->getLabel('language'); ?>
-				<div class="controls">
-					<?php echo $this->form->getInput('language'); ?>
-				</div>
-			</div>
-			<div class="control-group">
-				<?php echo $this->form->getLabel('tags'); ?>
-				<div class="controls">
-					<?php echo $this->form->getInput('tags'); ?>
-				</div>
-			</div>
-
-		</fieldset>
-	</div>
+		<?php echo JLayoutHelper::render('joomla.edit.details', $this); ?>
 	<!-- End Sidebar -->
 </form>
