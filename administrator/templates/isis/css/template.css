@@ -5699,6 +5699,8 @@ input.invalid {
 .icon-featured:before,
 .icon-star:before {
 	content: "\42";
+}
+.icon-featured:before {
 	color: #f89406;
 }
 .icon-calendar:before {
@@ -5717,6 +5719,8 @@ input.invalid {
 .icon-pending:before,
 .icon-warning:before {
 	content: "\48";
+}
+.icon-pending:before {
 	color: #f89406;
 }
 .icon-publish:before,
@@ -5724,11 +5728,17 @@ input.invalid {
 .icon-ok:before,
 .icon-checkmark:before {
 	content: "\47";
+}
+.icon-publish:before,
+.icon-save:before,
+.icon-ok:before {
 	color: #51a351;
 }
 .icon-unpublish:before,
 .icon-cancel:before {
 	content: "\4a";
+}
+.icon-unpublish:before {
 	color: #bd362f;
 }
 .icon-eye-close:before,
@@ -5798,12 +5808,17 @@ input.invalid {
 .icon-save-new:before,
 .icon-plus-2:before {
 	content: "\5d";
+}
+.icon-save-new:before {
 	color: #51a351;
 }
 .icon-ban-circle:before,
 .icon-minus-sign:before,
 .icon-minus-2:before {
 	content: "\5e";
+}
+.icon-ban-circle:before,
+.icon-minus-sign:before {
 	color: #bd362f;
 }
 .icon-key:before {
@@ -5983,6 +5998,8 @@ input.invalid {
 .icon-save-copy:before,
 .icon-copy:before {
 	content: "\e018";
+}
+.icon-save-copy:before {
 	color: #51a351;
 }
 .icon-cart:before {
