@@ -647,10 +647,13 @@ class JCache extends JObject
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
-		// Get url parameters set by plugins
-		$registeredurlparams = $app->registeredurlparams;
 
-		if (empty($registeredurlparams))
+		// Get url parameters set by plugins
+		if (!empty($app->registeredurlparams))
+		{
+			$registeredurlparams = $app->registeredurlparams;
+		}
+		else
 		{
 			/*
 			$registeredurlparams = new stdClass;
