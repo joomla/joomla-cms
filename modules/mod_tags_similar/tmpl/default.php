@@ -10,33 +10,22 @@
 defined('_JEXEC') or die;
 
 ?>
+<?php JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php'); ?>
 <div class="tagssimilar<?php echo $moduleclass_sfx; ?>">
-<?php if ($list)
-{  ?>
-	<ul >
+<?php if ($list) : ?>
+	<ul>
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
-			<a href="<?php echo JRoute::_($item->itemData[$i]['itemUrl']); ?>">
-				<?php
-				if (!empty($item->itemData[$i]['title']))
-				{
-					echo htmlspecialchars($item->itemData[0]['title']);
-				}
-				elseif (!empty($item->itemData[$i]['name']))
-				{
-					echo htmlspecialchars($item->itemData[$i]['name']);
-				}
-				else
-				{
-					echo htmlspecialchars($item->itemData[$i]['item_name']);
-				}
-				?></a>
+			<?php $item->route = new JHelperRoute; ?>
+			<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+				<?php if (!empty($item->core_title)) :
+					echo htmlspecialchars($item->core_title);
+				endif; ?>
+			</a>
 		</li>
 	<?php endforeach; ?>
 	</ul>
-<?php }
-else
-{ ?>
-	<span> <?php echo JText::_('MOD_TAGS_SIMILAR_NO_MATCHING_TAGS') ?></span>
-<?php } ?>
+<?php else : ?>
+	<span><?php echo JText::_('MOD_TAGS_SIMILAR_NO_MATCHING_TAGS'); ?></span>
+<?php endif; ?>
 </div>

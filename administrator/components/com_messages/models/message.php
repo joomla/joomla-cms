@@ -81,11 +81,10 @@ class MessagesModelMessage extends JModelAdmin
 					{
 						// If replying to a message, preload some data.
 						$db		= $this->getDbo();
-						$query	= $db->getQuery(true);
-
-						$query->select('subject, user_id_from');
-						$query->from('#__messages');
-						$query->where('message_id = '.(int) $replyId);
+						$query	= $db->getQuery(true)
+							->select('subject, user_id_from')
+							->from('#__messages')
+							->where('message_id = '.(int) $replyId);
 
 						try
 						{
@@ -113,10 +112,10 @@ class MessagesModelMessage extends JModelAdmin
 				else {
 					// Mark message read
 					$db		= $this->getDbo();
-					$query	= $db->getQuery(true);
-					$query->update('#__messages');
-					$query->set('state = 1');
-					$query->where('message_id = '.$this->item->message_id);
+					$query	= $db->getQuery(true)
+						->update('#__messages')
+						->set('state = 1')
+						->where('message_id = '.$this->item->message_id);
 					$db->setQuery($query)->execute();
 				}
 			}
@@ -165,6 +164,8 @@ class MessagesModelMessage extends JModelAdmin
 		{
 			$data = $this->getItem();
 		}
+
+		$this->preprocessData('com_messages.message', $data);
 
 		return $data;
 	}

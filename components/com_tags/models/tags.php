@@ -46,12 +46,17 @@ class TagsModelTags extends JModelList
 		$pid = $app->input->getInt('parent_id');
 		$this->setState('tag.parent_id', $pid);
 
+		$language = $app->input->getString('tag_list_language_filter');
+		$this->setState('tag.language', $language);
+
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);
 		$app = JFactory::getApplication();
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
+
+		$this->setState('list.limit', $params->get('maximum', 200));
 
 		$this->setState('filter.published', 1);
 		$this->setState('filter.access', true);
@@ -61,6 +66,11 @@ class TagsModelTags extends JModelList
 		{
 			$this->setState('filter.published', 1);
 		}
+
+		// Optional filter text
+		$itemid = $pid . ':' . $app->input->getInt('Itemid', 0);
+		$filterSearch = $app->getUserStateFromRequest('com_tags.tags.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
+		$this->setState('list.filter', $filterSearch);
 	}
 
 	/**
@@ -98,29 +108,75 @@ class TagsModelTags extends JModelList
 	 */
 	protected function getListQuery()
 	{
+		$app = JFactory::getApplication('site');
 		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$pid = $this->getState('tag.parent_id');
 		$orderby = $this->state->params->get('all_tags_orderby', 'title');
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
-		$limit = ' LIMIT 0,' . $this->state->params->get('maximum', 200);
+		$language = $this->getState('tag.language');
 
 		// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('a.*');
+		$query->select('a.*')
 
-		$query->from($db->quoteName('#__tags') . ' AS a');
-		$query->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
+			->from($db->quoteName('#__tags') . ' AS a')
+			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 
 		if (!empty($pid))
 		{
 			$query->where($db->quoteName('a.parent_id') . ' = ' . $pid);
 		}
 
-		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ' ' . $limit);
+		// Exclude the root.
+		$query->where($db->quoteName('a.parent_id') . ' <> 0');
+
+		// Optionally filter on language
+		if (empty($language))
+		{
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+		}
+		if ($language != 'all')
+		{
+			if ($language == 'current_language')
+			{
+				$language = JHelperContent::getCurrentLanguage();
+			}
+			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+		}
+
+		// List state information
+		$format = $app->input->getWord('format');
+		if ($format == 'feed')
+		{
+			$limit = $app->getCfg('feed_limit');
+		}
+		else
+		{
+			if ($this->state->params->get('show_pagination_limit'))
+			{
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+			}
+			else
+			{
+				$limit = $this->state->params->get('maximum', 20);
+			}
+		}
+		$this->setState('list.limit', $limit);
+
+		$offset = $app->input->get('limitstart', 0, 'uint');
+		$this->setState('list.start', $offset);
+
+		// Optionally filter on entered value
+		if ($this->state->get('list.filter'))
+		{
+			$query->where($this->_db->quoteName('a.title') . ' LIKE ' . $this->_db->quote('%' . $this->state->get('list.filter') . '%'));
+		}
+
+		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ', a.title ASC');
 
 		return $query;
 	}

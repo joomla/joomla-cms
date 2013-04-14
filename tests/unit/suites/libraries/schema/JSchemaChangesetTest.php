@@ -70,20 +70,54 @@ class JSchemaChangesetTest extends TestCase
 	}
 
 	/**
-	 * Tests the getInstance method
+	 * Tests the __construct method with the PostgreSQL driver
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public function testGetInstance()
+	public function test__constructPostgresql()
+	{
+		$this->db->name = 'postgresql';
+
+		$this->assertThat(
+			new JSchemaChangeset($this->db, null),
+			$this->isInstanceOf('JSchemaChangeset')
+		);
+	}
+
+	/**
+	 * Tests the __construct method with the SQL Server driver
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function test__constructSqlsrv()
+	{
+		$this->db->name = 'sqlsrv';
+
+		$this->assertThat(
+			new JSchemaChangeset($this->db, null),
+			$this->isInstanceOf('JSchemaChangeset')
+		);
+	}
+
+
+	/**
+	 * Tests the getInstance method with the MySQL driver
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function testGetInstanceMysql()
 	{
 		$this->assertThat(
 			JSchemaChangeset::getInstance($this->db, null),
 			$this->isInstanceOf('JSchemaChangeset')
 		);
 	}
-
 	/**
 	 * @todo   Implement testCheck().
 	 */

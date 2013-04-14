@@ -341,7 +341,7 @@ abstract class JFormField
 			}
 			else
 			{
-				$this->element->addAttribute('class', 'required');
+				$this->element['class'] = 'required';
 			}
 		}
 
@@ -570,7 +570,20 @@ abstract class JFormField
 		// If the field should support multiple values add the final array segment.
 		if ($this->multiple)
 		{
-			$name .= '[]';
+			switch (strtolower((string) $this->element['type']))
+			{
+				case 'text':
+				case 'textarea':
+				case 'email':
+				case 'password':
+				case 'radio':
+				case 'calendar':
+				case 'editor':
+				case 'hidden':
+					break;
+				default:
+					$name .= '[]';
+			}
 		}
 
 		return $name;

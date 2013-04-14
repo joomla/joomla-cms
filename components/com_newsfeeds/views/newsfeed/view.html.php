@@ -197,7 +197,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		$this->print = $print;
 
-		$item->tags = new JTags;
+		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
 		$this->_prepareDocument();

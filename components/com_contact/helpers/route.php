@@ -43,11 +43,11 @@ abstract class ContactHelperRoute
 		}
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			$db		= JFactory::getDBO();
-			$query	= $db->getQuery(true);
-			$query->select('a.sef AS sef');
-			$query->select('a.lang_code AS lang_code');
-			$query->from('#__languages AS a');
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true)
+				->select('a.sef AS sef')
+				->select('a.lang_code AS lang_code')
+				->from('#__languages AS a');
 
 			$db->setQuery($query);
 			$langs = $db->loadObjectList();
@@ -100,11 +100,11 @@ abstract class ContactHelperRoute
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
-				$db		= JFactory::getDBO();
-				$query	= $db->getQuery(true);
-				$query->select('a.sef AS sef');
-				$query->select('a.lang_code AS lang_code');
-				$query->from('#__languages AS a');
+				$db		= JFactory::getDbo();
+				$query	= $db->getQuery(true)
+					->select('a.sef AS sef')
+					->select('a.lang_code AS lang_code')
+					->from('#__languages AS a');
 
 				$db->setQuery($query);
 				$langs = $db->loadObjectList();
@@ -179,7 +179,8 @@ abstract class ContactHelperRoute
 					{
 						self::$lookup[$language][$view] = array();
 					}
-					if (isset($item->query['id'])) {
+					if (isset($item->query['id']))
+					{
 
 						// here it will become a bit tricky
 						// language != * can override existing entries

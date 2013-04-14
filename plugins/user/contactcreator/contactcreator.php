@@ -21,18 +21,12 @@ defined('_JEXEC') or die;
 class PlgUserContactCreator extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
@@ -62,10 +56,10 @@ class PlgUserContactCreator extends JPlugin
 			return false; // bail out if we don't have a category
 		}
 
-		$dbo = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		// grab the contact ID for this user; note $user_id is cleaned above
-		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
-		$id = $dbo->loadResult();
+		$db->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
+		$id = $db->loadResult();
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
 		$contact = JTable::getInstance('contact', 'ContactTable');
@@ -88,6 +82,7 @@ class PlgUserContactCreator extends JPlugin
 		$contact->user_id = $user_id;
 		$contact->email_to = $user['email'];
 		$contact->catid = $category;
+		$contact->language = '*';
 
 		$autowebpage = $this->params->get('autowebpage', '');
 

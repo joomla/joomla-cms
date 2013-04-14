@@ -170,6 +170,8 @@ class UsersModelLevel extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_users.level', $data);
+
 		return $data;
 	}
 

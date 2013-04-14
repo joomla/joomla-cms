@@ -168,11 +168,11 @@ class JTableUsergroup extends JTable
 		$db = $this->_db;
 
 		// Select the usergroup ID and its children
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('c.id'));
-		$query->from($db->quoteName($this->_tbl) . 'AS c');
-		$query->where($db->quoteName('c.lft') . ' >= ' . (int) $this->lft);
-		$query->where($db->quoteName('c.rgt') . ' <= ' . (int) $this->rgt);
+		$query = $db->getQuery(true)
+			->select($db->quoteName('c.id'))
+			->from($db->quoteName($this->_tbl) . 'AS c')
+			->where($db->quoteName('c.lft') . ' >= ' . (int) $this->lft)
+			->where($db->quoteName('c.rgt') . ' <= ' . (int) $this->rgt);
 		$db->setQuery($query);
 		$ids = $db->loadColumn();
 		if (empty($ids))
@@ -184,10 +184,9 @@ class JTableUsergroup extends JTable
 		// @todo Remove all related threads, posts and subscriptions
 
 		// Delete the usergroup and its children
-		$query->clear();
-		$query->delete();
-		$query->from($db->quoteName($this->_tbl));
-		$query->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
+		$query->clear()
+			->delete($db->quoteName($this->_tbl))
+			->where($db->quoteName('id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -201,11 +200,10 @@ class JTableUsergroup extends JTable
 			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote("[]") . ')';
 		}
 
-		$query->clear();
-
 		// SQLSsrv change. Alternative for regexp
-		$query->select('id, rules');
-		$query->from('#__viewlevels');
+		$query->clear()
+			->select('id, rules')
+			->from('#__viewlevels');
 		$db->setQuery($query);
 		$rules = $db->loadObjectList();
 
@@ -223,19 +221,18 @@ class JTableUsergroup extends JTable
 
 		if (!empty($match_ids))
 		{
-			$query = $db->getQuery(true);
-			$query->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace));
-			$query->update('#__viewlevels');
-			$query->where('id IN (' . implode(',', $match_ids) . ')');
+			$query = $db->getQuery(true)
+				->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace))
+				->update('#__viewlevels')
+				->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);
 			$db->execute();
 		}
 
 		// Delete the user to usergroup mappings for the group(s) from the database.
-		$query->clear();
-		$query->delete();
-		$query->from($db->quoteName('#__user_usergroup_map'));
-		$query->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
+		$query->clear()
+			->delete($db->quoteName('#__user_usergroup_map'))
+			->where($db->quoteName('group_id') . ' IN (' . implode(',', $ids) . ')');
 		$db->setQuery($query);
 		$db->execute();
 

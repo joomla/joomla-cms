@@ -100,11 +100,15 @@
 				rows="5"
 				filter="safehtml"
 			/>
+			<field name="spacer" type="hidden" class="text"
+			label="PLG_USER_PROFILE_SPACER_DOB"
+			/>
 			<field
 				name="dob"
 				type="calendar"
 				label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 				description="PLG_USER_PROFILE_FIELD_DOB_DESC"
+				format="%Y-%m-%d"
 			/>
 			<field
 				name="tos"

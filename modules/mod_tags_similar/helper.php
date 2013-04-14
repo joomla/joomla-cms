@@ -26,22 +26,25 @@ abstract class ModTagssimilarHelper
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
 		$maximum    = $params->get('maximum', 5);
-		$tagsHelper = new JTags;
+		$tagsHelper = new JHelperTags;
 		$option     = $app->input->get('option');
 		$view       = $app->input->get('view');
 		$prefix     = $option . '.' . $view;
-		$id         = $app->input->getString('id');
+		$id         = (array) $app->input->getObject('id');
 
 		// Strip off any slug data.
-		if (substr_count($id, ':') > 0)
+		foreach ($id as $id)
 		{
-			$idexplode = explode(':', $id);
-			$id        = $idexplode[0];
+			if (substr_count($id, ':') > 0)
+			{
+				$idexplode = explode(':', $id);
+				$id        = $idexplode[0];
+			}
 		}
 
-		// For now assume com_tags does not have tags.
+		// For now assume com_tags and com_users do not have tags.
 		// This module does not apply to list views in general at this point.
-		if ($option != 'com_tags' && $view != 'category')
+		if ($option != 'com_tags' && $view != 'category'  && $option != 'com_users')
 		{
 			$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 			if (!$tagsToMatch || is_null($tagsToMatch))
@@ -51,64 +54,66 @@ abstract class ModTagssimilarHelper
 
 			$tagCount = substr_count($tagsToMatch, ',') + 1;
 
-			$query = $db->getQuery(true);
-
-			$query->select(
+			$query = $db->getQuery(true)
+				->select(
 				array(
-					$db->quoteName('tag_id'),
-					$db->quoteName('content_item_id'),
-					$db->quoteName('type_alias'),
-					$query->concatenate(array('type_alias', 'content_item_id'), '.') . ' AS ' . $db->qn('uniquename'),
-					' COUNT(DISTINCT ' . $db->qn('tag_id') . ') AS ' . $db->qn('count'),
-					$db->qn('t.access')
-				)
+					$db->quoteName('m.tag_id'),
+					$db->quoteName('m.core_content_id'),
+					$db->quoteName('m.content_item_id'),
+					$db->quoteName('m.type_alias'),
+						'COUNT( '  . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
+					$db->quoteName('t.access'),
+					$db->quoteName('t.id'),
+					$db->quoteName('ct.router'),
+					$db->quoteName('cc.core_title'),
+					$db->quoteName('cc.core_alias'),
+					$db->quoteName('cc.core_catid'),
+					$db->quoteName('cc.core_language')
+					)
 			);
-			$query->group($db->qn('tag_id'));
-			$query->from($db->quoteName('#__contentitem_tag_map'));
-			$query->having('t.access IN (' . $groups . ')');
-			$query->having($db->quoteName('tag_id') . ' IN (' . $tagsToMatch . ')');
-			$query->having($db->q($prefix . '.' . $id) . ' <> ' . $db->quoteName('uniquename'));
+			$query->group($db->quoteName(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access', 'ct.router')))
+				->from($db->quoteName('#__contentitem_tag_map', 'm'))
+				->having('t.access IN (' . $groups . ')')
+				->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')')
+				->having($db->quoteName('m.content_item_id') . ' <> ' . $id);
 
 			if ($matchtype == 'all' && $tagCount > 0)
 			{
-				$query->having('count = ' . $tagCount);
+				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  = ' . $tagCount);
 			}
 			elseif ($matchtype == 'half' && $tagCount > 0)
 			{
 				$tagCountHalf = ceil($tagCount / 2);
-				$query->having('count >= ' . $tagCountHalf);
+				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 			}
 
-			$query->join('LEFT', $db->qn('#__tags', 't') . ' ON ' . $db->qn('tag_id') . ' = ' . $db->qn('t.id'));
-			$query->order('count DESC LIMIT 0,' . $maximum);
-			$db->setQuery($query);
+			// Only return published tags
+			$query->where($db->quoteName('cc.core_state') . ' = 1 ');
+
+			// Optionally filter on language
+			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
+
+			if ($language != 'all')
+			{
+				if ($language == 'current_language')
+				{
+					$language = JHelperContent::getCurrentLanguage();
+				}
+				$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+			}
+
+			$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON m.tag_id = t.id')
+				->join('INNER', $db->quoteName('#__ucm_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
+				->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias')
+
+				->order($db->quoteName('count') . ' DESC');
+			$db->setQuery($query, 0, $maximum);
 			$results = $db->loadObjectList();
 
-			foreach ($results as $i => $result)
+			foreach ($results as $result)
 			{
-				// Get the data for the matching item. We have to get it  all because we don't know if it uses name or title.
-				$tagHelper = new JTags;
-
-				//$explodedTypeAlias = $tagHelper->explodeTypeAlias($result->type_alias);
-				//$itemUrl = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->content_item_id);
-				$table = $tagHelper->getTableName($result->type_alias);
-
-				if (!empty($result->content_item_id))
-				{
-					$queryi = $db->getQuery(true);
-					$queryi->select('*');
-					$queryi->from($table);
-					$queryi->where($db->qn('id') . ' = ' . $result->content_item_id);
-					$db->setQuery($queryi);
-
-					$result->itemData[$i]            = $db->loadAssoc();
-					$explodedTypeAlias               = $tagHelper->explodeTypeAlias($result->type_alias);
-					$result->itemData[$i]['itemUrl'] = $tagHelper->getContentItemUrl($result->type_alias, $explodedTypeAlias, $result->content_item_id);
-				}
-				else
-				{
-					unset($results[$i]);
-				}
+				$explodedAlias = explode('.', $result->type_alias);
+				$result->link = 'index.php?option=' . $explodedAlias[0] . '&view=' . $explodedAlias[1] . '&id=' . $result->content_item_id . '-' . $result->core_alias;
 			}
 
 			return $results;

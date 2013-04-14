@@ -270,28 +270,28 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Splits a string of multiple queries into an array of individual queries.
 	 *
-	 * @param   string  $sql  Input SQL string with which to split into individual queries.
+	 * @param   string  $query  Input SQL string with which to split into individual queries.
 	 *
 	 * @return  array  The queries from the input string separated into an array.
 	 *
 	 * @since   11.1
 	 */
-	public static function splitSql($sql)
+	public static function splitSql($query)
 	{
 		$start = 0;
 		$open = false;
 		$char = '';
-		$end = strlen($sql);
+		$end = strlen($query);
 		$queries = array();
 
 		for ($i = 0; $i < $end; $i++)
 		{
-			$current = substr($sql, $i, 1);
+			$current = substr($query, $i, 1);
 			if (($current == '"' || $current == '\''))
 			{
 				$n = 2;
 
-				while (substr($sql, $i - $n + 1, 1) == '\\' && $n < $i)
+				while (substr($query, $i - $n + 1, 1) == '\\' && $n < $i)
 				{
 					$n++;
 				}
@@ -316,7 +316,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 			if (($current == ';' && !$open) || $i == $end - 1)
 			{
-				$queries[] = substr($sql, $start, ($i - $start + 1));
+				$queries[] = substr($query, $start, ($i - $start + 1));
 				$start = $i + 1;
 			}
 		}
@@ -932,8 +932,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		}
 
 		// Create the base insert statement.
-		$query = $this->getQuery(true);
-		$query->insert($this->quoteName($table))
+		$query = $this->getQuery(true)
+			->insert($this->quoteName($table))
 				->columns($fields)
 				->values(implode(',', $values));
 
@@ -1466,33 +1466,33 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
 	 *
-	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $query   The SQL statement to prepare.
 	 * @param   string  $prefix  The common table prefix.
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
 	 * @since   11.1
 	 */
-	public function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($query, $prefix = '#__')
 	{
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';
 		$literal = '';
 
-		$sql = trim($sql);
-		$n = strlen($sql);
+		$query = trim($query);
+		$n = strlen($query);
 
 		while ($startPos < $n)
 		{
-			$ip = strpos($sql, $prefix, $startPos);
+			$ip = strpos($query, $prefix, $startPos);
 			if ($ip === false)
 			{
 				break;
 			}
 
-			$j = strpos($sql, "'", $startPos);
-			$k = strpos($sql, '"', $startPos);
+			$j = strpos($query, "'", $startPos);
+			$k = strpos($query, '"', $startPos);
 			if (($k !== false) && (($k < $j) || ($j === false)))
 			{
 				$quoteChar = '"';
@@ -1508,7 +1508,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				$j = $n;
 			}
 
-			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
+			$literal .= str_replace($prefix, $this->tablePrefix, substr($query, $startPos, $j - $startPos));
 			$startPos = $j;
 
 			$j = $startPos + 1;
@@ -1521,14 +1521,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			// Quote comes first, find end of quote
 			while (true)
 			{
-				$k = strpos($sql, $quoteChar, $j);
+				$k = strpos($query, $quoteChar, $j);
 				$escaped = false;
 				if ($k === false)
 				{
 					break;
 				}
 				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $query{$l} == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
@@ -1545,12 +1545,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 				// Error in the query - no end quote; ignore it
 				break;
 			}
-			$literal .= substr($sql, $startPos, $k - $startPos + 1);
+			$literal .= substr($query, $startPos, $k - $startPos + 1);
 			$startPos = $k + 1;
 		}
 		if ($startPos < $n)
 		{
-			$literal .= substr($sql, $startPos, $n - $startPos);
+			$literal .= substr($query, $startPos, $n - $startPos);
 		}
 
 		return $literal;

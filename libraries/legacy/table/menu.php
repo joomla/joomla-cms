@@ -140,11 +140,11 @@ class JTableMenu extends JTableNested
 	 */
 	public function store($updateNulls = false)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Menu', 'JTable', array('dbo' => $this->getDbo()));
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => $this->client_id, 'language' => $this->language))
+		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'client_id' => (int) $this->client_id, 'language' => $this->language))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
 			if ($this->menutype == $table->menutype)

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
@@ -30,23 +30,29 @@ $input = $app->input;
 
 $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
-if (!$editoroptions):
+if (!$editoroptions)
+{
 	$params['show_publishing_options'] = '1';
 	$params['show_article_options'] = '1';
 	$params['show_urls_images_backend'] = '0';
 	$params['show_urls_images_frontend'] = '0';
-endif;
+}
 
 // Check if the article uses configuration settings besides global. If so, use them.
-if (!empty($this->item->attribs['show_publishing_options'])):
-		$params['show_publishing_options'] = $this->item->attribs['show_publishing_options'];
-endif;
-if (!empty($this->item->attribs['show_article_options'])):
-		$params['show_article_options'] = $this->item->attribs['show_article_options'];
-endif;
-if (!empty($this->item->attribs['show_urls_images_backend'])):
-		$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
-endif;
+if (!empty($this->item->attribs['show_publishing_options']))
+{
+	$params['show_publishing_options'] = $this->item->attribs['show_publishing_options'];
+}
+
+if (!empty($this->item->attribs['show_article_options']))
+{
+	$params['show_article_options'] = $this->item->attribs['show_article_options'];
+}
+
+if (!empty($this->item->attribs['show_urls_images_backend']))
+{
+	$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
+}
 
 ?>
 
@@ -288,52 +294,7 @@ endif;
 		</div>
 		<!-- End Content -->
 		<!-- Begin Sidebar -->
-		<div class="span2">
-			<h4><?php echo JText::_('JDETAILS');?></h4>
-			<hr />
-			<fieldset class="form-vertical">
-				<div class="control-group">
-					<div class="controls">
-						<?php echo $this->form->getValue('title'); ?>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<?php echo $this->form->getLabel('state'); ?>
-					<div class="controls">
-						<?php echo $this->form->getInput('state'); ?>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<?php echo $this->form->getLabel('access'); ?>
-					<div class="controls">
-						<?php echo $this->form->getInput('access'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<?php echo $this->form->getLabel('featured'); ?>
-					<div class="controls">
-						<?php echo $this->form->getInput('featured'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<?php echo $this->form->getLabel('language'); ?>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('tags'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('tags'); ?>
-					</div>
-				</div>
-
-			</fieldset>
-		</div>
+			<?php echo JLayoutHelper::render('joomla.edit.details', $this); ?>
 		<!-- End Sidebar -->
 	</div>
 </form>

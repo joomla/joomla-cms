@@ -27,7 +27,7 @@ class JTableCorecontent extends JTable
 	 */
 	public function __construct($db)
 	{
-		parent::__construct('#__core_content', 'id', $db);
+		parent::__construct('#__ucm_content', 'core_content_id', $db);
 	}
 
 	/**
@@ -45,32 +45,39 @@ class JTableCorecontent extends JTable
 	public function bind($array, $ignore = '')
 	{
 
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['core_params']) && is_array($array['core_params']))
 		{
 			$registry = new JRegistry;
-			$registry->loadArray($array['params']);
-			$array['params'] = (string) $registry;
+			$registry->loadArray($array['core_params']);
+			$array['core_params'] = (string) $registry;
 		}
 
-		if (isset($array['metadata']) && is_array($array['metadata']))
+		if (isset($array['core_metadata']) && is_array($array['core_metadata']))
 		{
 			$registry = new JRegistry;
-			$registry->loadArray($array['metadata']);
-			$array['metadata'] = (string) $registry;
+			$registry->loadArray($array['core_metadata']);
+			$array['core_metadata'] = (string) $registry;
 		}
 
-		if (isset($array['images']) && is_array($array['images']))
+		if (isset($array['core_images']) && is_array($array['core_images']))
 		{
 			$registry = new JRegistry;
-			$registry->loadArray($array['images']);
-			$array['images'] = (string) $registry;
+			$registry->loadArray($array['core_images']);
+			$array['core_images'] = (string) $registry;
 		}
 
-		if (isset($array['urls']) && is_array($array['urls']))
+		if (isset($array['core_urls']) && is_array($array['core_urls']))
 		{
 			$registry = new JRegistry;
-			$registry->loadArray($array['urls']);
-			$array['urls'] = (string) $registry;
+			$registry->loadArray($array['core_urls']);
+			$array['core_urls'] = (string) $registry;
+		}
+
+		if (isset($array['core_body']) && is_array($array['core_body']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($array['core_body']);
+			$array['core_body'] = (string) $registry;
 		}
 
 		return parent::bind($array, $ignore);
@@ -86,41 +93,36 @@ class JTableCorecontent extends JTable
 	 */
 	public function check()
 	{
-		if (trim($this->title) == '')
+		if (trim($this->core_title) == '')
 		{
 			$this->setError(JText::_('LIB_CMS_WARNING_PROVIDE_VALID_NAME'));
 			return false;
 		}
 
-		if (trim($this->alias) == '')
+		if (trim($this->core_alias) == '')
 		{
-			$this->alias = $this->title;
+			$this->core_alias = $this->core_title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->core_alias = JApplication::stringURLSafe($this->core_alias);
 
-		if (trim(str_replace('-', '', $this->alias)) == '')
+		if (trim(str_replace('-', '', $this->core_alias)) == '')
 		{
-			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
-		}
-
-		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
-		{
-			$this->fulltext = '';
+			$this->core_alias = JFactory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
+		if ($this->core_publish_down > $this->_db->getNullDate() && $this->core_publish_down < $this->core_publish_up)
 		{
 			// Swap the dates.
-			$temp = $this->publish_up;
-			$this->publish_up = $this->publish_down;
-			$this->publish_down = $temp;
+			$temp = $this->core_publish_up;
+			$this->core_publish_up = $this->core_publish_down;
+			$this->core_publish_down = $temp;
 		}
 
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
-		if (!empty($this->metakey))
+		if (!empty($this->core_metakey))
 		{
 			// Only process if not empty
 
@@ -144,7 +146,7 @@ class JTableCorecontent extends JTable
 				}
 			}
 			// Put array back together delimited by ", "
-			$this->metakey = implode(", ", $clean_keys);
+			$this->core_metakey = implode(", ", $clean_keys);
 		}
 
 		return true;
@@ -164,33 +166,39 @@ class JTableCorecontent extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		if ($this->id)
+		if ($this->core_content_id)
 		{
 			// Existing item
-			$this->modified = $date->toSql();
-			$this->modified_by = $user->get('id');
+			$this->core_modified_time = $date->toSql();
+			$this->core_modified_user_id = $user->get('id');
 		}
 		else
 		{
-			// New content item. A content item created and created_by field can be set by the user,
+			// New content item. A content item core_created_time and core_created_user_id field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!(int) $this->created)
+			if (!(int) $this->core_created_time)
 			{
-				$this->created = $date->toSql();
+				$this->core_created_time = $date->toSql();
 			}
 
-			if (empty($this->created_by))
+			if (empty($this->core_created_user_id))
 			{
-				$this->created_by = $user->get('id');
+				$this->core_created_user_id = $user->get('id');
 			}
 		}
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Corecontent', 'JTable');
-		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
+		/*
+		if (
+			$table->load(array('core_alias' => $this->core_alias, 'core_catid' => $this->core_catid))
+			&& ($table->core_content_id != $this->core_content_id || $this->core_content_id == 0)
+		)
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 			return false;
 		}
+		*/
 
 		return parent::store($updateNulls);
 	}
@@ -232,26 +240,23 @@ class JTableCorecontent extends JTable
 			}
 		}
 
-		// Build the WHERE clause for the primary keys.
-		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
-
-		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
-		{
-			$checkin = '';
-		}
-		else
-		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
-		}
+		$pksImploded = implode(',', $pks);
 
 		// Get the JDatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
-		$query->where('(' . $where . ')' . $checkin);
+		$query->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('core_state') . ' = ' . (int) $state)
+			->where($this->_db->quoteName($k) . 'IN (' . $pksImploded . ')');
+
+		// Determine if there is checkin support for the table.
+		$checkin = false;
+		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
+		{
+			$checkin = true;
+			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
+		}
 		$this->_db->setQuery($query);
 
 		try
@@ -277,7 +282,7 @@ class JTableCorecontent extends JTable
 		// If the JTable instance value is in the list of primary keys that were set, set the instance.
 		if (in_array($this->$k, $pks))
 		{
-			$this->state = $state;
+			$this->core_state = $state;
 		}
 
 		$this->setError('');

@@ -223,6 +223,8 @@ class TagsModelTag extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_tags.tag', $data);
+
 		return $data;
 	}
 
@@ -278,6 +280,20 @@ class TagsModelTag extends JModelAdmin
 			$table->setLocation($data['parent_id'], 'last-child');
 		}
 
+		if (isset($data['images']) && is_array($data['images']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['images']);
+			$data['images'] = (string) $registry;
+		}
+
+		if (isset($data['urls']) && is_array($data['urls']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($data['urls']);
+			$data['urls'] = (string) $registry;
+		}
+
 		// Alter the title for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
@@ -321,30 +337,6 @@ class TagsModelTag extends JModelAdmin
 			$this->setError($table->getError());
 			return false;
 		}
-
-		// We will have to discuss how to think about language and tags
-		// $app = JFactory::getApplication();
-		/*$assoc = $this->getAssociations();
-		if ($assoc)
-		{
-			// Adding self to the association
-			$associations = $data['associations'];
-
-			foreach ($associations as $tag => $id)
-			{
-				if (empty($id))
-				{
-					unset($associations[$tag]);
-				}
-			}
-
-			if ($error = $db->getErrorMsg())
-			{
-				$this->setError($error);
-				return false;
-			}
-
-		}*/
 
 		// Trigger the onContentAfterSave event.
 		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));

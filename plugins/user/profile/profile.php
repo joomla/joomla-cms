@@ -19,26 +19,41 @@ defined('JPATH_BASE') or die;
 class PlgUserProfile extends JPlugin
 {
 	/**
+	 * Date of birth.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	private $_date = '';
+
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Constructor
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @param   object  $subject  The object to observe
+	 * @param   array   $config   An array that holds the plugin configuration
+	 *
+	 * @since   1.5
 	 */
 	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage();
 		JFormHelper::addFieldPath(__DIR__ . '/fields');
 	}
 
 	/**
-	 * @param   string	$context	The context for the data
-	 * @param   integer  $data		The user id
-	 * @param   object
+	 * @param   string     $context  The context for the data
+	 * @param   integer    $data     The user id
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function onContentPrepareData($context, $data)
@@ -59,8 +74,8 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'SELECT profile_key, profile_value FROM #__user_profiles' .
-					' WHERE user_id = '.(int) $userId." AND profile_key LIKE 'profile.%'" .
-					' ORDER BY ordering'
+						' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
+						' ORDER BY ordering'
 				);
 
 				try
@@ -115,11 +130,11 @@ class PlgUserProfile extends JPlugin
 			$value = htmlspecialchars($value);
 			if (substr($value, 0, 4) == "http")
 			{
-				return '<a href="'.$value.'">'.$value.'</a>';
+				return '<a href="' . $value . '">' . $value . '</a>';
 			}
 			else
 			{
-				return '<a href="http://'.$value.'">'.$value.'</a>';
+				return '<a href="http://' . $value . '">' . $value . '</a>';
 			}
 		}
 	}
@@ -149,8 +164,8 @@ class PlgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param   JForm	$form	The form to be altered.
-	 * @param   array  $data	The associated data for the form.
+	 * @param   JForm    $form    The form to be altered.
+	 * @param   array    $data    The associated data for the form.
 	 *
 	 * @return  boolean
 	 * @since   1.6
@@ -229,7 +244,8 @@ class PlgUserProfile extends JPlugin
 			{
 				// Remove the field if it is disabled in registration and profile
 				if ($this->params->get('register-require_' . $field, 1) == 0
-					&& $this->params->get('profile-require_' . $field, 1) == 0)
+					&& $this->params->get('profile-require_' . $field, 1) == 0
+				)
 				{
 					$form->removeField($field, 'profile');
 				}
@@ -246,6 +262,11 @@ class PlgUserProfile extends JPlugin
 				{
 					$form->removeField($field, 'profile');
 				}
+
+				if ($this->params->get('register-require_dob', 1) > 0)
+				{
+					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
+				}
 			}
 			// Case profile in site or admin
 			elseif ($name == 'com_users.profile' || $name == 'com_admin.profile')
@@ -259,6 +280,43 @@ class PlgUserProfile extends JPlugin
 				{
 					$form->removeField($field, 'profile');
 				}
+
+				if ($this->params->get('profile-require_dob', 1) > 0)
+				{
+					$form->setFieldAttribute('spacer', 'type', 'spacer', 'profile');
+				}
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method is called before user data is stored in the database
+	 *
+	 * @param   array    $user   Holds the old user data.
+	 * @param   boolean  $isnew  True if a new user is stored.
+	 * @param   array    $data   Holds the new user data.
+	 *
+	 * @return    boolean
+	 *
+	 * @since   3.1
+	 * @throws    InvalidArgumentException on invalid date.
+	 */
+	public function onUserBeforeSave($user, $isnew, $data)
+	{
+		// Check that the date is valid.
+		if (!empty($data['profile']['dob']))
+		{
+			try
+			{
+				$date = new JDate($data['profile']['dob']);
+				$this->_date = $date->format('Y-m-d');
+			}
+			catch (Exception $e)
+			{
+				// Throw an exception if date is not valid.
+				throw new InvalidArgumentException(JText::_('PLG_USER_PROFILE_ERROR_INVALID_DOB'));
 			}
 		}
 
@@ -267,35 +325,32 @@ class PlgUserProfile extends JPlugin
 
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
-		$userId	= JArrayHelper::getValue($data, 'id', 0, 'int');
+		$userId = JArrayHelper::getValue($data, 'id', 0, 'int');
 
 		if ($userId && $result && isset($data['profile']) && (count($data['profile'])))
 		{
 			try
 			{
-				//Sanitize the date
-				if (!empty($data['profile']['dob']))
-				{
-					$date = new JDate($data['profile']['dob']);
-					$data['profile']['dob'] = $date->format('Y-m-d');
-				}
+				// Sanitize the date
+				$data['profile']['dob'] = $this->_date;
 
 				$db = JFactory::getDbo();
-				$db->setQuery(
-					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .
-					" AND profile_key LIKE 'profile.%'"
-				);
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('userid') . ' = ' . (int) $userId)
+					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
+				$db->setQuery($query);
 				$db->execute();
 
 				$tuples = array();
-				$order	= 1;
+				$order = 1;
 
 				foreach ($data['profile'] as $k => $v)
 				{
-					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote(json_encode($v)).', '.$order++.')';
+					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . $order++ . ')';
 				}
 
-				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
+				$db->setQuery('INSERT INTO #__user_profiles VALUES ' . implode(', ', $tuples));
 				$db->execute();
 			}
 			catch (RuntimeException $e)
@@ -313,9 +368,11 @@ class PlgUserProfile extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param   array  $user		Holds the user data
-	 * @param   boolean		$success	True if user was succesfully stored in the database
-	 * @param   string  $msg		Message
+	 * @param   array    $user     Holds the user data
+	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   string   $msg      Message
+	 *
+	 * @return  boolean
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{
@@ -324,7 +381,7 @@ class PlgUserProfile extends JPlugin
 			return false;
 		}
 
-		$userId	= JArrayHelper::getValue($user, 'id', 0, 'int');
+		$userId = JArrayHelper::getValue($user, 'id', 0, 'int');
 
 		if ($userId)
 		{
@@ -332,8 +389,8 @@ class PlgUserProfile extends JPlugin
 			{
 				$db = JFactory::getDbo();
 				$db->setQuery(
-					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .
-					" AND profile_key LIKE 'profile.%'"
+					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId .
+						" AND profile_key LIKE 'profile.%'"
 				);
 
 				$db->execute();

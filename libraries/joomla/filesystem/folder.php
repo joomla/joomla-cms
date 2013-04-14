@@ -177,7 +177,7 @@ abstract class JFolder
 			$nested++;
 			if (($nested > 20) || ($parent == $path))
 			{
-				JLog::add('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'), JLog::WARNING, 'jerror');
+				JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_LOOP'), JLog::WARNING, 'jerror');
 				$nested--;
 				return false;
 			}
@@ -244,7 +244,7 @@ abstract class JFolder
 				if ($inBaseDir == false)
 				{
 					// Return false for JFolder::create because the path to be created is not in open_basedir
-					JLog::add('SOME_ERROR_CODE', __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), JLog::WARNING, 'jerror');
+					JLog::add(__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), JLog::WARNING, 'jerror');
 					return false;
 				}
 			}
@@ -257,7 +257,6 @@ abstract class JFolder
 			{
 				@umask($origmask);
 				JLog::add(
-					'SOME_ERROR_CODE',
 					__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'), 'Path: ' . $path, JLog::WARNING, 'jerror'
 				);
 				return false;
@@ -292,8 +291,15 @@ abstract class JFolder
 
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		// Check to make sure the path valid and clean
-		$path = JPath::clean($path);
+		try
+		{
+			// Check to make sure the path valid and clean
+			$path = JPath::clean($path);
+		}
+		catch (UnexpectedValueException $e)
+		{
+			throw new UnexpectedValueException($e);
+		}
 
 		// Is this really a folder?
 		if (!is_dir($path))
@@ -569,7 +575,7 @@ abstract class JFolder
 				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				// Compute the fullpath
-				$fullpath = $path . '/' . $file;
+				$fullpath = $path . DIRECTORY_SEPARATOR . $file;
 
 				// Compute the isDir flag
 				$isDir = is_dir($fullpath);

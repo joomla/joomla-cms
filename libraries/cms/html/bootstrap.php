@@ -467,16 +467,18 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  Identifier of the accordion group.
 	 * @param   string  $text      Text to display.
 	 * @param   string  $id        Identifier of the slide.
+	 * @param   string  $class     Class of the accordion group.
 	 *
 	 * @return  string  HTML to add the slide
 	 *
 	 * @since   3.0
 	 */
-	public static function addSlide($selector, $text, $id)
+	public static function addSlide($selector, $text, $id, $class = '')
 	{
 		$in = (self::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
+		$class = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="accordion-group">'
+		$html = '<div class="accordion-group' . $class . '">'
 				. '<div class="accordion-heading">'
 				. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
 				. $text
@@ -613,15 +615,15 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			JHtml::_('stylesheet', 'media/jui/css/bootstrap.min.css', $attribs, false);
-			JHtml::_('stylesheet', 'media/jui/css/bootstrap-responsive.min.css', $attribs, false);
-			JHtml::_('stylesheet', 'media/jui/css/bootstrap-extended.css', $attribs, false);
+			JHtml::_('stylesheet', 'jui/bootstrap.min.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-responsive.min.css', $attribs, true);
+			JHtml::_('stylesheet', 'jui/bootstrap-extended.css', $attribs, true);
 		}
 
 		// Load Bootstrap RTL CSS
 		if ($direction === 'rtl')
 		{
-			JHtml::_('stylesheet', 'media/jui/css/bootstrap-rtl.css', $attribs, false);
+			JHtml::_('stylesheet', 'jui/bootstrap-rtl.css', $attribs, true);
 		}
 	}
 }

@@ -86,13 +86,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 		$this->type("mod-login-username", $username);
 		$this->type("mod-login-password", $password);
-		if ($this->isElementPresent("//button[contains(text(), 'Log in')]"))
+		if ($this->isElementPresent("//button[contains(., 'Log in')]"))
 		{
-			$this->click("//button[contains(text(), 'Log in')]");
+			$this->click("//button[contains(., 'Log in')]");
 		}
-		elseif ($this->isElementPresent("//a[contains(text(), 'Log in')]"))
+		elseif ($this->isElementPresent("//a[contains(., 'Log in')]"))
 		{
-			$this->click("//a[contains(text(), 'Log in')]");
+			$this->click("//a[contains(., 'Log in')]");
 		}
 		$this->waitForPageToLoad("30000");
 	}
@@ -680,7 +680,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->toggleCheckBox($title, $type);
 		$this->click("//div[@id='toolbar-" . $newState . "']/button");
 		$this->waitForPageToLoad("30000");
-		$this->click("//button[@type='button']");
+		$this->click("//button[@type='button'][contains(@onclick, \".value=''\")]");
 		$this->waitForPageToLoad("30000");
 		$this->select($filter, "label=- Select Status -");
 		$this->waitForPageToLoad("30000");

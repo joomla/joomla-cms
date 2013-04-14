@@ -51,6 +51,8 @@ class UsersModelMail extends JModelAdmin
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_users.display.mail.data', array());
 
+		$this->preprocessData('com_users.mail', $data);
+
 		return $data;
 	}
 
@@ -101,10 +103,10 @@ class UsersModelMail extends JModelAdmin
 		$to = $access->getUsersByGroup($grp, $recurse);
 
 		// Get all users email and group except for senders
-		$query	= $db->getQuery(true);
-		$query->select('email');
-		$query->from('#__users');
-		$query->where('id != '.(int) $user->get('id'));
+		$query	= $db->getQuery(true)
+			->select('email')
+			->from('#__users')
+			->where('id != '.(int) $user->get('id'));
 		if ($grp !== 0)
 		{
 			if (empty($to))

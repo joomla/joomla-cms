@@ -143,6 +143,7 @@ abstract class JHtmlGrid
 		$userid = $user->get('id');
 
 		$result = false;
+
 		if ($row instanceof JTable)
 		{
 			$result = $row->isCheckedOut($userid);
@@ -153,6 +154,7 @@ abstract class JHtmlGrid
 		}
 
 		$checked = '';
+
 		if ($result)
 		{
 			$checked = self::_checkedOut($row);
@@ -246,7 +248,7 @@ abstract class JHtmlGrid
 	 * Method to create an icon for saving a new ordering in a grid
 	 *
 	 * @param   array   $rows   The array of rows of rows
-	 * @param   string  $image  The image
+	 * @param   string  $image  The image [UNUSED]
 	 * @param   string  $task   The task to use, defaults to save order
 	 *
 	 * @return  string
@@ -255,7 +257,6 @@ abstract class JHtmlGrid
 	 */
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		// $image = JHtml::_('image','admin/'.$image, JText::_('JLIB_HTML_SAVE_ORDER'), NULL, true);
 		$href = '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
 
