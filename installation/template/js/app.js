@@ -41,7 +41,8 @@ require.config({
 		bootstrap : '../media/jui/js/bootstrap.min',
 		chosen : '../media/jui/js/chosen.jquery.min',
 		underscore : 'template/js/lib/underscore/underscore',
-		backbone : 'template/js/lib/backbone/backbone.min'
+		backbone : 'template/js/lib/backbone/backbone.min',
+		serialize : 'template/js/lib/jquery/jquery.ba-serializeobject.min'
 	}
 });
 

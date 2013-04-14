@@ -29,10 +29,10 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 
-// JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
-
 JHtml::_('script', 'installation/template/js/lib/RequireJS/require.min.js', true, false, false, false);
-JHtml::_('script', 'installation/template/js/installation.min.js', true, false, false, false);
+
+// JHtml::_('script', 'installation/template/js/installation.min.js', true, false, false, false);
+JHtml::_('script', 'installation/template/js/app.js', true, false, false, false);
 
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
