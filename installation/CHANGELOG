@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+14-Apr-2013 Mark Dexter
+ # [#30506] Joomla update system erases entire site if downloaded zip package is broken. Thanks Aliaksei Kanstantsinau.
+
 14-Apr-2013 Michael Babker
  ^ [#30541] Small fixes to batch processing layouts.  Thanks Elin Waring
  # [#30396] Enabling finder plugins breaks tags saving
