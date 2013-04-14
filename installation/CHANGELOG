@@ -29,6 +29,7 @@ $ -> Language fix or change
  ^ [#30541] Small fixes to batch processing layouts.  Thanks Elin Waring
  # [#30396] Enabling finder plugins breaks tags saving
  # [#29240] Undefined property: JSite::$registeredurlparams.  Thanks Mark Stanton
+ # [#30282] Joomla3.0.3 + PostgresQL -- User Registration Problem -- Database query failed -- column "sendemail" does not exist.  Thanks George Wilson
 
 13-Apr-2013 Mark Dexter
  # [#30560] Tagged Item menu options Child Tags always saves as Include. Thanks Elin.
