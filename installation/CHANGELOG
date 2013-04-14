@@ -25,9 +25,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+14-Apr-2013 Michael Babker
+ ^ [#30541] Small fixes to batch processing layouts.  Thanks Elin Waring
+
 13-Apr-2013 Mark Dexter
  # [#30560] Tagged Item menu options Child Tags always saves as Include. Thanks Elin.
- # [#30559] 'joomla_310.ddfre_updates' doesn't exist 
+ # [#30559] 'joomla_310.ddfre_updates' doesn't exist
 
 -------------------- 3.1 Beta 4 Release [12-Apr-2012] ------------------
 
