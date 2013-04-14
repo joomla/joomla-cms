@@ -42,13 +42,13 @@ require.config({
 		chosen : '../media/jui/js/chosen.jquery.min',
 		underscore : 'template/js/lib/underscore/underscore',
 		backbone : 'template/js/lib/backbone/backbone.min',
-		serialize : 'template/js/lib/jquery/jquery.ba-serializeobject.min'
+		serialize : 'template/js/lib/jquery/jquery.ba-serializeobject.min',
+		uiinit : 'template/js/helpers/uiinit'
 	}
 });
 
-require([ "jquery", "domready", "template/js/helpers/ui-init",
-		"template/js/helpers/ui-mootools", "template/js/views/installation" ],
-		function($, domReady, UiInit, UiMooTools, InstallationView) {
+require([ "jquery", "domready", "uiinit", "template/js/views/installation" ],
+		function($, domReady, UiInit, InstallationView) {
 
 			domReady(function() {
 

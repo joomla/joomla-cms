@@ -9,11 +9,10 @@
 /* jslint plusplus: true, browser: true, sloppy: true */
 /* global jQuery, Request, Joomla, alert, Backbone */
 
-define([ 'jquery', 'underscore', 'backbone', 'serialize' ], function($, _,
-		Backbone) {
+define([ "jquery", "uiinit", "underscore", "backbone", "serialize"], 
+		function($, UiInit) {
 
-	var Language = Backbone.Model
-			.extend({
+	var Language = Backbone.Model.extend({
 				initialize : function(attributes, options) {
 					this.set('urlBase', options.urlBase);
 				},
@@ -24,6 +23,24 @@ define([ 'jquery', 'underscore', 'backbone', 'serialize' ], function($, _,
 							+ '?&task=setup.setlanguage&format=json';
 				}
 			});
+	
+	var Page = Backbone.Model.extend({
+		initialize : function(attributes, options) {
+			this.set('urlBase', options.urlBase);
+		},
+
+		url : function() {
+			return this.get('urlBase') + '?tmpl=body';
+			
+		},
+		
+		parse : function(resp, options) {
+			return {
+				status : true,
+				page : resp
+			};
+		}		
+	});	
 
 	var InstallationView = Backbone.View.extend({
 
@@ -45,7 +62,7 @@ define([ 'jquery', 'underscore', 'backbone', 'serialize' ], function($, _,
 
 		initialize : function() {
 			var theInstaller = this;
-
+			
 			this.sampleDataLoaded = false;
 			this.busy = false;
 			this.spinner = new Spinner(this.$el.get(0));
@@ -62,8 +79,13 @@ define([ 'jquery', 'underscore', 'backbone', 'serialize' ], function($, _,
 
 			this.language = new Language({}, {
 				urlBase : base
-			});
+			});			
 			this.language.on('change', this.loadLanguage, this);
+			
+			this.page = new Page({}, {
+				urlBase : base
+			});
+			this.page.on('change', this.loadPage, this);
 		},
 
 		setLanguage : function setLanguage() {
@@ -71,9 +93,9 @@ define([ 'jquery', 'underscore', 'backbone', 'serialize' ], function($, _,
 
 			formdata = this.$('#languageForm').serializeObject();
 			this.language.save(formdata, {
-				wait : true,
+				wait: true,
 				error : function(model, fail, xhr) {
-					var r = JSON.decode(xhr.responseText);
+					var r = JSON.decode(fail.responseText);
 					if (r) {
 						Joomla.replaceTokens(r.token);
 						alert(r.message);
@@ -82,16 +104,39 @@ define([ 'jquery', 'underscore', 'backbone', 'serialize' ], function($, _,
 			});
 		},
 
-		loadLanguage : function loadLanguage(response) {
-			console.log(response);
-
-			/*
-			 * Joomla.replaceTokens(r.token); if (r.messages) {
-			 * Joomla.renderMessages(r.messages); } var lang =
-			 * $$('html').getProperty('lang')[0]; if (lang.toLowerCase() ===
-			 * r.lang.toLowerCase()) { Install.goToPage(r.data.view, true); }
-			 * else { window.location = this.baseUrl+'?view='+r.data.view; }
-			 */
+		loadLanguage : function loadLanguage(r) {
+			Joomla.replaceTokens(r.attributes.token);
+			
+			if (r.attributes.messages) {
+				Joomla.renderMessages(r.attributes.messages); 
+			} 
+			var lang = jQuery('html').attr('lang'); 
+			if (lang.toLowerCase() === r.attributes.lang.toLowerCase()) { 
+				this.page.fetch({
+					data : {
+						view: r.attributes.data.view
+					},
+					
+					wait : true,
+					dataType : 'text',
+					error : function(model, fail, xhr) {
+						var r = JSON.decode(fail.responseText);
+						if (r) {
+							Joomla.replaceTokens(r.token);
+							alert(r.message);
+						}
+					}
+				});
+			}
+			else { 
+				window.location = this.baseUrl + '?view=' + r.attributes.data.view;
+			}
+		},
+		
+		loadPage : function loadPage(r) {
+			this.$el.html(r.attributes.page);
+			UiInit.initUi();
+			UiInit.initMootools();
 		},
 
 		goToPageSiteButton : function goToPageSiteButton() {

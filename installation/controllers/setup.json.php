@@ -26,6 +26,21 @@ class InstallationControllerSetup extends JControllerLegacy
 	 */
 	public function setlanguage()
 	{
+		// default implementation, when Backbone.sync sends up a request to save a model, its attributes will be passed, serialized as JSON, and sent in the HTTP body with content-type application/json.
+		// server code to understand REST requests
+		$raw = file_get_contents('php://input');
+		$data = json_decode($raw, true);
+
+		// Is there any cleaner way?
+		$app = JFactory::getApplication();
+		if (count($data) > 0)
+		{
+			foreach ($data as $k => $v)
+			{
+				$app->input->post->set($k, $v);
+			}
+		}
+
 		// Check for request forgeries.
 		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 

@@ -9,25 +9,26 @@
 /* jslint plusplus: true, browser: true, sloppy: true */
 /* global jQuery, Request, Joomla, alert, Backbone */
 
-define([ "jquery", "bootstrap", "chosen", "domready" ], function($, Bootstrap, Chosen, domReady) {
-	
-	domReady(function () {
+define([ "jquery", "bootstrap", "chosen", "domready" ], function($, Bootstrap,
+		Chosen, domReady) {
+
+	var initUi = function() {
 		$('*[rel=tooltip]').tooltip();
 		$('*[rel=popover]').popover();
-	
+
 		// Chosen select boxes
 		$("select").chosen({
 			disable_search_threshold : 10,
 			allow_single_deselect : true
 		});
-	
+
 		// Turn radios into btn-group
 		$('.radio.btn-group label').addClass('btn');
 		$(".btn-group label:not(.active)").click(
 				function() {
 					var label = $(this);
 					var input = $('#' + label.attr('for'));
-	
+
 					if (!input.prop('checked')) {
 						label.closest('.btn-group').find("label").removeClass(
 								'active btn-success btn-danger');
@@ -47,6 +48,38 @@ define([ "jquery", "bootstrap", "chosen", "domready" ], function($, Bootstrap, C
 				label.addClass('active btn-success');
 			}
 		});
+	};
+	
+	var initMootools = function() {
+
+		(new Fx.Accordion($$('h4.moofx-toggler'), $$('div.moofx-slider'), {
+			onActive : function(toggler, i) {
+				toggler.addClass('moofx-toggler-down');
+			},
+			onBackground : function(toggler, i) {
+				toggler.removeClass('moofx-toggler-down');
+			},
+			duration : 300,
+			opacity : false,
+			alwaysHide : true,
+			show : 1
+		}));
+
+		// Attach the validator
+		$$('form.form-validate').each(function(form) {
+			this.attachToForm(form);
+		}, document.formvalidator);
+
+	};
+
+	domReady(function(){
+		initUi(); 
+		initMootools();
 	});
+
+	return {
+		initUi : initUi,
+		initMootools : initMootools
+	};
 
 });
