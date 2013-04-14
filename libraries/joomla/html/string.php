@@ -36,7 +36,7 @@ abstract class JHtmlString
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
 		// Assume a lone open tag is invalid HTML.
-		if ($length == 1 && substr($text, 0, 1) == '<')
+		if ($length == 1 && JString::substr($text, 0, 1) == '<')
 		{
 			return '...';
 		}
@@ -70,7 +70,7 @@ abstract class JHtmlString
 			$tmp = trim(JString::substr($text, 0, $length - 4));
 
 			// We are within a html tag add the tag doesn't end within the lenght.
-			if (substr($tmp, 0, 1) == '<' && strpos($tmp, '>') === false)
+			if (JString::substr($tmp, 0, 1) == '<' && JString::strpos($tmp, '>') === false)
 			{
 					return '...';
 			}
@@ -82,7 +82,7 @@ abstract class JHtmlString
 				$offset = JString::strrpos($tmp, ' ');
 
 				// Handling multibyte spaces
-				$multiByteSpace = mb_convert_encoding('&#12288;', 'UTF-8', 'HTML-ENTITIES');
+				$multiByteSpace = "\xE3\x80\x80";
 				$mb_offset = JString::strrpos($tmp, $multiByteSpace);
 
 				if ($mb_offset !== false)
@@ -91,7 +91,6 @@ abstract class JHtmlString
 					{
 						$offset = $mb_offset;
 					}
-
 				}
 
 				// If there are no spaces we need to just use the ellipsis.
@@ -106,7 +105,7 @@ abstract class JHtmlString
 				{
 					$offset = JString::strrpos($tmp2, '<');
 				}
-				$tmp = trim(JString::substr($tmp2, 0, $offset));
+				$tmp = JString::trim(JString::substr($tmp2, 0, $offset));
 			}
 
 			if ($allowHtml)
@@ -128,7 +127,7 @@ abstract class JHtmlString
 				// All tags are closed so trim the text and finish.
 				if (count($closedTags) == $numOpened)
 				{
-					return trim($tmp) . '...';
+					return JString::trim($tmp) . '...';
 				}
 
 				// Closing tags need to be in the reverse order of opening tags.
@@ -147,9 +146,9 @@ abstract class JHtmlString
 					}
 				}
 			}
-			if ( $tmp === false || strlen($text) > strlen($tmp))
+			if ( $tmp === false || JString::strlen($text) > JString::strlen($tmp))
 			{
-				$text = trim($tmp) . '...';
+				$text = JString::trim($tmp) . '...';
 			}
 		}
 
