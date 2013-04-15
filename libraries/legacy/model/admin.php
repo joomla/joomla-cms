@@ -299,8 +299,6 @@ abstract class JModelAdmin extends JModelForm
 
 					return false;
 				}
-				// Trigger the onContentChangeState event.
-				$result = $dispatcher->trigger($this->event_change_access, array($contexts, $pks, $value));
 
 			}
 			else
@@ -310,6 +308,9 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 		}
+
+		// Trigger the onContentChangeState event.
+		$result = $dispatcher->trigger($this->event_change_access, array($contexts, $pks, $value));
 
 		// Clean the cache
 		$this->cleanCache();
