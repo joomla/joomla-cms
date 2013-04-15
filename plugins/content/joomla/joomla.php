@@ -320,12 +320,15 @@ class PlgContentJoomla extends JPlugin
 	 *
 	 * @since   3.1
 	 */
-	public function getUcmIds($context, $pks, $value, $db)
+	public function getUcmIds($contexts, $pks, $value, $db)
 	{
+		$contextString = explode('.', array_pop($contexts));
+		$typeAlias = $contextString[0] . '.' . $contextString[1];
+
 		$query = $db->getQuery(true)
 		->select($db->quoteName('core_content_id'))
 		->from($db->quoteName('#__ucm_content'))
-		->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($context))
+		->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias))
 		->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) . ')');
 		$db->setQuery($query);
 		$ucmIds = $db->loadColumn();
