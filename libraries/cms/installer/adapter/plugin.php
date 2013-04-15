@@ -778,6 +778,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				$extension->set('name', $file);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 			$folder_list = JFolder::folders(JPATH_SITE . '/plugins/' . $folder);
@@ -807,6 +808,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					$extension->set('name', $file);
 					$extension->set('state', -1);
 					$extension->set('manifest_cache', json_encode($manifest_details));
+					$extension->set('params', '{}');
 					$results[] = $extension;
 				}
 			}

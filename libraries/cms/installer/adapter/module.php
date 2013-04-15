@@ -620,9 +620,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$extension->set('type', 'module');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $module);
+			$extension->set('folder', '');
 			$extension->set('name', $module);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = clone $extension;
 		}
 
@@ -633,9 +635,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $module);
+			$extension->set('folder', '');
 			$extension->set('name', $module);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = clone $extension;
 		}
 
