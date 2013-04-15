@@ -342,7 +342,7 @@ abstract class JFactory
 	 * @return  mixed  SimplePie parsed object on success, false on failure.
 	 *
 	 * @since   11.1
-	 * @deprecated  13.3  Use JSimplepieFactory::getFeedParser() instead.
+	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
@@ -351,7 +351,7 @@ abstract class JFactory
 			throw new BadMethodCallException('JSimplepieFactory not found');
 		}
 
-		JLog::add(__METHOD__ . ' is deprecated.   Use JSimplepieFactory::getFeedParser() instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply SimplePie instead.', JLog::WARNING, 'deprecated');
 
 		return JSimplepieFactory::getFeedParser($url, $cache_time);
 	}
