@@ -103,9 +103,9 @@ CREATE TABLE IF NOT EXISTS `#__ucm_base` (
   `ucm_type_id` int(11) NOT NULL,
   `ucm_language_id` int(11) NOT NULL,
   PRIMARY KEY (`ucm_id`),
-  KEY `ucm_item_id` (`ucm_id`),
-  KEY `ucm_type_id` (`ucm_id`),
-  KEY `ucm_language_id` (`ucm_id`)
+  KEY `idx_ucm_item_id` (`ucm_item_id`),
+  KEY `idx_ucm_type_id` (`ucm_type_id`),
+  KEY `idx_ucm_language_id` (`ucm_language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

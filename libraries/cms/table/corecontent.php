@@ -44,7 +44,6 @@ class JTableCorecontent extends JTable
 	 */
 	public function bind($array, $ignore = '')
 	{
-
 		if (isset($array['core_params']) && is_array($array['core_params']))
 		{
 			$registry = new JRegistry;

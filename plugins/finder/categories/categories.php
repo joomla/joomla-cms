@@ -127,10 +127,17 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
+
+				// Reindex the item
+				$this->reindex($row->id);
 			}
 
-			// Reindex the item
-			$this->reindex($row->id);
+			// Check if the parent access level is different
+			if (!$isNew && $this->old_cataccess != $row->access)
+			{
+				$this->categoryAccessChange($row);
+			}
+
 		}
 		return true;
 	}
@@ -154,10 +161,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		// We only want to handle categories here
 		if ($context == 'com_categories.category')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level and the parent if the item isn't new
 			if (!$isNew)
 			{
 				$this->checkItemAccess($row);
+				$this->checkCategoryAccess($row);
 			}
 		}
 
@@ -195,7 +203,14 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				$item = $this->db->loadObject();
 
 				// Translate the state.
-				$temp = $this->translateState($value);
+				$state = null;
+
+				if ($item->parent_id != 1)
+				{
+					$state = $item->cat_state;
+				}
+
+				$temp = $this->translateState($value, $state);
 
 				// Update the item.
 				$this->change($pk, 'state', $temp);
@@ -358,7 +373,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 	/**
 	 * Method to get a SQL query to load the published and access states for
-	 * a category and section.
+	 * an article and category.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
@@ -368,9 +383,10 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	{
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('a.id'))
-			->select($this->db->quoteName('a.published') . ' AS cat_state')
-			->select($this->db->quoteName('a.access') . ' AS cat_access')
-			->from($this->db->quoteName('#__categories') . ' AS a');
+			->select('a.' . $this->state_field . ' AS state, c.published AS cat_state')
+			->select('a.access, c.access AS cat_access')
+			->from($this->db->quoteName('#__categories') . ' AS a')
+			->join('LEFT', '#__categories AS c ON c.id = a.parent_id');
 
 		return $query;
 	}
