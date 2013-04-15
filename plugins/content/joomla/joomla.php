@@ -256,7 +256,7 @@ class PlgContentJoomla extends JPlugin
 	public function onContentChangeState($context, $pks, $value)
 	{
 		$db = JFactory::getDbo();
-		$ucmIds = self::getUcmIds($context, $pks, $value, $db);
+		$ucmIds = $this->getUcmIds($context, $pks, $value, $db);
 
 		$cctable = new JTableCorecontent($db);
 		$cctable->publish($ucmIds, $value);
@@ -265,7 +265,7 @@ class PlgContentJoomla extends JPlugin
 	}
 
 	/**
-	 * Change the state in core_content if the state in a table is changed
+	 * Change the core_language in core_content if the language in a table is changed
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
 	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
@@ -279,7 +279,7 @@ class PlgContentJoomla extends JPlugin
 	{
 		$db = JFactory::getDbo();
 
-		$ucmIds = self::getUcmIds($context, $pks, $value, $db);
+		$ucmIds = $this->getUcmIds($context, $pks, $value, $db);
 
 		$cctable = new JTableCorecontent($db);
 		$cctable->setLanguage($ucmIds, $value);
@@ -288,7 +288,7 @@ class PlgContentJoomla extends JPlugin
 	}
 
 	/**
-	 * Change the state in core_content if the state in a table is changed
+	 * Change the core_access in core_content if the access in a table is changed
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
 	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
@@ -302,7 +302,7 @@ class PlgContentJoomla extends JPlugin
 	{
 		$db = JFactory::getDbo();
 
-		$ucmIds = self::getUcmIds($context, $pks, $value, $db);
+		$ucmIds = $this->getUcmIds($context, $pks, $value, $db);
 		$cctable = new JTableCorecontent($db);
 		$cctable->setAccess($ucmIds, $value);
 
@@ -312,16 +312,21 @@ class PlgContentJoomla extends JPlugin
 	/**
 	 * Method to get a list of ids from #__ucm_content
 	 *
-	 * @param   string   $context  The context for the content passed to the plugin.
-	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
-	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 * @param   string    $context  The context for the content passed to the plugin.
+	 * @param   array     $pks      A list of primary key ids of the content that has changed state.
+	 * @param   integer   $value    The value of the state that the content has been changed to.
+	 * @params  JDatabase $db       The JDatabase object
 	 *
-	 * @return  boolean
+	 * @return  mixed   arry of ids if they exist, null otherwise or if $contexts is not an array.
 	 *
 	 * @since   3.1
 	 */
-	public function getUcmIds($contexts, $pks, $value, $db)
+	protected function getUcmIds($contexts, $pks, $value, $db)
 	{
+		if (!is_array($contexts))
+		{
+			return null;
+		}
 		$contextString = explode('.', array_pop($contexts));
 		$typeAlias = $contextString[0] . '.' . $contextString[1];
 
