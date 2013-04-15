@@ -1,3 +1,9 @@
+/* Changes to tables where data type conflicts exist with MySQL (mainly dealing with null values */
+ALTER TABLE "#__modules" ALTER COLUMN "content" SET DEFAULT '';
+ALTER TABLE "#__updates" ALTER COLUMN "data" SET DEFAULT '';
+
+/* Tags database schema */
+
 --
 -- Table: #__content_types
 --
@@ -56,58 +62,6 @@ COMMENT ON COLUMN "#__contentitem_tag_map"."tag_date" IS 'Date of most recent sa
 -- --------------------------------------------------------
 
 --
--- Table: #__ucm_content
---
-CREATE TABLE "#__ucm_content" (
-  "core_content_id" serial NOT NULL,
-  "core_type_alias" character varying(255) DEFAULT '' NOT NULL,
-  "core_title" character varying(255) NOT NULL,
-  "core_alias" character varying(255) DEFAULT '' NOT NULL,
-  "core_body" text NOT NULL,
-  "core_state" smallint DEFAULT 0 NOT NULL,
-  "core_checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "core_checked_out_user_id" bigint DEFAULT 0 NOT NULL,
-  "core_access" bigint DEFAULT 0 NOT NULL,
-  "core_params" text NOT NULL,
-  "core_featured" smallint DEFAULT 0 NOT NULL,
-  "core_metadata" text NOT NULL,
-  "core_created_user_id" bigint DEFAULT 0 NOT NULL,
-  "core_created_by_alias" character varying(255) DEFAULT '' NOT NULL,
-  "core_created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "core_modified_user_id" bigint DEFAULT 0 NOT NULL,
-  "core_modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "core_language" character varying(7) DEFAULT '' NOT NULL,
-  "core_publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "core_publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "core_content_item_id" bigint DEFAULT 0 NOT NULL,
-  "asset_id" bigint DEFAULT 0 NOT NULL,
-  "core_images" text NOT NULL,
-  "core_urls" text NOT NULL,
-  "core_hits" bigint DEFAULT 0 NOT NULL,
-  "core_version" bigint DEFAULT 1 NOT NULL,
-  "core_ordering" bigint DEFAULT 0 NOT NULL,
-  "core_metakey" text NOT NULL,
-  "core_metadesc" text NOT NULL,
-  "core_catid" bigint DEFAULT 0 NOT NULL,
-  "core_xreference" character varying(50) DEFAULT '' NOT NULL,
-  "core_type_id" bigint DEFAULT 0 NOT NULL,
-  PRIMARY KEY ("core_content_id"),
-  CONSTRAINT "#__ucm_content_idx_type_alias_item_id" UNIQUE ("core_type_alias", "core_content_item_id")
-);
-CREATE INDEX "#__ucm_content_tag_idx" ON "#__ucm_content" ("core_state", "core_access");
-CREATE INDEX "#__ucm_content_idx_access" ON "#__ucm_content" ("core_access");
-CREATE INDEX "#__ucm_content_idx_alias" ON "#__ucm_content" ("core_alias");
-CREATE INDEX "#__ucm_content_idx_language" ON "#__ucm_content" ("core_language");
-CREATE INDEX "#__ucm_content_idx_title" ON "#__ucm_content" ("core_title");
-CREATE INDEX "#__ucm_content_idx_modified_time" ON "#__ucm_content" ("core_modified_time");
-CREATE INDEX "#__ucm_content_idx_created_time" ON "#__ucm_content" ("core_created_time");
-CREATE INDEX "#__ucm_content_idx_content_type" ON "#__ucm_content" ("core_type_alias");
-CREATE INDEX "#__ucm_content_idx_core_modified_user_id" ON "#__ucm_content" ("core_modified_user_id");
-CREATE INDEX "#__ucm_content_idx_core_checked_out_user_id" ON "#__ucm_content" ("core_checked_out_user_id");
-CREATE INDEX "#__ucm_content_idx_core_created_user_id" ON "#__ucm_content" ("core_created_user_id");
-CREATE INDEX "#__ucm_content_idx_core_type_id" ON "#__ucm_content" ("core_type_id");
-
---
 -- Table: #__tags
 --
 CREATE TABLE "#__tags" (
@@ -160,6 +114,72 @@ INSERT INTO "#__tags" ("id", "parent_id", "lft", "rgt", "level", "path", "title"
 
 SELECT nextval('#__tags_id_seq');
 SELECT setval('#__tags_id_seq', 2, false);
+
+--
+-- Table: #__ucm_base
+--
+CREATE TABLE "#__ucm_base" (
+  "ucm_id" serial NOT NULL,
+  "ucm_item_id" bigint NOT NULL,
+  "ucm_type_id" bigint NOT NULL,
+  "ucm_language_id" bigint NOT NULL,
+  PRIMARY KEY ("ucm_id")
+);
+CREATE INDEX "#__ucm_base_ucm_item_id" ON "#__ucm_base" ("ucm_item_id");
+CREATE INDEX "#__ucm_base_ucm_type_id" ON "#__ucm_base" ("ucm_type_id");
+CREATE INDEX "#__ucm_base_ucm_language_id" ON "#__ucm_base" ("ucm_language_id");
+
+--
+-- Table: #__ucm_content
+--
+CREATE TABLE "#__ucm_content" (
+  "core_content_id" serial NOT NULL,
+  "core_type_alias" character varying(255) DEFAULT '' NOT NULL,
+  "core_title" character varying(255) NOT NULL,
+  "core_alias" character varying(255) DEFAULT '' NOT NULL,
+  "core_body" text NOT NULL,
+  "core_state" smallint DEFAULT 0 NOT NULL,
+  "core_checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "core_checked_out_user_id" bigint DEFAULT 0 NOT NULL,
+  "core_access" bigint DEFAULT 0 NOT NULL,
+  "core_params" text NOT NULL,
+  "core_featured" smallint DEFAULT 0 NOT NULL,
+  "core_metadata" text NOT NULL,
+  "core_created_user_id" bigint DEFAULT 0 NOT NULL,
+  "core_created_by_alias" character varying(255) DEFAULT '' NOT NULL,
+  "core_created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "core_modified_user_id" bigint DEFAULT 0 NOT NULL,
+  "core_modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "core_language" character varying(7) DEFAULT '' NOT NULL,
+  "core_publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "core_publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "core_content_item_id" bigint DEFAULT 0 NOT NULL,
+  "asset_id" bigint DEFAULT 0 NOT NULL,
+  "core_images" text NOT NULL,
+  "core_urls" text NOT NULL,
+  "core_hits" bigint DEFAULT 0 NOT NULL,
+  "core_version" bigint DEFAULT 1 NOT NULL,
+  "core_ordering" bigint DEFAULT 0 NOT NULL,
+  "core_metakey" text NOT NULL,
+  "core_metadesc" text NOT NULL,
+  "core_catid" bigint DEFAULT 0 NOT NULL,
+  "core_xreference" character varying(50) DEFAULT '' NOT NULL,
+  "core_type_id" bigint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("core_content_id"),
+  CONSTRAINT "#__ucm_content_idx_type_alias_item_id" UNIQUE ("core_type_alias", "core_content_item_id")
+);
+CREATE INDEX "#__ucm_content_tag_idx" ON "#__ucm_content" ("core_state", "core_access");
+CREATE INDEX "#__ucm_content_idx_access" ON "#__ucm_content" ("core_access");
+CREATE INDEX "#__ucm_content_idx_alias" ON "#__ucm_content" ("core_alias");
+CREATE INDEX "#__ucm_content_idx_language" ON "#__ucm_content" ("core_language");
+CREATE INDEX "#__ucm_content_idx_title" ON "#__ucm_content" ("core_title");
+CREATE INDEX "#__ucm_content_idx_modified_time" ON "#__ucm_content" ("core_modified_time");
+CREATE INDEX "#__ucm_content_idx_created_time" ON "#__ucm_content" ("core_created_time");
+CREATE INDEX "#__ucm_content_idx_content_type" ON "#__ucm_content" ("core_type_alias");
+CREATE INDEX "#__ucm_content_idx_core_modified_user_id" ON "#__ucm_content" ("core_modified_user_id");
+CREATE INDEX "#__ucm_content_idx_core_checked_out_user_id" ON "#__ucm_content" ("core_checked_out_user_id");
+CREATE INDEX "#__ucm_content_idx_core_created_user_id" ON "#__ucm_content" ("core_created_user_id");
+CREATE INDEX "#__ucm_content_idx_core_type_id" ON "#__ucm_content" ("core_type_id");
 
 --
 -- Add extensions table records

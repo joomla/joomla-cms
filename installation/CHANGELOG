@@ -28,6 +28,7 @@ $ -> Language fix or change
 15-Apr-Mark Dexter
  + [#30298] Added note form field. Thanks Peter van Westen.
  # [#30583] Deprecate SimplePie. Thanks Elin Waring.
+ # [#29678] null value in column "data" (postgresql). Thanks Michael Babker.
 
 15-Apr-2013 Jean-Marie Simonet
  # [#30579] *TAGS: Tags field not displaying tags--Revert changes to the tags API. Thanks Elin

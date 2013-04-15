@@ -1,7 +1,15 @@
+/* Changes to Smart Search tables for driver compatibility */
 ALTER TABLE [#__finder_tokens_aggregate] ALTER COLUMN [term_id] [bigint] NULL;
 ALTER TABLE [#__finder_tokens_aggregate] ALTER COLUMN [map_suffix] [nchar](1) NULL;
 ALTER TABLE [#__finder_tokens_aggregate] ADD DEFAULT ((0)) FOR [term_id];
 ALTER TABLE [#__finder_tokens_aggregate] ADD DEFAULT ((0)) FOR [total_weight];
+
+/* Changes to tables where data type conflicts exist with MySQL (mainly dealing with null values */
+ALTER TABLE [#__extensions] ADD DEFAULT (N'') FOR [system_data];
+ALTER TABLE [#__modules] ADD DEFAULT (N'') FOR [content];
+ALTER TABLE [#__updates] ADD DEFAULT (N'') FOR [data];
+
+/* Tags database schema */
 
 /****** Object:  Table [#__content_types] ******/
 SET QUOTED_IDENTIFIER ON;
