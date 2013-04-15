@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+15-Apr-Mark Dexter
+ + [#30298] Added note form field. Thanks Peter van Westen.
+
 15-Apr-2013 Jean-Marie Simonet
  # [#30579] *TAGS: Tags field not displaying tags--Revert changes to the tags API. Thanks Elin
 
