@@ -65,6 +65,7 @@ $n = count($this->items);
 					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 				<?php else: ?>
 					<li class="cat-list-row<?php echo $i % 2; ?>" >
+					<div>
 					<h3>
 						<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 							<?php echo $this->escape($item->core_title); ?>
@@ -80,9 +81,10 @@ $n = count($this->items);
 						<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
 					</span>
 				<?php endif; ?>
+					</div>
 					</li>
 			<?php endif;?>
-			<div class="clearfix"></div>
+
 		<?php endforeach; ?>
 	</ul>
 
