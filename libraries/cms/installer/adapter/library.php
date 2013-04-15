@@ -382,9 +382,11 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
 			$extension->set('element', $file);
+			$extension->set('folder', '');
 			$extension->set('name', $file);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = $extension;
 		}
 		return $results;
