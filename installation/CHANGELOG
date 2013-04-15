@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+15-Apr-2013 Jean-Marie Simonet
+ # [#30579] *TAGS: Tags field not displaying tags--Revert changes to the tags API. Thanks Elin
+
 14-Apr-2013 Mark Dexter
  # [#30506] Joomla update system erases entire site if downloaded zip package is broken. Thanks Aliaksei Kanstantsinau.
  # [#30288] Module Prepare Paramater breaks Cache + Browser Cache + Application Rendering time. Thanks Parth Lawate.

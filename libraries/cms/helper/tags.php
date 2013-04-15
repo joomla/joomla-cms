@@ -130,7 +130,7 @@ class JHelperTags
 			$db->execute();
 		}
 
-		$typeId = $this->getTypeId($prefix);
+		$typeId = self::getTypeId($prefix);
 
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
@@ -209,14 +209,14 @@ class JHelperTags
 
 			// Add the tags to the content data.
 			$tagsList = $db->loadColumn();
-			$tags = implode(',', $tagsList);
+			$this->tags = implode(',', $tagsList);
 		}
 		else
 		{
-			$tags = null;
+			$this->tags = null;
 		}
 
-		return $tags;
+		return $this->tags;
 	}
 
 	/**
@@ -450,10 +450,10 @@ class JHelperTags
 	{
 		if (!isset($explodedTypeAlias))
 		{
-			$explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
+			$this->explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
 		}
 
-		return $explodedTypeAlias[0];
+		return $this->explodedTypeAlias[0];
 	}
 
 	/**
@@ -474,9 +474,9 @@ class JHelperTags
 			$explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
 		}
 
-		$url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
+		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
 
-		return $url;
+		return $this->url;
 	}
 
 	/**
@@ -490,9 +490,9 @@ class JHelperTags
 	 */
 	public function getTagUrl($id)
 	{
-		$url = 'index.php&option=com_tags&view=tag&id=' . $id;
+		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
 
-		return $url;
+		return $this->url;
 	}
 
 	/**
@@ -513,9 +513,9 @@ class JHelperTags
 			->from($db->quoteName('#__content_types'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($tagItemAlias));
 		$db->setQuery($query);
-		$table = $db->loadResult();
+		$this->table = $db->loadResult();
 
-		return $table;
+		return $this->table;
 	}
 
 	/**
@@ -536,9 +536,9 @@ class JHelperTags
 			->from($db->quoteName('#__content_types'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
-		$type_id = $db->loadResult();
+		$this->type_id = $db->loadResult();
 
-		return $type_id;
+		return $this->type_id;
 	}
 
 	/**
