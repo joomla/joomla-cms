@@ -38,21 +38,24 @@ class JFormFieldNote extends JFormField
 	 */
 	protected function getLabel()
 	{
-		if (empty($this->element['label']) && empty($this->element['description'])) {
+		if (empty($this->element['label']) && empty($this->element['description']))
+		{
 			return '';
 		}
 
 		$title = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
+		$heading = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
 		$description = (string) $this->element['description'];
 		$class = $this->element['class'] ? ' class="' . trim((string) $this->element['class']) . '"' : '';
 		$close = (string) $this->element['close'];
 
 		$html = array();
-		if ($close) {
+		if ($close)
+		{
 			$close = $close == 'true' ? 'alert' : $close;
 			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
 		}
-		$html[] = !empty($title) ? '<h4>' . JText::_($title) . '</h4>' : '';
+		$html[] = !empty($title) ? '<' . $heading . '>' . JText::_($title) . '</' . $heading . '>' : '';
 		$html[] = !empty($description) ? JText::_($description) : '';
 
 		return '</div><div ' . $class . '>' . implode('', $html);
