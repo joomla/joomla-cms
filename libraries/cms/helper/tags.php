@@ -397,7 +397,7 @@ class JHelperTags
 		$query->where('m.type_alias IN (' . $typeAliases . ')');
 
 		$groups = implode(',', $user->getAuthorisedViewLevels());
-		$query->where('c.core_access IN (' . $groups . ')')
+		$query->where('c.core_access IN (' . $groups . ') OR c.core_access = 0')
 			->group('m.type_alias, m.content_item_id, m.core_content_id');
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
