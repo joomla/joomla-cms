@@ -25,7 +25,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
-15-Apr-Mark Dexter
+16-Apr-2013 Mark Dexter
+ # [#30584] JUcmContent can't construct from alias / error in install SQL. Thanks Thomas Hunziker.
+
+15-Apr-2013 Mark Dexter
  + [#30298] Added note form field. Thanks Peter van Westen.
  # [#30583] Deprecate SimplePie. Thanks Elin Waring.
  # [#29678] null value in column "data" (postgresql). Thanks Michael Babker.
