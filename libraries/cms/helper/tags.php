@@ -396,7 +396,7 @@ class JHelperTags
 		$typeAliases = rtrim($typeAliases, ',');
 		$query->where('m.type_alias IN (' . $typeAliases . ')');
 
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
 			->group('m.type_alias, m.content_item_id, m.core_content_id');
 

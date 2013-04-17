@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 17-Apr-2013 Mark Dexter
  # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
+ # [#30588] Fixing Tag view if core_access is not set. Thanks Thomas Hunziker.
 
 16-Apr-2013 Mark Dexter
  # [#30584] JUcmContent can't construct from alias / error in install SQL. Thanks Thomas Hunziker.
