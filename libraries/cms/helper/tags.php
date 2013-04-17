@@ -898,7 +898,7 @@ class JHelperTags
 		// We may want to do getItemTags() here in case the preprocessor has not run.
 
 		// Store the tag data if the article data was saved and run related methods.
-		if (empty($this->tags) == false)
+		if (empty($this->tags) == false && $this->tags[0])
 		{
 			$rowdata = new JHelperContent;
 			$data = $rowdata->getRowData($table);
