@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+17-Apr-2013 Mark Dexter
+ # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
+
 16-Apr-2013 Mark Dexter
  # [#30584] JUcmContent can't construct from alias / error in install SQL. Thanks Thomas Hunziker.
 
