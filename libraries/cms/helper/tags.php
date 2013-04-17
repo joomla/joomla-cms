@@ -128,7 +128,7 @@ class JHelperTags
 			$db->execute();
 		}
 
-		$typeId = self::getTypeId($prefix);
+		$typeId = $this->getTypeId($prefix);
 
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
@@ -379,10 +379,8 @@ class JHelperTags
 			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		$contentTypes = new JHelperTags;
-
 		// Get the type data, limited to types in the request if there are any specified.
-		$typesarray = $contentTypes->getTypes('assocList', $typesr, false);
+		$typesarray = self::getTypes('assocList', $typesr, false);
 
 		$typeAliases = '';
 
@@ -418,102 +416,6 @@ class JHelperTags
 		$query->order($orderBy . ' ' . $orderDir);
 
 		return $query;
-	}
-
-	/**
-	 * Returns content name from a tag map record as an array
-	 *
-	 * @param   string  $typeAlias  The tag item name to explode.
-	 *
-	 * @return  array   The exploded type alias. If name doe not exist an empty array is returned.
-	 *
-	 * @since   3.1
-	 */
-	public function explodeTypeAlias($typeAlias)
-	{
-		return explode('.', $typeAlias);
-	}
-
-	/**
-	 * Returns the component for a tag map record
-	 *
-	 * @param   string  $typeAlias          The tag item name.
-	 * @param   array   $explodedTypeAlias  Exploded alias if it exists
-	 *
-	 * @return  string  The content type title for the item.
-	 *
-	 * @since   3.1
-	 */
-	public function getTypeName($typeAlias, $explodedTypeAlias = null)
-	{
-		if (!isset($explodedTypeAlias))
-		{
-			$this->explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
-		}
-
-		return $this->explodedTypeAlias[0];
-	}
-
-	/**
-	 * Returns the url segment for a tag map record.
-	 *
-	 * @param   string   $typeAlias          The tag item name.
-	 * @param   integer  $id                 Id of the item
-	 * @param   array    $explodedTypeAlias  Exploded alias if it exists
-	 *
-	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
-	 *
-	 * @since   3.1
-	 */
-	public function getContentItemUrl($typeAlias, $id, $explodedTypeAlias = null)
-	{
-		if (!isset($explodedTypeAlias))
-		{
-			$explodedTypeAlias = $this->explodeTypeAlias($typeAlias);
-		}
-
-		$this->url = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id=' . $id;
-
-		return $this->url;
-	}
-
-	/**
-	 * Returns the url segment for a tag map record.
-	 *
-	 * @param   integer  $id  The item ID
-	 *
-	 * @return  string  The url string e.g. index.php?option=com_content&vew=article&id=3.
-	 *
-	 * @since   3.1
-	 */
-	public function getTagUrl($id)
-	{
-		$this->url = 'index.php&option=com_tags&view=tag&id=' . $id;
-
-		return $this->url;
-	}
-
-	/**
-	 * Method to get the table name for a type alias.
-	 *
-	 * @param   string  $tagItemAlias  A type alias.
-	 *
-	 * @return  string  Name of the table for a type
-	 *
-	 * @since   3.1
-	 */
-	public function getTableName($tagItemAlias)
-	{
-		// Initialize some variables.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('table'))
-			->from($db->quoteName('#__content_types'))
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($tagItemAlias));
-		$db->setQuery($query);
-		$this->table = $db->loadResult();
-
-		return $this->table;
 	}
 
 	/**
@@ -718,7 +620,7 @@ class JHelperTags
 	{
 		foreach ($contentItemIds as $contentItemId)
 		{
-			self::unTagItem($contentItemId, $typeAlias);
+			$this->unTagItem($contentItemId, $typeAlias);
 		}
 
 		$ucmContent = new JUcmContent(JTable::getInstance('Corecontent'), $typeAlias);
@@ -994,7 +896,7 @@ class JHelperTags
 		// We may want to do getItemTags() here in case the preprocessor has not run.
 
 		// Store the tag data if the article data was saved and run related methods.
-		if (empty($this->tags) == false)
+		if (empty($this->tags) == false && $this->tags[0])
 		{
 			$rowdata = new JHelperContent;
 			$data = $rowdata->getRowData($table);
