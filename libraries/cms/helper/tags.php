@@ -130,7 +130,7 @@ class JHelperTags
 			$db->execute();
 		}
 
-		$typeId = self::getTypeId($prefix);
+		$typeId = $this->getTypeId($prefix);
 
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
@@ -381,10 +381,8 @@ class JHelperTags
 			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		$contentTypes = new JHelperTags;
-
 		// Get the type data, limited to types in the request if there are any specified.
-		$typesarray = $contentTypes->getTypes('assocList', $typesr, false);
+		$typesarray = self::getTypes('assocList', $typesr, false);
 
 		$typeAliases = '';
 
@@ -720,7 +718,7 @@ class JHelperTags
 	{
 		foreach ($contentItemIds as $contentItemId)
 		{
-			self::unTagItem($contentItemId, $typeAlias);
+			$this->unTagItem($contentItemId, $typeAlias);
 		}
 
 		$ucmContent = new JUcmContent(JTable::getInstance('Corecontent'), $typeAlias);
