@@ -20,7 +20,7 @@ defined('JPATH_PLATFORM') or die;
 class JHelperTags
 {
 	/**
-	 * Method to add or update tags associated with an item. Generally used as a postSaveHook.
+	 * Method to add or update tags associated with an item.
 	 *
 	 * @param   integer  $id       The id (primary key) of the item to be tagged.
 	 * @param   string   $prefix   Dot separated string with the option and view for a url and type alias.
@@ -850,15 +850,26 @@ class JHelperTags
 	/**
 	 * Function that converts tag ids to their tag names
 	 *
-	 * @param   string  &$metadata  A JSON encoded metadata string
+	 * @param   mixed  &$metadata  A JSON encoded metadata string or object
 	 *
-	 * @return  array  An array of names only
+	 * @return  array  An array of tag names only
 	 *
 	 * @since   3.1
 	 */
 	public function getMetaTagNames(&$metadata)
 	{
-		$metadata = json_decode($metadata);
+		if (empty($metadata))
+		{
+			return;
+		}
+
+		if (is_string($metadata))
+		{
+			// Try, catch
+			$metadata = json_decode($metadata);
+		}
+
+		// Convert the metadata tags to an array to prepare for cleaning.
 		$tags = explode(',', $metadata->tags);
 
 		$tagIds = array();
@@ -878,6 +889,7 @@ class JHelperTags
 				}
 			}
 
+			// If we have beeen give ids instead of names, get the names.
 			if (!empty($tagIds))
 			{
 				$tagIds = implode(',', $tagIds);
@@ -894,6 +906,7 @@ class JHelperTags
 			}
 		}
 
+		// Update the meta data with cleaned tag information
 		$metadata->tags = implode(',', $tagNames);
 		$metadata = json_encode($metadata);
 
@@ -905,7 +918,7 @@ class JHelperTags
 	 *
 	 * @param   string  &$metadata  JSON encoded metadata
 	 *
-	 * @return  array
+	 * @return  string  JSON encoded metadata with clean tags
 	 *
 	 * @since   3.1
 	 */
@@ -925,7 +938,6 @@ class JHelperTags
 			}
 
 			$metadata->tags = implode(',', $newTags);
-			$metadata = json_encode($metadata);
 		}
 
 		if (count($tags) == 1 && $tags[0] == '')
@@ -933,6 +945,71 @@ class JHelperTags
 			$tags = array();
 		}
 
-		return $tags;
+		return $metadata;
+	}
+
+	/**
+	 * Function that preProcesses data from a table prior to a store() to ensure proper tag handling
+	 *
+	 * @param   JTable  $table      JTable being processed
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function preStoreProcess($table)
+	{
+		// Todo get the type alias if not provided
+
+		// If metadata are no provided we have nothing to preprocess.
+		if (empty($table->metadata))
+		{
+			return;
+		}
+		$this->convertTagsMetadata($table->metadata);
+		$this->tags = $this->getMetaTagNames($table->metadata);
+
+		// If there are no tags in the new data we need to check the old data and untag if necessary.
+		if (empty($tags))
+		{
+			$itemTags = $this->getItemTags($this->typeAlias, $table->id);
+
+			if (!empty($itemTags))
+			{
+				$this->unTagItem($table->id, $this->typeAlias);
+			}
+		}
+	}
+
+	/**
+	 * Function that handles saving tags used in a table class after a store()
+	 *
+	 * @param   JTable  $table      JTable being processed
+	 * @param   string  $typeAlias  The type alias for the able being processed
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function postStoreProcess($table)
+	{
+		// We may want to do getItemTags() here in case the preprocessor has not run.
+
+		// Store the tag data if the article data was saved and run related methods.
+		if (empty($this->tags) == false)
+		{
+			$rowdata = new JHelperContent;
+			$data = $rowdata->getRowData($table);
+
+			$ucm = new JUcmContent($table, $this->typeAlias);
+			$ucm->save($data);
+
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $table->id);
+
+			$isNew = $data['id'] ? 0 : 1;
+
+			$tagsHelper = new JHelperTags;
+			$tagsHelper->tagItem($data['id'], $this->typeAlias, $isNew, $ucmId, $this->tags, $replace);
+		}
 	}
 }
