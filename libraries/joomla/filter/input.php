@@ -198,7 +198,7 @@ class JFilterInput
 				break;
 
 			case 'CMD':
-				$result = (string) preg_replace('/[^A-Z0-9_\.-]/i', '', $source);
+				$result = (string) preg_replace('/[^A-Z0-9_\.-\/]/i', '', $source);
 				$result = ltrim($result, '.');
 				break;
 
