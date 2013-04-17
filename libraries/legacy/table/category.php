@@ -224,18 +224,8 @@ class JTableCategory extends JTableNested
 		}
 
 		$tagsHelper = new JHelperTags;
-		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
-		$tagsHelper->getMetaTagNames($this->metadata);
-
-		if (empty($tags))
-		{
-			$tagHelper = new JHelperTags;
-			$itemTags = $tagHelper->getItemTags($this->extension . '.category', $this->id);
-			if (!empty($itemTags))
-			{
-				$tagHelper->unTagItem($this->id, $this->extension . '.category');
-			}
-		}
+		$tagsHelper->typeAlias =  $this->extension . '.category';
+		$tagsHelper->preStoreProcess($this);
 
 		$return = parent::store($updateNulls);
 
@@ -245,22 +235,7 @@ class JTableCategory extends JTableNested
 		}
 
 		// Store the tag data if the article data was saved and run related methods.
-		if (empty($tags) == false)
-		{
-			$rowdata = new JHelperContent;
-			$data = $rowdata->getRowData($this);
-
-			$typeAlias = $this->extension . '.category';
-			$ucm = new JUcmContent($this, $typeAlias);
-			$ucm->save($data);
-
-			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
-
-			$isNew = $data['id'] ? 0 : 1;
-
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
-		}
+		$tagsHelper->postStoreProcess($this);
 
 		return $return;
 	}
