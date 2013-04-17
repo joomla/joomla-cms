@@ -107,8 +107,6 @@ class JHelperTags
 					}
 				}
 			}
-
-			// Commented: unset($tag);
 		}
 
 		// Check again that we have tags

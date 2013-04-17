@@ -158,18 +158,8 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 
 		$tagsHelper = new JHelperTags;
-		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
-		$tagsHelper->getMetaTagNames($this->metadata);
-
-		if (empty($tags))
-		{
-			$tagHelper = new JHelperTags;
-			$itemTags = $tagHelper->getItemTags('com_newsfeeds.newsfeed', $this->id);
-			if (!empty($itemTags))
-			{
-				$tagHelper->unTagItem($this->id, 'com_newsfeeds.newsfeed');
-			}
-		}
+		$tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
+		$tagsHelper->preStoreProcess($this);
 
 		$return = parent::store($updateNulls);
 
@@ -179,22 +169,7 @@ class NewsfeedsTableNewsfeed extends JTable
 		}
 
 		// Store the tag data if the article data was saved and run related methods.
-		if (empty($tags) == false)
-		{
-			$rowdata = new JHelperContent;
-			$data = $rowdata->getRowData($this);
-
-			$typeAlias = 'com_newsfeeds.newsfeed';
-			$ucm = new JUcmContent($this, $typeAlias);
-			$ucm->save($data);
-
-			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
-
-			$isNew = $data['id'] ? 0 : 1;
-
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
-		}
+		$tagsHelper->postStoreProcess($this);
 
 		return $return;
 	}

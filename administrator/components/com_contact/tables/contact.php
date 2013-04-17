@@ -125,18 +125,8 @@ class ContactTableContact extends JTable
 		}
 
 		$tagsHelper = new JHelperTags;
-		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
-		$tagsHelper->getMetaTagNames($this->metadata);
-
-		if (empty($tags))
-		{
-			$tagHelper = new JHelperTags;
-			$itemTags = $tagHelper->getItemTags('com_contact.contact', $this->id);
-			if (!empty($itemTags))
-			{
-				$tagHelper->unTagItem($this->id, 'com_contact.contact');
-			}
-		}
+		$tagsHelper->typeAlias = 'com_contact.contact';
+		$tagsHelper->preStoreProcess($this);
 
 		$return = parent::store($updateNulls);
 
@@ -146,22 +136,7 @@ class ContactTableContact extends JTable
 		}
 
 		// Store the tag data if the article data was saved and run related methods.
-		if (empty($tags) == false)
-		{
-			$rowdata = new JHelperContent;
-			$data = $rowdata->getRowData($this);
-
-			$typeAlias = 'com_contact.contact';
-			$ucm = new JUcmContent($this, $typeAlias);
-			$ucm->save($data);
-
-			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
-
-			$isNew = $data['id'] ? 0 : 1;
-
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
-		}
+		$tagsHelper->postStoreProcess($this);
 
 		return $return;
 	}
