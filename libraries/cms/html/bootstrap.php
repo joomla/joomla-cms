@@ -45,9 +45,11 @@ abstract class JHtmlBootstrap
 		self::framework();
 
 		// Attach the alerts to the document
-		JFactory::getDocument()->addScriptDeclaration("(function($){
+		JFactory::getDocument()->addScriptDeclaration(
+			"(function($){
 				$('.$selector').alert();
-				})(jQuery);");
+				})(jQuery);"
+		);
 
 		self::$loaded[__METHOD__][$selector] = true;
 
@@ -85,9 +87,11 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Attach the carousel to document
-			JFactory::getDocument()->addScriptDeclaration("(function($){
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
 					$('.$selector').carousel($options);
-					})(jQuery);");
+					})(jQuery);"
+			);
 
 			// Set static array
 			self::$loaded[__METHOD__][$sig] = true;
@@ -117,9 +121,11 @@ abstract class JHtmlBootstrap
 		self::framework();
 
 		// Attach the dropdown to the document
-		JFactory::getDocument()->addScriptDeclaration("(function($){
+		JFactory::getDocument()->addScriptDeclaration(
+			"(function($){
 				$('.$selector').dropdown();
-				})(jQuery);");
+				})(jQuery);"
+		);
 
 		self::$loaded[__METHOD__][$selector] = true;
 
@@ -194,9 +200,11 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Attach the modal to document
-			JFactory::getDocument()->addScriptDeclaration("(function($){
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
 					$('#$selector').modal($options);
-					})(jQuery);");
+					})(jQuery);"
+			);
 
 			// Set static array
 			self::$loaded[__METHOD__][$sig] = true;
@@ -287,11 +295,12 @@ abstract class JHtmlBootstrap
 		$options = JHtml::getJSObject($opt);
 
 		// Attach the popover to the document
-		JFactory::getDocument()
-			->addScriptDeclaration("jQuery(document).ready(function()
+		JFactory::getDocument()->addScriptDeclaration(
+			"jQuery(document).ready(function()
 			{
 				jQuery('" . $selector . "').popover(" . $options . ");
-			});");
+			});"
+		);
 
 		self::$loaded[__METHOD__][$selector] = true;
 
@@ -325,9 +334,11 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Attach ScrollSpy to document
-			JFactory::getDocument()->addScriptDeclaration("(function($){
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
 					$('#$selector').scrollspy($options);
-					})(jQuery);");
+					})(jQuery);"
+			);
 
 			// Set static array
 			self::$loaded[__METHOD__][$sig] = true;
@@ -379,11 +390,12 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Attach tooltips to document
-			JFactory::getDocument()
-				->addScriptDeclaration("jQuery(document).ready(function()
+			JFactory::getDocument()->addScriptDeclaration(
+				"jQuery(document).ready(function()
 				{
 					jQuery('" . $selector . "').tooltip(" . $options . ");
-				});");
+				});"
+			);
 
 			// Set static array
 			self::$loaded[__METHOD__][$selector] = true;
@@ -424,9 +436,11 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Attach accordion to document
-			JFactory::getDocument()->addScriptDeclaration("(function($){
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
 					$('#$selector').collapse($options);
-				})(jQuery);");
+				})(jQuery);"
+			);
 
 			// Set static array
 			self::$loaded[__METHOD__][$sig] = true;
@@ -467,7 +481,9 @@ abstract class JHtmlBootstrap
 
 		$html = '<div class="accordion-group' . $class . '">'
 			. '<div class="accordion-heading">'
-			. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">' . $text . '</a></strong>'
+			. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
+			. $text
+			. '</a></strong>'
 			. '</div>'
 			. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
 			. '<div class="accordion-inner">';
