@@ -109,15 +109,15 @@ class JHelperTags
 	}
 
 	/**
-	 * @param   integer  $ucmId    Id of the #__ucm_content item being tagged
-	 * @param   JTable   $table    JTable object being tagged
-	 * @param   array    $tags     Array of tags to be applied.
+	 * @param   integer  $contentId    Id of the content item being untagged
+	 * @param   JTable   $table        JTable object being untagged
+	 * @param   array    $tags         Array of tags to be untagged. Use an empty array to untag all existing tags.
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
 	 * @since   3.1
 	 */
-	public function unTagItem($ucmId, $table, $tags = array())
+	public function unTagItem($contentId, $table, $tags = array())
 	{
 		$key = $table->getKeyName();
 		$id = $table->$key;
@@ -575,24 +575,19 @@ class JHelperTags
 	/**
 	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
-	 * @param   array   $contentItemIds  Array of values of the primary key from the table for the type
-	 * @param   string  $typeAlias       The type alias for the type
+	 * @param   JTable   $table             JTable object of content table where delete occurred
+	 * @param   integer  $contentItemId     Id of the content item.
 	 *
-	 * @return  boolean
+	 * @return  boolean  true on success, false on failure
 	 *
 	 * @since   3.1
 	 */
-	public function deleteTagData($contentItemIds, $typeAlias)
+	public function deleteTagData(JTable $table, $contentItemId)
 	{
-		foreach ($contentItemIds as $contentItemId)
-		{
-			$this->unTagItem($contentItemId, $typeAlias);
-		}
+		$result = $this->unTagItem($contentItemId, $table);
 
-		$ucmContent = new JUcmContent(JTable::getInstance('Corecontent'), $typeAlias);
-		$ucmContent->delete($contentItemIds);
-
-		return;
+		$ucmContentTable = JTable::getInstance('Corecontent');
+		return $result && $ucmContentTable->deleteByContentId($contentItemId);
 	}
 
 	/**

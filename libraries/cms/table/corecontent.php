@@ -152,6 +152,55 @@ class JTableCorecontent extends JTable
 	}
 
 	/**
+	 * Override JTable delete method to include deleting corresponding row from #__ucm_base.
+	 *
+	 * @param   integer  primary key value to delete. Must be set or throws an exception.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$baseTable = JTable::getInstance('Ucm');
+		return parent::delete($pk) && $baseTable->delete($pk);
+	}
+
+	/**
+	 * Method to delete a row from the #__ucm_content table by content_item_id.
+	 *
+	 * @param   integer  $pk  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 *
+	 * @throws  UnexpectedValueException
+	 */
+	public function deleteByContentId($contentItemId = null)
+	{
+		if ($contentItemId === null || ((int) $contentItemId) === 0)
+		{
+			throw new UnexpectedValueException('Null content item key not allowed.');
+		}
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('core_content_id'))
+			->from($db->quoteName('#__ucm_content'))
+			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId);
+		$db->setQuery($query);
+		if ($ucmId = $db->loadResult())
+		{
+			return $this->delete($ucmId);
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.

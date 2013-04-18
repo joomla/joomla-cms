@@ -210,6 +210,23 @@ class WeblinksTableWeblink extends JTable
 	}
 
 	/**
+	 * Method to delete a row from the database table by primary key value.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
+	}
+
+	/**
 	 * Method to set the publishing state for a row or list of rows in the database
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
