@@ -73,8 +73,8 @@ class JUcmContent extends JUcmBase
 		}
 		else
 		{
-			$tableArray = json_decode($this->type->table_array);
-			$this->table = JTable::getInstance($tableArray['type'], $tableArray['prefix'], $tableArray['config']);
+			$tableObject = json_decode($this->type->type->table);
+			$this->table = JTable::getInstance($tableObject->special->type, $tableObject->special->prefix, $tableObject->special->config);
 		}
 	}
 
