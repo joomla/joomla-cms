@@ -25,6 +25,21 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+17-Apr-2013 Mark Dexter
+ # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
+ # [#30588] Fixing Tag view if core_access is not set. Thanks Thomas Hunziker.
+
+16-Apr-2013 Mark Dexter
+ # [#30584] JUcmContent can't construct from alias / error in install SQL. Thanks Thomas Hunziker.
+
+15-Apr-2013 Mark Dexter
+ + [#30298] Added note form field. Thanks Peter van Westen.
+ # [#30583] Deprecate SimplePie. Thanks Elin Waring.
+ # [#29678] null value in column "data" (postgresql). Thanks Michael Babker.
+
+15-Apr-2013 Jean-Marie Simonet
+ # [#30579] *TAGS: Tags field not displaying tags--Revert changes to the tags API. Thanks Elin
+
 14-Apr-2013 Mark Dexter
  # [#30506] Joomla update system erases entire site if downloaded zip package is broken. Thanks Aliaksei Kanstantsinau.
  # [#30288] Module Prepare Paramater breaks Cache + Browser Cache + Application Rendering time. Thanks Parth Lawate.
