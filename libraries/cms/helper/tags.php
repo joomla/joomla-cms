@@ -912,7 +912,7 @@ class JHelperTags
 					// Try to load the selected tag
 					if ($tagTable->load(array('title' => $tagText)))
 					{
-						$newTags[] = $tagTable->id;
+						$newTags[] = (int) $tagTable->id;
 					}
 					else
 					{
@@ -936,7 +936,7 @@ class JHelperTags
 
 							if ($tagTable->store())
 							{
-								$newTags[] = $tagTable->id;
+								$newTags[] = (int) $tagTable->id;
 							}
 						}
 					}
