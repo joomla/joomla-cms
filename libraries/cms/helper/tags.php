@@ -819,7 +819,7 @@ class JHelperTags
 	 *
 	 * @param   JTable  $table      JTable being processed
 	 *
-	 * @return  array
+	 * @return  null
 	 *
 	 * @since   3.1
 	 */
@@ -850,26 +850,30 @@ class JHelperTags
 	 * Function that handles saving tags used in a table class after a store()
 	 *
 	 * @param   JTable  $table      JTable being processed
-	 * @param   string  $typeAlias  The type alias for the able being processed
 	 *
-	 * @return  array
+	 * @return  null
 	 *
 	 * @since   3.1
 	 */
 	public function postStoreProcess($table)
 	{
+		$rowdata = new JHelperContent;
+		$data = $rowdata->getRowData($table);
+		$ucmContentTable = JTable::getInstance('Corecontent');
+
+		$ucm = new JUcmContent($table, $this->typeAlias);
+		$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
+
+		$primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
+		$ucmContentTable->load($primaryId);
+		$ucmContentTable->bind($ucmData['common']);
+		$ucmContentTable->check();
+		$ucmContentTable->store();
+		$ucmId = $ucmContentTable->core_content_id;
+
 		if ($this->tagsChanged)
 		{
 			// Store the tag data if the article data was saved and run related methods.
-			$rowdata = new JHelperContent;
-			$data = $rowdata->getRowData($table);
-
-			$ucm = new JUcmContent($table, $this->typeAlias);
-			$ucm->save($data);
-
-			$key = $table->getKeyName();
-			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $table->$key);
-
 			$this->tagItem($ucmId, $table, json_decode($table->metadata)->tags, true);
 		}
 	}
