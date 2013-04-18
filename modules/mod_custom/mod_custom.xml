@@ -32,7 +32,7 @@
 					class="btn-group"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
-					default="1">
+					default="0">
 					<option
 						value="0">JNO</option>
 					<option

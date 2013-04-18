@@ -25,11 +25,34 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+17-Apr-2013 Mark Dexter
+ # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
+ # [#30588] Fixing Tag view if core_access is not set. Thanks Thomas Hunziker.
+
+16-Apr-2013 Mark Dexter
+ # [#30584] JUcmContent can't construct from alias / error in install SQL. Thanks Thomas Hunziker.
+
+15-Apr-2013 Mark Dexter
+ + [#30298] Added note form field. Thanks Peter van Westen.
+ # [#30583] Deprecate SimplePie. Thanks Elin Waring.
+ # [#29678] null value in column "data" (postgresql). Thanks Michael Babker.
+
+15-Apr-2013 Jean-Marie Simonet
+ # [#30579] *TAGS: Tags field not displaying tags--Revert changes to the tags API. Thanks Elin
+
+14-Apr-2013 Mark Dexter
+ # [#30506] Joomla update system erases entire site if downloaded zip package is broken. Thanks Aliaksei Kanstantsinau.
+ # [#30288] Module Prepare Paramater breaks Cache + Browser Cache + Application Rendering time. Thanks Parth Lawate.
+
 14-Apr-2013 Michael Babker
  ^ [#30541] Small fixes to batch processing layouts.  Thanks Elin Waring
  # [#30396] Enabling finder plugins breaks tags saving
  # [#29240] Undefined property: JSite::$registeredurlparams.  Thanks Mark Stanton
  # [#30282] Joomla3.0.3 + PostgresQL -- User Registration Problem -- Database query failed -- column "sendemail" does not exist.  Thanks George Wilson
+ + Database schema for SQL Server adding tags support
+ # Fix incorrect lft/rgt values in #__menu table for new installs
+ # Modify queries in tags code to support SQL Server
+ # [#29685] extensions manager, discover fails with: "JLIB_DATABASE_QUERY_FAILED SQL=INSERT INTO "XXX_extensions"" (postgresql).  Thanks Viet Vu
 
 13-Apr-2013 Mark Dexter
  # [#30560] Tagged Item menu options Child Tags always saves as Include. Thanks Elin.
