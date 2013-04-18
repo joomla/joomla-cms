@@ -33,6 +33,6 @@ foreach ($this->fieldsets as $name => $fieldset) :
 	<?php endforeach; ?>
 	<?php echo $hidden_fields; ?>
 
-<?php echo JHtml::_('bootstrap.endPanel'); ?>
+<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 <?php endforeach; ?>

@@ -73,7 +73,7 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->form->getInput('extension'); ?>
 						</div>
 					</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING', true)); ?>
 					<div class="control-group">
@@ -128,19 +128,19 @@ JHtml::_('formbehavior.chosen', 'select');
 							</div>
 						</div>
 					<?php endif; ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'options', JText::_('CATEGORIES_FIELDSET_OPTIONS', true)); ?>
 					<fieldset>
 						<?php echo $this->loadTemplate('options'); ?>
 					</fieldset>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 					<fieldset>
 						<?php echo $this->loadTemplate('metadata'); ?>
 					</fieldset>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo $this->loadTemplate('extrafields'); ?>
 
@@ -149,7 +149,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<fieldset>
 							<?php echo $this->loadTemplate('associations'); ?>
 						</fieldset>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
 
 				<?php if ($this->canDo->get('core.admin')) : ?>
@@ -157,7 +157,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<fieldset>
 							<?php echo $this->form->getInput('rules'); ?>
 						</fieldset>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
 
 			<?php echo JHtml::_('bootstrap.endPane'); ?>

@@ -97,7 +97,7 @@ jimport('joomla.html.html.bootstrap');
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
@@ -118,7 +118,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 		<?php endif; ?>
 			<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 	<?php endif; ?>
@@ -145,7 +145,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 	<?php endif; ?>
@@ -168,7 +168,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 	<?php endif; ?>
@@ -204,7 +204,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 	<?php endif; ?>

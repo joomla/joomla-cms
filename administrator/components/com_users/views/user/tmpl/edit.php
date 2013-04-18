@@ -48,12 +48,12 @@ $fieldsets = $this->form->getFieldsets();
 						</div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($this->grouplist) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'groups', JText::_('COM_USERS_ASSIGNED_GROUPS', true)); ?>
 					<?php echo $this->loadTemplate('groups'); ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 			<?php
@@ -81,7 +81,7 @@ $fieldsets = $this->form->getFieldsets();
 						</div>
 					<?php endif; ?>
 				<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endforeach; ?>
 
 		<?php echo JHtml::_('bootstrap.endPane'); ?>

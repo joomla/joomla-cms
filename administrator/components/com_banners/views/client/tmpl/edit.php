@@ -113,7 +113,7 @@ $canDo	= BannersHelper::getActions();
 					<?php endforeach; ?>
 				</div>
 			</div>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
@@ -128,7 +128,7 @@ $canDo	= BannersHelper::getActions();
 					</div>
 				</div>
 			<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 	<?php echo JHtml::_('bootstrap.endPane'); ?>
 

@@ -59,7 +59,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="control-label"><?php echo $this->form->getLabel('modified_date'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('modified_date'); ?></div>
 				</div>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.endPane'); ?>
 

@@ -352,7 +352,7 @@ class JHtmlBootstrapTest extends TestCase
 	public function testEndPanel()
 	{
 		$this->assertThat(
-			JHtml::_('bootstrap.endPanel'),
+			JHtml::_('bootstrap.endTab'),
 			$this->equalTo('</div>')
 		);
 	}

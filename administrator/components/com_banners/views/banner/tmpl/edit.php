@@ -129,7 +129,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('id'); ?>
 					</div>
 				</div>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS', true)); ?>
 				<?php foreach ($this->form->getFieldset('publish') as $field) : ?>
@@ -142,7 +142,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						</div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'otherparams', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS', true)); ?>
 				<?php foreach ($this->form->getFieldset('otherparams') as $field) : ?>
@@ -155,7 +155,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						</div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
@@ -168,7 +168,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						</div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.endPane'); ?>
 	</fieldset>

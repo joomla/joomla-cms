@@ -38,7 +38,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="control-label"><?php echo $this->form->getLabel('map_count'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('map_count'); ?></div>
 				</div>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'params', JText::_('COM_FINDER_FILTER_FIELDSET_PARAMS', true)); ?>
 				<?php foreach ($this->form->getGroup('params') as $field) : ?>
@@ -49,7 +49,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<div class="controls"><?php echo $field->input; ?></div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_FILTER_FIELDSET_DETAILS', true)); ?>
 				<div class="control-group">
@@ -74,7 +74,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<div class="controls"><?php echo $this->form->getInput('modified'); ?></div>
 					</div>
 				<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.endPane'); ?>
 	</fieldset>

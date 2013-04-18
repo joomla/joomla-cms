@@ -106,7 +106,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 						<?php echo JText::_('COM_PLUGINS_XML_ERR'); ?>
 					</div>
 				<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo $this->loadTemplate('options'); ?>
 

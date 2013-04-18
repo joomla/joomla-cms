@@ -59,7 +59,7 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->loadTemplate('cookie'); ?>
 						</div>
 					</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-system', JText::_('COM_CONFIG_SYSTEM', true)); ?>
 					<div class="row-fluid">
@@ -72,7 +72,7 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->loadTemplate('session'); ?>
 						</div>
 					</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-server', JText::_('COM_CONFIG_SERVER', true)); ?>
 					<div class="row-fluid">
@@ -86,24 +86,24 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->loadTemplate('mail'); ?>
 						</div>
 					</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-permissions', JText::_('COM_CONFIG_PERMISSIONS', true)); ?>
 					<div class="row-fluid">
 						<?php echo $this->loadTemplate('permissions'); ?>
 					</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-filters', JText::_('COM_CONFIG_TEXT_FILTERS', true)); ?>
 					<div class="row-fluid">
 						<?php echo $this->loadTemplate('filters'); ?>
 					</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php if ($this->ftp) : ?>
 					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-ftp', JText::_('COM_CONFIG_FTP_SETTINGS', true)); ?>
 						<?php echo $this->loadTemplate('ftplogin'); ?>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
 
 				<?php echo JHtml::_('bootstrap.endPane'); ?>

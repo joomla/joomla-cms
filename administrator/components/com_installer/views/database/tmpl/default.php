@@ -62,7 +62,7 @@ defined('_JEXEC') or die;
 						</ul>
 					</fieldset>
 
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO', true)); ?>
 				<div class="control-group" >
@@ -76,7 +76,7 @@ defined('_JEXEC') or die;
 						</ul>
 					</fieldset>
 				</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />

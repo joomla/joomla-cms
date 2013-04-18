@@ -81,7 +81,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				<?php endforeach; ?>
 			</div>
 
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 			<div class="control-group">
@@ -166,14 +166,14 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				<div class="control-label"><?php echo $this->form->getLabel('xreference'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('xreference'); ?></div>
 			</div>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php $fieldSets = $this->form->getFieldsets('params'); ?>
 		<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 			<?php $paramstabs = 'params-' . $name; ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', $paramstabs, JText::_($fieldSet->label, true)); ?>
 				<?php echo $this->loadTemplate('params'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endforeach; ?>
 
 		<?php $fieldSets = $this->form->getFieldsets('metadata'); ?>
@@ -181,13 +181,13 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			<?php $metadatatabs = 'metadata-' . $name; ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', $metadatatabs, JText::_($fieldSet->label, true)); ?>
 				<?php echo $this->loadTemplate('metadata'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endforeach; ?>
 
 		<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endPane'); ?>

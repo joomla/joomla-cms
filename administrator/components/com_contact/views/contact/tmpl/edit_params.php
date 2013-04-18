@@ -24,5 +24,5 @@ foreach ($fieldSets as $name => $fieldSet) :
 				<div class="controls"><?php echo $field->input; ?></div>
 			</div>
 		<?php endforeach; ?>
-	<?php echo JHtml::_('bootstrap.endPanel'); ?>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php endforeach; ?>

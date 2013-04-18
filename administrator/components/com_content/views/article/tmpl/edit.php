@@ -118,7 +118,7 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 							</div>
 						</div>
 					<?php endif; ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php // Do not show the publishing options if the edit form is configured not to. ?>
 					<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ) : ?>
@@ -207,7 +207,7 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 									<?php endif; ?>
 								</div>
 							</div>
-						<?php echo JHtml::_('bootstrap.endPanel'); ?>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php  endif; ?>
 
 					<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))) : ?>
@@ -249,7 +249,7 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 								endif;
 							?>
 						<?php endforeach; ?>
-						<?php echo JHtml::_('bootstrap.endPanel'); ?>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif; ?>
 
 					<?php // We need to make a separate space for the configuration
@@ -265,17 +265,17 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 									</div>
 								</div>
 							<?php endforeach; ?>
-						<?php echo JHtml::_('bootstrap.endPanel'); ?>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif ?>
 
 					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 							<?php echo $this->loadTemplate('metadata'); ?>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 					<?php if ($assoc) : ?>
 						<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 							<?php echo $this->loadTemplate('associations'); ?>
-						<?php echo JHtml::_('bootstrap.endPanel'); ?>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif; ?>
 
 					<?php if ($this->canDo->get('core.admin')) : ?>
@@ -283,7 +283,7 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 							<fieldset>
 								<?php echo $this->form->getInput('rules'); ?>
 							</fieldset>
-						<?php echo JHtml::_('bootstrap.endPanel'); ?>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif; ?>
 
 			<?php echo JHtml::_('bootstrap.endPane'); ?>

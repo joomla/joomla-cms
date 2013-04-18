@@ -31,6 +31,6 @@ defined('_JEXEC') or die;
 			<?php endforeach;?>
 			</fieldset>
 
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 	<?php endforeach; ?>

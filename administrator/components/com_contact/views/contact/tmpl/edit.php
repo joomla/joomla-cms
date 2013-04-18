@@ -67,7 +67,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<?php echo $this->form->getLabel('misc'); ?>
 				</div>
 					<?php echo $this->form->getInput('misc'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 				<div class="control-group">
@@ -120,7 +120,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 						</div>
 					</div>
 				<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', JText::_('COM_CONTACT_CONTACT_DETAILS', true)); ?>
 
@@ -186,18 +186,18 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<div class="control-label"><?php echo $this->form->getLabel('sortname3'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('sortname3'); ?></div>
 				</div>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo $this->loadTemplate('params'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 					<?php echo $this->loadTemplate('metadata'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($assoc) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 					<?php echo $this->loadTemplate('associations'); ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 			<?php echo JHtml::_('bootstrap.endPane'); ?>

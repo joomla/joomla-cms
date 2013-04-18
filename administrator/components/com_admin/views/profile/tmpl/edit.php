@@ -40,7 +40,7 @@ $fieldsets = $this->form->getFieldsets();
 					<div class="controls"><?php echo $field->input; ?></div>
 				</div>
 			<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php
 		foreach ($fieldsets as $fieldset) :
@@ -61,7 +61,7 @@ $fieldsets = $this->form->getFieldsets();
 				</div>
 				<?php endif; ?>
 			<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endforeach; ?>
 
 	<?php echo JHtml::_('bootstrap.endPane'); ?>

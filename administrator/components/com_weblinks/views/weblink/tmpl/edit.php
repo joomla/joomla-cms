@@ -76,7 +76,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						</div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 				<div class="control-group">
@@ -125,14 +125,14 @@ JHtml::_('formbehavior.chosen', 'select');
 						<div class="controls"><?php echo $this->form->getInput('hits'); ?></div>
 					</div>
 				<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php $fieldSets = $this->form->getFieldsets('params'); ?>
 			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 				<?php $paramstabs = 'params-' . $name; ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', $paramstabs, JText::_($fieldSet->label, true)); ?>
 					<?php echo $this->loadTemplate('params'); ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endforeach; ?>
 
 			<?php $fieldSets = $this->form->getFieldsets('metadata'); ?>
@@ -140,7 +140,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php $metadatatabs = 'metadata-' . $name; ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', $metadatatabs, JText::_($fieldSet->label, true)); ?>
 					<?php echo $this->loadTemplate('metadata'); ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endforeach; ?>
 
 

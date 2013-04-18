@@ -251,22 +251,22 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 						</div>
 					</div>
 				</div>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'options', JText::_('COM_MENUS_ADVANCED_FIELDSET_LABEL', true)); ?>
 				<?php echo $this->loadTemplate('options'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 			<?php if (!empty($this->modules)) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'modules', JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT', true)); ?>
 					<?php echo $this->loadTemplate('modules'); ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endPane'); ?>

@@ -50,5 +50,5 @@ defined('_JEXEC') or die;
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>
 <?php endif; ?>
 <?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-	<?php echo JHtml::_('bootstrap.endPanel'); ?>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php endif; ?>

@@ -116,7 +116,7 @@ $canDo = LanguagesHelper::getActions();
 						<?php echo $this->form->getInput('lang_id'); ?>
 					</div>
 			</div>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
@@ -131,7 +131,7 @@ $canDo = LanguagesHelper::getActions();
 					</div>
 				</div>
 			<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL', true)); ?>
 			<?php foreach ($this->form->getFieldset('site_name') as $field) : ?>
@@ -146,7 +146,7 @@ $canDo = LanguagesHelper::getActions();
 					</div>
 				</div>
 			<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 	<?php echo JHtml::_('bootstrap.endPane'); ?>
 	</fieldset>
