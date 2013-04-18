@@ -19,9 +19,9 @@ JHtml::_('formbehavior.chosen', 'select');
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-horizontal">
 
 	<fieldset>
-		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'basic')); ?>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic')); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'basic', JText::_('COM_FINDER_EDIT_FILTER', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', JText::_('COM_FINDER_EDIT_FILTER', true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('title'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('title'); ?></div>
@@ -40,7 +40,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'params', JText::_('COM_FINDER_FILTER_FIELDSET_PARAMS', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'params', JText::_('COM_FINDER_FILTER_FIELDSET_PARAMS', true)); ?>
 				<?php foreach ($this->form->getGroup('params') as $field) : ?>
 					<div class="control-group">
 						<?php if (!$field->hidden) : ?>
@@ -51,7 +51,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endforeach; ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('COM_FINDER_FILTER_FIELDSET_DETAILS', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_FILTER_FIELDSET_DETAILS', true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('created_by'); ?></div>

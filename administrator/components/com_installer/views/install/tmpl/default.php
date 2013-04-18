@@ -72,9 +72,9 @@ defined('_JEXEC') or die;
 		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
 
-	<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'upload')); ?>
+	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'upload')); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
 			<fieldset class="uploadform">
 				<legend><?php echo JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE'); ?></legend>
 				<div class="control-group">
@@ -89,7 +89,7 @@ defined('_JEXEC') or die;
 			</fieldset>
 		<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'directory', JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'directory', JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY', true)); ?>
 			<fieldset class="uploadform">
 				<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_DIRECTORY'); ?></legend>
 				<div class="control-group">
@@ -104,7 +104,7 @@ defined('_JEXEC') or die;
 			</fieldset>
 		<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'url', JText::_('COM_INSTALLER_INSTALL_FROM_URL', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'url', JText::_('COM_INSTALLER_INSTALL_FROM_URL', true)); ?>
 			<fieldset class="uploadform">
 				<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_URL'); ?></legend>
 				<div class="control-group">
@@ -120,7 +120,7 @@ defined('_JEXEC') or die;
 		<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 		<?php if ($this->ftp) : ?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'ftp', JText::_('COM_INSTALLER_MSG_DESCFTPTITLE', true)); ?>
 				<?php echo $this->loadTemplate('ftp'); ?>
 			<?php echo JHtml::_('bootstrap.endPanel'); ?>
 		<?php endif; ?>

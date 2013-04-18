@@ -258,6 +258,56 @@ class JHtmlBootstrapTest extends TestCase
 	}
 
 	/**
+	 * @todo   Implement testStartTabSet().
+	 */
+	public function testStartTabSet()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * Tests the endTabSet method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testEndTabSet()
+	{
+		$this->assertThat(
+						JHtml::_('bootstrap.endTabSet'),
+						$this->equalTo('</div>')
+		);
+	}
+
+	/**
+	 * @todo   Implement testAddTab().
+	 */
+	public function testAddTab()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * Tests the endTab method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testEndTab()
+	{
+		$this->assertThat(
+						JHtml::_('bootstrap.endTab'),
+						$this->equalTo('</div>')
+		);
+	}
+
+	/**
 	 * @todo   Implement testStartPane().
 	 */
 	public function testStartPane()

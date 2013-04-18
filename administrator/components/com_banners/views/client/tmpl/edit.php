@@ -27,8 +27,8 @@ $canDo	= BannersHelper::getActions();
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate form-horizontal">
-	<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'general')); ?>
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'general', empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT', true) : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id, true)); ?>
+	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT', true) : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id, true)); ?>
 			<div class="row-fluid">
 				<div class="span6">
 					<?php if ($canDo->get('core.edit.state')) : ?>
@@ -115,7 +115,7 @@ $canDo	= BannersHelper::getActions();
 			</div>
 		<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 				<div class="control-group">
 					<?php if (!$field->hidden) : ?>

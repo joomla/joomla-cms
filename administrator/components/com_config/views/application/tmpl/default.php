@@ -46,9 +46,9 @@ JHtml::_('formbehavior.chosen', 'select');
 		<!-- End Sidebar -->
 		<!-- Begin Content -->
 		<div class="span10">
-			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'page-site')); ?>
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'page-site')); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'page-site', JText::_('JSITE', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-site', JText::_('JSITE', true)); ?>
 					<div class="row-fluid">
 						<div class="span6">
 							<?php echo $this->loadTemplate('site'); ?>
@@ -61,7 +61,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'page-system', JText::_('COM_CONFIG_SYSTEM', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-system', JText::_('COM_CONFIG_SYSTEM', true)); ?>
 					<div class="row-fluid">
 						<div class="span6">
 							<?php echo $this->loadTemplate('system'); ?>
@@ -74,7 +74,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'page-server', JText::_('COM_CONFIG_SERVER', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-server', JText::_('COM_CONFIG_SERVER', true)); ?>
 					<div class="row-fluid">
 						<div class="span6">
 							<?php echo $this->loadTemplate('server'); ?>
@@ -88,20 +88,20 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'page-permissions', JText::_('COM_CONFIG_PERMISSIONS', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-permissions', JText::_('COM_CONFIG_PERMISSIONS', true)); ?>
 					<div class="row-fluid">
 						<?php echo $this->loadTemplate('permissions'); ?>
 					</div>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'page-filters', JText::_('COM_CONFIG_TEXT_FILTERS', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-filters', JText::_('COM_CONFIG_TEXT_FILTERS', true)); ?>
 					<div class="row-fluid">
 						<?php echo $this->loadTemplate('filters'); ?>
 					</div>
 				<?php echo JHtml::_('bootstrap.endPanel'); ?>
 
 				<?php if ($this->ftp) : ?>
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'page-ftp', JText::_('COM_CONFIG_FTP_SETTINGS', true)); ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-ftp', JText::_('COM_CONFIG_FTP_SETTINGS', true)); ?>
 						<?php echo $this->loadTemplate('ftplogin'); ?>
 					<?php echo JHtml::_('bootstrap.endPanel'); ?>
 				<?php endif; ?>
