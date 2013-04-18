@@ -855,6 +855,7 @@ class JHelperTags
 	{
 		$metaObject = json_decode($table->get('metadata'));
 		$tags = (isset($metaObject->tags)) ? $metaObject->tags : null;
+		$result = true;
 
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
 		if ($this->tagsChanged || $tags)
@@ -863,7 +864,7 @@ class JHelperTags
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();
-				$this->deleteTagData($table, $table->$key);
+				$result = $this->deleteTagData($table, $table->$key);
 			}
 			else
 			{
@@ -876,17 +877,17 @@ class JHelperTags
 				$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
 
 				$primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
-				$ucmContentTable->load($primaryId);
-				$ucmContentTable->bind($ucmData['common']);
-				$ucmContentTable->check();
-				$ucmContentTable->store();
+				$result = $ucmContentTable->load($primaryId);
+				$result = $result && $ucmContentTable->bind($ucmData['common']);
+				$result = $result && $ucmContentTable->check();
+				$result = $result && $ucmContentTable->store();
 				$ucmId = $ucmContentTable->core_content_id;
 
 				// Store the tag data if the article data was saved and run related methods.
-				$this->tagItem($ucmId, $table, json_decode($table->metadata)->tags, true);
+				$result = $result && $this->tagItem($ucmId, $table, json_decode($table->metadata)->tags, true);
 			}
 		}
-
+		return $result;
 	}
 
 	/**
