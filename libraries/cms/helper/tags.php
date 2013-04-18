@@ -72,6 +72,7 @@ class JHelperTags
 		{
 			$result = $result && $this->addTagMapping($ucmId, $table, $newTags);
 		}
+
 		return $result;
 	}
 
@@ -852,25 +853,40 @@ class JHelperTags
 	 */
 	public function postStoreProcess($table)
 	{
-		$rowdata = new JHelperContent;
-		$data = $rowdata->getRowData($table);
-		$ucmContentTable = JTable::getInstance('Corecontent');
+		$metaObject = json_decode($table->get('metadata'));
+		$tags = (isset($metaObject->tags)) ? $metaObject->tags : null;
 
-		$ucm = new JUcmContent($table, $this->typeAlias);
-		$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
-
-		$primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
-		$ucmContentTable->load($primaryId);
-		$ucmContentTable->bind($ucmData['common']);
-		$ucmContentTable->check();
-		$ucmContentTable->store();
-		$ucmId = $ucmContentTable->core_content_id;
-
-		if ($this->tagsChanged)
+		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
+		if ($this->tagsChanged || $tags)
 		{
-			// Store the tag data if the article data was saved and run related methods.
-			$this->tagItem($ucmId, $table, json_decode($table->metadata)->tags, true);
+			if (!$tags)
+			{
+				// Delete all tags data
+				$key = $table->getKeyName();
+				$this->deleteTagData($table, $table->$key);
+			}
+			else
+			{
+				// Process the tags
+				$rowdata = new JHelperContent;
+				$data = $rowdata->getRowData($table);
+				$ucmContentTable = JTable::getInstance('Corecontent');
+
+				$ucm = new JUcmContent($table, $this->typeAlias);
+				$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
+
+				$primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);
+				$ucmContentTable->load($primaryId);
+				$ucmContentTable->bind($ucmData['common']);
+				$ucmContentTable->check();
+				$ucmContentTable->store();
+				$ucmId = $ucmContentTable->core_content_id;
+
+				// Store the tag data if the article data was saved and run related methods.
+				$this->tagItem($ucmId, $table, json_decode($table->metadata)->tags, true);
+			}
 		}
+
 	}
 
 	/**
