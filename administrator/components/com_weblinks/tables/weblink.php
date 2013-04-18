@@ -124,9 +124,8 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		$tagsHelper = new JHelperTags;
-		$tagsHelper->typeAlias = 'com_weblinks.weblink';
-		$tagsHelper->preStoreProcess($this);
+		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
+		$this->tagsHelper->preStoreProcess($this);
 
 		$return = parent::store($updateNulls);
 
@@ -135,7 +134,7 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		$tagsHelper->postStoreProcess($this);
+		$this->tagsHelper->postStoreProcess($this);
 
 		return $return;
 	}
