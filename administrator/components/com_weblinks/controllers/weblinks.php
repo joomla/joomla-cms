@@ -60,4 +60,19 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 		// Close the application
 		JFactory::getApplication()->close();
 	}
+
+	/**
+	 * Method to provide child classes the opportunity to process after the delete task.
+	 *
+	 * @param   JModelLegacy   $model   The model for the component
+	 * @param   mixed          $ids     array of ids deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
+
+	}
 }
