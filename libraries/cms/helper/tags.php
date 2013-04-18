@@ -37,60 +37,54 @@ class JHelperTags
 	protected $replaceTags = false;
 
 	/**
+	 * Alias for quering mapping and content type table.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	public $typeAlias = null;
+
+	/**
 	 * Method to add or update tags associated with an item.
 	 *
 	 * @param   JTable   $table    JTable object being tagged
 	 * @param   array    $tags     Array of tags to be applied.
 	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
 	 *
-	 * @return  void
+	 * @return  boolean  true on success, otherwise false.
 	 *
 	 * @since   3.1
 	 */
 	public function tagItem($table, $tags = array(), $replace = true)
 	{
-		// Pre-process tags for adding new ones
-		if (is_array($tags) && !empty($tags))
+		$result = $this->unTagItem($table);
+		if ($replace)
 		{
-			// If we want to keep old tags we need to make sure to add them to the array
-			if (!$replace && !$isNew)
-			{
-				// Check for exising tags
-				$existingTags = $this->getItemTags($prefix, $id);
-
-				if (!empty($existingTags))
-				{
-					$existingTagList = '';
-
-					foreach ($existingTags as $tag)
-					{
-						$tags[] = $tag->tag_id;
-					}
-					$tags = array_unique($tags, SORT_STRING);
-				}
-			}
+			$result = $result && $this->addTagMapping($table, $tags);
 		}
-
-		// Check again that we have tags
-		if (is_array($tags) && empty($tags))
+		else
 		{
-			return false;
+			$oldTags = json_decode($table->metadata)->tags;
+			$combinedTags = array_unique(array_merge($tags, $oldTags));
+			$result = $result && $this->addTagMapping($table, $combinedTags);
 		}
+		return $result;
+	}
 
-		$db = JFactory::getDbo();
-
-		if ($isNew == 0)
-		{
-			// Delete the old tag maps.
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__contentitem_tag_map'))
-				->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
-				->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
-			$db->setQuery($query);
-			$db->execute();
-		}
-
-		$typeId = $this->getTypeId($prefix);
+	/**
+	 * Method to add tag rows to mapping table.
+	 *
+	 * @param   JTable   $table    JTable object being tagged
+	 * @param   array    $tags     Array of tags to be applied.
+	 *
+	 * @return  boolean  true on success, otherwise false.
+	 *
+	 * @since   3.1
+	 */
+	public function addTagMapping($table, $tags = array())
+	{
+		$typeId = $this->typeAlias;
+		$db = $table->getDbo();
 
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
@@ -103,13 +97,11 @@ class JHelperTags
 		}
 
 		$db->setQuery($query);
-		$db->execute();
-
-		return;
+		return (boolean) $db->execute();
 	}
 
 	/**
-	 * Method to remove all tags associated with a list of items. Generally used for batch processing.
+	 * Method to remove all tags associated with an item. Generally used for batch processing.
 	 *
 	 * @param   integer  $id      The id (primary key) of the item to be untagged.
 	 * @param   string   $prefix  Dot separated string with the option and view for a url.
@@ -118,17 +110,22 @@ class JHelperTags
 	 *
 	 * @since   3.1
 	 */
-	public function unTagItem($id, $prefix)
+	public function unTagItem($table, $tags = array())
 	{
+		$key = $table->getKeyName();
+		$id = $table->$key;
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__contentitem_tag_map')
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($prefix))
+			->where($db->quoteName('type_alias') . ' = ' . $db->quote($this->typeAlias))
 			->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
-		$db->setQuery($query);
-		$db->execute();
 
-		return;
+		if (is_array($tags) && count($tags) > 0)
+		{
+			$query->where($db->quoteName('tag_id') . ' IN ' . implode(',', $tags));
+		}
+		$db->setQuery($query);
+		return (boolean) $db->execute();
 	}
 
 	/**
@@ -861,10 +858,9 @@ class JHelperTags
 			$ucm = new JUcmContent($table, $this->typeAlias);
 			$ucm->save($data);
 
-			$this->tagItem($table, $this->tags, true);
+			$this->tagItem($table, json_decode($table->metadata)->tags, true);
 		}
 	}
-
 
 	/**
 	 * Create any new tags by looking for #new# in the metadata
