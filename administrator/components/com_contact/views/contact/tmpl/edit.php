@@ -200,7 +200,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
-			<?php echo JHtml::_('bootstrap.endPane'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</fieldset>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>

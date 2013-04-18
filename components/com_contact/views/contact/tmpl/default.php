@@ -213,6 +213,6 @@ jimport('joomla.html.html.bootstrap');
 		<?php echo JHtml::_('bootstrap.endAccordion'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 </div>

@@ -286,7 +286,7 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif; ?>
 
-			<?php echo JHtml::_('bootstrap.endPane'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />

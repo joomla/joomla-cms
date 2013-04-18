@@ -130,6 +130,6 @@ defined('_JEXEC') or die;
 	<input type="hidden" name="task" value="install.install" />
 	<?php echo JHtml::_('form.token'); ?>
 
-	<?php echo JHtml::_('bootstrap.endPane'); ?>
+	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 </form>
 </div>

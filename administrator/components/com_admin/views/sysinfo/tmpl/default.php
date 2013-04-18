@@ -39,7 +39,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 					<?php echo $this->loadTemplate('phpinfo'); ?>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.endPane'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</div>
 		<!-- End Content -->
 	</div>

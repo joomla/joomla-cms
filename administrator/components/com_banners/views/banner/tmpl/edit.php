@@ -170,7 +170,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endforeach; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />

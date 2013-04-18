@@ -76,7 +76,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 
 	<div id="finder-filter-window">

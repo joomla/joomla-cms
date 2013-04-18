@@ -130,7 +130,7 @@ $canDo	= BannersHelper::getActions();
 			<?php endforeach; ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php echo JHtml::_('bootstrap.endPane'); ?>
+	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>

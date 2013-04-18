@@ -147,7 +147,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
 
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</fieldset>
 		</div>
 		<!-- End Weblinks -->

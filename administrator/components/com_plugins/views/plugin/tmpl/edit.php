@@ -110,7 +110,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 
 			<?php echo $this->loadTemplate('options'); ?>
 
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />

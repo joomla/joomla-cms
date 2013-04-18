@@ -103,7 +103,7 @@ $canDo = TemplatesHelper::getActions();
 				<?php endif; ?>
 			<?php endif;?>
 
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />

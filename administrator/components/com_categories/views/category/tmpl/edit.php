@@ -160,7 +160,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
 
-			<?php echo JHtml::_('bootstrap.endPane'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
