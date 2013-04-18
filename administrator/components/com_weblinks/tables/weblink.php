@@ -126,12 +126,8 @@ class WeblinksTableWeblink extends JTable
 
 		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
 		$this->tagsHelper->preStoreProcess($this);
-
 		$result = parent::store($updateNulls);
-
-		$result = $result && $this->tagsHelper->postStoreProcess($this);
-
-		return $result;
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 	/**
