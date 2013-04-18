@@ -47,6 +47,7 @@ class JHelperTags
 	/**
 	 * Method to add or update tags associated with an item.
 	 *
+	 * @param   integer  $ucmId    Id of the #__ucm_content item being tagged
 	 * @param   JTable   $table    JTable object being tagged
 	 * @param   array    $tags     Array of tags to be applied.
 	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
@@ -55,18 +56,21 @@ class JHelperTags
 	 *
 	 * @since   3.1
 	 */
-	public function tagItem($table, $tags = array(), $replace = true)
+	public function tagItem($ucmId, $table, $tags = array(), $replace = true)
 	{
-		$result = $this->unTagItem($table);
+		$result = $this->unTagItem($ucmId, $table);
 		if ($replace)
 		{
-			$result = $result && $this->addTagMapping($table, $tags);
+			$newTags = $tags;
 		}
 		else
 		{
 			$oldTags = json_decode($table->metadata)->tags;
-			$combinedTags = array_unique(array_merge($tags, $oldTags));
-			$result = $result && $this->addTagMapping($table, $combinedTags);
+			$newTags = array_unique(array_merge($tags, $oldTags));
+		}
+		if (is_array($newTags) && count($newTags) > 0)
+		{
+			$result = $result && $this->addTagMapping($ucmId, $table, $newTags);
 		}
 		return $result;
 	}
@@ -74,6 +78,7 @@ class JHelperTags
 	/**
 	 * Method to add tag rows to mapping table.
 	 *
+	 * @param   integer  $ucmId    Id of the #__ucm_content item being tagged
 	 * @param   JTable   $table    JTable object being tagged
 	 * @param   array    $tags     Array of tags to be applied.
 	 *
@@ -81,19 +86,22 @@ class JHelperTags
 	 *
 	 * @since   3.1
 	 */
-	public function addTagMapping($table, $tags = array())
+	public function addTagMapping($ucmId, $table, $tags = array())
 	{
 		$typeId = $this->typeAlias;
 		$db = $table->getDbo();
+		$key = $table->getKeyName();
+		$item = $table->$key;
+		$typeId = $this->getTypeId($this->typeAlias);
 
 		// Insert the new tag maps
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
-		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'), $db->quoteName('core_content_id'), $db->quoteName('type_id')));
+		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('core_content_id'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'),  $db->quoteName('type_id')));
 
 		foreach ($tags as $tag)
 		{
-			$query->values($db->quote($prefix) . ', ' . (int) $id . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $item . ', ' . (int) $typeId);
+			$query->values($db->quote($this->typeAlias) . ', ' . (int) $ucmId . ', ' . (int) $item . ', ' . $db->quote($tag) . ', ' . $query->currentTimestamp() . ', ' . (int) $typeId);
 		}
 
 		$db->setQuery($query);
@@ -101,16 +109,15 @@ class JHelperTags
 	}
 
 	/**
-	 * Method to remove all tags associated with an item. Generally used for batch processing.
+	 * @param   integer  $ucmId    Id of the #__ucm_content item being tagged
+	 * @param   JTable   $table    JTable object being tagged
+	 * @param   array    $tags     Array of tags to be applied.
 	 *
-	 * @param   integer  $id      The id (primary key) of the item to be untagged.
-	 * @param   string   $prefix  Dot separated string with the option and view for a url.
-	 *
-	 * @return  void
+	 * @return  boolean  true on success, otherwise false.
 	 *
 	 * @since   3.1
 	 */
-	public function unTagItem($table, $tags = array())
+	public function unTagItem($ucmId, $table, $tags = array())
 	{
 		$key = $table->getKeyName();
 		$id = $table->$key;
@@ -829,8 +836,10 @@ class JHelperTags
 		$key = $oldTable->getKeyName();
 		if ($oldTable->$key && $oldTable->load())
 		{
-			$oldTags = json_decode($oldTable->get('metadata'))->tags;
-			$newTags = json_decode($table->get('metadata'))->tags;
+			$oldMetaObject = json_decode($oldTable->get('metadata'));
+			$oldTags = (isset($oldMetaObject->tags)) ? $oldMetaObject->tags : null;
+			$newMetaObject = json_decode($table->get('metadata'));
+			$newTags = (isset($newMetaObject->tags)) ? $newMetaObject->tags : null;
 		}
 
 		// We need to process tags if the tags have changed or if we have a new row
@@ -858,7 +867,10 @@ class JHelperTags
 			$ucm = new JUcmContent($table, $this->typeAlias);
 			$ucm->save($data);
 
-			$this->tagItem($table, json_decode($table->metadata)->tags, true);
+			$key = $table->getKeyName();
+			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $table->$key);
+
+			$this->tagItem($ucmId, $table, json_decode($table->metadata)->tags, true);
 		}
 	}
 

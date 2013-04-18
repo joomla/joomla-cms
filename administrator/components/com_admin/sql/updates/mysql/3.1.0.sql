@@ -110,7 +110,7 @@ CREATE TABLE IF NOT EXISTS `#__ucm_base` (
 
 
 CREATE TABLE IF NOT EXISTS `#__ucm_content` (
-  `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `core_content_id` int(10) unsigned NOT NULL,
   `core_type_alias`  varchar(255) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(255) NOT NULL,
   `core_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
