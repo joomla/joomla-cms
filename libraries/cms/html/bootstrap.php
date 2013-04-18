@@ -465,8 +465,8 @@ abstract class JHtmlBootstrap
 		$in = (self::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="accordion-group' . $class . '">' 
-			. '<div class="accordion-heading">' 
+		$html = '<div class="accordion-group' . $class . '">'
+			. '<div class="accordion-heading">'
 			. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">' . $text . '</a></strong>'
 			. '</div>'
 			. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
@@ -511,23 +511,17 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach tooltips to document
+			// Attach tabs to document
 			JFactory::getDocument()
-				->addScriptDeclaration(
-					"(function($){
-					$('#$selector a').click(function (e)
-					{
-						e.preventDefault();
-						$(this).tab('show');
-					});
-				})(jQuery);");
+				->addScriptDeclaration(JLayoutHelper::render('libraries.cms.html.bootstrap.starttabsetscript', array('selector' => $selector)));
 
 			// Set static array
 			self::$loaded[__METHOD__][$sig] = true;
 			self::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
-		$html = '<ul class="nav nav-tabs" id="' . $selector . 'Tabs"></ul>';
-		$html .= '<div class="tab-content" id="' . $selector . 'Content">';
+
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
+
 		return $html;
 	}
 
@@ -540,7 +534,9 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endTabSet()
 	{
-		return '</div>';
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
+
+		return $html;
 	}
 
 	/**
@@ -556,20 +552,21 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addTab($selector, $id, $title)
 	{
+		static $tabScriptLayout = null;
+		static $tabLayout = null;
+
+		$tabScriptLayout = is_null($tabScriptLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
+		$tabLayout = is_null($tabLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
+
 		$active = (self::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		// Inject tab into UL
 		JFactory::getDocument()
-			->addScriptDeclaration(
-				"(function($){
-				$(document).ready(function() {
-					// Handler for .ready() called.
-					var tab = $('<li class=\"$active\"><a href=\"#$id\" data-toggle=\"tab\">$title</a></li>');
-					$('#" . $selector . "Tabs').append(tab);
-				});
-			})(jQuery);");
+		->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
 
-		return '<div id="' . $id . '" class="tab-pane' . $active . '">';
+		$html = $tabLayout->render(array('id' => $id, 'active' => $active));
+
+		return $html;
 	}
 
 	/**
@@ -581,7 +578,9 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endTab()
 	{
-		return '</div>';
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endtab');
+
+		return $html;
 	}
 
 	/**
