@@ -148,10 +148,10 @@ class PlgSearchCategories extends JPlugin
 		$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
 			->from('#__categories AS a')
 			->where(
-				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = \'com_content\''
+				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = ' . $db->quote('com_content')
 					. 'AND a.access IN (' . $groups . ')'
 			)
-			->group('a.id')
+			->group('a.id, a.title, a.description, a.alias')
 			->order($order);
 		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{

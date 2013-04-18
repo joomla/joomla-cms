@@ -396,7 +396,7 @@ class JHelperTags
 		$typeAliases = rtrim($typeAliases, ',');
 		$query->where('m.type_alias IN (' . $typeAliases . ')');
 
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
 		$query->where('c.core_access IN (' . $groups . ')')
 			->group('m.type_alias, m.content_item_id, m.core_content_id');
 
@@ -625,6 +625,8 @@ class JHelperTags
 	 * @param   array  $filters  Filter to apply to the search
 	 *
 	 * @return  array
+	 *
+	 * @since   3.1
 	 */
 	public static function searchTags($filters = array())
 	{
@@ -683,7 +685,7 @@ class JHelperTags
 			}
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published')
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
 			->order('a.lft ASC');
 
 		// Get the options.
@@ -707,8 +709,8 @@ class JHelperTags
 	/**
 	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
-	 * @param   integer  $contentItemIds  Array of values of the primary key from the table for the type
-	 * @param   string   $typeAlias       The type alias for the type
+	 * @param   array   $contentItemIds  Array of values of the primary key from the table for the type
+	 * @param   string  $typeAlias       The type alias for the type
 	 *
 	 * @return  boolean
 	 *

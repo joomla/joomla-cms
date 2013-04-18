@@ -614,11 +614,13 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
-			return $this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			return false;
 		}
 
 		$type = (string) $this->manifest->attributes()->type;

@@ -78,11 +78,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 						<td headers="categorylist_header_title" class="list-title">
-							<?php if (in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
-								<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
-									<?php echo $this->escape($item->core_title); ?>
-								</a>
-							<?php endif; ?>
+							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+								<?php echo $this->escape($item->core_title); ?>
+							</a>
 							<?php if ($item->core_state == 0) : ?>
 								<span class="list-published label label-warning">
 									<?php echo JText::_('JUNPUBLISHED'); ?>
