@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class WeblinksTableWeblink extends JTable
 {
+
+	/**
+	 * Indicator that the tags have been changed
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
 	/**
 	 * Constructor
 	 *
@@ -25,6 +34,7 @@ class WeblinksTableWeblink extends JTable
 	 */
 	public function __construct(&$db)
 	{
+		$this->tagsHelper = new JHelperTags();
 		parent::__construct('#__weblinks', 'id', $db);
 	}
 

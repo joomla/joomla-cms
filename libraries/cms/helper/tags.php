@@ -19,13 +19,27 @@ defined('JPATH_PLATFORM') or die;
  */
 class JHelperTags
 {
+
+	/**
+	 * Indicator that the tags have been changed
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $tagsChanged = false;
+
+	/**
+	 * Whether up replace all tags or just add tags
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $replaceTags = false;
+
 	/**
 	 * Method to add or update tags associated with an item.
 	 *
-	 * @param   integer  $id       The id (primary key) of the item to be tagged.
-	 * @param   string   $prefix   Dot separated string with the option and view for a url and type alias.
-	 * @param   boolean  $isNew    Flag indicating this item is new.
-	 * @param   integer  $item     Value of the primary key in the core_content table
+	 * @param   JTable   $table    JTable object being tagged
 	 * @param   array    $tags     Array of tags to be applied.
 	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
 	 *
@@ -33,7 +47,7 @@ class JHelperTags
 	 *
 	 * @since   3.1
 	 */
-	public function tagItem($id, $prefix, $isNew, $item, $tags = array(), $replace = true)
+	public function tagItem($table, $tags = array(), $replace = true)
 	{
 		// Pre-process tags for adding new ones
 		if (is_array($tags) && !empty($tags))
@@ -811,6 +825,19 @@ class JHelperTags
 		{
 			$table->metadata = $newMetadata;
 		}
+
+		// If existing row, check to see if tags have changed.
+		$oldTable = clone $table;
+		$oldTable->reset();
+		$key = $oldTable->getKeyName();
+		if ($oldTable->$key && $oldTable->load())
+		{
+			$oldTags = json_decode($oldTable->get('metadata'))->tags;
+			$newTags = json_decode($table->get('metadata'))->tags;
+		}
+
+		// We need to process tags if the tags have changed or if we have a new row
+		$this->tagsChanged = ($oldTags != $newTags) || !$table->$key;
 	}
 
 	/**
@@ -825,17 +852,7 @@ class JHelperTags
 	 */
 	public function postStoreProcess($table)
 	{
-		// If existing row, check to see if tags have changed.
-		$oldTable = clone $table;
-		$key = $oldTable->getKeyName();
-		if ($oldTable->$key && $oldTable->load())
-		{
-			$oldTags = json_decode($oldTable->get('metadata'))->tags;
-			$newTags = json_decode($table->get('metadata'))->tags;
-		}
-
-		// We need to process tags if the tags have changed or if we have a new row
-		if (($oldTags != $newTags) || !$table->$key)
+		if ($this->tagsChanged)
 		{
 			// Store the tag data if the article data was saved and run related methods.
 			$rowdata = new JHelperContent;
@@ -844,9 +861,7 @@ class JHelperTags
 			$ucm = new JUcmContent($table, $this->typeAlias);
 			$ucm->save($data);
 
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($table, $ucmId, $this->tags, true);
-
+			$this->tagItem($table, $this->tags, true);
 		}
 	}
 
@@ -881,7 +896,7 @@ class JHelperTags
 				$tagText = str_replace('#new#', '', $tag);
 				if ($tagText == $tag)
 				{
-					$newTags[] = $tag;
+					$newTags[] = (int) $tag;
 				}
 				else
 				{
@@ -922,7 +937,7 @@ class JHelperTags
 
 			}
 			// At this point $tags is an array of all tag ids
-			$metaObject->tags = implode(',', $tags);
+			$metaObject->tags = $newTags;
 			$result = json_encode($metaObject);
 		}
 		return $result;
