@@ -67,6 +67,22 @@ abstract class JModelAdmin extends JModelForm
 	protected $event_change_state = null;
 
 	/**
+	 * The event to trigger after changing the language of the data.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $event_change_language = null;
+
+	/**
+	 * The event to trigger after changing the access level of the data.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $event_change_access = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
@@ -121,6 +137,24 @@ abstract class JModelAdmin extends JModelForm
 		elseif (empty($this->event_change_state))
 		{
 			$this->event_change_state = 'onContentChangeState';
+		}
+
+		if (isset($config['event_change_language']))
+		{
+			$this->event_change_language = $config['event_change_language'];
+		}
+		elseif (empty($this->event_change_language))
+		{
+			$this->event_change_language = 'onContentChangeLanguage';
+		}
+
+		if (isset($config['event_change_access']))
+		{
+			$this->event_change_access = $config['event_change_access'];
+		}
+		elseif (empty($this->event_change_access))
+		{
+			$this->event_change_access = 'onContentChangeaccess';
 		}
 
 		// Guess the JText message prefix. Defaults to the option.
@@ -243,9 +277,13 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
-		// Set the variables
+		$dispatcher = JEventDispatcher::getInstance();
 		$user = JFactory::getUser();
 		$table = $this->getTable();
+		$pks = (array) $pks;
+
+		// Include the content plugins for the change of state event.
+		JPluginHelper::importPlugin('content');
 
 		foreach ($pks as $pk)
 		{
@@ -261,6 +299,7 @@ abstract class JModelAdmin extends JModelForm
 
 					return false;
 				}
+
 			}
 			else
 			{
@@ -269,6 +308,9 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 		}
+
+		// Trigger the onContentChangeState event.
+		$result = $dispatcher->trigger($this->event_change_access, array($contexts, $pks, $value));
 
 		// Clean the cache
 		$this->cleanCache();
@@ -410,8 +452,13 @@ abstract class JModelAdmin extends JModelForm
 	protected function batchLanguage($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user	= JFactory::getUser();
+		$dispatcher = JEventDispatcher::getInstance();
+		$user = JFactory::getUser();
 		$table = $this->getTable();
+		$pks = (array) $pks;
+
+		// Include the content plugins for the change of state event.
+		JPluginHelper::importPlugin('content');
 
 		foreach ($pks as $pk)
 		{
@@ -426,6 +473,9 @@ abstract class JModelAdmin extends JModelForm
 					$this->setError($table->getError());
 					return false;
 				}
+				// Trigger the onContentChangeState event.
+				$result = $dispatcher->trigger($this->event_change_language, array($contexts, $pks, $value));
+
 			}
 			else
 			{
@@ -433,6 +483,7 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 		}
+
 
 		// Clean the cache
 		$this->cleanCache();
