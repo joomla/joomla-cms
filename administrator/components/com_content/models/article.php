@@ -557,22 +557,19 @@ class ContentModelArticle extends JModelAdmin
 		try
 		{
 			$db = $this->getDbo();
-
-			$db->setQuery(
-				'UPDATE #__content' .
-					' SET featured = ' . (int) $value .
-					' WHERE id IN (' . implode(',', $pks) . ')'
-			);
+			$query->update($db->quoteName('#__content'))
+				->set('featured = ' . (int) $value)
+				->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
 			$db->execute();
 
 			if ((int) $value == 0)
 			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
-				$db->setQuery(
-					'DELETE FROM #__content_frontpage' .
-						' WHERE content_id IN (' . implode(',', $pks) . ')'
-				);
+				$query->delete($db->quoteName('#__content_frontpage'))
+					->where('content_id IN (' . implode(',', $pks) . ')');
+				$db->setQuery($query);
 				$db->execute();
 			}
 			else
@@ -598,10 +595,13 @@ class ContentModelArticle extends JModelAdmin
 				}
 				if (count($tuples))
 				{
-					$db->setQuery(
-						'INSERT INTO #__content_frontpage (' . $db->quoteName('content_id') . ', ' . $db->quoteName('ordering') . ')' .
-							' VALUES ' . implode(',', $tuples)
-					);
+					$db = $this->getDbo();
+					$columns = array('content_id', 'ordering');
+					$query = $db->getQuery(true)
+						->insert($db->quoteName('#__content_frontpage'))
+						->columns($db->quoteName($columns))
+						->values(implode(',', $tuples));
+					$db->setQuery($query);
 					$db->execute();
 				}
 			}
