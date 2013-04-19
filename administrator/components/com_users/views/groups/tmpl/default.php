@@ -115,7 +115,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 						<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="20%" class="center">
-						<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_USERS_IN_GROUP', 'user_count', $listDirn, $listOrder); ?>
+						<?php echo JText::_('COM_USERS_HEADING_USERS_IN_GROUP'); ?>
 					</th>
 					<th width="1%">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>

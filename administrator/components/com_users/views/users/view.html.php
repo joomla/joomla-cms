@@ -148,7 +148,6 @@ class UsersViewUsers extends JViewLegacy
 				'a.username' => JText::_('JGLOBAL_USERNAME'),
 				'a.block' => JText::_('COM_USERS_HEADING_ENABLED'),
 				'a.activation' => JText::_('COM_USERS_HEADING_ACTIVATED'),
-				'group_title' => JText::_('COM_USERS_HEADING_GROUPS'),
 				'a.email' => JText::_('JGLOBAL_EMAIL'),
 				'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
 				'a.registerDate' => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),

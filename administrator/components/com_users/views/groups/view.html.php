@@ -92,7 +92,6 @@ class UsersViewGroups extends JViewLegacy
 	{
 		return array(
 				'a.title' => JText::_('COM_USERS_HEADING_GROUP_TITLE'),
-				'user_count' => JText::_('COM_USERS_HEADING_USERS_IN_GROUP'),
 				'a.id' => JText::_('JGRID_HEADING_ID')
 		);
 	}

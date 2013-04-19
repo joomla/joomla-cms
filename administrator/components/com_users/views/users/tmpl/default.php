@@ -96,7 +96,7 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%" class="nowrap center">
-					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_GROUPS', 'group_title', $listDirn, $listOrder); ?>
+					<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 				</th>
 				<th width="15%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
