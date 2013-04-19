@@ -178,6 +178,7 @@ class BannersHelper
 
 		$query->select('id As value, name As text');
 		$query->from('#__banner_clients AS a');
+		$query->where('a.state = 1');
 		$query->order('a.name');
 
 		// Get the options.
