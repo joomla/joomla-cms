@@ -73,6 +73,5 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 	 */
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
-
 	}
 }
