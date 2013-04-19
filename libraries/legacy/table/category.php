@@ -199,14 +199,15 @@ class JTableCategory extends JTableNested
 	/**
 	 * Override parent delete method to process tags
 	 *
-	 * @param   integer  $pk  Primary key to delete.
+	 * @param   integer  $pk        The primary key of the node to delete.
+	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function delete($pk = null)
+	public function delete($pk = null, $children = true)
 	{
 		$result = parent::delete($pk);
 		$this->tagsHelper->typeAlias = $this->extension . '.category';
