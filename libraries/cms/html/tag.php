@@ -179,6 +179,9 @@ abstract class JHtmlTag
 			JFactory::getDocument()->addScriptDeclaration("
 				(function($){
 					$(document).ready(function () {
+
+						var customTagPrefix = '#new#';
+
 						// Method to add tags pressing enter
 						$('" . $selector . "_chzn input').keydown(function(event) {
 
@@ -191,24 +194,40 @@ abstract class JHtmlTag
 								// Add the highlighted option
 								if (event.which === 13 && highlighted.text() !== '')
 								{
-									var pathParts = highlighted.text().split('/');
-									var tag = pathParts[pathParts.length-1];
-									var option = $('<option>');
-									option.text(highlighted.text()).val(tag);
-									option.attr('selected','selected');
+									// Extra check. If we have added a custom tag with this text remove it
+									var customOptionValue = customTagPrefix + highlighted.text();
+									$('" . $selector . " option').filter(function () { return $(this).val() == customOptionValue; }).remove();
+
+									// Select the highlighted result
+									var tagOption = $('" . $selector . " option').filter(function () { return $(this).html() == highlighted.text(); });
+									tagOption.attr('selected', 'selected');
 								}
 								// Add the custom tag option
 								else
 								{
-									var option = $('<option>');
-									option.text(this.value).val('#new#' + this.value);
-									option.attr('selected','selected');
+									var customTag = this.value;
+
+									// Extra check. Search if the custom tag already exists (typed faster than AJAX ready)
+									var tagOption = $('" . $selector . " option').filter(function () { return $(this).html() == customTag; });
+									if (tagOption.text() !== '')
+									{
+										tagOption.attr('selected', 'selected');
+									}
+									else
+									{
+										var option = $('<option>');
+										option.text(this.value).val(customTagPrefix + this.value);
+										option.attr('selected','selected');
+
+										// Append the option an repopulate the chosen field
+										$('" . $selector . "').append(option);
+									}
 								}
 
-								// Append the option an repopulate the chosen field
-								$('" . $selector . "').append(option).trigger('liszt:updated');
 								this.value = '';
+								$('" . $selector . "').trigger('liszt:updated');
 								event.preventDefault();
+
 							}
 						});
 					});
