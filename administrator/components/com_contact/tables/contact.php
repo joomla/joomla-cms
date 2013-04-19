@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
 class ContactTableContact extends JTable
 {
 	/**
+	 * Indicator that the tags have been changed
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param  JDatabase  Database connector object
@@ -25,6 +33,7 @@ class ContactTableContact extends JTable
 	public function __construct(& $db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
+		$this->tagsHelper = new JHelperTags();
 	}
 
 	/**
@@ -124,22 +133,11 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		$tagsHelper = new JHelperTags;
 		$tagsHelper->typeAlias = 'com_contact.contact';
-		$tagsHelper->preStoreProcess($this);
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
 
-		$return = parent::store($updateNulls);
-
-		if ($return == false)
-		{
-			return false;
-		}
-
-		// Store the tag data if the article data was saved and run related methods.
-		$tagsHelper->postStoreProcess($this);
-
-		return $return;
-	}
+		return $result && $this->tagsHelper->postStoreProcess($this);	}
 
 	/**
 	 * Overloaded check function

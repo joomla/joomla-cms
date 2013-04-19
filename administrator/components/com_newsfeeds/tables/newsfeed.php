@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
 class NewsfeedsTableNewsfeed extends JTable
 {
 	/**
+	 * Indicator that the tags have been changed
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param JDatabaseDriver A database connector object
@@ -23,6 +31,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
+		$this->tagsHelper = new JHelperTags();
 	}
 
 	/**
@@ -157,21 +166,11 @@ class NewsfeedsTableNewsfeed extends JTable
 			return false;
 		}
 
-		$tagsHelper = new JHelperTags;
 		$tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
-		$tagsHelper->preStoreProcess($this);
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
 
-		$return = parent::store($updateNulls);
-
-		if ($return == false)
-		{
-			return false;
-		}
-
-		// Store the tag data if the article data was saved and run related methods.
-		$tagsHelper->postStoreProcess($this);
-
-		return $return;
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 }

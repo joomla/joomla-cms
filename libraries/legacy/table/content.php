@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class JTableContent extends JTable
 {
 	/**
+	 * Indicator that the tags have been changed
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
@@ -28,6 +36,8 @@ class JTableContent extends JTable
 	public function __construct($db)
 	{
 		parent::__construct('#__content', 'id', $db);
+
+		$this->tagsHelper = new JHelperTags();
 	}
 
 	/**
@@ -268,24 +278,15 @@ class JTableContent extends JTable
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+
 			return false;
 		}
 
-		$tagsHelper = new JHelperTags;
 		$tagsHelper->typeAlias = 'com_content.article';
-		$tagsHelper->preStoreProcess($this);
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
 
-		$return = parent::store($updateNulls);
-
-		if ($return == false)
-		{
-			return false;
-		}
-
-		// Store the tag data if the article data was saved and run related methods.
-		$tagsHelper->postStoreProcess($this);
-
-		return $return;
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 	/**

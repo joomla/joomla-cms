@@ -34,8 +34,9 @@ class WeblinksTableWeblink extends JTable
 	 */
 	public function __construct(&$db)
 	{
-		$this->tagsHelper = new JHelperTags();
 		parent::__construct('#__weblinks', 'id', $db);
+
+		$this->tagsHelper = new JHelperTags();
 	}
 
 	/**
