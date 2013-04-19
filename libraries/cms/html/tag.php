@@ -181,13 +181,31 @@ abstract class JHtmlTag
 					$(document).ready(function () {
 						// Method to add tags pressing enter
 						$('" . $selector . "_chzn input').keydown(function(event) {
-							// tag is greater than 3 chars and enter pressed
+
+							// Tag is greater than 3 chars and enter pressed
 							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {
-								// Create the option
-								var option = $('<option>');
-								option.text(this.value).val('#new#' + this.value);
-								option.attr('selected','selected');
-								// Add the option an repopulate the chosen field
+
+								// Search an highlighted result
+								var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
+
+								// Add the highlighted option
+								if (event.which === 13 && highlighted.text() !== '')
+								{
+									var pathParts = highlighted.text().split('/');
+									var tag = pathParts[pathParts.length-1];
+									var option = $('<option>');
+									option.text(highlighted.text()).val(tag);
+									option.attr('selected','selected');
+								}
+								// Add the custom tag option
+								else
+								{
+									var option = $('<option>');
+									option.text(this.value).val('#new#' + this.value);
+									option.attr('selected','selected');
+								}
+
+								// Append the option an repopulate the chosen field
 								$('" . $selector . "').append(option).trigger('liszt:updated');
 								this.value = '';
 								event.preventDefault();
