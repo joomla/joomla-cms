@@ -37,6 +37,7 @@ class WeblinksTableWeblink extends JTable
 		parent::__construct('#__weblinks', 'id', $db);
 
 		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
 	}
 
 	/**
@@ -125,7 +126,6 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 		return $result && $this->tagsHelper->postStoreProcess($this);
@@ -214,7 +214,6 @@ class WeblinksTableWeblink extends JTable
 	public function delete($pk = null)
 	{
 		$result = parent::delete($pk);
-		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
 		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
 

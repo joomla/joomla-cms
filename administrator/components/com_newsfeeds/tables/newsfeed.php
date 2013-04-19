@@ -32,6 +32,7 @@ class NewsfeedsTableNewsfeed extends JTable
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
 		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
 	}
 
 	/**

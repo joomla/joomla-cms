@@ -38,6 +38,7 @@ class JTableContent extends JTable
 		parent::__construct('#__content', 'id', $db);
 
 		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper->typeAlias = 'com_content.article';
 	}
 
 	/**

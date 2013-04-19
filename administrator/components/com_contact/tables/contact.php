@@ -34,6 +34,7 @@ class ContactTableContact extends JTable
 	{
 		parent::__construct('#__contact_details', 'id', $db);
 		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper->typeAlias = 'com_contact.contact';
 	}
 
 	/**
@@ -78,7 +79,6 @@ class ContactTableContact extends JTable
 	public function delete($pk = null)
 	{
 		$result = parent::delete($pk);
-		$this->tagsHelper->typeAlias = 'com_contact.contact';
 		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
 
@@ -151,7 +151,6 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->typeAlias = 'com_contact.contact';
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
