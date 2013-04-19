@@ -210,7 +210,7 @@ class JHelperTags
 			->where(
 				array(
 					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
-					$db->quoteName('m.content_item_id') . ' = ' . $db->quote($id),
+					$db->quoteName('m.content_item_id') . ' = ' . $id,
 					$db->quoteName('t.published') . ' = 1'
 				)
 			);

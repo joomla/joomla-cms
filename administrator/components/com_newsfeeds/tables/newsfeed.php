@@ -166,7 +166,7 @@ class NewsfeedsTableNewsfeed extends JTable
 			return false;
 		}
 
-		$tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
+		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 

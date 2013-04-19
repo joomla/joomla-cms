@@ -117,28 +117,6 @@ class NewsfeedsControllerNewsfeed extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
-		$item = $model->getItem();
-
-		if (isset($item->params) && is_array($item->params))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->params);
-			$item->params = (string) $registry;
-		}
-		if (isset($item->images) && is_array($item->images))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->images);
-			$item->images = (string) $registry;
-		}
-
-		if (isset($item->metadata) && is_array($item->metadata))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->metadata);
-			$item->metadata = (string) $registry;
-		}
 
 	}
 }

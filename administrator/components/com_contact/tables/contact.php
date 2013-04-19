@@ -133,7 +133,7 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		$tagsHelper->typeAlias = 'com_contact.contact';
+		$this->tagsHelper->typeAlias = 'com_contact.contact';
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
