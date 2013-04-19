@@ -87,15 +87,15 @@ class JFormFieldComponentlayout extends JFormField
 				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, $lang->getDefault(), false, false);
 
 			// Get the database object and a new query object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('e.element, e.name');
-			$query->from('#__extensions as e');
-			$query->where('e.client_id = ' . (int) $clientId);
-			$query->where('e.type = ' . $db->quote('template'));
-			$query->where('e.enabled = 1');
+			$query->select('e.element, e.name')
+				->from('#__extensions as e')
+				->where('e.client_id = ' . (int) $clientId)
+				->where('e.type = ' . $db->quote('template'))
+				->where('e.enabled = 1');
 
 			if ($template)
 			{
@@ -104,8 +104,8 @@ class JFormFieldComponentlayout extends JFormField
 
 			if ($template_style_id)
 			{
-				$query->join('LEFT', '#__template_styles as s on s.template=e.element');
-				$query->where('s.id=' . (int) $template_style_id);
+				$query->join('LEFT', '#__template_styles as s on s.template=e.element')
+					->where('s.id=' . (int) $template_style_id);
 			}
 
 			// Set the query and load the templates.

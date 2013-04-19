@@ -152,49 +152,6 @@ JHtml::_('formbehavior.chosen', 'select');
 		</div>
 		<!-- End Weblinks -->
 		<!-- Begin Sidebar -->
-		<div class="span2">
-			<h4><?php echo JText::_('JDETAILS');?></h4>
-			<hr />
-			<fieldset class="form-vertical">
-				<div class="control-group">
-					<div class="controls">
-						<?php echo $this->form->getValue('title'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('state'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('state'); ?>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('access'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('access'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('language'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('tags'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('tags'); ?>
-					</div>
-				</div>
-			</fieldset>
-		</div>
+			<?php echo JLayoutHelper::render('joomla.edit.details', $this); ?>
 		<!-- End Sidebar -->
 </form>

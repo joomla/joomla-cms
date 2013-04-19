@@ -46,6 +46,7 @@ class JFormFieldPassword extends JFormField
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$meter		= ((string) $this->element['strengthmeter'] == 'true');
+		$required   = $this->required ? ' required="required" aria-required="true"' : '';
 		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 
 		$script = '';
@@ -64,6 +65,6 @@ class JFormFieldPassword extends JFormField
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-			$auto . $class . $readonly . $disabled . $size . $maxLength . '/>' . $script;
+			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . '/>' . $script;
 	}
 }

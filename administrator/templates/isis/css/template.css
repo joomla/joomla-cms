@@ -4319,10 +4319,6 @@ a.badge:hover {
 	.thumbnails {
 		margin-left: 0;
 	}
-	.thumbnails > li {
-		float: none;
-		margin-left: 0;
-	}
 	[class*="span"],
 	.row-fluid [class*="span"] {
 		float: none;
@@ -6455,6 +6451,10 @@ h6 {
 	.view-login .navbar-fixed-bottom {
 		display: none;
 	}
+}
+.nav-collapse .nav li a,
+.dropdown-menu a {
+	background-image: none;
 }
 @media (max-width: 738px) {
 	.navbar-fixed-top .navbar-inner,

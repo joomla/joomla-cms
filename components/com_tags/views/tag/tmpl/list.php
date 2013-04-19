@@ -19,7 +19,7 @@ $n = count($this->items);
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 </h1>
 <?php endif;  ?>
-<?php if($this->state->get('show_tag_title', 1)) : ?>
+<?php if($this->params->get('show_tag_title', 1)) : ?>
 <h2>
 	<?php echo JHtml::_('content.prepare', $this->document->title, '', 'com_tag.tag'); ?>
 </h2>
@@ -28,23 +28,24 @@ $n = count($this->items);
 <?php  if (count($this->item) == 1 && (($this->params->get('tag_list_show_tag_image', 1)) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
 	<div class="category-desc">
 	<?php  $images  = json_decode($this->item[0]->images); ?>
-	<?php  if ($this->params->get('tag_list_show_tag_image', 1) == 1 && $images->image_fulltext) :?>
-		<img src="<?php echo $images->image_fulltext;?>">
+	<?php  if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) :?>
+		<img src="<?php echo htmlspecialchars($images->image_fulltext);?>">
 	<?php endif; ?>
 	<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 		<?php echo JHtml::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
 	<?php endif; ?>
 	<div class="clr"></div>
 	</div>
+<?php endif; ?>
 <?php // If there are multiple tags and a description or image has been supplied use that. ?>
-<?php elseif ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)): ?>
+<?php if ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1)): ?>
 		<?php  if ($this->params->get('show_description_image', 1) == 1 && $this->params->get('tag_list_image')) :?>
 			<img src="<?php echo $this->params->get('tag_list_image');?>">
 		<?php endif; ?>
-		<?php  if ($this->state->params->get('show_description', 1) == 1 && $this->state->params->get('tag_list_description')) :?>
-			<?php echo JHtml::_('content.prepare', $this->state->params->get('tag_list_description'), '', 'com_tags.tag'); ?>
+		<?php if ($this->params->get('tag_list_description', '') > '') :?>
+			<?php echo JHtml::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>
 		<?php endif; ?>
 
 <?php endif; ?>
 
-<?php echo $this->loadTemplate('item'); ?>
+<?php echo $this->loadTemplate('items'); ?>

@@ -38,6 +38,10 @@ function TagsBuildRoute(&$query)
 
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
 	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	if (is_array($mId))
+	{
+		JArrayHelper::toInteger($mId);
+	}
 
 	if (isset($query['view'])) {
 		$view = $query['view'];
@@ -45,19 +49,14 @@ function TagsBuildRoute(&$query)
 		if (empty($query['Itemid'])) {
 			$segments[] = $query['view'];
 		}
-
-		// We need to keep the view for forms since they never have their own menu item
-		if ($view != 'form') {
-			unset($query['view']);
-		}
+		unset($query['view']);
 	}
 
 	// Are we dealing with a tag that is attached to a menu item?
-	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
+	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == $query['id']))
 	{
 		unset($query['view']);
 		unset($query['id']);
-
 		return $segments;
 	}
 
@@ -65,10 +64,6 @@ function TagsBuildRoute(&$query)
 	{
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
-			if ($view == 'tag') {
-				$tagid = $query['id'];
-			}
-
 			if ($view == 'tag') {
 				if ($advanced) {
 					list($tmp, $id) = explode(':', $query['id'], 2);
@@ -80,9 +75,7 @@ function TagsBuildRoute(&$query)
 				$segments[] = $id;
 			}
 		}
-
 		unset($query['id']);
-
 	}
 
 	if (isset($query['layout'])) {

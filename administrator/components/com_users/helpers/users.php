@@ -141,13 +141,15 @@ class UsersHelper
 	public static function getGroups()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
-			' FROM #__usergroups AS a' .
-			' LEFT JOIN '.$db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
-			' GROUP BY a.id, a.title, a.lft, a.rgt' .
-			' ORDER BY a.lft ASC'
-		);
+		$query = $db->getQuery(true)
+			->select('a.id AS value')
+			->select('a.title AS text')
+			->select('COUNT(DISTINCT b.id) AS level')
+			->from('#__usergroups as a')
+			->join('LEFT', '#__usergroups  AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->group('a.id, a.title, a.lft, a.rgt')
+			->order('a.lft ASC');
+		$db->setQuery($query);
 
 		try
 		{

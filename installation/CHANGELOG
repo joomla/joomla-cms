@@ -8,7 +8,6 @@ License:		GNU General Public License version 2 or later; see LICENSE.txt
 This application is opensource software released under the GPL.  Please
 see source code and the LICENSE file
 
-
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
@@ -24,11 +23,238 @@ $ -> Language fix or change
 + -> Addition
 ^ -> Change
 - -> Removed
-! -> Note
+! -> Note3
+
+17-Apr-2013 Mark Dexter
+ # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
+ # [#30588] Fixing Tag view if core_access is not set. Thanks Thomas Hunziker.
+
+16-Apr-2013 Mark Dexter
+ # [#30584] JUcmContent can't construct from alias / error in install SQL. Thanks Thomas Hunziker.
+
+15-Apr-2013 Mark Dexter
+ + [#30298] Added note form field. Thanks Peter van Westen.
+ # [#30583] Deprecate SimplePie. Thanks Elin Waring.
+ # [#29678] null value in column "data" (postgresql). Thanks Michael Babker.
+
+15-Apr-2013 Jean-Marie Simonet
+ # [#30579] *TAGS: Tags field not displaying tags--Revert changes to the tags API. Thanks Elin
+
+14-Apr-2013 Mark Dexter
+ # [#30506] Joomla update system erases entire site if downloaded zip package is broken. Thanks Aliaksei Kanstantsinau.
+ # [#30288] Module Prepare Paramater breaks Cache + Browser Cache + Application Rendering time. Thanks Parth Lawate.
+
+14-Apr-2013 Michael Babker
+ ^ [#30541] Small fixes to batch processing layouts.  Thanks Elin Waring
+ # [#30396] Enabling finder plugins breaks tags saving
+ # [#29240] Undefined property: JSite::$registeredurlparams.  Thanks Mark Stanton
+ # [#30282] Joomla3.0.3 + PostgresQL -- User Registration Problem -- Database query failed -- column "sendemail" does not exist.  Thanks George Wilson
+ + Database schema for SQL Server adding tags support
+ # Fix incorrect lft/rgt values in #__menu table for new installs
+ # Modify queries in tags code to support SQL Server
+ # [#29685] extensions manager, discover fails with: "JLIB_DATABASE_QUERY_FAILED SQL=INSERT INTO "XXX_extensions"" (postgresql).  Thanks Viet Vu
+
+13-Apr-2013 Mark Dexter
+ # [#30560] Tagged Item menu options Child Tags always saves as Include. Thanks Elin.
+ # [#30559] 'joomla_310.ddfre_updates' doesn't exist
+
+-------------------- 3.1 Beta 4 Release [12-Apr-2012] ------------------
+
+12-Apr-2013 Mark Dexter
+ # [#30523] Fix Tag Batch Creation and Tag Library Cleanup. Thanks David and Elin.
+ # [#30553] jos_contentitem_tag_map error.
+
+12-Apr-2013 Jean-Marie Simonet
+ # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark Dexter
+ # [#30532] Extension Manager -> Database not displaying Other Information tab. Thanks Mark Dexter
+ $ [#30511] Capitalise Custom output title (en-GB only). Thanks Brian Teeman
+ # [#30537] Menus with default view in URL and sub-tasks are missing in other defined attributes and do not display correctly in menu type input in backend. Thanks Beat
+ # [#30446] Fix Strict warning 'Attribute already exists'. Thanks Piotr Konieczny
+ # [#30539] *Memcache cache time issue. Thanks Ofer Cohen and sajal soni
+ # [#30154] Allow ability to upload file (eg: profile picture) through com_users registration view. Thanks Cy Lee
+
+11-Apr-2013 Jean-Marie Simonet
+ #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
+
+10-Apr-2013 Mark Dexter
+ # [#30466] Tags: Not shown in contacts. Thanks Peter Bui.
+
+08-Apr-2013 Michael Babker
+ # [#29916] MySQL connections are not closed.  Thanks Ian Goldstein
+ # [#30508] Fixed typo $text = $text = '..';.  Thanks Piotr Konieczny
+ # [#30504] List All Tags doesn't have pagination.  Thanks Mark Dexter
+ # [#30505] Weblink module ignores end publishing date.  Thanks Thomas Hunziker
+ # [#30507] *Edit contact display issue with editor.  Thanks Jean-Marie Simonet
+
+08-Apr-2013 Jean-Marie Simonet
+ $ Adding installation language pt-PT
+ # [#30503] *Tags :can't save Compact Layout in Tags Component Options
+
+07-Apr-2013 Michael Babker
+ ^ [#30502] Replace use of JRequest in com_media
+ # [#30489] *Regression: Menu Type UTF8 Alias prevents display in Menu Items Manager in J3
+ ^ [#30499] Duplicate "btn" class in login module button.  Thanks Thomas Hunziker
+ # [#30041] Use of '/' not being handled well on Windows Servers.  Thanks Parth Lawate
+ # [#30054] Catchable fatal error: Object of class stdClass could not be converted to string in /plugins/system/debug/debug.php on line 303.  Thanks Ryan K.
+
+07-Apr-2013 Jean-Marie Simonet
+ # [#30226] *TAGS: Getting rid of all aspects concerning lang associations
+
+06-Apr-2013 Mark Dexter
+ # [#30453] Tags: Pagination not working when linking to a tag.
+ # [#30486] *Banners Manager:Banners and Banners Manager:Clients Status filter issue. Thanks Jean-Marie Simonet.
+ # [#30480] com_contact error in admin->view->contacts search "author:xxxx". Thanks Brent Cordis.
+ # [#30481] Missing space between icon-cog and caret in featured view. Thanks Thomas Hunziker.
+ # [#30250] Upgrade jQuery from 1.8.1 to 1.8.3. Thanks George Wilson.
+ # [#30046] Update SQLSRV with platform fixes. Thanks David Hurley.
+
+05-Apr-2013 Jean-Marie Simonet
+ # [#30416] duplicate alias in banner manager on pressing save as copy
+
+04-Apr-2013 Mark Dexter
+ # Reverting [#30430] Severe bug with "com_content" component routing.
+
+04-Apr-2013 Jean-Marie Simonet
+ # [#30454] Tags: Adding Tags via Batch function replaces all previous tags. Thanks David and Elin.
+ # [#30463] Missing closing div in compact tag layout. Thanks Thomas Hunziker and Constantin Romankiewicz
+ # [#30464] ACL Undefined variable error in contentadministrator.php on line 112. Thanks Constantin Romankiewicz
+ # [#30062] Base Item option in mod_menu has no effect [regression]. Thanks René Alain Erichsen
+ # [#30422] Tags drill down incorrectly finds match to multi-tag tagged items menu item. Thanks Mark
+ # [#30210] Undefined index errors by using the style 'beezTabs' at an beez template. Thanks Constantin Romankiewicz
+ # [#30444] Newfeeds Hide icon wrong colour
+ # [#30450] Remove moduleclass suffix from <input> and <button> elements in mod_search. Thanks Thomas Hunziker
+ # [#29377] Image select. Thanks Constantin Romankiewicz
+ # [#29961] RAW filter is missing for JInput. Thanks Cedric Keiflin
+ # [#30427] Remove 1.5 html methods from com_newsfeeds. Thanks Elin
+ # [#30430] Severe bug with "com_content" component routing. Thanks sajal soni and Elin.
+
+03-Apr-2013 Jean-Marie Simonet
+ # [#30349] Cleaned up use of database & query objects. Thanks Peter van Westen and Michael Babker
+
+-------------------- 3.1 Beta 3 Release [30-Mar-2012] ------------------
+
+29-Mar-2013 Michael Babker
+ # [#30391] Fixes array not being initialized.  Thanks Peter
+ # [#30317] Synch session check bug fix from platform.  Thanks Elin
+ # [#30419] using foreach with nonarray in com_finder's feed view.  Thanks Elijah
+ ^ [#30426] Sync HTML package to the Platform
+ ^ [#30297] Changed MooTools to jQuery based color picker.  Thanks Peter
+ ^ [#30425] Remove duplicated filterText() methods
+ # [#29551] Fixed list_price and sale_price.  Thanks Gabriele
+ # [#30076] Pagination does not work for components with more than one administrative view.  Thanks Ram
+ # Incorrect field names used in JTableCorecontent (discovered implementing unit tests)
+
+29-Mar-2013 Mark Dexter
+ # [#30205] findmanifest should prioritize main folder manifests. Thanks Roberto.
+ # [#29680] JLIB_DATABASE_QUERY_FAILED when upgrading to 3.0.2 (Postgresql: invalid input syntax for integer). Thanks Pierre-Louis Bonicoli.
+ # [#30107] Redirect plugin needs to be disabled by default. Thanks Ram Tripathi.
+
+29-Mar-2013 Jean-Marie Simonet
+ # [#29709] Imposed translation on menu description. Thanks Marco and Brian.
+
+28-Mar-2013 Jean-Marie Simonet
+ # [#30415] *Multilanguage 3.1: SIngle article display does not filter correctly author contact per language.
+ $ Updating installation file: ckb-IQ.ini
+ # [#30388] Routing on the compact list tagged items layout, default tagged items layout and similar tags module. Thanks Mark.
+ # [#30410] Notice: Array to string conversion in Tags View. Thanks Mark
+ # [#30414] Pagination limit not changeable in com_redirect. Thanks Constantin
+ # [#30406] Set state to unpublished when save2copy.
+
+27-Mar-2013 Mark Dexter
+ # [#30405] Warning in compact tag view when images is empty.
+
+27-Mar-2013 Jean-Marie Simonet
+ # [#29319] SEF plugin gives wrong canonical url (of category, not from article). Thanks Rouven and Mark
+ # [#30380] Joomla 3.1 should *not* suggest to use "admin" as the default admin username. Thanks Phil
+ # [#30384] *TAGS: "Compact List of Tagged items" menu item issues in multilanguage
+ # [#30377] Add a tag filter to the sidebars in content managers. Thanks Elin
+ # [#30355] Tagged item list is showing unpublished, trashed and archived items. Thanks Elin.
+ # [#30389] List All Tags Not Routing to Single Tag Menu Item + . Thanks Mark.
+ $ [#30402] Clarification of tags description (en-GB). Thanks Brian.
+ $ [#30397] Correct en-GB grammar in installation. Thanks Brian.
+ # [#30329] Missing tags feed and related items. Thanks Elin
+ # [#29165] Sort table of articles by featured is missing. Thanks Ram
+
+26-Mar-2013 Jean-Marie Simonet
+ $ Updating installation ini files: pt-BR, ckb-IQ
+
+26-Mar-2013 Michael Babker
+ # [#28972] Smart Search: suggestions are not filtered by current language
+ ^ [#30104] Messages close button in Isis.  Thanks Mario
+ # Undefined variable in JSchemaChangeitemPostgresql (discovered via unit test implementation)
+
+25-Mar-2013 Michael Babker
+ # [#30375] When state is changed in a list view it isn't changed in core_content
+ # Incorrect field names used in JTableContenttype (discovered implementing unit tests)
+ # [#30382] Fatal error in mod_weblinks.  Thanks Elin
+ ^ [#30142] Add optional class param to accordion slider.  Thanks Anderson
+ - [#30387] Remove compact.xml.  Thanks Elin
+
+24-Mar-2013 Mark Dexter
+ # [#30223] TAGS: Missing 'Help' Button in Toolbar.
+ # [#30366] Help Screens, key wrong, missing or not created correctly.
+ # [#30335] Updated Front-end Tags Layout. Thanks David.
+
+24-Mar-2013 Michael Babker
+ + [#30318] Pull in media wiki package from platform.  Thanks Elin
+ ^ [#30356] Update JImage to latest platform version.  Thanks Don
+ # [#30266] Array to string conversion in smart search.  Thanks Edgars
+ # [#28978] Smart search (com_finder) - problem when using "Allow Empty Search".  Thanks Valentin
+ # [#30338] Wrong contact items publishing state from Contact details > state.  Thanks Piotr
+ + [#30369] Pull in OpenStreetMap package from the platform.  Thanks Elin
+ + [#30364] Add UNION ALL feature from platform.  Thanks Elin
+ ^ [#30180] argument three in phpdoc should be the variable name.  Thanks Alexander
+ ^ [#30365] Fix code style in admin modules: mod_login.  Thanks Javier
+ # [#30260] Fix for Undefined index: custom_position.  Thanks Peter
+ ^ [#30363] Fix code style in admin modules: mod_logged.  Thanks Javier
+ # [#29353] Smart Search Module Not Using Selected Filter.  Thanks Sam
+ # [#30214] JLog::add in JFolder::create logs erroneous error messages
+ ^ [#30286] Corrections to SQL Server DDL.  Thanks Sam
+
+24-Mar-2013 Jean-Marie Simonet
+ # [#30234] Route work classes for Tags. Thanks Elin
+
+23-Mar-2013 Jean-Marie Simonet
+ # [#30361] Chosen minified and un-minified versions are different. Thanks Roberto
+ # [#30348] Popular Tags Module showing multiple copies of links. Thanks Elin
+ # [#30351] State and language filtering not presesnt in Similar Tag module. Thanks Elin.
+
+22-Mar-2013 Jean-Marie Simonet
+ $ Updating Installation ini files: he-IL, nl-NL
+
+21-Mar-2013 Michael Babker
+ ^ [#30319] Accessibility fixes to JForm Platform Synch.  Thanks Elin
+ ^ [#30353] Clean up left over debugging.  Thanks Elin
+
+21-Mar-2013 Jean-Marie Simonet
+ # [#30340] Fix regression in Similar Tags Module. Thanks Elin
+ $ Duplicate lang string +
+ # [#30320] *Deleted Tagged items are not deleted from the map table and core_content table. Thanks Elin
+ # [#30346] *Contact creator does not include default language "All" for the contact created
+ # [#30330] *Correcting alignment of metadata labels in Category edit
+ # [#30339] Component Update Info URL - open in new tab. Thanks Glen
+
+-------------------- 3.1 Beta 2 Release [20-Mar-2012] ------------------
+
+20-Mar-2013 Mark Dexter
+ # [#30326] Cannot add position in Module Manager. Thanks Roberto Segura.
+ # [#30314] Move to new JFeed. Thanks Elin.
+ # [#29520] Cannot add new menu item. [qlsrv]. Thanks Cliff Galiher.
+
+20-Mar-2013 Jean-Marie Simonet
+ # [#30333] *TAGS: Notice when entering 2 tags in a tags menu item. Thanks Roberto
+ # [#30328] AJAX field improvements/fixes. Thanks Roberto
+ # [#30304] Cant add fields to the category form using a plugin. Thanks all.
+ # [#29734] Joomla Newsfeed problem. Thanks Tessa
+ # [#30327] PHP Notice using new layouts (from pull request 814). Thanks Elin.
+
+19-Mar-2013 Jean-Marie Simonet
+ $ Missing strings in com_tags frontend
 
 18-Mar-2013 Jean-Marie Simonet
  # [#26860] A Contact name *must not* be unique. Thanks Christophe and Janich
  # [#28874] Registration activation email links. Thanks Marco
+ $ Updating Installation ini files: af-ZA, eo-XX, es-ES, pl-PL, uk-UA
 
 17-Mar-2013 Michael Babker
  ^ [#30262] Add PostgreSQL schema for tags, sync with MySQL, update script additions

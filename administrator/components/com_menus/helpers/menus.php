@@ -26,7 +26,7 @@ class MenusHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string    The name of the active view.
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -52,8 +52,8 @@ class MenusHelper
 	 */
 	public static function getActions($parentId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject;
 
 		if (empty($parentId))
 		{
@@ -61,14 +61,14 @@ class MenusHelper
 		}
 		else
 		{
-			$assetName = 'com_menus.item.'.(int) $parentId;
+			$assetName = 'com_menus.item.' . (int) $parentId;
 		}
 
 		$actions = JAccess::getActions('com_menus');
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -77,7 +77,7 @@ class MenusHelper
 	/**
 	 * Gets a standard form of a link for lookups.
 	 *
-	 * @param   mixed	A link string or array of request variables.
+	 * @param   mixed    A link string or array of request variables.
 	 *
 	 * @return  mixed  A link in standard option-view-layout form, or false if the supplied response is invalid.
 	 */
@@ -96,7 +96,8 @@ class MenusHelper
 			{
 				parse_str(parse_url(htmlspecialchars_decode($request), PHP_URL_QUERY), $args);
 			}
-			else {
+			else
+			{
 				parse_str($request, $args);
 			}
 			$request = $args;
@@ -105,7 +106,7 @@ class MenusHelper
 		// Only take the option, view and layout parts.
 		foreach ($request as $name => $value)
 		{
-			if (!in_array($name, self::$_filter))
+			if ((!in_array($name, self::$_filter)) && (!($name == 'task' && !array_key_exists('view', $request))))
 			{
 				// Remove the variables we want to ignore.
 				unset($request[$name]);
@@ -114,14 +115,14 @@ class MenusHelper
 
 		ksort($request);
 
-		return 'index.php?'.http_build_query($request, '', '&');
+		return 'index.php?' . http_build_query($request, '', '&');
 	}
 
 	/**
 	 * Get the menu list for create a menu module
 	 *
-	 * @return  	array	The menu array list
-	 * @since		1.6
+	 * @return    array    The menu array list
+	 * @since        1.6
 	 */
 	public static function getMenuTypes()
 	{
@@ -133,24 +134,23 @@ class MenusHelper
 	/**
 	 * Get a list of menu links for one or all menus.
 	 *
-	 * @param   string	An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
-	 * @param   integer  An optional parent ID to pivot results around.
-	 * @param   integer  An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
-	 * @param   array  An optional array of states
+	 * @param   string    An option menu to filter the list on, otherwise all menu links are returned as a grouped array.
+	 * @param   integer   An optional parent ID to pivot results around.
+	 * @param   integer   An optional mode. If parent ID is set and mode=2, the parent and children are excluded from the list.
+	 * @param   array     An optional array of states
 	 */
-	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published=array(), $languages=array())
+	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = array(), $languages = array())
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out');
-		$query->from('#__menu AS a');
-		$query->join('LEFT', $db->quoteName('#__menu').' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
+			->from('#__menu AS a')
+			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Filter by the type
 		if ($menuType)
 		{
-			$query->where('(a.menutype = '.$db->quote($menuType).' OR a.parent_id = 0)');
+			$query->where('(a.menutype = ' . $db->quote($menuType) . ' OR a.parent_id = 0)');
 		}
 
 		if ($parentId)
@@ -158,8 +158,8 @@ class MenusHelper
 			if ($mode == 2)
 			{
 				// Prevent the parent and children from showing.
-				$query->join('LEFT', '#__menu AS p ON p.id = '.(int) $parentId);
-				$query->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
+				$query->join('LEFT', '#__menu AS p ON p.id = ' . (int) $parentId)
+					->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
 			}
 		}
 
@@ -174,13 +174,16 @@ class MenusHelper
 
 		if (!empty($published))
 		{
-			if (is_array($published)) $published = '(' . implode(',', $published) .')';
+			if (is_array($published))
+			{
+				$published = '(' . implode(',', $published) . ')';
+			}
 			$query->where('a.published IN ' . $published);
 		}
 
-		$query->where('a.published != -2');
-		$query->group('a.id, a.title, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft');
-		$query->order('a.lft ASC');
+		$query->where('a.published != -2')
+			->group('a.id, a.title, a.level, a.menutype, a.type, a.template_style_id, a.checked_out, a.lft')
+			->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -198,11 +201,11 @@ class MenusHelper
 		if (empty($menuType))
 		{
 			// If the menutype is empty, group the items by menutype.
-			$query->clear();
-			$query->select('*');
-			$query->from('#__menu_types');
-			$query->where('menutype <> '.$db->quote(''));
-			$query->order('title, menutype');
+			$query->clear()
+				->select('*')
+				->from('#__menu_types')
+				->where('menutype <> ' . $db->quote(''))
+				->order('title, menutype');
 			$db->setQuery($query);
 
 			try
@@ -219,7 +222,7 @@ class MenusHelper
 			$rlu = array();
 			foreach ($menuTypes as &$type)
 			{
-				$rlu[$type->menutype] = &$type;
+				$rlu[$type->menutype] = & $type;
 				$type->links = array();
 			}
 
@@ -228,7 +231,7 @@ class MenusHelper
 			{
 				if (isset($rlu[$link->menutype]))
 				{
-					$rlu[$link->menutype]->links[] = &$link;
+					$rlu[$link->menutype]->links[] = & $link;
 
 					// Cleanup garbage.
 					unset($link->menutype);
@@ -242,17 +245,18 @@ class MenusHelper
 			return $links;
 		}
 	}
+
 	static public function getAssociations($pk)
 	{
 		$associations = array();
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->from('#__menu as m');
-		$query->innerJoin('#__associations as a ON a.id=m.id AND a.context='.$db->quote('com_menus.item'));
-		$query->innerJoin('#__associations as a2 ON a.key=a2.key');
-		$query->innerJoin('#__menu as m2 ON a2.id=m2.id');
-		$query->where('m.id=' . (int) $pk);
-		$query->select('m2.language, m2.id');
+		$query = $db->getQuery(true)
+			->from('#__menu as m')
+			->join('INNER', '#__associations as a ON a.id=m.id AND a.context=' . $db->quote('com_menus.item'))
+			->join('INNER', '#__associations as a2 ON a.key=a2.key')
+			->join('INNER', '#__menu as m2 ON a2.id=m2.id')
+			->where('m.id=' . (int) $pk)
+			->select('m2.language, m2.id');
 		$db->setQuery($query);
 
 		try

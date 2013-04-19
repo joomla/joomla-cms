@@ -62,7 +62,7 @@ class JLogLoggerDatabase extends JLogLogger
 	 * @var    JDatabaseDriver  The database driver object for the logger.
 	 * @since  11.1
 	 */
-	protected $dbo;
+	protected $db;
 
 	/**
 	 * Constructor.
@@ -79,7 +79,7 @@ class JLogLoggerDatabase extends JLogLogger
 		// If both the database object and driver options are empty we want to use the system database connection.
 		if (empty($this->options['db_driver']))
 		{
-			$this->dbo = JFactory::getDBO();
+			$this->db = JFactory::getDbo();
 			$this->driver = null;
 			$this->host = null;
 			$this->user = null;
@@ -89,7 +89,7 @@ class JLogLoggerDatabase extends JLogLogger
 		}
 		else
 		{
-			$this->dbo = null;
+			$this->db = null;
 			$this->driver = (empty($this->options['db_driver'])) ? 'mysqli' : $this->options['db_driver'];
 			$this->host = (empty($this->options['db_host'])) ? '127.0.0.1' : $this->options['db_host'];
 			$this->user = (empty($this->options['db_user'])) ? 'root' : $this->options['db_user'];
@@ -114,15 +114,15 @@ class JLogLoggerDatabase extends JLogLogger
 	public function addEntry(JLogEntry $entry)
 	{
 		// Connect to the database if not connected.
-		if (empty($this->dbo))
+		if (empty($this->db))
 		{
 			$this->connect();
 		}
 
 		// Convert the date.
-		$entry->date = $entry->date->toSql(false, $this->dbo);
+		$entry->date = $entry->date->toSql(false, $this->db);
 
-		$this->dbo->insertObject($this->table, $entry);
+		$this->db->insertObject($this->table, $entry);
 	}
 
 	/**
@@ -147,6 +147,6 @@ class JLogLoggerDatabase extends JLogLogger
 		$db = JDatabaseDriver::getInstance($options);
 
 		// Assign the database connector to the class.
-		$this->dbo = $db;
+		$this->db = $db;
 	}
 }

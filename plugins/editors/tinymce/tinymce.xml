@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.0" type="plugin" group="editors" method="upgrade">
+<extension version="3.1" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
 	<version>3.5.6</version>
 	<creationDate>2005-2012</creationDate>

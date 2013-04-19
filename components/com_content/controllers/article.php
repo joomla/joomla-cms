@@ -16,19 +16,26 @@ defined('_JEXEC') or die;
 class ContentControllerArticle extends JControllerForm
 {
 	/**
-	 * @since   1.6
+	 * The URL view item variable.
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $view_item = 'form';
 
 	/**
-	 * @since   1.6
+	 * The URL view list variable.
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $view_list = 'categories';
 
 	/**
 	 * Method to add a new record.
 	 *
-	 * @return  boolean  True if the article can be added, false if not.
+	 * @return  mixed  True if the record can be added, a error object if not.
+	 *
 	 * @since   1.6
 	 */
 	public function add()
@@ -43,16 +50,17 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Method override to check if you can add a new record.
 	 *
-	 * @param   array  An array of input data.
+	 * @param   array  $data  An array of input data.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user		= JFactory::getUser();
-		$categoryId	= JArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
-		$allow		= null;
+		$user       = JFactory::getUser();
+		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int');
+		$allow      = null;
 
 		if ($categoryId)
 		{
@@ -74,18 +82,19 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Method override to check if you can edit an existing record.
 	 *
-	 * @param   array  $data	An array of input data.
-	 * @param   string	$key	The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key; default is id.
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
-		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
-		$asset		= 'com_content.article.'.$recordId;
+		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+		$user     = JFactory::getUser();
+		$userId   = $user->get('id');
+		$asset    = 'com_content.article.' . $recordId;
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $asset))
@@ -98,11 +107,11 @@ class ContentControllerArticle extends JControllerForm
 		if ($user->authorise('core.edit.own', $asset))
 		{
 			// Now test the owner is the user.
-			$ownerId	= (int) isset($data['created_by']) ? $data['created_by'] : 0;
+			$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
 			if (empty($ownerId) && $recordId)
 			{
 				// Need to do a lookup from the model.
-				$record		= $this->getModel()->getItem($recordId);
+				$record = $this->getModel()->getItem($recordId);
 
 				if (empty($record))
 				{
@@ -126,9 +135,10 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
+	 * @param   string  $key  The name of the primary key of the URL variable.
 	 *
-	 * @return  Boolean	True if access level checks pass, false otherwise.
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
 	 * @since   1.6
 	 */
 	public function cancel($key = 'a_id')
@@ -142,10 +152,12 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
-	 * @param   string	$urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
+	 * (sometimes required to avoid router collisions).
 	 *
-	 * @return  Boolean	True if access level check and checkout passes, false otherwise.
+	 * @return  boolean  True if access level check and checkout passes, false otherwise.
+	 *
 	 * @since   1.6
 	 */
 	public function edit($key = null, $urlVar = 'a_id')
@@ -158,9 +170,9 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string	$name	The model name. Optional.
-	 * @param   string	$prefix	The class prefix. Optional.
-	 * @param   array  $config	Configuration array for model. Optional.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
 	 * @return  object  The model.
 	 *
@@ -176,10 +188,11 @@ class ContentControllerArticle extends JControllerForm
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   integer  $recordId	The primary key id for the item.
-	 * @param   string	$urlVar		The name of the URL variable for the id.
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
 	 *
 	 * @return  string	The arguments to append to the redirect URL.
+	 *
 	 * @since   1.6
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'a_id')
@@ -196,8 +209,9 @@ class ContentControllerArticle extends JControllerForm
 		}
 
 		// TODO This is a bandaid, not a long term solution.
-//		if ($layout) {
-//			$append .= '&layout='.$layout;
+//		if ($layout)
+//		{
+//			$append .= '&layout=' . $layout;
 //		}
 		$append .= '&layout=edit';
 
@@ -234,6 +248,7 @@ class ContentControllerArticle extends JControllerForm
 	 * If a "return" variable has been passed in the request
 	 *
 	 * @return  string	The return URL.
+	 *
 	 * @since   1.6
 	 */
 	protected function getReturnPage()
@@ -242,7 +257,7 @@ class ContentControllerArticle extends JControllerForm
 
 		if (empty($return) || !JUri::isInternal(base64_decode($return)))
 		{
-			return JURI::base();
+			return JUri::base();
 		}
 		else
 		{
@@ -257,72 +272,26 @@ class ContentControllerArticle extends JControllerForm
 	 * @param   array         $validData   The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$articleId = $validData['id'] > 0 ? $validData['id'] : $model->getState('form.id');
-		$item = $model->getItem($articleId);
-
-		if (isset($item->attribs) && is_array($item->attribs))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->attribs);
-			$item->attribs = (string) $registry;
-		}
-		if (isset($item->images) && is_array($item->images))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->images);
-			$item->images = (string) $registry;
-		}
-		if (isset($item->urls) && is_array($item->urls))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->urls);
-			$item->urls = (string) $registry;
-		}
-		if (isset($item->metadata) && is_array($item->metadata))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->metadata);
-			$item->metadata = (string) $registry;
-		}
-		$id = $item->id;
-
-		if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JTags;
-			$oldTags->unTagItem($id, 'com_content.article');
-			return;
-		}
-
-		$tags = $validData['tags'];
-
-		// Store the tag data if the article data was saved.
-		if ($tags[0] != '')
-		{
-			$isNew = $item->id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_content.article', $isNew, $item, $tags, null);
-		}
 		return;
 	}
 
 	/**
 	 * Method to save a record.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
-	 * @param   string	$urlVar	The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
 	 *
-	 * @return  Boolean	True if successful, false otherwise.
+	 * @return  boolean  True if successful, false otherwise.
+	 *
 	 * @since   1.6
 	 */
 	public function save($key = null, $urlVar = 'a_id')
 	{
-		// Load the backend helper for filtering.
-		require_once JPATH_ADMINISTRATOR.'/components/com_content/helpers/content.php';
-
 		$result = parent::save($key, $urlVar);
 
 		// If ok, redirect to the return page.
@@ -330,10 +299,6 @@ class ContentControllerArticle extends JControllerForm
 		{
 			$this->setRedirect($this->getReturnPage());
 		}
-		//$model = $this->getModel();
-
-		// Invoke the postSave method to allow for the child class to access the model.
-		//$this->postSaveHook($model, $validData);
 
 		return $result;
 	}
@@ -342,7 +307,8 @@ class ContentControllerArticle extends JControllerForm
 	 * Method to save a vote.
 	 *
 	 * @return  void
-	 * @since   1.6.1
+	 *
+	 * @since   1.6
 	 */
 	public function vote()
 	{
@@ -351,7 +317,7 @@ class ContentControllerArticle extends JControllerForm
 
 		$user_rating = $this->input->getInt('user_rating', -1);
 
-		if ( $user_rating > -1 )
+		if ($user_rating > -1)
 		{
 			$url = $this->input->getString('url', '');
 			$id = $this->input->getInt('id', 0);
@@ -361,7 +327,9 @@ class ContentControllerArticle extends JControllerForm
 			if ($model->storeVote($id, $user_rating))
 			{
 				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
-			} else {
+			}
+			else
+			{
 				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_FAILURE'));
 			}
 		}

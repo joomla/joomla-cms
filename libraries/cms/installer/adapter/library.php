@@ -74,11 +74,11 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
-		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
@@ -246,11 +246,11 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		// We don't want to compromise this instance!
 		$installer = new JInstaller;
 		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
-		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
@@ -382,9 +382,11 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
 			$extension->set('element', $file);
+			$extension->set('folder', '');
 			$extension->set('name', $file);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = $extension;
 		}
 		return $results;

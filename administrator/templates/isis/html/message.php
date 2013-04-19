@@ -15,8 +15,10 @@ function renderMessage($msgList)
 	$buffer .= "\n<div id=\"system-message-container\">";
 	$alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-info', 'message' => 'alert-success');
 
-	if (is_array($msgList))
+	// Only render the message list and the close button if $msgList has items
+	if (is_array($msgList) && (count($msgList) >= 1))
 	{
+		$buffer .= '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 		foreach ($msgList as $type => $msgs)
 		{
 			$buffer .= '<div class="alert ' . $alert[$type]. '">';

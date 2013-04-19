@@ -74,12 +74,12 @@ class JFormFieldTag extends JFormFieldList
 			$cssId = '#' . $this->getId($id, $this->element['name']);
 
 			// Load the ajax-chosen customised field
-			JHtml::_('tag.ajaxfield', $cssId);
+			JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
 		}
 
 		if (!is_array($this->value) && !empty($this->value))
 		{
-			if ($this->value instanceof JTags)
+			if ($this->value instanceof JHelperTags)
 			{
 				if (empty($this->value->tags))
 				{
@@ -118,11 +118,10 @@ class JFormFieldTag extends JFormFieldList
 		$name = (string) $this->element['name'];
 
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('a.id AS value, a.title AS text, a.level, a.published');
-		$query->from('#__tags AS a');
-		$query->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		$query	= $db->getQuery(true)
+			->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
+			->from('#__tags AS a')
+			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Ajax tag only loads assigned values
 		if (!$this->isNested())
@@ -136,7 +135,7 @@ class JFormFieldTag extends JFormFieldList
 		// Filter language
 		if (!empty($this->element['language']))
 		{
-			$query->where('a.language = ' . $db->q($this->element['language']));
+			$query->where('a.language = ' . $db->quote($this->element['language']));
 		}
 
 		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
@@ -154,8 +153,8 @@ class JFormFieldTag extends JFormFieldList
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published');
-		$query->order('a.lft ASC');
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
+			->order('a.lft ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -176,6 +175,10 @@ class JFormFieldTag extends JFormFieldList
 		if ($this->isNested())
 		{
 			$this->prepareOptionsNested($options);
+		}
+		else
+		{
+			$options = JHelperTags::convertPathsToNames($options);
 		}
 
 		return $options;
@@ -224,5 +227,20 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		return $this->isNested;
+	}
+
+	/**
+	 * Determines if the field allows or denies custom values
+	 *
+	 * @return  boolean
+	 */
+	public function allowCustom()
+	{
+		if (isset($this->element['custom']) && $this->element['custom'] == 'deny')
+		{
+			return false;
+		}
+
+		return true;
 	}
 }
