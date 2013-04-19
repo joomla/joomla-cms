@@ -239,6 +239,23 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Method to delete a row from the database table by primary key value.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		$this->tagsHelper->typeAlias = 'com_content.article';
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
+	}
+
+	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.

@@ -64,6 +64,24 @@ class ContactTableContact extends JTable
 		return parent::bind($array, $ignore);
 	}
 
+
+	/**
+	 * Method to delete a row from the database table by primary key value.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		$this->tagsHelper->typeAlias = 'com_contact.contact';
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
+	}
+
 	/**
 	 * Stores a contact
 	 *
