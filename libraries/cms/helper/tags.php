@@ -712,102 +712,32 @@ class JHelperTags
 	/**
 	 * Function that converts tag ids to their tag names
 	 *
-	 * @param   mixed  &$metadata  A JSON encoded metadata string or object
+	 * @param   array  $tagIds   array of integer tag ids.
 	 *
-	 * @return  array  An array of tag names only
+	 * @return  array  An array of tag names.
 	 *
 	 * @since   3.1
 	 */
-	public function getMetaTagNames(&$metadata)
+	public function getTagNames($tagIds)
 	{
-		if (empty($metadata))
-		{
-			return;
-		}
-
-		if (is_string($metadata))
-		{
-			// Try, catch
-			$metadata = json_decode($metadata);
-		}
-
-		// Convert the metadata tags to an array to prepare for cleaning.
-		$tags = explode(',', $metadata->tags);
-
-		$tagIds = array();
 		$tagNames = array();
-
-		if (!empty($tags))
+		if (is_array($tagIds) && count($tagIds) > 0)
 		{
-			foreach ($tags as $tag)
-			{
-				if (is_numeric($tag))
-				{
-					$tagIds[] = $tag;
-				}
-				else
-				{
-					$tagNames[] = $tag;
-				}
-			}
+			JArrayHelper::toInteger($tagIds);
+			$tagIds = implode(',', $tagIds);
 
-			// If we have beeen give ids instead of names, get the names.
-			if (!empty($tagIds))
-			{
-				$tagIds = implode(',', $tagIds);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName('title'))
+				->from($db->quoteName('#__tags'))
+				->where($db->quoteName('id') . ' IN (' . $tagIds . ')');
+			$query->order($db->quoteName('title'));
 
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->select('title')
-					->from('#__tags')
-					->where($db->quoteName('id') . ' IN (' . $tagIds . ')');
-
-				$db->setQuery($query);
-				$newTagNames = $db->loadColumn();
-				$tagNames = array_merge($tagNames, $newTagNames);
-			}
+			$db->setQuery($query);
+			$tagNames = $db->loadColumn();
 		}
-
-		// Update the meta data with cleaned tag information
-		$metadata->tags = implode(',', $tagNames);
-		$metadata = json_encode($metadata);
 
 		return $tagNames;
-	}
-
-	/**
-	 * Function that converts tags stored as metadata to tags and back, including cleaning
-	 *
-	 * @param   string  &$metadata  JSON encoded metadata
-	 *
-	 * @return  string  JSON encoded metadata with clean tags
-	 *
-	 * @since   3.1
-	 */
-	public function convertTagsMetadata(&$metadata)
-	{
-		$metadata = json_decode($metadata);
-		$tags = (array) $metadata->tags;
-
-		// Store the tag data if the article data was saved and run related methods.
-		if (empty($tags) == false)
-		{
-			// Fix the need to do this
-			foreach ($tags as &$tagText)
-			{
-				// Remove the #new# prefix that identifies new tags
-				$newTags[] = str_replace('#new#', '', $tagText);
-			}
-
-			$metadata->tags = implode(',', $newTags);
-		}
-
-		if (count($tags) == 1 && $tags[0] == '')
-		{
-			$tags = array();
-		}
-
-		return $metadata;
 	}
 
 	/**
