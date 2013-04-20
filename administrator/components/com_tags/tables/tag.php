@@ -56,7 +56,7 @@ class TagsTableTag extends JTableNested
 			$array['metadata'] = (string) $registry;
 		}
 
-		if (isset($array['urls'] && $array['urls'])
+		if (isset($array['urls']) && $array['urls'])
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['urls']);
