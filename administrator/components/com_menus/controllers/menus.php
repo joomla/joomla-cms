@@ -119,16 +119,15 @@ class MenusControllerMenus extends JControllerLegacy
 	public function resync()
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 		$parts = null;
 
 		try
 		{
-			// Load a lookup table of all the component id's.
-			$components = $db->setQuery(
-				'SELECT element, extension_id' .
-					' FROM #__extensions' .
-					' WHERE type = ' . $db->quote('component')
-			)->loadAssocList('element', 'extension_id');
+			$query->select('element, extension_id')->from('#__extensions')->where('type = ' . $db->quote('component'));
+			$db->setQuery($query);
+
+			$components = $db->loadAssocList('element', 'extension_id');
 		}
 		catch (RuntimeException $e)
 		{
@@ -138,8 +137,7 @@ class MenusControllerMenus extends JControllerLegacy
 		try
 		{
 			// Load all the component menu links
-			$query = $db->getQuery(true)
-				->select($db->quoteName('id'))
+			$query->select($db->quoteName('id'))
 				->select($db->quoteName('link'))
 				->select($db->quoteName('component_id'))
 				->from('#__menu')
@@ -183,11 +181,9 @@ class MenusControllerMenus extends JControllerLegacy
 
 					try
 					{
-						$db->setQuery(
-							'UPDATE #__menu' .
-								' SET component_id = ' . $componentId .
-								' WHERE id = ' . $item->id
-						)->execute();
+						$query->clear();
+						$query->update('#__menu')->set('component_id = ' . $componentId)->where('id = ' . $item->id);
+						$db->setQuery($query)->execute();
 					}
 					catch (RuntimeException $e)
 					{

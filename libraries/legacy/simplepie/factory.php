@@ -19,6 +19,8 @@ jimport('simplepie.simplepie');
  * @package     Joomla.Legacy
  * @subpackage  Simplepie
  * @since       12.2
+ *
+ * @deprecated  4.0  Use JFeed or supply your own methods
  */
 class JSimplepieFactory
 {
@@ -31,10 +33,14 @@ class JSimplepieFactory
 	 * @return  mixed  SimplePie parsed object on success, false on failure.
 	 *
 	 * @since   12.2
-	 * @deprecated  12.3  Will be dropped without replacement.
+	 * @deprecated  4.0   Use JFeedFactory($url) instead.
+	 *
+	 * @note  In 3.2 will be proxied to JFeedFactory()
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
 	{
+		JLog::add(__METHOD__ . ' is deprecated.   Use JFeedFactory() or supply Simple Pie instead.', JLog::WARNING, 'deprecated');
+
 		$cache = JFactory::getCache('feed_parser', 'callback');
 
 		if ($cache_time > 0)

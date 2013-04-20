@@ -19,16 +19,18 @@ defined('_JEXEC') or die;
 class UsersModelRegistration extends JModelForm
 {
 	/**
-	 * @var        object    The user registration data.
-	 * @since   1.6
+	 * @var    object  The user registration data.
+	 * @since  1.6
 	 */
 	protected $data;
 
 	/**
 	 * Method to activate a user account.
 	 *
-	 * @param   string  The activation token.
+	 * @param   string  $token  The activation token.
+	 *
 	 * @return  mixed    False on failure, user object on success.
+	 *
 	 * @since   1.6
 	 */
 	public function activate($token)
@@ -38,13 +40,23 @@ class UsersModelRegistration extends JModelForm
 		$db = $this->getDbo();
 
 		// Get the user id based on the token.
-		$db->setQuery(
-			'SELECT ' . $db->quoteName('id') . ' FROM ' . $db->quoteName('#__users') .
-				' WHERE ' . $db->quoteName('activation') . ' = ' . $db->quote($token) .
-				' AND ' . $db->quoteName('block') . ' = 1' .
-				' AND ' . $db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate())
-		);
-		$userId = (int) $db->loadResult();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('activation') . ' = ' . $db->quote($token))
+			->where($db->quoteName('block') . ' = ' . 1)
+			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
+		$db->setQuery($query);
+
+		try
+		{
+			$userId = (int) $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			return false;
+		}
 
 		// Check for a valid user id.
 		if (!$userId)
@@ -62,7 +74,7 @@ class UsersModelRegistration extends JModelForm
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
-			$uri = JURI::getInstance();
+			$uri = JUri::getInstance();
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
@@ -91,17 +103,28 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// get all admin users
-			$query = 'SELECT name, email, sendEmail, id' .
-				' FROM #__users' .
-				' WHERE sendEmail=1';
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+				->from($db->quoteName('#__users')
+				->where($db->quoteName('sendEmail') . ' = ' . 1));
 
 			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+
+			try
+			{
+				$rows = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				return false;
+			}
 
 			// Send mail to all users with users creating permissions and receiving system emails
 			foreach ($rows as $row)
 			{
 				$usercreator = JFactory::getUser($row->id);
+
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
 					$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
@@ -115,14 +138,11 @@ class UsersModelRegistration extends JModelForm
 				}
 			}
 		}
-
-		//Admin activation is on and admin is activating the account
+		// Admin activation is on and admin is activating the account
 		elseif (($userParams->get('useractivation') == 2) && $user->getParam('activate', 0))
 		{
 			$user->set('activation', '');
 			$user->set('block', '0');
-
-			$uri = JURI::getInstance();
 
 			// Compile the user activated notification mail values.
 			$data = $user->getProperties();
@@ -175,7 +195,8 @@ class UsersModelRegistration extends JModelForm
 	 * The base form data is loaded and then an event is fired
 	 * for users plugins to extend the data.
 	 *
-	 * @return  mixed    Data object on success, false on failure.
+	 * @return  mixed  Data object on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function getData()
@@ -229,9 +250,11 @@ class UsersModelRegistration extends JModelForm
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array      $data        An optional array of data for the form to interogate.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
-	 * @return  JForm    A JForm object on success, false on failure
+	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  JForm  A JForm object on success, false on failure
+	 *
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -250,6 +273,7 @@ class UsersModelRegistration extends JModelForm
 	 * Method to get the data that should be injected in the form.
 	 *
 	 * @return  mixed  The data for the form.
+	 *
 	 * @since   1.6
 	 */
 	protected function loadFormData()
@@ -264,10 +288,14 @@ class UsersModelRegistration extends JModelForm
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   object    A form object.
-	 * @param   mixed     The data expected for the form.
-	 * @throws    Exception if there is an error in the form event.
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
+	 * @throws  Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
@@ -302,8 +330,10 @@ class UsersModelRegistration extends JModelForm
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
-	 * @return  mixed    The user id on success, false on failure.
+	 * @param   array  $temp  The form data.
+	 *
+	 * @return  mixed  The user id on success, false on failure.
+	 *
 	 * @since   1.6
 	 */
 	public function register($temp)
@@ -363,7 +393,7 @@ class UsersModelRegistration extends JModelForm
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$uri = JURI::getInstance();
+			$uri = JUri::getInstance();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
@@ -400,7 +430,7 @@ class UsersModelRegistration extends JModelForm
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$uri = JURI::getInstance();
+			$uri = JUri::getInstance();
 			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 			$data['activate'] = $base . JRoute::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
@@ -468,7 +498,7 @@ class UsersModelRegistration extends JModelForm
 		// Send the registration email.
 		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
 
-		//Send Notification mail to administrators
+		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
 		{
 			$emailSubject = JText::sprintf(
@@ -484,13 +514,23 @@ class UsersModelRegistration extends JModelForm
 				$data['siteurl']
 			);
 
-			// get all admin users
-			$query = 'SELECT name, email, sendEmail' .
-				' FROM #__users' .
-				' WHERE sendEmail=1';
+			// Get all admin users
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName(array('name', 'email', 'sendEmail')))
+				->from($db->quoteName('#__users')
+				->where($db->quoteName('sendEmail') . ' = ' . 1));
 
 			$db->setQuery($query);
-			$rows = $db->loadObjectList();
+
+			try
+			{
+				$rows = $db->loadObjectList();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				return false;
+			}
 
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
@@ -505,6 +545,7 @@ class UsersModelRegistration extends JModelForm
 				}
 			}
 		}
+
 		// Check for an error.
 		if ($return !== true)
 		{
@@ -512,28 +553,47 @@ class UsersModelRegistration extends JModelForm
 
 			// Send a system message to administrators receiving system mails
 			$db = JFactory::getDbo();
-			$q = "SELECT id
-				FROM #__users
-				WHERE block = 0
-				AND sendEmail = 1";
-			$db->setQuery($q);
-			$sendEmail = $db->loadColumn();
+			$query = $db->getQuery(true);
+			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('block') . ' = ' . (int) 0)
+				->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
+			$db->setQuery($query);
+
+			try
+			{
+				$sendEmail = $db->loadColumn();
+			}
+			catch (RuntimeException $e)
+			{
+				$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+				return false;
+			}
+
 			if (count($sendEmail) > 0)
 			{
 				$jdate = new JDate;
-				// Build the query to add the messages
-				$q = "INSERT INTO " . $db->quoteName('#__messages') . " (" . $db->quoteName('user_id_from') .
-					", " . $db->quoteName('user_id_to') . ", " . $db->quoteName('date_time') .
-					", " . $db->quoteName('subject') . ", " . $db->quoteName('message') . ") VALUES ";
-				$messages = array();
 
+				// Build the query to add the messages
 				foreach ($sendEmail as $userid)
 				{
-					$messages[] = "(" . $userid . ", " . $userid . ", '" . $jdate->toSql() . "', '" . JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT') . "', '" . JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']) . "')";
+					$values = array($db->quote($userid), $db->quote($userid), $db->quote($jdate->toSql()), $db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')), $db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])));
+					$query = $db->getQuery(true);
+					$query->insert($db->quoteName('#__messages'))
+						->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
+						->values(implode(',', $values));
+					$db->setQuery($query);
+
+					try
+					{
+						$db->execute();
+					}
+					catch (RuntimeException $e)
+					{
+						$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+						return false;
+					}
 				}
-				$q .= implode(',', $messages);
-				$db->setQuery($q);
-				$db->execute();
 			}
 			return false;
 		}

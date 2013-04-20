@@ -35,6 +35,11 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
+		<div class="control-group">
+			<div class="controls">
+				<?php echo JHtml::_('batch.tag');?>
+			</div>
+		</div>
 		<?php if ($published >= 0) : ?>
 			<div class="control-group">
 				<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
