@@ -71,12 +71,10 @@ abstract class ModTagssimilarHelper
 					$db->quoteName('cc.core_language')
 					)
 			);
-			$query->group($db->quoteName(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access', 'ct.router')))
-				->from($db->quoteName('#__contentitem_tag_map', 'm'))
-				->having('t.access IN (' . $groups . ')')
-				->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')')
-				->having($db->quoteName('m.content_item_id') . ' <> ' . $id);
 
+			$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
+
+			$query->group($db->quoteName(array('m.core_content_id')));
 			if ($matchtype == 'all' && $tagCount > 0)
 			{
 				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  = ' . $tagCount);
@@ -86,6 +84,12 @@ abstract class ModTagssimilarHelper
 				$tagCountHalf = ceil($tagCount / 2);
 				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
 			}
+
+			$query->where('t.access IN (' . $groups . ')');
+			$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
+
+			// Don't show current item
+			$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id . ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
 
 			// Only return published tags
 			$query->where($db->quoteName('cc.core_state') . ' = 1 ');
