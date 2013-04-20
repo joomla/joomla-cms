@@ -258,7 +258,7 @@ class PlgContentJoomla extends JPlugin
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
-			->from($db->quoteName('#__core_content'))
+			->from($db->quoteName('#__ucm_content'))
 			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($context))
 			->where($db->quoteName('core_content_item_id') . ' IN (' . $pksImploded = implode(',', $pks) . ')');
 		$db->setQuery($query);

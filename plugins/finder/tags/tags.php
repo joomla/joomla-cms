@@ -70,6 +70,14 @@ class PlgFinderTags extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * The field the published state is stored in.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $state_field = 'published';
+
+	/**
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
@@ -130,6 +138,35 @@ class PlgFinderTags extends FinderIndexerAdapter
 	}
 
 	/**
+	 * Method to reindex the link information for an item that has been saved.
+	 * This event is fired before the data is actually saved so we are going
+	 * to queue the item to be indexed later.
+	 *
+	 * @param   string   $context  The context of the content passed to the plugin.
+	 * @param   JTable   $row      A JTable object
+	 * @param   boolean  $isNew    If the content is just about to be created
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  Exception on database error.
+	 */
+	public function onFinderBeforeSave($context, $row, $isNew)
+	{
+		// We only want to handle news feeds here
+		if ($context == 'com_tags.tag')
+		{
+			// Query the database for the old access level if the item isn't new
+			if (!$isNew)
+			{
+				$this->checkItemAccess($row);
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Method to update the link information for items that have been changed
 	 * from outside the edit screen. This is fired when the item is published,
 	 * unpublished, archived, or unarchived from the list view.
@@ -144,7 +181,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 	 */
 	public function onFinderChangeState($context, $pks, $value)
 	{
-		// We only want to handle web links here
+		// We only want to handle tags here
 		if ($context == 'com_tags.tag')
 		{
 			$this->itemStateChange($pks, $value);
@@ -180,7 +217,8 @@ class PlgFinderTags extends FinderIndexerAdapter
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
-		$item->params = $registry;
+		$item->params = JComponentHelper::getParams('com_tags', true);
+		$item->params->merge($registry);
 
 		$registry = new JRegistry;
 		$registry->loadString($item->metadata);
@@ -191,10 +229,15 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$item->route = TagsHelperRoute::getTagRoute($item->slug);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
-		/*
-		 * Add the meta-data processing instructions based on the newsfeeds
-		 * configuration parameters.
-		 */
+		// Get the menu title if it exists.
+		$title = $this->getItemMenuTitle($item->url);
+
+		// Adjust the title if necessary.
+		if (!empty($title) && $this->params->get('use_menu_title', true))
+		{
+			$item->title = $title;
+		}
+
 		// Add the meta-author.
 		$item->metaauthor = $item->metadata->get('author');
 
@@ -208,6 +251,12 @@ class PlgFinderTags extends FinderIndexerAdapter
 
 		// Add the type taxonomy data.
 		$item->addTaxonomy('Type', 'Tag');
+
+		// Add the author taxonomy data.
+		if (!empty($item->author) || !empty($item->created_by_alias))
+		{
+			$item->addTaxonomy('Author', !empty($item->created_by_alias) ? $item->created_by_alias : $item->author);
+		}
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
@@ -246,6 +295,7 @@ class PlgFinderTags extends FinderIndexerAdapter
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.description AS summary')
+			->select('a.created_time AS start_date, a.created_user_id AS created_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access')
 			->select('a.modified_time AS modified, a.modified_user_id AS modified_by')
 			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
@@ -260,8 +310,33 @@ class PlgFinderTags extends FinderIndexerAdapter
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id.' END as slug';
 		$query->select($case_when_item_alias)
-
 			->from('#__tags AS a');
+
+		// Join the #__users table
+		$query->select('u.name AS author')
+			->join('LEFT', '#__users AS u ON u.id = a.created_user_id')
+			->from('#__tags AS a');
+
+		// Exclude the ROOT item
+		$query->where($db->quoteName('a.id') . ' > 1');
+
+		return $query;
+	}
+
+	/**
+	 * Method to get a SQL query to load the published and access states for the given tag.
+	 *
+	 * @return  JDatabaseQuery  A database object.
+	 *
+	 * @since   3.1
+	 */
+	protected function getStateQuery()
+	{
+		$query = $this->db->getQuery(true);
+		$query->select($this->db->quoteName('a.id'))
+			->select($this->db->quoteName('a.' . $this->state_field, 'state') . ', ' . $this->db->quoteName('a.access'))
+			->select('NULL AS cat_state, NULL AS cat_access')
+			->from($this->db->quoteName($this->table, 'a'));
 
 		return $query;
 	}

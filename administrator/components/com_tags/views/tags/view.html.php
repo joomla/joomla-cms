@@ -24,8 +24,6 @@ class TagsViewTags extends JViewLegacy
 
 	protected $state;
 
-	protected $assoc;
-
 	/**
 	 * Display the view
 	 */

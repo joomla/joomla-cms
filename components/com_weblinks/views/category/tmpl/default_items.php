@@ -127,10 +127,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							}
 						?>
 						</strong>
-
+						<?php $tagsData = $item->tags->getItemTags('com_weblinks.weblink', $item->id); ?>
 						<?php if ($this->params->get('show_tags', 1)) : ?>
 							<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
-							<?php echo $this->item->tagLayout->render($item->tags->itemTags); ?>
+							<?php echo $this->item->tagLayout->render($tagsData); ?>
 						<?php endif; ?>
 
 						<?php if (($this->params->get('show_link_description')) and ($item->description != '')) : ?>

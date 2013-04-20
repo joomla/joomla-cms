@@ -108,11 +108,11 @@ class TagsViewTag extends JViewLegacy
 				// Current view is not tags, so the global params take priority since tags is not an item.
 				// Merge the menu item params with the global params so that the article params take priority
 				$temp->merge($this->state->params);
-				$this->state->params = $temp;
+				$this->params = $temp;
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
 				// Single-article menu item layout takes priority over alt layout for an article
-				if ($layout = $this->state->params->get('tags_layout'))
+				if ($layout = $this->params->get('tags_layout'))
 				{
 					$this->setLayout($layout);
 				}
@@ -161,25 +161,20 @@ class TagsViewTag extends JViewLegacy
 
 		$id = (int) @$menu->query['id'];
 
-		if ($menu && ($menu->query['option'] != 'com_tags' /* || $id != $this->id */))
+		if ($menu && ($menu->query['option'] != 'com_tags'))
 		{
 			$this->params->set('page_subheading', $item->title);
 		}
 
-		// If this is not a single tag menu item, set the page title to the tag titles
-		$title = '';
-		foreach ($this->item as $i => $itemElement)
+		// If this is not a single tag menu item, set the page title to the menu item title
+		if (count($this->item) == 1)
 		{
-			if ($itemElement->title)
-			{
-				if ($i != 0)
-				{
-					$title .= ', ';
-				}
-				$title .= $itemElement->title;
-			}
+			$title = $this->item[0]->title;
 		}
-		$path = array(array('title' => $title, 'link' => ''));
+		else
+		{
+			$title = $this->state->params->get('page_title');
+		}
 
 		if (empty($title))
 		{
@@ -226,14 +221,6 @@ class TagsViewTag extends JViewLegacy
 				$this->document->setMetaData('author', $itemElement->created_user_id);
 			}
 
-			/* $mdata = $this->item->metadata->toArray();*/
-			/*foreach ($mdata as $k => $v)
-			{
-				if ($v)
-				{
-					$this->document->setMetadata($k, $v);
-				}
-			}*/
 		}
 
 		// TODO create tag feed document

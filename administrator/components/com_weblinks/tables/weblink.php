@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class WeblinksTableWeblink extends JTable
 {
+
+	/**
+	 * Helper object for storing and deleting tag information.
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
 	/**
 	 * Constructor
 	 *
@@ -26,6 +35,9 @@ class WeblinksTableWeblink extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__weblinks', 'id', $db);
+
+		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
 	}
 
 	/**
@@ -107,14 +119,16 @@ class WeblinksTableWeblink extends JTable
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Weblink', 'WeblinksTable');
+
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_WEBLINKS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}
 
-		// Attempt to store the data.
-		return parent::store($updateNulls);
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 	/**
@@ -185,6 +199,22 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Override parent delete method to delete tags information.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
 
 	/**

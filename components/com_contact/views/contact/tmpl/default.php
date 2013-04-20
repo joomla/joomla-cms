@@ -49,19 +49,23 @@ jimport('joomla.html.html.bootstrap');
 		</form>
 	<?php endif; ?>
 
+	<?php if ($this->params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+	<?php endif; ?>
 
  	<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'basic-details')); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'basic-details')); ?>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic-details')); ?>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('presentation_style') == 'sliders') : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS', true)); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'plain'):?>
 		<?php  echo '<h3>'. JText::_('COM_CONTACT_DETAILS').'</h3>';  ?>
@@ -93,7 +97,7 @@ jimport('joomla.html.html.bootstrap');
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_email_form') && ($this->contact->email_to || $this->contact->user_id)) : ?>
@@ -102,7 +106,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM', true)); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'plain'):?>
 			<?php echo '<h3>'. JText::_('COM_CONTACT_EMAIL_FORM').'</h3>';  ?>
@@ -114,7 +118,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 		<?php endif; ?>
 			<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 	<?php endif; ?>
@@ -129,7 +133,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES', true)); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'plain'):?>
 			<?php echo '<h3>'. JText::_('JGLOBAL_ARTICLES').'</h3>';  ?>
@@ -141,7 +145,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 	<?php endif; ?>
@@ -152,7 +156,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE', true)); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'plain'):?>
 			<?php echo '<h3>'. JText::_('COM_CONTACT_PROFILE').'</h3>';  ?>
@@ -164,7 +168,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 	<?php endif; ?>
@@ -175,7 +179,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION', true)); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'plain'):?>
 			<?php echo '<h3>'. JText::_('COM_CONTACT_OTHER_INFORMATION').'</h3>';  ?>
@@ -200,7 +204,7 @@ jimport('joomla.html.html.bootstrap');
 			<?php echo JHtml::_('bootstrap.endSlide'); ?>
 		<?php endif; ?>
 		<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 	<?php endif; ?>
@@ -209,6 +213,6 @@ jimport('joomla.html.html.bootstrap');
 		<?php echo JHtml::_('bootstrap.endAccordion'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('presentation_style') == 'tabs') : ?>
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	<?php endif; ?>
 </div>

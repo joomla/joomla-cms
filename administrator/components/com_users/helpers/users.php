@@ -151,7 +151,6 @@ class UsersHelper
 			->order('a.lft ASC');
 		$db->setQuery($query);
 
-
 		try
 		{
 			$options = $db->loadObjectList();

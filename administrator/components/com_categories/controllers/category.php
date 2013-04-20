@@ -199,22 +199,6 @@ class CategoriesControllerCategory extends JControllerForm
 		}
 		$id = $item->id;
 
-		if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JHelperTags;
-			$oldTags->unTagItem($id, $item->extension . '.category');
-			return;
-		}
-
-		$tags = $validData['tags'];
-
-		if ($tags[0] != '')
-		{
-			$isNew = $item->id == 0 ? 1 : 0;
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($id, $item->extension . '.category', $isNew, $item, $tags, null);
-		}
-
 		return;
 	}
 }
