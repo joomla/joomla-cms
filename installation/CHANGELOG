@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#30592] Module Class Suffix	 should be a multiline text area. Thanks Ben Tasker.
  # [#30595] Fixing "urls" within TagsTableTag->bind(). Thanks Thomas Hunziker.
  # [#30596] Access Level in weblinnks manager is displaying as number. Thanks Elin Waring.
+ # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier. 
 
 17-Apr-2013 Mark Dexter
  # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
