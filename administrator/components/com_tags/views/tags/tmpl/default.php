@@ -183,7 +183,7 @@ $sortFields = $this->getSortFields();
 							<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1) ?>
 							<?php endif; ?>
 							<?php if ($item->checked_out) : ?>
-								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'categories.', $canCheckin); ?>
+								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit || $canEditOwn) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_tags&task=tag.edit&id='.$item->id);?>">
@@ -214,7 +214,7 @@ $sortFields = $this->getSortFields();
 								<?php echo (int) $item->id; ?></span>
 						</td>
 					</tr>
-				
+
 			<?php endforeach; ?>
 			</tbody>
 		</table>
