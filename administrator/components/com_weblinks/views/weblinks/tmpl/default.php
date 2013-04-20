@@ -171,7 +171,7 @@ $sortFields = $this->getSortFields();
 						</div>
 					</td>
 					<td class="small hidden-phone">
-						<?php echo $this->escape($item->access); ?>
+						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo $item->hits; ?>

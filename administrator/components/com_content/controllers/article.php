@@ -154,36 +154,6 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		// Most of this should go into JAdminFormcontent
-		$item = $model->getItem();
-
-		if (isset($item->attribs) && is_array($item->attribs))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->attribs);
-			$item->attribs = (string) $registry;
-		}
-
-		if (isset($item->images) && is_array($item->images))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->images);
-			$item->images = (string) $registry;
-		}
-
-		if (isset($item->urls) && is_array($item->urls))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->urls);
-			$item->urls = (string) $registry;
-		}
-
-		if (isset($item->metadata) && is_array($item->metadata))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->metadata);
-			$item->metadata = (string) $registry;
-		}
 
 		return;
 	}

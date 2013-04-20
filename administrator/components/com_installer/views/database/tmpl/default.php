@@ -27,14 +27,14 @@ defined('_JEXEC') or die;
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?>
 			</div>
-			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'other')); ?>
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 		<?php else : ?>
 			<div class="alert alert-error">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'); ?>
 			</div>
-			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'problems')); ?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'problems')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
 				<fieldset class="panelform">
 						<ul>
 						<?php if (!$this->filterParams) : ?>
@@ -62,9 +62,9 @@ defined('_JEXEC') or die;
 						</ul>
 					</fieldset>
 
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO', true)); ?>
 				<div class="control-group" >
 					<fieldset class="panelform">
 						<ul>
@@ -76,7 +76,7 @@ defined('_JEXEC') or die;
 						</ul>
 					</fieldset>
 				</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />
