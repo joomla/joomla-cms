@@ -152,6 +152,55 @@ class JTableCorecontent extends JTable
 	}
 
 	/**
+	 * Override JTable delete method to include deleting corresponding row from #__ucm_base.
+	 *
+	 * @param   integer  primary key value to delete. Must be set or throws an exception.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$baseTable = JTable::getInstance('Ucm');
+		return parent::delete($pk) && $baseTable->delete($pk);
+	}
+
+	/**
+	 * Method to delete a row from the #__ucm_content table by content_item_id.
+	 *
+	 * @param   integer  $pk  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 *
+	 * @throws  UnexpectedValueException
+	 */
+	public function deleteByContentId($contentItemId = null)
+	{
+		if ($contentItemId === null || ((int) $contentItemId) === 0)
+		{
+			throw new UnexpectedValueException('Null content item key not allowed.');
+		}
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('core_content_id'))
+			->from($db->quoteName('#__ucm_content'))
+			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId);
+		$db->setQuery($query);
+		if ($ucmId = $db->loadResult())
+		{
+			return $this->delete($ucmId);
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -170,6 +219,7 @@ class JTableCorecontent extends JTable
 			// Existing item
 			$this->core_modified_time = $date->toSql();
 			$this->core_modified_user_id = $user->get('id');
+			$isNew = false;
 		}
 		else
 		{
@@ -184,22 +234,49 @@ class JTableCorecontent extends JTable
 			{
 				$this->core_created_user_id = $user->get('id');
 			}
+			$isNew = true;
 		}
 
-		// Verify that the alias is unique
-		$table = JTable::getInstance('Corecontent', 'JTable');
-		/*
-		if (
-			$table->load(array('core_alias' => $this->core_alias, 'core_catid' => $this->core_catid))
-			&& ($table->core_content_id != $this->core_content_id || $this->core_content_id == 0)
-		)
+		$result = parent::store($updateNulls);
+
+		return $result && $this->storeUcmBase($updateNulls, $isNew);
+	}
+
+	/**
+	 * Insert or update row in ucm_base table
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $isNew        if true, need to insert. Otherwise update.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 */
+	protected function storeUcmBase($updateNulls = false, $isNew = false)
+	{
+		// Store the ucm_base row
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->set($db->quoteName('ucm_item_id') . ' = ' . $db->quote($this->core_content_item_id));
+		$query->set($db->quoteName('ucm_type_id') . ' = ' . $db->quote($this->core_type_id));
+
+		$languageId = JHelperContent::getLanguageId($this->core_language);
+		$query->set($db->quoteName('ucm_language_id') . ' = ' . $db->quote($languageId));
+
+		if ($isNew)
 		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
-			return false;
+			$query->set($db->quoteName('ucm_id') . ' = ' . $db->quote($this->core_content_id));
+			$query->insert($db->quoteName('#__ucm_base'));
 		}
-		*/
+		else
+		{
+			$query->update($db->quoteName('#__ucm_base'));
+			$query->where($db->quoteName('ucm_id') . ' = ' . $db->quote($this->core_content_id));
+		}
+		$db->setQuery($query);
 
-		return parent::store($updateNulls);
+		return $db->execute();
 	}
 
 	/**

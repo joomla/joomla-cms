@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#30596] Access Level in weblinnks manager is displaying as number. Thanks Elin Waring.
  # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier. 
  # [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
+ # [#30621] Fix batch issues, metadata issues and improve code quality. Thanks Elin Waring and Mark Dexter.
 
 17-Apr-2013 Mark Dexter
  # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.

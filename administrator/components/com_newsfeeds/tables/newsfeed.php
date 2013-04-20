@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
 class NewsfeedsTableNewsfeed extends JTable
 {
 	/**
+	 * Helper object for storing and deleting tag information.
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param JDatabaseDriver A database connector object
@@ -23,6 +31,8 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
+		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
 	}
 
 	/**
@@ -119,6 +129,24 @@ class NewsfeedsTableNewsfeed extends JTable
 
 		return true;
 	}
+
+	/**
+	 * Override parent delete method to delete tags information.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
+	}
+
 	/**
 	 * Overriden JTable::store to set modified data.
 	 *
@@ -157,46 +185,11 @@ class NewsfeedsTableNewsfeed extends JTable
 			return false;
 		}
 
-		$tagsHelper = new JHelperTags;
-		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
-		$tagsHelper->getMetaTagNames($this->metadata);
+		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
 
-		if (empty($tags))
-		{
-			$tagHelper = new JHelperTags;
-			$itemTags = $tagHelper->getItemTags('com_newsfeeds.newsfeed', $this->id);
-			if (!empty($itemTags))
-			{
-				$tagHelper->unTagItem($this->id, 'com_newsfeeds.newsfeed');
-			}
-		}
-
-		$return = parent::store($updateNulls);
-
-		if ($return == false)
-		{
-			return false;
-		}
-
-		// Store the tag data if the article data was saved and run related methods.
-		if (empty($tags) == false)
-		{
-			$rowdata = new JHelperContent;
-			$data = $rowdata->getRowData($this);
-
-			$typeAlias = 'com_newsfeeds.newsfeed';
-			$ucm = new JUcmContent($this, $typeAlias);
-			$ucm->save($data);
-
-			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
-
-			$isNew = $data['id'] ? 0 : 1;
-
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
-		}
-
-		return $return;
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 }
