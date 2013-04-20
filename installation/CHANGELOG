@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#30432] Optimize styling for small devices. Thanks Nick Savov.
  # [#30533] 'banner position missing in Protostar templateDetails.xml file. Thanks Kevin Griffiths.
  # [#30555] JTableContenttype->save() breaks type_alias. Thanks Thomas Hunziker.
+ # [#30592] Module Class Suffix	 should be a multiline text area. Thanks Ben Tasker.
 
 17-Apr-2013 Mark Dexter
  # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
