@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+-------------------- 3.1 Beta 5 Release [20-Apr-2012] ------------------
+
 20-Apr-2013 Mark Dexter
  # [#30323] tag created iso selected with ajax interface when using keyboard only selection. Thanks Roberto Segura.
  # [#30432] Optimize styling for small devices. Thanks Nick Savov.
