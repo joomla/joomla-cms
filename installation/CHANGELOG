@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+20-Apr-2013 Mark Dexter
+ # [#30323] tag created iso selected with ajax interface when using keyboard only selection. Thanks Roberto Segura.
+
 17-Apr-2013 Mark Dexter
  # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
  # [#30588] Fixing Tag view if core_access is not set. Thanks Thomas Hunziker.
