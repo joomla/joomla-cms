@@ -28,9 +28,9 @@ $canDo = LanguagesHelper::getActions();
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&layout=edit&lang_id='.(int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate form-horizontal">
 	<fieldset>
-	<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
+	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
 			<div class="control-group">
 				<div class="controls">
 					<?php if ($this->item->lang_id) : ?>
@@ -116,9 +116,9 @@ $canDo = LanguagesHelper::getActions();
 						<?php echo $this->form->getInput('lang_id'); ?>
 					</div>
 			</div>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
 				<div class="control-group">
 					<?php if (!$field->hidden) : ?>
@@ -131,9 +131,9 @@ $canDo = LanguagesHelper::getActions();
 					</div>
 				</div>
 			<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL', true)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL', true)); ?>
 			<?php foreach ($this->form->getFieldset('site_name') as $field) : ?>
 				<div class="control-group">
 					<?php if (!$field->hidden) : ?>
@@ -146,9 +146,9 @@ $canDo = LanguagesHelper::getActions();
 					</div>
 				</div>
 			<?php endforeach; ?>
-		<?php echo JHtml::_('bootstrap.endPanel'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php echo JHtml::_('bootstrap.endPane'); ?>
+	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
