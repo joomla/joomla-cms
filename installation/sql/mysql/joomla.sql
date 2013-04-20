@@ -1590,7 +1590,7 @@ INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`
 -- --------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `#__ucm_base` (
-  `ucm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ucm_id` int(10) unsigned NOT NULL,
   `ucm_item_id` int(10) NOT NULL,
   `ucm_type_id` int(11) NOT NULL,
   `ucm_language_id` int(11) NOT NULL,
