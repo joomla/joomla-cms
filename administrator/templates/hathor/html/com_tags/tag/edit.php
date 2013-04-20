@@ -25,7 +25,7 @@ JHtml::_('behavior.formvalidation');
 </script>
 <div class="weblink-edit">
 
-<form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_tags&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="tag-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
 			<legend><?php echo empty($this->item->id) ? JText::_('JTOOLBAR_NEW') : JText::sprintf('JTOOLBAR_EDIT', $this->item->id); ?></legend>
