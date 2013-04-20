@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 20-Apr-2013 Mark Dexter
  # [#30323] tag created iso selected with ajax interface when using keyboard only selection. Thanks Roberto Segura.
+ # [#30432] Optimize styling for small devices. Thanks Nick Savov.
 
 17-Apr-2013 Mark Dexter
  # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
