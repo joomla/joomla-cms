@@ -98,7 +98,9 @@ endif;
 					<?php if ($field->name == 'jform[metadata][tags][]') :?>
 						<li>
 							<?php echo $field->label; ?>
-							<?php echo $field->input; ?>
+							<div class="is-tagbox">
+								<?php echo $field->input; ?>
+							</div>
 						</li>
 					<?php endif; ?>
 				<?php endforeach; ?>
