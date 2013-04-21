@@ -192,10 +192,6 @@ endif;
 			<?php endforeach; ?>
 			<?php // Not the best place, but here for continuity with 1.5/1/6/1.7 ?>
 				<fieldset class="panelform">
-				<ul class="adminformlist">
-						<li><?php echo $this->form->getLabel('xreference'); ?>
-						<?php echo $this->form->getInput('xreference'); ?></li>
-				</ul>
 				</fieldset>
 				<?php
 					// We need to make a separate space for the configuration

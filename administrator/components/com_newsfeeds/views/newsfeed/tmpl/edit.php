@@ -162,10 +162,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				<div class="control-label"><?php echo $this->form->getLabel('rtl'); ?></div>
 				<div class="controls"><?php echo $this->form->getInput('rtl'); ?></div>
 			</div>
-			<div class="control-group">
-				<div class="control-label"><?php echo $this->form->getLabel('xreference'); ?></div>
-				<div class="controls"><?php echo $this->form->getInput('xreference'); ?></div>
-			</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php $fieldSets = $this->form->getFieldsets('params'); ?>

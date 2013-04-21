@@ -13,28 +13,36 @@ defined('_JEXEC') or die;
 $form = $displayData->get('form');
 ?>
 <fieldset>
-<div class="control-group">
-	<?php echo $form->getLabel('metadesc'); ?>
-	<div class="controls">
-		<?php echo $form->getInput('metadesc'); ?>
+	<div class="control-group">
+		<?php echo $form->getLabel('metadesc'); ?>
+		<div class="controls">
+			<?php echo $form->getInput('metadesc'); ?>
+		</div>
 	</div>
-</div>
-<div class="control-group">
-	<?php echo $form->getLabel('metakey'); ?>
-	<div class="controls">
-		<?php echo $form->getInput('metakey'); ?>
+	<div class="control-group">
+		<?php echo $form->getLabel('metakey'); ?>
+		<div class="controls">
+			<?php echo $form->getInput('metakey'); ?>
+		</div>
 	</div>
-</div>
-<?php foreach ($form->getGroup('metadata') as $field) : ?>
-	<?php if ($field->name != 'jform[metadata][tags][]') :?>
+	<?php if ($form->getLabel('xreference')):?>
 		<div class="control-group">
-			<?php if (!$field->hidden) : ?>
-				<?php echo $field->label; ?>
-			<?php endif; ?>
+			<?php echo $form->getLabel('xreference'); ?>
 			<div class="controls">
-				<?php echo $field->input; ?>
+				<?php echo $form->getInput('xreference'); ?>
 			</div>
 		</div>
 	<?php endif; ?>
-<?php endforeach; ?>
+	<?php foreach ($form->getGroup('metadata') as $field) : ?>
+		<?php if ($field->name != 'jform[metadata][tags][]') :?>
+			<div class="control-group">
+				<?php if (!$field->hidden) : ?>
+					<?php echo $field->label; ?>
+				<?php endif; ?>
+				<div class="controls">
+					<?php echo $field->input; ?>
+				</div>
+			</div>
+		<?php endif; ?>
+	<?php endforeach; ?>
 </fieldset>
