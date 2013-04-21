@@ -28,21 +28,11 @@ class InstallationControllerSetup extends JControllerLegacy
 	{
 		// default implementation, when Backbone.sync sends up a request to save a model, its attributes will be passed, serialized as JSON, and sent in the HTTP body with content-type application/json.
 		// server code to understand REST requests
-		$raw = file_get_contents('php://input');
-		$data = json_decode($raw, true);
-
-		// Is there any cleaner way?
-		$app = JFactory::getApplication();
-		if (count($data) > 0)
-		{
-			foreach ($data as $k => $v)
-			{
-				$app->input->post->set($k, $v);
-			}
-		}
+		$inputJson = new JInputJSON;
 
 		// Check for request forgeries.
-		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		// TO-DO: Re-enable the token... two tokens are somewhere
+		// JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -69,7 +59,7 @@ class InstallationControllerSetup extends JControllerLegacy
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
 		// Get the posted values from the request and validate them.
-		$data = $this->input->post->get('jform', array(), 'array');
+		$data = $inputJson->get('jform', array(), 'array');
 		$return	= $model->validate($data, 'preinstall');
 
 		$r = new stdClass;
