@@ -203,13 +203,109 @@ class JAccess
 	}
 
 	/**
+	 * Find out in the one group is an ancestor of another
+	 *
+	 * @param   int  $groupId               The group to test
+	 * @param   int  $maybeAncestorGroupId  The group to test against
+	 *
+	 * @return  boolean  Whether the second group is an ancestor of the first group
+	 *
+	 * @todo This method is generic and should probably be in a group helper class
+	 */
+	public static function isGroupAncestor($groupId, $maybeAncestorGroupId)
+	{
+		// Group 0 is everyone's ancestor! 
+		//  (needed because array_flip eliminates 0 as a key)
+		if ((int)$maybeAncestorGroupId == 0)
+		{
+			return true;
+		}
+
+		// Get group path (flipped for convenience)
+		$path = array_flip(self::getGroupPath($groupId));
+
+		return array_key_exists($maybeAncestorGroupId, $path);
+	}
+
+
+	/**
+	 * Find out the lowest ancestor (closet to the root group whose id=0) in the groups
+	 *
+	 * Checks to see that all the groups are on the same line of descent.
+	 * If not, it returns null.
+	 *
+	 * returns the lowest (or least derived) one, eg closest to the root group with id=0
+	 *
+	 * @param  array  $groups  An array of the IDs of the groups to test
+	 *
+	 * @return mixed the group closest to the root group (id=0), i.e, the
+	 *               least derived group.  Returns null if the groups are
+	 *               not all in the same line of descent.
+	 *
+	 * @todo This method is generic and should probably be in a group helper class
+	 */
+	public static function lowestAncestorGroup($groups)
+	{
+		// Get the all the paths, finding the shortest and longest paths
+		$shortest = 99999;
+		$shortest_id = null;
+		$longest = 0;
+		$longest_id = null;
+		$paths = Array();
+		foreach ($groups as $gid)
+		{	
+			// Get the group ideas in increasing order
+			$grp_keys = array_keys(array_flip(self::getGroupPath($gid)));
+			sort($grp_keys);
+			$paths[$gid] = $grp_keys;
+			$path_len = count($grp_keys);
+			if ($path_len > $longest)
+			{
+				$longest = $path_len;
+				$longest_id = $gid;
+			}
+			if ($path_len < $shortest)
+			{
+				$shortest = $path_len;
+				$shortest_id = $gid;
+			}
+		}
+		
+		// Check to make sure each path is in the longest path (eg, in the
+		// same line of ancestry)
+		$longest_path = $paths[$longest_id];
+
+		foreach ($groups as $gid)
+		{
+			if ($gid != $longest_id)
+			{
+				// Check the path element by element
+				$test_path = $paths[$gid];
+				for ($i = 0; $i < count($test_path); $i += 1)
+				{
+					if ($test_path[$i] != $longest_path[$i])
+					{
+						return null;
+					}
+				}
+			}
+		}
+
+		// Since all the paths are on the same line of descent,
+		// just return  the last group ID of the shortest path
+		$shortest_path = $paths[$shortest_id];
+		return $shortest_path[count($shortest_path) - 1];
+	}
+		
+
+	/**
 	 * Method to return the ID for a group name
 	 *
 	 * @param   string  $groupname   The group name (title)
 	 *
 	 * @return  integer  the group id (0 if not found)
 	 *
-	 * @todo This method is generic and should probably be in a helper class
+	 * @todo This method is generic and should probably be in a group helper class
 	 */
 	public static function getGroupId($groupname)
 	{
@@ -598,22 +694,6 @@ class JAccess
 	 *
 	 * The access rules for an component reside in an 'access.xml' file
 	 * belonging to that component.
-	 *
-	 * Each component-specific custom rule can have a defaulat associated with
-	 * it by adding a 'default' clause.  The value of the default is a
-	 * comma-separated list of default permissions each of which may have one
-	 * of the following forms:
-	 *
-	 *      default="Author"
-	 *           --> True for Author group
-	 *  
-	 *      default="Author:core.edit"
-	 *           --> True for Author if Author has 'core.edit' permission for
-	 *               the target component
-	 * 
-	 *      default="Author:core.edit[com_content]"
-	 *           --> True for Author if Author has 'core.edit' permission for
-	 *               the component 'com_content' here.  
 	 *  
 	 * No defaults are set if the role is not found.   The core rules may not be overriden.
 	 *
@@ -648,70 +728,215 @@ class JAccess
 			$actions = self::getActionsFromFile($file, "/access/section[@name='component']/");
 		}
 		
-		foreach ($actions as $action)
+		foreach ($actions as $rule_action)
 		{
 			// Process each default
-			if ( $action->default )
+			if ( $rule_action->default )
 			{
-				$rule_name = $action->name;
+				$rule_name = $rule_action->name;
 
 				// Make sure the rule is not a core rule
 				if ( strncmp($rule_name, 'core.', 5) === 0 )
 				{
-					throw new Exception("WARNING: Cannot override default core rule '$rule_name' for component '$component'!");
+					throw new Exception("WARNING: Cannot override default core rule '$rule_name' " .
+										"for component '$component'!");
 				}
 
-				// Process each comma-separated clause 
-				$rule_set = explode(',', $action->default);
+				// Process each comma-separated defaults clause 
+				$rule_set = explode(',', $rule_action->default);
 				foreach ($rule_set as $raw_rule)
 				{
-					// parse the rule
-					$rule = trim($raw_rule);
-					if (strpos($rule, ':') === false)
-					{
-						// Syntax 1, XML: default="Author"
-						$role = $rule;
-						$perm = '';
+					$group_name = null;
+					$group_id = null;
+					$action = null;
+
+					// Parse the rule
+ 					$rule = trim($raw_rule);
+ 					if (strpos($rule, ':') !== false)
+ 					{
+ 						$parts = explode(':', $rule);
+ 						$asset = trim($parts[0]);
+ 						$action = trim($parts[1]);
 					}
 					else
 					{
-						// Syntax 2, XML: default="Author:core.create" or
-						// Syntax 3, XML: default="Author:core.create[com_test]"
-						$parts = explode(':', $rule);
-						$role = trim($parts[0]);
-						$perm = trim($parts[1]);
+						// Syntax error
+						throw new Exception("ERROR: Bad 'access.xml' rule default syntax for " .
+											"rule '$rule_name'. Should be like: 'com_content:core.edit'");
 					}
 
-					// Extract the test component, if specified
-					$asset = $component;
-					if ( strpos($perm, '[') !== false ) 
+					// Make sure the component name is reasonable
+					if (!strncmp($asset, 'com_', 4) === 0)
 					{
-						$parts = explode('[', $perm);
-						$perm = trim($parts[0]);
-						$asset = trim(trim($parts[1], '[] '));
+						throw new Exception("ERROR: Error in 'access.xml' rule for rule '$rule_action'. " .
+											"Component name ($asset) does not begin with 'com_' (e.g. 'com_content')");
 					}
 
-					// Verify that the role (group) is valid on this sytem
-					$group_id = JAccess::getGroupId($role);
+					// Deal with the group name hint (if specified)
+					if ( strpos($action, '[') !== false ) 
+					{
+						$parts = explode('[', $action);
+						$action = trim($parts[0]);
+						$group_name = trim(trim($parts[1], '[] '));
+						$group_id = JAccess::getGroupId($group_name);
 
-					// Complain about invalid group name (may have been deleted on this site)
-					if ($group_id == 0)
-					{
-						JLog::add("WARNING: Cannot determine default rule for group '$role' which does not exist on this system!", JLog::WARNING);
-						continue;
+						// if the group exists, check it
+						if ($group_id == 0)
+						{
+							// The group was not found, ignore it (quietly)
+							$group_id = null;
+							$group_name = null;
+						}
+						else
+						{
+							// A group name was specified, check it
+							if ( !JAccess::checkGroup($group_id, $action, $asset) )
+							{
+								// The group does not have the required permission, ignore it (quietly)
+								$group_id = null;
+								$group_name = null;
+							}
+						}
 					}
 
-					// Decide whether to enforce the rule
-					if ($perm)
+					// Find the necessary group
+					if ( $group_id === null )
 					{
-						$enforce = JAccess::checkGroup($group_id, $perm, $asset);
+						// First, get the information about all the users
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true);
+						$query->select($db->quoteName('id'));
+						$query->select($db->quoteName('parent_id'));
+						$query->select($db->quoteName('title'));
+						$query->from($db->quoteName('#__usergroups'));
+						$db->setQuery($query);
+						$group_info = $db->loadObjectList();
+						$groups = Array();
+
+						// Scan through the groups to find all groups with the required permission
+						$good_groups = Array();
+						foreach ($group_info as $g)
+						{
+							$gid = $g->id;
+							$groups[$gid] = $g;
+							if (JAccess::checkGroup($gid, $action, $asset))
+							{
+								$good_groups[$gid] = $g;
+							}
+						}
+
+						if (empty($good_groups))
+						{
+							JLog::add("WARNING: For default permission rule '$rule_name' cannot find a " .
+									  "group with permission to do  '$action' for '$asset' on this system!",
+									  JLog::WARNING);
+						}
+
+						// Figure out which permitted group is least
+						// 'authoritative'
+						//
+						// Rank the rules from least authoritative to most
+                        // authoritative (somewhat arbitrary).  For each
+                        // group that can do the required action, sum the
+                        // ranks for all core rules that it can do to form a
+                        // total 'authority' index.  Then choose the group
+                        // with the lowest total 'authority' index.
+						$core_action_ranking = Array( 'core.create' => 1,
+													  'core.edit.own' => 1,
+													  'core.edit' => 3,
+													  'core.delete' => 3,
+													  'core.edit.state' => 5,
+													  'core.manage' => 7,
+													  'core.admin' => 10
+													  );
+						$best = Array();
+						$best_rank = 999999;
+					
+						foreach ($good_groups as $grp)
+						{
+							// Sum the ranks of the permitted core actions
+							$rank_total = 0;
+							foreach ($core_action_ranking as $caction => $rank)
+							{
+								if (JAccess::checkGroup($grp->id, $caction, $asset))
+								{
+									$rank_total += $rank;
+								}
+							}
+
+							// Check for lowest ranked group so far
+							if ( $rank_total < $best_rank )
+							{
+								$best = Array($grp);
+								$best_rank = $rank_total;
+							}
+							else if ( $rank_total == $best_rank )
+							{
+								$best[] = $grp;
+							}
+						}
+
+						// We have multiple permitted groups with the same
+						// rank total
+						if (count($best) > 1)
+						{
+							// See if the groups are all one ancestor line
+							$test_groups = Array();
+							foreach ($best as $grp)
+							{
+								$test_groups[] = $grp->id;
+							}
+							$lowest = self::lowestAncestorGroup($test_groups);
+
+							if ($lowest !== null)
+							{
+								// Case 1: All the groups are on the same line of
+								//         descent - If so pick the lowest (or
+								//         least derived) one, eg closest to
+								//         the root group with id=0
+								$best = $groups[(int)$lowest];
+							}
+							else
+							{
+								// Case 2: the groups are unrelated, just pick
+								//         the one that closest to the root group
+
+								// ties, pick the one closest to the root
+								$best_dist = 99999;
+								$best_dist_grp = null;
+								foreach ($best as $grp)
+								{
+									$dist = 1;
+									$g = $grp;
+									$parent_id = $grp->parent_id;
+									while ($parent_id != 0)
+									{
+										$dist += 1;
+										$g = $groups[$parent_id];
+										$parent_id = $g->parent_id;
+									}
+									if ( $dist < $best_dist )
+									{
+										$best_dist = $dist;
+										$best_dist_grp = $g;
+									}
+								}
+								$best = $best_dist_grp;
+							}
+						}
+						else
+						{
+							// Just one acceptable group, so use it
+							$best = $best[0];
+						}
+
+						// Note the best rule
+						$group_id = $best->id;
+						$group_name = $best->title;
 					}
-					else
-					{
-						// If the desired permission is ommitted, assume it should be enforced
-						$enforce = true;
-					}
-					if (!$enforce)
+
+ 					// If no suitable rule has been found, skip it
+					if ( $group_id === null )
 					{
 						continue;
 					}
