@@ -20,7 +20,7 @@ define([ "jquery", "uiinit", "underscore", "backbone", "serialize"],
 				url : function() {
 
 					return this.get('urlBase')
-							+ '?&task=setup.setlanguage&format=json';
+							+ '?task=setup.setlanguage&format=json';
 				}
 			});
 	
