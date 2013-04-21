@@ -30,6 +30,7 @@ $ -> Language fix or change
 
 21-Apr-2013 Jean-Marie Simonet
  # [#30645] *Hathor: Icomoon icons don't show in multiple places
+ # Fix loading all categories in multilanguage
 
 -------------------- 3.1 Beta 5 Release [20-Apr-2012] ------------------
 
