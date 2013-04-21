@@ -36,6 +36,9 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('alias'); ?>
 				<?php echo $this->form->getInput('alias'); ?></li>
 
+				<li><?php echo $this->form->getLabel('parent_id'); ?>
+				<?php echo $this->form->getInput('parent_id'); ?></li>
+
 				<li><?php echo $this->form->getLabel('published'); ?>
 				<?php echo $this->form->getInput('published'); ?></li>
 
