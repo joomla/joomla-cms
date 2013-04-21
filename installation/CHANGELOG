@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+21-Apr-2013 Mark Dexter
+ # Fix incorrect commit for [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
+
 21-Apr-2013 Jean-Marie Simonet
  # [#30645] *Hathor: Icomoon icons don't show in multiple places
 
