@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
+$doc = JFactory::getDocument();
 $app = JFactory::getApplication();
 $input = $app->input;
 
@@ -21,6 +22,23 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
+$activeTagId = $input->get('id', null);
+
+// Disable active tag from parent selector
+if ($activeTagId)
+{
+	$script = "
+		(function($){
+			$(document).ready(function () {
+				var activeTagId = " . $activeTagId . ";
+				var activeTagOption = $('#jform_parent_id option').filter(function () { return $(this).val() == activeTagId; }).attr('disabled','disabled');
+				$('#jform_parent_id').trigger('liszt:updated');
+			});
+		})(jQuery);
+	";
+
+	$doc->addScriptDeclaration($script);
+}
 ?>
 
 <script type="text/javascript">
