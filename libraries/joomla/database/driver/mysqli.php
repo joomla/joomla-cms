@@ -82,7 +82,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		if (is_callable(array($this->connection, 'close')))
+		if (is_callable(array($this->connection, 'close')) && array_filter(get_object_vars($this->connection)))
 		{
 			mysqli_close($this->connection);
 		}
