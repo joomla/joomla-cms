@@ -71,11 +71,11 @@ if ($this->params->get('logoFile'))
 }
 elseif ($this->params->get('sitetitle'))
 {
-	$logo = '<span class="site-title" title="'. $sitename .'">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
+	$logo = '<span class="site-title">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
 }
 else
 {
-	$logo = '<span class="site-title" title="'. $sitename .'">'. $sitename .'</span>';
+	$logo = '<span class="site-title">'. $sitename .'</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -130,6 +130,7 @@ else
 	<!--[if lt IE 9]>
 		<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
+	<link href="https://rawgithub.com/nternetinspired/debug-css/master/debug.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="site <?php echo $option
@@ -146,7 +147,7 @@ else
 			<!-- Header -->
 			<div class="header">
 				<div class="header-inner clearfix">
-					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
+					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>" title="<?php echo $sitename;?>">
 						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
 					</a>
 					<div class="header-search pull-right">
