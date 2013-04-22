@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+22-Apr-2013 Mark Dexter
+ # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
+
 22-Apr-2013 Jean-Marie Simonet
  $ [#30655] *TAGS: Wrong constant in en-GB.plg_finder_tags.ini
 
