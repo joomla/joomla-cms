@@ -97,7 +97,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_parent_category') && !empty($this->item->parent_slug)) : ?>
 				<dd class="parent-category-name">
 					<?php $title = $this->escape($this->item->parent_title);
-					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
+					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'" title="'.$title.'">'.$title.'</a>';?>
 					<?php if ($params->get('link_parent_category') && !empty($this->item->parent_slug)) : ?>
 						<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 					<?php else : ?>
@@ -108,7 +108,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_category')) : ?>
 				<dd class="category-name">
 					<?php $title = $this->escape($this->item->category_title);
-					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $title . '</a>';?>
+					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '" title="'.$title.'">' . $title . '</a>';?>
 					<?php if ($params->get('link_category') && $this->item->catslug) : ?>
 						<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 					<?php else : ?>
