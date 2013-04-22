@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_example">
+	<section name="component">
+		<action name="example.custom.badcomp" title="Try illegal default syntax (mod_bad:core.edit)"
+			description="Try illegal default syntax (should fail because of syntax error)"
+			default="mod_bad:core.edit" />
+	</section>
+</access>
