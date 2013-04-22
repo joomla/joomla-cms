@@ -30,7 +30,7 @@
 			<value>1</value>
 			<value>0</value>
 			<value>1</value>
-			<value>20</value>
+			<value>22</value>
 			<value>Public</value>
 		</row>
 		<row>
@@ -43,44 +43,65 @@
 		<row>
 			<value>3</value>
 			<value>2</value>
-			<value>11</value>
+			<value>9</value>
 			<value>16</value>
 			<value>Author</value>
 		</row>
 		<row>
 			<value>4</value>
 			<value>3</value>
-			<value>12</value>
-			<value>15</value>
+			<value>10</value>
+			<value>13</value>
 			<value>Editor</value>
 		</row>
 		<row>
 			<value>5</value>
 			<value>4</value>
-			<value>13</value>
-			<value>14</value>
+			<value>11</value>
+			<value>12</value>
 			<value>Publisher</value>
 		</row>
 		<row>
 			<value>6</value>
 			<value>1</value>
-			<value>2</value>
+			<value>4</value>
 			<value>7</value>
 			<value>Manager</value>
 		</row>
 		<row>
 			<value>7</value>
 			<value>6</value>
-			<value>3</value>
+			<value>5</value>
 			<value>6</value>
 			<value>Administrator</value>
 		</row>
 		<row>
 			<value>8</value>
-			<value>7</value>
-			<value>4</value>
-			<value>5</value>
+			<value>1</value>
+			<value>20</value>
+			<value>21</value>
 			<value>Super Users</value>
+		</row>
+		<row>
+			<value>10</value>
+			<value>3</value>
+			<value>14</value>
+			<value>15</value>
+			<value>Invoice Author</value>
+		</row>
+		<row>
+			<value>12</value>
+			<value>2</value>
+			<value>17</value>
+			<value>18</value>
+			<value>Customer Group</value>
+		</row>
+		<row>
+			<value>13</value>
+			<value>1</value>
+			<value>2</value>
+			<value>3</value>
+			<value>Guest</value>
 		</row>
 	</table>
 </dataset>

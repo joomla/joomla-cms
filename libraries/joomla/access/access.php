@@ -202,31 +202,6 @@ class JAccess
 		return self::$userGroupPaths[$groupId];
 	}
 
-	/**
-	 * Find out in the one group is an ancestor of another
-	 *
-	 * @param   int  $groupId               The group to test
-	 * @param   int  $maybeAncestorGroupId  The group to test against
-	 *
-	 * @return  boolean  Whether the second group is an ancestor of the first group
-	 *
-	 * @todo This method is generic and should probably be in a group helper class
-	 */
-	public static function isGroupAncestor($groupId, $maybeAncestorGroupId)
-	{
-		// Group 0 is everyone's ancestor! 
-		//  (needed because array_flip eliminates 0 as a key)
-		if ((int)$maybeAncestorGroupId == 0)
-		{
-			return true;
-		}
-
-		// Get group path (flipped for convenience)
-		$path = array_flip(self::getGroupPath($groupId));
-
-		return array_key_exists($maybeAncestorGroupId, $path);
-	}
-
 
 	/**
 	 * Find out the lowest ancestor (closet to the root group whose id=0) in the groups
@@ -254,9 +229,10 @@ class JAccess
 		$paths = Array();
 		foreach ($groups as $gid)
 		{	
-			// Get the group ideas in increasing order
+			// Get the group IDs in increasing order
 			$grp_keys = array_keys(array_flip(self::getGroupPath($gid)));
-			sort($grp_keys);
+
+			// sort($grp_keys);
 			$paths[$gid] = $grp_keys;
 			$path_len = count($grp_keys);
 			if ($path_len > $longest)
@@ -711,7 +687,7 @@ class JAccess
 		// Make sure we do not try to modify any core rules!
 		if (strtolower($component) == 'com_core')
 		{
-			throw new InvalidArgumentException("ERROR: Cannot override core rule defaults!");
+			throw new InvalidArgumentException("ERROR: Cannot override core rule defaults (component='$component')");
 		}
 
 		// Create an empty set of rules to receive the rules for the component
@@ -721,11 +697,13 @@ class JAccess
 		if ( $file === null )
 		{
 			$actions = JAccess::getActions($component);
+			$file = 'access.xml';
 		}
 		else
 		{
 			// Load the actions from the specified file
 			$actions = self::getActionsFromFile($file, "/access/section[@name='component']/");
+			$file = basename($file);
 		}
 		
 		foreach ($actions as $rule_action)
@@ -738,8 +716,8 @@ class JAccess
 				// Make sure the rule is not a core rule
 				if ( strncmp($rule_name, 'core.', 5) === 0 )
 				{
-					throw new Exception("WARNING: Cannot override default core rule '$rule_name' " .
-										"for component '$component'!");
+					throw new Exception("ERROR: Cannot override default core rule '$rule_name' " .
+										"for component '$component'");
 				}
 
 				// Process each comma-separated defaults clause 
@@ -761,14 +739,14 @@ class JAccess
 					else
 					{
 						// Syntax error
-						throw new Exception("ERROR: Bad 'access.xml' rule default syntax for " .
+						throw new Exception("ERROR: Bad rule in '$file', default syntax for " .
 											"rule '$rule_name'. Should be like: 'com_content:core.edit'");
 					}
 
 					// Make sure the component name is reasonable
-					if (!strncmp($asset, 'com_', 4) === 0)
+					if (strncmp($asset, 'com_', 4) !== 0)
 					{
-						throw new Exception("ERROR: Error in 'access.xml' rule for rule '$rule_action'. " .
+						throw new Exception("ERROR: Error in '$file' rule for rule '$rule_name'. " .
 											"Component name ($asset) does not begin with 'com_' (e.g. 'com_content')");
 					}
 
@@ -947,6 +925,8 @@ class JAccess
 					// Merge it with the rest of the new rules
 					$new_rules->merge($new_rule);
 				}
+
+				// ??? echo "For '$rule_name', GROUP($group_name, $group_id)\n";
 			}
 		}
 

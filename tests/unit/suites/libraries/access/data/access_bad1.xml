@@ -3,6 +3,6 @@
 	<section name="component">
 		<action name="core.edit" title="Override Core.edit rule"
 			description="Try to override core rule (should fail)"
-			default="Public" />
+			default="com_content:core.create" />
 	</section>
 </access>
