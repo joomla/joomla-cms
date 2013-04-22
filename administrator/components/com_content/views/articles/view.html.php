@@ -80,7 +80,7 @@ class ContentViewArticles extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions($this->state->get('filter.category_id'));
+		$canDo = ContentHelper::getActions($this->state->get('filter.category_id'), 0, 'com_content');
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
