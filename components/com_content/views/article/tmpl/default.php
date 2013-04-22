@@ -40,7 +40,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php endif; ?>
 			<?php if ($params->get('show_title')) : ?>
 				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
-					<a href="<?php echo $this->item->readmore_link; ?>"> <?php echo $this->escape($this->item->title); ?></a>
+					<a href="<?php echo $this->item->readmore_link; ?>" title="<?php echo $this->escape($this->item->title); ?>"> <?php echo $this->escape($this->item->title); ?></a>
 				<?php else : ?>
 					<?php echo $this->escape($this->item->title); ?>
 				<?php endif; ?>
