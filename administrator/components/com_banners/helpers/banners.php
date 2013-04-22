@@ -60,40 +60,6 @@ class BannersHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  The category ID.
-	 *
-	 * @return  JObject
-	 * @since   1.6
-	 */
-	public static function getActions($categoryId = 0)
-	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		if (empty($categoryId))
-		{
-			$assetName = 'com_banners';
-			$level = 'component';
-		}
-		else
-		{
-			$assetName = 'com_banners.category.'.(int) $categoryId;
-			$level = 'category';
-		}
-
-		$actions = JAccess::getActions('com_banners', $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
-
-	/**
 	 * @return  boolean
 	 * @since   1.6
 	 */
