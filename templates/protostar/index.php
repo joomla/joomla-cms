@@ -130,7 +130,6 @@ else
 	<!--[if lt IE 9]>
 		<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
-	<link href="https://rawgithub.com/nternetinspired/debug-css/master/debug.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="site <?php echo $option
