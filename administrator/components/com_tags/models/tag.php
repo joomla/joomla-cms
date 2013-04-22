@@ -434,8 +434,8 @@ class TagsModelTag extends JModelAdmin
 		$table = $this->getTable();
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-		    $title = ($table->title != $title) ? $title : JString::increment($title);
-			$alias = ($table->alias != $alias) ? $alias : JString::increment($alias, 'dash');
+			$title = ($table->title != $title) ? $title : JString::increment($title);
+			$alias = JString::increment($alias, 'dash');
 		}
 
 		return array($title, $alias);
