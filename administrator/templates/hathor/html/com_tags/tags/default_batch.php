@@ -20,23 +20,27 @@ $published = $this->state->get('filter.published');
 		<p><?php echo JText::_('COM_TAGS_BATCH_TIP'); ?></p>
 		<div class="control-group">
 			<div class="controls">
+				<?php echo JHtml::_('batch.access'); ?>
+			</div>
+		</div>
+
+	<div class="modal-body">
+		<p><?php echo JText::_('COM_TAGS_BATCH_TIP'); ?></p>
+		<div class="control-group">
+			<div class="controls">
 				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
-		<?php if ($published >= 0) : ?>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.item', 'com_tags');?>
-			</div>
-		</div>
-		<?php endif; ?>
+
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-category-id').value='';document.id('batch-client-id').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.id('batch-tag-id').value='';document.id('batch-client-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
-		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('tags.batch');">
+		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('tag.batch');">
 			<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
+		</button>
+
 		</button>
 	</div>
 </div>
