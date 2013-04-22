@@ -141,6 +141,7 @@
 .input-append,
 .input-prepend {
 	margin-bottom: 5px;
+	font-size: 0;
 	white-space: nowrap;
 }
 .input-append input,
@@ -1724,4 +1725,8 @@ ol.alternating > li:nth-child(even) {
 }
 #installer-database p.nowarning {
 	background: transparent url(../images/admin/icon-16-allow.png) center left no-repeat;
+}
+.input-append,
+.input-prepend {
+	font-size: 1.2em;
 }
