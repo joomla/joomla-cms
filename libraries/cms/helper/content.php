@@ -48,13 +48,29 @@ class JHelperContent
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
-		);
+		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
+
+		if (empty($id) && empty($categoryId))
+		{
+			$section = 'component';
+		}
+		elseif (empty($id))
+		{
+			$section = 'category';
+			$assetName .= '.category.' . (int) $categoryId;
+		}
+		else
+		{
+			// Used only in com_content
+			$section = 'article';
+			$assetName .= '.article.' . (int) $id;
+		}
+
+		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
 
 		foreach ($actions as $action)
 		{
-			$result->set($action, $user->authorise($action, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;

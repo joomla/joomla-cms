@@ -59,7 +59,7 @@ class ContactViewContact extends JViewLegacy
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= ContactHelper::getActions($this->item->catid, 0);
+		$canDo		= ContactHelper::getActions($this->item->catid, 0, 'com_contact');
 
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
 
