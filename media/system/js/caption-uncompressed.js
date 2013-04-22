@@ -10,53 +10,47 @@
  *
  * @package		Joomla
  * @since		1.5
- * @version	 1.0
+ * @version		2.0
  */
-var JCaption = new Class({
-	initialize: function(selector)
-	{
-		this.selector = selector;
 
-		var images = $$(selector);
-		images.each(function(image){ this.createCaption(image); }, this);
-	},
+var CAPTION = {}; 
 
-	createCaption: function(element)
-	{
-		var caption   = document.createTextNode(element.title);
-		var container = document.createElement("div");
-		var text      = document.createElement("p");
-		var width     = element.getAttribute("width");
-		var align     = element.getAttribute("align");
+(function($) {
+	CAPTION.caption = function (selector) {
+		$( selector ).each(function( index, element ) {
+			var caption   = document.createTextNode(element.title);
+			var container = document.createElement("div");
+			var text      = document.createElement("p");
+			var width     = element.getAttribute("width");
+			var align     = element.getAttribute("align");
+			
+			if (!width) {
+				width = element.width;
+			}
+		
+			//Windows fix
+			if (!align)
+				align = element.getStyle("float");  // Rest of the world fix
+			if (!align) // IE DOM Fix
+				align = element.style.styleFloat;
 
-		if (!width) {
-			width = element.width;
-		}
+			if (align=="" || !align) {
+				align="none";
+			}
+			
+			text.appendChild(caption);
+			text.className = selector.replace('.', '_');
 
-		//Windows fix
-		if (!align)
-			align = element.getStyle("float");  // Rest of the world fix
-		if (!align) // IE DOM Fix
-			align = element.style.styleFloat;
+			element.parentNode.insertBefore(container, element);
+			container.appendChild(element);
+			if (element.title != "") {
+				container.appendChild(text);
+			}
+			container.className   = selector.replace('.', '_');
+			container.className   = container.className + " " + align;
+			container.setAttribute("style","float:"+align);
 
-		if (align=="" || !align) {
-			align="none";
-		}
-
-		text.appendChild(caption);
-		text.className = this.selector.replace('.', '_');
-
-		element.parentNode.insertBefore(container, element);
-		container.appendChild(element);
-		if (element.title != "") {
-			container.appendChild(text);
-		}
-		container.className   = this.selector.replace('.', '_');
-		container.className   = container.className + " " + align;
-		container.setAttribute("style","float:"+align);
-
-		container.style.width = width + "px";
-
-	}
-});
-
+			container.style.width = width + "px";
+		});
+	};
+})(jQuery);

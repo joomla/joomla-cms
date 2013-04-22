@@ -81,16 +81,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework();
+		// Include jQuery framework
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/caption.js', true, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('load', function() {
-				new JCaption('" . $selector . "');
-			});"
+			'(function($){
+				$(document).ready(function() {
+					CAPTION.caption("'.$selector.'");
+				});
+			})(jQuery);'
 		);
 
 		// Set static array
