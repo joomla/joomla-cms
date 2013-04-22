@@ -25,6 +25,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+21-Apr-2013 Mark Dexter
+ # Fix incorrect commit for [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
+
+21-Apr-2013 Jean-Marie Simonet
+ # [#30645] *Hathor: Icomoon icons don't show in multiple places
+ # Fix loading all categories in multilanguage
+ # [#30637] Error when publishing a child tag of an unpublished parent tag. Thanks Elin
+
 -------------------- 3.1 Beta 5 Release [20-Apr-2012] ------------------
 
 20-Apr-2013 Mark Dexter
