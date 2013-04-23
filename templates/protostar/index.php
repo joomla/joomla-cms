@@ -144,7 +144,7 @@ else
 	<div class="body">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<!-- Header -->
-			<div class="header">
+			<div class="header" role="banner">
 				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
@@ -155,7 +155,7 @@ else
 				</div>
 			</div>
 			<?php if ($this->countModules('position-1')) : ?>
-			<div class="navigation">
+			<div class="navigation" role="navigation">
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
 			<?php endif; ?>
@@ -170,7 +170,7 @@ else
 				</div>
 				<!-- End Sidebar -->
 				<?php endif; ?>
-				<div id="content" class="<?php echo $span;?>">
+				<div id="content" role="main" class="<?php echo $span;?>">
 					<!-- Begin Content -->
 					<jdoc:include type="modules" name="position-3" style="xhtml" />
 					<jdoc:include type="message" />
@@ -189,7 +189,7 @@ else
 		</div>
 	</div>
 	<!-- Footer -->
-	<div class="footer">
+	<div class="footer" role="contentinfo">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
