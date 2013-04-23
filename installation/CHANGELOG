@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+23-Apr-2013 Mark Dexter
+ # [#30652] Commit for issue 29916 broke Smart Search indexing. Thanks Don Gilbert.
+
 22-Apr-2013 Mark Dexter
  # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
 
