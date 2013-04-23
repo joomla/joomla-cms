@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 23-Apr-2013 Mark Dexter
  # [#30652] Commit for issue 29916 broke Smart Search indexing. Thanks Don Gilbert.
+ # [#30639] Hathor Tags issues Tag edit view. Thanks Elin Waring.
 
 22-Apr-2013 Mark Dexter
  # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
