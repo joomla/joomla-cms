@@ -136,7 +136,7 @@ abstract class JModuleHelper
 	{
 		static $chrome;
 
-		if (constant('JDEBUG'))
+		if (defined('JDEBUG'))
 		{
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
@@ -235,7 +235,7 @@ abstract class JModuleHelper
 		// Revert the scope
 		$app->scope = $scope;
 
-		if (constant('JDEBUG'))
+		if (defined('JDEBUG'))
 		{
 			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
