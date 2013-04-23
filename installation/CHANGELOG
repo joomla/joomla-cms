@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30640] Hathor - Not tag field shown in core content. Thanks Roberto Sequra.
  # [#30653] Use of undefined DEBUG constant. Thanks Elin Waring.
  # [#30603] Tags: Similar Tags Module Shows the same article multiple time. Thanks Thomas Hunziker.
+ # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando. 
 
 22-Apr-2013 Mark Dexter
  # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
