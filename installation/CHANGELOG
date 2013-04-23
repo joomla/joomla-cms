@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.10 Stable Release 24-April-2013] ------------------
+
 23-Apr-2013 Mark Dexter
  # [#30652] Commit for issue 29916 broke Smart Search indexing. Thanks Don Gilbert.
 
