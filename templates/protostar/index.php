@@ -71,11 +71,11 @@ if ($this->params->get('logoFile'))
 }
 elseif ($this->params->get('sitetitle'))
 {
-	$logo = '<span class="site-title" title="'. $sitename .'">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
+	$logo = '<span class="site-title">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
 }
 else
 {
-	$logo = '<span class="site-title" title="'. $sitename .'">'. $sitename .'</span>';
+	$logo = '<span class="site-title">'. $sitename .'</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -146,7 +146,7 @@ else
 			<!-- Header -->
 			<div class="header">
 				<div class="header-inner clearfix">
-					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
+					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>" title="<?php echo $sitename;?>">
 						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
 					</a>
 					<div class="header-search pull-right">
@@ -193,7 +193,7 @@ else
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
-			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>
+			<p class="pull-right"><a href="#top" class="back-top" title="<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>
 			<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 		</div>
 	</div>
