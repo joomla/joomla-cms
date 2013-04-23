@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 ?>
 			<dd class="category-name">
 				<?php $title = $this->escape($displayData['item']->category_title);
-				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($displayData['item']->catslug)).'">'.$title.'</a>';?>
+				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($displayData['item']->catslug)).'" title="'.$title.'">'.$title.'</a>';?>
 				<?php if ($displayData['params']->get('link_category') && $displayData['item']->catslug) : ?>
 					<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>

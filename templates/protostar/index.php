@@ -71,11 +71,11 @@ if ($this->params->get('logoFile'))
 }
 elseif ($this->params->get('sitetitle'))
 {
-	$logo = '<span class="site-title" title="'. $sitename .'">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
+	$logo = '<span class="site-title">'. htmlspecialchars($this->params->get('sitetitle')) .'</span>';
 }
 else
 {
-	$logo = '<span class="site-title" title="'. $sitename .'">'. $sitename .'</span>';
+	$logo = '<span class="site-title">'. $sitename .'</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -130,6 +130,7 @@ else
 	<!--[if lt IE 9]>
 		<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
 	<![endif]-->
+	<link href="https://rawgithub.com/nternetinspired/debug-css/master/debug.css" media="all" rel="stylesheet" type="text/css" />
 </head>
 
 <body class="site <?php echo $option
@@ -144,9 +145,9 @@ else
 	<div class="body">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<!-- Header -->
-			<div class="header">
+			<div class="header" role="banner">
 				<div class="header-inner clearfix">
-					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
+					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>" title="<?php echo $sitename;?>">
 						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
 					</a>
 					<div class="header-search pull-right">
@@ -155,7 +156,7 @@ else
 				</div>
 			</div>
 			<?php if ($this->countModules('position-1')) : ?>
-			<div class="navigation">
+			<div class="navigation" role="navigation">
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</div>
 			<?php endif; ?>
@@ -170,7 +171,7 @@ else
 				</div>
 				<!-- End Sidebar -->
 				<?php endif; ?>
-				<div id="content" class="<?php echo $span;?>">
+				<div id="content" role="main" class="<?php echo $span;?>">
 					<!-- Begin Content -->
 					<jdoc:include type="modules" name="position-3" style="xhtml" />
 					<jdoc:include type="message" />
@@ -189,11 +190,11 @@ else
 		</div>
 	</div>
 	<!-- Footer -->
-	<div class="footer">
+	<div class="footer" role="contentinfo">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
-			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>
+			<p class="pull-right"><a href="#top" class="back-top" title="<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>
 			<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 		</div>
 	</div>
