@@ -24,7 +24,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php if ($params->get('show_title')) : ?>
 	<h2 class="item-title">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $this->escape($this->item->title); ?></a>
+		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>" title="<?php echo $this->escape($this->item->title); ?>"> <?php echo $this->escape($this->item->title); ?></a>
 	<?php else : ?>
 		<?php echo $this->escape($this->item->title); ?>
 	<?php endif; ?>
@@ -79,7 +79,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		<?php if ($params->get('show_parent_category') && !empty($this->item->parent_slug)) : ?>
 			<dd class="parent-category-name">
 				<?php $title = $this->escape($this->item->parent_title);
-				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
+				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'" title="'.$title.'">'.$title.'</a>';?>
 				<?php if ($params->get('link_parent_category') && !empty($this->item->parent_slug)) : ?>
 					<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
@@ -91,7 +91,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		<?php if ($params->get('show_category')) : ?>
 			<dd class="category-name">
 				<?php $title = $this->escape($this->item->category_title);
-				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'">'.$title.'</a>';?>
+				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)).'" title="'.$title.'">'.$title.'</a>';?>
 				<?php if ($params->get('link_category') && $this->item->catslug) : ?>
 					<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 				<?php else : ?>
