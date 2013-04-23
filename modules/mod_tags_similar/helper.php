@@ -78,8 +78,8 @@ abstract class ModTagssimilarHelper
 				->join('INNER', $db->quoteName('#__ucm_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
 				->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias');
 
-			$query->where('t.access IN (' . $groups . ')');
 			$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
+			$query->where('t.access IN (' . $groups . ')');
 
 			// Don't show current item
 			$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id . ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
