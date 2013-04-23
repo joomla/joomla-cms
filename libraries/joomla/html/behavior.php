@@ -90,7 +90,7 @@ abstract class JHtmlBehavior
 		JFactory::getDocument()->addScriptDeclaration(
 			'(function($){
 				$(document).ready(function() {
-					CAPTION.caption("'.$selector.'");
+					Joomla.Caption("'.$selector.'");
 				});
 			})(jQuery);'
 		);

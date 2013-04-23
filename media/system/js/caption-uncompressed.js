@@ -13,10 +13,10 @@
  * @version		2.0
  */
 
-var CAPTION = {}; 
+var Joomla = (Joomla || {});
 
 (function($) {
-	CAPTION.caption = function (selector) {
+	Joomla.Caption = function (selector) {
 		$( selector ).each(function( index, element ) {
 			var caption   = document.createTextNode(element.title);
 			var container = document.createElement("div");
