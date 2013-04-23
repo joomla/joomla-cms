@@ -557,9 +557,10 @@ class ContentModelArticle extends JModelAdmin
 		try
 		{
 			$db = $this->getDbo();
-			$query->update($db->quoteName('#__content'))
-				->set('featured = ' . (int) $value)
-				->where('id IN (' . implode(',', $pks) . ')');
+			$query = $db->getQuery(true)
+						->update($db->quoteName('#__content'))
+						->set('featured = ' . (int) $value)
+						->where('id IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
 			$db->execute();
 
@@ -567,8 +568,9 @@ class ContentModelArticle extends JModelAdmin
 			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
-				$query->delete($db->quoteName('#__content_frontpage'))
-					->where('content_id IN (' . implode(',', $pks) . ')');
+				$query = $db->getQuery(true)
+							->delete($db->quoteName('#__content_frontpage'))
+							->where('content_id IN (' . implode(',', $pks) . ')');
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -591,7 +593,7 @@ class ContentModelArticle extends JModelAdmin
 				$tuples = array();
 				foreach ($new_featured as $pk)
 				{
-					$tuples[] = '(' . $pk . ', 0)';
+					$tuples[] = $pk . ', 0';
 				}
 				if (count($tuples))
 				{
@@ -600,7 +602,7 @@ class ContentModelArticle extends JModelAdmin
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
 						->columns($db->quoteName($columns))
-						->values(implode(',', $tuples));
+						->values($tuples);
 					$db->setQuery($query);
 					$db->execute();
 				}
