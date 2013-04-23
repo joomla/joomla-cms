@@ -23,7 +23,7 @@ JHtml::_('behavior.framework');
 			<?php if ($params->get('show_title')) : ?>
 				<h2>
 					<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid)); ?>">
+						<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid)); ?>" title="<?php echo $this->escape($displayData->title); ?>">
 						<?php echo $this->escape($displayData->title); ?></a>
 					<?php else : ?>
 						<?php echo $this->escape($displayData->title); ?>
