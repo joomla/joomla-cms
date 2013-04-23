@@ -30,6 +30,11 @@ class InstallationControllerSetup extends JControllerLegacy
 		// server code to understand REST requests
 		$inputJson = new JInputJSON;
 
+		/* Requires
+		 * https://github.com/joomla/joomla-cms/pull/1023
+		 * http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=30669
+		 */
+
 		// Check for request forgeries.
 		// TO-DO: Re-enable the token... two tokens are somewhere
 		// JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
