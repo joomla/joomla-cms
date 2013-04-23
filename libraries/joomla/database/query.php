@@ -1492,7 +1492,8 @@ abstract class JDatabaseQuery
 
 	/**
 	 * Method to provide deep copy support to nested objects and
-	 * arrays when cloning.
+	 * arrays when cloning. This method skips the `$db` property
+	 * to avoid connection issues.
 	 *
 	 * @return  void
 	 *
@@ -1502,6 +1503,11 @@ abstract class JDatabaseQuery
 	{
 		foreach ($this as $k => $v)
 		{
+			if ($k === 'db')
+			{
+				continue;
+			}
+
 			if (is_object($v) || is_array($v))
 			{
 				$this->{$k} = unserialize(serialize($v));
