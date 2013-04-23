@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#30639] Hathor Tags issues Tag edit view. Thanks Elin Waring.
  # [#30640] Hathor - Not tag field shown in core content. Thanks Roberto Sequra.
  # [#30653] Use of undefined DEBUG constant. Thanks Elin Waring.
+ # [#30603] Tags: Similar Tags Module Shows the same article multiple time. Thanks Thomas Hunziker.
 
 22-Apr-2013 Mark Dexter
  # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
