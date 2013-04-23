@@ -158,7 +158,11 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
 				<div class="span10">
-					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
+					<?php if (isset($app->JComponentTitle)) : ?>
+						<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
+					<?php else : ?>
+						<h1 class="page-title"><?php echo JHtml::_('string.truncate', '', 0, false, false);?></h1>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
