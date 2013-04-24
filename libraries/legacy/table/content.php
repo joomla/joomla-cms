@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class JTableContent extends JTable
 {
 	/**
+	 * Helper object for storing and deleting tag information.
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
@@ -28,6 +36,9 @@ class JTableContent extends JTable
 	public function __construct($db)
 	{
 		parent::__construct('#__content', 'id', $db);
+
+		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper->typeAlias = 'com_content.article';
 	}
 
 	/**
@@ -229,6 +240,23 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Override parent delete method to delete tags information.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		$this->tagsHelper->typeAlias = 'com_content.article';
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
+	}
+
+	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -268,49 +296,15 @@ class JTableContent extends JTable
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+
 			return false;
 		}
 
-		$tagsHelper = new JHelperTags;
-		$tags = $tagsHelper->convertTagsMetadata($this->metadata);
-		$tagsHelper->getMetaTagNames($this->metadata);
+		$this->tagsHelper->typeAlias = 'com_content.article';
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
 
-		if (empty($tags))
-		{
-			$tagHelper = new JHelperTags;
-			$itemTags = $tagHelper->getItemTags('com_content.article', $this->id);
-			if (!empty($itemTags))
-			{
-				$tagHelper->unTagItem($this->id, 'com_content.article');
-			}
-		}
-
-		$return = parent::store($updateNulls);
-
-		if ($return == false)
-		{
-			return false;
-		}
-
-		// Store the tag data if the article data was saved and run related methods.
-		if (empty($tags) == false)
-		{
-			$rowdata = new JHelperContent;
-			$data = $rowdata->getRowData($this);
-
-			$typeAlias = 'com_content.article';
-			$ucm = new JUcmContent($this, $typeAlias);
-			$ucm->save($data);
-
-			$ucmId = $ucm->getPrimaryKey($ucm->type->type->type_id, $this->id);
-
-			$isNew = $data['id'] ? 0 : 1;
-
-			$tagsHelper = new JHelperTags;
-			$tagsHelper->tagItem($data['id'], $typeAlias, $isNew, $ucmId, $tags);
-		}
-
-		return $return;
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 	/**

@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Apr-2013 Mark Dexter
+ # Change error reporting to Development in auto install.
+
+20-Apr-2013 Mark Dexter
+ # Fix failing system test from change in class suffix from input to textarea.
+
 12-Apr-2013 Michael Babker
  # Fix failing unit tests from UCM refactor
 

@@ -62,7 +62,7 @@ else
 
 	<?php
 		$debug = JFactory::getConfig()->get('debug_lang');
-		if (JDEBUG || $debug)
+		if ((defined('JDEBUG') && JDEBUG) || $debug)
 		{
 	?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/cms/css/debug.css" type="text/css" />

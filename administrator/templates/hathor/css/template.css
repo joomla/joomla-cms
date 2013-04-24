@@ -3195,3 +3195,6 @@ table {
 #mediamanager-form {
 	margin: 10px;
 }
+.is-tagbox {
+	float: left;
+}
