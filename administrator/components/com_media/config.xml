@@ -101,19 +101,6 @@
 			default="text/html"
 			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC" />
-
-		<field
-			name="enable_flash"
-			type="radio"
-			class="btn-group"
-			default="0"
-			label="COM_MEDIA_FIELD_ENABLE_FLASH_UPLOADER_LABEL"
-			description="COM_MEDIA_FIELD_ENABLE_FLASH_UPLOADER_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
-		</field>
 	</fieldset>
 
 	<fieldset

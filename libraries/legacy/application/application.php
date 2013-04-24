@@ -670,13 +670,15 @@ class JApplication extends JApplicationBase
 
 					$key = new JCryptKey('simple', $privateKey, $privateKey);
 					$crypt = new JCrypt(new JCryptCipherSimple, $key);
-					$rcookie = $crypt->encrypt(serialize($credentials));
+					$rcookie = $crypt->encrypt(json_encode($credentials));
 					$lifetime = time() + 365 * 24 * 60 * 60;
 
 					// Use domain and path set in config for cookie if it exists.
 					$cookie_domain = $this->getCfg('cookie_domain', '');
 					$cookie_path = $this->getCfg('cookie_path', '/');
-					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
+
+					$secure = $this->isSSLConnection();
+					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
 				}
 
 				return true;

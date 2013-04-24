@@ -47,7 +47,7 @@ class ModuleEditPage extends AdminEditPage
 			array('label' => 'Maximum Level Depth', 'id' => 'jform_params_maxlevel', 'type' => 'select', 'tab' => 'options'),
 			array('label' => 'Alternative Layout', 'id' => 'jform_params_layout', 'type' => 'select', 'tab' => 'options'),
 			array('label' => 'Heading style', 'id' => 'jform_params_item_heading', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Module Class Suffix', 'id' => 'jform_params_moduleclass_sfx', 'type' => 'input', 'tab' => 'options'),
+			array('label' => 'Module Class Suffix', 'id' => 'jform_params_moduleclass_sfx', 'type' => 'textarea', 'tab' => 'options'),
 			array('label' => 'Caching', 'id' => 'jform_params_owncache', 'type' => 'select', 'tab' => 'options'),
 			array('label' => 'Cache Time', 'id' => 'jform_params_cache_time', 'type' => 'input', 'tab' => 'options'),
 			array('label' => 'Module Tag', 'id' => 'jform_params_module_tag', 'type' => 'select', 'tab' => 'options'),

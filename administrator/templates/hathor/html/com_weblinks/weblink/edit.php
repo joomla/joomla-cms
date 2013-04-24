@@ -54,6 +54,16 @@ JHtml::_('behavior.formvalidation');
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 
+				<!-- Tag field -->
+				<?php foreach ($this->get('form')->getFieldset('jmetadata') as $field) : ?>
+					<?php if ($field->name == 'jform[metadata][tags][]') :?>
+						<li>
+							<?php echo $field->label; ?>
+							<?php echo $field->input; ?>
+						</li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
@@ -108,7 +118,11 @@ JHtml::_('behavior.formvalidation');
 
 		<?php echo $this->loadTemplate('params'); ?>
 
-		<?php echo $this->loadTemplate('metadata'); ?>
+		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
+		<fieldset class="panelform">
+		<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+			<?php echo $this->loadTemplate('metadata'); ?>
+		</fieldset>
 
 		<?php echo JHtml::_('sliders.end'); ?>
 

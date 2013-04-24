@@ -144,7 +144,7 @@ abstract class JHtmlBatch
 			'</label>',
 			'<select name="batch[tag]" class="inputbox" id="batch-tag-id">',
 			'<option value="">' . JText::_('JLIB_HTML_BATCH_TAG_NOCHANGE') . '</option>',
-			JHtml::_('select.options', JHtml::_('tag.tags', true, true), 'value', 'text'),
+			JHtml::_('select.options', JHtml::_('tag.tags', array('filter.published' => array(1))), 'value', 'text'),
 			'</select>'
 		);
 
