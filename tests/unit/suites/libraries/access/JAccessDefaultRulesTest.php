@@ -268,6 +268,7 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 								 "example.custom.administrator2",
 								 "example.custom.superuser1",
 								 "example.custom.superuser2",
+								 "example.custom.editor3",
 								 );
 		$all_actions = array_merge( $this->core_actions, $custom_actions );
 
@@ -285,12 +286,13 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 			}
 		}
 
-		// First install the rule for the other component (com_test)
+		// First install the rules for the other component (com_test)
 		$install_ok = JAccess::installComponentDefaultRules('com_test', __DIR__ . '/data/access_test.xml');
 		$errmsg = 'Problem installing component default rules from data/access_test.xml';
 		$this->assertTrue($install_ok, $errmsg);
+		// Make sure it has editor permissions
 		$errmsg .= "\n (Editor does not have requested permission for action 'core.edit' on component 'com_test')";
-		$this->assertTrue(JAccess::checkGroup(4, 'core.edit', 'com_test'), $errmsg);
+		$this->assertTrue(JAccess::checkGroup(EDITOR, 'core.edit', 'com_test'), $errmsg);
 
 		// Install the new default rules form access1.xml
 		$install_ok = JAccess::installComponentDefaultRules('com_example', __DIR__ . '/data/access1.xml');
@@ -656,6 +658,30 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 			);
 		$this->checkPermissions($test, $action, $expected_permission, $modified_permissions);
 		$this->checkGroups($test, $action, SUPER_USER);
+
+
+		//------------------------------------------------------------
+		// test 16: Verify enabling permission for editor (with suggested group)
+		//
+		// In the XML file:  default="com_content:core.edit[Editor]"
+		//
+		$test = 'test 16';
+		$action = 'example.custom.editor3';
+		$expected_permission = Array(
+			GPUBLIC     => false,  // Public
+			MANAGER     => false,  //     Manager
+			ADMIN       => false,  //         Administrator
+			GUEST       => false,  //     Guest
+			REGISTERED  => false,  //     Registered
+			CUSTOMER    => false,  //         Customer GroupRegistered
+			AUTHOR      => false,  //         Author (Should choose this)
+		    INV_AUTHOR  => false,  //             Invoice Author (inherits from Author)
+			EDITOR      =>  true,  //             Editor (inherits from Author)
+			PUBLISHER   =>  true,  //                 Publisher (inherits from Author)
+			SUPER_USER  => false,  //     Super Users
+			);
+		$this->checkPermissions($test, $action, $expected_permission, $modified_permissions);
+		$this->checkGroups($test, $action, EDITOR);
 
 	}
 

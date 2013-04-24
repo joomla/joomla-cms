@@ -80,5 +80,10 @@
 		<action name="example.custom.superuser2" title="Example custom enable superuser (with hint) [Test 15]"
 			description="Should default true for superuser"
 			default="com_content:core.admin[Super Users]" />
+
+		<action name="example.custom.editor3" title="Example custom enable editor from com_test (without hint) [Test 16]"
+			description="Should default true for editor (based on com_test)"
+			default="com_test:core.edit" />
+
 	</section>
 </access>
