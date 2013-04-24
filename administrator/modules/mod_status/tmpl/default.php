@@ -51,7 +51,7 @@ if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu'))
 	$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 }
 if ($params->get('show_logout', 1)) :
-	$output[] = '<div class="btn-group logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'"><i class="icon-minus-sign"></i> ').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</div>';
+	$output[] = '<div class="btn-group logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'"><i class="icon-minus-2"></i> ').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</div>';
 endif;
 
 // Output the items.
