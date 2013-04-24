@@ -71,7 +71,7 @@ class JHttpTransportCurl implements JHttpTransport
 		if (isset($data))
 		{
 			// If the data is a scalar value simply add it to the cURL post fields.
-			if (is_scalar($data))
+			if (is_scalar($data) || (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') === 0))
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
@@ -81,12 +81,16 @@ class JHttpTransportCurl implements JHttpTransport
 				$options[CURLOPT_POSTFIELDS] = http_build_query($data);
 			}
 
-			if (!isset($headers['Content-type']))
+			if (!isset($headers['Content-Type']))
 			{
-				$headers['Content-type'] = 'application/x-www-form-urlencoded';
+				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
 			}
 
-			$headers['Content-length'] = strlen($options[CURLOPT_POSTFIELDS]);
+			// Add the relevant headers.
+			if (is_scalar($options[CURLOPT_POSTFIELDS]))
+			{
+				$headers['Content-Length'] = strlen($options[CURLOPT_POSTFIELDS]);
+			}
 		}
 
 		// Build the headers string for the request.
@@ -124,6 +128,13 @@ class JHttpTransportCurl implements JHttpTransport
 		// Return it... echoing it would be tacky.
 		$options[CURLOPT_RETURNTRANSFER] = true;
 
+		// Override the Expect header to prevent cURL from confusing itself in its own stupidity.
+		// Link: http://the-stickman.com/web-development/php-and-curl-disabling-100-continue-header/
+		$options[CURLOPT_HTTPHEADER][] = 'Expect:';
+
+		// Follow redirects.
+		$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
+
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
 
@@ -160,7 +171,8 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
-		$code = $matches[0];
+
+		$code = count($matches) ? $matches[0] : null;
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
@@ -179,5 +191,17 @@ class JHttpTransportCurl implements JHttpTransport
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Method to check if HTTP transport cURL is available for use
+	 *
+	 * @return boolean true if available, else false
+	 *
+	 * @since   12.1
+	 */
+	static public function isSupported()
+	{
+		return function_exists('curl_version') && curl_version();
 	}
 }

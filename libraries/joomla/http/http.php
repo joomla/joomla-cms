@@ -43,7 +43,7 @@ class JHttp
 	public function __construct(JRegistry &$options = null, JHttpTransport $transport = null)
 	{
 		$this->options   = isset($options) ? $options : new JRegistry;
-		$this->transport = isset($transport) ? $transport : new JHttpTransportStream($this->options);
+		$this->transport = isset($transport) ? $transport : JHttpFactory::getAvailableDriver($this->options);
 	}
 
 	/**
