@@ -88,11 +88,9 @@ abstract class JHtmlBehavior
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			'(function($){
-				$(document).ready(function() {
-					Joomla.Caption("'.$selector.'");
-				});
-			})(jQuery);'
+			'jQuery(window).load(function(){
+			    Joomla.Caption("' . (string) $selector . '");
+			});'
 		);
 
 		// Set static array
