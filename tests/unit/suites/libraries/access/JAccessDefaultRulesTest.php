@@ -47,7 +47,6 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 							   SUPER_USER  =>     'Super Users',
 							   );
 
-
 	/**
 	 * @var core actions
 	 */
@@ -59,6 +58,7 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 	 * @var string representation of default root rule
 	 */
 	protected $reference_root_rule = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
+
 
 	/**
 	 * Gets the data set to be loaded into the database during setup
@@ -104,7 +104,12 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 		return new JAccessRules($root->rules);
 	}
 
-	// ???
+
+	/**
+	 * Get the group IDs of all groups allowed to do an action by default
+	 *
+	 * @param string  $action name of the action to check (eg, 'example.docustom')
+	 */
 	protected function getDefaultGroupsForAction($action)
 	{
 		// Get the root rules
@@ -352,7 +357,6 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 			);
 		$this->checkPermissions($test, $action, $expected_permission, $modified_permissions);
 		$this->checkGroups($test, $action, AUTHOR);
-
 
 		//------------------------------------------------------------
 		// Test 3: Verify enabling permission for author (with suggested group)
@@ -657,6 +661,155 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 
 
 	/**
+	 * testInstallRules1 - Normal cases
+	 *
+	 * Note: Uses basically the same rule set as in the test component (com_permtest).
+	 */
+	public function testInstallAccess2()
+	{
+		// Lists of the actions to check
+		$custom_actions = Array( "example.custom.test1",
+ 								 "example.custom.test2",
+ 								 "example.custom.test3",
+ 								 "example.custom.test4",
+								 );
+		$all_actions = array_merge( $this->core_actions, $custom_actions );
+
+		// Get the pristine, unmodified default permissions
+		$initial_permissions = $this->getDefaultPermissions($all_actions);
+
+		// Verify that the defaults for all the custom rules are 'denied'
+		foreach ($custom_actions as $action)
+		{
+			foreach ($this->groups as $gid => $group_name)
+			{
+				$perm_init = $initial_permissions[$action][$gid];
+				$errmsg = "Custom rule '$action' for group '$group_name' defaulted to true before installing custom defaults";
+				$this->assertFalse($perm_init, $errmsg);
+			}
+		}
+
+		// Install the new default rules form access1.xml
+		$install_ok = JAccess::installComponentDefaultRules('com_example', __DIR__ . '/data/access2.xml');
+		$this->assertTrue($install_ok, 'Problem installing component default rules from data/access2.xml');
+
+		// Get the modified permissions
+		$modified_permissions = $this->getDefaultPermissions($all_actions);
+
+		// None of the core rules should have changed
+		foreach ($this->core_actions as $action)
+		{
+			foreach ($this->groups as $gid => $group_name)
+			{
+				$perm_init = $initial_permissions[$action][$gid];
+				$perm_mod  = $modified_permissions[$action][$gid];
+				$errmsg = "Core rule '$action' for group '$group_name' modified by installing 'access1.xml'";
+				$this->assertEquals($perm_init, $perm_mod, $errmsg);
+			}
+		}
+
+		//----------------------------------------------------------------------
+		// test 1: Verify enabling permission for author (has to figure it out)
+		//
+		// In the XML file:  default="com_content:core.create"
+		//
+		$test = 'test 1';
+		$action = 'example.custom.test1';
+		$expected_permission = Array(
+			GPUBLIC     => false,  // Public
+			MANAGER     => false,  //     Manager
+			ADMIN       => false,  //         Administrator
+			GUEST       => false,  //     Guest
+			REGISTERED  => false,  //     Registered
+			CUSTOMER    => false,  //         Customer GroupRegistered
+			AUTHOR      =>  true,  //         Author (Should choose this)
+		    INV_AUTHOR  =>  true,  //             Invoice Author (inherits from Author)
+			EDITOR      =>  true,  //             Editor (inherits from Author)
+			PUBLISHER   =>  true,  //                 Publisher (inherits from Author)
+			SUPER_USER  => false,  //     Super Users
+			);
+		$this->checkPermissions($test, $action, $expected_permission, $modified_permissions);
+		$this->checkGroups($test, $action, AUTHOR);
+
+		//------------------------------------------------------------
+		// test 2: Verify enabling permission for author (with suggested group)
+		//
+		// In the XML file:  default="com_content:core.create[Author]"
+		//
+		$test = 'test 2';
+		$action = 'example.custom.test2';
+		$expected_permission = Array(
+			GPUBLIC     => false,  // Public
+			MANAGER     => false,  //     Manager
+			ADMIN       => false,  //         Administrator
+			GUEST       => false,  //     Guest
+			REGISTERED  => false,  //     Registered
+			CUSTOMER    => false,  //         Customer GroupRegistered
+			AUTHOR      =>  true,  //         Author (Should choose this)
+		    INV_AUTHOR  =>  true,  //             Invoice Author (inherits from Author)
+			EDITOR      =>  true,  //             Editor (inherits from Author)
+			PUBLISHER   =>  true,  //                 Publisher (inherits from Author)
+			SUPER_USER  => false,  //     Super Users
+			);
+		$this->checkPermissions($test, $action, $expected_permission, $modified_permissions);
+		$this->checkGroups($test, $action, AUTHOR);
+
+		//------------------------------------------------------------
+		// test 3: Verify enabling permission for author (with bad group)
+		//
+		// Take suggeston of Manager since it has permission for the action and was suggested
+		//
+		// In the XML file:  default="com_content:core.create[Manager]"
+		//
+		$test = 'test 3';
+		$action = 'example.custom.test3';
+		$expected_permission = Array(
+			GPUBLIC     => false,  // Public
+			MANAGER     =>  true,  //     Manager
+			ADMIN       =>  true,  //         Administrator
+			GUEST       => false,  //     Guest
+			REGISTERED  => false,  //     Registered
+			CUSTOMER    => false,  //         Customer GroupRegistered
+			AUTHOR      => false,  //         Author (Should choose this)
+		    INV_AUTHOR  => false,  //             Invoice Author (inherits from Author)
+			EDITOR      => false,  //             Editor (inherits from Author)
+			PUBLISHER   => false,  //                 Publisher (inherits from Author)
+			SUPER_USER  => false,  //     Super Users
+			);
+		$this->checkPermissions($test, $action, $expected_permission, $modified_permissions);
+		$this->checkGroups($test, $action, MANAGER);
+
+		//------------------------------------------------------------
+		// test 4: Verify enabling permission for author (with bad group)
+		//
+		// Suggest Registered, which should be ignored to pick Author
+		//
+		// In the XML file:  default="com_content:core.create[Registered]"
+		//
+		$test = 'test 4';
+		$action = 'example.custom.test4';
+		$expected_permission = Array(
+			GPUBLIC     => false,  // Public
+			MANAGER     => false,  //     Manager
+			ADMIN       => false,  //         Administrator
+			GUEST       => false,  //     Guest
+			REGISTERED  => false,  //     Registered
+			CUSTOMER    => false,  //         Customer GroupRegistered
+			AUTHOR      =>  true,  //         Author (Should choose this)
+		    INV_AUTHOR  =>  true,  //             Invoice Author (inherits from Author)
+			EDITOR      =>  true,  //             Editor (inherits from Author)
+			PUBLISHER   =>  true,  //                 Publisher (inherits from Author)
+			SUPER_USER  => false,  //     Super Users
+			);
+		$this->checkPermissions($test, $action, $expected_permission, $modified_permissions);
+		$this->checkGroups($test, $action, AUTHOR);
+
+
+
+	}
+
+
+	/**
 	 * testInstallInstallFail1
 	 *
 	 * This install will fail because it tries to modify the core content
@@ -669,6 +822,7 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 		JAccess::installComponentDefaultRules('com_core', __DIR__ . '/data/access_bad1.xml');
 	}
 
+
 	/**
 	 * testInstallInstallFail2
 	 *
@@ -680,6 +834,7 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 		$this->setExpectedException('Exception', $exception_msg);
 		JAccess::installComponentDefaultRules('com_example', __DIR__ . '/data/access_bad1.xml');
 	}
+
 
 	/**
 	 * testInstallInstallFail3
@@ -694,6 +849,7 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 		JAccess::installComponentDefaultRules('com_example', __DIR__ . '/data/access_bad2.xml');
 	}
 
+
 	/**
 	 * testInstallInstallFail4
 	 *
@@ -706,6 +862,7 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 		$this->setExpectedException('Exception', $exception_msg);
 		JAccess::installComponentDefaultRules('com_example', __DIR__ . '/data/access_bad2.xml');
 	}
+
 
 	/**
 	 * testInstallInstallFail5
