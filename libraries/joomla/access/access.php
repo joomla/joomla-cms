@@ -679,8 +679,6 @@ class JAccess
 	 * @param   file     A file (full path) for the 'access.xml' file to be used (for testing)
 	 *
 	 * @return  boolean  success or failure
-	 *
-	 * @since   12.1
 	 */
 	public static function installComponentDefaultRules($component, $file = null)
 	{
