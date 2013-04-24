@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_example">
+	<section name="component">
+
+		<action name="example.custom.test1" title="Example custom enable author [Test 1]"
+			description="Should default true for author"
+			default="com_content:core.create" />
+
+		<action name="example.custom.test2" title="Example custom enable author [Test 2]"
+			description="Should use author"
+			default="com_content:core.create[Author]" />
+
+		<action name="example.custom.test3" title="Example custom enable author [Test 3]"
+			description="Suggest MANAGER, should select AUTHOR"
+			default="com_content:core.create[Manager]" />
+
+		<action name="example.custom.test4" title="Example custom enable author [Test 4]"
+			description="Suggest REGISTERED, should select AUTHOR"
+			default="com_content:core.create[Registered]" />
+
+	</section>
+</access>
