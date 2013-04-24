@@ -1192,26 +1192,31 @@ abstract class JDatabaseQuery
 		return $this;
 	}
 
-	/**
-	 * Method to provide deep copy support to nested objects and
-	 * arrays when cloning.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function __clone()
-	{
-		foreach ($this as $k => $v)
-		{
-			if (is_object($v) || is_array($v))
-			{
-				$this->{$k} = unserialize(serialize($v));
-			}
-		}
-	}
+   /**
+     * Method to provide deep copy support to nested objects and
+     * arrays when cloning.
+     *
+     * @return  void
+     *
+     * @since   11.3
+     */
+    public function __clone()
+    {
+        foreach ($this as $k => $v)
+        {
+            if ($k === 'db')
+            {
+                continue;
+            }
 
-	/**
+            if (is_object($v) || is_array($v))
+            {
+                $this->$k = unserialize(serialize($v));
+            }
+        }
+    }
+
+    /**
 	 * Add a query to UNION with the current query.
 	 * Multiple unions each require separate statements and create an array of unions.
 	 *

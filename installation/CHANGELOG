@@ -26,6 +26,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.10 Stable Release 24-April-2013] ------------------
+
+23-Apr-2013 Mark Dexter
+ # [#30652] Commit for issue 29916 broke Smart Search indexing. Thanks Don Gilbert.
+
 14-Apr-2013 Mark Dexter
  # [#30506] Joomla update system erases entire site if downloaded zip package is broken. Thanks Aliaksei Kanstantsinau.
  # [#30288] Module Prepare Paramater breaks Cache + Browser Cache + Application Rendering time. Thanks Parth Lawate. 

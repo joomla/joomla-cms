@@ -45,6 +45,43 @@ class MessagesModelMessage extends JModelAdmin
 	}
 
 	/**
+	 * Check that recipient user is the one trying to delete and then call parent delete method
+	 *
+	 * @param   array  &$pks  An array of record primary keys.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since  3.1
+	 */
+	public function delete(&$pks)
+	{
+		$pks = (array) $pks;
+		$table = $this->getTable();
+		$user = JFactory::getUser();
+
+		// Iterate the items to delete each one.
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				if ($table->user_id_to !== $user->id)
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+		return parent::delete($pks);
+	}
+
+	/**
 	 * Returns a Table object, always creating it.
 	 *
 	 * @param	type	The table type to instantiate
@@ -158,6 +195,43 @@ class MessagesModelMessage extends JModelAdmin
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Checks that the current user matches the message recipient and calls the parent publish method
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
+
+		// Check that the recipient matches the current user
+		foreach ($pks as $i => $pk)
+		{
+			$table->reset();
+
+			if ($table->load($pk))
+			{
+				if ($table->user_id_to !== $user->id)
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+					return false;
+				}
+			}
+
+		}
+
+		return parent::publish($pks, $value);
 	}
 
 	/**

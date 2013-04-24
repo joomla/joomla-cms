@@ -69,23 +69,6 @@ $user = JFactory::getUser();
 						<label for="upload-submit" class="hidelabeltxt"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></label>
 						<input type="submit" id="upload-submit" value="<?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>"/>
 					</fieldset>
-					<div id="upload-flash" class="hide">
-						<ul>
-							<li><a href="#" id="upload-browse"><?php echo JText::_('COM_MEDIA_BROWSE_FILES'); ?></a></li>
-							<li><a href="#" id="upload-clear"><?php echo JText::_('COM_MEDIA_CLEAR_LIST'); ?></a></li>
-							<li><a href="#" id="upload-start"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></a></li>
-						</ul>
-						<div class="clr"> </div>
-						<p class="overall-title"></p>
-						<?php echo JHtml::_('image', 'media/bar.gif', JText::_('COM_MEDIA_OVERALL_PROGRESS'), array('class' => 'progress overall-progress'), true); ?>
-						<div class="clr"> </div>
-						<p class="current-title"></p>
-						<?php echo JHtml::_('image', 'media/bar.gif', JText::_('COM_MEDIA_CURRENT_PROGRESS'), array('class' => 'progress current-progress'), true); ?>
-						<p class="current-text"></p>
-					</div>
-					<ul class="upload-queue" id="upload-queue">
-						<li style="display:none;"></li>
-					</ul>
 					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
 				</fieldset>
 			</form>
