@@ -5,7 +5,7 @@ This repo is no longer accepting contributions or pull requests.
 
 The Platform has been merged back in to the [Joomla! CMS](http://github.com/joomla/joomla-cms),
 and the [Joomla! Framework](http://github.com/joomla/joomla-framework) has taken it's place as
-the standalone application framework for Joomla! application.s
+the standalone application framework for Joomla! applications.
 
 Please determine if your PR should go to the CMS or the Framework, and submit accordingly.
 
