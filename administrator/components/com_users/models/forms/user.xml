@@ -130,11 +130,6 @@
 
 	</fieldset>
 	<field name="groups" type="hidden" />
-			<field name="tags" type="tag"
-				label="JTAG" description="JTAG_DESC"
-				class="inputbox" multiple="true"
-			>
-			</field>
 
 	<fields name="params">
 

@@ -25,6 +25,43 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+23-Apr-2013 Mark Dexter
+ # [#30652] Commit for issue 29916 broke Smart Search indexing. Thanks Don Gilbert.
+ # [#30639] Hathor Tags issues Tag edit view. Thanks Elin Waring.
+ # [#30640] Hathor - Not tag field shown in core content. Thanks Roberto Sequra.
+ # [#30653] Use of undefined DEBUG constant. Thanks Elin Waring.
+ # [#30603] Tags: Similar Tags Module Shows the same article multiple time. Thanks Thomas Hunziker.
+ # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando. 
+
+22-Apr-2013 Mark Dexter
+ # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
+
+22-Apr-2013 Jean-Marie Simonet
+ $ [#30655] *TAGS: Wrong constant in en-GB.plg_finder_tags.ini
+ $ Adding Hungarian hu-HU installation language
+
+21-Apr-2013 Mark Dexter
+ # Fix incorrect commit for [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
+
+21-Apr-2013 Jean-Marie Simonet
+ # [#30645] *Hathor: Icomoon icons don't show in multiple places
+ # Fix loading all categories in multilanguage
+ # [#30637] Error when publishing a child tag of an unpublished parent tag. Thanks Elin
+
+-------------------- 3.1 Beta 5 Release [20-Apr-2012] ------------------
+
+20-Apr-2013 Mark Dexter
+ # [#30323] tag created iso selected with ajax interface when using keyboard only selection. Thanks Roberto Segura.
+ # [#30432] Optimize styling for small devices. Thanks Nick Savov.
+ # [#30533] 'banner position missing in Protostar templateDetails.xml file. Thanks Kevin Griffiths.
+ # [#30555] JTableContenttype->save() breaks type_alias. Thanks Thomas Hunziker.
+ # [#30592] Module Class Suffix	 should be a multiline text area. Thanks Ben Tasker.
+ # [#30595] Fixing "urls" within TagsTableTag->bind(). Thanks Thomas Hunziker.
+ # [#30596] Access Level in weblinnks manager is displaying as number. Thanks Elin Waring.
+ # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier. 
+ # [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
+ # [#30621] Fix batch issues, metadata issues and improve code quality. Thanks Elin Waring and Mark Dexter.
+
 17-Apr-2013 Mark Dexter
  # [#30458] Tags: Fatal Error with 3rd Party Component That Uses Categories. Thanks Patrick Alt.
  # [#30588] Fixing Tag view if core_access is not set. Thanks Thomas Hunziker.
