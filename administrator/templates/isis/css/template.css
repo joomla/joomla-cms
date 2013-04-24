@@ -6421,10 +6421,6 @@ h6 {
 	.subhead-collapse {
 		display: none;
 	}
-	.btn {
-		font-size: 11px;
-		padding: 1px 4px 2px 4px;
-	}
 	.navbar .btn {
 		margin: 0;
 	}

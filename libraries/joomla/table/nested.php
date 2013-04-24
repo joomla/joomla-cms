@@ -876,7 +876,7 @@ class JTableNested extends JTable
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$e = new UnexpectedValueException(sprintf('%s::publish(%s, %d, %d) empty.', get_class($this), $pks, $state, $userId));
+				$e = new UnexpectedValueException(sprintf(__CLASS__ . '::' . __FUNCTION__ . '(%s, %d, %d) empty.', get_class($this), $state, $userId));
 				$this->setError($e);
 				return false;
 			}
@@ -910,7 +910,8 @@ class JTableNested extends JTable
 				if ($this->_db->loadResult())
 				{
 					// TODO Convert to a conflict exception when available.
-					$e = new RuntimeException(sprintf('%s::publish(%s, %d, %d) checked-out conflict.', get_class($this), $pks, $state, $userId));
+					$pksImploded = implode(',', $pks);
+					$e = new RuntimeException(sprintf(__CLASS__ . '::' . __FUNCTION__ . '(%s, %d, %d) checked-out conflict.', get_class($this), $implodedPks, $state, $userId));
 					$this->setError($e);
 					return false;
 				}
@@ -933,14 +934,14 @@ class JTableNested extends JTable
 
 				$rows = $this->_db->loadColumn();
 
-				if (!empty($rows))
-				{
-					$e = new UnexpectedValueException(
-						sprintf('%s::publish(%s, %d, %d) ancestors have lower state.', get_class($this), $pks, $state, $userId)
-					);
-					$this->setError($e);
-					return false;
-				}
+					if (!empty($rows))
+					{
+						$pksImploded = implode(',', $pks);
+						throw new UnexpectedValueException(
+							sprintf(__CLASS__ . '::' . __FUNCTION__ . '(%s, %d, %d) ancestors have lower state.', $pksImploded, $state, $userId)
+						);
+
+					}
 			}
 
 			// Update and cascade the publishing state.
@@ -964,6 +965,7 @@ class JTableNested extends JTable
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 

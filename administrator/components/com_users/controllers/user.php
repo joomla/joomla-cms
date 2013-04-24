@@ -115,17 +115,6 @@ class UsersControllerUser extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$item = $model->getItem();
-		$id = $item->get('id');
-		$isNew = ($id == 0);
-
-		if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JHelperTags;
-			$oldTags->unTagItem($id, 'com_newsfeeds.newsfeed');
-			return;
-		}
-
 		return;
 	}
 }
