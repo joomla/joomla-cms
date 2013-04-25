@@ -461,13 +461,14 @@ abstract class JFolder
 	 * @param   boolean  $full           True to return the full path to the file.
 	 * @param   array    $exclude        Array with names of files which should not be shown in the result.
 	 * @param   array    $excludefilter  Array of filter to exclude
+	 * @param   boolean  $sortType       False for asort, true for natsort
 	 *
 	 * @return  array  Files in the given folder.
 	 *
 	 * @since   11.1
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*', '.*~'))
+		$excludefilter = array('^\..*', '.*~'), $sortType = false)
 	{
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
@@ -493,7 +494,7 @@ abstract class JFolder
 		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
 
 		// Sort the files
-		natsort($arr);
+		$sortType ? natsort($arr) : asort($arr);
 		return array_values($arr);
 	}
 
