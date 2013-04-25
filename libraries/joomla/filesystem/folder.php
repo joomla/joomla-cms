@@ -468,6 +468,9 @@ abstract class JFolder
 	 * @param   array    $exclude        Array with names of files which should not be shown in the result.
 	 * @param   array    $excludefilter  Array of filter to exclude
 	 * @param   boolean  $sortType       False for asort, true for natsort
+	 *
+	 * @return  array  Files in the given folder.
+	 *
 	 * @since   11.1
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
@@ -497,7 +500,7 @@ abstract class JFolder
 		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
 
 		// Sort the files
-		$sortType ? asort($arr) : natsort($arr);
+		$sortType ? natsort($arr) : asort($arr);
 
 		return array_values($arr);
 	}
