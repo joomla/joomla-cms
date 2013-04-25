@@ -122,15 +122,6 @@
 				size="20"
 			/>
 
-			<field name="show_intro_blog" type="list"
-				description="JGLOBAL_SHOW_INTRO_DESC"
-				label="JGLOBAL_SHOW_INTRO_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
 </fieldset>
 
 <fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">

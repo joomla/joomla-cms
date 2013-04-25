@@ -50,7 +50,7 @@ $canEdit	= $this->item->params->get('access-edit');
 	</ul>
 <?php endif; ?>
 
-<?php if (!$params->get('show_intro_blog', 1)) : ?>
+<?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
 
@@ -134,7 +134,7 @@ $canEdit	= $this->item->params->get('access-edit');
 	</div>
 <?php endif; ?>
 
-<?php if ($params->get('show_intro_blog', 1)) : ?>
+<?php if ($params->get('show_intro')) : ?>
 <?php echo $this->item->introtext; ?>
 <?php endif; ?>
 
