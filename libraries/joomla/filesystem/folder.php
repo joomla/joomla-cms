@@ -468,7 +468,7 @@ abstract class JFolder
 	 * @since   11.1
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*', '.*~'), $sortType = true)
+		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
@@ -493,8 +493,15 @@ abstract class JFolder
 		// Get the files
 		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
 
-		// Sort the files
-		$sortType ? natsort($arr) : asort($arr);
+		// Sort the files based on either natural or alpha method
+		if ($naturalSort)
+		{
+			natsort($arr);
+		}
+		else
+		{
+			asort($arr);
+		}
 		return array_values($arr);
 	}
 
