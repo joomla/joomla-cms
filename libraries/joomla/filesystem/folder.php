@@ -493,7 +493,7 @@ abstract class JFolder
 		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
 
 		// Sort the files
-		asort($arr);
+		natsort($arr);
 		return array_values($arr);
 	}
 
