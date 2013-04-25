@@ -53,7 +53,7 @@ JHtml::_('behavior.framework');
 	</ul>
 <?php endif; ?>
 
-<?php if (!$params->get('show_intro')) : ?>
+<?php if (!$params->get('show_intro_blog', 1)) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
 
@@ -135,7 +135,7 @@ JHtml::_('behavior.framework');
 	</div>
 <?php endif; ?>
 
-<?php if ($params->get('show_intro')) : ?>
+<?php if ($params->get('show_intro_blog', 1)) : ?>
 <?php echo $this->item->introtext; ?>
 <?php endif; ?>
 

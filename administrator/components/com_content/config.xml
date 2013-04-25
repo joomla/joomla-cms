@@ -612,6 +612,18 @@
 			<option
 				value="1">JGLOBAL_ACROSS</option>
 		</field>
+		<field
+			name="show_intro_blog"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="JGLOBAL_SHOW_INTRO_LABEL"
+			description="JGLOBAL_SHOW_INTRO_DESC">
+			<option
+				value="0">JHIDE</option>
+			<option
+				value="1">JSHOW</option>
+		</field>
 
 		<field name="spacer1"
 			type="spacer"
