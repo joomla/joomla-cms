@@ -5619,8 +5619,8 @@ input.invalid {
 .icon-pencil:before {
 	content: "\2b";
 }
-.icon-edit:before,
-.icon-pencil:before {
+.icon-apply:before,
+.icon-edit:before {
 	color: #2f96b4;
 }
 .icon-pencil-2:before {
@@ -5740,12 +5740,18 @@ input.invalid {
 .icon-cancel:before {
 	content: "\4a";
 }
-.icon-unpublish:before {
+.icon-unpublish:before,
+.btn-toolbar .icon-cancel:before {
 	color: #bd362f;
 }
+.icon-not-ok:before,
 .icon-eye-close:before,
 .icon-minus:before {
 	content: "\4b";
+}
+.icon-not-ok:before,
+.icon-eye-close:before {
+	color: #bd362f;
 }
 .icon-purge:before,
 .icon-trash:before {
@@ -6001,7 +6007,8 @@ input.invalid {
 .icon-copy:before {
 	content: "\e018";
 }
-.icon-save-copy:before {
+.icon-save-copy:before,
+.btn-toolbar .icon-copy:before {
 	color: #51a351;
 }
 .icon-cart:before {

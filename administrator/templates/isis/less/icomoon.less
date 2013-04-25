@@ -73,8 +73,8 @@
 .icon-pencil:before {
 	content: "\2b";
 }
-.icon-edit:before,
-.icon-pencil:before {
+.icon-apply:before,
+.icon-edit:before {
 	color: @btnInfoBackgroundHighlight;
 }
 .icon-pencil-2:before {
@@ -194,12 +194,18 @@
 .icon-cancel:before {
 	content: "\4a";
 }
-.icon-unpublish:before {
+.icon-unpublish:before,
+.btn-toolbar .icon-cancel:before {
 	color: @btnDangerBackgroundHighlight;
 }
+.icon-not-ok:before,
 .icon-eye-close:before,
 .icon-minus:before {
 	content: "\4b";
+}
+.icon-not-ok:before,
+.icon-eye-close:before {
+	color: @btnDangerBackgroundHighlight;
 }
 .icon-purge:before,
 .icon-trash:before {
@@ -455,7 +461,8 @@
 .icon-copy:before {
 	content: "\e018";
 }
-.icon-save-copy:before {
+.icon-save-copy:before,
+.btn-toolbar .icon-copy:before {
 	color: @btnSuccessBackgroundHighlight;
 }
 .icon-cart:before {
