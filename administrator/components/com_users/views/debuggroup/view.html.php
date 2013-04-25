@@ -31,6 +31,12 @@ class UsersViewDebugGroup extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Access check.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users') || !JFactory::getConfig()->get('debug'))
+		{
+			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
+
 		$this->actions		= $this->get('DebugActions');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
