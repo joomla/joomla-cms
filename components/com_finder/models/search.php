@@ -957,14 +957,15 @@ class FinderModelSearch extends JModelList
 		 * Iterate through the mapping groups and load the excluded links ids
 		 * from each mapping table.
 		 */
+		// Create a new query object.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 		foreach ($maps as $suffix => $ids)
 		{
-			// Create a new query object.
-			$db = $this->getDbo();
-			$query = $db->getQuery(true);
 
 			// Create the query to get the links ids.
-			$query->select('link_id')
+			$query->clear()
+				->select('link_id')
 				->from($db->quoteName('#__finder_links_terms' . $suffix))
 				->where($db->quoteName('term_id') . ' IN (' . implode(',', $ids) . ')')
 				->group($db->quoteName('link_id'));

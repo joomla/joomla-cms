@@ -83,7 +83,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
 			// Remove cached updates
-			$query = $db->getQuery(true)
+			$query->clear()
 				->delete($db->quoteName('#__updates'))
 				->where($db->quoteName('extension_id') . ' = ' . $db->quote('700'));
 			$db->setQuery($query);

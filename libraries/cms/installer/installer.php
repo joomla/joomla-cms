@@ -1124,7 +1124,7 @@ class JInstaller extends JAdapter
 					}
 
 					// Update the database
-					$query = $db->getQuery(true)
+					$query->clear()
 						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);

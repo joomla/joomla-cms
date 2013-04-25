@@ -332,7 +332,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 			$lang->setDebug($debug);
 
 			// Insert record in #__template_styles
-			$query = $db->getQuery(true)
+			$query->clear()
 				->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(implode(',', $values));

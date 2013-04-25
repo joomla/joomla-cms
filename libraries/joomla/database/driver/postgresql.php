@@ -528,20 +528,20 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * INSERT INTO query, or use INSERT INTO with RETURNING clause.
 	 *
 	 * @example with insertid() call:
-	 *		$query = $this->getQuery(true);
-	 *		$query->insert('jos_dbtest')
-	 *				->columns('title,start_date,description')
-	 *				->values("'testTitle2nd','1971-01-01','testDescription2nd'");
+	 *		$query = $this->getQuery(true)
+	 *			insert('jos_dbtest')
+	 *			->columns('title,start_date,description')
+	 *			->values("'testTitle2nd','1971-01-01','testDescription2nd'");
 	 *		$this->setQuery($query);
 	 *		$this->execute();
 	 *		$id = $this->insertid();
 	 *
 	 * @example with RETURNING clause:
-	 *		$query = $this->getQuery(true);
-	 *		$query->insert('jos_dbtest')
-	 *				->columns('title,start_date,description')
-	 *				->values("'testTitle2nd','1971-01-01','testDescription2nd'")
-	 *				->returning('id');
+	 *		$query = $this->getQuery(true)
+	 *			->insert('jos_dbtest')
+	 *			->columns('title,start_date,description')
+	 *			->values("'testTitle2nd','1971-01-01','testDescription2nd'")
+	 *			->returning('id');
 	 *		$this->setQuery($query);
 	 *		$id = $this->loadResult();
 	 *

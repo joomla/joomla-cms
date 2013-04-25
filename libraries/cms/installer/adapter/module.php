@@ -853,7 +853,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->languages, $row->client_id);
 
 		// Let's delete all the module copies for the type we are uninstalling
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))
