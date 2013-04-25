@@ -1103,9 +1103,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	protected function getAlterDbCharacterSet($dbName)
 	{
-		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' SET CLIENT_ENCODING TO ' . $this->quote('UTF8');
-
-		return $query;
+		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' SET CLIENT_ENCODING TO ' . $this->quote('UTF8');
 	}
 
 	/**
