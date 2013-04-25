@@ -468,7 +468,7 @@ abstract class JFolder
 	 * @since   11.1
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*', '.*~'), $sortType = false)
+		$excludefilter = array('^\..*', '.*~'), $sortType = true)
 	{
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
