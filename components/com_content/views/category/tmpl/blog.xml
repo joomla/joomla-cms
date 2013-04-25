@@ -246,6 +246,15 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_intro_blog" type="list"
+				description="JGLOBAL_SHOW_INTRO_DESC"
+				label="JGLOBAL_SHOW_INTRO_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 </fieldset>
 
 <fieldset name="article" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
