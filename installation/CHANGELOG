@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#30725] Exception thrown for empty path. Thanks Elin Waring.
  # [#30679] Fix two Tags-related API issues. Thanks Elin Waring.
  # [#30632] *Menu item Alias required setting. Thanks Jean-Marie Simonet.
+ # [#29957] Administrator interface dropdown menus not working on tablets. Thanks Denia Si.
 
 -------------------- 3.1.0 Stable Release [24-Apr-2013] ------------------
 
