@@ -28,6 +28,7 @@ $ -> Language fix or change
 26-Apr-2013 Mark Dexter
  # [#30702] Only titles display in featured/blogged views when hide intro text is selected.
  # [#30681] Error in Database tab in Extension Manager.
+ # [#30697] Invalid tab end in article edit page. Thanks Dennis Hermatski.
 
 -------------------- 3.1.0 Stable Release [24-Apr-2013] ------------------
 
