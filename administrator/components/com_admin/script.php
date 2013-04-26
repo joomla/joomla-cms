@@ -146,6 +146,7 @@ class joomlaInstallerScript
 		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_jokteupdate', '', 1);
+		$extensions[] = array('component', 'com_ayuda', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -159,6 +160,9 @@ class joomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_archive', '', 0);
 		$extensions[] = array('module', 'mod_articles_latest', '', 0);
 		$extensions[] = array('module', 'mod_articles_popular', '', 0);
+		$extensions[] = array('module', 'mod_hilandojuuntos', '', 0);
+		$extensions[] = array('module', 'mod_juuntosasamblea', '', 0);
+		$extensions[] = array('module', 'mod_librehtml', '', 0);
 		$extensions[] = array('module', 'mod_banners', '', 0);
 		$extensions[] = array('module', 'mod_breadcrumbs', '', 0);
 		$extensions[] = array('module', 'mod_custom', '', 0);
@@ -194,6 +198,7 @@ class joomlaInstallerScript
 		$extensions[] = array('module', 'mod_title', '', 1);
 		$extensions[] = array('module', 'mod_toolbar', '', 1);
 		$extensions[] = array('module', 'mod_multilangstatus', '', 1);
+		$extensions[] = array('module', 'mod_hilandojuuntos', '', 1);
 
 		// Plug-ins
 		$extensions[] = array('plugin', 'gmail', 'authentication', 0);
@@ -235,18 +240,18 @@ class joomlaInstallerScript
 		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
+		$extensions[] = array('plugin', 'admin_bar_unlocker', 'system', 0);
 
 		// Templates
 
 		$extensions[] = array('template', 'atomic', '', 0);
-		$extensions[] = array('template', 'bluestork', '', 1);
-		$extensions[] = array('template', 'beez_20', '', 0);
+		$extensions[] = array('template', 'jokteantu', '', 0);
 		$extensions[] = array('template', 'hathor', '', 1);
-		$extensions[] = array('template', 'beez5', '', 0);
+		$extensions[] = array('template', 'storkantu', '', 1);
 
 		// Languages
-		$extensions[] = array('language', 'en-GB', '', 0);
-		$extensions[] = array('language', 'en-GB', '', 1);
+		$extensions[] = array('language', 'pt-BR', '', 0);
+		$extensions[] = array('language', 'pt-BR', '', 1);
 		$extensions[] = array('language', 'es-LA', '', 0);
 		$extensions[] = array('language', 'es-LA', '', 1);
 
