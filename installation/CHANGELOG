@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Apr-2013 Jean-Marie Simonet
+ # [#30717] Memcached driver breaks Joomla configuration page. Thanks Ofer Cohen
+
 -------------------- 2.5.10 Stable Release 24-April-2013] ------------------
 
 23-Apr-2013 Mark Dexter
