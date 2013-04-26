@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30697] Invalid tab end in article edit page. Thanks Dennis Hermatski.
  # [#30725] Exception thrown for empty path. Thanks Elin Waring.
  # [#30679] Fix two Tags-related API issues. Thanks Elin Waring.
+ # [#30632] *Menu item Alias required setting. Thanks Jean-Marie Simonet.
 
 -------------------- 3.1.0 Stable Release [24-Apr-2013] ------------------
 
