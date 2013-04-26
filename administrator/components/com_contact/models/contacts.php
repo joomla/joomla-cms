@@ -198,7 +198,7 @@ class ContactModelContacts extends JModelList
 			}
 			elseif (stripos($search, 'author:') === 0) {
 				$search = $db->Quote('%'.$db->escape(substr($search, 7), true).'%');
-				$query->where('(ua.name LIKE '.$search.' OR ua.username LIKE '.$search.')');
+				$query->where('(uc.name LIKE '.$search.' OR uc.username LIKE '.$search.')');
 			}
 			else {
 				$search = $db->Quote('%'.$db->escape($search, true).'%');
