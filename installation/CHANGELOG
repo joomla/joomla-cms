@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#29957] Administrator interface dropdown menus not working on tablets. Thanks Denia Si.
  # [#30660] Corrects font-file stack order. Thanks Seth Warburton.
  # [#30668] *Beez3 missing JHtml::_('behavior.caption');. Thanks Jean-Marie Simonet.
+ # [#30398] com_tags show "{loadmodule..." when listing items. Thanks Elin Waring.
 
 -------------------- 3.1.0 Stable Release [24-Apr-2013] ------------------
 
