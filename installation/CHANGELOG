@@ -31,6 +31,7 @@ $ -> Language fix or change
 26-Apr-2013 Mark Dexter
  # [#30681] Error in Database tab in Extension Manager. Thanks Amirol Ahmad.
  # [#30702] Only titles display in featured/blogged views when hide intro text is selected.
+ # [#30725] Exception thrown for empty path. Thanks Elin Waring.
 
 26-Apr-2013 Jean-Marie Simonet
  # [#30717] Memcached driver breaks Joomla configuration page. Thanks Ofer Cohen
