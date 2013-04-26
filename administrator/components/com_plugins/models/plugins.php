@@ -128,8 +128,11 @@ class PluginsModelPlugins extends JModelList
 					}
 				}
 			}
+
 			$lang = JFactory::getLanguage();
-			JArrayHelper::sortObjects($result, 'name', $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
+			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
+			JArrayHelper::sortObjects($result, $ordering, $direction, true, $lang->getLocale());
+
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {
