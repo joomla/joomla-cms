@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#30660] Corrects font-file stack order. Thanks Seth Warburton.
  # [#30668] *Beez3 missing JHtml::_('behavior.caption');. Thanks Jean-Marie Simonet.
  # [#30398] com_tags show "{loadmodule..." when listing items. Thanks Elin Waring.
+ # [#30495] Type check line 31, TemplatesHelper::getPositions. Thanks Christoffer Rødvik.
 
 -------------------- 3.1.0 Stable Release [24-Apr-2013] ------------------
 
