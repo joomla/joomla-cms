@@ -68,15 +68,10 @@ abstract class JHtmlMenu
 	{
 		if (empty(self::$items))
 		{
+			$menus = self::menus();
+			
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('menutype AS value, title AS text')
-				->from($db->quoteName('#__menu_types'))
-				->order('title');
-			$db->setQuery($query);
-			$menus = $db->loadObjectList();
-
-			$query->clear()
 				->select('a.id AS value, a.title AS text, a.level, a.menutype')
 				->from('#__menu AS a')
 				->where('a.parent_id > 0')
