@@ -27,8 +27,8 @@ class PlgSearchContacts extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	* @return array An array of search areas
-	*/
+	 * @return array An array of search areas
+	 */
 	public function onContentSearchAreas()
 	{
 		static $areas = array(
@@ -38,20 +38,20 @@ class PlgSearchContacts extends JPlugin
 	}
 
 	/**
-	* Contacts Search method
-	*
-	* The sql must return the following fields that are used in a common display
-	* routine: href, title, section, created, text, browsernav
-	* @param string Target search string
-	* @param string matching option, exact|any|all
-	* @param string ordering option, newest|oldest|popular|alpha|category
+	 * Contacts Search method
+	 *
+	 * The sql must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav
+	 * @param string Target search string
+	 * @param string matching option, exact|any|all
+	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 */
-	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db		= JFactory::getDbo();
-		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		if (is_array($areas))
 		{
@@ -61,9 +61,9 @@ class PlgSearchContacts extends JPlugin
 			}
 		}
 
-		$sContent  = $this->params->get('search_content', 1);
+		$sContent = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
-		$limit     = $this->params->def('search_limit', 50);
+		$limit = $this->params->def('search_limit', 50);
 		$state = array();
 		if ($sContent)
 		{
@@ -99,12 +99,12 @@ class PlgSearchContacts extends JPlugin
 				$order = 'a.name DESC';
 		}
 
-		$text	= $db->Quote('%'.$db->escape($text, true).'%', false);
+		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 
 		$rows = array();
 		if (!empty($state))
 		{
-			$query	= $db->getQuery(true);
+			$query = $db->getQuery(true);
 			//sqlsrv changes
 			$case_when = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
@@ -112,7 +112,7 @@ class PlgSearchContacts extends JPlugin
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
-			$case_when .= $a_id.' END as slug';
+			$case_when .= $a_id . ' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
@@ -120,29 +120,33 @@ class PlgSearchContacts extends JPlugin
 			$c_id = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id.' END as catslug';
+			$case_when1 .= $c_id . ' END as catslug';
 
-			$query->select('a.name AS title, \'\' AS created, a.con_position, a.misc, '
-					.$case_when.','.$case_when1.', '
-					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",").' AS text,'
-					. $query->concatenate(array($db->Quote($section), "c.title"), " / ").' AS section,'
-					. '\'2\' AS browsernav');
-			$query->from('#__contact_details AS a');
-			$query->innerJoin('#__categories AS c ON c.id = a.catid');
-			$query->where('(a.name LIKE '. $text .' OR a.misc LIKE '. $text .' OR a.con_position LIKE '. $text
-						.' OR a.address LIKE '. $text .' OR a.suburb LIKE '. $text .' OR a.state LIKE '. $text
-						.' OR a.country LIKE '. $text .' OR a.postcode LIKE '. $text .' OR a.telephone LIKE '. $text
-						.' OR a.fax LIKE '. $text .') AND a.published IN ('.implode(',', $state).') AND c.published=1 '
-						.' AND a.access IN ('. $groups. ') AND c.access IN ('. $groups. ')' );
-			$query->group('a.id, a.con_position, a.misc, c.alias, c.id');
-			$query->order($order);
+			$query->select(
+				'a.name AS title, \'\' AS created, a.con_position, a.misc, '
+					. $case_when . ',' . $case_when1 . ', '
+					. $query->concatenate(array("a.name", "a.con_position", "a.misc"), ",") . ' AS text,'
+					. $query->concatenate(array($db->quote($section), "c.title"), " / ") . ' AS section,'
+					. '\'2\' AS browsernav'
+			);
+			$query->from('#__contact_details AS a')
+				->join('INNER', '#__categories AS c ON c.id = a.catid')
+				->where(
+					'(a.name LIKE ' . $text . ' OR a.misc LIKE ' . $text . ' OR a.con_position LIKE ' . $text
+						. ' OR a.address LIKE ' . $text . ' OR a.suburb LIKE ' . $text . ' OR a.state LIKE ' . $text
+						. ' OR a.country LIKE ' . $text . ' OR a.postcode LIKE ' . $text . ' OR a.telephone LIKE ' . $text
+						. ' OR a.fax LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND c.published=1 '
+						. ' AND a.access IN (' . $groups . ') AND c.access IN (' . $groups . ')'
+				);
+			$query->group('a.id, a.con_position, a.misc, c.alias, c.id')
+				->order($order);
 
 			// Filter by language
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
@@ -152,10 +156,10 @@ class PlgSearchContacts extends JPlugin
 			{
 				foreach ($rows as $key => $row)
 				{
-					$rows[$key]->href = 'index.php?option=com_contact&view=contact&id='.$row->slug.'&catid='.$row->catslug;
+					$rows[$key]->href = 'index.php?option=com_contact&view=contact&id=' . $row->slug . '&catid=' . $row->catslug;
 					$rows[$key]->text = $row->title;
-					$rows[$key]->text .= ($row->con_position) ? ', '.$row->con_position : '';
-					$rows[$key]->text .= ($row->misc) ? ', '.$row->misc : '';
+					$rows[$key]->text .= ($row->con_position) ? ', ' . $row->con_position : '';
+					$rows[$key]->text .= ($row->misc) ? ', ' . $row->misc : '';
 				}
 			}
 		}

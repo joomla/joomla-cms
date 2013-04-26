@@ -21,6 +21,10 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
+// Create shortcut to parameters.
+$params = $this->state->get('params');
+$params = $params->toArray();
+
 ?>
 
 <script type="text/javascript">
@@ -37,19 +41,9 @@ JHtml::_('formbehavior.chosen', 'select');
 	<div class="row-fluid">
 	<!-- Begin Content -->
 		<div class="span10 form-horizontal">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#general" data-toggle="tab"><?php echo JText::_('COM_TAGS_FIELDSET_DETAILS');?></a></li>
-				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_TAGS_FIELDSET_PUBLISHING');?></a></li>
-				<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_TAGS_FIELDSET_OPTIONS');?></a></li>
-				<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
-				<?php if ($this->assoc) : ?>
-					<li><a href="#associations" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS');?></a></li>
-				<?php endif; ?>
-			</ul>
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-			<div class="tab-content">
-				<!-- Begin Tabs -->
-				<div class="tab-pane active" id="general">
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_TAGS_FIELDSET_DETAILS', true)); ?>
 					<fieldset class="adminform">
 						<div class="control-group form-inline">
 							<?php echo $this->form->getLabel('title'); ?> <?php echo $this->form->getInput('title'); ?> <?php echo $this->form->getLabel('catid'); ?> <?php echo $this->form->getInput('catid'); ?>
@@ -76,102 +70,101 @@ JHtml::_('formbehavior.chosen', 'select');
 									</div>
 								<?php endforeach; ?>
 							</div>
-							<div class="span6">
-								<?php foreach ($this->form->getGroup('urls') as $field) : ?>
+						</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+						<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_TAGS_FIELDSET_PUBLISHING', true)); ?>
+							<div class="row-fluid">
+								<div class="span6">
 									<div class="control-group">
-										<?php if (!$field->hidden) : ?>
-												<?php echo $field->label; ?>
-										<?php endif; ?>
+										<?php echo $this->form->getLabel('alias'); ?>
 										<div class="controls">
-											<?php echo $field->input; ?>
+											<?php echo $this->form->getInput('alias'); ?>
 										</div>
 									</div>
-								<?php endforeach; ?>
-							</div>
-						</div>
+									<div class="control-group">
+										<div class="control-label">
+											<?php echo $this->form->getLabel('id'); ?>
+										</div>
+										<div class="controls">
+											<?php echo $this->form->getInput('id'); ?>
+										</div>
+									</div>
+									<div class="control-group">
+										<?php echo $this->form->getLabel('created_user_id'); ?>
+										<div class="controls">
+											<?php echo $this->form->getInput('created_user_id'); ?>
+										</div>
+									</div>
+									<div class="control-group">
+										<?php echo $this->form->getLabel('created_by_alias'); ?>
+										<div class="controls">
+											<?php echo $this->form->getInput('created_by_alias'); ?>
+										</div>
+									</div>
+									<div class="control-group">
+										<?php echo $this->form->getLabel('created_time'); ?>
+										<div class="controls">
+											<?php echo $this->form->getInput('created_time'); ?>
+										</div>
+									</div>
+								</div>
+								<div class="span6">
+									<div class="control-group">
+										<?php echo $this->form->getLabel('publish_up'); ?>
+										<div class="controls">
+											<?php echo $this->form->getInput('publish_up'); ?>
+										</div>
+									</div>
+									<div class="control-group">
+										<?php echo $this->form->getLabel('publish_down'); ?>
+										<div class="controls">
+											<?php echo $this->form->getInput('publish_down'); ?>
+										</div>
+									</div>
+									<?php if ($this->item->modified_user_id) : ?>
+										<div class="control-group">
+											<?php echo $this->form->getLabel('modified_user_id'); ?>
+											<div class="controls">
+												<?php echo $this->form->getInput('modified_user_id'); ?>
+											</div>
+										</div>
+										<div class="control-group">
+											<?php echo $this->form->getLabel('modified_time'); ?>
+											<div class="controls">
+												<?php echo $this->form->getInput('modified_time'); ?>
+											</div>
+										</div>
+									<?php endif; ?>
 
-				</div>
+									<?php if ($this->item->version) : ?>
+										<div class="control-group">
+											<?php echo $this->form->getLabel('version'); ?>
+											<div class="controls">
+												<?php echo $this->form->getInput('version'); ?>
+											</div>
+										</div>
+									<?php endif; ?>
 
-				<div class="tab-pane" id="publishing">
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('alias'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('alias'); ?>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('id'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('id'); ?>
-						</div>
-					</div>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('hits'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('hits'); ?>
-						</div>
-					</div>
-					<?php if (intval($this->item->created_time)) : ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('created_time'); ?>
+									<?php if ($this->item->hits) : ?>
+										<div class="control-group">
+											<div class="control-label">
+												<?php echo $this->form->getLabel('hits'); ?>
+											</div>
+											<div class="controls">
+												<?php echo $this->form->getInput('hits'); ?>
+											</div>
+										</div>
+									<?php endif; ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('created_time'); ?>
-							</div>
-						</div>
-					<?php endif; ?>
-					<?php if ($this->item->modified_user_id) : ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('modified_user_id'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('modified_user_id'); ?>
-							</div>
-						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('modified_time'); ?>
-							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('modified_time'); ?>
-							</div>
-						</div>
-					<?php endif; ?>
-				</div>
-				<div class="tab-pane" id="options">
-					<fieldset>
-						<?php echo $this->loadTemplate('options'); ?>
-					</fieldset>
-				</div>
-				<div class="tab-pane" id="metadata">
-					<fieldset>
-						<?php echo $this->loadTemplate('metadata'); ?>
-					</fieldset>
-				</div>
-				<?php if ($this->assoc) : ?>
-					<div class="tab-pane" id="associations">
-						<fieldset>
-							<?php echo $this->loadTemplate('associations'); ?>
-						</fieldset>
-					</div>
-				<?php endif; ?>
-				<?php if ($this->canDo->get('core.admin')): ?>
-					<div class="tab-pane" id="permissions">
-						<fieldset>
-							<?php echo $this->form->getInput('rules'); ?>
-						</fieldset>
-					</div>
-				<?php endif; ?>
-				<!-- End Tabs -->
-			</div>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+							<?php echo $this->loadTemplate('metadata'); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
+									</div>
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
 		</div>

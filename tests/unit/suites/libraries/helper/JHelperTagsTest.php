@@ -8,12 +8,12 @@
  */
 
 /**
- * Test class for JTags.
+ * Test class for JHelperTags.
  */
-class JTagsTest extends PHPUnit_Framework_TestCase
+class JHelperTagsTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JTags
+	 * @var    JHelperTags
 	 * @since  3.1
 	 */
 	protected $object;
@@ -28,7 +28,7 @@ class JTagsTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		$this->object = new JTags;
+		$this->object = new JHelperTags;
 	}
 
 	/**
@@ -99,102 +99,6 @@ class JTagsTest extends PHPUnit_Framework_TestCase
 	 * @since   3.1
 	 */
 	public function testGetTagItemsQuery()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
-
-	/**
-	 * Tests the explodeTypeAlias method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testExplodeTypeAlias()
-	{
-		$alias = $this->object->explodeTypeAlias('com_content.category');
-
-		$this->assertEquals(
-			$alias[1],
-			'category',
-			'Assert that the alias is properly exploded and the second key is the item type'
-		);
-	}
-
-	/**
-	 * Tests the getTypeName method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testGetTypeName()
-	{
-		$name = $this->object->getTypeName('com_content.category');
-
-		$this->assertEquals(
-			$name,
-			'com_content',
-			'Assert that the component name is returned'
-		);
-	}
-
-	/**
-	 * Tests the getContentItemUrl method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testGetContentItemUrl()
-	{
-		$url = $this->object->getContentItemUrl('com_content.category', 1);
-
-		$this->assertEquals(
-			$url,
-			'index.php?option=com_content&view=category&id=1',
-			'Assert that the view URL is properly returned'
-		);
-	}
-
-	/**
-	 * Tests the getTagUrl method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testGetTagUrl()
-	{
-		$url = $this->object->getTagUrl(1);
-
-		$this->assertEquals(
-			$url,
-			'index.php&option=com_tags&view=tag&id=1',
-			'Assert that the tag URL is properly returned'
-		);
-	}
-
-	/**
-	 * Tests the getTableName method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testGetTableName()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
-
-	/**
-	 * Tests the getTypeId method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function testGetTypeId()
 	{
 		$this->markTestSkipped('Test not implemented.');
 	}

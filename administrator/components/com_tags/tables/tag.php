@@ -56,11 +56,11 @@ class TagsTableTag extends JTableNested
 			$array['metadata'] = (string) $registry;
 		}
 
-		if (isset($item->urls) && is_array($item->urls))
+		if (isset($array['urls']) && $array['urls'])
 		{
 			$registry = new JRegistry;
-			$registry->loadArray($item->urls);
-			$item->urls = (string) $registry;
+			$registry->loadArray($array['urls']);
+			$array['urls'] = (string) $registry;
 		}
 
 		if (isset($array['images']) && is_array($array['images']))
@@ -195,7 +195,7 @@ class TagsTableTag extends JTableNested
 	public function delete($pk = null, $children = false)
 	{
 		return parent::delete($pk, $children);
-		$helper = new JTags;
+		$helper = new JHelperTags;
 		$helper->tagDeleteInstances($pk);
 	}
 }

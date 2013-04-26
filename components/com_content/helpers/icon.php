@@ -254,7 +254,7 @@ abstract class JHtmlIcon
 			}
 			else
 			{
-				$text = $text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
+				$text = '<span class="icon-print"></span>&#160;' . JText::_('JGLOBAL_PRINT') . '&#160;';
 			}
 		}
 		else

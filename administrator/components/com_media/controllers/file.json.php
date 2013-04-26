@@ -24,11 +24,14 @@ class MediaControllerFile extends JControllerLegacy
 	/**
 	 * Upload a file
 	 *
-	 * @since 1.5
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	function upload()
 	{
 		$params = JComponentHelper::getParams('com_media');
+
 		// Check for request forgeries
 		if (!JSession::checkToken('request'))
 		{
@@ -42,13 +45,11 @@ class MediaControllerFile extends JControllerLegacy
 
 		// Get the user
 		$user  = JFactory::getUser();
-		$input = JFactory::getApplication()->input;
 		JLog::addLogger(array('text_file' => 'upload.error.php'), JLog::ALL, array('upload'));
 
 		// Get some data from the request
-		$file   = JRequest::getVar('Filedata', '', 'files', 'array');
-		$folder = $input->get('folder', '', 'path');
-		$return = $input->post->get('return-url', null, 'base64');
+		$file   = $this->input->files->get('Filedata', '', 'array');
+		$folder = $this->input->get('folder', '', 'path');
 
 		if (
 			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
@@ -69,7 +70,7 @@ class MediaControllerFile extends JControllerLegacy
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Make the filename safe
-		$file['name']	= JFile::makeSafe($file['name']);
+		$file['name'] = JFile::makeSafe($file['name']);
 
 		if (isset($file['name']))
 		{
@@ -81,10 +82,12 @@ class MediaControllerFile extends JControllerLegacy
 			if (!MediaHelper::canUpload($file, $err))
 			{
 				JLog::add('Invalid: ' . $filepath . ': ' . $err, JLog::INFO, 'upload');
+
 				$response = array(
 					'status' => '0',
 					'error' => JText::_($err)
 				);
+
 				echo json_encode($response);
 				return;
 			}
@@ -95,14 +98,17 @@ class MediaControllerFile extends JControllerLegacy
 			$object_file = new JObject($file);
 			$object_file->filepath = $filepath;
 			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file));
+
 			if (in_array(false, $result, true))
 			{
 				// There are some errors in the plugins
 				JLog::add('Errors before save: ' . $object_file->filepath . ' : ' . implode(', ', $object_file->getErrors()), JLog::INFO, 'upload');
+
 				$response = array(
 					'status' => '0',
 					'error' => JText::plural('COM_MEDIA_ERROR_BEFORE_SAVE', count($errors = $object_file->getErrors()), implode('<br />', $errors))
 				);
+
 				echo json_encode($response);
 				return;
 			}
@@ -111,10 +117,12 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// File exists
 				JLog::add('File exists: ' . $object_file->filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
+
 				$response = array(
 					'status' => '0',
 					'error' => JText::_('COM_MEDIA_ERROR_FILE_EXISTS')
 				);
+
 				echo json_encode($response);
 				return;
 			}
@@ -122,10 +130,12 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// File does not exist and user is not authorised to create
 				JLog::add('Create not permitted: ' . $object_file->filepath . ' by user_id ' . $user->id, JLog::INFO, 'upload');
+
 				$response = array(
 					'status' => '0',
 					'error' => JText::_('COM_MEDIA_ERROR_CREATE_NOT_PERMITTED')
 				);
+
 				echo json_encode($response);
 				return;
 			}
@@ -134,10 +144,12 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// Error in upload
 				JLog::add('Error on upload: ' . $object_file->filepath, JLog::INFO, 'upload');
+
 				$response = array(
 					'status' => '0',
 					'error' => JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE')
 				);
+
 				echo json_encode($response);
 				return;
 			}
@@ -146,10 +158,12 @@ class MediaControllerFile extends JControllerLegacy
 				// Trigger the onContentAfterSave event.
 				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
 				JLog::add($folder, JLog::INFO, 'upload');
+
 				$response = array(
 					'status' => '1',
 					'error' => JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE)))
 				);
+
 				echo json_encode($response);
 				return;
 			}

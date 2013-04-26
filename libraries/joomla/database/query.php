@@ -1398,15 +1398,15 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->setQuery('select * from #__users');
 	 *
-	 * @param   mixed  $sql  An SQL Query
+	 * @param   mixed  $query  An SQL Query
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setQuery($sql)
+	public function setQuery($query)
 	{
-		$this->sql = $sql;
+		$this->sql = $query;
 
 		return $this;
 	}
@@ -1490,26 +1490,31 @@ abstract class JDatabaseQuery
 		return $this;
 	}
 
-	/**
-	 * Method to provide deep copy support to nested objects and
-	 * arrays when cloning.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function __clone()
-	{
-		foreach ($this as $k => $v)
-		{
-			if (is_object($v) || is_array($v))
-			{
-				$this->{$k} = unserialize(serialize($v));
-			}
-		}
-	}
+   /**
+     * Method to provide deep copy support to nested objects and
+     * arrays when cloning.
+     *
+     * @return  void
+     *
+     * @since   11.3
+     */
+    public function __clone()
+    {
+        foreach ($this as $k => $v)
+        {
+            if ($k === 'db')
+            {
+                continue;
+            }
 
-	/**
+            if (is_object($v) || is_array($v))
+            {
+                $this->$k = unserialize(serialize($v));
+            }
+        }
+    }
+
+    /**
 	 * Add a query to UNION with the current query.
 	 * Multiple unions each require separate statements and create an array of unions.
 	 *
@@ -1782,7 +1787,7 @@ abstract class JDatabaseQuery
 	 * @param   string    $interval  The string representation of the appropriate number of units
 	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
-	 * @return  sring  The string with the appropriate sql for addition of dates
+	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
 	 *

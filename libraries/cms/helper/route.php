@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Route Helper
  *
  * A class providing basic routing for urls that are for content types found in
- * the #__content_types table and rows found in the #__core_content table.
+ * the #__content_types table and rows found in the #__ucm_content table.
  *
  * @package     Joomla.Libraries
  * @subpackage  CMS
@@ -72,7 +72,7 @@ class JHelperRoute
 				$this->view  => array((int) $id)
 			);
 		}
-		if (!isset($link))
+		if (empty($link))
 		{
 			// Create the link
 			$link = 'index.php?option=' . $this->extension . '&view=' . $this->view . '&id=' . $id;
@@ -81,23 +81,26 @@ class JHelperRoute
 		if ($catid > 1)
 		{
 			$categories = JCategories::getInstance($name);
-			$category = $categories->get((int) $catid);
-			if ($category)
+			if ($categories)
 			{
-				$needles['category'] = array_reverse($category->getPath());
-				$needles['categories'] = $needles['category'];
-				$link .= '&catid=' . $catid;
+				$category = $categories->get((int) $catid);
+				if ($category)
+				{
+					$needles['category'] = array_reverse($category->getPath());
+					$needles['categories'] = $needles['category'];
+					$link .= '&catid=' . $catid;
+				}
 			}
 		}
 
 		// Deal with languages only if needed
 		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
 		{
-			$db		= JFactory::getDBO();
-			$query	= $db->getQuery(true);
-			$query->select('a.sef AS sef');
-			$query->select('a.lang_code AS lang_code');
-			$query->from('#__languages AS a');
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true)
+				->select('a.sef AS sef')
+				->select('a.lang_code AS lang_code')
+				->from('#__languages AS a');
 
 			$db->setQuery($query);
 			$langs = $db->loadObjectList();

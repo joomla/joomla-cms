@@ -60,15 +60,18 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 		// Close the application
 		JFactory::getApplication()->close();
 	}
+
+	/**
+	 * Method to provide child classes the opportunity to process after the delete task.
+	 *
+	 * @param   JModelLegacy   $model   The model for the component
+	 * @param   mixed          $ids     array of ids deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
-		// If an item has been tagged we need to untag it and delete it from #__core_content.
-		$task = $this->getTask();
-
-		$item = $model->getItem();
-
-		$tags = new JTags;
-		$tags->deleteTagData($ids, 'com_weblinks.weblink');
-
 	}
 }

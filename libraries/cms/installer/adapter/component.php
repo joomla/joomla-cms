@@ -1130,8 +1130,9 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->administration->languages, 1);
 
 		// Remove the schema version
-		$query = $db->getQuery(true);
-		$query->delete()->from('#__schemas')->where('extension_id = ' . $id);
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -1144,8 +1145,9 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		}
 
 		// Remove categories for this component
-		$query = $db->getQuery(true);
-		$query->delete()->from('#__categories')->where('extension=' . $db->quote($element), 'OR')
+		$query = $db->getQuery(true)
+			->delete('#__categories')
+			->where('extension=' . $db->quote($element), 'OR')
 			->where('extension LIKE ' . $db->quote($element . '.%'));
 		$db->setQuery($query);
 		$db->execute();
@@ -1211,13 +1213,13 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		$option = $this->get('element');
 
 		// If a component exists with this option in the table then we don't need to add menus
-		$query = $db->getQuery(true);
-		$query->select('m.id, e.extension_id');
-		$query->from('#__menu AS m');
-		$query->leftJoin('#__extensions AS e ON m.component_id = e.extension_id');
-		$query->where('m.parent_id = 1');
-		$query->where('m.client_id = 1');
-		$query->where('e.element = ' . $db->quote($option));
+		$query = $db->getQuery(true)
+			->select('m.id, e.extension_id')
+			->from('#__menu AS m')
+			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
+			->where('m.parent_id = 1')
+			->where('m.client_id = 1')
+			->where('e.element = ' . $db->quote($option));
 
 		$db->setQuery($query);
 
@@ -1244,10 +1246,10 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		else
 		{
 			// Lets find the extension id
-			$query->clear();
-			$query->select('e.extension_id');
-			$query->from('#__extensions AS e');
-			$query->where('e.element = ' . $db->quote($option));
+			$query->clear()
+				->select('e.extension_id')
+				->from('#__extensions AS e')
+				->where('e.element = ' . $db->quote($option));
 
 			$db->setQuery($query);
 
@@ -1287,15 +1289,15 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			if (!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// The menu item already exists. Delete it and retry instead of throwing an error.
-				$query = $db->getQuery(true);
-				$query->select('id');
-				$query->from('#__menu');
-				$query->where('menutype = ' . $db->quote('main'));
-				$query->where('client_id = 1');
-				$query->where('link = ' . $db->quote('index.php?option=' . $option));
-				$query->where('type = ' . $db->quote('component'));
-				$query->where('parent_id = 1');
-				$query->where('home = 0');
+				$query = $db->getQuery(true)
+					->select('id')
+					->from('#__menu')
+					->where('menutype = ' . $db->quote('main'))
+					->where('client_id = 1')
+					->where('link = ' . $db->quote('index.php?option=' . $option))
+					->where('type = ' . $db->quote('component'))
+					->where('parent_id = 1')
+					->where('home = 0');
 
 				$db->setQuery($query);
 				$menu_id = $db->loadResult();
@@ -1310,9 +1312,9 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				else
 				{
 					// Remove the old menu item
-					$query = $db->getQuery(true);
-					$query->delete('#__menu');
-					$query->where('id = ' . (int) $menu_id);
+					$query = $db->getQuery(true)
+						->delete('#__menu')
+						->where('id = ' . (int) $menu_id);
 
 					$db->setQuery($query);
 					$db->query();
@@ -1489,11 +1491,11 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		$id = $row->extension_id;
 
 		// Get the ids of the menu items
-		$query = $db->getQuery(true);
-		$query->select('id');
-		$query->from('#__menu');
-		$query->where($query->qn('client_id') . ' = 1');
-		$query->where($query->qn('component_id') . ' = ' . (int) $id);
+		$query = $db->getQuery(true)
+			->select('id')
+			->from('#__menu')
+			->where($db->quoteName('client_id') . ' = 1')
+			->where($db->quoteName('component_id') . ' = ' . (int) $id);
 
 		$db->setQuery($query);
 
@@ -1558,9 +1560,11 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$extension->set('type', 'component');
 				$extension->set('client_id', 0);
 				$extension->set('element', $component);
+				$extension->set('folder', '');
 				$extension->set('name', $component);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 		}
@@ -1576,9 +1580,11 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$extension->set('type', 'component');
 				$extension->set('client_id', 1);
 				$extension->set('element', $component);
+				$extension->set('folder', '');
 				$extension->set('name', $component);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 		}

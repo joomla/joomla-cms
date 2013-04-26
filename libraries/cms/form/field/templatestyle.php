@@ -52,22 +52,22 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 		$template = (string) $this->element['template'];
 
 		// Get the database object and a new query object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('s.id, s.title, e.name as name, s.template');
-		$query->from('#__template_styles as s');
-		$query->where('s.client_id = ' . (int) $client->id);
-		$query->order('template');
-		$query->order('title');
+		$query->select('s.id, s.title, e.name as name, s.template')
+			->from('#__template_styles as s')
+			->where('s.client_id = ' . (int) $client->id)
+			->order('template')
+			->order('title');
 		if ($template)
 		{
 			$query->where('s.template = ' . $db->quote($template));
 		}
-		$query->join('LEFT', '#__extensions as e on e.element=s.template');
-		$query->where('e.enabled=1');
-		$query->where($db->quoteName('e.type') . '=' . $db->quote('template'));
+		$query->join('LEFT', '#__extensions as e on e.element=s.template')
+			->where('e.enabled=1')
+			->where($db->quoteName('e.type') . '=' . $db->quote('template'));
 
 		// Set the query and load the styles.
 		$db->setQuery($query);

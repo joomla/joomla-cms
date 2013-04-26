@@ -177,7 +177,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$query = $this->getQuery(true);
 
 		$this->setQuery(
-			'SELECT CONSTRAINT_NAME FROM' . ' INFORMATION_SCHEMA.TABLE_CONSTRAINTS' . ' WHERE TABLE_NAME = ' . $query->quote($tableName)
+			'SELECT CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE TABLE_NAME = ' . $query->quote($tableName)
 		);
 
 		return $this->loadColumn();
@@ -266,7 +266,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($ifExists)
 		{
 			$this->setQuery(
-				'IF EXISTS(SELECT TABLE_NAME FROM' . ' INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE ' . $tableName
+				'IF EXISTS(SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ' . $query->quote($tableName) . ') DROP TABLE ' . $tableName
 			);
 		}
 		else
@@ -342,7 +342,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Set the query to get the table fields statement.
 		$this->setQuery(
 			'SELECT column_name as Field, data_type as Type, is_nullable as \'Null\', column_default as \'Default\'' .
-			' FROM information_schema.columns' . ' WHERE table_name = ' . $this->quote($table_temp)
+			' FROM information_schema.columns WHERE table_name = ' . $this->quote($table_temp)
 		);
 		$fields = $this->loadObjectList();
 
@@ -456,7 +456,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$statement = 'INSERT INTO ' . $this->quoteName($table) . ' (%s) VALUES (%s)';
 		foreach (get_object_vars($object) as $k => $v)
 		{
-			if (is_array($v) or is_object($v))
+			if (is_array($v) or is_object($v) or $v === null)
 			{
 				continue;
 			}
@@ -558,10 +558,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->replacePrefix((string) $this->sql);
+		$query = $this->replacePrefix((string) $this->sql);
 		if ($this->limit > 0 || $this->offset > 0)
 		{
-			$sql = $this->limit($sql, $this->limit, $this->offset);
+			$query = $this->limit($query, $this->limit, $this->offset);
 		}
 
 		// Increment the query counter.
@@ -571,9 +571,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($this->debug)
 		{
 			// Add the query to the object queue.
-			$this->log[] = $sql;
+			$this->log[] = $query;
 
-			JLog::add($sql, JLog::DEBUG, 'databasequery');
+			JLog::add($query, JLog::DEBUG, 'databasequery');
 		}
 
 		// Reset the error values.
@@ -581,7 +581,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$this->errorMsg = '';
 
 		// SQLSrv_num_rows requires a static or keyset cursor.
-		if (strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
+		if (strncmp(ltrim(strtoupper($query)), 'SELECT', strlen('SELECT')) == 0)
 		{
 			$array = array('Scrollable' => SQLSRV_CURSOR_KEYSET);
 		}
@@ -591,7 +591,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
-		$this->cursor = @sqlsrv_query($this->connection, $sql, array(), $array);
+		$this->cursor = @sqlsrv_query($this->connection, $query, array(), $array);
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
@@ -611,7 +611,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 					// Get the error number and message.
 					$errors = sqlsrv_errors();
 					$this->errorNum = $errors[0]['SQLSTATE'];
-					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
+					$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
@@ -627,7 +627,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				// Get the error number and message.
 				$errors = sqlsrv_errors();
 				$this->errorNum = $errors[0]['SQLSTATE'];
-				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $sql;
+				$this->errorMsg = $errors[0]['message'] . 'SQL=' . $query;
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
@@ -642,33 +642,33 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
 	 *
-	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $query   The SQL statement to prepare.
 	 * @param   string  $prefix  The common table prefix.
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
 	 * @since   12.1
 	 */
-	public function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($query, $prefix = '#__')
 	{
 		$escaped = false;
 		$startPos = 0;
 		$quoteChar = '';
 		$literal = '';
 
-		$sql = trim($sql);
-		$n = strlen($sql);
+		$query = trim($query);
+		$n = strlen($query);
 
 		while ($startPos < $n)
 		{
-			$ip = strpos($sql, $prefix, $startPos);
+			$ip = strpos($query, $prefix, $startPos);
 			if ($ip === false)
 			{
 				break;
 			}
 
-			$j = strpos($sql, "N'", $startPos);
-			$k = strpos($sql, '"', $startPos);
+			$j = strpos($query, "N'", $startPos);
+			$k = strpos($query, '"', $startPos);
 			if (($k !== false) && (($k < $j) || ($j === false)))
 			{
 				$quoteChar = '"';
@@ -684,7 +684,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				$j = $n;
 			}
 
-			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
+			$literal .= str_replace($prefix, $this->tablePrefix, substr($query, $startPos, $j - $startPos));
 			$startPos = $j;
 
 			$j = $startPos + 1;
@@ -697,14 +697,14 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			// Quote comes first, find end of quote
 			while (true)
 			{
-				$k = strpos($sql, $quoteChar, $j);
+				$k = strpos($query, $quoteChar, $j);
 				$escaped = false;
 				if ($k === false)
 				{
 					break;
 				}
 				$l = $k - 1;
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $query{$l} == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
@@ -721,12 +721,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 				// Error in the query - no end quote; ignore it
 				break;
 			}
-			$literal .= substr($sql, $startPos, $k - $startPos + 1);
+			$literal .= substr($query, $startPos, $k - $startPos + 1);
 			$startPos = $k + 1;
 		}
 		if ($startPos < $n)
 		{
-			$literal .= substr($sql, $startPos, $n - $startPos);
+			$literal .= substr($query, $startPos, $n - $startPos);
 		}
 
 		return $literal;
@@ -815,7 +815,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$this->setQuery('START TRANSACTION');
+		$this->setQuery('BEGIN TRANSACTION');
 		$this->execute();
 	}
 
@@ -891,9 +891,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		$this->connect();
 
 		$table = $this->replacePrefix((string) $table);
-		$sql = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS" . " WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
+		$query = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS" . " WHERE TABLE_NAME = '$table' AND COLUMN_NAME = '$field'" .
 			" ORDER BY ORDINAL_POSITION";
-		$this->setQuery($sql);
+		$this->setQuery($query);
 
 		if ($this->loadResult())
 		{
@@ -908,7 +908,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	/**
 	 * Method to wrap an SQL statement to provide a LIMIT and OFFSET behavior for scrolling through a result set.
 	 *
-	 * @param   string   $sql     The SQL statement to process.
+	 * @param   string   $query   The SQL statement to process.
 	 * @param   integer  $limit   The maximum affected rows to set.
 	 * @param   integer  $offset  The affected row offset to set.
 	 *
@@ -916,21 +916,21 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	protected function limit($sql, $limit, $offset)
+	protected function limit($query, $limit, $offset)
 	{
-		$orderBy = stristr($sql, 'ORDER BY');
+		$orderBy = stristr($query, 'ORDER BY');
 		if (is_null($orderBy) || empty($orderBy))
 		{
 			$orderBy = 'ORDER BY (select 0)';
 		}
-		$sql = str_ireplace($orderBy, '', $sql);
+		$query = str_ireplace($orderBy, '', $query);
 
 		$rowNumberText = ',ROW_NUMBER() OVER (' . $orderBy . ') AS RowNumber FROM ';
 
-		$sql = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $sql, 1);
-		$sql = 'SELECT TOP ' . $this->limit . ' * FROM (' . $sql . ') _myResults WHERE RowNumber > ' . $this->offset;
+		$query = preg_replace('/\\s+FROM/', '\\1 ' . $rowNumberText . ' ', $query, 1);
+		$query = 'SELECT TOP ' . $this->limit . ' * FROM (' . $query . ') _myResults WHERE RowNumber > ' . $this->offset;
 
-		return $sql;
+		return $query;
 	}
 
 	/**

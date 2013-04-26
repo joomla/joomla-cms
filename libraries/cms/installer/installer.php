@@ -348,8 +348,8 @@ class JInstaller extends JAdapter
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
-					$query->delete($db->quoteName('#__extensions'));
-					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
+					$query->delete($db->quoteName('#__extensions'))
+						->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
 					$stepval = $db->execute();
 
@@ -614,11 +614,13 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
-			return $this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			return false;
 		}
 
 		$type = (string) $this->manifest->attributes()->type;
@@ -958,7 +960,7 @@ class JInstaller extends JAdapter
 	{
 		if ($eid && $schema)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -994,18 +996,17 @@ class JInstaller extends JAdapter
 					usort($files, 'version_compare');
 
 					// Update the database
-					$query = $db->getQuery(true);
-					$query->delete()
-						->from('#__schemas')
+					$query = $db->getQuery(true)
+						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
 					if ($db->execute())
 					{
-						$query->clear();
-						$query->insert($db->quoteName('#__schemas'));
-						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
-						$query->values($eid . ', ' . $db->quote(end($files)));
+						$query->clear()
+							->insert($db->quoteName('#__schemas'))
+							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
+							->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1032,7 +1033,7 @@ class JInstaller extends JAdapter
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (count($schemapaths))
@@ -1067,8 +1068,8 @@ class JInstaller extends JAdapter
 						return false;
 					}
 
-					$query = $db->getQuery(true);
-					$query->select('version_id')
+					$query = $db->getQuery(true)
+						->select('version_id')
 						->from('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
@@ -1124,18 +1125,17 @@ class JInstaller extends JAdapter
 					}
 
 					// Update the database
-					$query = $db->getQuery(true);
-					$query->delete()
-						->from('#__schemas')
+					$query = $db->getQuery(true)
+						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
 					if ($db->execute())
 					{
-						$query->clear();
-						$query->insert($db->quoteName('#__schemas'));
-						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
-						$query->values($eid . ', ' . $db->quote(end($files)));
+						$query->clear()
+							->insert($db->quoteName('#__schemas'))
+							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
+							->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1951,16 +1951,17 @@ class JInstaller extends JAdapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
-		$query->delete($dbo->quoteName('#__extensions'));
-		$query->where('type = ' . $dbo->Quote($type));
-		$query->where('element = ' . $dbo->Quote($element));
-		$query->where('folder = ' . $dbo->Quote($folder));
-		$query->where('client_id = ' . (int) $client);
-		$query->where('state = -1');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__extensions'))
+			->where('type = ' . $db->quote($type))
+			->where('element = ' . $db->quote($element))
+			->where('folder = ' . $db->quote($folder))
+			->where('client_id = ' . (int) $client)
+			->where('state = -1');
+		$db->setQuery($query);
 
-		return $dbo->execute();
+		return $db->execute();
 	}
 
 	/**

@@ -22,7 +22,6 @@ class ContentCategories extends JCategories
 	{
 		$options['table'] = '#__content';
 		$options['extension'] = 'com_content';
-		$options['allLanguages'] = true;
 
 		parent::__construct($options);
 	}
