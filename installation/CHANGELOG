@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+-------------------- 3.1.1 Stable Release [26-Apr-2013] ------------------
+
 26-Apr-2013 Mark Dexter
  # [#30702] Only titles display in featured/blogged views when hide intro text is selected.
  # [#30681] Error in Database tab in Extension Manager.
