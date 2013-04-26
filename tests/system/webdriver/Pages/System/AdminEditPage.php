@@ -316,11 +316,30 @@ abstract class AdminEditPage extends AdminPage
 	protected function setTextAreaValues(array $values)
 	{
 		$this->selectTab($values['tab']);
-		$this->driver->findElement(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"))->click();
+		// Check whether this field uses a GUI editor
+		// First see if we are inside a tab
+		$tab = $this->driver->findElements(By::xPath("//div[@class='tab-pane active']"));
+		if ((isset($tab) && is_array($tab) && count($tab) == 1))
+		{
+			$guiEditor = $tab[0]->findElements(By::xPath("//div[@class='tab-pane active']//a[contains(@onclick, 'mceToggleEditor')]"));
+		}
+		else
+		{
+			$guiEditor = $this->driver->findElements(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"));
+		}
+		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1)
+		{
+			$guiEditor[0]->click();
+		}
+
 		$inputElement = $this->driver->findElement(By::id($values['id']));
 		$inputElement->clear();
 		$inputElement->sendKeys($values['value']);
-		$this->driver->findElement(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"))->click();
+
+		if (isset($guiEditor) && is_array($guiEditor) && count($guiEditor) == 1)
+		{
+			$guiEditor[0]->click();
+		}
 	}
 
 	/**
