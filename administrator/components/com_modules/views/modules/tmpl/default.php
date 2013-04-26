@@ -73,7 +73,7 @@ $saveOrder	= $listOrder == 'ordering';
 				</th>
                 <th width="5%">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
-				</th>
+				</th>				
 				<th width="15%" class="left">
 					<?php echo JHtml::_('grid.sort',  'COM_MODULES_HEADING_POSITION', 'position', $listDirn, $listOrder); ?>
 				</th>
@@ -108,7 +108,7 @@ $saveOrder	= $listOrder == 'ordering';
 			</tr>
 		</tfoot>
 		<tbody>
-		<?php foreach ($this->items as $i => $item) :
+		<?php foreach ($this->items as $i => $item) :			
 			$ordering	= ($listOrder == 'ordering');
 			$canCreate	= $user->authorise('core.create',		'com_modules');
 			$canEdit	= $user->authorise('core.edit',			'com_modules');
@@ -125,16 +125,19 @@ $saveOrder	= $listOrder == 'ordering';
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.(int) $item->id); ?>">
-							<?php echo $this->escape($item->title); ?></a>
+								<?php echo $this->escape($item->title); ?></a>
 					<?php else : ?>
 							<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
-
-					<?php if (!empty($item->note)) : ?>
+					
 					<p class="smallsub">
-						<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?></p>
-					<?php endif; ?>
-				</td>
+						<?php if (!empty($item->note)) : ?>
+							<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
+						<br />
+						<?php endif; ?>
+						<?php echo JTEXT::_('COM_MODULES_NOMBRE_REAL').$item->module; ?>
+					</p>
+				</td>				
 				<td class="center">
 					<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
 				</td>
