@@ -553,7 +553,7 @@ abstract class JHtml
 		}
 		else
 		{
-			return '<img src="' . (count($includes) ? $includes[0] : '') . '" alt="' . $alt . '" ' . $attribs . ' />';
+			return '<img src="' . (count($includes) ? $includes[0] : $file) . '" alt="' . $alt . '" ' . $attribs . ' />';
 		}
 	}
 
