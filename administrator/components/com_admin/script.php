@@ -333,6 +333,10 @@ class joomlaInstallerScript
 		// TODO There is an issue while deleting folders using the ftp mode
 		$folders = array(
 			'/administrator/components/com_joomlaupdate',
+			'/media/plg_highlight',
+			'/media/mod_finder_status',
+			'/administrator/components/com_admin/sql/updates/sqlsrv',			
+			'/media/system/swf/',
 		);
 
 		foreach ($files as $file) {
