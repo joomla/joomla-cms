@@ -234,7 +234,15 @@ class JTableCorecontent extends JTable
 			{
 				$this->core_created_user_id = $user->get('id');
 			}
+
 			$isNew = true;
+
+		}
+
+		$oldRules = $this->getRules();
+		if (empty($oldRules))
+		{
+			$this->setRules('{}');
 		}
 
 		$result = parent::store($updateNulls);
