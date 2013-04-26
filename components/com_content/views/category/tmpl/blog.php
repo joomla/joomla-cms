@@ -45,7 +45,7 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
-	<div class="items-leading">
+	<div class="items-leading clearfix">
 		<?php foreach ($this->lead_items as &$item) : ?>
 		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
 			<?php
@@ -53,13 +53,11 @@ JHtml::_('behavior.caption');
 				echo $this->loadTemplate('item');
 			?>
 		</div>
-		<div class="clearfix"></div>
 		<?php
 			$leadingcount++;
 		?>
 		<?php endforeach; ?>
 	</div><!-- end items-leading -->
-	<div class="clearfix"></div>
 	<?php endif; ?>
 	<?php
 	$introcount = (count($this->intro_items));
@@ -73,7 +71,7 @@ JHtml::_('behavior.caption');
 		$row = $counter / $this->columns;
 
 		if ($rowcount == 1) : ?>
-		<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?> row-fluid">
+		<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?> row-fluid clearfix">
 		<?php endif; ?>
 			<div class="span<?php echo round((12 / $this->columns));?>">
 				<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
@@ -83,7 +81,7 @@ JHtml::_('behavior.caption');
 				?>
 				</div><!-- end item -->
 				<?php $counter++; ?>
-			</div><!-- end spann -->
+			</div><!-- end span -->
 			<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 		</div><!-- end row -->
 			<?php endif; ?>
