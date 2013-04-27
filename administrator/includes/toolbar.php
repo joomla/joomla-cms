@@ -39,6 +39,8 @@ abstract class JToolBarHelper
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
+		$doc = JFactory::getDocument();
+		$doc->setTitle($app->getCfg('sitename'). ' - ' .JText::_('JADMINISTRATION').' - '.$title);
 	}
 
 	/**
