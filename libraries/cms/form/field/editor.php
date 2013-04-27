@@ -52,6 +52,7 @@ class JFormFieldEditor extends JFormField
 		$assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 		$asset       = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+		$params      = (isset($this->element['mode'])) ? array('mode' => (int) $this->element['mode']) : array();
 
 		// Build the buttons array.
 		$buttons = (string) $this->element['buttons'];
@@ -78,7 +79,7 @@ class JFormFieldEditor extends JFormField
 			->display(
 			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
 			$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
-			$this->form->getValue($authorField)
+			$this->form->getValue($authorField), $params
 		);
 	}
 
