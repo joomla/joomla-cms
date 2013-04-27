@@ -63,7 +63,7 @@ class plgContentVote extends JPlugin
 				$uri = JFactory::getURI();
 				$uri->setQuery($uri->getQuery().'&hitcount=0');
 
-				$html .= '<form method="post" action="' . $uri->toString() . '">';
+				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString()) . '">';
 				$html .= '<div class="content_vote">';
 				$html .= JText::_( 'PLG_VOTE_POOR' );
 				$html .= '<input type="radio" title="'.JText::sprintf('PLG_VOTE_VOTE', '1').'" name="user_rating" value="1" />';
@@ -75,7 +75,7 @@ class plgContentVote extends JPlugin
 				$html .= '&#160;<input class="button" type="submit" name="submit_vote" value="'. JText::_( 'PLG_VOTE_RATE' ) .'" />';
 				$html .= '<input type="hidden" name="task" value="article.vote" />';
 				$html .= '<input type="hidden" name="hitcount" value="0" />';
-				$html .= '<input type="hidden" name="url" value="'.  $uri->toString() .'" />';
+				$html .= '<input type="hidden" name="url" value="'.  htmlspecialchars($uri->toString()) .'" />';
 				$html .= JHtml::_('form.token');
 				$html .= '</div>';
 				$html .= '</form>';
