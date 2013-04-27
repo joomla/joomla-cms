@@ -50,7 +50,7 @@ class JAccessGroupFunctions extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/data/JGroupHelperTest.xml');
+		return $this->createXMLDataSet(__DIR__ . '/data/JAccessTest.xml');
 	}
 
 
