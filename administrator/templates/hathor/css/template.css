@@ -158,6 +158,7 @@
 .icon-checkbox-partial:before {
 	content: "\3f";
 }
+.icon-unfeatured:before,
 .icon-asterisk:before,
 .icon-star-empty:before {
 	content: "\40";
@@ -166,6 +167,7 @@
 	content: "\41";
 }
 .icon-featured:before,
+.icon-default:before,
 .icon-star:before {
 	content: "\42";
 }

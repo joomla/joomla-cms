@@ -5689,6 +5689,7 @@ input.invalid {
 .icon-checkbox-partial:before {
 	content: "\3f";
 }
+.icon-unfeatured:before,
 .icon-asterisk:before,
 .icon-star-empty:before {
 	content: "\40";
