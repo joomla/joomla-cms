@@ -90,6 +90,24 @@ JHtml::_('behavior.keepalive');
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</fieldset>
 
+	<?php  $fieldSets = $this->form->getFieldsets('attribs'); ?>
+		<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+			<?php $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_'.$name.'_FIELDSET_LABEL'; ?>
+			<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+				<?php echo JHtml::_('sliders.panel', JText::_($label), $name.'-options'); ?>
+				<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
+					<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
+				<?php endif; ?>
+				<fieldset class="panelform">
+					<ul class="adminformlist">
+					<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+						<li><?php echo $field->label; ?>
+						<?php echo $field->input; ?></li>
+					<?php endforeach; ?>
+					</ul>
+				</fieldset>
+			<?php endif ?>
+		<?php endforeach; ?>
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 	<div class="clr"></div>
