@@ -156,6 +156,85 @@ class JAccess
 	}
 
 	/**
+	 * Remove all groups in the array of group IDs that have ancestors that
+	 * are in the provided array of groups.
+	 *
+	 * This has the effect of only leaving the lowest level group on each line
+	 * of descent.
+	 *
+	 * @param  array  $groupsIds array of group IDs to be purged (called 'group list' below)
+	 *
+	 * @return a new array of group IDs with descendent groups removed
+	 */
+	public static function removeDescendentGroups($groupIds)
+	{
+		// Get the needed info for each group
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id'));
+		$query->select($db->quoteName('parent_id'));
+		$query->select($db->quoteName('title'));
+		$query->from($db->quoteName('#__usergroups'));
+		$db->setQuery($query);
+		$gdata = $db->loadObjectList();
+		$parent = Array();
+		foreach ($gdata as $grp)
+		{
+			$parent[(int)$grp->id] = (int)$grp->parent_id;
+		}
+
+		// Array of the eldest groups (that have no ancestors in the group list)
+		$eldest = Array();
+
+		// Check each of the groups to see whether it has descendents in the group list
+		$unprocessed = $groupIds;
+		while (count($unprocessed) > 0)
+		{
+			// Check the next group
+			$target_gid = array_pop($unprocessed);
+			
+			// See if it has any ancestors in the group list
+			$descendent_found = false;
+			foreach ($groupIds as $check_id)
+			{
+				// Do not check itself
+				if ($check_id == $target_gid)
+				{
+					continue;
+				}
+
+				// See if this group id is an ancestor of $target_gid
+				$check_id = $parent[$target_gid];
+				while ($check_id > 0)
+				{
+					if ( in_array($check_id, $groupIds) )
+					{
+						$descendent_found = true;
+						break 2;
+					}
+
+					$check_id = $parent[$check_id];
+				}
+			}
+
+			if (!$descendent_found)
+			{
+				// If we found no descendents for this target group, we can 
+				// save it to array of known 'eldest' groups (eg, that have 
+				// no ancestors in our group list)
+
+				$elders[] = $target_gid;
+			}
+		}
+
+		// Always sort the resulting groups (helps testing)
+		sort($elders);
+
+		// Return the resulting groups
+		return $elders;
+	}
+
+	/**
 	 * Gets the parent groups that a leaf group belongs to in its branch back to the root of the tree
 	 * (including the leaf group id).
 	 *
