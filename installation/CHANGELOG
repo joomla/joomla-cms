@@ -25,6 +25,21 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+-------------------- 3.1.1 Stable Release [26-Apr-2013] ------------------
+
+26-Apr-2013 Mark Dexter
+ # [#30702] Only titles display in featured/blogged views when hide intro text is selected.
+ # [#30681] Error in Database tab in Extension Manager.
+ # [#30697] Invalid tab end in article edit page. Thanks Dennis Hermatski.
+ # [#30725] Exception thrown for empty path. Thanks Elin Waring.
+ # [#30679] Fix two Tags-related API issues. Thanks Elin Waring.
+ # [#30632] *Menu item Alias required setting. Thanks Jean-Marie Simonet.
+ # [#29957] Administrator interface dropdown menus not working on tablets. Thanks Denia Si.
+ # [#30660] Corrects font-file stack order. Thanks Seth Warburton.
+ # [#30668] *Beez3 missing JHtml::_('behavior.caption');. Thanks Jean-Marie Simonet.
+ # [#30398] com_tags show "{loadmodule..." when listing items. Thanks Elin Waring.
+ # [#30495] Type check line 31, TemplatesHelper::getPositions. Thanks Christoffer Rødvik.
+
 -------------------- 3.1.0 Stable Release [24-Apr-2013] ------------------
 
 23-Apr-2013 Mark Dexter

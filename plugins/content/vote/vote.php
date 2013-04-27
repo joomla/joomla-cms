@@ -33,7 +33,7 @@ class PlgContentVote extends JPlugin
 	{
 		$html = '';
 
-		if ($params->get('show_vote'))
+		if (!empty($params) && $params->get('show_vote', null))
 		{
 			$rating = (int) @$row->rating;
 
