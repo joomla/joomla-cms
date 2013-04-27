@@ -176,9 +176,11 @@ class JAccess
 		$query->select($db->quoteName('title'));
 		$query->from($db->quoteName('#__usergroups'));
 		$db->setQuery($query);
-		$gdata = $db->loadObjectList();
+		$group_data = $db->loadObjectList();
+
+		// Construct an array of the parents to simplify later searches
 		$parent = Array();
-		foreach ($gdata as $grp)
+		foreach ($group_data as $grp)
 		{
 			$parent[(int)$grp->id] = (int)$grp->parent_id;
 		}
