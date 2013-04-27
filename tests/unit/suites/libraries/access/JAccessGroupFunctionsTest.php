@@ -110,21 +110,21 @@ class JAccessGroupFunctions extends TestCaseDatabase
 
 
 	/**
-	 * Test the JAccess::lowestAncestorGroup($groups)
+	 * Test JAccess::lowestAncestorGroup($groups)
 	 */
 	public function testLowestGroupAncestor()
 	{
-		// GPUBLIC     => 'Public',
-		// MANAGER     =>     'Manager',
-		// ADMIN       =>     'Administrator',
-		// GUEST       =>     'Guest',
-		// REGISTERED  =>     'Registered',
-		// CUSTOMER    =>         'Customer Group',
-		// AUTHOR      =>         'Author',
-		// INV_AUTHOR  =>             'Invoice Author',
-		// EDITOR      =>             'Editor',
-		// PUBLISHER   =>                 'Publisher',
-		// SUPER_USER  =>     'Super Users',
+		// GPUBLIC(1)     => 'Public',
+		// MANAGER(6)     =>     'Manager',
+		// ADMIN(7)       =>     'Administrator',
+		// GUEST(13)      =>     'Guest',
+		// REGISTERED(2)  =>     'Registered',
+		// CUSTOMER(12)   =>         'Customer Group',
+		// AUTHOR(3)      =>         'Author',
+		// INV_AUTHOR(10) =>             'Invoice Author',
+		// EDITOR(4)      =>             'Editor',
+		// PUBLISHER(5)   =>                 'Publisher',
+		// SUPER_USER(8)  =>     'Super Users',
 
 		$errmsg = "Test1 (PUBLIC, AUTHOR, PUBLISHER): All in the same line of ancestry ==> PUBLIC(1)";
 		$this->assertEquals(GPUBLIC, JAccess::lowestAncestorGroup(Array(GPUBLIC, AUTHOR, PUBLISHER)), $errmsg);
@@ -148,6 +148,54 @@ class JAccessGroupFunctions extends TestCaseDatabase
 		$this->assertEquals(AUTHOR, JAccess::lowestAncestorGroup(Array(AUTHOR, INV_AUTHOR)), $errmsg);
 	}
 
+
+	/**
+	 * Test JAccess::removeDescendentGroups($groups)
+	 */
+	public function testRemoveDescendentGroups()
+	{
+		// GPUBLIC(1)     => 'Public',
+		// MANAGER(6)     =>     'Manager',
+		// ADMIN(7)       =>     'Administrator',
+		// GUEST(13)      =>     'Guest',
+		// REGISTERED(2)  =>     'Registered',
+		// CUSTOMER(12)   =>         'Customer Group',
+		// AUTHOR(3)      =>         'Author',
+		// INV_AUTHOR(10) =>             'Invoice Author',
+		// EDITOR(4)      =>             'Editor',
+		// PUBLISHER(5)   =>                 'Publisher',
+		// SUPER_USER(8)  =>     'Super Users',
+
+		// Test 10
+		$result = JAccess::removeDescendentGroups(Array(AUTHOR, EDITOR, PUBLISHER));
+		$errmsg = "[Test 10] Given (3, 4, 5), expected (3) but got (" . implode(', ', $result) . "). \n" .
+			"(Expected only AUTHOR(3) since EDITOR(4) and PUBLISHER(5) are its descendents.)";
+		$this->assertEquals(Array(AUTHOR), $result, $errmsg);
+
+		// Test 11
+		$result = JAccess::removeDescendentGroups(Array(AUTHOR, PUBLISHER));
+		$errmsg = "[Test 11] Given (3, 5), expected (3) but got (" . implode(', ', $result) . "). \n" .
+			"(Expected only AUTHOR(3) since PUBLISHER(5) is its descendent.)";
+		$this->assertEquals(Array(AUTHOR), $result, $errmsg);
+
+		// Test 12
+		$result = JAccess::removeDescendentGroups(Array(AUTHOR, INV_AUTHOR, MANAGER, PUBLISHER));
+		$errmsg = "[Test 12] Given (3, 10, 6, 5), expected (3, 6) but got (" . implode(', ', $result) . "). \n" .
+			"(Expected only (AUTHOR(3), MANAGER(6)) since the rest are thier descendents.)";
+		$this->assertEquals(Array(AUTHOR, MANAGER), $result, $errmsg);
+
+		// Test 13
+		$result = JAccess::removeDescendentGroups(Array(GPUBLIC, AUTHOR, INV_AUTHOR, MANAGER, PUBLISHER));
+		$errmsg = "[Test 13] Given (1, 3, 10, 6, 5), expected (1) but got (" . implode(', ', $result) . "). \n" .
+			"(Expected only (PUBLIC(1)) since the rest are its descendents.)";
+		$this->assertEquals(Array(GPUBLIC), $result, $errmsg);
+
+		// Test 14
+		$result = JAccess::removeDescendentGroups(Array(GUEST, CUSTOMER, AUTHOR, EDITOR, PUBLISHER, ADMIN));
+		$errmsg = "[Test 14] Given (13, 12, 3, 4, 5, 7), expected (3, 7, 12, 13) but got (" . implode(', ', $result) . "). \n" .
+			"(Expected only (3,7,12,13) since EDITOR(4) and PUBLISHER(5) are descendents of AUTHOR(3).)";
+		$this->assertEquals(Array(AUTHOR, ADMIN, CUSTOMER, GUEST), $result, $errmsg);
+	}
 
 
 }
