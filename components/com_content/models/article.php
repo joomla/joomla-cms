@@ -59,6 +59,8 @@ class ContentModelArticle extends JModelItem
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
 		}
+
+		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 	}
 
 	/**
@@ -114,7 +116,14 @@ class ContentModelArticle extends JModelItem
 				$subQuery->group('contact.user_id, contact.language');
 				$query->select('contact.id as contactid' );
 				$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
-				
+
+				// Filter by language
+				if ($this->getState('filter.language'))
+				{
+					$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
+					$query->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
+				}
+
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
