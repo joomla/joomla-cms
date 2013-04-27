@@ -295,8 +295,15 @@ abstract class JFolder
 		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 
-		// Check to make sure the path valid and clean
-		$path = JPath::clean($path);
+		try
+		{
+			// Check to make sure the path valid and clean
+			$path = JPath::clean($path);
+		}
+		catch (UnexpectedValueException $e)
+		{
+			throw new UnexpectedValueException($e);
+		}
 
 		// Is this really a folder?
 		if (!is_dir($path))
@@ -460,13 +467,14 @@ abstract class JFolder
 	 * @param   boolean  $full           True to return the full path to the file.
 	 * @param   array    $exclude        Array with names of files which should not be shown in the result.
 	 * @param   array    $excludefilter  Array of filter to exclude
+	 * @param   boolean  $naturalSort    False for asort, true for natsort
 	 *
 	 * @return  array  Files in the given folder.
 	 *
 	 * @since   11.1
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
-		$excludefilter = array('^\..*', '.*~'))
+		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
@@ -491,8 +499,15 @@ abstract class JFolder
 		// Get the files
 		$arr = self::_items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, true);
 
-		// Sort the files
-		asort($arr);
+		// Sort the files based on either natural or alpha method
+		if ($naturalSort)
+		{
+			natsort($arr);
+		}
+		else
+		{
+			asort($arr);
+		}
 		return array_values($arr);
 	}
 
@@ -575,7 +590,7 @@ abstract class JFolder
 				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				// Compute the fullpath
-				$fullpath = $path . '/' . $file;
+				$fullpath = $path . DIRECTORY_SEPARATOR . $file;
 
 				// Compute the isDir flag
 				$isDir = is_dir($fullpath);
