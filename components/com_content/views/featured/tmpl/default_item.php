@@ -181,6 +181,7 @@ if ($params->get('show_avatar')) :
 	endif; 
 endif;
 ?>
+
 <?php echo $this->item->introtext; ?>
 
 <?php 
