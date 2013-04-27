@@ -12,17 +12,20 @@ jimport('joomla.user.helper');
 
 
 // Define constants for the groups
-define('GPUBLIC',      1);   // PUBLIC is a PHP keyword
-define('REGISTERED',   2);
-define('AUTHOR',       3);
-define('EDITOR',       4);
-define('PUBLISHER',    5);
-define('MANAGER',      6);
-define('ADMIN',        7);
-define('SUPER_USER',   8);
-define('INV_AUTHOR',  10);
-define('CUSTOMER',    12);
-define('GUEST',       13);
+if (!defined('GPUBLIC'))
+{
+	define('GPUBLIC',      1);   // PUBLIC is a PHP keyword
+	define('REGISTERED',   2);
+	define('AUTHOR',       3);
+	define('EDITOR',       4);
+	define('PUBLISHER',    5);
+	define('MANAGER',      6);
+	define('ADMIN',        7);
+	define('SUPER_USER',   8);
+	define('INV_AUTHOR',  10);
+	define('CUSTOMER',    12);
+	define('GUEST',       13);
+}
 
 
 /**
@@ -834,6 +837,9 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 
 	}
 
+	///////////////////////////////////////////////////////////////////////
+	///   EXERCISE ALL Exceptions
+	///////////////////////////////////////////////////////////////////////
 
 	/**
 	 * testInstallInstallFail1
