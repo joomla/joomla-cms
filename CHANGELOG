@@ -28,6 +28,13 @@ $ -> Idioma corrección o cambio
 - -> Eliminado
 ! -> Nota
 
+26-abr-2013
+ + Ajustes relativos a Joomla 2.5.10/2.5.11
+ + Agregado en Gestor de Módulo el nombre de la carpeta del módulo.
+ - Eliminado carpetas SQLSRV 
+ $ Agregada etiquetas faltantes en el Gestor de Plantillas
+ $ Agregada etiqueta por nueva funcionalidad en el Gestor de módulos.
+
 31-mar-2013
  + Soporte para subtiulos en los artículos
  + Agregado soporte para el sistema de comentarios Disqus
@@ -54,8 +61,7 @@ $ -> Idioma corrección o cambio
  # Instalación forzosa en es-LA y se define como lenguaje por defecto
  + Minisistema de descargas en los artículos (permite adjuntar hasta 3 archivos)
  + Agregada opción nueva para el módulo Quién está en línea
- + Agregado nuevo campo para parámetros en las extensiones que permite agregar ayuda con pieles
- 
+ + Agregado nuevo campo para parámetros en las extensiones que permite agregar ayuda con pieles 
  
 03-Ene-2013
  ^ Nueva presentación de Epígrafe o Copete.Cambio en la salida HTML Jokte Antu
