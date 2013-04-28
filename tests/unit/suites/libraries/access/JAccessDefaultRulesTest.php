@@ -832,10 +832,8 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 			);
 		$this->checkPermissions($test, $action, $expected_permission, $modified_permissions);
 		$this->checkGroups($test, $action, AUTHOR);
-
-
-
 	}
+
 
 	///////////////////////////////////////////////////////////////////////
 	///   EXERCISE ALL Exceptions

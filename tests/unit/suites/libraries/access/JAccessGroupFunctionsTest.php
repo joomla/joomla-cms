@@ -110,46 +110,6 @@ class JAccessGroupFunctions extends TestCaseDatabase
 
 
 	/**
-	 * Test JAccess::lowestAncestorGroup($groups)
-	 */
-	public function testLowestGroupAncestor()
-	{
-		// GPUBLIC(1)     => 'Public',
-		// MANAGER(6)     =>     'Manager',
-		// ADMIN(7)       =>     'Administrator',
-		// GUEST(13)      =>     'Guest',
-		// REGISTERED(2)  =>     'Registered',
-		// CUSTOMER(12)   =>         'Customer Group',
-		// AUTHOR(3)      =>         'Author',
-		// INV_AUTHOR(10) =>             'Invoice Author',
-		// EDITOR(4)      =>             'Editor',
-		// PUBLISHER(5)   =>                 'Publisher',
-		// SUPER_USER(8)  =>     'Super Users',
-
-		$errmsg = "Test1 (PUBLIC, AUTHOR, PUBLISHER): All in the same line of ancestry ==> PUBLIC(1)";
-		$this->assertEquals(GPUBLIC, JAccess::lowestAncestorGroup(Array(GPUBLIC, AUTHOR, PUBLISHER)), $errmsg);
-		
-		$errmsg = "Test2 (AUTHOR, EDITOR, PUBLISHER): All in the same line of ancestry ==> AUTHOR(3)";
-		$this->assertEquals(AUTHOR, JAccess::lowestAncestorGroup(Array(AUTHOR, EDITOR, PUBLISHER)), $errmsg);
-
-		$errmsg = "Test3 (MANAGER, EDITOR): Not in the same line of ancestry, return null";
-		$this->assertNull(JAccess::lowestAncestorGroup(Array(MANAGER, EDITOR)), $errmsg);
-
-		$errmsg = "Test4 (AUTHOR, CUSTOMER): Since AUTHOR and CUSTOMER are at the same level, fail";
-		$this->assertNull(JAccess::lowestAncestorGroup(Array(AUTHOR, CUSTOMER)), $errmsg);
-
-		$errmsg = "Test5 (INV_AUTHOR, CUSTOMER): INV_AUTHOR and CUSTOMER are on different lines, fail";
-		$this->assertNull(JAccess::lowestAncestorGroup(Array(INV_AUTHOR, CUSTOMER)), $errmsg);
-		
-		$errmsg = "Test6 (PUBLIC, REGISTERED, CUSTOMER): All in the same line of ancestry ==> PUBLIC(1)";
-		$this->assertEquals(GPUBLIC, JAccess::lowestAncestorGroup(Array(GPUBLIC, REGISTERED, CUSTOMER)), $errmsg);
-		
-		$errmsg = "Test7 (AUTHOR, INV_AUTHOR): AUTHOR is INV_AUTHOR's parent ==> AUTHOR(3)";
-		$this->assertEquals(AUTHOR, JAccess::lowestAncestorGroup(Array(AUTHOR, INV_AUTHOR)), $errmsg);
-	}
-
-
-	/**
 	 * Test JAccess::removeDescendentGroups($groups)
 	 */
 	public function testRemoveDescendentGroups()
@@ -197,5 +157,54 @@ class JAccessGroupFunctions extends TestCaseDatabase
 		$this->assertEquals(Array(AUTHOR, ADMIN, CUSTOMER, GUEST), $result, $errmsg);
 	}
 
+	/**
+	 * Test JAccess::leastAuthoritativeGroup($groups, $asset)
+	 */
+	public function testLeastAuthoritativeGroup()
+	{
+		// GPUBLIC(1)     => 'Public',
+		// MANAGER(6)     =>     'Manager',
+		// ADMIN(7)       =>     'Administrator',
+		// GUEST(13)      =>     'Guest',
+		// REGISTERED(2)  =>     'Registered',
+		// CUSTOMER(12)   =>         'Customer Group',
+		// AUTHOR(3)      =>         'Author',
+		// INV_AUTHOR(10) =>             'Invoice Author',
+		// EDITOR(4)      =>             'Editor',
+		// PUBLISHER(5)   =>                 'Publisher',
+		// SUPER_USER(8)  =>     'Super Users',
+
+		// Test 20
+		$result = JAccess::leastAuthoritativeGroup(Array(AUTHOR, EDITOR, PUBLISHER));
+		$errmsg = "[Test 20] Given (3, 4, 5), expected (3) but got ($result). \n" .
+			"(Expected AUTHOR(3) since EDITOR(4) and PUBLISHER(5) are its descendents.)";
+		$this->assertEquals(AUTHOR, $result, $errmsg);
+
+		// Test 21
+		$result = JAccess::leastAuthoritativeGroup(Array(ADMIN, SUPER_USER));
+		$errmsg = "[Test 21] Given (7, 8), expected (7) but got ($result). \n" .
+			"(Expected ADMIN(7) since SUPER_USER(8) has more authority, usually.)";
+		$this->assertEquals(ADMIN, $result, $errmsg);
+
+		// Test 22
+		$result = JAccess::leastAuthoritativeGroup(Array(ADMIN, SUPER_USER, EDITOR));
+		$errmsg = "[Test 22] Given (7, 8, 4), expected (4) but got ($result). \n" .
+			"(Expected EDITOR(4) because we prefer normal to ADMIN(7) or SUPER_USER(8).)";
+		$this->assertEquals(EDITOR, $result, $errmsg);
+
+		// Test 23
+		$result = JAccess::leastAuthoritativeGroup(Array(MANAGER, GUEST, CUSTOMER, PUBLISHER, AUTHOR, EDITOR));
+		$errmsg = "[Test 23] Given (6, 13, 12, 5, 3, 4), expected CUSTOMER(12) but got ($result). \n" .
+			"(Expected CUSTOMER(12) because both CUSTOMER(12) and GUEST(13) " .
+			"have no privileges, so choose lowest number.)";
+		$this->assertEquals(CUSTOMER, $result, $errmsg);
+
+		// Test 24
+		$result = JAccess::leastAuthoritativeGroup(Array(MANAGER, ADMIN, GUEST, REGISTERED, SUPER_USER));
+		$errmsg = "[Test 24] Given (6, 7, 12, 2, 8), expected REGISTERED(2) but got ($result). \n" .
+			"(Expected REGISTERED(2) because both REGISTERED(2) and GUEST(13) " .
+			"have no privileges, so choose lowest number.)";
+		$this->assertEquals(REGISTERED, $result, $errmsg);
+	}
 
 }
