@@ -28,7 +28,7 @@ foreach ($templates as $template)
 	$options = array();
 
 	$positions = TemplatesHelper::getPositions($clientId, $template);
-	foreach ($positions as $position)
+	if (is_array($positions)) foreach ($positions as $position)
 	{
 		$text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
 		$options[] = ModulesHelper::createOption($position, $text);

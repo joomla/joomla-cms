@@ -80,6 +80,19 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								</div>
 							</div>
 						<?php endif; ?>
+						<?php if ($this->item->type == 'alias') : ?>
+							<?php $fieldSets = $this->form->getFieldsets('params'); ?>
+							<?php foreach ($this->form->getFieldset('request') as $field) : ?>
+								<div class="control-group">
+									<div class="control-label">
+										<?php echo $field->label; ?>
+									</div>
+									<div class="controls">
+										<?php echo $field->input; ?>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						<?php endif; ?>
 
 						<?php if ($this->item->link == 'index.php?option=com_wrapper&view=wrapper') : ?>
 							<?php $fieldSets = $this->form->getFieldsets('params'); ?>

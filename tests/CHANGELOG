@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Apr-2013 Mark Dexter
+ # Fix webdriver tests for change in module edit form (using textarea for class suffix)
+
 22-Apr-2013 Mark Dexter
  # Change error reporting to Development in auto install.
 

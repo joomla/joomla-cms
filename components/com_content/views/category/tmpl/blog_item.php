@@ -38,11 +38,7 @@ JHtml::_('behavior.framework');
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?>
-
-<?php if ($params->get('show_intro')) : ?>
-<?php echo $this->item->introtext; ?>
-<?php endif; ?>
+<?php echo $this->item->event->beforeDisplayContent; ?> <?php echo $this->item->introtext; ?>
 
 <?php if ($useDefList) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
