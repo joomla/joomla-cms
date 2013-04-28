@@ -156,87 +156,6 @@ class JAccess
 	}
 
 	/**
-	 * Remove all groups in the array of group IDs that have ancestors that
-	 * are in the provided array of groups.
-	 *
-	 * This has the effect of only leaving the lowest level group on each line
-	 * of descent.
-	 *
-	 * @param  array  $groupsIds array of group IDs to be purged (called 'group list' below)
-	 *
-	 * @return a new array of group IDs with descendent groups removed
-	 */
-	public static function removeDescendentGroups($groupIds)
-	{
-		// Get the needed info for each group
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id'));
-		$query->select($db->quoteName('parent_id'));
-		$query->select($db->quoteName('title'));
-		$query->from($db->quoteName('#__usergroups'));
-		$db->setQuery($query);
-		$group_data = $db->loadObjectList();
-
-		// Construct an array of the parents to simplify later searches
-		$parent = Array();
-		foreach ($group_data as $grp)
-		{
-			$parent[(int)$grp->id] = (int)$grp->parent_id;
-		}
-
-		// Array of the eldest groups (that have no ancestors in the group list)
-		$eldest = Array();
-
-		// Check each of the groups to see whether it has descendents in the group list
-		$unprocessed = $groupIds;
-		while (count($unprocessed) > 0)
-		{
-			// Check the next group
-			$target_gid = array_pop($unprocessed);
-			
-			// See if it has any ancestors in the group list
-			$descendent_found = false;
-			foreach ($groupIds as $check_id)
-			{
-				// Do not check itself
-				if ($check_id == $target_gid)
-				{
-					continue;
-				}
-
-				// See if this group id is an ancestor of $target_gid
-				$check_id = $parent[$target_gid];
-				while ($check_id > 0)
-				{
-					if ( in_array($check_id, $groupIds) )
-					{
-						$descendent_found = true;
-						break 2;
-					}
-
-					$check_id = $parent[$check_id];
-				}
-			}
-
-			if (!$descendent_found)
-			{
-				// If we found no descendents for this target group, we can 
-				// save it to array of known 'eldest' groups (eg, that have 
-				// no ancestors in our group list)
-
-				$elders[] = $target_gid;
-			}
-		}
-
-		// Always sort the resulting groups (helps testing)
-		sort($elders);
-
-		// Return the resulting groups
-		return $elders;
-	}
-
-	/**
 	 * Gets the parent groups that a leaf group belongs to in its branch back to the root of the tree
 	 * (including the leaf group id).
 	 *
@@ -281,77 +200,6 @@ class JAccess
 		}
 
 		return self::$userGroupPaths[$groupId];
-	}
-
-
-	/**
-	 * Find out the lowest ancestor (closet to the root group whose id=0) in the groups
-	 *
-	 * Checks to see that all the groups are on the same line of descent.
-	 * If not, it returns null.
-	 *
-	 * returns the lowest (or least derived) one, eg closest to the root group with id=0
-	 *
-	 * @param  array  $groups  An array of the IDs of the groups to test
-	 *
-	 * @return mixed the group closest to the root group (id=0), i.e, the
-	 *               least derived group.  Returns null if the groups are
-	 *               not all in the same line of descent.
-	 *
-	 * @todo This method is generic and should probably be in a group helper class
-	 */
-	public static function lowestAncestorGroup($groups)
-	{
-		// Get the all the paths, finding the shortest and longest paths
-		$shortest = 99999;
-		$shortest_id = null;
-		$longest = 0;
-		$longest_id = null;
-		$paths = Array();
-		foreach ($groups as $gid)
-		{	
-			// Get the group IDs in increasing order
-			$grp_keys = array_keys(array_flip(self::getGroupPath($gid)));
-
-			// sort($grp_keys);
-			$paths[$gid] = $grp_keys;
-			$path_len = count($grp_keys);
-			if ($path_len > $longest)
-			{
-				$longest = $path_len;
-				$longest_id = $gid;
-			}
-			if ($path_len < $shortest)
-			{
-				$shortest = $path_len;
-				$shortest_id = $gid;
-			}
-		}
-		
-		// Check to make sure each path is in the longest path (eg, in the
-		// same line of ancestry)
-		$longest_path = $paths[$longest_id];
-
-		foreach ($groups as $gid)
-		{
-			if ($gid != $longest_id)
-			{
-				// Check the path element by element
-				$test_path = $paths[$gid];
-				for ($i = 0; $i < count($test_path); $i += 1)
-				{
-					if ($test_path[$i] != $longest_path[$i])
-					{
-						return null;
-					}
-				}
-			}
-		}
-
-		// Since all the paths are on the same line of descent,
-		// just return  the last group ID of the shortest path
-		$shortest_path = $paths[$shortest_id];
-		return $shortest_path[count($shortest_path) - 1];
 	}
 		
 
@@ -747,6 +595,241 @@ class JAccess
 
 
 	/**
+	 * Remove all groups in the array of group IDs that have ancestors that
+	 * are in the provided array of groups.
+	 *
+	 * This has the effect of only leaving the lowest level group on each line
+	 * of descent.
+	 *
+	 * @param  array  $groupsIds array of group IDs to be purged (called 'set of groups' below)
+	 *
+	 * @return a new array of group IDs with descendent groups removed
+	 */
+	public static function removeDescendentGroups($groupIds)
+	{
+		// Get the needed info for each group
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('id'));
+		$query->select($db->quoteName('parent_id'));
+		$query->select($db->quoteName('title'));
+		$query->from($db->quoteName('#__usergroups'));
+		$db->setQuery($query);
+		$group_data = $db->loadObjectList();
+
+		// Construct an array of the parents to simplify later searches
+		$parent = Array();
+		foreach ($group_data as $grp)
+		{
+			$parent[(int)$grp->id] = (int)$grp->parent_id;
+		}
+
+		// Array of the eldest groups (that have no ancestors in the set of groups)
+		$eldest = Array();
+
+		// Check each of the groups to see whether it has descendents in the set of groups
+		$unprocessed = $groupIds;
+		while (count($unprocessed) > 0)
+		{
+			// Check the next group
+			$target_gid = array_pop($unprocessed);
+			
+			// See if it has any ancestors in the set of groups
+			$descendent_found = false;
+			foreach ($groupIds as $check_id)
+			{
+				// Do not check itself
+				if ($check_id == $target_gid)
+				{
+					continue;
+				}
+
+				// See if this group id is an ancestor of $target_gid
+				$check_id = $parent[$target_gid];
+				while ($check_id > 0)
+				{
+					if ( in_array($check_id, $groupIds) )
+					{
+						$descendent_found = true;
+						break 2;
+					}
+
+					$check_id = $parent[$check_id];
+				}
+			}
+
+			if (!$descendent_found)
+			{
+				// If we found no descendents for this target group, we can 
+				// save it to array of known 'eldest' groups (eg, that have 
+				// no ancestors in our set of groups)
+
+				$elders[] = $target_gid;
+			}
+		}
+
+		// Always sort the resulting groups (helps testing)
+		sort($elders);
+
+		// Return the resulting groups
+		return $elders;
+	}
+
+	/**
+	 * Return the least authoritative group from the set of groups
+	 *
+	 * If threre is a choice avoid groups that have permission to do the
+	 * actions core.admin or core.manage.  Otherwise, use a ranking algorithm
+	 * to pick the least authorititative group to do core actions for the
+	 * specified asset.
+	 *
+	 * @param  array   $groupsIds array of group IDs to be processed (called 'set of groups' below)
+	 * @param  string  $asset the name of the asset (eg, component) to be checked
+	 *
+	 * @param  int  least authoritative group ID from the set of groups
+	 */
+	public static function leastAuthoritativeGroup($groupIds, $asset = 'com_content')
+	{
+		echo "----------------------------------------------------------------------\n";
+
+		// First, purge the descendents from the groups
+		echo "Raw: ".implode(', ', $groupIds)."\n";
+		$groupIds = JAccess::removeDescendentGroups($groupIds);
+		echo "Purged: ".implode(', ', $groupIds)."\n";
+
+		// Construct sets of groups that will be needed
+		$admin_groups = Array();
+		$manage_groups = Array();
+		$normal_groups = Array();
+		foreach ($groupIds as $group_id)
+		{
+			if (JAccess::checkGroup($group_id, 'core.admin', $asset))
+			{
+				// All groups that have core.admin authority
+				$admin_groups[] = $group_id;
+			}
+			if (JAccess::checkGroup($group_id, 'core.manage', $asset))
+			{
+				// All groups that have core.manage authority
+				$manage_groups[] = $group_id;
+			}
+			if ( !(JAccess::checkGroup($group_id, 'core.admin', $asset) OR
+				   JAccess::checkGroup($group_id, 'core.manage', $asset)) )
+			{
+				// Groups that do not have either core.admin or core.manage
+				$normal_groups[] = $group_id;
+			}
+		}
+
+		echo "manage(".implode(', ', $manage_groups)."), admin(".implode(', ', $admin_groups)."), normal(".implode(', ', $normal_groups).")\n";
+
+		// Filter out any groups that have manage or admin authority (if possible)
+		$groups = null;
+		if (empty($normal_groups))
+		{   
+			// The groups only have either admin or manager authority
+
+			if (empty($manage_groups))
+			{
+				// Only admin authority groups left, use them
+				$groups = $admin_groups;
+
+				// ??? NEED TO CHECK FOR SUPER-USER
+			}
+			else if (empty($admin_groups))
+			{
+				// Only manage authority groups left, use them
+				$groups = $manage_groups;
+			}
+			else
+			{
+				// There are both admin and manage groups
+				// Only select those that do not have admin authority
+				$groups = array_diff($manage_groups, $admin_groups);
+				if (empty($groups))
+				{
+					$groups = $manage_groups;
+				}
+			}
+		}
+		else
+		{
+			// These groups are "normal' authority groups.
+	        // (Do not have either admin or manage authorty)
+			$groups = $normal_groups;
+		}
+
+		echo "Winnowed: ".implode(', ', $groups)."\n";
+
+		// If we have winnowed it down to 1 group, we are done
+		if (count($groups) == 1)
+		{
+			return $groups[0];
+		}
+
+		// Now we need to rank the remaining groups so we can select which one
+        // to use
+		//
+		// Rank the rules from least authoritative to most authoritative
+		// (somewhat arbitrary).  For each group that can do the required
+		// action, sum the ranks for all core rules that it can do to form a
+		// total 'authority' index.  Then choose the group with the lowest
+		// total 'authority' index.
+		//
+		$core_action_ranking = Array( 'core.create' => 1,
+									  'core.edit.own' => 1,
+									  'core.edit' => 3,
+									  'core.delete' => 3,
+									  'core.edit.state' => 6,
+									  'core.manage' => 10,
+									  'core.admin' => 15
+									  );
+		$best = Array();
+		$best_rank = 999999;
+		foreach ($groups as $group_id)
+		{
+			// Sum the ranks of the permitted core actions
+			$rank_total = 0;
+			foreach ($core_action_ranking as $caction => $rank)
+			{
+				if (JAccess::checkGroup($group_id, $caction, $asset))
+				{
+					$rank_total += $rank;
+				}
+			}
+			echo "  ---> Rank($group_id) = $rank_total\n";
+
+			// Check for lowest ranked group so far
+			if ( $rank_total < $best_rank )
+			{
+				$best = Array($group_id);
+				$best_rank = $rank_total;
+			}
+			else if ( $rank_total == $best_rank )
+			{
+				$best[] = $group_id;
+			}
+		}
+
+		echo "Ranked: ".implode(', ', $best)."\n";
+
+		// If there is just one best ranked group (least authoritative),
+		// we are done, so just return it
+		if (count($best) == 0)
+		{
+			return $best[0];
+		}
+
+		// We have multiple permitted groups with the same rank total.
+		// Since the groups are ranked the same, just return the lowest
+		// numbered one (somewhat arbitrary, but most likely to be a known
+		// group).
+		echo "Best: ".min($best)."\n";
+		return min($best);
+	}
+
+
+	/**
 	 * Replace the default rules for the target component in the root asset record
 	 *
 	 * The access rules for an component reside in an 'access.xml' file
@@ -784,7 +867,8 @@ class JAccess
 			$actions = self::getActionsFromFile($file, "/access/section[@name='component']/");
 			$file = basename($file);
 		}
-		
+
+		// Process each of the default ules
 		foreach ($actions as $rule_action)
 		{
 			// Process each default
@@ -859,7 +943,8 @@ class JAccess
 					// Find the necessary group
 					if ( $group_id === null )
 					{
-						// First, get the information about all the users
+						// First, get the IDs of all the groups
+						// ??? AFTER DEBUGGING, GET rid of objs and simplify to GIDs only
 						$db = JFactory::getDbo();
 						$query = $db->getQuery(true);
 						$query->select($db->quoteName('id'));
@@ -867,129 +952,33 @@ class JAccess
 						$query->select($db->quoteName('title'));
 						$query->from($db->quoteName('#__usergroups'));
 						$db->setQuery($query);
-						$group_info = $db->loadObjectList();
+						$group_objs = $db->loadObjectList();
 						$groups = Array();
 
 						// Scan through the groups to find all groups with the required permission
 						$good_groups = Array();
-						foreach ($group_info as $g)
+						foreach ($group_objs as $g)
 						{
-							$gid = $g->id;
-							$groups[$gid] = $g;
-							if (JAccess::checkGroup($gid, $action, $asset))
+							$test_gid = $g->id;
+							$groups[(int)$test_gid] = $g;
+							if (JAccess::checkGroup($test_gid, $action, $asset))
 							{
-								$good_groups[$gid] = $g;
+								$good_groups[] = $test_gid;
 							}
 						}
 
+						// Complain if no groups can do the desired action
 						if (empty($good_groups))
 						{
-							JLog::add("WARNING: For default permission rule '$rule_name' cannot find a " .
-									  "group with permission to do  '$action' for '$asset' on this system!",
+							JLog::add("WARNING: For default permission rule '$rule_name' there is no " .
+									  "group with permission to do '$action' for '$asset' on this system!",
 									  JLog::WARNING);
 						}
 
-						// Figure out which permitted group is least
-						// 'authoritative'
-						//
-						// Rank the rules from least authoritative to most
-                        // authoritative (somewhat arbitrary).  For each
-                        // group that can do the required action, sum the
-                        // ranks for all core rules that it can do to form a
-                        // total 'authority' index.  Then choose the group
-                        // with the lowest total 'authority' index.
-						$core_action_ranking = Array( 'core.create' => 1,
-													  'core.edit.own' => 1,
-													  'core.edit' => 3,
-													  'core.delete' => 3,
-													  'core.edit.state' => 5,
-													  'core.manage' => 7,
-													  'core.admin' => 10
-													  );
-						$best = Array();
-						$best_rank = 999999;
-					
-						foreach ($good_groups as $grp)
-						{
-							// Sum the ranks of the permitted core actions
-							$rank_total = 0;
-							foreach ($core_action_ranking as $caction => $rank)
-							{
-								if (JAccess::checkGroup($grp->id, $caction, $asset))
-								{
-									$rank_total += $rank;
-								}
-							}
-
-							// Check for lowest ranked group so far
-							if ( $rank_total < $best_rank )
-							{
-								$best = Array($grp);
-								$best_rank = $rank_total;
-							}
-							else if ( $rank_total == $best_rank )
-							{
-								$best[] = $grp;
-							}
-						}
-
-						// We have multiple permitted groups with the same
-						// rank total
-						if (count($best) > 1)
-						{
-							// See if the groups are all one ancestor line
-							$test_groups = Array();
-							foreach ($best as $grp)
-							{
-								$test_groups[] = $grp->id;
-							}
-							$lowest = self::lowestAncestorGroup($test_groups);
-
-							if ($lowest !== null)
-							{
-								// Case 1: All the groups are on the same line of
-								//         descent - If so pick the lowest (or
-								//         least derived) one, eg closest to
-								//         the root group with id=0
-								$best = $groups[(int)$lowest];
-							}
-							else
-							{
-								// Case 2: the groups are unrelated, just pick
-								//         the one that closest to the root group
-
-								// ties, pick the one closest to the root
-								$best_dist = 99999;
-								$best_dist_grp = null;
-								foreach ($best as $grp)
-								{
-									$dist = 1;
-									$g = $grp;
-									$parent_id = $grp->parent_id;
-									while ($parent_id != 0)
-									{
-										$dist += 1;
-										$g = $groups[$parent_id];
-										$parent_id = $g->parent_id;
-									}
-									if ( $dist < $best_dist )
-									{
-										$best_dist = $dist;
-										$best_dist_grp = $g;
-									}
-								}
-								$best = $best_dist_grp;
-							}
-						}
-						else
-						{
-							// Just one acceptable group, so use it
-							$best = $best[0];
-						}
-
-						// Note the best rule
-						$group_id = $best->id;
-						$group_name = $best->title;
+						// Get the 'least' authoritative group
+						$group_id = JAccess::leastAuthoritativeGroup($good_groups, $asset);
+						$good_grp = $groups[$group_id];
+						$group_name = $good_grp->title;
 					}
 
  					// If no suitable rule has been found, skip it
