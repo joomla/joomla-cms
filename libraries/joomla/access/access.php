@@ -201,7 +201,6 @@ class JAccess
 
 		return self::$userGroupPaths[$groupId];
 	}
-		
 
 	/**
 	 * Method to return the ID for a group name
