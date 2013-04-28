@@ -32,7 +32,7 @@ $version = '2.5';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '11';
+$release = '12';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -134,7 +134,7 @@ for($num=$release-1; $num >= 0; $num--) {
 	sort($filePut);
 	file_put_contents('diffconvert/'.$version.'.'.$num, implode("", $filePut));
 	file_put_contents('diffconvert/'.$version.'.'.$num.'-deleted', $deletedFiles);
-	
+
 	// Only create archives for 0 and most recent versions. Skip other update versions.
 	if ($num != 0 && ($num != $release - 1)) {
 		echo "Skipping create archive for version $version.$num\n";
