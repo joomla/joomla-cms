@@ -209,7 +209,7 @@ class JAccess
 	 *
 	 * @return  integer  the group id (0 if not found)
 	 *
-	 * @todo This method is generic and should probably be in a helper class
+	 * @todo This method is generic and should probably be in a group helper class
 	 */
 	public static function getGroupId($groupname)
 	{
@@ -573,7 +573,6 @@ class JAccess
 		return $actions;
 	}
 
-
 	/**
 	 * Remove all groups in the array of group IDs that have ancestors that
 	 * are in the provided array of groups.
@@ -584,6 +583,8 @@ class JAccess
 	 * @param  array  $groupsIds array of group IDs to be purged (called 'set of groups' below)
 	 *
 	 * @return a new array of group IDs with descendent groups removed
+	 *
+	 * @todo This method is generic and should probably be in a group helper class
 	 */
 	public static function removeDescendentGroups($groupIds)
 	{
@@ -634,6 +635,7 @@ class JAccess
 						break 2;
 					}
 
+					// Recurse to its parent
 					$check_id = $parent[$check_id];
 				}
 			}
@@ -701,14 +703,17 @@ class JAccess
 		$groups = null;
 		if (empty($normal_groups))
 		{   
-			// The groups only have either admin or manager authority
+			// The groups have only either admin or manager authority
 
 			if (empty($manage_groups))
 			{
-				// Only admin authority groups left, use them
+				// Only admin authority groups left
 				$groups = $admin_groups;
 
-				// ??? NEED TO CHECK FOR SUPER-USER
+				// NOTE:
+				// Any group with core.admin privilege is functionally a
+				// super-user group so there is no need to try to remove
+				// super-users from this list.
 			}
 			else if (empty($admin_groups))
 			{
@@ -722,6 +727,9 @@ class JAccess
 				$groups = array_diff($manage_groups, $admin_groups);
 				if (empty($groups))
 				{
+					// In case all groups here have both admin and manage,
+					// they are equivalent, so use the full set of manage
+					// groups
 					$groups = $manage_groups;
 				}
 			}
@@ -729,7 +737,7 @@ class JAccess
 		else
 		{
 			// These groups are "normal' authority groups.
-	        // (Do not have either admin or manage authorty)
+			// (Do not have either admin or manage authorty)
 			$groups = $normal_groups;
 		}
 
@@ -740,7 +748,7 @@ class JAccess
 		}
 
 		// Now we need to rank the remaining groups so we can select which one
-        // to use
+		// to use
 		//
 		// Rank the rules from least authoritative to most authoritative
 		// (somewhat arbitrary).  For each group that can do the required
@@ -762,9 +770,9 @@ class JAccess
 		{
 			// Sum the ranks of the permitted core actions
 			$rank_total = 0;
-			foreach ($core_action_ranking as $caction => $rank)
+			foreach ($core_action_ranking as $core_action => $rank)
 			{
-				if (JAccess::checkGroup($group_id, $caction, $asset))
+				if (JAccess::checkGroup($group_id, $core_action, $asset))
 				{
 					$rank_total += $rank;
 				}
@@ -859,12 +867,12 @@ class JAccess
 					$action = null;
 
 					// Parse the rule defaults clause
- 					$rule = trim($raw_rule);
- 					if (strpos($rule, ':') !== false)
- 					{
- 						$parts = explode(':', $rule);
- 						$asset = trim($parts[0]);
- 						$action = trim($parts[1]);
+					$rule = trim($raw_rule);
+					if (strpos($rule, ':') !== false)
+					{
+						$parts = explode(':', $rule);
+						$asset = trim($parts[0]);
+						$action = trim($parts[1]);
 					}
 					else
 					{
@@ -938,7 +946,7 @@ class JAccess
 						$group_id = JAccess::leastAuthoritativeGroup($good_groups, $asset);
 					}
 
- 					// If no suitable rule has been found, skip it
+					// If no suitable rule has been found, skip it
 					if ( $group_id === null )
 					{
 						continue;
