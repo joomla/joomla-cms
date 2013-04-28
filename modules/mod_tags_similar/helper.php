@@ -71,21 +71,18 @@ abstract class ModTagssimilarHelper
 					$db->quoteName('cc.core_language')
 					)
 			);
-			$query->group($db->quoteName(array('tag_id', 'm.content_item_id', 'm.type_alias', 't.access', 'ct.router')))
-				->from($db->quoteName('#__contentitem_tag_map', 'm'))
-				->having('t.access IN (' . $groups . ')')
-				->having($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')')
-				->having($db->quoteName('m.content_item_id') . ' <> ' . $id);
 
-			if ($matchtype == 'all' && $tagCount > 0)
-			{
-				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  = ' . $tagCount);
-			}
-			elseif ($matchtype == 'half' && $tagCount > 0)
-			{
-				$tagCountHalf = ceil($tagCount / 2);
-				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
-			}
+			$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
+
+			$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON m.tag_id = t.id')
+				->join('INNER', $db->quoteName('#__ucm_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
+				->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias');
+
+			$query->where('t.access IN (' . $groups . ')');
+			$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
+
+			// Don't show current item
+			$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id . ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')');
 
 			// Only return published tags
 			$query->where($db->quoteName('cc.core_state') . ' = 1 ');
@@ -102,11 +99,18 @@ abstract class ModTagssimilarHelper
 				$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 			}
 
-			$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON m.tag_id = t.id')
-				->join('INNER', $db->quoteName('#__ucm_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
-				->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias')
+			$query->group($db->quoteName(array('m.core_content_id')));
+			if ($matchtype == 'all' && $tagCount > 0)
+			{
+				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  = ' . $tagCount);
+			}
+			elseif ($matchtype == 'half' && $tagCount > 0)
+			{
+				$tagCountHalf = ceil($tagCount / 2);
+				$query->having('COUNT( '  . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
+			}
 
-				->order($db->quoteName('count') . ' DESC');
+			$query->order($db->quoteName('count') . ' DESC');
 			$db->setQuery($query, 0, $maximum);
 			$results = $db->loadObjectList();
 

@@ -284,15 +284,6 @@ class JCategories
 			 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
 		);
 
-		// Filter by language
-		if (empty($this->_options['allLanguages']) && $app->isSite() && JLanguageMultilang::isEnabled())
-		{
-			$query->where(
-				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' .
-					$db->quote('*') . '))'
-			);
-		}
-
 		// Get the results
 		$db->setQuery($query);
 		$results = $db->loadObjectList('id');

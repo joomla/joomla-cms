@@ -26,6 +26,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Apr-2013 Mark Dexter
+ # Fix webdriver tests for change in module edit form (using textarea for class suffix)
+
+22-Apr-2013 Mark Dexter
+ # Change error reporting to Development in auto install.
+
+20-Apr-2013 Mark Dexter
+ # Fix failing system test from change in class suffix from input to textarea.
+
 12-Apr-2013 Michael Babker
  # Fix failing unit tests from UCM refactor
 
