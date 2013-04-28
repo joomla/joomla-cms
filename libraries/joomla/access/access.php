@@ -690,12 +690,8 @@ class JAccess
 	 */
 	public static function leastAuthoritativeGroup($groupIds, $asset = 'com_content')
 	{
-		// ??? echo "----------------------------------------------------------------------\n";
-
-		// First, purge the descendents from the groups
-		// ??? echo "Raw: ".implode(', ', $groupIds)."\n";
+		// Remove any any descendents 
 		$groupIds = JAccess::removeDescendentGroups($groupIds);
-		// ??? echo "Purged: ".implode(', ', $groupIds)."\n";
 
 		// Construct sets of groups that will be needed
 		$admin_groups = Array();
@@ -720,8 +716,6 @@ class JAccess
 				$normal_groups[] = $group_id;
 			}
 		}
-
-		// ??? echo "manage(".implode(', ', $manage_groups)."), admin(".implode(', ', $admin_groups)."), normal(".implode(', ', $normal_groups).")\n";
 
 		// Filter out any groups that have manage or admin authority (if possible)
 		$groups = null;
@@ -759,8 +753,6 @@ class JAccess
 			$groups = $normal_groups;
 		}
 
-		// ??? echo "Winnowed: ".implode(', ', $groups)."\n";
-
 		// If we have winnowed it down to 1 group, we are done
 		if (count($groups) == 1)
 		{
@@ -797,7 +789,6 @@ class JAccess
 					$rank_total += $rank;
 				}
 			}
-			// ??? echo "  ---> Rank($group_id) = $rank_total\n";
 
 			// Check for lowest ranked group so far
 			if ( $rank_total < $best_rank )
@@ -811,8 +802,6 @@ class JAccess
 			}
 		}
 
-		// ??? echo "Ranked: ".implode(', ', $best)."\n";
-
 		// If there is just one best ranked group (least authoritative),
 		// we are done, so just return it
 		if (count($best) == 0)
@@ -824,7 +813,6 @@ class JAccess
 		// Since the groups are ranked the same, just return the lowest
 		// numbered one (somewhat arbitrary, but most likely to be a known
 		// group).
-		// ??? echo "Best: ".min($best)."\n";
 		return min($best);
 	}
 
