@@ -6342,9 +6342,6 @@ h6 {
 .chzn-drop {
 	max-width: 100% !important;
 }
-.CodeMirror-wrapping {
-	height: auto !important;
-}
 @media (max-width: 979px) {
 	.navbar .brand {
 		font-size: 13px;
