@@ -690,12 +690,12 @@ class JAccess
 	 */
 	public static function leastAuthoritativeGroup($groupIds, $asset = 'com_content')
 	{
-		echo "----------------------------------------------------------------------\n";
+		// ??? echo "----------------------------------------------------------------------\n";
 
 		// First, purge the descendents from the groups
-		echo "Raw: ".implode(', ', $groupIds)."\n";
+		// ??? echo "Raw: ".implode(', ', $groupIds)."\n";
 		$groupIds = JAccess::removeDescendentGroups($groupIds);
-		echo "Purged: ".implode(', ', $groupIds)."\n";
+		// ??? echo "Purged: ".implode(', ', $groupIds)."\n";
 
 		// Construct sets of groups that will be needed
 		$admin_groups = Array();
@@ -721,7 +721,7 @@ class JAccess
 			}
 		}
 
-		echo "manage(".implode(', ', $manage_groups)."), admin(".implode(', ', $admin_groups)."), normal(".implode(', ', $normal_groups).")\n";
+		// ??? echo "manage(".implode(', ', $manage_groups)."), admin(".implode(', ', $admin_groups)."), normal(".implode(', ', $normal_groups).")\n";
 
 		// Filter out any groups that have manage or admin authority (if possible)
 		$groups = null;
@@ -759,7 +759,7 @@ class JAccess
 			$groups = $normal_groups;
 		}
 
-		echo "Winnowed: ".implode(', ', $groups)."\n";
+		// ??? echo "Winnowed: ".implode(', ', $groups)."\n";
 
 		// If we have winnowed it down to 1 group, we are done
 		if (count($groups) == 1)
@@ -797,7 +797,7 @@ class JAccess
 					$rank_total += $rank;
 				}
 			}
-			echo "  ---> Rank($group_id) = $rank_total\n";
+			// ??? echo "  ---> Rank($group_id) = $rank_total\n";
 
 			// Check for lowest ranked group so far
 			if ( $rank_total < $best_rank )
@@ -811,7 +811,7 @@ class JAccess
 			}
 		}
 
-		echo "Ranked: ".implode(', ', $best)."\n";
+		// ??? echo "Ranked: ".implode(', ', $best)."\n";
 
 		// If there is just one best ranked group (least authoritative),
 		// we are done, so just return it
@@ -824,7 +824,7 @@ class JAccess
 		// Since the groups are ranked the same, just return the lowest
 		// numbered one (somewhat arbitrary, but most likely to be a known
 		// group).
-		echo "Best: ".min($best)."\n";
+		// ??? echo "Best: ".min($best)."\n";
 		return min($best);
 	}
 
@@ -855,7 +855,7 @@ class JAccess
 		// Create an empty set of rules to receive the rules for the component
 		$new_rules = new JAccessRules();
 
-		// Get the actions for this component (which contain the defaults)
+		// Get the defined actions for this component (which contain the defaults)
 		if ( $file === null )
 		{
 			$actions = JAccess::getActions($component);
@@ -883,15 +883,14 @@ class JAccess
 										"for component '$component'");
 				}
 
-				// Process each comma-separated defaults clause 
+				// Process each comma-separated rule defaults clause 
 				$rule_set = explode(',', $rule_action->default);
 				foreach ($rule_set as $raw_rule)
 				{
-					$group_name = null;
 					$group_id = null;
 					$action = null;
 
-					// Parse the rule
+					// Parse the rule defaults clause
  					$rule = trim($raw_rule);
  					if (strpos($rule, ':') !== false)
  					{
@@ -901,7 +900,7 @@ class JAccess
 					}
 					else
 					{
-						// Syntax error
+						// Syntax error (malformed rule syntax)
 						throw new Exception("ERROR: Bad rule in '$file', default syntax for " .
 											"rule '$rule_name'. Should be like: 'com_content:core.edit'");
 					}
@@ -926,7 +925,6 @@ class JAccess
 						{
 							// The group was not found, ignore it (quietly)
 							$group_id = null;
-							$group_name = null;
 						}
 						else
 						{
@@ -935,7 +933,6 @@ class JAccess
 							{
 								// The group does not have the required permission, ignore it (quietly)
 								$group_id = null;
-								$group_name = null;
 							}
 						}
 					}
@@ -943,24 +940,18 @@ class JAccess
 					// Find the necessary group
 					if ( $group_id === null )
 					{
-						// First, get the IDs of all the groups
-						// ??? AFTER DEBUGGING, GET rid of objs and simplify to GIDs only
+						// Get the list of groups on this system
 						$db = JFactory::getDbo();
 						$query = $db->getQuery(true);
 						$query->select($db->quoteName('id'));
-						$query->select($db->quoteName('parent_id'));
-						$query->select($db->quoteName('title'));
 						$query->from($db->quoteName('#__usergroups'));
 						$db->setQuery($query);
-						$group_objs = $db->loadObjectList();
-						$groups = Array();
+						$all_groups = $db->loadColumn();
 
 						// Scan through the groups to find all groups with the required permission
 						$good_groups = Array();
-						foreach ($group_objs as $g)
+						foreach ($all_groups as $test_gid)
 						{
-							$test_gid = $g->id;
-							$groups[(int)$test_gid] = $g;
 							if (JAccess::checkGroup($test_gid, $action, $asset))
 							{
 								$good_groups[] = $test_gid;
@@ -977,8 +968,6 @@ class JAccess
 
 						// Get the 'least' authoritative group
 						$group_id = JAccess::leastAuthoritativeGroup($good_groups, $asset);
-						$good_grp = $groups[$group_id];
-						$group_name = $good_grp->title;
 					}
 
  					// If no suitable rule has been found, skip it
@@ -993,8 +982,6 @@ class JAccess
 					// Merge it with the rest of the new rules
 					$new_rules->merge($new_rule);
 				}
-
-				// ??? echo "For '$rule_name', GROUP($group_name, $group_id)\n";
 			}
 		}
 
