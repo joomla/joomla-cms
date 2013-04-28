@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+28-Apr-2013 Jean-Marie Simonet
+ $ Adding installation languages : ro-RO and gd-GB
+
 -------------------- 3.1.1 Stable Release [26-Apr-2013] ------------------
 
 26-Apr-2013 Mark Dexter
