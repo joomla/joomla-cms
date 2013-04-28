@@ -726,8 +726,13 @@ class JHelperTags
 			$newTags = (isset($newMetaObject->tags)) ? $newMetaObject->tags : null;
 		}
 
-		// We need to process tags if the tags have changed or if we have a new row
-		$this->tagsChanged = ($oldTags != $newTags) || !$table->$key;
+		// New items with no tags bypass this step.
+		if (!empty($newTags) && !empty($oldTags))
+		{
+			// We need to process tags if the tags have changed or if we have a new row
+			$this->tagsChanged = ($oldTags != $newTags) || !$table->$key;
+		}
+
 	}
 
 	/**

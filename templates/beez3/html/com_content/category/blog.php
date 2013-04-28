@@ -13,6 +13,8 @@ $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+JHtml::_('behavior.caption');
+
 $cparams = JComponentHelper::getParams('com_media');
 
 // If the page class is defined, add to class as suffix.
