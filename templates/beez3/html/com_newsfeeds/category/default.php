@@ -8,8 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
-$pageClass = $this->params->get('pageclass_sfx');
+JHtml::_('behavior.caption');
 ?>
 <div class="newsfeed-category<?php echo $this->pageclass_sfx;?>">
 <?php if ($this->params->get('show_page_heading')) : ?>

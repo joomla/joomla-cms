@@ -140,9 +140,10 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$menuType = 'Category Blog';
 		$itemName = '- Joomla!';
 		$menuLocation = 'Fruit Shop';
+		$metaDescription = 'Test menu item for webdriver test.';
 		$this->menuItemsManagerPage->setFilter('menutype', $menuLocation);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
-		$this->menuItemsManagerPage->addMenuItem($title, $menuType, $menuLocation, array('category' => $itemName));
+		$this->menuItemsManagerPage->addMenuItem($title, $menuType, $menuLocation, array('category' => $itemName, 'Meta Description' => $metaDescription));
 		$message = $this->menuItemsManagerPage->getAlertMessage();
 		$this->assertContains('Menu item successfully saved', $message, 'Menu save should return success', true);
 		$this->menuItemsManagerPage->searchFor($title);

@@ -201,7 +201,8 @@ class JSchemaChangeset
 		{
 			$this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 		}
-		return JFolder::files($this->folder . '/' . $sqlFolder, '\.sql$', 1, true);
+		return JFolder::files($this->folder . '/' . $sqlFolder, '\.sql$', 1, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
+		array('^\..*', '.*~'), true);
 	}
 
 	/**
