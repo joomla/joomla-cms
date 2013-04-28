@@ -90,7 +90,7 @@ class JUcmType implements JUcm
 	 *
 	 * @param   string  $alias  The string of the type alias
 	 *
-	 * @return  integer  The ID of the requested type
+	 * @return  mixed  The ID of the requested type or false if type is not found
 	 *
 	 * @since   3.1
 	 */
@@ -109,6 +109,11 @@ class JUcmType implements JUcm
 		$this->db->setQuery($query);
 
 		$id = $this->db->loadResult();
+
+		if (!$id)
+		{
+			return false;
+		}
 
 		return $id;
 
