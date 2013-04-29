@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+29-Apr-2013 Jean-Marie Simonet
+ $ Removing deprecated lang strings for the flash Uploader
+
 28-Apr-2013 Jean-Marie Simonet
  $ Adding installation languages : ro-RO and gd-GB
 
