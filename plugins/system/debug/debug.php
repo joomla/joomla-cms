@@ -303,17 +303,12 @@ class plgSystemDebug extends JPlugin
 					$entries = implode($entries);
 				}
 
-				if (!is_object($entries))
+				if (!is_object($entries) || (is_object($entries) && method_exists($entries,'__toString')))
 				{
-					$html .= '<code>';
-					$html .= $sKey . ' &rArr; ' . $entries . '<br />';
-					$html .= '</code>';
-				} else if (method_exists($entries,'__toString'))
-				{
-					$html .= '<code>';
-					$html .= $sKey . ' &rArr; ' . $entries . '<br />';
-					$html .= '</code>';
-				} 
+					$html .= '<code>'
+						. $sKey . ' &rArr; ' . $entries
+						. '</code><br />';
+				}
 			}
 		}
 
