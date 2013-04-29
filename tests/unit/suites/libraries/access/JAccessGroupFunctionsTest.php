@@ -51,13 +51,6 @@ class JAccessGroupFunctions extends TestCaseDatabase
 							   );
 
 	/**
-	 * @var core actions
-	 */
-	protected $core_actions = Array( "core.admin", "core.manage",
-									 "core.create", "core.delete",
-									 "core.edit", "core.edit.own", "core.edit.state" );
-
-	/**
 	 * @var string representation of default root rule
 	 */
 	protected $reference_root_rule = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
