@@ -53,8 +53,8 @@ class JAccessDefaultRulesTest extends TestCaseDatabase
 	/**
 	 * @var core actions
 	 */
-	protected $core_actions = Array( "core.admin", "core.manage",
-									 "core.create", "core.delete",
+	protected $core_actions = Array( "core.login.admin", "core.admin", "core.manage",
+									 "core.login.site", "core.create", "core.delete",
 									 "core.edit", "core.edit.own", "core.edit.state" );
 
 	/**
