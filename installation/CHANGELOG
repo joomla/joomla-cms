@@ -30,7 +30,7 @@ $ -> Language fix or change
  #$ [#30381] Create Folder button label - Media Manager. Thanks Glenn Arkell
  #$ [#30618] *Adding filtering by Unprotected extensions in Extensions Manager=>Manage
  # [#29922] Browser Agent Google Chrome on IOS. Thanks Brian Teeman.
- # [#30721] Removes unnecessary clearfix divs. Thanks Seth Warburton
+ # [#30622] Queries not using JDatabase. Thanks Georges Wilson
 
 29-Apr-2013 Jean-Marie Simonet
  $ Removing deprecated lang strings for the flash Uploader
