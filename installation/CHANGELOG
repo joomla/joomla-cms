@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 30-Apr-2013 Jean-Marie Simonet
  # [#30488] Wrong default values for weblink icons in layout. Thanks THomas Hunziker.
+ #$ [#30381] Create Folder button label - Media Manager. Thanks Glenn Arkell
 
 29-Apr-2013 Jean-Marie Simonet
  $ Removing deprecated lang strings for the flash Uploader
