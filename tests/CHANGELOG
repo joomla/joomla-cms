@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Apr-2013 Mark Dexter
+ # Fix system tests for clearfix class in front end
+
 25-Apr-2013 Mark Dexter
  # Fix webdriver tests for change in module edit form (using textarea for class suffix)
 
