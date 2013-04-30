@@ -295,6 +295,10 @@ class InstallerModelManage extends InstallerModel
 			{
 				$query->where('protected = 1');
 			}
+			elseif ($status == '3')
+			{
+				$query->where('protected = 0');
+			}
 			else
 			{
 				$query->where('protected = 0')
