@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Apr-2013 Jean-Marie Simonet
+ # [#29922] Browser Agent Google Chrome on IOS. Thanks Georges Wilson.
+
+29-Apr-2013 Jean-Marie Simonet
+ # [#30723] Can't upload file after update from 2.5.9 to 2.5.10. Thanks Mark Dexter
+
 -------------------- 2.5.11 Stable Release 26-April-2013] ------------------
 
 26-Apr-2013 Mark Dexter
