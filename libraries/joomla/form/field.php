@@ -108,6 +108,14 @@ abstract class JFormField
 	protected $multiple = false;
 
 	/**
+	 * Allows extensions to create repeat elements
+	 * 
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	public $repeat = false;
+	
+	/**
 	 * The name of the form field.
 	 *
 	 * @var    string
@@ -322,6 +330,7 @@ abstract class JFormField
 		$class = (string) $element['class'];
 		$id = (string) $element['id'];
 		$multiple = (string) $element['multiple'];
+		$repeat = (string) $element['repeat'];
 		$name = (string) $element['name'];
 		$required = (string) $element['required'];
 
@@ -348,6 +357,9 @@ abstract class JFormField
 		// Set the multiple values option.
 		$this->multiple = ($multiple == 'true' || $multiple == 'multiple');
 
+		// Alow for repeatable elements
+		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || $this->form->repeat == 1);
+		
 		// Allow for field classes to force the multiple values option.
 		if (isset($this->forceMultiple))
 		{
@@ -382,6 +394,20 @@ abstract class JFormField
 		return true;
 	}
 
+	/**
+	 * Simple method to set the value
+	 *
+	 * @param   mixed  $v  value
+	 *
+	 * @return  void
+	 * 
+	 * @since   11.1
+	 */
+	public function setValue($v)
+	{
+		$this->value = $v;
+	}
+	
 	/**
 	 * Method to get the id used for the field input tag.
 	 *
@@ -429,6 +455,17 @@ abstract class JFormField
 		// Clean up any invalid characters.
 		$id = preg_replace('#\W#', '_', $id);
 
+		// If this is a repeatable element, ass the repeat count to the ID
+		if ($this->repeat)
+		{
+			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
+			$id .= '-' . $repeatCounter;
+			if (get_class($this) === 'JFormFieldRadio')
+			{
+				$id .= '-';
+			}
+		}
+		
 		return $id;
 	}
 
@@ -527,6 +564,9 @@ abstract class JFormField
 	 */
 	protected function getName($fieldName)
 	{
+		// To support repeated element, extensions can set this in plugin->onRenderSettings
+		$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
+		
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -567,6 +607,12 @@ abstract class JFormField
 			$name .= $fieldName;
 		}
 
+		// If repeatable, add the repeat count
+		if ($this->repeat)
+		{
+			$name .= '[' . $repeatCounter . ']';
+		}
+		
 		// If the field should support multiple values add the final array segment.
 		if ($this->multiple)
 		{
