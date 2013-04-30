@@ -127,7 +127,9 @@ class MenusHelper
 	public static function getMenuTypes()
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)->select('a.menutype')->from('#__menu_types AS a');
+		$query = $db->getQuery(true)
+			->select('a.menutype')
+			->from('#__menu_types AS a');
 		$db->setQuery($query);
 
 		return $db->loadColumn();

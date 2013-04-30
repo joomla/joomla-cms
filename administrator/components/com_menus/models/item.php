@@ -1095,14 +1095,14 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
+		$query->select('id, params')
+			->from('#__menu')
+			->where('params NOT LIKE ' . $db->quote('{%'))
+			->where('params <> ' . $db->quote(''));
+		$db->setQuery($query);
+
 		try
 		{
-			$query->select('id, params')
-				->from('#__menu')
-				->where('params NOT LIKE ' . $db->quote('{%'))
-				->where('params <> ' . $db->quote(''));
-			$db->setQuery($query);
-
 			$items = $db->loadObjectList();
 		}
 		catch (RuntimeException $e)
@@ -1117,7 +1117,9 @@ class MenusModelItem extends JModelAdmin
 			$params = (string) $registry;
 
 			$query->clear();
-			$query->update('#__menu')->set('params = ' . $db->quote($params))->where('id = ' . $item->id);
+			$query->update('#__menu')
+				->set('params = ' . $db->quote($params))
+				->where('id = ' . $item->id);
 
 			try
 			{
