@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#29922] Browser Agent Google Chrome on IOS. Thanks Brian Teeman.
  # [#30622] Queries not using JDatabase. Thanks Georges Wilson
  # [#30774] *SEF plugin issue. Thanks Robert Segura.
+ #$ [#30737] Incorrect title of the User Note Categories Manager
 
 29-Apr-2013 Jean-Marie Simonet
  $ Removing deprecated lang strings for the flash Uploader
