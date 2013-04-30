@@ -70,8 +70,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php if ($this->items[$i]->published == 0) : ?>
 								<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 							<?php endif; ?>
-
-						</div><br/>
+						</div>
 						<?php if ($this->params->get('show_position_headings')) : ?>
 								<?php echo $item->con_position; ?><br/>
 						<?php endif; ?>
