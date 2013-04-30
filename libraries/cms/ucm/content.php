@@ -151,11 +151,13 @@ class JUcmContent extends JUcmBase
 	{
 		$contentType = isset($type) ? $type : $this->type;
 
-		$fields = json_decode($contentType->type->field_mappings, true);
+		$fields = json_decode($contentType->type->field_mappings);
 
 		$ucmData = array();
 
-		foreach ($fields['common'][0] as $i => $field)
+		$common = (is_object($fields->common)) ? $fields->common : $fields->common[0];
+
+		foreach ($common as $i => $field)
 		{
 			if ($field && $field != 'null' && array_key_exists($field, $original))
 			{
@@ -165,7 +167,9 @@ class JUcmContent extends JUcmBase
 
 		if (array_key_exists('special', $ucmData))
 		{
-			foreach ($fields['special'][0] as $i => $field)
+			$special = (is_object($fields->special)) ? $fields->special : $fields->special[0];
+
+			foreach ($special as $i => $field)
 			{
 				if ($field && $field != 'null' && array_key_exists($field, $original))
 				{
