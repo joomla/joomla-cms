@@ -90,6 +90,9 @@ class PlgSystemLanguagecode extends JPlugin
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
+		// Ensure that data is an object
+		$data = (object) $data;
+
 		// Check we have a form
 		if (!($form instanceof JForm))
 		{
@@ -111,34 +114,36 @@ class PlgSystemLanguagecode extends JPlugin
 		$app->setUserState('plg_system_language_code.edit', $data->name == 'plg_system_languagecode');
 
 		// Get site languages
-		$languages = JLanguage::getKnownLanguages(JPATH_SITE);
-
-		// Inject fields into the form
-		foreach ($languages as $tag => $language)
+		if ($languages = JLanguage::getKnownLanguages(JPATH_SITE))
 		{
-			$form->load('
-<form>
-	<fields name="params">
-		<fieldset
-			name="languagecode"
-			label="PLG_SYSTEM_LANGUAGECODE_FIELDSET_LABEL"
-			description="PLG_SYSTEM_LANGUAGECODE_FIELDSET_DESC"
-		>
-			<field
-				name="'.strtolower($tag).'"
-				type="text"
-				description="' . htmlspecialchars(JText::sprintf('PLG_SYSTEM_LANGUAGECODE_FIELD_DESC', $language['name']), ENT_COMPAT, 'UTF-8') . '"
-				translate_description="false"
-				label="' . $tag . '"
-				translate_label="false"
-				size="7"
-				filter="cmd"
-			/>
-		</fieldset>
-	</fields>
-</form>
-			');
+			// Inject fields into the form
+			foreach ($languages as $tag => $language)
+			{
+				$form->load('
+					<form>
+						<fields name="params">
+							<fieldset
+								name="languagecode"
+								label="PLG_SYSTEM_LANGUAGECODE_FIELDSET_LABEL"
+								description="PLG_SYSTEM_LANGUAGECODE_FIELDSET_DESC"
+							>
+								<field
+									name="'.strtolower($tag).'"
+									type="text"
+									description="' . htmlspecialchars(JText::sprintf('PLG_SYSTEM_LANGUAGECODE_FIELD_DESC', $language['name']), ENT_COMPAT, 'UTF-8') . '"
+									translate_description="false"
+									label="' . $tag . '"
+									translate_label="false"
+									size="7"
+									filter="cmd"
+								/>
+							</fieldset>
+						</fields>
+					</form>
+				');
+			}
 		}
+
 		return true;
 	}
 }
