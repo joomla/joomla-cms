@@ -13,7 +13,17 @@ use SeleniumClient\WebElement;
  */
 class TagManagerPage extends AdminManagerPage
 {
-  protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_tags']";
+        /**
+	 * The field type.
+	 *
+	 * @WaitForXpath 	string 		Contains the Xpath for the Page to be loaded
+	 */
+        protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_tags']";
+	/**
+	 * The field type.
+	 *
+	 * @url 	string 		Contains the url for the Page to be loaded
+	 */
 	protected $url = 'administrator/index.php?option=com_tags';
 	
 	public $filters = array(
@@ -33,6 +43,16 @@ class TagManagerPage extends AdminManagerPage
 			'Options' => 'toolbar-options',
 			'Help' => 'toolbar-help',
 			);
+	
+	/**
+	 * Method to  add a Tag in the Components Fields.
+	 *
+	 * @param   $name  String  The Name of the Tag that we want to add.
+	 *
+	 * @return  null.
+	 *
+	 * 
+	 */
 	public function addTag($name='Test Tag')
 	{
 		$new_name = $name . rand(1,100);
@@ -45,6 +65,18 @@ class TagManagerPage extends AdminManagerPage
 		$TagEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('TagManagerPage');
 	}
+	/**
+	 * Method to  edit a existing  Tag in the Components Fields.
+	 *
+	 * @param   $name  String  The Name of the Tag that we want to edit.
+	 *
+	 * @param   $fields  String  The value of other fields that we want to change of the Tag.
+	 * 
+	 * @return  null.
+	 *
+	 * 
+	 */
+	
 	public function editTag($name, $fields)
 	{
 		$this->clickItem($name);
@@ -54,6 +86,15 @@ class TagManagerPage extends AdminManagerPage
 		$this->test->getPageObject('TagManagerPage');
 		$this->searchFor();
 	}
+	/**
+	 * Method to  delete a existing Tag in the Components Fields.
+	 *
+	 * @param   $name  String  The Name of the Tag that we want to delete.
+	 * 
+	 * @return  null.
+	 *
+	 * 
+	 */
 	public function deleteTag($name)
 	{
 		$this->searchFor($name);
