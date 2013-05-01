@@ -17,7 +17,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 {
   /**
 	 *
-	 * @var TagManagerPage
+	 * @var TagManagerPage String 
 	 */
 	protected $TagManagerPage = null;
 	
@@ -56,7 +56,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->TagManagerPage->addTag($TagName);
 		$message = $this->TagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
-		$this->assertEquals(2, $this->TagManagerPage->getRowNumber($TagName), 'Test Tag should be in row 2');
+		$this->assertEquals(1, $this->TagManagerPage->getRowNumber($TagName), 'Test Tag should be in row 1');
 		$this->TagManagerPage->deleteTag($TagName);
 		$this->assertFalse($this->TagManagerPage->getRowNumber($TagName), 'Test Tag should not be present');
 	}
