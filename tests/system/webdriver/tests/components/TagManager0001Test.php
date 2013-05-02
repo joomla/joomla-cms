@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 require_once 'JoomlaWebdriverTestCase.php';
 
 use SeleniumClient\By;
@@ -9,25 +15,39 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the Tag Components: Add / Edit Tag User Screens
- * @author Mark
+ * This class tests the  Tags: Add / Edit  Screen.
  *
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ * @since       3.0
  */
 class TagManager0001Test extends JoomlaWebdriverTestCase
 {
-  /**
+  	/**
+	 * The page class being tested.
 	 *
-	 * @var tagManagerPage String 
+	 * @var     TagManagerPage
+	 * @since   3.0
 	 */
-	protected $tagManagerPage = null;
+  	protected $tagManagerPage = null;
 	
+	/**
+	 * Login to back end and navigate to menu Tags.
+	 *
+	 * @since   3.0
+	 */
 	public function setUp()
 	{
 		parent::setUp();
 		$cpPage = $this->doAdminLogin();
 		$this->tagManagerPage = $cpPage->clickMenu('Tags', 'TagManagerPage');
 	}
-
+	
+	/**
+	 * Logout and close test.
+	 *
+	 * @since   3.0
+	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
