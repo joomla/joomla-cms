@@ -8,31 +8,56 @@ use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
- * Class for the back-end Components screen.
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
  *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+/**
+ * Page class for the back-end component tags menu.
+ *
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ * @since       3.0
  */
 class TagManagerPage extends AdminManagerPage
 {
-  /**
-	 * The field type.
+  	/**
+	 * XPath string used to uniquely identify this page
 	 *
-	 * @WaitForXpath 	string 		Contains the Xpath for the Page to be loaded
+	 * @var    string
+	 * @since  3.0
 	 */
-    
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_tags']";
-	/**
-	 * The field type.
-	 *
-	 * @url 	string 		Contains the url for the Page to be loaded
-	 */
+  	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_tags']";
 	
+	/**
+	 * URL used to uniquely identify this page
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
 	protected $url = 'administrator/index.php?option=com_tags';
 	
+	/**
+	 * Array of filter id values for this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
 	public $filters = array(
 			'Select Status' => 'filter_published',
 			'Select Access' => 'filter_access',
 			'Select Language' => 'filter_language',
 			);
+	
+	/**
+	 * Array of toolbar id values for this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
 	public $toolbar = array (
 			'New' => 'toolbar-new',
 			'Edit' => 'toolbar-edit',
@@ -46,14 +71,14 @@ class TagManagerPage extends AdminManagerPage
 			'Options' => 'toolbar-options',
 			'Help' => 'toolbar-help',
 			);
+			
 	/**
-	 * Method to  add a Tag in the Components Fields.
+	 * Add a new Tag item in the Tag Manager: Component screen.
 	 *
-	 * @param   $name  String  The Name of the Tag that we want to add.
-	 *
-	 * @return  null.
-	 *
+	 * @param string   $title          Test Tag Name
 	 * 
+	 * 
+	 * @return  TagManagerPage
 	 */
 	public function addTag($name='Test Tag')
 	{
@@ -66,16 +91,14 @@ class TagManagerPage extends AdminManagerPage
 		$tagEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('TagManagerPage');
 	}
+	
 	/**
-	 * Method to  edit a existing  Tag in the Components Fields.
+	 * Edit a Tag item in the Tag Manager: Tag Items screen.
 	 *
-	 * @param   $name  String  The Name of the Tag that we want to edit.
+	 * @param string   $name	   Tag Title field
+	 * @param array    $fields         associative array of fields in the form label => value.
 	 *
-	 * @param   $fields  String  The value of other fields that we want to change of the Tag.
-	 * 
-	 * @return  null.
-	 *
-	 * 
+	 * @return  void
 	 */
 	public function editTag($name, $fields)
 	{
