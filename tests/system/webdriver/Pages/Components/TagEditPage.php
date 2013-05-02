@@ -8,39 +8,59 @@ use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
- * Class for the back-end component panel
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
  *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+/**
+ * Page class for the back-end menu items manager screen.
+ *
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ * @since       3.0
  */
 class TagEditPage extends AdminEditPage
 {
-  /**
-	 * The field type.
-	 *
-	 * @waitforXpath 	string		Contains the Xpath for the Edit Tag Page Form 
-	 */
-	protected $waitForXpath =  "//form[@id='item-form']";
 	/**
-	 * The field type.
+	 * XPath string used to uniquely identify this page
 	 *
-	 * @url 	string		Contains the URL for the Edit Tag Page 
+	 * @var    string
+	 * @since  3.0
+	 */  
+	protected $waitForXpath =  "//form[@id='item-form']";
+	
+	/**
+	 * URL used to uniquely identify this page
+	 *
+	 * @var    string
+	 * @since  3.0
 	 */
 	protected $url = 'administrator/index.php?option=com_tags&view=tag&layout=edit';
+	
 	/**
-	 * The field type.
+	 * Array of tabs present on this page
 	 *
-	 * @tabLabels 	string array		Contains all the labels of the Tabs that are present on the Page 
-	 */	
-	public $tabs = array('general', 'publishing', 'metadata');
-	/**
-	 * The field type.
-	 *
-	 * @tabLabels 	string array		Contains all the labels of the Tabs that are present on the Page 
+	 * @var    array
+	 * @since  3.0
 	 */
-	public $tabLabels = array('Tag Details', 'Publishing Options', 'Metadata Options');
+	public $tabs = array('general', 'publishing', 'metadata');
+	
 	/**
-	 * The field type.
+	 * Array of tab labels for this page
 	 *
-	 * @inputFields 	string array		Contains all the field Details of the Edit page 
+	 * @var    array
+	 * @since  3.0
+	 */
+	 public $tabLabels = array('Tag Details', 'Publishing Options', 'Metadata Options');
+	
+	/**
+	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
+	 *
+	 * @var array		 
+	 * @since 3.0
 	 */
 	public $inputFields = array (
 			array('label' => 'Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'general'),
