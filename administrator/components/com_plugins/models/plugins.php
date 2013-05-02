@@ -122,6 +122,8 @@ class PluginsModelPlugins extends JModelList
 	{
 		$search = $this->getState('filter.search');
 		$ordering = $this->getState('list.ordering', 'ordering');
+		
+		
 		if ($ordering == 'name' || (!empty($search) && stripos($search, 'id:') !== 0))
 		{
 			$this->_db->setQuery($query);
@@ -129,9 +131,15 @@ class PluginsModelPlugins extends JModelList
 			$this->translate($result);
 			if (!empty($search))
 			{
+				if($search[0]=='*'){
+					$search[0]=' ';
+				}
+				if($search[strlen($search)-1]=='\\'){
+					$search[strlen($search)-1]=' ';
+				}
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("/$search/i", $item->name))
+					if (!preg_match("@$search@i", $item->name))
 					{
 						unset($result[$i]);
 					}
