@@ -112,14 +112,21 @@ class ContentModelArticle extends JModelItem
 					->where('contact.published = 1')
 					->group('contact.user_id, contact.language');
 
-				$query->select('contact.id as contactid')
-					->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+				$onjoin = 'contact.user_id = a.created_by';
 
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')')
-						->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
+					$onjoin .= ' AND (contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)';
+				}
+
+				$query->select('contact.id as contactid')
+					->join('LEFT', '(' . $subQuery . ') AS contact ON ' . $onjoin);
+
+				// Filter by language
+				if ($this->getState('filter.language'))
+				{
+					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
 				// Join over the categories to get parent category titles
