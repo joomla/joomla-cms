@@ -163,7 +163,6 @@
 
 		<field name="webpage"
 			type="url"
-			filter="url"
 			label="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_LABEL"
 			description="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_DESC"
 			class="inputbox"
