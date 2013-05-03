@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-May-2013 Jean-Marie Simonet
+ # [#30571] * Strict Standards: Declaration of ContentModelCategories::populateState() should be compatible with JModel::populateState() 
+ # [#30103] Cannot delete web site entry for a contact. Thanks Elin Waring
+ 
 30-Apr-2013 Jean-Marie Simonet
  # [#29922] Browser Agent Google Chrome on IOS. Thanks Georges Wilson.
 
