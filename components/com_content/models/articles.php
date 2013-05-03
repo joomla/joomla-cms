@@ -593,8 +593,6 @@ class ContentModelArticles extends JModelList
 					$item->displayDate = $item->created;
 					break;
 			}
-			// Compute the date according to timezone
-			$item->displayDate = JHTML::_('date', $item->displayDate, 'Y-m-d H:i:s');
 
 			// Compute the asset access permissions.
 			// Technically guest could edit an article, but lets not check that to improve performance a little.
