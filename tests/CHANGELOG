@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-2-May-2013 Mark Dexter
+03- May-21013 JM Simonet
+ # Corrected test for #30788
+
+02-May-2013 Mark Dexter
  # Fix up doc blocks as example for Webdriver page classes and tests.
  # Added test for Tag Manager. Thanks Puneet Kala.
 
