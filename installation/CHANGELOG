@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note3
 
+-3-May-2013 Jean-Marie Simonet
+# [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
+
 30-Apr-2013 Jean-Marie Simonet
  # [#30488] Wrong default values for weblink icons in layout. Thanks THomas Hunziker.
  #$ [#30381] Create Folder button label - Media Manager. Thanks Glenn Arkell
