@@ -28,6 +28,7 @@ $ -> Language fix or change
 3-May-2013 Jean-Marie Simonet
  # [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
  #$ [#30805] *Isis: sidebar background colour issue
+ # [#30103] Cannot delete web site entry for a contact. Thanks Elin Waring
 
 30-Apr-2013 Jean-Marie Simonet
  # [#30488] Wrong default values for weblink icons in layout. Thanks THomas Hunziker.
