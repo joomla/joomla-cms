@@ -29,6 +29,9 @@ $ -> Language fix or change
  # [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
  #$ [#30805] *Isis: sidebar background colour issue
  # [#30103] Cannot delete web site entry for a contact. Thanks Elin Waring
+ # [#30748] *Multilanguage issue with contacts. Thanks Benjamin Trenkle
+ #$ [#30788] com_newsfeeds title is inconsequent in the backend.
+ # [#30784] User profile plugin doesn't save the field inputs after J3.1. Thanks Elin Waring
 
 30-Apr-2013 Jean-Marie Simonet
  # [#30488] Wrong default values for weblink icons in layout. Thanks THomas Hunziker.

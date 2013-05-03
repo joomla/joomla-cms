@@ -676,7 +676,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("//a[contains(., 'Feeds')]");
-	$screen='News Feed Manager';
+	$screen='News Feed Manager: News Feeds';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
