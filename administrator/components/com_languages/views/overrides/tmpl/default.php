@@ -37,7 +37,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 		</div>
 		<div class="clearfix"></div>
 
-		<table class="adminlist">
+		<table id="overrideList" class="table table-striped">
 			<thead>
 				<tr>
 					<th width="1%">
