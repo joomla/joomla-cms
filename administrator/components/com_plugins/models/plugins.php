@@ -131,15 +131,29 @@ class PluginsModelPlugins extends JModelList
 			$this->translate($result);
 			if (!empty($search))
 			{
+				for($search_count=0;$search_count<strlen($search);$search_count++){
+						
+					if($search[$search_count]=='?'){
+						$search[$search_count]='/?';
+					}
+					if($search[$search_count]=='('){
+						$search[$search_count]='/(';
+					}
+					if($search[$search_count]==')'){
+						$search[$search_count]='/)';
+					}
+						
+				}
 				if($search[0]=='*'){
-					$search[0]=' ';
+					$search[0]='/*';
 				}
 				if($search[strlen($search)-1]=='\\'){
-					$search[strlen($search)-1]=' ';
+					$search[strlen($search)-1]='/';
 				}
+				
 				foreach ($result as $i => $item)
 				{
-					if (!preg_match("@$search@i", $item->name))
+					if (!preg_match("($search)i", $item->name))
 					{
 						unset($result[$i]);
 					}
