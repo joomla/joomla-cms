@@ -11,8 +11,3 @@ before_script:
 
 script:
   - phpunit --configuration travisci-phpunit.xml
-
-# blacklist
-branches:
-  except:
-    - 2.5.x
