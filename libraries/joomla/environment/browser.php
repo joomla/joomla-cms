@@ -386,7 +386,8 @@ class JBrowser extends JObject
 			elseif (preg_match('|CriOS[/ ]([0-9.]+)|', $this->_agent, $version))
 			{
 				$this->setBrowser('chrome');
-				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+				$this->_mobile = true;
 			}
 			elseif (strpos($this->_lowerAgent, 'elaine/') !== false
 				|| strpos($this->_lowerAgent, 'palmsource') !== false
