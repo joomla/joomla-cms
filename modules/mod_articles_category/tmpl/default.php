@@ -20,20 +20,19 @@ defined('_JEXEC') or die;
 				<li>
 					<h<?php echo $item_heading + 1; ?>>
 					   	<?php if ($params->get('link_titles') == 1) : ?>
-							<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-							<?php echo $item->title; ?>
-				            <?php if ($item->displayHits) :?>
-								<span class="mod-articles-category-hits">
-				                (<?php echo $item->displayHits; ?>)  </span>
-				            <?php endif; ?>
-				        	</a>
+						<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+						<?php echo $item->title; ?>
+				        <?php if ($item->displayHits) :?>
+							<span class="mod-articles-category-hits">
+				            (<?php echo $item->displayHits; ?>)  </span>
+				        <?php endif; ?></a>
 				        <?php else :?>
-				            <?php echo $item->title; ?>
-				            <?php if ($item->displayHits) :?>
-								<span class="mod-articles-category-hits">
-				                (<?php echo $item->displayHits; ?>)  </span>
+				        <?php echo $item->title; ?>
+				        	<?php if ($item->displayHits) :?>
+							<span class="mod-articles-category-hits">
+				            (<?php echo $item->displayHits; ?>)  </span>
+				        <?php endif; ?></a>
 				            <?php endif; ?>
-				        <?php endif; ?>
 			        </h<?php echo $item_heading + 1; ?>>
 
 
@@ -52,10 +51,10 @@ defined('_JEXEC') or die;
 					<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
 				<?php endif; ?>
 				<?php if ($params->get('show_introtext')) :?>
-					<p class="mod-articles-category-introtext">
-						<?php echo $item->displayIntrotext; ?>
-					</p>
-				<?php endif; ?>
+			<p class="mod-articles-category-introtext">
+			<?php echo $item->displayIntrotext; ?>
+			</p>
+		<?php endif; ?>
 
 		<?php if ($params->get('show_readmore')) :?>
 			<p class="mod-articles-category-readmore">
