@@ -351,6 +351,23 @@ CREATE INDEX `idx_session_time` ON `jos_session` (`time`);
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jos_ucm_base`
+--
+
+CREATE TABLE `jos_ucm_base` (
+  `ucm_id` INTEGER PRIMARY KEY,
+  `ucm_item_id` INTEGER NOT NULL DEFAULT '0',
+  `ucm_type_id` INTEGER NOT NULL DEFAULT '0',
+  `ucm_language_id` INTEGER NOT NULL DEFAULT '0'
+);
+
+CREATE INDEX `idx_ucm_base_ucm_item_id` ON `jos_ucm_base` (`ucm_item_id`);
+CREATE INDEX `idx_ucm_base_ucm_type_id` ON `jos_ucm_base` (`ucm_type_id`);
+CREATE INDEX `idx_ucm_base_ucm_language_id` ON `jos_ucm_base` (`ucm_language_id`);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jos_ucm_content`
 --
 

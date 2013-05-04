@@ -26,7 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-03- May-21013 JM Simonet
+04-May-2013 Michael Babker
+ # Fix failing unit tests
+
+03-May-2013 JM Simonet
  # Corrected test for #30788
 
 02-May-2013 Mark Dexter
