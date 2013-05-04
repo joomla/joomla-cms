@@ -64,6 +64,32 @@ abstract class JHtmlBehavior
 		return;
 	}
 
+
+	/**
+	 * Method to load the jQuery framework into the document head
+	 * 
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function jqueryframework()
+	{
+		// Only load once
+		if (!empty(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Load jQuery
+		JHtml::_('jquery.framework');
+
+		self::$loaded[__METHOD__] = true;
+
+		return;
+
+	}
+
+
 	/**
 	 * Add unobtrusive javascript support for image captions.
 	 *
@@ -558,14 +584,13 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework();
 
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
 		$refreshTime = ($lifetime <= 60000) ? 30000 : $lifetime - 60000;
-
 		// Refresh time is 1 minute less than the liftime assined in the configuration.php file.
+		$chosenFramework = ($config->get('keepalive_framework'));
+		// 1 = mootools (default), 0 = jQuery
 
 		// The longest refresh period is one hour to prevent integer overflow.
 		if ($refreshTime > 3600000 || $refreshTime <= 0)
@@ -574,13 +599,28 @@ abstract class JHtmlBehavior
 		}
 
 		$document = JFactory::getDocument();
-		$script = '';
-		$script .= 'function keepAlive() {';
-		$script .= '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
-		$script .= '}';
-		$script .= ' window.addEvent("domready", function()';
-		$script .= '{ keepAlive.periodical(' . $refreshTime . '); }';
-		$script .= ');';
+		
+		if($chosenFramework == 1) {
+			// Include MooTools framework
+			self::framework();
+			$script = '';
+			$script .= 'function keepAlive() {';
+			$script .= '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
+			$script .= '}';
+			$script .= ' window.addEvent("domready", function()';
+			$script .= '{ keepAlive.periodical(' . $refreshTime . '); }';
+			$script .= ');';
+		} else {
+			// Include jQuery framework
+			self::jqueryframework();
+			$script = '';
+			$script .= 'function keepAlive() {';
+			$script .= '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
+			$script .= '}';
+			$script .= ' jQuery(document).ready(function()';
+			$script .= ' { setInterval(keepAlive,' . $refreshTime . '); }';
+			$script .= ');';
+		}
 
 		$document->addScriptDeclaration($script);
 		self::$loaded[__METHOD__] = true;

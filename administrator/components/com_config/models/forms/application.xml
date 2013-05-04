@@ -581,6 +581,18 @@
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
 			required="true"
 			filter="word" />
+		<field
+			name="keepalive_framework"
+			type="list"
+			default="1"
+			label="COM_CONFIG_FIELD_SESSION_FRAMEWORK_LABEL"
+			description="COM_CONFIG_FIELD_SESSION_FRAMEWORK_DESC"
+			filter="integer">
+			<option
+				value="1">COM_CONFIG_FIELD_SESSION_FRAMEWORK_MOOTOOLS</option>
+			<option
+				value="0">COM_CONFIG_FIELD_SESSION_FRAMEWORK_JQUERY</option>
+		</field>
 	</fieldset>
 
 	<fieldset
