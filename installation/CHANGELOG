@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 05-May-2013 Michael Babker
  # [#30727] A unpublished or deleted tag is still visible in 'List of all tags' menu item.  Thanks David Hurley
+ # [#30744] tag mappings are not deleted after a tag is deleted.  Thanks Thomas Hunziker
 
 03-May-2013 Jean-Marie Simonet
  # [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
