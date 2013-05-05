@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ [#30659] Adds html5 elements to Protostar.  Thanks Seth Warburton
  ^ [#30257] Removed colors from Icomoon named icons.  Thanks Peter van Westen
  ^ [#30816] Documentation error.  Thanks Achal Aggarwal
+ ^ [#30810] Disable ReCaptcha plugin when Joomla is installed.  Thanks Nick Savov
 
 03-May-2013 Jean-Marie Simonet
  # [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
