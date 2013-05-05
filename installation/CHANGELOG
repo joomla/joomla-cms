@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30566] Tag Items List Layout Background Alternating Color Bug.  Thanks Seth Warburton
  ^ [#30659] Adds html5 elements to Protostar.  Thanks Seth Warburton
  ^ [#30257] Removed colors from Icomoon named icons.  Thanks Peter van Westen
+ ^ [#30816] Documentation error.  Thanks Achal Aggarwal
 
 03-May-2013 Jean-Marie Simonet
  # [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
