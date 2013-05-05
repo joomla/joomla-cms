@@ -34,6 +34,7 @@ $ -> Language fix or change
  ^ [#30816] Documentation error.  Thanks Achal Aggarwal
  ^ [#30810] Disable ReCaptcha plugin when Joomla is installed.  Thanks Nick Savov
  # [#30811] Overrides list does not have any markup.  Thanks Roland Dalmulder
+ # [#30832] Joomla Updater doesn't use the bootstrap styling.  Thanks Roland Dalmulder
 
 03-May-2013 Jean-Marie Simonet
  # [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
