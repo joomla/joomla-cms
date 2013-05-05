@@ -156,7 +156,7 @@ for($num=$release-1; $num >= 0; $num--) {
 
 // Delete the directories we exclude from the packages (tests, docs, build).
 echo "Delete folders not included in packages.\n";
-$doNotPackage = array('tests', 'docs', '.gitignore', 'build', 'build.xml', 'phpunit.xml.dist', 'README.md', 'CONTRIBUTING.md');
+$doNotPackage = array('tests', 'docs', '.gitignore', '.travis.yml', 'build', 'build.xml', 'phpunit.xml.dist', 'travisci-phpunit.xml', 'README.md', 'CONTRIBUTING.md');
 foreach ($doNotPackage as $removeFile)
 {
 	system('rm -rf ' . $full . '/' . $removeFile);
