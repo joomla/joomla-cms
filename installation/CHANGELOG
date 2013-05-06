@@ -26,12 +26,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-May-2013 Michael Babker
+ ^ [#30810] Disable ReCaptcha plugin when Joomla is installed.  Thanks Nick Savov
+
 03-May-2013 Jean-Marie Simonet
- # [#30571] * Strict Standards: Declaration of ContentModelCategories::populateState() should be compatible with JModel::populateState() 
+ # [#30571] * Strict Standards: Declaration of ContentModelCategories::populateState() should be compatible with JModel::populateState()
  # [#30103] Cannot delete web site entry for a contact. Thanks Elin Waring
  # [#30748] *Multilanguage issue with contacts. Thanks Benjamin Trenkle
  # [#30672] Category blog: COM_CONTENT_NO_ARTICLES message is missing. Thanks Charles Perk.
- 
+
 30-Apr-2013 Jean-Marie Simonet
  # [#29922] Browser Agent Google Chrome on IOS. Thanks Georges Wilson.
 
@@ -55,7 +58,7 @@ $ -> Language fix or change
 
 14-Apr-2013 Mark Dexter
  # [#30506] Joomla update system erases entire site if downloaded zip package is broken. Thanks Aliaksei Kanstantsinau.
- # [#30288] Module Prepare Paramater breaks Cache + Browser Cache + Application Rendering time. Thanks Parth Lawate. 
+ # [#30288] Module Prepare Paramater breaks Cache + Browser Cache + Application Rendering time. Thanks Parth Lawate.
 
 14-Apr-2013 Michael Babker
  # [#29240] Undefined property: JSite::$registeredurlparams.  Thanks Mark Stanton
