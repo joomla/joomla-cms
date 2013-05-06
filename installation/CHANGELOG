@@ -23,9 +23,20 @@ $ -> Language fix or change
 + -> Addition
 ^ -> Change
 - -> Removed
-! -> Note3
+! -> Note
 
-3-May-2013 Jean-Marie Simonet
+05-May-2013 Michael Babker
+ # [#30727] A unpublished or deleted tag is still visible in 'List of all tags' menu item.  Thanks David Hurley
+ # [#30744] tag mappings are not deleted after a tag is deleted.  Thanks Thomas Hunziker
+ # [#30566] Tag Items List Layout Background Alternating Color Bug.  Thanks Seth Warburton
+ ^ [#30659] Adds html5 elements to Protostar.  Thanks Seth Warburton
+ ^ [#30257] Removed colors from Icomoon named icons.  Thanks Peter van Westen
+ ^ [#30816] Documentation error.  Thanks Achal Aggarwal
+ ^ [#30810] Disable ReCaptcha plugin when Joomla is installed.  Thanks Nick Savov
+ # [#30811] Overrides list does not have any markup.  Thanks Roland Dalmulder
+ # [#30832] Joomla Updater doesn't use the bootstrap styling.  Thanks Roland Dalmulder
+
+03-May-2013 Jean-Marie Simonet
  # [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
  #$ [#30805] *Isis: sidebar background colour issue
  # [#30103] Cannot delete web site entry for a contact. Thanks Elin Waring
@@ -71,7 +82,7 @@ $ -> Language fix or change
  # [#30640] Hathor - Not tag field shown in core content. Thanks Roberto Sequra.
  # [#30653] Use of undefined DEBUG constant. Thanks Elin Waring.
  # [#30603] Tags: Similar Tags Module Shows the same article multiple time. Thanks Thomas Hunziker.
- # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando. 
+ # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando.
 
 22-Apr-2013 Mark Dexter
  # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
@@ -98,7 +109,7 @@ $ -> Language fix or change
  # [#30592] Module Class Suffix	 should be a multiline text area. Thanks Ben Tasker.
  # [#30595] Fixing "urls" within TagsTableTag->bind(). Thanks Thomas Hunziker.
  # [#30596] Access Level in weblinnks manager is displaying as number. Thanks Elin Waring.
- # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier. 
+ # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier.
  # [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
  # [#30621] Fix batch issues, metadata issues and improve code quality. Thanks Elin Waring and Mark Dexter.
 
@@ -118,7 +129,7 @@ $ -> Language fix or change
  # [#30640] Hathor - Not tag field shown in core content. Thanks Roberto Sequra.
  # [#30653] Use of undefined DEBUG constant. Thanks Elin Waring.
  # [#30603] Tags: Similar Tags Module Shows the same article multiple time. Thanks Thomas Hunziker.
- # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando. 
+ # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando.
 
 22-Apr-2013 Mark Dexter
  # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
@@ -145,7 +156,7 @@ $ -> Language fix or change
  # [#30592] Module Class Suffix	 should be a multiline text area. Thanks Ben Tasker.
  # [#30595] Fixing "urls" within TagsTableTag->bind(). Thanks Thomas Hunziker.
  # [#30596] Access Level in weblinnks manager is displaying as number. Thanks Elin Waring.
- # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier. 
+ # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier.
  # [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
  # [#30621] Fix batch issues, metadata issues and improve code quality. Thanks Elin Waring and Mark Dexter.
 

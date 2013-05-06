@@ -63,7 +63,7 @@ $n = count($this->items);
 			<?php if ($item->core_state == 0) : ?>
 				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else: ?>
-				<li class="cat-list-row<?php echo $i % 2; ?>" >
+				<li class="cat-list-row<?php echo $i % 2; ?> clearfix" >
 				<h3>
 					<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 						<?php echo $this->escape($item->core_title); ?>
@@ -80,7 +80,6 @@ $n = count($this->items);
 				</span>
 			<?php endif; ?>
 				</li>
-			<div class="clearfix"></div>
 		<?php endforeach; ?>
 	</ul>
 
