@@ -39,6 +39,13 @@ class WeblinksControllerWeblinks extends JControllerAdmincontent
 	 * Proxy for getModel.
 	 * @since   1.6
 	 */
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	* @since  3.1
+	*/
+	protected $redirectUrl = 'index.php?option=com_weblinks&view=weblinks';
+
 	public function getModel($name = 'Weblink', $prefix = 'WeblinksModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);

@@ -567,53 +567,17 @@ class ContentModelArticle extends JModelAdmin
 
 		try {
 			$db = $this->getDbo();
-<<<<<<< HEAD
-<<<<<<< HEAD
 			$query = $db->getQuery(true)
 						->update($db->quoteName('#__content'))
 						->set('featured = ' . (int) $value)
 						->where('id IN (' . implode(',', $pks) . ')');
 			$db->setQuery($query);
-=======
-			$query	= $db->getQuery(true);
-=======
-
->>>>>>> Clean up
-			$db->setQuery(
-				'UPDATE #__content' .
-				' SET featured = '.(int) $value.
-				' WHERE id IN ('.implode(',', $pks).')'
-			);
->>>>>>> Start work on controllers
-			$db->execute();
-
-			if ((int) $value == 0)
-			{
-				// Adjust the mapping table.
-				// Clear the existing features settings.
-<<<<<<< HEAD
-<<<<<<< HEAD
 				$query = $db->getQuery(true)
 							->delete($db->quoteName('#__content_frontpage'))
 							->where('content_id IN (' . implode(',', $pks) . ')');
 				$db->setQuery($query);
 				$db->execute();
-			}
-			else
-			{
-				// first, we find out which of our new featured articles are already featured.
-				$query = $db->getQuery(true)
-					->select('f.content_id')
-					->from('#__content_frontpage AS f')
-					->where('content_id IN (' . implode(',', $pks) . ')');
-				//echo $query;
-				$db->setQuery($query);
-				$db->setQuery(
-					'DELETE FROM #__content_frontpage' .
-					' WHERE content_id IN ('.implode(',', $pks).')'
-				);
-				$db->execute();
-			} else {
+
 				// first, we find out which of our new featured articles are already featured.
 				$query = $db->getQuery(true);
 				$query->select('f.content_id');
@@ -624,7 +588,7 @@ class ContentModelArticle extends JModelAdmin
 
 				$old_featured = $db->loadColumn();
 
-				// we diff the arrays to get a list of the articles that are newly featured
+				// We diff the arrays to get a list of the articles that are newly featured
 				$new_featured = array_diff($pks, $old_featured);
 
 				// Featuring.
@@ -643,9 +607,7 @@ class ContentModelArticle extends JModelAdmin
 						->values($tuples);
 					$db->setQuery($query);
 					$db->execute();
-					$db2->execute();
 				}
-			}
 		}
 		catch (Exception $e)
 		{
