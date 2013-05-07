@@ -19,16 +19,6 @@ defined('JPATH_BASE') or die;
  */
 interface JLayout
 {
-	/**
-	 * Method to escape output.
-	 *
-	 * @param   string  $output  The output to escape.
-	 *
-	 * @return  string  The escaped output.
-	 *
-	 * @since   3.0
-	 */
-	public function escape($output);
 
 	/**
 	 * Method to render the layout.

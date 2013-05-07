@@ -19,19 +19,6 @@ defined('JPATH_BASE') or die;
  */
 class JLayoutBase implements JLayout
 {
-	/**
-	 * Method to escape output.
-	 *
-	 * @param   string  $output  The output to escape.
-	 *
-	 * @return  string  The escaped output.
-	 *
-	 * @since   3.0
-	 */
-	public function escape($output)
-	{
-		return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
-	}
 
 	/**
 	 * Method to render the layout.
@@ -45,5 +32,19 @@ class JLayoutBase implements JLayout
 	public function render($displayData)
 	{
 		return '';
+	}
+
+	/**
+	 * Method to escape output.
+	 *
+	 * @param   string  $output  The output to escape.
+	 *
+	 * @return  string  The escaped output.
+	 *
+	 * @since   3.0
+	 */
+	protected function escape($output)
+	{
+		return htmlspecialchars($output, ENT_COMPAT, 'UTF-8');
 	}
 }
