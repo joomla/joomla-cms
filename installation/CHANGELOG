@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#30017] Problems with calendar pop up in Chrome. Thanks Achal Aggarwal.
  # [#30800] Blog item is not rendering intro image. Thanks David Hurley.
  # [#30787] Select Tags filter cannot be translated correctly. Thanks Elin Waring.
+ # [#30431] Removed unused css file: editor_content.css. Thanks Nick Savov.
 
 05-May-2013 Michael Babker
  # [#30727] A unpublished or deleted tag is still visible in 'List of all tags' menu item.  Thanks David Hurley
