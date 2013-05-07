@@ -49,8 +49,8 @@ class PlgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param   string	 $context  The context for the data
-	 * @param   integer  $data     The user id
+	 * @param   string     $context  The context for the data
+	 * @param   integer    $data     The user id
 	 *
 	 * @return  boolean
 	 *
@@ -74,8 +74,8 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$db->setQuery(
 					'SELECT profile_key, profile_value FROM #__user_profiles' .
-					' WHERE user_id = '.(int) $userId." AND profile_key LIKE 'profile.%'" .
-					' ORDER BY ordering'
+						' WHERE user_id = ' . (int) $userId . " AND profile_key LIKE 'profile.%'" .
+						' ORDER BY ordering'
 				);
 
 				try
@@ -130,11 +130,11 @@ class PlgUserProfile extends JPlugin
 			$value = htmlspecialchars($value);
 			if (substr($value, 0, 4) == "http")
 			{
-				return '<a href="'.$value.'">'.$value.'</a>';
+				return '<a href="' . $value . '">' . $value . '</a>';
 			}
 			else
 			{
-				return '<a href="http://'.$value.'">'.$value.'</a>';
+				return '<a href="http://' . $value . '">' . $value . '</a>';
 			}
 		}
 	}
@@ -164,8 +164,8 @@ class PlgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param   JForm	$form	The form to be altered.
-	 * @param   array  $data	The associated data for the form.
+	 * @param   JForm    $form    The form to be altered.
+	 * @param   array    $data    The associated data for the form.
 	 *
 	 * @return  boolean
 	 * @since   1.6
@@ -244,7 +244,8 @@ class PlgUserProfile extends JPlugin
 			{
 				// Remove the field if it is disabled in registration and profile
 				if ($this->params->get('register-require_' . $field, 1) == 0
-					&& $this->params->get('profile-require_' . $field, 1) == 0)
+					&& $this->params->get('profile-require_' . $field, 1) == 0
+				)
 				{
 					$form->removeField($field, 'profile');
 				}
@@ -297,10 +298,10 @@ class PlgUserProfile extends JPlugin
 	 * @param   boolean  $isnew  True if a new user is stored.
 	 * @param   array    $data   Holds the new user data.
 	 *
-	 * @return 	boolean
+	 * @return    boolean
 	 *
 	 * @since   3.1
-	 * @throws 	InvalidArgumentException on invalid date.
+	 * @throws    InvalidArgumentException on invalid date.
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
@@ -324,7 +325,7 @@ class PlgUserProfile extends JPlugin
 
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
-		$userId	= JArrayHelper::getValue($data, 'id', 0, 'int');
+		$userId = JArrayHelper::getValue($data, 'id', 0, 'int');
 
 		if ($userId && $result && isset($data['profile']) && (count($data['profile'])))
 		{
@@ -334,21 +335,22 @@ class PlgUserProfile extends JPlugin
 				$data['profile']['dob'] = $this->_date;
 
 				$db = JFactory::getDbo();
-				$db->setQuery(
-					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .
-					" AND profile_key LIKE 'profile.%'"
-				);
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
+					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
+				$db->setQuery($query);
 				$db->execute();
 
 				$tuples = array();
-				$order	= 1;
+				$order = 1;
 
 				foreach ($data['profile'] as $k => $v)
 				{
-					$tuples[] = '('.$userId.', '.$db->quote('profile.'.$k).', '.$db->quote(json_encode($v)).', '.$order++.')';
+					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . $order++ . ')';
 				}
 
-				$db->setQuery('INSERT INTO #__user_profiles VALUES '.implode(', ', $tuples));
+				$db->setQuery('INSERT INTO #__user_profiles VALUES ' . implode(', ', $tuples));
 				$db->execute();
 			}
 			catch (RuntimeException $e)
@@ -379,7 +381,7 @@ class PlgUserProfile extends JPlugin
 			return false;
 		}
 
-		$userId	= JArrayHelper::getValue($user, 'id', 0, 'int');
+		$userId = JArrayHelper::getValue($user, 'id', 0, 'int');
 
 		if ($userId)
 		{
@@ -387,8 +389,8 @@ class PlgUserProfile extends JPlugin
 			{
 				$db = JFactory::getDbo();
 				$db->setQuery(
-					'DELETE FROM #__user_profiles WHERE user_id = '.$userId .
-					" AND profile_key LIKE 'profile.%'"
+					'DELETE FROM #__user_profiles WHERE user_id = ' . $userId .
+						" AND profile_key LIKE 'profile.%'"
 				);
 
 				$db->execute();

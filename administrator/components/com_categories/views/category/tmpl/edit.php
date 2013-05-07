@@ -38,9 +38,9 @@ JHtml::_('formbehavior.chosen', 'select');
 	<div class="row-fluid">
 	<!-- Begin Content -->
 		<div class="span10 form-horizontal">
-			<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'general')); ?>
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'general', JText::_('COM_CATEGORIES_FIELDSET_DETAILS', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_CATEGORIES_FIELDSET_DETAILS', true)); ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('title'); ?>
@@ -73,9 +73,9 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->form->getInput('extension'); ?>
 						</div>
 					</div>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CATEGORIES_FIELDSET_PUBLISHING', true)); ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('id'); ?>
@@ -128,39 +128,39 @@ JHtml::_('formbehavior.chosen', 'select');
 							</div>
 						</div>
 					<?php endif; ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'options', JText::_('CATEGORIES_FIELDSET_OPTIONS', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'options', JText::_('CATEGORIES_FIELDSET_OPTIONS', true)); ?>
 					<fieldset>
 						<?php echo $this->loadTemplate('options'); ?>
 					</fieldset>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 					<fieldset>
 						<?php echo $this->loadTemplate('metadata'); ?>
 					</fieldset>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 				<?php echo $this->loadTemplate('extrafields'); ?>
 
 				<?php if ($this->assoc) : ?>
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 						<fieldset>
 							<?php echo $this->loadTemplate('associations'); ?>
 						</fieldset>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
 
 				<?php if ($this->canDo->get('core.admin')) : ?>
-					<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'rules', JText::_('COM_CATEGORIES_FIELDSET_RULES', true)); ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_CATEGORIES_FIELDSET_RULES', true)); ?>
 						<fieldset>
 							<?php echo $this->form->getInput('rules'); ?>
 						</fieldset>
-					<?php echo JHtml::_('bootstrap.endPanel'); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
 
-			<?php echo JHtml::_('bootstrap.endPane'); ?>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
@@ -201,12 +201,14 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				</div>
 				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('tags'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('tags'); ?>
-					</div>
+					<?php foreach ($this->form->getFieldset('jmetadata') as $field) : ?>
+						<?php if ($field->name == 'jform[metadata][tags][]') :?>
+						<div class="control-group">
+							<div class="control-label"><?php echo $field->label; ?></div>
+							<div class="controls"><?php echo $field->input; ?></div>
+						</div>
+						<?php endif; ?>
+					<?php endforeach; ?>
 				</div>
 			</fieldset>
 		</div>

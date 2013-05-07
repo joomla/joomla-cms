@@ -147,7 +147,7 @@ class JControllerAdmin extends JControllerLegacy
 	 * after the item has been deleted.
 	 *
 	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $id      The validated data.
+	 * @param   integer       $id     The validated data.
 	 *
 	 * @return  void
 	 *
@@ -156,7 +156,6 @@ class JControllerAdmin extends JControllerLegacy
 	protected function postDeleteHook(JModelLegacy $model, $id = null)
 	{
 	}
-
 
 	/**
 	 * Display is not supported by this controller.
@@ -204,12 +203,10 @@ class JControllerAdmin extends JControllerLegacy
 			JArrayHelper::toInteger($cid);
 
 			// Publish the items.
-			if (!$model->publish($cid, $value))
+			try
 			{
-				JLog::add($model->getError(), JLog::WARNING, 'jerror');
-			}
-			else
-			{
+				$model->publish($cid, $value);
+
 				if ($value == 1)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
@@ -228,6 +225,11 @@ class JControllerAdmin extends JControllerLegacy
 				}
 				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
+			catch (Exception $e)
+			{
+				$this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
+			}
+
 		}
 		$extension = $this->input->get('extension');
 		$extensionURL = ($extension) ? '&extension=' . $extension : '';

@@ -158,7 +158,7 @@ abstract class JHtmlBootstrap
 		if ($debug === null)
 		{
 			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
+			$debug = (boolean) $config->get('debug');
 		}
 
 		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
@@ -194,8 +194,8 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['backdrop'] = (isset($params['backdrop']) && ($params['backdrop'])) ? (boolean) $params['backdrop'] : true;
 			$opt['keyboard'] = (isset($params['keyboard']) && ($params['keyboard'])) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = (isset($params['show']) && ($params['show'])) ? (boolean) $params['show'] : true;
-			$opt['remote']   = (isset($params['remote']) && ($params['remote'])) ? (boolean) $params['remote'] : '';
+			$opt['show'] = (isset($params['show']) && ($params['show'])) ? (boolean) $params['show'] : true;
+			$opt['remote'] = (isset($params['remote']) && ($params['remote'])) ? (boolean) $params['remote'] : '';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -240,7 +240,8 @@ abstract class JHtmlBootstrap
 
 		$html .= "<script>";
 		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
-		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\"" . $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
+		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\""
+			. $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
 		$html .= "});\n";
 		$html .= "</script>";
 
@@ -283,13 +284,13 @@ abstract class JHtmlBootstrap
 		self::framework();
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
-		$opt['html']      = isset($params['html']) ? $params['html'] : null;
+		$opt['html'] = isset($params['html']) ? $params['html'] : null;
 		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
-		$opt['title']     = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover';
-		$opt['content']   = isset($params['content']) ? $params['content'] : null;
-		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
+		$opt['selector'] = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title'] = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger'] = isset($params['trigger']) ? $params['trigger'] : 'hover';
+		$opt['content'] = isset($params['content']) ? $params['content'] : null;
+		$opt['delay'] = isset($params['delay']) ? $params['delay'] : null;
 
 		$options = JHtml::getJSObject($opt);
 
@@ -379,12 +380,12 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['animation'] = (isset($params['animation']) && ($params['animation'])) ? (boolean) $params['animation'] : null;
-			$opt['html']      = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : null;
+			$opt['html'] = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : null;
 			$opt['placement'] = (isset($params['placement']) && ($params['placement'])) ? (string) $params['placement'] : null;
-			$opt['selector']  = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : null;
-			$opt['title']     = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : null;
-			$opt['trigger']   = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : null;
-			$opt['delay']     = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : null;
+			$opt['selector'] = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : null;
+			$opt['title'] = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : null;
+			$opt['trigger'] = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : null;
+			$opt['delay'] = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -467,23 +468,25 @@ abstract class JHtmlBootstrap
 	 * @param   string  $selector  Identifier of the accordion group.
 	 * @param   string  $text      Text to display.
 	 * @param   string  $id        Identifier of the slide.
+	 * @param   string  $class     Class of the accordion group.
 	 *
 	 * @return  string  HTML to add the slide
 	 *
 	 * @since   3.0
 	 */
-	public static function addSlide($selector, $text, $id)
+	public static function addSlide($selector, $text, $id, $class = '')
 	{
 		$in = (self::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
+		$class = (!empty($class)) ? ' ' . $class : '';
 
-		$html = '<div class="accordion-group">'
-				. '<div class="accordion-heading">'
-				. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
-				. $text
-				. '</a></strong>'
-				. '</div>'
-				. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
-				. '<div class="accordion-inner">';
+		$html = '<div class="accordion-group' . $class . '">'
+			. '<div class="accordion-heading">'
+			. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
+			. $text
+			. '</a></strong>'
+			. '</div>'
+			. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
+			. '<div class="accordion-inner">';
 
 		return $html;
 	}
@@ -508,9 +511,9 @@ abstract class JHtmlBootstrap
 	 *
 	 * @return  string
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
-	public static function startPane($selector = 'myTab', $params = array())
+	public static function startTabSet($selector = 'myTab', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
@@ -524,23 +527,17 @@ abstract class JHtmlBootstrap
 
 			$options = JHtml::getJSObject($opt);
 
-			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector a').click(function (e)
-					{
-						e.preventDefault();
-						$(this).tab('show');
-					});
-				})(jQuery);"
-			);
+			// Attach tabs to document
+			JFactory::getDocument()
+				->addScriptDeclaration(JLayoutHelper::render('libraries.cms.html.bootstrap.starttabsetscript', array('selector' => $selector)));
 
 			// Set static array
 			self::$loaded[__METHOD__][$sig] = true;
 			self::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
-		$html = '<ul class="nav nav-tabs" id="' . $selector . 'Tabs"></ul>';
-		$html .= '<div class="tab-content" id="' . $selector . 'Content">';
+
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
+
 		return $html;
 	}
 
@@ -549,11 +546,13 @@ abstract class JHtmlBootstrap
 	 *
 	 * @return  string  HTML to close the pane
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
-	public static function endPane()
+	public static function endTabSet()
 	{
-		return '</div>';
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
+
+		return $html;
 	}
 
 	/**
@@ -565,22 +564,110 @@ abstract class JHtmlBootstrap
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
-	public static function addPanel($selector, $id, $title)
+	public static function addTab($selector, $id, $title)
 	{
-		$active = (self::$loaded['JHtmlBootstrap::startPane'][$selector]['active'] == $id) ? ' active' : '';
+		static $tabScriptLayout = null;
+		static $tabLayout = null;
+
+		$tabScriptLayout = is_null($tabScriptLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
+		$tabLayout = is_null($tabLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
+
+		$active = (self::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		// Inject tab into UL
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function($){
-				$(document).ready(function() {
-					// Handler for .ready() called.
-					var tab = $('<li class=\"$active\"><a href=\"#$id\" data-toggle=\"tab\">$title</a></li>');
-					$('#" . $selector . "Tabs').append(tab);
-				});
-			})(jQuery);"
-		);
+		JFactory::getDocument()
+		->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
+
+		$html = $tabLayout->render(array('id' => $id, 'active' => $active));
+
+		return $html;
+	}
+
+	/**
+	 * Close the current tab content panel
+	 *
+	 * @return  string  HTML to close the pane
+	 *
+	 * @since   3.1
+	 */
+	public static function endTab()
+	{
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endtab');
+
+		return $html;
+	}
+
+	/**
+	 * Creates a tab pane
+	 *
+	 * @param   string  $selector  The pane identifier.
+	 * @param   array   $params    The parameters for the pane
+	 *
+	 * @return  string
+	 *
+	 * @since   3.0
+	 * @deprecated  4.0	Use JHtml::_('bootstrap.startTabSet') instead.
+	 */
+	public static function startPane($selector = 'myTab', $params = array())
+	{
+		$sig = md5(serialize(array($selector, $params)));
+		if (!isset(self::$loaded['JHtmlBootstrap::startTabSet'][$sig]))
+		{
+			// Include Bootstrap framework
+			self::framework();
+
+			// Setup options object
+			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+
+			$options = JHtml::getJSObject($opt);
+
+			// Attach tooltips to document
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
+					$('#$selector a').click(function (e) {
+						e.preventDefault();
+						$(this).tab('show');
+					});
+				})(jQuery);"
+			);
+
+			// Set static array
+			self::$loaded['JHtmlBootstrap::startTabSet'][$sig] = true;
+			self::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] = $opt['active'];
+		}
+
+		return '<div class="tab-content" id="' . $selector . 'Content">';
+	}
+
+	/**
+	 * Close the current tab pane
+	 *
+	 * @return  string  HTML to close the pane
+	 *
+	 * @since   3.0
+	 * @deprecated  4.0	Use JHtml::_('bootstrap.endTabSet') instead.
+	 */
+	public static function endPane()
+	{
+		return '</div>';
+	}
+
+	/**
+	 * Begins the display of a new tab content panel.
+	 *
+	 * @param   string  $selector  Identifier of the panel.
+	 * @param   string  $id        The ID of the div element
+	 *
+	 * @return  string  HTML to start a new panel
+	 *
+	 * @since   3.0
+	 * @deprecated  4.0 Use JHtml::_('bootstrap.addTab') instead.
+	 */
+	public static function addPanel($selector, $id)
+	{
+		$active = (self::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		return '<div id="' . $id . '" class="tab-pane' . $active . '">';
 	}
@@ -591,6 +678,7 @@ abstract class JHtmlBootstrap
 	 * @return  string  HTML to close the pane
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0 Use JHtml::_('bootstrap.endTab') instead.
 	 */
 	public static function endPanel()
 	{

@@ -270,6 +270,12 @@ abstract class JDatabaseQuery
 	protected $union = null;
 
 	/**
+	 * @var    JDatabaseQueryElement  The unionAll element.
+	 * @since  13.1
+	 */
+	protected $unionAll = null;
+
+	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -374,6 +380,10 @@ abstract class JDatabaseQuery
 			case 'union':
 				$query .= (string) $this->union;
 				break;
+
+			case 'unionAll':
+					$query .= (string) $this->unionAll;
+					break;
 
 			case 'delete':
 				$query .= (string) $this->delete;
@@ -638,6 +648,10 @@ abstract class JDatabaseQuery
 				$this->union = null;
 				break;
 
+			case 'unionAll':
+				$this->unionAll = null;
+				break;
+
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -657,6 +671,7 @@ abstract class JDatabaseQuery
 				$this->exec = null;
 				$this->call = null;
 				$this->union = null;
+				$this->unionAll = null;
 				$this->offset = 0;
 				$this->limit = 0;
 				break;
@@ -1383,15 +1398,15 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->setQuery('select * from #__users');
 	 *
-	 * @param   mixed  $sql  An SQL Query
+	 * @param   mixed  $query  An SQL Query
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setQuery($sql)
+	public function setQuery($query)
 	{
-		$this->sql = $sql;
+		$this->sql = $query;
 
 		return $this;
 	}
@@ -1487,9 +1502,14 @@ abstract class JDatabaseQuery
 	{
 		foreach ($this as $k => $v)
 		{
+			if ($k === 'db')
+			{
+				continue;
+			}
+
 			if (is_object($v) || is_array($v))
 			{
-				$this->{$k} = unserialize(serialize($v));
+				$this->$k = unserialize(serialize($v));
 			}
 		}
 	}
@@ -1767,7 +1787,7 @@ abstract class JDatabaseQuery
 	 * @param   string    $interval  The string representation of the appropriate number of units
 	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
-	 * @return  sring  The string with the appropriate sql for addition of dates
+	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
 	 *
@@ -1776,5 +1796,43 @@ abstract class JDatabaseQuery
 	public function dateAdd($date, $interval, $datePart)
 	{
 		return trim("DATE_ADD('" . $date . "', INTERVAL " . $interval . ' ' . $datePart . ')');
+	}
+
+	/**
+	 * Add a query to UNION ALL with the current query.
+	 * Multiple unions each require separate statements and create an array of unions.
+	 *
+	 * Usage:
+	 * $query->union('SELECT name FROM  #__foo')
+	 * $query->union('SELECT name FROM  #__foo','distinct')
+	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
+	 *
+	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
+	 * @param   boolean  $distinct  True to only return distinct rows from the union.
+	 * @param   string   $glue      The glue by which to join the conditions.
+	 *
+	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @since   13.1
+	 */
+	public function unionAll($query, $distinct = false, $glue = '')
+	{
+			$glue = ')' . PHP_EOL . 'UNION ALL (';
+			$name = 'UNION ALL ()';
+
+		// Get the JDatabaseQueryElement if it does not exist
+		if (is_null($this->unionAll))
+		{
+			$this->unionAll = new JDatabaseQueryElement($name, $query, "$glue");
+		}
+
+		// Otherwise append the second UNION.
+		else
+		{
+			$glue = '';
+			$this->unionAll->append($query);
+		}
+
+		return $this;
 	}
 }

@@ -114,46 +114,6 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
-
-		$item = $model->getItem();
-
-		if (isset($item->params) && is_array($item->params))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->params);
-			$item->params = (string) $registry;
-		}
-		if (isset($item->images) && is_array($item->images))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->images);
-			$item->images = (string) $registry;
-		}
-		if (isset($item->metadata) && is_array($item->metadata))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->metadata);
-			$item->metadata = (string) $registry;
-		}
-		$id = $item->id;
-
-		if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JTags;
-			$oldTags->unTagItem($id, 'com_weblinks.weblink');
-			return;
-		}
-
-		$tags = $validData['tags'];
-
-		// Store the tag data if the weblink data was saved.
-		if ($tags[0] != '')
-		{
-			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_weblinks.weblink', $isNew, $item, $tags, null);
-		}
-
 		if ($task == 'save')
 		{
 			$this->setRedirect(JRoute::_('index.php?option=com_weblinks&view=weblinks', false));

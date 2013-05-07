@@ -1,5 +1,9 @@
 <?php
 /**
+ * This file will be removed in Joomla! CMS version 3.2. Developers should either supply their own copy
+ * in their installation packages or switch to JFeed.
+ */
+/**
  * SimplePie
  *
  * A PHP-Based RSS and Atom Feed Framework.

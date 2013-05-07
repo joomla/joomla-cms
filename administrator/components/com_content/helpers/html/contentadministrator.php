@@ -40,15 +40,15 @@ abstract class JHtmlContentAdministrator
 
 			// Get the associated menu items
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select('c.*');
-			$query->from('#__content as c');
-			$query->select('cat.title as category_title');
-			$query->leftJoin('#__categories as cat ON cat.id=c.catid');
-			$query->where('c.id IN (' . implode(',', array_values($associations)) . ')');
-			$query->leftJoin('#__languages as l ON c.language=l.lang_code');
-			$query->select('l.image');
-			$query->select('l.title as language_title');
+			$query = $db->getQuery(true)
+				->select('c.*')
+				->from('#__content as c')
+				->select('cat.title as category_title')
+				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
+				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
+				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
+				->select('l.image')
+				->select('l.title as language_title');
 			$db->setQuery($query);
 
 			try
@@ -98,14 +98,19 @@ abstract class JHtmlContentAdministrator
 
 		// Array of image, task, title, action
 		$states	= array(
-			0	=> array('star-empty',	'articles.featured',	'COM_CONTENT_UNFEATURED',	'COM_CONTENT_TOGGLE_TO_FEATURE'),
-			1	=> array('star',		'articles.unfeatured',	'COM_CONTENT_FEATURED',		'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
+			0	=> array('unfeatured',	'articles.featured',	'COM_CONTENT_UNFEATURED',	'COM_CONTENT_TOGGLE_TO_FEATURE'),
+			1	=> array('featured',	'articles.unfeatured',	'COM_CONTENT_FEATURED',		'COM_CONTENT_TOGGLE_TO_UNFEATURE'),
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon	= $state[0];
 		if ($canChange)
 		{
 			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" class="btn btn-micro hasTooltip' . ($value == 1 ? ' active' : '') . '" title="'.JText::_($state[3]).'"><i class="icon-'
+					. $icon.'"></i></a>';
+		}
+		else
+		{
+			$html	= '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'.JText::_($state[2]).'"><i class="icon-'
 					. $icon.'"></i></a>';
 		}
 

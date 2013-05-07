@@ -16,15 +16,25 @@ defined('_JEXEC') or die;
 class ContactTableContact extends JTable
 {
 	/**
+	 * Helper object for storing and deleting tag information.
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
+	/**
 	 * Constructor
 	 *
-	 * @param  JDatabase  Database connector object
+	 * @param   JDatabaseDriver  &$db  Database connector object
 	 *
-	 * @since 1.0
+	 * @since   1.0
 	 */
-	public function __construct(& $db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
+		$this->tagsHelper = new JHelperTags;
+		$this->tagsHelper->typeAlias = 'com_contact.contact';
 	}
 
 	/**
@@ -53,6 +63,22 @@ class ContactTableContact extends JTable
 		}
 
 		return parent::bind($array, $ignore);
+	}
+
+	/**
+	 * Override parent delete method to delete tags information.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
 
 	/**
@@ -85,7 +111,7 @@ class ContactTableContact extends JTable
 		}
 		else
 		{
-			// New newsfeed. A feed created and created_by field can be set by the user,
+			// New contact. A contact created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!(int) $this->created)
 			{
@@ -124,9 +150,10 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		// Attempt to store the data.
-		return parent::store($updateNulls);
-	}
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
+
+		return $result && $this->tagsHelper->postStoreProcess($this);	}
 
 	/**
 	 * Overloaded check function

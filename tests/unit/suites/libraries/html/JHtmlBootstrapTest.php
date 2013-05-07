@@ -258,6 +258,56 @@ class JHtmlBootstrapTest extends TestCase
 	}
 
 	/**
+	 * @todo   Implement testStartTabSet().
+	 */
+	public function testStartTabSet()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * Tests the endTabSet method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testEndTabSet()
+	{
+		$this->assertThat(
+			JHtml::_('bootstrap.endTabSet'),
+			$this->equalTo("\n</div>")
+		);
+	}
+
+	/**
+	 * @todo   Implement testAddTab().
+	 */
+	public function testAddTab()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * Tests the endTab method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testEndTab()
+	{
+		$this->assertThat(
+			JHtml::_('bootstrap.endTab'),
+			$this->equalTo("\n</div>")
+		);
+	}
+
+	/**
 	 * @todo   Implement testStartPane().
 	 */
 	public function testStartPane()
@@ -277,8 +327,8 @@ class JHtmlBootstrapTest extends TestCase
 	public function testEndPane()
 	{
 		$this->assertThat(
-			JHtml::_('bootstrap.endPane'),
-			$this->equalTo('</div>')
+			JHtml::_('bootstrap.endTabSet'),
+			$this->equalTo("\n</div>")
 		);
 	}
 
@@ -302,8 +352,8 @@ class JHtmlBootstrapTest extends TestCase
 	public function testEndPanel()
 	{
 		$this->assertThat(
-			JHtml::_('bootstrap.endPanel'),
-			$this->equalTo('</div>')
+			JHtml::_('bootstrap.endTab'),
+			$this->equalTo("\n</div>")
 		);
 	}
 

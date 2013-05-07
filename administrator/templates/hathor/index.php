@@ -196,5 +196,17 @@ else
 	</p>
 </div>
 
+<script type="text/javascript">
+	(function($){
+		$(document).ready(function () {
+			// Patches to fix some wrong render of chosen fields
+			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
+				$(this).css({
+					'width': 'auto'
+				});
+			});
+		});
+	})(jQuery);
+</script>
 </body>
 </html>

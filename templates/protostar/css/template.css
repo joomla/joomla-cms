@@ -6,6 +6,7 @@ figure,
 footer,
 header,
 hgroup,
+main,
 nav,
 section {
 	display: block;
@@ -4319,10 +4320,6 @@ a.badge:hover {
 	.thumbnails {
 		margin-left: 0;
 	}
-	.thumbnails > li {
-		float: none;
-		margin-left: 0;
-	}
 	[class*="span"],
 	.row-fluid [class*="span"] {
 		float: none;
@@ -5559,7 +5556,7 @@ input.invalid {
 @font-face {
 	font-family: 'IcoMoon';
 	src: url('../../../media/jui/fonts/IcoMoon.eot');
-	src: url('../../../media/jui/fonts/IcoMoon.eot?#iefix') format('embedded-opentype'), url('../../../media/jui/fonts/IcoMoon.svg#IcoMoon') format('svg'), url('../../../media/jui/fonts/IcoMoon.woff') format('woff'), url('../../../media/jui/fonts/IcoMoon.ttf') format('truetype');
+	src: url('../../../media/jui/fonts/IcoMoon.eot?#iefix') format('embedded-opentype'), url('../../../media/jui/fonts/IcoMoon.woff') format('woff'), url('../../../media/jui/fonts/IcoMoon.ttf') format('truetype'), url('../../../media/jui/fonts/IcoMoon.svg#IcoMoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }

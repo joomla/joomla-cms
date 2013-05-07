@@ -387,6 +387,15 @@
 		<column>language</column>
 		<column>xreference</column>
 	</table>
+	<table name="jos_content_types">
+		<column>type_id</column>
+		<column>type_title</column>
+		<column>type_alias</column>
+		<column>table</column>
+		<column>rules</column>
+		<column>field_mappings</column>
+		<column>router</column>
+	</table>
 	<table name="jos_core_log_searches">
 		<column>search_term</column>
 		<column>hits</column>
@@ -3345,6 +3354,46 @@ separator=
 		<column>userid</column>
 		<column>username</column>
 		<column>usertype</column>
+	</table>
+	<table name="jos_ucm_base">
+		<column>ucm_id</column>
+		<column>ucm_item_id</column>
+		<column>ucm_type_id</column>
+		<column>ucm_language_id</column>
+	</table>
+	<table name="jos_ucm_content">
+		<column>core_content_id</column>
+		<column>core_type_alias</column>
+		<column>core_title</column>
+		<column>core_alias</column>
+		<column>core_body</column>
+		<column>core_state</column>
+		<column>core_checked_out_time</column>
+		<column>core_checked_out_user_id</column>
+		<column>core_access</column>
+		<column>core_params</column>
+		<column>core_featured</column>
+		<column>core_metadata</column>
+		<column>core_created_user_id</column>
+		<column>core_created_by_alias</column>
+		<column>core_created_time</column>
+		<column>core_modified_user_id</column>
+		<column>core_modified_time</column>
+		<column>core_language</column>
+		<column>core_publish_up</column>
+		<column>core_publish_down</column>
+		<column>core_content_item_id</column>
+		<column>asset_id</column>
+		<column>core_images</column>
+		<column>core_urls</column>
+		<column>core_hits</column>
+		<column>core_version</column>
+		<column>core_ordering</column>
+		<column>core_metakey</column>
+		<column>core_metadesc</column>
+		<column>core_catid</column>
+		<column>core_xreference</column>
+		<column>core_type_id</column>
 	</table>
 	<table name="jos_update_categories">
 		<column>categoryid</column>

@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 	$i = 0;
 
 	foreach ($fieldSets as $name => $fieldSet):
-		if (!($this->item->link == 'index.php?option=com_wrapper&view=wrapper' && $fieldSet->name == 'request')):
+		if (!(($this->item->link == 'index.php?option=com_wrapper&view=wrapper' || $this->item->type == 'alias') && $fieldSet->name == 'request')):
 			$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$name.'_FIELDSET_LABEL';
 			echo JHtml::_('bootstrap.addSlide', 'menuOptions', JText::_($label), 'collapse' . $i++);
 				if (isset($fieldSet->description) && trim($fieldSet->description)) :

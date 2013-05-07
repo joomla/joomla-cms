@@ -21,7 +21,7 @@ class PlgContentPagenavigation extends JPlugin
 	/**
 	 * @since   1.6
 	 */
-	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
+	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
 	{
 		$app = JFactory::getApplication();
 		$view = $app->input->get('view');
@@ -32,19 +32,19 @@ class PlgContentPagenavigation extends JPlugin
 			return false;
 		}
 
-		if ($params->get('show_item_navigation') && ($context == 'com_content.article') && ($view == 'article'))
+		if (($context == 'com_content.article') && ($view == 'article') && $params->get('show_item_navigation'))
 		{
-			$db		= JFactory::getDbo();
-			$user	= JFactory::getUser();
-			$lang	= JFactory::getLanguage();
+			$db = JFactory::getDbo();
+			$user = JFactory::getUser();
+			$lang = JFactory::getLanguage();
 			$nullDate = $db->getNullDate();
 
-			$date	= JFactory::getDate();
+			$date = JFactory::getDate();
 			$now = $date->toSql();
 
-			$uid	= $row->id;
-			$option	= 'com_content';
-			$canPublish = $user->authorise('core.edit.state', $option.'.article.'.$row->id);
+			$uid = $row->id;
+			$option = 'com_content';
+			$canPublish = $user->authorise('core.edit.state', $option . '.article.' . $row->id);
 
 			// The following is needed as different menu items types utilise a different param to control ordering.
 			// For Blogs the `orderby_sec` param is the order controlling param.
@@ -103,11 +103,11 @@ class PlgContentPagenavigation extends JPlugin
 			}
 
 			$xwhere = ' AND (a.state = 1 OR a.state = -1)' .
-			' AND (publish_up = '.$db->Quote($nullDate).' OR publish_up <= '.$db->Quote($now).')' .
-			' AND (publish_down = '.$db->Quote($nullDate).' OR publish_down >= '.$db->Quote($now).')';
+				' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')' .
+				' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
 
 			// Array of articles in same category correctly ordered.
-			$query	= $db->getQuery(true);
+			$query = $db->getQuery(true);
 
 			// Sqlsrv changes
 			$case_when = ' CASE WHEN ';
@@ -116,7 +116,7 @@ class PlgContentPagenavigation extends JPlugin
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
-			$case_when .= $a_id.' END as slug';
+			$case_when .= $a_id . ' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('cc.alias', '!=', '0');
@@ -124,18 +124,18 @@ class PlgContentPagenavigation extends JPlugin
 			$c_id = $query->castAsChar('cc.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'cc.alias'), ':');
 			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id.' END as catslug';
-			$query->select('a.id,'.$case_when.','.$case_when1);
-			$query->from('#__content AS a');
-			$query->leftJoin('#__categories AS cc ON cc.id = a.catid');
-			$query->where(
-				'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
-				. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere
-			);
+			$case_when1 .= $c_id . ' END as catslug';
+			$query->select('a.id,' . $case_when . ',' . $case_when1)
+				->from('#__content AS a')
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+				->where(
+					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
+						. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere
+				);
 			$query->order($orderby);
 			if ($app->isSite() && $app->getLanguageFilter())
 			{
-				$query->where('a.language in ('.$db->quote($lang->getTag()).','.$db->quote('*').')');
+				$query->where('a.language in (' . $db->quote($lang->getTag()) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query);

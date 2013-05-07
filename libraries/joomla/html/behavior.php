@@ -215,6 +215,7 @@ abstract class JHtmlBehavior
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (isset(self::$loaded[__METHOD__][$sig]))
 		{
 			return;
@@ -295,6 +296,7 @@ abstract class JHtmlBehavior
 		}
 
 		$sig = md5(serialize(array($selector, $params)));
+
 		if (isset(self::$loaded[__METHOD__][$sig]))
 		{
 			return;
@@ -373,171 +375,6 @@ abstract class JHtmlBehavior
 				new Joomla.JMultiSelect('" . $id . "');
 			});"
 		);
-
-		// Set static array
-		self::$loaded[__METHOD__][$id] = true;
-		return;
-	}
-
-	/**
-	 * Add unobtrusive javascript support for the advanced uploader.
-	 *
-	 * @param   string  $id            An index.
-	 * @param   array   $params        An array of options for the uploader.
-	 * @param   string  $upload_queue  The HTML id of the upload queue element (??).
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public static function uploader($id = 'file-upload', $params = array(), $upload_queue = 'upload-queue')
-	{
-		// Include MooTools framework
-		self::framework();
-
-		JHtml::_('script', 'system/swf.js', true, true);
-		JHtml::_('script', 'system/progressbar.js', true, true);
-		JHtml::_('script', 'system/uploader.js', true, true);
-
-		$document = JFactory::getDocument();
-
-		if (!isset(self::$loaded[__METHOD__]))
-		{
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_FILENAME');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_UPLOAD_COMPLETED');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_PROGRESS_OVERALL');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_TITLE');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_REMOVE');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_REMOVE_TITLE');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_FILE');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_CURRENT_PROGRESS');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_FILE_ERROR');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_FILE_SUCCESSFULLY_UPLOADED');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_DUPLICATE');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_SIZELIMITMIN');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_SIZELIMITMAX');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_FILELISTMAX');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_VALIDATION_ERROR_FILELISTSIZEMAX');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_HTTPSTATUS');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_SECURITYERROR');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_IOERROR');
-			JText::script('JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES');
-		}
-
-		if (isset(self::$loaded[__METHOD__][$id]))
-		{
-			return;
-		}
-
-		$onFileSuccess = '\\function(file, response) {
-			var json = new Hash(JSON.decode(response, true) || {});
-
-			if (json.get(\'status\') == \'1\') {
-				file.element.addClass(\'file-success\');
-				file.info.set(\'html\', \'<strong>\' + Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_FILE_SUCCESSFULLY_UPLOADED\') + \'</strong>\');
-			} else {
-				file.element.addClass(\'file-failed\');
-				file.info.set(\'html\', \'<strong>\' +
-					Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ERROR_OCCURRED\',
-						\'An Error Occurred\').substitute({ error: json.get(\'error\') }) + \'</strong>\');
-			}
-		}';
-
-		// Setup options object
-		$opt['verbose']         = true;
-		$opt['url']             = (isset($params['targetURL'])) ? $params['targetURL'] : null;
-		$opt['path']            = (isset($params['swf'])) ? $params['swf'] : JURI::root(true) . '/media/system/swf/uploader.swf';
-		$opt['height']          = (isset($params['height'])) && $params['height'] ? (int) $params['height'] : null;
-		$opt['width']           = (isset($params['width'])) && $params['width'] ? (int) $params['width'] : null;
-		$opt['multiple']        = (isset($params['multiple']) && !($params['multiple'])) ? false : true;
-		$opt['queued']          = (isset($params['queued']) && !($params['queued'])) ? (int) $params['queued'] : null;
-		$opt['target']          = (isset($params['target'])) ? $params['target'] : '\\document.id(\'upload-browse\')';
-		$opt['instantStart']    = (isset($params['instantStart']) && ($params['instantStart'])) ? true : false;
-		$opt['allowDuplicates'] = (isset($params['allowDuplicates']) && !($params['allowDuplicates'])) ? false : true;
-
-		// "limitSize" is the old parameter name.  Remove in 1.7
-		$opt['fileSizeMax']     = (isset($params['limitSize']) && ($params['limitSize'])) ? (int) $params['limitSize'] : null;
-
-		// "fileSizeMax" is the new name.  If supplied, it will override the old value specified for limitSize
-		$opt['fileSizeMax']     = (isset($params['fileSizeMax']) && ($params['fileSizeMax'])) ? (int) $params['fileSizeMax'] : $opt['fileSizeMax'];
-		$opt['fileSizeMin']     = (isset($params['fileSizeMin']) && ($params['fileSizeMin'])) ? (int) $params['fileSizeMin'] : null;
-
-		// "limitFiles" is the old parameter name.  Remove in 1.7
-		$opt['fileListMax']     = (isset($params['limitFiles']) && ($params['limitFiles'])) ? (int) $params['limitFiles'] : null;
-
-		// "fileListMax" is the new name.  If supplied, it will override the old value specified for limitFiles
-		$opt['fileListMax']     = (isset($params['fileListMax']) && ($params['fileListMax'])) ? (int) $params['fileListMax'] : $opt['fileListMax'];
-		$opt['fileListSizeMax'] = (isset($params['fileListSizeMax']) && ($params['fileListSizeMax'])) ? (int) $params['fileListSizeMax'] : null;
-
-		// "types" is the old parameter name.  Remove in 1.7
-		$opt['typeFilter']      = (isset($params['types'])) ? '\\' . $params['types']
-		: '\\{Joomla.JText._(\'JLIB_HTML_BEHAVIOR_UPLOADER_ALL_FILES\'): \'*.*\'}';
-		$opt['typeFilter']      = (isset($params['typeFilter'])) ? '\\' . $params['typeFilter'] : $opt['typeFilter'];
-
-		// Optional functions
-		$opt['createReplacement']   = (isset($params['createReplacement'])) ? '\\' . $params['createReplacement'] : null;
-		$opt['onFileComplete']      = (isset($params['onFileComplete'])) ? '\\' . $params['onFileComplete'] : null;
-		$opt['onBeforeStart']       = (isset($params['onBeforeStart'])) ? '\\' . $params['onBeforeStart'] : null;
-		$opt['onStart']             = (isset($params['onStart'])) ? '\\' . $params['onStart'] : null;
-		$opt['onComplete']          = (isset($params['onComplete'])) ? '\\' . $params['onComplete'] : null;
-		$opt['onFileSuccess']       = (isset($params['onFileSuccess'])) ? '\\' . $params['onFileSuccess'] : $onFileSuccess;
-
-		if (!isset($params['startButton']))
-		{
-			$params['startButton'] = 'upload-start';
-		}
-
-		if (!isset($params['clearButton']))
-		{
-			$params['clearButton'] = 'upload-clear';
-		}
-
-		$opt['onLoad'] = '\\function() {
-				document.id(\'' . $id
-			. '\').removeClass(\'hide\'); // we show the actual UI
-				document.id(\'upload-noflash\').destroy(); // ... and hide the plain form
-
-				// We relay the interactions with the overlayed flash to the link
-				this.target.addEvents({
-					click: function() {
-						return false;
-					},
-					mouseenter: function() {
-						this.addClass(\'hover\');
-					},
-					mouseleave: function() {
-						this.removeClass(\'hover\');
-						this.blur();
-					},
-					mousedown: function() {
-						this.focus();
-					}
-				});
-
-				// Interactions for the 2 other buttons
-
-				document.id(\'' . $params['clearButton']
-			. '\').addEvent(\'click\', function() {
-					Uploader.remove(); // remove all files
-					return false;
-				});
-
-				document.id(\'' . $params['startButton']
-			. '\').addEvent(\'click\', function() {
-					Uploader.start(); // start upload
-					return false;
-				});
-			}';
-
-		$options = JHtml::getJSObject($opt);
-
-		// Attach tooltips to document
-		$uploaderInit = 'window.addEvent(\'domready\', function(){
-				var Uploader = new FancyUpload2(document.id(\'' . $id . '\'), document.id(\'' . $upload_queue . '\'), ' . $options . ' );
-				});';
-		$document->addScriptDeclaration($uploaderInit);
 
 		// Set static array
 		self::$loaded[__METHOD__][$id] = true;
@@ -632,6 +469,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
 
 		$translation = self::_calendartranslation();
+
 		if ($translation)
 		{
 			$document->addScriptDeclaration($translation);
@@ -654,35 +492,53 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework(true);
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
-		JHtml::_('stylesheet', 'system/mooRainbow.css', array('media' => 'all'), true);
-		JHtml::_('script', 'system/mooRainbow.js', false, true);
-
-		JFactory::getDocument()
-			->addScriptDeclaration(
-			"window.addEvent('domready', function(){
-				var nativeColorUi = false;
-				if (Browser.opera && (Browser.version >= 11.5)) {
-					nativeColorUi = true;
-				}
-				$$('.input-colorpicker').each(function(item){
-					if (nativeColorUi) {
-						item.type = 'color';
-					} else {
-						new MooRainbow(item, {
-							id: item.id,
-							imgPath: '" . JURI::root(true) . "/media/system/images/mooRainbow/',
-							onComplete: function(color) {
-								this.element.value = color.hex;
-							},
-							startColor: item.value.hexToRgb(true) ? item.value.hexToRgb(true) : [0, 0, 0]
+		JHtml::_('script', 'jui/jquery.minicolors.min.js', false, true);
+		JHtml::_('stylesheet', 'jui/jquery.minicolors.css', false, true);
+		JFactory::getDocument()->addScriptDeclaration("
+				jQuery(document).ready(function (){
+					jQuery('.minicolors').each(function() {
+						jQuery(this).minicolors({
+							control: jQuery(this).attr('data-control') || 'hue',
+							position: jQuery(this).attr('data-position') || 'right',
+							theme: 'bootstrap'
 						});
-					}
+					});
 				});
-			});
-		");
+			"
+		);
+
+		self::$loaded[__METHOD__] = true;
+	}
+
+	/**
+	 * Add unobtrusive javascript support for a simple color picker.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.2
+	 */
+	public static function simplecolorpicker()
+	{
+		// Only load once
+		if (isset(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
+		JHtml::_('script', 'jui/jquery.simplecolors.min.js', false, true);
+		JHtml::_('stylesheet', 'jui/jquery.simplecolors.css', false, true);
+		JFactory::getDocument()->addScriptDeclaration("
+				jQuery(document).ready(function (){
+					jQuery('select.simplecolors').simplecolors();
+				});
+			"
+		);
 
 		self::$loaded[__METHOD__] = true;
 	}
@@ -750,6 +606,7 @@ abstract class JHtmlBehavior
 	public static function highlighter(array $terms, $start = 'highlighter-start', $end = 'highlighter-end', $className = 'highlight', $tag = 'span')
 	{
 		$sig = md5(serialize(array($terms, $start, $end)));
+
 		if (isset(self::$loaded[__METHOD__][$sig]))
 		{
 			return;
@@ -821,7 +678,7 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since   11.1
-	 * @dprecated  13.3 Use JHtml::getJSObject() instead.
+	 * @deprecated  13.3 Use JHtml::getJSObject() instead.
 	 */
 	protected static function _getJSObject($array = array())
 	{
@@ -841,60 +698,83 @@ abstract class JHtmlBehavior
 	{
 		static $jsscript = 0;
 
-		if ($jsscript == 0)
-		{
-			$return = 'Calendar._DN = new Array ("' . JText::_('SUNDAY', true) . '", "' . JText::_('MONDAY', true) . '", "'
-				. JText::_('TUESDAY', true) . '", "' . JText::_('WEDNESDAY', true) . '", "' . JText::_('THURSDAY', true) . '", "'
-				. JText::_('FRIDAY', true) . '", "' . JText::_('SATURDAY', true) . '", "' . JText::_('SUNDAY', true) . '");'
-				. ' Calendar._SDN = new Array ("' . JText::_('SUN', true) . '", "' . JText::_('MON', true) . '", "' . JText::_('TUE', true) . '", "'
-				. JText::_('WED', true) . '", "' . JText::_('THU', true) . '", "' . JText::_('FRI', true) . '", "' . JText::_('SAT', true) . '", "'
-				. JText::_('SUN', true) . '");' . ' Calendar._FD = 0;' . ' Calendar._MN = new Array ("' . JText::_('JANUARY', true) . '", "'
-				. JText::_('FEBRUARY', true) . '", "' . JText::_('MARCH', true) . '", "' . JText::_('APRIL', true) . '", "' . JText::_('MAY', true)
-				. '", "' . JText::_('JUNE', true) . '", "' . JText::_('JULY', true) . '", "' . JText::_('AUGUST', true) . '", "'
-				. JText::_('SEPTEMBER', true) . '", "' . JText::_('OCTOBER', true) . '", "' . JText::_('NOVEMBER', true) . '", "'
-				. JText::_('DECEMBER', true) . '");' . ' Calendar._SMN = new Array ("' . JText::_('JANUARY_SHORT', true) . '", "'
-				. JText::_('FEBRUARY_SHORT', true) . '", "' . JText::_('MARCH_SHORT', true) . '", "' . JText::_('APRIL_SHORT', true) . '", "'
-				. JText::_('MAY_SHORT', true) . '", "' . JText::_('JUNE_SHORT', true) . '", "' . JText::_('JULY_SHORT', true) . '", "'
-				. JText::_('AUGUST_SHORT', true) . '", "' . JText::_('SEPTEMBER_SHORT', true) . '", "' . JText::_('OCTOBER_SHORT', true) . '", "'
-				. JText::_('NOVEMBER_SHORT', true) . '", "' . JText::_('DECEMBER_SHORT', true) . '");'
-				. ' Calendar._TT = {};Calendar._TT["INFO"] = "' . JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR', true) . '";'
-				. ' Calendar._TT["ABOUT"] =
- "DHTML Date/Time Selector\n" +
- "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n" +
-"For latest version visit: http://www.dynarch.com/projects/calendar/\n" +
-"Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details." +
-"\n\n" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION', false, false) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT', false, false) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT', false, false) . '" +
-"' . JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE', false, false)
-				. '";
-Calendar._TT["ABOUT_TIME"] = "\n\n" +
-"Time selection:\n" +
-"- Click on any of the time parts to increase it\n" +
-"- or Shift-click to decrease it\n" +
-"- or click and drag for faster selection.";
-
-		Calendar._TT["PREV_YEAR"] = "' . JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["PREV_MONTH"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["GO_TODAY"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY', true) . '";' . ' Calendar._TT["NEXT_MONTH"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["NEXT_YEAR"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_NEXT_YEAR_HOLD_FOR_MENU', true) . '";' . ' Calendar._TT["SEL_DATE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE', true) . '";' . ' Calendar._TT["DRAG_TO_MOVE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE', true) . '";' . ' Calendar._TT["PART_TODAY"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_TODAY', true) . '";' . ' Calendar._TT["DAY_FIRST"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST', true) . '";' . ' Calendar._TT["WEEKEND"] = "0,6";' . ' Calendar._TT["CLOSE"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE', true) . '";' . ' Calendar._TT["TODAY"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TODAY', true)
-				. '";' . ' Calendar._TT["TIME_PART"] = "' . JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE', true) . '";'
-				. ' Calendar._TT["DEF_DATE_FORMAT"] = "%Y-%m-%d";' . ' Calendar._TT["TT_DATE_FORMAT"] = "'
-				. JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT', true) . '";' . ' Calendar._TT["WK"] = "' . JText::_('JLIB_HTML_BEHAVIOR_WK', true) . '";'
-				. ' Calendar._TT["TIME"] = "' . JText::_('JLIB_HTML_BEHAVIOR_TIME', true) . '";';
-			$jsscript = 1;
-			return $return;
-		}
-		else
+		// Guard clause, avoids unnecessary nesting
+		if ($jsscript)
 		{
 			return false;
 		}
+
+		$jsscript = 1;
+
+		// To keep the code simple here, run strings through JText::_() using array_map()
+		$callback = array('JText','_');
+		$weekdays_full = array_map(
+			$callback, array(
+				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'
+			)
+		);
+		$weekdays_short = array_map(
+			$callback,
+			array(
+				'SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'
+			)
+		);
+		$months_long = array_map(
+			$callback, array(
+				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
+				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+			)
+		);
+		$months_short = array_map(
+			$callback, array(
+				'JANUARY_SHORT', 'FEBRUARY_SHORT', 'MARCH_SHORT', 'APRIL_SHORT', 'MAY_SHORT', 'JUNE_SHORT',
+				'JULY_SHORT', 'AUGUST_SHORT', 'SEPTEMBER_SHORT', 'OCTOBER_SHORT', 'NOVEMBER_SHORT', 'DECEMBER_SHORT'
+			)
+		);
+
+		// This will become an object in Javascript but define it first in PHP for readability
+		$text = array(
+			'INFO'			=> JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
+
+			'ABOUT'			=> "DHTML Date/Time Selector\n"
+				. "(c) dynarch.com 2002-2005 / Author: Mihai Bazon\n"
+				. "For latest version visit: http://www.dynarch.com/projects/calendar/\n"
+				. "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details."
+				. "\n\n"
+				. JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION')
+				. JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
+				. JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
+				. JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
+
+			'ABOUT_TIME'	=> "\n\n"
+				. "Time selection:\n"
+				. "- Click on any of the time parts to increase it\n"
+				. "- or Shift-click to decrease it\n"
+				. "- or click and drag for faster selection.",
+
+			'PREV_YEAR'		=> JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
+			'PREV_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
+			'GO_TODAY'		=> JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
+			'NEXT_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
+			'SEL_DATE'		=> JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
+			'DRAG_TO_MOVE'	=> JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
+			'PART_TODAY'	=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
+			'DAY_FIRST'		=> JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
+			'WEEKEND'		=> "0,6",
+			'CLOSE'			=> JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
+			'TODAY'			=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
+			'TIME_PART'		=> JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
+			'DEF_DATE_FORMAT'	=> "%Y-%m-%d",
+			'TT_DATE_FORMAT'	=> JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
+			'WK'			=> JText::_('JLIB_HTML_BEHAVIOR_WK'),
+			'TIME'			=> JText::_('JLIB_HTML_BEHAVIOR_TIME')
+		);
+
+		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'
+			. ' Calendar._SDN = ' . json_encode($weekdays_short) . ';'
+			. ' Calendar._FD = 0;'
+			. ' Calendar._MN = ' . json_encode($months_long) . ';'
+			. ' Calendar._SMN = ' . json_encode($months_short) . ';'
+			. ' Calendar._TT = ' . json_encode($text) . ';';
 	}
 }

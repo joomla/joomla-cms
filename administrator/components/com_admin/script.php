@@ -21,7 +21,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile	$installer	The class calling this method
+	 * @param   JInstallerFile    $installer    The class calling this method
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class JoomlaInstallerScript
 			$results = $db->loadObjectList();
 			if ($db->getErrorNum())
 			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
 				return;
 			}
 			foreach ($results as $result)
@@ -54,7 +54,7 @@ class JoomlaInstallerScript
 					$db->execute();
 					if ($db->getErrorNum())
 					{
-						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
 						return;
 					}
 					break;
@@ -210,12 +210,12 @@ class JoomlaInstallerScript
 
 		// Attempt to refresh manifest caches
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__extensions');
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__extensions');
 		foreach ($extensions as $extension)
 		{
-			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
+			$query->where('type=' . $db->quote($extension[0]) . ' AND element=' . $db->quote($extension[1]) . ' AND folder=' . $db->quote($extension[2]) . ' AND client_id=' . $extension[3], 'OR');
 		}
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
@@ -223,14 +223,14 @@ class JoomlaInstallerScript
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
 			return;
 		}
 		foreach ($extensions as $extension)
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id).'<br />';
+				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br />';
 			}
 		}
 	}
@@ -565,6 +565,15 @@ class JoomlaInstallerScript
 			'/libraries/joomla/installer/index.html',
 			'/libraries/joomla/installer/librarymanifest.php',
 			'/libraries/joomla/installer/packagemanifest.php',
+			'/media/system/css/mooRainbow.css',
+			'/media/system/js/mooRainbow-uncompressed.js',
+			'/media/system/js/mooRainbow.js',
+			'/media/system/js/swf-uncompressed.js',
+			'/media/system/js/swf.js',
+			'/media/system/js/uploader-uncompressed.js',
+			'/media/system/js/uploader.js',
+			'/media/system/swf/index.html',
+			'/media/system/swf/uploader.swf',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -605,6 +614,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/form/rules',
 			'/libraries/joomla/installer/adapters',
 			'/libraries/joomla/installer',
+			'/media/system/swf/',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -612,7 +622,7 @@ class JoomlaInstallerScript
 		{
 			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file).'<br />';
+				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
 			}
 		}
 
@@ -621,7 +631,7 @@ class JoomlaInstallerScript
 		{
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder).'<br />';
+				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 			}
 		}
 	}

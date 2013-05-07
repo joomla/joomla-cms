@@ -104,7 +104,7 @@ class InstallerViewManage extends InstallerViewDefault
 		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_STATE_SELECT'),
 			'filter_status',
-			JHtml::_('select.options', array('0' => 'JDISABLED', '1' => 'JENABLED', '2' => 'JPROTECTED'), 'value', 'text', $this->state->get('filter.status'), true)
+			JHtml::_('select.options', array('0' => 'JDISABLED', '1' => 'JENABLED', '2' => 'JPROTECTED', '3' => 'JUNPROTECTED'), 'value', 'text', $this->state->get('filter.status'), true)
 		);
 
 		JHtmlSidebar::addFilter(

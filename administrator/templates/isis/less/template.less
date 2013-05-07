@@ -502,10 +502,6 @@ h6 { font-size: 12px; line-height: 14px; }
 	.subhead-collapse{
 		display: none;
 	}
-	.btn{
-		font-size: 11px;
-		padding: 1px 4px 2px 4px;
-	}
 	.navbar .btn{
 		margin: 0;
 	}
@@ -536,6 +532,10 @@ h6 { font-size: 12px; line-height: 14px; }
 }
 
 // Navbar
+.nav-collapse .nav li a,
+.dropdown-menu a {
+	background-image: none;
+}
 @media (max-width: @navbarCollapseWidth) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {

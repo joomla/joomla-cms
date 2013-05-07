@@ -224,9 +224,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 		 * we can assume that it was (badly) uninstalled
 		 * If it isn't, add an entry to extensions
 		 */
-		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))->from($query->qn('#__extensions'));
-		$query->where($query->qn('element') . ' = ' . $query->q($element))->where($query->qn('client_id') . ' = ' . (int) $clientId);
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element))
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
 		$db->setQuery($query);
 
 		try
@@ -618,9 +620,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$extension->set('type', 'module');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $module);
+			$extension->set('folder', '');
 			$extension->set('name', $module);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = clone $extension;
 		}
 
@@ -631,9 +635,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $module);
+			$extension->set('folder', '');
 			$extension->set('name', $module);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = clone $extension;
 		}
 
@@ -837,8 +843,9 @@ class JInstallerAdapterModule extends JAdapterInstance
 		}
 
 		// Remove the schema version
-		$query = $db->getQuery(true);
-		$query->delete()->from('#__schemas')->where('extension_id = ' . $row->extension_id);
+		$query = $db->getQuery(true)
+			->delete('#__schemas')
+			->where('extension_id = ' . $row->extension_id);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -847,10 +854,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->languages, $row->client_id);
 
 		// Let's delete all the module copies for the type we are uninstalling
-		$query = $db->getQuery(true);
-		$query->select($query->qn('id'))->from($query->qn('#__modules'));
-		$query->where($query->qn('module') . ' = ' . $query->q($row->element));
-		$query->where($query->qn('client_id') . ' = ' . (int) $row->client_id);
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))
+			->where($db->quoteName('client_id') . ' = ' . (int) $row->client_id);
 		$db->setQuery($query);
 
 		try
@@ -870,7 +878,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$modID = implode(',', $modules);
 
 			// Wipe out any items assigned to menus
-			$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid IN (' . $modID . ')';
+			$query = 'DELETE FROM #__modules_menu WHERE moduleid IN (' . $modID . ')';
 			$db->setQuery($query);
 
 			try
@@ -884,7 +892,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 			}
 
 			// Wipe out any instances in the modules table
-			$query = 'DELETE' . ' FROM #__modules' . ' WHERE id IN (' . $modID . ')';
+			$query = 'DELETE FROM #__modules WHERE id IN (' . $modID . ')';
 			$db->setQuery($query);
 
 			try
@@ -900,7 +908,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 
 		// Now we will no longer need the module object, so let's delete it and free up memory
 		$row->delete($row->extension_id);
-		$query = 'DELETE FROM #__modules WHERE module = ' . $db->Quote($row->element) . ' AND client_id = ' . $row->client_id;
+		$query = 'DELETE FROM #__modules WHERE module = ' . $db->quote($row->element) . ' AND client_id = ' . $row->client_id;
 		$db->setQuery($query);
 
 		try
@@ -941,7 +949,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules_menu table
-		$query = 'DELETE' . ' FROM #__modules_menu' . ' WHERE moduleid=' . (int) $arg['id'];
+		$query = 'DELETE FROM #__modules_menu WHERE moduleid=' . (int) $arg['id'];
 		$db->setQuery($query);
 
 		try
@@ -970,7 +978,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$db = $this->parent->getDbo();
 
 		// Remove the entry from the #__modules table
-		$query = 'DELETE' . ' FROM #__modules' . ' WHERE id=' . (int) $arg['id'];
+		$query = 'DELETE FROM #__modules WHERE id=' . (int) $arg['id'];
 		$db->setQuery($query);
 
 		try

@@ -43,7 +43,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<?php foreach ($this->items as $i => $item) : ?>
 
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
-					<?php if ($this->items[$i]->state == 0) : ?>
+					<?php if ($this->items[$i]->published == 0) : ?>
 						<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else: ?>
 						<li class="cat-list-row<?php echo $i % 2; ?>" >

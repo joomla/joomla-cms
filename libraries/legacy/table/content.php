@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class JTableContent extends JTable
 {
 	/**
+	 * Helper object for storing and deleting tag information.
+	 *
+	 * @var    JHelperTags
+	 * @since  3.1
+	 */
+	protected $tagsHelper = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
@@ -28,6 +36,9 @@ class JTableContent extends JTable
 	public function __construct($db)
 	{
 		parent::__construct('#__content', 'id', $db);
+
+		$this->tagsHelper = new JHelperTags;
+		$this->tagsHelper->typeAlias = 'com_content.article';
 	}
 
 	/**
@@ -75,10 +86,10 @@ class JTableContent extends JTable
 		if ($this->catid)
 		{
 			// Build the query to get the asset id for the parent category.
-			$query = $this->_db->getQuery(true);
-			$query->select($this->_db->quoteName('asset_id'));
-			$query->from($this->_db->quoteName('#__categories'));
-			$query->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('asset_id'))
+				->from($this->_db->quoteName('#__categories'))
+				->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -104,7 +115,7 @@ class JTableContent extends JTable
 	 *
 	 * @param   array  $array   Named array
 	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
+	 *                          to ignore while binding.
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
@@ -229,6 +240,23 @@ class JTableContent extends JTable
 	}
 
 	/**
+	 * Override parent delete method to delete tags information.
+	 *
+	 * @param   integer  $pk  Primary key to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$result = parent::delete($pk);
+		$this->tagsHelper->typeAlias = 'com_content.article';
+		return $result && $this->tagsHelper->deleteTagData($this, $pk);
+	}
+
+	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -262,15 +290,21 @@ class JTableContent extends JTable
 				$this->created_by = $user->get('id');
 			}
 		}
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Content', 'JTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+
 			return false;
 		}
 
-		return parent::store($updateNulls);
+		$this->tagsHelper->typeAlias = 'com_content.article';
+		$this->tagsHelper->preStoreProcess($this);
+		$result = parent::store($updateNulls);
+
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 	/**
@@ -327,9 +361,9 @@ class JTableContent extends JTable
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
-		$query->where('(' . $where . ')' . $checkin);
+		$query->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('state') . ' = ' . (int) $state)
+			->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
 
 		try

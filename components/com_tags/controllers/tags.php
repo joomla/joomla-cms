@@ -38,7 +38,7 @@ class TagsControllerTags extends JControllerLegacy
 			'parent_id' => $app->input->get('parent_id', null)
 		);
 
-		if ($results = JTags::searchTags($filters))
+		if ($results = JHelperTags::searchTags($filters))
 		{
 			// Output a JSON object
 			echo json_encode($results);

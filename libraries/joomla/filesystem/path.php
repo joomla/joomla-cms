@@ -188,7 +188,7 @@ class JPath
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
-		if (!is_string($path))
+		if (!is_string($path) && !empty($path))
 		{
 			throw new UnexpectedValueException('JPath::clean: $path is not a string.');
 		}

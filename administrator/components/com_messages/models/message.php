@@ -47,6 +47,43 @@ class MessagesModelMessage extends JModelAdmin
 	}
 
 	/**
+	 * Check that recipient user is the one trying to delete and then call parent delete method
+	 *
+	 * @param   array  &$pks  An array of record primary keys.
+	 *
+	 * @return  boolean  True if successful, false if an error occurs.
+	 *
+	 * @since  3.1
+	 */
+	public function delete(&$pks)
+	{
+		$pks = (array) $pks;
+		$table = $this->getTable();
+		$user = JFactory::getUser();
+
+		// Iterate the items to delete each one.
+		foreach ($pks as $i => $pk)
+		{
+			if ($table->load($pk))
+			{
+				if ($table->user_id_to !== $user->id)
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError($table->getError());
+				return false;
+			}
+		}
+		return parent::delete($pks);
+	}
+
+	/**
 	 * Returns a Table object, always creating it.
 	 *
 	 * @param   type	The table type to instantiate
@@ -81,11 +118,10 @@ class MessagesModelMessage extends JModelAdmin
 					{
 						// If replying to a message, preload some data.
 						$db		= $this->getDbo();
-						$query	= $db->getQuery(true);
-
-						$query->select('subject, user_id_from');
-						$query->from('#__messages');
-						$query->where('message_id = '.(int) $replyId);
+						$query	= $db->getQuery(true)
+							->select('subject, user_id_from')
+							->from('#__messages')
+							->where('message_id = '.(int) $replyId);
 
 						try
 						{
@@ -113,10 +149,10 @@ class MessagesModelMessage extends JModelAdmin
 				else {
 					// Mark message read
 					$db		= $this->getDbo();
-					$query	= $db->getQuery(true);
-					$query->update('#__messages');
-					$query->set('state = 1');
-					$query->where('message_id = '.$this->item->message_id);
+					$query	= $db->getQuery(true)
+						->update('#__messages')
+						->set('state = 1')
+						->where('message_id = '.$this->item->message_id);
 					$db->setQuery($query)->execute();
 				}
 			}
@@ -169,6 +205,43 @@ class MessagesModelMessage extends JModelAdmin
 		$this->preprocessData('com_messages.message', $data);
 
 		return $data;
+	}
+
+	/**
+	 * Checks that the current user matches the message recipient and calls the parent publish method
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
+
+		// Check that the recipient matches the current user
+		foreach ($pks as $i => $pk)
+		{
+			$table->reset();
+
+			if ($table->load($pk))
+			{
+				if ($table->user_id_to !== $user->id)
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+					return false;
+				}
+			}
+
+		}
+
+		return parent::publish($pks, $value);
 	}
 
 	/**
