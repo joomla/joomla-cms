@@ -539,6 +539,7 @@ class PlgEditorTinymce extends JPlugin
 					inline_styles : true,
 					gecko_spellcheck : true,
 					entity_encoding : \"$entity_encoding\",
+					valid_elements : \"$elements\",
 					extended_valid_elements : \"$elements\",
 					$forcenewline
 					invalid_elements : \"$invalid_elements\",
