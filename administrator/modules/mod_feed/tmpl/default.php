@@ -90,10 +90,14 @@ else
 				<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
 					<div class="feed-item-description">
 						<?php
-						// Strip the images.
+						// Strip the images and iframes.
 						$text = JFilterOutput::stripImages($text);
+						$text = JFilterOutput::stripIframes($text);
 
-						$text = JHtml::_('string.truncateComplex', $text, $params->get('character_count'));
+						// For backward compatibility.
+						$characterCount = $params->get('character_count') !== null ? $params->get('character_count') : $params->get('word_count');
+
+						$text = JHtml::_('string.truncateComplex', $text, $characterCount);
 						echo str_replace('&apos;', "'", $text);
 						?>
 					</div>
