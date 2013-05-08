@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 require_once 'JoomlaWebdriverTestCase.php';
 
 use SeleniumClient\By;
@@ -9,18 +15,27 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the  Manager: Add / Edit  Screen
- * @author Mark
+ * This class tests the  Manager: Add / Edit  Screen.
  *
+ * @package     Joomla.Test
+ * @subpackage  Webdriver
+ * @since       3.0
  */
 class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 {
 	/**
+	 * The page class being tested.
 	 *
-	 * @var MenuItemsManagerPage
+	 * @var     MenuItemsManagerPage
+	 * @since   3.0
 	 */
 	protected $menuItemsManagerPage = null; // Global configuration page
 
+	/**
+	 * Login to back end and navigate to menu item manager.
+	 *
+	 * @since   3.0
+	 */
 	public function setUp()
 	{
 		parent::setUp();
@@ -28,6 +43,11 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$this->menuItemsManagerPage = $cpPage->clickMenu('Main Menu', 'MenuItemsManagerPage');
 	}
 
+	/**
+	 * Logout and close test.
+	 *
+	 * @since   3.0
+	 */
 	public function tearDown()
 	{
 		$this->doAdminLogout();
@@ -40,10 +60,9 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	public function constructor_OpenEditScreen_MenuEditOpened()
 	{
 		$this->menuItemsManagerPage->clickButton('toolbar-new');
-
-		/* @var $menuItemEditPage MenuItemEditPage */
 		$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
 		$tabIds = $menuItemEditPage->getTabIds();
+		// Keep the following line commented to make it easy to generate values for arrays as fields change.
 // 		$menuItemEditPage->printFieldArray($menuItemEditPage->getAllInputFields($tabIds));
 		$menuItemEditPage->clickButton('toolbar-cancel');
 		$this->menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
@@ -77,6 +96,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$this->menuItemsManagerPage->clickButton('toolbar-new');
 		$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
 		$actualMenuItemTypes = $menuItemEditPage->getMenuItemTypes();
+		// Keep the following lines commented. They make it easy to re-generate the array of menu types as more are added.
 // 		foreach ($actualMenuItemTypes as $array)
 // 		{
 // 			echo "array('group' => '" . $array['group'] . "', 'type' => '" . $array['type'] . "' ),\n";

@@ -105,8 +105,8 @@ class UsersModelRegistration extends JModelForm
 			// get all admin users
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
-				->from($db->quoteName('#__users')
-				->where($db->quoteName('sendEmail') . ' = ' . 1));
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('sendEmail') . ' = ' . 1);
 
 			$db->setQuery($query);
 
@@ -517,8 +517,8 @@ class UsersModelRegistration extends JModelForm
 			// Get all admin users
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName(array('name', 'email', 'sendEmail')))
-				->from($db->quoteName('#__users')
-				->where($db->quoteName('sendEmail') . ' = ' . 1));
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('sendEmail') . ' = ' . 1);
 
 			$db->setQuery($query);
 

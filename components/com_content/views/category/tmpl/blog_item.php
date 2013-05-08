@@ -32,7 +32,7 @@ JHtml::_('behavior.framework');
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 <?php endif; ?>
 
-<?php echo JLayoutHelper::render('joomla.content.content_intro_image', $this->item); ?>
+<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 
 <?php if (!$params->get('show_intro')) : ?>

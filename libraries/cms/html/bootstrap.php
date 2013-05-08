@@ -624,15 +624,14 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Attach tooltips to document
-			JFactory::getDocument()
-				->addScriptDeclaration(
-					"(function($){
-			$('#$selector a').click(function (e)
-			{
-			e.preventDefault();
-			$(this).tab('show');
-		});
-		})(jQuery);");
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
+					$('#$selector a').click(function (e) {
+						e.preventDefault();
+						$(this).tab('show');
+					});
+				})(jQuery);"
+			);
 
 			// Set static array
 			self::$loaded['JHtmlBootstrap::startTabSet'][$sig] = true;
