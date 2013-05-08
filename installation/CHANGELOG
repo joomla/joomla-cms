@@ -25,6 +25,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-May-2013 Mark Dexter
+ # Revert [#30125] Search module does not take into account the 'search only' selected. Breaks search.
+ # [#30729] Template Editor does not Display well in FireFox. Thanks Aleksander Linkov.
+ # [#30691] TinyMCE shows buttons with onclick attribute without space and duplicate class. Thanks Dennis Hermatski.
+ # [#30125] Search module does not take into account the 'search only' selected. Thanks Brian Teeman.
+ # [#30797] *Wrapper module url field should be required. Thanks Jean-Marie Simonet.
+ # [#30017] Problems with calendar pop up in Chrome. Thanks Achal Aggarwal.
+ # [#30800] Blog item is not rendering intro image. Thanks David Hurley.
+ # [#30787] Select Tags filter cannot be translated correctly. Thanks Elin Waring.
+ # [#30431] Removed unused css file: editor_content.css. Thanks Nick Savov.
+ # [#30869] Incorrect table names used in the #__content_types table. Thanks Elin Waring.
+
 05-May-2013 Michael Babker
  # [#30727] A unpublished or deleted tag is still visible in 'List of all tags' menu item.  Thanks David Hurley
  # [#30744] tag mappings are not deleted after a tag is deleted.  Thanks Thomas Hunziker
