@@ -128,8 +128,13 @@ class JFormFieldList extends JFormField
 
 			$disabled = (string) $option['disabled'];
 			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-
 			$disabled = $disabled || ($this->readonly && $value != $this->value);
+
+			$checked = (string) $option['checked'];
+			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+
+			$selected = (string) $option['selected'];
+			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
 
 			// Create a new option object based on the <option /> element.
 			$tmp = JHtml::_(
@@ -141,8 +146,12 @@ class JFormFieldList extends JFormField
 			// Set some option attributes.
 			$tmp->class = (string) $option['class'];
 
+			// The option is checked and selected whether it is marked as 'checked' or 'selected'
+			$tmp->checked = $tmp->selected = ($checked || $selected);
+
 			// Set some JavaScript option attributes.
 			$tmp->onclick = (string) $option['onclick'];
+			$tmp->onchange = (string) $option['onchange'];
 
 			// Add the option object to the result set.
 			$options[] = $tmp;
