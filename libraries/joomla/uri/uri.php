@@ -152,7 +152,7 @@ class JUri
 			if ($uri == 'SERVER')
 			{
 				// Determine if the request was over SSL (HTTPS).
-				if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
+				if (JFactory::getApplication()->isSSLConnection())
 				{
 					$https = 's://';
 				}
