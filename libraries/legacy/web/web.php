@@ -38,6 +38,6 @@ class JWeb extends JApplicationWeb
 	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
 	{
 		JLog::add('JWeb is deprecated. Use JApplicationWeb instead.', JLog::WARNING, 'deprecated');
-		parent::__construct($input, $registry, $client);
+		parent::__construct($input, $config, $client);
 	}
 }
