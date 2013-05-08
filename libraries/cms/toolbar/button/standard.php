@@ -54,7 +54,7 @@ class JToolbarButtonStandard extends JToolbarButton
 			$btnClass = 'btn btn-small';
 		}
 
-		return '<button href="#" onclick="' . $doTask . '" class="' . $btnClass . '">'
+		return '<button onclick="' . $doTask . '" class="' . $btnClass . '">'
 			. '<i class="' . trim($class) . '"></i> '
 			. $i18n_text
 			. '</button>';

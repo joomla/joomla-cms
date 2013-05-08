@@ -42,7 +42,7 @@ class JToolbarButtonHelp extends JToolbarButton
 		$class = 'question-sign';
 		$doTask = $this->_getCommand($ref, $com, $override, $component);
 
-		return '<button href="#" onclick="' . $doTask . '" rel="help" class="btn btn-small">'
+		return '<button onclick="' . $doTask . '" rel="help" class="btn btn-small">'
 			. '<i class="icon-' . $class . '"></i> '
 			. $text
 			. '</button>';

@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+before_script:
+  - pyrus channel-discover pear.phpunit.de
+  - pyrus install --force phpunit/DbUnit
+  - phpenv rehash
+
+script:
+  - phpunit --configuration travisci-phpunit.xml
+
+branches:
+  except:
+    - 2.5.x

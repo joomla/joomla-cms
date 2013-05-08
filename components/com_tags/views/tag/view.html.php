@@ -106,9 +106,8 @@ class TagsViewTag extends JViewLegacy
 		$this->user       = &$user;
 		$this->item       = &$item;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
-
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
 		// Otherwise, article params override menu item params
@@ -220,8 +219,6 @@ class TagsViewTag extends JViewLegacy
 
 		foreach ($this->item as $itemElement)
 		{
-
-
 			if ($itemElement->metadesc)
 			{
 				$this->document->setDescription($itemElement->metadesc);

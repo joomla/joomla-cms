@@ -245,8 +245,8 @@ abstract class JHtmlJGrid
 		}
 
 		$states = array(
-			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', false, 'star', 'star'),
-			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', false, 'star-empty', 'star-empty'),
+			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', false, 'featured', 'featured'),
+			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', false, 'unfeatured', 'unfeatured'),
 		);
 
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
