@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-May-2013 Mark Dexter
+ # [#30125] Search module does not take into account the 'search only' selected. Thanks Luke Collymore.
+
 07-May-2013 Mark Dexter
  # Revert [#30125] Search module does not take into account the 'search only' selected. Breaks search.
  # [#30729] Template Editor does not Display well in FireFox. Thanks Aleksander Linkov.
