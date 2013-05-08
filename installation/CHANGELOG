@@ -28,6 +28,7 @@ $ -> Language fix or change
 08-May-2013 Mark Dexter
  # [#30125] Search module does not take into account the 'search only' selected. Thanks Luke Collymore.
  # [#30769] Still There are Reference to Joomla! 3.0 Version in 3.1. Thanks Jean-Marie Simonet.
+ # [#28288] Unnesessary initialiazing of tooltips in category blog. Thanks Dennis Hermatski.
 
 07-May-2013 Mark Dexter
  # Revert [#30125] Search module does not take into account the 'search only' selected. Breaks search.
