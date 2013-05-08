@@ -26,14 +26,14 @@ class ContactTableContact extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabase  Database connector object
+	 * @param   JDatabaseDriver  &$db  Database connector object
 	 *
-	 * @since 1.0
+	 * @since   1.0
 	 */
-	public function __construct(& $db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
-		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper = new JHelperTags;
 		$this->tagsHelper->typeAlias = 'com_contact.contact';
 	}
 
@@ -64,7 +64,6 @@ class ContactTableContact extends JTable
 
 		return parent::bind($array, $ignore);
 	}
-
 
 	/**
 	 * Override parent delete method to delete tags information.

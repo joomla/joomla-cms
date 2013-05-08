@@ -1223,7 +1223,7 @@ class JForm
 			case 'URL':
 				if (empty($value))
 				{
-					return;
+					return false;
 				}
 				$value = JFilterInput::getInstance()->clean($value, 'html');
 				$value = trim($value);

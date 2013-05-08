@@ -82,7 +82,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	{
 	?>
 	<style type="text/css">
-		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
+		.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
@@ -109,6 +109,17 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<?php
 	}
 	?>
+
+	<!-- Sidebar background color -->
+	<?php if ($this->params->get('sidebarColor')) : ?>
+	<style type="text/css">
+		.nav-list > .active > a, .nav-list > .active > a:hover
+		{
+			background: <?php echo $this->params->get('sidebarColor'); ?>;
+		}
+	</style>
+	<?php endif; ?>
+
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
