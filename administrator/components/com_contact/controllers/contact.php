@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_contact
  * @since       1.6
  */
-class ContactControllerContact extends JControllerFormcontent
+class ContactControllerContact extends JControllerForm
 {
 	/*
 	 * @var  string Model name

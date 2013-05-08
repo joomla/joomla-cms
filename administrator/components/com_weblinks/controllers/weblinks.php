@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.6
  */
-class WeblinksControllerWeblinks extends JControllerAdmincontent
+class WeblinksControllerWeblinks extends JControllerAdmin
 {
 	/*
 	 * @var  string Model

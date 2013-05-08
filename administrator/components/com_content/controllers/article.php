@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_content
  * @since       1.6
  */
-class ContentControllerArticle extends JControllerFormcontent
+class ContentControllerArticle extends JControllerForm
 {
 	/*
 	 * @var  string Model name
@@ -22,6 +22,10 @@ class ContentControllerArticle extends JControllerFormcontent
 	 */
 	protected $modelName = 'Article';
 
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_content&view=articles';
 	/**
 	 * Class constructor.
 	 *

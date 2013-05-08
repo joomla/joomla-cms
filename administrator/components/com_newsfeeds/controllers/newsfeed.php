@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_newsfeeds
  * @since       1.6
  */
-class NewsfeedsControllerNewsfeed extends JControllerFormcontent
+class NewsfeedsControllerNewsfeed extends JControllerForm
 {	/**
 	 * @var    string  The URL option for the component.
 	 * @since  3.1

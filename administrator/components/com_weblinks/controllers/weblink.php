@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.6
  */
-class WeblinksControllerWeblink extends JControllerFormcontent
+class WeblinksControllerWeblink extends JControllerForm
 {
 	/*
 	 * @var  string Model name

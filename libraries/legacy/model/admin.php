@@ -765,13 +765,93 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
+	 * Method to toggle the featured setting of articles.
+	 *
+	 * @param   array    The ids of the items to toggle.
+	 * @param   integer  The value to toggle to.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function featured($pks, $value = 0)
+	{
+		// Sanitize the ids.
+		$pks = (array) $pks;
+		JArrayHelper::toInteger($pks);
+
+		if (empty($pks))
+		{
+			$this->enqueueMessage(JText::_('NO_ITEM_SELECTED'));
+			return false;
+		}
+
+		$table = $this->getTable('Featured', 'JTable');
+
+		try {
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+			->update($db->quoteName('#__content'))
+			->set('featured = ' . (int) $value)
+			->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+			$db->execute();
+
+			$query = $db->getQuery(true)
+			->delete($db->quoteName('#__content_frontpage'))
+			->where('content_id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+			$db->execute();
+
+			// First, we find out which of our new featured articles are already featured.
+			$query = $db->getQuery(true);
+			$query->select('f.content_id');
+			$query->from('#__content_frontpage AS f');
+			$query->where('content_id IN ('.implode(',', $pks).')');
+			echo $query->dump();
+			$db->setQuery($query);
+
+			$old_featured = $db->loadColumn();
+var_dump($old_featured);
+			// We diff the arrays to get a list of the articles that are newly featured
+			$new_featured = array_diff($pks, $old_featured);
+var_dump($new_featured);
+			// Featuring.
+			$tuples = array();
+			foreach ($new_featured as $pk)
+			{
+				$tuples[] = $pk . ', 0';
+			}
+			if (count($tuples))
+			{
+				$db = $this->getDbo();
+				$columns = array('content_id', 'ordering');
+				$query = $db->getQuery(true)
+				->insert($db->quoteName('#__content_frontpage'))
+				->columns($db->quoteName($columns))
+				->values($tuples);
+				$db->setQuery($query);
+				$db->execute();
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		$table->reorder();
+
+		$this->cleanCache();
+
+		return true;
+	}
+	/**
 	 * Method to change the title & alias.
 	 *
 	 * @param   integer  $category_id  The id of the category.
 	 * @param   string   $alias        The alias.
 	 * @param   string   $title        The title.
 	 *
-	 * @return	array  Contains the modified title and alias.
+	 * @return  array  Contains the modified title and alias.
 	 *
 	 * @since	12.2
 	 */

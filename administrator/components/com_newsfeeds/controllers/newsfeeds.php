@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_newsfeeds
  * @since       1.6
  */
-class NewsfeedsControllerNewsfeeds extends JControllerAdmincontent
+class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 {
 	/*
 	 * @var  string Model name
