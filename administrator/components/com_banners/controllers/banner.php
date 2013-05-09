@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_banners
  * @since       1.6
  */
-class BannersControllerBanner extends JControllerFormContent
+class BannersControllerBanner extends JControllerForm
 {
 	/**
 	 * @var    string  The prefix to use with controller messages.
