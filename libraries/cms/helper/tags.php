@@ -730,7 +730,7 @@ class JHelperTags
 		}
 
 		// New items with no tags bypass this step.
-		if (!empty($newTags) && !empty($oldTags))
+		if ((!empty($newTags) || !empty($oldTags)))
 		{
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = ($oldTags != $newTags) || !$table->$key;
