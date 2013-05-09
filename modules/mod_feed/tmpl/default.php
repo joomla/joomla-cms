@@ -62,7 +62,7 @@ else
 		{
 			?>
 					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo str_replace('&', '&amp', $feed->link); ?>" target="_blank">
+						<a href="<?php echo str_replace('&', '&amp', $feed->link->uri); ?>" target="_blank">
 						<?php echo $feed->title; ?></a>
 					</h2>
 			<?php
