@@ -24,6 +24,12 @@ class ContentControllerArticles extends JControllerAdmin
 	 */
 	protected $redirectUrl = 'index.php?option=com_content&view=articles';
 
+	/*
+	 * @var  string   Dot separated string giving the component and section for access checking of
+	 *                 featuring.
+	 */
+	protected $featuredContext = 'com_content.category';
+
 	/**
 	 * The URL option for the component.
 	 *
@@ -33,7 +39,7 @@ class ContentControllerArticles extends JControllerAdmin
 	protected $option = 'com_content';
 
 	/*
-	 * @var  string Model name
+	 * @var  string  Model name
 	 * @since  3.1
 	 */
 	protected $name = 'Article';

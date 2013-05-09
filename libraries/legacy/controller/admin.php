@@ -59,7 +59,7 @@ class JControllerAdmin extends JControllerLegacy
 	/*
 	 * @var  $redirectUrl  Url for redirection after featuring
 	*/
-	protected $redirectUrl;
+	protected $redirectUrl = null;
 
 	/**
 	 * @var    string  The comoponent and section for featuring. This class assumes that
@@ -67,7 +67,7 @@ class JControllerAdmin extends JControllerLegacy
 	 *                 To check individual assets or for other structures this must be overriden
 	 * @since  3.1
 	 */
-	protected $featureContext;
+	protected $featureContext = null;
 
 	/**
 	 * Constructor.
@@ -420,6 +420,10 @@ class JControllerAdmin extends JControllerLegacy
 	 */
 	public function featured()
 	{
+		if (empty($this->featuredContext))
+		{
+			return false;
+		}
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
@@ -428,6 +432,7 @@ class JControllerAdmin extends JControllerLegacy
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
 		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
+		$app     = JFactory::getApplication();
 
 		// Get the  model.
 		$model  = $this->getModel();
@@ -437,24 +442,24 @@ class JControllerAdmin extends JControllerLegacy
 		{
 			$item = $model->getItem($id);
 
-			if (!$user->authorise('core.edit.state', $this->featureContext.(int) $item->catid))
+			if (!$user->authorise('core.edit.state', $this->featureContext . (int) $item->catid))
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				$this->enqueueMessage(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 			}
 		}
 
 		if (empty($ids))
 		{
-			$this->enqueueMessage(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$app->enqueueMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'notice');
 		}
 		else
 		{
 			// Feature the items.
 			if (!$model->featured($ids, $value))
 			{
-				$this->enqueueMessage(500, $model->getError());
+				$app->enqueueMessage($model->getError(), 'error');
 			}
 		}
 

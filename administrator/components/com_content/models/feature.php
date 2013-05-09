@@ -27,7 +27,7 @@ class ContentModelFeature extends ContentModelArticle
 	 * @param   array  Configuration array for model. Optional.
 	 * @return  JTable	A database object
 	*/
-	public function getTable($type = 'Featured', $prefix = 'ContentTable', $config = array())
+	public function getTable($type = 'Featured', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
 	}

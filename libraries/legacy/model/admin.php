@@ -608,7 +608,7 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state edited.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -772,7 +772,7 @@ abstract class JModelAdmin extends JModelForm
 	 *
 	 * @return  boolean  True on success.
 	 */
-	public function featured($pks, $value = 0)
+	public function featured($pks, $value = 1)
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
@@ -784,52 +784,34 @@ abstract class JModelAdmin extends JModelForm
 			return false;
 		}
 
-		$table = $this->getTable('Featured', 'JTable');
+		$featuredTable = JTable::getInstance('Featured', 'JTable');
 
-		try {
-			$db = $this->getDbo();
-			$query = $db->getQuery(true)
-			->update($db->quoteName('#__content'))
-			->set('featured = ' . (int) $value)
-			->where('id IN (' . implode(',', $pks) . ')');
-			$db->setQuery($query);
-			$db->execute();
-
-			$query = $db->getQuery(true)
-			->delete($db->quoteName('#__content_frontpage'))
-			->where('content_id IN (' . implode(',', $pks) . ')');
-			$db->setQuery($query);
-			$db->execute();
-
-			// First, we find out which of our new featured articles are already featured.
-			$query = $db->getQuery(true);
-			$query->select('f.content_id');
-			$query->from('#__content_frontpage AS f');
-			$query->where('content_id IN ('.implode(',', $pks).')');
-			echo $query->dump();
-			$db->setQuery($query);
-
-			$old_featured = $db->loadColumn();
-var_dump($old_featured);
-			// We diff the arrays to get a list of the articles that are newly featured
-			$new_featured = array_diff($pks, $old_featured);
-var_dump($new_featured);
-			// Featuring.
-			$tuples = array();
-			foreach ($new_featured as $pk)
+		try
+		{
+			$table  = $this->getTable();
+			foreach ($pks as $pk)
 			{
-				$tuples[] = $pk . ', 0';
-			}
-			if (count($tuples))
-			{
-				$db = $this->getDbo();
-				$columns = array('content_id', 'ordering');
-				$query = $db->getQuery(true)
-				->insert($db->quoteName('#__content_frontpage'))
-				->columns($db->quoteName($columns))
-				->values($tuples);
-				$db->setQuery($query);
-				$db->execute();
+				$table->reset();
+				$table->load($pk);
+				$table->featured = $value;
+				$table->store();
+				if ($featuredTable->load($pk) === false && $value == 1)
+				{
+					// Workaround because we are not using autoincrement.
+					$db = $this->getDbo();
+					$query = $db->getQuery(true)
+						->insert($db->quoteName('#__content_frontpage'))
+						->columns(array($db->quoteName('content_id'), $db->quoteName('ordering')))
+						->values($pk . ',' . (int) 0);
+					$db->setQuery($query);
+					$db->execute();
+
+				}
+				elseif ($featuredTable->load($pk) === true && $value == 0)
+				{
+					$featuredTable->delete($pk);
+				}
+
 			}
 		}
 		catch (Exception $e)

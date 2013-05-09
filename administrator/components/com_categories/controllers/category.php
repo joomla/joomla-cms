@@ -26,6 +26,11 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	protected $extension;
 
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_categories&extension=com_content';
+
 	/**
 	 * Constructor.
 	 *
@@ -127,13 +132,9 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Set the model
-		$model = $this->getModel('Category');
 
 		// Preset the redirect
-		$this->setRedirect('index.php?option=com_categories&view=categories&extension=' . $this->extension);
+		$this->redirectUrl = 'index.php?option=com_categories&view=categories&extension=' . $this->extension;
 
 		return parent::batch($model);
 	}
