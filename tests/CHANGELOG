@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-May-2013 Mark Dexter
+ # Finish system tests for back end Tags Manager. Thanks Puneet Kala.
+
 08-May-2013 Mark Dexter
  # Fix failing system test for markup change in Template Manager.
 
