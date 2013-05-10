@@ -126,12 +126,17 @@ class JControllerAdmin extends JControllerLegacy
 
 	/**
 	 * Proxy for getModel.
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   string  $config  Array of configuration options
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = '', $prefix = '', $config = array())
 	{
 		$config = array('ignore_request' => true);
 		$model = parent::getModel($this->name, $this->prefix, $config);
+
 		return $model;
 	}
 

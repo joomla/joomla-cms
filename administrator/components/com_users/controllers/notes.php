@@ -26,14 +26,42 @@ class UsersControllerNotes extends JControllerAdmin
 	 */
 	protected $text_prefix = 'COM_USERS_NOTES';
 
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	* @since  3.1
+	*/
+	protected $redirectUrl = 'index.php?option=com_users&view=notes';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_users';
+
+	/*
+	 * @var  string  Model name
+	* @since  3.1
+	*/
+	protected $name = 'Note';
+
+	/*
+	 * @var  string   Model prefix
+	* @since  3.1
+	*/
+	protected $prefix = 'UsersModel';
+
+
 	/**
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy  The model.
 	 *
 	 * @since   2.5
+	 * @deprecated 3.5
 	 */
 	public function getModel($name = 'Note', $prefix = 'UsersModel', $config = array('ignore_request' => true))
 	{

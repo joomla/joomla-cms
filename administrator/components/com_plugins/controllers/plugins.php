@@ -18,6 +18,36 @@ defined('_JEXEC') or die;
  */
 class PluginsControllerPlugins extends JControllerAdmin
 {
+	/*
+	 * @var  string Model name
+	*/
+	protected $name = Plugin;
+
+	/*
+	 * @var  string   Model prefix
+	*/
+	protected $prefix = PluginsModel;
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	* @since  3.1
+	*/
+	protected $redirectUrl = 'index.php?option=com_plugins&view=plugins';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_plugins';
+
+	/**
+	 * @var     string  The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_PLUGINS_PLUGINS';
+
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
@@ -28,44 +58,11 @@ class PluginsControllerPlugins extends JControllerAdmin
 	 * @return  object  The model.
 	 *
 	 * @since   1.6
+	 * @deprecated  3.5
 	 */
 	public function getModel($name = 'Plugin', $prefix = 'PluginsModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
-
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$input = JFactory::getApplication()->input;
-		$pks = $input->post->get('cid', array(), 'array');
-		$order = $input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
-	}
-
 }
