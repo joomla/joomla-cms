@@ -1847,8 +1847,8 @@ table .span24 {
 }
 .well {
 	min-height: 20px;
-	padding: 19px;
-	margin-bottom: 20px;
+	padding: 5px;
+	margin-bottom: 10px;
 	background-color: #f5f5f5;
 	border: 1px solid #e3e3e3;
 	-webkit-border-radius: 4px;
