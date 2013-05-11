@@ -24,6 +24,23 @@ class BannersControllerBanner extends JControllerForm
 	 */
 	protected $text_prefix = 'COM_BANNERS_BANNER';
 
+	/*
+	 * @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Banner';
+
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_banners';
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_banners&view=banners';
+
 	/**
 	 * Method to run batch operations.
 	 *
@@ -45,5 +62,4 @@ class BannersControllerBanner extends JControllerForm
 
 		return parent::batch($model);
 	}
-
 }

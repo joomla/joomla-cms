@@ -23,5 +23,21 @@ class TemplatesControllerStyle extends JControllerForm
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_TEMPLATES_STYLE';
+	/*
+	 * @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Style';
+
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_templates';
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_templates&view=styles';
 
 }

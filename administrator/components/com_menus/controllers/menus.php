@@ -18,6 +18,32 @@ defined('_JEXEC') or die;
  */
 class MenusControllerMenus extends JControllerLegacy
 {
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	 * @since  3.1
+	 */
+	protected $redirectUrl = 'index.php?option=com_menus&view=menus';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_menus';
+
+	/*
+	 * @var  string  Model name
+	* @since  3.1
+	*/
+	protected $name = 'Menu';
+
+	/*
+	 * @var  string   Model prefix
+	* @since  3.1
+	*/
+	protected $prefix = 'MenusModel';
+
 	/**
 	 * Display the view
 	 *
@@ -48,43 +74,6 @@ class MenusControllerMenus extends JControllerLegacy
 		return $model;
 	}
 
-	/**
-	 * Removes an item
-	 */
-	public function delete()
-	{
-		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			JError::raiseWarning(500, JText::_('COM_MENUS_NO_MENUS_SELECTED'));
-		}
-		else
-		{
-			// Get the model.
-			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
-
-			// Remove the items.
-			if (!$model->delete($cid))
-			{
-				$this->setMessage($model->getError());
-			}
-			else
-			{
-				$this->setMessage(JText::plural('COM_MENUS_N_MENUS_DELETED', count($cid)));
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_menus&view=menus');
-	}
 
 	/**
 	 * Rebuild the menu tree.
@@ -193,7 +182,6 @@ class MenusControllerMenus extends JControllerLegacy
 					{
 						return JError::raiseWarning(500, $e->getMessage());
 					}
-					//echo "<br>".$db->getQuery();
 				}
 			}
 		}

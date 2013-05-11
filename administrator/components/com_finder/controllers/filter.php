@@ -18,6 +18,17 @@ defined('_JEXEC') or die;
  */
 class FinderControllerFilter extends JControllerForm
 {
+	/*
+	* @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Filter';
+
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_finder';
 	/**
 	 * Method to save a record.
 	 *

@@ -18,6 +18,22 @@ defined('_JEXEC') or die;
  */
 class TagsControllerTag extends JControllerForm
 {
+	/*
+	 * @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Tag';
+
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_tags';
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_tags&view=tags';
 
 	/**
 	 * Method to check if you can add a new record.
@@ -52,27 +68,5 @@ class TagsControllerTag extends JControllerForm
 		// Since there is no asset tracking and no categories, revert to the component permissions.
 		return parent::allowEdit($data, $key);
 
-	}
-
-	/**
-	 * Method to run batch operations.
-	 *
-	 * @param   object  $model  The model.
-	 *
-	 * @return  boolean	 True if successful, false otherwise and internal error is set.
-	 *
-	 * @since   3.1
-	 */
-	public function batch($model = null)
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Set the model
-		$model = $this->getModel('Tag');
-
-		// Preset the redirect
-		$this->setRedirect('index.php?option=com_tags&view=tags');
-
-		return parent::batch($model);
 	}
 }
