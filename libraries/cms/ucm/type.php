@@ -43,9 +43,13 @@ class JUcmType implements JUcm
 	protected $alias;
 
 	/**
-	 * @param  string            $alias        The alias for the item
-	 * @param  JDatabaseDriver   $database     The database object
-	 * @param  JApplicationBase  $application  The application object
+	 * Class constructor
+	 *
+	 * @param   string            $alias        The alias for the item
+	 * @param   JDatabaseDriver   $database     The database object
+	 * @param   JApplicationBase  $application  The application object
+	 *
+	 * @since   3.1
 	 */
 	public function __construct($alias = null, JDatabaseDriver $database = null, JApplicationBase $application = null)
 	{

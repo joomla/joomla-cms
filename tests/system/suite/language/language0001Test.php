@@ -676,7 +676,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
     $this->click("//a[contains(., 'Feeds')]");
-	$screen='News Feed Manager';
+	$screen='News Feed Manager: News Feeds';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
     $this->click("checkall-toggle");
@@ -1146,7 +1146,7 @@ class Language0001Test extends SeleniumJoomlaTestCase
 	$screen='Template Manager: Styles';
     $this->waitForPageToLoad("30000");
 	$this->filterView($filterOn);
-    $this->click("//div[@id='toolbar-star']/button");
+    $this->click("//div[@id='toolbar-default']/button");
 	$button='Default';
     $this->jPrint ("Testing error message when clicking $button button with nothing selected at $screen screen.\n");
     try

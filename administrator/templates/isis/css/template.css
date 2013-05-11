@@ -5619,8 +5619,7 @@ input.invalid {
 .icon-pencil:before {
 	content: "\2b";
 }
-.icon-edit:before,
-.icon-pencil:before {
+.icon-edit:before {
 	color: #2f96b4;
 }
 .icon-pencil-2:before {
@@ -5689,6 +5688,7 @@ input.invalid {
 .icon-checkbox-partial:before {
 	content: "\3f";
 }
+.icon-unfeatured:before,
 .icon-asterisk:before,
 .icon-star-empty:before {
 	content: "\40";
@@ -5697,8 +5697,12 @@ input.invalid {
 	content: "\41";
 }
 .icon-featured:before,
+.icon-default:before,
 .icon-star:before {
 	content: "\42";
+}
+.icon-featured:before,
+.icon-default:before {
 	color: #f89406;
 }
 .icon-calendar:before {
@@ -5717,6 +5721,8 @@ input.invalid {
 .icon-pending:before,
 .icon-warning:before {
 	content: "\48";
+}
+.icon-pending:before {
 	color: #f89406;
 }
 .icon-publish:before,
@@ -5724,16 +5730,28 @@ input.invalid {
 .icon-ok:before,
 .icon-checkmark:before {
 	content: "\47";
+}
+.icon-publish:before,
+.icon-save:before,
+.icon-ok:before {
 	color: #51a351;
 }
 .icon-unpublish:before,
 .icon-cancel:before {
 	content: "\4a";
+}
+.icon-unpublish:before,
+.btn-toolbar .icon-cancel:before {
 	color: #bd362f;
 }
+.icon-not-ok:before,
 .icon-eye-close:before,
 .icon-minus:before {
 	content: "\4b";
+}
+.icon-not-ok:before,
+.icon-eye-close:before {
+	color: #bd362f;
 }
 .icon-purge:before,
 .icon-trash:before {
@@ -5798,12 +5816,17 @@ input.invalid {
 .icon-save-new:before,
 .icon-plus-2:before {
 	content: "\5d";
+}
+.icon-save-new:before {
 	color: #51a351;
 }
 .icon-ban-circle:before,
 .icon-minus-sign:before,
 .icon-minus-2:before {
 	content: "\5e";
+}
+.icon-ban-circle:before,
+.icon-minus-sign:before {
 	color: #bd362f;
 }
 .icon-key:before {
@@ -5983,6 +6006,9 @@ input.invalid {
 .icon-save-copy:before,
 .icon-copy:before {
 	content: "\e018";
+}
+.icon-save-copy:before,
+.btn-toolbar .icon-copy:before {
 	color: #51a351;
 }
 .icon-cart:before {
@@ -6341,9 +6367,6 @@ h6 {
 .chzn-container,
 .chzn-drop {
 	max-width: 100% !important;
-}
-.CodeMirror-wrapping {
-	height: auto !important;
 }
 @media (max-width: 979px) {
 	.navbar .brand {
