@@ -9,91 +9,63 @@
 /* jslint plusplus: true, browser: true, sloppy: true */
 /* global jQuery, Request, Joomla, alert, Backbone */
 
-define([ "jquery", "uiinit", "underscore", "backbone", "serialize"], 
-		function($, UiInit) {
+define([ "jquery", "underscore", "backbone", "uiinit",
+         	"template/js/views/languagechooser",
+         	"template/js/views/spinner",
+         	"template/js/models/site",
+         	"template/js/models/body" ],
 
-	var Language = Backbone.Model.extend({
-				initialize : function(attributes, options) {
-					this.set('urlBase', options.urlBase);
-				},
+		function($, _, Backbone, UiInit,
+				LanguageChooserView,
+				SpinnerView,
+				Site,
+				Body) {
 
-				url : function() {
-
-					return this.get('urlBase')
-							+ '?task=setup.setlanguage&format=json';
-				}
-			});
-	
-	var Page = Backbone.Model.extend({
-		initialize : function(attributes, options) {
-			this.set('urlBase', options.urlBase);
-		},
-
-		url : function() {
-			return this.get('urlBase') + '?tmpl=body';
-			
-		},
-		
-		parse : function(resp, options) {
-			return {
-				status : true,
-				page : resp
-			};
-		}		
-	});	
-
+	// Main Installation - Steps Management
 	var InstallationView = Backbone.View.extend({
 
 		// The DOM events specific to an item.
 		events : {
-			'click .goToPageSiteButton' : 'goToPageSiteButton',
-			'click .goToPageDatabaseButton' : 'goToPageDatabaseButton',
-			'click .goToPageButton' : 'goToPageButton',
-			'click .removeFolderButon' : 'removeFolder',
-			'click .submitformButton' : 'submitform',
-			'click .verifyFtpSettingsButon' : 'verifyFtpSettings',
-			'click .detectFtpRootButton' : 'detectFtpRoot',
+			'click .goToPageDatabaseButton' : 'submitForm',
 
-			// ??
-			'click input[name=jform[summary_email]]' : 'toggleEmailPasswords',
+			'click .goToPreviousSiteButton' : 'goToSite',
+			'click #goToPageSiteButton' : 'goToSite',
 
-			'change #jform_language' : 'setLanguage'
+			'click .goToPageSummaryButton' : 'submitForm',
+
+			'click .goToPreviousDatabaseButton' : 'goToDatabase',
+			'click #goToPageDatabaseButton' : 'goToDatabase'
+
 		},
 
 		initialize : function() {
-			var theInstaller = this;
-			
-			this.sampleDataLoaded = false;
-			this.busy = false;
-			this.spinner = new Spinner(this.$el.get(0));
-			this.baseUrl = base;
 
-			this.$el.ajaxStart(function() {
-				theInstaller.spinner.show(true);
-				theInstaller.busy = true;
-				Joomla.removeMessages();
-			}).ajaxStop(function() {
-				theInstaller.spinner.hide(true);
-				theInstaller.busy = false;
+			this.spinnerView = new SpinnerView({
+				el : $('#container-installation')
 			});
 
-			this.language = new Language({}, {
-				urlBase : base
-			});			
-			this.language.on('change', this.loadLanguage, this);
-			
-			this.page = new Page({}, {
-				urlBase : base
-			});
-			this.page.on('change', this.loadPage, this);
+			(new LanguageChooserView({
+				el : $('#container-installation')
+			}));
 		},
 
-		setLanguage : function setLanguage() {
-			var formdata;
+		submitForm : function () {
+			var task = this.$('#task').val(), formdata;
 
-			formdata = this.$('#languageForm').serializeObject();
-			this.language.save(formdata, {
+			// Task setup for site query
+			this.site = new Site({}, {
+				task : task
+			});
+			this.site.on('change', this.loadSiteResponse, this);
+
+			Joomla.removeMessages();
+
+			// query Site to check current form
+			formdata = this.$('#adminForm').serializeObject();
+			this.site.save(formdata, {
 				wait: true,
+
+				// TO-DO: Improve error processing
 				error : function(model, fail, xhr) {
 					var r = JSON.decode(fail.responseText);
 					if (r) {
@@ -104,88 +76,116 @@ define([ "jquery", "uiinit", "underscore", "backbone", "serialize"],
 			});
 		},
 
-		loadLanguage : function loadLanguage(r) {
-			Joomla.replaceTokens(r.attributes.token);
-			
-			if (r.attributes.messages) {
-				Joomla.renderMessages(r.attributes.messages); 
-			} 
-			var lang = jQuery('html').attr('lang'); 
-			if (lang.toLowerCase() === r.attributes.lang.toLowerCase()) { 
-				this.page.fetch({
-					data : {
-						view: r.attributes.data.view
-					},
-					
-					wait : true,
-					dataType : 'text',
-					error : function(model, fail, xhr) {
-						var r = JSON.decode(fail.responseText);
-						if (r) {
-							Joomla.replaceTokens(r.token);
-							alert(r.message);
-						}
-					}
-				});
-			}
-			else { 
-				window.location = this.baseUrl + '?view=' + r.attributes.data.view;
-			}
+		loadSiteResponse : function (r) {
+			var view = r.get('data').view;
+
+			// Just in case AjaxStop fails
+			this.spinnerView.stop();
+			UiInit.processSiteResponse(r);
+			this._loadBody(view);
 		},
-		
-		loadPage : function loadPage(r) {
-			this.$el.html(r.attributes.page);
+
+		_loadBody: function(view) {
+			// View setup for body query
+			this.body = new Body({}, {
+				view: view
+			});
+			this.body.on('change', this.loadBodyResponse, this);
+			this.body.fetch({
+				wait: true,
+				dataType: 'text',
+
+				// TO-DO: Improve error processing
+				error : function(model, fail, xhr) {
+					var r = JSON.decode(fail.responseText);
+					if (r) {
+						Joomla.replaceTokens(r.token);
+						alert(r.message);
+					}
+				}
+			});
+		},
+
+		loadBodyResponse : function (r) {
+			var body = r.get('body');
+
+			this.$el.html(body);
 			UiInit.initUi();
 			UiInit.initMootools();
 		},
 
-		goToPageSiteButton : function goToPageSiteButton() {
-
+		goToSite : function() {
+			this._loadBody('site');
 		},
 
-		goToPageDatabaseButton : function goToPageDatabaseButton() {
-
-		},
-
-		goToPageButton : function goToPageButton() {
-
-		},
-
-		removeFolder : function removeFolder() {
-
-		},
-
-		submitform : function submitform() {
-
-		},
-
-		verifyFtpSettings : function verifyFtpSettings() {
-
-		},
-
-		detectFtpRoot : function detectFtpRoot() {
-
-		},
-
-		// ??
-		doInstall : function doInstall() {
-
-		},
-
-		toggleEmailPasswords : function toggle() {
-			this.toggle('email_passwords', 'summary_email', 1);
-		},
-
-		toggle : function toggle(id, el, value) {
-			var val = $('input[name=jform[' + el + ']]:checked').value;
-			if (val == value) {
-				$(id).removeClass('hide');
-			} else {
-				$(id).addClass('hide');
-			}
+		goToDatabase: function() {
+			this._loadBody('database');
 		}
 
 	});
 
 	return InstallationView;
 });
+
+
+/*
+'click .goToPageSiteButton' : 'goToPageSiteButton',
+'click .goToPageButton' : 'goToPageButton',
+'click .removeFolderButon' : 'removeFolder',
+'click .submitformButton' : 'submitform',
+'click .verifyFtpSettingsButon' : 'verifyFtpSettings',
+'click .detectFtpRootButton' : 'detectFtpRoot',
+*/
+
+// ??
+// 'click input[name=jform[summary_email]]' : 'toggleEmailPasswords'
+
+/*
+this.sampleDataLoaded = false;
+*/
+/**/
+
+
+/*
+goToPageSiteButton : function goToPageSiteButton() {
+
+},
+
+goToPageButton : function goToPageButton() {
+
+},
+
+removeFolder : function removeFolder() {
+
+},
+
+submitform : function submitform() {
+
+},
+
+verifyFtpSettings : function verifyFtpSettings() {
+
+},
+
+detectFtpRoot : function detectFtpRoot() {
+
+},
+
+// ??
+doInstall : function doInstall() {
+
+},
+
+toggleEmailPasswords : function toggle() {
+	this.toggle('email_passwords', 'summary_email', 1);
+},
+
+toggle : function toggle(id, el, value) {
+	var val = $('input[name=jform[' + el + ']]:checked').value;
+	if (val == value) {
+		$(id).removeClass('hide');
+	} else {
+		$(id).addClass('hide');
+	}
+}
+*/

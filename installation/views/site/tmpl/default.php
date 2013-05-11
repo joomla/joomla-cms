@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 <?php echo JHtml::_('installation.stepbar'); ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-right">
-		<a href="#" class="btn btn-primary goToPageDatabaseButton" id="submitformButton" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
+		<a href="#" class="btn btn-primary goToPageDatabaseButton goToNextButton" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
 	</div>
 </div>
 <form action="index.php" method="post" id="languageForm" class="form-horizontal">
@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 			<?php echo $this->form->getInput('language'); ?>
 		</div>
 	</div>
-	<input type="hidden" name="task" value="setup.setlanguage" />
+	<input type="hidden" name="task" id="task" value="setup.setlanguage" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
@@ -106,6 +106,6 @@ defined('_JEXEC') or die;
 	</div>
 
 	<input type="hidden" name="jform[language]" value="" id="setlanguage" />
-	<input type="hidden" name="task" value="setup.site" />
+	<input type="hidden" name="task" id="task" value="setup.site" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

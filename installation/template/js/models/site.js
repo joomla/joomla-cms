@@ -16,15 +16,19 @@ define([ "backbone" ],
 		function(Backbone) {
 	"use strict";
 
-	// To define the Language access
-	var Language = Backbone.Model.extend({
+	// To define the Site access for Form Validation
+	var Site = Backbone.Model.extend({
+		initialize : function(attributes, options) {
+			this.set('task', options.task);
+		},
 
-				url : function() {
+		url : function() {
+			return base + '?task=' + this.get('task') + '&format=json';
 
-					return base + '?task=setup.setlanguage&format=json';
-				}
-			});
+		}
 
-	return Language;
+	});
+
+	return Site;
 
 });

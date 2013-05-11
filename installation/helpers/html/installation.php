@@ -65,7 +65,7 @@ class JHtmlInstallation
 
 		if ($view + 1 == $num)
 		{
-			$tab = '<a href="#" id="submitformButton">' . $tab . '</a>';
+			$tab = '<a href="#" class="goToPage' . ucfirst($id) . 'Button">' . $tab . '</a>';
 		}
 		elseif ($view < $num)
 		{
@@ -73,7 +73,7 @@ class JHtmlInstallation
 		}
 		else
 		{
-			$tab = '<a href="#" id="goToPage' . $id . 'Button">' . $tab . '</a>';
+			$tab = '<a href="#" id="goToPage' . ucfirst($id) . 'Button">' . $tab . '</a>';
 		}
 
 		return '<li class="step' . ($num == $view ? ' active' : '') . '" id="' . $id . '">' . $tab . '</li>';

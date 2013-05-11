@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">
 			<a class="btn" href="#" id="goToPageDatabaseButton" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
-			<a  class="btn btn-primary" href="#" id="submitformButton" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
+			<a  class="btn btn-primary goToNextButton" href="#" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>
 		</div>
 	</div>
 	<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
@@ -82,6 +82,6 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 
-	<input type="hidden" name="task" value="setup.ftp" />
+	<input type="hidden" name="task" id="task" value="setup.ftp" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

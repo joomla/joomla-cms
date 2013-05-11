@@ -49,7 +49,7 @@ define([ "jquery", "bootstrap", "chosen", "domready" ], function($, Bootstrap,
 			}
 		});
 	};
-	
+
 	var initMootools = function() {
 
 		(new Fx.Accordion($$('h4.moofx-toggler'), $$('div.moofx-slider'), {
@@ -72,14 +72,33 @@ define([ "jquery", "bootstrap", "chosen", "domready" ], function($, Bootstrap,
 
 	};
 
+	var processSiteResponse = function(r) {
+		var messages = r.get('messages'),
+			lang = jQuery('html').attr('lang'),
+			view = r.get('data').view;
+
+		Joomla.replaceTokens(r.get('token'));
+		if (messages) {
+			Joomla.renderMessages(messages);
+		}
+
+		if (lang.toLowerCase() === r.get('lang').toLowerCase()) {
+			return true;
+		}
+		else {
+			window.location = base + '?view=' + view;
+		}
+	};
+
 	domReady(function(){
-		initUi(); 
+		initUi();
 		initMootools();
 	});
 
 	return {
 		initUi : initUi,
-		initMootools : initMootools
+		initMootools : initMootools,
+		processSiteResponse: processSiteResponse
 	};
 
 });

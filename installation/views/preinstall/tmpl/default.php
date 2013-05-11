@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-right">
-		<a href="#" class="btn btn-primary" id="submitformButton" title="<?php echo JText::_('JCheck_Again'); ?>"><i class="icon-refresh"></i> <?php echo JText::_('JCheck_Again'); ?></a>
+		<a href="#" class="btn btn-primary goToCheckAgainButton" title="<?php echo JText::_('JCheck_Again'); ?>"><i class="icon-refresh"></i> <?php echo JText::_('JCheck_Again'); ?></a>
 	</div>
 </div>
 <form action="index.php" method="post" id="languageForm" class="form-horizontal">
@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 	<input type="hidden" name="view" value="preinstall" />
-	<input type="hidden" name="task" value="setup.setlanguage" />
+	<input type="hidden" name="task" id="task" value="setup.setlanguage" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <form action="index.php" method="post" id="adminForm" class="form-horizontal">
@@ -105,6 +105,6 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 
-	<input type="hidden" name="task" value="setup.preinstall" />
+	<input type="hidden" name="task" id="task" value="setup.preinstall" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

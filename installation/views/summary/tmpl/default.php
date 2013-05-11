@@ -17,8 +17,8 @@ $prev = $useftp ? 'ftp' : 'database';
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">
-			<a class="btn" href="#" id="goToPageButton" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
-			<a class="btn btn-primary" href="#" id="submitformButton" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
+			<a class="btn goToPreviousDatabaseButton" href="#" rel="prev" title="<?php echo JText::_('JPrevious'); ?>"><i class="icon-arrow-left"></i> <?php echo JText::_('JPrevious'); ?></a>
+			<a class="btn btn-primary goToInstallButton" href="#" rel="next" title="<?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('INSTL_SUMMARY_INSTALL'); ?></a>
 		</div>
 	</div>
 
@@ -362,7 +362,7 @@ $prev = $useftp ? 'ftp' : 'database';
 		</div>
 	</div>
 
-	<input type="hidden" name="task" value="setup.summary" />
+	<input type="hidden" name="task" id="task" value="setup.summary" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 

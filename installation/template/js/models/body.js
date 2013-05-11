@@ -16,15 +16,23 @@ define([ "backbone" ],
 		function(Backbone) {
 	"use strict";
 
-	// To define the Language access
-	var Language = Backbone.Model.extend({
+	// To define the Page access
+	var Body = Backbone.Model.extend({
 
-				url : function() {
+		initialize : function(attributes, options) {
+			this.set('view', options.view);
+		},
 
-					return base + '?task=setup.setlanguage&format=json';
-				}
-			});
+		url : function() {
+			return base + '?tmpl=body&view=' + this.get('view');
 
-	return Language;
+		},
+
+		parse : function(resp, options) {
+			return {body: resp};
+		}
+	});
+
+	return Body;
 
 });

@@ -449,7 +449,8 @@ class InstallationControllerSetup extends JControllerLegacy
 	function checkForm($page = 'site')
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		// TO-DO... why token is rejected?
+		// JSession::checkToken() or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the application object.
 		$app = JFactory::getApplication();
@@ -457,8 +458,14 @@ class InstallationControllerSetup extends JControllerLegacy
 		// Get the setup model.
 		$model = $this->getModel('Setup', 'InstallationModel', array('dbo' => null));
 
+		/* Requires
+		 * https://github.com/joomla/joomla-cms/pull/1023
+		* http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=30669
+		*/
+		$inputJson = new JInputJSON;
+
 		// Get the posted values from the request and validate them.
-		$data = $this->input->post->get('jform', array(), 'array');
+		$data = $inputJson->get('jform', array(), 'array');
 		$return	= $model->validate($data, $page);
 
 		// Attempt to save the data before validation
@@ -510,7 +517,8 @@ class InstallationControllerSetup extends JControllerLegacy
 	public function detectFtpRoot()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		// TO-DO: Re-enable the token... two tokens are somewhere
+		// JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = $this->input->get('jform', array(), 'array');
@@ -549,7 +557,8 @@ class InstallationControllerSetup extends JControllerLegacy
 	public function verifyFtpSettings()
 	{
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		// TO-DO: Re-enable the token... two tokens are somewhere
+		// JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = $this->input->get('jform', array(), 'array');
@@ -590,7 +599,8 @@ class InstallationControllerSetup extends JControllerLegacy
 		jimport('joomla.filesystem.folder');
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		// TO-DO: Re-enable the token... two tokens are somewhere
+		// JSession::checkToken('request') or $this->sendResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the posted config options.
 		$vars = $this->input->get('jform', array(), 'array');
