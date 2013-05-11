@@ -337,7 +337,7 @@ class PlgUserProfile extends JPlugin
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__user_profiles'))
-					->where($db->quoteName('userid') . ' = ' . (int) $userId)
+					->where($db->quoteName('user_id') . ' = ' . (int) $userId)
 					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
 				$db->setQuery($query);
 				$db->execute();

@@ -1,4 +1,4 @@
-Joomla! CMS
+Joomla! CMS [![Build Status](https://travis-ci.org/joomla/joomla-cms.png)](https://travis-ci.org/joomla/joomla-cms)
 ====================
 
 What is this?
@@ -12,7 +12,7 @@ What is Joomla?
 ---------------------
 * Joomla! is a **Content Management System** (CMS) which enables you to build Web sites and powerful online applications.
 * It's a **free and OpenSource software**, distributed under the GNU General Public License version 2 or later
-* This is a simple and powerful web server application and it requires a server with PHP and MySQL to run it. 
+* This is a simple and powerful web server application and it requires a server with PHP and MySQL to run it.
 More [details here](http://www.joomla.org/about-joomla.html)
 
 Is Joomla! for you?
@@ -29,7 +29,7 @@ How to find a Joomla! translation?
 Learn Joomla!
 ---------------------
 * Read [Getting Started with Joomla](http://docs.joomla.org/Getting_Started_with_Joomla!) to find out the basics
-* Before installing, read the [beginners guide](http://docs.joomla.org/Beginners) 
+* Before installing, read the [beginners guide](http://docs.joomla.org/Beginners)
 
 What are the limits of Joomla?
 ---------------------
@@ -45,9 +45,9 @@ Is it easy to change the layout display?
 Ready to install Joomla?
 ---------------------
 * See [minimum requirements](http://www.joomla.org/technical-requirements.html)
-* How do you [install Joomla!](http://docs.joomla.org/Installing_Joomla!) ?	
+* How do you [install Joomla!](http://docs.joomla.org/Installing_Joomla!) ?
 * Start your Joomla! experience [building your site with a local test server](http://docs.joomla.org/Tutorial:Joomla_Local_install).
-When ready it can be moved to an on-line hosting account of your choice. 
+When ready it can be moved to an on-line hosting account of your choice.
 
 Updates are free!
 ---------------------
@@ -59,7 +59,7 @@ Where can you get support and help?
 * Find the [information you need](http://docs.joomla.org/Start_here)
 * Find [help and other users](http://www.joomla.org/about-joomla/create-and-share.html)
 * Post questions at [our forums](http://forum.joomla.org)
-* [Joomla Resources Directory](http://resources.joomla.org/tos.html) (JRD): 
+* [Joomla Resources Directory](http://resources.joomla.org/tos.html) (JRD):
 
 Do you already have a Joomla site that's not built with Joomla 3.0.x ?
 ---------------------
@@ -72,7 +72,7 @@ Do you already have a Joomla site that's not built with Joomla 3.0.x ?
 
 Do you want to improve Joomla?
 ---------------------
-* How do you [request a feature](http://docs.joomla.org/How_do_you_request_a_feature%3F)? 
+* How do you [request a feature](http://docs.joomla.org/How_do_you_request_a_feature%3F)?
 * How do you [report a bug](http://docs.joomla.org/Filing_bugs_and_issues)?
 * Get Involved: Joomla! is a community developed software. [Join the community](http://www.joomla.org)
 * Documentation for [Developers](http://docs.joomla.org/Developers)

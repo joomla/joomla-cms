@@ -3355,6 +3355,12 @@ separator=
 		<column>username</column>
 		<column>usertype</column>
 	</table>
+	<table name="jos_ucm_base">
+		<column>ucm_id</column>
+		<column>ucm_item_id</column>
+		<column>ucm_type_id</column>
+		<column>ucm_language_id</column>
+	</table>
 	<table name="jos_ucm_content">
 		<column>core_content_id</column>
 		<column>core_type_alias</column>

@@ -53,9 +53,9 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Instantiate JUcmContent.
 	 *
-	 * @param   JTable    $table   The table object
-	 * @param   sring     $alias   The type alias
-	 * @param   JUcmType  $type    The type object
+	 * @param   JTable    $table  The table object
+	 * @param   sring     $alias  The type alias
+	 * @param   JUcmType  $type   The type object
 	 *
 	 * @since   3.1
 	 */
@@ -100,7 +100,7 @@ class JUcmContent extends JUcmBase
 		if (isset($ucmData['special']))
 		{
 			$table = $this->table;
-			$this->store($ucmData['special'], $table,'');
+			$this->store($ucmData['special'], $table, '');
 		}
 
 		return true;
@@ -215,7 +215,7 @@ class JUcmContent extends JUcmBase
 
 			if (parent::store($baseData))
 			{
-				$primaryKey = $this->getPrimaryKey($typeId,$data['core_content_item_id']);
+				$primaryKey = $this->getPrimaryKey($typeId, $data['core_content_item_id']);
 			}
 		}
 
@@ -225,7 +225,7 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Get the value of the primary key from #__ucm_base
 	 *
-	 * @param   string   $typeId	     The ID for the type
+	 * @param   string   $typeId         The ID for the type
 	 * @param   integer  $contentItemId  Value of the primary key in the legacy or secondary table
 	 *
 	 * @return  integer  The integer of the primary key
