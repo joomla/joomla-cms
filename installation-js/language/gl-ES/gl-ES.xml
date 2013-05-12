@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="2.5" client="installation">
+	<name>Galician (Galiza)</name>
+	<version>2.5</version>
+	<creationDate>2011-01-08</creationDate>
+	<author>damufo - trasno.net</author>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>gl-ES.ini</filename>
+	</files>
+	<metadata>
+		<name>Galician (Galiza)</name>
+		<tag>gl-ES</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

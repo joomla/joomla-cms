@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Shqip-AL</name>
+	<version>2.5</version>
+	<creationDate>2012-03-01</creationDate>
+	<author>Blendi Kraja</author>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License versioni 2 ose ma vonë; shih LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>sq-AL.ini</filename>
+	</files>
+	<metadata>
+		<name>Shqip-AL</name>
+		<tag>sq-AL</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

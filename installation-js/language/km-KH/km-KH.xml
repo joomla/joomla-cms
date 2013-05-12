@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Khmer (Cambodia)</name>
+	<version>2.5</version>
+	<creationDate>2011-01-05</creationDate>
+	<author>Khmer Translation Team</author>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>km-KH.ini</filename>
+	</files>
+	<metadata>
+		<name>Khmer (Cambodia)</name>
+		<tag>km-KH</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

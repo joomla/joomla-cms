@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>ລາວ(ພາສາລາວ)</name>
+	<version>2.5</version>
+	<creationDate>January 2011</creationDate>
+	<author>Lao Open Source Team (Outhai Saioudom)</author>
+	<copyright>Copyright (C) 2005-2011 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>lo-LA.ini</filename>
+	</files>
+	<metadata>
+		<name>ລາວ(ພາສາລາວ)</name>
+		<tag>lo-LA</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

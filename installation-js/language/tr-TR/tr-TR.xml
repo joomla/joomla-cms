@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Türkçe (Türkiye)</name>
+	<version>2.5</version>
+	<creationDate>December 2010</creationDate>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Turkish Installation file for Joomla 1.6</description>
+	<files>
+		<filename>tr-TR.ini</filename>
+	</files>
+	<metadata>
+		<name>Türkçe (Türkiye)</name>
+		<tag>tr-TR</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

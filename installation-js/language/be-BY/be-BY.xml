@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Belarusian (BY)</name>
+	<version>2.5</version>
+	<creationDate>January 2011</creationDate>
+	<author>Dennis Hermatski</author>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Беларускі моўны файл для інсталятара Joomla!</description>
+	<files>
+		<filename>be-BY.ini</filename>
+	</files>
+	<metadata>
+		<name>Беларуская (Беларусь)</name>
+		<tag>be-BY</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

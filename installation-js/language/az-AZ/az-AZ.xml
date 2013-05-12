@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Azərbaycanca (Azərbaycan)</name>
+	<version>2.5</version>
+	<creationDate>March 2011</creationDate>
+	<author>Guluzade Farhad</author>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>az-AZ.ini</filename>
+	</files>
+	<metadata>
+		<name>Azərbaycanca (Azərbaycan)</name>
+		<tag>az-AZ</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

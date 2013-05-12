@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Română (România)</name>
+	<version>2.5</version>
+	<creationDate>January 2011</creationDate>
+	<author>Joomla! România</author>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Romanian language installation for Joomla</description>
+	<files>
+		<filename>ro-RO.ini</filename>
+	</files>
+	<metadata>
+		<name>Română (România)</name>
+		<tag>ro-RO</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

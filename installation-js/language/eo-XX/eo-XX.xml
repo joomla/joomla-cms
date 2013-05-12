@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Esperanto</name>
+	<version>2.5</version>
+	<creationDate>2012-05-07</creationDate>
+	<author>Administrantoj de Esperanto Sverige</author>
+	<authorEmail>tradukoj@esperantosverige.se</authorEmail>
+	<authorUrl>esperantosverige.se</authorUrl>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>eo-XX.ini</filename>
+	</files>
+	<metadata>
+		<name>Esperanto</name>
+		<tag>eo-XX</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

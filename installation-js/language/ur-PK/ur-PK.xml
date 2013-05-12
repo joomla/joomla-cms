@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Urdu Pakistan (اردو)</name>
+	<version>2.5</version>
+	<creationDate>December 2011</creationDate>
+	<author>Basim</author>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>ur-PK.ini</filename>
+	</files>
+	<metadata>
+		<name>Urdu Pakistan (اردو)</name>
+		<tag>ur-PK</tag>
+		<rtl>1</rtl>
+	</metadata>
+	<params />
+</metafile>

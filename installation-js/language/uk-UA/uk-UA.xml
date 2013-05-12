@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Українська (Україна)</name>
+	<version>2.5</version>
+	<creationDate>06.01.2011</creationDate>
+	<author>Joomla! Ukraine Denys Nosov</author>
+	<copyright>2005 - 2012 (C) Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+ 	<description>Ukrainian Localization for Joomla! 1.7 Installation</description>
+	<files>
+		<filename>uk-UA.ini</filename>
+	</files>
+	<metadata>
+		<name>Українська (Україна)</name>
+		<tag>uk-UA</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="2.5"
+	client="installation">
+	<name>Tamil (INDIA)</name>
+	<version>2.5</version>
+	<creationDate>2011-09-13</creationDate>
+	<author>Ilagnayeru 'MIG' Manickam, Elango Samy Manim</author>
+	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>Tamil (India) language installation pack for Joomla</description>
+	<files>
+		<filename>ta-IN.ini</filename>
+	</files>
+	<metadata>
+		<name>தமிழ்-Tamil (India)</name>
+		<tag>ta-IN</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>
