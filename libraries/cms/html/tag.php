@@ -30,8 +30,12 @@ abstract class JHtmlTag
 	 * Returns an array of tags.
 	 *
 	 * @param   array  $config  An array of configuration options. By default, only
-	 *                          published and unpublished categories are returned.
-	 *
+	 *                          published and unpublished tags are returned.
+	 * 			    Config options:
+	 *			    filter.published  : published state
+	 * 			    filter.language   : tag language
+	 * 			    filter.type_alias : type_alias (e.g. component type)
+	 * 						of the tags
 	 * @return  array
 	 *
 	 * @since   3.1
@@ -77,6 +81,20 @@ abstract class JHtmlTag
 						$language = $db->quote($language);
 					}
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
+				}
+			}
+			
+			// filter on tags for a given type alias
+			if (isset($config['type_alias']))
+			{
+				$typeAlias = $config['type_alias'];
+				if(is_string($typeAlias))
+				{
+					$query->where(sprintf('a.id IN (SELECT DISTINCT tag_id FROM #__contentitem_tag_map WHERE type_alias = %s)', $db->quote($typeAlias)));
+				}
+				else if(is_array($typeAlias))
+				{
+					$query->where(sprintf('a.id IN (SELECT DISTINCT tag_id FROM #__contentitem_tag_map WHERE type_alias IN (%s))', "'".implode("','", $typeAlias)."'" ));
 				}
 			}
 
