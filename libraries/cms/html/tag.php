@@ -85,9 +85,9 @@ abstract class JHtmlTag
 			}
 			
 			// filter on tags for a given type alias
-			if (isset($config['type_alias']))
+			if (isset($config['filter.type_alias']))
 			{
-				$typeAlias = $config['type_alias'];
+				$typeAlias = $config['filter.type_alias'];
 				if(is_string($typeAlias))
 				{
 					$query->where(sprintf('a.id IN (SELECT DISTINCT tag_id FROM #__contentitem_tag_map WHERE type_alias = %s)', $db->quote($typeAlias)));
