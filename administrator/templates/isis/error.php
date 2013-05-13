@@ -141,7 +141,7 @@ else
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JGLOBAL_PREVIEW');?> <?php echo $sitename; ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>
