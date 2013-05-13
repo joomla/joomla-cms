@@ -41,12 +41,16 @@ defined('JPATH_BASE') or die;
 			<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
 			<?php foreach ($displayData->filters as $filter) : ?>
 				<label for="<?php echo $filter['name']; ?>" class="element-invisible"><?php echo $filter['label']; ?></label>
+				<?php if($filter['custom']):
+								echo $filter['custom'];
+							else: ?>
 				<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="span12 small" onchange="this.form.submit()">
 					<?php if (!$filter['noDefault']) : ?>
 						<option value=""><?php echo $filter['label']; ?></option>
 					<?php endif; ?>
 					<?php echo $filter['options']; ?>
 				</select>
+				<?php endif; ?>
 				<hr class="hr-condensed" />
 			<?php endforeach; ?>
 		</div>
