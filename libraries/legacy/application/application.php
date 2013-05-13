@@ -293,7 +293,7 @@ class JApplication extends JApplicationBase
 	 */
 	public function render()
 	{
-		$params = array('template' => $this->getTemplate(), 'file' => 'index.php', 'directory' => JPATH_THEMES, 'params' => $template->params);
+		$params = array('template' => $this->getTemplate(), 'file' => 'index.php', 'directory' => JPATH_THEMES);
 
 		// Parse the document.
 		$document = JFactory::getDocument();
