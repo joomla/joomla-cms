@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ [#30663] Default Value for the Option Show Sub-menu Items to be Set as Yes. Thanks Mig
  # [#30873] *Multilanguage: PHP warning when logging.
  # [#30930] Fatal error with JHelper::setUserGroups
+ # [#30932] Missing variable in gmail authentication
 
 08-May-2013 Mark Dexter
  # [#30125] Search module does not take into account the 'search only' selected. Thanks Luke Collymore.
