@@ -54,7 +54,7 @@ class JToolbarButtonSlider extends JToolbarButton
 		}
 
 		return '<button class="btn btn-small" data-toggle="collapse" data-target="#collapse-' . $name . '"' . $onClose . ' onClick="' . $doTask . '">'
-			. '<i class="icon-' . $class . '"></i> '
+			. '<span class="icon-' . $class . '"></span> '
 			. $text
 			. '</button>';
 	}

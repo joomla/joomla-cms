@@ -25,7 +25,6 @@ class TagsViewTags extends JViewLegacy
 		$document->link = JRoute::_('index.php?option=com_tags&view=tags');
 
 		$app->input->set('limit', $app->getCfg('feed_limit'));
-		$params = $app->getParams();
 		$siteEmail = $app->getCfg('mailfrom');
 		$fromName  = $app->getCfg('fromname');
 		$feedEmail = $app->getCfg('feed_email', 'author');
@@ -37,7 +36,6 @@ class TagsViewTags extends JViewLegacy
 
 		// Get some data from the model
 		$items    = $this->get('Items');
-		$tag = $this->get('Item');
 		foreach ($items as $item)
 		{
 			// Strip HTML from feed item title
