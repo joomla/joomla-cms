@@ -48,7 +48,7 @@ abstract class JHtmlCategoriesAdministrator
 
 		// Construct html
 		$text = array();
-		foreach ($associations as $tag => $associated)
+		foreach ($associations as $associated)
 		{
 			if ($associated != $catid)
 			{

@@ -42,10 +42,6 @@ class TagsViewTags extends JViewLegacy
 			$title = $this->escape($item->title);
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-			// URL link to tagged item
-			// Change to new routing once it is merged
-			$link = JRoute::_($item->link);
-
 			// Strip HTML from feed item description text
 			$description = $item->description;
 			$author			= $item->created_by_alias ? $item->created_by_alias : $item->author;

@@ -56,7 +56,6 @@ class JHelperTags
 	 */
 	public function addTagMapping($ucmId, $table, $tags = array())
 	{
-		$typeId = $this->typeAlias;
 		$db = $table->getDbo();
 		$key = $table->getKeyName();
 		$item = $table->$key;

@@ -79,7 +79,7 @@ class TagsViewTag extends JViewLegacy
 				$dispatcher = JEventDispatcher::getInstance();
 
 				JPluginHelper::importPlugin('content');
-				$results = $dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));

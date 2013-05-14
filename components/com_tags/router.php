@@ -110,7 +110,6 @@ function TagsParseRoute($segments)
 	$app	= JFactory::getApplication();
 	$menu	= $app->getMenu();
 	$item	= $menu->getActive();
-	$params = JComponentHelper::getParams('com_tags');
 
 	// Count route segments
 	$count = count($segments);

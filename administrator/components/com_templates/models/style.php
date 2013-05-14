@@ -113,7 +113,6 @@ class TemplatesModelStyle extends JModelAdmin
 	public function duplicate(&$pks)
 	{
 		$user	= JFactory::getUser();
-		$db		= $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))

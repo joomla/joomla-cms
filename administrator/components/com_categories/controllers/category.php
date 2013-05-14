@@ -195,7 +195,6 @@ class CategoriesControllerCategory extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-		$id = $item->id;
 
 		return;
 	}

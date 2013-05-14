@@ -173,7 +173,6 @@ final class JSite extends JApplication
 		}
 
 		$document = JFactory::getDocument();
-		$user = JFactory::getUser();
 		$router = $this->getRouter();
 		$params = $this->getParams();
 

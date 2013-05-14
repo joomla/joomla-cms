@@ -64,7 +64,6 @@ class TemplatesViewStyles extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
 		$canDo	= TemplatesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
