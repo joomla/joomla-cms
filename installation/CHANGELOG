@@ -25,6 +25,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-May-2013 Jean-Marie Simonet
+ $ Updating ko-KR installation language
+ #$ [#30740] Site name tooltip not translatable correctly
+ # [#30812] *No Joomla Version is display at isis bottom
+ ^ [#30663] Default Value for the Option Show Sub-menu Items to be Set as Yes. Thanks Mig
+ # [#30873] *Multilanguage: PHP warning when logging.
+
 08-May-2013 Mark Dexter
  # [#30125] Search module does not take into account the 'search only' selected. Thanks Luke Collymore.
  # [#30769] Still There are Reference to Joomla! 3.0 Version in 3.1. Thanks Jean-Marie Simonet.
