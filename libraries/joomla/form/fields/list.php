@@ -102,6 +102,13 @@ class JFormFieldList extends JFormField
 						$options += $result;
 					}
 					break;
+				case 'table':
+					$result = $this->parseOptionTable($option);
+					if (!empty($result))
+					{
+						$options += $result;
+					}
+					break;
 				case 'standard':
 				default:
 					$options[] = $this->parseOptionStandard($option);
@@ -143,7 +150,7 @@ class JFormFieldList extends JFormField
 	 * Reads an 'sql' type 'option' xml element, executes the query, and converts the results to html options.
 	 * This tag should have a 'query' attribute but may also have 'query' tags as children which can be used to specify queries based on db type.
 	 *
-	 * @param   SimpleXMLElement  $option  An 'sql' element.
+	 * @param   SimpleXMLElement  $option  An 'option' element of the 'sql' type.
 	 *
 	 * @return  array                      A list of html options.
 	 */
@@ -173,6 +180,53 @@ class JFormFieldList extends JFormField
 				break;
 			}
 		}
+
+		// Set the query and get the result list.
+		$items = $db->setQuery($query)->loadObjectList();
+
+		// Build the field options.
+		if (!empty($items))
+		{
+			foreach ($items as $item)
+			{
+				$options[] = JHtml::_('select.option', $item->$key, $translate ? JText::_($item->$value) : $item->$value);
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Reads a 'table' type 'option' xml element, executes a query, and converts the restults to html options.
+	 * 'key_field', 'value_field', and 'table' are all required attributes for the 'table' type.
+	 *
+	 * @param   SimpleXMLElement  $option  An 'option' element of the 'table' type.
+	 *
+	 * @return  array                      A list of html options.
+	 */
+	protected function parseOptionTable(SimpleXMLElement $option)
+	{
+		// Initialize variables.
+		$options = array();
+
+		// Initialize some field attributes.
+		$key = $option['key_field'] ? (string) $option['key_field'] : null;
+		$value = $option['value_field'] ? (string) $option['value_field'] : null;
+		$table = $option['table'] ? (string) $option['table'] : null;
+		$translate = $option['translate'] ? (string) $option['translate'] : false;
+
+		// These fields are required. If any are missing, return empty array.
+		if (!isset($key, $value, $table))
+		{
+			return $options;
+		}
+
+		// Get the database object.
+		$db = JFactory::getDBO();
+
+		// Build the query.
+		$query = $db->getQuery(true);
+		$query->select(array($db->qn($key), $db->qn($value)))->from($db->qn($table));
 
 		// Set the query and get the result list.
 		$items = $db->setQuery($query)->loadObjectList();
