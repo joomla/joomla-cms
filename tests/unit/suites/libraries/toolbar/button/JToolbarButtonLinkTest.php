@@ -50,9 +50,15 @@ class JToolbarButtonLinkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFetchButton()
 	{
-		$this->assertThat(
-			$this->object->fetchButton('Link', 'jdotorg', 'Joomla.org', 'http://www.joomla.org'),
-			$this->equalTo("<button class=\"btn btn-small\" onclick=\"location.href='http://www.joomla.org';\">\n<span class=\"icon-jdotorg\">\n</span>\nJoomla.org\n</button>\n")
+		$name = 'jdotorg';
+		$text = 'Joomla.org';
+		$url = 'http://www.joomla.org';
+
+		$this->assertRegExp(
+			'#<button class="btn btn-small" onclick="location.href=\'' . preg_quote($url, '#') . '\';">\s*'
+			. '<span class="icon-' . preg_quote($name, '#') . '">\s*</span>\s+' . preg_quote($text, '#') . '\s*'
+			. '</button>\s*#',
+			$this->object->fetchButton('Link', $name, $text, $url)
 		);
 	}
 
