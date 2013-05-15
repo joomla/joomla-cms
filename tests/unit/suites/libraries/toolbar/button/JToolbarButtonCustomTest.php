@@ -53,7 +53,7 @@ class JToolbarButtonCustomTest extends PHPUnit_Framework_TestCase
 		$html = '<div class="custom-button"><a href="#">My Custom Button</a></div>';
 
 		$this->assertThat(
-			$this->object->fetchButton($html),
+			$this->object->fetchButton('Custom', $html),
 			$this->equalTo($html)
 		);
 	}
