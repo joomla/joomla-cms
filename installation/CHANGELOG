@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-May-2013 Jean-Marie Simonet
+ ^ [#30663] Default Value for the Option Show Sub-menu Items to be Set as Yes. Thanks Mig
+ # [#30873] *Multilanguage: PHP warning when logging.
+
 05-May-2013 Michael Babker
  ^ [#30810] Disable ReCaptcha plugin when Joomla is installed.  Thanks Nick Savov
 
