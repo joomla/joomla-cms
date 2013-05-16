@@ -28,13 +28,14 @@ class JTwitterOAuth extends JOAuth1Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  JTwitterOauth options object.
-	 * @param   JHttp      $client   The HTTP client object.
-	 * @param   JInput     $input    The input object
+	 * @param   JRegistry        $options      JTwitterOauth options object.
+	 * @param   JHttp            $client       The HTTP client object.
+	 * @param   JInput           $input        The input object.
+	 * @param   JApplicationWeb  $application  The application object.
 	 *
 	 * @since 12.3
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
 
@@ -44,7 +45,7 @@ class JTwitterOAuth extends JOAuth1Client
 		$this->options->def('requestTokenURL', 'https://api.twitter.com/oauth/request_token');
 
 		// Call the JOAuth1Client constructor to setup the object.
-		parent::__construct(null, $this->options, $client, $input);
+		parent::__construct($this->options, $client, $input, $application);
 	}
 
 	/**
@@ -62,7 +63,7 @@ class JTwitterOAuth extends JOAuth1Client
 		$parameters = array('oauth_token' => $token['key']);
 
 		// Set the API base
-		$path = 'https://api.twitter.com/1/account/verify_credentials.json';
+		$path = 'https://api.twitter.com/1.1/account/verify_credentials.json';
 
 		// Send the request.
 		$response = $this->oauthRequest($path, 'GET', $parameters);
@@ -93,10 +94,11 @@ class JTwitterOAuth extends JOAuth1Client
 		$parameters = array('oauth_token' => $token['key']);
 
 		// Set the API base
-		$path = 'https://api.twitter.com/1/account/end_session.json';
+		$path = 'https://api.twitter.com/1.1/account/end_session.json';
 
 		// Send the request.
 		$response = $this->oauthRequest($path, 'POST', $parameters);
+
 		return json_decode($response->body);
 	}
 

@@ -29,7 +29,7 @@ abstract class JTwitterObject
 	 * @since  12.3
 	 */
 	protected $client;
-	
+
 	/**
 	 * @var JTwitterOAuth The OAuth client.
 	 * @since 12.3
@@ -55,21 +55,26 @@ abstract class JTwitterObject
 	/**
 	 * Method to check the rate limit for the requesting IP address
 	 *
+	 * @param   string  $resource  A resource or a comma-separated list of resource families you want to know the current rate limit disposition for.
+	 * @param   string  $action    An action for the specified resource, if only one resource is specified.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function checkRateLimit()
+	public function checkRateLimit($resource = null, $action = null)
 	{
 		// Check the rate limit for remaining hits
-		$rate_limit = $this->getRateLimit();
+		$rate_limit = $this->getRateLimit($resource);
 
-		if ($rate_limit->remaining_hits == 0)
+		$property = '/' . $resource . '/' . $action;
+
+		if ($rate_limit->resources->$resource->$property->remaining == 0)
 		{
 			// The IP has exceeded the Twitter API rate limit
 			throw new RuntimeException('This server has exceed the Twitter API rate limit for the given period.  The limit will reset at '
-						. $rate_limit->reset_time
+						. $rate_limit->resources->$resource->$property->reset
 			);
 		}
 	}
@@ -119,64 +124,65 @@ abstract class JTwitterObject
 	/**
 	 * Method to retrieve the rate limit for the requesting IP address
 	 *
+	 * @param   string  $resource  A resource or a comma-separated list of resource families you want to know the current rate limit disposition for.
+	 *
 	 * @return  array  The JSON response decoded
 	 *
 	 * @since   12.3
 	 */
-	public function getRateLimit()
+	public function getRateLimit($resource)
 	{
 		// Build the request path.
-		$path = '/1/account/rate_limit_status.json';
+		$path = '/application/rate_limit_status.json';
 
-		// Send the request.
+		if (!is_null($resource))
+		{
+			return $this->sendRequest($path, 'GET',  array('resources' => $resource));
+		}
+
 		return $this->sendRequest($path);
 	}
 
 	/**
 	 * Method to send the request.
 	 *
-	 * @param   string  $path        The path of the request to make
-	 * @param   string  $method      The request method.
-	 * @param   array   $parameters  The parameters passed in the URL.
-	 * @param   mixed   $data        Either an associative array or a string to be sent with the post request.
+	 * @param   string  $path     The path of the request to make
+	 * @param   string  $method   The request method.
+	 * @param   mixed   $data     Either an associative array or a string to be sent with the post request.
+	 * @param   array   $headers  An array of name-value pairs to include in the header of the request
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
-	 * @throws  DomainException
 	 */
-	public function sendRequest($path, $method='get', $parameters = null, $data='')
+	public function sendRequest($path, $method = 'GET', $data = array(), $headers = array())
 	{
+		// Get the access token.
+		$token = $this->oauth->getToken();
+
+		// Set parameters.
+		$parameters['oauth_token'] = $token['key'];
+
 		// Send the request.
-		switch ($method)
+		$response = $this->oauth->oauthRequest($this->fetchUrl($path), $method, $parameters, $data, $headers);
+
+		if (strpos($path, 'update_with_media') !== false)
 		{
-			case 'get':
-				$response = $this->client->get($this->fetchUrl($path, $parameters));
-				break;
-			case 'post':
-				$response = $this->client->post($this->fetchUrl($path, $parameters), $data);
-				break;
+			// Check Media Rate Limit.
+			$response_headers = $response->headers;
+
+			if ($response_headers['X-MediaRateLimit-Remaining'] == 0)
+			{
+				// The IP has exceeded the Twitter API media rate limit
+				throw new RuntimeException('This server has exceed the Twitter API media rate limit for the given period.  The limit will reset in '
+						. $response_headers['X-MediaRateLimit-Reset'] . 'seconds.'
+				);
+			}
 		}
 
 		if (strpos($response->body, 'redirected') !== false)
 		{
 			return $response->headers['Location'];
-		}
-
-		// Validate the response code.
-		if ($response->code != 200)
-		{
-			$error = json_decode($response->body);
-
-			if (property_exists($error, 'error'))
-			{
-				throw new DomainException($error->error);
-			}
-			else
-			{
-				$error = $error->errors;
-				throw new DomainException($error[0]->message, $error[0]->code);
-			}
 		}
 
 		return json_decode($response->body);
