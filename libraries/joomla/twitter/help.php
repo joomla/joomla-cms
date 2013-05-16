@@ -28,13 +28,10 @@ class JTwitterHelp extends JTwitterObject
 	public function getLanguages()
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('help', 'languages');
 
-		// Set the API base
-		$base = '/1/help/languages.json';
-
-		// Build the request path.
-		$path = $base;
+		// Set the API path
+		$path = '/help/languages.json';
 
 		// Send the request.
 		return $this->sendRequest($path);
@@ -51,32 +48,10 @@ class JTwitterHelp extends JTwitterObject
 	public function getConfiguration()
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('help', 'configuration');
 
-		// Set the API base
-		$base = '/1/help/configuration.json';
-
-		// Build the request path.
-		$path = $base;
-
-		// Send the request.
-		return $this->sendRequest($path);
-	}
-
-	/**
-	 * Method for sending a HEAD request to determine Twitter's servers current time.
-	 *
-	 * @return  string  The string "ok" in the requested format with a 200 OK HTTP status code.
-	 *
-	 * @since   12.3
-	 */
-	public function test()
-	{
-		// Set the API base
-		$base = '/1/help/test.json';
-
-		// Build the request path.
-		$path = $base;
+		// Set the API path
+		$path = '/help/configuration.json';
 
 		// Send the request.
 		return $this->sendRequest($path);
