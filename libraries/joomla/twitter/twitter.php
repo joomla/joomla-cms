@@ -29,7 +29,7 @@ class JTwitter
 	 * @since  12.3
 	 */
 	protected $client;
-	
+
 	/**
 	 * @var JTwitterOAuth The OAuth client.
 	 * @since 12.3
@@ -111,8 +111,9 @@ class JTwitter
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry     $options  Twitter options object.
-	 * @param   JTwitterHttp  $client   The HTTP client object.
+	 * @param   JTwitterOauth  $oauth    The oauth client.
+	 * @param   JRegistry      $options  Twitter options object.
+	 * @param   JTwitterHttp   $client   The HTTP client object.
 	 *
 	 * @since   12.3
 	 */
@@ -123,7 +124,7 @@ class JTwitter
 		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.
-		$this->options->def('api.url', 'https://api.twitter.com');
+		$this->options->def('api.url', 'https://api.twitter.com/1.1');
 	}
 
 	/**

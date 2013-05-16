@@ -19,68 +19,6 @@ defined('JPATH_PLATFORM') or die();
 class JTwitterStatuses extends JTwitterObject
 {
 	/**
-	 * Method to get tweets that have been retweeted by a specified user.
-	 *
-	 * @param   string   $user       The user's screen name.
-	 * @param   integer  $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer  $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                               in the count, so it is always suggested to set $include_rts to true
-	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   integer  $max_id     Returns results with an ID less than (that is, older than) the specified ID.
-	 * @param   integer  $page       Specifies the page of results to retrieve.
-	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                               the status author's numerical ID.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 */
-	public function getRetweetedByUser($user, $since_id = 0, $count = 20, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
-	{
-		$parameters['screen_name'] = (string) $user;
-
-		// Set the API base
-		$base = '/1/statuses/retweeted_by_user.json';
-
-		// Check if a since_id is specified
-		if ($since_id > 0)
-		{
-			$parameters['since_id'] = (int) $since_id;
-		}
-
-		// Set the count string
-		$parameters['count'] = $count;
-
-		// Check if a max_id is specified
-		if ($max_id > 0)
-		{
-			$parameters['max_id'] = (int) $max_id;
-		}
-
-		// Check if a page is specified
-		if ($page > 0)
-		{
-			$parameters['page'] = (int) $page;
-		}
-
-		// Check if trim_user is true
-		if ($trim_user)
-		{
-			$parameters['trim_user'] = $trim_user;
-		}
-
-		// Check if entities is true
-		if ($entities)
-		{
-			$parameters['include_entities'] = $entities;
-		}
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
-	}
-
-	/**
 	 * Method to get a single tweet with the given ID.
 	 *
 	 * @param   integer  $id          The ID of the tweet to retrieve.
@@ -95,39 +33,36 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function getTweetById($id, $trim_user = false, $entities = false, $my_retweet = false)
+	public function getTweetById($id, $trim_user = null, $entities = null, $my_retweet = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit("statuses", "show/:id");
 
 		// Set the API base
-		$base = '/1/statuses/show/' . $id . '.json';
+		$path = '/statuses/show/' . $id . '.json';
 
-		$parameters = array();
+		$data = array();
 
-		// Check if trim_user is true
-		if ($trim_user)
+		// Check if trim_user is specified
+		if (!is_null($trim_user))
 		{
-			$parameters['trim_user'] = $trim_user;
+			$data['trim_user'] = $trim_user;
 		}
 
-		// Check if entities is true
-		if ($entities)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
-			$parameters['include_entities'] = $entities;
+			$data['include_entities'] = $entities;
 		}
 
-		// Check if my_retweet is true
-		if ($my_retweet)
+		// Check if my_retweet is specified
+		if (!is_null($my_retweet))
 		{
-			$parameters['include_my_retweet'] = $my_retweet;
+			$data['include_my_retweet'] = $my_retweet;
 		}
-
-		// Build the request path.
-		$path = $base;
 
 		// Send the request.
-		return $this->sendRequest($path, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -137,37 +72,36 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   integer  $count        Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
 	 *                                 in the count, so it is always suggested to set $include_rts to true
 	 * @param   boolean  $include_rts  When set to true, the timeline will contain native retweets in addition to the standard stream of tweets.
-	 * @param   boolean  $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $no_replies   This parameter will prevent replies from appearing in the returned timeline. This parameter is only supported
 	 *                                 for JSON and XML responses.
 	 * @param   integer  $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   integer  $max_id       Returns results with an ID less than (that is, older than) the specified ID.
-	 * @param   integer  $page         Specifies the page of results to retrieve.
 	 * @param   boolean  $trim_user    When set to true, each tweet returned in a timeline will include a user object including only
 	 *                                 the status author's numerical ID.
+	 * @param   boolean  $contributor  This parameter enhances the contributors element of the status response to include the screen_name of the
+	 * 								   contributor. By default only the user_id of the contributor is included.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getUserTimeline($user, $count = 20, $include_rts = true, $entities = false, $no_replies = false, $since_id = 0, $max_id = 0,
-		$page = 0, $trim_user = false)
+	public function getUserTimeline($user, $count = 20, $include_rts = null, $no_replies = null, $since_id = 0, $max_id = 0, $trim_user = null,
+		$contributor = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('statuses', 'user_timeline');
 
-		$parameters = array();
+		$data = array();
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
-			$parameters['user_id'] = $user;
+			$data['user_id'] = $user;
 		}
 		elseif (is_string($user))
 		{
-			$parameters['screen_name'] = $user;
+			$data['screen_name'] = $user;
 		}
 		else
 		{
@@ -176,55 +110,49 @@ class JTwitterStatuses extends JTwitterObject
 		}
 
 		// Set the API base
-		$base = '/1/statuses/user_timeline.json';
+		$path = '/statuses/user_timeline.json';
 
 		// Set the count string
-		$parameters['count'] = $count;
+		$data['count'] = $count;
 
-		// Check if include_rts is true
-		if ($include_rts)
+		// Check if include_rts is specified
+		if (!is_null($include_rts))
 		{
-			$parameters['include_rts'] = $include_rts;
+			$data['include_rts'] = $include_rts;
 		}
 
-		// Check if entities is true
-		if ($entities)
+		// Check if no_replies is specified
+		if (!is_null($no_replies))
 		{
-			$parameters['include_entities'] = $entities;
-		}
-
-		// Check if no_replies is true
-		if ($no_replies)
-		{
-			$parameters['exclude_replies'] = $no_replies;
+			$data['exclude_replies'] = $no_replies;
 		}
 
 		// Check if a since_id is specified
 		if ($since_id > 0)
 		{
-			$parameters['since_id'] = (int) $since_id;
+			$data['since_id'] = (int) $since_id;
 		}
 
 		// Check if a max_id is specified
 		if ($max_id > 0)
 		{
-			$parameters['max_id'] = (int) $max_id;
+			$data['max_id'] = (int) $max_id;
 		}
 
-		// Check if a page is specified
-		if ($page > 0)
+		// Check if trim_user is specified
+		if (!is_null($trim_user))
 		{
-			$parameters['page'] = (int) $page;
+			$data['trim_user'] = $trim_user;
 		}
 
-		// Check if trim_user is true
-		if ($trim_user)
+		// Check if contributor details is specified
+		if (!is_null($contributor))
 		{
-			$parameters['trim_user'] = $trim_user;
+			$data['contributor_details'] = $contributor;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -238,26 +166,19 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   boolean  $display_coordinates    Whether or not to put a pin on the exact coordinates a tweet has been sent from.
 	 * @param   boolean  $trim_user              When set to true, each tweet returned in a timeline will include a user object including only
 	 *                                           the status author's numerical ID.
-	 * @param   boolean  $entities               When set to true,  each tweet will include a node called "entities,". This node offers a variety
-	 * 											 of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function tweet($status, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null, $display_coordinates = false,
-		$trim_user = false, $entities = false)
+	public function tweet($status, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null, $display_coordinates = null,
+		$trim_user = null)
 	{
 		// Set the API base.
-		$base = '/1/statuses/update.json';
+		$path = '/statuses/update.json';
 
 		// Set POST data.
 		$data = array('status' => utf8_encode($status));
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
 
 		// Check if in_reply_to_status_id is specified.
 		if ($in_reply_to_status_id)
@@ -283,79 +204,62 @@ class JTwitterStatuses extends JTwitterObject
 			$data['place_id'] = $place_id;
 		}
 
-		// Check if display_coordinates is true.
-		if ($display_coordinates)
+		// Check if display_coordinates is specified.
+		if (!is_null($display_coordinates))
 		{
 			$data['display_coordinates'] = $display_coordinates;
 		}
 
-		// Check if trim_user is true.
-		if ($trim_user)
+		// Check if trim_user is specified.
+		if (!is_null($trim_user))
 		{
 			$data['trim_user'] = $trim_user;
 		}
 
-		// Check if entities is true.
-		if ($entities)
-		{
-			$data['include_entities'] = $entities;
-		}
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
 	 * Method to retrieve the most recent mentions for the authenticating user.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   integer        $count        Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                                       in the count, so it is always suggested to set $include_rts to true
-	 * @param   boolean        $include_rts  When set to true, the timeline will contain native retweets in addition to the standard stream of tweets.
-	 * @param   boolean        $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                                       about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   integer        $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer        $max_id       Returns results with an ID less than (that is, older than) the specified ID.
-	 * @param   integer        $page         Specifies the page of results to retrieve.
-	 * @param   boolean        $trim_user    When set to true, each tweet returned in a timeline will include a user object including only
-	 *                                       the status author's numerical ID.
-	 * @param   string         $contributor  This parameter enhances the contributors element of the status response to include the screen_name
-	 *                                       of the contributor.
+	 * @param   integer  $count        Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
+	 *                                 in the count, so it is always suggested to set $include_rts to true
+	 * @param   boolean  $include_rts  When set to true, the timeline will contain native retweets in addition to the standard stream of tweets.
+	 * @param   boolean  $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                                 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   integer  $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   integer  $max_id       Returns results with an ID less than (that is, older than) the specified ID.
+	 * @param   boolean  $trim_user    When set to true, each tweet returned in a timeline will include a user object including only
+	 *                                 the status author's numerical ID.
+	 * @param   string   $contributor  This parameter enhances the contributors element of the status response to include the screen_name
+	 *                                  of the contributor.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getMentions($count = 20, $include_rts = true, $entities = false, $since_id = 0, $max_id = 0,
-		$page = 0, $trim_user = false, $contributor = false)
+	public function getMentions($count = 20, $include_rts = null, $entities = null, $since_id = 0, $max_id = 0,
+		$trim_user = null, $contributor = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('statuses', 'mentions_timeline');
 
 		// Set the API base
-		$base = '/1/statuses/mentions.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		$path = '/statuses/mentions_timeline.json';
 
 		// Set the count string
 		$data['count'] = $count;
 
-		// Check if include_rts is true
-		if ($include_rts)
+		// Check if include_rts is specified
+		if (!is_null($include_rts))
 		{
 			$data['include_rts'] = $include_rts;
 		}
 
-		// Check if entities is true
-		if ($entities)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
@@ -372,142 +276,46 @@ class JTwitterStatuses extends JTwitterObject
 			$data['max_id'] = (int) $max_id;
 		}
 
-		// Check if a page is specified
-		if ($page > 0)
-		{
-			$data['page'] = (int) $page;
-		}
-
-		// Check if trim_user is true
-		if ($trim_user)
+		// Check if trim_user is specified
+		if (!is_null($trim_user))
 		{
 			$data['trim_user'] = $trim_user;
 		}
 
-		// Check if contributor is true
-		if ($contributor)
+		// Check if contributor is specified
+		if (!is_null($contributor))
 		{
 			$data['contributor_details'] = $contributor;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
-	}
-
-	/**
-	 * Method to get the most recent retweets posted by users the specified user follows.
-	 *
-	 * @param   mixed    $user       Either an integer containing the user ID or a string containing the screen name.
-	 * @param   integer  $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                               in the count, so it is always suggested to set $include_rts to true
-	 * @param   integer  $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   integer  $max_id     Returns results with an ID less than (that is, older than) the specified ID.
-	 * @param   integer  $page       Specifies the page of results to retrieve.
-	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                               the status author's numerical ID.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 * @throws  RuntimeException
-	 */
-	public function getRetweetedToUser($user, $count = 20, $since_id = 0, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$parameters = array();
-
-		// Determine which type of data was passed for $user
-		if (is_numeric($user))
-		{
-			$parameters['user_id'] = $user;
-		}
-		elseif (is_string($user))
-		{
-			$parameters['screen_name'] = $user;
-		}
-		else
-		{
-			// We don't have a valid entry
-			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
-		}
-
-		// Set the API base
-		$base = '/1/statuses/retweeted_to_user.json';
-
-		// Set the count string
-		$parameters['count'] = $count;
-
-		// Check if a since_id is specified
-		if ($since_id > 0)
-		{
-			$parameters['since_id'] = (int) $since_id;
-		}
-
-		// Check if a max_id is specified
-		if ($max_id > 0)
-		{
-			$parameters['max_id'] = (int) $max_id;
-		}
-
-		// Check if a page is specified
-		if ($page > 0)
-		{
-			$parameters['page'] = (int) $page;
-		}
-
-		// Check if trim_user is true
-		if ($trim_user)
-		{
-			$parameters['trim_user'] = $trim_user;
-		}
-
-		// Check if entities is true
-		if ($entities)
-		{
-			$parameters['include_entities'] = $entities;
-		}
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to get the most recent tweets of the authenticated user that have been retweeted by others.
 	 *
-	 * @param   integer  $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
-	 *                               in the count, so it is always suggested to set $include_rts to true
-	 * @param   integer  $since_id   Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   integer  $max_id     Returns results with an ID less than (that is, older than) the specified ID.
-	 * @param   integer  $page       Specifies the page of results to retrieve.
-	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
-	 *                               the status author's numerical ID.
+	 * @param   integer  $count          Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
+	 *                               	 in the count, so it is always suggested to set $include_rts to true
+	 * @param   integer  $since_id       Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   boolean  $entities       When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
+	 *                               	 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $user_entities  The user entities node will be disincluded when set to false.
+	 * @param   integer  $max_id         Returns results with an ID less than (that is, older than) the specified ID.
+	 * @param   boolean  $trim_user      When set to true, each tweet returned in a timeline will include a user object including only
+	 *                               	 the status author's numerical ID.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getRetweetsOfMe($count = 20, $since_id = 0, $entities = false, $max_id = 0, $page = 0, $trim_user = false)
+	public function getRetweetsOfMe($count = 20, $since_id = 0, $entities = null, $user_entities = null, $max_id = 0, $trim_user = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('statuses', 'retweets_of_me');
 
-		// Set the API base
-		$base = '/1/statuses/retweets_of_me.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the API path
+		$path = '/statuses/retweets_of_me.json';
 
 		// Set the count string
 		$data['count'] = $count;
@@ -524,110 +332,71 @@ class JTwitterStatuses extends JTwitterObject
 			$data['max_id'] = (int) $max_id;
 		}
 
-		// Check if a page is specified
-		if ($page > 0)
-		{
-			$data['page'] = (int) $page;
-		}
-
-		// Check if trim_user is true
-		if ($trim_user)
+		// Check if trim_user is specified
+		if (!is_null($trim_user))
 		{
 			$data['trim_user'] = $trim_user;
 		}
 
-		// Check if entities is true
-		if ($entities)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Check if entities is specified
+		if (!is_null($user_entities))
+		{
+			$data['include_user_entities'] = $user_entities;
+		}
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to show user objects of up to 100 members who retweeted the status.
 	 *
-	 * @param   integer  $id     The numerical ID of the desired status.
-	 * @param   integer  $count  Specifies the number of retweets to try and retrieve, up to a maximum of 100.
-	 * @param   integer  $page   Specifies the page of results to retrieve.
+	 * @param   integer  $id             The numerical ID of the desired status.
+	 * @param   integer  $count          Specifies the number of retweets to try and retrieve, up to a maximum of 100.
+	 * @param   integer  $cursor         Causes the list of IDs to be broken into pages of no more than 100 IDs at a time.
+	 * 									 The number of IDs returned is not guaranteed to be 100 as suspended users are
+	 * 									 filtered out after connections are queried. If no cursor is provided, a value of
+	 * 									 -1 will be assumed, which is the first "page."
+	 * @param   boolean  $stringify_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getRetweetedBy($id, $count = 20, $page = 0)
+	public function getRetweeters($id, $count = 20, $cursor = null, $stringify_ids = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('statuses', 'retweeters/ids');
 
-		// Set the API base
-		$base = '/1/statuses/' . $id . '/retweeted_by.json';
+		// Set the API path
+		$path = '/statuses/retweeters/ids.json';
 
-		// Set the count string
-		$parameters['count'] = $count;
-
-		// Check if a page is specified
-		if ($page > 0)
-		{
-			$parameters['page'] = (int) $page;
-		}
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
-	}
-
-	/**
-	 * Method to show user ids of up to 100 members who retweeted the status.
-	 *
-	 * @param   integer  $id          The numerical ID of the desired status.
-	 * @param   integer  $count       Specifies the number of retweets to try and retrieve, up to a maximum of 100.
-	 * @param   integer  $page        Specifies the page of results to retrieve.
-	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 */
-	public function getRetweetedByIds($id, $count = 20, $page = 0, $string_ids = false)
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		// Set the API base
-		$base = '/1/statuses/' . $id . '/retweeted_by.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the status id.
+		$data['id'] = $id;
 
 		// Set the count string
 		$data['count'] = $count;
 
-		// Check if a page is specified
-		if ($page > 0)
+		// Check if cursor is specified
+		if (!is_null($cursor))
 		{
-			$data['page'] = (int) $page;
+			$data['cursor'] = $cursor;
 		}
 
-		// Check if string_ids is true
-		if ($string_ids)
+		// Check if entities is specified
+		if (!is_null($stringify_ids))
 		{
-			$data['stringify_ids'] = $string_ids;
+			$data['stringify_ids'] = $stringify_ids;
 		}
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -636,8 +405,6 @@ class JTwitterStatuses extends JTwitterObject
 	 * @param   integer  $id         The numerical ID of the desired status.
 	 * @param   integer  $count      Specifies the number of tweets to try and retrieve, up to a maximum of 200.  Retweets are always included
 	 *                               in the count, so it is always suggested to set $include_rts to true
-	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
 	 *                               the status author's numerical ID.
 	 *
@@ -645,48 +412,31 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function getRetweetsById($id, $count = 20, $entities = false, $trim_user = false)
+	public function getRetweetsById($id, $count = 20, $trim_user = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('statuses', 'retweets/:id');
 
-		// Set the API base
-		$base = '/1/statuses/retweets/' . $id . '.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the API path
+		$path = '/statuses/retweets/' . $id . '.json';
 
 		// Set the count string
 		$data['count'] = $count;
 
-		// Check if entities is true
-		if ($entities)
-		{
-			$data['include_entities'] = $entities;
-		}
-
-		// Check if trim_user is true
-		if ($trim_user)
+		// Check if trim_user is specified
+		if (!is_null($trim_user))
 		{
 			$data['trim_user'] = $trim_user;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to delete the status specified by the required ID parameter.
 	 *
 	 * @param   integer  $id         The numerical ID of the desired status.
-	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
 	 *                               the status author's numerical ID.
 	 *
@@ -694,44 +444,27 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function deleteTweet($id, $entities = false, $trim_user = false)
+	public function deleteTweet($id, $trim_user = null)
 	{
-		// Set the API base
-		$base = '/1/statuses/destroy/' . $id . '.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the API path
+		$path = '/statuses/destroy/' . $id . '.json';
 
 		$data = array();
 
-		// Check if trim_user is true
-		if ($trim_user)
+		// Check if trim_user is specified
+		if (!is_null($trim_user))
 		{
 			$data['trim_user'] = $trim_user;
 		}
 
-		// Check if entities is true
-		if ($entities)
-		{
-			$data['include_entities'] = $entities;
-		}
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
 	 * Method to retweet a tweet.
 	 *
 	 * @param   integer  $id         The numerical ID of the desired status.
-	 * @param   boolean  $entities   When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                               about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $trim_user  When set to true, each tweet returned in a timeline will include a user object including only
 	 *                               the status author's numerical ID.
 	 *
@@ -739,46 +472,28 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function retweet($id, $entities = false, $trim_user = false)
+	public function retweet($id, $trim_user = null)
 	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		// Set the API base
-		$base = '/1/statuses/retweet/' . $id . '.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the API path
+		$path = '/statuses/retweet/' . $id . '.json';
 
 		$data = array();
 
-		// Check if entities is true
-		if ($entities)
-		{
-			$data['include_entities'] = $entities;
-		}
-
-		// Check if trim_user is true
-		if ($trim_user)
+		// Check if trim_user is specified
+		if (!is_null($trim_user))
 		{
 			$data['trim_user'] = $trim_user;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
 	 * Method to post a tweet with media.
 	 *
 	 * @param   string   $status                 The text of the tweet.
-	 * @param   array    $media                  Files to upload
+	 * @param   string   $media                  File to upload
 	 * @param   integer  $in_reply_to_status_id  The ID of an existing status that the update is in reply to.
 	 * @param   float    $lat                    The latitude of the location this tweet refers to.
 	 * @param   float    $long                   The longitude of the location this tweet refers to.
@@ -792,31 +507,21 @@ class JTwitterStatuses extends JTwitterObject
 	 * @throws  RuntimeException
 	 */
 	public function tweetWithMedia($status, $media, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null,
-		$display_coordinates = false, $sensitive = false)
+		$display_coordinates = null, $sensitive = null)
 	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
 		// Set the API request path.
-		$path = 'https://upload.twitter.com/1/statuses/update_with_media.json';
+		$path = '/statuses/update_with_media.json';
 
 		// Set POST data.
 		$data = array(
-			'media[]' => "@{$media}",
-			'status' => utf8_encode($status)
+			'status' => utf8_encode($status),
+			'media[]' => "@{$media}"
 		);
 
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
-
-		$header = array('Content-Type' => 'multipart/form-data', 'Expect' => '');
+		$header = array('Content-Type' => 'multipart/form-data');
 
 		// Check if in_reply_to_status_id is specified.
-		if ($in_reply_to_status_id)
+		if (!is_null($in_reply_to_status_id))
 		{
 			$data['in_reply_to_status_id'] = $in_reply_to_status_id;
 		}
@@ -839,32 +544,20 @@ class JTwitterStatuses extends JTwitterObject
 			$data['place_id'] = $place_id;
 		}
 
-		// Check if display_coordinates is true.
-		if ($display_coordinates)
+		// Check if display_coordinates is specified.
+		if (!is_null($display_coordinates))
 		{
 			$data['display_coordinates'] = $display_coordinates;
 		}
 
-		// Check if sensitive is true.
-		if ($sensitive)
+		// Check if sensitive is specified.
+		if (!is_null($sensitive))
 		{
 			$data['possibly_sensitive'] = $sensitive;
 		}
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
-
-		// Check Media Rate Limit.
-		$response_headers = $response->headers;
-		if ($response_headers['X-MediaRateLimit-Remaining'] == 0)
-		{
-			// The IP has exceeded the Twitter API media rate limit
-			throw new RuntimeException('This server has exceed the Twitter API media rate limit for the given period.  The limit will reset in '
-						. $response_headers['X-MediaRateLimit-Reset'] . 'seconds.'
-			);
-		}
-
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data, $header);
 	}
 
 	/**
@@ -892,23 +585,23 @@ class JTwitterStatuses extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getOembed($id = null, $url = null, $maxwidth = null, $hide_media = false, $hide_thread = false, $omit_script = false,
+	public function getOembed($id = null, $url = null, $maxwidth = null, $hide_media = null, $hide_thread = null, $omit_script = null,
 		$align = null, $related = null, $lang = null)
 	{
 		// Check the rate limit for remaining hits.
-		$this->checkRateLimit();
+		$this->checkRateLimit('statuses', 'oembed');
 
 		// Set the API request path.
-		$base = '/1/statuses/oembed.json';
+		$path = '/statuses/oembed.json';
 
 		// Determine which of $id and $url is specified.
 		if ($id)
 		{
-			$parameters['id'] = $id;
+			$data['id'] = $id;
 		}
 		elseif ($url)
 		{
-			$parameters['url'] = rawurlencode($url);
+			$data['url'] = rawurlencode($url);
 		}
 		else
 		{
@@ -919,46 +612,46 @@ class JTwitterStatuses extends JTwitterObject
 		// Check if maxwidth is specified.
 		if ($maxwidth)
 		{
-			$parameters['maxwidth'] = $maxwidth;
+			$data['maxwidth'] = $maxwidth;
 		}
 
-		// Check if hide_media is true.
-		if ($hide_media)
+		// Check if hide_media is specified.
+		if (!is_null($hide_media))
 		{
-			$parameters['hide_media'] = $hide_media;
+			$data['hide_media'] = $hide_media;
 		}
 
-		// Check if hide_thread is true.
-		if ($hide_thread)
+		// Check if hide_thread is specified.
+		if (!is_null($hide_thread))
 		{
-			$parameters['hide_thread'] = $hide_thread;
+			$data['hide_thread'] = $hide_thread;
 		}
 
-		// Check if omit_script is true.
-		if ($omit_script)
+		// Check if omit_script is specified.
+		if (!is_null($omit_script))
 		{
-			$parameters['omit_script'] = $omit_script;
+			$data['omit_script'] = $omit_script;
 		}
 
 		// Check if align is specified.
 		if ($align)
 		{
-			$parameters['align'] = $align;
+			$data['align'] = $align;
 		}
 
 		// Check if related is specified.
 		if ($related)
 		{
-			$parameters['related'] = $related;
+			$data['related'] = $related;
 		}
 
 		// Check if lang is specified.
 		if ($lang)
 		{
-			$parameters['lang'] = $lang;
+			$data['lang'] = $lang;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 }

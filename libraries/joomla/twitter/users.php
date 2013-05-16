@@ -82,7 +82,7 @@ class JTwitterUsers extends JTwitterObject
 		$this->checkRateLimit();
 
 		// Set the API base
-		$base = '/1/users/profile_image.json';
+		$base = '/users/profile_image.json';
 
 		$parameters['screen_name'] = $screen_name;
 
@@ -99,7 +99,7 @@ class JTwitterUsers extends JTwitterObject
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($base, 'GET', $parameters);
 	}
 
 	/**
