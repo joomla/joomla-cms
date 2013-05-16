@@ -26,7 +26,6 @@ class JTwitterFavorites extends JTwitterObject
 	 *                              in the count, so it is always suggested to set $include_rts to true
 	 * @param   integer  $since_id  Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   integer  $max_id    Returns results with an ID less than (that is, older than) the specified ID.
-	 * @param   integer  $page      Specifies the page of results to retrieve.
 	 * @param   boolean  $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety
 	 * 								of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
@@ -34,18 +33,13 @@ class JTwitterFavorites extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function getFavorites($user = null, $count = 20, $since_id = 0, $max_id = 0, $page = 0, $entities = false)
+	public function getFavorites($user = null, $count = 20, $since_id = 0, $max_id = 0, $entities = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('favorites', 'list');
 
-		// Set the API base.
-		$base = '/1/favorites.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the API path.
+		$path = '/favorites/list.json';
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
@@ -72,24 +66,14 @@ class JTwitterFavorites extends JTwitterObject
 			$data['max_id'] = $max_id;
 		}
 
-		// Check if page is specified.
-		if ($page > 0)
-		{
-			$data['page'] = $page;
-		}
-
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -103,55 +87,48 @@ class JTwitterFavorites extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function createFavorites($id, $entities = false)
+	public function createFavorites($id, $entities = null)
 	{
-		// Set the API base.
-		$base = '/1/favorites/create/' . $id . '.json';
+		// Set the API path.
+		$path = '/favorites/create.json';
 
-		$token = $this->oauth->getToken();
+		$data['id'] = $id;
 
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
-		// Check if entities is true.
-		$data = array();
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
 	 * Method to un-favorites the status specified in the ID parameter as the authenticating user.
 	 *
-	 * @param   integer   $id  The numerical ID of the desired status.
+	 * @param   integer  $id        The numerical ID of the desired status.
+	 * @param   boolean  $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety
+	 * 								of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function deleteFavorites($id)
+	public function deleteFavorites($id, $entities = null)
 	{
-		// Set the API base.
-		$base = '/1/favorites/destroy/' . $id . '.json';
+		// Set the API path.
+		$path = '/favorites/destroy.json';
 
-		$token = $this->oauth->getToken();
+		$data['id'] = $id;
 
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Check if entities is specified.
+		if (!is_null($entities))
+		{
+			$data['include_entities'] = $entities;
+		}
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 }
