@@ -24,7 +24,6 @@ class JTwitterDirectmessages extends JTwitterObject
 	 * @param   integer  $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
 	 * @param   integer  $max_id       Returns results with an ID less than (that is, older than) or equal to the specified ID.
 	 * @param   integer  $count        Specifies the number of direct messages to try and retrieve, up to a maximum of 200.
-	 * @param   integer  $page         Specifies the page of results to retrieve.
 	 * @param   boolean  $entities     When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
 	 *                                 about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
@@ -33,18 +32,13 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function getDirectMessages($since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = false, $skip_status = false)
+	public function getDirectMessages($since_id = 0, $max_id =  0, $count = 20, $entities = null, $skip_status = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('direct_messages');
 
-		// Set the API base
-		$base = '/1/direct_messages.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the API path
+		$path = '/direct_messages.json';
 
 		// Check if since_id is specified.
 		if ($since_id)
@@ -64,30 +58,20 @@ class JTwitterDirectmessages extends JTwitterObject
 			$data['count'] = $count;
 		}
 
-		// Check if page is specified.
-		if ($page)
-		{
-			$data['page'] = $page;
-		}
-
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true.
-		if ($skip_status)
+		// Check if skip_status is specified.
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -104,18 +88,13 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function getSentDirectMessages($since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = false)
+	public function getSentDirectMessages($since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('direct_messages', 'sent');
 
-		// Set the API base
-		$base = '/1/direct_messages/sent.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the API path
+		$path = '/direct_messages/sent.json';
 
 		// Check if since_id is specified.
 		if ($since_id)
@@ -141,18 +120,14 @@ class JTwitterDirectmessages extends JTwitterObject
 			$data['page'] = $page;
 		}
 
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -168,13 +143,8 @@ class JTwitterDirectmessages extends JTwitterObject
 	 */
 	public function sendDirectMessages($user, $text)
 	{
-		// Set the API base
-		$base = '/1/direct_messages/new.json';
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Set the API path
+		$path = '/direct_messages/new.json';
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
@@ -193,12 +163,8 @@ class JTwitterDirectmessages extends JTwitterObject
 
 		$data['text'] = $text;
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -213,22 +179,15 @@ class JTwitterDirectmessages extends JTwitterObject
 	public function getDirectMessagesById($id)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('direct_messages', 'show');
 
-		// Set the API base
-		$base = '/1/direct_messages/show/' . $id . '.json';
+		// Set the API path
+		$path = '/direct_messages/show.json';
 
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		$data['id'] = $id;
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -242,29 +201,20 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function deleteDirectMessages($id, $entities = false)
+	public function deleteDirectMessages($id, $entities = null)
 	{
-		// Set the API base
-		$base = '/1/direct_messages/destroy/' . $id . '.json';
+		// Set the API path
+		$path = '/direct_messages/destroy.json';
 
-		$token = $this->oauth->getToken();
+		$data['id'] = $id;
 
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
-		$data = array();
-
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 }

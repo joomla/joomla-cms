@@ -68,7 +68,12 @@ abstract class JTwitterObject
 		// Check the rate limit for remaining hits
 		$rate_limit = $this->getRateLimit($resource);
 
-		$property = '/' . $resource . '/' . $action;
+		$property = '/' . $resource;
+
+		if (!is_null($action))
+		{
+			$property .= '/' . $action;
+		}
 
 		if ($rate_limit->resources->$resource->$property->remaining == 0)
 		{
