@@ -19,63 +19,41 @@ defined('JPATH_PLATFORM') or die();
 class JTwitterBlock extends JTwitterObject
 {
 	/**
-	 * Method to get the top 10 trending topics for a specific WOEID, if trending information is available for it.
+	 * Method to get the user ids the authenticating user is blocking.
 	 *
-	 * @param   integer  $page          Specifies the page of results to retrieve.
-	 * @param   integer  $per_page      Specifies the number of results to retrieve per page.
-	 * @param   boolean  $entities      When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
-	 * 								    variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean   $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   boolean  $stringify_ids  Provide this option to have ids returned as strings instead.
+	 * @param   integer  $cursor         Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 * 									 is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 * 									 is provided, a value of -1 will be assumed, which is the first "page."
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getBlocking($page = 0, $per_page = 0, $entities = false, $skip_status = false)
+	public function getBlocking($stringify_ids = null, $cursor = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		$this->checkRateLimit('blocks', 'ids');
 
 		$data = array();
 
-		// Check if page is specified
-		if ($page > 0)
+		// Check if stringify_ids is specified
+		if (!is_null($stringify_ids))
 		{
-			$data['page'] = $page;
+			$data['stringify_ids'] = $stringify_ids;
 		}
 
-		// Check if per_page is specified
-		if ($per_page > 0)
+		// Check if cursor is specified
+		if (!is_null($stringify_ids))
 		{
-			$data['per_page'] = $per_page;
+			$data['cursor'] = $cursor;
 		}
 
-		// Check if entities is specified
-		if ($entities)
-		{
-			$data['include_entities'] = $entities;
-		}
-
-		// Check if skip_statuses is specified
-		if ($skip_status)
-		{
-			$data['skip_status'] = $skip_status;
-		}
-
-		// Set the API base
-		$base = '/1/blocks/blocking.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/blocks/ids.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -91,10 +69,10 @@ class JTwitterBlock extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function block($user, $entities = false, $skip_status = false)
+	public function block($user, $entities = null, $skip_status = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('blocks', 'create');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
@@ -111,32 +89,23 @@ class JTwitterBlock extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
 		// Check if entities is specified
-		if ($entities)
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
 		// Check if skip_statuses is specified
-		if ($skip_status)
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
-		// Set the API base
-		$base = '/1/blocks/create.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/blocks/create.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -152,10 +121,10 @@ class JTwitterBlock extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function unblock($user, $entities = false, $skip_status = false)
+	public function unblock($user, $entities = null, $skip_status = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('blocks', 'destroy');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
@@ -172,31 +141,22 @@ class JTwitterBlock extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
 		// Check if entities is specified
-		if ($entities)
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
 		// Check if skip_statuses is specified
-		if ($skip_status)
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
-		// Set the API base
-		$base = '/1/blocks/destroy.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/blocks/destroy.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 }
