@@ -22,26 +22,30 @@ class JTwitterFriends extends JTwitterObject
 	 * Method to get an array of user IDs the specified user follows.
 	 *
 	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $cursor      Causes the list of connections to be broken into pages of no more than 5000 IDs at a time.
+	 * 								  The number of IDs returned is not guaranteed to be 5000 as suspended users are filtered out
+	 * 								  after connections are queried. If no cursor is provided, a value of -1 will be assumed, which is the first "page."
 	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   integer  $count       Specifies the number of IDs attempt retrieval of, up to a maximum of 5,000 per distinct request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getFriendIds($user, $string_ids = true)
+	public function getFriendIds($user, $cursor = null, $string_ids = null, $count = 0)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('friends', 'ids');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
-			$parameters['user_id'] = $user;
+			$data['user_id'] = $user;
 		}
 		elseif (is_string($user))
 		{
-			$parameters['screen_name'] = $user;
+			$data['screen_name'] = $user;
 		}
 		else
 		{
@@ -49,17 +53,29 @@ class JTwitterFriends extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/friends/ids.json';
+		// Check if cursor is specified
+		if (!is_null($cursor))
+		{
+			$data['cursor'] = $cursor;
+		}
 
 		// Check if string_ids is true
 		if ($string_ids)
 		{
-			$parameters['stringify_ids'] = $string_ids;
+			$data['stringify_ids'] = $string_ids;
 		}
 
+		// Check if count is specified
+		if ($count > 0)
+		{
+			$data['count'] = $count;
+		}
+
+		// Set the API path
+		$path = '/friends/ids.json';
+
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -76,16 +92,16 @@ class JTwitterFriends extends JTwitterObject
 	public function getFriendshipDetails($user_a, $user_b)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('friendships', 'show');
 
 		// Determine which type of data was passed for $user_a
 		if (is_numeric($user_a))
 		{
-			$parameters['source_id'] = $user_a;
+			$data['source_id'] = $user_a;
 		}
 		elseif (is_string($user_a))
 		{
-			$parameters['source_screen_name'] = $user_a;
+			$data['source_screen_name'] = $user_a;
 		}
 		else
 		{
@@ -96,11 +112,11 @@ class JTwitterFriends extends JTwitterObject
 		// Determine which type of data was passed for $user_b
 		if (is_numeric($user_b))
 		{
-			$parameters['target_id'] = $user_b;
+			$data['target_id'] = $user_b;
 		}
 		elseif (is_string($user_b))
 		{
-			$parameters['target_screen_name'] = $user_b;
+			$data['target_screen_name'] = $user_b;
 		}
 		else
 		{
@@ -108,90 +124,41 @@ class JTwitterFriends extends JTwitterObject
 			throw new RuntimeException('The second specified username is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/friendships/show.json';
+		// Set the API path
+		$path = '/friendships/show.json';
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
-	}
-
-	/**
-	 * Method to determine if a friendship exists.
-	 *
-	 * @param   mixed  $user_a  Either an integer containing the user ID or a string containing the screen name of the first user.
-	 * @param   mixed  $user_b  Either an integer containing the user ID or a string containing the screen name of the second user.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 * @throws  RuntimeException
-	 */
-	public function getFriendshipExists($user_a, $user_b)
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		// Determine which type of data was passed for $user_a
-		if (is_numeric($user_a))
-		{
-			$parameters['user_id_a'] = $user_a;
-		}
-		elseif (is_string($user_a))
-		{
-			$parameters['screen_name_a'] = $user_a;
-		}
-		else
-		{
-			// We don't have a valid entry
-			throw new RuntimeException('The first specified username is not in the correct format; must use integer or string');
-		}
-
-		// Determine which type of data was passed for $user_b
-		if (is_numeric($user_b))
-		{
-			$parameters['user_id_b'] = $user_b;
-		}
-		elseif (is_string($user_b))
-		{
-			$parameters['screen_name_b'] = $user_b;
-		}
-		else
-		{
-			// We don't have a valid entry
-			throw new RuntimeException('The second specified username is not in the correct format; must use integer or string');
-		}
-
-		// Set the API base
-		$base = '/1/friendships/exists.json';
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to get an array of user IDs the specified user is followed by.
 	 *
 	 * @param   mixed    $user        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $cursor      Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 * 								  is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 * 								  is provided, a value of -1 will be assumed, which is the first "page."
 	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
+	 * @param   integer  $count       Specifies the number of IDs attempt retrieval of, up to a maximum of 5,000 per distinct request.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getFollowerIds($user, $string_ids = true)
+	public function getFollowerIds($user, $cursor = null, $string_ids = null, $count = 0)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('followers', 'ids');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
-			$parameters['user_id'] = $user;
+			$data['user_id'] = $user;
 		}
 		elseif (is_string($user))
 		{
-			$parameters['screen_name'] = $user;
+			$data['screen_name'] = $user;
 		}
 		else
 		{
@@ -199,97 +166,105 @@ class JTwitterFriends extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/followers/ids.json';
+		// Set the API path
+		$path = '/followers/ids.json';
 
-		// Check if string_ids is true
-		if ($string_ids)
+		// Check if cursor is specified
+		if (!is_null($cursor))
 		{
-			$parameters['stringify_ids'] = $string_ids;
+			$data['cursor'] = $cursor;
+		}
+
+		// Check if string_ids is specified
+		if (!is_null($string_ids))
+		{
+			$data['stringify_ids'] = $string_ids;
+		}
+
+		// Check if count is specified
+		if (!is_null($count))
+		{
+			$data['count'] = $count;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to determine pending requests to follow the authenticating user.
 	 *
+	 * @param   integer  $cursor      Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 * 								  is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 * 								  is provided, a value of -1 will be assumed, which is the first "page."
 	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getFriendshipsIncoming($string_ids = true)
+	public function getFriendshipsIncoming($cursor = null, $string_ids = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
+		$this->checkRateLimit('friendships', 'incoming');
 
 		$data = array();
 
-		// Check if string_ids is true
-		if ($string_ids)
+		// Check if cursor is specified
+		if (!is_null($cursor))
+		{
+			$data['cursor'] = $cursor;
+		}
+
+		// Check if string_ids is specified
+		if (!is_null($string_ids))
 		{
 			$data['stringify_ids'] = $string_ids;
 		}
 
-		// Set the API base
-		$base = '/1/friendships/incoming.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/friendships/incoming.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to determine every protected user for whom the authenticating user has a pending follow request.
 	 *
+	 * @param   integer  $cursor      Causes the list of IDs to be broken into pages of no more than 5000 IDs at a time. The number of IDs returned
+	 * 								  is not guaranteed to be 5000 as suspended users are filtered out after connections are queried. If no cursor
+	 * 								  is provided, a value of -1 will be assumed, which is the first "page."
 	 * @param   boolean  $string_ids  Set to true to return IDs as strings, false to return as integers.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getFriendshipsOutgoing($string_ids = true)
+	public function getFriendshipsOutgoing($cursor = null, $string_ids = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
+		$this->checkRateLimit('friendships', 'outgoing');
 
 		$data = array();
 
-		// Check if string_ids is true
-		if ($string_ids)
+		// Check if cursor is specified
+		if (!is_null($cursor))
+		{
+			$data['cursor'] = $cursor;
+		}
+
+		// Check if string_ids is specified
+		if (!is_null($string_ids))
 		{
 			$data['stringify_ids'] = $string_ids;
 		}
 
-		// Set the API base
-		$base = '/1/friendships/outgoing.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/friendships/outgoing.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -305,16 +280,6 @@ class JTwitterFriends extends JTwitterObject
 	 */
 	public function follow($user, $follow = false)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
-
-		// Set POST data.
-		$data = array();
-
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
@@ -336,41 +301,25 @@ class JTwitterFriends extends JTwitterObject
 			$data['follow'] = $follow;
 		}
 
-		// Set the API base
-		$base = '/1/friendships/create.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/friendships/create.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
 	 * Allows the authenticating users to unfollow the user specified in the ID parameter.
 	 *
-	 * @param   mixed    $user      Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $entities  When set to true,  each tweet will include a node called "entities,". This node offers a variety of metadata
-	 *                              about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   mixed  $user  Either an integer containing the user ID or a string containing the screen name.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function unfollow($user, $entities = false)
+	public function unfollow($user)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
-
-		// Set POST data.
-		$data = array();
-
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
@@ -386,21 +335,11 @@ class JTwitterFriends extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Check if entities is true.
-		if ($entities)
-		{
-			$data['include_entities'] = $entities;
-		}
-
-		// Set the API base
-		$base = '/1/friendships/destroy.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/friendships/destroy.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -417,16 +356,7 @@ class JTwitterFriends extends JTwitterObject
 	public function getFriendshipsLookup($screen_name = null, $id = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
-
-		$data = array();
+		$this->checkRateLimit('friendships', 'lookup');
 
 		// Set user IDs and screen names.
 		if ($id)
@@ -443,15 +373,11 @@ class JTwitterFriends extends JTwitterObject
 			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
 		}
 
-		// Set the API base
-		$base = '/1/friendships/lookup.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/friendships/lookup.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -466,18 +392,8 @@ class JTwitterFriends extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function updateFriendship($user, $device = false, $retweets = false)
+	public function updateFriendship($user, $device = null, $retweets = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
-
-		// Set POST data.
-		$data = array();
-
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
@@ -493,27 +409,23 @@ class JTwitterFriends extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Check if device is true.
-		if ($device)
+		// Check if device is specified.
+		if (!is_null($device))
 		{
 			$data['device'] = $device;
 		}
 
-		// Check if retweets is true.
-		if ($retweets)
+		// Check if retweets is specified.
+		if (!is_null($retweets))
 		{
 			$data['retweets'] = $retweets;
 		}
 
-		// Set the API base
-		$base = '/1/friendships/update.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/friendships/update.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -525,34 +437,23 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function getFriendshipNoRetweetIds($string_ids = true)
+	public function getFriendshipNoRetweetIds($string_ids = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
+		$this->checkRateLimit('friendships', 'no_retweets/ids');
 
 		$data = array();
 
-		// Check if string_ids is true
-		if ($string_ids)
+		// Check if string_ids is specified
+		if (!is_null($string_ids))
 		{
 			$data['stringify_ids'] = $string_ids;
 		}
 
-		// Set the API base
-		$base = '/1/friendships/no_retweet_ids.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/friendships/no_retweets/ids.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 }
