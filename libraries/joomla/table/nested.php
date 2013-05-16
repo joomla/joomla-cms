@@ -913,7 +913,7 @@ class JTableNested extends JTable
 				if ($this->_db->loadResult())
 				{
 					// TODO Convert to a conflict exception when available.
-					$pksImploded = implode(',', $pks);
+					$implodedPks = implode(',', $pks);
 					$e = new RuntimeException(sprintf(__CLASS__ . '::' . __FUNCTION__ . '(%s, %d, %d) checked-out conflict.', get_class($this), $implodedPks, $state, $userId));
 					$this->setError($e);
 					return false;

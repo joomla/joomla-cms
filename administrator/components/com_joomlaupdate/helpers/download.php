@@ -282,12 +282,6 @@ class AdmintoolsHelperDownload
 	{
 		$result = false;
 
-		// Track errors
-		if ( function_exists('ini_set') )
-		{
-			$track_errors = ini_set('track_errors', true);
-		}
-
 		// Open the URL for reading
 		if (function_exists('stream_context_create'))
 		{
@@ -430,6 +424,7 @@ class AdmintoolsHelperDownload
 		{
 			return false;
 		}
+		return $ret;
 	}
 
 }

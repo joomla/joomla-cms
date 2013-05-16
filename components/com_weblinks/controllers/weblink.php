@@ -213,7 +213,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
+		return;
 	}
 
 	/**

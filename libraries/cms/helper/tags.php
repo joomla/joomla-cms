@@ -184,7 +184,7 @@ class JHelperTags
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');
 			$newTags = array();
 
-			foreach ($tags as $key => $tag)
+			foreach ($tags as $tag)
 			{
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);

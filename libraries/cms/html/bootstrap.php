@@ -525,8 +525,6 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			$options = JHtml::getJSObject($opt);
-
 			// Attach tabs to document
 			JFactory::getDocument()
 				->addScriptDeclaration(JLayoutHelper::render('libraries.cms.html.bootstrap.starttabsetscript', array('selector' => $selector)));
@@ -620,8 +618,6 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
-
-			$options = JHtml::getJSObject($opt);
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(

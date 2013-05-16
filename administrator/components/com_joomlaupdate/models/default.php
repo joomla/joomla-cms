@@ -528,7 +528,6 @@ ENDDATA;
 		$element = preg_replace('/\.xml/', '', basename($manifestPath));
 
 		// Run the script file
-		$scriptElement = $manifest->scriptfile;
 		$manifestScript = (string) $manifest->scriptfile;
 
 		if ($manifestScript)

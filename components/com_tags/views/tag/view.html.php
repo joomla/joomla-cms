@@ -185,8 +185,6 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		$id = (int) @$menu->query['id'];
-
 		if ($menu && ($menu->query['option'] != 'com_tags'))
 		{
 			$this->params->set('page_subheading', $menu->title);

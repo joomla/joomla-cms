@@ -3336,7 +3336,6 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 		$this->fileHeader->compressed	= $headerData['compsize'];
 		$this->fileHeader->uncompressed	= $headerData['uncomp'];
 		$nameFieldLength				= $headerData['fnamelen'];
-		$extraFieldLength				= $headerData['eflen'];
 
 		// Read filename field
 		$this->fileHeader->file			= fread( $this->fp, $nameFieldLength );
@@ -3350,21 +3349,6 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 				$this->fileHeader->file = $this->renameFiles[$this->fileHeader->file];
 				$isRenamed = true;
 			}
-		}
-
-		// Handle directory renaming
-		$isDirRenamed = false;
-		if(is_array($this->renameDirs) && (count($this->renameDirs) > 0)) {
-			if(array_key_exists(dirname($file), $this->renameDirs)) {
-				$file = rtrim($this->renameDirs[dirname($file)],'/').'/'.basename($file);
-				$isRenamed = true;
-				$isDirRenamed = true;
-			}
-		}
-
-		// Read extra field if present
-		if($extraFieldLength > 0) {
-			$extrafield = fread( $this->fp, $extraFieldLength );
 		}
 
 		if(defined('KSDEBUG')) {
@@ -3439,8 +3423,6 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 		elseif($this->fileHeader->type == 'dir')
 		{
 			$this->fileHeader->timestamp = 0;
-
-			$dir = $this->fileHeader->file;
 
 			$this->postProcEngine->createDirRecursive( $this->fileHeader->file, 0755 );
 			$this->postProcEngine->processFilename(null);
