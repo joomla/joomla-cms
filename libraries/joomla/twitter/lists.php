@@ -21,156 +21,19 @@ class JTwitterLists extends JTwitterObject
 	/**
 	 * Method to get all lists the authenticating or specified user subscribes to, including their own.
 	 *
-	 * @param   mixed  $user  Either an integer containing the user ID or a string containing the screen name.
+	 * @param   mixed    $user     Either an integer containing the user ID or a string containing the screen name.
+	 * @param   boolean  $reverse  Set this to true if you would like owned lists to be returned first. See description
+	 * 					 above for information on how this parameter works.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getAllLists($user)
+	public function getLists($user, $reverse = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		// Determine which type of data was passed for $user
-		if (is_numeric($user))
-		{
-			$parameters['user_id'] = $user;
-		}
-		elseif (is_string($user))
-		{
-			$parameters['screen_name'] = $user;
-		}
-		else
-		{
-			// We don't have a valid entry
-			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
-		}
-
-		// Set the API base
-		$base = '/1/lists/all.json';
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
-	}
-
-	/**
-	 * Method to get tweet timeline for members of the specified list
-	 *
-	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name.
-	 * @param   integer  $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
-	 * @param   integer  $max_id       Returns results with an ID less than (that is, older than) or equal to the specified ID.
-	 * @param   integer  $per_page     Specifies the number of results to retrieve per page.
-	 * @param   integer  $page         Specifies the page of results to retrieve.
-	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
-	 * 								   of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $include_rts  When set to either true, t or 1, the list timeline will contain native retweets (if they exist) in addition
-	 * 								   to the standard stream of tweets.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 * @throws  RuntimeException
-	 */
-	public function getListStatuses($list, $owner = null, $since_id = 0, $max_id = 0, $per_page = 0, $page = 0, $entities = false, $include_rts = false)
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		// Determine which type of data was passed for $list
-		if (is_numeric($list))
-		{
-			$data['list_id'] = $list;
-		}
-		elseif (is_string($list))
-		{
-			$data['slug'] = $list;
-
-			// In this case the owner is required.
-			if (is_numeric($owner))
-			{
-				$data['owner_id'] = $owner;
-			}
-			elseif (is_string($owner))
-			{
-				$data['owner_screen_name'] = $owner;
-			}
-			else
-			{
-				// We don't have a valid entry
-				throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
-			}
-		}
-		else
-		{
-			// We don't have a valid entry
-			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
-		}
-
-		// Set the API base
-		$base = '/1/lists/statuses.json';
-
-		// Check if since_id is specified
-		if ($since_id > 0)
-		{
-			$data['since_id'] = $since_id;
-		}
-
-		// Check if max_id is specified
-		if ($max_id > 0)
-		{
-			$data['max_id'] = $max_id;
-		}
-
-		// Check if per_page is specified
-		if ($per_page > 0)
-		{
-			$data['per_page'] = $per_page;
-		}
-
-		// Check if page is specified
-		if ($page > 0)
-		{
-			$data['page'] = $page;
-		}
-
-		// Check if entities is true
-		if ($entities > 0)
-		{
-			$data['include_entities'] = $entities;
-		}
-
-		// Check if include_rts is true
-		if ($include_rts > 0)
-		{
-			$data['include_rts'] = $include_rts;
-		}
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $data);
-
-	}
-
-	/**
-	 * Method to get the lists the specified user has been added to.
-	 *
-	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the screen name.
-	 * @param   boolean  $filter  When set to true, t or 1, will return just lists the authenticating user owns, and the user represented
-	 * 							  by user_id or screen_name is a member of.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 * @throws  RuntimeException
-	 */
-	public function getListMemberships($user, $filter = false)
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$data = array();
+		$this->checkRateLimit('lists', 'list');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
@@ -187,37 +50,41 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Check if filter is true.
-		if ($filter)
+		// Check if reverse is specified.
+		if (!is_null($reverse))
 		{
-			$data['filter_to_owned_lists'] = $filter;
+			$data['reverse'] = $reverse;
 		}
 
-		// Set the API base
-		$base = '/1/lists/memberships.json';
+		// Set the API path
+		$path = '/lists/list.json';
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $data);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
-	 * Method to get the subscribers of the specified list.
+	 * Method to get tweet timeline for members of the specified list
 	 *
 	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
 	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $since_id     Returns results with an ID greater than (that is, more recent than) the specified ID.
+	 * @param   integer  $max_id       Returns results with an ID less than (that is, older than) or equal to the specified ID.
+	 * @param   integer  $count        Specifies the number of results to retrieve per "page."
 	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
 	 * 								   of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   boolean  $include_rts  When set to either true, t or 1, the list timeline will contain native retweets (if they exist) in addition
+	 * 								   to the standard stream of tweets.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getListSubscribers($list, $owner = null, $entities = false, $skip_status = false)
+	public function getStatuses($list, $owner = null, $since_id = 0, $max_id = 0, $count = 0, $entities = null, $include_rts = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('lists', 'statuses');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -249,23 +116,117 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/lists/subscribers.json';
+		// Set the API path
+		$path = '/lists/statuses.json';
 
-		// Check if entities is true
-		if ($entities > 0)
+		// Check if since_id is specified
+		if ($since_id > 0)
+		{
+			$data['since_id'] = $since_id;
+		}
+
+		// Check if max_id is specified
+		if ($max_id > 0)
+		{
+			$data['max_id'] = $max_id;
+		}
+
+		// Check if count is specified
+		if ($count > 0)
+		{
+			$data['count'] = $count;
+		}
+
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true
-		if ($skip_status > 0)
+		// Check if include_rts is specified
+		if (!is_null($include_rts))
+		{
+			$data['include_rts'] = $include_rts;
+		}
+
+		// Send the request.
+		return $this->sendRequest($path, 'GET', $data);
+
+	}
+
+	/**
+	 * Method to get the subscribers of the specified list.
+	 *
+	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $cursor       Breaks the results into pages. A single page contains 20 lists. Provide a value of -1 to begin paging.
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a variety
+	 * 								   of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function getSubscribers($list, $owner = null, $cursor = null, $entities = null, $skip_status = null)
+	{
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('lists', 'subscribers');
+
+		// Determine which type of data was passed for $list
+		if (is_numeric($list))
+		{
+			$data['list_id'] = $list;
+		}
+		elseif (is_string($list))
+		{
+			$data['slug'] = $list;
+
+			// In this case the owner is required.
+			if (is_numeric($owner))
+			{
+				$data['owner_id'] = $owner;
+			}
+			elseif (is_string($owner))
+			{
+				$data['owner_screen_name'] = $owner;
+			}
+			else
+			{
+				// We don't have a valid entry
+				throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
+			}
+		}
+		else
+		{
+			// We don't have a valid entry
+			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
+		}
+
+		// Set the API path
+		$path = '/lists/subscribers.json';
+
+		// Check if cursor is specified
+		if (!is_null($cursor))
+		{
+			$data['cursor'] = $cursor;
+		}
+
+		// Check if entities is specified
+		if (!is_null($entities))
+		{
+			$data['include_entities'] = $entities;
+		}
+
+		// Check if skip_status is specified
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $data);
+		return $this->sendRequest($path, 'GET', $data);
 
 	}
 
@@ -282,13 +243,8 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function deleteListMembers($list, $user_id = null, $screen_name = null, $owner = null)
+	public function deleteMembers($list, $user_id = null, $screen_name = null, $owner = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
 		{
@@ -333,23 +289,18 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
 		}
 
-		// Set the API base
-		$base = '/1/lists/members/destroy_all.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/lists/members/destroy_all.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
 	 * Method to subscribe the authenticated user to the specified list.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 * @param   mixed          $list   Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed          $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   mixed  $list   Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed  $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -359,12 +310,7 @@ class JTwitterLists extends JTwitterObject
 	public function subscribe($list, $owner = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		$this->checkRateLimit('lists', 'subscribers/create');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -396,42 +342,32 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/lists/subscribers/create.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/lists/subscribers/create.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
 	 * Method to check if the specified user is a member of the specified list.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed          $user         Either an integer containing the user ID or a string containing the screen name of the user to remove.
-	 * @param   mixed          $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
-	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
-	 * 										 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name of the user to remove.
+	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
+	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function isListMember($list, $user, $owner = null, $entities = false, $skip_status = false)
+	public function isMember($list, $user, $owner = null, $entities = null, $skip_status = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		$this->checkRateLimit('lists', 'members/show');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -477,54 +413,44 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/lists/members/show.json';
+		// Set the API path
+		$path = '/lists/members/show.json';
 
-		// Check if entities is true
-		if ($entities > 0)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true
-		if ($skip_status > 0)
+		// Check if skip_status is specified
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to check if the specified user is a subscriber of the specified list.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed          $user         Either an integer containing the user ID or a string containing the screen name of the user to remove.
-	 * @param   mixed          $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
-	 * @param   boolean        $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
-	 * 										 variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
-	 * @param   boolean        $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
+	 * @param   mixed    $list         Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed    $user         Either an integer containing the user ID or a string containing the screen name of the user to remove.
+	 * @param   mixed    $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   boolean  $entities     When set to either true, t or 1, each tweet will include a node called "entities". This node offers a
+	 * 								   variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
+	 * @param   boolean  $skip_status  When set to either true, t or 1 statuses will not be included in the returned user objects.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function isListSubscriber($list, $user, $owner = null, $entities = false, $skip_status = false)
+	public function isSubscriber($list, $user, $owner = null, $entities = null, $skip_status = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		$this->checkRateLimit('lists', 'subscribers/show');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -570,35 +496,30 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/lists/subscribers/show.json';
+		// Set the API path
+		$path = '/lists/subscribers/show.json';
 
-		// Check if entities is true
-		if ($entities > 0)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true
-		if ($skip_status > 0)
+		// Check if skip_status is specified
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to unsubscribe the authenticated user from the specified list.
 	 *
-	 * @param   JTwitterOauth  $oauth  The JTwitterOauth object.
-	 * @param   mixed          $list   Either an integer containing the list ID or a string containing the list slug.
-	 * @param   mixed          $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   mixed  $list   Either an integer containing the list ID or a string containing the list slug.
+	 * @param   mixed  $owner  Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -607,10 +528,8 @@ class JTwitterLists extends JTwitterObject
 	 */
 	public function unsubscribe($list, $owner = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('lists', 'subscribers/destroy');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -642,37 +561,30 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/lists/subscribers/destroy.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/lists/subscribers/destroy.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
 	 * Method to add multiple members to a list, by specifying a comma-separated list of member ids or screen names.
 	 *
-	 * @param   JTwitterOauth  $oauth        The JTwitterOauth object.
-	 * @param   mixed          $list         Either an integer containing the list ID or a string containing the list slug.
-	 * @param   string         $user_id      A comma separated list of user IDs, up to 100 are allowed in a single request.
-	 * @param   string         $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
-	 * @param   mixed          $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
+	 * @param   mixed   $list         Either an integer containing the list ID or a string containing the list slug.
+	 * @param   string  $user_id      A comma separated list of user IDs, up to 100 are allowed in a single request.
+	 * @param   string  $screen_name  A comma separated list of screen names, up to 100 are allowed in a single request.
+	 * @param   mixed   $owner        Either an integer containing the user ID or a string containing the screen name of the owner.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function addListMembers($list, $user_id = null, $screen_name = null, $owner = null)
+	public function addMembers($list, $user_id = null, $screen_name = null, $owner = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('lists', 'members/create_all');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -718,15 +630,11 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
 		}
 
-		// Set the API base
-		$base = '/1/lists/members/create_all.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/lists/members/create_all.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -743,10 +651,10 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getListMembers($list, $owner = null, $entities = false, $skip_status = false)
+	public function getMembers($list, $owner = null, $entities = null, $skip_status = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('lists', 'members');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -778,23 +686,23 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/lists/members.json';
+		// Set the API path
+		$path = '/lists/members.json';
 
-		// Check if entities is true
-		if ($entities > 0)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true
-		if ($skip_status > 0)
+		// Check if skip_status is specified
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $data);
+		return $this->sendRequest($path, 'GET', $data);
 
 	}
 
@@ -812,7 +720,7 @@ class JTwitterLists extends JTwitterObject
 	public function getListById($list, $owner = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('lists', 'show');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -844,74 +752,38 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/lists/show.json';
+		// Set the API path
+		$path = '/lists/show.json';
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $data);
-	}
-
-	/**
-	 * Method to get lists of the specified (or authenticated) user.
-	 *
-	 * @param   mixed  $user  Either an integer containing the user ID or a string containing the screen name.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 * @throws  RuntimeException
-	 */
-	public function getLists($user)
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		// Determine which type of data was passed for $user
-		if (is_numeric($user))
-		{
-			$parameters['user_id'] = $user;
-		}
-		elseif (is_string($user))
-		{
-			$parameters['screen_name'] = $user;
-		}
-		else
-		{
-			// We don't have a valid entry
-			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
-		}
-
-		// Set the API base
-		$base = '/1/lists.json';
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to get a collection of the lists the specified user is subscribed to, 20 lists per page by default. Does not include the user's own lists.
 	 *
-	 * @param   mixed    $user   Either an integer containing the user ID or a string containing the screen name.
-	 * @param   integer  $count  The amount of results to return per page. Defaults to 20. Maximum of 1,000 when using cursors.
+	 * @param   mixed    $user    Either an integer containing the user ID or a string containing the screen name.
+	 * @param   integer  $count   The amount of results to return per page. Defaults to 20. Maximum of 1,000 when using cursors.
+	 * @param   integer  $cursor  Breaks the results into pages. Provide a value of -1 to begin paging.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getSubscriptions($user, $count = 0)
+	public function getSubscriptions($user, $count = 0, $cursor = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('lists', 'subscriptions');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
-			$parameters['user_id'] = $user;
+			$data['user_id'] = $user;
 		}
 		elseif (is_string($user))
 		{
-			$parameters['screen_name'] = $user;
+			$data['screen_name'] = $user;
 		}
 		else
 		{
@@ -922,14 +794,20 @@ class JTwitterLists extends JTwitterObject
 		// Check if count is specified.
 		if ($count > 0)
 		{
-			$parameters['count'] = $count;
+			$data['count'] = $count;
 		}
 
-		// Set the API base
-		$base = '/1/lists/subscriptions.json';
+		// Check if cursor is specified.
+		if (!is_null($cursor))
+		{
+			$data['cursor'] = $cursor;
+		}
+
+		// Set the API path
+		$path = '/lists/subscriptions.json';
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -947,12 +825,10 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function updateList($list, $owner = null, $name = null, $mode = null, $description = null)
+	public function update($list, $owner = null, $name = null, $mode = null, $description = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('lists', 'update');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -1002,15 +878,11 @@ class JTwitterLists extends JTwitterObject
 			$data['description'] = $description;
 		}
 
-		// Set the API base
-		$base = '/1/lists/update.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/lists/update.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -1025,12 +897,10 @@ class JTwitterLists extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function createList($name, $mode = null, $description = null)
+	public function create($name, $mode = null, $description = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('lists', 'create');
 
 		// Check if name is specified.
 		if ($name)
@@ -1050,15 +920,11 @@ class JTwitterLists extends JTwitterObject
 			$data['description'] = $description;
 		}
 
-		// Set the API base
-		$base = '/1/lists/create.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/lists/create.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -1072,12 +938,10 @@ class JTwitterLists extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function deleteList($list, $owner = null)
+	public function delete($list, $owner = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('lists', 'destroy');
 
 		// Determine which type of data was passed for $list
 		if (is_numeric($list))
@@ -1109,14 +973,10 @@ class JTwitterLists extends JTwitterObject
 			throw new RuntimeException('The specified list is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/lists/destroy.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/lists/destroy.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 }
