@@ -255,7 +255,9 @@ class JHelperTags
 	{
 		$result = $this->unTagItem($contentItemId, $table);
 
+		JTable::addIncludePath(JPATH_PLATFORM . '/cms/table');
 		$ucmContentTable = JTable::getInstance('Corecontent');
+
 		return $result && $ucmContentTable->deleteByContentId($contentItemId);
 	}
 
