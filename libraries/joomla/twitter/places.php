@@ -30,13 +30,13 @@ class JTwitterPlaces extends JTwitterObject
 	public function getPlace($id)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('geo', 'id/:place_id');
 
-		// Set the API base
-		$base = '/1/geo/id/' . $id . '.json';
+		// Set the API path
+		$path = '/geo/id/' . $id . '.json';
 
 		// Send the request.
-		return $this->sendRequest($base);
+		return $this->sendRequest($path);
 	}
 
 	/**
@@ -58,41 +58,41 @@ class JTwitterPlaces extends JTwitterObject
 	public function getGeocode($lat, $long, $accuracy = null, $granularity = null, $max_results = 0, $callback = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('geo', 'reverse_geocode');
 
-		// Set the API base
-		$base = '/1/geo/reverse_geocode.json';
+		// Set the API path
+		$path = '/geo/reverse_geocode.json';
 
 		// Set the request parameters
-		$parameters['lat'] = $lat;
-		$parameters['long'] = $long;
+		$data['lat'] = $lat;
+		$data['long'] = $long;
 
 		// Check if accuracy is specified
 		if ($accuracy)
 		{
-			$parameters['accuracy'] = $accuracy;
+			$data['accuracy'] = $accuracy;
 		}
 
 		// Check if granularity is specified
 		if ($granularity)
 		{
-			$parameters['granularity'] = $granularity;
+			$data['granularity'] = $granularity;
 		}
 
 		// Check if max_results is specified
 		if ($max_results)
 		{
-			$parameters['max_results'] = $max_results;
+			$data['max_results'] = $max_results;
 		}
 
 		// Check if callback is specified
 		if ($callback)
 		{
-			$parameters['callback'] = $callback;
+			$data['callback'] = $callback;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -121,10 +121,10 @@ class JTwitterPlaces extends JTwitterObject
 		$within = null, $attribute = null, $callback = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('geo', 'search');
 
-		// Set the API base
-		$base = '/1/geo/search.json';
+		// Set the API path
+		$path = '/geo/search.json';
 
 		// At least one of the following parameters must be provided: lat, long, ip, or query.
 		if ($lat == null && $long == null && $ip == null && $query == null)
@@ -135,65 +135,65 @@ class JTwitterPlaces extends JTwitterObject
 		// Check if lat is specified.
 		if ($lat)
 		{
-			$parameters['lat'] = $lat;
+			$data['lat'] = $lat;
 		}
 
 		// Check if long is specified.
 		if ($long)
 		{
-			$parameters['long'] = $long;
+			$data['long'] = $long;
 		}
 
 		// Check if query is specified.
 		if ($query)
 		{
-			$parameters['query'] = rawurlencode($query);
+			$data['query'] = rawurlencode($query);
 		}
 
 		// Check if ip is specified.
 		if ($ip)
 		{
-			$parameters['ip'] = $ip;
+			$data['ip'] = $ip;
 		}
 
 		// Check if granularity is specified
 		if ($granularity)
 		{
-			$parameters['granularity'] = $granularity;
+			$data['granularity'] = $granularity;
 		}
 
 		// Check if accuracy is specified
 		if ($accuracy)
 		{
-			$parameters['accuracy'] = $accuracy;
+			$data['accuracy'] = $accuracy;
 		}
 
 		// Check if max_results is specified
 		if ($max_results)
 		{
-			$parameters['max_results'] = $max_results;
+			$data['max_results'] = $max_results;
 		}
 
 		// Check if within is specified
 		if ($within)
 		{
-			$parameters['contained_within'] = $within;
+			$data['contained_within'] = $within;
 		}
 
 		// Check if attribute is specified
 		if ($attribute)
 		{
-			$parameters['attribute:street_address'] = rawurlencode($attribute);
+			$data['attribute:street_address'] = rawurlencode($attribute);
 		}
 
 		// Check if callback is specified
 		if ($callback)
 		{
-			$parameters['callback'] = $callback;
+			$data['callback'] = $callback;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -213,35 +213,35 @@ class JTwitterPlaces extends JTwitterObject
 	public function getSimilarPlaces($lat, $long, $name, $within = null, $attribute = null, $callback = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('geo', 'similar_places');
 
-		// Set the API base
-		$base = '/1/geo/similar_places.json';
+		// Set the API path
+		$path = '/geo/similar_places.json';
 
-		$parameters['lat'] = $lat;
-		$parameters['long'] = $long;
-		$parameters['name'] = rawurlencode($name);
+		$data['lat'] = $lat;
+		$data['long'] = $long;
+		$data['name'] = rawurlencode($name);
 
 		// Check if within is specified
 		if ($within)
 		{
-			$parameters['contained_within'] = $within;
+			$data['contained_within'] = $within;
 		}
 
 		// Check if attribute is specified
 		if ($attribute)
 		{
-			$parameters['attribute:street_address'] = rawurlencode($attribute);
+			$data['attribute:street_address'] = rawurlencode($attribute);
 		}
 
 		// Check if callback is specified
 		if ($callback)
 		{
-			$parameters['callback'] = $callback;
+			$data['callback'] = $callback;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -262,12 +262,7 @@ class JTwitterPlaces extends JTwitterObject
 	public function createPlace($lat, $long, $name, $geo_token, $within, $attribute = null, $callback = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		$this->checkRateLimit('geo', 'place');
 
 		$data['lat'] = $lat;
 		$data['long'] = $long;
@@ -287,14 +282,10 @@ class JTwitterPlaces extends JTwitterObject
 			$data['callback'] = $callback;
 		}
 
-		// Set the API base
-		$base = '/1/geo/place.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/geo/place.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 }
