@@ -106,7 +106,7 @@ class UsersModelRegistration extends JModelForm
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('sendEmail') . ' = ' . 1);
+				->where($db->quoteName('sendEmail') . ' = ' . 1));
 
 			$db->setQuery($query);
 
