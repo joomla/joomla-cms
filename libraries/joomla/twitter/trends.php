@@ -21,7 +21,7 @@ class JTwitterTrends extends JTwitterObject
 	/**
 	 * Method to get the top 10 trending topics for a specific WOEID, if trending information is available for it.
 	 *
-	 * @param   integer  $woeid    The Yahoo! Where On Earth ID of the location to return trending information for.
+	 * @param   integer  $id       The Yahoo! Where On Earth ID of the location to return trending information for.
 	 * 							   Global information is available by using 1 as the WOEID.
 	 * @param   string   $exclude  Setting this equal to hashtags will remove all hashtags from the trends list.
 	 *
@@ -29,28 +29,47 @@ class JTwitterTrends extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function getTrends($woeid, $exclude = null)
+	public function getTrends($id, $exclude = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('trends', 'place');
 
-		// Set the API base
-		$base = '/1/trends/' . $woeid . '.json';
+		// Set the API path
+		$path = '/trends/place.json';
 
-		$parameters = array();
+		$data['id'] = $id;
 
 		// Check if exclude is specified
 		if ($exclude)
 		{
-			$parameters['exclude'] = $exclude;
+			$data['exclude'] = $exclude;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
 	 * Method to get the locations that Twitter has trending topic information for.
+	 *
+	 * @return  array  The decoded JSON response
+	 *
+	 * @since   12.3
+	 */
+	public function getLocations()
+	{
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('trends', 'available');
+
+		// Set the API path
+		$path = '/trends/available.json';
+
+		// Send the request.
+		return $this->sendRequest($path);
+	}
+
+	/**
+	 * Method to get the locations that Twitter has trending topic information for, closest to a specified location.
 	 *
 	 * @param   float  $lat   The latitude to search around.
 	 * @param   float  $long  The longitude to search around.
@@ -59,101 +78,29 @@ class JTwitterTrends extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function getLocations($lat = null, $long = null)
+	public function getClosest($lat = null, $long = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('trends', 'closest');
 
-		// Set the API base
-		$base = '/1/trends/available.json';
+		// Set the API path
+		$path = '/trends/closest.json';
 
-		$parameters = array();
+		$data = array();
 
 		// Check if lat is specified
 		if ($lat)
 		{
-			$parameters['lat'] = $lat;
+			$data['lat'] = $lat;
 		}
 
 		// Check if long is specified
 		if ($long)
 		{
-			$parameters['long'] = $long;
+			$data['long'] = $long;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
-	}
-
-	/**
-	 * Method to get the top 20 trending topics for each hour in a given day.
-	 *
-	 * @param   string  $date     The start date for the report. The date should be formatted YYYY-MM-DD.
-	 * @param   string  $exclude  Setting this equal to hashtags will remove all hashtags from the trends list.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 */
-	public function getDailyTrends($date = null, $exclude = null)
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		// Set the API base
-		$base = '/1/trends/daily.json';
-
-		$parameters = array();
-
-		// Check if date is specified
-		if ($date)
-		{
-			$parameters['date'] = $date;
-		}
-
-		// Check if exclude is specified
-		if ($exclude)
-		{
-			$parameters['exclude'] = $exclude;
-		}
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
-	}
-
-	/**
-	 * Method to get the top 30 trending topics for each day in a given week.
-	 *
-	 * @param   string  $date     The start date for the report. The date should be formatted YYYY-MM-DD.
-	 * @param   string  $exclude  Setting this equal to hashtags will remove all hashtags from the trends list.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 */
-	public function getWeeklyTrends($date = null, $exclude = null)
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		// Set the API base
-		$base = '/1/trends/weekly.json';
-
-		$parameters = array();
-
-		// Check if date is specified
-		if ($date)
-		{
-			$parameters['date'] = $date;
-		}
-
-		// Check if exclude is specified
-		if ($exclude)
-		{
-			$parameters['exclude'] = $exclude;
-		}
-
-		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 }
