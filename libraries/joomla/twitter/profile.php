@@ -34,12 +34,10 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function updateProfile($name = null, $url = null, $location = null, $description = null, $entities = false, $skip_status = false)
+	public function updateProfile($name = null, $url = null, $location = null, $description = null, $entities = null, $skip_status = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('account', 'update_profile');
 
 		$data = array();
 
@@ -67,27 +65,23 @@ class JTwitterProfile extends JTwitterObject
 			$data['description'] = $description;
 		}
 
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true.
-		if ($skip_status)
+		// Check if skip_status is specified.
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
-		// Set the API base
-		$base = '/1/account/update_profile.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/account/update_profile.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -105,12 +99,10 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function updateProfileBackgroundImage($image = null, $tile = false, $entities = false, $skip_status = false, $use = false)
+	public function updateProfileBackgroundImage($image = null, $tile = false, $entities = null, $skip_status = null, $use = false)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('account', 'update_profile_background_image');
 
 		$data = array();
 
@@ -126,14 +118,14 @@ class JTwitterProfile extends JTwitterObject
 			$data['tile'] = $tile;
 		}
 
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true.
-		if ($skip_status)
+		// Check if skip_status is specified.
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
@@ -144,17 +136,13 @@ class JTwitterProfile extends JTwitterObject
 			$data['use'] = $use;
 		}
 
-		// Set the API base
-		$base = '/1/account/update_profile_background_image.json';
+		// Set the API path
+		$path = '/account/update_profile_background_image.json';
 
 		$header = array('Content-Type' => 'multipart/form-data', 'Expect' => '');
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data, $header);
 	}
 
 	/**
@@ -169,12 +157,10 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @since   12.3
 	 */
-	public function updateProfileImage($image = null, $entities = false, $skip_status = false)
+	public function updateProfileImage($image = null, $entities = null, $skip_status = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('account', 'update_profile_image');
 
 		$data = array();
 
@@ -184,29 +170,25 @@ class JTwitterProfile extends JTwitterObject
 			$data['image'] = "@{$image}";
 		}
 
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true.
-		if ($skip_status)
+		// Check if skip_status is specified.
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
-		// Set the API base
-		$base = '/1/account/update_profile_image.json';
+		// Set the API path
+		$path = '/account/update_profile_image.json';
 
 		$header = array('Content-Type' => 'multipart/form-data', 'Expect' => '');
 
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data, $header);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data, $header);
 	}
 
 	/**
@@ -226,12 +208,10 @@ class JTwitterProfile extends JTwitterObject
 	 * @since   12.3
 	 */
 	public function updateProfileColors($background = null, $link = null, $sidebar_border = null, $sidebar_fill = null, $text = null,
-		$entities = false, $skip_status = false)
+		$entities = null, $skip_status = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
+		// Check the rate limit for remaining hits
+		$this->checkRateLimit('account', 'update_profile_colors');
 
 		$data = array();
 
@@ -265,55 +245,23 @@ class JTwitterProfile extends JTwitterObject
 			$data['profile_text_color'] = $text;
 		}
 
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
 		// Check if skip_status is true.
-		if ($skip_status)
+		if (!is_null($skip_status))
 		{
 			$data['skip_status'] = $skip_status;
 		}
 
-		// Set the API base
-		$base = '/1/account/update_profile_colors.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/account/update_profile_colors.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
-	}
-
-	/**
-	 * Method to get the current count of friends, followers, updates (statuses) and favorites of the authenticating user.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   12.3
-	 */
-	public function getTotals()
-	{
-		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
-		// Set the API base
-		$base = '/1/account/totals.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
-
-		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
@@ -326,22 +274,13 @@ class JTwitterProfile extends JTwitterObject
 	public function getSettings()
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('account', 'settings');
 
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
-		// Set the API base
-		$base = '/1/account/settings.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/account/settings.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters);
-		return json_decode($response->body);
+		return $this->sendRequest($path);
 	}
 
 	/**
@@ -362,11 +301,6 @@ class JTwitterProfile extends JTwitterObject
 	public function updateSettings($location = null, $sleep_time = false, $start_sleep = null, $end_sleep = null,
 		$time_zone = null, $lang = null)
 	{
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array('oauth_token' => $token['key']);
-
 		$data = array();
 
 		// Check if location is specified.
@@ -405,14 +339,10 @@ class JTwitterProfile extends JTwitterObject
 			$data['lang'] = $lang;
 		}
 
-		// Set the API base
-		$base = '/1/account/settings.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/account/settings.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'POST', $parameters, $data);
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 }
