@@ -31,19 +31,19 @@ class JTwitterUsers extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getUsersLookup($screen_name = null, $id = null, $entities = false)
+	public function getUsersLookup($screen_name = null, $id = null, $entities = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('users', 'lookup');
 
 		// Set user IDs and screen names.
 		if ($id)
 		{
-			$parameters['user_id'] = $id;
+			$data['user_id'] = $id;
 		}
 		if ($screen_name)
 		{
-			$parameters['screen_name'] = $screen_name;
+			$data['screen_name'] = $screen_name;
 		}
 		if ($id == null && $screen_name == null)
 		{
@@ -51,55 +51,53 @@ class JTwitterUsers extends JTwitterObject
 			throw new RuntimeException('You must specify either a comma separated list of screen names, user IDs, or a combination of the two');
 		}
 
-		// Set the API base
-		$base = '/1/users/lookup.json';
+		// Set the API path
+		$path = '/users/lookup.json';
 
-		// Check if string_ids is true
-		if ($entities)
+		// Check if string_ids is specified
+		if (!is_null($entities))
 		{
-			$parameters['include_entities'] = $entities;
+			$data['include_entities'] = $entities;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'post', $parameters);
+		return $this->sendRequest($path, 'POST', $data);
 	}
 
 	/**
-	 * Method to access the profile image in various sizes for the user with the indicated screen_name.
+	 * Method to access the profile banner in various sizes for the user with the indicated screen_name.
 	 *
-	 * @param   string   $screen_name  The screen name of the user for whom to return results for.
-	 * 								   Helpful for disambiguating when a valid screen name is also a user ID.
-	 * @param   boolean  $redirect     If false this will return the URL of the profile picture without a 302 redirect.
-	 * @param   string   $size         Specifies the size of image to fetch. Not specifying a size will give the default, normal size of 48px by 48px.
+	 * @param   mixed  $user  Either an integer containing the user ID or a string containing the screen name.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
 	 */
-	public function getUserProfileImage($screen_name, $redirect = true, $size = null)
+	public function getUserProfileBanner($user)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('users', 'profile_banner');
 
-		// Set the API base
-		$base = '/users/profile_image.json';
+		// Set the API path
+		$path = '/users/profile_banner.json';
 
-		$parameters['screen_name'] = $screen_name;
-
-		// Check if string_ids is true
-		if ($size)
+		// Determine which type of data was passed for $user
+		if (is_numeric($user))
 		{
-			$parameters['size'] = $size;
+			$data['user_id'] = $user;
 		}
-
-		if ($redirect == false)
+		elseif (is_string($user))
 		{
-			// Don't follow redirect.
-			$this->setOption('follow_location', 0);
+			$data['screen_name'] = $user;
+		}
+		else
+		{
+			// We don't have a valid entry
+			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'GET', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -107,7 +105,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @param   string   $query     The search query to run against people search.
 	 * @param   integer  $page      Specifies the page of results to retrieve.
-	 * @param   integer  $per_page  The number of people to retrieve. Maximum of 20 allowed per page.
+	 * @param   integer  $count     The number of people to retrieve. Maximum of 20 allowed per page.
 	 * @param   boolean  $entities  When set to either true, t or 1, each tweet will include a node called "entities,". This node offers a
 	 * 								variety of metadata about the tweet in a discreet structure, including: user_mentions, urls, and hashtags.
 	 *
@@ -116,17 +114,10 @@ class JTwitterUsers extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function searchUsers($query, $page = 0, $per_page = 0, $entities = false)
+	public function searchUsers($query, $page = 0, $count = 0, $entities = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
-
-		$token = $this->oauth->getToken();
-
-		// Set parameters.
-		$parameters = array(
-			'oauth_token' => $token['key']
-		);
+		$this->checkRateLimit('users', 'search');
 
 		$data['q'] = rawurlencode($query);
 
@@ -137,37 +128,22 @@ class JTwitterUsers extends JTwitterObject
 		}
 
 		// Check if per_page is specified
-		if ($per_page > 0)
+		if ($count > 0)
 		{
-			$data['per_page'] = $per_page;
+			$data['count'] = $count;
 		}
 
-		// Check if entities is true.
-		if ($entities)
+		// Check if entities is specified.
+		if (!is_null($entities))
 		{
 			$data['include_entities'] = $entities;
 		}
 
-		// Set the API base
-		$base = '/1/users/search.json';
-
-		// Build the request path.
-		$path = $this->getOption('api.url') . $base;
+		// Set the API path
+		$path = '/users/search.json';
 
 		// Send the request.
-		$response = $this->oauth->oauthRequest($path, 'GET', $parameters, $data);
-
-		// Check Feature Rate Limit.
-		$response_headers = $response->headers;
-		if ($response_headers['X-FeatureRateLimit-Remaining'] == 0)
-		{
-			// The IP has exceeded the Twitter API media rate limit
-			throw new RuntimeException('This server has exceed the Twitter API media rate limit for the given period.  The limit will reset in '
-						. $response_headers['X-FeatureRateLimit-Reset'] . 'seconds.'
-			);
-		}
-
-		return json_decode($response->body);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -181,19 +157,19 @@ class JTwitterUsers extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getUser($user, $entities = true)
+	public function getUser($user, $entities = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('users', 'show');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
-			$parameters['user_id'] = $user;
+			$data['user_id'] = $user;
 		}
 		elseif (is_string($user))
 		{
-			$parameters['screen_name'] = $user;
+			$data['screen_name'] = $user;
 		}
 		else
 		{
@@ -201,17 +177,17 @@ class JTwitterUsers extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/users/show.json';
+		// Set the API path
+		$path = '/users/show.json';
 
-		// Check if entities is true
-		if ($entities)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
-			$parameters['include_entities'] = $entities;
+			$data['include_entities'] = $entities;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -226,19 +202,19 @@ class JTwitterUsers extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getContributees($user, $entities = true, $skip_status = false)
+	public function getContributees($user, $entities = null, $skip_status = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('users', 'contributees');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
-			$parameters['user_id'] = $user;
+			$data['user_id'] = $user;
 		}
 		elseif (is_string($user))
 		{
-			$parameters['screen_name'] = $user;
+			$data['screen_name'] = $user;
 		}
 		else
 		{
@@ -246,23 +222,23 @@ class JTwitterUsers extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/users/contributees.json';
+		// Set the API path
+		$path = '/users/contributees.json';
 
-		// Check if entities is true
-		if ($entities)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
-			$parameters['include_entities'] = $entities;
+			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true
-		if ($skip_status)
+		// Check if skip_status is specified
+		if (!is_null($skip_status))
 		{
-			$parameters['skip_status'] = $skip_status;
+			$data['skip_status'] = $skip_status;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -277,19 +253,19 @@ class JTwitterUsers extends JTwitterObject
 	 * @since   12.3
 	 * @throws  RuntimeException
 	 */
-	public function getContributors($user, $entities = true, $skip_status = false)
+	public function getContributors($user, $entities = null, $skip_status = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('users', 'contributors');
 
 		// Determine which type of data was passed for $user
 		if (is_numeric($user))
 		{
-			$parameters['user_id'] = $user;
+			$data['user_id'] = $user;
 		}
 		elseif (is_string($user))
 		{
-			$parameters['screen_name'] = $user;
+			$data['screen_name'] = $user;
 		}
 		else
 		{
@@ -297,23 +273,23 @@ class JTwitterUsers extends JTwitterObject
 			throw new RuntimeException('The specified username is not in the correct format; must use integer or string');
 		}
 
-		// Set the API base
-		$base = '/1/users/contributors.json';
+		// Set the API path
+		$path = '/users/contributors.json';
 
-		// Check if entities is true
-		if ($entities)
+		// Check if entities is specified
+		if (!is_null($entities))
 		{
-			$parameters['include_entities'] = $entities;
+			$data['include_entities'] = $entities;
 		}
 
-		// Check if skip_status is true
-		if ($skip_status)
+		// Check if skip_status is specified
+		if (!is_null($skip_status))
 		{
-			$parameters['skip_status'] = $skip_status;
+			$data['skip_status'] = $skip_status;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -328,21 +304,21 @@ class JTwitterUsers extends JTwitterObject
 	public function getSuggestions($lang = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('users', 'suggestions');
 
-		// Set the API base
-		$base = '/1/users/suggestions.json';
+		// Set the API path
+		$path = '/users/suggestions.json';
 
-		$parameters = array();
+		$data = array();
 
 		// Check if entities is true
 		if ($lang)
 		{
-			$parameters['lang'] = $lang;
+			$data['lang'] = $lang;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -358,21 +334,21 @@ class JTwitterUsers extends JTwitterObject
 	public function getSuggestionsSlug($slug, $lang = null)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('users', 'suggestions/:slug');
 
-		// Set the API base
-		$base = '/1/users/suggestions/' . $slug . '.json';
+		// Set the API path
+		$path = '/users/suggestions/' . $slug . '.json';
 
-		$parameters = array();
+		$data = array();
 
 		// Check if entities is true
 		if ($lang)
 		{
-			$parameters['lang'] = $lang;
+			$data['lang'] = $lang;
 		}
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', $parameters);
+		return $this->sendRequest($path, 'GET', $data);
 	}
 
 	/**
@@ -388,12 +364,12 @@ class JTwitterUsers extends JTwitterObject
 	public function getSuggestionsSlugMembers($slug)
 	{
 		// Check the rate limit for remaining hits
-		$this->checkRateLimit();
+		$this->checkRateLimit('users', 'suggestions/:slug/members');
 
-		// Set the API base
-		$base = '/1/users/suggestions/' . $slug . '/members.json';
+		// Set the API path
+		$path = '/users/suggestions/' . $slug . '/members.json';
 
 		// Send the request.
-		return $this->sendRequest($base, 'get', array());
+		return $this->sendRequest($path);
 	}
 }
