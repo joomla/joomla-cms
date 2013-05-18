@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-May-2013 Mark Dexter
+ + Added TagManager0002Test.php. Thanks Puneet Kala.
+
 09-May-2013 Mark Dexter
  # Finish system tests for back end Tags Manager. Thanks Puneet Kala.
 
