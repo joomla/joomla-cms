@@ -73,7 +73,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						</span>
 					<?php endif; ?>
 
-					<strong class="list-title">
+					<div class="list-title">
 						<?php if ($this->params->get('icons', 1) == 0) : ?>
 							 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
 						<?php elseif ($this->params->get('icons', 1) == 1) : ?>
@@ -126,7 +126,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									break;
 							}
 						?>
-						</strong>
+						</div>
 						<?php $tagsData = $item->tags->getItemTags('com_weblinks.weblink', $item->id); ?>
 						<?php if ($this->params->get('show_tags', 1)) : ?>
 							<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
