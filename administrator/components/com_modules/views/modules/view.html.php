@@ -63,6 +63,7 @@ class ModulesViewModules extends JViewLegacy
 	{
 		$state	= $this->get('State');
 		$canDo	= ModulesHelper::getActions();
+		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -104,7 +105,7 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.edit'))
+		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules') && $user->authorise('core.edit.state', 'com_modules'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
