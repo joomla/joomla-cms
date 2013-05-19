@@ -34,6 +34,8 @@ $ -> Language fix or change
  ^ [#30658] Adds WAI-ARIA Landmark Roles to Protostar.  Thanks Seth Warburton
  ^ [#30918] Code duplication removal for saveOrderAjax.  Thanks Elin Waring
  # [#30814] Undefind line at isis cpanel.  Thanks Tobias Zulauf
+ # [#30932] Missing variable in gmail authentication.  Thanks Janich Rasmussen
+ ^ [#30777] Removes html elements used in the wrong context.  Thanks Seth Warburton
 
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
