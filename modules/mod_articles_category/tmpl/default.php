@@ -14,27 +14,23 @@ defined('_JEXEC') or die;
 <?php if ($grouped) : ?>
 	<?php foreach ($list as $group_name => $group) : ?>
 	<li>
-		<h<?php echo $item_heading; ?>><?php echo $group_name; ?></h<?php echo $item_heading; ?>>
 		<ul>
 			<?php foreach ($group as $item) : ?>
 				<li>
-					<h<?php echo $item_heading + 1; ?>>
-					   	<?php if ($params->get('link_titles') == 1) : ?>
-						<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
-						<?php echo $item->title; ?>
-				        <?php if ($item->displayHits) :?>
-							<span class="mod-articles-category-hits">
-				            (<?php echo $item->displayHits; ?>)  </span>
-				        <?php endif; ?></a>
-				        <?php else :?>
-				        <?php echo $item->title; ?>
-				        	<?php if ($item->displayHits) :?>
-							<span class="mod-articles-category-hits">
-				            (<?php echo $item->displayHits; ?>)  </span>
-				        <?php endif; ?></a>
-				            <?php endif; ?>
-			        </h<?php echo $item_heading + 1; ?>>
-
+				   	<?php if ($params->get('link_titles') == 1) : ?>
+					<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
+					<?php echo $item->title; ?>
+			        <?php if ($item->displayHits) :?>
+						<span class="mod-articles-category-hits">
+			            (<?php echo $item->displayHits; ?>)  </span>
+			        <?php endif; ?></a>
+			        <?php else :?>
+			        <?php echo $item->title; ?>
+			        	<?php if ($item->displayHits) :?>
+						<span class="mod-articles-category-hits">
+			            (<?php echo $item->displayHits; ?>)  </span>
+			        <?php endif; ?></a>
+			            <?php endif; ?>
 
 				<?php if ($params->get('show_author')) :?>
 					<span class="mod-articles-category-writtenby">
@@ -85,7 +81,7 @@ defined('_JEXEC') or die;
 <?php else : ?>
 	<?php foreach ($list as $item) : ?>
 	    <li>
-	   	<h<?php echo $item_heading; ?>>
+
 	   	<?php if ($params->get('link_titles') == 1) : ?>
 		<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 		<?php echo $item->title; ?>
@@ -100,7 +96,6 @@ defined('_JEXEC') or die;
             (<?php echo $item->displayHits; ?>)  </span>
         <?php endif; ?></a>
             <?php endif; ?>
-        </h<?php echo $item_heading; ?>>
 
        	<?php if ($params->get('show_author')) :?>
        		<span class="mod-articles-category-writtenby">
