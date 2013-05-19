@@ -169,12 +169,14 @@ class JDocumentHTML extends JDocument
 		$this->_script      = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
 		$this->_custom      = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
 
-		if (isset($data['scriptText']) && !empty($data['scriptText'])) {
-			foreach($data['scriptText'] as $key => $string) {
+		if (isset($data['scriptText']) && !empty($data['scriptText']))
+		{
+			foreach ($data['scriptText'] as $key => $string)
+			{
 				JText::script($key, $string);
 			}
 		}
-		
+
 		return $this;
 	}
 
