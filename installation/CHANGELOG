@@ -44,6 +44,7 @@ $ -> Language fix or change
  ^ [#30898] Corrects styling issues with mod_articles_category by removing h tags.  Thanks Seth Warburton
  # [#30949] Feed module generates empty list for non-existing entries.  Thanks Radek Suski
  # [#30833] Fixes issues from #29922.  Thanks George Wilson
+ # [#30726] Error when try to save category with tags.  Thanks Elin Waring
 
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
