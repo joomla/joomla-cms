@@ -40,6 +40,7 @@ class JFeedFactory
 		// Create the XMLReader object.
 		$reader = new XMLReader;
 
+		$uri = JStringPunycode::urlToPunycode($uri);
 		// Open the URI within the stream reader.
 		if (!$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 		{
