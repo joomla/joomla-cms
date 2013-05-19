@@ -28,6 +28,7 @@ $ -> Language fix or change
 19-May-2013 Michael Babker
  # [#30771] Extension Manager Check Database doesn't handle SQL queries with leading comments.  Thanks Mark Dexter
  #$ [#30867] More ':' than we need at Mass Mail.  Thanks Jean-Marie Simonet
+ # [#30880] Article Count at beez3.  Thanks David Hurley
 
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
