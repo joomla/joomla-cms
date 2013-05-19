@@ -40,6 +40,10 @@ $ -> Language fix or change
  # [#30695] Duplicate <div class="control-group"> for tags field.  Thanks Dennis Hermatski
  # [#30500] Show / Hide Filter Field not working in tags layouts.  Thanks Mark Dexter
  # [#30906] *Batch usage needs strict permissions.  Thanks Jean-Marie Simonet
+ # [#30947] Bugs at the debug console if i select some images (e.g. the offline image at the global configuration).  Thanks Tobias Zulauf
+ ^ [#30898] Corrects styling issues with mod_articles_category by removing h tags.  Thanks Seth Warburton
+ # [#30949] Feed module generates empty list for non-existing entries.  Thanks Radek Suski
+ # [#30833] Fixes issues from #29922.  Thanks George Wilson
 
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
