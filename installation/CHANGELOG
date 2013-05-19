@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-May-2013 Michael Babker
+ # [#30771] Extension Manager Check Database doesn't handle SQL queries with leading comments.  Thanks Mark Dexter
+
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
  #$ [#30740] Site name tooltip not translatable correctly
