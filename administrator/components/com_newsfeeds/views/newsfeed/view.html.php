@@ -57,8 +57,9 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= NewsfeedsHelper::getActions($this->item->catid, 0);
+		$canDo		= NewsfeedsHelper::getActions($this->item->catid, 0, 'com_newsfeeds');
 
 		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'), 'newsfeeds.png');
 
@@ -68,7 +69,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			JToolbarHelper::apply('newsfeed.apply');
 			JToolbarHelper::save('newsfeed.save');
 		}
-		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0){
+		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
+		{
 			JToolbarHelper::save2new('newsfeed.save2new');
 		}
 		// If an existing item, can save to a copy.
