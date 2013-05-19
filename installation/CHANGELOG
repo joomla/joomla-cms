@@ -38,6 +38,7 @@ $ -> Language fix or change
  ^ [#30777] Removes html elements used in the wrong context.  Thanks Seth Warburton
  ^ [#30673] Improving query for similar tags module.  Thanks Thomas Hunziker
  # [#30695] Duplicate <div class="control-group"> for tags field.  Thanks Dennis Hermatski
+ # [#30500] Show / Hide Filter Field not working in tags layouts.  Thanks Mark Dexter
 
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
