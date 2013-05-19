@@ -245,13 +245,17 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						<jdoc:include type="component" />
 					</div>
 			</div>
-			<jdoc:include type="modules" name="bottom" style="xhtml" />
+			<?php if ($this->countModules('bottom')) : ?>
+				<jdoc:include type="modules" name="bottom" style="xhtml" />
+			<?php endif; ?>
 			<!-- End Content -->
 		</section>
 		<hr />
-		<?php if (!$this->countModules('status')) : ?>
+		<?php if (!$this->countModules('status') || (!$statusFixed && $this->countModules('status'))) : ?>
 			<footer class="footer">
-				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+				<p align="center">
+				<jdoc:include type="modules" name="footer" style="no" />
+				&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 			</footer>
 		<?php endif; ?>
 	</div>
@@ -260,7 +264,9 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">
 			<div class="btn-group pull-right">
-				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+				<p><jdoc:include type="modules" name="footer" style="no" />
+				&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+
 			</div>
 			<jdoc:include type="modules" name="status" style="no" />
 		</div>
