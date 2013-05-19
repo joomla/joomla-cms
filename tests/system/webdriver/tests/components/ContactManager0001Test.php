@@ -20,7 +20,7 @@ use SeleniumClient\DesiredCapabilities;
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver
- * @since       3.0
+ * @since       3.1
  */
 class ContactManager0001Test extends JoomlaWebdriverTestCase
 {
@@ -28,26 +28,26 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 	 * The page class being tested.
 	 *
 	 * @var     contactManagerPage
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	protected $contactManagerPage = null;
 	
 	/**
-	 * Login to back end and navigate to menu Contact.
+	 * Login to back end and navigate to menu Contacts.
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	public function setUp()
 	{
 		parent::setUp();
 		$cpPage = $this->doAdminLogin();
-		$this->contactManagerPage = $cpPage->clickMenu('Contacts', 'contactManagerPage');
+		$this->contactManagerPage = $cpPage->clickMenu('Contacts', 'ContactManagerPage');
 	}
 
 	/**
 	 * Logout and close test.
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	public function tearDown()
 	{
@@ -67,7 +67,7 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 		foreach ($testElements as $el)
 		{
 			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->contact, 'tab' => $el->tab);
+			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
 		}
 		$this->assertEquals($contactEditPage->inputFields, $actualFields);
 		$contactEditPage->clickButton('toolbar-cancel');
@@ -88,7 +88,7 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * @test
 	 */
-	public function getContactIds_ScreenDisplayed_EqualExpected()
+	public function getTabIds_ScreenDisplayed_EqualExpected()
 	{
 		$this->contactManagerPage->clickButton('toolbar-new');
 		$contactEditPage = $this->getPageObject('ContactEditPage');
@@ -106,12 +106,34 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 		$salt = rand();
 		$contactName = 'Contact' . $salt;
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test Contact should not be present');
-		$this->contactManagerPage->addContact($contactName);
+		$this->contactManagerPage->addContact($contactName, false);
 		$message = $this->contactManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Contact successfully saved') >= 0, 'Contact save should return success');
-		$this->assertEquals(1, $this->contactManagerPage->getRowNumber($contactName), 'Test Contact should be in row 2');
+		$this->assertEquals(5, $this->contactManagerPage->getRowNumber($contactName), 'Test Contact should be in row 5');
 		$this->contactManagerPage->deleteItem($contactName);
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test Contact should not be present');
+	}
+	
+	/**
+	 * @test
+	 */
+	public function addContact_WithGivenFields_ContactAdded()
+	{
+		$salt = rand();
+		$contactName = 'Contact' . $salt;
+		$address='10 Downing Street';
+		$city='London';
+		$country='England';
+
+		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test contact should not be present');
+		$this->contactManagerPage->addContact($contactName, array('Country' => $country, 'Address' => $address, 'City or Suburb' => $city));
+		$message = $this->contactManagerPage->getAlertMessage();
+		$this->assertTrue(strpos($message, 'Contact successfully saved') >= 0, 'Contact save should return success');
+		$this->assertEquals(5, $this->contactManagerPage->getRowNumber($contactName), 'Test test contact should be in row 5');
+		$values = $this->contactManagerPage->getFieldValues('ContactEditPage', $contactName, array('Name', 'Address', 'City or Suburb', 'Country'));
+		$this->assertEquals(array($contactName,$address,$city,$country), $values, 'Actual name, address, city and country should match expected');
+		$this->contactManagerPage->deleteItem($contactName);
+		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test contact should not be present');
 	}
 
 	/**
@@ -122,9 +144,9 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 		$salt = rand();
 		$contactName = 'Contact' . $salt;
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test contact should not be present');
-		$this->contactManagerPage->addContact($contactName);
-		$this->contactManagerPage->editContact($contactName);
-		$values = $this->contactManagerPage->getFieldValues('contactEditPage', $contactName);
+		$this->contactManagerPage->addContact($contactName, false);
+		$this->contactManagerPage->editContact($contactName, array('Country' => 'England', 'Address' => '10 Downing Street', 'City or Suburb' => 'London'));
+		$values = $this->contactManagerPage->getFieldValues('ContactEditPage', $contactName, array('Country', 'Address', 'City or Suburb'));
 		$this->contactManagerPage->deleteItem($contactName);
 	}
 	
@@ -133,12 +155,14 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function changeContactState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
-		$this->contactManagerPage->addContact('Test Contact');
-		$state = $this->contactManagerPage->getState('Test Contact');
+		$salt = rand();
+		$contactName = 'Contact' . $salt;
+		$this->contactManagerPage->addContact($contactName, false);
+		$state = $this->contactManagerPage->getState($contactName);
 		$this->assertEquals('published', $state, 'Initial state should be published');
-		$this->contactManagerPage->changeContactState('Test Contact', 'unpublished');
-		$state = $this->contactManagerPage->getState('Test Contact');
+		$this->contactManagerPage->changeContactState($contactName, 'unpublished');
+		$state = $this->contactManagerPage->getState($contactName);
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->contactManagerPage->deleteItem('Test Contact');
+		$this->contactManagerPage->deleteItem($contactName);
 	}	
 }

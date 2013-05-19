@@ -22,7 +22,7 @@ use SeleniumClient\WebElement;
  * @subpackage  Webdriver
  * @since       3.0
  */
-class contactManagerPage extends AdminManagerPage
+class ContactManagerPage extends AdminManagerPage
 {
 	/**
 	 * XPath string used to uniquely identify this page
@@ -78,16 +78,20 @@ class contactManagerPage extends AdminManagerPage
 	 * Add a new Contact item in the Contact Manager: Component screen.
 	 *
 	 * @param string   $name          Test Contact Name
+	 * @param array    $fields     associative array of fields in the form label => value.
 	 *
 	 * @return  ContactManagerPage
 	 */
-	public function addContact($name='Test Contact')
+	public function addContact($name='Test Contact', $fields)
 	{
 		$new_name = $name;
 		$login = "testing";
 		$this->clickButton('toolbar-new');
 		$contactEditPage = $this->test->getPageObject('ContactEditPage');
 		$contactEditPage->setFieldValues(array('Name' => $name));
+		if($fields) {
+			$contactEditPage->setFieldValues($fields);
+		}
 		$contactEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('ContactManagerPage');
 	}
@@ -122,11 +126,11 @@ class contactManagerPage extends AdminManagerPage
 		$result = false;
 		$row = $this->getRowNumber($name);
 		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
-		if (strpos($text, 'contact.unpublish') > 0)
+		if (strpos($text, 'contacts.unpublish') > 0)
 		{
 			$result = 'published';
 		}
-		if (strpos($text, 'contact.publish') > 0)
+		if (strpos($text, 'contacts.publish') > 0)
 		{
 			$result = 'unpublished';
 		}
@@ -157,5 +161,4 @@ class contactManagerPage extends AdminManagerPage
 		}
 		$this->searchFor();
 	}
-
 }

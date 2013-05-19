@@ -30,7 +30,7 @@ class ContactEditPage extends AdminEditPage
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//form[@id='item-form']";
+	protected $waitForXpath =  "//form[@id='contact-form']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -65,23 +65,25 @@ class ContactEditPage extends AdminEditPage
 	public $inputFields = array (
 			array('label' => 'Name', 'id' => 'jform_name', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'details'),
-            array('label' => 'Linked User', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'details'),
+            //array('label' => 'Linked User', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'details'),
+            array('label' => 'Status', 'id' => 'jform_published', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
-			array('label' => 'Ordering', 'id' => 'jformordering', 'type' => 'select', 'tab' => 'details'),
+			//array('label' => 'Ordering', 'id' => 'jformordering', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Miscellaneous Information', 'id' => 'jform_misc', 'type' => 'textarea', 'tab' => 'details'),
-			array('label' => 'Created by', 'id' => 'jform_created_by_name', 'type' => 'input', 'tab' => 'publishing'),
+			//array('label' => 'Created by', 'id' => 'jform_created_by_name', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created By Alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created date', 'id' => 'jform_created', 'type'=>'input', 'tab'=>'publishing'),
 			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type'=>'input', 'tab'=>'publishing'),
 			array('label' => 'Finish Publishing', 'id' => 'jform_publish_down', 'type'=>'input', 'tab'=>'publishing'),
-			array('label' => 'Revision', 'id' => 'jform_version', 'type'=>'input', 'tab'=>'publishing'),
+			//array('label' => 'Revision', 'id' => 'jform_version', 'type'=>'input', 'tab'=>'publishing'),
 			array('label' => 'Image', 'id' => 'jform_image', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Position', 'id' => 'jform_con_position', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Email', 'id' => 'jform_email_to', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Address', 'id' => 'jform_address', 'type'=>'textarea', 'tab'=>'basic'),
 			array('label' => 'City or Suburb', 'id' => 'jform_suburb', 'type'=>'input', 'tab'=>'basic'),
-			array('label' => 'State or Province', 'id' => 'jform_state', 'type'=>'input', 'tab'=>'basic'),
+			//array('label' => 'State or Province', 'id' => 'jform_state', 'type'=>'input', 'tab'=>'basic'),
+			array('label' => 'Postal / ZIP Code', 'id' => 'jform_postcode', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Country', 'id' => 'jform_country', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Telephone', 'id' => 'jform_telephone', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Mobile', 'id' => 'jform_mobile', 'type'=>'input', 'tab'=>'basic'),
@@ -90,8 +92,8 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'First Sort Field', 'id' => 'jform_sortname1', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Second Sort Field', 'id' => 'jform_sortname2', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Third Sort Field', 'id' => 'jform_sortname3', 'type'=>'input', 'tab'=>'basic'),
-			array('label' => 'Show Category', 'id' => 'jform_params_show_contact_category', 'type'=>'radio', 'tab'=>'params-jbasic'),
-			array('label' => 'Show Contact List', 'id' => 'jform_params_show_contact_list', 'type'=>'select', 'tab'=>'params-jbasic'),
+			array('label' => 'Show Category', 'id' => 'jform_params_show_contact_category', 'type'=>'select', 'tab'=>'params-jbasic'),
+			array('label' => 'Show Contact List', 'id' => 'jform_params_show_contact_list', 'type'=>'fieldset', 'tab'=>'params-jbasic'),
 			array('label' => 'Display format', 'id' => 'jform_params_presentation_style', 'type'=>'select', 'tab'=>'params-jbasic'),
 			array('label' => 'Show Tags', 'id' => 'jform_params_show_tags', 'type'=>'select', 'tab'=>'params-jbasic'),
 			array('label' => 'Name', 'id' => 'jform_params_show_name', 'type'=>'select', 'tab'=>'params-jbasic'),
@@ -103,7 +105,7 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Postal Code', 'id' => 'jform_params_show_postcode', 'type'=>'select', 'tab'=>'params-jbasic'),
 			array('label' => 'Country', 'id' => 'jform_params_show_country', 'type'=>'select', 'tab'=>'params-jbasic'),
 			array('label' => 'Telephone', 'id' => 'jform_params_show_telephone', 'type'=>'select', 'tab'=>'params-jbasic'),
-			array('label' => 'Mobile Phone', 'id' => 'jform_params_show_mobile', 'type'=>'select', 'tab'=>'params-jbasic'),
+			array('label' => 'Mobile phone', 'id' => 'jform_params_show_mobile', 'type'=>'select', 'tab'=>'params-jbasic'),
 			array('label' => 'Fax', 'id' => 'jform_params_show_fax', 'type'=>'select', 'tab'=>'params-jbasic'),
 			array('label' => 'Webpage', 'id' => 'jform_params_show_webpage', 'type'=>'select', 'tab'=>'params-jbasic'),
 			array('label' => 'Misc. Information', 'id' => 'jform_params_show_misc', 'type'=>'select', 'tab'=>'params-jbasic'),
