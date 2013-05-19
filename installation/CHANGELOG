@@ -36,6 +36,8 @@ $ -> Language fix or change
  # [#30814] Undefind line at isis cpanel.  Thanks Tobias Zulauf
  # [#30932] Missing variable in gmail authentication.  Thanks Janich Rasmussen
  ^ [#30777] Removes html elements used in the wrong context.  Thanks Seth Warburton
+ ^ [#30673] Improving query for similar tags module.  Thanks Thomas Hunziker
+ # [#30695] Duplicate <div class="control-group"> for tags field.  Thanks Dennis Hermatski
 
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
