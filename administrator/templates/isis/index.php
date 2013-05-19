@@ -250,7 +250,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			<?php endif; ?>
 			<!-- End Content -->
 		</section>
-		<hr />
+
 		<?php if (!$this->countModules('status') || (!$statusFixed && $this->countModules('status'))) : ?>
 			<footer class="footer">
 				<p align="center">

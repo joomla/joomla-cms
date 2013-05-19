@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#30754] Wrong display of the Debug Console (404 Error).  Thanks Brian Teeman
  ^ [#30658] Adds WAI-ARIA Landmark Roles to Protostar.  Thanks Seth Warburton
  ^ [#30918] Code duplication removal for saveOrderAjax.  Thanks Elin Waring
+ # [#30814] Undefind line at isis cpanel.  Thanks Tobias Zulauf
 
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
