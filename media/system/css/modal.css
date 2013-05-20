@@ -149,6 +149,11 @@
 	top: -40px;
 	background: url(../images/modal/bg_nw.png) no-repeat;
 }
+/* removes second scrolbar in imagepopup */
+#sbox-window #sbox-content iframe {
+    overflow: hidden;
+}
+
 @-moz-document url-prefix() {
     .body-overlayed {
 	overflow: visible;

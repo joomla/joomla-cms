@@ -248,3 +248,9 @@ div#system-debug {
 #system-debug div.dbgHeader.dbgerror {
 	background-color: red;
 }
+
+/* hides the second and third debug console in the two iframes of media image popup */
+ul.manager.thumbnails + script + #system-debug,
+#uploadForm + script + #system-debug {
+    display: none;
+}
