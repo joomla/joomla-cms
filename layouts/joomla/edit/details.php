@@ -75,16 +75,14 @@ $published = $displayData->get('form')->getValue('published');
 						<?php echo $displayData->get('form')->getInput('language'); ?>
 					</div>
 				</div>
-				<div class="control-group">
-					<?php foreach ($displayData->get('form')->getFieldset('jmetadata') as $field) : ?>
-						<?php if ($field->name == 'jform[metadata][tags][]') :?>
-						<div class="control-group">
-							<div class="control-label"><?php echo $field->label; ?></div>
-							<div class="controls"><?php echo $field->input; ?></div>
-						</div>
-						<?php endif; ?>
-					<?php endforeach; ?>
-				</div>
+				<?php foreach ($displayData->get('form')->getFieldset('jmetadata') as $field) : ?>
+					<?php if ($field->name == 'jform[metadata][tags][]') :?>
+					<div class="control-group">
+						<div class="control-label"><?php echo $field->label; ?></div>
+						<div class="controls"><?php echo $field->input; ?></div>
+					</div>
+					<?php endif; ?>
+				<?php endforeach; ?>
 
 			</fieldset>
 		</div>

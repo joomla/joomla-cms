@@ -100,7 +100,7 @@ class ContactViewContacts extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.edit'))
+		if ($user->authorise('core.create', 'com_contacts') && $user->authorise('core.edit', 'com_contacts') && $user->authorise('core.edit.state', 'com_contacts'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
