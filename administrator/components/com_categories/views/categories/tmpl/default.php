@@ -160,7 +160,9 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 		</tbody>
 	</table>
 	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php if ($user->authorize('core.create', $extension) & $user->authorize('core.edit', $extension) && $user->authorize('core.edit.state', $extension)) : ?>
+		<?php echo $this->loadTemplate('batch'); ?>
+	<?php endif;?>
 
 	<div>
 		<input type="hidden" name="extension" value="<?php echo $extension;?>" />
