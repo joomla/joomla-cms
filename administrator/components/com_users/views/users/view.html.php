@@ -62,6 +62,9 @@ class UsersViewUsers extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
+		// Get the current user object.
+		$user = JFactory::getUser();
+
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
 
 		if ($canDo->get('core.create'))
