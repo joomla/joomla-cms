@@ -110,7 +110,7 @@ class TagsViewTags extends JViewLegacy
 			JToolbarHelper::trash('tags.trash');
 		}
 		// Add a batch button
-		if ($user->authorise('core.edit'))
+		if ($user->authorise('core.create', 'com_tags') && $user->authorise('core.edit', 'com_tags') && $user->authorise('core.edit.state', 'com_tags'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
