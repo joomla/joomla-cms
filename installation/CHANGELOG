@@ -25,6 +25,27 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-May-2013 Michael Babker
+ # [#30771] Extension Manager Check Database doesn't handle SQL queries with leading comments.  Thanks Mark Dexter
+ #$ [#30867] More ':' than we need at Mass Mail.  Thanks Jean-Marie Simonet
+ # [#30880] Article Count at beez3.  Thanks David Hurley
+ ^ [#30819] Removes unnecessary clearfix divs.  Thanks Seth Warburton
+ # [#30754] Wrong display of the Debug Console (404 Error).  Thanks Brian Teeman
+ ^ [#30658] Adds WAI-ARIA Landmark Roles to Protostar.  Thanks Seth Warburton
+ ^ [#30918] Code duplication removal for saveOrderAjax.  Thanks Elin Waring
+ # [#30814] Undefind line at isis cpanel.  Thanks Tobias Zulauf
+ # [#30932] Missing variable in gmail authentication.  Thanks Janich Rasmussen
+ ^ [#30777] Removes html elements used in the wrong context.  Thanks Seth Warburton
+ ^ [#30673] Improving query for similar tags module.  Thanks Thomas Hunziker
+ # [#30695] Duplicate <div class="control-group"> for tags field.  Thanks Dennis Hermatski
+ # [#30500] Show / Hide Filter Field not working in tags layouts.  Thanks Mark Dexter
+ # [#30906] *Batch usage needs strict permissions.  Thanks Jean-Marie Simonet
+ # [#30947] Bugs at the debug console if i select some images (e.g. the offline image at the global configuration).  Thanks Tobias Zulauf
+ ^ [#30898] Corrects styling issues with mod_articles_category by removing h tags.  Thanks Seth Warburton
+ # [#30949] Feed module generates empty list for non-existing entries.  Thanks Radek Suski
+ # [#30833] Fixes issues from #29922.  Thanks George Wilson
+ # [#30726] Error when try to save category with tags.  Thanks Elin Waring
+
 13-May-2013 Jean-Marie Simonet
  $ Updating ko-KR installation language
  #$ [#30740] Site name tooltip not translatable correctly
