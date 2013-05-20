@@ -186,7 +186,7 @@
 				description="JGLOBAL_FILTER_FIELD_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
+				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 

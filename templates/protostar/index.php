@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -144,7 +144,7 @@ else
 	<div class="body">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<!-- Header -->
-			<header class="header">
+			<header class="header" role="banner">
 				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
 						<?php echo $logo;?> <?php if ($this->params->get('sitedescription')) { echo '<div class="site-description">'. htmlspecialchars($this->params->get('sitedescription')) .'</div>'; } ?>
@@ -155,7 +155,7 @@ else
 				</div>
 			</header>
 			<?php if ($this->countModules('position-1')) : ?>
-			<nav class="navigation">
+			<nav class="navigation" role="navigation">
 				<jdoc:include type="modules" name="position-1" style="none" />
 			</nav>
 			<?php endif; ?>
@@ -170,7 +170,7 @@ else
 				</div>
 				<!-- End Sidebar -->
 				<?php endif; ?>
-				<main id="content" class="<?php echo $span;?>">
+				<main id="content" role="main" class="<?php echo $span;?>">
 					<!-- Begin Content -->
 					<jdoc:include type="modules" name="position-3" style="xhtml" />
 					<jdoc:include type="message" />
@@ -189,7 +189,7 @@ else
 		</div>
 	</div>
 	<!-- Footer -->
-	<footer class="footer">
+	<footer class="footer" role="contentinfo">
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
