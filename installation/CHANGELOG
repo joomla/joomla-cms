@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-May-2013 Michael Babker
+ # [#30926] Beez5: Additional < in category list.  Thanks Constantin Romankiewicz
+ # [#30906] *Batch usage needs strict permissions.  Thanks Jean-Marie Simonet
+
 13-May-2013 Jean-Marie Simonet
  ^ [#30663] Default Value for the Option Show Sub-menu Items to be Set as Yes. Thanks Mig
  # [#30873] *Multilanguage: PHP warning when logging.
