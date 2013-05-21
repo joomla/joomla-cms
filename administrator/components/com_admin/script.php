@@ -587,6 +587,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/installer/index.html',
 			'/libraries/joomla/installer/librarymanifest.php',
 			'/libraries/joomla/installer/packagemanifest.php',
+			'/libraries/joomla/pagination/index.html',
+			'/libraries/joomla/pagination/object.php',
+			'/libraries/joomla/pagination/pagination.php',
 			'/libraries/legacy/html/contentlanguage.php',
 			'/libraries/legacy/html/index.html',
 			'/libraries/legacy/html/menu.php',
@@ -642,6 +645,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/html',
 			'/libraries/joomla/installer/adapters',
 			'/libraries/joomla/installer',
+			'/libraries/joomla/pagination',
 			'/libraries/legacy/html',
 			'/media/system/swf/',
 		);
