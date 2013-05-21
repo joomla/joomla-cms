@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Dispatcher
  * @since       11.1
- * @deprecated  12.3
+ * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */
 class JDispatcher extends JEventDispatcher
 {

@@ -1670,7 +1670,7 @@ class JClientFtp
  * @package     Joomla.Platform
  * @subpackage  Client
  * @since       11.1
- * @deprecated  12.3
+ * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */
 class JFTP extends JClientFtp
 {
