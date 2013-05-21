@@ -1502,9 +1502,14 @@ abstract class JDatabaseQuery
 	{
 		foreach ($this as $k => $v)
 		{
+			if ($k === 'db')
+			{
+				continue;
+			}
+
 			if (is_object($v) || is_array($v))
 			{
-				$this->{$k} = unserialize(serialize($v));
+				$this->$k = unserialize(serialize($v));
 			}
 		}
 	}

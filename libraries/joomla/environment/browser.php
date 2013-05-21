@@ -256,6 +256,12 @@ class JBrowser
 				$this->setBrowser('chrome');
 				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
+			elseif (preg_match('|CriOS[/ ]([0-9.]+)|', $this->agent, $version))
+			{
+				$this->setBrowser('chrome');
+				list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+				$this->mobile = true;
+			}
 			elseif (strpos($this->lowerAgent, 'elaine/') !== false
 				|| strpos($this->lowerAgent, 'palmsource') !== false
 				|| strpos($this->lowerAgent, 'digital paths') !== false)

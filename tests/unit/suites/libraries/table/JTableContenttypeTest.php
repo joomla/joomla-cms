@@ -77,6 +77,21 @@ class JTableContenttypeTest extends TestCaseDatabase
 		}
 
 		$table->type_title = 'Unit Test';
+
+		try
+		{
+			$table->check();
+		}
+		catch (UnexpectedValueException $e)
+		{
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo('The type_alias is empty')
+			);
+		}
+
+		$table->type_alias = 'com_unit.test';
+
 		$this->assertThat(
 			$table->check(),
 			$this->isTrue(),
@@ -109,5 +124,4 @@ class JTableContenttypeTest extends TestCaseDatabase
 		'Line: ' . __LINE__ . ' Table store should successfully insert a record for the unit test item.'
 		);
 	}
-
 }

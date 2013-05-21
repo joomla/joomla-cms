@@ -23,7 +23,7 @@ class InstallTest extends JoomlaWebdriverTestCase
 		$cpPage = $this->doAdminLogin();
 		$gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$gcPage->setFieldValue('Cache', 'OFF');
-		$gcPage->setFieldValue('Error Reporting', 'Maximum');
+		$gcPage->setFieldValue('Error Reporting', 'Development');
 		$gcPage->saveAndClose('ControlPanelPage');
 		$this->doAdminLogout();
 	}

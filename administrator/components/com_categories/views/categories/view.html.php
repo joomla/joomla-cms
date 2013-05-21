@@ -158,7 +158,7 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.edit'))
+		if ($user->authorise('core.create', $extension) & $user->authorise('core.edit', $extension) && $user->authorise('core.edit.state', $extension))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
@@ -223,7 +223,7 @@ class CategoriesViewCategories extends JViewLegacy
 		);
 
 		JHtmlSidebar::addFilter(
-		'-' . JText::_('JSELECT') . ' ' . JText::_('JTAG') . '-',
+		JText::_('JOPTION_SELECT_TAG'),
 		'filter_tag',
 		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
 		);

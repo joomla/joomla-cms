@@ -203,12 +203,10 @@ class JControllerAdmin extends JControllerLegacy
 			JArrayHelper::toInteger($cid);
 
 			// Publish the items.
-			if (!$model->publish($cid, $value))
+			try
 			{
-				JLog::add($model->getError(), JLog::WARNING, 'jerror');
-			}
-			else
-			{
+				$model->publish($cid, $value);
+
 				if ($value == 1)
 				{
 					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
@@ -227,6 +225,11 @@ class JControllerAdmin extends JControllerLegacy
 				}
 				$this->setMessage(JText::plural($ntext, count($cid)));
 			}
+			catch (Exception $e)
+			{
+				$this->setMessage(JText::_('JLIB_DATABASE_ERROR_ANCESTOR_NODES_LOWER_STATE'), 'error');
+			}
+
 		}
 		$extension = $this->input->get('extension');
 		$extensionURL = ($extension) ? '&extension=' . $extension : '';
@@ -338,5 +341,37 @@ class JControllerAdmin extends JControllerLegacy
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false), $message);
 			return true;
 		}
+	}
+
+	/**
+	 * Method to save the submitted ordering values for records via AJAX.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function saveOrderAjax()
+	{
+		// Get the input
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$order = $this->input->post->get('order', array(), 'array');
+
+		// Sanitize the input
+		JArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($order);
+
+		// Get the model
+		$model = $this->getModel();
+
+		// Save the ordering
+		$return = $model->saveorder($pks, $order);
+
+		if ($return)
+		{
+			echo "1";
+		}
+
+		// Close the application
+		JFactory::getApplication()->close();
 	}
 }

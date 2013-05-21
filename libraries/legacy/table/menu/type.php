@@ -152,7 +152,7 @@ class JTableMenuType extends JTable
 	}
 
 	/**
-	 * Method to delete a row from the database table by primary key value.
+	 * Override parent delete method to delete tags information.
 	 *
 	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
 	 *

@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
+JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR.'/components/com_languages/helpers/multilangstatus.php');
+
 /**
  * Joomla! Language Filter Plugin
  *
@@ -27,6 +29,8 @@ class PlgSystemLanguageFilter extends JPlugin
 	protected static $sefs;
 
 	protected static $lang_codes;
+
+	protected static $homes;
 
 	protected static $default_lang;
 
@@ -46,6 +50,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$app = JFactory::getApplication();
 			$router = $app->getRouter();
+
 			if ($app->isSite())
 			{
 				// setup language data
@@ -54,6 +59,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
 				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 				self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
+				self::$homes		= MultilangstatusHelper::getHomes();
 
 				$user = JFactory::getUser();
 				$levels = $user->getAuthorisedViewLevels();
@@ -399,7 +405,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				if ($app->isSite())
 				{
-					$app->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='.$app->getMenu()->getDefault($lang_code)->id.'&lang='.$lang_codes[$lang_code]->sef);
+					$app->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='.$app->getMenu()->getDefault($lang_code)->id.'&lang='.self::$lang_codes[$lang_code]->sef);
 					self::$tag = $lang_code;
 					// Create a cookie
 					$conf = JFactory::getConfig();
@@ -466,7 +472,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 				else
 				{
-					$itemid = isset($homes[$lang_code]) ? $homes[$lang_code]->id : $homes['*']->id;
+					$itemid = isset(self::$homes[$lang_code]) ? self::$homes[$lang_code]->id : self::$homes['*']->id;
 					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);
 				}
 			}

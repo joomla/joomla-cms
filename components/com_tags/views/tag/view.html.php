@@ -69,6 +69,33 @@ class TagsViewTag extends JViewLegacy
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
+			foreach ($items as $itemElement)
+			{
+				$itemElement->event = new stdClass;
+
+				// For some plugins.
+				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+
+				$dispatcher = JEventDispatcher::getInstance();
+
+				JPluginHelper::importPlugin('content');
+				$results = $dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+
+				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+				$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+				if ($itemElement->text)
+				{
+					$itemElement->core_body = $itemElement->text;
+				}
+			}
+
 		}
 
 		$this->state      = &$state;
@@ -79,7 +106,7 @@ class TagsViewTag extends JViewLegacy
 		$this->user       = &$user;
 		$this->item       = &$item;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params

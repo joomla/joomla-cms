@@ -2,9 +2,9 @@
 	font-family: 'IcoMoon';
 	src: url('../../../../media/jui/fonts/IcoMoon.eot');
 	src: url('../../../../media/jui/fonts/IcoMoon.eot?#iefix') format('embedded-opentype'),
-		url('../../../../media/jui/fonts/IcoMoon.svg#IcoMoon') format('svg'),
 		url('../../../../media/jui/fonts/IcoMoon.woff') format('woff'),
-		url('../../../../media/jui/fonts/IcoMoon.ttf') format('truetype');
+		url('../../../../media/jui/fonts/IcoMoon.ttf') format('truetype'),
+		url('../../../../media/jui/fonts/IcoMoon.svg#IcoMoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -73,8 +73,7 @@
 .icon-pencil:before {
 	content: "\2b";
 }
-.icon-edit:before,
-.icon-pencil:before {
+.icon-edit:before {
 	color: @btnInfoBackgroundHighlight;
 }
 .icon-pencil-2:before {
@@ -143,6 +142,7 @@
 .icon-checkbox-partial:before {
 	content: "\3f";
 }
+.icon-unfeatured:before,
 .icon-asterisk:before,
 .icon-star-empty:before {
 	content: "\40";
@@ -151,8 +151,12 @@
 	content: "\41";
 }
 .icon-featured:before,
+.icon-default:before,
 .icon-star:before {
 	content: "\42";
+}
+.icon-featured:before,
+.icon-default:before {
 	color: @btnWarningBackgroundHighlight;
 }
 .icon-calendar:before {
@@ -171,6 +175,8 @@
 .icon-pending:before,
 .icon-warning:before {
 	content: "\48";
+}
+.icon-pending:before {
 	color: @btnWarningBackgroundHighlight;
 }
 .icon-publish:before,
@@ -178,16 +184,28 @@
 .icon-ok:before,
 .icon-checkmark:before {
 	content: "\47";
+}
+.icon-publish:before,
+.icon-save:before,
+.icon-ok:before {
 	color: @btnSuccessBackgroundHighlight;
 }
 .icon-unpublish:before,
 .icon-cancel:before {
 	content: "\4a";
+}
+.icon-unpublish:before,
+.btn-toolbar .icon-cancel:before {
 	color: @btnDangerBackgroundHighlight;
 }
+.icon-not-ok:before,
 .icon-eye-close:before,
 .icon-minus:before {
 	content: "\4b";
+}
+.icon-not-ok:before,
+.icon-eye-close:before {
+	color: @btnDangerBackgroundHighlight;
 }
 .icon-purge:before,
 .icon-trash:before {
@@ -252,12 +270,17 @@
 .icon-save-new:before,
 .icon-plus-2:before {
 	content: "\5d";
+}
+.icon-save-new:before {
 	color: @btnSuccessBackgroundHighlight;
 }
 .icon-ban-circle:before,
 .icon-minus-sign:before,
 .icon-minus-2:before {
 	content: "\5e";
+}
+.icon-ban-circle:before,
+.icon-minus-sign:before {
 	color: @btnDangerBackgroundHighlight;
 }
 .icon-key:before {
@@ -437,6 +460,9 @@
 .icon-save-copy:before,
 .icon-copy:before {
 	content: "\e018";
+}
+.icon-save-copy:before,
+.btn-toolbar .icon-copy:before {
 	color: @btnSuccessBackgroundHighlight;
 }
 .icon-cart:before {

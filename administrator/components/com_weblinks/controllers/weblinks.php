@@ -29,46 +29,16 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 	}
 
 	/**
-	 * Method to save the submitted ordering values for records via AJAX.
+	 * Method to provide child classes the opportunity to process after the delete task.
+	 *
+	 * @param   JModelLegacy   $model   The model for the component
+	 * @param   mixed          $ids     array of ids deleted.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
-	public function saveOrderAjax()
-	{
-		// Get the input
-		$input = JFactory::getApplication()->input;
-		$pks = $input->post->get('cid', array(), 'array');
-		$order = $input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
-	}
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
-		// If an item has been tagged we need to untag it and delete it from #__ucm_content.
-		$task = $this->getTask();
-
-		$item = $model->getItem();
-
-		$tags = new JHelperTags;
-		$tags->deleteTagData($ids, 'com_weblinks.weblink');
-
 	}
 }
