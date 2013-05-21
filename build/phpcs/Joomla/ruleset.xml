@@ -3,32 +3,32 @@
  <description>The Joomla coding standard.</description>
 
  <!-- Exclude all JavaScript and CSS files. There are bugs and we don't have any rules anyways. -->
- <exclude-pattern>*\.js</exclude-pattern>
- <exclude-pattern>*\.css</exclude-pattern>
+ <exclude-pattern type="relative">*/.js</exclude-pattern>
+ <exclude-pattern type="relative">*/.css</exclude-pattern>
 
  <!-- Exclude the index.html files. -->
- <exclude-pattern>*/index.html</exclude-pattern>
+ <exclude-pattern type="relative">*/index.html</exclude-pattern>
 
  <!-- Exclude folders not containing production code -->
- <exclude-pattern>build/*</exclude-pattern>
- <exclude-pattern>docs/*</exclude-pattern>
- <exclude-pattern>tests/*</exclude-pattern>
- <exclude-pattern>cache/*</exclude-pattern>
- <exclude-pattern>tmp/*</exclude-pattern>
- <exclude-pattern>logs/*</exclude-pattern>
+ <exclude-pattern type="relative">build/*</exclude-pattern>
+ <exclude-pattern type="relative">docs/*</exclude-pattern>
+ <exclude-pattern type="relative">tests/*</exclude-pattern>
+ <exclude-pattern type="relative">cache/*</exclude-pattern>
+ <exclude-pattern type="relative">tmp/*</exclude-pattern>
+ <exclude-pattern type="relative">logs/*</exclude-pattern>
 
  <!-- Exclude 3rd party libraries. -->
- <exclude-pattern>libraries/phputf8/*</exclude-pattern>
- <exclude-pattern>libraries/simplepie/*</exclude-pattern>
- <exclude-pattern>libraries/phpmailer/phpmailer.php</exclude-pattern>
- <exclude-pattern>libraries/phpmailer/smtp.php</exclude-pattern>
- <exclude-pattern>libraries/phpmailer/pop3.php</exclude-pattern>
- <exclude-pattern>*/mootree*.css</exclude-pattern>
- <exclude-pattern>*/mooRainbow.css</exclude-pattern>
- <exclude-pattern>*/modal.css</exclude-pattern>
+ <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
+ <exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
+ <exclude-pattern type="relative">libraries/phpmailer/phpmailer.php</exclude-pattern>
+ <exclude-pattern type="relative">libraries/phpmailer/smtp.php</exclude-pattern>
+ <exclude-pattern type="relative">libraries/phpmailer/pop3.php</exclude-pattern>
+ <exclude-pattern type="relative">*/mootree*.css</exclude-pattern>
+ <exclude-pattern type="relative">*/mooRainbow.css</exclude-pattern>
+ <exclude-pattern type="relative">*/modal.css</exclude-pattern>
 
- <exclude-pattern>administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
- <exclude-pattern>configuration.php</exclude-pattern>
+ <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
+ <exclude-pattern type="relative">configuration.php</exclude-pattern>
 
  <!-- Include all sniffs in an external standard directory -->
 
@@ -42,44 +42,44 @@
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength">
 	 <!-- These exceptions are temporary -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/libraries/*</exclude-pattern>
-  <exclude-pattern>/includes/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
+  <exclude-pattern type="relative">libraries/*</exclude-pattern>
+  <exclude-pattern type="relative">includes/*</exclude-pattern>
   <!-- These exceptions are permanent -->
-  <exclude-pattern>*/tmpl/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/installation/template/index.php</exclude-pattern>
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
  </rule>
  <rule ref="Zend.Files.ClosingTag">
-  <exclude-pattern>*/tmpl/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
  </rule>
 
  <rule ref="Generic.Formatting.DisallowMultipleStatements">
-  <exclude-pattern>*/tmpl/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/installation/template/index.php</exclude-pattern>
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
  </rule>
  <rule ref="PEAR.Formatting.MultiLineAssignment"/>
 
  <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
  <rule ref="PEAR.Functions.ValidDefaultValue">
   <!-- These exceptions are temporary for now -->
-  <exclude-pattern>/administrator/components/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/libraries/cms/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
+  <exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
  </rule>
 
  <rule ref="PEAR.NamingConventions.ValidClassName">
   <!-- These exceptions are temporary for now -->
-  <exclude-pattern>/installation/controller/install/database_*</exclude-pattern>
+  <exclude-pattern type="relative">installation/controller/install/database_*</exclude-pattern>
  </rule>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
 
@@ -90,21 +90,21 @@
  <rule ref="Squiz.Operators.IncrementDecrementUsage">
   <exclude name="Squiz.Operators.IncrementDecrementUsage.processAssignment"/>
   <!-- These exceptions are temporary -->
-  <exclude-pattern>/administrator/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
  </rule>
 
  <rule ref="Squiz.Scope.StaticThisUsage"/>
 
  <rule ref="Squiz.WhiteSpace.ScopeClosingBrace">
  <!-- These exceptions are temporary -->
-  <exclude-pattern>/administrator/components/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>*/tmpl/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
  </rule>
 
  <!-- Lines can be 85 chars long, but never show errors -->
@@ -131,87 +131,87 @@
 
  <rule ref="Joomla.Classes.MethodScope">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.FunctionComment">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/includes/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.SingleComment">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/includes/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.ClassComment">
   <!-- We exclude components and modules for now -->
-  <exclude-pattern>/administrator/components/*</exclude-pattern>
-  <exclude-pattern>/administrator/modules/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/modules/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/includes/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">includes/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.ControlSignature">
   <!-- We only want this for libraries, languages and cli for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
-  <exclude-pattern>/includes/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
+  <exclude-pattern type="relative">includes/*</exclude-pattern>
   <!-- These exceptions are permanent -->
-  <exclude-pattern>*/tmpl/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/installation/template/index.php</exclude-pattern>
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.InlineControlStructure">
   <!-- These exceptions are temporary -->
-  <exclude-pattern>/administrator/components/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
   <!-- These exceptions are permanent -->
-  <exclude-pattern>*/tmpl/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/installation/template/index.php</exclude-pattern>
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.ControlStructures.MultiLineCondition">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern>/administrator/*</exclude-pattern>
-  <exclude-pattern>/components/*</exclude-pattern>
-  <exclude-pattern>/plugins/*</exclude-pattern>
-  <exclude-pattern>/modules/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">components/*</exclude-pattern>
+  <exclude-pattern type="relative">plugins/*</exclude-pattern>
+  <exclude-pattern type="relative">modules/*</exclude-pattern>
   <!-- These exceptions are permanent -->
-  <exclude-pattern>*/tmpl/*</exclude-pattern>
-  <exclude-pattern>/templates/*</exclude-pattern>
-  <exclude-pattern>/layouts/*</exclude-pattern>
-  <exclude-pattern>/installation/template/index.php</exclude-pattern>
+  <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
+  <exclude-pattern type="relative">templates/*</exclude-pattern>
+  <exclude-pattern type="relative">layouts/*</exclude-pattern>
+  <exclude-pattern type="relative">installation/template/index.php</exclude-pattern>
  </rule>
 </ruleset>
