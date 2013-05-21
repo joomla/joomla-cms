@@ -355,6 +355,14 @@
   color: #111 !important;
 }
 /* @end */
+/* fix overflow hidden behaviour in permission tabs */
+#page-permissions .tab-content, #permissions .tab-content {
+    overflow: hidden;
+}
+#page-permissions .chzn-drop, #permissions .chzn-drop {
+    position: relative;
+    top: 0!important;
+}
 
 /* @group Disabled Support */
 .chzn-disabled {
