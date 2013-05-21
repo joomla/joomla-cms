@@ -256,9 +256,7 @@ abstract class JFolder
 			if (!$ret = @mkdir($path, $mode))
 			{
 				@umask($origmask);
-				JLog::add(
-					__METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY'), 'Path: ' . $path, JLog::WARNING, 'jerror'
-				);
+				JLog::add( __METHOD__ . ': ' . JText::_('JLIB_FILESYSTEM_ERROR_COULD_NOT_CREATE_DIRECTORY') . ' Path: ' . $path, JLog::WARNING, 'jerror' );
 				return false;
 			}
 
