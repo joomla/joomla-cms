@@ -12,13 +12,17 @@ defined('_JEXEC') or die;
 JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 
 /**
+ * Content HTML helper
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_content
+ *
+ * @since       3.0
  */
 abstract class JHtmlContentAdministrator
 {
 	/**
-	 * Get the associated language flags
+	 * Render the list of associated items
 	 *
 	 * @param   int  $articleid  The article item id
 	 *
@@ -32,7 +36,6 @@ abstract class JHtmlContentAdministrator
 		// Get the associations
 		if ($associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $articleid))
 		{
-
 			foreach ($associations as $tag => $associated)
 			{
 				$associations[$tag] = (int) $associated->id;
@@ -42,6 +45,7 @@ abstract class JHtmlContentAdministrator
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select('c.*')
+				->select('l.sef as lang_sef')
 				->from('#__content as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
@@ -55,42 +59,44 @@ abstract class JHtmlContentAdministrator
 			{
 				$items = $db->loadObjectList('id');
 			}
-			catch (runtimeException $e)
+			catch (RuntimeException $e)
 			{
 				throw new Exception($e->getMessage(), 500);
-
-				return false;
 			}
 
-			$flags = array();
-
-			// Construct html
-			foreach ($associations as $tag => $associated)
+			if ($items)
 			{
-				if ($associated != $articleid)
+				foreach ($items as &$item)
 				{
-					$flags[] = JText::sprintf(
-						'COM_CONTENT_TIP_ASSOCIATED_LANGUAGE',
-						JHtml::_('image', 'mod_languages/' . $items[$associated]->image . '.gif',
-							$items[$associated]->language_title,
-							array('title' => $items[$associated]->language_title),
+					$text = strtoupper($item->lang_sef);
+					$url = JRoute::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
+					$tooltipParts = array(
+						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
+							$item->language_title,
+							array('title' => $item->language_title),
 							true
 						),
-						$items[$associated]->title, $items[$associated]->category_title
+						$item->title,
+						'(' . $item->category_title . ')'
 					);
+					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTip label label-association label-' . $item->lang_sef);
 				}
 			}
 
-			$html = JHtml::_('tooltip', implode('<br />', $flags), JText::_('COM_CONTENT_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
-
+			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;
 	}
 
 	/**
-	 * @param   int $value	The state value
-	 * @param   int $i
+	 * Show the feature/unfeature links
+	 *
+	 * @param   int      $value      The state value
+	 * @param   int      $i          Row number
+	 * @param   boolean  $canChange  Is user allowed to change?
+	 *
+	 * @return  string       HTML code
 	 */
 	public static function featured($value = 0, $i, $canChange = true)
 	{
@@ -103,15 +109,16 @@ abstract class JHtmlContentAdministrator
 		);
 		$state	= JArrayHelper::getValue($states, (int) $value, $states[1]);
 		$icon	= $state[0];
+
 		if ($canChange)
 		{
-			$html	= '<a href="#" onclick="return listItemTask(\'cb'.$i.'\',\''.$state[1].'\')" class="btn btn-micro hasTooltip' . ($value == 1 ? ' active' : '') . '" title="'.JText::_($state[3]).'"><i class="icon-'
-					. $icon.'"></i></a>';
+			$html	= '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-micro hasTooltip' . ($value == 1 ? ' active' : '') . '" title="' . JText::_($state[3]) . '"><i class="icon-'
+					. $icon . '"></i></a>';
 		}
 		else
 		{
-			$html	= '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'.JText::_($state[2]).'"><i class="icon-'
-					. $icon.'"></i></a>';
+			$html	= '<a class="btn btn-micro hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="' . JText::_($state[2]) . '"><i class="icon-'
+					. $icon . '"></i></a>';
 		}
 
 		return $html;
