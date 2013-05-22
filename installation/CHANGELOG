@@ -28,6 +28,7 @@ $ -> Language fix or change
 22-May-2013 Jean-Marie Simonet
  # [#30982] Fast links for item language associations management. Thanks Roberto Segura.
  # [#30956] No published field in Contacts Component
+ $ Adding installation languages: Albanian sq-AL
 
 22-May-2013 Elin Waring
  # [#30980] Undefined variable extension. Thanks Roberto Segura
