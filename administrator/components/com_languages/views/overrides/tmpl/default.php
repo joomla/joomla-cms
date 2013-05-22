@@ -26,7 +26,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif;?>
-		<div id="filter-bar" class="btn-toolbar">
+		<div id="filter-bar" class="btn-toolbar clearfix">
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
 			</div>
@@ -35,7 +35,6 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 				<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 		</div>
-		<div class="clearfix"></div>
 
 		<table class="table table-striped">
 			<thead>
