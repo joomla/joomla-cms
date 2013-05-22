@@ -25,6 +25,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-May-2013 Elin Waring
+ # [#30980] Undefined variable extension. Thanks Roberto Segura
+
+21-May-2013 Jean-Marie Simonet
+ # [PR #1173] Hotfix for failure on user. Thanks David Hurley.
+
 19-May-2013 Michael Babker
  # [#30771] Extension Manager Check Database doesn't handle SQL queries with leading comments.  Thanks Mark Dexter
  #$ [#30867] More ':' than we need at Mass Mail.  Thanks Jean-Marie Simonet
