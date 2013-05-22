@@ -110,8 +110,7 @@ class PlgContentLoadmodule extends JPlugin
 
 	protected function _load($position, $style = 'none')
 	{
-		//if (!isset(self::$modules[$position]))
-		//{
+
 			self::$modules[$position] = '';
 			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');
@@ -125,15 +124,14 @@ class PlgContentLoadmodule extends JPlugin
 			}
 
 			self::$modules[$position] = ob_get_clean();
-		//}
+		
 		return self::$modules[$position];
 	}
 	// This is always going to get the first instance of the module type unless
 	// there is a title.
 	protected function _loadmod($module, $title, $style = 'none')
 	{
-		//if (!isset(self::$mods[$module]))
-		//{
+
 			self::$mods[$module] = '';
 			$document	= JFactory::getDocument();
 			$renderer	= $document->loadRenderer('module');
@@ -150,7 +148,7 @@ class PlgContentLoadmodule extends JPlugin
 			echo $renderer->render($mod, $params);
 
 			self::$mods[$module] = ob_get_clean();
-		//}
+		
 		return self::$mods[$module];
 	}
 }
