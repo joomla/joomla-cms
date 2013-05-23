@@ -81,7 +81,7 @@ class ContactEditPage extends AdminEditPage
 			array('label' => 'Email', 'id' => 'jform_email_to', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Address', 'id' => 'jform_address', 'type'=>'textarea', 'tab'=>'basic'),
 			array('label' => 'City or Suburb', 'id' => 'jform_suburb', 'type'=>'input', 'tab'=>'basic'),
-			//array('label' => 'State or Province', 'id' => 'jform_state', 'type'=>'input', 'tab'=>'basic'),
+			array('label' => 'State or Province', 'id' => 'jform_state', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Postal / ZIP Code', 'id' => 'jform_postcode', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Country', 'id' => 'jform_country', 'type'=>'input', 'tab'=>'basic'),
 			array('label' => 'Telephone', 'id' => 'jform_telephone', 'type'=>'input', 'tab'=>'basic'),
