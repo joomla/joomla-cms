@@ -34,12 +34,11 @@
 			description="COM_CONTACT_FIELD_LINKED_USER_DESC"
 		/>
 
-		<field id="published"
-			name="published"
+		<field name="published"
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="inputbox span12 small"
+			class="inputbox"
 			size="1"
 			default="1"
 		>
@@ -51,7 +50,6 @@
 				JARCHIVED</option>
 			<option value="-2">
 				JTRASHED</option>
-
 		</field>
 
 		<field name="catid"
