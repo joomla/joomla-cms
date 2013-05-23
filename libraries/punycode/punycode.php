@@ -149,7 +149,7 @@ class Punycode
 			$bias = self::adapt($i - $oldi, ++$olen, $oldi == 0);
 			$n += (int)($i / $olen);
 			$i %= $olen;
-			$output = mb_substr($output, 0, $i, self::$OPTIONS['charset']) . self::string_from_charcode($n) . mb_substr($output, $i, $olen - $i, self::$OPTIONS['charset']);
+			$output = JString::substr($output, 0, $i, self::$OPTIONS['charset']) . self::string_from_charcode($n) . JString::substr($output, $i, $olen - $i, self::$OPTIONS['charset']);
 			++$i;
 		}
 		return $output;
@@ -162,11 +162,11 @@ class Punycode
 		$delta = 0;
 		$output = null;
 
-		$ilen = mb_strlen($input, self::$OPTIONS['charset']);
+		$ilen = JString::strlen($input, self::$OPTIONS['charset']);
 		$non_basic_codepoints = array();
 		$codepoints = array();
 		for ($b = 0; $b < $ilen; ++$b) {
-			if (($code = ord($char = mb_substr($input, $b, 1, self::$OPTIONS['charset']))) < $n) {
+			if (($code = ord($char = JString::substr($input, $b, 1, self::$OPTIONS['charset']))) < $n) {
 				$output .= $char;
 			} else if (!in_array($code = self::charcode_from_string($char), $non_basic_codepoints)) {
 				$non_basic_codepoints[] = $code;
