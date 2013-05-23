@@ -65,8 +65,7 @@ class ContactEditPage extends AdminEditPage
 	public $inputFields = array (
 			array('label' => 'Name', 'id' => 'jform_name', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'details'),
-            //array('label' => 'Linked User', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'details'),
-            array('label' => 'Status', 'id' => 'jform_published', 'type' => 'select', 'tab' => 'details'),
+            		//array('label' => 'Linked User', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
 			//array('label' => 'Ordering', 'id' => 'jformordering', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'details'),
