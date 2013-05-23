@@ -147,9 +147,11 @@ abstract class JMailHelper
 
 		// Check the domain
 		$domain_array = explode(".", rtrim($domain, '.'));
-		$regex = '/^[A-Za-z0-9-]{0,63}$/';
+		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
 		foreach ($domain_array as $domain)
 		{
+			// Convert domain to punycode
+			$domain = JStringPunycode::toPunycode($domain);
 
 			// Must be something
 			if (!$domain)

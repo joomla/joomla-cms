@@ -26,29 +26,29 @@ abstract class JStringPunycode
 	/*
 	 * Transforms a UTF-8 string to a Punycode string
 	 *
-	 * @param  string  $url  The UTF-8 string to transform
+	 * @param  string  $utfSstring  The UTF-8 string to transform
 	 *
 	 * @return  string  The punycode string
 	 *
 	 * @since  3.1.2
 	 */
-	public static function toPunycode($url)
+	public static function toPunycode($utfString)
 	{
-		return punycode::encode($url);
+		return punycode::encode($utfString);
 	}
 
 	/*
-	 * Transforms a Punycode URL to a UTF-8 URL
+	 * Transforms a Punycode string to a UTF-8 string
 	*
-	* @param  string  $url  The Punycode URL to transform
+	* @param  string  $punycodeString  The Punycode string to transform
 	*
 	* @return  string  The UF-8 URL
 	*
 	* @since  3.1.2
 	*/
-	public static function fromPunycode($url)
+	public static function fromPunycode($punycodeString)
 	{
-		return punycode::decode($url);
+		return punycode::decode($punycodeString);
 
 	}
 
@@ -117,7 +117,7 @@ abstract class JStringPunycode
 		$newhost = '';
 		foreach ($hostExploded as $hostex)
 		{
-			$hostex = JStringPunycode::fromPunycode($hostex);
+			$hostex = self::fromPunycode($hostex);
 			$newhost .= $hostex . '.';
 		}
 
@@ -145,5 +145,71 @@ abstract class JStringPunycode
 		}
 
 		return $newuri;
+	}
+
+	/*
+	 * Transforms a UTF-8 e-mail to a Punycode e-mail
+	 * This assumes a valid email address
+	 *
+	 * @param  string  $email  The UTF-8 e-mail to transform
+	 *
+	 * @return  string  The punycode e-mail
+	 *
+	 * @since  3.1.2
+	 */
+	public static function emailToPunycode($email)
+	{
+		$explodedAddress = explode('@', $email);
+
+		// Not addressing UTF-8 user names
+		$newEmail = $explodedAddress[0];
+		if (!empty($explodedAddress[1]))
+		{
+			$domainExploded = explode('.', $explodedAddress[1]);
+			$newdomain = '';
+			foreach ($domainExploded as $domainex)
+			{
+				$domainex = self::toPunycode($domainex);
+				$newdomain .= $domainex . '.';
+			}
+
+			$newdomain = substr($newdomain, 0, -1);
+			$newEmail = $newEmail . '@' . $newdomain;
+		}
+
+		return $newEmail;
+	}
+
+	/*
+	 * Transforms a Punycode e-mail to a UTF-8 e-mail
+	 * This assumes a valid email address
+	 *
+	 * @param  string  $email  The punycode e-mail to transform
+	 *
+	 * @return  string  The punycode e-mail
+	 *
+	 * @since  3.1.2
+	 */
+	public static function emailToUTF8($email)
+	{
+		$explodedAddress = explode('@', $email);
+
+		// Not addressing UTF-8 user names
+		$newEmail = $explodedAddress[0];
+		if (!empty($explodedAddress[1]))
+		{
+			$domainExploded = explode('.', $explodedAddress[1]);
+			$newdomain = '';
+			foreach ($domainExploded as $domainex)
+			{
+				$domainex = self::fromPunycode($domainex);
+				$newdomain .= $domainex . '.';
+			}
+
+			$newdomain = substr($newdomain, 0, -1);
+			$newEmail = $newEmail . '@' . $newdomain;
+		}
+
+		return $newEmail;
 	}
 }
