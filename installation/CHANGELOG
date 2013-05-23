@@ -32,6 +32,7 @@ $ -> Language fix or change
 
 22-May-2013 Elin Waring
  # [#30980] Undefined variable extension. Thanks Roberto Segura
+ # [#30945] Wrong error when folder creation not possible due to permissions. Thanks Phil Taylor.
 
 21-May-2013 Jean-Marie Simonet
  # [PR #1173] Hotfix for failure on user. Thanks David Hurley.
