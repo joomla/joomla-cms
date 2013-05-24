@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-May-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
 16-May-2013 Mark Dexter
  + Added TagManager0002Test.php. Thanks Puneet Kala.
 

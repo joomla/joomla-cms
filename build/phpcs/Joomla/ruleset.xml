@@ -2,13 +2,6 @@
 <ruleset name="Joomla">
  <description>The Joomla coding standard.</description>
 
- <!-- Exclude all JavaScript and CSS files. There are bugs and we don't have any rules anyways. -->
- <exclude-pattern type="relative">*/.js</exclude-pattern>
- <exclude-pattern type="relative">*/.css</exclude-pattern>
-
- <!-- Exclude the index.html files. -->
- <exclude-pattern type="relative">*/index.html</exclude-pattern>
-
  <!-- Exclude folders not containing production code -->
  <exclude-pattern type="relative">build/*</exclude-pattern>
  <exclude-pattern type="relative">docs/*</exclude-pattern>
@@ -20,12 +13,7 @@
  <!-- Exclude 3rd party libraries. -->
  <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
- <exclude-pattern type="relative">libraries/phpmailer/phpmailer.php</exclude-pattern>
- <exclude-pattern type="relative">libraries/phpmailer/smtp.php</exclude-pattern>
- <exclude-pattern type="relative">libraries/phpmailer/pop3.php</exclude-pattern>
- <exclude-pattern type="relative">*/mootree*.css</exclude-pattern>
- <exclude-pattern type="relative">*/mooRainbow.css</exclude-pattern>
- <exclude-pattern type="relative">*/modal.css</exclude-pattern>
+ <exclude-pattern type="relative">libraries/phpmailer/*</exclude-pattern>
 
  <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
  <exclude-pattern type="relative">configuration.php</exclude-pattern>
