@@ -34,6 +34,10 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		// Ensure the loaded states are reset
+		JHtmlBootstrapInspector::resetLoaded();
+		JHtmlJqueryInspector::resetLoaded();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -58,9 +62,6 @@ class JHtmlBootstrapTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
-
-		JHtmlBootstrapInspector::resetLoaded();
-		JHtmlJqueryInspector::resetLoaded();
 	}
 
 	/**
