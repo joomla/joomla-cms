@@ -175,6 +175,10 @@ class MenusViewItems extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
+
+		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
+		JDispatcher::getInstance()->trigger('onBeforeRenderMenuItems', array($this));
+
 		parent::display($tpl);
 	}
 

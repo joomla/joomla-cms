@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#30689] jQuery not loaded in Isis error page. Thanks Dennis Hermatski
  # [#30945] Wrong error when folder creation not possible due to permissions. Thanks Phil Taylor
  # [#30367] wrong tooltip display at the joomla BE. Thanks Constantin Romankiewicz and Tobias Zulauf
+ # [#30536] Allow plugins to add dynamically menu types to the list constructed from XML files. Thanks Beat
 
 22-May-2013 Jean-Marie Simonet
  # [#30982] Fast links for item language associations management. Thanks Roberto Segura.
