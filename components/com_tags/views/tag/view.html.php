@@ -113,7 +113,7 @@ class TagsViewTag extends JViewLegacy
 		// Otherwise, article params override menu item params
 		$this->params	= $this->state->get('params');
 		$active	= $app->getMenu()->getActive();
-		$temp	= clone ($this->params);
+		$temp	= clone ($active->params);
 
 		// Check to see which parameters should take priority
 		if ($active)
