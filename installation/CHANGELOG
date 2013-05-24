@@ -28,6 +28,7 @@ $ -> Language fix or change
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
  ^ [#30985] *New JLayout for edit_associations.  Thanks Jean-Marie Simonet
+ # [#30994] Untranslated String.  Thanks Jean-Marie Simonet
 
 24-May-2013 Jean-Marie Simonet
  # [#30689] jQuery not loaded in Isis error page. Thanks Dennis Hermatski
