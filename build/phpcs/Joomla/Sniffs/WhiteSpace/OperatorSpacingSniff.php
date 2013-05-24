@@ -210,8 +210,9 @@ class Joomla_Sniffs_WhiteSpace_OperatorSpacingSniff implements PHP_CodeSniffer_S
 
         if($tokens[($stackPtr + 1)]['code'] !== T_WHITESPACE)
         {
+	        // Error downgraded to Warning due to code needing review
             $error = "Expected 1 space after \"$operator\"; 0 found";
-            $phpcsFile->addError($error, $stackPtr, 'NoSpaceAfter');
+            $phpcsFile->addWarning($error, $stackPtr, 'NoSpaceAfter');
         }
         else if (strlen($tokens[($stackPtr + 1)]['content']) !== 1)
         {
