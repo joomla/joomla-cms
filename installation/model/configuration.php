@@ -103,7 +103,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('offset', 'UTC');
 
 		/* Mail Settings */
-        $registry->set('mailonline', 1);
+		$registry->set('mailonline', 1);
 		$registry->set('mailer', 'mail');
 		$registry->set('mailfrom', $options->admin_email);
 		$registry->set('fromname', $options->site_name);
