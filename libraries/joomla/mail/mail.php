@@ -74,33 +74,36 @@ class JMail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (($this->Mailer == 'mail') && !function_exists('mail'))
-		{
-			if (class_exists('JError'))
-			{
-				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
-			}
-			else
-			{
-				throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
-			}
-		}
+        if (JFactory::getConfig()->get('mailonline')) {
+            if (($this->Mailer == 'mail') && !function_exists('mail'))
+            {
+                if (class_exists('JError'))
+                {
+                    return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+                }
+                else
+                {
+                    throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
+                }
+            }
 
-		@$result = parent::Send();
+            @$result = parent::Send();
 
-		if ($result == false)
-		{
-			if (class_exists('JError'))
-			{
-				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
-			}
-			else
-			{
-				throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
-			}
-		}
+            if ($result == false)
+            {
+                if (class_exists('JError'))
+                {
+                    $result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+                }
+                else
+                {
+                    throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
+                }
+            }
 
-		return $result;
+            return $result;
+        }
+        else return true;
 	}
 
 	/**
