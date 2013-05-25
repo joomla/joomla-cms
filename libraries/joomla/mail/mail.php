@@ -106,7 +106,7 @@ class JMail extends PHPMailer
 		else
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
-			return true;
+			return false;
 		}
 	}
 
