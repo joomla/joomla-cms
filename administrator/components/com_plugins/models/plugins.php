@@ -140,7 +140,7 @@ class PluginsModelPlugins extends JModelList
 
 			$lang = JFactory::getLanguage();
 			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
-			JArrayHelper::sortObjects($result, $ordering, $direction, true, $lang->getLocale());
+			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
