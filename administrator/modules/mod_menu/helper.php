@@ -130,7 +130,7 @@ abstract class ModMenuHelper
 			}
 		}
 
-		$result = JArrayHelper::sortObjects($result, 'text', 1, true, $lang->getLocale());
+		$result = JArrayHelper::sortObjects($result, 'text', 1, true, true);
 
 		return $result;
 	}

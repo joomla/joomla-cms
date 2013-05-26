@@ -6573,7 +6573,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 1200;
+	z-index: 100;
 }
 ul.treeselect,
 ul.treeselect li {
@@ -6612,4 +6612,16 @@ ul.treeselect ul.dropdown-menu li {
 }
 td.has-context {
 	height: 23px;
+}
+/* Item associations */
+.item-associations {
+	margin: 0;
+}
+.item-associations li {
+	list-style: none;
+	display: inline-block;
+	margin: 0 0 3px 0;
+}
+.item-associations li a {
+	color: #ffffff;
 }

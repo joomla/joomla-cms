@@ -39,6 +39,8 @@ $class = ' class="first"';
 					</div>
 				<?php endif; ?>
 				<?php endif; ?>
+
+				<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
 				<?php if ($child->getNumItems() == true) : ?>
 				<dl>
 					<dt>
@@ -48,6 +50,7 @@ $class = ' class="first"';
 						<?php echo $child->getNumItems(true); ?>
 					</dd>
 				</dl>
+				<?php endif; ?>
 				<?php endif; ?>
 
 				<?php if (count($child->getChildren()) > 0 ) :
