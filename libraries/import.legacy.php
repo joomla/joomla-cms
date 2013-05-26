@@ -58,9 +58,6 @@ JLoader::import('joomla.factory');
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
-// Register the folder for the moved JHtml classes
-JHtml::addIncludePath(JPATH_PLATFORM . '/legacy/html');
-
 // Register classes for compatability with PHP 5.3
 if (version_compare(PHP_VERSION, '5.4.0', '<'))
 {
@@ -68,12 +65,12 @@ if (version_compare(PHP_VERSION, '5.4.0', '<'))
 }
 
 // Add deprecated constants
-// @deprecated 12.3
+// @deprecated 4.0
 define('JPATH_ISWIN', IS_WIN);
 define('JPATH_ISMAC', IS_MAC);
 
 // Register classes where the names have been changed to fit the autoloader rules
-// @deprecated  12.3
+// @deprecated  4.0
 JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
 JLoader::register('JTree', JPATH_PLATFORM . '/legacy/base/tree.php');
 JLoader::register('JNode', JPATH_PLATFORM . '/legacy/base/node.php');

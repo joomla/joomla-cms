@@ -24,6 +24,11 @@ img  {
 	padding: 20px;
 }
 
+#frame img {
+	max-width: 100%;
+	height: auto;
+}
+
 #frame form {
 	text-align: left;
 }
