@@ -114,6 +114,7 @@ abstract class JMailHelper
 
 		// Check Length of domain
 		$domainLen = strlen($domain);
+
 		if ($domainLen < 1 || $domainLen > 255)
 		{
 			return false;
@@ -126,6 +127,7 @@ abstract class JMailHelper
 		 */
 		$allowed = 'A-Za-z0-9!#&*+=?_-';
 		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
+
 		if (!preg_match($regex, $local) || substr($local, -1) == '.')
 		{
 			return false;
@@ -148,6 +150,7 @@ abstract class JMailHelper
 		// Check the domain
 		$domain_array = explode(".", rtrim($domain, '.'));
 		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
+
 		foreach ($domain_array as $domain)
 		{
 			// Convert domain to punycode

@@ -74,12 +74,26 @@ class Punycode
 
 	private static function string_from_charcode($charcode)
 	{
-		return mb_convert_encoding('&#'.$charcode.';', self::$OPTIONS['charset'], 'HTML-ENTITIES');
+		if (function_exists('mb_convert_encoding'))
+		{
+			return mb_convert_encoding('&#'.$charcode.';', self::$OPTIONS['charset'], 'HTML-ENTITIES');
+		}
+		else
+		{
+			return htmlspecialchars_decode(utf8_encode(htmlentities($charcode, ENT_COMPAT, 'utf-8')));
+		}
 	}
 
 	private static function charcode_from_string( $string )
 	{
-		return (int)preg_replace('/^.*?([0-9]+).*$/', '$1', mb_convert_encoding($string, 'HTML-ENTITIES', self::$OPTIONS['charset']));
+		if (function_exists('mb_convert_encoding'))
+		{
+			return (int)preg_replace('/^.*?([0-9]+).*$/', '$1', mb_convert_encoding($string, 'HTML-ENTITIES', self::$OPTIONS['charset']));
+		}
+		else
+		{
+			return (int)preg_replace('/^.*?([0-9]+).*$/', '$1', htmlspecialchars_decode(utf8_encode(htmlentities($string, ENT_COMPAT, 'utf-8'))));
+		}
 	}
 
 	public static function urldecode($url)
