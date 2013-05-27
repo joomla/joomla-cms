@@ -838,8 +838,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			case 'timestamp without time zone':
 				if (empty($field_value))
 				{
-					$val = $this->getNullDate();
+					$field_value = $this->getNullDate();
 				}
+
+				$val = $this->quote($field_value);
 
 				break;
 
