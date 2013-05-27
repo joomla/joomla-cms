@@ -58,6 +58,7 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		if (empty($key))
 		{
 			$this->bounded = array();
+
 			return $this;
 		}
 
