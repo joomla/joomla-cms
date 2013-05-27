@@ -201,7 +201,7 @@ class JRouterSite extends JRouter
 	{
 		$vars  = array();
 		$app   = JApplication::getInstance('site');
-		$menu  = $app->getMenu(true);
+		$menu  = $app->getMenu();
 		$route = $uri->getPath();
 
 		// Remove the suffix

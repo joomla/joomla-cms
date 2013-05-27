@@ -101,7 +101,7 @@ class ModMenuHelper
 							break;
 
 						default:
-							$router = JSite::getRouter();
+							$router = $app::getRouter();
 							if ($router->getMode() == JROUTER_MODE_SEF)
 							{
 								$item->flink = 'index.php?Itemid=' . $item->id;

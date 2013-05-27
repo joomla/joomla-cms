@@ -27,6 +27,14 @@ class JApplicationCms extends JApplicationWeb
 	protected $docOptions = array();
 
 	/**
+	 * Application instances container.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected static $instances = array();
+
+	/**
 	 * The scope of the application.
 	 *
 	 * @var    string
@@ -263,6 +271,41 @@ class JApplicationCms extends JApplicationWeb
 	public function getClientId()
 	{
 		return $this->_clientId;
+	}
+
+	/**
+	 * Returns a reference to the global JApplicationCms object, only creating it if it doesn't already exist.
+	 *
+	 * This method must be invoked as: $web = JApplicationCms::getInstance();
+	 *
+	 * @param   string  $name  The name (optional) of the JApplicationCms class to instantiate.
+	 *
+	 * @return  JApplicationCms
+	 *
+	 * @since   3.2
+	 */
+	public static function getInstance($name = null)
+	{
+		if (empty(self::$instances[$name]))
+		{
+			// Create a JApplicationCms object.
+			$classname = 'JApplication' . ucfirst($name);
+
+			if (class_exists($classname) && $classname instanceof static)
+			{
+				$instance = new $classname;
+			}
+			else
+			{
+				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name));
+
+				return $error;
+			}
+
+			self::$instances[$name] = $instance;
+		}
+
+		return self::$instances[$name];
 	}
 
 	/**

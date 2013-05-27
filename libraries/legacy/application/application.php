@@ -147,43 +147,22 @@ class JApplication extends JApplicationBase
 	}
 
 	/**
-	 * Returns the global JApplication object, only creating it if it
+	 * Returns the global JApplicationCms object, only creating it if it
 	 * doesn't already exist.
 	 *
 	 * @param   mixed   $client  A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
 	 * @param   string  $prefix  A prefix for class names
 	 *
-	 * @return  JApplication A JApplication object.
+	 * @return  JApplicationCms  A JApplicationCms object.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationCms::getInstance() instead
+	 * @note    As of 3.2, this proxies to JApplicationCms::getInstance()
 	 */
 	public static function getInstance($client, $config = array(), $prefix = 'J')
 	{
-		if (empty(self::$instances[$client]))
-		{
-			// Load the router object.
-			$info = JApplicationHelper::getClientInfo($client, true);
-
-			$path = $info->path . '/includes/application.php';
-			if (file_exists($path))
-			{
-				include_once $path;
-
-				// Create a JApplication object.
-				$classname = $prefix . ucfirst($client);
-				$instance = new $classname($config);
-			}
-			else
-			{
-				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $client));
-				return $error;
-			}
-
-			self::$instances[$client] = $instance;
-		}
-
-		return self::$instances[$client];
+		return JApplicationCms::getInstance($client);
 	}
 
 	/**

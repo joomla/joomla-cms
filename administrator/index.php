@@ -36,7 +36,7 @@ require_once JPATH_BASE . '/includes/toolbar.php';
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
 // Instantiate the application.
-$app = JApplicationWeb::getInstance('JApplicationAdministrator');
+$app = JFactory::getApplication('administrator');
 
 // Execute the application.
 $app->execute();

@@ -53,9 +53,6 @@ final class JApplicationSite extends JApplicationCms
 	{
 		parent::__construct($input, $config, $client);
 
-		// Register the application to JFactory
-		JFactory::$application = $this;
-
 		// Register the application name
 		$this->_name = 'site';
 

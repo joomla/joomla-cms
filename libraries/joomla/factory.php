@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
 abstract class JFactory
 {
 	/**
-	 * @var    JApplication
+	 * @var    JApplicationCms
 	 * @since  11.1
 	 */
 	public static $application = null;
@@ -80,13 +80,13 @@ abstract class JFactory
 	/**
 	 * Get a application object.
 	 *
-	 * Returns the global {@link JApplication} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   mixed   $id      A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
 	 * @param   string  $prefix  Application prefix
 	 *
-	 * @return  JApplication object
+	 * @return  JApplicationCms object
 	 *
 	 * @see     JApplication
 	 * @since   11.1
@@ -101,7 +101,7 @@ abstract class JFactory
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
-			self::$application = JApplication::getInstance($id, $config, $prefix);
+			self::$application = JApplicationCms::getInstance($id);
 		}
 
 		return self::$application;

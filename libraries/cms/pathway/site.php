@@ -69,7 +69,7 @@ class JPathwaySite extends JPathway
 							break;
 
 						default:
-							$router = JSite::getRouter();
+							$router = $app::getRouter();
 							if ($router->getMode() == JROUTER_MODE_SEF)
 							{
 								$url = 'index.php?Itemid=' . $link->id;
