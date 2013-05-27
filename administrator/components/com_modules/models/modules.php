@@ -140,7 +140,7 @@ class ModulesModelModules extends JModelList
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
 			$lang = JFactory::getLanguage();
-			JArrayHelper::sortObjects($result, $ordering, $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
+			JArrayHelper::sortObjects($result, $ordering, $this->getState('list.direction') == 'desc' ? -1 : 1, true, true);
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart)

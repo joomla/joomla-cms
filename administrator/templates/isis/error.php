@@ -20,10 +20,6 @@ $this->direction = $doc->direction;
 $input = $app->input;
 $user  = JFactory::getUser();
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
-$doc->addScript('templates/' .$this->template. '/js/template.js');
-
 // Detecting Active Variables
 $option   = $input->get('option', '');
 $view     = $input->get('view', '');
@@ -64,7 +60,7 @@ else
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="language" content="<?php echo $this->language; ?>" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
 	<?php // If debug  mode
 		$debug = JFactory::getConfig()->get('debug_lang');
 		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
@@ -130,6 +126,10 @@ else
 	<?php
 	}
 	?>
+	<script src="../media/jui/js/jquery.js" type="text/javascript"></script>
+	<script src="../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+	<script src="../media/jui/js/bootstrap.js" type="text/javascript"></script>
+	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->

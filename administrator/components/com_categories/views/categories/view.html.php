@@ -81,6 +81,7 @@ class CategoriesViewCategories extends JViewLegacy
 		$section	= $this->state->get('filter.section');
 		$canDo		= null;
 		$user		= JFactory::getUser();
+		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
