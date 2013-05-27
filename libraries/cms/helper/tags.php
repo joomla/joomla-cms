@@ -782,7 +782,7 @@ class JHelperTags
 		}
 
 		// Filter on the published state
-		if (is_numeric($filters['published']))
+		if (!empty($filters['published']) && is_numeric($filters['published']))
 		{
 			$query->where('a.published = ' . (int) $filters['published']);
 		}
