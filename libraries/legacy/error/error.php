@@ -782,10 +782,10 @@ abstract class JError
 			else
 			{
 				// Do not allow cache
-				JResponse::allowCache(false);
+				$app->allowCache(false);
 
-				JResponse::setBody($data);
-				echo JResponse::toString();
+				$app->setBody($data);
+				echo $app->toString();
 			}
 		}
 		else

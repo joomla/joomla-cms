@@ -940,4 +940,34 @@ class JApplicationCms extends JApplicationWeb
 
 		return null;
 	}
+
+	/**
+	 * Sends all headers prior to returning the string
+	 *
+	 * @param   boolean  $compress  If true, compress the data
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
+	public function toString($compress = false)
+	{
+		// Don't compress something if the server is going to do it anyway. Waste of time.
+		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
+		{
+			$this->compress($data);
+		}
+
+		if ($this->allowCache() === false)
+		{
+			$this->setHeader('Cache-Control', 'no-cache', false);
+
+			// HTTP 1.0
+			$this->setHeader('Pragma', 'no-cache');
+		}
+
+		$this->sendHeaders();
+
+		return $this->getBody();
+	}
 }

@@ -21,9 +21,7 @@ class MediaViewImagesList extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Do not allow cache
-		JResponse::allowCache(false);
-
-		$app = JFactory::getApplication();
+		JFactory::getApplication()->allowCache(false);
 
 		$lang	= JFactory::getLanguage();
 

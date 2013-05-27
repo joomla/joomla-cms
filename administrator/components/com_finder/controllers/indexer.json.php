@@ -282,9 +282,10 @@ class FinderControllerIndexer extends JControllerLegacy
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)
 		{
+			$app = JFactory::getApplication();
 			JLog::add($data->getMessage(), JLog::ERROR);
-			JResponse::setHeader('status', $data->getCode());
-			JResponse::sendHeaders();
+			$app->setHeader('status', $data->getCode());
+			$app->sendHeaders();
 		}
 
 		// Create the response object.

@@ -75,9 +75,9 @@ class PlgSystemCache extends JPlugin
 
 		if ($data !== false)
 		{
-			JResponse::setBody($data);
+			$app->setBody($data);
 
-			echo JResponse::toString($app->getCfg('gzip'));
+			echo $app->toString($app->getCfg('gzip'));
 
 			if (JDEBUG)
 			{

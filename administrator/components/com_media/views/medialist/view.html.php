@@ -20,10 +20,11 @@ class MediaViewMediaList extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
-		// Do not allow cache
-		JResponse::allowCache(false);
+		$app = JFactory::getApplication();
 
-		$app	= JFactory::getApplication();
+		// Do not allow cache
+		$app->allowCache(false);
+
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 		$lang	= JFactory::getLanguage();

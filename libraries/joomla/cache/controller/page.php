@@ -121,8 +121,8 @@ class JCacheControllerPage extends JCacheController
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{
-		// Get page data from JResponse body
-		$data = JResponse::getBody();
+		// Get page data from the application body
+		$data = JFactory::getApplication()->getBody();
 
 		// Get id and group and reset the placeholders
 		$id = $this->_id;
@@ -194,6 +194,6 @@ class JCacheControllerPage extends JCacheController
 	 */
 	protected function _setEtag($etag)
 	{
-		JResponse::setHeader('ETag', $etag, true);
+		JFactory::getApplication()->setHeader('ETag', $etag, true);
 	}
 }

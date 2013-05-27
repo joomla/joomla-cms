@@ -57,7 +57,8 @@ class JDocumentXml extends JDocument
 	public function render($cache = false, $params = array())
 	{
 		parent::render();
-		JResponse::setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
+
+		JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}

@@ -666,7 +666,7 @@ abstract class JHtmlBehavior
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 
-		JResponse::setHeader('X-Frames-Options', 'SAME-ORIGIN');
+		JFactory::getApplication()->setHeader('X-Frames-Options', 'SAME-ORIGIN');
 
 		self::$loaded[__METHOD__] = true;
 	}
