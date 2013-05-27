@@ -911,6 +911,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if ($this->execute())
 		{
 			$this->transactionDepth--;
+			$this->setQuery('RELEASE SAVEPOINT ' . $this->quoteName($savepoint))->execute();
 		}
 	}
 
@@ -1276,7 +1277,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function releaseTransactionSavepoint( $savepointName )
 	{
 		$this->connect();
-		$this->setQuery('RELEASE SAVEPOINT ' . $this->escape($savepointName));
+		$this->setQuery('RELEASE SAVEPOINT ' . $this->quoteName($this->escape($savepointName)));
 		$this->execute();
 	}
 
@@ -1292,7 +1293,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function transactionSavepoint( $savepointName )
 	{
 		$this->connect();
-		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName));
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($this->escape($savepointName)));
 		$this->execute();
 	}
 
