@@ -100,7 +100,7 @@ class JLinkedinJobs extends JLinkedinObject
 	/**
 	 * Method to bookmark a job to the current user's account.
 	 *
-	 * @param   integer  $id     The unique identifier for a job.
+	 * @param   integer  $id  The unique identifier for a job.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -138,7 +138,7 @@ class JLinkedinJobs extends JLinkedinObject
 	/**
 	 * Method to delete a bookmark.
 	 *
-	 * @param   integer  $id     The unique identifier for a job.
+	 * @param   integer  $id  The unique identifier for a job.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

@@ -75,12 +75,13 @@ class JLinkedin
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  Linkedin options object.
-	 * @param   JLinkedinHttp  $client   The HTTP client object.
+	 * @param   JLinkedinOauth  $oauth    OAuth object
+	 * @param   JRegistry       $options  Linkedin options object.
+	 * @param   JHttp           $client   The HTTP client object.
 	 *
 	 * @since   13.1
 	 */
-	public function __construct(JLinkedinOAuth $oauth = null, JRegistry $options = null, JHttp $client = null)
+	public function __construct(JLinkedinOauth $oauth = null, JRegistry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
 		$this->options = isset($options) ? $options : new JRegistry;

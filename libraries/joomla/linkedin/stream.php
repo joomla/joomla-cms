@@ -173,8 +173,8 @@ class JLinkedinStream extends JLinkedinObject
 	/**
 	 * Method to get a particular member's current share.
 	 *
-	 * @param   string  $id     Member id of the profile you want.
-	 * @param   string  $url    The public profile URL.
+	 * @param   string  $id   Member id of the profile you want.
+	 * @param   string  $url  The public profile URL.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -225,9 +225,9 @@ class JLinkedinStream extends JLinkedinObject
 	/**
 	 * Method to get a particular member's current share.
 	 *
-	 * @param   string   $id     Member id of the profile you want.
-	 * @param   string   $url    The public profile URL.
-	 * @param   boolean  $self   Used to return member's feed. Omitted to return aggregated network feed.
+	 * @param   string   $id    Member id of the profile you want.
+	 * @param   string   $url   The public profile URL.
+	 * @param   boolean  $self  Used to return member's feed. Omitted to return aggregated network feed.
 	 *
 	 * @return  array  The decoded JSON response
 	 *
@@ -412,8 +412,8 @@ class JLinkedinStream extends JLinkedinObject
 	/**
 	 * Method to get the users network updates.
 	 *
-	 * @param   string  $body   The actual content of the update. You can use HTML to include links to the user name and the content the user
-	 * 							created. Other HTML tags are not supported. All body text should be HTML entity escaped and UTF-8 compliant.
+	 * @param   string  $body  The actual content of the update. You can use HTML to include links to the user name and the content the user
+	 *                         created. Other HTML tags are not supported. All body text should be HTML entity escaped and UTF-8 compliant.
 	 *
 	 * @return  array  The decoded JSON response
 	 *

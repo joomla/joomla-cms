@@ -31,8 +31,8 @@ abstract class JLinkedinObject
 	protected $client;
 
 	/**
-	 * @var JLinkedinOAuth The OAuth client.
-	 * @since 13.1
+	 * @var   JLinkedinOAuth The OAuth client.
+	 * @since  13.1
 	 */
 	protected $oauth;
 
@@ -40,8 +40,8 @@ abstract class JLinkedinObject
 	 * Constructor.
 	 *
 	 * @param   JRegistry       $options  Linkedin options object.
-	 * @param   JHttp           $client    The HTTP client object.
-	 * @param   JLinkedinOAuth  $oauth     The OAuth client.
+	 * @param   JHttp           $client   The HTTP client object.
+	 * @param   JLinkedinOAuth  $oauth    The OAuth client.
 	 *
 	 * @since   13.1
 	 */
