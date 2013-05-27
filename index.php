@@ -34,7 +34,7 @@ require_once JPATH_BASE . '/includes/framework.php';
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
 // Instantiate the application.
-$app = new JApplicationSite;
+$app = JApplicationWeb::getInstance('JApplicationSite');
 
 // Execute the application.
 $app->execute();
