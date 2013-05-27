@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-May-2013 Michael Babker
+ # [#30994] Untranslated String.  Thanks Jean-Marie Simonet
+
+24-May-2013 Jean-Marie Simonet
+ # [#30945] Wrong error when folder creation not possible due to permissions. Thanks Phil Taylor
+
 19-May-2013 Michael Babker
  # [#30926] Beez5: Additional < in category list.  Thanks Constantin Romankiewicz
  # [#30906] *Batch usage needs strict permissions.  Thanks Jean-Marie Simonet
