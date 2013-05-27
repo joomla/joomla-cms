@@ -1120,8 +1120,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 			->columns('id,title,start_date,description')
 			->values("6, 'testTitle','1970-01-01','testDescription'");
 
-		self::$driver->setQuery($queryIns);
-		$arr = self::$driver->execute();
+		self::$driver->setQuery($queryIns)->execute();
 
 		self::$driver->transactionCommit();
 
@@ -1159,13 +1158,12 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		$queryIns->insert('#__dbtest')
 			->columns('id,title,start_date,description')
 			->values("7, 'testRollback','1970-01-01','testRollbackSp'");
-		self::$driver->setQuery($queryIns);
-		$arr = self::$driver->execute();
+		self::$driver->setQuery($queryIns)->execute();
 
 		/* create savepoint only if is passed by data provider */
 		if (!is_null($toSavepoint))
 		{
-			self::$driver->transactionSavepoint($toSavepoint);
+			self::$driver->transactionStart((boolean) $toSavepoint);
 		}
 
 		/* try to insert this tuple, always rolled back */
@@ -1173,15 +1171,13 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 		$queryIns->insert('#__dbtest')
 			->columns('id,title,start_date,description')
 			->values("8, 'testRollback','1972-01-01','testRollbackSp'");
-		self::$driver->setQuery($queryIns);
-		$arr = self::$driver->execute();
+		self::$driver->setQuery($queryIns)->execute();
 
-		self::$driver->transactionRollback($toSavepoint);
+		self::$driver->transactionRollback((boolean) $toSavepoint);
 
 		/* release savepoint and commit only if a savepoint exists */
 		if (!is_null($toSavepoint))
 		{
-			self::$driver->releaseTransactionSavepoint($toSavepoint);
 			self::$driver->transactionCommit();
 		}
 
@@ -1215,8 +1211,7 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 			->columns('id,title,start_date,description')
 			->values("6, 'testTitle','1970-01-01','testDescription'");
 
-		self::$driver->setQuery($queryIns);
-		$arr = self::$driver->execute();
+		self::$driver->setQuery($queryIns)->execute();
 
 		/* check if is present an exclusive lock, it means a transaction is running */
 		$queryCheck = self::$driver->getQuery(true);
