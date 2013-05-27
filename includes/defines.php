@@ -8,12 +8,7 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Joomla! Application define.
- */
-
-//Global definitions.
-//Joomla framework path definitions.
+// Global definitions
 $parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
 
 //Defines.

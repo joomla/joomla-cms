@@ -19,6 +19,14 @@ defined('_JEXEC') or die;
 class JApplicationCms extends JApplicationWeb
 {
 	/**
+	 * Array of options for the JDocument object
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected $docOptions = array();
+
+	/**
 	 * The scope of the application.
 	 *
 	 * @var    string
@@ -632,12 +640,16 @@ class JApplicationCms extends JApplicationWeb
 
 		if ($response->status === JAuthentication::STATUS_SUCCESS)
 		{
-			// Validate that the user should be able to login (different to being authenticated).
-			// This permits authentication plugins blocking the user
+			/*
+			 * Validate that the user should be able to login (different to being authenticated).
+			 * This permits authentication plugins blocking the user.
+			 */
 			$authorisations = $authenticate->authorise($response, $options);
+
 			foreach ($authorisations as $authorisation)
 			{
 				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
+
 				if (in_array($authorisation->status, $denied_states))
 				{
 					// Trigger onUserAuthorisationFailure Event.
@@ -654,12 +666,17 @@ class JApplicationCms extends JApplicationWeb
 					{
 						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
+
 							break;
+
 						case JAuthentication::STATUS_DENIED:
 							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
+
 							break;
+
 						default:
 							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
+
 							break;
 					}
 				}
@@ -684,7 +701,7 @@ class JApplicationCms extends JApplicationWeb
 				if (isset($options['remember']) && $options['remember'])
 				{
 					// Create the encryption key, apply extra hardening using the user agent string.
-					$privateKey = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					$privateKey = md5($this->get('secret') . @$_SERVER['HTTP_USER_AGENT']);
 
 					$key = new JCryptKey('simple', $privateKey, $privateKey);
 					$crypt = new JCrypt(new JCryptCipherSimple, $key);
@@ -692,9 +709,9 @@ class JApplicationCms extends JApplicationWeb
 					$lifetime = time() + 365 * 24 * 60 * 60;
 
 					// Use domain and path set in config for cookie if it exists.
-					$cookie_domain = $this->getCfg('cookie_domain', '');
-					$cookie_path = $this->getCfg('cookie_path', '/');
-					setcookie(JApplication::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
+					$cookie_domain = $this->get('cookie_domain', '');
+					$cookie_path = $this->get('cookie_path', '/');
+					setcookie(md5($this->get('secret') . 'JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
 				}
 
 				return true;
@@ -773,6 +790,59 @@ class JApplicationCms extends JApplicationWeb
 		$this->triggerEvent('onUserLogoutFailure', array($parameters));
 
 		return false;
+	}
+
+	/**
+	 * Rendering is the process of pushing the document buffers into the template
+	 * placeholders, retrieving data from the document and pushing it into
+	 * the application response buffer.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function render()
+	{
+		// Setup the document options.
+		$this->docOptions['template'] = $this->get('theme');
+		$this->docOptions['file']     = $this->get('themeFile', 'index.php');
+		$this->docOptions['params']   = $this->get('themeParams');
+
+		if ($this->get('themes.base'))
+		{
+			$this->docOptions['directory'] = $this->get('themes.base');
+		}
+		// Fall back to constants.
+		else
+		{
+			$this->docOptions['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
+		}
+
+		// Parse the document.
+		$this->document->parse($this->docOptions);
+
+		// Trigger the onBeforeRender event.
+		JPluginHelper::importPlugin('system');
+		$this->triggerEvent('onBeforeRender');
+
+		$caching = false;
+
+		if ($this->get('caching') && $this->get('caching', 2) == 2 && !JFactory::getUser()->get('id'))
+		{
+			$caching = true;
+		}
+
+		// Render the document.
+		$data = $this->document->render($caching, $this->docOptions);
+
+		// Set the application output data.
+		$this->setBody($data);
+
+		// Trigger the onAfterRender event.
+		$this->triggerEvent('onAfterRender');
+
+		// Mark afterRender in the profiler.
+		JDEBUG ? $this->profiler->mark('afterRender') : null;
 	}
 
 	/**
