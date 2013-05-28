@@ -21,7 +21,7 @@ jimport('joomla.filesystem.path');
 class JFormHelper
 {
 	/**
-	 * Array with paths where entities(field, rule, form) can be found.
+	 * Array with paths where entities(option, field, rule, form) can be found.
 	 *
 	 * Array's structure:
 	 * <code>
@@ -155,11 +155,26 @@ class JFormHelper
 	}
 
 	/**
+	 * Attempt to import the JFormOption class file if it isn't already imported.
+	 * You can use this method outside of JForm for loading an option for inheritance or composition.
+	 *
+	 * @param   string  $type  Type of option whose class should be loaded.
+	 *
+	 * @return  mixed  Class name on success or false otherwise.
+	 *
+	 * @since   11.1
+	 */
+	public static function loadOptionClass($type)
+	{
+		return self::loadClass('option', $type);
+	}
+
+	/**
 	 * Load a class for one of the form's entities of a particular type.
-	 * Currently, it makes sense to use this method for the "field" and "rule" entities
+	 * Currently, it makes sense to use this method for the "option", "field" and "rule" entities
 	 * (but you can support more entities in your subclass).
 	 *
-	 * @param   string  $entity  One of the form entities (field or rule).
+	 * @param   string  $entity  One of the form entities (option, field or rule).
 	 * @param   string  $type    Type of an entity.
 	 *
 	 * @return  mixed  Class name on success or false otherwise.
@@ -266,6 +281,20 @@ class JFormHelper
 	public static function addRulePath($new = null)
 	{
 		return self::addPath('rule', $new);
+	}
+
+	/**
+	 * Method to add a path to the list of rule include paths.
+	 *
+	 * @param   mixed  $new  A path or array of paths to add.
+	 *
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @since   11.1
+	 */
+	public static function addOptionPath($new = null)
+	{
+		return self::addPath('option', $new);
 	}
 
 	/**

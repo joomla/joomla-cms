@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.form.option');
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
@@ -124,28 +126,7 @@ class JFormFieldList extends JFormField
 				}
 			}
 
-			$value = (string) $option['value'];
-
-			$disabled = (string) $option['disabled'];
-			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-
-			$disabled = $disabled || ($this->readonly && $value != $this->value);
-
-			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_(
-				'select.option', $value,
-				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-				$disabled
-			);
-
-			// Set some option attributes.
-			$tmp->class = (string) $option['class'];
-
-			// Set some JavaScript option attributes.
-			$tmp->onclick = (string) $option['onclick'];
-
-			// Add the option object to the result set.
-			$options[] = $tmp;
+			$options = array_merge($options, JFormOption::getOptions($option, $this->fieldname));
 		}
 
 		reset($options);
