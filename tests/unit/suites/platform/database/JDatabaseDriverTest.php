@@ -148,16 +148,19 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test...
+	 * Tests the JDatabaseDriver::getConnectors method.
 	 *
-	 * @todo Implement testGetConnectors().
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   1.0
 	 */
 	public function testGetConnectors()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertContains(
+			'Sqlite',
+			$this->db->getConnectors(),
+			'The getConnectors method should return an array with Sqlite as an available option.'
+		);
 	}
 
 	/**

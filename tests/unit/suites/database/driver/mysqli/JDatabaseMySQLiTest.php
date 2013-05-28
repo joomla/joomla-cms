@@ -32,6 +32,18 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
+	 * Data for the testTransactionRollback test.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function dataTestTransactionRollback()
+	{
+		return array(array(null, 0), array('transactionSavepoint', 1));
+	}
+
+	/**
 	 * Test __destruct method.
 	 *
 	 * @return  void
@@ -104,6 +116,22 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
+	 * Test getCollation method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testGetCollation()
+	{
+		$this->assertThat(
+			self::$driver->getCollation(),
+			$this->equalTo('utf8_general_ci'),
+			'Line:' . __LINE__ . ' The getCollation method should return the collation of the database.'
+		);
+	}
+
+	/**
 	 * Test getExporter method.
 	 *
 	 * @return  void
@@ -144,7 +172,15 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function testGetNumRows()
 	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$query = self::$driver->getQuery(true);
+		$query->select('*');
+		$query->from('jos_dbtest');
+		$query->where('description = ' . self::$driver->quote('one'));
+		self::$driver->setQuery($query);
+
+		$res = self::$driver->execute();
+
+		$this->assertThat(self::$driver->getNumRows($res), $this->equalTo(2), __LINE__);
 	}
 
 	/**
@@ -160,6 +196,82 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 			self::$driver->getTableCreate('#__dbtest'),
 			$this->isType('array'),
 			'The statement to create the table is returned in an array.'
+		);
+	}
+
+	/**
+	 * Test getTableColumns method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.4
+	 */
+	public function testGetTableColumns()
+	{
+		$tableCol = array('id' => 'int unsigned', 'title' => 'varchar', 'start_date' => 'datetime', 'description' => 'text');
+
+		$this->assertThat(
+			self::$driver->getTableColumns('jos_dbtest'),
+			$this->equalTo($tableCol),
+			__LINE__
+		);
+
+		/* not only type field */
+		$id = new stdClass;
+		$id->Default    = null;
+		$id->Field      = 'id';
+		$id->Type       = 'int(10) unsigned';
+		$id->Null       = 'NO';
+		$id->Key        = 'PRI';
+		$id->Collation  = null;
+		$id->Extra      = 'auto_increment';
+		$id->Privileges = 'select,insert,update,references';
+		$id->Comment    = '';
+
+		$title = new stdClass;
+		$title->Default    = null;
+		$title->Field      = 'title';
+		$title->Type       = 'varchar(50)';
+		$title->Null       = 'NO';
+		$title->Key        = '';
+		$title->Collation  = 'utf8_general_ci';
+		$title->Extra      = '';
+		$title->Privileges = 'select,insert,update,references';
+		$title->Comment    = '';
+
+		$start_date = new stdClass;
+		$start_date->Default    = null;
+		$start_date->Field      = 'start_date';
+		$start_date->Type       = 'datetime';
+		$start_date->Null       = 'NO';
+		$start_date->Key        = '';
+		$start_date->Collation  = null;
+		$start_date->Extra      = '';
+		$start_date->Privileges = 'select,insert,update,references';
+		$start_date->Comment    = '';
+
+		$description = new stdClass;
+		$description->Default    = null;
+		$description->Field      = 'description';
+		$description->Type       = 'text';
+		$description->Null       = 'NO';
+		$description->Key        = '';
+		$description->Collation  = 'utf8_general_ci';
+		$description->Extra      = '';
+		$description->Privileges = 'select,insert,update,references';
+		$description->Comment    = '';
+
+		$this->assertThat(
+			self::$driver->getTableColumns('jos_dbtest', false),
+			$this->equalTo(
+				array(
+					'id' => $id,
+					'title' => $title,
+					'start_date' => $start_date,
+					'description' => $description
+				)
+			),
+			__LINE__
 		);
 	}
 
@@ -459,13 +571,13 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
-	 * Test the JDatabaseDriverMysqli::query() method
+	 * Test the JDatabaseDriverMysqli::execute() method
 	 *
 	 * @return  void
 	 *
 	 * @since   11.4
 	 */
-	public function testQuery()
+	public function testExecute()
 	{
 		self::$driver->setQuery("REPLACE INTO `jos_dbtest` SET `id` = 5, `title` = 'testTitle'");
 
@@ -473,6 +585,27 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 
 		$this->assertThat(self::$driver->insertid(), $this->equalTo(5), __LINE__);
 
+	}
+
+	/**
+	 * Tests the renameTable method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testRenameTable()
+	{
+		$newTableName = 'bak_jos_dbtest';
+
+		self::$driver->renameTable('jos_dbtest', $newTableName);
+
+		// Check name change
+		$tableList = self::$driver->getTableList();
+		$this->assertThat(in_array($newTableName, $tableList), $this->isTrue(), __LINE__);
+
+		// Restore initial state
+		self::$driver->renameTable($newTableName, 'jos_dbtest');
 	}
 
 	/**
@@ -497,6 +630,95 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	public function testSetUTF()
 	{
 		$this->markTestIncomplete('This test has not been implemented yet.');
+	}
+
+	/**
+	 * Tests the transactionCommit method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testTransactionCommit()
+	{
+		self::$driver->transactionStart();
+		$queryIns = self::$driver->getQuery(true);
+		$queryIns->insert('#__dbtest')
+			->columns('id, title, start_date, description')
+			->values("6, 'testTitle', '1970-01-01', 'testDescription'");
+
+		self::$driver->setQuery($queryIns)->execute();
+
+		self::$driver->transactionCommit();
+
+		/* check if value is present */
+		$queryCheck = self::$driver->getQuery(true);
+		$queryCheck->select('*')
+			->from('#__dbtest')
+			->where('id = 6');
+		self::$driver->setQuery($queryCheck);
+		$result = self::$driver->loadRow();
+
+		$expected = array('6', 'testTitle', '1970-01-01 00:00:00', 'testDescription');
+
+		$this->assertThat($result, $this->equalTo($expected), __LINE__);
+	}
+
+	/**
+	 * Tests the transactionRollback method, with and without savepoint.
+	 *
+	 * @param   string  $toSavepoint  Savepoint name to rollback transaction to
+	 * @param   int     $tupleCount   Number of tuple found after insertion and rollback
+	 *
+	 * @return  void
+	 *
+	 * @since        3.1
+	 * @dataProvider dataTestTransactionRollback
+	 */
+	public function testTransactionRollback($toSavepoint, $tupleCount)
+	{
+		self::$driver->transactionStart();
+
+		/* try to insert this tuple, inserted only when savepoint != null */
+		$queryIns = self::$driver->getQuery(true);
+		$queryIns->insert('#__dbtest')
+			->columns('id, title, start_date, description')
+			->values("7, 'testRollback', '1970-01-01', 'testRollbackSp'");
+		self::$driver->setQuery($queryIns)->execute();
+
+		/* create savepoint only if is passed by data provider */
+		if (!is_null($toSavepoint))
+		{
+			self::$driver->transactionStart((boolean) $toSavepoint);
+		}
+
+		/* try to insert this tuple, always rolled back */
+		$queryIns = self::$driver->getQuery(true);
+		$queryIns->insert('#__dbtest')
+			->columns('id, title, start_date, description')
+			->values("8, 'testRollback', '1972-01-01', 'testRollbackSp'");
+		self::$driver->setQuery($queryIns)->execute();
+
+		self::$driver->transactionRollback((boolean) $toSavepoint);
+
+		/* release savepoint and commit only if a savepoint exists */
+		if (!is_null($toSavepoint))
+		{
+			self::$driver->transactionCommit();
+		}
+
+		/* find how many rows have description='testRollbackSp' :
+		 *   - 0 if a savepoint doesn't exist
+		 *   - 1 if a savepoint exists
+		 */
+		$queryCheck = self::$driver->getQuery(true);
+		$queryCheck->select('*')
+			->from('#__dbtest')
+			->where("description = 'testRollbackSp'");
+		self::$driver->setQuery($queryCheck);
+		$result = self::$driver->loadRowList();
+
+		$this->assertThat(count($result), $this->equalTo($tupleCount), __LINE__);
 	}
 
 	/**

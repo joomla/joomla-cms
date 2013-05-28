@@ -281,10 +281,20 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
+		$tables = $this->getTableList();
+
+		$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
 		$array = $this->loadAssocList();
 
-		return $array['2']['Collation'];
+		foreach ($array as $field)
+		{
+			if (!is_null($field['Collation']))
+			{
+				return $field['Collation'];
+			}
+		}
+
+		return null;
 	}
 
 	/**
