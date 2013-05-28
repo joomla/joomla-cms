@@ -89,6 +89,16 @@ abstract class AdminEditPage extends AdminPage
 		}
 		$inputId = $label->getAttribute('for');
 		$testInput = $this->driver->findElements(By::id($inputId));
+		// If not found, check for user name field
+		if (count($testInput) == 0)
+		{
+			// Check for user name
+			$testInput = $this->driver->findElements(By::id($inputId . '_name'));
+			if (count($testInput) == 1)
+			{
+				$inputId = $inputId . '_name';
+			}
+		}
 		if (count($testInput) == 1)
 		{
 			$input = $testInput[0];
