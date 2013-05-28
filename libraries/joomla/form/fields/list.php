@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.form.option');
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
@@ -119,6 +121,7 @@ class JFormFieldList extends JFormField
 				}
 			}
 
+<<<<<<< 9c37b27d5b2cc24361ea09777f6b92c2cf22e214
 			$value = (string) $option['value'];
 			$text = trim((string) $option) ? trim((string) $option) : $value;
 
@@ -147,6 +150,9 @@ class JFormFieldList extends JFormField
 
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
+=======
+			$options = array_merge($options, JFormOption::getOptions($option, $this->fieldname));
+>>>>>>> Make JFormFieldCheckboxes and JFormFieldRadio subclasses of JFormFieldList so that there is only one implementation of getOptions().
 		}
 
 		reset($options);
