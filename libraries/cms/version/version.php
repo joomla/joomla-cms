@@ -1,9 +1,10 @@
 <?php
 /**
- * @package    Joomla.Site
+ * @package     Joomla.Libraries
+ * @subpackage  Version
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -11,8 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Version information class for the Joomla CMS.
  *
- * @package  Joomla.Site
- * @since    1.0
+ * @package     Joomla.Libraries
+ * @subpackage  Version
+ * @since       1.0
  */
 final class JVersion
 {

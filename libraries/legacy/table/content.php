@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
+ * @deprecated  Class will be removed upon completion of transition to UCM
  */
 class JTableContent extends JTable
 {
