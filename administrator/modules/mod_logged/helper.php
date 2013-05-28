@@ -25,7 +25,7 @@ abstract class ModLoggedHelper
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 */
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$db    = JFactory::getDbo();
 		$user  = JFactory::getUser();
