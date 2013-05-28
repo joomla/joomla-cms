@@ -32,6 +32,8 @@ abstract class JMailHelper
 	 */
 	public static function cleanLine($value)
 	{
+		$value = JStringPunycode::emailToPunycode($value);
+
 		return trim(preg_replace('/(%0A|%0D|\n+|\r+)/i', '', $value));
 	}
 

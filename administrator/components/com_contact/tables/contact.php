@@ -141,6 +141,9 @@ class ContactTableContact extends JTable
 			$this->xreference = '';
 		}
 
+		// Store utf8 email as punycode
+		$this->email_to = JStringPunycode::emailToPunycode($this->email_to);
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))

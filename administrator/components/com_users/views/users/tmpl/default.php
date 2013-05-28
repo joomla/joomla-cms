@@ -144,7 +144,7 @@ $loggeduser = JFactory::getUser();
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->email); ?>
+					<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 				</td>
 				<td class="center">
 					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
