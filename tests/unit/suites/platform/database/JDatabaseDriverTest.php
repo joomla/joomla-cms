@@ -157,7 +157,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	public function testGetConnectors()
 	{
 		$this->assertContains(
-			'Sqlite',
+			'sqlite',
 			$this->db->getConnectors(),
 			'The getConnectors method should return an array with Sqlite as an available option.'
 		);
