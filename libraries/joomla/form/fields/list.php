@@ -99,14 +99,14 @@ class JFormFieldList extends JFormField
 					$result = $this->parseOptionSQL($option);
 					if (!empty($result))
 					{
-						$options += $result;
+						$options = array_merge($options, $result);
 					}
 					break;
 				case 'table':
 					$result = $this->parseOptionTable($option);
 					if (!empty($result))
 					{
-						$options += $result;
+						$options = array_merge($options, $result);
 					}
 					break;
 				case 'standard':
