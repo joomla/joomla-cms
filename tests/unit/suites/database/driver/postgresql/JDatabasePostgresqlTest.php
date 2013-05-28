@@ -291,16 +291,19 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	}
 
 	/**
-	 * Test getTableCreate function
+	 * Tests the JDatabasePostgresql getTableCreate method.
 	 *
-	 * @todo Implement testGetTableCreate().
+	 * @return  void
 	 *
-	 * @return   void
+	 * @since   3.1
 	 */
 	public function testGetTableCreate()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			self::$driver->getTableCreate('jos_dbtest'),
+			$this->equalTo(''),
+			__LINE__
+		);
 	}
 
 	/**
@@ -964,20 +967,19 @@ class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
 	}
 
 	/**
-	 * Test the JDatabasePostgresql::query() method
+	 * Test the JDatabasePostgresql::execute() method
 	 *
 	 * @return  void
 	 *
 	 * @since   11.3
 	 */
-	public function testQuery()
+	public function testExecute()
 	{
 		/* REPLACE is not present in PostgreSQL */
 		$query = self::$driver->getQuery(true);
 		$query->delete();
 		$query->from('#__dbtest')->where('id=5');
-		self::$driver->setQuery($query);
-		$result = self::$driver->execute();
+		self::$driver->setQuery($query)->execute();
 
 		$query = self::$driver->getQuery(true);
 		$query->insert('#__dbtest')
