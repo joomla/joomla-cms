@@ -599,6 +599,40 @@ class JoomlaInstallerScript
 			'/media/system/js/uploader.js',
 			'/media/system/swf/index.html',
 			'/media/system/swf/uploader.swf',
+			// Joomla! 3.2
+			'libraries/joomla/form/fields/accesslevel.php',
+			'libraries/joomla/form/fields/cachehandler.php',
+			'libraries/joomla/form/fields/calendar.php',
+			'libraries/joomla/form/fields/checkbox.php',
+			'libraries/joomla/form/fields/checkboxes.php',
+			'libraries/joomla/form/fields/color.php',
+			'libraries/joomla/form/fields/combo.php',
+			'libraries/joomla/form/fields/databaseconnection.php',
+			'libraries/joomla/form/fields/email.php',
+			'libraries/joomla/form/fields/file.php',
+			'libraries/joomla/form/fields/filelist.php',
+			'libraries/joomla/form/fields/folderlist.php',
+			'libraries/joomla/form/fields/groupedlist.php',
+			'libraries/joomla/form/fields/hidden.php',
+			'libraries/joomla/form/fields/imagelist.php',
+			'libraries/joomla/form/fields/index.php',
+			'libraries/joomla/form/fields/integer.php',
+			'libraries/joomla/form/fields/language.php',
+			'libraries/joomla/form/fields/list.php',
+			'libraries/joomla/form/fields/note.php',
+			'libraries/joomla/form/fields/password.php',
+			'libraries/joomla/form/fields/plugins.php',
+			'libraries/joomla/form/fields/radio.php',
+			'libraries/joomla/form/fields/rules.php',
+			'libraries/joomla/form/fields/sessionhandler.php',
+			'libraries/joomla/form/fields/spacer.php',
+			'libraries/joomla/form/fields/sql.php',
+			'libraries/joomla/form/fields/tel.php',
+			'libraries/joomla/form/fields/text.php',
+			'libraries/joomla/form/fields/textarea.php',
+			'libraries/joomla/form/fields/timezone.php',
+			'libraries/joomla/form/fields/url.php',
+			'libraries/joomla/form/fields/usergroup.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -644,6 +678,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/installer',
 			'/libraries/legacy/html',
 			'/media/system/swf/',
+			// Joomla! 3.2
+			'libraries/joomla/form/fields'
 		);
 
 		jimport('joomla.filesystem.file');
