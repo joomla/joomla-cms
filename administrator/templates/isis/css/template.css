@@ -1914,7 +1914,7 @@ table .span24 {
 	filter: alpha(opacity=40);
 }
 button.close {
-	padding: 0;
+	padding: 3;
 	cursor: pointer;
 	background: transparent;
 	border: 0;
