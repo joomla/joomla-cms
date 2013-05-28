@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.form.option');
+
 /**
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
