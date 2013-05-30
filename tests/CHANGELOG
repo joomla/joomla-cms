@@ -26,6 +26,35 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-May-2013 Mark Dexter
+ + Add webdriver tests for contacts, weblinks, and banners. Thanks George Wilson.
+ + Add skeleton classes for com_categories to work around inconsistent URL issue.
+
+22-May-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
+16-May-2013 Mark Dexter
+ + Added TagManager0002Test.php. Thanks Puneet Kala.
+
+09-May-2013 Mark Dexter
+ # Finish system tests for back end Tags Manager. Thanks Puneet Kala.
+
+08-May-2013 Mark Dexter
+ # Fix failing system test for markup change in Template Manager.
+
+04-May-2013 Michael Babker
+ # Fix failing unit tests
+
+03-May-2013 JM Simonet
+ # Corrected test for #30788
+
+02-May-2013 Mark Dexter
+ # Fix up doc blocks as example for Webdriver page classes and tests.
+ # Added test for Tag Manager. Thanks Puneet Kala.
+
+30-Apr-2013 Mark Dexter
+ # Fix system tests for clearfix class in front end
+
 25-Apr-2013 Mark Dexter
  # Fix webdriver tests for change in module edit form (using textarea for class suffix)
 

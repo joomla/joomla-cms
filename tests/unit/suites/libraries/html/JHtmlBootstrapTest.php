@@ -34,6 +34,10 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		// Ensure the loaded states are reset
+		JHtmlBootstrapInspector::resetLoaded();
+		JHtmlJqueryInspector::resetLoaded();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -58,9 +62,6 @@ class JHtmlBootstrapTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
-
-		JHtmlBootstrapInspector::resetLoaded();
-		JHtmlJqueryInspector::resetLoaded();
 	}
 
 	/**
@@ -277,8 +278,8 @@ class JHtmlBootstrapTest extends TestCase
 	public function testEndTabSet()
 	{
 		$this->assertThat(
-						JHtml::_('bootstrap.endTabSet'),
-						$this->equalTo('</div>')
+			JHtml::_('bootstrap.endTabSet'),
+			$this->equalTo("\n</div>")
 		);
 	}
 
@@ -302,8 +303,8 @@ class JHtmlBootstrapTest extends TestCase
 	public function testEndTab()
 	{
 		$this->assertThat(
-						JHtml::_('bootstrap.endTab'),
-						$this->equalTo('</div>')
+			JHtml::_('bootstrap.endTab'),
+			$this->equalTo("\n</div>")
 		);
 	}
 
@@ -328,7 +329,7 @@ class JHtmlBootstrapTest extends TestCase
 	{
 		$this->assertThat(
 			JHtml::_('bootstrap.endTabSet'),
-			$this->equalTo('</div>')
+			$this->equalTo("\n</div>")
 		);
 	}
 
@@ -353,7 +354,7 @@ class JHtmlBootstrapTest extends TestCase
 	{
 		$this->assertThat(
 			JHtml::_('bootstrap.endTab'),
-			$this->equalTo('</div>')
+			$this->equalTo("\n</div>")
 		);
 	}
 

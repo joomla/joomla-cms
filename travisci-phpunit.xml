@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="tests/unit/bootstrap.php" colors="true">
+	<testsuites>
+		<testsuite name="libraries">
+			<directory>tests/unit/suites/libraries</directory>
+		</testsuite>
+		<testsuite name="administrator">
+			<directory>tests/unit/suites/administrator</directory>
+		</testsuite>
+		<testsuite name="FinderIndexer">
+			<directory>tests/unit/suites/finderIndexer</directory>
+		</testsuite>
+	</testsuites>
+
+	<logging>
+		<log type="coverage-text" target="php://stdout" lowUpperBound="35" highLowerBound="70" />
+	</logging>
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">libraries/cms</directory>
+			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
+			<file>administrator/includes/helper.php</file>
+		</whitelist>
+	</filter>
+</phpunit>

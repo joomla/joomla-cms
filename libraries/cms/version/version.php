@@ -1,9 +1,10 @@
 <?php
 /**
- * @package    Joomla.Site
+ * @package     Joomla.Libraries
+ * @subpackage  Version
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
@@ -11,8 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Version information class for the Joomla CMS.
  *
- * @package  Joomla.Site
- * @since    1.0
+ * @package     Joomla.Libraries
+ * @subpackage  Version
+ * @since       1.0
  */
 final class JVersion
 {
@@ -23,7 +25,7 @@ final class JVersion
 	public $RELEASE = '3.1';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '1';
+	public $DEV_LEVEL = '2';
 
 	/** @var  string  Development STATUS. */
 	public $DEV_STATUS = 'Stable';
@@ -35,7 +37,7 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '24-June-2013';
+	public $RELDATE = '26-June-2013';
 
 	/** @var  string  Release time. */
 	public $RELTIME = '14:00';

@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.3
- * @deprecated  12.3 Use JApplicationWeb instead.
+ * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationWeb instead.
  */
 class JWeb extends JApplicationWeb
 {

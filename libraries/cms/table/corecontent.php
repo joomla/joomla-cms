@@ -154,10 +154,11 @@ class JTableCorecontent extends JTable
 	/**
 	 * Override JTable delete method to include deleting corresponding row from #__ucm_base.
 	 *
-	 * @param   integer  primary key value to delete. Must be set or throws an exception.
+	 * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
 	 *
 	 * @return  boolean  True on success.
 	 *
+	 * @since   3.1
 	 * @throws  UnexpectedValueException
 	 */
 	public function delete($pk = null)
@@ -169,12 +170,11 @@ class JTableCorecontent extends JTable
 	/**
 	 * Method to delete a row from the #__ucm_content table by content_item_id.
 	 *
-	 * @param   integer  $pk  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
+	 * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
-	 *
 	 * @throws  UnexpectedValueException
 	 */
 	public function deleteByContentId($contentItemId = null)
@@ -234,7 +234,15 @@ class JTableCorecontent extends JTable
 			{
 				$this->core_created_user_id = $user->get('id');
 			}
+
 			$isNew = true;
+
+		}
+
+		$oldRules = $this->getRules();
+		if (empty($oldRules))
+		{
+			$this->setRules('{}');
 		}
 
 		$result = parent::store($updateNulls);

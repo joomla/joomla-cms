@@ -410,11 +410,6 @@ h6 { font-size: 12px; line-height: 14px; }
 	max-width: 100% !important;
 }
 
-/* Code Mirror */
-.CodeMirror-wrapping {
-	height: auto !important;
-}
-
 @media (max-width: 979px) {
 	.navbar{
 		.brand {
@@ -639,7 +634,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 1200;
+	z-index: 100;
 }
 
 /* Tree Select */
@@ -683,4 +678,17 @@ ul.treeselect ul.dropdown-menu li {
 td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
 	height: 23px;
+}
+
+/* Item associations */
+.item-associations {
+	margin: 0;
+}
+.item-associations li {
+	list-style: none;
+	display: inline-block;
+	margin: 0 0 3px 0;
+}
+.item-associations li a {
+	color: #ffffff;
 }

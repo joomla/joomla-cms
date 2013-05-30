@@ -39,7 +39,7 @@ class JTableCategory extends JTableNested
 		parent::__construct('#__categories', 'id', $db);
 
 		$this->access = (int) JFactory::getConfig()->get('access');
-		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper = new JHelperTags;
 	}
 
 	/**

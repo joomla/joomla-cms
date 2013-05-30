@@ -23,7 +23,128 @@ $ -> Language fix or change
 + -> Addition
 ^ -> Change
 - -> Removed
-! -> Note3
+! -> Note
+
+24-May-2013 Michael Babker
+ + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
+ ^ [#30985] *New JLayout for edit_associations.  Thanks Jean-Marie Simonet
+ #$ [#30994] Untranslated String.  Thanks Jean-Marie Simonet
+ # [#30974] Fix offline overflow image.  Thanks Angelika Reisiger
+ #$ [#31001] *Missing lang string for Protostar.  Thanks Jean-Marie Simonet
+ #$ [#28081] Smart Search Results Page Displays Wrong Modules
+
+24-May-2013 Jean-Marie Simonet
+ # [#30689] jQuery not loaded in Isis error page. Thanks Dennis Hermatski
+ # [#30945] Wrong error when folder creation not possible due to permissions. Thanks Phil Taylor
+ # [#30367] wrong tooltip display at the joomla BE. Thanks Constantin Romankiewicz and Tobias Zulauf
+ # [#30536] Allow plugins to add dynamically menu types to the list constructed from XML files. Thanks Beat
+ ^ [#30497] Consolidate JHtml classes to CMS tree. Thanks Michael Babker
+
+22-May-2013 Jean-Marie Simonet
+ # [#30982] Fast links for item language associations management. Thanks Roberto Segura.
+ # [#30956] No published field in Contacts Component
+ $ Adding installation languages: Albanian sq-AL
+
+22-May-2013 Elin Waring
+ # [#30980] Undefined variable extension. Thanks Roberto Segura
+
+21-May-2013 Jean-Marie Simonet
+ # [PR #1173] Hotfix for failure on user. Thanks David Hurley.
+
+19-May-2013 Michael Babker
+ # [#30771] Extension Manager Check Database doesn't handle SQL queries with leading comments.  Thanks Mark Dexter
+ #$ [#30867] More ':' than we need at Mass Mail.  Thanks Jean-Marie Simonet
+ # [#30880] Article Count at beez3.  Thanks David Hurley
+ ^ [#30819] Removes unnecessary clearfix divs.  Thanks Seth Warburton
+ # [#30754] Wrong display of the Debug Console (404 Error).  Thanks Brian Teeman
+ ^ [#30658] Adds WAI-ARIA Landmark Roles to Protostar.  Thanks Seth Warburton
+ ^ [#30918] Code duplication removal for saveOrderAjax.  Thanks Elin Waring
+ # [#30814] Undefind line at isis cpanel.  Thanks Tobias Zulauf
+ # [#30932] Missing variable in gmail authentication.  Thanks Janich Rasmussen
+ ^ [#30777] Removes html elements used in the wrong context.  Thanks Seth Warburton
+ ^ [#30673] Improving query for similar tags module.  Thanks Thomas Hunziker
+ # [#30695] Duplicate <div class="control-group"> for tags field.  Thanks Dennis Hermatski
+ # [#30500] Show / Hide Filter Field not working in tags layouts.  Thanks Mark Dexter
+ # [#30906] *Batch usage needs strict permissions.  Thanks Jean-Marie Simonet
+ # [#30947] Bugs at the debug console if i select some images (e.g. the offline image at the global configuration).  Thanks Tobias Zulauf
+ ^ [#30898] Corrects styling issues with mod_articles_category by removing h tags.  Thanks Seth Warburton
+ # [#30949] Feed module generates empty list for non-existing entries.  Thanks Radek Suski
+ # [#30833] Fixes issues from #29922.  Thanks George Wilson
+ # [#30726] Error when try to save category with tags.  Thanks Elin Waring
+
+13-May-2013 Jean-Marie Simonet
+ $ Updating ko-KR installation language
+ #$ [#30740] Site name tooltip not translatable correctly
+ # [#30812] *No Joomla Version is display at isis bottom
+ ^ [#30663] Default Value for the Option Show Sub-menu Items to be Set as Yes. Thanks Mig
+ # [#30873] *Multilanguage: PHP warning when logging.
+
+08-May-2013 Mark Dexter
+ # [#30125] Search module does not take into account the 'search only' selected. Thanks Luke Collymore.
+ # [#30769] Still There are Reference to Joomla! 3.0 Version in 3.1. Thanks Jean-Marie Simonet.
+ # [#28288] Unnesessary initialiazing of tooltips in category blog. Thanks Dennis Hermatski.
+ # [#30394] *Javascript translations are not available if caching is enabled. Thanks Dennis Hermatski.
+
+07-May-2013 Mark Dexter
+ # Revert [#30125] Search module does not take into account the 'search only' selected. Breaks search.
+ # [#30729] Template Editor does not Display well in FireFox. Thanks Aleksander Linkov.
+ # [#30691] TinyMCE shows buttons with onclick attribute without space and duplicate class. Thanks Dennis Hermatski.
+ # [#30125] Search module does not take into account the 'search only' selected. Thanks Brian Teeman.
+ # [#30797] *Wrapper module url field should be required. Thanks Jean-Marie Simonet.
+ # [#30017] Problems with calendar pop up in Chrome. Thanks Achal Aggarwal.
+ # [#30800] Blog item is not rendering intro image. Thanks David Hurley.
+ # [#30787] Select Tags filter cannot be translated correctly. Thanks Elin Waring.
+ # [#30431] Removed unused css file: editor_content.css. Thanks Nick Savov.
+ # [#30869] Incorrect table names used in the #__content_types table. Thanks Elin Waring.
+
+05-May-2013 Michael Babker
+ # [#30727] A unpublished or deleted tag is still visible in 'List of all tags' menu item.  Thanks David Hurley
+ # [#30744] tag mappings are not deleted after a tag is deleted.  Thanks Thomas Hunziker
+ # [#30566] Tag Items List Layout Background Alternating Color Bug.  Thanks Seth Warburton
+ ^ [#30659] Adds html5 elements to Protostar.  Thanks Seth Warburton
+ ^ [#30257] Removed colors from Icomoon named icons.  Thanks Peter van Westen
+ ^ [#30816] Documentation error.  Thanks Achal Aggarwal
+ ^ [#30810] Disable ReCaptcha plugin when Joomla is installed.  Thanks Nick Savov
+ # [#30811] Overrides list does not have any markup.  Thanks Roland Dalmulder
+ # [#30832] Joomla Updater doesn't use the bootstrap styling.  Thanks Roland Dalmulder
+
+03-May-2013 Jean-Marie Simonet
+ # [#30694] Backend toolbar buttons have forbidden attribute href. Thanks David Hurley
+ #$ [#30805] *Isis: sidebar background colour issue
+ # [#30103] Cannot delete web site entry for a contact. Thanks Elin Waring
+ # [#30748] *Multilanguage issue with contacts. Thanks Benjamin Trenkle
+ #$ [#30788] com_newsfeeds title is inconsequent in the backend.
+ # [#30784] User profile plugin doesn't save the field inputs after J3.1. Thanks Elin Waring
+
+30-Apr-2013 Jean-Marie Simonet
+ # [#30488] Wrong default values for weblink icons in layout. Thanks THomas Hunziker.
+ #$ [#30381] Create Folder button label - Media Manager. Thanks Glenn Arkell
+ #$ [#30618] *Adding filtering by Unprotected extensions in Extensions Manager=>Manage
+ # [#29922] Browser Agent Google Chrome on IOS. Thanks Brian Teeman.
+ # [#30622] Queries not using JDatabase. Thanks Georges Wilson
+ # [#30774] *SEF plugin issue. Thanks Robert Segura.
+ #$ [#30737] Incorrect title of the User Note Categories Manager
+
+29-Apr-2013 Jean-Marie Simonet
+ $ Removing deprecated lang strings for the flash Uploader
+
+28-Apr-2013 Jean-Marie Simonet
+ $ Adding installation languages : ro-RO and gd-GB
+
+-------------------- 3.1.1 Stable Release [26-Apr-2013] ------------------
+
+26-Apr-2013 Mark Dexter
+ # [#30702] Only titles display in featured/blogged views when hide intro text is selected.
+ # [#30681] Error in Database tab in Extension Manager.
+ # [#30697] Invalid tab end in article edit page. Thanks Dennis Hermatski.
+ # [#30725] Exception thrown for empty path. Thanks Elin Waring.
+ # [#30679] Fix two Tags-related API issues. Thanks Elin Waring.
+ # [#30632] *Menu item Alias required setting. Thanks Jean-Marie Simonet.
+ # [#29957] Administrator interface dropdown menus not working on tablets. Thanks Denia Si.
+ # [#30660] Corrects font-file stack order. Thanks Seth Warburton.
+ # [#30668] *Beez3 missing JHtml::_('behavior.caption');. Thanks Jean-Marie Simonet.
+ # [#30398] com_tags show "{loadmodule..." when listing items. Thanks Elin Waring.
+ # [#30495] Type check line 31, TemplatesHelper::getPositions. Thanks Christoffer Rødvik.
 
 -------------------- 3.1.0 Stable Release [24-Apr-2013] ------------------
 
@@ -33,7 +154,7 @@ $ -> Language fix or change
  # [#30640] Hathor - Not tag field shown in core content. Thanks Roberto Sequra.
  # [#30653] Use of undefined DEBUG constant. Thanks Elin Waring.
  # [#30603] Tags: Similar Tags Module Shows the same article multiple time. Thanks Thomas Hunziker.
- # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando. 
+ # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando.
 
 22-Apr-2013 Mark Dexter
  # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
@@ -60,7 +181,7 @@ $ -> Language fix or change
  # [#30592] Module Class Suffix	 should be a multiline text area. Thanks Ben Tasker.
  # [#30595] Fixing "urls" within TagsTableTag->bind(). Thanks Thomas Hunziker.
  # [#30596] Access Level in weblinnks manager is displaying as number. Thanks Elin Waring.
- # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier. 
+ # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier.
  # [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
  # [#30621] Fix batch issues, metadata issues and improve code quality. Thanks Elin Waring and Mark Dexter.
 
@@ -80,7 +201,7 @@ $ -> Language fix or change
  # [#30640] Hathor - Not tag field shown in core content. Thanks Roberto Sequra.
  # [#30653] Use of undefined DEBUG constant. Thanks Elin Waring.
  # [#30603] Tags: Similar Tags Module Shows the same article multiple time. Thanks Thomas Hunziker.
- # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando. 
+ # [#30642] Creating a new Tag based on existing one, using "Save as Copy" appends a number even the new Title of the copy is different from the original. Thanks Ashan Fernando.
 
 22-Apr-2013 Mark Dexter
  # [#30654] SQL Error in running smart search indexer. Thanks Elin Waring.
@@ -107,7 +228,7 @@ $ -> Language fix or change
  # [#30592] Module Class Suffix	 should be a multiline text area. Thanks Ben Tasker.
  # [#30595] Fixing "urls" within TagsTableTag->bind(). Thanks Thomas Hunziker.
  # [#30596] Access Level in weblinnks manager is displaying as number. Thanks Elin Waring.
- # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier. 
+ # [#30599] Backward Compatibilty break in JHtmlBootstrap::addPanel and ::startPane. Thanks Yannick Gaultier.
  # [#30617] *Tags: Discover sql not in sync. Thanks Thomas Hunziker.
  # [#30621] Fix batch issues, metadata issues and improve code quality. Thanks Elin Waring and Mark Dexter.
 

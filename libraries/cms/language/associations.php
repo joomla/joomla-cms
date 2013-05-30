@@ -33,7 +33,6 @@ class JLanguageAssociations
 	 *
 	 * @since   3.1
 	 */
-
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
 	{
 		$associations = array();
@@ -75,7 +74,7 @@ class JLanguageAssociations
 				);
 		}
 
-		$query->where('c.id =' . (int) $id);
+		$query->where('c.' . $pk . ' = ' . (int) $id);
 
 		$db->setQuery($query);
 
@@ -83,18 +82,20 @@ class JLanguageAssociations
 		{
 			$items = $db->loadObjectList('language');
 		}
-		catch (runtimeException $e)
+		catch (RuntimeException $e)
 		{
 			throw new Exception($e->getMessage(), 500);
-
-			return false;
 		}
 
 		if ($items)
 		{
 			foreach ($items as $tag => $item)
 			{
-				$associations[$tag] = $item;
+				// Do not return itself as result
+				if ((int) $item->{$pk} != $id)
+				{
+					$associations[$tag] = $item;
+				}
 			}
 		}
 

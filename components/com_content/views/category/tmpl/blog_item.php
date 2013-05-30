@@ -13,7 +13,6 @@ defined('_JEXEC') or die;?>
 $params = $this->item->params;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 $canEdit = $this->item->params->get('access-edit');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 ?>
 <?php if ($this->item->state == 0) : ?>
@@ -32,17 +31,13 @@ JHtml::_('behavior.framework');
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
 <?php endif; ?>
 
-<?php echo JLayoutHelper::render('joomla.content.content_intro_image', $this->item); ?>
+<?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?>
-
-<?php if ($params->get('show_intro')) : ?>
-<?php echo $this->item->introtext; ?>
-<?php endif; ?>
+<?php echo $this->item->event->beforeDisplayContent; ?> <?php echo $this->item->introtext; ?>
 
 <?php if ($useDefList) : ?>
 	<?php echo JLayoutHelper::render('joomla.content.info_block.block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>

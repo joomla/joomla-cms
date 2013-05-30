@@ -17,7 +17,7 @@ JLog::add('JDatabaseException is deprecated, use SPL Exceptions instead.', JLog:
  * @package     Joomla.Legacy
  * @subpackage  Database
  * @since       11.1
- * @deprecated  12.3 Use semantic exceptions instead
+ * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use semantic exceptions instead
  */
 class JDatabaseException extends RuntimeException
 {

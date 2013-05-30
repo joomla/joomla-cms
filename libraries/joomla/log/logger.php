@@ -73,7 +73,7 @@ abstract class JLogLogger
  * @package     Joomla.Platform
  * @subpackage  Access
  * @since       11.1
- * @deprecated  13.3
+ * @deprecated  13.3 (Platform) & 4.0 (CMS)
  */
 abstract class JLogger extends JLogLogger
 {

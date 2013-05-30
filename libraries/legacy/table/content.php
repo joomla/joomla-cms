@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
+ * @deprecated  Class will be removed upon completion of transition to UCM
  */
 class JTableContent extends JTable
 {
@@ -37,7 +38,7 @@ class JTableContent extends JTable
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper = new JHelperTags;
 		$this->tagsHelper->typeAlias = 'com_content.article';
 	}
 

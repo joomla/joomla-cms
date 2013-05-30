@@ -44,7 +44,7 @@ if (!empty($this->items))
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
-	<fieldset class="filters btn-toolbar">
+	<fieldset class="filters btn-toolbar clearfix">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
@@ -66,7 +66,6 @@ if (!empty($this->items))
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
 		<input type="hidden" name="task" value="" />
-		<div class="clearfix"></div>
 	</fieldset>
 	<?php endif; ?>
 

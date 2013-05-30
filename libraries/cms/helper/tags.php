@@ -19,7 +19,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JHelperTags
 {
-
 	/**
 	 * Helper object for storing and deleting tag information.
 	 *
@@ -55,9 +54,9 @@ class JHelperTags
 	/**
 	 * Method to add tag rows to mapping table.
 	 *
-	 * @param   integer  $ucmId    Id of the #__ucm_content item being tagged
-	 * @param   JTable   $table    JTable object being tagged
-	 * @param   array    $tags     Array of tags to be applied.
+	 * @param   integer  $ucmId  ID of the #__ucm_content item being tagged
+	 * @param   JTable   $table  JTable object being tagged
+	 * @param   array    $tags   Array of tags to be applied.
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -173,7 +172,7 @@ class JHelperTags
 	/**
 	 * Create any new tags by looking for #new# in the metadata
 	 *
-	 * @param   string  $metadata   Metadata JSON string
+	 * @param   string  $metadata  Metadata JSON string
 	 *
 	 * @return  mixed   If successful, metadata with new tag titles replaced by tag ids. Otherwise false.
 	 *
@@ -206,6 +205,7 @@ class JHelperTags
 				{
 					// Clear old data if exist
 					$tagTable->reset();
+
 					// Try to load the selected tag
 					if ($tagTable->load(array('title' => $tagText)))
 					{
@@ -240,18 +240,20 @@ class JHelperTags
 				}
 
 			}
+
 			// At this point $tags is an array of all tag ids
 			$metaObject->tags = $newTags;
 			$result = json_encode($metaObject);
 		}
+
 		return $result;
 	}
 
 	/**
 	 * Method to delete the tag mappings and #__ucm_content record for for an item
 	 *
-	 * @param   JTable   $table             JTable object of content table where delete occurred
-	 * @param   integer  $contentItemId     Id of the content item.
+	 * @param   JTable   $table          JTable object of content table where delete occurred
+	 * @param   integer  $contentItemId  ID of the content item.
 	 *
 	 * @return  boolean  true on success, false on failure
 	 *
@@ -517,7 +519,7 @@ class JHelperTags
 	/**
 	 * Function that converts tag ids to their tag names
 	 *
-	 * @param   array  $tagIds   array of integer tag ids.
+	 * @param   array  $tagIds  Array of integer tag ids.
 	 *
 	 * @return  array  An array of tag names.
 	 *
@@ -662,7 +664,7 @@ class JHelperTags
 	/**
 	 * Function that handles saving tags used in a table class after a store()
 	 *
-	 * @param   JTable  $table      JTable being processed
+	 * @param   JTable  $table  JTable being processed
 	 *
 	 * @return  null
 	 *
@@ -710,7 +712,7 @@ class JHelperTags
 	/**
 	 * Function that preProcesses data from a table prior to a store() to ensure proper tag handling
 	 *
-	 * @param   JTable  $table      JTable being processed
+	 * @param   JTable  $table  JTable being processed
 	 *
 	 * @return  null
 	 *
@@ -735,8 +737,13 @@ class JHelperTags
 			$newTags = (isset($newMetaObject->tags)) ? $newMetaObject->tags : null;
 		}
 
-		// We need to process tags if the tags have changed or if we have a new row
-		$this->tagsChanged = ($oldTags != $newTags) || !$table->$key;
+		// New items with no tags bypass this step.
+		if (!empty($newTags) && !empty($oldTags))
+		{
+			// We need to process tags if the tags have changed or if we have a new row
+			$this->tagsChanged = ($oldTags != $newTags) || !$table->$key;
+		}
+
 	}
 
 	/**
@@ -879,9 +886,11 @@ class JHelperTags
 	}
 
 	/**
-	 * @param   integer  $contentId    Id of the content item being untagged
-	 * @param   JTable   $table        JTable object being untagged
-	 * @param   array    $tags         Array of tags to be untagged. Use an empty array to untag all existing tags.
+	 * Method to untag an item
+	 *
+	 * @param   integer  $contentId  ID of the content item being untagged
+	 * @param   JTable   $table      JTable object being untagged
+	 * @param   array    $tags       Array of tags to be untagged. Use an empty array to untag all existing tags.
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -901,8 +910,9 @@ class JHelperTags
 		{
 			$query->where($db->quoteName('tag_id') . ' IN ' . implode(',', $tags));
 		}
+
 		$db->setQuery($query);
+
 		return (boolean) $db->execute();
 	}
-
 }
