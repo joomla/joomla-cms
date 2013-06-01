@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  table
+ * @package     Joomla.Libraries
+ * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * table class interface.
  *
- * @package     Joomla.Platform
- * @subpackage  HTTP
- * @since       11.3
+ * @package     Joomla.Libraries
+ * @subpackage  Table
+ * @since       3.2
  */
 interface JTableInterface
 {
@@ -23,7 +23,7 @@ interface JTableInterface
 	 *
 	 * @return  mixed  An array of the field names, or false if an error occurs.
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 * @throws  UnexpectedValueException
 	 */
 	public function getFields();
@@ -40,7 +40,7 @@ interface JTableInterface
 	 * @return  mixed    A JTable object if found or boolean false if one could not be found.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getInstance
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public static function getInstance($type, $prefix = 'JTable', $config = array());
 
@@ -53,7 +53,7 @@ interface JTableInterface
 	 * @return  array  An array of filesystem paths to find JTable classes in.
 	 *
 	 * @link    http://docs.joomla.org/JTable/addIncludePath
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public static function addIncludePath($path = null);
 
@@ -62,7 +62,7 @@ interface JTableInterface
 	 *
 	 * @return  string  The name of the database table being modeled.
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 *
 	 * @link    http://docs.joomla.org/JTable/getTableName
 	 */
@@ -74,7 +74,7 @@ interface JTableInterface
 	 * @return  string  The name of the primary key for the table.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getKeyName
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function getKeyName();
 
@@ -84,7 +84,7 @@ interface JTableInterface
 	 * @return  JDatabaseDriver  The internal database driver object.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getDBO
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function getDbo();
 
@@ -96,7 +96,7 @@ interface JTableInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/setDBO
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function setDBO(JDatabaseDriver $db);
 
@@ -107,7 +107,7 @@ interface JTableInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function setRules($input);
 
@@ -116,7 +116,7 @@ interface JTableInterface
 	 *
 	 * @return  JAccessRules object
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function getRules();
 
@@ -128,7 +128,7 @@ interface JTableInterface
 	 * @return  void
 	 *
 	 * @link    http://docs.joomla.org/JTable/reset
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function reset();
 
@@ -143,7 +143,7 @@ interface JTableInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/bind
-	 * @since   11.1
+	 * @since   3.2
 	 * @throws  UnexpectedValueException
 	 */
 	public function bind($src, $ignore = array());
@@ -159,7 +159,7 @@ interface JTableInterface
 	 * @return  boolean  True if successful. False if row not found.
 	 *
 	 * @link    http://docs.joomla.org/JTable/load
-	 * @since   11.1
+	 * @since   3.2
 	 * @throws  RuntimeException
 	 * @throws  UnexpectedValueException
 	 */
@@ -174,7 +174,7 @@ interface JTableInterface
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
 	 * @link    http://docs.joomla.org/JTable/check
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function check();
 
@@ -190,7 +190,7 @@ interface JTableInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/store
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function store($updateNulls = false);
 
@@ -210,7 +210,7 @@ interface JTableInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @link	http://docs.joomla.org/JTable/save
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function save($src, $orderingFilter = '', $ignore = '');
 
@@ -222,7 +222,7 @@ interface JTableInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/delete
-	 * @since   11.1
+	 * @since   3.2
 	 * @throws  UnexpectedValueException
 	 */
 	public function delete($pk = null);
@@ -242,7 +242,7 @@ interface JTableInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkOut
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function checkOut($userId, $pk = null);
 
@@ -255,7 +255,7 @@ interface JTableInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkIn
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function checkIn($pk = null);
 
@@ -267,7 +267,7 @@ interface JTableInterface
 	 * @return  boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/hit
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function hit($pk = null);
 
@@ -284,7 +284,7 @@ interface JTableInterface
 	 * @return  boolean  True if checked out.
 	 *
 	 * @link    http://docs.joomla.org/JTable/isCheckedOut
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function isCheckedOut($with = 0, $against = null);
 
@@ -297,7 +297,7 @@ interface JTableInterface
 	 * @return  mixed  Boolean false an failure or the next ordering value as an integer.
 	 *
 	 * @link    http://docs.joomla.org/JTable/getNextOrder
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function getNextOrder($where = '');
 
@@ -310,7 +310,7 @@ interface JTableInterface
 	 * @return  mixed  Boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	public function reorder($where = '');
 
@@ -325,7 +325,7 @@ interface JTableInterface
 	 * @return  mixed    Boolean  True on success.
 	 *
 	 * @link    http://docs.joomla.org/JTable/move
-	 * @since   11.1
+	 * @since   3.2
 	 * @throws  UnexpectedValueException
 	 */
 	public function move($delta, $where = '');
