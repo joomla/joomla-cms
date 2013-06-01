@@ -37,6 +37,10 @@ $ -> Language fix or change
  ^ [#31032] 'Default' toolbar buttons with different labels.  Thanks Tobias Zulauf
  ^ [#31033] System messages with the "X".  Thanks Tobias Zulauf
  ^ [#31008] Sync up Platform Bootstrap
+ # [#30923] Notice in Tags.  Thanks Elin Waring
+ # [#30987] Menu type alias does not behave as expected [regression].  Thanks Elin Waring
+ # [#30868] MySQL specific syntax used in JTableCorecontent::storeUcmBase()
+ ^ [#30983] Move JPagination to the CMS tree
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
