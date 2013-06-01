@@ -80,7 +80,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 <script type="text/javascript">
 //<![CDATA[
 	window.addEvent('domready', function()
-	{
+ function(){
 		var value;
 
 		// Set the input value if not already set.
@@ -94,7 +94,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 
 		// If the current value equals the default value, clear it.
 		document.id('mod-finder-searchword').addEvent('focus', function()
-		{
+ function(){
 			if (this.getProperty('value') == '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>')
 			{
 				this.setProperty('value', '');
@@ -103,7 +103,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 
 		// If the current value is empty, set the previous value.
 		document.id('mod-finder-searchword').addEvent('blur', function()
-		{
+ function(){
 			if (!this.getProperty('value'))
 			{
 				this.setProperty('value', value);

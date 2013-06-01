@@ -17,4 +17,4 @@ defined('_JEXEC') or die;
 		</li>
 	<?php endforeach;  ?>
 	</ul>
-<?php endif; ?>
+<?php endif;

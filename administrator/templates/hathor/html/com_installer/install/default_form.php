@@ -11,11 +11,12 @@ defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(pressbutton)
-	{
+ function(pressbutton){
 		var form = document.getElementById('adminForm');
 
 		// do field validation
-		if (form.install_package.value == ""){
+		if (form.install_package.value == "")
+		{
 			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true); ?>");
 		}
 		else
@@ -26,11 +27,12 @@ defined('_JEXEC') or die;
 	}
 
 	Joomla.submitbutton3 = function(pressbutton)
-	{
+ function(pressbutton){
 		var form = document.getElementById('adminForm');
 
 		// do field validation
-		if (form.install_directory.value == ""){
+		if (form.install_directory.value == "")
+		{
 			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_DIRECTORY', true); ?>");
 		}
 		else
@@ -41,11 +43,12 @@ defined('_JEXEC') or die;
 	}
 
 	Joomla.submitbutton4 = function(pressbutton)
-	{
+ function(pressbutton){
 		var form = document.getElementById('adminForm');
 
 		// do field validation
-		if (form.install_url.value == "" || form.install_url.value == "http://"){
+		if (form.install_url.value == "" || form.install_url.value == "http://")
+		{
 			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true); ?>");
 		}
 		else

@@ -30,4 +30,4 @@ defined('_JEXEC') or die;
 		<?php echo $field->input; ?>
 	</div>
 </div>
-<?php endforeach; ?>
+<?php endforeach;

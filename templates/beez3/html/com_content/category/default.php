@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 
-
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 JHtml::_('behavior.caption');
 
@@ -55,7 +54,6 @@ $pageClass = $this->params->get('pageclass_sfx');
 	</div>
 <?php endif; ?>
 
-
 <?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
 		<div class="cat-children">
 
@@ -67,7 +65,7 @@ $pageClass = $this->params->get('pageclass_sfx');
 	{
 		echo '<h2>';
 	} ?>
-    <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
+	<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
@@ -82,10 +80,8 @@ $pageClass = $this->params->get('pageclass_sfx');
 	<?php endif; ?>
 	<?php echo $this->loadTemplate('children'); ?>
 
-
 	<div class="cat-items">
 		<?php echo $this->loadTemplate('articles'); ?>
 	</div>
 
 </section>
-

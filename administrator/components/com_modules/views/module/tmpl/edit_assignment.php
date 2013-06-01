@@ -16,15 +16,15 @@ $menuTypes = MenusHelper::getMenuLinks();
 JHtml::_('script', 'jui/treeselectmenu.jquery.min.js', false, true);
 
 $script = "
-	jQuery(document).ready(function()
-	{
+	jQuery(document).ready(function()(
+(function(){
 		menuHide(jQuery('#jform_assignment').val());
-		jQuery('#jform_assignment').change(function()
-		{
+		jQuery('#jform_assignment').change(function()(
+(function(){
 			menuHide(jQuery(this).val());
 		})
 	});
-	function menuHide(val)
+	public function menuHide(val)
 	{
 		if (val == 0 || val == '-')
 		{
@@ -86,20 +86,24 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						if ($prevlevel < $link->level)
 						{
 							echo '<ul class="treeselect-sub">';
-						} elseif ($prevlevel > $link->level)
+						}
+						elseif ($prevlevel > $link->level)
 						{
 							echo str_repeat('</li></ul>', $prevlevel - $link->level);
-						} else {
+						}
+						else {
 							echo '</li>';
 						}
 						$selected = 0;
 						if ($this->item->assignment == 0)
 						{
 							$selected = 1;
-						} elseif ($this->item->assignment < 0)
+						}
+						elseif ($this->item->assignment < 0)
 						{
 							$selected = in_array(-$link->value, $this->item->assigned);
-						} elseif ($this->item->assignment > 0)
+						}
+						elseif ($this->item->assignment > 0)
 						{
 							$selected = in_array($link->value, $this->item->assigned);
 						}

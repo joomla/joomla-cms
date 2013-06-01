@@ -39,7 +39,6 @@ endif;
 			<li><?php echo $this->form->getLabel('version'); ?>
 			<?php echo $this->form->getInput('version'); ?></li>
 
-
 			</ul>
 </fieldset>
 
@@ -59,4 +58,4 @@ endif;
 		<?php endforeach; ?>
 		</ul>
 	</fieldset>
-<?php endforeach; ?>
+<?php endforeach;

@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Cache0001Test extends SeleniumJoomlaTestCase
 {
-	function testContentCache()
+	public function testContentCache()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testContentCache.\n");
@@ -55,7 +55,6 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->open($link, 'true');
 		$this->assertTrue($this->isElementPresent("link=Content Modules"));
-
 
 		$this->jPrint ("Test Article Category List\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-blog';
@@ -150,7 +149,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->doAdminLogout();
 	}
 
-	function testContactCache()
+	public function testContactCache()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testContactCache.\n");
@@ -295,7 +294,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("link=Other Resources"));
 	}
 
-	function testNewsFeedCache()
+	public function testNewsFeedCache()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testNewsfeedCache.\n");
@@ -357,7 +356,7 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 
 	}
 
-	function testModuleEnableCache()
+	public function testModuleEnableCache()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testModuleEnableCache.\n");

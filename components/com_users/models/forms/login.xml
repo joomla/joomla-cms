@@ -16,7 +16,7 @@
 			class="validate-password"
 			required="true"
 			filter="raw"
-			label="JGLOBAL_PASSWORD"			
+			label="JGLOBAL_PASSWORD"
 			size="25"
 		/>
 	</fieldset>

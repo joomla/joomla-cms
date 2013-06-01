@@ -28,7 +28,7 @@ $modMenuId = (int) $this->get('ModMenuId');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
+ function(task){
 		if (task != 'menus.delete' || confirm('<?php echo JText::_('COM_MENUS_MENU_CONFIRM_DELETE', true);?>'))
 		{
 			Joomla.submitform(task);

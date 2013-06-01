@@ -42,7 +42,8 @@ abstract class JHtmlList
 		{
 			$javascript = "onchange=\"if (document.forms.adminForm." . $name
 				. ".options[selectedIndex].value!='') {document.imagelib.src='..$directory' + document.forms.adminForm." . $name
-				. ".options[selectedIndex].value} else {document.imagelib.src='media/system/images/blank.png'}\"";
+				. ".options[selectedIndex].value}
+else {document.imagelib.src='media/system/images/blank.png'}\"";
 		}
 
 		$imageFiles = new DirectoryIterator(JPATH_SITE . '/' . $directory);

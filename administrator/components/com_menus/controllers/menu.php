@@ -59,7 +59,8 @@ class MenusControllerMenu extends JControllerForm
 		}
 
 		// Make sure we are not trying to modify an administrator menu.
-		if (isset($data['client_id']) && $data['client_id'] == 1){
+		if (isset($data['client_id']) && $data['client_id'] == 1)
+		{
 			JError::raiseNotice(0, JText::_('COM_MENUS_MENU_TYPE_NOT_ALLOWED'));
 
 			// Redirect back to the edit screen.
@@ -96,7 +97,8 @@ class MenusControllerMenu extends JControllerForm
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
-				else {
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}

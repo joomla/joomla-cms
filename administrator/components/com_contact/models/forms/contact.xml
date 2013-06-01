@@ -692,7 +692,7 @@
 	<fields name="metadata">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-	
+
 			<field name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
@@ -704,7 +704,7 @@
 				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
-	
+
 				<field name="rights" type="text"
 					label="JFIELD_METADATA_RIGHTS_LABEL"
 					description="JFIELD_METADATA_RIGHTS_DESC"

@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Module0002 extends SeleniumJoomlaTestCase
 {
-	function testModuleDisplay()
+	public function testModuleDisplay()
 	{
 		$this->setUp();
 		$this->jPrint("Starting ". __FUNCTION__ . "\n");
@@ -72,4 +72,3 @@ class Module0002 extends SeleniumJoomlaTestCase
 	}
 
 }
-

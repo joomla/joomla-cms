@@ -47,7 +47,7 @@ class MediaModelManager extends JModelLegacy
 	 * @param string $listFolder The image directory to display
 	 * @since 1.5
 	 */
-	function getFolderList($base = null)
+	public function getFolderList($base = null)
 	{
 		// Get some paths from the request
 		if (empty($base))
@@ -93,7 +93,7 @@ class MediaModelManager extends JModelLegacy
 		return $list;
 	}
 
-	function getFolderTree($base = null)
+	public function getFolderTree($base = null)
 	{
 		// Get some paths from the request
 		if (empty($base))

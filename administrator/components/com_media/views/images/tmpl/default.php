@@ -127,4 +127,4 @@ echo $params->get('image_path', 'images'); ?>/';
 			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
 		</div>
 	</form>
-<?php endif; ?>
+<?php endif;

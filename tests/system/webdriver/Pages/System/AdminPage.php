@@ -1,11 +1,7 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Abstract Class that is the parent class for all back-end page classes
@@ -60,7 +56,7 @@ abstract class AdminPage
 	 *
 	 * @var  array  All top menu links in admin screens. These are common in all admin screens.
 	 */
-	public  $allMenuLinks = array(
+	public $allMenuLinks = array(
 			'System' 				=> 'administrator/index.php#',
 			'Control Panel' 		=> 'administrator/index.php',
 			'Global Configuration'	=> 'administrator/index.php?option=com_config',
@@ -142,7 +138,6 @@ abstract class AdminPage
 			'Joomla Shop'			=> 'http://shop.joomla.org/',
 			'Tags'			=>	'administrator/index.php?option=com_tags',
 	);
-
 
 	/**
 	 * This variable creates a JavaScript function called moveToElementByAttribute.
@@ -278,7 +273,8 @@ abstract class AdminPage
 		$menuContainer = $this->driver->findElement(By::id('menu'));
 		$menus = $menuContainer->findElements(By::tagName('a'));
 		$return = array();
-		foreach ($menus as $menu) {
+		foreach ($menus as $menu)
+		{
 			$menuObject = new stdClass;
 			$menuObject->href = $menu->getAttribute('href');
 			$menuObject->text = $menu->getText();
@@ -309,7 +305,8 @@ abstract class AdminPage
 		$menuContainer = $this->driver->findElement(By::id('menu'));
 		$menus = $menuContainer->findElements(By::tagName('a'));
 		$return = array();
-		foreach ($menus as $menu) {
+		foreach ($menus as $menu)
+		{
 			if ($text = $menu->getText())
 			{
 				$menuObject = new stdClass();

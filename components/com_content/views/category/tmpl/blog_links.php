@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 ?>
 
-
 <div class="items-more">
 <ol class="nav nav-tabs nav-stacked">
 <?php

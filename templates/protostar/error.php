@@ -40,7 +40,6 @@ JHtml::_('bootstrap.framework');
 // Add current user information
 $user = JFactory::getUser();
 
-
 // Logo file
 if ($params->get('logoFile'))
 {

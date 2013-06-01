@@ -1,11 +1,6 @@
 <?php
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -65,7 +60,7 @@ class TagEditPage extends AdminEditPage
 	public $inputFields = array (
 			array('label' => 'Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Teaser image', 'id' => 'jform_images_image_intro', 'type' => 'input', 'tab' => 'general'),
-            array('label' => 'Float', 'id' => 'jform_images_float_intro', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Float', 'id' => 'jform_images_float_intro', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Alt', 'id' => 'jform_images_image_intro_alt', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Caption', 'id' => 'jform_images_image_intro_caption', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Full image', 'id' => 'jform_images_image_fulltext', 'type' => 'input', 'tab' => 'general'),
@@ -83,4 +78,3 @@ class TagEditPage extends AdminEditPage
 	);
 
 }
-

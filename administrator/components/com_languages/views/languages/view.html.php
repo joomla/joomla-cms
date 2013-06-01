@@ -83,7 +83,8 @@ class LanguagesViewLanguages extends JViewLegacy
 		{
 			JToolbarHelper::deleteList('', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('languages.trash');
 			JToolbarHelper::divider();

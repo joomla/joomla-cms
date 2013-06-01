@@ -103,7 +103,6 @@ class JSchemaChangesetTest extends TestCase
 		);
 	}
 
-
 	/**
 	 * Tests the getInstance method with the MySQL driver
 	 *

@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
@@ -190,4 +189,4 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<input type="hidden" name="limitstart" value="" />
 	</div>
 </form>
-<?php endif; ?>
+<?php endif;

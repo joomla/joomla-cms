@@ -16,7 +16,7 @@
 
 if(class_exists('PHP_CodeSniffer_Standards_AbstractVariableSniff', true) === false)
 {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractVariableSniff not found');
+	throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractVariableSniff not found');
 }
 
 /**
@@ -40,54 +40,54 @@ if(class_exists('PHP_CodeSniffer_Standards_AbstractVariableSniff', true) === fal
  */
 class Joomla_Sniffs_Classes_MemberVarScopeSniff extends PHP_CodeSniffer_Standards_AbstractVariableSniff
 {
-    /**
-     * Processes the function tokens within the class.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
-     * @param integer                  $stackPtr  The position where the token was found.
-     *
-     * @return void
-     */
-    protected function processMemberVar(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
-    {
-        $tokens = $phpcsFile->getTokens();
+	/**
+	 * Processes the function tokens within the class.
+	 *
+	 * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
+	 * @param integer                  $stackPtr  The position where the token was found.
+	 *
+	 * @return void
+	 */
+	protected function processMemberVar(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+	{
+		$tokens = $phpcsFile->getTokens();
 
-        $modifier = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$scopeModifiers, $stackPtr);
+		$modifier = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$scopeModifiers, $stackPtr);
 
-        if(($modifier === false) || ($tokens[$modifier]['line'] !== $tokens[$stackPtr]['line']))
-        {
-            $error = sprintf('Scope modifier not specified for member variable "%s"'
-            , $tokens[$stackPtr]['content']);
+		if(($modifier === false) || ($tokens[$modifier]['line'] !== $tokens[$stackPtr]['line']))
+		{
+			$error = sprintf('Scope modifier not specified for member variable "%s"'
+			, $tokens[$stackPtr]['content']);
 
-            $phpcsFile->addWarning($error, $stackPtr, 'Missing');
-        }
-    }//function
+			$phpcsFile->addWarning($error, $stackPtr, 'Missing');
+		}
+	}//function
 
-    /**
-     * Processes normal variables.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
-     * @param integer                  $stackPtr  The position where the token was found.
-     *
-     * @return void
-     */
-    protected function processVariable(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
-    {
-        // We don't care about normal variables.
-        return;
-    }//function
+	/**
+	 * Processes normal variables.
+	 *
+	 * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
+	 * @param integer                  $stackPtr  The position where the token was found.
+	 *
+	 * @return void
+	 */
+	protected function processVariable(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+	{
+		// We don't care about normal variables.
+		return;
+	}//function
 
-    /**
-     * Processes variables in double quoted strings.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
-     * @param integer                  $stackPtr  The position where the token was found.
-     *
-     * @return void
-     */
-    protected function processVariableInString(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
-    {
-        // We don't care about normal variables.
-        return;
-    }//function
+	/**
+	 * Processes variables in double quoted strings.
+	 *
+	 * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
+	 * @param integer                  $stackPtr  The position where the token was found.
+	 *
+	 * @return void
+	 */
+	protected function processVariableInString(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+	{
+		// We don't care about normal variables.
+		return;
+	}//function
 }//class

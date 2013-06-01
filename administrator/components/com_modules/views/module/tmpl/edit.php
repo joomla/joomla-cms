@@ -20,9 +20,8 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
 
-
 $script = "Joomla.submitbutton = function(task)
-	{
+ function(task){
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
 if ($hasContent)
 {

@@ -50,7 +50,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 		$this->setState('params', $params);
 
 		$user = JFactory::getUser();
-		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) &&  (!$user->authorise('core.edit', 'com_newsfeeds'))){
+		if ((!$user->authorise('core.edit.state', 'com_newsfeeds')) &&  (!$user->authorise('core.edit', 'com_newsfeeds')))
+		{
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
 		}
@@ -142,7 +143,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}
-				else {
+				else
+				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
 					$user = JFactory::getUser();
 					$groups = $user->getAuthorisedViewLevels();

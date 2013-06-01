@@ -286,7 +286,8 @@ class MenusModelMenutypes extends JModelLegacy
 									}
 								}
 							}
-							else {
+							else
+							{
 								$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 							}
 						}
@@ -294,7 +295,8 @@ class MenusModelMenutypes extends JModelLegacy
 					}
 
 				}
-				else {
+				else
+				{
 					$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 				}
 			}

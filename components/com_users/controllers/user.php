@@ -135,7 +135,8 @@ class UsersControllerUser extends UsersController
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'notice');
-				} else {
+				}
+				else {
 					$app->enqueueMessage($errors[$i], 'notice');
 				}
 			}
@@ -193,7 +194,8 @@ class UsersControllerUser extends UsersController
 			if ($app->getCfg('error_reporting'))
 			{
 				$message = $return->getMessage();
-			} else {
+			}
+			else {
 				$message = JText::_('COM_USERS_REMIND_REQUEST_ERROR');
 			}
 
@@ -205,7 +207,8 @@ class UsersControllerUser extends UsersController
 			// Go back to the complete form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		} elseif ($return === false)
+		}
+		elseif ($return === false)
 		{
 			// Complete failed.
 			// Get the route to the next page.

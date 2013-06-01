@@ -26,18 +26,20 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task, type)
-	{
+ function(task, type){
 		if (task == 'item.setType' || task == 'item.setMenuType')
 		{
 			if (task == 'item.setType')
 			{
 				document.id('item-form').elements['jform[type]'].value = type;
 				document.id('fieldtype').value = 'type';
-			} else {
+			}
+			else {
 				document.id('item-form').elements['jform[menutype]'].value = type;
 			}
 			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		}
+		else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
 		{
 			Joomla.submitform(task, document.id('item-form'));
 		}

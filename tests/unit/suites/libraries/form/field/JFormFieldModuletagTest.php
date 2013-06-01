@@ -32,7 +32,6 @@ class JFormFieldModuletagTest extends PHPUnit_Framework_TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-
 		$field = new JFormFieldModuletag($form);
 
 		$this->assertThat(

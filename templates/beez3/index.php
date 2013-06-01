@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.filesystem.file');
 
-
 // Check modules
 $showRightColumn	= ($this->countModules('position-3') or $this->countModules('position-6') or $this->countModules('position-8'));
 $showbottom			= ($this->countModules('position-9') or $this->countModules('position-10') or $this->countModules('position-11'));
@@ -133,14 +132,14 @@ $doc->addScript($this->baseurl . '/templates/' . $this->template . '/javascript/
 					</div>
 
 					<?php if ($navposition == 'left' and $showleft) : ?>
-						<nav class="left1 <?php if ($showRightColumn == null){ echo 'leftbigger';} ?>" id="nav">
+						<nav class="left1 <?php if ($showRightColumn == null) { echo 'leftbigger';} ?>" id="nav">
 							<jdoc:include type="modules" name="position-7" style="beezDivision" headerLevel="3" />
 							<jdoc:include type="modules" name="position-4" style="beezHide" headerLevel="3" state="0 " />
 							<jdoc:include type="modules" name="position-5" style="beezTabs" headerLevel="2"  id="3" />
 						</nav><!-- end navi -->
 					<?php endif; ?>
 
-					<div id="<?php echo $showRightColumn ? 'wrapper' : 'wrapper2'; ?>" <?php if (isset($showno)){echo 'class="shownocolumns"';}?>>
+					<div id="<?php echo $showRightColumn ? 'wrapper' : 'wrapper2'; ?>" <?php if (isset($showno)) {echo 'class="shownocolumns"';}?>>
 						<div id="main">
 
 							<?php if ($this->countModules('position-12')) : ?>

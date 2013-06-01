@@ -1,11 +1,6 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Class for the back-end control panel screen.
@@ -101,11 +96,6 @@ class GlobalConfigurationPage extends AdminEditPage
 
 	public $permissions = array('core.login.site', 'core.login.admin', 'core.login.offline', 'core.admin', 'core.manage', 'core.create', 'core.delete', 'core.edit', 'core.edit.state', 'core.edit.own');
 
-
-
-
-
-
 	public function getPermissionInputFields($groupId)
 	{
 		$this->selectTab('page-permissions');
@@ -188,8 +178,6 @@ class GlobalConfigurationPage extends AdminEditPage
 		return implode("", $result);
 
 	}
-
-
 
 	/**
 	 * Prepare wiki text for permissions tab

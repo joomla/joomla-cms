@@ -16,7 +16,8 @@ if (!$templateparams->get('html5', 0))
 {
 	require JPATH_BASE.'/components/com_content/views/archive/tmpl/default.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
-} else {
+}
+else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 JHtml::_('behavior.caption');
@@ -48,4 +49,4 @@ JHtml::_('behavior.caption');
 	<?php echo $this->loadTemplate('items'); ?>
 </form>
 </div>
-<?php } ?>
+<?php }

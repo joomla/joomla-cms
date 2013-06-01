@@ -465,7 +465,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function dropTable($table, $ifExists = true);
+	abstract public function dropTable($table, $ifExists = true);
 
 	/**
 	 * Method to escape a string for usage in an SQL statement.
@@ -1359,7 +1359,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function lockTable($tableName);
+	abstract public function lockTable($tableName);
 
 	/**
 	 * Method to quote and optionally escape a string to database requirements for insertion into the database.
@@ -1569,7 +1569,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
+	abstract public function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
 
 	/**
 	 * Select a database for use.
@@ -1775,5 +1775,5 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   11.4
 	 * @throws  RuntimeException
 	 */
-	public abstract function unlockTables();
+	abstract public function unlockTables();
 }

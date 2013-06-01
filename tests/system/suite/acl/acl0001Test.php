@@ -9,7 +9,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 
 class Acl0001Test extends SeleniumJoomlaTestCase
 {
-	function testAclGroupCreation()
+	public function testAclGroupCreation()
 	{
 		$this->setUp();
 		$this->gotoAdmin();
@@ -93,7 +93,6 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 
 		$this->assertTrue($this->isTextPresent("Article Manager: Articles"), 'Article Manager not shown when it should be, Acl0001Test line 182');
 
-
 		$this->doAdminLogout();
 		$this->doAdminLogin();
 		$this->deleteTestUsers();
@@ -105,4 +104,3 @@ class Acl0001Test extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 }
-

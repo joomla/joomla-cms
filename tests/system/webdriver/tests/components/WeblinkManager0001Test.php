@@ -9,11 +9,7 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Weblink: Add / Edit  Screen.
@@ -31,7 +27,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 	 * @since   3.2
 	 */
 	protected $weblinkManagerPage = null;
-	
+
 	/**
 	 * Login to back end and navigate to menu Weblinks.
 	 *
@@ -54,7 +50,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -73,7 +69,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$weblinkEditPage->clickButton('toolbar-cancel');
 		$this->weblinkManagerPage = $this->getPageObject('WeblinkManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -84,7 +80,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$weblinkEditPage->clickButton('cancel');
 		$this->weblinkManagerPage = $this->getPageObject('WeblinkManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -97,7 +93,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$weblinkEditPage->clickButton('toolbar-cancel');
 		$this->weblinkManagerPage = $this->getPageObject('WeblinkManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -114,7 +110,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$this->weblinkManagerPage->deleteItem($weblinkName);
 		$this->assertFalse($this->weblinkManagerPage->getRowNumber($weblinkName), 'Test Weblink should not be present');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -152,7 +148,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$values = $this->weblinkManagerPage->getFieldValues('WeblinkEditPage', $weblinkName, array('Alt text', 'Caption', 'Image Float'));
 		$this->weblinkManagerPage->deleteItem($weblinkName);
 	}
-	
+
 	/**
 	 * @test
 	 */

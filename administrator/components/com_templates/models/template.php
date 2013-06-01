@@ -86,7 +86,8 @@ class TemplatesModelTemplate extends JModelLegacy
 				{
 					$result['css'][] = $this->getFile($path.'/css/', 'css/'.$file);
 				}
-			} else {
+			}
+			else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
 				return false;
 			}
@@ -152,7 +153,8 @@ class TemplatesModelTemplate extends JModelLegacy
 			{
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 				$this->template = false;
-			} else {
+			}
+			else {
 				$this->template = $result;
 			}
 		}

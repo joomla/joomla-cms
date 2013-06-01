@@ -85,7 +85,8 @@ class ContactViewCategory extends JViewLegacy
 				{
 					$item->email_to = JHtml::_('email.cloak', $item->email_to);
 				}
-				else {
+				else
+				{
 					$item->email_to = '';
 				}
 			}

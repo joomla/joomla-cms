@@ -17,25 +17,27 @@
 * @package utf8
 * @subpackage strings
 */
-function utf8_strcspn($str, $mask, $start = NULL, $length = NULL) {
+function utf8_strcspn($str, $mask, $start = NULL, $length = NULL)
+{
+	if ( empty($mask) || strlen($mask) == 0 )
+	{
+		return NULL;
+	}
 
-    if ( empty($mask) || strlen($mask) == 0 ) {
-        return NULL;
-    }
+	$mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
 
-    $mask = preg_replace('!([\\\\\\-\\]\\[/^])!','\\\${1}',$mask);
+	if ( $start !== NULL || $length !== NULL )
+	{
+		$str = utf8_substr($str, $start, $length);
+	}
 
-    if ( $start !== NULL || $length !== NULL ) {
-        $str = utf8_substr($str, $start, $length);
-    }
+	preg_match('/^[^'.$mask.']+/u',$str, $matches);
 
-    preg_match('/^[^'.$mask.']+/u',$str, $matches);
+	if ( isset($matches[0]) )
+	{
+		return utf8_strlen($matches[0]);
+	}
 
-    if ( isset($matches[0]) ) {
-        return utf8_strlen($matches[0]);
-    }
-
-    return 0;
+	return 0;
 
 }
-

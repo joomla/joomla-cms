@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class ControlPanel0005 extends SeleniumJoomlaTestCase
 {
-	function testMenuTopLevelPresent()
+	public function testMenuTopLevelPresent()
 	{
 		$this->jPrint ("starting testMenuTopLevelPresent\n");
 		$this->gotoAdmin();
@@ -29,7 +29,7 @@ class ControlPanel0005 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testMenuDetailHelp()
+	public function testMenuDetailHelp()
 	{
 		$this->jPrint ("starting testMenuDetailHelp\n");
 		$this->gotoAdmin();

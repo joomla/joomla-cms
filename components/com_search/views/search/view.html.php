@@ -142,7 +142,8 @@ class SearchViewSearch extends JViewLegacy
 					$searchwords = array($searchword);
 					$needle = $searchword;
 				}
-				else {
+				else
+				{
 					$searchworda = preg_replace('#\xE3\x80\x80#s', ' ', $searchword);
 					$searchwords = preg_split("/\s+/u", $searchworda);
 					$needle = $searchwords[0];
@@ -168,7 +169,8 @@ class SearchViewSearch extends JViewLegacy
 				{
 					$created = JHtml::_('date', $result->created, JText::_('DATE_FORMAT_LC3'));
 				}
-				else {
+				else
+				{
 					$created = '';
 				}
 

@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Security0001Test extends SeleniumJoomlaTestCase
 {
-	function testXSS()
+	public function testXSS()
 	{
 		$this->jPrint("Start testXSS" . "\n");
 		$this->setUp();
@@ -59,7 +59,8 @@ class Security0001Test extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testPathDisclosure() {
+	public function testPathDisclosure()
+	{
 		$this->jPrint("Start testPathDisclosure" . "\n");
 		$this->setUp();
 		$this->gotoSite();

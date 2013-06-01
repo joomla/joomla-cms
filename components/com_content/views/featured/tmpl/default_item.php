@@ -262,4 +262,4 @@ $info    = $this->item->params->get('info_block_position', 0);
 </div>
 <?php endif; ?>
 
-<?php echo $this->item->event->afterDisplayContent; ?>
+<?php echo $this->item->event->afterDisplayContent;

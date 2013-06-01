@@ -47,7 +47,7 @@ $saveOrder	= $listOrder == 'ordering';
 				<?php echo JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'));?>
 			</select>
 
-            <label class="selectlabel" for="filter_state">
+			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
 			<select name="filter_state" class="inputbox" id="filter_state">
@@ -55,7 +55,7 @@ $saveOrder	= $listOrder == 'ordering';
 				<?php echo JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'));?>
 			</select>
 
-            <label class="selectlabel" for="filter_position">
+			<label class="selectlabel" for="filter_position">
 				<?php echo JText::_('COM_MODULES_OPTION_SELECT_POSITION'); ?>
 			</label>
 			<select name="filter_position" class="inputbox" id="filter_position">
@@ -103,13 +103,13 @@ $saveOrder	= $listOrder == 'ordering';
 				<th class="title">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 				</th>
-                <th class="width-5">
+				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'JSTATUS', 'published', $listDirn, $listOrder); ?>
 				</th>
 				<th class="width-20">
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_POSITION', 'position', $listDirn, $listOrder); ?>
 				</th>
-                <th class="nowrap ordering-col">
+				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'ordering', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
 						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'modules.saveorder'); ?>
@@ -118,7 +118,7 @@ $saveOrder	= $listOrder == 'ordering';
 				<th class="width-10">
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 				</th>
-                	<th class="width-10">
+					<th class="width-10">
 					<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 				</th>
 				<th class="title access-col">
@@ -160,13 +160,13 @@ $saveOrder	= $listOrder == 'ordering';
 						<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?></p>
 					<?php endif; ?>
 				</td>
-                <td class="center">
+				<td class="center">
 					<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
 				</td>
 				<td class="center">
 					<?php echo $item->position; ?>
 				</td>
-                <td class="order">
+				<td class="order">
 					<?php if ($canChange) : ?>
 						<?php if ($saveOrder) :?>
 							<?php if ($listDirn == 'asc') : ?>
@@ -183,7 +183,7 @@ $saveOrder	= $listOrder == 'ordering';
 						<?php echo $item->ordering; ?>
 					<?php endif; ?>
 				</td>
-                <td class="left">
+				<td class="left">
 					<?php echo $item->name;?>
 				</td>
 				<td class="center">

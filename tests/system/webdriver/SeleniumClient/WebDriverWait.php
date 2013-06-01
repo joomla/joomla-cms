@@ -15,24 +15,24 @@
 
 namespace SeleniumClient;
 
-require_once("Exceptions.php");
+require_once 'Exceptions.php';
 
 class WebDriverWait
 {
 	private $_seconds;
-	
-	function __construct($seconds = 1)
+
+	public function __construct($seconds = 1)
 	{
 		if (!is_numeric($seconds)) { throw new \Exception("Must specify number"); }
-		
+
 		$this->_seconds = $seconds;
 	}
-	
+
 	public function getSeconds()
 	{
 		return $this->_seconds;
 	}
-	
+
 	/**
 	 * Stop current flow until specified condition is completed
 	 * @param SeleniumClient\WebDriver / SeleniumClient\WebElement $seleniumObject
@@ -45,27 +45,29 @@ class WebDriverWait
 	public function until($seleniumObject, $method, array $args)
 	{
 		if (!isset($seleniumObject)) { throw new \Exception("seleniumObject parameter has not been initialized"); }
-		else if (!isset($method)) { throw new \Exception("method parameter has not been initialized"); }
+ else if (!isset($method)) { throw new \Exception("method parameter has not been initialized"); }
 
 		$seconds = $this->_seconds;
-		
+
 		$wait = true;
-		
+
 		while ($wait)
 		{
-			try {
+			try
+			{
 				$resultObject = call_user_func_array(array ($seleniumObject, $method), $args);
-			} catch (\Exception $ex) {
+			}
+			catch (\Exception $ex) {
 
 			}
-			
+
 			if ($resultObject != null && $resultObject != false) { $wait = false; }
-			else
+ else
 			{
-				if ($seconds <= 0) 
-				{ 
+				if ($seconds <= 0)
+				{
 					$exMessage = "Timeout for specified condition caused by object of class: " . get_class($seleniumObject) . ", method invoked: ". $method . ".";
-					
+
 					if($args != null && count($args) > 0)
 					{
 						$stringArgs = Array();
@@ -82,17 +84,17 @@ class WebDriverWait
 							else
 							{
 								$stringArgs[] = $arg;
-							}							
-						}						
-						
+							}
+						}
+
 						$exMessage .= " Arguments: <" . implode(">,<",$stringArgs).">";
 					}
-					
-					throw new WebDriverWaitTimeoutException ($exMessage); 
+
+					throw new WebDriverWaitTimeoutException ($exMessage);
 				}
-				
+
 				sleep(1);
-				
+
 				$seconds = $seconds - 1;
 			}
 		}

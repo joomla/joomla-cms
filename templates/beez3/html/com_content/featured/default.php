@@ -85,5 +85,3 @@ JHtml::_('behavior.caption');
 	</div>
 <?php endif; ?>
 </section>
-
-

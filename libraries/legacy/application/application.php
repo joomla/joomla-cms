@@ -783,7 +783,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	static public function getRouter($name = null, array $options = array())
+	public static function getRouter($name = null, array $options = array())
 	{
 		if (!isset($name))
 		{
@@ -816,7 +816,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	static public function stringURLSafe($string)
+	public static function stringURLSafe($string)
 	{
 		if (JFactory::getConfig()->get('unicodeslugs') == 1)
 		{

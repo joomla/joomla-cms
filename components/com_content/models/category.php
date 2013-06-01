@@ -127,7 +127,8 @@ class ContentModelCategory extends JModelList
 		$query	= $db->getQuery(true);
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
+		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content')))
+		{
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
 			// Filter by start and end dates.
@@ -208,7 +209,7 @@ class ContentModelCategory extends JModelList
 	 * @return  mixed  An array of articles or false if an error occurs.
 	 * @since   1.5
 	 */
-	function getItems()
+	public function getItems()
 	{
 		$params = $this->getState()->get('params');
 		$limit = $this->getState('list.limit');
@@ -320,7 +321,8 @@ class ContentModelCategory extends JModelList
 				$options = array();
 				$options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
 			}
-			else {
+			else
+			{
 				$options['countItems'] = 0;
 			}
 
@@ -352,7 +354,8 @@ class ContentModelCategory extends JModelList
 				$this->_rightsibling = $this->_item->getSibling();
 				$this->_leftsibling = $this->_item->getSibling(false);
 			}
-			else {
+			else
+			{
 				$this->_children = false;
 				$this->_parent = false;
 			}

@@ -9,11 +9,7 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Weblinks: Add / Edit  Screen.
@@ -99,7 +95,6 @@ class WeblinkManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Weblink successfully saved') >= 0, 'Weblink save should return success');
 		$state = $this->weblinkManagerPage->getState($weblinkName_1);
 		$this->assertEquals('published', $state, 'Initial state should be published');
-
 
 		$this->weblinkManagerPage->addWeblink($weblinkName_2, $url, false);
 		$message = $this->weblinkManagerPage->getAlertMessage();

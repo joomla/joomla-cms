@@ -68,7 +68,8 @@ class WeblinksViewWeblink extends JViewLegacy
 			JToolbarHelper::apply('weblink.apply');
 			JToolbarHelper::save('weblink.save');
 		}
-		if (!$checkedOut && (count($user->getAuthorisedCategories('com_weblinks', 'core.create')))){
+		if (!$checkedOut && (count($user->getAuthorisedCategories('com_weblinks', 'core.create'))))
+		{
 			JToolbarHelper::save2new('weblink.save2new');
 		}
 		// If an existing item, can save to a copy.

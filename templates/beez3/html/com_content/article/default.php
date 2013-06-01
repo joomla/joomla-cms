@@ -195,5 +195,3 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 <?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </article>
-
-

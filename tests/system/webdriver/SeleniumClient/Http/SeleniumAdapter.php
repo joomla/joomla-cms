@@ -15,20 +15,20 @@
 
 namespace SeleniumClient\Http;
 
-require_once "Exceptions.php";
+require_once 'Exceptions.php';
 
 class SeleniumAdapter extends HttpClient
 {
 	public function execute()
 	{
 		parent::execute();
-		
+
 		$this->validateSeleniumResponseCode();
 		$this->validateHttpCode ();
-		
+
 		return $this->_responseBody;
 	}
-	
+
 	protected function validateHttpCode()
 	{
 		// Http response exceptions
@@ -52,7 +52,7 @@ class SeleniumAdapter extends HttpClient
 				break;
 		}
 	}
-	
+
 	protected function validateSeleniumResponseCode()
 	{
 		// Selenium response status exceptions
@@ -69,7 +69,8 @@ class SeleniumAdapter extends HttpClient
 			switch (intval($this->_responseBody["status"]))
 			{
 				case 7:
-					if (!$this->_polling) {
+					if (!$this->_polling)
+					{
 						throw new SeleniumNoSuchElementException($message);
 					}
 					break;

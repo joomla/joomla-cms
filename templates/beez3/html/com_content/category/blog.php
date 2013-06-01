@@ -45,8 +45,6 @@ $cparams = JComponentHelper::getParams('com_media');
 	</div>
 <?php endif; ?>
 
-
-
 <?php $leadingcount = 0; ?>
 <?php if (!empty($this->lead_items)) : ?>
 <div class="items-leading">
@@ -92,7 +90,6 @@ $cparams = JComponentHelper::getParams('com_media');
 			<?php endif; ?>
 	<?php endforeach; ?>
 
-
 <?php endif; ?>
 
 <?php if (!empty($this->link_items)) : ?>
@@ -113,7 +110,6 @@ $cparams = JComponentHelper::getParams('com_media');
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
 
-
 <?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 		<div class="pagination">
 						<?php  if ($this->params->def('show_pagination_results', 1)) : ?>
@@ -127,5 +123,3 @@ $cparams = JComponentHelper::getParams('com_media');
 <?php  endif; ?>
 
 </section>
-
-

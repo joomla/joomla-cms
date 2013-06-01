@@ -1,11 +1,7 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -86,7 +82,8 @@ class BannerManagerPage extends AdminManagerPage
 		$this->clickButton('toolbar-new');
 		$bannerEditPage = $this->test->getPageObject('BannerEditPage');
 		$bannerEditPage->setFieldValues(array('Name' => $name));
-		if($fields) {
+		if($fields)
+		{
 			$bannerEditPage->setFieldValues($fields);
 		}
 		$bannerEditPage->clickButton('toolbar-save');

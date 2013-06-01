@@ -3,10 +3,6 @@
 require_once 'JoomlaWebdriverTestCase.php';
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the Module Manager: Add / Edit Module Screen

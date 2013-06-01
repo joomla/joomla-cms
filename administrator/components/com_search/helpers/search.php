@@ -230,7 +230,8 @@ class SearchHelper
 			if (($wordpos = @JString::strpos($text, ' ', $pos + $length)) !== false)
 			{
 				$chunk_size = $wordpos - $pos;
-			} else {
+			}
+			else {
 				$chunk_size = $length;
 			}
 			$chunk = JString::substr($text, $pos, $chunk_size);
@@ -250,7 +251,8 @@ class SearchHelper
 			if (($wordpos = @JString::strpos($text, ' ', $length)) !== false)
 			{
 				return JString::substr($text, 0, $wordpos) . '&#160;...';
-			} else {
+			}
+			else {
 				return JString::substr($text, 0, $length);
 			}
 		}

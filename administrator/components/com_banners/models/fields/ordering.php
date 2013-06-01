@@ -62,7 +62,8 @@ class JFormFieldOrdering extends JFormField
 			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
 		}
 		// Create a regular list.
-		else {
+		else
+		{
 			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $bannerId ? 0 : 1);
 		}
 

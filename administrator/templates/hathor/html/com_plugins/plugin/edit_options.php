@@ -34,4 +34,4 @@ foreach ($fieldSets as $name => $fieldSet) :
 		</ul>
 		<?php echo $hidden_fields; ?>
 	</fieldset>
-<?php endforeach; ?>
+<?php endforeach;

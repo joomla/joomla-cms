@@ -126,7 +126,8 @@ class TagsViewTag extends JViewLegacy
 				// Merge so that the menu item params take priority
 				$this->params->merge($temp);
 				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout'])) {
+				if (isset($active->query['layout']))
+				{
 					$this->setLayout($active->query['layout']);
 				}
 			}

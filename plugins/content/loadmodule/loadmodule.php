@@ -58,8 +58,8 @@ class PlgContentLoadmodule extends JPlugin
 		// No matches, skip this
 		if ($matches)
 		{
-			foreach ($matches as $match) {
-
+			foreach ($matches as $match)
+			{
 			$matcheslist = explode(',', $match[1]);
 
 			// We may not have a module style so fall back to the plugin default.
@@ -80,9 +80,10 @@ class PlgContentLoadmodule extends JPlugin
 
 		preg_match_all($regexmod, $article->text, $matchesmod, PREG_SET_ORDER);
 		// If no matches, skip this
-		if ($matchesmod){
-			foreach ($matchesmod as $matchmod) {
-
+		if ($matchesmod)
+		{
+			foreach ($matchesmod as $matchmod)
+			{
 				$matchesmodlist = explode(',', $matchmod[1]);
 				//We may not have a specific module so set to null
 				if (!array_key_exists(1, $matchesmodlist))
@@ -138,7 +139,8 @@ class PlgContentLoadmodule extends JPlugin
 			$mod		= JModuleHelper::getModule($module, $title);
 			// If the module without the mod_ isn't found, try it with mod_.
 			// This allows people to enter it either way in the content
-			if (!isset($mod)){
+			if (!isset($mod))
+			{
 				$name = 'mod_'.$module;
 				$mod  = JModuleHelper::getModule($name, $title);
 			}

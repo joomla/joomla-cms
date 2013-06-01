@@ -37,4 +37,3 @@ require_once 'PEAR/Exception.php';
 class Testing_Selenium_Exception extends PEAR_Exception
 {
 }
-?>

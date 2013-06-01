@@ -32,48 +32,45 @@
 class Joomla_Sniffs_ControlStructures_ElseIfDeclarationSniff implements PHP_CodeSniffer_Sniff
 {
 
+	/**
+	 * Returns an array of tokens this test wants to listen for.
+	 *
+	 * @return array
+	 */
+	public function register()
+	{
+		return array(T_ELSE);
 
-    /**
-     * Returns an array of tokens this test wants to listen for.
-     *
-     * @return array
-     */
-    public function register()
-    {
-        return array(T_ELSE);
+	}//end register()
 
-    }//end register()
+	/**
+	 * Processes this test, when one of its tokens is encountered.
+	 *
+	 * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+	 * @param int                  $stackPtr  The position of the current token in the
+	 *                                        stack passed in $tokens.
+	 *
+	 * @return void
+	 */
+	public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+	{
+	  $tokens = $phpcsFile->getTokens();
 
+	  $nextNonWhiteSpace = $phpcsFile->findNext(
+		T_WHITESPACE,
+		$stackPtr + 1,
+		null,
+		true,
+		null,
+		true
+	  );
 
-    /**
-     * Processes this test, when one of its tokens is encountered.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
-     *
-     * @return void
-     */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
-    {
-      $tokens = $phpcsFile->getTokens();
+	  if($tokens[$nextNonWhiteSpace]['code'] == T_IF)
+	  {
+		$error = 'Usage of ELSE IF is not allowed; use ELSEIF instead';
+		$phpcsFile->addError($error, $stackPtr, 'NotAllowed');
+	  }
 
-      $nextNonWhiteSpace = $phpcsFile->findNext(
-        T_WHITESPACE,
-        $stackPtr + 1,
-        null,
-        true,
-        null,
-        true
-      );
-
-      if($tokens[$nextNonWhiteSpace]['code'] == T_IF)
-      {
-        $error = 'Usage of ELSE IF is not allowed; use ELSEIF instead';
-        $phpcsFile->addError($error, $stackPtr, 'NotAllowed');
-      }
-
-    }//end process()
-
+	}//end process()
 
 }//end class

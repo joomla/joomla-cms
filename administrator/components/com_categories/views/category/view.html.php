@@ -105,7 +105,8 @@ class CategoriesViewCategory extends JViewLegacy
 			$title = JText::sprintf('COM_CATEGORIES_CATEGORY_'.($isNew?'ADD':'EDIT').'_TITLE', $this->escape(JText::_($component_section_key)));
 		}
 		// Else use the base title
-		else {
+		else
+		{
 			$title = JText::_('COM_CATEGORIES_CATEGORY_BASE_'.($isNew?'ADD':'EDIT').'_TITLE');
 		}
 

@@ -14,7 +14,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 class Menu0001 extends SeleniumJoomlaTestCase
 {
 
-	function testMenuItemAdd()
+	public function testMenuItemAdd()
 	{
 		$this->jPrint ("Starting testMenuItemAdd()\n");
 		$this->gotoAdmin();
@@ -132,7 +132,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->click("cb6");
 		$this->click("//div[@id='toolbar-delete']/button");
 		sleep(2);
-		$this->assertTrue((bool)preg_match("/^Are you sure you want to delete/",$this->getConfirmation()));
+		$this->assertTrue((bool) preg_match("/^Are you sure you want to delete/",$this->getConfirmation()));
 
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isTextPresent("Menu type successfully deleted"));
@@ -147,7 +147,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testUnpublishedCategoryList()
+	public function testUnpublishedCategoryList()
 	{
 		$this->jPrint ("Starting testUnpublishedCategoryList()\n");
 		$this->gotoAdmin();
@@ -204,4 +204,3 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 }
-

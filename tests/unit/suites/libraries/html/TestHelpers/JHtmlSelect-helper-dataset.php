@@ -16,7 +16,7 @@
  */
 class JHtmlSelectTest_DataSet
 {
-	static public $optionsTest = array(
+	public static $optionsTest = array(
 		// @todo remove: array($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 		array(
 			"<option value=\"1\">&nbsp;Test</option>\n",

@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 	<div id="j-main-container">
 <?php endif;?>
 <?php if ($this->errorCount === 0) : ?>
-    <p class="nowarning"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?></p>
+	<p class="nowarning"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?></p>
 	<?php echo JHtml::_('sliders.start', 'database-sliders', array('useCookie' => 1)); ?>
 
 <?php else : ?>

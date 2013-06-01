@@ -225,7 +225,7 @@
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				size="6"
 			/>
-			
+
 			<field name="feed_display_order" type="list"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"

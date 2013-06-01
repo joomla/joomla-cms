@@ -13,8 +13,8 @@
  * @copyright 2008 OpenSourceMatters
  */
 
-
-class plgSystemAlpha extends JPlugin {
+class plgSystemAlpha extends JPlugin
+{
 	/**
 	 * Constructor
 	 *
@@ -25,7 +25,8 @@ class plgSystemAlpha extends JPlugin {
 	 * @param object $subject The object to observe
 	 * @since 1.5
 	 */
-	function plgSystemAlpha(& $subject, $config) {
+	public function plgSystemAlpha(& $subject, $config)
+	{
 		parent :: __construct($subject, $config);
 	}
 }

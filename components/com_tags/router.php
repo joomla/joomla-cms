@@ -29,10 +29,12 @@ function TagsBuildRoute(&$query)
 	$advanced	= $params->get('sef_advanced_link', 0);
 
 	// We need a menu item.  Either the one specified in the query, or the current active one if none specified
-	if (empty($query['Itemid'])) {
+	if (empty($query['Itemid']))
+	{
 		$menuItem = $menu->getActive();
 	}
-	else {
+	else
+	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 
@@ -43,10 +45,12 @@ function TagsBuildRoute(&$query)
 		JArrayHelper::toInteger($mId);
 	}
 
-	if (isset($query['view'])) {
+	if (isset($query['view']))
+	{
 		$view = $query['view'];
 
-		if (empty($query['Itemid'])) {
+		if (empty($query['Itemid']))
+		{
 			$segments[] = $query['view'];
 		}
 		unset($query['view']);
@@ -64,11 +68,14 @@ function TagsBuildRoute(&$query)
 	{
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
-			if ($view == 'tag') {
-				if ($advanced) {
+			if ($view == 'tag')
+			{
+				if ($advanced)
+				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				}
-				else {
+				else
+				{
 					$id = $query['id'];
 				}
 
@@ -78,14 +85,19 @@ function TagsBuildRoute(&$query)
 		unset($query['id']);
 	}
 
-	if (isset($query['layout'])) {
-		if (!empty($query['Itemid']) && isset($menuItem->query['layout'])) {
-			if ($query['layout'] == $menuItem->query['layout']) {
+	if (isset($query['layout']))
+	{
+		if (!empty($query['Itemid']) && isset($menuItem->query['layout']))
+		{
+			if ($query['layout'] == $menuItem->query['layout'])
+			{
 				unset($query['layout']);
 			}
 		}
-		else {
-			if ($query['layout'] == 'default') {
+		else
+		{
+			if ($query['layout'] == 'default')
+			{
 				unset($query['layout']);
 			}
 		}

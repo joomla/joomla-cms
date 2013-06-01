@@ -15,13 +15,15 @@
  * @copyright 2009 Developer Name
  */
 
-class Com_GammaInstallerScript {
-
-	function install($parent) {
+class Com_GammaInstallerScript
+{
+	public function install($parent)
+	{
 		echo '<p>'. JText::_('COM_GAMMA_16_CUSTOM_INSTALL_SCRIPT') . '</p>';
 	}
 
-	function uninstall($parent) {
+	public function uninstall($parent)
+	{
 		echo '<p>'. JText::_('COM_GAMMA_16_CUSTOM_UNINSTALL_SCRIPT') .'</p>';
 	}
 
@@ -29,11 +31,13 @@ class Com_GammaInstallerScript {
 		echo '<p>'. JText::_('COM_GAMMA_16_CUSTOM_UPDATE_SCRIPT') .'</p>';
 	}*/
 
-	function preflight($type, $parent) {
+	public function preflight($type, $parent)
+	{
 		echo '<p>'. JText::sprintf('COM_GAMMA_16_CUSTOM_PREFLIGHT', $type) .'</p>';
 	}
 
-	function postflight($type, $parent) {
+	public function postflight($type, $parent)
+	{
 		echo '<p>'. JText::sprintf('COM_GAMMA_16_CUSTOM_POSTFLIGHT', $type) .'</p>';
 		// An example of setting a redirect to a new location after the install is completed
 		//$parent->getParent()->set('redirect_url', 'http://www.google.com');

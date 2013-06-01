@@ -16,7 +16,8 @@ if (!$templateparams->get('html5', 0))
 {
 	require JPATH_BASE.'/components/com_content/views/archive/tmpl/default_items.php';
 	//evtl. ersetzen durch JPATH_COMPONENT.'/views/...'
-} else {
+}
+else {
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $params = &$this->params;
 ?>
@@ -32,7 +33,6 @@ $params = &$this->params;
 				<?php echo $this->escape($item->title); ?>
 		<?php endif; ?>
 		</h2>
-
 
 <?php if (($params->get('show_author')) or ($params->get('show_parent_category')) or ($params->get('show_category')) or ($params->get('show_create_date')) or ($params->get('show_modify_date')) or ($params->get('show_publish_date'))  or ($params->get('show_hits'))) : ?>
  <dl class="article-info">
@@ -113,4 +113,4 @@ $params = &$this->params;
 	<span><?php echo $this->pagination->getPagesLinks(); ?></span>
 	<span><?php echo $this->pagination->getPagesCounter(); ?></span>
 </div>
-<?php } ?>
+<?php }

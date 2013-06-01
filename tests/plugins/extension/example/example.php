@@ -23,7 +23,7 @@ class plgExtensionExample extends JPlugin
 	 * @param   integer  	Extension Identifier
 	 * @since   1.6
 	 */
-	function onExtensionAfterInstall($installer, $eid)
+	public function onExtensionAfterInstall($installer, $eid)
 	{
 		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionAfterInstall: '. ($eid === false ? 'Failed extension install: '. $installer->getError() : 'Extension install successful') . ($eid ? ' with new extension ID '. $eid : ' with no extension ID detected or multiple extension IDs assigned'));
 	}
@@ -35,7 +35,7 @@ class plgExtensionExample extends JPlugin
 	 * @param	boolean	True is this is new data, false if it is existing data.
 	 * @since	1.6
 	 */
-	function onExtensionAfterSave($data, $isNew)
+	public function onExtensionAfterSave($data, $isNew)
 	{
 	}
 
@@ -47,7 +47,7 @@ class plgExtensionExample extends JPlugin
 	 * @param	int			installation result
 	 * @since	1.6
 	 */
-	function onExtensionAfterUninstall($installer, $eid, $result)
+	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
 		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionAfterUninstall: Uninstallation of '. $eid .' was a '. ($result ? 'success' : 'failure'));
 	}
@@ -59,7 +59,7 @@ class plgExtensionExample extends JPlugin
 	 * @param	int			Extension identifier
 	 * @since	1.6
 	 */
-	function onExtensionAfterUpdate($installer, $eid)
+	public function onExtensionAfterUpdate($installer, $eid)
 	{
 		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionAfterUpdate: '. ($eid === false ? 'Failed extension update: '. $installer->getError() : 'Extension update successful') . ($eid ? ' with updated extension ID '. $eid : ' with no extension ID detected or multiple extension IDs assigned'));
 	}
@@ -67,7 +67,7 @@ class plgExtensionExample extends JPlugin
 	/**
 	 * @since	1.6
 	 */
-	function onExtensionBeforeInstall($method, $type, $manifest, $eid)
+	public function onExtensionBeforeInstall($method, $type, $manifest, $eid)
 	{
 		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionBeforeInstall: Installing '. $type .' from '. $method . ($method == 'install' ? ' with manifest supplied' : ' using discovered extension ID '. $eid));
 	}
@@ -79,7 +79,7 @@ class plgExtensionExample extends JPlugin
 	 * @param	boolean	True is this is new data, false if it is existing data.
 	 * @since	1.6
 	 */
-	function onExtensionBeforeSave($data, $isNew)
+	public function onExtensionBeforeSave($data, $isNew)
 	{
 	}
 
@@ -87,7 +87,7 @@ class plgExtensionExample extends JPlugin
 	 * @param	int			extension id
 	 * @since	1.6
 	 */
-	function onExtensionBeforeUninstall($eid)
+	public function onExtensionBeforeUninstall($eid)
 	{
 		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionBeforeUninstall: Uninstalling '. $eid);
 	}
@@ -95,7 +95,7 @@ class plgExtensionExample extends JPlugin
 	/**
 	 * @since	1.6
 	 */
-	function onExtensionBeforeUpdate($type, $manifest)
+	public function onExtensionBeforeUpdate($type, $manifest)
 	{
 		JError::raiseWarning(-1, 'plgExtensionExample::onExtensionBeforeUpdate: Updating a '. $type);
 	}

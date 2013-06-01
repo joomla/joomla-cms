@@ -1,1 +1,1 @@
-<?php echo "Other Files"; ?>
+<?php echo "Other Files";

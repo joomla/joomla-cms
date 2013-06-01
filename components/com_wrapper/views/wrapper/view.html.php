@@ -85,7 +85,8 @@ class WrapperViewWrapper extends JViewLegacy
 			{
 				$wrapper->url = 'http://'. $url;
 			}
-			else {
+			else
+			{
 				$wrapper->url = $url;
 			}
 		}

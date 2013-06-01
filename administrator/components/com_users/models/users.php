@@ -402,7 +402,7 @@ class UsersModelUsers extends JModelList
 	}
 
 	//sqlsrv change
-	function _getUserDisplayedGroups($user_id)
+	public function _getUserDisplayedGroups($user_id)
 	{
 		$db = JFactory::getDbo();
 		$query = "SELECT title FROM " . $db->quoteName('#__usergroups') . " ug left join " .

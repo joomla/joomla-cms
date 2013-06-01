@@ -10,18 +10,20 @@ require_once 'SeleniumJoomlaTestCase.php';
 
 class DoInstall extends SeleniumJoomlaTestCase
 {
-	function testDoInstall()
+	public function testDoInstall()
 	{
 		$this->setUp();
 		$cfg = $this->cfg;
 		$configFile = $cfg->folder.$cfg->path."configuration.php";
 
-		if (file_exists($configFile)) {
+		if (file_exists($configFile))
+		{
 			$this->jPrint ("Delete configuration file\n");
 			chmod($configFile, 0777);
 			unlink($configFile);
 		}
-		else {
+		else
+		{
 			$this->jPrint ("No configuration file found\n");
 		}
 
@@ -61,7 +63,8 @@ class DoInstall extends SeleniumJoomlaTestCase
 			$this->jPrint ("Install sample data and wait for success message\n");
 			$this->click("//input[@id='jform_sample_file4']");
 		}
-		else {
+		else
+		{
 			$this->jPrint ("Install without sample data\n");
 		}
 
@@ -88,7 +91,8 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->setCache($cfg->cache);
 
 		// Check admin template -- change to hathor if specified in config file
-		if (isset($cfg->adminTemplate) && $cfg->adminTemplate == 'hathor') {
+		if (isset($cfg->adminTemplate) && $cfg->adminTemplate == 'hathor')
+		{
 			$this->click("link=Template Manager");
 			$this->waitForPageToLoad("30000");
 			$this->click("link=Hathor - Default");

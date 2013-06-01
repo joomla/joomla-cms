@@ -168,4 +168,4 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	</div>
 </form>
-<?php endif; ?>
+<?php endif;

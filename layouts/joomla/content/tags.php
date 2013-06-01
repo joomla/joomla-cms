@@ -26,4 +26,4 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</div>
-<?php endif; ?>
+<?php endif;

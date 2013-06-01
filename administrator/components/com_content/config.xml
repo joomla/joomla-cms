@@ -434,7 +434,7 @@
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>	
+		</field>
 		<field
 			name="spacer4"
 			type="spacer"
@@ -475,7 +475,7 @@
 			extension="com_content"
 			view="category"
 		/>
-		<field 
+		<field
 			name="show_category_heading_title_text"
 			type="radio"
 			class="btn-group"
@@ -484,7 +484,7 @@
 			default="1">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
-		</field>	
+		</field>
 		<field name="show_category_title"
 			type="radio"
 			class="btn-group"

@@ -83,7 +83,8 @@ abstract class ModArticlesCategoryHelper
 									$catids = array($catid);
 								}
 							}
-							else {
+							else
+							{
 								// Return right away if show_on_article_page option is off
 								return;
 							}
@@ -95,7 +96,8 @@ abstract class ModArticlesCategoryHelper
 							return;
 					}
 				}
-				else {
+				else
+				{
 					// Return right away if not on a com_content page
 					return;
 				}
@@ -249,7 +251,8 @@ abstract class ModArticlesCategoryHelper
 				$item->displayCategoryLink = JRoute::_(ContentHelperRoute::getCategoryRoute($item->catid));
 				$item->displayCategoryTitle = $show_category ? '<a href="'.$item->displayCategoryLink.'">'.$item->category_title.'</a>' : '';
 			}
-			else {
+			else
+			{
 				$item->displayCategoryTitle = $show_category ? $item->category_title : '';
 			}
 
@@ -349,7 +352,8 @@ abstract class ModArticlesCategoryHelper
 			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}
-			else {
+			else
+			{
 				$grouped[$item->$fieldName][$key] = $item->$fieldNameToKeep;
 			}
 

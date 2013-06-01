@@ -38,4 +38,3 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 		</tr>
 <?php
 $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));
-?>

@@ -73,8 +73,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 		{
 			JToolbarHelper::editList('weblink.edit');
 		}
-		if ($canDo->get('core.edit.state')) {
-
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('weblinks.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('weblinks.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
@@ -84,7 +84,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'weblinks.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('weblinks.trash');
 		}

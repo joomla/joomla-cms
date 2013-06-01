@@ -99,7 +99,8 @@ $filesArray = array(
 );
 
 // Count down starting with the latest release and add diff files to this array
-for($num=$release-1; $num >= 0; $num--) {
+for($num=$release-1; $num >= 0; $num--)
+{
 	echo "Create version $num update packages.\n";
 
 	// Here we get a list of all files that have changed between the two tags ($previousTag and $full) and save in diffdocs

@@ -315,7 +315,7 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 			$output .= "document.write(unescape(\"%3Cscript src='{$prefix}.google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));";
 			$output .= '</script>';
 			$output .= '<script type="text/javascript">';
-			$output .= 'try{';
+			$output .= 'try {';
 			$output .= "var pageTracker = _gat._getTracker('{$code}');";
 
 			foreach ($this->listCalls() as $call)
@@ -324,7 +324,8 @@ class JGoogleEmbedAnalytics extends JGoogleEmbed
 			}
 
 			$output .= 'pageTracker._trackPageview();';
-			$output .= '} catch(err) {}</script>';
+			$output .= '}
+catch(err) {}</script>';
 		}
 
 		return $output;

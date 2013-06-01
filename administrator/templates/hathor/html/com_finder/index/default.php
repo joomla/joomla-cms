@@ -21,7 +21,7 @@ JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
 <script type="text/javascript">
 Joomla.submitbutton = function(pressbutton)
-{
+ function(pressbutton){
 	if (pressbutton == 'index.purge')
 	{
 		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT')))
@@ -118,7 +118,8 @@ Joomla.submitbutton = function(pressbutton)
 					if ($this->total == 0)
 					{
 						echo JText::_('COM_FINDER_INDEX_NO_DATA') . '  ' . JText::_('COM_FINDER_INDEX_TIP');
-					} else {
+					}
+					else {
 						echo JText::_('COM_FINDER_INDEX_NO_CONTENT');
 					}
 					?>
@@ -151,7 +152,8 @@ Joomla.submitbutton = function(pressbutton)
 					if (strlen($item->url) > 80)
 					{
 						echo substr($item->url, 0, 70) . '...';
-					} else {
+					}
+					else {
 						echo $item->url;
 					}
 					?>

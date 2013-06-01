@@ -30,7 +30,7 @@ if (!$editoroptions)
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
+ function(task){
 		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm')))
 		{
 			<?php echo $this->form->getField('articletext')->save(); ?>

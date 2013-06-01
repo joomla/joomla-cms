@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class SampleData0001 extends SeleniumJoomlaTestCase
 {
-	function testModuleOrder()
+	public function testModuleOrder()
 	{
 		$this->setUp();
 		$this->gotoAdmin();
@@ -36,7 +36,7 @@ class SampleData0001 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testMenuItems()
+	public function testMenuItems()
 	{
 		$this->setUp();
 		$this->gotoAdmin();

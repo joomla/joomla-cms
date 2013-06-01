@@ -331,41 +331,41 @@ usage: {$this->input->executable} [--keychain=/path/to/keychain]
 OPTIONS
 
   --keychain=/path/to/keychain
-    Path to a keychain file to manipulate.
+	Path to a keychain file to manipulate.
 
   --passphrase=/path/to/passphrase.dat
-    Path to a passphrase file containing the encryption/decryption key.
+	Path to a passphrase file containing the encryption/decryption key.
 
   --public-key=/path/to/public.pem
-    Path to a public key file to decrypt the passphrase file.
+	Path to a public key file to decrypt the passphrase file.
 
 
 COMMANDS
 
   list:
-    Usage: list [--print-values]
-    Lists all entries in the keychain. Optionally pass --print-values to print the values as well.
+	Usage: list [--print-values]
+	Lists all entries in the keychain. Optionally pass --print-values to print the values as well.
 
   create:
-    Usage: create entry_name entry_value
-    Creates a new entry in the keychain called "entry_name" with the plaintext value "entry_value".
-    NOTE: This is an alias for change.
+	Usage: create entry_name entry_value
+	Creates a new entry in the keychain called "entry_name" with the plaintext value "entry_value".
+	NOTE: This is an alias for change.
 
   change:
-    Usage: change entry_name entry_value
-    Updates the keychain entry called "entry_name" with the value "entry_value".
+	Usage: change entry_name entry_value
+	Updates the keychain entry called "entry_name" with the value "entry_value".
 
   delete:
-    Usage: delete entry_name
-    Removes an entry called "entry_name" from the keychain.
+	Usage: delete entry_name
+	Removes an entry called "entry_name" from the keychain.
 
   read:
-    Usage: read entry_name
-    Outputs the plaintext value of "entry_name" from the keychain.
+	Usage: read entry_name
+	Outputs the plaintext value of "entry_name" from the keychain.
 
   init:
-    Usage: init
-    Creates a new passphrase file and prompts for a new passphrase.
+	Usage: init
+	Creates a new passphrase file and prompts for a new passphrase.
 
 HELP;
 		$this->out($help);

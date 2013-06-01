@@ -33,4 +33,4 @@ endif; ?>
 
 <?php if (isset($item->link) && $item->readmore != 0 && $params->get('readmore')) :
 	echo '<a class="readmore" href="'.$item->link.'">'.$item->linkText.'</a>';
-endif; ?>
+endif;

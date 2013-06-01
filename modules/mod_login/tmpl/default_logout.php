@@ -16,7 +16,8 @@ JHtml::_('behavior.keepalive');
 	<div class="login-greeting">
 	<?php if ($params->get('name') == 0) : {
 		echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('name')));
-	} else : {
+	}
+	else : {
 		echo JText::sprintf('MOD_LOGIN_HINAME', htmlspecialchars($user->get('username')));
 	} endif; ?>
 	</div>

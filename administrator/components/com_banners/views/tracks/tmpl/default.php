@@ -23,7 +23,7 @@ $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
-	{
+ function(){
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
@@ -40,12 +40,12 @@ $sortFields = $this->getSortFields();
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&view=tracks'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
-    <div id="j-sidebar-container" class="span2">
-      <?php echo $this->sidebar; ?>
-    </div>  
-    <div id="j-main-container" class="span10">
+	<div id="j-sidebar-container" class="span2">
+	  <?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
   <?php else : ?>
-    <div id="j-main-container">
+	<div id="j-main-container">
   <?php endif;?>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
@@ -129,7 +129,7 @@ $sortFields = $this->getSortFields();
   		<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

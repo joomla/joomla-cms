@@ -16,8 +16,6 @@
  * @see http://joomlacode.org/gf/project/	JoomlaCode Project:
  */
 
-
-class Alpha {
-
-
+class Alpha
+{
 }

@@ -9,7 +9,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 
 class User0001Test extends SeleniumJoomlaTestCase
 {
-	function testCreateUser()
+	public function testCreateUser()
 	{
 		$this->jPrint("Starting testCreateUser"."\n");
 		$this->setUp();

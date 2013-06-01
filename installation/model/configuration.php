@@ -58,7 +58,7 @@ class InstallationModelConfiguration extends JModelBase
 	 *
 	 * @since   3.1
 	 */
-	function _createConfiguration($options)
+	public function _createConfiguration($options)
 	{
 		// Create a new registry to build the configuration options.
 		$registry = new JRegistry;

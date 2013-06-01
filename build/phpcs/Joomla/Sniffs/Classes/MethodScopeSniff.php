@@ -16,7 +16,7 @@
 
 if(class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false)
 {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractScopeSniff not found');
+	throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractScopeSniff not found');
 }
 
 /**
@@ -45,43 +45,43 @@ if(class_exists('PHP_CodeSniffer_Standards_AbstractScopeSniff', true) === false)
  */
 class Joomla_Sniffs_Classes_MethodScopeSniff extends PHP_CodeSniffer_Standards_AbstractScopeSniff
 {
-    /**
-     * Constructs a Squiz_Sniffs_Scope_MethodScopeSniff.
-     */
-    public function __construct()
-    {
-        parent::__construct(array(T_CLASS, T_INTERFACE), array(T_FUNCTION));
-    }//function
+	/**
+	 * Constructs a Squiz_Sniffs_Scope_MethodScopeSniff.
+	 */
+	public function __construct()
+	{
+		parent::__construct(array(T_CLASS, T_INTERFACE), array(T_FUNCTION));
+	}//function
 
-    /**
-     * Processes the function tokens within the class.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
-     * @param integer                  $stackPtr  The position where the token was found.
-     * @param integer                  $currScope The current scope opener token.
-     *
-     * @return void
-     */
-    protected function processTokenWithinScope(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $currScope)
-    {
-        $tokens = $phpcsFile->getTokens();
+	/**
+	 * Processes the function tokens within the class.
+	 *
+	 * @param PHP_CodeSniffer_File $phpcsFile The file where this token was found.
+	 * @param integer                  $stackPtr  The position where the token was found.
+	 * @param integer                  $currScope The current scope opener token.
+	 *
+	 * @return void
+	 */
+	protected function processTokenWithinScope(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $currScope)
+	{
+		$tokens = $phpcsFile->getTokens();
 
-        $methodName = $phpcsFile->getDeclarationName($stackPtr);
+		$methodName = $phpcsFile->getDeclarationName($stackPtr);
 
-        if($methodName === null)
-        {
-            // Ignore closures.
-            return;
-        }
+		if($methodName === null)
+		{
+			// Ignore closures.
+			return;
+		}
 
-        $modifier = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$scopeModifiers, $stackPtr);
+		$modifier = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$scopeModifiers, $stackPtr);
 
-        if(($modifier === false) || ($tokens[$modifier]['line'] !== $tokens[$stackPtr]['line']))
-        {
-            $error = sprintf('No scope modifier specified for function "%s"'
-            , $methodName);
+		if(($modifier === false) || ($tokens[$modifier]['line'] !== $tokens[$stackPtr]['line']))
+		{
+			$error = sprintf('No scope modifier specified for function "%s"'
+			, $methodName);
 
-            $phpcsFile->addWarning($error, $stackPtr, 'Missing');
-        }
-    }//function
+			$phpcsFile->addWarning($error, $stackPtr, 'Missing');
+		}
+	}//function
 }//class

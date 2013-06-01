@@ -19,20 +19,20 @@ defined('JPATH_PLATFORM') or die;
 class JMediawikiCategories extends JMediawikiObject
 {
 	/**
-     * Method to list all categories the page(s) belong to.
-     *
-     * @param   array    $titles        Page titles to retrieve categories.
-     * @param   array    $clprop        List of additional properties to get.
-     * @param   array    $clshow        Type of categories to show.
-     * @param   integer  $cllimit       Number of categories to return.
-     * @param   boolean  $clcontinue    Continue when more results are available.
-     * @param   array    $clcategories  Only list these categories.
-     * @param   string   $cldir         Direction of listing.
-     *
-     * @return  object
-     *
-     * @since   12.1
-     */
+	 * Method to list all categories the page(s) belong to.
+	 *
+	 * @param   array    $titles        Page titles to retrieve categories.
+	 * @param   array    $clprop        List of additional properties to get.
+	 * @param   array    $clshow        Type of categories to show.
+	 * @param   integer  $cllimit       Number of categories to return.
+	 * @param   boolean  $clcontinue    Continue when more results are available.
+	 * @param   array    $clcategories  Only list these categories.
+	 * @param   string   $cldir         Direction of listing.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.1
+	 */
 	public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = false,
 		array $clcategories = null, $cldir = null)
 	{
@@ -79,14 +79,14 @@ class JMediawikiCategories extends JMediawikiObject
 	}
 
 	/**
-     * Method to get information about all categories used.
-     *
-     * @param   array  $titles  Page titles to retrieve categories.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to get information about all categories used.
+	 *
+	 * @param   array  $titles  Page titles to retrieve categories.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getCategoriesUsed(array $titles)
 	{
 		// Build the request
@@ -102,15 +102,15 @@ class JMediawikiCategories extends JMediawikiObject
 	}
 
 	/**
-     * Method to get information about the given categories.
-     *
-     * @param   array    $titles      Page titles to retrieve categories.
-     * @param   boolean  $clcontinue  Continue when more results are available.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to get information about the given categories.
+	 *
+	 * @param   array    $titles      Page titles to retrieve categories.
+	 * @param   boolean  $clcontinue  Continue when more results are available.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getCategoriesInfo(array $titles, $clcontinue = false)
 	{
 		// Build the request.
@@ -131,21 +131,21 @@ class JMediawikiCategories extends JMediawikiObject
 	}
 
 	/**
-     * Method to enumerate all categories.
-     *
-     * @param   string   $acfrom    The category to start enumerating from.
-     * @param   string   $acto      The category to stop enumerating at.
-     * @param   string   $acprefix  Search for all category titles that begin with this value.
-     * @param   string   $acdir     Direction to sort in.
-     * @param   integer  $acmin     Minimum number of category members.
-     * @param   integer  $acmax     Maximum number of category members.
-     * @param   integer  $aclimit   How many categories to return.
-     * @param   array    $acprop    Which properties to get.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to enumerate all categories.
+	 *
+	 * @param   string   $acfrom    The category to start enumerating from.
+	 * @param   string   $acto      The category to stop enumerating at.
+	 * @param   string   $acprefix  Search for all category titles that begin with this value.
+	 * @param   string   $acdir     Direction to sort in.
+	 * @param   integer  $acmin     Minimum number of category members.
+	 * @param   integer  $acmax     Maximum number of category members.
+	 * @param   integer  $aclimit   How many categories to return.
+	 * @param   array    $acprop    Which properties to get.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function enumerateCategories($acfrom = null, $acto = null, $acprefix = null, $acdir = null, $acmin = null,
 		$acmax = null, $aclimit = null, array $acprop = null)
 	{
@@ -204,15 +204,15 @@ class JMediawikiCategories extends JMediawikiObject
 	}
 
 	/**
-     * Method to list change tags.
-     *
-     * @param   array   $tgprop   List of properties to get.
-     * @param   string  $tglimit  The maximum number of tags to limit.
-     *
-     * @return  object
-     *
-     * @since   12.3
-     */
+	 * Method to list change tags.
+	 *
+	 * @param   array   $tgprop   List of properties to get.
+	 * @param   string  $tglimit  The maximum number of tags to limit.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
 	public function getChangeTags(array $tgprop = null, $tglimit = null)
 	{
 		// Build the request.

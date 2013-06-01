@@ -41,4 +41,4 @@ JHtml::register('users.editor', array('JHtmlUsers', 'editor'));
 	<?php endforeach;?>
 	</dl>
 </fieldset>
-<?php endif;?>
+<?php endif;

@@ -9,7 +9,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 
 class Group0002Test extends SeleniumJoomlaTestCase
 {
-	function testCreateNewGroups()
+	public function testCreateNewGroups()
 	{
 		$this->setUp();
 		$this->gotoAdmin();

@@ -105,7 +105,8 @@ class NewsfeedsModelCategories extends JModelList
 			if (is_object($this->_parent))
 			{
 				$this->_items = $this->_parent->getChildren();
-			} else {
+			}
+			else {
 				$this->_items = false;
 			}
 		}

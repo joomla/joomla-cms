@@ -20,12 +20,12 @@ require_once 'WebElement.php';
 class SelectElement
 {
 	private $_element;
-	
-	function __construct(WebElement $element)
+
+	public function __construct(WebElement $element)
 	{
 		$this->_element = $element;
 	}
-	
+
 	/**
 	 * Gets related WebElement
 	 * @return WebElement
@@ -34,7 +34,7 @@ class SelectElement
 	{
 		return $this->_element;
 	}
-	
+
 	/**
 	 * Sets an option selected by its value
 	 * @param String $value
@@ -43,19 +43,19 @@ class SelectElement
 	public function selectByValue($value)
 	{
 		$options = $this->_element->findElements(By::xPath(".//option[@value = '" . $value . "']"));
-		
+
 		$matched = false;
 		foreach($options as $option)
 		{
-			
+
 			if(!$option->isSelected())
 			{
 				$option->click();
 			}
-			
+
 			$matched = true;
 		}
-		
+
 		if (!$matched)
 		{
 			throw new \Exception("Cannot locate option in select element with value: " . $value);

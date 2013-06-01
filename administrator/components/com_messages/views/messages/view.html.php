@@ -74,7 +74,8 @@ class MessagesViewMessages extends JViewLegacy
 		{
 			JToolbarHelper::divider();
 			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::divider();
 			JToolbarHelper::trash('messages.trash');

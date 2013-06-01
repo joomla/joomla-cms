@@ -23,14 +23,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
   <?php if (!empty( $this->sidebar)) : ?>
-    <div id="j-sidebar-container" class="span2">
-      <?php echo $this->sidebar; ?>
-    </div>  
-    <div id="j-main-container" class="span10">
+	<div id="j-sidebar-container" class="span2">
+	  <?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
   <?php else : ?>
-    <div id="j-main-container">
+	<div id="j-main-container">
   <?php endif;?>
-  
+
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
   			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
@@ -119,7 +119,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

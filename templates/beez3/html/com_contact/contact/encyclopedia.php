@@ -46,7 +46,6 @@ $cparams = JComponentHelper::getParams('com_media');
 						</div>
 					</div>
 
-
 		<?php //Let's use position for the scientific name. ?>
 		<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>
 			<p class="contact-position"><?php echo $this->contact->con_position; ?></p>

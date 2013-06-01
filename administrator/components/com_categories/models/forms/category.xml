@@ -8,7 +8,7 @@
 		description ="JGLOBAL_FIELD_ID_DESC"
 		class="readonly"
 		readonly="true"/>
-		
+
 	<field
 		name="hits"
 		type="text"
@@ -234,13 +234,13 @@
 				label="JAUTHOR"
 				description="JFIELD_METADATA_AUTHOR_DESC"
 				size="30"/>
-	
+
 			<field name="tags" type="tag"
 				label="JTAG" description="JTAG_DESC"
 				class="inputbox" multiple="true"
 			>
 			</field>
-	
+
 			<field name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"

@@ -42,12 +42,12 @@ if ($params->get('show_messages', 1)) :
 			'</div>';
 endif;
 
-
 // Print the logout link.
 if ($task == 'edit' || $task == 'editA' || $input->getInt('hidemainmenu'))
 {
 	$logoutLink = '';
-} else {
+}
+else {
 	$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 }
 if ($params->get('show_logout', 1)) :

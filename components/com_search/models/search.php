@@ -37,7 +37,7 @@ class SearchModelSearch extends JModelLegacy
 	 *
 	 * @var integer
 	 */
-	protected  $_areas = null;
+	protected $_areas = null;
 
 	/**
 	 * Pagination object
@@ -150,7 +150,8 @@ class SearchModelSearch extends JModelLegacy
 			if ($this->getState('limit') > 0)
 			{
 				$this->_data	= array_splice($rows, $this->getState('limitstart'), $this->getState('limit'));
-			} else {
+			}
+			else {
 				$this->_data = $rows;
 			}
 		}

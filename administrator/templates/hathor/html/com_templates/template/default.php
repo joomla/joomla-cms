@@ -23,7 +23,6 @@ $input = JFactory::getApplication()->input;
 
 			<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
 
-
 			<h2><?php echo ucfirst($this->template->element); ?></h2>
 			<?php $client = JApplicationHelper::getClientInfo($this->template->client_id); ?>
 			<p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element);?></p>

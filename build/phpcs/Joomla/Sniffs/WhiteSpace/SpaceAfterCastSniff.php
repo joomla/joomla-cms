@@ -19,7 +19,7 @@
  *
  * Example:
  * <b class="bad">(int) $foo;</b>
- * <b class="good">(int)$foo;</b>
+ * <b class="good">(int) $foo;</b>
  *
  * @category  PHP
  * @package   PHP_CodeSniffer

@@ -39,7 +39,8 @@ class BannersModelClient extends JModelAdmin
 			{
 				return $user->authorise('core.delete', 'com_banners.category.'.(int) $record->catid);
 			}
-			else {
+			else
+			{
 				return $user->authorise('core.delete', 'com_banners');
 			}
 		}

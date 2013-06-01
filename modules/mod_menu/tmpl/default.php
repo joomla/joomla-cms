@@ -93,7 +93,8 @@ foreach ($list as $i => &$item) :
 		echo str_repeat('</ul></li>', $item->level_diff);
 	}
 	// The next item is on the same level.
-	else {
+	else
+	{
 		echo '</li>';
 	}
 endforeach;

@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Redirect0001Test extends SeleniumJoomlaTestCase
 {
-	function testCreateRedirect()
+	public function testCreateRedirect()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testCreateRedirect.\n");
@@ -72,7 +72,7 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testDeleteRedirect()
+	public function testDeleteRedirect()
 	{
 		$this->jPrint ("Starting testDeleteRedirect.\n");
 		$this->deleteAllVisibleCookies();

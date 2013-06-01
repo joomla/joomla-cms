@@ -15,4 +15,4 @@ $html = JHtml::_('icons.buttons', $buttons);
 	<div class="row-striped">
 		<?php echo $html;?>
 	</div>
-<?php endif;?>
+<?php endif;

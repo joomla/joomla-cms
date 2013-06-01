@@ -9,7 +9,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 
 class Group0003Test extends SeleniumJoomlaTestCase
 {
-	function testDeleteGroupMessages()
+	public function testDeleteGroupMessages()
 	{
 		$this->setUp();
 		$this->gotoAdmin();
@@ -38,8 +38,7 @@ class Group0003Test extends SeleniumJoomlaTestCase
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 		}
 
-        $this->doAdminLogout();
+		$this->doAdminLogout();
 		$this->deleteAllVisibleCookies();
   }
 }
-

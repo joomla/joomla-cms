@@ -112,12 +112,14 @@ class UsersModelMail extends JModelAdmin
 			if (empty($to))
 			{
 				$query->where('0');
-			} else {
+			}
+			else {
 				$query->where('id IN (' . implode(',', $to) . ')');
 			}
 		}
 
-		if ($disabled == 0){
+		if ($disabled == 0)
+		{
 			$query->where("block = 0");
 		}
 
@@ -169,7 +171,8 @@ class UsersModelMail extends JModelAdmin
 			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError($rs->getError());
 			return false;
-		} elseif (empty($rs))
+		}
+		elseif (empty($rs))
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 			$this->setError(JText::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));

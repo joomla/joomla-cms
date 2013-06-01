@@ -3,10 +3,7 @@
 require_once '../bootstrap.php';
 require_once '../../servers/configdef.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\Http\HttpFactory;
 use SeleniumClient\Http\HttpClient;
@@ -119,10 +116,12 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 	{
 		$this->driver->setCurrentWindowSize(1280, 1024);
 		$screenshotsDirectory = null;
-		if (isset($folder)) {
+		if (isset($folder))
+		{
 			$screenshotsDirectory = $folder;
 		}
-		else if ($this->driver->getScreenShotsDirectory()) {
+		else if ($this->driver->getScreenShotsDirectory())
+		{
 			$screenshotsDirectory = $this->driver->getScreenShotsDirectory();
 		}
 		else { throw new \Exception("Must Specify Screenshot Directory");
@@ -136,7 +135,8 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 
 		if (isset($results["value"]) && trim($results["value"]) != "")
 		{
-			if (!file_exists($screenshotsDirectory)) {
+			if (!file_exists($screenshotsDirectory))
+			{
 				mkdir($screenshotsDirectory, 0777, true);
 			}
 

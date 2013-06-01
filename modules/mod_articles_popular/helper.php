@@ -63,7 +63,8 @@ abstract class ModArticlesPopularHelper
 			{
 				// We know that user has the privilege to view the article
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catslug));
-			} else {
+			}
+			else {
 				$item->link = JRoute::_('index.php?option=com_users&view=login');
 			}
 		}

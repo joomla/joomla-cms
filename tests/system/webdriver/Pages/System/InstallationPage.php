@@ -2,10 +2,6 @@
 
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Class for the back-end control panel screen.
@@ -136,7 +132,6 @@ class InstallationPage extends AdminPage
 
 		$this->driver->findElement(By::xPath("//li[@id='summary']/a"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//li[@id='summary'][@class='step active']"));
-
 
 		if ($cfg->sample_data && isset($cfg->sample_data_file))
 		{

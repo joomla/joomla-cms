@@ -72,7 +72,8 @@ class UsersControllerLevel extends JControllerForm
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
-			else {
+			else
+			{
 				$this->setMessage(JText::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
 			}
 		}

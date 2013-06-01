@@ -9,11 +9,7 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Tags: Add / Edit  Screen.
@@ -31,7 +27,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	 * @since   3.0
 	 */
 	protected $tagManagerPage = null;
-	
+
 	/**
 	 * Login to back end and navigate to menu Tags.
 	 *
@@ -54,7 +50,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -73,7 +69,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$tagEditPage->clickButton('toolbar-cancel');
 		$this->tagManagerPage = $this->getPageObject('TagManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -84,7 +80,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$tagEditPage->clickButton('cancel');
 		$this->tagManagerPage = $this->getPageObject('TagManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -97,7 +93,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$tagEditPage->clickButton('toolbar-cancel');
 		$this->tagManagerPage = $this->getPageObject('TagManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -113,7 +109,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->deleteItem($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test Tag should not be present');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -153,7 +149,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals(array('new_sample_Caption', 'Sample_Alt'), $values, 'Actual values should match expected');
 		$this->tagManagerPage->deleteItem($tagName);
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -166,5 +162,5 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$state = $this->tagManagerPage->getState('Test Tag');
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
 		$this->tagManagerPage->deleteItem('Test Tag');
-	}	
+	}
 }

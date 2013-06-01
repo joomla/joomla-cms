@@ -33,9 +33,9 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 					<?php echo JHtml::_('content.prepare', $child->description, '', 'com_weblinks.category'); ?>
 				</div>
 			<?php endif; ?>
-            <?php endif; ?>
+			<?php endif; ?>
 
-            <?php if ($this->params->get('show_cat_num_links') == 1) :?>
+			<?php if ($this->params->get('show_cat_num_links') == 1) :?>
 			<dl class="weblink-count"><dt>
 				<?php echo JText::_('COM_WEBLINKS_NUM'); ?></dt>
 				<dd><?php echo $child->numitems; ?></dd>

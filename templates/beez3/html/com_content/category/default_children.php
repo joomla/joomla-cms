@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 
-
-
 $class = ' class="first"';
 ?>
 
@@ -67,4 +65,4 @@ $class = ' class="first"';
 		<?php endif; ?>
 	<?php endforeach; ?>
 	</ul>
-<?php endif; ?>
+<?php endif;

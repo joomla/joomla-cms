@@ -162,4 +162,4 @@ $params = &$this->item->params;
 	</table>
 
 </form>
-<?php endif; ?>
+<?php endif;

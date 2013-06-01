@@ -15,8 +15,7 @@
  * @copyright 2009 Developer Name
  */
 
-
-function com_install() {
+function com_install()
+{
 	echo '<p>'. JText::_('COM_GAMMA_LEGACY_INSTALLATION_SCRIPT') .'</p>';
 }
-

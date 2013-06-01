@@ -71,7 +71,8 @@ class BannersTableBanner extends JTable
 		{
 			// Set ordering to 0 if state is archived or trashed
 			$this->ordering = 0;
-		} elseif (empty($this->ordering))
+		}
+		elseif (empty($this->ordering))
 		{
 			// Set ordering to last if ordering was 0
 			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->quote($this->catid).' AND state>=0');
@@ -95,12 +96,14 @@ class BannersTableBanner extends JTable
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 
-			if ((int) $registry->get('width', 0) < 0){
+			if ((int) $registry->get('width', 0) < 0)
+			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 				return false;
 			}
 
-			if ((int) $registry->get('height', 0) < 0){
+			if ((int) $registry->get('height', 0) < 0)
+			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 				return false;
 			}
@@ -229,7 +232,8 @@ class BannersTableBanner extends JTable
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else {
+			else
+			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}
@@ -297,7 +301,8 @@ class BannersTableBanner extends JTable
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else {
+			else
+			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}

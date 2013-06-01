@@ -47,7 +47,7 @@ class MediaViewImagesList extends JViewLegacy
 		parent::display($tpl);
 	}
 
-	function setFolder($index = 0)
+	public function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index]))
 		{
@@ -59,7 +59,7 @@ class MediaViewImagesList extends JViewLegacy
 		}
 	}
 
-	function setImage($index = 0)
+	public function setImage($index = 0)
 	{
 		if (isset($this->images[$index]))
 		{

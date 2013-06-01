@@ -209,7 +209,7 @@ class JHttpTransportStream implements JHttpTransport
 	 *
 	 * @since   12.1
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
 		return function_exists('fopen') && is_callable('fopen');
 	}

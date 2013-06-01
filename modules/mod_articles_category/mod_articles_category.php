@@ -47,8 +47,6 @@ $input = JFactory::getApplication()->input;
 				break;
 		}
 
-
-
 $cacheid = md5(serialize(array ($idbase, $module->module)));
 
 $cacheparams = new stdClass;
@@ -59,7 +57,6 @@ $cacheparams->methodparams = $params;
 $cacheparams->modeparams = $cacheid;
 
 $list = JModuleHelper::moduleCache($module, $params, $cacheparams);
-
 
 if (!empty($list))
 {

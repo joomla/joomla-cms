@@ -47,7 +47,8 @@ class RedirectControllerLinks extends JControllerAdmin
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
-			else {
+			else
+			{
 				$this->setMessage(JText::plural('COM_REDIRECT_N_LINKS_UPDATED', count($ids)));
 			}
 		}

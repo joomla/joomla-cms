@@ -1287,7 +1287,7 @@ class JForm
 					$result = '1.' . $number;
 				}
 				// If not, does it match ITU-T?
-				elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1)
+				elseif (preg_match('/^\+(?:[0-9] ?) {6,14}[0-9]$/', $value) == 1)
 				{
 					$countrycode = substr($value, 0, strpos($value, ' '));
 					$countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);

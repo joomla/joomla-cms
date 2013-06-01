@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 $selector = empty($displayData['selector']) ? '' : $displayData['selector'];
 
 echo "(function($){
-					$('#$selector a').click(function (e)
-					{
+					$('#$selector a').click(function (e)(
+(function (e){
 						e.preventDefault();
 						$(this).tab('show');
 					});

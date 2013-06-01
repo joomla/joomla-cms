@@ -31,19 +31,19 @@ class JHelperRoute
 	 * @var    string  Option for the extension (such as com_content)
 	 * @since  3.1
 	 */
-	protected  $extension;
+	protected $extension;
 
 	/**
 	 * @var    string  Value of the primary key in the content type table
 	 * @since  3.1
 	 */
-	protected  $id;
+	protected $id;
 
 	/**
 	 * @var    string  Name of the view for the url
 	 * @since  3.1
 	 */
-	protected  $view;
+	protected $view;
 
 	/**
 	 * A method to get the route for a specific item

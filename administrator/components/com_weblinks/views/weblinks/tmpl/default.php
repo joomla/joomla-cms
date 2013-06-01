@@ -29,7 +29,7 @@ $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
-	{
+ function(){
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;

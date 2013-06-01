@@ -149,7 +149,8 @@ class MenusViewItems extends JViewLegacy
 						{
 							$value = JText::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
 						}
-						else {
+						else
+						{
 							$value = JText::_('COM_MENUS_TYPE_UNKNOWN');
 						}
 					}

@@ -322,12 +322,14 @@ abstract class JHtmlGrid
 			});
 			$$(\'input.check-all-toggle\').each(function(el){
 				el.addEvent(\'click\', function(){
-					if (el.checked) {
+					if (el.checked)
+					{
 						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
 							i.checked = true;
 						})
 					}
-					else {
+					else
+					{
 						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
 							i.checked = false;
 						})

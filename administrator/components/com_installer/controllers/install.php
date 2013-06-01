@@ -39,7 +39,8 @@ class InstallerControllerInstall extends JControllerLegacy
 		if (empty($redirect_url))
 		{
 			$redirect_url = JRoute::_('index.php?option=com_installer&view=install', false);
-		} else
+		}
+		else
 		{
 			// wipe out the user state when we're going to redirect
 			$app->setUserState('com_installer.redirect_url', '');

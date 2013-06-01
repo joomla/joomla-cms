@@ -14,8 +14,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0003 extends SeleniumJoomlaTestCase
 {
 
-
-	function testCreateRemoveArticle()
+	public function testCreateRemoveArticle()
 	{
 		$this->setUp();
 		$this->gotoAdmin();
@@ -92,4 +91,3 @@ class ControlPanel0003 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 }
-

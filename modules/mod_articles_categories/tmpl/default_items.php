@@ -34,4 +34,4 @@ foreach ($list as $item) :
 		}
 		?>
  </li>
-<?php endforeach; ?>
+<?php endforeach;

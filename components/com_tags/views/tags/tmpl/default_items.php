@@ -131,4 +131,4 @@ $n = count($this->items);
 	</div>
 	<?php endif; ?>
 </form>
-<?php endif; ?>
+<?php endif;

@@ -29,8 +29,9 @@ $params = $params->toArray();
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
-		if (task == 'tag.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+ function(task){
+		if (task == 'tag.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
@@ -159,7 +160,6 @@ $params = $params->toArray();
 								</div>
 							</div>
 						<?php echo JHtml::_('bootstrap.endTab'); ?>
-
 
 					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 							<?php echo $this->loadTemplate('metadata'); ?>

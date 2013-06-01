@@ -34,4 +34,4 @@ defined('_JEXEC') or die;
 		</ul>
 		<?php echo $hidden_fields; ?>
 		</fieldset>
-	<?php endforeach; ?>
+	<?php endforeach;

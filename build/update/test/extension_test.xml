@@ -8,7 +8,7 @@
 		<version>2.5.9</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://update.joomla.org/core/test/Joomla_2.5.9-Stable-Full_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://update.joomla.org/core/test/Joomla_2.5.9-Stable-Full_Package.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>stable</tag>
@@ -26,7 +26,7 @@
 		<version>2.5.9</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://update.joomla.org/core/test/Joomla_2.5.x_to_2.5.9-Stable-Patch_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://update.joomla.org/core/test/Joomla_2.5.x_to_2.5.9-Stable-Patch_Package.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>stable</tag>
@@ -37,4 +37,3 @@
 		<targetplatform name="joomla" version="2.5" />
 	</update>
 </updates>
-			

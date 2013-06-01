@@ -48,4 +48,4 @@ $n = count($this->items);
 
 <?php endif; ?>
 
-<?php echo $this->loadTemplate('items'); ?>
+<?php echo $this->loadTemplate('items');

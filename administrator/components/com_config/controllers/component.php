@@ -40,7 +40,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	 *
 	 * @since   3.0
 	 */
-	function cancel()
+	public function cancel()
 	{
 		// Clean the session data.
 		$app = JFactory::getApplication();
@@ -102,7 +102,8 @@ class ConfigControllerComponent extends JControllerLegacy
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else {
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}

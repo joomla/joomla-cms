@@ -31,5 +31,3 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php endforeach; ?>
 	</ol>
 </div>
-
-

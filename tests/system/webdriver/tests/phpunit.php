@@ -37,10 +37,12 @@
 
 define('PHPUnit_MAIN_METHOD', 'PHPUnit_TextUI_Command::main');
 
-if (strpos('C:\xampp\php\.\php.exe', '@php_bin') === 0) {
-    require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PHPUnit' . DIRECTORY_SEPARATOR . 'Autoload.php';
-} else {
-    require 'C:\xampp\php\pear' . DIRECTORY_SEPARATOR . 'PHPUnit' . DIRECTORY_SEPARATOR . 'Autoload.php';
+if (strpos('C:\xampp\php\.\php.exe', '@php_bin') === 0)
+{
+	require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PHPUnit' . DIRECTORY_SEPARATOR . 'Autoload.php';
+}
+else {
+	require 'C:\xampp\php\pear' . DIRECTORY_SEPARATOR . 'PHPUnit' . DIRECTORY_SEPARATOR . 'Autoload.php';
 }
 
 PHPUnit_TextUI_Command::main();

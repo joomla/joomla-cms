@@ -14,7 +14,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0002 extends SeleniumJoomlaTestCase
 {
 
-	function testMenuCheck()
+	public function testMenuCheck()
 	{
 		$this->setUp();
 		$this->gotoAdmin();
@@ -325,4 +325,3 @@ class ControlPanel0002 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 }
-

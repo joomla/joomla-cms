@@ -88,9 +88,9 @@ class JOpenstreetmap
 		// $this->options->def('api.url', 'http://api06.dev.openstreetmap.org/api/0.6/');
 	}
 
-	/**	
+	/**
 	 * Method to get object instances
-	 * 
+	 *
 	 * @param   string  $name  Name of property to retrieve
 	 *
 	 * @return  JOpenstreetmapObject  Openstreetmap API object .

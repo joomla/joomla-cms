@@ -217,7 +217,8 @@ class JAdminCssMenu extends JObject
 					$id = ' id="menu-'.strtolower($this->_current->id).'"';
 				}
 				echo '<ul'.$id.' class="dropdown-menu menu-component">'."\n";
-			} else {
+			}
+			else {
 				echo '<ul class="dropdown-menu">'."\n";
 			}
 			foreach ($this->_current->getChildren() as $child)
@@ -260,7 +261,8 @@ class JAdminCssMenu extends JObject
 				// We were passed a class name
 				$class = substr($identifier, 6);
 				$classes[$identifier] = "menu-$class";
-			} else {
+			}
+			else {
 				if ($identifier == null)
 				{
 					return null;

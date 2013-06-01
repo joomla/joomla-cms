@@ -5,7 +5,8 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-if (!defined('PHPUnit_MAIN_METHOD')) {
+if (!defined('PHPUnit_MAIN_METHOD'))
+{
 	define('PHPUnit_MAIN_METHOD', 'TestSuite::main');
 }
 set_include_path(get_include_path() . PATH_SEPARATOR . './PEAR/' . PATH_SEPARATOR . '../');
@@ -44,7 +45,6 @@ require_once 'language/language0001Test.php';
 require_once 'language/language0002Test.php';
 require_once 'cache/cache0001Test.php';
 require_once 'security/security0001Test.php';
-
 
 class TestSuite
 {
@@ -93,7 +93,8 @@ class TestSuite
 	}
 }
 
-if (PHPUnit_MAIN_METHOD == 'Framework_AllTests::main') {
+if (PHPUnit_MAIN_METHOD == 'Framework_AllTests::main')
+{
 	print "running Framework_AllTests::main()";
 	Framework_AllTests::main();
 }
@@ -102,9 +103,8 @@ if (PHPUnit_MAIN_METHOD == 'Framework_AllTests::main') {
 // or to run as a PHP Script from inside Eclipse. If you are running
 // as a PHP Script, the SeleniumConfig class doesn't exist so you must import it
 // and you must also run the TestSuite::main() method.
-if (!class_exists('SeleniumConfig')) {
+if (!class_exists('SeleniumConfig'))
+{
 	require_once 'servers/configdef.php';
 	TestSuite::main();
 }
-
-

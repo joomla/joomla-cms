@@ -17,4 +17,3 @@
  */
 
 echo '<p>'. JText::_('Alpha Demonstration Administrator Module') .'</p>';
-?>

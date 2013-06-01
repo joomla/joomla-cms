@@ -166,7 +166,7 @@
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
 	/>
-	
+
 	<field
 		name="created_by_alias"
 		type="text"
@@ -216,7 +216,7 @@
 
 	<fields name="params">
 		<fieldset
-			name="basic" 
+			name="basic"
 			label="COM_TAGS_BASIC_FIELDSET_LABEL"
 		>
 
@@ -255,7 +255,7 @@
 				description="JFIELD_METADATA_AUTHOR_DESC"
 				size="30"
 			/>
-	
+
 			<field
 				name="robots"
 				type="list"
@@ -269,7 +269,7 @@
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
 		</fieldset>
-		
+
 	</fields>
 
 	<fields name="images">

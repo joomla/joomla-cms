@@ -122,7 +122,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				{
 					$lang = substr($item->language, 0, 3);
 				}
-				else {
+				else
+				{
 					$lang = "";
 				}
 			}

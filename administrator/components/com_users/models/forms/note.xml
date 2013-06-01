@@ -112,7 +112,7 @@
 			type="hidden"
 			filter="unset"
 			/>
-			
+
 		<field name="publish_up" type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
@@ -121,6 +121,6 @@
 		<field name="publish_down" type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />			
+			filter="user_utc" />
 	</fieldset>
 </form>

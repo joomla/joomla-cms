@@ -1,11 +1,7 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -87,7 +83,8 @@ class WeblinkManagerPage extends AdminManagerPage
 		$this->clickButton('toolbar-new');
 		$contactEditPage = $this->test->getPageObject('WeblinkEditPage');
 		$contactEditPage->setFieldValues(array('Title' => $name, 'URL' => $url));
-		if($fields) {
+		if($fields)
+		{
 			$contactEditPage->setFieldValues($fields);
 		}
 		$contactEditPage->clickButton('toolbar-save');

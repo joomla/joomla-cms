@@ -13,7 +13,7 @@
 			label="COM_USERS_MAIL_FIELD_SEND_IN_HTML_MODE_LABEL"
 			value="1"
 		/>
-		
+
 		<field name="disabled" type="checkbox"
 			description="COM_USERS_MAIL_FIELD_EMAIL_DISABLED_USERS_DESC"
 			label="COM_USERS_MAIL_FIELD_EMAIL_DISABLED_USERS_LABEL"

@@ -158,7 +158,8 @@ class PluginsModelPlugin extends JModelAdmin
 			if (file_exists($path))
 			{
 				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			} else {
+			}
+			else {
 				$this->_cache[$pk]->xml = null;
 			}
 		}

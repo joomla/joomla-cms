@@ -79,7 +79,8 @@ class TemplatesModelStyle extends JModelAdmin
 					throw new Exception(JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
 				// You should not delete a default style
-				if ($table->home != '0'){
+				if ($table->home != '0')
+				{
 					JError::raiseWarning(SOME_ERROR_NUMBER, Jtext::_('COM_TEMPLATES_STYLE_CANNOT_DELETE_DEFAULT_STYLE'));
 					return false;
 				}
@@ -90,7 +91,8 @@ class TemplatesModelStyle extends JModelAdmin
 					return false;
 				}
 			}
-			else {
+			else
+			{
 				$this->setError($table->getError());
 				return false;
 			}
@@ -142,7 +144,8 @@ class TemplatesModelStyle extends JModelAdmin
 					throw new Exception($table->getError());
 				}
 			}
-			else {
+			else
+			{
 				throw new Exception($table->getError());
 			}
 		}
@@ -291,7 +294,8 @@ class TemplatesModelStyle extends JModelAdmin
 			{
 				$this->_cache[$pk]->xml = simplexml_load_file($path);
 			}
-			else {
+			else
+			{
 				$this->_cache[$pk]->xml = null;
 			}
 		}

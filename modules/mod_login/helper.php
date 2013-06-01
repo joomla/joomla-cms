@@ -39,7 +39,8 @@ class ModLoginHelper
 				{
 					$url = 'index.php?Itemid='.$itemid;
 				}
-				else {
+				else
+				{
 					$url = $link.'&Itemid='.$itemid;
 				}
 			}
@@ -62,7 +63,8 @@ class ModLoginHelper
 					{
 						$url = 'index.php?Itemid='.$itemid;
 					}
-					else {
+					else
+					{
 						$url = 'index.php?'.JURI::buildQuery($vars).'&Itemid='.$itemid;
 					}
 				}

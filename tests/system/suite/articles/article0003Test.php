@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Article0003 extends SeleniumJoomlaTestCase
 {
-	function testArchivedState()
+	public function testArchivedState()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testArchivedState.\n");
@@ -71,7 +71,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testSingleArticleState()
+	public function testSingleArticleState()
 	{
 		$this->jPrint ("Starting testSingleArticleState\n");
 		$this->jPrint ("Go to Category Manager and set Extensions category to Unpublished\n");
@@ -157,7 +157,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testFeaturedState()
+	public function testFeaturedState()
 	{
 		$this->jPrint ("Starting testFeaturedState\n");
 		$this->jPrint ("Change Sample Data-Articles category to Unpublished state\n");
@@ -256,7 +256,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testAllCategoriesState()
+	public function testAllCategoriesState()
 	{
 		$this->jPrint ("Start testAllCategoriesState\n");
 		$this->jPrint ("Set Park Site category to Unpublished\n");
@@ -317,7 +317,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testCategoryBlogState()
+	public function testCategoryBlogState()
 	{
 		$this->jPrint ("Starting testCategoryBlogState\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-blog';
@@ -408,7 +408,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testCategoryListState()
+	public function testCategoryListState()
 	{
 		$this->jPrint ("Starting testCategoryListState\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/article-category-list';

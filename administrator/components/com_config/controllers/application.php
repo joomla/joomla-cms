@@ -74,7 +74,8 @@ class ConfigControllerApplication extends JControllerLegacy
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else {
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -154,7 +155,8 @@ class ConfigControllerApplication extends JControllerLegacy
 		if (($data = file_get_contents('http://help.joomla.org/helpsites.xml')) === false)
 		{
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
-		} elseif (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data))
+		}
+		elseif (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data))
 		{
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
 		}

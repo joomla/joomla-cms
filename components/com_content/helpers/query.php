@@ -204,7 +204,8 @@ class ContentHelperQuery
 			$return = $articles;
 		}
 		// we need to re-order the intro articles array
-		else {
+		else
+		{
 			// we need to preserve the original array keys
 			$keys = array_keys($articles);
 
@@ -227,7 +228,8 @@ class ContentHelperQuery
 						// put -1 in empty cells
 						$index[$row][$col] = -1;
 					}
-					else {
+					else
+					{
 						// put in zero as placeholder
 						$index[$row][$col] = 0;
 					}

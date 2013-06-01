@@ -63,7 +63,8 @@ class ContactViewContact extends JViewLegacy
 			}
 		}
 		// "Firstname Middlename Lastname" format support
-		else {
+		else
+		{
 			$namearray = explode(' ', $item->name);
 
 			$middlename = (count($namearray) > 2) ? $namearray[1] : '';

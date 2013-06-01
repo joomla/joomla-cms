@@ -208,7 +208,7 @@ class JCacheController
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if cache stored
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)

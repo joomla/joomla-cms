@@ -28,7 +28,7 @@ class MediaControllerFile extends JControllerLegacy
 	 *
 	 * @since   1.5
 	 */
-	function upload()
+	public function upload()
 	{
 		$params = JComponentHelper::getParams('com_media');
 

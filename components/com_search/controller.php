@@ -75,7 +75,8 @@ class SearchController extends JControllerLegacy
 		if (isset($items[0]))
 		{
 			$post['Itemid'] = $items[0]->id;
-		} elseif ($this->input->getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
+		}
+		elseif ($this->input->getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
 			$post['Itemid'] = $this->input->getInt('Itemid');
 		}
 

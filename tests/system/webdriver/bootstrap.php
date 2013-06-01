@@ -1,7 +1,7 @@
 <?php
 
-class SeleniumClientAutoLoader {
-
+class SeleniumClientAutoLoader
+{
 	// Array of page class files
 	private $pageClassFiles = array();
 
@@ -26,11 +26,11 @@ class SeleniumClientAutoLoader {
 		$fileName = "../" . str_replace("\\", "/", $className) . '.php';
 		if (file_exists($fileName))
 		{
-			include "../" . str_replace("\\", "/", $className) . '.php';
+			include '../'. str_replace("\\", "/", $className) . '.php';
 		}
 		elseif (file_exists('../' . $fileName))
 		{
-			include "../" . $fileName;
+			include '../'. $fileName;
 		}
 		elseif (isset($this->pageClassFiles[$className]) && file_exists($this->pageClassFiles[$className]))
 		{

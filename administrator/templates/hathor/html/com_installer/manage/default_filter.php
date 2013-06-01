@@ -27,7 +27,7 @@ defined('_JEXEC') or die;
 				<?php echo JHtml::_('select.options', array('0' => JText::_('JSITE'), '1' => JText::_('JADMINISTRATOR')), 'value', 'text', $this->state->get('filter.client_id'), true);?>
 			</select>
 
-            <label class="selectlabel" for="filter_status">
+			<label class="selectlabel" for="filter_status">
 				<?php echo JText::_('COM_INSTALLER_VALUE_STATE_SELECT'); ?>
 			</label>
 			<select name="filter_status" class="inputbox" id="filter_status">
@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 				<?php echo JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.status'), true);?>
 			</select>
 
-            <label class="selectlabel" for="filter_type">
+			<label class="selectlabel" for="filter_type">
 				<?php echo JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'); ?>
 			</label>
 			<select name="filter_type" class="inputbox" id="filter_type">

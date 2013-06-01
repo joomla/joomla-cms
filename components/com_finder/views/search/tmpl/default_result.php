@@ -19,7 +19,8 @@ $base = JURI::getInstance()->toString(array('scheme', 'host', 'port'));
 if (!empty($this->query->highlight) && empty($this->result->mime) && $this->params->get('highlight_terms', 1) && JPluginHelper::isEnabled('system', 'highlight'))
 {
 	$route = $this->result->route . '&highlight=' . base64_encode(json_encode($this->query->highlight));
-} else {
+}
+else {
 	$route = $this->result->route;
 }
 ?>

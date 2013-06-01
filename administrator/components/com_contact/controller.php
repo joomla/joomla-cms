@@ -41,8 +41,8 @@ class ContactController extends JControllerLegacy
 		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
-		if ($view == 'contact' && $layout == 'edit' && !$this->checkEditId('com_contact.edit.contact', $id)) {
-
+		if ($view == 'contact' && $layout == 'edit' && !$this->checkEditId('com_contact.edit.contact', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');

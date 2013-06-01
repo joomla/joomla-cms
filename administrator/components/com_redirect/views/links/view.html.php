@@ -71,7 +71,8 @@ class RedirectViewLinks extends JViewLegacy
 		}
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($state->get('filter.state') != 2){
+			if ($state->get('filter.state') != 2)
+			{
 				JToolbarHelper::divider();
 				JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
 				JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
@@ -93,7 +94,8 @@ class RedirectViewLinks extends JViewLegacy
 		{
 			JToolbarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
 			JToolbarHelper::divider();
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('links.trash');
 			JToolbarHelper::divider();

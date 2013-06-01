@@ -19,7 +19,7 @@ JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 
 <script type="text/javascript">
 Joomla.submitbutton = function(pressbutton)
-{
+ function(pressbutton){
 	if (pressbutton == 'filters.delete')
 	{
 		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
@@ -131,7 +131,8 @@ Joomla.submitbutton = function(pressbutton)
 					<?php if ($canEdit) { ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_finder&task=filter.edit&filter_id=' . (int) $item->filter_id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
-					<?php } else {
+					<?php }
+ else {
 							echo $this->escape($item->title);
 					} ?>
 				</td>

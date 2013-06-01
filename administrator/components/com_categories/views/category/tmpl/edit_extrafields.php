@@ -33,4 +33,4 @@ defined('_JEXEC') or die;
 
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-	<?php endforeach; ?>
+	<?php endforeach;

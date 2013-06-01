@@ -94,7 +94,7 @@
 					description="TPL_BEEZ3_FIELD_BOOTSTRAP_DESC"
 					rows="4" columns="30"
 				/>
-				
+
 				<field name="templatecolor" type="list" default="nature"
 					label="TPL_BEEZ3_FIELD_TEMPLATECOLOR_LABEL"
 					description="TPL_BEEZ3_FIELD_TEMPLATECOLOR_DESC"

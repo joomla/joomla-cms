@@ -1,1 +1,1 @@
-<?php echo "include/alpha.php"; ?>
+<?php echo "include/alpha.php";

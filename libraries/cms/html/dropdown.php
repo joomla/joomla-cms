@@ -60,8 +60,8 @@ abstract class JHtmlDropdown
 						$('.btn-group',$(this)).removeClass('open');
 					});
 
-					contextAction =function (cbId, task)
-					{
+					contextAction =function (cbId, task)=
+=function (cbId, task){
 						$('input[name=\"cid[]\"]').removeAttr('checked');
 						$('#' + cbId).attr('checked','checked');
 						Joomla.submitbutton(task);

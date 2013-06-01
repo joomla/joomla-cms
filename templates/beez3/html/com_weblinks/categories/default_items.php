@@ -32,7 +32,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 				<?php echo JHtml::_('content.prepare', $item->description, '', 'com_weblinks.categories'); ?>
 			</div>
 		<?php endif; ?>
-        <?php endif; ?>
+		<?php endif; ?>
 		<?php if ($this->params->get('show_cat_num_links_cat') == 1) :?>
 			<dl class="weblink-count"><dt>
 				<?php echo JText::_('COM_WEBLINKS_NUM'); ?></dt>
@@ -53,4 +53,4 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 	<?php endif; ?>
 <?php endforeach; ?>
 </ul>
-<?php endif; ?>
+<?php endif;

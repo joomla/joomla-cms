@@ -186,8 +186,8 @@ abstract class JHtmlTag
 						$('" . $selector . "_chzn input').keydown(function(event) {
 
 							// Tag is greater than 3 chars and enter pressed
-							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {
-
+							if (this.value.length >= 3 && (event.which === 13 || event.which === 188))
+							{
 								// Search an highlighted result
 								var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
 

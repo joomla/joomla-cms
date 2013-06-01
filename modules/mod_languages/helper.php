@@ -62,8 +62,8 @@ abstract class ModLanguagesHelper
 		$languages	= JLanguageHelper::getLanguages();
 
 		// Filter allowed languages
-		foreach ($languages as $i => &$language) {
-
+		foreach ($languages as $i => &$language)
+		{
 			// Do not display language without frontend UI
 			if (!JLanguage::exists($language->lang_code))
 			{
@@ -79,7 +79,8 @@ abstract class ModLanguagesHelper
 			{
 				unset($languages[$i]);
 			}
-			else {
+			else
+			{
 				$language->active = $language->lang_code == $lang->getTag();
 				if (JLanguageMultilang::isEnabled())
 				{
@@ -94,22 +95,26 @@ abstract class ModLanguagesHelper
 						{
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
-						else {
+						else
+						{
 							$language->link = 'index.php?lang='.$language->sef.'&amp;Itemid='.$itemid;
 						}
 					}
-					else {
+					else
+					{
 						if ($app->getCfg('sef') == '1')
 						{
 							$itemid = isset($homes[$language->lang_code]) ? $homes[$language->lang_code]->id : $homes['*']->id;
 							$language->link = JRoute::_('index.php?lang='.$language->sef.'&Itemid='.$itemid);
 						}
-						else {
+						else
+						{
 							$language->link = 'index.php?lang='.$language->sef;
 						}
 					}
 				}
-				else {
+				else
+				{
 					$language->link = JRoute::_('&Itemid='.$homes['*']->id);
 				}
 			}

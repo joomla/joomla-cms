@@ -37,4 +37,3 @@ JHtml::_('behavior.caption');
 echo $this->loadTemplate('items');
 ?>
 </div>
-

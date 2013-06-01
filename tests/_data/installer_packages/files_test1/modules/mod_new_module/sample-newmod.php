@@ -1,1 +1,1 @@
-<?php echo "New Module"; ?>
+<?php echo "New Module";

@@ -621,7 +621,7 @@ final class JSite extends JApplication
 	 * @return  JRouter
 	 * @since   1.5
 	 */
-	static public function getRouter($name = null, array $options = array())
+	public static function getRouter($name = null, array $options = array())
 	{
 		$config = JFactory::getConfig();
 		$options['mode'] = $config->get('sef');

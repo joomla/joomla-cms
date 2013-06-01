@@ -39,7 +39,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		</div>
 
 		<div class="filter-select">
-            <label class="selectlabel" for="filter_client_id">
+			<label class="selectlabel" for="filter_client_id">
 				<?php echo JText::_('COM_BANNERS_SELECT_CLIENT'); ?>
 			</label>
 			<select name="filter_client_id" class="inputbox" id="filter_client_id">

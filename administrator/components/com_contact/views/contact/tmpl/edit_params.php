@@ -25,4 +25,4 @@ foreach ($fieldSets as $name => $fieldSet) :
 			</div>
 		<?php endforeach; ?>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
-<?php endforeach; ?>
+<?php endforeach;

@@ -296,8 +296,8 @@ abstract class JHtmlBootstrap
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(document).ready(function()
-			{
+			"jQuery(document).ready(function()(
+(function(){
 				jQuery('" . $selector . "').popover(" . $options . ");
 			});"
 		);
@@ -391,8 +391,8 @@ abstract class JHtmlBootstrap
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function()(
+(function(){
 					jQuery('" . $selector . "').tooltip(" . $options . ");
 				});"
 			);

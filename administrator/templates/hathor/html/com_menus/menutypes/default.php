@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
 	setmenutype = function(type)
-	{
+ function(type){
 		window.parent.Joomla.submitbutton('item.setType', type);
 		window.parent.SqueezeBox.close();
 	}

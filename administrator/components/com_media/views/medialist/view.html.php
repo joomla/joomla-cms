@@ -39,12 +39,12 @@ class MediaViewMediaList extends JViewLegacy
 		*/
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function()
-		{
+ function(){
 			window.parent.document.updateUploader();
-			$$('a.img-preview').each(function(el)
-			{
+			$$('a.img-preview').each(function(el)(
+(function(el){
 				el.addEvent('click', function(e)
-				{
+ function(e){
 					new Event(e).stop();
 					window.top.document.preview.fromElement(el);
 				});
@@ -65,7 +65,7 @@ class MediaViewMediaList extends JViewLegacy
 		parent::display($tpl);
 	}
 
-	function setFolder($index = 0)
+	public function setFolder($index = 0)
 	{
 		if (isset($this->folders[$index]))
 		{
@@ -77,7 +77,7 @@ class MediaViewMediaList extends JViewLegacy
 		}
 	}
 
-	function setImage($index = 0)
+	public function setImage($index = 0)
 	{
 		if (isset($this->images[$index]))
 		{
@@ -89,7 +89,7 @@ class MediaViewMediaList extends JViewLegacy
 		}
 	}
 
-	function setDoc($index = 0)
+	public function setDoc($index = 0)
 	{
 		if (isset($this->documents[$index]))
 		{

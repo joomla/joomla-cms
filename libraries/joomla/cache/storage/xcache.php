@@ -177,14 +177,15 @@ class JCacheStorageXcache extends JCacheStorage
 
 		$cachecount = xcache_count(XC_TYPE_VAR);
 
-			for ($i = 0; $i < $cachecount; $i ++) {
-
+			for ($i = 0; $i < $cachecount; $i ++)
+			{
 				$allinfo  = xcache_list(XC_TYPE_VAR, $i);
 				$keys = $allinfo ['cache_list'];
 
-				foreach($keys as $key) {
-
-					if (strstr($key['name'], $this->_hash)) {
+				foreach($keys as $key)
+				{
+					if (strstr($key['name'], $this->_hash))
+					{
 						if (($key['ctime'] + $this->_lifetime ) < $this->_now) xcache_unset($key['name']);
 					}
 				}

@@ -112,7 +112,8 @@ class ContentModelCategories extends JModelList
 			{
 				$this->_items = $this->_parent->getChildren($recursive);
 			}
-			else {
+			else
+			{
 				$this->_items = false;
 			}
 		}

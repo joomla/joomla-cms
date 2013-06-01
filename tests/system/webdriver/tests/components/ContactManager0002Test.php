@@ -9,11 +9,7 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Contact: Add / Edit  Screen.
@@ -97,7 +93,6 @@ class ContactManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Contact successfully saved') >= 0, 'Contact save should return success');
 		$state = $this->contactManagerPage->getState($contactName_1);
 		$this->assertEquals('published', $state, 'Initial state should be published');
-
 
 		$this->contactManagerPage->addContact($contactName_2, false);
 		$message = $this->contactManagerPage->getAlertMessage();

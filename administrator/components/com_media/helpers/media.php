@@ -93,11 +93,13 @@ abstract class MediaHelper
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
 						return false;
 					}
-				} else {
+				}
+				else {
 					$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
 					return false;
 				}
-			} elseif (!in_array($format, $ignored))
+			}
+			elseif (!in_array($format, $ignored))
 			{
 				// if its not an image...and we're not ignoring it
 				$allowed_mime = explode(',', $params->get('upload_mime'));
@@ -113,7 +115,8 @@ abstract class MediaHelper
 						return false;
 					}
 					finfo_close($finfo);
-				} elseif (function_exists('mime_content_type') && $params->get('check_mime', 1))
+				}
+				elseif (function_exists('mime_content_type') && $params->get('check_mime', 1))
 				{
 					// we have mime magic
 					$type = mime_content_type($file['tmp_name']);
@@ -122,7 +125,8 @@ abstract class MediaHelper
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
 						return false;
 					}
-				} elseif (!$user->authorise('core.manage'))
+				}
+				elseif (!$user->authorise('core.manage'))
 				{
 					$err = 'COM_MEDIA_ERROR_WARNNOTADMIN';
 					return false;

@@ -46,13 +46,16 @@ defined('_JEXEC') or die;
 
 <script type="text/javascript">
 	window.addEvent('domready', function()
-	{
+ function(){
 		doInstall();
 	});
-	function doInstall() {
-		if(document.id('install_progress') != null) {
+	public function doInstall()
+	{
+		if(document.id('install_progress') != null)
+		{
 			Install.install(['<?php echo implode("','", $this->tasks); ?>']);
-		} else {
+		}
+		else {
 			(function(){doInstall();}).delay(500);
 		}
 	}

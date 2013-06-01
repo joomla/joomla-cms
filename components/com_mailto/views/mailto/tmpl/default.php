@@ -12,7 +12,7 @@ JHtml::_('behavior.keepalive');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(pressbutton)
-	{
+ function(pressbutton){
 		var form = document.getElementById('mailtoForm');
 
 		// do field validation

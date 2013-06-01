@@ -198,7 +198,8 @@ class TemplatesControllerSource extends JControllerLegacy
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
-				else {
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}

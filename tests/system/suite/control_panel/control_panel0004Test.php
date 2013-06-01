@@ -14,7 +14,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 class ControlPanel0004 extends SeleniumJoomlaTestCase
 {
 
-	function testCreateRemoveCategory()
+	public function testCreateRemoveCategory()
 	{
 		$this->jPrint ("Starting testCreateRemoveCategory\n");
 		$this->setUp();
@@ -103,7 +103,6 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->mouseUpAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "");
 		sleep(2);
 
-
 		$this->select("filter_level", "value=");
 		$this->waitForPageToLoad("30000");
 		$this->jPrint("Check that Templates and Modules categories are in new order." . "\n");
@@ -117,7 +116,6 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Utility Modules", $this->getTable("//table[@class='table table-striped'].12.3"));
 		$this->assertContains("Navigation Module", $this->getTable("//table[@class='table table-striped'].13.3"));
 
-
 		$this->jPrint("Move Modules category back up (above Templates, below Components)." . "\n");
 		$this->select("filter_level", "value=4");
 		$this->waitForPageToLoad("30000");
@@ -125,7 +123,6 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->mouseMoveAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "0,5");
 		$this->mouseUpAt("//tr/td/a[contains(text(), 'Templates')]/../../td[1]/span", "");
 		sleep(2);
-
 
 		$this->select("filter_level", "value=");
 		$this->waitForPageToLoad("30000");
@@ -144,7 +141,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testCategorySaveOrder()
+	public function testCategorySaveOrder()
 	{
 		$this->jPrint ("Starting testCategorySaveOrder\n");
 		$this->setUp();
@@ -241,7 +238,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testMenuItemSaveOrder()
+	public function testMenuItemSaveOrder()
 	{
 		$this->jPrint ("Starting testMenuItemSaveOrder\n");
 		$this->setUp();
@@ -334,7 +331,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testMenuItemOrderUpDown()
+	public function testMenuItemOrderUpDown()
 	{
 		$this->jPrint ("Starting testMenuItemOrderUpDown\n");
 		$this->setUp();
@@ -433,4 +430,3 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 }
-

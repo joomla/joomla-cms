@@ -30,4 +30,4 @@ defined('_JEXEC') or die;
 			<?php endforeach; ?>
 			</ul>
 		</fieldset>
-	<?php endforeach;  ?>
+	<?php endforeach;

@@ -167,7 +167,7 @@ class ContentModelFeatured extends ContentModelArticles
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',(string)$query));
+		//echo nl2br(str_replace('#__','jos_',(string) $query));
 		return $query;
 	}
 }

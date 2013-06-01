@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
  */
 class plgSystemExample extends JPlugin
 {
-	var $_cache = null;
+	public $_cache = null;
 
 	/**
 	 * Constructor
@@ -30,7 +30,7 @@ class plgSystemExample extends JPlugin
 	 * @param	array	$config  An array that holds the plugin configuration
 	 * @since	1.0
 	 */
-	function __construct(& $subject, $config)
+	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 	}
@@ -89,7 +89,7 @@ class plgSystemExample extends JPlugin
 		);
 	}
 
-	function LogIt ($status, $comment)
+	public function LogIt ($status, $comment)
 	{
 		jimport('joomla.error.log');
 		$log = JLog::getInstance('plugin_system_example_log.php');

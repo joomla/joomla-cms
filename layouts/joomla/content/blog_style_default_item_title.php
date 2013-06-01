@@ -35,4 +35,4 @@ JHtml::_('behavior.framework');
 				<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
 		</div>
-	<?php endif; ?>
+	<?php endif;

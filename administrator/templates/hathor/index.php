@@ -123,7 +123,8 @@ else
 			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
 			{
 				$logoutLink = '';
-			} else {
+			}
+			else {
 				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 			}
 			$hideLinks = $app->input->getBool('hidemainmenu');

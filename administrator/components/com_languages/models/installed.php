@@ -155,8 +155,8 @@ class LanguagesModelInstalled extends JModelList
 	 */
 	public function &getData()
 	{
-		if (is_null($this->data)) {
-
+		if (is_null($this->data))
+		{
 			// Get information
 			$path		= $this->getPath();
 			$client		= $this->getClient();
@@ -165,7 +165,8 @@ class LanguagesModelInstalled extends JModelList
 			// Compute all the languages
 			$data	= array ();
 
-			foreach ($langlist as $lang) {
+			foreach ($langlist as $lang)
+			{
 				$file = $path . '/' . $lang . '/' . $lang.'.xml';
 				$info = JApplicationHelper::parseXMLLangMetaFile($file);
 				$row = new JObject;
@@ -187,7 +188,8 @@ class LanguagesModelInstalled extends JModelList
 				{
 					$row->published	= 1;
 				}
-				else {
+				else
+				{
 					$row->published = 0;
 				}
 
@@ -206,7 +208,8 @@ class LanguagesModelInstalled extends JModelList
 				$start = 0;
 				$end = $total;
 			}
-			else {
+			else
+			{
 				if ($start > $total)
 				{
 					$start = $total - $total % $limit;

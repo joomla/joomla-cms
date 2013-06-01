@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Article0004 extends SeleniumJoomlaTestCase
 {
-	function testBatchAcessLevels()
+	public function testBatchAcessLevels()
 	{
 		$this->jPrint ("Starting testBatchAcessLevels\n");
 		$this->setUp();
@@ -58,7 +58,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testBatchCopy()
+	public function testBatchCopy()
 	{
 		$this->jPrint ("Starting testBatchCopy\n");
 		$this->setUp();
@@ -136,7 +136,7 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testBatchMove()
+	public function testBatchMove()
 	{
 		$this->jPrint ("Starting testBatchMove\n");
 		$this->setUp();
@@ -191,6 +191,5 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 
 	}
-
 
 }

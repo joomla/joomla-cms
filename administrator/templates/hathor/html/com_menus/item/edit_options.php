@@ -40,7 +40,6 @@ defined('_JEXEC') or die;
 <?php
 	}
 
-
 	$fieldSets = $this->form->getFieldsets('params');
 
 	foreach ($fieldSets as $name => $fieldSet) :
@@ -82,4 +81,4 @@ defined('_JEXEC') or die;
 				<?php endforeach; ?>
 			</ul>
 		</fieldset>
-<?php endforeach;?>
+<?php endforeach;

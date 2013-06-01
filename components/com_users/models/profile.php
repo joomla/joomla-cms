@@ -94,8 +94,8 @@ class UsersModelProfile extends JModelForm
 	 */
 	public function getData()
 	{
-		if ($this->data === null) {
-
+		if ($this->data === null)
+		{
 			$userId = $this->getState('user.id');
 
 			// Initialise the table with JUser.

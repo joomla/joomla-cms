@@ -33,7 +33,6 @@ JHtml::_('behavior.framework');
 
 <?php echo JLayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
-
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
@@ -80,4 +79,4 @@ JHtml::_('behavior.framework');
 </div>
 <?php endif; ?>
 
-<?php echo $this->item->event->afterDisplayContent; ?>
+<?php echo $this->item->event->afterDisplayContent;

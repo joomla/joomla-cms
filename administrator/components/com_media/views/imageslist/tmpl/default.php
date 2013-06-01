@@ -21,8 +21,9 @@ defined('_JEXEC') or die;
 		echo $this->loadTemplate('image');
 	endfor; ?>
 </ul>
-<?php } else { ?>
+<?php }
+ else { ?>
 	<div id="media-noimages">
 		<div class="alert alert-info"><?php echo JText::_('COM_MEDIA_NO_IMAGES_FOUND'); ?></div>
 	</div>
-<?php } ?>
+<?php }

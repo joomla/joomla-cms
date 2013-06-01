@@ -9,11 +9,7 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Banner: Add / Edit  Screen.
@@ -97,7 +93,6 @@ class BannerManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Banner successfully saved') >= 0, 'Banner save should return success');
 		$state = $this->bannerManagerPage->getState($bannerName_1);
 		$this->assertEquals('published', $state, 'Initial state should be published');
-
 
 		$this->bannerManagerPage->addBanner($bannerName_2, false);
 		$message = $this->bannerManagerPage->getAlertMessage();

@@ -36,7 +36,8 @@ class PlgEditorNone extends JPlugin
 							myField.focus();
 							sel = document.selection.createRange();
 							sel.text = myValue;
-						} else if (myField.selectionStart || myField.selectionStart == '0')
+						}
+						else if (myField.selectionStart || myField.selectionStart == '0')
 						{
 							// MOZILLA/NETSCAPE support
 							var startPos = myField.selectionStart;
@@ -44,7 +45,8 @@ class PlgEditorNone extends JPlugin
 							myField.value = myField.value.substring(0, startPos)
 								+ myValue
 								+ myField.value.substring(endPos, myField.value.length);
-						} else {
+						}
+						else {
 							myField.value += myValue;
 						}
 					}

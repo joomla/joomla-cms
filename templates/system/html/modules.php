@@ -35,7 +35,7 @@ function modChrome_html5($module, &$params, &$attribs)
 		<?php endif; ?>
 
 			<?php echo $module->content; ?>
-		
+
 		</<?php echo $moduleTag; ?>>
 
 	<?php endif;
@@ -118,7 +118,7 @@ function modChrome_rounded($module, &$params, &$attribs)
  */
 function modChrome_outline($module, &$params, &$attribs)
 {
-	static $css = false;
+	public static $css = false;
 	if (!$css)
 	{
 		$css = true;

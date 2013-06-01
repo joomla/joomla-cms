@@ -139,7 +139,8 @@ class UsersControllerRegistration extends UsersController
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else {
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -171,10 +172,12 @@ class UsersControllerRegistration extends UsersController
 		$app->setUserState('com_users.registration.data', null);
 
 		// Redirect to the profile screen.
-		if ($return === 'adminactivate'){
+		if ($return === 'adminactivate')
+		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_VERIFY'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));
-		} elseif ($return === 'useractivate')
+		}
+		elseif ($return === 'useractivate')
 		{
 			$this->setMessage(JText::_('COM_USERS_REGISTRATION_COMPLETE_ACTIVATE'));
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=registration&layout=complete', false));

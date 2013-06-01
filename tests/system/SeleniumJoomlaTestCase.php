@@ -36,12 +36,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 	}
 
-	function checkMessage($message)
+	public function checkMessage($message)
 	{
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., '$message')]"), 'Message not displayed or message changed, SeleniumJoomlaTestCase line 31');
 	}
 
-	function changeAssignedGroup($username,$group)
+	public function changeAssignedGroup($username,$group)
 	{
 		$this->jClick('User Manager');
 		$this->click("link=$username");
@@ -53,7 +53,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'User successfully saved.')]"), 'User group save message not displayed or message changed, SeleniumJoomlaTestCase line 49');
 	}
 
-	function createUser($name = 'Test User', $username = 'TestUser', $password = 'password', $email = 'testuser@test.com', $group = 'Manager')
+	public function createUser($name = 'Test User', $username = 'TestUser', $password = 'password', $email = 'testuser@test.com', $group = 'Manager')
 	{
 		$this->click("link=User Manager");
 		$this->waitForPageToLoad("30000");
@@ -72,7 +72,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"),'Creation of Test User(s) failed.');
 	}
 
-	function doAdminLogin($username = null,$password = null)
+	public function doAdminLogin($username = null,$password = null)
 	{
 		$this->jPrint ( "Logging in to back end.\n");
 		$cfg = new SeleniumConfig();
@@ -97,14 +97,14 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}
 
-	function doAdminLogout()
+	public function doAdminLogout()
 	{
 		$this->jPrint ( "Logging out of back end.\n");
 		$this->click("//li/a[contains(@href, 'option=com_login&task=logout')]");
 		$this->waitForPageToLoad("30000");
 	}
 
-	function gotoAdmin()
+	public function gotoAdmin()
 	{
 		$this->jPrint ( "Browsing to back end.\n");
 		$cfg = new SeleniumConfig();
@@ -112,7 +112,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}
 
-	function gotoSite()
+	public function gotoSite()
 	{
 		$this->jPrint ( "Browsing to front end.\n");
 		$cfg = new SeleniumConfig();
@@ -120,7 +120,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}
 
-	function doFrontEndLogin($username = null,$password = null)
+	public function doFrontEndLogin($username = null,$password = null)
 	{
 		$cfg = new SeleniumConfig();
 		if(!isset($username))$username=$cfg->username;
@@ -141,7 +141,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}
 
-	function doFrontEndLogout()
+	public function doFrontEndLogout()
 	{
 		if ($this->getValue("Submit") == "Log out")
 		{
@@ -151,13 +151,13 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 	}
 
-	function toggleAssignedGroupCheckbox($groupName)
+	public function toggleAssignedGroupCheckbox($groupName)
 	{
 		$id = $this->getAttribute('//fieldset[@id=\'user-groups\']/ul/li[contains(label,\''.$groupName.'\')]/label@for');
 		$this->click($id);
 	}
 
-	function deleteTestUsers($partialName = 'test')
+	public function deleteTestUsers($partialName = 'test')
 	{
 		$this->jPrint ( "Browse to User Manager.\n");
 		$this->click("link=User Manager");
@@ -176,7 +176,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"),'Deletion of Test User(s) failed.');
 	}
 
-	function createGroup($groupName, $groupParent = 'Public')
+	public function createGroup($groupName, $groupParent = 'Public')
 	{
 		$this->click("link=Groups");
 		$this->waitForPageToLoad("30000");
@@ -192,7 +192,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	}
 
-	function deleteGroup($partialName = 'test')
+	public function deleteGroup($partialName = 'test')
 	{
 		$this->jPrint ( "Browse to User Manager: Groups.\n");
 		$this->click("link=Groups");
@@ -215,7 +215,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	}
 
-	function createLevel($levelName, $userGroup)
+	public function createLevel($levelName, $userGroup)
 	{
 		$this->jClick('Access Levels');
 		$this->jClick('New');
@@ -226,7 +226,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jClick('Save & Close');
 	}
 
-	function deleteLevel($partialName = 'test')
+	public function deleteLevel($partialName = 'test')
 	{
 		$this->jClick('Access Levels');
 		$this->jPrint ( "Filter on " . $partialName . ".\n");
@@ -238,7 +238,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jClick('Delete');
 	}
 
-	function changeAccessLevel($levelName = 'Registered', $groupName = 'Public')
+	public function changeAccessLevel($levelName = 'Registered', $groupName = 'Public')
 	{
 		$this->jPrint ( "Add group " . $groupName . " to " . $levelName . " access level.\n");
 		$this->jPrint ( "Navagating to Access Levels.\n");
@@ -252,7 +252,6 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"), "Line: ".__LINE__);
 		$this->jPrint ( "Adding group " . $groupName . " to " . $levelName . " access level succeeded.\n");
 
-
 	}
 
 	/**
@@ -261,7 +260,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 *
 	 * @since	1.6
 	 */
-	function clickGo()
+	public function clickGo()
 	{
 		if ($this->isElementPresent("filter-go"))
 		{
@@ -280,7 +279,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	/*
 	 * Allow selection of an input based on the text contained in its correspondig label
 	*/
-	function jInput($labelText)
+	public function jInput($labelText)
 	{
 		$this->click("//label[contains(., '$labelText')]");
 	}
@@ -288,7 +287,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	/*
 	 * Unifies button and menu item selection based on corresponding IDs and Classes
 	*/
-	function jClick($item)
+	public function jClick($item)
 	{
 		switch ($item)
 		{
@@ -442,19 +441,19 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 	}
 
-	function filterView($filterOn ='Test')
+	public function filterView($filterOn ='Test')
 	{
 		$this->type("filter_search", $filterOn);
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 	}
 
-	function clickTab($formTab ='Permissions')
+	public function clickTab($formTab ='Permissions')
 	{
 		$this->click("//li/a[contains(.,'$formTab')]");
 	}
 
-	function restoreDefaultGlobalPermissions()
+	public function restoreDefaultGlobalPermissions()
 	{
 		$actions = array('Site Login', 'Admin Login', 'Configure', 'Access Component', 'Create', 'Delete', 'Edit', 'Edit State');
 		$permissions = array('Not Set', 'Not Set', 'Not Set', 'Not Set', 'Not Set', 'Not Set', 'Not Set', 'Not Set');
@@ -497,7 +496,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 * @param string or array $permissions Permissions to set for corresponding Action: Inherited, Allowed, or Locked
 	 */
 
-	function setPermissions($component, $group, $actions, $permissions)
+	public function setPermissions($component, $group, $actions, $permissions)
 	{
 		$this->jClick($component);
 		if ($component == 'Global Configuration')
@@ -509,16 +508,19 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 			$this->jClick('Options');
 			$this->click("//li/a[contains(., 'Permissions')]");
 		}
-		if (!is_array($actions)) {
+		if (!is_array($actions))
+		{
 			$actions = array($actions);
 		}
-		if (!is_array($permissions)) {
+		if (!is_array($permissions))
+		{
 			$permissions = array($permissions);
 		}
 		$this->jPrint ( "Open panel for group '$group'\n");
 		$this->click("//div[@id='permissions-sliders']//li[contains(.,'$group')]/a");
 
-		for ($i = 0; $i < count($actions); $i++) {
+		for ($i = 0; $i < count($actions); $i++)
+		{
 			$action = $actions[$i];
 			$permission = $permissions[$i];
 			$this->jPrint ( "Setting $action action for $group to $permission in $component.\n");
@@ -560,21 +562,23 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jPrint ( "Close panel for group '$group'\n");
 		$this->click("//div[@id='permissions-sliders']//li[contains(., 'Public')]/a");
 
-		if ($component == 'Global Configuration') {
+		if ($component == 'Global Configuration')
+		{
 			$this->click("//div[@id='toolbar-save']/button");
 			$this->waitForPageToLoad('3000');
 
 			$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 
 		}
-		else {
+		else
+		{
 			// Need to click the Save & Close button
 			$this->click("//div[@id='toolbar-save']/button");
 			$this->waitForPageToLoad('3000');
 		}
 	}
 
-	function setEditor($editor)
+	public function setEditor($editor)
 	{
 		$this->jPrint ( "Changing editor to $editor\n");
 		$this->jClick('Global Configuration');
@@ -596,7 +600,6 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 				break;
 		}
 
-
 		$this->select("id=jform_editor", $select);
 
 		$this->click("//div[@id='toolbar-save']/button");
@@ -604,21 +607,21 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 	}
 
-	function setTinyText($text)
+	public function setTinyText($text)
 	{
 		$this->selectFrame("jform_articletext_ifr");
 		$this->type("tinymce", $text);
 		$this->selectFrame("relative=top");
 	}
 
-	function toggleFeatured($articleTitle)
+	public function toggleFeatured($articleTitle)
 	{
 		$this->jPrint ( "Toggling Featured on/off for article " . $articleTitle . "\n");
 		$this->click("//table[@id='articleList']/tbody//tr//td/div/a[contains(text(), '" . $articleTitle . "')]/../../../td[3]//a[contains(@onclick, 'featured')]");
 		$this->waitForPageToLoad("30000");
 	}
 
-	function togglePublished($articleTitle, $type = 'Article')
+	public function togglePublished($articleTitle, $type = 'Article')
 	{
 		if ($type == 'Article')
 		{
@@ -634,7 +637,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		}
 	}
 
-	function toggleCheckBox($itemTitle, $type = 'Category')
+	public function toggleCheckBox($itemTitle, $type = 'Category')
 	{
 		switch ($type)
 		{
@@ -660,7 +663,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 * @param string	last part of toolbar name: publish, unpublish, archive, trash
 	 */
 
-	function changeState($title = null, $menu = 'Article Manager', $type = 'Category', $newState = 'publish')
+	public function changeState($title = null, $menu = 'Article Manager', $type = 'Category', $newState = 'publish')
 	{
 		$this->gotoAdmin();
 		$this->jPrint ( "Changing state of " . $type . " " . $title . " in " . $menu . " to " . $newState .  "\n");
@@ -687,7 +690,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->gotoAdmin();
 	}
 
-	function changeCategory($title = null, $menu = 'Article Manager', $newCategory = 'Uncategorised')
+	public function changeCategory($title = null, $menu = 'Article Manager', $newCategory = 'Uncategorised')
 	{
 		$this->jPrint ( "Changing category for $title in $menu to $newCategory\n");
 		$this->gotoAdmin();
@@ -709,7 +712,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 *
 	 * @param string $level	Options are off, on-basic, on-full
 	 */
-	function setCache($level = 'off')
+	public function setCache($level = 'off')
 	{
 		$this->gotoAdmin();
 		$this->jClick('Global Configuration');
@@ -735,7 +738,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->waitForPageToLoad("30000");
 	}
 
-	function setDefaultTemplate($template)
+	public function setDefaultTemplate($template)
 	{
 		$this->doAdminLogin();
 		$this->click("link=Template Manager");
@@ -750,13 +753,17 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->doAdminLogout();
 	}
 
-	function waitforElement($element, $time = 30, $present = true) {
-		for ($second = 0; ; $second++) {
+	public function waitforElement($element, $time = 30, $present = true)
+	{
+		for ($second = 0; ; $second++)
+		{
 			if ($second >= $time) $this->fail("timeout");
-			try {
+			try
+			{
 			$condition = ($present) ? $this->isElementPresent($element) : !$this->isElementPresent($element);
 			if ($condition) break;
-			} catch (Exception $e) {}
+			}
+			catch (Exception $e) {}
 		sleep(1);
 	}
 	sleep(1);
@@ -765,7 +772,8 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 
 function checkNotices()
 {
-	try {
+	try
+	{
 		$this->assertFalse($this->isTextPresent("( ! ) Notice"), "**Warning: PHP Notice found on page!");
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Notice:')]", "**Warning: PHP Notice found on page!");
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Warning:')]", "**Warning: PHP Warning found on page!");
@@ -789,7 +797,8 @@ public function __call($command, $arguments)
 	$return = parent::__call($command, $arguments);
 	if ($command == 'waitForPageToLoad' && (!isset($arguments[1]) || $arguments[1] !== false))
 	{
-		try {
+		try
+		{
 		$this->assertFalse($this->isTextPresent("( ! ) Notice") || $this->isTextPresent("( ! ) Warning"), "**Warning: PHP Notice found on page!");
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Notice:')]", "**Warning: PHP Notice found on page!");
 		$this->assertElementNotPresent("//tr[contains(., '( ! ) Warning:')]", "**Warning: PHP Warning found on page!");
@@ -809,15 +818,19 @@ return $return;
  * @param PHPUnit_Framework_AssertionFailedError $e
  * @return string with selected files based on path
  */
-public function getTraceFiles($e) {
+public function getTraceFiles($e)
+{
 	$trace = $e->getTrace();
 	$path = $this->cfg->folder . $this->cfg->path;
 	$path = str_replace('\\', '/', $path);
 	$message = '';
-	foreach ($trace as $traceLine) {
-		if (isset($traceLine['file'])){
+	foreach ($trace as $traceLine)
+	{
+		if (isset($traceLine['file']))
+		{
 			$file = str_replace('\\', '/', $traceLine['file']);
-			if (stripos($file, $path) !== false) {
+			if (stripos($file, $path) !== false)
+			{
 				$message .= "\n" . $traceLine['file'] . '(' . $traceLine['line'] . '): ' .
 						$traceLine['class'] . $traceLine['type'] . $traceLine['function'] ;
 			}

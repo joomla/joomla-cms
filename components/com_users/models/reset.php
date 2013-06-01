@@ -110,7 +110,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * @since   1.6
 	 */
-	function processResetComplete($data)
+	public function processResetComplete($data)
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
@@ -196,7 +196,7 @@ class UsersModelReset extends JModelForm
 	/**
 	 * @since   1.6
 	 */
-	function processResetConfirm($data)
+	public function processResetConfirm($data)
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();

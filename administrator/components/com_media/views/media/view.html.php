@@ -41,7 +41,7 @@ class MediaViewMedia extends JViewLegacy
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
 		window.addEvent('domready', function()
-		{
+ function(){
 			document.preview = SqueezeBox;
 		});");
 
@@ -143,7 +143,7 @@ class MediaViewMedia extends JViewLegacy
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 
-	function getFolderLevel($folder)
+	public function getFolderLevel($folder)
 	{
 		$this->folders_id = null;
 		$txt = null;

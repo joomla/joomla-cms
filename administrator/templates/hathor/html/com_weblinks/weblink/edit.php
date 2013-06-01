@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
+ function(task){
 		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('weblink-form')))
 		{
 			<?php echo $this->form->getField('description')->save(); ?>

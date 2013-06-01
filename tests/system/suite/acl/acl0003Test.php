@@ -9,7 +9,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 
 class Acl0003Test extends SeleniumJoomlaTestCase
 {
-	function testRestrictedGroupAccess()
+	public function testRestrictedGroupAccess()
 	{
 		$this->setUp();
 		$this->gotoAdmin();
@@ -59,4 +59,3 @@ class Acl0003Test extends SeleniumJoomlaTestCase
 		$this->jPrint ("Finished acl0003Test\n");
   }
 }
-

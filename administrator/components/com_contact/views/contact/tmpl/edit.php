@@ -22,7 +22,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
+ function(task){
 		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
 		{
 			<?php echo $this->form->getField('misc')->save(); ?>

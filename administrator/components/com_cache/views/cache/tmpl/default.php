@@ -17,12 +17,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
   <?php if (!empty( $this->sidebar)) : ?>
-    <div id="j-sidebar-container" class="span2">
-      <?php echo $this->sidebar; ?>
-    </div>  
-    <div id="j-main-container" class="span10">
+	<div id="j-sidebar-container" class="span2">
+	  <?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
   <?php else : ?>
-    <div id="j-main-container">
+	<div id="j-main-container">
   <?php endif;?>
   	<table class="table table-striped">
   		<thead>
@@ -75,7 +75,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php $i++; endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="client" value="<?php echo $this->client->id;?>" />

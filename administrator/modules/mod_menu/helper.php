@@ -116,7 +116,8 @@ abstract class ModMenuHelper
 					}
 					$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 				}
-			} else {
+			}
+			else {
 				// Sub-menu level.
 				if (isset($result[$component->parent_id]))
 				{

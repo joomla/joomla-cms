@@ -42,8 +42,8 @@ class LanguagesController extends JControllerLegacy
 		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
-		if ($view == 'language' && $layout == 'edit' && !$this->checkEditId('com_languages.edit.language', $id)) {
-
+		if ($view == 'language' && $layout == 'edit' && !$this->checkEditId('com_languages.edit.language', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');

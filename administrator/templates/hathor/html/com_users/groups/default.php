@@ -24,7 +24,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
+ function(task){
 		if (task == 'groups.delete')
 		{
 			var f = document.adminForm;

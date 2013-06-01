@@ -69,10 +69,12 @@ class UsersViewLevel extends JViewLegacy
 			JToolbarHelper::save2new('level.save2new');
 		}
 		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')){
+		if (!$isNew && $canDo->get('core.create'))
+		{
 				JToolbarHelper::save2copy('level.save2copy');
 			}
-		if (empty($this->item->id)){
+		if (empty($this->item->id))
+		{
 				JToolbarHelper::cancel('level.cancel');
 		}
 		else

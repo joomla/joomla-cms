@@ -25,4 +25,4 @@ foreach ($fieldSets as $name => $fieldSet) :
 				</div>
 			<?php endforeach; ?>
 	</div>
-<?php endforeach; ?>
+<?php endforeach;

@@ -80,7 +80,8 @@ abstract class ModArticlesNewsHelper
 				$item->link = JRoute::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid));
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE');
 			}
-			else {
+			else
+			{
 				$item->link = JRoute::_('index.php?option=com_users&view=login');
 				$item->linkText = JText::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}

@@ -36,7 +36,8 @@ class TagsViewTag extends JViewLegacy
 		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -87,23 +88,28 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId))) {
+		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
+		{
 			JToolbarHelper::apply('tag.apply');
 			JToolbarHelper::save('tag.save');
-			if ($canDo->get('core.create')) {
+			if ($canDo->get('core.create'))
+			{
 				JToolbarHelper::save2new('tag.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
+		if (!$isNew && $canDo->get('core.create'))
+		{
 			JToolbarHelper::save2copy('tag.save2copy');
 		}
 
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('tag.cancel');
 		}
-		else {
+		else
+		{
 			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');

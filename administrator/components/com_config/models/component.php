@@ -104,7 +104,7 @@ class ConfigModelComponent extends JModelForm
 	 * @return  object
 	 * @since   1.6
 	 */
-	function getComponent()
+	public function getComponent()
 	{
 		$option = $this->getState('component.option');
 

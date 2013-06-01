@@ -33,7 +33,7 @@ require_once JPATH_LIBRARIES . '/cms.php';
  * @package  Joomla.Build
  * @since    3.0
  */
-class GenerateCss extends JApplicationCli
+class generatecss extends JApplicationCli
 {
 	/**
 	 * Entry point for the script

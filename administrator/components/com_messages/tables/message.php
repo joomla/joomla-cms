@@ -94,7 +94,8 @@ class MessagesTableMessage extends JTable
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else {
+			else
+			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}

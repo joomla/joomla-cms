@@ -8,7 +8,7 @@
 		<version>1.7.0</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/15901/68959/Joomla_1.6.x_to_1.7.0_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/15901/68959/Joomla_1.6.x_to_1.7.0_Package.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>stable</tag>
@@ -26,7 +26,7 @@
 		<version>2.5.8</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/17716/77259/Joomla_2.5.8-Stable-Update_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://joomlacode.org/gf/download/frsrelease/17716/77259/Joomla_2.5.8-Stable-Update_Package.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>stable</tag>
@@ -44,7 +44,7 @@
 		<version>3.0.3</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://update.joomla.org/core/teststs/Joomla_3.0.3-Stable-Update_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://update.joomla.org/core/teststs/Joomla_3.0.3-Stable-Update_Package.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>stable</tag>
@@ -62,7 +62,7 @@
 		<version>3.0.3</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://update.joomla.org/core/teststs/Joomla_3.0.3-Stable-Update_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://update.joomla.org/core/teststs/Joomla_3.0.3-Stable-Update_Package.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>stable</tag>
@@ -80,7 +80,7 @@
 		<version>3.0.3</version>
 		<infourl title="Joomla!">http://www.joomla.org/</infourl>
 		<downloads>
-			<downloadurl type="full" format="zip">http://update.joomla.org/core/teststs/Joomla_3.0.x_to_3.0.3-Stable-Patch_Package.zip</downloadurl>			
+			<downloadurl type="full" format="zip">http://update.joomla.org/core/teststs/Joomla_3.0.x_to_3.0.3-Stable-Patch_Package.zip</downloadurl>
 		</downloads>
 		<tags>
 			<tag>stable</tag>
@@ -91,4 +91,3 @@
 		<targetplatform name="joomla" version="3.0" min_dev_level="1"/>
 	</update>
 </updates>
-			

@@ -170,7 +170,7 @@ class JBrowser
 	 *
 	 * @since  11.1
 	 */
-	static public function getInstance($userAgent = null, $accept = null)
+	public static function getInstance($userAgent = null, $accept = null)
 	{
 		$signature = serialize(array($userAgent, $accept));
 

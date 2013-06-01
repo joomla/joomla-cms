@@ -15,4 +15,4 @@ $html = JHtml::_('icons.buttons', $buttons);
 	<div class="cpanel">
 		<?php echo $html;?>
 	</div>
-<?php endif;?>
+<?php endif;

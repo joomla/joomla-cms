@@ -38,7 +38,8 @@ $sortFields = $this->getSortFields();
 		if (order != '<?php echo $listOrder; ?>')
 		{
 			dirn = 'asc';
-		} else {
+		}
+		else {
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, '');

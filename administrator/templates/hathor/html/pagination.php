@@ -96,13 +96,15 @@ function pagination_list_render($list)
 	if ($list['start']['active'])
 	{
 		$html .= "<div class=\"button2-right\"><div class=\"start\">".$list['start']['data']."</div></div>";
-	} else {
+	}
+	else {
 		$html .= "<div class=\"button2-right off\"><div class=\"start\">".$list['start']['data']."</div></div>";
 	}
 	if ($list['previous']['active'])
 	{
 		$html .= "<div class=\"button2-right\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
-	} else {
+	}
+	else {
 		$html .= "<div class=\"button2-right off\"><div class=\"prev\">".$list['previous']['data']."</div></div>";
 	}
 
@@ -116,13 +118,15 @@ function pagination_list_render($list)
 	if ($list['next']['active'])
 	{
 		$html .= "<div class=\"button2-left\"><div class=\"next\">".$list['next']['data']."</div></div>";
-	} else {
+	}
+	else {
 		$html .= "<div class=\"button2-left off\"><div class=\"next\">".$list['next']['data']."</div></div>";
 	}
 	if ($list['end']['active'])
 	{
 		$html .= "<div class=\"button2-left\"><div class=\"end\">".$list['end']['data']."</div></div>";
-	} else {
+	}
+	else {
 		$html .= "<div class=\"button2-left off\"><div class=\"end\">".$list['end']['data']."</div></div>";
 	}
 

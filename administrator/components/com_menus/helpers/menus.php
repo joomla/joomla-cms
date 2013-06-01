@@ -246,7 +246,7 @@ class MenusHelper
 		}
 	}
 
-	static public function getAssociations($pk)
+	public static function getAssociations($pk)
 	{
 		$associations = array();
 		$db = JFactory::getDbo();

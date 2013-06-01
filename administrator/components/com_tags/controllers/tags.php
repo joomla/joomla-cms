@@ -49,11 +49,13 @@ class TagsControllerTags extends JControllerAdmin
 
 		$model = $this->getModel();
 
-		if ($model->rebuild()) {
+		if ($model->rebuild())
+		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_TAGS_REBUILD_SUCCESS'));
 			return true;
-		} else {
+		}
+		else {
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_TAGSS_REBUILD_FAILURE'));
 			return false;

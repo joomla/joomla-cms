@@ -82,7 +82,8 @@ class JFormFieldMedia extends JFormField
 			$script[] = '				img.src = "' . JURI::root() . '" + value;';
 			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
 			$script[] = '				document.id(id + "_preview_img").setStyle("display", "");';
-			$script[] = '			} else { ';
+			$script[] = '			}
+			else { ';
 			$script[] = '				img.src = ""';
 			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "");';
 			$script[] = '				document.id(id + "_preview_img").setStyle("display", "none");';

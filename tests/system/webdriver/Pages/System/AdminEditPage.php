@@ -1,10 +1,7 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
@@ -149,7 +146,8 @@ abstract class AdminEditPage extends AdminPage
 		foreach ($options as $option)
 		{
 			$optionText[] = $option->getText();
-			if ($i++ > 5)			{
+			if ($i++ > 5)
+			{
 				$optionText[] = '...';
 				break;
 			}

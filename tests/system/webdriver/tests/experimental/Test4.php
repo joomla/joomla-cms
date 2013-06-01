@@ -3,10 +3,6 @@
 require_once 'JoomlaWebdriverTestCase.php';
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 class FirstTest extends JoomlaWebdriverTestCase
 {
@@ -43,12 +39,10 @@ class FirstTest extends JoomlaWebdriverTestCase
 		$el->click();
 
 		$el = $d->waitForElementUntilIsNotPresent(By::xPath("//div[@id='sbox-content']/iframe"));
-		
+
 		$d->findElement(By::xPath("//a[contains(@onclick, 'item.save')]"))->click();
 
-
 		// Clean up
-
 
 	}
 }

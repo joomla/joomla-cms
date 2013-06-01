@@ -32,7 +32,6 @@ class JFormFieldHeadertagTest extends PHPUnit_Framework_TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-
 		$field = new JFormFieldHeadertag($form);
 
 		$this->assertThat(

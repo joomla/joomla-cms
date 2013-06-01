@@ -144,4 +144,3 @@ $input = JFactory::getApplication()->input;
 	</div>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-	

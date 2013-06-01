@@ -44,7 +44,8 @@ class UsersControllerReset extends UsersController
 			if ($app->getCfg('error_reporting'))
 			{
 				$message = $return->getMessage();
-			} else {
+			}
+			else {
 				$message = JText::_('COM_USERS_RESET_REQUEST_ERROR');
 			}
 
@@ -56,7 +57,8 @@ class UsersControllerReset extends UsersController
 			// Go back to the request form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		} elseif ($return === false)
+		}
+		elseif ($return === false)
 		{
 			// The request failed.
 			// Get the route to the next page.
@@ -108,7 +110,8 @@ class UsersControllerReset extends UsersController
 			if ($app->getCfg('error_reporting'))
 			{
 				$message = $return->getMessage();
-			} else {
+			}
+			else {
 				$message = JText::_('COM_USERS_RESET_CONFIRM_ERROR');
 			}
 
@@ -120,7 +123,8 @@ class UsersControllerReset extends UsersController
 			// Go back to the confirm form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		} elseif ($return === false)
+		}
+		elseif ($return === false)
 		{
 			// Confirm failed.
 			// Get the route to the next page.
@@ -171,7 +175,8 @@ class UsersControllerReset extends UsersController
 			if ($app->getCfg('error_reporting'))
 			{
 				$message = $return->getMessage();
-			} else {
+			}
+			else {
 				$message = JText::_('COM_USERS_RESET_COMPLETE_ERROR');
 			}
 
@@ -183,7 +188,8 @@ class UsersControllerReset extends UsersController
 			// Go back to the complete form.
 			$this->setRedirect(JRoute::_($route, false), $message, 'error');
 			return false;
-		} elseif ($return === false)
+		}
+		elseif ($return === false)
 		{
 			// Complete failed.
 			// Get the route to the next page.

@@ -20,12 +20,12 @@ require_once 'WebDriver.php';
 class TargetLocator
 {
 	private $_driver;
-	
+
 	public function __construct(WebDriver $driver)
 	{
 		$this->_driver = $driver;
 	}
-	
+
 	#region TargetLocator members
 	/**
 	 * Move to a different frame using its index
@@ -34,7 +34,7 @@ class TargetLocator
 	 */
 	public function getFrameByIndex($frameIndex)
 	{
-		
+
 		$this->_driver->getFrame($frameIndex);
 
 		return $this->_driver;
@@ -96,7 +96,7 @@ class TargetLocator
 	public function getWindow($windowName)
 	{
 		$this->_driver->getWindow($windowName);
-		
+
 		return $this->_driver;
 	}
 
@@ -123,7 +123,6 @@ class TargetLocator
 
 		return $webElement;
 	}
-
 
 	/**
 	 *  Switches to the currently active modal dialog for this particular driver instance.

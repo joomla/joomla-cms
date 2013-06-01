@@ -176,16 +176,16 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
-     * Returns the current date format
-     * This method should be useful in the case that
-     * somebody actually wants to use a different
-     * date format and needs to check what the current
-     * one is to see if it needs to be changed.
-     *
-     * @return string The current date format
-     *
-     * @since 12.1
-     */
+	 * Returns the current date format
+	 * This method should be useful in the case that
+	 * somebody actually wants to use a different
+	 * date format and needs to check what the current
+	 * one is to see if it needs to be changed.
+	 *
+	 * @return string The current date format
+	 *
+	 * @since 12.1
+	 */
 	public function getDateFormat()
 	{
 		return $this->dateformat;
@@ -401,19 +401,19 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	}
 
 	/**
-     * Sets the Oracle Date Format for the session
-     * Default date format for Oracle is = DD-MON-RR
-     * The default date format for this driver is:
-     * 'RRRR-MM-DD HH24:MI:SS' since it is the format
-     * that matches the MySQL one used within most Joomla
-     * tables.
-     *
-     * @param   string  $dateFormat  Oracle Date Format String
-     *
-     * @return boolean
-     *
-     * @since  12.1
-     */
+	 * Sets the Oracle Date Format for the session
+	 * Default date format for Oracle is = DD-MON-RR
+	 * The default date format for this driver is:
+	 * 'RRRR-MM-DD HH24:MI:SS' since it is the format
+	 * that matches the MySQL one used within most Joomla
+	 * tables.
+	 *
+	 * @param   string  $dateFormat  Oracle Date Format String
+	 *
+	 * @return boolean
+	 *
+	 * @since  12.1
+	 */
 	public function setDateFormat($dateFormat = 'DD-MON-RR')
 	{
 		$this->connect();

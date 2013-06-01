@@ -35,4 +35,4 @@ foreach ($this->fieldsets as $name => $fieldset) :
 
 <?php echo JHtml::_('bootstrap.endTab'); ?>
 
-<?php endforeach; ?>
+<?php endforeach;

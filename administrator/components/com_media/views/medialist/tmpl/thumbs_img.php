@@ -30,4 +30,3 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 		</li>
 <?php
 $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$this->_tmp_img, &$params));
-?>

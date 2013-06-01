@@ -19,7 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
+ function(task){
 		if (document.formvalidator.isValid(document.id('component-form')))
 		{
 			Joomla.submitform(task, document.getElementById('component-form'));

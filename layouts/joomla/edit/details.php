@@ -86,4 +86,3 @@ $published = $displayData->get('form')->getField('published');
 
 			</fieldset>
 		</div>
-

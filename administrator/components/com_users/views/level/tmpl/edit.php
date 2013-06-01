@@ -20,7 +20,7 @@ $canDo = UsersHelper::getActions();
 
 <script type="text/javascript">
 Joomla.submitbutton = function(task)
-{
+ function(task){
 	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form')))
 	{
 		Joomla.submitform(task, document.id('level-form'));
@@ -65,7 +65,8 @@ window.addEvent('domready', function(){
 					if (this.getProperty('checked'))
 					{
 						c.setProperty('disabled', true);
-					} else {
+					}
+					else {
 						c.setProperty('disabled', false);
 					}
 					c.fireEvent('check');
@@ -92,7 +93,6 @@ window.addEvent('domready', function(){
 });
 */
 </script>
-
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="level-form" class="form-validate form-horizontal">
 	<fieldset>

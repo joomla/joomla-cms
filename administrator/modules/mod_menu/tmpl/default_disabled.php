@@ -69,6 +69,7 @@ if ($im || $mm || $pm || $tm || $lm)
 //
 // Help Submenu
 //
-if ($showhelp == 1) {
+if ($showhelp == 1)
+{
 $menu->addChild(new JMenuNode(JText::_('MOD_MENU_HELP'), null, 'disabled'));
 }

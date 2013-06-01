@@ -146,7 +146,8 @@ class MessagesModelMessage extends JModelAdmin
 					$this->setError(JText::_('JERROR_ALERTNOAUTHOR'));
 					return false;
 				}
-				else {
+				else
+				{
 					// Mark message read
 					$db		= $this->getDbo();
 					$query	= $db->getQuery(true)

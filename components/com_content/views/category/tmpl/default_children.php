@@ -79,4 +79,4 @@ JHtml::_('bootstrap.tooltip');
 		</div>
 		<?php endif; ?>
 	<?php endforeach; ?>
-<?php endif; ?>
+<?php endif;

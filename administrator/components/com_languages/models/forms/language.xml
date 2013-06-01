@@ -73,7 +73,7 @@
 			<option value="0">JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
-		
+
 		<field name="access" type="accesslevel"
 		class="inputbox"
 		size="1"

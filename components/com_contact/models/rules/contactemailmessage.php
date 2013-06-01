@@ -35,7 +35,8 @@ class JFormRuleContactEmailMessage extends JFormRule
 		$params = JComponentHelper::getParams('com_contact');
 		$banned = $params->get('banned_text');
 
-		foreach (explode(';', $banned) as $item) {
+		foreach (explode(';', $banned) as $item)
+		{
 			if (JString::stristr($item, $value) !== false)
 					return false;
 		}

@@ -431,7 +431,8 @@ class AdmintoolsHelperDownload
 
 			// FTP connector throws an error
 			$ret = $ftp->chmod($path, $mode);
-		} else
+		}
+		else
 		{
 			return false;
 		}

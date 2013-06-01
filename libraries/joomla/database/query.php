@@ -1644,7 +1644,7 @@ abstract class JDatabaseQuery
 
 		$i = 1;
 		$func = function ($match) use ($query, $args, &$i)
-		{
+ function ($match) use ($query, $args, &$i) {
 			if (isset($match[6]) && $match[6] == '%')
 			{
 				return '%';

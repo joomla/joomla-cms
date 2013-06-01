@@ -16,7 +16,6 @@ $canEdit = $this->item->params->get('access-edit');
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 
-
 <?php if ($this->item->state == 0) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
@@ -171,4 +170,4 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 <?php endif; ?>
 
 <div class="item-separator"></div>
-<?php echo $this->item->event->afterDisplayContent; ?>
+<?php echo $this->item->event->afterDisplayContent;

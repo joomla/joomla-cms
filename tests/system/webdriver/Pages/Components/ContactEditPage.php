@@ -1,11 +1,7 @@
 <?php
 
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * @package     Joomla.Test
@@ -65,7 +61,7 @@ class ContactEditPage extends AdminEditPage
 	public $inputFields = array (
 			array('label' => 'Name', 'id' => 'jform_name', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'details'),
-            array('label' => 'Linked User', 'id' => 'jform_user_id_name', 'type' => 'input', 'tab' => 'details'),
+			array('label' => 'Linked User', 'id' => 'jform_user_id_name', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
 			// Ordering only shows on edit, not on a new contact.
 			//array('label' => 'Ordering', 'id' => 'jformordering', 'type' => 'select', 'tab' => 'details'),
@@ -139,4 +135,3 @@ class ContactEditPage extends AdminEditPage
 		);
 
 }
-

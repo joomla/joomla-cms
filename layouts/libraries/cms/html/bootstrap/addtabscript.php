@@ -14,7 +14,6 @@ $id = empty($displayData['id']) ? '' : $displayData['id'];
 $active = empty($displayData['active']) ? '' : $displayData['active'];
 $title = empty($displayData['title']) ? '' : $displayData['title'];
 
-
 echo "(function($){
 				$(document).ready(function() {
 					// Handler for .ready() called.

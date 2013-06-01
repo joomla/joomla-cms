@@ -40,7 +40,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_FEED_NAME', 'a.name', $listDirn, $listOrder); ?>
 				</th>
 
-
 				<?php if ($this->params->get('show_articles')) : ?>
 				<th class="item-num-art" id="tableOrdering2">
 					<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_NUM_ARTICLES', 'a.numarticles', $listDirn, $listOrder); ?>
@@ -101,4 +100,4 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 </form>
-<?php endif; ?>
+<?php endif;

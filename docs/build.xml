@@ -4,4 +4,3 @@
 		<exec executable="ant" dir="installation" />
 	</target>
 </project>
-

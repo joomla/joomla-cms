@@ -96,4 +96,4 @@ $n = count($this->items);
 	<?php endif; ?>
 </form>
 
-<?php endif; ?>
+<?php endif;

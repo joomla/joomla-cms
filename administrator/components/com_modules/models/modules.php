@@ -280,7 +280,6 @@ class ModulesModelModules extends JModelList
 		{
 			$query->where('a.position = ' . $db->quote($position));
 		}
-
 		elseif ($position == 'none')
 		{
 			$query->where('a.position = ' . $db->quote(''));

@@ -155,7 +155,8 @@ abstract class JHtmlBehavior
 			window.addEvent('domready', function(){
 				toggler = document.id('submenu');
 				element = document.id('config-document');
-				if (element) {
+				if (element)
+				{
 					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getProperty('class')});
 				}
 			});";
@@ -244,7 +245,8 @@ abstract class JHtmlBehavior
 			"window.addEvent('domready', function() {
 			$$('$selector').each(function(el) {
 				var title = el.get('title');
-				if (title) {
+				if (title)
+				{
 					var parts = title.split('::', 2);
 					el.store('tip:title', parts[0]);
 					el.store('tip:text', parts[1]);
@@ -622,7 +624,8 @@ abstract class JHtmlBehavior
 			window.addEvent('domready', function () {
 				var start = document.id('" . $start . "');
 				var end = document.id('" . $end . "');
-				if (!start || !end || !Joomla.Highlighter) {
+				if (!start || !end || !Joomla.Highlighter)
+				{
 					return true;
 				}
 				highlighter = new Joomla.Highlighter({

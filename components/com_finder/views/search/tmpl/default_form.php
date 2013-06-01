@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 
 			document.id('advanced-search-toggle').addEvent('click', function(e)
-			{
+ function(e){
 				e = new Event(e);
 				e.stop();
 				searchSlider.toggle();

@@ -15,55 +15,57 @@
 
 namespace SeleniumClient;
 
-class Cookie {
-	
+class Cookie
+{
 	private $_name = "";
 	private $_value = "";
 	private $_path = "";
 	private $_domain = "";
 	private $_secure = false;
 	private $_expiry = 0;
-	
-	public function __construct($name, $value, $path = null, $domain = null, $secure = null, $expiry = null) {
-		
-		if (isset ( $secure ) && ! is_bool ( $secure )) {
+
+	public function __construct($name, $value, $path = null, $domain = null, $secure = null, $expiry = null)
+	{
+		if (isset ( $secure ) && ! is_bool ( $secure ))
+		{
 			throw new \Exception ( "'Secure' property must be boolean" );
 		}
-		
-		if (isset ( $expiry ) && ! is_numeric ( $expiry )) {
+
+		if (isset ( $expiry ) && ! is_numeric ( $expiry ))
+		{
 			throw new \Exception ( "'Expiry' property must be numeric" );
 		}
-		
+
 		if($name != null)
 		$this->_name = $name;
-		
+
 		if($value != null)
 		$this->_value = $value;
-		
+
 		if($path != null)
 		$this->_path = $path;
-		
+
 		if($domain != null)
 		$this->_domain = $domain;
-		
+
 		if($secure != null)
 		$this->_secure = $secure;
-		
+
 		if($expiry != null)
 		$this->_expiry = $expiry;
 	}
-	
-	public function getArray() {
-		
+
+	public function getArray()
+	{
 		$array = array ();
-		
-		$array ["name"] = $this->_name;		
-		$array ["value"] = $this->_value;			
-		$array ["path"] = $this->_path;		
-		$array ["domain"] = $this->_domain;		
-		$array ["secure"] = $this->_secure;		
+
+		$array ["name"] = $this->_name;
+		$array ["value"] = $this->_value;
+		$array ["path"] = $this->_path;
+		$array ["domain"] = $this->_domain;
+		$array ["secure"] = $this->_secure;
 		$array ["expiry"] = $this->_expiry;
-		
+
 		return $array;
 	}
 }

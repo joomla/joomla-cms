@@ -114,12 +114,14 @@ class MenusControllerItems extends JControllerAdmin
 			if (!$model->setHome($cid, $value))
 			{
 				JError::raiseWarning(500, $model->getError());
-			} else {
+			}
+			else {
 				if ($value == 1)
 				{
 					$ntext = 'COM_MENUS_ITEMS_SET_HOME';
 				}
-				else {
+				else
+				{
 					$ntext = 'COM_MENUS_ITEMS_UNSET_HOME';
 				}
 				$this->setMessage(JText::plural($ntext, count($cid)));

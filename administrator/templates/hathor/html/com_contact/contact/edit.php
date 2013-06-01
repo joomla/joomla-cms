@@ -22,7 +22,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
+ function(task){
 		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
 		{
 			<?php echo $this->form->getField('misc')->save(); ?>
@@ -82,7 +82,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			<?php echo $this->form->getInput('misc'); ?>
 		</fieldset>
 	</div>
-    <div class="col options-section">
+	<div class="col options-section">
 		<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 

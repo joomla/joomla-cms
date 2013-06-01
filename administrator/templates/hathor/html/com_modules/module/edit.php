@@ -16,7 +16,7 @@ JHtml::_('behavior.combobox');
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 
 $script = "Joomla.submitbutton = function(task)
-	{
+ function(task){
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
 if ($hasContent)
 {

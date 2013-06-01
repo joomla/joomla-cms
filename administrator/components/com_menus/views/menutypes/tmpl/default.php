@@ -17,7 +17,7 @@ $document = JFactory::getDocument();
 
 <script type="text/javascript">
 	setmenutype = function(type)
-	{
+ function(type){
 		<?php if ($tmpl) : ?>
 			window.parent.Joomla.submitbutton('item.setType', type);
 			window.parent.SqueezeBox.close();
@@ -67,4 +67,4 @@ $document = JFactory::getDocument();
 			</li>
 		</ul>
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>
-<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+<?php echo JHtml::_('bootstrap.endAccordion');

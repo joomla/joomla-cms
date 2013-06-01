@@ -40,7 +40,7 @@ class plgSearchExample extends JPlugin
 	 * Sets the checkbox(es) to be diplayed in the Search Only box:
 	 * @return array An array of search areas
 	 */
-	function onContentSearchAreas()
+	public function onContentSearchAreas()
 	{
 		static $areas = array(
 			'Example' => 'PLG_SEARCH_EXAMPLE_BANNERS'
@@ -64,7 +64,7 @@ class plgSearchExample extends JPlugin
 	 * @param string ordering option, newest|oldest|popular|alpha|category
 	 * @param mixed  An array if the search it to be restricted to areas, null if search all
 	 */
-	function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db = JFactory::getDbo();
 

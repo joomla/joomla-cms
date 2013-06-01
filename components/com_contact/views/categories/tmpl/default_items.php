@@ -55,4 +55,4 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
-	<?php endforeach; ?><?php endif; ?>
+	<?php endforeach; ?><?php endif;

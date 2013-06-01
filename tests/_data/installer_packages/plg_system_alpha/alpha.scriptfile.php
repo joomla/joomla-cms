@@ -16,25 +16,30 @@
  * @see http://joomlacode.org/gf/project/	JoomlaCode Project:
  */
 
-class plgSystemAlphaInstallerScript {
-
-	function install($parent) {
+class plgSystemAlphaInstallerScript
+{
+	public function install($parent)
+	{
 		echo '<p>'. JText::_('1.6 Custom install script') . '</p>';
 	}
 
-	function uninstall($parent) {
+	public function uninstall($parent)
+	{
 		echo '<p>'. JText::_('1.6 Custom uninstall script') .'</p>';
 	}
 
-	function update($parent) {
+	public function update($parent)
+	{
 		echo '<p>'. JText::_('1.6 Custom update script') .'</p>';
 	}
 
-	function preflight($type, $parent) {
+	public function preflight($type, $parent)
+	{
 		echo '<p>'. JText::sprintf('1.6 Preflight for %s', $type) .'</p>';
 	}
 
-	function postflight($type, $parent) {
+	public function postflight($type, $parent)
+	{
 		echo '<p>'. JText::sprintf('1.6 Postflight for %s', $type) .'</p>';
 	}
 }

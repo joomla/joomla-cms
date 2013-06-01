@@ -51,7 +51,8 @@ class MessagesControllerConfig extends JControllerLegacy
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else {
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}

@@ -30,12 +30,10 @@ else
 	{
 			$direction = " redirect-ltr";
 	}
-
 	elseif ($lang->isRTL() && $myrtl == 2)
 	{
 		$direction = " redirect-rtl";
 	}
-
 	elseif ($myrtl == 0)
 	{
 		$direction = " redirect-ltr";
@@ -88,7 +86,8 @@ else
 	<ul>
 		<?php for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
 		{
-			if( !$feed->offsetExists($i)) {
+			if( !$feed->offsetExists($i))
+			{
 				break;
 			}
 			?>

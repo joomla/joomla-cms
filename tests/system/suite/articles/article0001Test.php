@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Article0001 extends SeleniumJoomlaTestCase
 {
-	function testUnpublishArticle()
+	public function testUnpublishArticle()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testUnpublishArticle.\n");
@@ -32,9 +32,9 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 
-    	$this->click("cb0");
-    	$this->click("//div[@id='toolbar-unpublish']/button");
-    	$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-unpublish']/button");
+		$this->waitForPageToLoad("30000");
 
 		$this->jPrint ("Go to front end and check that Professionals is not shown" . "\n");
 		$this->gotoSite();
@@ -49,9 +49,9 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 
-    	$this->click("cb0");
-    	$this->click("//div[@id='toolbar-publish']/button");
-    	$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-publish']/button");
+		$this->waitForPageToLoad("30000");
 
 		$this->gotoAdmin();
 		$this->doAdminLogout();
@@ -59,7 +59,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testPublishArticle()
+	public function testPublishArticle()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testPublishArticle.\n");
@@ -74,10 +74,9 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 
-
-    	$this->click("cb0");
-    	$this->click("//div[@id='toolbar-unpublish']/button");
-    	$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-unpublish']/button");
+		$this->waitForPageToLoad("30000");
 
 		$this->jPrint ("Go to front end and check that Professionals is not shown" . "\n");
 		$this->gotoSite();
@@ -92,9 +91,9 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 
-    	$this->click("cb0");
-    	$this->click("//div[@id='toolbar-publish']/button");
-    	$this->waitForPageToLoad("30000");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-publish']/button");
+		$this->waitForPageToLoad("30000");
 
 		$this->jPrint ("Go to front end and check that Professionals is shown" . "\n");
 		$this->gotoSite();
@@ -104,7 +103,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testEditPermission()
+	public function testEditPermission()
 	{
 		$this->jPrint ("Starting testEditPermission" . "\n");
 		$this->jPrint ("Go to front end and login as admin" . "\n");

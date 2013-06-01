@@ -102,7 +102,8 @@ class JToolbarButtonStandard extends JToolbarButton
 
 		if ($list)
 		{
-			$cmd = "if (document.adminForm.boxchecked.value==0){alert('$message');}else{ Joomla.submitbutton('$task')}";
+			$cmd = "if (document.adminForm.boxchecked.value==0) {alert('$message');}
+else{ Joomla.submitbutton('$task')}";
 		}
 		else
 		{

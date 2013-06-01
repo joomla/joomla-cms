@@ -9,11 +9,7 @@
 
 require_once 'JoomlaWebdriverTestCase.php';
 
-use SeleniumClient\By;
-use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
 
 /**
  * This class tests the  Banner: Add / Edit  Screen.
@@ -31,7 +27,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	 * @since   3.2
 	 */
 	protected $bannerManagerPage = null;
-	
+
 	/**
 	 * Login to back end and navigate to menu Banners.
 	 *
@@ -54,7 +50,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -73,7 +69,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$bannerEditPage->clickButton('toolbar-cancel');
 		$this->bannerManagerPage = $this->getPageObject('BannerManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -84,7 +80,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$bannerEditPage->clickButton('cancel');
 		$this->bannerManagerPage = $this->getPageObject('BannerManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -97,7 +93,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$bannerEditPage->clickButton('toolbar-cancel');
 		$this->bannerManagerPage = $this->getPageObject('BannerManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -113,7 +109,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$this->bannerManagerPage->deleteItem($bannerName);
 		$this->assertFalse($this->bannerManagerPage->getRowNumber($bannerName), 'Test Banner should not be present');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -153,7 +149,7 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals(array($bannerName,$client,$TrackClicks,$width), $values, 'Actual name, client, track clicks and width should match expected');
 		$this->bannerManagerPage->deleteItem($bannerName);
 	}
-	
+
 	/**
 	 * @test
 	 */

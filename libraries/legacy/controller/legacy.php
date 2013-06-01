@@ -146,7 +146,7 @@ class JControllerLegacy extends JObject
 	/**
 	 * Adds to the stack of model paths in LIFO order.
 	 *
-	 * @param   mixed   $path    The directory (string), or list of directories (array) to add.
+	 * @param   mixed   $path    The directory (string) , or list of directories (array) to add.
 	 * @param   string  $prefix  A prefix for models
 	 *
 	 * @return  void

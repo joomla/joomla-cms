@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Featured0001Test extends SeleniumJoomlaTestCase
 {
-	function testFeaturedOrder()
+	public function testFeaturedOrder()
 	{
 		$this->setUp();
 		$this->jPrint ("Starting testFeaturedOrder.\n");

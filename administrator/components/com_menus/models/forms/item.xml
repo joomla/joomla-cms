@@ -103,7 +103,7 @@
 		</field>
 
 		<field
-			name="menuordering"		
+			name="menuordering"
 			type="menuordering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"

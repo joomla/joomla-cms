@@ -21,14 +21,14 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 {
 	/**
 	 * Method to create a node
-	 * 
+	 *
 	 * @param   int    $changeset  change set id
 	 * @param   float  $latitude   latitude of the node
 	 * @param   float  $longitude  longitude of the node
 	 * @param   arary  $tags       array of tags for a node
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function createNode($changeset,$latitude,$longitude,$tags)
@@ -74,13 +74,13 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 	/**
 	 * Method to create a way
-	 * 
+	 *
 	 * @param   int    $changeset  change set id
 	 * @param   array  $tags       array of tags for a way
 	 * @param   array  $nds        node ids to refer
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function createWay($changeset,$tags,$nds)
@@ -137,14 +137,14 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 	/**
 	 * Method to create a relation
-	 * 
+	 *
 	 * @param   int    $changeset  change set id
 	 * @param   array  $tags       array of tags for a relation
-	 * @param   array  $members    array of members for a relation 
+	 * @param   array  $members    array of members for a relation
 	 *                             eg:$members=array(array("type"=>"node","role"=>"stop","ref"=>"123"),array("type"=>"way","ref"=>"123"))
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function createRelation($changeset,$tags,$members)
@@ -212,9 +212,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @param   string  $element  [node|way|relation]
 	 * @param   int     $id       element identifier
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
@@ -243,9 +243,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * @param   string  $element  [node|way|relation]
 	 * @param   string  $xml      full reperentation of the element with a version number
 	 * @param   int     $id       element identifier
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
@@ -279,16 +279,16 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 	/**
 	 * Method to delete an element [node|way|relation]
-	 * 
+	 *
 	 * @param   string  $element    [node|way|relation]
 	 * @param   int     $id         element identifier
 	 * @param   int     $version    element versioln
 	 * @param   int     $changeset  changeset identifier
 	 * @param   float   $latitude   latitude of the element
 	 * @param   float   $longitude  longitude of the element
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
@@ -336,9 +336,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @param   string  $element  [node|way|relation]
 	 * @param   int     $id       element identifier
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
@@ -367,9 +367,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * @param   string  $element  [node|way|relation]
 	 * @param   int     $id       element identifier
 	 * @param   int     $version  element version
-	 * 
+	 *
 	 * @return  array    The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
@@ -397,9 +397,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @param   string  $element  [nodes|ways|relations] - use plural word
 	 * @param   string  $params   Comma separated list ids belongto type $element
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
@@ -430,9 +430,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @param   string  $element  [node|way|relation]
 	 * @param   int     $id       element identifier
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
@@ -459,9 +459,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 * Method to get ways for a Node element
 	 *
 	 * @param   int  $id  node identifier
-	 * 
+	 *
 	 * @return  array    The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function waysForNode($id)
@@ -483,9 +483,9 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 	 *
 	 * @param   string  $element  [way|relation]
 	 * @param   int     $id       identifier
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
@@ -510,14 +510,14 @@ class JOpenstreetmapElements extends JOpenstreetmapObject
 
 	/**
 	 * Method used by the DWG to hide old versions of elements containing data privacy or copyright infringements
-	 *  
+	 *
 	 * @param   string  $element       [node|way|relation]
 	 * @param   int     $id            element identifier
 	 * @param   int     $version       element version
 	 * @param   int     $redaction_id  redaction id
-	 * 
+	 *
 	 * @return  array   The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 * @throws  DomainException
 	 */

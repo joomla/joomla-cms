@@ -36,7 +36,6 @@ $this->direction = $doc->direction;
 	<title><?php echo $this->error->getCode(); ?> - <?php echo $this->title; ?></title>
 <?php if ($this->error->getCode() >= 400 && $this->error->getCode() < 500) { 	?>
 
-
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/position.css" type="text/css" media="screen,projection" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/layout.css" type="text/css" media="screen,projection" />
@@ -81,7 +80,6 @@ $this->direction = $doc->direction;
 			<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
 		<![endif]-->
 
-
 <style type="text/css">
 			<!--
 			#errorboxbody
@@ -102,7 +100,6 @@ $this->direction = $doc->direction;
 
 <body>
 
-
 	<div id="all">
 		<div id="back">
 
@@ -116,15 +113,15 @@ $this->direction = $doc->direction;
 
 						 <h1 id="logo">
 
-                                        <?php if ($logo) : ?>
-                                        <img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($params->get('sitetitle'));?>" />
-                                        <?php endif;?>
-                                        <?php if (!$logo ) : ?>
-                                        <?php echo htmlspecialchars($params->get('sitetitle'));?>
-                                        <?php endif; ?>
-                                        <span class="header1">
-                                        <?php echo htmlspecialchars($params->get('sitedescription'));?>
-                                        </span></h1>
+										<?php if ($logo) : ?>
+										<img src="<?php echo $this->baseurl ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($params->get('sitetitle'));?>" />
+										<?php endif;?>
+										<?php if (!$logo ) : ?>
+										<?php echo htmlspecialchars($params->get('sitetitle'));?>
+										<?php endif; ?>
+										<span class="header1">
+										<?php echo htmlspecialchars($params->get('sitedescription'));?>
+										</span></h1>
 					</div><!-- end logoheader -->
 
 						<ul class="skiplinks">
@@ -134,12 +131,9 @@ $this->direction = $doc->direction;
 						</ul>
 						<div id="line"></div>
 
-
-
 				</div><!-- end header -->
 
 		<div id="contentarea2" >
-
 
 							<div class="left1" id="nav">
 
@@ -170,14 +164,12 @@ $this->direction = $doc->direction;
 
 						<h2>#<?php echo $this->error->getCode(); ?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
 
-
 			</div><!-- end wrapper -->
 		</div><!-- end contentarea -->
 
 						<?php if ($this->debug) :
 							echo $this->renderBacktrace();
 						endif; ?>
-
 
 			</div>  <!--end all -->
 
@@ -187,22 +179,20 @@ $this->direction = $doc->direction;
 
 			<div id="footer-sub">
 
+								<div id="footer">
+										<p>
+												<?php echo JText::_('TPL_BEEZ3_POWERED_BY');?> <a href="http://www.joomla.org/">Joomla!&#174;</a>
+										</p>
 
-                                <div id="footer">
-                                        <p>
-                                                <?php echo JText::_('TPL_BEEZ3_POWERED_BY');?> <a href="http://www.joomla.org/">Joomla!&#174;</a>
-                                        </p>
+								</div><!-- end footer -->
+						 </div><!-- end footer-sub -->
 
-                                </div><!-- end footer -->
-                         </div><!-- end footer-sub -->
-
-                       </div>
-
-
+					   </div>
 
 </body>
 </html>
-<?php } else { ?>
+<?php }
+ else { ?>
 <?php
 if (!isset($this->error))
 {
@@ -251,5 +241,4 @@ if (!isset($this->error))
 </body>
 </html>
 
-
-<?php } ?>
+<?php }

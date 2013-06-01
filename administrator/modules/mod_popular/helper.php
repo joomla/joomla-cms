@@ -44,7 +44,8 @@ abstract class ModPopularHelper
 
 		// Set Category Filter
 		$categoryId = $params->get('catid');
-		if (is_numeric($categoryId)){
+		if (is_numeric($categoryId))
+		{
 			$model->setState('filter.category_id', $categoryId);
 		}
 
@@ -77,9 +78,11 @@ abstract class ModPopularHelper
 		// Set the links
 		foreach ($items as &$item)
 		{
-			if ($user->authorise('core.edit', 'com_content.article.'.$item->id)){
+			if ($user->authorise('core.edit', 'com_content.article.'.$item->id))
+			{
 				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);
-			} else {
+			}
+			else {
 				$item->link = '';
 			}
 		}
@@ -104,7 +107,8 @@ abstract class ModPopularHelper
 			{
 				$title = $category->title;
 			}
-			else {
+			else
+			{
 				$title = JText::_('MOD_POPULAR_UNEXISTING');
 			}
 		}

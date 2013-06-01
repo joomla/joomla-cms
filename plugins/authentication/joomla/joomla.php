@@ -65,12 +65,14 @@ class PlgAuthenticationJoomla extends JPlugin
 				{
 					$response->language = $user->getParam('admin_language');
 				}
-				else {
+				else
+				{
 					$response->language = $user->getParam('language');
 				}
 				$response->status = JAuthentication::STATUS_SUCCESS;
 				$response->error_message = '';
-			} else {
+			}
+			else {
 				$response->status = JAuthentication::STATUS_FAILURE;
 				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 			}

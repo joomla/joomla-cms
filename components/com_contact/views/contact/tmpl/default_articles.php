@@ -22,4 +22,4 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 		<?php endforeach; ?>
 	</ul>
 </div>
-<?php endif; ?>
+<?php endif;

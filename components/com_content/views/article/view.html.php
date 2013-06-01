@@ -88,7 +88,8 @@ class ContentViewArticle extends JViewLegacy
 					$this->setLayout($active->query['layout']);
 				}
 			}
-			else {
+			else
+			{
 				// Current view is not a single article, so the article params take priority here
 				// Merge the menu item params with the article params so that the article params take priority
 				$temp->merge($item->params);
@@ -118,8 +119,8 @@ class ContentViewArticle extends JViewLegacy
 		$offset = $this->state->get('list.offset');
 
 		// Check the view access to the article (the model has already computed the values).
-		if ($item->params->get('access-view') != true && (($item->params->get('show_noauth') != true &&  $user->get('guest') ))) {
-
+		if ($item->params->get('access-view') != true && (($item->params->get('show_noauth') != true &&  $user->get('guest') )))
+		{
 						JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 
 				return;
@@ -133,7 +134,8 @@ class ContentViewArticle extends JViewLegacy
 		{
 			$item->text = $item->fulltext;
 		}
-		else  {
+		else
+		{
 			$item->text = $item->introtext;
 		}
 		$item->tags = new JHelperTags;

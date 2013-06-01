@@ -15,14 +15,14 @@ JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
-	{
+ function(task){
 		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
 		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
 	window.addEvent('domready', function()
-	{
+ function(){
 		document.id('jform_type0').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'block');
 			document.id('url').setStyle('display', 'block');

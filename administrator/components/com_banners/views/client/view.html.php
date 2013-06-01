@@ -68,8 +68,8 @@ class BannersViewClient extends JViewLegacy
 			JToolbarHelper::apply('client.apply');
 			JToolbarHelper::save('client.save');
 		}
-		if (!$checkedOut && $canDo->get('core.create')) {
-
+		if (!$checkedOut && $canDo->get('core.create'))
+		{
 			JToolbarHelper::save2new('client.save2new');
 		}
 		// If an existing item, can save to a copy.

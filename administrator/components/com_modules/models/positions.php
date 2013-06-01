@@ -184,16 +184,19 @@ class ModulesModelPositions extends JModelList
 				{
 					ksort($positions);
 				}
-				else {
+				else
+				{
 					krsort($positions);
 				}
 			}
-			else {
+			else
+			{
 				if ($direction == 'asc')
 				{
 					asort($positions);
 				}
-				else {
+				else
+				{
 					arsort($positions);
 				}
 			}

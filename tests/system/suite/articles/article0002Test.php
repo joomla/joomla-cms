@@ -10,7 +10,7 @@ require_once 'SeleniumJoomlaTestCase.php';
 
 class Article0002 extends SeleniumJoomlaTestCase
 {
-	function testEditArticle()
+	public function testEditArticle()
 	{
 //		Use no editor until tinymce issue fixes
 		$this->gotoAdmin();
@@ -30,18 +30,21 @@ class Article0002 extends SeleniumJoomlaTestCase
 // 	    $this->setTinyText($testText);
 	    $this->type("id=jform_articletext", "<p>$testText</p>");
 
-
 	    $this->jPrint ("Save article\n");
 	    $this->click("//button[@type='button']");
 	    $this->waitForPageToLoad("30000");
-		try {
+		try
+		{
 	        $this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
+	    }
+	    catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
-	    try {
+	    try
+	    {
 	        $this->assertTrue($this->isTextPresent($testText));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
+	    }
+	    catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 
@@ -64,19 +67,22 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    $this->click("//button[@type='button']");
 	    $this->waitForPageToLoad("30000");
 	    $this->jPrint ("Check for success message\n");
-	    try {
+	    try
+	    {
 	    	$this->assertTrue($this->isElementPresent("//div[@id='system-message-container']//p[contains(text(), 'success')]"));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
+	    }
+	    catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
-		try {
+		try
+		{
 	        $this->assertFalse($this->isTextPresent($testText));
-	    } catch (PHPUnit_Framework_AssertionFailedError $e) {
+	    }
+	    catch (PHPUnit_Framework_AssertionFailedError $e) {
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 	    $this->jPrint ("Check that new text shows on page\n");
 	    $this->assertTrue($this->isElementPresent("//div[contains(@class, 'items-leading')]/div[contains(@class, 'leading-0')]//p[contains(text(), 'Congratulations!')]"));
-
 
 	    $this->doFrontEndLogout();
 	    $this->gotoAdmin();
@@ -88,7 +94,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testEditArticleModals()
+	public function testEditArticleModals()
 	{
 		$this->gotoSite();
 		$this->doFrontEndLogin();
@@ -132,4 +138,3 @@ class Article0002 extends SeleniumJoomlaTestCase
 	}
 
 }
-

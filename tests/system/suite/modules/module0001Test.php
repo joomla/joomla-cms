@@ -13,7 +13,7 @@ require_once 'SeleniumJoomlaTestCase.php';
  */
 class Module0001 extends SeleniumJoomlaTestCase
 {
-	function testUnpublishModule()
+	public function testUnpublishModule()
 	{
 		$this->setUp();
 		$this->jPrint ("testUnpublishModule"."\n");
@@ -30,8 +30,8 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Login Form");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-    	$this->click("cb0");
-    	$this->click("//div[@id='toolbar-unpublish']/button");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-unpublish']/button");
 		$this->waitForPageToLoad("30000");
 
 		$this->jPrint("Go back to front end and check that login is not shown"."\n");
@@ -46,15 +46,15 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Login Form");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-    	$this->click("cb0");
-    	$this->click("//div[@id='toolbar-publish']/button");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-publish']/button");
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 
 		$this->deleteAllVisibleCookies();
 	}
 
-	function testPublishModule()
+	public function testPublishModule()
 	{
 		$this->setUp();
 		$this->jPrint("testPublishModule"."\n");
@@ -67,8 +67,8 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->type("filter_search", "Login Form");
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
-    	$this->click("cb0");
-    	$this->click("//div[@id='toolbar-unpublish']/button");
+		$this->click("cb0");
+		$this->click("//div[@id='toolbar-unpublish']/button");
 		$this->waitForPageToLoad("30000");
 
 		$this->gotoSite();
@@ -84,7 +84,7 @@ class Module0001 extends SeleniumJoomlaTestCase
 		$this->click("//button[@type='submit']");
 		$this->waitForPageToLoad("30000");
 		$this->click("cb0");
-    	$this->click("//div[@id='toolbar-publish']/button");
+		$this->click("//div[@id='toolbar-publish']/button");
 		$this->waitForPageToLoad("30000");
 
 		$this->jPrint("Go to front end and check that login form is present"."\n");
@@ -98,4 +98,3 @@ class Module0001 extends SeleniumJoomlaTestCase
 	}
 
 }
-

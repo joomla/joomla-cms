@@ -243,16 +243,19 @@ class UsersModelGroup extends JModelAdmin
 					{
 						$this->setError($table->getError());
 						return false;
-					} else {
+					}
+					else {
 						// Trigger the onUserAfterDeleteGroup event.
 						$dispatcher->trigger('onUserAfterDeleteGroup', array($table->getProperties(), true, $this->getError()));
 					}
-				} else {
+				}
+				else {
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 				}
-			} else {
+			}
+			else {
 				$this->setError($table->getError());
 				return false;
 			}

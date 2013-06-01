@@ -49,7 +49,8 @@ class ModRandomImageHelper
 			if ($newheight < $height)
 			{
 				$height = $newheight;
-			} else {
+			}
+			else {
 				$width = $height * $coeff;
 			}
 		}
