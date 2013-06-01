@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -307,7 +307,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	/**
 	 * Gets the current date and time.
 	 *
-	 * @return  string  Return string used in query to obtain 
+	 * @return  string  Return string used in query to obtain
 	 *
 	 * @since   11.3
 	 */
@@ -318,12 +318,12 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 	/**
 	 * Sets the FOR UPDATE lock on select's output row
-	 * 
+	 *
 	 * @param   string   $table_name  The table to lock
 	 * @param   boolean  $glue        The glue by which to join the conditions. Defaults to ',' .
-	 * 
+	 *
 	 * @return  JDatabaseQuery  FOR UPDATE query element
-	 * 
+	 *
 	 * @since   11.3
 	 */
 	public function forUpdate ($table_name, $glue = ',')
@@ -345,12 +345,12 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 	/**
 	 * Sets the FOR SHARE lock on select's output row
-	 * 
+	 *
 	 * @param   string   $table_name  The table to lock
 	 * @param   boolean  $glue        The glue by which to join the conditions. Defaults to ',' .
-	 * 
+	 *
 	 * @return  JDatabaseQuery  FOR SHARE query element
-	 * 
+	 *
 	 * @since   11.3
 	 */
 	public function forShare ($table_name, $glue = ',')
@@ -375,7 +375,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * Usage:
 	 * $query->select($query->year($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing year to be extracted.
 	 *
 	 * @return  string  Returns string to extract year from a date.
@@ -392,7 +392,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * Usage:
 	 * $query->select($query->month($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing month to be extracted.
 	 *
 	 * @return  string  Returns string to extract month from a date.
@@ -409,7 +409,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * Usage:
 	 * $query->select($query->day($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing day to be extracted.
 	 *
 	 * @return  string  Returns string to extract day from a date.
@@ -426,7 +426,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * Usage:
 	 * $query->select($query->hour($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing hour to be extracted.
 	 *
 	 * @return  string  Returns string to extract hour from a date.
@@ -443,7 +443,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * Usage:
 	 * $query->select($query->minute($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing minute to be extracted.
 	 *
 	 * @return  string  Returns string to extract minute from a date.
@@ -460,7 +460,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * Usage:
 	 * $query->select($query->second($query->quoteName('dateColumn')));
-	 * 
+	 *
 	 * @param   string  $date  Date column containing second to be extracted.
 	 *
 	 * @return  string  Returns string to extract second from a date.
@@ -474,9 +474,9 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 	/**
 	 * Sets the NOWAIT lock on select's output row
-	 * 
+	 *
 	 * @return  JDatabaseQuery  NO WAIT query element
-	 * 
+	 *
 	 * @since   11.3
 	 */
 	public function noWait ()
@@ -493,7 +493,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 	/**
 	 * Set the LIMIT clause to the query
-	 * 
+	 *
 	 * @param   int  $limit  An int of how many row will be returned
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
@@ -512,7 +512,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 	/**
 	 * Set the OFFSET clause to the query
-	 * 
+	 *
 	 * @param   int  $offset  An int for skipping row
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
@@ -596,5 +596,33 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 		}
 
 		return $query;
+	}
+
+	/**
+	 * Add to the current date and time in Postgresql.
+	 * Usage:
+	 * $query->select($query->dateAdd());
+	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
+	 *
+	 * @param   datetime  $date      The date to add to
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
+	 *
+	 * @return  string  The string with the appropriate sql for addition of dates
+	 *
+	 * @since   13.1
+	 * @note Not all drivers support all units. Check appropriate references
+	 * @link http://www.postgresql.org/docs/9.0/static/functions-datetime.html.
+	 */
+	public function dateAdd($date, $interval, $datePart)
+	{
+		if (substr($interval, 0, 1) != '-')
+		{
+			return "timestamp '" . $date . "' + interval '" . $interval . " " . $datePart . "'";
+		}
+		else
+		{
+			return "timestamp '" . $date . "' - interval '" . ltrim($interval, '-') . " " . $datePart . "'";
+		}
 	}
 }

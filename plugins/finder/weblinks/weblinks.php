@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Weblinks
  * @since       2.5
  */
-class plgFinderWeblinks extends FinderIndexerAdapter
+class PlgFinderWeblinks extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -62,18 +62,12 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	protected $table = '#__weblinks';
 
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   2.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Method to update the item link information when the item category is
@@ -252,6 +246,8 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 			return;
 		}
 
+		$item->setLanguage();
+
 		// Initialize the item parameters.
 		$registry = new JRegistry;
 		$registry->loadString($item->params);
@@ -315,47 +311,47 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $sql  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A JDatabaseQuery object or null.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
-	protected function getListQuery($sql = null)
+	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
-		$sql->select('a.id, a.catid, a.title, a.alias, a.url AS link, a.description AS summary');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.ordering');
-		$sql->select('a.created_by_alias, a.modified, a.modified_by');
-		$sql->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date');
-		$sql->select('a.state AS state, a.ordering, a.access, a.created AS start_date, a.params');
-		$sql->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.catid, a.title, a.alias, a.url AS link, a.description AS summary')
+			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.ordering')
+			->select('a.created_by_alias, a.modified, a.modified_by')
+			->select('a.publish_up AS publish_start_date, a.publish_down AS publish_end_date')
+			->select('a.state AS state, a.created AS start_date, a.params')
+			->select('c.title AS category, c.published AS cat_state, c.access AS cat_access');
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
+		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $sql->castAsChar('a.id');
-		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
+		$a_id = $query->castAsChar('a.id');
+		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id.' END as slug';
-		$sql->select($case_when_item_alias);
+		$query->select($case_when_item_alias);
 
 		$case_when_category_alias = ' CASE WHEN ';
-		$case_when_category_alias .= $sql->charLength('c.alias', '!=', '0');
+		$case_when_category_alias .= $query->charLength('c.alias', '!=', '0');
 		$case_when_category_alias .= ' THEN ';
-		$c_id = $sql->castAsChar('c.id');
-		$case_when_category_alias .= $sql->concatenate(array($c_id, 'c.alias'), ':');
+		$c_id = $query->castAsChar('c.id');
+		$case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when_category_alias .= ' ELSE ';
 		$case_when_category_alias .= $c_id.' END as catslug';
-		$sql->select($case_when_category_alias);
+		$query->select($case_when_category_alias)
 
-		$sql->from('#__weblinks AS a');
-		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
+			->from('#__weblinks AS a')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -370,9 +366,9 @@ class plgFinderWeblinks extends FinderIndexerAdapter
 	protected function getUpdateQueryByTime($time)
 	{
 		// Build an SQL query based on the modified time.
-		$sql = $this->db->getQuery(true);
-		$sql->where('a.date >= ' . $this->db->quote($time));
+		$query = $this->db->getQuery(true)
+			->where('a.date >= ' . $this->db->quote($time));
 
-		return $sql;
+		return $query;
 	}
 }

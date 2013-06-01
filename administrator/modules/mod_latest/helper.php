@@ -3,28 +3,29 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_content/models', 'ContentModel');
+JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_content/models', 'ContentModel');
 
 /**
  * Helper for mod_latest
  *
  * @package     Joomla.Administrator
  * @subpackage  mod_latest
+ * @since       1.5
  */
-abstract class modLatestHelper
+abstract class ModLatestHelper
 {
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param	JObject		The module parameters.
+	 * @param   JRegistry  $params  The module parameters.
 	 *
-	 * @return	mixed		An array of articles, or false on error.
+	 * @return  mixed  An array of articles, or false on error.
 	 */
 	public static function getList($params)
 	{
@@ -35,10 +36,11 @@ abstract class modLatestHelper
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-				' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state');
+			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state');
 
 		// Set Ordering filter
-		switch ($params->get('ordering')) {
+		switch ($params->get('ordering'))
+		{
 			case 'm_dsc':
 				$model->setState('list.ordering', 'modified DESC, created');
 				$model->setState('list.direction', 'DESC');
@@ -53,13 +55,17 @@ abstract class modLatestHelper
 
 		// Set Category Filter
 		$categoryId = $params->get('catid');
-		if (is_numeric($categoryId)){
+
+		if (is_numeric($categoryId))
+		{
 			$model->setState('filter.category_id', $categoryId);
 		}
 
 		// Set User Filter.
 		$userId = $user->get('id');
-		switch ($params->get('user_id')) {
+
+		switch ($params->get('user_id'))
+		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
 				break;
@@ -76,16 +82,22 @@ abstract class modLatestHelper
 
 		$items = $model->getItems();
 
-		if ($error = $model->getError()) {
+		if ($error = $model->getError())
+		{
 			JError::raiseError(500, $error);
+
 			return false;
 		}
 
 		// Set the links
-		foreach ($items as &$item) {
-			if ($user->authorise('core.edit', 'com_content.article.'.$item->id)){
-				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id='.$item->id);
-			} else {
+		foreach ($items as &$item)
+		{
+			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
+			{
+				$item->link = JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
+			}
+			else
+			{
 				$item->link = '';
 			}
 		}
@@ -94,23 +106,28 @@ abstract class modLatestHelper
 	}
 
 	/**
-	 * Get the alternate title for the module
+	 * Get the alternate title for the module.
 	 *
-	 * @param	JObject	The module parameters.
-	 * @return	string	The alternate title for the module.
+	 * @param   JRegistry  $params  The module parameters.
+	 *
+	 * @return  string  The alternate title for the module.
 	 */
 	public static function getTitle($params)
 	{
-		$who = $params->get('user_id');
+		$who   = $params->get('user_id');
 		$catid = (int) $params->get('catid');
-		$type = $params->get('ordering') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
+		$type  = $params->get('ordering') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
+
 		if ($catid)
 		{
 			$category = JCategories::getInstance('Content')->get($catid);
-			if ($category) {
+
+			if ($category)
+			{
 				$title = $category->title;
 			}
-			else {
+			else
+			{
 				$title = JText::_('MOD_POPULAR_UNEXISTING');
 			}
 		}
@@ -118,6 +135,7 @@ abstract class modLatestHelper
 		{
 			$title = '';
 		}
-		return JText::plural('MOD_LATEST_TITLE' . $type. ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+
+		return JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? "_CATEGORY" : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
 	}
 }

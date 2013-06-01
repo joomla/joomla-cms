@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,7 +122,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<td><?php echo $item->detailsurl ?>
 						<?php if (isset($item->infourl)) : ?>
 							<br />
-							<a href="<?php echo $item->infourl; ?>">
+							<a href="<?php echo $item->infourl; ?>" target="_blank">
 							<?php echo $this->escape($item->infourl); ?>
 							</a>
 						<?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,13 +29,14 @@ class ContactViewContact extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialiase variables.
+		// Initialise variables.
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -47,7 +48,7 @@ class ContactViewContact extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -63,9 +64,11 @@ class ContactViewContact extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
 
 		// Build the actions for new and existing records.
-		if ($isNew)  {
+		if ($isNew)
+		{
 			// For new records, check the create permission.
-			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)) {
+			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
+			{
 				JToolbarHelper::apply('contact.apply');
 				JToolbarHelper::save('contact.save');
 				JToolbarHelper::save2new('contact.save2new');
@@ -73,23 +76,28 @@ class ContactViewContact extends JViewLegacy
 
 			JToolbarHelper::cancel('contact.cancel');
 		}
-		else {
+		else
+		{
 			// Can't save the record if it's checked out.
-			if (!$checkedOut) {
+			if (!$checkedOut)
+			{
 				// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-				if ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId)) {
+				if ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId))
+				{
 					JToolbarHelper::apply('contact.apply');
 					JToolbarHelper::save('contact.save');
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.
-					if ($canDo->get('core.create')) {
+					if ($canDo->get('core.create'))
+					{
 						JToolbarHelper::save2new('contact.save2new');
 					}
 				}
 			}
 
 			// If checked out, we can still save
-			if ($canDo->get('core.create')) {
+			if ($canDo->get('core.create'))
+			{
 				JToolbarHelper::save2copy('contact.save2copy');
 			}
 

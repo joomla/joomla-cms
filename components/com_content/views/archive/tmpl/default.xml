@@ -58,15 +58,16 @@
 				<option value="0">JALL</option>
 			</field>
 
-			<field name="filter_field" type="list"
-				default="hide"
+			<field
+				name="filter_field"
+				type="list"
+				default=""
 				description="JGLOBAL_FILTER_FIELD_DESC"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
-				<option value="title">JGLOBAL_TITLE</option>
-				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="introtext_limit" type="text" default="100"
@@ -92,7 +93,7 @@
 			<field
 				name="info_block_position"
 				type="list"
-				default="0"
+				default=""
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>

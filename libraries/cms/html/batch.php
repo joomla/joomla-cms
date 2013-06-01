@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -88,7 +88,7 @@ abstract class JHtmlBatch
 			'<select name="batch[language_id]" class="inputbox" id="batch-language-id">',
 			'<option value="">' . JText::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE') . '</option>',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text'),
-			'</select>'
+			'</select>',
 		);
 
 		return implode("\n", $lines);
@@ -121,6 +121,30 @@ abstract class JHtmlBatch
 			'<option value="">' . JText::_('JLIB_HTML_BATCH_USER_NOCHANGE') . '</option>',
 			$optionNo,
 			JHtml::_('select.options', JHtml::_('user.userlist'), 'value', 'text'),
+			'</select>'
+		);
+
+		return implode("\n", $lines);
+	}
+
+	/**
+	 * Display a batch widget for the tag selector.
+	 *
+	 * @return  string  The necessary HTML for the widget.
+	 *
+	 * @since   3.1
+	 */
+	public static function tag()
+	{
+		// Create the batch selector to tag items on a selection list.
+		$lines = array(
+			'<label id="batch-tag-lbl" for="batch-tag-id" class="hasTip"'
+			. ' title="' . JText::_('JLIB_HTML_BATCH_TAG_LABEL') . '::' . JText::_('JLIB_HTML_BATCH_TAG_LABEL_DESC') . '">',
+			JText::_('JLIB_HTML_BATCH_TAG_LABEL'),
+			'</label>',
+			'<select name="batch[tag]" class="inputbox" id="batch-tag-id">',
+			'<option value="">' . JText::_('JLIB_HTML_BATCH_TAG_NOCHANGE') . '</option>',
+			JHtml::_('select.options', JHtml::_('tag.tags', array('filter.published' => array(1))), 'value', 'text'),
 			'</select>'
 		);
 

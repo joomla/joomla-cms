@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $clientId       = $this->item->client_id;
-$state          = $this->state->get('filter.state');
+$state          = 1;
 $templates      = array_keys(ModulesHelper::getTemplates($clientId, $state));
 $templateGroups = array();
 
@@ -28,7 +28,7 @@ foreach ($templates as $template)
 	$options = array();
 
 	$positions = TemplatesHelper::getPositions($clientId, $template);
-	foreach ($positions as $position)
+	if (is_array($positions)) foreach ($positions as $position)
 	{
 		$text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
 		$options[] = ModulesHelper::createOption($position, $text);
@@ -44,11 +44,10 @@ foreach ($templates as $template)
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
-if (!empty($this->item->position) && !$isTemplatePosition)
-{
-	$option = ModulesHelper::createOption($this->item->position);
-	$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, array($option));
-}
+
+$editPositions = true;
+$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
+$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 
 // Build field
 $attr = array(

@@ -3,15 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 foreach ($this->fieldsets as $name => $fieldset) :
-	echo '<div class="tab-pane" id="options-'.$name.'">';
-	$label = !empty($fieldset->label) ? $fieldset->label : 'COM_PLUGINS_'.$name.'_FIELDSET_LABEL';
+	$label = !empty($fieldset->label) ? JText::_($fieldset->label, true) : JText::_('COM_PLUGINS_'.$fieldset->name.'_FIELDSET_LABEL', true);
+	$optionsname = 'options-' . $fieldset->name;
+	echo JHtml::_('bootstrap.addTab', 'myTab', $optionsname,  $label);
 	if (isset($fieldset->description) && trim($fieldset->description)) :
 		echo '<p class="tip">'.$this->escape(JText::_($fieldset->description)).'</p>';
 	endif;
@@ -32,5 +33,6 @@ foreach ($this->fieldsets as $name => $fieldset) :
 	<?php endforeach; ?>
 	<?php echo $hidden_fields; ?>
 
-	<?php echo '</div>'; // .tab-pane div ?>
+<?php echo JHtml::_('bootstrap.endTab'); ?>
+
 <?php endforeach; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class BannersTableBanner extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function __construct(&$_db)
 	{
@@ -43,9 +43,9 @@ class BannersTableBanner extends JTable
 	/**
 	 * Overloaded check function
 	 *
-	 * @return	boolean
-	 * @see		JTable::check
-	 * @since	1.5
+	 * @return  boolean
+	 * @see     JTable::check
+	 * @since   1.5
 	 */
 	public function check()
 	{
@@ -54,23 +54,27 @@ class BannersTableBanner extends JTable
 
 		// Set alias
 		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (empty($this->alias)) {
+		if (empty($this->alias))
+		{
 			$this->alias = JApplication::stringURLSafe($this->name);
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up) {
+		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
+		{
 			$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 			return false;
 		}
 
 		// Set ordering
-		if ($this->state < 0) {
+		if ($this->state < 0)
+		{
 			// Set ordering to 0 if state is archived or trashed
 			$this->ordering = 0;
-		} elseif (empty($this->ordering)) {
+		} elseif (empty($this->ordering))
+		{
 			// Set ordering to last if ordering was 0
-			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->Quote($this->catid).' AND state>=0');
+			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->quote($this->catid).' AND state>=0');
 		}
 
 		return true;
@@ -79,23 +83,24 @@ class BannersTableBanner extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param	array		$hash named array
-	 * @return	null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   array  $hash named array
+	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
 	 * @see JTable:bind
 	 * @since 1.5
 	 */
 	public function bind($array, $ignore = array())
 	{
-		if (isset($array['params']) && is_array($array['params'])) {
+		if (isset($array['params']) && is_array($array['params']))
+		{
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 
-			if((int) $registry->get('width', 0) < 0){
+			if ((int) $registry->get('width', 0) < 0){
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 				return false;
 			}
 
-			if((int) $registry->get('height', 0) < 0){
+			if ((int) $registry->get('height', 0) < 0){
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 				return false;
 			}
@@ -111,14 +116,15 @@ class BannersTableBanner extends JTable
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['imptotal'])) {
+		if (isset($array['imptotal']))
+		{
 			$array['imptotal'] = abs((int) $array['imptotal']);
 		}
 
 		return parent::bind($array, $ignore);
 	}
 	/**
-	 * method to store a row
+	 * Method to store a row
 	 *
 	 * @param boolean $updateNulls True to update fields even if they are null.
 	 */
@@ -146,19 +152,19 @@ class BannersTableBanner extends JTable
 					break;
 				case 2:
 					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
-					$reset = $this->_db->Quote($date->toSql());
+					$reset = $this->_db->quote($date->toSql());
 					break;
 				case 3:
 					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
-					$reset = $this->_db->Quote($date->toSql());
+					$reset = $this->_db->quote($date->toSql());
 					break;
 				case 4:
 					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
-					$reset = $this->_db->Quote($date->toSql());
+					$reset = $this->_db->quote($date->toSql());
 					break;
 				case 5:
 					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
-					$reset = $this->_db->Quote($date->toSql());
+					$reset = $this->_db->quote($date->toSql());
 					break;
 			}
 			// Store the row
@@ -188,7 +194,7 @@ class BannersTableBanner extends JTable
 			if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
 			{
 				// Reorder the oldrow
-				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->Quote($oldrow->catid).' AND state>=0');
+				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->quote($oldrow->catid).' AND state>=0');
 			}
 		}
 		return count($this->getErrors()) == 0;
@@ -199,12 +205,12 @@ class BannersTableBanner extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * @param   mixed	An optional array of primary key values to update.  If not
 	 *					set the instance property value is used.
-	 * @param	integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
-	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
+	 * @param   integer The user id of the user performing the operation.
+	 * @return  boolean  True on success.
+	 * @since   1.6
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
@@ -218,7 +224,8 @@ class BannersTableBanner extends JTable
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
 		{
-			if ($this->$k) {
+			if ($this->$k)
+			{
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
@@ -235,7 +242,7 @@ class BannersTableBanner extends JTable
 		foreach ($pks as $pk)
 		{
 			// Load the banner
-			if(!$table->load($pk))
+			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
 			}
@@ -266,12 +273,12 @@ class BannersTableBanner extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param	mixed	An optional array of primary key values to update.  If not
+	 * @param   mixed	An optional array of primary key values to update.  If not
 	 *					set the instance property value is used.
-	 * @param	integer The sticky state. eg. [0 = unsticked, 1 = sticked]
-	 * @param	integer The user id of the user performing the operation.
-	 * @return	boolean	True on success.
-	 * @since	1.6
+	 * @param   integer The sticky state. eg. [0 = unsticked, 1 = sticked]
+	 * @param   integer The user id of the user performing the operation.
+	 * @return  boolean  True on success.
+	 * @since   1.6
 	 */
 	public function stick($pks = null, $state = 1, $userId = 0)
 	{
@@ -285,7 +292,8 @@ class BannersTableBanner extends JTable
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
 		{
-			if ($this->$k) {
+			if ($this->$k)
+			{
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
@@ -302,7 +310,7 @@ class BannersTableBanner extends JTable
 		foreach ($pks as $pk)
 		{
 			// Load the banner
-			if(!$table->load($pk))
+			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
 			}

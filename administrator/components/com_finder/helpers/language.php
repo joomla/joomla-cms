@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -79,13 +79,12 @@ class FinderHelperLanguage
 
 		// Get array of all the enabled Smart Search plug-in names.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select('name');
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'));
-		$query->where($db->quoteName('folder') . ' = ' .  $db->quote('finder'));
-		$query->where($db->quoteName('enabled') . ' = 1');
+		$query = $db->getQuery(true)
+			->select('name')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' .  $db->quote('finder'))
+			->where($db->quoteName('enabled') . ' = 1');
 		$db->setQuery($query);
 		$plugins = $db->loadObjectList();
 

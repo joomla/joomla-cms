@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,8 @@ class TemplatesViewStyle extends JViewLegacy
 		$this->form		= $this->get('Form');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -46,7 +47,7 @@ class TemplatesViewStyle extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -62,19 +63,24 @@ class TemplatesViewStyle extends JViewLegacy
 		);
 
 		// If not checked out, can save the item.
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::apply('style.apply');
 			JToolbarHelper::save('style.save');
 		}
 
 		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
+		if (!$isNew && $canDo->get('core.create'))
+		{
 			JToolbarHelper::save2copy('style.save2copy');
 		}
 
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('style.cancel');
-		} else {
+		}
+		else
+		{
 			JToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolbarHelper::divider();
@@ -83,12 +89,14 @@ class TemplatesViewStyle extends JViewLegacy
 		$lang = JFactory::getLanguage();
 
 		$help = $this->get('Help');
-		if ($lang->hasKey($help->url)) {
+		if ($lang->hasKey($help->url))
+		{
 			$debug = $lang->setDebug(false);
 			$url = JText::_($help->url);
 			$lang->setDebug($debug);
 		}
-		else {
+		else
+		{
 			$url = null;
 		}
 		JToolbarHelper::help($help->key, false, $url);

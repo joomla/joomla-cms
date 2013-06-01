@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile
-	version="3.0"
-	client="installation">
+<metafile version="3.1" client="installation">
 	<name>Hungarian (Magyar)</name>
-	<version>3.0</version>
-	<creationDate>September 2012</creationDate>
+	<version>3.1.0</version>
+	<creationDate>April 2013</creationDate>
 	<author>Hungarian Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-	<description></description>
+	<description/>
 	<files>
 		<filename>hu-HU.ini</filename>
 	</files>
@@ -17,5 +17,5 @@
 		<tag>hu-HU</tag>
 		<rtl>0</rtl>
 	</metadata>
-	<params />
+	<params/>
 </metafile>

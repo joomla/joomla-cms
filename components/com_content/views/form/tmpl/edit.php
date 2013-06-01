@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -30,7 +31,8 @@ if (!$editoroptions)
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task);
 		}
@@ -49,19 +51,19 @@ if (!$editoroptions)
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
-					<i class="icon-ok"></i> <?php echo JText::_('JSAVE') ?>
+					<span class="icon-ok"></span>&#160;<?php echo JText::_('JSAVE') ?>
 				</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
-					<i class="icon-cancel"></i> <?php echo JText::_('JCANCEL') ?>
+					<span class="icon-cancel"></span>&#160;<?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
 		</div>
 		<fieldset>
 			<ul class="nav nav-tabs">
 				<li class="active"><a href="#editor" data-toggle="tab"><?php echo JText::_('JEDITOR') ?></a></li>
-				<?php if ($params->get('show_urls_images_frontend') ): ?>
+				<?php if ($params->get('show_urls_images_frontend') ) : ?>
 				<li><a href="#images" data-toggle="tab"><?php echo JText::_('COM_CONTENT_IMAGES_AND_URLS') ?></a></li>
 				<?php endif; ?>
 				<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_CONTENT_PUBLISHING') ?></a></li>
@@ -80,7 +82,7 @@ if (!$editoroptions)
 						</div>
 					</div>
 
-					<?php if (is_null($this->item->id)): ?>
+					<?php if (is_null($this->item->id)) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('alias'); ?>
@@ -233,13 +235,22 @@ if (!$editoroptions)
 					</div>
 					<div class="control-group">
 						<div class="control-label">
+							<?php echo $this->form->getLabel('tags', 'metadata'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('tags', 'metadata'); ?>
+						</div>
+					</div>
+
+					<div class="control-group">
+						<div class="control-label">
 							<?php echo $this->form->getLabel('created_by_alias'); ?>
 						</div>
 						<div class="controls">
 							<?php echo $this->form->getInput('created_by_alias'); ?>
 						</div>
 					</div>
-					<?php if ($this->item->params->get('access-change')): ?>
+					<?php if ($this->item->params->get('access-change')) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('state'); ?>
@@ -321,7 +332,7 @@ if (!$editoroptions)
 
 					<input type="hidden" name="task" value="" />
 					<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
-					<?php if($this->params->get('enable_category', 0) == 1) :?>
+					<?php if ($this->params->get('enable_category', 0) == 1) :?>
 					<input type="hidden" name="jform[catid]" value="<?php echo $this->params->get('catid', 1); ?>" />
 					<?php endif; ?>
 				</div>

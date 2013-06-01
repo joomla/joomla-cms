@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,6 +33,11 @@ $extension	= $this->escape($this->state->get('filter.extension'));
 		<div class="control-group">
 			<div class="controls">
 				<?php echo JHtml::_('batch.language'); ?>
+			</div>
+		</div>
+		<div class="control-group">
+			<div class="controls">
+				<?php echo JHtml::_('batch.tag');?>
 			</div>
 		</div>
 		<?php if ($published >= 0) : ?>

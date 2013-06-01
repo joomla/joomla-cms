@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ function pagination_list_render($list)
 	$html .= $list['start']['data'];
 	$html .= $list['previous']['data'];
 
-	foreach($list['pages'] as $k => $page)
+	foreach ($list['pages'] as $k => $page)
 	{
 		if (in_array($k, range($range * $step - ($step + 1), $range * $step)))
 		{
@@ -177,7 +177,7 @@ function pagination_item_active(&$item)
 		$display = $item->text;
 	}
 
-	return "<li><a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $item->text . "</a><li>";
+	return "<li><a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $display . "</a></li>";
 }
 
 /**

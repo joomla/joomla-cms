@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class JFormFieldFilters extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public $type = 'Filters';
 
@@ -31,8 +31,8 @@ class JFormFieldFilters extends JFormField
 	 *
 	 * TODO: Add access check.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string	The field input markup.
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -65,8 +65,10 @@ class JFormFieldFilters extends JFormField
 		// The table body.
 		$html[] = '	<tbody>';
 
-		foreach ($groups as $group) {
-			if (!isset($this->value[$group->value])) {
+		foreach ($groups as $group)
+		{
+			if (!isset($this->value[$group->value]))
+			{
 				$this->value[$group->value] = array('filter_type' => 'BL', 'filter_tags' => '', 'filter_attributes' => '');
 			}
 			$group_filter = $this->value[$group->value];
@@ -110,20 +112,20 @@ class JFormFieldFilters extends JFormField
 	/**
 	 * A helper to get the list of user groups.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		// Get the user groups from the database.
-		$query = $db->getQuery(true);
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
-		$query->from('#__usergroups AS a');
-		$query->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt');
-		$query->group('a.id, a.title, a.lft');
-		$query->order('a.lft ASC');
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
+			->from('#__usergroups AS a')
+			->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt')
+			->group('a.id, a.title, a.lft')
+			->order('a.lft ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 

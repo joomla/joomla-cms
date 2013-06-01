@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,8 +25,8 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see		JController
-	 * @since	1.6
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -56,7 +56,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -86,7 +86,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  JDatabaseQuery  The database query
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -97,8 +97,10 @@ class InstallerModelUpdate extends JModelList
 		$group = $this->getState('filter.group');
 
 		// Grab updates ignoring new installs
-		$query->select('*')->from('#__updates')->where('extension_id != 0');
-		$query->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
+		$query->select('*')
+			->from('#__updates')
+			->where('extension_id != 0')
+			->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
 
 		if ($type)
 		{
@@ -116,12 +118,12 @@ class InstallerModelUpdate extends JModelList
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id'))
 		{
-			$query->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
+			$query->where($db->quoteName('extension_id') . ' = ' . $db->quote((int) $eid));
 		}
 		else
 		{
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(0));
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(700));
+			$query->where($db->quoteName('extension_id') . ' != ' . $db->quote(0))
+				->where($db->quoteName('extension_id') . ' != ' . $db->quote(700));
 		}
 
 		// Filter by search
@@ -141,10 +143,13 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  boolean Result
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0)
 	{
+		// Purge the updates list
+		$this->purge();
+
 		$updater = JUpdater::getInstance();
 		$results = $updater->findUpdates($eid, $cache_timeout);
 		return true;
@@ -153,9 +158,9 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Removes all of the updates from the table.
 	 *
-	 * @return	boolean result of operation
+	 * @return  boolean result of operation
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function purge()
 	{
@@ -167,9 +172,9 @@ class InstallerModelUpdate extends JModelList
 		if ($db->execute())
 		{
 			// Reset the last update check timestamp
-			$query = $db->getQuery(true);
-			$query->update($db->qn('#__update_sites'));
-			$query->set($db->qn('last_check_timestamp') . ' = ' . $db->q(0));
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__update_sites'))
+				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 			$db->setQuery($query);
 			$db->execute();
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
@@ -185,15 +190,17 @@ class InstallerModelUpdate extends JModelList
 	/**
 	 * Enables any disabled rows in #__update_sites table
 	 *
-	 * @return	boolean result of operation
+	 * @return  boolean result of operation
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function enableSites()
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->update('#__update_sites')->set('enabled = 1')->where('enabled = 0');
+		$query = $db->getQuery(true)
+			->update('#__update_sites')
+			->set('enabled = 1')
+			->where('enabled = 0');
 		$db->setQuery($query);
 		if ($db->execute())
 		{
@@ -219,7 +226,7 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function update($uids)
 	{
@@ -251,9 +258,9 @@ class InstallerModelUpdate extends JModelList
 	 *
 	 * @param   JUpdate  $update  An update definition
 	 *
-	 * @return  boolean	 Result of install
+	 * @return  boolean   Result of install
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	private function install($update)
 	{

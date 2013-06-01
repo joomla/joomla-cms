@@ -17,7 +17,7 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 {
 	/**
 	 *
-	 * @var groupManagerPage
+	 * @var GroupManagerPage
 	 */
 	protected $groupManagerPage = null; // Global configuration page
 

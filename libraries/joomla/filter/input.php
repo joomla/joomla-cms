@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -226,6 +226,10 @@ class JFilterInput
 
 			case 'USERNAME':
 				$result = (string) preg_replace('/[\x00-\x1F\x7F<>"\'%&]/', '', $source);
+				break;
+
+			case 'RAW':
+				$result = $source;
 				break;
 
 			default:

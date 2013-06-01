@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_login
  * @since       1.5
  */
-class modLoginHelper
+class ModLoginHelper
 {
 	public static function getReturnURL($params, $type)
 	{
@@ -26,16 +26,17 @@ class modLoginHelper
 		if ($itemid = $params->get($type))
 		{
 			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true);
-
-			$query->select($db->quoteName('link'));
-			$query->from($db->quoteName('#__menu'));
-			$query->where($db->quoteName('published') . '=1');
-			$query->where($db->quoteName('id') . '=' . $db->quote($itemid));
+			$query	= $db->getQuery(true)
+				->select($db->quoteName('link'))
+				->from($db->quoteName('#__menu'))
+				->where($db->quoteName('published') . '=1')
+				->where($db->quoteName('id') . '=' . $db->quote($itemid));
 
 			$db->setQuery($query);
-			if ($link = $db->loadResult()) {
-				if ($router->getMode() == JROUTER_MODE_SEF) {
+			if ($link = $db->loadResult())
+			{
+				if ($router->getMode() == JROUTER_MODE_SEF)
+				{
 					$url = 'index.php?Itemid='.$itemid;
 				}
 				else {
@@ -57,7 +58,8 @@ class modLoginHelper
 					$menu = $app->getMenu();
 					$item = $menu->getItem($itemid);
 					unset($vars['Itemid']);
-					if (isset($item) && $vars == $item->query) {
+					if (isset($item) && $vars == $item->query)
+					{
 						$url = 'index.php?Itemid='.$itemid;
 					}
 					else {

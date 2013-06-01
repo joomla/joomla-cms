@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Error
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,7 +31,7 @@ const JERROR_ILLEGAL_MODE = 3;
  * @package     Joomla.Legacy
  * @subpackage  Error
  * @since       11.1
- * @deprecated  12.1   Use PHP Exception
+ * @deprecated  12.1 (Platform) & 4.0 (CMS) - Use PHP Exception
  */
 abstract class JError
 {
@@ -209,8 +209,8 @@ abstract class JError
 		{
 			// This is required to prevent a very unhelpful white-screen-of-death
 			jexit(
-				'JError::raise -> Static method JError::' . $function . ' does not exist.' . ' Contact a developer to debug' .
-				'<br /><strong>Error was</strong> ' . '<br />' . $exception->getMessage()
+				'JError::raise -> Static method JError::' . $function . ' does not exist. Contact a developer to debug' .
+				'<br /><strong>Error was</strong> <br />' . $exception->getMessage()
 			);
 		}
 		// We don't need to store the error, since JException already does that for us!

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -52,7 +52,14 @@ class JDocumentRendererHead extends JDocumentRenderer
 	 */
 	public function fetchHead($document)
 	{
-		// Trigger the onBeforeCompileHead event (skip for installation, since it causes an error)
+		// Convert the tagids to titles
+		if (isset($document->_metaTags['standard']['tags']))
+		{
+			$tagsHelper = new JHelperTags;
+			$document->_metaTags['standard']['tags'] = implode(', ', $tagsHelper->getTagNames($document->_metaTags['standard']['tags']));
+		}
+
+		// Trigger the onBeforeCompileHead event
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
 

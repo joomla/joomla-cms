@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,28 +14,6 @@
 class JHtmlBatchTest extends TestCaseDatabase
 {
 	/**
-	 * @var JHtmlBatch
-	 */
-	protected $object;
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
-	}
-
-	/**
 	 * Gets the data set to be loaded into the database during setup
 	 */
 	protected function getDataSet()
@@ -44,7 +22,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers JHtmlBatch::access
+	 * Tests the access method.
 	 */
 	public function testAccess()
 	{
@@ -55,7 +33,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers JHtmlBatch::item
+	 * Tests the item method.
 	 */
 	public function testItem()
 	{
@@ -66,7 +44,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers JHtmlBatch::language
+	 * Tests the language method.
 	 */
 	public function testLanguage()
 	{
@@ -77,7 +55,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers JHtmlBatch::user
+	 * Tests the user method.
 	 */
 	public function testUser()
 	{

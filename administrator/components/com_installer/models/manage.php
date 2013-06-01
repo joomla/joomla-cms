@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -86,7 +86,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function publish(&$eid = array(), $value = 1)
 	{
@@ -151,7 +151,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @param   int  $eid  extension identifier (key in #__extensions)
 	 *
-	 * @return  boolean	result of refresh
+	 * @return  boolean  result of refresh
 	 *
 	 * @since   1.6
 	 */
@@ -179,7 +179,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @param   array  $eid  An array of identifiers
 	 *
-	 * @return  boolean	True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.5
 	 */
@@ -276,7 +276,7 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @return  JDatabaseQuery  The database query
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
@@ -284,26 +284,30 @@ class InstallerModelManage extends InstallerModel
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
-		$query = JFactory::getDBO()->getQuery(true);
-		$query->select('*');
-		$query->select('2*protected+(1-protected)*enabled as status');
-		$query->from('#__extensions');
-		$query->where('state=0');
+		$query = JFactory::getDbo()->getQuery(true)
+			->select('*')
+			->select('2*protected+(1-protected)*enabled as status')
+			->from('#__extensions')
+			->where('state=0');
 		if ($status != '')
 		{
 			if ($status == '2')
 			{
 				$query->where('protected = 1');
 			}
-			else
+			elseif ($status == '3')
 			{
 				$query->where('protected = 0');
-				$query->where('enabled=' . (int) $status);
+			}
+			else
+			{
+				$query->where('protected = 0')
+					->where('enabled=' . (int) $status);
 			}
 		}
 		if ($type)
 		{
-			$query->where('type=' . $this->_db->Quote($type));
+			$query->where('type=' . $this->_db->quote($type));
 		}
 		if ($client != '')
 		{
@@ -311,7 +315,7 @@ class InstallerModelManage extends InstallerModel
 		}
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $this->_db->Quote($group == '*' ? '' : $group));
+			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
 		}
 
 		// Filter by search in id

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -174,5 +174,26 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	public function length($value)
 	{
 		return 'LEN(' . $value . ')';
+	}
+
+	/**
+	 * Add to the current date and time.
+	 * Usage:
+	 * $query->select($query->dateAdd());
+	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
+	 *
+	 * @param   datetime  $date      The date to add to; type may be time or datetime.
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
+	 *
+	 * @return  string  The string with the appropriate sql for addition of dates
+	 *
+	 * @since   13.1
+	 * @note Not all drivers support all units.
+	 * @link http://msdn.microsoft.com/en-us/library/ms186819.aspx for more information
+	 */
+	public function dateAdd($date, $interval, $datePart)
+	{
+		return "DATEADD('" . $datePart . "', '" . $interval . "', '" . $date . "'" . ')';
 	}
 }

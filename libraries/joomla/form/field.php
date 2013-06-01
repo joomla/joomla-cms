@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -184,7 +184,7 @@ abstract class JFormField
 	/**
 	 * The string used for generated fields names
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected static $generated_fieldname = '__field';
@@ -341,7 +341,7 @@ abstract class JFormField
 			}
 			else
 			{
-				$this->element->addAttribute('class', 'required');
+				$this->element['class'] = 'required';
 			}
 		}
 
@@ -570,7 +570,20 @@ abstract class JFormField
 		// If the field should support multiple values add the final array segment.
 		if ($this->multiple)
 		{
-			$name .= '[]';
+			switch (strtolower((string) $this->element['type']))
+			{
+				case 'text':
+				case 'textarea':
+				case 'email':
+				case 'password':
+				case 'radio':
+				case 'calendar':
+				case 'editor':
+				case 'hidden':
+					break;
+				default:
+					$name .= '[]';
+			}
 		}
 
 		return $name;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Date
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -416,20 +416,20 @@ class JDate extends DateTime
 	 * Gets the date as an SQL datetime string.
 	 *
 	 * @param   boolean          $local  True to return the date string in the local time zone, false to return it in GMT.
-	 * @param   JDatabaseDriver  $dbo    The database driver or null to use JFactory::getDbo()
+	 * @param   JDatabaseDriver  $db     The database driver or null to use JFactory::getDbo()
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.4
 	 */
-	public function toSql($local = false, JDatabaseDriver $dbo = null)
+	public function toSql($local = false, JDatabaseDriver $db = null)
 	{
-		if ($dbo === null)
+		if ($db === null)
 		{
-			$dbo = JFactory::getDbo();
+			$db = JFactory::getDbo();
 		}
-		return $this->format($dbo->getDateFormat(), $local, false);
+		return $this->format($db->getDateFormat(), $local, false);
 	}
 
 	/**

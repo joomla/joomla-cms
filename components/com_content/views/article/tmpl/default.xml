@@ -61,11 +61,10 @@
 		<field
 			name="info_block_position"
 			type="list"
-			default="0"
+			default=""
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
@@ -183,6 +182,15 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
+		<field name="show_tags" type="list"
+			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
+			description="COM_CONTENT_FIELD_SHOW_TAGS_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
 		<field
 			name="show_icons"
 			type="list"
@@ -218,6 +226,16 @@
 			type="list"
 			label="JGLOBAL_SHOW_HITS_LABEL"
 			description="JGLOBAL_SHOW_HITS_DESC">
+			<option	value="">JGLOBAL_USE_GLOBAL</option>
+			<option	value="0">JHIDE</option>
+			<option	value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_tags"
+			type="list"
+			label="JGLOBAL_SHOW_TAGS_LABEL"
+			description="JGLOBAL_SHOW_TAGS_DESC">
 			<option	value="">JGLOBAL_USE_GLOBAL</option>
 			<option	value="0">JHIDE</option>
 			<option	value="1">JSHOW</option>

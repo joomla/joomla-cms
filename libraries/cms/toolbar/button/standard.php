@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -55,7 +55,7 @@ class JToolbarButtonStandard extends JToolbarButton
 			$iconWhite = "";
 		}
 
-		$html = "<button href=\"#\" onclick=\"$doTask\" class=\"" . $btnClass . "\">\n";
+		$html = "<button onclick=\"$doTask\" class=\"" . $btnClass . "\">\n";
 		$html .= "<i class=\"$class $iconWhite\">\n";
 		$html .= "</i>\n";
 		$html .= "$i18n_text\n";

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ class ContentViewFeatured extends JViewLegacy
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 
 			// Get row fulltext
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = 'SELECT' .$db->quoteName('fulltext'). 'FROM #__content WHERE id ='.$row->id;
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
@@ -62,7 +62,8 @@ class ContentViewFeatured extends JViewLegacy
 			$item_category		= $categories->get($row->catid);
 			$item->category		= array();
 			$item->category[]	= JText::_('JFEATURED'); // All featured articles are categorized as "Featured"
-			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent()) {
+			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())
+			{
 				if ($item_category->id > 1) { // Only add non-root categories
 					$item->category[] = $item_category->title;
 				}
@@ -73,7 +74,7 @@ class ContentViewFeatured extends JViewLegacy
 			{
 				$item->authorEmail = $siteEmail;
 			}
-			elseif($feedEmail === 'author')
+			elseif ($feedEmail === 'author')
 			{
 				$item->authorEmail = $row->author_email;
 			}
@@ -81,7 +82,7 @@ class ContentViewFeatured extends JViewLegacy
 			// Add readmore link to description if introtext is shown, show_readmore is true and fulltext exists
 			if (!$params->get('feed_summary', 0) && $params->get('feed_show_readmore', 0) && $row->fulltext)
 			{
-				$description .= '<p class="feed-readmore"><a target="_blank" href ="'.rtrim(JURI::base(), "/").str_replace(' ', '%20', $item->link).'">'.JText::_('COM_CONTENT_FEED_READMORE').'</a></p>';
+				$description .= '<p class="feed-readmore"><a target="_blank" href ="' . $item->link . '">' . JText::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 			}
 
 			// Load item description and add div

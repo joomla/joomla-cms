@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,10 +17,10 @@ $baseurl = JURI::base();
 	<?php echo $headerText; ?>
 <?php endif; ?>
 
-<?php foreach($list as $item):?>
+<?php foreach ($list as $item) : ?>
 	<div class="banneritem">
 		<?php $link = JRoute::_('index.php?option=com_banners&task=click&id='. $item->id);?>
-		<?php if($item->type == 1) :?>
+		<?php if ($item->type == 1) :?>
 			<?php // Text based banners ?>
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode);?>
 		<?php else:?>

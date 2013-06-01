@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,19 +37,28 @@ class ContentViewForm extends JViewLegacy
 		$this->form			= $this->get('Form');
 		$this->return_page	= $this->get('ReturnPage');
 
-		if (empty($this->item->id)) {
+		if (empty($this->item->id))
+		{
 			$authorised = $user->authorise('core.create', 'com_content') || (count($user->getAuthorisedCategories('com_content', 'core.create')));
 		}
-		else {
+		else
+		{
 			$authorised = $this->item->params->get('access-edit');
 		}
 
-		if ($authorised !== true) {
+		if ($authorised !== true)
+		{
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
 
-		if (!empty($this->item) && isset($this->item->id)) {
+		$this->item->tags = new JHelperTags;
+		if (!empty($this->item->id))
+		{
+			$this->item->tags->getItemTags('com_content.article.', $this->item->id);
+		}
+		if (!empty($this->item) && isset($this->item->id))
+		{
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 
@@ -57,11 +66,11 @@ class ContentViewForm extends JViewLegacy
 			$tmp->images = $this->item->images;
 			$tmp->urls = $this->item->urls;
 			$this->form->bind($tmp);
-
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
@@ -75,8 +84,10 @@ class ContentViewForm extends JViewLegacy
 		$this->params = $params;
 		$this->user   = $user;
 
-		if ($this->params->get('enable_category') == 1) {
+		if ($params->get('enable_category') == 1)
+		{
 			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 		$this->_prepareDocument();
 		parent::display($tpl);
@@ -98,15 +109,19 @@ class ContentViewForm extends JViewLegacy
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		} else {
+		}
+		else
+		{
 			$this->params->def('page_heading', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
 		}
 
 		$title = $this->params->def('page_title', JText::_('COM_CONTENT_FORM_EDIT_ARTICLE'));
-		if ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		if ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,22 +43,26 @@ class NewsfeedsViewCategory extends JViewLegacy
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		if ($category == false) {
+		if ($category == false)
+		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
-		if ($parent == false) {
+		if ($parent == false)
+		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		// Check whether category access level allows access.
 		$groups	= $user->getAuthorisedViewLevels();
-		if (!in_array($category->access, $groups)) {
+		if (!in_array($category->access, $groups))
+		{
 			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
@@ -98,15 +102,21 @@ class NewsfeedsViewCategory extends JViewLegacy
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
 		$active	= $app->getMenu()->getActive();
-		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false))) {
-			if ($layout = $category->params->get('category_layout')) {
+		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
+		{
+			if ($layout = $category->params->get('category_layout'))
+		{
 			$this->setLayout($layout);
 			}
 		}
-		elseif (isset($active->query['layout'])) {
+		elseif (isset($active->query['layout']))
+		{
 			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
 			$this->setLayout($active->query['layout']);
 		}
+
+		$this->category->tags = new JHelperTags;
+		$this->category->tags->getItemTags('com_newsfeeds.category', $this->category->id);
 
 		$this->_prepareDocument();
 
@@ -127,16 +137,19 @@ class NewsfeedsViewCategory extends JViewLegacy
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
-		if ($menu) {
+		if ($menu)
+		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		}
-		else {
+		else
+		{
 			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
 
 		$id = (int) @$menu->query['id'];
 
-		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id)) {
+		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id))
+		{
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
@@ -148,7 +161,7 @@ class NewsfeedsViewCategory extends JViewLegacy
 
 			$path = array_reverse($path);
 
-			foreach($path as $item)
+			foreach ($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);
 			}
@@ -156,13 +169,16 @@ class NewsfeedsViewCategory extends JViewLegacy
 
 		$title = $this->params->get('page_title', '');
 
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 
@@ -191,7 +207,8 @@ class NewsfeedsViewCategory extends JViewLegacy
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->getCfg('MetaAuthor') == '1') {
+		if ($app->getCfg('MetaAuthor') == '1')
+		{
 			$this->document->setMetaData('author', $this->category->getMetadata()->get('author'));
 		}
 
@@ -199,7 +216,8 @@ class NewsfeedsViewCategory extends JViewLegacy
 
 		foreach ($mdata as $k => $v)
 		{
-			if ($v) {
+			if ($v)
+			{
 				$this->document->setMetadata($k, $v);
 			}
 		}

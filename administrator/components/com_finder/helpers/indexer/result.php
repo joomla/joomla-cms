@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -177,6 +177,24 @@ class FinderIndexerResult
 	 * @since  2.5
 	 */
 	public $type_id;
+
+	/**
+	 * The default language for content.
+	 *
+	 * @var    string
+	 * @since  3.0.2
+	 */
+	public $defaultLanguage;
+
+	/**
+	 * Constructor
+	 *
+	 * @since   3.0.3
+	 */
+	public function __construct()
+	{
+		$this->defaultLanguage = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+	}
 
 	/**
 	 * The magic set method is used to push additional values into the elements
@@ -394,5 +412,20 @@ class FinderIndexerResult
 
 		// Add the node to the taxonomy branch.
 		$this->taxonomy[$branch][$node->title] = $node;
+	}
+
+	/**
+	 * Method to set the item language
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function setLanguage()
+	{
+		if ($this->language == '*' || $this->language == '')
+		{
+			$this->language = $this->defaultLanguage;
+		}
 	}
 }

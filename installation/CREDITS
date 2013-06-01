@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,6 +159,7 @@ Norwegian Bokmål (nb-NO) - Joomla! i Norge - Rune Rasmussen, Roar Jystad, Jens-
 Norwegian Nynorsk (nn-NO) - Joomla! i Norge - Toyni Tobekk (based on nb-NO translations)
 Persian (fa-IR) - Persian Translation Team - Mohsen Firoozmandan, Joomla Farsi Team
 Polish (pl-PL) - Polskie Centrum Joomla! 
+Portuguese (pt-BR) - Joomla! Brasil
 Portuguese (pt-PT) - Comunidade Joomla! Portugal - Paulo Izidoro
 Romanian (ro-RO) - Romanian Joomla! Community - Cosmin Lebu
 Russian (ru-RU) - Russian Translation Team (joomlaportal.ru) - Sergey Litvinov, Sergey Brovin, Alexey Brin
@@ -335,12 +336,6 @@ Feedcreator
 Author:		Kai Blankenhorn
 Copyright:	Copyright (C) Kai Blankenhorn
 License:	GNU Lesser General Public License (LGPL) 2.1 or later
-
-Geshi
------
-Author:		Nigel McNie
-Copyright:	Copyright (C) 2004 - 2007 Nigel McNie
-License:	GNU General Public License (GPL) 2 or later
 
 js-calendar
 -----------

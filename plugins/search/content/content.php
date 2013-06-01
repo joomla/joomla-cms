@@ -3,13 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.'/components/com_content/router.php';
+require_once JPATH_SITE . '/components/com_content/router.php';
 
 /**
  * Content Search plugin
@@ -18,7 +18,7 @@ require_once JPATH_SITE.'/components/com_content/router.php';
  * @subpackage  Search.content
  * @since       1.6
  */
-class plgSearchContent extends JPlugin
+class PlgSearchContent extends JPlugin
 {
 	/**
 	 * @return array An array of search areas
@@ -27,8 +27,8 @@ class plgSearchContent extends JPlugin
 	{
 		static $areas = array(
 			'content' => 'JGLOBAL_ARTICLES'
-			);
-			return $areas;
+		);
+		return $areas;
 	}
 
 	/**
@@ -38,50 +38,54 @@ class plgSearchContent extends JPlugin
 	 * @param string Target search string
 	 * @param string mathcing option, exact|any|all
 	 * @param string ordering option, newest|oldest|popular|alpha|category
-	 * @param mixed An array if the search it to be restricted to areas, null if search all
+	 * @param mixed  An array if the search it to be restricted to areas, null if search all
 	 */
-	public function onContentSearch($text, $phrase='', $ordering='', $areas=null)
+	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db		= JFactory::getDbo();
-		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
+		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$tag = JFactory::getLanguage()->getTag();
 
 		require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 		require_once JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php';
 
 		$searchText = $text;
-		if (is_array($areas)) {
-			if (!array_intersect($areas, array_keys($this->onContentSearchAreas()))) {
+		if (is_array($areas))
+		{
+			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
+			{
 				return array();
 			}
 		}
 
-		$sContent  = $this->params->get('search_content', 1);
+		$sContent = $this->params->get('search_content', 1);
 		$sArchived = $this->params->get('search_archived', 1);
-		$limit     = $this->params->def('search_limit', 50);
+		$limit = $this->params->def('search_limit', 50);
 
-		$nullDate		= $db->getNullDate();
+		$nullDate = $db->getNullDate();
 		$date = JFactory::getDate();
 		$now = $date->toSql();
 
 		$text = trim($text);
-		if ($text == '') {
+		if ($text == '')
+		{
 			return array();
 		}
 
 		$wheres = array();
-		switch ($phrase) {
+		switch ($phrase)
+		{
 			case 'exact':
-				$text		= $db->Quote('%'.$db->escape($text, true).'%', false);
-				$wheres2	= array();
-				$wheres2[]	= 'a.title LIKE '.$text;
-				$wheres2[]	= 'a.introtext LIKE '.$text;
-				$wheres2[]	= 'a.fulltext LIKE '.$text;
-				$wheres2[]	= 'a.metakey LIKE '.$text;
-				$wheres2[]	= 'a.metadesc LIKE '.$text;
-				$where		= '(' . implode(') OR (', $wheres2) . ')';
+				$text = $db->quote('%' . $db->escape($text, true) . '%', false);
+				$wheres2 = array();
+				$wheres2[] = 'a.title LIKE ' . $text;
+				$wheres2[] = 'a.introtext LIKE ' . $text;
+				$wheres2[] = 'a.fulltext LIKE ' . $text;
+				$wheres2[] = 'a.metakey LIKE ' . $text;
+				$wheres2[] = 'a.metadesc LIKE ' . $text;
+				$where = '(' . implode(') OR (', $wheres2) . ')';
 				break;
 
 			case 'all':
@@ -89,22 +93,24 @@ class plgSearchContent extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
-				foreach ($words as $word) {
-					$word		= $db->Quote('%'.$db->escape($word, true).'%', false);
-					$wheres2	= array();
-					$wheres2[]	= 'a.title LIKE '.$word;
-					$wheres2[]	= 'a.introtext LIKE '.$word;
-					$wheres2[]	= 'a.fulltext LIKE '.$word;
-					$wheres2[]	= 'a.metakey LIKE '.$word;
-					$wheres2[]	= 'a.metadesc LIKE '.$word;
-					$wheres[]	= implode(' OR ', $wheres2);
+				foreach ($words as $word)
+				{
+					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
+					$wheres2 = array();
+					$wheres2[] = 'a.title LIKE ' . $word;
+					$wheres2[] = 'a.introtext LIKE ' . $word;
+					$wheres2[] = 'a.fulltext LIKE ' . $word;
+					$wheres2[] = 'a.metakey LIKE ' . $word;
+					$wheres2[] = 'a.metadesc LIKE ' . $word;
+					$wheres[] = implode(' OR ', $wheres2);
 				}
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
 
 		$morder = '';
-		switch ($ordering) {
+		switch ($ordering)
+		{
 			case 'oldest':
 				$order = 'a.created ASC';
 				break;
@@ -129,7 +135,7 @@ class plgSearchContent extends JPlugin
 		}
 
 		$rows = array();
-		$query	= $db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		// search articles
 		if ($sContent && $limit > 0)
@@ -142,7 +148,7 @@ class plgSearchContent extends JPlugin
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
-			$case_when .= $a_id.' END as slug';
+			$case_when .= $a_id . ' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
@@ -150,25 +156,28 @@ class plgSearchContent extends JPlugin
 			$c_id = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id.' END as catslug';
+			$case_when1 .= $c_id . ' END as catslug';
 
-			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created');
-			$query->select($query->concatenate(array('a.introtext', 'a.fulltext')).' AS text');
-			$query->select('c.title AS section, '.$case_when.','.$case_when1.', '.'\'2\' AS browsernav');
+			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
+				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
+				->select('c.title AS section, ' . $case_when . ',' . $case_when1 . ', ' . '\'2\' AS browsernav')
 
-			$query->from('#__content AS a');
-			$query->innerJoin('#__categories AS c ON c.id=a.catid');
-			$query->where('('. $where .')' . 'AND a.state=1 AND c.published = 1 AND a.access IN ('.$groups.') '
-						.'AND c.access IN ('.$groups.') '
-						.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
-						.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
-			$query->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id');
-			$query->order($order);
+				->from('#__content AS a')
+				->join('INNER', '#__categories AS c ON c.id=a.catid')
+				->where(
+					'(' . $where . ')AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
+						. 'AND c.access IN (' . $groups . ') '
+						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
+						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
+				);
+			$query->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
+				->order($order);
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
@@ -177,7 +186,7 @@ class plgSearchContent extends JPlugin
 
 			if (isset($list))
 			{
-				foreach($list as $key => $item)
+				foreach ($list as $key => $item)
 				{
 					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 				}
@@ -196,7 +205,7 @@ class plgSearchContent extends JPlugin
 			$a_id = $query->castAsChar('a.id');
 			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 			$case_when .= ' ELSE ';
-			$case_when .= $a_id.' END as slug';
+			$case_when .= $a_id . ' END as slug';
 
 			$case_when1 = ' CASE WHEN ';
 			$case_when1 .= $query->charLength('c.alias', '!=', '0');
@@ -204,44 +213,49 @@ class plgSearchContent extends JPlugin
 			$c_id = $query->castAsChar('c.id');
 			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
 			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id.' END as catslug';
+			$case_when1 .= $c_id . ' END as catslug';
 
-			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, '
-			.$query->concatenate(array("a.introtext", "a.fulltext")).' AS text,'
-			.$case_when.','.$case_when1.', '
-			.'c.title AS section, \'2\' AS browsernav');
+			$query->select(
+				'a.title AS title, a.metadesc, a.metakey, a.created AS created, '
+					. $query->concatenate(array("a.introtext", "a.fulltext")) . ' AS text,'
+					. $case_when . ',' . $case_when1 . ', '
+					. 'c.title AS section, \'2\' AS browsernav'
+			);
 			//.'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
-			$query->from('#__content AS a');
-			$query->innerJoin('#__categories AS c ON c.id=a.catid AND c.access IN ('. $groups .')');
-			$query->where('('. $where .') AND a.state = 2 AND c.published = 1 AND a.access IN ('. $groups
-				.') AND c.access IN ('. $groups .') '
-				.'AND (a.publish_up = '.$db->Quote($nullDate).' OR a.publish_up <= '.$db->Quote($now).') '
-				.'AND (a.publish_down = '.$db->Quote($nullDate).' OR a.publish_down >= '.$db->Quote($now).')' );
+			$query->from('#__content AS a')
+				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
+				->where(
+					'(' . $where . ') AND a.state = 2 AND c.published = 1 AND a.access IN (' . $groups
+						. ') AND c.access IN (' . $groups . ') '
+						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
+						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
+				);
 			$query->order($order);
 
 			// Filter by language
-			if ($app->isSite() && $app->getLanguageFilter()) {
-				$query->where('a.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
-				$query->where('c.language in (' . $db->Quote($tag) . ',' . $db->Quote('*') . ')');
+			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			{
+				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
 			}
 
 			$db->setQuery($query, 0, $limit);
 			$list3 = $db->loadObjectList();
 
 			// find an itemid for archived to use if there isn't another one
-			$item	= $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
-			$itemid = isset($item->id) ? '&Itemid='.$item->id : '';
+			$item = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
+			$itemid = isset($item->id) ? '&Itemid=' . $item->id : '';
 
 			if (isset($list3))
 			{
-				foreach($list3 as $key => $item)
+				foreach ($list3 as $key => $item)
 				{
 					$date = JFactory::getDate($item->created);
 
-					$created_month	= $date->format("n");
-					$created_year	= $date->format("Y");
+					$created_month = $date->format("n");
+					$created_year = $date->format("Y");
 
-					$list3[$key]->href	= JRoute::_('index.php?option=com_content&view=archive&year='.$created_year.'&month='.$created_month.$itemid);
+					$list3[$key]->href = JRoute::_('index.php?option=com_content&view=archive&year=' . $created_year . '&month=' . $created_month . $itemid);
 				}
 			}
 
@@ -251,11 +265,13 @@ class plgSearchContent extends JPlugin
 		$results = array();
 		if (count($rows))
 		{
-			foreach($rows as $row)
+			foreach ($rows as $row)
 			{
 				$new_row = array();
-				foreach($row as $key => $article) {
-					if (searchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey'))) {
+				foreach ($row as $key => $article)
+				{
+					if (searchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
+					{
 						$new_row[] = $article;
 					}
 				}

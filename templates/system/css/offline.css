@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,11 @@ img  {
 	margin: 20px auto;
 	width: 400px;
 	padding: 20px;
+}
+
+#frame img {
+	max-width: 100%;
+	height: auto;
 }
 
 #frame form {

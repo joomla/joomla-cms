@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,12 @@ defined('_JEXEC') or die;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 	<link rel="stylesheet" href="templates/<?php echo  $this->template ?>/css/error.css" type="text/css" />
+	<?php // If debug  mode
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+		<!-- Load additional CSS styles for debug mode-->
+		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/cms/css/debug.css" type="text/css" />
+	<?php endif; ?>
 
 	<!-- Load additional CSS styles for rtl sites -->
 <?php if ($this->direction == 'rtl') : ?>

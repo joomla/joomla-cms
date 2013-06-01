@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
@@ -17,11 +17,13 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		document.id('jform_type0').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'block');
 			document.id('url').setStyle('display', 'block');
@@ -32,9 +34,12 @@ JHtml::_('formbehavior.chosen', 'select');
 			document.id('url').setStyle('display', 'block');
 			document.id('custom').setStyle('display', 'block');
 		});
-		if(document.id('jform_type0').checked==true) {
+		if (document.id('jform_type0').checked==true)
+		{
 			document.id('jform_type0').fireEvent('click');
-		} else {
+		}
+		else
+		{
 			document.id('jform_type1').fireEvent('click');
 		}
 	});
@@ -45,14 +50,9 @@ JHtml::_('formbehavior.chosen', 'select');
 <div class="span10 form-horizontal">
 
 	<fieldset>
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('COM_BANNERS_BANNER_DETAILS');?></a></li>
-			<li><a href="#publishing" data-toggle="tab"><?php echo JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS');?></a></li>
-			<li><a href="#otherparams" data-toggle="tab"><?php echo JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS');?></a></li>
-			<li><a href="#metadata" data-toggle="tab"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS');?></a></li>
-		</ul>
-		<div class="tab-content">
-			<div class="tab-pane active" id="details">
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS', true)); ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('name'); ?>
@@ -77,7 +77,6 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('catid'); ?>
 					</div>
 				</div>
-
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('type'); ?>
@@ -87,7 +86,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				</div>
 				<div id="image">
-						<?php foreach($this->form->getFieldset('image') as $field): ?>
+						<?php foreach ($this->form->getFieldset('image') as $field) : ?>
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $field->label; ?>
@@ -130,34 +129,10 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('id'); ?>
 					</div>
 				</div>
-			</div>
-			<div class="tab-pane" id="publishing">
-				<?php foreach($this->form->getFieldset('publish') as $field): ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endforeach; ?>
-			</div>
-			<div class="tab-pane" id="otherparams">
-				<?php foreach($this->form->getFieldset('otherparams') as $field): ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endforeach; ?>
-			</div>
-			<div class="tab-pane" id="metadata">
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS', true)); ?>
+				<?php foreach ($this->form->getFieldset('publish') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $field->label; ?>
@@ -167,8 +142,35 @@ JHtml::_('formbehavior.chosen', 'select');
 						</div>
 					</div>
 				<?php endforeach; ?>
-			</div>
-		</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'otherparams', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS', true)); ?>
+				<?php foreach ($this->form->getFieldset('otherparams') as $field) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />

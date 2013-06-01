@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
-	type="module" version="3.0" client="site" method="upgrade">
+	type="module" version="3.1" client="site" method="upgrade">
 	<name>mod_articles_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -107,7 +107,7 @@
 				<option value="5">JH5</option>
 			</field>
 
-			<field name="moduleclass_sfx" type="text"
+			<field name="moduleclass_sfx" type="textarea" rows="3"
 				label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 				description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

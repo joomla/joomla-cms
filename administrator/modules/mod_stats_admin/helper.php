@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_stats_admin
  * @since       3.0
  */
-class modStatsHelper
+class ModStatsHelper
 {
 	/**
 	 * Method to retrieve information about the site
@@ -79,22 +79,22 @@ class modStatsHelper
 
 		if ($siteinfo)
 		{
-			$query->select('COUNT(id) AS count_users');
-			$query->from('#__users');
+			$query->select('COUNT(id) AS count_users')
+				->from('#__users');
 			$db->setQuery($query);
 			$users = $db->loadResult();
 
-			$query->clear();
-			$query->select('COUNT(id) AS count_items');
-			$query->from('#__content');
-			$query->where('state = 1');
+			$query->clear()
+				->select('COUNT(id) AS count_items')
+				->from('#__content')
+				->where('state = 1');
 			$db->setQuery($query);
 			$items = $db->loadResult();
 
-			$query->clear();
-			$query->select('COUNT(id) AS count_links ');
-			$query->from('#__weblinks');
-			$query->where('state = 1');
+			$query->clear()
+				->select('COUNT(id) AS count_links ')
+				->from('#__weblinks')
+				->where('state = 1');
 			$db->setQuery($query);
 			$links = $db->loadResult();
 
@@ -128,10 +128,10 @@ class modStatsHelper
 
 		if ($counter)
 		{
-			$query->clear();
-			$query->select('SUM(hits) AS count_hits');
-			$query->from('#__content');
-			$query->where('state = 1');
+			$query->clear()
+				->select('SUM(hits) AS count_hits')
+				->from('#__content')
+				->where('state = 1');
 			$db->setQuery($query);
 			$hits = $db->loadResult();
 

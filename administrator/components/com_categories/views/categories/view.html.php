@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ class CategoriesViewCategories extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -81,6 +81,7 @@ class CategoriesViewCategories extends JViewLegacy
 		$section	= $this->state->get('filter.section');
 		$canDo		= null;
 		$user		= JFactory::getUser();
+		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -152,12 +153,13 @@ class CategoriesViewCategories extends JViewLegacy
 		{
 			JToolbarHelper::deleteList('', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state')) {
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('categories.trash');
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.edit'))
+		if ($user->authorise('core.create', $extension) & $user->authorise('core.edit', $extension) && $user->authorise('core.edit.state', $extension))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
@@ -189,7 +191,8 @@ class CategoriesViewCategories extends JViewLegacy
 			$url = JText::_($lang_help_url);
 			$lang->setDebug($debug);
 		}
-		else {
+		else
+		{
 			$url = null;
 		}
 		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);
@@ -219,6 +222,13 @@ class CategoriesViewCategories extends JViewLegacy
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
+
+		JHtmlSidebar::addFilter(
+		JText::_('JOPTION_SELECT_TAG'),
+		'filter_tag',
+		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+		);
+
 	}
 
 	/**

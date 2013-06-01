@@ -1,5 +1,9 @@
 <?php
 /**
+ * This file will be removed in Joomla! CMS version 3.2. Developers should either supply their own copy
+ * in their installation packages or switch to JFeed.
+ */
+/**
  * SimplePie
  *
  * A PHP-Based RSS and Atom Feed Framework.
@@ -11338,7 +11342,8 @@ function embed_odeo(link) {
 }
 
 function embed_quicktime(type, bgcolor, width, height, link, placeholder, loop) {
-	if (placeholder != '') {
+	if (placeholder != '')
+	{
 		document.writeln('<embed type="'+type+'" style="cursor:hand; cursor:pointer;" href="'+link+'" src="'+placeholder+'" width="'+width+'" height="'+height+'" autoplay="false" target="myself" controller="false" loop="'+loop+'" scale="aspect" bgcolor="'+bgcolor+'" pluginspage="http://www.apple.com/quicktime/download/"></embed>');
 	}
 	else {
@@ -14207,7 +14212,8 @@ class SimplePie_Locator
 		{
 			return array_values($feeds);
 		}
-		else {
+		else
+		{
 			return null;
 		}
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ JHtml::_('bootstrap.tooltip');
 			</div>
 		</div>
 		<div class="span9">
-			<iframe name="helpFrame" height="70%" src="<?php echo $this->page;?>" class="helpFrame table table-bordered"></iframe>
+			<iframe name="helpFrame" height="2100px" src="<?php echo $this->page;?>" class="helpFrame table table-bordered"></iframe>
 		</div>
 	</div>
 	<input class="textarea" type="hidden" name="option" value="com_admin" />

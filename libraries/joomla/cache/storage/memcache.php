@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -198,6 +198,14 @@ class JCacheStorageMemcache extends JCacheStorage
 		$tmparr = new stdClass;
 		$tmparr->name = $cache_id;
 		$tmparr->size = strlen($data);
+
+		$config = JFactory::getConfig();
+		$lifetime = (int) $config->get('cachetime', 15);
+		if ($this->_lifetime == $lifetime)
+		{
+			$this->_lifetime = $lifetime * 60;
+		}
+
 		$index[] = $tmparr;
 		self::$_db->replace($this->_hash . '-index', $index, 0, 0);
 		$this->unlockindex();

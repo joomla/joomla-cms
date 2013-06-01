@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,8 @@ $canDo = TemplatesHelper::getActions();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
+		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form')))
+		{
 			Joomla.submitform(task, document.getElementById('style-form'));
 		}
 	}
@@ -27,18 +28,9 @@ $canDo = TemplatesHelper::getActions();
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
 	<fieldset>
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#details" data-toggle="tab"><?php echo JText::_('JDETAILS');?></a></li>
-			<li><a href="#options" data-toggle="tab"><?php echo JText::_('JOPTIONS');?></a></li>
-			<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0):?>
-				<?php if ($canDo->get('core.edit.state')) : ?>
-						<li><a href="#assignment" data-toggle="tab"><?php echo JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT');?></a></li>
-				<?php endif; ?>
-			<?php endif;?>
-		</ul>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<div class="tab-content">
-			<div class="tab-pane active" id="details">
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('title'); ?>
@@ -96,20 +88,24 @@ $canDo = TemplatesHelper::getActions();
 				<?php else : ?>
 					<div class="alert alert-error"><?php echo JText::_('COM_TEMPLATES_ERR_XML'); ?></div>
 				<?php endif; ?>
-			</div>
-			<div class="tab-pane" id="options">
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'options', JText::_('JOPTIONS', true)); ?>
 				<?php //get the menu parameters that are automatically set but may be modified.
 					echo $this->loadTemplate('options'); ?>
-			</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
 			<?php if ($user->authorise('core.edit', 'com_menu') && $this->item->client_id == 0):?>
 				<?php if ($canDo->get('core.edit.state')) : ?>
-					<div class="tab-pane" id="assignment">
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'assignment', JText::_('COM_TEMPLATES_MENUS_ASSIGNMENT', true)); ?>
 						<?php echo $this->loadTemplate('assignment'); ?>
-					</div>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
 			<?php endif;?>
-		</div>
+
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
+
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>

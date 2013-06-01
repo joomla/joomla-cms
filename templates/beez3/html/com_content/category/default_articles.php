@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') != 'hide') : ?>
 	<fieldset class="filters">
-		<legend class="element-invisible">
+		<legend class="hidelabeltxt">
 			<?php echo JText::_('JGLOBAL_FILTER_LABEL'); ?>
 		</legend>
 
@@ -116,7 +116,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
 					<td class="list-author">
-						<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
+						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
 							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
 
@@ -165,7 +165,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 <?php // Code to add a link to submit an article. ?>
 <?php if ($this->category->getParams()->get('access-create')) : ?>
-	<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
+	<?php echo JHtml::_('icon.create', $this->category, $this->category->params, array(), true); ?>
 <?php  endif; ?>
 
 <?php // Add pagination links ?>
@@ -184,7 +184,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<div>
-		<!-- @TODO add hidden inputs -->
+		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="filter_order" value="" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />

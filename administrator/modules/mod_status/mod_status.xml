@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="3.0"
+	version="3.1"
 	client="administrator">
 	<name>mod_status</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
-	<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -71,7 +71,7 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="text"
+					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,8 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
+		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form')))
+		{
 			Joomla.submitform(task, document.getElementById('application-form'));
 		}
 	}
@@ -32,7 +33,8 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php
 					// Display the submenu position modules
 					$this->submenumodules = JModuleHelper::getModules('submenu');
-					foreach ($this->submenumodules as $submenumodule) {
+					foreach ($this->submenumodules as $submenumodule)
+					{
 						$output = JModuleHelper::renderModule($submenumodule);
 						$params = new JRegistry;
 						$params->loadString($submenumodule->params);
@@ -44,18 +46,9 @@ JHtml::_('formbehavior.chosen', 'select');
 		<!-- End Sidebar -->
 		<!-- Begin Content -->
 		<div class="span10">
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#page-site" data-toggle="tab"><?php echo JText::_('JSITE');?></a></li>
-				<li><a href="#page-system" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SYSTEM');?></a></li>
-				<li><a href="#page-server" data-toggle="tab"><?php echo JText::_('COM_CONFIG_SERVER');?></a></li>
-				<li><a href="#page-permissions" data-toggle="tab"><?php echo JText::_('COM_CONFIG_PERMISSIONS');?></a></li>
-				<li><a href="#page-filters" data-toggle="tab"><?php echo JText::_('COM_CONFIG_TEXT_FILTERS');?></a></li>
-				<?php if ($this->ftp) : ?>
-					<li><a href="#page-ftp" data-toggle="tab"><?php echo JText::_('COM_CONFIG_FTP_SETTINGS');?></a></li>
-				<?php endif; ?>
-			</ul>
-			<div id="config-document" class="tab-content">
-				<div id="page-site" class="tab-pane active">
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'page-site')); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-site', JText::_('JSITE', true)); ?>
 					<div class="row-fluid">
 						<div class="span6">
 							<?php echo $this->loadTemplate('site'); ?>
@@ -66,18 +59,22 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->loadTemplate('cookie'); ?>
 						</div>
 					</div>
-				</div>
-				<div id="page-system" class="tab-pane">
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-system', JText::_('COM_CONFIG_SYSTEM', true)); ?>
 					<div class="row-fluid">
-						<div class="span12">
+						<div class="span6">
 							<?php echo $this->loadTemplate('system'); ?>
 							<?php echo $this->loadTemplate('debug'); ?>
+						</div>
+						<div class="span6">
 							<?php echo $this->loadTemplate('cache'); ?>
 							<?php echo $this->loadTemplate('session'); ?>
 						</div>
 					</div>
-				</div>
-				<div id="page-server" class="tab-pane">
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-server', JText::_('COM_CONFIG_SERVER', true)); ?>
 					<div class="row-fluid">
 						<div class="span6">
 							<?php echo $this->loadTemplate('server'); ?>
@@ -89,25 +86,30 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->loadTemplate('mail'); ?>
 						</div>
 					</div>
-				</div>
-				<div id="page-permissions" class="tab-pane">
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-permissions', JText::_('COM_CONFIG_PERMISSIONS', true)); ?>
 					<div class="row-fluid">
 						<?php echo $this->loadTemplate('permissions'); ?>
 					</div>
-				</div>
-				<div id="page-filters" class="tab-pane">
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-filters', JText::_('COM_CONFIG_TEXT_FILTERS', true)); ?>
 					<div class="row-fluid">
 						<?php echo $this->loadTemplate('filters'); ?>
 					</div>
-				</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
 				<?php if ($this->ftp) : ?>
-					<div id="page-ftp" class="tab-pane">
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-ftp', JText::_('COM_CONFIG_FTP_SETTINGS', true)); ?>
 						<?php echo $this->loadTemplate('ftplogin'); ?>
-					</div>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php endif; ?>
+
+				<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
-			</div>
 			</div>
 		<!-- End Content -->
 	</div>

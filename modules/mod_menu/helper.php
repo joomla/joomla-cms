@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  mod_menu
  * @since       1.5
  */
-class modMenuHelper
+class ModMenuHelper
 {
 	/**
 	 * Get a list of the menu items.
@@ -25,7 +25,7 @@ class modMenuHelper
 	 *
 	 * @return  array
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public static function getList(&$params)
 	{
@@ -33,15 +33,15 @@ class modMenuHelper
 		$menu = $app->getMenu();
 
 		// Get active menu item
-		$active = self::getActive($params);
+		$base = self::getBase($params);
 		$user = JFactory::getUser();
 		$levels = $user->getAuthorisedViewLevels();
 		asort($levels);
-		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $active->id;
+		$key = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 		$cache = JFactory::getCache('mod_menu', '');
 		if (!($items = $cache->get($key)))
 		{
-			$path    = $active->tree;
+			$path    = $base->tree;
 			$start   = (int) $params->get('startLevel');
 			$end     = (int) $params->get('endLevel');
 			$showAll = $params->get('showAllChildren');

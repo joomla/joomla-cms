@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 {
 	/**
 	 * Proxy for getModel.
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Weblink', $prefix = 'WeblinksModel', $config = array('ignore_request' => true))
 	{
@@ -29,35 +29,16 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 	}
 
 	/**
-	 * Method to save the submitted ordering values for records via AJAX.
+	 * Method to provide child classes the opportunity to process after the delete task.
+	 *
+	 * @param   JModelLegacy   $model   The model for the component
+	 * @param   mixed          $ids     array of ids deleted.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
-	public function saveOrderAjax()
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
-		// Get the input
-		$input = JFactory::getApplication()->input;
-		$pks = $input->post->get('cid', array(), 'array');
-		$order = $input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
 	}
 }

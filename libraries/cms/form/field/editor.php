@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -105,18 +105,18 @@ class JFormFieldEditor extends JFormField
 				$types = explode('|', $type);
 
 				// Get the database object.
-				$db = JFactory::getDBO();
+				$db = JFactory::getDbo();
 
 				// Iterate over teh types looking for an existing editor.
 				foreach ($types as $element)
 				{
 					// Build the query.
-					$query = $db->getQuery(true);
-					$query->select('element');
-					$query->from('#__extensions');
-					$query->where('element = ' . $db->quote($element));
-					$query->where('folder = ' . $db->quote('editors'));
-					$query->where('enabled = 1');
+					$query = $db->getQuery(true)
+						->select('element')
+						->from('#__extensions')
+						->where('element = ' . $db->quote($element))
+						->where('folder = ' . $db->quote('editors'))
+						->where('enabled = 1');
 
 					// Check of the editor exists.
 					$db->setQuery($query, 0, 1);

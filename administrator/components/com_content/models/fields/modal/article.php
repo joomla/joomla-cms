@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,15 +22,15 @@ class JFormFieldModal_Article extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $type = 'Modal_Article';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string	The field input markup.
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -57,7 +57,7 @@ class JFormFieldModal_Article extends JFormField
 			$link .= '&amp;forcedLanguage='.$this->element['language'];
 		}
 
-		$db	= JFactory::getDBO();
+		$db	= JFactory::getDbo();
 		$db->setQuery(
 			'SELECT title' .
 			' FROM #__content' .
@@ -73,7 +73,8 @@ class JFormFieldModal_Article extends JFormField
 			JError::raiseWarning(500, $e->getMessage());
 		}
 
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = JText::_('COM_CONTENT_SELECT_AN_ARTICLE');
 		}
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
@@ -84,15 +85,19 @@ class JFormFieldModal_Article extends JFormField
 		$html[] = '</span>';
 
 		// The active article id field.
-		if (0 == (int) $this->value) {
+		if (0 == (int) $this->value)
+		{
 			$value = '';
-		} else {
+		}
+		else
+		{
 			$value = (int) $this->value;
 		}
 
 		// class='required' for client side validation
 		$class = '';
-		if ($this->required) {
+		if ($this->required)
+		{
 			$class = ' class="required modal-value"';
 		}
 

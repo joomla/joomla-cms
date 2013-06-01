@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -178,5 +178,38 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		$this->offset = (int) $offset;
 
 		return $this;
+	}
+
+	/**
+	 * Add to the current date and time.
+	 * Usage:
+	 * $query->select($query->dateAdd());
+	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
+	 *
+	 * @param   datetime  $date      The date or datetime to add to
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
+	 *
+	 * @return  string  The string with the appropriate sql for addition of dates
+	 *
+	 * @since   13.1
+	 * @link http://www.sqlite.org/lang_datefunc.html
+	 */
+	public function dateAdd($date, $interval, $datePart)
+	{
+		// SQLite does not support microseconds as a separate unit. Convert the interval to seconds
+		if (strcasecmp($datePart, 'microseconds') == 0)
+		{
+			$interval = .001 * $interval;
+			$datePart = 'seconds';
+		}
+		if (substr($interval, 0, 1) != '-')
+		{
+			return "datetime('" . $date . "', '+" . $interval . " " . $datePart . "')";
+		}
+		else
+		{
+			return "datetime('" . $date . "', '" . $interval . " " . $datePart . "')";
+		}
 	}
 }

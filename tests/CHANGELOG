@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -25,6 +25,111 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+28-May-2013 Mark Dexter
+ + Add webdriver tests for contacts, weblinks, and banners. Thanks George Wilson.
+ + Add skeleton classes for com_categories to work around inconsistent URL issue.
+
+22-May-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
+16-May-2013 Mark Dexter
+ + Added TagManager0002Test.php. Thanks Puneet Kala.
+
+09-May-2013 Mark Dexter
+ # Finish system tests for back end Tags Manager. Thanks Puneet Kala.
+
+08-May-2013 Mark Dexter
+ # Fix failing system test for markup change in Template Manager.
+
+04-May-2013 Michael Babker
+ # Fix failing unit tests
+
+03-May-2013 JM Simonet
+ # Corrected test for #30788
+
+02-May-2013 Mark Dexter
+ # Fix up doc blocks as example for Webdriver page classes and tests.
+ # Added test for Tag Manager. Thanks Puneet Kala.
+
+30-Apr-2013 Mark Dexter
+ # Fix system tests for clearfix class in front end
+
+25-Apr-2013 Mark Dexter
+ # Fix webdriver tests for change in module edit form (using textarea for class suffix)
+
+22-Apr-2013 Mark Dexter
+ # Change error reporting to Development in auto install.
+
+20-Apr-2013 Mark Dexter
+ # Fix failing system test from change in class suffix from input to textarea.
+
+12-Apr-2013 Michael Babker
+ # Fix failing unit tests from UCM refactor
+
+06-Apr-2013 Mark Dexter
+ # Fix failing system test.
+
+29-Mar-2013 Michael Babker
+ +# Test JTableCorecontent, fix bugs found in class
+
+29-Mar-2013 Mark Dexter
+ # Fix failing system tests.
+ # More system test fixes, fix CHANGELOG typo.
+
+26-Mar-2013 Mark Dexter
+ # Fix failing system tests due to login markup change, Tags menu item change
+
+26-Mar-2013 Michael Babker
+ +# Expand Schema test coverage
+
+25-Mar-2013 Michael Babker
+ +# Test JTableContenttype, fix bugs found in class
+ +# Start testing JTags
+
+05-Mar-2013 Mark Dexter
+ # Fix system tests for tags component and modules
+
+03-Mar-2013 Michael Babker
+ + Add tests for FinderIndexerToken, JHtmlBootstrap, and JHtmlJquery
+ + Add tests for JFormField and JHtml instances
+
+27-Feb-2013 Mark Dexter
+ # Fix failing system change from markup change in [#30157] *Bootstrapping tabs in administration (big patch)
+
+22-Feb-2013 Michael Babker
+ ^ Remove @covers tags in docblocks due to negative test coverage influence
+ + Add test framework for FinderIndexer** library
+
+01-Jan-2013 Mark Dexter
+ # Fix failing webdriver test due to change in Module edit UI
+
+27-Dec-2012 Michael Babker
+ ^ Sync core test framework to the Platform
+ + Add tests for Editor and Layout packages
+
+22-Dec-2012 Mark Dexter
+ # Fix failing system tests caused by markup changes
+
+21-Dec-2012 Mark Dexter
+ + Add tests for module manager.
+
+18-Dec-2012 Mark Dexter
+ # Fix intermittent failures in Webdriver tests
+
+13-Dec-2012 Mark Dexter
+ + Add Webdriver tests for Menu Items.
+ # Fix system test for change in hathor login markup
+
+07-Nov-2012 Mark Dexter
+ + Add new Webdriver tests for Menu Manager.
+ ^ Organize Pages classes in folders. Improve autoloader.
+
+21-Nov-2012 Mark Dexter
+ # Fix failing system test
+
+11-Nov-2012 Mark Dexter
+ ^ Rename config-def.php-dist to be consistent with xml files
 
 09-Nov-2012 Mark Dexter
  ^ Change echo statements to jEcho for selective logging

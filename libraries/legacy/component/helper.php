@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -374,11 +374,11 @@ class JComponentHelper
 	protected static function _load($option)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('extension_id AS id, element AS "option", params, enabled');
-		$query->from('#__extensions');
-		$query->where($query->qn('type') . ' = ' . $db->quote('component'));
-		$query->where($query->qn('element') . ' = ' . $db->quote($option));
+		$query = $db->getQuery(true)
+			->select('extension_id AS id, element AS "option", params, enabled')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($option));
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache('_system', 'callback');
@@ -397,6 +397,7 @@ class JComponentHelper
 		if (empty(self::$components[$option]))
 		{
 			// Fatal error.
+			$error = JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND');
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
 			return false;
 		}

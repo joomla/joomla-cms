@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('bootstrap.tooltip');
 ?>
 <form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" class="form-inline">
-	<?php if ($params->get('pretext')): ?>
+	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">
 		<p><?php echo $params->get('pretext'); ?></p>
 		</div>
@@ -21,16 +21,37 @@ JHtml::_('bootstrap.tooltip');
 	<div class="userdata">
 		<div id="form-login-username" class="control-group">
 			<div class="controls">
-				<div class="input-prepend input-append">
-					<span class="add-on"><i class="icon-user tip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>"></i><label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label></span><input id="modlgn-username" type="text" name="username" class="input-small" tabindex="1" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>" /><a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>" class="btn hasTooltip" title="<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?>"><i class="icon-question-sign"></i></a>
-				</div>
+				<?php if (!$params->get('usetext')) : ?>
+					<div class="input-prepend input-append">
+						<span class="add-on">
+							<span class="icon-user tip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>"></span>
+							<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+						</span>
+						<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>" />
+					</div>
+				<?php else: ?>
+					<label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?></label>
+						<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>" />
+				<?php endif; ?>
 			</div>
 		</div>
 		<div id="form-login-password" class="control-group">
 			<div class="controls">
-				<div class="input-prepend input-append">
-					<span class="add-on"><i class="icon-lock tip" title="<?php echo JText::_('JGLOBAL_PASSWORD') ?>"></i><label for="modlgn-passwd" class="element-invisible"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label></span><input id="modlgn-passwd" type="password" name="password" class="input-small" tabindex="2" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" /><a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>" class="btn hasTooltip" title="<?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?>"><i class="icon-question-sign"></i></a>
+				<?php if (!$params->get('usetext')) : ?>
+					<div class="input-prepend input-append">
+						<span class="add-on">
+							<span class="icon-lock tip" title="<?php echo JText::_('JGLOBAL_PASSWORD') ?>">
+							</span>
+								<label for="modlgn-passwd" class="element-invisible"><?php echo JText::_('JGLOBAL_PASSWORD'); ?>
+							</label>
+						</span>
+						<input id="modlgn-passwd" type="password" name="password" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" />
 				</div>
+				<?php else: ?>
+					<label for="modlgn-passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
+					<input id="modlgn-passwd" type="password" name="password" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" />
+				<?php endif; ?>
+
 			</div>
 		</div>
 		<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
@@ -40,7 +61,7 @@ JHtml::_('bootstrap.tooltip');
 		<?php endif; ?>
 		<div id="form-login-submit" class="control-group">
 			<div class="controls">
-				<button type="submit" tabindex="3" name="Submit" class="btn btn-primary btn"><?php echo JText::_('JLOGIN') ?></button>
+				<button type="submit" tabindex="0" name="Submit" class="btn btn-primary"><?php echo JText::_('JLOGIN') ?></button>
 			</div>
 		</div>
 		<?php
@@ -49,7 +70,14 @@ JHtml::_('bootstrap.tooltip');
 			<ul class="unstyled">
 				<li>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&view=registration'); ?>">
-					<?php echo JText::_('MOD_LOGIN_REGISTER'); ?> <i class="icon-arrow-right"></i></a>
+					<?php echo JText::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
+				</li>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_users&view=remind'); ?>">
+					  <?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_USERNAME'); ?></a>
+				</li>
+				<li>
+					<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>"><?php echo JText::_('MOD_LOGIN_FORGOT_YOUR_PASSWORD'); ?></a>
 				</li>
 
 			</ul>
@@ -59,7 +87,7 @@ JHtml::_('bootstrap.tooltip');
 		<input type="hidden" name="return" value="<?php echo $return; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
-	<?php if ($params->get('posttext')): ?>
+	<?php if ($params->get('posttext')) : ?>
 		<div class="posttext">
 		<p><?php echo $params->get('posttext'); ?></p>
 		</div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,10 +19,10 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Log
  * @since       12.2
  */
-class JLoggerCallback extends JLogLogger
+class JLogLoggerCallback extends JLogLogger
 {
 	/**
-	 * @var    callback  The function to call when an entry is added - should return True on success
+	 * @var    callable  The function to call when an entry is added - should return True on success
 	 * @since  12.2
 	 */
 	protected $callback;
@@ -46,7 +46,7 @@ class JLoggerCallback extends JLogLogger
 		}
 		else
 		{
-			throw new JLogException(JText::_('JLoggerCallback created without valid callback function.'));
+			throw new JLogException(JText::_('JLogLoggerCallback created without valid callback function.'));
 		}
 	}
 

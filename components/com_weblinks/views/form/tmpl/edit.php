@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,17 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task) {
-		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'weblink.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+		{
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task);
 		}
@@ -35,12 +38,12 @@ $params = $this->state->get('params');
 		<div class="btn-toolbar">
 			<div class="btn-group">
 				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('weblink.save')">
-					<i class="icon-ok"></i> <?php echo JText::_('JSAVE') ?>
+					<span class="icon-ok"></span> <?php echo JText::_('JSAVE') ?>
 				</button>
 			</div>
 			<div class="btn-group">
 				<button type="button" class="btn" onclick="Joomla.submitbutton('weblink.cancel')">
-					<i class="icon-cancel"></i> <?php echo JText::_('JCANCEL') ?>
+					<span class="icon-cancel"></span> <?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
 		</div>
@@ -78,7 +81,16 @@ $params = $this->state->get('params');
 				<?php echo $this->form->getInput('url'); ?>
 			</div>
 		</div>
-		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')): ?>
+		<div class="control-group">
+			<div class="control-label">
+				<?php echo $this->form->getLabel('tags', 'metadata'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $this->form->getInput('tags', 'metadata'); ?>
+			</div>
+		</div>
+
+		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('state'); ?>

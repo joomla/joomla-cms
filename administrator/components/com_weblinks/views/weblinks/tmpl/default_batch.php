@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,11 @@ $published = $this->state->get('filter.state');
 				<?php echo JHtml::_('batch.language'); ?>
 			</div>
 		</div>
+		<div class="control-group">
+			<div class="controls">
+				<?php echo JHtml::_('batch.tag');?>
+			</div>
+		</div>
 		<?php if ($published >= 0) : ?>
 		<div class="control-group">
 			<div class="controls">
@@ -35,9 +40,10 @@ $published = $this->state->get('filter.state');
 			</div>
 		</div>
 		<?php endif; ?>
+
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-category-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.id('batch-category-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value='';document.id('batch-tag-id)').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('weblink.batch');">

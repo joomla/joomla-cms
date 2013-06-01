@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -168,18 +168,18 @@ class JUpdaterExtension extends JUpdateAdapter
 			$url .= 'extension.xml';
 		}
 
-		$dbo = $this->parent->getDBO();
+		$db = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
 		if (!empty($response->code) && 200 != $response->code)
 		{
-			$query = $dbo->getQuery(true);
-			$query->update('#__update_sites');
-			$query->set('enabled = 0');
-			$query->where('update_site_id = ' . $this->updateSiteId);
-			$dbo->setQuery($query);
-			$dbo->execute();
+			$query = $db->getQuery(true)
+				->update('#__update_sites')
+				->set('enabled = 0')
+				->where('update_site_id = ' . $this->updateSiteId);
+			$db->setQuery($query);
+			$db->execute();
 
 			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
@@ -204,7 +204,21 @@ class JUpdaterExtension extends JUpdateAdapter
 		{
 			if (isset($this->latest->client) && strlen($this->latest->client))
 			{
-				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client)->id;
+				if (is_numeric($this->latest->client))
+				{
+					$byName = false;
+
+					// <client> has to be 'administrator' or 'site', numeric values are depreceated. See http://docs.joomla.org/Design_of_JUpdate
+					JLog::add(
+						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
+						JLog::WARNING, 'deprecated'
+					);
+				}
+				else
+				{
+					$byName = true;
+				}
+				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
 			$updates = array($this->latest);

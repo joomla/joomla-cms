@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ class ContentModelForm extends ContentModelArticle
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -51,12 +51,13 @@ class ContentModelForm extends ContentModelArticle
 	/**
 	 * Method to get article data.
 	 *
-	 * @param	integer	The id of the article.
+	 * @param   integer	The id of the article.
 	 *
-	 * @return	mixed	Content item data object on success, false on failure.
+	 * @return  mixed  Content item data object on success, false on failure.
 	 */
 	public function getItem($itemId = null)
 	{
+
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.
@@ -66,7 +67,8 @@ class ContentModelForm extends ContentModelArticle
 		$return = $table->load($itemId);
 
 		// Check for a table object error.
-		if ($return === false && $table->getError()) {
+		if ($return === false && $table->getError())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -81,41 +83,61 @@ class ContentModelForm extends ContentModelArticle
 		// Compute selected asset permissions.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
-		$asset	= 'com_content.article.'.$value->id;
+		$asset	= 'com_content.article.'. $value->id;
 
 		// Check general edit permission first.
-		if ($user->authorise('core.edit', $asset)) {
+		if ($user->authorise('core.edit', $asset))
+		{
 			$value->params->set('access-edit', true);
 		}
 		// Now check if edit.own is available.
-		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+		{
 			// Check for a valid user and that they are the owner.
-			if ($userId == $value->created_by) {
+			if ($userId == $value->created_by)
+			{
 				$value->params->set('access-edit', true);
 			}
 		}
 
 		// Check edit state permission.
-		if ($itemId) {
+		if ($itemId)
+		{
 			// Existing item
 			$value->params->set('access-change', $user->authorise('core.edit.state', $asset));
 		}
-		else {
+		else
+		{
 			// New item.
 			$catId = (int) $this->getState('article.catid');
 
-			if ($catId) {
+			if ($catId)
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
 				$value->catid = $catId;
 			}
-			else {
+			else
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
 			}
 		}
 
 		$value->articletext = $value->introtext;
-		if (!empty($value->fulltext)) {
+		if (!empty($value->fulltext))
+		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
+		}
+
+		// Convert the metadata field to an array.
+		$registry = new JRegistry;
+		$registry->loadString($value->metadata);
+		$value->metadata = $registry->toArray();
+
+		if ($itemId)
+		{
+			$value->tags = new JHelperTags;
+			$value->tags->getTagIds($value->id, 'com_content.article');
+			$value->metadata['tags'] = $value->tags;
 		}
 
 		return $value;
@@ -124,8 +146,8 @@ class ContentModelForm extends ContentModelArticle
 	/**
 	 * Get the return URL.
 	 *
-	 * @return	string	The return URL.
-	 * @since	1.6
+	 * @return  string	The return URL.
+	 * @since   1.6
 	 */
 	public function getReturnPage()
 	{

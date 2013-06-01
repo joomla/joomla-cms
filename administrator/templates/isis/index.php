@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -24,8 +24,8 @@ $doc->addScript('templates/' .$this->template. '/js/template.js');
 // Add Stylesheets
 $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
-// Load optional rtl bootstrap css and bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -82,7 +82,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	{
 	?>
 	<style type="text/css">
-		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
+		.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
@@ -109,12 +109,23 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<?php
 	}
 	?>
+
+	<!-- Sidebar background color -->
+	<?php if ($this->params->get('sidebarColor')) : ?>
+	<style type="text/css">
+		.nav-list > .active > a, .nav-list > .active > a:hover
+		{
+			background: <?php echo $this->params->get('sidebarColor'); ?>;
+		}
+	</style>
+	<?php endif; ?>
+
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" <?php if ($stickyToolbar): ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif;?>>
+<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif;?>>
 	<!-- Top Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
@@ -126,7 +137,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JGLOBAL_PREVIEW');?> <?php echo $sitename; ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($this->params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>
@@ -158,7 +169,11 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
 				</div>
 				<div class="span10">
-					<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
+					<?php if (isset($app->JComponentTitle)) : ?>
+						<h1 class="page-title"><?php echo JHtml::_('string.truncate', $app->JComponentTitle, 0, false, false);?></h1>
+					<?php else : ?>
+						<h1 class="page-title"><?php echo JHtml::_('string.truncate', '', 0, false, false);?></h1>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
@@ -230,22 +245,28 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						<jdoc:include type="component" />
 					</div>
 			</div>
-			<jdoc:include type="modules" name="bottom" style="xhtml" />
+			<?php if ($this->countModules('bottom')) : ?>
+				<jdoc:include type="modules" name="bottom" style="xhtml" />
+			<?php endif; ?>
 			<!-- End Content -->
 		</section>
-		<hr />
-		<?php if (!$this->countModules('status')): ?>
+
+		<?php if (!$this->countModules('status') || (!$statusFixed && $this->countModules('status'))) : ?>
 			<footer class="footer">
-				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+				<p align="center">
+				<jdoc:include type="modules" name="footer" style="no" />
+				&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 			</footer>
 		<?php endif; ?>
 	</div>
-	<?php if (($statusFixed) && ($this->countModules('status'))): ?>
+	<?php if (($statusFixed) && ($this->countModules('status'))) : ?>
 	<!-- Begin Status Module -->
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">
 			<div class="btn-group pull-right">
-				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+				<p><jdoc:include type="modules" name="footer" style="no" />
+				&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+
 			</div>
 			<jdoc:include type="modules" name="status" style="no" />
 		</div>
@@ -253,30 +274,34 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- End Status Module -->
 	<?php endif; ?>
 	<jdoc:include type="modules" name="debug" style="none" />
-	<?php if ($stickyToolbar): ?>
+	<?php if ($stickyToolbar) : ?>
 	<script>
 		(function($){
 			// fix sub nav on scroll
 			var $win = $(window)
 			  , $nav = $('.subhead')
-			  , navTop = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed): ?>40<?php else:?>20<?php endif;?>
+			  , navTop = $('.subhead').length && $('.subhead').offset().top - <?php if ($displayHeader || !$statusFixed) : ?>40<?php else:?>20<?php endif;?>
 			  , isFixed = 0
 
 			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function () {
+			$nav.on('click', function ()
+			{
 				if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
 			})
 
 			$win.on('scroll', processScroll)
 
-			function processScroll() {
+			function processScroll()
+			{
 				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
+				if (scrollTop >= navTop && !isFixed)
+				{
 					isFixed = 1
 					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
+				} else if (scrollTop <= navTop && isFixed)
+				{
 					isFixed = 0
 					$nav.removeClass('subhead-fixed')
 				}

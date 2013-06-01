@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,8 @@ else
 			<?php
 		}
 		// feed description
-		if ($params->get('rssdesc', 1)) {
+		if ($params->get('rssdesc', 1))
+		{
 		?>
 			<?php echo $feed->description; ?>
 			<?php
@@ -86,7 +87,11 @@ else
 	{ ?>
 	<ul>
 		<?php for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
-		{  ?>
+		{
+			if( !$feed->offsetExists($i)) {
+				break;
+			}
+			?>
 			<?php
 				$uri = (!empty($feed[$i]->guid) || !is_null($feed[$i]->guid)) ? $feed[$i]->guid : $feed[$i]->uri;
 

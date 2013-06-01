@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,13 +21,14 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'search_term', 'a.search_term',
 				'hits', 'a.hits',
@@ -42,17 +43,22 @@ class SearchModelSearches extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication('administrator');
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$showResults = $this->getUserStateFromRequest($this->context.'.filter.results', 'filter_results', null, 'int');
+		$showResults = $this->getUserStateFromRequest($this->context . '.filter.results', 'filter_results', null, 'int');
 		$this->setState('filter.results', $showResults);
 
 		// Load the parameters.
@@ -70,15 +76,16 @@ class SearchModelSearches extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param	string		$id	A prefix for the store id.
+	 * @param   string  $id    A prefix for the store id.
 	 *
-	 * @return	string		A store id.
+	 * @return  string  A store id.
+	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
 	{
 		// Compile the store id.
-		$id	.= ':'.$this->getState('filter.search');
-		$id	.= ':'.$this->getState('filter.results');
+		$id .= ':' . $this->getState('filter.search');
+		$id .= ':' . $this->getState('filter.results');
 
 		return parent::getStoreId($id);
 	}
@@ -86,13 +93,14 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return	JDatabaseQuery
+	 * @return  JDatabaseQuery
+	 * @since   1.6
 	 */
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -101,23 +109,24 @@ class SearchModelSearches extends JModelList
 				'a.*'
 			)
 		);
-		$query->from($db->quoteName('#__core_log_searches').' AS a');
+		$query->from($db->quoteName('#__core_log_searches') . ' AS a');
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access')) {
-			$query->where('a.access = '.(int) $access);
+		if ($access = $this->getState('filter.access'))
+		{
+			$query->where('a.access = ' . (int) $access);
 		}
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%'.$db->escape($search, true).'%');
-			$query->where('a.search_term LIKE '.$search);
+			$search = $db->quote('%' . $db->escape($search, true) . '%');
+			$query->where('a.search_term LIKE ' . $search);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.hits')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.hits')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
@@ -126,7 +135,8 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Override the parnet getItems to inject optional data.
 	 *
-	 * @return	mixed	An array of objects on success, false on failure.
+	 * @return  mixed  An array of objects on success, false on failure.
+	 * @since   1.6
 	 */
 	public function getItems()
 	{
@@ -134,19 +144,23 @@ class SearchModelSearches extends JModelList
 
 		// Determine if number of results for search item should be calculated
 		// by default it is `off` as it is highly query intensive
-		if ($this->getState('filter.results')) {
+		if ($this->getState('filter.results'))
+		{
 			JPluginHelper::importPlugin('search');
 			$app = JFactory::getApplication();
 
-			if (!class_exists('JSite')) {
+			if (!class_exists('JSite'))
+			{
 				// This fools the routers in the search plugins into thinking it's in the frontend
-				JLoader::register('JSite', JPATH_COMPONENT.'/helpers/site.php');
+				JLoader::register('JSite', JPATH_COMPONENT . '/helpers/site.php');
 			}
 
-			foreach ($items as &$item) {
+			foreach ($items as &$item)
+			{
 				$results = $app->triggerEvent('onContentSearch', array($item->search_term));
 				$item->returns = 0;
-				foreach ($results as $result) {
+				foreach ($results as $result)
+				{
 					$item->returns += count($result);
 				}
 			}
@@ -158,7 +172,8 @@ class SearchModelSearches extends JModelList
 	/**
 	 * Method to reset the seach log table.
 	 *
-	 * @return	boolean
+	 * @return  boolean
+	 * @since   1.6
 	 */
 	public function reset()
 	{

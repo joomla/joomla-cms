@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,15 @@ $app = JFactory::getApplication();
 $templateparams = $app->getTemplate(true)->params;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+JHtml::_('behavior.caption');
+
 $cparams = JComponentHelper::getParams('com_media');
 
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space
 ?>
 <section class="blog<?php echo $this->pageclass_sfx;?>">
-<?php if ($this->params->get('show_page_heading') != 0 or $this->params->get('show_category_title')): ?>
+<?php if ($this->params->get('show_page_heading') != 0 or $this->params->get('show_category_title')) : ?>
 <h1>
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	<?php if ($this->params->get('show_category_title'))
@@ -83,7 +85,7 @@ $cparams = JComponentHelper::getParams('com_media');
 		?>
 	</article>
 	<?php $counter++; ?>
-	<?php if (($rowcount == $this->columns) or ($counter == $introcount)): ?>
+	<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 				<span class="row-separator"></span>
 				</div>
 
@@ -99,15 +101,18 @@ $cparams = JComponentHelper::getParams('com_media');
 
 <?php endif; ?>
 
-
+  	<div class="cat-children">
 	<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
-		<div class="cat-children">
+
+		<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<h3>
-<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
-</h3>
+			<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+		</h3>
+		<?php endif; ?>
+	<?php endif; ?>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
-	<?php endif; ?>
+
 
 <?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 		<div class="pagination">

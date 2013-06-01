@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.0" method="upgrade">
+<extension type="component" version="3.1" method="upgrade">
 	<name>com_finder</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<creationDate>August 2011</creationDate>
 	<license>GNU General Public License version 2 or later; see	LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -38,8 +38,8 @@
 			<file charset="utf8" driver="postgresql">sql/uninstall.postgresql.sql</file>
 		</sql>
 	</uninstall>
-	<languages folder="site/language">
-		<language tag="en-GB">en-GB/en-GB.com_finder.ini</language>
+	<languages folder="site">
+		<language tag="en-GB">language/en-GB.com_finder.ini</language>
 	</languages>
 	<administration>
 		<files folder="admin">
@@ -55,9 +55,9 @@
 			<folder>tables</folder>
 			<folder>views</folder>
 		</files>
-		<languages folder="admin/language">
-			<language tag="en-GB">en-GB/en-GB.com_finder.ini</language>
-			<language tag="en-GB">en-GB/en-GB.com_finder.sys.ini</language>
+		<languages folder="admin">
+			<language tag="en-GB">language/en-GB.com_finder.ini</language>
+			<language tag="en-GB">language/en-GB.com_finder.sys.ini</language>
 		</languages>
 		<menu img="class:finder" link="option=com_finder">COM_FINDER</menu>
 	</administration>

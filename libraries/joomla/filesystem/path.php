@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -169,7 +169,6 @@ class JPath
 		$path = self::clean($path);
 		if ((JPATH_ROOT != '') && strpos($path, self::clean(JPATH_ROOT)) !== 0)
 		{
-			// Don't translate
 			throw new Exception('JPath::check Snooping out of bounds @ ' . $path, 20);
 		}
 
@@ -185,9 +184,15 @@ class JPath
 	 * @return  string  The cleaned path.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
+		if (!is_string($path) && !empty($path))
+		{
+			throw new UnexpectedValueException('JPath::clean: $path is not a string.');
+		}
+
 		$path = trim($path);
 
 		if (empty($path))

@@ -38,15 +38,17 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-			<field name="presentation_style"
-			type="list"
-				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
-				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-			>
-				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
-			</field>
+
+		<field name="presentation_style"
+		type="list"
+			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
+		>
+			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
+			<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
+			<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
+		</field>
+
 		<field name="show_name"
 			type="radio"
 			class="btn-group"
@@ -283,6 +285,18 @@
 				class="inputbox" size="30"
 			/>
 
+		<field
+			id="show_tags"
+			name="show_tags"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_TAGS_DESC">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
 	</fieldset>
 	<fieldset name="Icons"
 			 label="COM_CONTACT_ICONS_SETTINGS"
@@ -350,148 +364,151 @@
 			view="category"
 		/>
 
-			<field name="show_category_title" type="radio"
-				default="1"
-				class="btn-group"
-				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_description" type="radio"
-				default="1"
-				class="btn-group"
-				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+		<field name="show_category_title" type="radio"
+			default="1"
+			class="btn-group"
+			label="JGLOBAL_SHOW_CATEGORY_TITLE"
+			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+		<field name="show_description" type="radio"
+			default="1"
+			class="btn-group"
+			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
+			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field name="show_description_image" type="radio"
+			default="0"
+			class="btn-group"
+			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
+			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_description_image" type="radio"
-				default="0"
-				class="btn-group"
-				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			>
+		<field name="maxLevel" type="list"
+			default="-1"
+			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+		>
+			<option value="-1">JALL</option>
+			<option value="0">JNONE</option>
+			<option value="1">J1</option>
+			<option value="2">J2</option>
+			<option value="3">J3</option>
+			<option value="4">J4</option>
+			<option value="5">J5</option>
+		</field>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+		<field name="show_empty_categories" type="radio"
+			default="0"
+			class="btn-group"
+			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-			<field name="maxLevel" type="list"
-				default="-1"
-				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
-				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			>
-				<option value="-1">JALL</option>
-				<option value="0">JNONE</option>
-				<option value="1">J1</option>
-				<option value="2">J2</option>
-				<option value="3">J3</option>
-				<option value="4">J4</option>
-				<option value="5">J5</option>
-			</field>
+		<field name="show_subcat_desc" type="radio"
+			default="1"
+			class="btn-group"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-			<field name="show_empty_categories" type="radio"
-				default="0"
-				class="btn-group"
-				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
-			>
+		<field name="show_cat_items" type="radio"
+			default="1"
+			class="btn-group"
+			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-
-			<field name="show_subcat_desc" type="radio"
-				default="1"
-				class="btn-group"
-				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-			>
-
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field name="show_cat_items" type="radio"
-				default="1"
-				class="btn-group"
-				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
-			>
-
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
+		<field name="show_cat_tags" type="radio"
+			label="COM_CONTACT_FIELD_SHOW_CAT_TAGS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_CAT_TAGS_DESC"
+			class="btn-group"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 	</fieldset>
 
-			<fieldset name="categories"
-			label="JCATEGORIES"
-			description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
-	>
-			<field name="show_base_description" type="radio"
-				default="1"
-				class="btn-group"
-				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
-			>
+		<fieldset name="categories"
+		label="JCATEGORIES"
+		description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
+>
+		<field name="show_base_description" type="radio"
+			default="1"
+			class="btn-group"
+			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
+			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
+		>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-			<field name="maxLevelcat" type="list"
-				default="-1"
-				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
-				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			>
-				<option value="-1">JALL</option>
-				<option value="1">J1</option>
-				<option value="2">J2</option>
-				<option value="3">J3</option>
-				<option value="4">J4</option>
-				<option value="5">J5</option>
-			</field>
+		<field name="maxLevelcat" type="list"
+			default="-1"
+			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+		>
+			<option value="-1">JALL</option>
+			<option value="1">J1</option>
+			<option value="2">J2</option>
+			<option value="3">J3</option>
+			<option value="4">J4</option>
+			<option value="5">J5</option>
+		</field>
 
-			<field name="show_empty_categories_cat" type="radio"
-				default="0"
-				class="btn-group"
-				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
-			>
+		<field name="show_empty_categories_cat" type="radio"
+			default="0"
+			class="btn-group"
+			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
+			description="COM_CONTACT_SHOW_EMPTY_CATEGORIES_DESC"
+		>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-			<field name="show_subcat_desc_cat" type="radio"
-				default="1"
-				class="btn-group"
-				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-			>
+		<field name="show_subcat_desc_cat" type="radio"
+			default="1"
+			class="btn-group"
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
+			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
+		>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-			<field name="show_cat_items_cat" type="radio"
-				default="1"
-				class="btn-group"
-				label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
-				description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
-			>
+		<field name="show_cat_items_cat" type="radio"
+			default="1"
+			class="btn-group"
+			label="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_LABEL"
+			description="COM_CONTACT_FIELD_SHOW_CAT_ITEMS_DESC"
+		>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
 	</fieldset>
 
@@ -499,27 +516,38 @@
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_DESC"
 	>
+		<field
+			name="filter_field"
+			type="list"
+			default="1"
+			description="JGLOBAL_FILTER_FIELD_DESC"
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			>
+				<option value="hide">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
 		<field name="show_pagination_limit" type="radio"
-				default="1"
-				class="btn-group"
-				description="JGLOBAL_DISPLAY_SELECT_DESC"
-				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			>
+			default="1"
+			class="btn-group"
+			description="JGLOBAL_DISPLAY_SELECT_DESC"
+			label="JGLOBAL_DISPLAY_SELECT_LABEL"
+		>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
-			<field name="show_headings" type="radio"
-				default="1"
-				class="btn-group"
-				description="JGLOBAL_SHOW_HEADINGS_DESC"
-				label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			>
+		<field name="show_headings" type="radio"
+			default="1"
+			class="btn-group"
+			description="JGLOBAL_SHOW_HEADINGS_DESC"
+			label="JGLOBAL_SHOW_HEADINGS_LABEL"
+		>
 
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
 
 		<field name="show_position_headings" type="radio"
 			default="1"

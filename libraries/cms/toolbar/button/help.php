@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -42,7 +42,7 @@ class JToolbarButtonHelp extends JToolbarButton
 		$class = 'question-sign';
 		$doTask = $this->_getCommand($ref, $com, $override, $component);
 
-		$html = "<button href=\"#\" onclick=\"$doTask\" rel=\"help\" class=\"btn btn-small\">\n";
+		$html = "<button onclick=\"$doTask\" rel=\"help\" class=\"btn btn-small\">\n";
 		$html .= "<i class=\"icon-$class\">\n";
 		$html .= "</i>\n";
 		$html .= "$text\n";

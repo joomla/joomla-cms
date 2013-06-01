@@ -91,6 +91,18 @@
 				<option value="none">COM_NEWSFEEDS_NONE</option>
 		</field>
 
+		<field
+			id="show_tags"
+			name="show_tags"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset
@@ -188,6 +200,16 @@
 			<option value="1">JSHOW</option>
 		</field>
 
+		<field name="show_cat_tags" type="radio"
+			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_DESC"
+			class="btn-group"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="categories"
@@ -253,6 +275,17 @@
 		name="listlayout"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_NEWSFEEDS_FIELD_CONFIG_LIST_SETTINGS_DESC">
+
+		<field
+			name="filter_field"
+			type="list"
+			default="1"
+			description="JGLOBAL_FILTER_FIELD_DESC"
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			>
+				<option value="hide">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
 
 		<field
 			name="show_pagination_limit"

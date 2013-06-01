@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,12 +16,12 @@ defined('_JEXEC') or die;
  * @subpackage  com_admin
  * @since       1.6.4
  */
-class joomlaInstallerScript
+class JoomlaInstallerScript
 {
 	/**
-	 * method to update Joomla!
+	 * Method to update Joomla!
 	 *
-	 * @param	JInstallerFile	$installer	The class calling this method
+	 * @param   JInstallerFile    $installer    The class calling this method
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class joomlaInstallerScript
 			$results = $db->loadObjectList();
 			if ($db->getErrorNum())
 			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
 				return;
 			}
 			foreach ($results as $result)
@@ -54,7 +54,7 @@ class joomlaInstallerScript
 					$db->execute();
 					if ($db->getErrorNum())
 					{
-						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
 						return;
 					}
 					break;
@@ -94,6 +94,7 @@ class joomlaInstallerScript
 		$extensions[] = array('component', 'com_config', '', 1);
 		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
+		$extensions[] = array('component', 'com_tags', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -126,6 +127,8 @@ class joomlaInstallerScript
 		$extensions[] = array('module', 'mod_articles_category', '', 0);
 		$extensions[] = array('module', 'mod_articles_categories', '', 0);
 		$extensions[] = array('module', 'mod_languages', '', 0);
+		$extensions[] = array('module', 'mod_tags_popular', '', 0);
+		$extensions[] = array('module', 'mod_tags_similar', '', 0);
 
 		// Administrator
 		$extensions[] = array('module', 'mod_custom', '', 1);
@@ -148,7 +151,6 @@ class joomlaInstallerScript
 		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
 		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
 		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
-		$extensions[] = array('plugin', 'geshi', 'content', 0);
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
 		$extensions[] = array('plugin', 'pagenavigation', 'content', 0);
@@ -183,6 +185,12 @@ class joomlaInstallerScript
 		$extensions[] = array('plugin', 'joomlaupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'extensionupdate', 'quickicon', 0);
 		$extensions[] = array('plugin', 'recaptcha', 'captcha', 0);
+		$extensions[] = array('plugin', 'categories', 'finder', 0);
+		$extensions[] = array('plugin', 'contacts', 'finder', 0);
+		$extensions[] = array('plugin', 'content', 'finder', 0);
+		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
+		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
+		$extensions[] = array('plugin', 'tags', 'finder', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -202,11 +210,12 @@ class joomlaInstallerScript
 
 		// Attempt to refresh manifest caches
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__extensions');
-		foreach ($extensions as $extension) {
-			$query->where('type='.$db->quote($extension[0]).' AND element='.$db->quote($extension[1]).' AND folder='.$db->quote($extension[2]).' AND client_id='.$extension[3], 'OR');
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__extensions');
+		foreach ($extensions as $extension)
+		{
+			$query->where('type=' . $db->quote($extension[0]) . ' AND element=' . $db->quote($extension[1]) . ' AND folder=' . $db->quote($extension[2]) . ' AND client_id=' . $extension[3], 'OR');
 		}
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
@@ -214,12 +223,14 @@ class joomlaInstallerScript
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()).'<br />';
+			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
 			return;
 		}
-		foreach ($extensions as $extension) {
-			if (!$installer->refreshManifestCache($extension->extension_id)) {
-				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id).'<br />';
+		foreach ($extensions as $extension)
+		{
+			if (!$installer->refreshManifestCache($extension->extension_id))
+			{
+				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br />';
 			}
 		}
 	}
@@ -301,6 +312,7 @@ class joomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/1.7.4-2011-12-12.sql',
 			'/administrator/components/com_admin/views/sysinfo/tmpl/default_navigation.php',
 			'/administrator/components/com_categories/config.xml',
+			'/administrator/components/com_categories/helpers/categoriesadministrator.php',
 			'/administrator/components/com_contact/elements/contact.php',
 			'/administrator/components/com_contact/elements/index.html',
 			'/administrator/components/com_content/elements/article.php',
@@ -528,6 +540,65 @@ class joomlaInstallerScript
 			'/libraries/joomla/utilities/xmlelement.php',
 			'/media/plg_quickicon_extensionupdate/extensionupdatecheck.js',
 			'/media/plg_quickicon_joomlaupdate/jupdatecheck.js',
+			// Joomla! 3.1
+			'/libraries/joomla/form/rules/boolean.php',
+			'/libraries/joomla/form/rules/color.php',
+			'/libraries/joomla/form/rules/email.php',
+			'/libraries/joomla/form/rules/equals.php',
+			'/libraries/joomla/form/rules/index.html',
+			'/libraries/joomla/form/rules/options.php',
+			'/libraries/joomla/form/rules/rules.php',
+			'/libraries/joomla/form/rules/tel.php',
+			'/libraries/joomla/form/rules/url.php',
+			'/libraries/joomla/form/rules/username.php',
+			'/libraries/joomla/html/access.php',
+			'/libraries/joomla/html/behavior.php',
+			'/libraries/joomla/html/content.php',
+			'/libraries/joomla/html/date.php',
+			'/libraries/joomla/html/email.php',
+			'/libraries/joomla/html/form.php',
+			'/libraries/joomla/html/grid.php',
+			'/libraries/joomla/html/html.php',
+			'/libraries/joomla/html/index.html',
+			'/libraries/joomla/html/jgrid.php',
+			'/libraries/joomla/html/list.php',
+			'/libraries/joomla/html/number.php',
+			'/libraries/joomla/html/rules.php',
+			'/libraries/joomla/html/select.php',
+			'/libraries/joomla/html/sliders.php',
+			'/libraries/joomla/html/string.php',
+			'/libraries/joomla/html/tabs.php',
+			'/libraries/joomla/html/tel.php',
+			'/libraries/joomla/html/user.php',
+			'/libraries/joomla/html/language/index.html',
+			'/libraries/joomla/html/language/en-GB/en-GB.jhtmldate.ini',
+			'/libraries/joomla/html/language/en-GB/index.html',
+			'/libraries/joomla/installer/adapters/component.php',
+			'/libraries/joomla/installer/adapters/file.php',
+			'/libraries/joomla/installer/adapters/index.html',
+			'/libraries/joomla/installer/adapters/language.php',
+			'/libraries/joomla/installer/adapters/library.php',
+			'/libraries/joomla/installer/adapters/module.php',
+			'/libraries/joomla/installer/adapters/package.php',
+			'/libraries/joomla/installer/adapters/plugin.php',
+			'/libraries/joomla/installer/adapters/template.php',
+			'/libraries/joomla/installer/extension.php',
+			'/libraries/joomla/installer/helper.php',
+			'/libraries/joomla/installer/index.html',
+			'/libraries/joomla/installer/librarymanifest.php',
+			'/libraries/joomla/installer/packagemanifest.php',
+			'/libraries/legacy/html/contentlanguage.php',
+			'/libraries/legacy/html/index.html',
+			'/libraries/legacy/html/menu.php',
+			'/media/system/css/mooRainbow.css',
+			'/media/system/js/mooRainbow-uncompressed.js',
+			'/media/system/js/mooRainbow.js',
+			'/media/system/js/swf-uncompressed.js',
+			'/media/system/js/swf.js',
+			'/media/system/js/uploader-uncompressed.js',
+			'/media/system/js/uploader.js',
+			'/media/system/swf/index.html',
+			'/media/system/swf/uploader.swf',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -564,19 +635,32 @@ class joomlaInstallerScript
 			'/libraries/joomla/html/parameter/element',
 			'/libraries/joomla/image/filters',
 			'/libraries/joomla/log/loggers',
+			// Joomla! 3.1
+			'/libraries/joomla/form/rules',
+			'/libraries/joomla/html/language/en-GB',
+			'/libraries/joomla/html/language',
+			'/libraries/joomla/html',
+			'/libraries/joomla/installer/adapters',
+			'/libraries/joomla/installer',
+			'/libraries/legacy/html',
+			'/media/system/swf/',
 		);
 
 		jimport('joomla.filesystem.file');
-		foreach ($files as $file) {
-			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file)) {
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file).'<br />';
+		foreach ($files as $file)
+		{
+			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+			{
+				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
 			}
 		}
 
 		jimport('joomla.filesystem.folder');
-		foreach ($folders as $folder) {
-			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder)) {
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder).'<br />';
+		foreach ($folders as $folder)
+		{
+			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
+			{
+				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 			}
 		}
 	}

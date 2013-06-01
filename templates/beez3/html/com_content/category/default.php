@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ $templateparams = $app->getTemplate(true)->params;
 
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+JHtml::_('behavior.caption');
 
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
@@ -62,23 +63,25 @@ $pageClass = $this->params->get('pageclass_sfx');
 	{
 		echo '<h3>';
 	}
-	else
+	elseif ($this->params->get('show_category_heading_title_text', 1) == 1)
 	{
 		echo '<h2>';
 	} ?>
-
-<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
-<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
+    <?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
+		<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+	<?php endif; ?>
+	<?php if ($this->params->get('show_category_title') or $this->params->get('page_subheading'))
 	{
 		echo '</h3>';
 	}
-	else
+	elseif ($this->params->get('show_category_heading_title_text', 1) == 1)
 	{
 		echo '</h2>';
 	} ?>
-			<?php echo $this->loadTemplate('children'); ?>
 		</div>
 	<?php endif; ?>
+	<?php echo $this->loadTemplate('children'); ?>
+
 
 	<div class="cat-items">
 		<?php echo $this->loadTemplate('articles'); ?>

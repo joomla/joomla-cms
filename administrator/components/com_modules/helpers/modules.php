@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ abstract class ModulesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @return	JObject
+	 * @return  JObject
 	 */
 	public static function getActions()
 	{
@@ -51,7 +51,7 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of filter options for the state of a module.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getStateOptions()
 	{
@@ -66,7 +66,7 @@ abstract class ModulesHelper
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
-	 * @return	array	An array of JHtmlOption elements.
+	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getClientOptions()
 	{
@@ -84,15 +84,14 @@ abstract class ModulesHelper
 	 *
 	 * @return  array  A list of positions
 	 */
-	public static function getPositions($clientId)
+	public static function getPositions($clientId, $editPositions = false)
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('DISTINCT(position)');
-		$query->from('#__modules');
-		$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
-		$query->order('position');
+		$query	= $db->getQuery(true)
+			->select('DISTINCT(position)')
+			->from('#__modules')
+			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
+			->order('position');
 
 		$db->setQuery($query);
 
@@ -111,7 +110,7 @@ abstract class ModulesHelper
 		$options = array();
 		foreach ($positions as $position)
 		{
-			if (!$position)
+			if (!$position && !$editPositions)
 			{
 				$options[]	= JHtml::_('select.option', 'none', ':: ' . JText::_('JNONE') . ' ::');
 
@@ -141,10 +140,10 @@ abstract class ModulesHelper
 		$query	= $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled');
-		$query->from('#__extensions');
-		$query->where('client_id = ' . (int) $clientId);
-		$query->where('type = ' . $db->quote('template'));
+		$query->select('element, name, enabled')
+			->from('#__extensions')
+			->where('client_id = ' . (int) $clientId)
+			->where('type = ' . $db->quote('template'));
 		if ($state != '')
 		{
 			$query->where('enabled = ' . $db->quote($state));
@@ -171,15 +170,14 @@ abstract class ModulesHelper
 	public static function getModules($clientId)
 	{
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('element AS value, name AS text');
-		$query->from('#__extensions as e');
-		$query->where('e.client_id = ' . (int) $clientId);
-		$query->where('type = ' . $db->quote('module'));
-		$query->leftJoin('#__modules as m ON m.module=e.element AND m.client_id=e.client_id');
-		$query->where('m.module IS NOT NULL');
-		$query->group('element,name');
+		$query	= $db->getQuery(true)
+			->select('element AS value, name AS text')
+			->from('#__extensions as e')
+			->where('e.client_id = ' . (int) $clientId)
+			->where('type = ' . $db->quote('module'))
+			->join('LEFT', '#__modules as m ON m.module=e.element AND m.client_id=e.client_id')
+			->where('m.module IS NOT NULL')
+			->group('element,name');
 
 		$db->setQuery($query);
 		$modules = $db->loadObjectList();
@@ -196,7 +194,7 @@ abstract class ModulesHelper
 			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 			$modules[$i]->text = JText::_($module->text);
 		}
-		JArrayHelper::sortObjects($modules, 'text', 1, true, $lang->getLocale());
+		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
 		return $modules;
 	}
 

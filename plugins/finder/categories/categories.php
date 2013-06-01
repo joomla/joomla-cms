@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapt
  * @subpackage  Finder.Categories
  * @since       2.5
  */
-class plgFinderCategories extends FinderIndexerAdapter
+class PlgFinderCategories extends FinderIndexerAdapter
 {
 	/**
 	 * The plugin identifier.
@@ -69,18 +69,12 @@ class plgFinderCategories extends FinderIndexerAdapter
 	protected $state_field = 'published';
 
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   2.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Method to remove the link information for items that have been deleted.
@@ -133,10 +127,17 @@ class plgFinderCategories extends FinderIndexerAdapter
 			{
 				// Process the change.
 				$this->itemAccessChange($row);
+
+				// Reindex the item
+				$this->reindex($row->id);
 			}
 
-			// Reindex the item
-			$this->reindex($row->id);
+			// Check if the parent access level is different
+			if (!$isNew && $this->old_cataccess != $row->access)
+			{
+				$this->categoryAccessChange($row);
+			}
+
 		}
 		return true;
 	}
@@ -160,10 +161,11 @@ class plgFinderCategories extends FinderIndexerAdapter
 		// We only want to handle categories here
 		if ($context == 'com_categories.category')
 		{
-			// Query the database for the old access level if the item isn't new
+			// Query the database for the old access level and the parent if the item isn't new
 			if (!$isNew)
 			{
 				$this->checkItemAccess($row);
+				$this->checkCategoryAccess($row);
 			}
 		}
 
@@ -193,15 +195,22 @@ class plgFinderCategories extends FinderIndexerAdapter
 			// before we change anything.
 			foreach ($pks as $pk)
 			{
-				$sql = clone($this->getStateQuery());
-				$sql->where('a.id = ' . (int) $pk);
+				$query = clone($this->getStateQuery());
+				$query->where('a.id = ' . (int) $pk);
 
 				// Get the published states.
-				$this->db->setQuery($sql);
+				$this->db->setQuery($query);
 				$item = $this->db->loadObject();
 
 				// Translate the state.
-				$temp = $this->translateState($value);
+				$state = null;
+
+				if ($item->parent_id != 1)
+				{
+					$state = $item->cat_state;
+				}
+
+				$temp = $this->translateState($value, $state);
 
 				// Update the item.
 				$this->change($pk, 'state', $temp);
@@ -236,6 +245,8 @@ class plgFinderCategories extends FinderIndexerAdapter
 		{
 			return;
 		}
+
+		$item->setLanguage();
 
 		// Need to import component route helpers dynamically, hence the reason it's handled here
 		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
@@ -329,40 +340,40 @@ class plgFinderCategories extends FinderIndexerAdapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $sql  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A JDatabaseQuery object or null.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
-	protected function getListQuery($sql = null)
+	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
 		// Check if we can use the supplied SQL query.
-		$sql = $sql instanceof JDatabaseQuery ? $sql : $db->getQuery(true);
-		$sql->select('a.id, a.title, a.alias, a.description AS summary, a.extension');
-		$sql->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by');
-		$sql->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level');
-		$sql->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
+		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+			->select('a.id, a.title, a.alias, a.description AS summary, a.extension')
+			->select('a.created_user_id AS created_by, a.modified_time AS modified, a.modified_user_id AS modified_by')
+			->select('a.metakey, a.metadesc, a.metadata, a.language, a.lft, a.parent_id, a.level')
+			->select('a.created_time AS start_date, a.published AS state, a.access, a.params');
 
 		// Handle the alias CASE WHEN portion of the query
 		$case_when_item_alias = ' CASE WHEN ';
-		$case_when_item_alias .= $sql->charLength('a.alias', '!=', '0');
+		$case_when_item_alias .= $query->charLength('a.alias', '!=', '0');
 		$case_when_item_alias .= ' THEN ';
-		$a_id = $sql->castAsChar('a.id');
-		$case_when_item_alias .= $sql->concatenate(array($a_id, 'a.alias'), ':');
+		$a_id = $query->castAsChar('a.id');
+		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
 		$case_when_item_alias .= $a_id.' END as slug';
-		$sql->select($case_when_item_alias);
-		$sql->from('#__categories AS a');
-		$sql->where($db->quoteName('a.id') . ' > 1');
+		$query->select($case_when_item_alias)
+			->from('#__categories AS a')
+			->where($db->quoteName('a.id') . ' > 1');
 
-		return $sql;
+		return $query;
 	}
 
 	/**
 	 * Method to get a SQL query to load the published and access states for
-	 * a category and section.
+	 * an article and category.
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
@@ -370,12 +381,13 @@ class plgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getStateQuery()
 	{
-		$sql = $this->db->getQuery(true);
-		$sql->select($this->db->quoteName('a.id'));
-		$sql->select($this->db->quoteName('a.published') . ' AS cat_state');
-		$sql->select($this->db->quoteName('a.access') . ' AS cat_access');
-		$sql->from($this->db->quoteName('#__categories') . ' AS a');
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('a.id'))
+			->select('a.' . $this->state_field . ' AS state, c.published AS cat_state')
+			->select('a.access, c.access AS cat_access')
+			->from($this->db->quoteName('#__categories') . ' AS a')
+			->join('LEFT', '#__categories AS c ON c.id = a.parent_id');
 
-		return $sql;
+		return $query;
 	}
 }

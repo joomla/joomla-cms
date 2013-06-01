@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,8 @@ class MenusViewMenu extends JViewLegacy
 		$this->state = $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -46,7 +47,7 @@ class MenusViewMenu extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -60,26 +61,33 @@ class MenusViewMenu extends JViewLegacy
 		JToolbarHelper::title(JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'menu.png');
 
 		// If a new item, can save the item.  Allow users with edit permissions to apply changes to prevent returning to grid.
-		if ($isNew && $canDo->get('core.create')) {
-			if ($canDo->get('core.edit')) {
+		if ($isNew && $canDo->get('core.create'))
+		{
+			if ($canDo->get('core.edit'))
+			{
 				JToolbarHelper::apply('menu.apply');
 			}
 			JToolbarHelper::save('menu.save');
 		}
 
 		// If user can edit, can save the item.
-		if (!$isNew && $canDo->get('core.edit')) {
+		if (!$isNew && $canDo->get('core.edit'))
+		{
 			JToolbarHelper::apply('menu.apply');
 			JToolbarHelper::save('menu.save');
 		}
 
 		// If the user can create new items, allow them to see Save & New
-		if ($canDo->get('core.create')) {
+		if ($canDo->get('core.create'))
+		{
 			JToolbarHelper::save2new('menu.save2new');
 		}
-		if ($isNew) {
+		if ($isNew)
+		{
 			JToolbarHelper::cancel('menu.cancel');
-		} else {
+		}
+		else
+		{
 			JToolbarHelper::cancel('menu.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolbarHelper::divider();

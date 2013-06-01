@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,8 +15,8 @@ $lang	= JFactory::getLanguage();
 $input	= $app->input;
 $user	= JFactory::getUser();
 
-// Load optional rtl bootstrap css and bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
 $doc->addStyleSheet('templates/system/css/system.css');
@@ -120,7 +120,8 @@ else
 			<?php
 			//Display an harcoded logout
 			$task = $app->input->get('task');
-			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu')) {
+			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
+			{
 				$logoutLink = '';
 			} else {
 				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
@@ -149,7 +150,7 @@ else
 
 		<!-- Sub Menu Navigation -->
 		<div class="subheader">
-			<?php if (!$app->input->getInt('hidemainmenu')): ?>
+			<?php if (!$app->input->getInt('hidemainmenu')) : ?>
 				<h3 class="element-invisible"><?php echo JText::_('TPL_HATHOR_SUB_MENU'); ?></h3>
 				<jdoc:include type="modules" name="submenu" style="xhtmlid" id="submenu-box" />
 			<?php echo " " ?>
@@ -195,5 +196,17 @@ else
 	</p>
 </div>
 
+<script type="text/javascript">
+	(function($){
+		$(document).ready(function () {
+			// Patches to fix some wrong render of chosen fields
+			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
+				$(this).css({
+					'width': 'auto'
+				});
+			});
+		});
+	})(jQuery);
+</script>
 </body>
 </html>

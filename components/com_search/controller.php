@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,11 +21,11 @@ class SearchController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -40,11 +40,13 @@ class SearchController extends JControllerLegacy
 		$badchars = array('#', '>', '<', '\\');
 		$searchword = trim(str_replace($badchars, '', $this->input->getString('searchword', null, 'post')));
 		// if searchword enclosed in double quotes, strip quotes and do exact match
-		if (substr($searchword, 0, 1) == '"' && substr($searchword, -1) == '"') {
+		if (substr($searchword, 0, 1) == '"' && substr($searchword, -1) == '"')
+		{
 			$post['searchword'] = substr($searchword, 1, -1);
 			$this->input->set('searchphrase', 'exact');
 		}
-		else {
+		else
+		{
 			$post['searchword'] = $searchword;
 		}
 		$post['ordering']     = $this->input->getWord('ordering', null, 'post');
@@ -57,8 +59,9 @@ class SearchController extends JControllerLegacy
 		}
 
 		$areas = $this->input->post->get('areas', null, 'array');
-		if ($areas) {
-			foreach($areas as $area)
+		if ($areas)
+		{
+			foreach ($areas as $area)
 			{
 				$post['areas'][] = JFilterInput::getInstance()->clean($area, 'cmd');
 			}
@@ -69,7 +72,8 @@ class SearchController extends JControllerLegacy
 		$menu	= $app->getMenu();
 		$items	= $menu->getItems('link', 'index.php?option=com_search&view=search');
 
-		if(isset($items[0])) {
+		if (isset($items[0]))
+		{
 			$post['Itemid'] = $items[0]->id;
 		} elseif ($this->input->getInt('Itemid') > 0) { //use Itemid from requesting page only if there is no existing menu
 			$post['Itemid'] = $this->input->getInt('Itemid');

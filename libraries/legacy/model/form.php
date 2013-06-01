@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -201,6 +201,32 @@ abstract class JModelForm extends JModelLegacy
 	protected function loadFormData()
 	{
 		return array();
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the data.
+	 *
+	 * @param   string  $context  The context identifier.
+	 * @param   mixed   &$data    The data to be processed. It gets altered directly.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function preprocessData($context, &$data)
+	{
+		// Get the dispatcher and load the users plugins.
+		$dispatcher = JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+
+		// Trigger the data preparation event.
+		$results = $dispatcher->trigger('onContentPrepareData', array($context, $data));
+
+		// Check for errors encountered while preparing the data.
+		if (count($results) > 0 && in_array(false, $results, true))
+		{
+			$this->setError($dispatcher->getError());
+		}
 	}
 
 	/**

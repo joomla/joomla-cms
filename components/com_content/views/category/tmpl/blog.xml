@@ -31,7 +31,15 @@
 				type="hidden"
 				default="blog"
 			/>
-
+		  	<field name="show_category_heading_title_text"
+				type="list"
+ 				label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+				description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC"
+				>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
 			<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
@@ -274,7 +282,7 @@
 			<field
 				name="info_block_position"
 				type="list"
-				default="0"
+				default=""
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>

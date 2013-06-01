@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ class TemplatesModelSource extends JModelForm
 	/**
 	 * Cache for the template information.
 	 *
-	 * @var		object
+	 * @var        object
 	 */
 	private $_template = null;
 
@@ -28,7 +28,7 @@ class TemplatesModelSource extends JModelForm
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -50,38 +50,39 @@ class TemplatesModelSource extends JModelForm
 		$app->setUserState('editor.source.syntax', JFile::getExt($fileName));
 
 		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_templates');
+		$params = JComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
 	}
 
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param	array	$data		Data for the form.
-	 * @param	boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return	JForm	A JForm object on success, false on failure
-	 * @since	1.6
+	 * @param   array      $data        Data for the form.
+	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 * @return  JForm    A JForm object on success, false on failure
+	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		$app = JFactory::getApplication();
 
 		// Codemirror or Editor None should be enabled
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('COUNT(*)');
-		$query->from('#__extensions as a');
-		$query->where('(a.name ='.$db->quote('plg_editors_codemirror').' AND a.enabled = 1) OR (a.name ='.$db->quote('plg_editors_none').' AND a.enabled = 1)');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('#__extensions as a')
+			->where('(a.name =' . $db->quote('plg_editors_codemirror') . ' AND a.enabled = 1) OR (a.name =' . $db->quote('plg_editors_none') . ' AND a.enabled = 1)');
 		$db->setQuery($query);
 		$state = $db->loadResult();
-		if ((int) $state < 1 )
+		if ((int) $state < 1)
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
 		}
 
 		// Get the form.
 		$form = $this->loadForm('com_templates.source', 'source', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form)) {
+		if (empty($form))
+		{
 			return false;
 		}
 
@@ -91,17 +92,20 @@ class TemplatesModelSource extends JModelForm
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed	The data for the form.
-	 * @since	1.6
+	 * @return  mixed  The data for the form.
+	 * @since   1.6
 	 */
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_templates.edit.source.data', array());
 
-		if (empty($data)) {
+		if (empty($data))
+		{
 			$data = $this->getSource();
 		}
+
+		$this->preprocessData('com_templates.source', $data);
 
 		return $data;
 	}
@@ -109,27 +113,31 @@ class TemplatesModelSource extends JModelForm
 	/**
 	 * Method to get a single record.
 	 *
-	 * @return	mixed	Object on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  Object on success, false on failure.
+	 * @since   1.6
 	 */
 	public function &getSource()
 	{
 		$item = new stdClass;
-		if (!$this->_template) {
+		if (!$this->_template)
+		{
 			$this->getTemplate();
 		}
 
-		if ($this->_template) {
+		if ($this->_template)
+		{
 			$fileName = $this->getState('filename');
-			$client   = JApplicationHelper::getClientInfo($this->_template->client_id);
-			$filePath = JPath::clean($client->path.'/templates/'.$this->_template->element.'/'.$fileName);
+			$client = JApplicationHelper::getClientInfo($this->_template->client_id);
+			$filePath = JPath::clean($client->path . '/templates/' . $this->_template->element . '/' . $fileName);
 
 			if (file_exists($filePath))
 			{
 				$item->extension_id = $this->getState('extension.id');
-				$item->filename     = $this->getState('filename');
-				$item->source       = file_get_contents($filePath);
-			} else {
+				$item->filename = $this->getState('filename');
+				$item->source = file_get_contents($filePath);
+			}
+			else
+			{
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 			}
 		}
@@ -140,21 +148,21 @@ class TemplatesModelSource extends JModelForm
 	/**
 	 * Method to get the template information.
 	 *
-	 * @return	mixed	Object if successful, false if not and internal error is set.
-	 * @since	1.6
+	 * @return  mixed  Object if successful, false if not and internal error is set.
+	 * @since   1.6
 	 */
 	public function &getTemplate()
 	{
-		$pk		= $this->getState('extension.id');
-		$db		= $this->getDbo();
-		$result	= false;
+		$pk = $this->getState('extension.id');
+		$db = $this->getDbo();
+		$result = false;
 
 		// Get the template information.
 		$db->setQuery(
 			'SELECT extension_id, client_id, element' .
-			' FROM #__extensions' .
-			' WHERE extension_id = '.(int) $pk.
-			'  AND type = '.$db->quote('template')
+				' FROM #__extensions' .
+				' WHERE extension_id = ' . (int) $pk .
+				'  AND type = ' . $db->quote('template')
 		);
 
 		try
@@ -168,10 +176,13 @@ class TemplatesModelSource extends JModelForm
 			return false;
 		}
 
-		if (empty($result)) {
+		if (empty($result))
+		{
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
 			$this->_template = false;
-		} else {
+		}
+		else
+		{
 			$this->_template = $result;
 		}
 
@@ -181,10 +192,10 @@ class TemplatesModelSource extends JModelForm
 	/**
 	 * Method to store the source file contents.
 	 *
-	 * @param	array	The souce data to save.
+	 * @param   array  The souce data to save.
 	 *
-	 * @return	boolean	True on success, false otherwise and internal error set.
-	 * @since	1.6
+	 * @return  boolean  True on success, false otherwise and internal error set.
+	 * @since   1.6
 	 */
 	public function save($data)
 	{
@@ -192,14 +203,15 @@ class TemplatesModelSource extends JModelForm
 
 		// Get the template.
 		$template = $this->getTemplate();
-		if (empty($template)) {
+		if (empty($template))
+		{
 			return false;
 		}
 
 		$dispatcher = JEventDispatcher::getInstance();
-		$fileName	= $this->getState('filename');
-		$client		= JApplicationHelper::getClientInfo($template->client_id);
-		$filePath	= JPath::clean($client->path.'/templates/'.$template->element.'/'.$fileName);
+		$fileName = $this->getState('filename');
+		$client = JApplicationHelper::getClientInfo($template->client_id);
+		$filePath = JPath::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
 
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
@@ -209,14 +221,16 @@ class TemplatesModelSource extends JModelForm
 		$ftp = JClientHelper::getCredentials('ftp');
 
 		// Try to make the template file writeable.
-		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0644')) {
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0644'))
+		{
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'));
 			return false;
 		}
 
 		// Trigger the onExtensionBeforeSave event.
 		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_templates.source', &$data, false));
-		if (in_array(false, $result, true)) {
+		if (in_array(false, $result, true))
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -224,10 +238,13 @@ class TemplatesModelSource extends JModelForm
 		$return = JFile::write($filePath, $data['source']);
 
 		// Try to make the template file unwriteable.
-		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444')) {
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
+		{
 			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'));
 			return false;
-		} elseif (!$return) {
+		}
+		elseif (!$return)
+		{
 			$this->setError(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName));
 			return false;
 		}

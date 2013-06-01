@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,13 +60,14 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	An optional associative array of configuration settings.
-	 * @see		JController
-	 * @since	1.6
+	 * @param   array  An optional associative array of configuration settings.
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
-		if (empty($config['filter_fields'])) {
+		if (empty($config['filter_fields']))
+		{
 			$config['filter_fields'] = array(
 				'id', 'a.id',
 				'title', 'a.title',
@@ -98,7 +99,7 @@ class ContentModelCategory extends JModelList
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * return	void
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -111,7 +112,8 @@ class ContentModelCategory extends JModelList
 		$params = $app->getParams();
 		$menuParams = new JRegistry;
 
-		if ($menu = $app->getMenu()->getActive()) {
+		if ($menu = $app->getMenu()->getActive())
+		{
 			$menuParams->loadString($menu->params);
 		}
 
@@ -129,21 +131,24 @@ class ContentModelCategory extends JModelList
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
 			// Filter by start and end dates.
-			$nullDate = $db->Quote($db->getNullDate());
-			$nowDate = $db->Quote(JFactory::getDate()->toSQL());
+			$nullDate = $db->quote($db->getNullDate());
+			$nowDate = $db->quote(JFactory::getDate()->toSQL());
 
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
-		else {
+		else
+		{
 			$this->setState('filter.published', array(0, 1, 2));
 		}
 
 		// process show_noauth parameter
-		if (!$params->get('show_noauth')) {
+		if (!$params->get('show_noauth'))
+		{
 			$this->setState('filter.access', true);
 		}
-		else {
+		else
+		{
 			$this->setState('filter.access', false);
 		}
 
@@ -153,14 +158,16 @@ class ContentModelCategory extends JModelList
 		// filter.order
 		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
-		if (!in_array($orderCol, $this->filter_fields)) {
+		if (!in_array($orderCol, $this->filter_fields))
+		{
 			$orderCol = 'a.ordering';
 		}
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir',
 			'filter_order_Dir', '', 'cmd');
-		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', ''))) {
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		{
 			$listOrder = 'ASC';
 		}
 		$this->setState('list.direction', $listOrder);
@@ -173,7 +180,8 @@ class ContentModelCategory extends JModelList
 			$limit = $params->get('num_leading_articles') + $params->get('num_intro_articles') + $params->get('num_links');
 			$this->setState('list.links', $params->get('num_links'));
 		}
-		else {
+		else
+		{
 			$limit = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		}
 
@@ -182,7 +190,8 @@ class ContentModelCategory extends JModelList
 		// set the depth of the category query based on parameter
 		$showSubcategories = $params->get('show_subcategory_content', '0');
 
-		if ($showSubcategories) {
+		if ($showSubcategories)
+		{
 			$this->setState('filter.max_category_levels', $params->get('show_subcategory_content', '1'));
 			$this->setState('filter.subcategories', true);
 		}
@@ -196,15 +205,16 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the articles in the category
 	 *
-	 * @return	mixed	An array of articles or false if an error occurs.
-	 * @since	1.5
+	 * @return  mixed  An array of articles or false if an error occurs.
+	 * @since   1.5
 	 */
 	function getItems()
 	{
 		$params = $this->getState()->get('params');
 		$limit = $this->getState('list.limit');
 
-		if ($this->_articles === null && $category = $this->getCategory()) {
+		if ($this->_articles === null && $category = $this->getCategory())
+		{
 			$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 			$model->setState('params', JFactory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
@@ -221,14 +231,17 @@ class ContentModelCategory extends JModelList
 			$model->setState('filter.max_category_levels', $this->setState('filter.max_category_levels'));
 			$model->setState('list.links', $this->getState('list.links'));
 
-			if ($limit >= 0) {
+			if ($limit >= 0)
+			{
 				$this->_articles = $model->getItems();
 
-				if ($this->_articles === false) {
+				if ($this->_articles === false)
+				{
 					$this->setError($model->getError());
 				}
 			}
-			else {
+			else
+			{
 				$this->_articles = array();
 			}
 
@@ -241,8 +254,8 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Build the orderby for the query
 	 *
-	 * @return	string	$orderby portion of query
-	 * @since	1.5
+	 * @return  string	$orderby portion of query
+	 * @since   1.5
 	 */
 	protected function _buildContentOrderBy()
 	{
@@ -254,15 +267,18 @@ class ContentModelCategory extends JModelList
 		$orderDirn	= $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 		$orderby	= ' ';
 
-		if (!in_array($orderCol, $this->filter_fields)) {
+		if (!in_array($orderCol, $this->filter_fields))
+		{
 			$orderCol = null;
 		}
 
-		if (!in_array(strtoupper($orderDirn), array('ASC', 'DESC', ''))) {
+		if (!in_array(strtoupper($orderDirn), array('ASC', 'DESC', '')))
+		{
 			$orderDirn = 'ASC';
 		}
 
-		if ($orderCol && $orderDirn) {
+		if ($orderCol && $orderDirn)
+		{
 			$orderby .= $db->escape($orderCol) . ' ' . $db->escape($orderDirn) . ', ';
 		}
 
@@ -279,7 +295,8 @@ class ContentModelCategory extends JModelList
 
 	public function getPagination()
 	{
-		if (empty($this->_pagination)) {
+		if (empty($this->_pagination))
+		{
 			return null;
 		}
 		return $this->_pagination;
@@ -288,15 +305,17 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Method to get category data for the current category
 	 *
-	 * @param	int		An optional ID
+	 * @param   integer  An optional ID
 	 *
-	 * @return	object
-	 * @since	1.5
+	 * @return  object
+	 * @since   1.5
 	 */
 	public function getCategory()
 	{
-		if (!is_object($this->_item)) {
-			if( isset( $this->state->params ) ) {
+		if (!is_object($this->_item))
+		{
+			if ( isset( $this->state->params ) )
+			{
 				$params = $this->state->params;
 				$options = array();
 				$options['countItems'] = $params->get('show_cat_num_articles', 1) || !$params->get('show_empty_categories_cat', 0);
@@ -309,13 +328,15 @@ class ContentModelCategory extends JModelList
 			$this->_item = $categories->get($this->getState('category.id', 'root'));
 
 			// Compute selected asset permissions.
-			if (is_object($this->_item)) {
+			if (is_object($this->_item))
+			{
 				$user	= JFactory::getUser();
 				$userId	= $user->get('id');
 				$asset	= 'com_content.category.'.$this->_item->id;
 
 				// Check general create permission.
-				if ($user->authorise('core.create', $asset)) {
+				if ($user->authorise('core.create', $asset))
+				{
 					$this->_item->getParams()->set('access-create', true);
 				}
 
@@ -323,7 +344,8 @@ class ContentModelCategory extends JModelList
 				$this->_children = $this->_item->getChildren();
 				$this->_parent = false;
 
-				if ($this->_item->getParent()) {
+				if ($this->_item->getParent())
+				{
 					$this->_parent = $this->_item->getParent();
 				}
 
@@ -340,16 +362,17 @@ class ContentModelCategory extends JModelList
 	}
 
 	/**
-	 * Get the parent categorie.
+	 * Get the parent category.
 	 *
-	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
+	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
-	 * @since	1.6
+	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @since   1.6
 	 */
 	public function getParent()
 	{
-		if (!is_object($this->_item)) {
+		if (!is_object($this->_item))
+		{
 			$this->getCategory();
 		}
 
@@ -359,12 +382,13 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the left sibling (adjacent) categories.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
-	 * @since	1.6
+	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @since   1.6
 	 */
 	function &getLeftSibling()
 	{
-		if (!is_object($this->_item)) {
+		if (!is_object($this->_item))
+		{
 			$this->getCategory();
 		}
 
@@ -374,12 +398,13 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the right sibling (adjacent) categories.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
-	 * @since	1.6
+	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @since   1.6
 	 */
 	function &getRightSibling()
 	{
-		if (!is_object($this->_item)) {
+		if (!is_object($this->_item))
+		{
 			$this->getCategory();
 		}
 
@@ -389,21 +414,24 @@ class ContentModelCategory extends JModelList
 	/**
 	 * Get the child categories.
 	 *
-	 * @param	int		An optional category id. If not supplied, the model state 'category.id' will be used.
+	 * @param   integer  An optional category id. If not supplied, the model state 'category.id' will be used.
 	 *
-	 * @return	mixed	An array of categories or false if an error occurs.
-	 * @since	1.6
+	 * @return  mixed  An array of categories or false if an error occurs.
+	 * @since   1.6
 	 */
 	function &getChildren()
 	{
-		if (!is_object($this->_item)) {
+		if (!is_object($this->_item))
+		{
 			$this->getCategory();
 		}
 
 		// Order subcategories
-		if (count($this->_children)) {
+		if (count($this->_children))
+		{
 			$params = $this->getState()->get('params');
-			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha') {
+			if ($params->get('orderby_pri') == 'alpha' || $params->get('orderby_pri') == 'ralpha')
+			{
 				jimport('joomla.utilities.arrayhelper');
 				JArrayHelper::sortObjects($this->_children, 'title', ($params->get('orderby_pri') == 'alpha') ? 1 : -1);
 			}
@@ -417,7 +445,7 @@ class ContentModelCategory extends JModelList
 	 *
 	 * @param   int  $pk  Optional primary key of the category to increment.
 	 *
-	 * @return boolean True if successful; false otherwise and internal error set.
+	 * @return  boolean True if successful; false otherwise and internal error set.
 	 */
 	public function hit($pk = 0)
 	{
@@ -425,10 +453,10 @@ class ContentModelCategory extends JModelList
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->update('#__categories');
-		$query->set('hits = hits + 1');
-		$query->where('id = ' . (int) $pk);
+		$query = $db->getQuery(true)
+			->update('#__categories')
+			->set('hits = hits + 1')
+			->where('id = ' . (int) $pk);
 		$db->setQuery($query);
 
 		try

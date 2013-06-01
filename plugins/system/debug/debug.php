@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  System.Debug
  * @since       1.5
  */
-class plgSystemDebug extends JPlugin
+class PlgSystemDebug extends JPlugin
 {
 	protected $linkFormat = '';
 
@@ -27,6 +27,14 @@ class plgSystemDebug extends JPlugin
 	 * @since  3.0
 	 */
 	private $debugLang = false;
+
+	/**
+	 * Holds log entries handled by the plugin.
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	private $logEntries = array();
 
 	/**
 	 * Constructor.
@@ -57,6 +65,29 @@ class plgSystemDebug extends JPlugin
 		}
 
 		$this->linkFormat = ini_get('xdebug.file_link_format');
+
+		if ($this->params->get('logs', 1))
+		{
+			$priority = 0;
+
+			foreach ($this->params->get('log_priorities', array()) as $p)
+			{
+				$const = 'JLog::'.strtoupper($p);
+
+				if (!defined($const))
+				{
+					continue;
+				}
+
+				$priority |= constant($const);
+			}
+
+			// Split into an array at any character other than alphabet, numbers, _, ., or -
+			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
+			$mode = $this->params->get('log_category_mode', 0);
+
+			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
+		}
 	}
 
 	/**
@@ -103,7 +134,11 @@ class plgSystemDebug extends JPlugin
 
 		// Capture output
 		$contents = ob_get_contents();
-		ob_end_clean();
+
+		if ($contents)
+		{
+			ob_end_clean();
+		}
 
 		// No debug for Safari and Chrome redirection
 		if (strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false
@@ -119,7 +154,8 @@ class plgSystemDebug extends JPlugin
 		$html = '';
 
 		// Some "mousewheel protecting" JS
-		$html .= "<script>function toggleContainer(name) {
+		$html .= "<script>function toggleContainer(name)
+		{
 			var e = document.getElementById(name);// MooTools might not be available ;)
 			e.style.display = (e.style.display == 'none') ? 'block' : 'none';
 		}</script>";
@@ -150,6 +186,11 @@ class plgSystemDebug extends JPlugin
 			if ($this->params->get('queries', 1))
 			{
 				$html .= $this->display('queries');
+			}
+
+			if ($this->params->get('logs', 1) && !empty($this->logEntries))
+			{
+				$html .= $this->display('logs');
 			}
 		}
 
@@ -331,9 +372,12 @@ class plgSystemDebug extends JPlugin
 					$entries = implode($entries);
 				}
 
-				$html .= '<code>';
-				$html .= $sKey . ' &rArr; ' . $entries . '<br />';
-				$html .= '</code>';
+				if (is_string($entries))
+				{
+					$html .= '<code>';
+					$html .= $sKey . ' &rArr; ' . $entries . '<br />';
+					$html .= '</code>';
+				}
 			}
 		}
 
@@ -441,23 +485,23 @@ class plgSystemDebug extends JPlugin
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
 
-		foreach ($log as $k => $sql)
+		foreach ($log as $k => $query)
 		{
 			// Start Query Type Ticker Additions
-			$fromStart = stripos($sql, 'from');
-			$whereStart = stripos($sql, 'where', $fromStart);
+			$fromStart = stripos($query, 'from');
+			$whereStart = stripos($query, 'where', $fromStart);
 
 			if ($whereStart === false)
 			{
-				$whereStart = stripos($sql, 'order by', $fromStart);
+				$whereStart = stripos($query, 'order by', $fromStart);
 			}
 
 			if ($whereStart === false)
 			{
-				$whereStart = strlen($sql) - 1;
+				$whereStart = strlen($query) - 1;
 			}
 
-			$fromString = substr($sql, 0, $whereStart);
+			$fromString = substr($query, 0, $whereStart);
 			$fromString = str_replace("\t", " ", $fromString);
 			$fromString = str_replace("\n", " ", $fromString);
 			$fromString = trim($fromString);
@@ -474,7 +518,7 @@ class plgSystemDebug extends JPlugin
 			}
 
 			// Increment the count:
-			if (stripos($sql, 'select') === 0)
+			if (stripos($query, 'select') === 0)
 			{
 				$selectQueryTypeTicker[$fromString] = $selectQueryTypeTicker[$fromString] + 1;
 				unset($otherQueryTypeTicker[$fromString]);
@@ -485,7 +529,7 @@ class plgSystemDebug extends JPlugin
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
-			$text = $this->highlightQuery($sql);
+			$text = $this->highlightQuery($query);
 
 			$html .= '<li><code>' . $text . '</code></li>';
 		}
@@ -704,19 +748,19 @@ class plgSystemDebug extends JPlugin
 	/**
 	 * Simple highlight for SQL queries.
 	 *
-	 * @param   string  $sql  The query to highlight
+	 * @param   string  $query  The query to highlight
 	 *
 	 * @return  string
 	 *
 	 * @since   2.5
 	 */
-	protected function highlightQuery($sql)
+	protected function highlightQuery($query)
 	{
 		$newlineKeywords = '#\b(FROM|LEFT|INNER|OUTER|WHERE|SET|VALUES|ORDER|GROUP|HAVING|LIMIT|ON|AND|CASE)\b#i';
 
-		$sql = htmlspecialchars($sql, ENT_QUOTES);
+		$query = htmlspecialchars($query, ENT_QUOTES);
 
-		$sql = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $sql);
+		$query = preg_replace($newlineKeywords, '<br />&#160;&#160;\\0', $query);
 
 		$regex = array(
 
@@ -734,11 +778,11 @@ class plgSystemDebug extends JPlugin
 
 		);
 
-		$sql = preg_replace(array_keys($regex), array_values($regex), $sql);
+		$query = preg_replace(array_keys($regex), array_values($regex), $query);
 
-		$sql = str_replace('*', '<b style="color: red;">*</b>', $sql);
+		$query = str_replace('*', '<b style="color: red;">*</b>', $query);
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -838,6 +882,48 @@ class plgSystemDebug extends JPlugin
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Store log messages so they can be displayed later.
+	 * This function is passed log entries by JLogLoggerCallback.
+	 *
+	 * @param   JLogEntry  $entry  A log entry.
+	 *
+	 * @since   3.1
+	 */
+	public function logger(JLogEntry $entry)
+	{
+		$this->logEntries[] = $entry;
+	}
+
+	/**
+	 * Display log messages
+	 *
+	 * @return  string
+	 *
+	 * @since   3.1
+	 */
+	protected function displayLogs()
+	{
+		$priorities = array(
+			JLog::EMERGENCY => 'EMERGENCY',
+			JLog::ALERT => 'ALERT',
+			JLog::CRITICAL => 'CRITICAL',
+			JLog::ERROR => 'ERROR',
+			JLog::WARNING => 'WARNING',
+			JLog::NOTICE => 'NOTICE',
+			JLog::INFO => 'INFO',
+			JLog::DEBUG => 'DEBUG');
+
+		$out = array();
+
+		foreach ($this->logEntries as $entry)
+		{
+			$out[] = '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . ' </h5><code>' . $entry->message . '</code>';
+		}
+
+		return implode('<br /><br />', $out);
 	}
 
 }

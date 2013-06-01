@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,8 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'link.cancel' || document.formvalidator.isValid(document.id('link-form'))) {
+		if (task == 'link.cancel' || document.formvalidator.isValid(document.id('link-form')))
+		{
 			Joomla.submitform(task, document.getElementById('link-form'));
 		}
 	}
@@ -27,13 +28,9 @@ JHtml::_('formbehavior.chosen', 'select');
 
 <form action="<?php echo JRoute::_('index.php?option=com_redirect&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="link-form" class="form-validate form-horizontal">
 	<fieldset>
-		<ul class="nav nav-tabs">
-			<li class="active"><a href="#basic" data-toggle="tab"><?php echo empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK') : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id); ?></a></li>
-			<li><a href="#options" data-toggle="tab"><?php echo JText::_('COM_REDIRECT_OPTIONS');?></a></li>
-			<li><a href="#details" data-toggle="tab"><?php echo JText::_('COM_REDIRECT_DETAILS');?></a></li>
-		</ul>
-		<div class="tab-content">
-			<div class="tab-pane active" id="basic">
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'basic')); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK', true) : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id, true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('old_url'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('old_url'); ?></div>
@@ -43,6 +40,10 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="controls"><?php echo $this->form->getInput('new_url'); ?></div>
 				</div>
 				<div class="control-group">
+					<div class="control-label"><?php echo $this->form->getLabel('published'); ?></div>
+					<div class="controls"><?php echo $this->form->getInput('published'); ?></div>
+				</div>
+				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('comment'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('comment'); ?></div>
 				</div>
@@ -50,14 +51,6 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
 				</div>
-			</div>
-			<div class="tab-pane active" id="options">
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('published'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('published'); ?></div>
-				</div>
-			</div>
-			<div class="tab-pane active" id="details">
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('created_date'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('created_date'); ?></div>
@@ -66,8 +59,10 @@ JHtml::_('formbehavior.chosen', 'select');
 					<div class="control-label"><?php echo $this->form->getLabel('modified_date'); ?></div>
 					<div class="controls"><?php echo $this->form->getInput('modified_date'); ?></div>
 				</div>
-			</div>
-		</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>

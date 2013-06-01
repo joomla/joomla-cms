@@ -410,11 +410,6 @@ h6 { font-size: 12px; line-height: 14px; }
 	max-width: 100% !important;
 }
 
-/* Code Mirror */
-.CodeMirror-wrapping {
-	height: auto !important;
-}
-
 @media (max-width: 979px) {
 	.navbar{
 		.brand {
@@ -459,6 +454,9 @@ h6 { font-size: 12px; line-height: 14px; }
 	body {
 	    padding-top: 30px;
 	}
+	body.component {
+			padding-top: 0;
+	}
 }
 @media (max-width: 738px) {
 	.navbar{
@@ -499,10 +497,6 @@ h6 { font-size: 12px; line-height: 14px; }
 	.subhead-collapse{
 		display: none;
 	}
-	.btn{
-		font-size: 11px;
-		padding: 1px 4px 2px 4px;
-	}
 	.navbar .btn{
 		margin: 0;
 	}
@@ -533,6 +527,10 @@ h6 { font-size: 12px; line-height: 14px; }
 }
 
 // Navbar
+.nav-collapse .nav li a,
+.dropdown-menu a {
+	background-image: none;
+}
 @media (max-width: @navbarCollapseWidth) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -610,6 +608,9 @@ h6 { font-size: 12px; line-height: 14px; }
 		padding-right: 5px;
 		text-align: left;
 	}
+	#jform_catid_chzn {
+		vertical-align: middle;
+	}
 }
 
 /* Media Manager folder icon override */
@@ -633,7 +634,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 1200;
+	z-index: 100;
 }
 
 /* Tree Select */
@@ -671,4 +672,23 @@ ul.treeselect ul.dropdown-menu {
 ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
+}
+
+/* Tables */
+td.has-context {
+	// Fixes difference in height between normal and hover on cell with context
+	height: 23px;
+}
+
+/* Item associations */
+.item-associations {
+	margin: 0;
+}
+.item-associations li {
+	list-style: none;
+	display: inline-block;
+	margin: 0 0 3px 0;
+}
+.item-associations li a {
+	color: #ffffff;
 }

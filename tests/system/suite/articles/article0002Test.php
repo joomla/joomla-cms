@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests editing an article on the front end
  */
@@ -21,7 +21,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 		$this->gotoSite();
 		$this->doFrontEndLogin();
 		$this->jPrint ("Edit article in front end\n");
-	    $this->click("//i[contains(@class, 'icon-edit')]");
+	    $this->click("//span[contains(@class, 'icon-edit')]");
 	    $this->waitForPageToLoad("30000");
 	    $salt = mt_rand();
 	    $testText="Test text $salt";
@@ -29,6 +29,7 @@ class Article0002 extends SeleniumJoomlaTestCase
 //		Use no editor until tinymce issue fixes
 // 	    $this->setTinyText($testText);
 	    $this->type("id=jform_articletext", "<p>$testText</p>");
+
 
 	    $this->jPrint ("Save article\n");
 	    $this->click("//button[@type='button']");
@@ -45,10 +46,10 @@ class Article0002 extends SeleniumJoomlaTestCase
 	    }
 
 	    $this->jPrint ("Check that new text shows on page\n");
-	    $this->assertEquals($testText, $this->getText("//div[@class='items-leading']/div[@class='leading-0']//p"));
+	    $this->assertEquals($testText, $this->getText("//div[contains(@class, 'items-leading')]/div[contains(@class, 'leading-0')]//p"));
 
 	    $this->jPrint ("Open again for editing in front end\n");
-	    $this->click("//i[contains(@class, 'icon-edit')]");
+	    $this->click("//span[contains(@class, 'icon-edit')]");
 	    $this->waitForPageToLoad("30000");
 	    $text="<p>Congratulations! You have a Joomla! site! Joomla! makes your site easy to build a website " .
 	    		"just the way you want it and keep it simple to update and maintain.</p> " .
@@ -74,7 +75,8 @@ class Article0002 extends SeleniumJoomlaTestCase
 			array_push($this->verificationErrors, $this->getTraceFiles($e));
 	    }
 	    $this->jPrint ("Check that new text shows on page\n");
-	    $this->assertTrue($this->isElementPresent("//div[@class='items-leading']/div[@class='leading-0']//p[contains(text(), 'Congratulations!')]"));
+	    $this->assertTrue($this->isElementPresent("//div[contains(@class, 'items-leading')]/div[contains(@class, 'leading-0')]//p[contains(text(), 'Congratulations!')]"));
+
 
 	    $this->doFrontEndLogout();
 	    $this->gotoAdmin();

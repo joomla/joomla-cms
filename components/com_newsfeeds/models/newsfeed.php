@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	 * Model context string.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $_context = 'com_newsfeeds.newsfeed';
 
@@ -31,8 +31,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
@@ -59,54 +59,56 @@ class NewsfeedsModelNewsfeed extends JModelItem
 	/**
 	 * Method to get newsfeed data.
 	 *
-	 * @param	integer	The id of the newsfeed.
+	 * @param   integer	The id of the newsfeed.
 	 *
-	 * @return	mixed	Menu item data object on success, false on failure.
-	 * @since	1.6
+	 * @return  mixed  Menu item data object on success, false on failure.
+	 * @since   1.6
 	 */
 	public function &getItem($pk = null)
 	{
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
 
-		if ($this->_item === null) {
+		if ($this->_item === null)
+		{
 			$this->_item = array();
 		}
 
-		if (!isset($this->_item[$pk])) {
+		if (!isset($this->_item[$pk]))
+		{
 			try
 			{
 				$db = $this->getDbo();
-				$query = $db->getQuery(true);
-
-				$query->select($this->getState('item.select', 'a.*'));
-				$query->from('#__newsfeeds AS a');
+				$query = $db->getQuery(true)
+					->select($this->getState('item.select', 'a.*'))
+					->from('#__newsfeeds AS a');
 
 				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
-				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
+				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
+					->join('LEFT', '#__categories AS c on c.id = a.catid');
 
 				// Join on user table.
-				$query->select('u.name AS author');
-				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
+				$query->select('u.name AS author')
+					->join('LEFT', '#__users AS u on u.id = a.created_by');
 
 				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
-				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
 
-				$query->where('a.id = ' . (int) $pk);
+					->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
-				$nullDate = $db->Quote($db->getNullDate());
-				$nowDate = $db->Quote(JFactory::getDate()->toSql());
+				$nullDate = $db->quote($db->getNullDate());
+				$nowDate = $db->quote(JFactory::getDate()->toSql());
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
-				if (is_numeric($published)) {
-					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')');
-					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-					$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
-					$query->where('(c.published = ' . (int) $published . ' OR c.published =' . (int) $archived . ')');
+				if (is_numeric($published))
+				{
+					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
+						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
+						->where('(c.published = ' . (int) $published . ' OR c.published =' . (int) $archived . ')');
 				}
 
 				$db->setQuery($query);
@@ -119,7 +121,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived))) {
+				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->published != $published) && ($data->published != $archived)))
+				{
 					JError::raiseError(404, JText::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'));
 				}
 
@@ -134,7 +137,8 @@ class NewsfeedsModelNewsfeed extends JModelItem
 				$data->metadata = $registry;
 
 				// Compute access permissions.
-				if ($access = $this->getState('filter.access')) {
+				if ($access = $this->getState('filter.access'))
+				{
 					// If the access filter has been set, we already know this user can view.
 					$data->params->set('access-view', true);
 				}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,8 +47,10 @@ endif;
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task) {
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
@@ -77,7 +79,7 @@ endif;
 				<li><?php echo $this->form->getLabel('access'); ?>
 				<?php echo $this->form->getInput('access'); ?></li>
 
-				<?php if ($this->canDo->get('core.admin')): ?>
+				<?php if ($this->canDo->get('core.admin')) : ?>
 					<li><span class="faux-label"><?php echo JText::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></span>
 						<button type="button" onclick="document.location.href='#access-rules';">
 							<?php echo JText::_('JGLOBAL_PERMISSIONS_ANCHOR'); ?>
@@ -90,6 +92,18 @@ endif;
 
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
+
+				<!-- Tag field -->
+				<?php foreach ($this->get('form')->getFieldset('jmetadata') as $field) : ?>
+					<?php if ($field->name == 'jform[metadata][tags][]') :?>
+						<li>
+							<?php echo $field->label; ?>
+							<div class="is-tagbox">
+								<?php echo $field->input; ?>
+							</div>
+						</li>
+					<?php endif; ?>
+				<?php endforeach; ?>
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
@@ -107,7 +121,7 @@ endif;
 	<div class="col options-section">
 		<?php echo JHtml::_('sliders.start', 'content-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
-		<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ): ?>
+		<?php  if ($params['show_publishing_options'] || ( $params['show_publishing_options'] = '' && !empty($editoroptions)) ) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 			<fieldset class="panelform">
 				<ul class="adminformlist">
@@ -171,7 +185,7 @@ endif;
 						</fieldset>
 					<?php endif ?>
 					<?php // If we are not showing the options we need to use the hidden fields so the values are not lost.  ?>
-				<?php  elseif ($name == 'basic-limited'): ?>
+				<?php  elseif ($name == 'basic-limited') : ?>
 						<?php foreach ($this->form->getFieldset('basic-limited') as $field) : ?>
 							<?php  echo $field->input; ?>
 						<?php endforeach; ?>
@@ -180,10 +194,6 @@ endif;
 			<?php endforeach; ?>
 			<?php // Not the best place, but here for continuity with 1.5/1/6/1.7 ?>
 				<fieldset class="panelform">
-				<ul class="adminformlist">
-						<li><?php echo $this->form->getLabel('xreference'); ?>
-						<?php echo $this->form->getInput('xreference'); ?></li>
-				</ul>
 				</fieldset>
 				<?php
 					// We need to make a separate space for the configuration
@@ -202,7 +212,7 @@ endif;
 
 		<?php // The url and images fields only show if the configuration is set to allow them.  ?>
 		<?php // This is for legacy reasons. ?>
-		<?php if ($params['show_urls_images_backend']): ?>
+		<?php if ($params['show_urls_images_backend']) : ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES'), 'urls_and_images-options'); ?>
 				<fieldset class="panelform">
 				<ul class="adminformlist">
@@ -210,17 +220,17 @@ endif;
 					<?php echo $this->form->getLabel('images'); ?>
 					<?php echo $this->form->getInput('images'); ?></li>
 
-					<?php foreach($this->form->getGroup('images') as $field): ?>
+					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<li>
-							<?php if (!$field->hidden): ?>
+							<?php if (!$field->hidden) : ?>
 								<?php echo $field->label; ?>
 							<?php endif; ?>
 							<?php echo $field->input; ?>
 						</li>
 					<?php endforeach; ?>
-						<?php foreach($this->form->getGroup('urls') as $field): ?>
+						<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 						<li>
-							<?php if (!$field->hidden): ?>
+							<?php if (!$field->hidden) : ?>
 								<?php echo $field->label; ?>
 							<?php endif; ?>
 							<?php echo $field->input; ?>
@@ -254,12 +264,12 @@ endif;
 						<?php endforeach; ?>
 					</ul>
 				</fieldset>
-		<?php endforeach;?>
+			<?php endforeach;?>
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
 	<div class="clr"></div>
-	<?php if ($this->canDo->get('core.admin')): ?>
+	<?php if ($this->canDo->get('core.admin')) : ?>
 		<div  class="col rules-section">
 			<?php echo JHtml::_('sliders.start', 'permissions-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 

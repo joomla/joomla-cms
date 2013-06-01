@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class UsersControllerProfile extends UsersController
 	/**
 	 * Method to check out a user for editing and redirect to the edit form.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function edit()
 	{
@@ -36,7 +36,8 @@ class UsersControllerProfile extends UsersController
 		$userId = $this->input->getInt('user_id', null, 'array');
 
 		// Check if the user is trying to edit another users profile.
-		if ($userId != $loginUserId) {
+		if ($userId != $loginUserId)
+		{
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return false;
 		}
@@ -48,12 +49,14 @@ class UsersControllerProfile extends UsersController
 		$model = $this->getModel('Profile', 'UsersModel');
 
 		// Check out the user.
-		if ($userId) {
+		if ($userId)
+		{
 			$model->checkout($userId);
 		}
 
 		// Check in the previous user.
-		if ($previousId) {
+		if ($previousId)
+		{
 			$model->checkin($previousId);
 		}
 
@@ -64,8 +67,8 @@ class UsersControllerProfile extends UsersController
 	/**
 	 * Method to save a user's profile data.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function save()
 	{
@@ -85,7 +88,8 @@ class UsersControllerProfile extends UsersController
 
 		// Validate the posted data.
 		$form = $model->getForm();
-		if (!$form) {
+		if (!$form)
+		{
 			JError::raiseError(500, $model->getError());
 			return false;
 		}
@@ -94,13 +98,16 @@ class UsersControllerProfile extends UsersController
 		$data = $model->validate($form, $data);
 
 		// Check for errors.
-		if ($data === false) {
+		if ($data === false)
+		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if ($errors[$i] instanceof Exception) {
+			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			{
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				} else {
 					$app->enqueueMessage($errors[$i], 'warning');
@@ -120,7 +127,8 @@ class UsersControllerProfile extends UsersController
 		$return	= $model->save($data);
 
 		// Check for errors.
-		if ($return === false) {
+		if ($return === false)
+		{
 			// Save the data in the session.
 			$app->setUserState('com_users.edit.profile.data', $data);
 
@@ -132,7 +140,8 @@ class UsersControllerProfile extends UsersController
 		}
 
 		// Redirect the user and adjust session state based on the chosen task.
-		switch ($this->getTask()) {
+		switch ($this->getTask())
+		{
 			case 'apply':
 				// Check out the profile.
 				$app->setUserState('com_users.edit.profile.id', $return);
@@ -146,7 +155,8 @@ class UsersControllerProfile extends UsersController
 			default:
 				// Check in the profile.
 				$userId = (int) $app->getUserState('com_users.edit.profile.id');
-				if ($userId) {
+				if ($userId)
+				{
 					$model->checkin($userId);
 				}
 
@@ -162,4 +172,30 @@ class UsersControllerProfile extends UsersController
 		// Flush the data from the session.
 		$app->setUserState('com_users.edit.profile.data', null);
 	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		$task = $this->getTask();
+
+		$item = $model->getData();
+		$id = $item->get('id');
+		$tags = $validData['tags'];
+
+		if ($tags)
+		{
+			$item->tags = new JHelperTags;
+			$item->tags->getTagIds($item->id, 'com_users.user');
+			$item->metadata['tags'] = $item->tags;
+		}
+	}
+
 }

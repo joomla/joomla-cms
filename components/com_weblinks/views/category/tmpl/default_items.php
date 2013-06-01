@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,23 +33,25 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php else : ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
+	<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
+	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
-				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_WEBLINKS_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?></label>
+				<label class="filter-search-lbl element-invisible" for="filter-search"><span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span><?php echo JText::_('COM_WEBLINKS_FILTER_LABEL').'&#160;'; ?></label>
 				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_WEBLINKS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_WEBLINKS_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 		<?php endif; ?>
 
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
-			<div class="display-limit">
-				<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>&#160;
+			<div class="btn-group pull-right">
+				<label for="limit" class="element-invisible">
+					<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
+				</label>
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		<?php endif; ?>
-
-		<?php if ($this->params->get('filter_field') != 'hide') :?>
-			</fieldset>
-		<?php endif; ?>
+	</fieldset>
+	<?php endif; ?>
 		<ul class="category list-striped list-condensed">
 
 			<?php foreach ($this->items as $i => $item) : ?>
@@ -59,7 +61,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<?php else: ?>
 						<li class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
-					<?php if ($this->params->get('list_show_hits', 1)) : ?>
+					<?php if ($this->params->get('show_link_hits', 1)) : ?>
 						<span class="list-hits badge badge-info pull-right">
 							<?php echo JText::sprintf('JGLOBAL_HITS_COUNT', $item->hits); ?>
 						</span>
@@ -71,12 +73,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						</span>
 					<?php endif; ?>
 
-					<strong class="list-title">
-						<?php if ($this->params->get('icons') == 0) : ?>
+					<div class="list-title">
+						<?php if ($this->params->get('icons', 1) == 0) : ?>
 							 <?php echo JText::_('COM_WEBLINKS_LINK'); ?>
-						<?php elseif ($this->params->get('icons') == 1) : ?>
+						<?php elseif ($this->params->get('icons', 1) == 1) : ?>
 							<?php if (!$this->params->get('link_icons')) : ?>
-								<?php echo JHtml::_('image', 'system/'.$this->params->get('link_icons', 'weblink.png'), JText::_('COM_WEBLINKS_LINK'), null, true); ?>
+								<?php echo JHtml::_('image', 'system/weblink.png', JText::_('COM_WEBLINKS_LINK'), null, true); ?>
 							<?php else: ?>
 								<?php echo '<img src="'.$this->params->get('link_icons').'" alt="'.JText::_('COM_WEBLINKS_LINK').'" />'; ?>
 							<?php endif; ?>
@@ -87,11 +89,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							$link = $item->link;
 							$width	= $item->params->get('width');
 							$height	= $item->params->get('height');
-							if ($width == null || $height == null) {
+							if ($width == null || $height == null)
+							{
 								$width	= 600;
 								$height	= 500;
 							}
-							if ($this->items[$i]->state == 0): ?>
+							if ($this->items[$i]->state == 0) : ?>
 								<span class="label label-warning">Unpublished</span>
 							<?php endif; ?>
 
@@ -123,8 +126,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									break;
 							}
 						?>
-						</strong>
-						<?php if (($this->params->get('show_link_description')) and ($item->description != '')): ?>
+						</div>
+						<?php $tagsData = $item->tags->getItemTags('com_weblinks.weblink', $item->id); ?>
+						<?php if ($this->params->get('show_tags', 1)) : ?>
+							<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+							<?php echo $this->item->tagLayout->render($tagsData); ?>
+						<?php endif; ?>
+
+						<?php if (($this->params->get('show_link_description')) and ($item->description != '')) : ?>
 							<?php echo $item->description; ?>
 						<?php endif; ?>
 

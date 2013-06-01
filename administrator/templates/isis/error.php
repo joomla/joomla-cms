@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,10 +19,6 @@ $this->language = $doc->language;
 $this->direction = $doc->direction;
 $input = $app->input;
 $user  = JFactory::getUser();
-
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
-$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -64,7 +60,13 @@ else
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="language" content="<?php echo $this->language; ?>" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<?php // If debug  mode
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+		<!-- Load additional CSS styles for debug mode-->
+		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/cms/css/debug.css" type="text/css" />
+	<?php endif; ?>
 	<?php
 	// If Right-to-Left
 	if ($this->direction == 'rtl')
@@ -124,6 +126,10 @@ else
 	<?php
 	}
 	?>
+	<script src="../media/jui/js/jquery.js" type="text/javascript"></script>
+	<script src="../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+	<script src="../media/jui/js/bootstrap.js" type="text/javascript"></script>
+	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
@@ -141,7 +147,7 @@ else
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JGLOBAL_PREVIEW');?> <?php echo $sitename; ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>
@@ -150,7 +156,8 @@ else
 					<?php
 					// Display menu modules
 					$this->menumodules = JModuleHelper::getModules('menu');
-					foreach ($this->menumodules as $menumodule) {
+					foreach ($this->menumodules as $menumodule)
+					{
 						$output = JModuleHelper::renderModule($menumodule, array('style' => 'none'));
 						$params = new JRegistry;
 						$params->loadString($menumodule->params);
@@ -213,7 +220,8 @@ else
 			<?php
 			// Display status modules
 			$this->statusmodules = JModuleHelper::getModules('status');
-			foreach ($this->statusmodules as $statusmodule) {
+			foreach ($this->statusmodules as $statusmodule)
+			{
 				$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
 				$params = new JRegistry;
 				$params->loadString($statusmodule->params);
@@ -234,18 +242,22 @@ else
 			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function () {
+			$nav.on('click', function ()
+			{
 				if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
 			})
 
 			$win.on('scroll', processScroll)
 
-			function processScroll() {
+			function processScroll()
+			{
 				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
+				if (scrollTop >= navTop && !isFixed)
+				{
 					isFixed = 1
 					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
+				} else if (scrollTop <= navTop && isFixed)
+				{
 					isFixed = 0
 					$nav.removeClass('subhead-fixed')
 				}
