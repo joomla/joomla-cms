@@ -84,8 +84,7 @@ else
 	<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 	<!-- Show items -->
 	<?php if (!empty($feed))
-	{ ?>
-	<ul>
+	{ 
 		<?php for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
 		{
 			if( !$feed->offsetExists($i)) {
@@ -123,6 +122,7 @@ else
 					</li>
 			<?php } ?>
 			</ul>
+		</div>
 	<?php }
 	}
 }
