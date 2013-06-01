@@ -733,7 +733,7 @@ class JPagination
 	 * @return  void
 	 *
 	 * @since   12.2
-	 * @deprecated  13.3  Access the properties directly.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Access the properties directly.
 	 */
 	public function set($property, $value = null)
 	{
@@ -757,7 +757,7 @@ class JPagination
 	 * @return  mixed    The value of the property.
 	 *
 	 * @since   12.2
-	 * @deprecated  13.3  Access the properties directly.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Access the properties directly.
 	 */
 	public function get($property, $default = null)
 	{
