@@ -33,6 +33,7 @@ class PlgSystemRedirect extends JPlugin
 
 		// Set the error handler for E_ERROR to be the class handleError method.
 		JError::setErrorHandling(E_ERROR, 'callback', array('PlgSystemRedirect', 'handleError'));
+		set_exception_handler(array('PlgSystemRedirect', 'handleError'));
 	}
 
 	public static function handleError(&$error)
@@ -51,7 +52,7 @@ class PlgSystemRedirect extends JPlugin
 			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
 			{
 				// Render the error page.
-				JError::customErrorPage($error);
+				JErrorPage::render($error);
 			}
 
 			// See if the current url exists in the database as a redirect.
@@ -111,13 +112,13 @@ class PlgSystemRedirect extends JPlugin
 					$db->execute();
 				}
 				// Render the error page.
-				JError::customErrorPage($error);
+				JErrorPage::render($error);
 			}
 		}
 		else
 		{
 			// Render the error page.
-			JError::customErrorPage($error);
+			JErrorPage::render($error);
 		}
 	}
 }
