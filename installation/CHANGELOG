@@ -43,6 +43,7 @@ $ -> Language fix or change
  ^ [#30983] Move JPagination to the CMS tree
  + [#30525] Add a PSR-0 compatible autoloader to JLoader.  Thanks Don Gilbert
  ^ [#31028] *Multilang code quality normalisation.  Thanks Jean-Marie Simonet
+ ^$ [#30077] Install Sample Data - Options are confusing.  Thanks Peter Martin
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
