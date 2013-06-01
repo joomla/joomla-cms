@@ -34,6 +34,9 @@ $ -> Language fix or change
  # [#31034] Not colored text as in joomla 2.5 for com_redirect.  Thanks Tobias Zulauf
  # [#30544] Article Alternative Layout is not applied in Single Article menu item.  Thanks Dennis Hermatski
  # [#31026] Fatal error: Class 'JFile' not found when saving content override.  Thanks Roland Dalmulder
+ ^ [#31032] 'Default' toolbar buttons with different labels.  Thanks Tobias Zulauf
+ ^ [#31033] System messages with the "X".  Thanks Tobias Zulauf
+ ^ [#31008] Sync up Platform Bootstrap
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
