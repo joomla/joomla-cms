@@ -41,6 +41,7 @@ $ -> Language fix or change
  # [#30987] Menu type alias does not behave as expected [regression].  Thanks Elin Waring
  # [#30868] MySQL specific syntax used in JTableCorecontent::storeUcmBase()
  ^ [#30983] Move JPagination to the CMS tree
+ + [#30525] Add a PSR-0 compatible autoloader to JLoader.  Thanks Don Gilbert
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu

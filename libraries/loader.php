@@ -545,6 +545,63 @@ abstract class JLoader
 	}
 
 	/**
+	 * Method to autoload classes that are namespaced to the PSR-0 standard.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   13.1
+	 */
+	public static function loadByPsr0($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		// Find the location of the last NS separator.
+		$pos = strrpos($class, '\\');
+
+		// If one is found, we're dealing with a NS'd class.
+		if ($pos !== false)
+		{
+			$classPath = str_replace('\\', DIRECTORY_SEPARATOR, substr($class, 0, $pos)) . DIRECTORY_SEPARATOR;
+			$className = substr($class, $pos + 1);
+		}
+		// If not, no need to parse path.
+		else
+		{
+			$classPath = null;
+			$className = $class;
+		}
+
+		$classPath .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
+
+		// Loop through registered namespaces until we find a match.
+		foreach (self::$namespaces as $ns => $paths)
+		{
+			if (strpos($class, $ns) === 0)
+			{
+				// Loop through paths registered to this namespace until we find a match.
+				foreach ($paths as $path)
+				{
+					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
+
+					// We check for class_exists to handle case-sensitive file systems
+					if (file_exists($classFilePath) && !class_exists($class, false))
+					{
+						return (bool) include_once $classFilePath;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Autoload a class based on name.
 	 *
 	 * @param   string  $class  The class to be loaded.
