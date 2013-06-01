@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
+jimport('joomla.table.interface');
 
 /**
  * Abstract Table class
@@ -22,7 +23,7 @@ jimport('joomla.filesystem.path');
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject
+abstract class JTable extends JObject implements JTableInterface
 {
 	/**
 	 * Include paths for searching for JTable classes.
