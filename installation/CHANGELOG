@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 01-Jun-2013 Michael Babker
  # [#31057] Missing Read More Button in editing articles.  Thanks Hans Kuijpers
+ # [#30909] Batch process modules doesnt allow new module positions.  Thanks Chad Windnagle
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
