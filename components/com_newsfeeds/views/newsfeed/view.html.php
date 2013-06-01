@@ -90,7 +90,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$params = $state->get('params');
 		$newsfeed_params = clone $item->params;
 		$active = $app->getMenu()->getActive();
-		$temp = clone ($params);
+		$temp = clone ($active->params);
 
 		// Check to see which parameters should take priority
 		if ($active)
