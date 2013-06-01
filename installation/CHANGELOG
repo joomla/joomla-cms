@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jun-2013 Michael Babker
+ # [#31057] Missing Read More Button in editing articles.  Thanks Hans Kuijpers
+
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
  ^ [#30985] *New JLayout for edit_associations.  Thanks Jean-Marie Simonet
