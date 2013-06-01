@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#30909] Batch process modules doesnt allow new module positions.  Thanks Chad Windnagle
  # [#31039] Error when a 'Manager' deletes a category.  Thanks Tobias Zulauf
  # [#30693] Unclosed span tag in permissions field.  Thanks Dennis Hermatski
+ # [#31045] HITS Column Admin Panel.  Thanks David Hurley
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
