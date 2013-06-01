@@ -432,6 +432,13 @@ class PlgSystemLanguageFilter extends JPlugin
 		$menu = $app->getMenu();
 		if ($app->isSite() && $this->params->get('automatic_change', 1))
 		{
+			// Get menu home items
+			$homes = array();
+			foreach($menu->getMenu() as $item) {
+				if ($item->home) {
+					$homes[$item->language] = $item;
+				}
+			}
 			// Load associations
 			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
