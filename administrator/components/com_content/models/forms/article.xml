@@ -38,12 +38,6 @@
 		>
 		</field>
 
-		<field name="tags" type="tag"
-			label="JTAG" description="JTAG_DESC"
-			class="inputbox span12 small" multiple="true"
-		>
-		</field>
-
 		<field
 			name="buttonspacer"
 			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
@@ -800,32 +794,41 @@
 			</field>
 
 		</fields>
-		<fields name="metadata">
-
-			<field name="robots"
-				type="list"
-				label="JFIELD_METADATA_ROBOTS_LABEL"
-				description="JFIELD_METADATA_ROBOTS_DESC"
-				labelclass="control-label"
+	<fields name="metadata">
+		<fieldset name="jmetadata"
+			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+				<field name="tags" type="tag"
+					label="JTAG" description="JTAG_DESC"
+					class="inputbox span12 small" multiple="true"
 				>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
-				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
-				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
-				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
-			</field>
+				</field>
+	
+				<field name="robots"
+					type="list"
+					label="JFIELD_METADATA_ROBOTS_LABEL"
+					description="JFIELD_METADATA_ROBOTS_DESC"
+					labelclass="control-label"
+					>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+					<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+				</field>
+	
+				<field name="author" type="text"
+					label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC"
+					size="20" labelclass="control-label" />
+	
+				<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
+					description="JFIELD_META_RIGHTS_DESC" required="false" filter="string"
+					cols="30" rows="2" labelclass="control-label" />
+				<field name="xreference" type="text"
+					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
+					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
+					class="inputbox" size="20" labelclass="control-label" />
 
-			<field name="author" type="text"
-				label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC"
-				size="20" labelclass="control-label" />
-
-			<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
-				description="JFIELD_META_RIGHTS_DESC" required="false" filter="string"
-				cols="30" rows="2" labelclass="control-label" />
-			<field name="xreference" type="text"
-				label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
-				description="COM_CONTENT_FIELD_XREFERENCE_DESC"
-				class="inputbox" size="20" labelclass="control-label" />
-		</fields>
+		</fieldset>
+	</fields>
 
 </form>

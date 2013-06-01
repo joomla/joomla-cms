@@ -136,7 +136,7 @@ abstract class JModuleHelper
 	{
 		static $chrome;
 
-		if (constant('JDEBUG'))
+		if (defined('JDEBUG'))
 		{
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
@@ -235,7 +235,7 @@ abstract class JModuleHelper
 		// Revert the scope
 		$app->scope = $scope;
 
-		if (constant('JDEBUG'))
+		if (defined('JDEBUG'))
 		{
 			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
@@ -312,29 +312,29 @@ abstract class JModuleHelper
 
 		$db = JFactory::getDbo();
 
-		$query = $db->getQuery(true);
-		$query->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid');
-		$query->from('#__modules AS m');
-		$query->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id');
-		$query->where('m.published = 1');
+		$query = $db->getQuery(true)
+			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
+			->from('#__modules AS m')
+			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
+			->where('m.published = 1')
 
-		$query->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id');
-		$query->where('e.enabled = 1');
+			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
+			->where('e.enabled = 1');
 
 		$date = JFactory::getDate();
 		$now = $date->toSql();
 		$nullDate = $db->getNullDate();
-		$query->where('(m.publish_up = ' . $db->Quote($nullDate) . ' OR m.publish_up <= ' . $db->Quote($now) . ')');
-		$query->where('(m.publish_down = ' . $db->Quote($nullDate) . ' OR m.publish_down >= ' . $db->Quote($now) . ')');
+		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
+			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
 
-		$query->where('m.access IN (' . $groups . ')');
-		$query->where('m.client_id = ' . $clientId);
-		$query->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
+			->where('m.access IN (' . $groups . ')')
+			->where('m.client_id = ' . $clientId)
+			->where('(mm.menuid = ' . (int) $Itemid . ' OR mm.menuid <= 0)');
 
 		// Filter by language
 		if ($app->isSite() && $app->getLanguageFilter())
 		{
-			$query->where('m.language IN (' . $db->Quote($lang) . ',' . $db->Quote('*') . ')');
+			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
 		}
 
 		$query->order('m.position, m.ordering');

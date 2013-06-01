@@ -261,7 +261,7 @@ class UsersModelProfile extends JModelForm
 		// Bind the data.
 		if (!$user->bind($data))
 		{
-			$this->setError(JText::sprintf('USERS PROFILE BIND FAILED', $user->getError()));
+			$this->setError(JText::sprintf('COM_USERS_PROFILE_BIND_FAILED', $user->getError()));
 			return false;
 		}
 
@@ -278,7 +278,7 @@ class UsersModelProfile extends JModelForm
 			return false;
 		}
 
-		$user->tags = new JTags;
+		$user->tags = new JHelperTags;
 		$user->tags->getTagIds($user->id, 'com_users.user');
 
 		return $user->id;

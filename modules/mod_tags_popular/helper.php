@@ -26,19 +26,18 @@ abstract class ModTagsPopularHelper
 		$timeframe = $params->get('timeframe', 'alltime');
 		$maximum   = $params->get('maximum', 5);
 
-		$query = $db->getQuery(true);
-
-		$query->select(
-			array(
-				'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-				' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
-				'MAX(' .$db->quoteName('t.access') . ') AS access',
-				'MAX(' .$db->quoteName('t.alias') . ') AS alias'
+		$query = $db->getQuery(true)
+			->select(
+				array(
+					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
+					' COUNT(*) AS count', 'MAX(t.title) AS title',
+					'MAX(' .$db->quoteName('t.access') . ') AS access',
+					'MAX(' .$db->quoteName('t.alias') . ') AS alias'
+				)
 			)
-		);
-		$query->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')));
-		$query->from($db->quoteName('#__contentitem_tag_map'));
-		$query->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
+			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
+			->from($db->quoteName('#__contentitem_tag_map'))
+			->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
 
 		// Only return published tags
 		$query->where($db->quoteName('t.published') . ' = 1 ');
@@ -52,7 +51,7 @@ abstract class ModTagsPopularHelper
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('t.language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		if ($timeframe != 'alltime')
@@ -61,8 +60,8 @@ abstract class ModTagsPopularHelper
 			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($now->toSql('date'), '-1', strtoupper($timeframe)));
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'));
-		$query->order('count DESC');
+		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
+			->order('count DESC');
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 

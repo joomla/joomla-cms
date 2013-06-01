@@ -58,6 +58,7 @@ class UsersViewUsers extends JViewLegacy
 	protected function addToolbar()
 	{
 		$canDo	= UsersHelper::getActions();
+		$user 	= JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -89,7 +90,7 @@ class UsersViewUsers extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.edit'))
+		if ($user->authorise('core.create', 'com_users') && $user->authorise('core.edit', 'com_users') && $user->authorise('core.edit.state', 'com_users'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');

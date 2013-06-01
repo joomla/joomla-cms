@@ -130,12 +130,12 @@ class TemplatesModelTemplate extends JModelLegacy
 			$result	= false;
 
 			// Get the template information.
-			$db->setQuery(
-				'SELECT extension_id, client_id, element' .
-				' FROM #__extensions' .
-				' WHERE extension_id = '.(int) $pk.
-				'  AND type = '.$db->quote('template')
-			);
+			$query = $db->getQuery(true)
+				->select('extension_id, client_id, element')
+				->from('#__extensions')
+				->where($db->quoteName('extension_id') . ' = ' . (int) $pk)
+				->where($db->quoteName('type') . ' = ' . $db->quote('template'));
+			$db->setQuery($query);
 
 			try
 			{
@@ -169,10 +169,10 @@ class TemplatesModelTemplate extends JModelLegacy
 	public function checkNewName()
 	{
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->select('COUNT(*)');
-		$query->from('#__extensions');
-		$query->where('name = ' . $db->quote($this->getState('new_name')));
+		$query = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from('#__extensions')
+			->where('name = ' . $db->quote($this->getState('new_name')));
 		$db->setQuery($query);
 		return ($db->loadResult() == 0);
 	}

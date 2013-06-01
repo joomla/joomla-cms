@@ -56,13 +56,13 @@ class MenusModelMenutypes extends JModelLegacy
 		$list = array();
 
 		// Get the list of components.
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('name, element AS ' . $db->qn('option'));
-		$query->from('#__extensions');
-		$query->where('type = ' . $db->q('component'));
-		$query->where('enabled = 1');
-		$query->order('name ASC');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('name, element AS ' . $db->quoteName('option'))
+			->from('#__extensions')
+			->where('type = ' . $db->quote('component'))
+			->where('enabled = 1')
+			->order('name ASC');
 		$db->setQuery($query);
 		$components = $db->loadObjectList();
 
@@ -77,7 +77,7 @@ class MenusModelMenutypes extends JModelLegacy
 				{
 					if (isset($option->request))
 					{
-						$this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
+						$this->addReverseLookupUrl($option);
 
 						if (isset($option->request['option']))
 						{
@@ -91,7 +91,24 @@ class MenusModelMenutypes extends JModelLegacy
 			}
 		}
 
+		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
+		JDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
+
 		return $list;
+	}
+
+	/**
+	 * Method to create the reverse lookup for link-to-name.
+	 * (can be used from onAfterGetMenuTypeOptions handlers)
+	 *
+	 * @param   $option  JObject  with request array or string and title public variables
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	public function addReverseLookupUrl($option)
+	{
+		$this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
 	}
 
 	protected function getTypeOptionsByComponent($component)

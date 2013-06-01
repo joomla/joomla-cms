@@ -34,6 +34,7 @@
 		<position>icon</position>
 		<position>cp_shell</position>
 		<position>cpanel</position>
+		<position>bottom</position>
 		<position>footer</position>
 		<position>login</position>
 		<position>debug</position>
@@ -55,6 +56,11 @@
 				validate="color"
 				label="TPL_ISIS_COLOR_HEADER_LABEL"
 				description="TPL_ISIS_COLOR_HEADER_DESC" />
+
+				<field name="sidebarColor" class="" type="color" default="#0088CC"
+				validate="color"
+				label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
+				description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
 
 				<field name="logoFile" class="" type="media" default=""
 				label="TPL_ISIS_LOGO_LABEL"

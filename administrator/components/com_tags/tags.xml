@@ -10,11 +10,6 @@
 		<version>3.1.0</version>
 		<description>COM_TAGS_XML_DESCRIPTION</description>
 
-	<install> <!-- Runs on install -->
-		<sql>
-			<file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
-		</sql>
-	</install>
 	<files folder="site">
 		<filename>controller.php</filename>
 		<filename>index.html</filename>
@@ -40,8 +35,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_tags.ini
-			</language>
+			<language tag="en-GB">language/en-GB.com_tags.ini</language>
+			<language tag="en-GB">language/en-GB.com_tags.sys.ini</language>
 		</languages>
 		<menu link="option=com_tags" img="class:tags">com_tags</menu>
 

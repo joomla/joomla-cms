@@ -284,26 +284,30 @@ class InstallerModelManage extends InstallerModel
 		$type = $this->getState('filter.type');
 		$client = $this->getState('filter.client_id');
 		$group = $this->getState('filter.group');
-		$query = JFactory::getDBO()->getQuery(true);
-		$query->select('*');
-		$query->select('2*protected+(1-protected)*enabled as status');
-		$query->from('#__extensions');
-		$query->where('state=0');
+		$query = JFactory::getDbo()->getQuery(true)
+			->select('*')
+			->select('2*protected+(1-protected)*enabled as status')
+			->from('#__extensions')
+			->where('state=0');
 		if ($status != '')
 		{
 			if ($status == '2')
 			{
 				$query->where('protected = 1');
 			}
-			else
+			elseif ($status == '3')
 			{
 				$query->where('protected = 0');
-				$query->where('enabled=' . (int) $status);
+			}
+			else
+			{
+				$query->where('protected = 0')
+					->where('enabled=' . (int) $status);
 			}
 		}
 		if ($type)
 		{
-			$query->where('type=' . $this->_db->Quote($type));
+			$query->where('type=' . $this->_db->quote($type));
 		}
 		if ($client != '')
 		{
@@ -311,7 +315,7 @@ class InstallerModelManage extends InstallerModel
 		}
 		if ($group != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where('folder=' . $this->_db->Quote($group == '*' ? '' : $group));
+			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
 		}
 
 		// Filter by search in id

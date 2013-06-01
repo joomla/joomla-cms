@@ -32,7 +32,7 @@ $version = '3.1';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '0_beta2';
+$release = '2';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -156,7 +156,11 @@ for($num=$release-1; $num >= 0; $num--) {
 
 // Delete the directories we exclude from the packages (tests, docs, build).
 echo "Delete folders not included in packages.\n";
-system('rm -rf '.$full.'/tests ' . $full.'/docs ' . $full.'.gitignore ' . $full . '/build ' . $full . '/build.xml ');
+$doNotPackage = array('tests', 'docs', '.gitignore', '.travis.yml', 'build', 'build.xml', 'phpunit.xml.dist', 'travisci-phpunit.xml', 'README.md', 'CONTRIBUTING.md');
+foreach ($doNotPackage as $removeFile)
+{
+	system('rm -rf ' . $full . '/' . $removeFile);
+}
 
 // Recreate empty directories before creating new archives.
 system('mkdir packages_full'.$full);

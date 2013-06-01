@@ -36,7 +36,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php endif; ?>
 
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
-	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" role="button"> <span class="icon-cog"></span><span class="caret"></span> </a>
+	<div class="btn-group pull-right"> <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" role="button"> <span class="icon-cog"></span> <span class="caret"></span> </a>
 		<ul class="dropdown-menu">
 		<?php if ($params->get('show_print_icon')) : ?>
 			<li class="print-icon"> <?php echo JHtml::_('icon.print_popup', $this->item, $params); ?> </li>
@@ -144,11 +144,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 <?php if (!$params->get('show_intro')) : ?>
 	<?php echo $this->item->event->afterDisplayTitle; ?>
 <?php endif; ?>
-<?php echo $this->item->event->beforeDisplayContent; ?>
-
-<?php if ($params->get('show_intro')) : ?>
-<?php echo $this->item->introtext; ?>
-<?php endif; ?>
+<?php echo $this->item->event->beforeDisplayContent; ?> <?php echo $this->item->introtext; ?>
 
 <?php if ($useDefList && ($info == 1 ||  $info == 2)) : ?>
 	<dl class="article-info muted">

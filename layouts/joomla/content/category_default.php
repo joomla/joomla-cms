@@ -21,6 +21,7 @@ if (substr($className, -1) == 's')
 {
 	$className = rtrim($className, 's');
 }
+$tagsData  = $displayData->get('category')->tags->itemTags;
 ?>
 <div>
 	<div class="<?php echo $className .'-category' . $displayData->pageclass_sfx;?>">
@@ -35,7 +36,7 @@ if (substr($className, -1) == 's')
 			</h2>
 		<?php endif; ?>
 		<?php if ($displayData->get('show_tags', 1)) : ?>
-			<?php JLayoutHelper::render('joomla.content.tags', $this);?>
+			<?php echo JLayoutHelper::render('joomla.content.tags', $tagsData); ?>
 		<?php endif; ?>
 		<?php if ($params->get('show_description', 1) || $params->def('show_description_image', 1)) : ?>
 			<div class="category-desc">

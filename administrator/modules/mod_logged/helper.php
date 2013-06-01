@@ -29,12 +29,11 @@ abstract class ModLoggedHelper
 	{
 		$db    = JFactory::getDbo();
 		$user  = JFactory::getUser();
-		$query = $db->getQuery(true);
-
-		$query->select('s.time, s.client_id, u.id, u.name, u.username');
-		$query->from('#__session AS s');
-		$query->leftJoin('#__users AS u ON s.userid = u.id');
-		$query->where('s.guest = 0');
+		$query = $db->getQuery(true)
+			->select('s.time, s.client_id, u.id, u.name, u.username')
+			->from('#__session AS s')
+			->join('LEFT', '#__users AS u ON s.userid = u.id')
+			->where('s.guest = 0');
 		$db->setQuery($query, 0, $params->get('count', 5));
 
 		try

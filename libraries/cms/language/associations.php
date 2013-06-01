@@ -33,17 +33,16 @@ class JLanguageAssociations
 	 *
 	 * @since   3.1
 	 */
-
 	public static function getAssociations($extension, $tablename, $context, $id, $pk = 'id', $aliasField = 'alias', $catField = 'catid')
 	{
 		$associations = array();
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('c2.language'));
-		$query->from($db->quoteName($tablename, 'c'));
-		$query->innerJoin($db->quoteName('#__associations', 'a') . ' ON a.id = c.id AND a.context=' . $db->quote($context));
-		$query->innerJoin($db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key');
-		$query->innerJoin($db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('c2.language'))
+			->from($db->quoteName($tablename, 'c'))
+			->join('INNER', $db->quoteName('#__associations', 'a') . ' ON a.id = c.id AND a.context=' . $db->quote($context))
+			->join('INNER', $db->quoteName('#__associations', 'a2') . ' ON a.key = a2.key')
+			->join('INNER', $db->quoteName($tablename, 'c2') . ' ON a2.id = c2.' . $db->quoteName($pk));
 
 		// Use alias field ?
 		if (!empty($aliasField))
@@ -66,19 +65,16 @@ class JLanguageAssociations
 		// Use catid field ?
 		if (!empty($catField))
 		{
-			$query->innerJoin($db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension));
-			$query->select(
-				$query->concatenate(
-					array(
-						'ca.id',
-						'ca.alias'
-					),
-					':'
-				) . ' AS ' . $db->quoteName($catField)
-			);
+			$query->join('INNER', $db->quoteName('#__categories', 'ca') . ' ON ' . $db->quoteName('c2.' . $catField) . ' = ca.id AND ca.extension = ' . $db->quote($extension))
+				->select(
+					$query->concatenate(
+						array('ca.id', 'ca.alias'),
+						':'
+					) . ' AS ' . $db->quoteName($catField)
+				);
 		}
 
-		$query->where('c.id =' . (int) $id);
+		$query->where('c.' . $pk . ' = ' . (int) $id);
 
 		$db->setQuery($query);
 
@@ -86,18 +82,20 @@ class JLanguageAssociations
 		{
 			$items = $db->loadObjectList('language');
 		}
-		catch (runtimeException $e)
+		catch (RuntimeException $e)
 		{
 			throw new Exception($e->getMessage(), 500);
-
-			return false;
 		}
 
 		if ($items)
 		{
 			foreach ($items as $tag => $item)
 			{
-				$associations[$tag] = $item;
+				// Do not return itself as result
+				if ((int) $item->{$pk} != $id)
+				{
+					$associations[$tag] = $item;
+				}
 			}
 		}
 

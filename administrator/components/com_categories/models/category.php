@@ -87,7 +87,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @return  JTable  A JTable object
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function getTable($type = 'Category', $prefix = 'CategoriesTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -182,8 +182,9 @@ class CategoriesModelCategory extends JModelAdmin
 			if (!empty($result->id))
 			{
 				$db = JFactory::getDbo();
-				$result->tags = new JTags;
+				$result->tags = new JHelperTags;
 				$result->tags->getTagIds($result->id, $result->extension . '.category');
+				$result->metadata['tags'] = $result->tags;
 			}
 		}
 
@@ -271,7 +272,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->_db->Quote($table->extension);
+		return 'extension = ' . $this->_db->quote($table->extension);
 	}
 
 	/**
@@ -301,7 +302,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @param   JForm   $form    A JForm object.
 	 * @param   mixed   $data    The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import.
+	 * @param   string  $group   The name of the plugin group to import.
 	 *
 	 * @return  void
 	 *
@@ -451,6 +452,7 @@ class CategoriesModelCategory extends JModelAdmin
 			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
 			$data['title'] = $title;
 			$data['alias'] = $alias;
+			$data['published'] = 0;
 		}
 
 		// Bind the data.
@@ -517,10 +519,10 @@ class CategoriesModelCategory extends JModelAdmin
 
 			// Deleting old association for these items
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->delete('#__associations');
-			$query->where('context='.$db->quote('com_categories.item'));
-			$query->where('id IN ('.implode(',', $associations).')');
+			$query = $db->getQuery(true)
+				->delete('#__associations')
+				->where($db->quoteName('context') . ' = ' . $db->quote('com_categories.item'))
+				->where($db->quoteName('id') . ' IN (' . implode(',', $associations) . ')');
 			$db->setQuery($query);
 			$db->execute();
 
@@ -534,12 +536,12 @@ class CategoriesModelCategory extends JModelAdmin
 			{
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
-				$query->clear();
-				$query->insert('#__associations');
+				$query->clear()
+					->insert('#__associations');
 
 				foreach ($associations as $tag => $id)
 				{
-					$query->values($id.','.$db->quote('com_categories.item') . ',' . $db->quote($key));
+					$query->values($id . ',' . $db->quote('com_categories.item') . ',' . $db->quote($key));
 				}
 
 				$db->setQuery($query);
@@ -592,8 +594,8 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		if (parent::publish($pks, $value))
 		{
-			$dispatcher	= JEventDispatcher::getInstance();
-			$extension	= JFactory::getApplication()->input->get('extension');
+			$dispatcher = JEventDispatcher::getInstance();
+			$extension = JFactory::getApplication()->input->get('extension');
 
 			// Include the content plugins for the change of category state event.
 			JPluginHelper::importPlugin('content');
@@ -640,7 +642,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @return  boolean  False on failure or error, True otherwise
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
@@ -729,9 +731,9 @@ class CategoriesModelCategory extends JModelAdmin
 		$parents = array();
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
-		$query = $db->getQuery(true);
-		$query->select('COUNT(id)');
-		$query->from($db->quoteName('#__categories'));
+		$query = $db->getQuery(true)
+			->select('COUNT(id)')
+			->from($db->quoteName('#__categories'));
 		$db->setQuery($query);
 
 		try
@@ -770,11 +772,11 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
-			$query->clear();
-			$query->select('id');
-			$query->from($db->quoteName('#__categories'));
-			$query->where('lft > ' . (int) $table->lft);
-			$query->where('rgt < ' . (int) $table->rgt);
+			$query->clear()
+				->select('id')
+				->from($db->quoteName('#__categories'))
+				->where('lft > ' . (int) $table->lft)
+				->where('rgt < ' . (int) $table->rgt);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -941,10 +943,10 @@ class CategoriesModelCategory extends JModelAdmin
 			if ($parentId != $table->parent_id)
 			{
 				// Add the child node ids to the children array.
-				$query->clear();
-				$query->select('id');
-				$query->from($db->quoteName('#__categories'));
-				$query->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$query->clear()
+					->select('id')
+					->from($db->quoteName('#__categories'))
+					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
 				$db->setQuery($query);
 
 				try

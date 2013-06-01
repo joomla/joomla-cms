@@ -184,7 +184,7 @@ abstract class JFormField
 	/**
 	 * The string used for generated fields names
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected static $generated_fieldname = '__field';
@@ -341,7 +341,7 @@ abstract class JFormField
 			}
 			else
 			{
-				$this->element->addAttribute('class', 'required');
+				$this->element['class'] = 'required';
 			}
 		}
 

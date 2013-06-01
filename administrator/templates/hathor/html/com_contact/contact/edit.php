@@ -63,6 +63,16 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
 
+				<!-- Tag field -->
+				<?php foreach ($this->get('form')->getFieldset('jmetadata') as $field) : ?>
+					<?php if ($field->name == 'jform[metadata][tags][]') :?>
+						<li>
+							<?php echo $field->label; ?>
+							<?php echo $field->input; ?>
+						</li>
+					<?php endif; ?>
+				<?php endforeach; ?>
+
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
@@ -161,7 +171,11 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 			<?php echo $this->loadTemplate('params'); ?>
 
-			<?php echo $this->loadTemplate('metadata'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
+			<fieldset class="panelform">
+			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+				<?php echo $this->loadTemplate('metadata'); ?>
+			</fieldset>
 
 			<?php if ($assoc) : ?>
 				<?php echo $this->loadTemplate('associations'); ?>

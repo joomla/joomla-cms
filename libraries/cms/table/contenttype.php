@@ -50,14 +50,7 @@ class JTableContenttype extends JTable
 
 		if (empty($this->type_alias))
 		{
-			$this->type_alias = strtolower($this->type_title);
-		}
-
-		$this->type_alias = JApplication::stringURLSafe($this->type_alias);
-
-		if (trim(str_replace('-', '', $this->type_alias)) == '')
-		{
-			$this->type_alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+			throw new UnexpectedValueException(sprintf('The type_alias is empty'));
 		}
 
 		return true;

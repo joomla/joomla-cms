@@ -338,30 +338,6 @@ class TagsModelTag extends JModelAdmin
 			return false;
 		}
 
-		// We will have to discuss how to think about language and tags
-		// $app = JFactory::getApplication();
-		/*$assoc = $this->getAssociations();
-		if ($assoc)
-		{
-			// Adding self to the association
-			$associations = $data['associations'];
-
-			foreach ($associations as $tag => $id)
-			{
-				if (empty($id))
-				{
-					unset($associations[$tag]);
-				}
-			}
-
-			if ($error = $db->getErrorMsg())
-			{
-				$this->setError($error);
-				return false;
-			}
-
-		}*/
-
 		// Trigger the onContentAfterSave event.
 		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
 
@@ -458,7 +434,7 @@ class TagsModelTag extends JModelAdmin
 		$table = $this->getTable();
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
-			$title = JString::increment($title);
+			$title = ($table->title != $title) ? $title : JString::increment($title);
 			$alias = JString::increment($alias, 'dash');
 		}
 
