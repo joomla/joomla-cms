@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#30868] MySQL specific syntax used in JTableCorecontent::storeUcmBase()
  ^ [#30983] Move JPagination to the CMS tree
  + [#30525] Add a PSR-0 compatible autoloader to JLoader.  Thanks Don Gilbert
+ ^ [#31028] *Multilang code quality normalisation.  Thanks Jean-Marie Simonet
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
