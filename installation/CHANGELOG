@@ -46,6 +46,7 @@ $ -> Language fix or change
  ^$ [#30077] Install Sample Data - Options are confusing.  Thanks Peter Martin
  # [#31044] media manager overlay preview broken.  Thanks landor landor
  # [#31043] *Status filtering bug in categories Manager.  Thanks Jean-Marie Simonet
+ + [#30931] Allow folder names without 's' at the end.  Thanks Elin Waring and Buddhima Wijeweera
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
