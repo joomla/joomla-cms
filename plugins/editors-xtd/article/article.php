@@ -65,6 +65,7 @@ class PlgButtonArticle extends JPlugin
 
 		$button = new JObject;
 		$button->modal = true;
+		$button->class = 'btn';
 		$button->link = $link;
 		$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
 		$button->name = 'file-add';

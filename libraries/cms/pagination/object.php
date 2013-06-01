@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Pagination
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,39 +12,39 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Pagination object representing a particular item in the pagination lists.
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Pagination
- * @since       11.1
+ * @since       1.5
  */
 class JPaginationObject
 {
 	/**
 	 * @var    string  The link text.
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $text;
 
 	/**
 	 * @var    integer  The number of rows as a base offset.
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $base;
 
 	/**
 	 * @var    string  The link URL.
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $link;
 
 	/**
 	 * @var    integer  The prefix used for request variables.
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	public $prefix;
 
 	/**
 	 * @var    boolean  Flag whether the object is the 'active' page
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	public $active;
 
@@ -57,7 +57,7 @@ class JPaginationObject
 	 * @param   string   $link    The link URL.
 	 * @param   boolean  $active  Flag whether the object is the 'active' page
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct($text, $prefix = '', $base = null, $link = null, $active = false)
 	{
