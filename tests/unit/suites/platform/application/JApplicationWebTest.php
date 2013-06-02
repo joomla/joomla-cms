@@ -774,8 +774,8 @@ class JApplicationWebTest extends TestCase
 	{
 		return array(
 			// Note: file, class, expectsClass, (expected result array), whether there should be an exception
-			'Default configuration class' => array(null, null, 'JConfig', 'ConfigEval'),
-			'Custom file, invalid class' => array(JPATH_BASE . '/config.JCli-wrongclass.php', 'noclass', false, array(), true),
+			'Default configuration class' => array(JPATH_TESTS . '/tmp/configuration.php', null, 'JConfig', 'ConfigEval'),
+			'Custom file, invalid class' => array(JPATH_TESTS . '/tmp/config.JCli-wrongclass.php', 'noclass', false, array(), true),
 		);
 	}
 
