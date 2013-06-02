@@ -1568,6 +1568,12 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSortObjects($input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults)
 	{
+		// Convert the $locale param to a string if it is an array
+		if (is_array($locale))
+		{
+			$locale = "'" . implode("', '", $locale) . "'";
+		}
+
 		if (empty($input))
 		{
 			$this->markTestSkipped('Skip for MAC until PHP sort bug is fixed');

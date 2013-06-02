@@ -508,6 +508,12 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrcasecmp($string1, $string2, $locale, $expect)
 	{
+		// Convert the $locale param to a string if it is an array
+		if (is_array($locale))
+		{
+			$locale = "'" . implode("', '", $locale) . "'";
+		}
+
 		if (substr(php_uname(), 0, 6) == 'Darwin' && $locale != false)
 		{
 			$this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
@@ -524,6 +530,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 			{
 				$actual = $actual / abs($actual);
 			}
+
 			$this->assertEquals($expect, $actual);
 		}
 	}
@@ -544,6 +551,12 @@ class JStringTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStrcmp($string1, $string2, $locale, $expect)
 	{
+		// Convert the $locale param to a string if it is an array
+		if (is_array($locale))
+		{
+			$locale = "'" . implode("', '", $locale) . "'";
+		}
+
 		if (substr(php_uname(), 0, 6) == 'Darwin' && $locale != false)
 		{
 			$this->markTestSkipped('Darwin bug prevents foreign conversion from working properly');
@@ -561,6 +574,7 @@ class JStringTest extends PHPUnit_Framework_TestCase
 			{
 				$actual = $actual / abs($actual);
 			}
+
 			$this->assertEquals($expect, $actual);
 		}
 	}
