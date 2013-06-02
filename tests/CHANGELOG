@@ -30,6 +30,7 @@ $ -> Language fix or change
  + Port Database package unit tests from Platform
  + Port URI package unit tests from Platform
  + Port Facebook package unit tests from Platform
+ + Port Linkedin, Oauth1, OAuth2, and Openstreetmap package unit tests from Platform
 
 28-May-2013 Mark Dexter
  + Add webdriver tests for contacts, weblinks, and banners. Thanks George Wilson.
