@@ -164,15 +164,15 @@ class ContentModelArticles extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.introtext, ' .
-					'a.checked_out, a.checked_out_time, ' .
-					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
-					// use created if modified is 0
-					'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
-					'a.modified_by, uam.name as modified_by_name,' .
-					// use created if publish_up is 0
-					'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
-					'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-					'a.hits, a.xreference, a.featured,' . ' ' . $query->length('a.fulltext') . ' AS readmore'
+				'a.checked_out, a.checked_out_time, ' .
+				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
+				// use created if modified is 0
+				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
+				'a.modified_by, uam.name as modified_by_name,' .
+				// use created if publish_up is 0
+				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
+				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
+				'a.hits, a.xreference, a.featured,' . ' ' . $query->length('a.fulltext') . ' AS readmore'
 			)
 		);
 
@@ -450,7 +450,7 @@ class ContentModelArticles extends JModelList
 				$endDateRange = $db->quote($this->getState('filter.end_date_range', $nullDate));
 				$query->where(
 					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField .
-						' <= ' . $endDateRange . ')'
+					' <= ' . $endDateRange . ')'
 				);
 				break;
 
@@ -458,7 +458,7 @@ class ContentModelArticles extends JModelList
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
 					$dateField . ' >= DATE_SUB(' . $nowDate . ', INTERVAL ' .
-						$relativeDate . ' DAY)'
+					$relativeDate . ' DAY)'
 				);
 				break;
 
@@ -482,7 +482,7 @@ class ContentModelArticles extends JModelList
 				case 'author':
 					$query->where(
 						'LOWER( CASE WHEN a.created_by_alias > ' . $db->quote(' ') .
-							' THEN a.created_by_alias ELSE ua.name END ) LIKE ' . $filter . ' '
+						' THEN a.created_by_alias ELSE ua.name END ) LIKE ' . $filter . ' '
 					);
 					break;
 
@@ -506,6 +506,16 @@ class ContentModelArticles extends JModelList
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'))
 			->group('a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
+
+		// onBeforeQueryProcess System Plugin
+		$dispatcher  = JEventDispatcher::getInstance();
+
+		// import system event
+		JPluginHelper::importPlugin('system');
+
+		// update query by reference
+		$dispatcher->trigger('onBeforeQueryProcess', array ('com_content.articles', &$query));
+
 		return $query;
 	}
 
