@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$clientId = $this->state->get('filter.client_id');
+$clientId  = $this->state->get('filter.client_id');
 $published = $this->state->get('filter.published');
-$positions =  JHtml::_('modules.positions', $clientId, $published);
+$positions = JHtml::_('modules.positions', $clientId, $published);
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
