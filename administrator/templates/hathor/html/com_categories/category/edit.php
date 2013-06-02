@@ -22,7 +22,7 @@ JHtml::_('behavior.keepalive');
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
- function(task){
+	{
 		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
 		{
 			<?php echo $this->form->getField('description')->save(); ?>

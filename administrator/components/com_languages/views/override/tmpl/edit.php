@@ -32,7 +32,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			});
 		});
 	Joomla.submitbutton = function(task)
- function(task){
+	{
 		if (task == 'override.cancel' || document.formvalidator.isValid(document.id('override-form')))
 		{
 			Joomla.submitform(task, document.getElementById('override-form'));

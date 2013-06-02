@@ -15,7 +15,7 @@ JHtml::_('behavior.formvalidation');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
- function(task){
+	{
 		if (task == 'tag.cancel' || document.formvalidator.isValid(document.id('tag-form')))
 		{
 			<?php echo $this->form->getField('description')->save(); ?>
