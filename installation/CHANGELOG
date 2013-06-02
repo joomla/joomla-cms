@@ -48,6 +48,8 @@ $ -> Language fix or change
  # [#31043] *Status filtering bug in categories Manager.  Thanks Jean-Marie Simonet
  + [#30931] Allow folder names without 's' at the end.  Thanks Elin Waring and Buddhima Wijeweera
  # [#30990] "404 Component not found" doesn't added to redirect component.  Thanks Ofer Cohen
+ # [#31064] Wrong access check for com_checkin.  Thanks Sander Potjer
+ ^ [#31025] Sync Database package to Platform
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
