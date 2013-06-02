@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Jun-2013 Michael Babker
+ + Port Feed, Filesystem, Filter, and Form package unit tests from Platform
+
 01-Jun-2013 Michael Babker
  + Port Database package unit tests from Platform
  + Port URI package unit tests from Platform
