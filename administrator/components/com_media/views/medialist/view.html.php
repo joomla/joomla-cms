@@ -46,8 +46,8 @@ class MediaViewMediaList extends JViewLegacy
 			{
 				el.addEvent('click', function(e)
 				{
-					new Event(e).stop();
 					window.top.document.preview.fromElement(el);
+					return false;
 				});
 			});
 		});");

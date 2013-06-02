@@ -163,6 +163,10 @@ class JViewLegacy extends JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
+		elseif (is_dir(JPATH_COMPONENT . '/view'))
+		{
+			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
+		}
 		else
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
@@ -464,7 +468,17 @@ class JViewLegacy extends JObject
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
-			$this->_name = strtolower(substr($classname, $viewpos + 4));
+			$lastPart = substr($classname, $viewpos + 4);
+			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
+
+			if (!empty($pathParts[1]))
+			{
+				$this->_name = strtolower($pathParts[0]);
+			}
+			else
+			{
+				$this->_name = strtolower($lastPart);
+			}
 		}
 
 		return $this->_name;
