@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jun-2013 Michael Babker
+ + Port Database package unit tests from Platform
+ + Port URI package unit tests from Platform
+
 28-May-2013 Mark Dexter
  + Add webdriver tests for contacts, weblinks, and banners. Thanks George Wilson.
  + Add skeleton classes for com_categories to work around inconsistent URL issue.
