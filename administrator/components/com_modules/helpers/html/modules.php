@@ -127,6 +127,10 @@ abstract class JHtmlModules
 	 *
 	 * @param   integer  $clientId  The client ID
 	 *
+	 * @param	integer $state the state of the module (enabled, unenabled, trashed)
+	 *
+	 * @param 	string the currently selected position for the module
+	 *
 	 * @return  string  The necessary positions for the widget.
 	 *
 	 * @since   2.5
