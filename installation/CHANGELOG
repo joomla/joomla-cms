@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#31150] Weblinks images.  Thanks Elin Waring
  !^ [#31080] Deprecating X-Content-Encoded-By.  Thanks Piotr Konieczny
  ^ [#31216] Improved some syntax.  Thanks Peter van Westen
+ ^ [#31069] Sync Log package to Platform.
 
 26-Jun-2013 Mark Dexter
  # Revert [#31233] Complete move to Bootstrap tooltips.
