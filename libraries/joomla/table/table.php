@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.path');
-jimport('joomla.table.interface');
 
 /**
  * Abstract Table class
