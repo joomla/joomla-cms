@@ -52,7 +52,7 @@ class PlgSystemRedirect extends JPlugin
 			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
 			{
 				// Render the error page.
-				JErrorPage::render($error);
+				JError::customErrorPage($error);
 			}
 
 			// See if the current url exists in the database as a redirect.
@@ -112,13 +112,13 @@ class PlgSystemRedirect extends JPlugin
 					$db->execute();
 				}
 				// Render the error page.
-				JErrorPage::render($error);
+				JError::customErrorPage($error);
 			}
 		}
 		else
 		{
 			// Render the error page.
-			JErrorPage::render($error);
+			JError::customErrorPage($error);
 		}
 	}
 }
