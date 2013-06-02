@@ -6060,6 +6060,7 @@ body {
 	background-image: -webkit-radial-gradient(circle,#165387,#142849);
 	background-image: -moz-radial-gradient(circle,#165387,#142849);
 	background-image: -o-radial-gradient(circle,#165387,#142849);
+        background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIHZpZXdCb3g9IjAgMCAxIDEiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPgo8cmFkaWFsR3JhZGllbnQgaWQ9Imc5MDEiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiBjeD0iNTAlIiBjeT0iNTAlIiByPSI1Ni43Nzg4NjU1NjYzMzg4NjUlIj4KPHN0b3Agc3RvcC1jb2xvcj0iIzE2NTM4NyIgb2Zmc2V0PSIwIi8+PHN0b3Agc3RvcC1jb2xvcj0iIzE0Mjg0OSIgb2Zmc2V0PSIxIi8+CjwvcmFkaWFsR3JhZGllbnQ+CjxyZWN0IHg9Ii01MCIgeT0iLTUwIiB3aWR0aD0iMTAxIiBoZWlnaHQ9IjEwMSIgZmlsbD0idXJsKCNnOTAxKSIgLz4KPC9zdmc+);
 	background-repeat: no-repeat;
 }
 .view-login .container {
