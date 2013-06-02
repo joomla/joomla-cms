@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Jun-2013 Michael Babker
+ ^ Sync Github package to Platform 13.1
+
 01-Jun-2013 Michael Babker
  # [#31057] Missing Read More Button in editing articles.  Thanks Hans Kuijpers
  # [#30909] Batch process modules doesnt allow new module positions.  Thanks Chad Windnagle
