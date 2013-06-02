@@ -27,7 +27,7 @@ class JFormFieldTimezoneTest extends TestCase
 		parent::setUp();
 
 		require_once JPATH_PLATFORM . '/joomla/form/fields/timezone.php';
-		include_once dirname(__DIR__) . '/inspectors.php';
+		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 
 	/**

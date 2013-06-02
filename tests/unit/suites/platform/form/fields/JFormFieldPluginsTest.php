@@ -28,7 +28,7 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 		// Do not call parent method, it causes unit test failure because of an undefined constant from the CMS
 
 		require_once JPATH_PLATFORM . '/joomla/form/fields/plugins.php';
-		include_once dirname(__DIR__) . '/inspectors.php';
+		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 
 	/**

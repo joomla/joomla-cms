@@ -28,7 +28,7 @@ class JFormFieldUsergroupTest extends TestCaseDatabase
 		parent::setUp();
 
 		require_once JPATH_PLATFORM . '/joomla/form/fields/usergroup.php';
-		include_once dirname(__DIR__) . '/inspectors.php';
+		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 
 	/**

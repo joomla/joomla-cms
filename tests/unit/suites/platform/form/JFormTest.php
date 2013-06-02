@@ -43,7 +43,7 @@ class JFormTest extends TestCase
 		parent::setUp();
 
 		$this->saveFactoryState();
-		include_once 'inspectors.php';
+		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 		include_once 'JFormDataHelper.php';
 	}
 

@@ -26,7 +26,7 @@ class JFormFieldSQLTest extends TestCaseDatabase
 	protected function setUp()
 	{
 		require_once JPATH_PLATFORM . '/joomla/form/fields/sql.php';
-		include_once dirname(__DIR__) . '/inspectors.php';
+		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 
 	/**
