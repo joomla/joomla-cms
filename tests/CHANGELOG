@@ -33,6 +33,7 @@ $ -> Language fix or change
  + Port Image, Keychain, and Language package unit tests from Platform
  + Port Mail, Mediawiki, Model, and Object package unit tests from Platform
  + Port Plugin, Profiler, Registry, String, and Twitter package unit tests from Platform
+ + Port User, Utilities, and View package unit tests from Platform
 
 01-Jun-2013 Michael Babker
  + Port Database package unit tests from Platform
