@@ -32,6 +32,7 @@ $ -> Language fix or change
  + Port Google and Grid package unit tests from Platform
  + Port Image, Keychain, and Language package unit tests from Platform
  + Port Mail, Mediawiki, Model, and Object package unit tests from Platform
+ + Port Plugin, Profiler, Registry, String, and Twitter package unit tests from Platform
 
 01-Jun-2013 Michael Babker
  + Port Database package unit tests from Platform
