@@ -338,26 +338,26 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		$this->setQuery('
 				SELECT a.attname AS "column_name",
-					pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
-					CASE WHEN a.attnotnull IS TRUE
-						THEN \'NO\'
-						ELSE \'YES\'
-					END AS "null",
-					CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
-						THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
-					END as "Default",
-					CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
-					THEN \'\'
-					ELSE pg_catalog.col_description(a.attrelid, a.attnum)
-					END  AS "comments"
+				pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
+				CASE WHEN a.attnotnull IS TRUE
+				THEN \'NO\'
+				ELSE \'YES\'
+				END AS "null",
+				CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
+				THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
+				END as "Default",
+				CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
+				THEN \'\'
+				ELSE pg_catalog.col_description(a.attrelid, a.attnum)
+				END  AS "comments"
 				FROM pg_catalog.pg_attribute a
 				LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
 				LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
 				WHERE a.attrelid =
-					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
-						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-						nspname = \'public\')
-					)
+				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
+				AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+				nspname = \'public\')
+		)
 				AND a.attnum > 0 AND NOT a.attisdropped
 				ORDER BY a.attnum'
 		);
@@ -379,12 +379,31 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 		}
 
-		/* Change Postgresql's NULL::* type with PHP's null one */
 		foreach ($fields as $field)
 		{
+				
 			if (preg_match("/^NULL::*/", $field->Default))
 			{
+				
+				// Change Postgresql's NULL::* type with PHP's null one
 				$field->Default = null;
+				
+			} else if (preg_match("/^timestamp*/", $field->type)) {
+				
+				// Change Postgresql's null date with PHP's null one
+				if ($field->Default == "'1970-01-01 00:00:00'::".$field->type) {
+					$field->Default = '0000-00-00 00:00:00';
+				}
+			} else if (preg_match("/^character varying*/", $field->type)) {
+				
+				// Change Postgresql's empty string with PHP's empty one
+				if (preg_match("/^''::character varying/", $field->Default)) {
+					$field->Default = '';
+				}
+			} else if ($field->type == 'int' || $field->type == 'bigint') {
+				
+				// Change Postgresql's integers with PHP's integers
+				$field->Default = (int) $field->Default;
 			}
 		}
 
@@ -413,11 +432,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Get the details columns information.
 			$this->setQuery('
 					SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique",
-						CASE WHEN indisprimary = true THEN
-							( SELECT \'ALTER TABLE \' || tablename || \' ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true)
-								FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
-						ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true)
-						END AS "Query"
+					CASE WHEN indisprimary = true THEN
+					( SELECT \'ALTER TABLE \' || tablename || \' ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true)
+					FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
+					ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true)
+					END AS "Query"
 					FROM pg_indexes
 					LEFT JOIN pg_class AS pgClassFirst ON indexname=pgClassFirst.relname
 					LEFT JOIN pg_index AS pgIndex ON pgClassFirst.oid=pgIndex.indexrelid
@@ -443,13 +462,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->connect();
 
 		$query = $this->getQuery(true)
-			->select('table_name')
-				->from('information_schema.tables')
-				->where('table_type=' . $this->quote('BASE TABLE'))
-				->where(
-					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')'
-				)
-				->order('table_name ASC');
+		->select('table_name')
+		->from('information_schema.tables')
+		->where('table_type=' . $this->quote('BASE TABLE'))
+		->where(
+				'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')'
+		)
+		->order('table_name ASC');
 
 		$this->setQuery($query);
 		$tables = $this->loadColumn();
@@ -477,9 +496,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if ( in_array($table, $tableList) )
 		{
 			$name = array('s.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type',
-							'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option');
+					'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option');
 			$as = array('sequence', 'schema', 'table', 'column', 'data_type',
-							'minimum_value', 'maximum_value', 'increment', 'cycle_option');
+					'minimum_value', 'maximum_value', 'increment', 'cycle_option');
 
 			if (version_compare($this->getVersion(), '9.1.0') >= 0)
 			{
@@ -489,14 +508,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			// Get the details columns information.
 			$query = $this->getQuery(true)
-				->select($this->quoteName($name, $as))
-					->from('pg_class AS s')
-					->join('LEFT', "pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
-					->join('LEFT', 'pg_class t ON t.oid=d.refobjid')
-					->join('LEFT', 'pg_namespace n ON n.oid=t.relnamespace')
-					->join('LEFT', 'pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
-					->join('LEFT', 'information_schema.sequences AS info ON info.sequence_name=s.relname')
-					->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
+			->select($this->quoteName($name, $as))
+			->from('pg_class AS s')
+			->join('LEFT', "pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
+			->join('LEFT', 'pg_class t ON t.oid=d.refobjid')
+			->join('LEFT', 'pg_namespace n ON n.oid=t.relnamespace')
+			->join('LEFT', 'pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
+			->join('LEFT', 'information_schema.sequences AS info ON info.sequence_name=s.relname')
+			->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
 			$this->setQuery($query);
 			$seq = $this->loadObjectList();
 
@@ -558,13 +577,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		/* find sequence column name */
 		$colNameQuery = $this->getQuery(true);
 		$colNameQuery->select('column_default')
-						->from('information_schema.columns')
-						->where(
-								"table_name=" . $this->quote(
-									$this->replacePrefix(str_replace('"', '', $table[0]))
-								), 'AND'
-						)
-						->where("column_default LIKE '%nextval%'");
+		->from('information_schema.columns')
+		->where(
+				"table_name=" . $this->quote(
+						$this->replacePrefix(str_replace('"', '', $table[0]))
+				), 'AND'
+		)
+		->where("column_default LIKE '%nextval%'");
 
 		$this->setQuery($colNameQuery);
 		$colName = $this->loadRow();
@@ -713,13 +732,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			/* Rename indexes */
 			$this->setQuery(
-							'SELECT relname
-								FROM pg_class
-								WHERE oid IN (
-									SELECT indexrelid
-									FROM pg_index, pg_class
-									WHERE pg_class.relname=' . $this->quote($oldTable, true) . '
-									AND pg_class.oid=pg_index.indrelid );'
+					'SELECT relname
+					FROM pg_class
+					WHERE oid IN (
+					SELECT indexrelid
+					FROM pg_index, pg_class
+					WHERE pg_class.relname=' . $this->quote($oldTable, true) . '
+					AND pg_class.oid=pg_index.indrelid );'
 			);
 
 			$oldIndexes = $this->loadColumn();
@@ -732,16 +751,16 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			/* Rename sequence */
 			$this->setQuery(
-							'SELECT relname
-								FROM pg_class
-								WHERE relkind = \'S\'
-								AND relnamespace IN (
-									SELECT oid
-									FROM pg_namespace
-									WHERE nspname NOT LIKE \'pg_%\'
-									AND nspname != \'information_schema\'
-								)
-								AND relname LIKE \'%' . $oldTable . '%\' ;'
+					'SELECT relname
+					FROM pg_class
+					WHERE relkind = \'S\'
+					AND relnamespace IN (
+					SELECT oid
+					FROM pg_namespace
+					WHERE nspname NOT LIKE \'pg_%\'
+					AND nspname != \'information_schema\'
+			)
+					AND relname LIKE \'%' . $oldTable . '%\' ;'
 			);
 
 			$oldSequences = $this->loadColumn();
@@ -990,9 +1009,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Create the base insert statement.
 		$query = $this->getQuery(true)
-			->insert($this->quoteName($table))
-				->columns($fields)
-				->values(implode(',', $values));
+		->insert($this->quoteName($table))
+		->columns($fields)
+		->values(implode(',', $values));
 
 		$retVal = false;
 
@@ -1046,12 +1065,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->connect();
 
 		$query = $this->getQuery(true)
-			->select('table_name')
-				->from('information_schema.tables')
-				->where('table_type=' . $this->quote('BASE TABLE'))
-				->where(
-					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
-				);
+		->select('table_name')
+		->from('information_schema.tables')
+		->where('table_type=' . $this->quote('BASE TABLE'))
+		->where(
+				'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
+		);
 
 		$this->setQuery($query);
 		$tableList = $this->loadColumn();
@@ -1270,7 +1289,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Create the base update statement.
 		$query = $this->getQuery(true)
-			->update($table);
+		->update($table);
 		$stmt = '%s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.
