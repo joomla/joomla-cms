@@ -151,8 +151,6 @@ class JTableCorecontentTest extends TestCaseDatabase
 	 */
 	public function testStore()
 	{
-		$this->markTestSkipped('Unexpected failure in SQLite test environment.');
-
 		$table = $this->object;
 
 		// Handle updating an existing article

@@ -62,14 +62,23 @@ abstract class JGithubObject
 		// Get a new JUri object fousing the api url and given path.
 		$uri = new JUri($this->options->get('api.url') . $path);
 
-		if ($this->options->get('api.username', false))
+		if ($this->options->get('gh.token', false))
 		{
-			$uri->setUser($this->options->get('api.username'));
+			// Use oAuth authentication - @todo set in request header ?
+			$uri->setVar('access_token', $this->options->get('gh.token'));
 		}
-
-		if ($this->options->get('api.password', false))
+		else
 		{
-			$uri->setPass($this->options->get('api.password'));
+			// Use basic authentication
+			if ($this->options->get('api.username', false))
+			{
+				$uri->setUser($this->options->get('api.username'));
+			}
+
+			if ($this->options->get('api.password', false))
+			{
+				$uri->setPass($this->options->get('api.password'));
+			}
 		}
 
 		// If we have a defined page number add it to the JUri object.
@@ -85,5 +94,28 @@ abstract class JGithubObject
 		}
 
 		return (string) $uri;
+	}
+
+	/**
+	 * Process the response and decode it.
+	 *
+	 * @param   JHttpResponse  $response      The response.
+	 * @param   integer        $expectedCode  The expected "good" code.
+	 *
+	 * @throws DomainException
+	 *
+	 * @return mixed
+	 */
+	protected function processResponse(JHttpResponse $response, $expectedCode = 200)
+	{
+		// Validate the response code.
+		if ($response->code != $expectedCode)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
 	}
 }

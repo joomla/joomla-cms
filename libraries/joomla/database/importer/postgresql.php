@@ -147,9 +147,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getAddColumnSQL($table, SimpleXMLElement $field)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -354,8 +354,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getDropSequenceSQL($name)
 	{
-		$query = 'DROP SEQUENCE ' . $this->db->quoteName($name);
-		return $query;
+		$sql = 'DROP SEQUENCE ' . $this->db->quoteName($name);
+
+		return $sql;
 	}
 
 	/**
@@ -379,14 +380,15 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			$field['Start_Value'] = '1';
 		}
 
-		$query = 'CREATE SEQUENCE ' . (string) $field['Name'] .
+		$sql = 'CREATE SEQUENCE ' . (string) $field['Name'] .
 				' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . $field['Min_Value'] .
 				' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value'] .
 				(((string) $field['Cycle_option'] == 'NO' ) ? ' NO' : '' ) . ' CYCLE' .
 				' OWNED BY ' . $this->db->quoteName(
 									(string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']
 								);
-		return $query;
+
+		return $sql;
 	}
 
 	/**
@@ -410,13 +412,14 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			$field['Start_Value'] = '1';
 		}
 
-		$query = 'ALTER SEQUENCE ' . (string) $field['Name'] .
+		$sql = 'ALTER SEQUENCE ' . (string) $field['Name'] .
 				' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . (string) $field['Min_Value'] .
 				' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value'] .
 				' OWNED BY ' . $this->db->quoteName(
 									(string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']
 								);
-		return $query;
+
+		return $sql;
 	}
 
 	/**
@@ -431,10 +434,10 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ALTER COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ALTER COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
 			. $this->getAlterColumnSQL($table, $field);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -459,18 +462,18 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
 					: null;
 
-		$query = ' TYPE ' . $fType;
+		$sql = ' TYPE ' . $fType;
 
 		if ($fNull == 'NO')
 		{
 			if (in_array($fType, $blobs) || $fDefault === null)
 			{
-				$query .= ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' SET NOT NULL' .
+				$sql .= ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' SET NOT NULL' .
 						",\nALTER COLUMN " . $this->db->quoteName($fName) . ' DROP DEFAULT';
 			}
 			else
 			{
-				$query .= ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' SET NOT NULL' .
+				$sql .= ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' SET NOT NULL' .
 						",\nALTER COLUMN " . $this->db->quoteName($fName) . ' SET DEFAULT ' . $fDefault;
 			}
 		}
@@ -478,7 +481,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		{
 			if ($fDefault !== null)
 			{
-				$query .= ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' DROP NOT NULL' .
+				$sql .= ",\nALTER COLUMN " . $this->db->quoteName($fName) . ' DROP NOT NULL' .
 						",\nALTER COLUMN " . $this->db->quoteName($fName) . ' SET DEFAULT ' . $fDefault;
 			}
 		}
@@ -486,10 +489,10 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		/* sequence was created in other function, here is associated a default value but not yet owner */
 		if (strpos($fDefault, 'nextval') !== false)
 		{
-			$query .= ";\nALTER SEQUENCE " . $this->db->quoteName($table . '_' . $fName . '_seq') . ' OWNED BY ' . $this->db->quoteName($table . '.' . $fName);
+			$sql .= ";\nALTER SEQUENCE " . $this->db->quoteName($table . '_' . $fName . '_seq') . ' OWNED BY ' . $this->db->quoteName($table . '.' . $fName);
 		}
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -516,33 +519,33 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		/* nextval() as default value means that type field is serial */
 		if (strpos($fDefault, 'nextval') !== false)
 		{
-			$query = $this->db->quoteName($fName) . ' SERIAL';
+			$sql = $this->db->quoteName($fName) . ' SERIAL';
 		}
 		else
 		{
-			$query = $this->db->quoteName($fName) . ' ' . $fType;
+			$sql = $this->db->quoteName($fName) . ' ' . $fType;
 
 			if ($fNull == 'NO')
 			{
 				if (in_array($fType, $blobs) || $fDefault === null)
 				{
-					$query .= ' NOT NULL';
+					$sql .= ' NOT NULL';
 				}
 				else
 				{
-					$query .= ' NOT NULL DEFAULT ' . $fDefault;
+					$sql .= ' NOT NULL DEFAULT ' . $fDefault;
 				}
 			}
 			else
 			{
 				if ($fDefault !== null)
 				{
-					$query .= ' DEFAULT ' . $fDefault;
+					$sql .= ' DEFAULT ' . $fDefault;
 				}
 			}
 		}
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -557,9 +560,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getDropColumnSQL($table, $name)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -573,9 +576,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getDropIndexSQL($name)
 	{
-		$query = 'DROP INDEX ' . $this->db->quoteName($name);
+		$sql = 'DROP INDEX ' . $this->db->quoteName($name);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -590,9 +593,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getDropPrimaryKeySQL($table, $name)
 	{
-		$query = 'ALTER TABLE ONLY ' . $this->db->quoteName($table) . ' DROP CONSTRAINT ' . $this->db->quoteName($name);
+		$sql = 'ALTER TABLE ONLY ' . $this->db->quoteName($table) . ' DROP CONSTRAINT ' . $this->db->quoteName($name);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -609,6 +612,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	{
 		// First pass, create a lookup of the keys.
 		$lookup = array();
+
 		foreach ($keys as $key)
 		{
 			if ($key instanceof SimpleXMLElement)
@@ -643,6 +647,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	{
 		// First pass, create a lookup of the keys.
 		$lookup = array();
+
 		foreach ($sequences as $seq)
 		{
 			if ($seq instanceof SimpleXMLElement)
@@ -724,7 +729,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 					// Run the queries to upgrade the data structure.
 					foreach ($queries as $query)
 					{
-						$this->db->setQuery($query);
+						$this->db->setQuery((string) $query);
 
 						try
 						{
@@ -743,9 +748,10 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			else
 			{
 				// This is a new table.
-				$query = $this->xmlToCreate($table);
+				$sql = $this->xmlToCreate($table);
 
-				$this->db->setQuery($query);
+				$this->db->setQuery((string) $sql);
+
 				try
 				{
 					$this->db->execute();

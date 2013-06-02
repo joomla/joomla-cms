@@ -7,7 +7,7 @@
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once dirname(__DIR__) . '/inspectors.php';
+require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 
 /**
  * Test class for JFormFieldHelpsite.
