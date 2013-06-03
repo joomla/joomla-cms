@@ -177,6 +177,33 @@ CREATE INDEX `idx_extensions_lookup` ON `jos_extensions` (`type`,`element`,`fold
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jos_finder_terms_common`
+--
+
+CREATE TABLE `jos_finder_terms_common` (
+  `term` TEXT NOT NULL DEFAULT '',
+  `language` TEXT NOT NULL DEFAULT ''
+);
+
+CREATE INDEX `idx_finder_terms_common_word_lang` ON `jos_finder_terms_common` (`term`,`language`);
+CREATE INDEX `idx_finder_terms_common_lang` ON `jos_finder_terms_common` (`language`);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_types`
+--
+
+CREATE TABLE `jos_finder_types` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `title` TEXT NOT NULL DEFAULT '',
+  `mime` TEXT NOT NULL DEFAULT '',
+  CONSTRAINT `idx_finder_types_title` UNIQUE (`title`)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jos_languages`
 --
 
