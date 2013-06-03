@@ -173,9 +173,9 @@ class JFormFieldMedia extends JFormField
 			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
-			$html[] = '<div class="media-preview add-on">';
 			if ($showAsTooltip)
 			{
+				$html[] = '<div class="media-preview add-on">';
 				$tooltip = $previewImgEmpty . $previewImg;
 				$options = array(
 					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
@@ -183,13 +183,15 @@ class JFormFieldMedia extends JFormField
 					'class' => 'hasTipPreview'
 				);
 				$html[] = JHtml::tooltip($tooltip, $options);
+				$html[] = '</div>';
 			}
 			else
 			{
+				$html[] = '<div class="media-preview add-on" style="height:auto">';
 				$html[] = ' ' . $previewImgEmpty;
 				$html[] = ' ' . $previewImg;
+				$html[] = '</div>';
 			}
-			$html[] = '</div>';
 		}
 
 		$html[] = '	<input type="text" class="input-small" name="' . $this->name . '" id="' . $this->id . '" value="'
