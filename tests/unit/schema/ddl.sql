@@ -373,6 +373,24 @@ CREATE INDEX `idx_session_time` ON `jos_session` (`time`);
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jos_template_styles`
+--
+
+CREATE TABLE `jos_template_styles` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `template` TEXT NOT NULL DEFAULT '',
+  `client_id` INTEGER NOT NULL DEFAULT '0',
+  `home` TEXT NOT NULL DEFAULT '0',
+	`title` TEXT NOT NULL DEFAULT '',
+	`params` TEXT NOT NULL DEFAULT ''
+);
+
+CREATE INDEX `idx_template_styles_template` ON `jos_template_styles` (`template`);
+CREATE INDEX `idx_template_styles_home` ON `jos_template_styles` (`home`);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jos_ucm_base`
 --
 
