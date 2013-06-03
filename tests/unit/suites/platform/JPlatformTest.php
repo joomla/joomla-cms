@@ -55,7 +55,7 @@ class JPlatformTest extends PHPUnit_Framework_TestCase
 	public function testGetShortVersion()
 	{
 		$this->assertThat(
-			$this->object->getShortVersion(),
+			JPlatform::getShortVersion(),
 			$this->isType('string'),
 			'getShortVersion should return a string with the version.'
 		);
