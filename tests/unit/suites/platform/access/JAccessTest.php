@@ -37,19 +37,13 @@ class JAccessTest extends TestCaseDatabase
 		usleep(100);
 
 		$access = new JAccess;
-		$array1 = array(0 => 1, 1 => 3);
+		$array1 = array(0 => 1, 1 => 1, 2 => 2, 3 => 3);
 
 		$this->assertThat(
 			$access->getAuthorisedViewLevels(42),
 			$this->equalTo($array1),
-			'Line:' . __Line__ . ' Super user gets Public, Special (levels 1,3)'
+			'Line:' . __Line__ . ' Super user gets Public (levels 1)'
 		);
-
-		$array2 = array(0 => 1);
-		$this->assertThat($access->getAuthorisedViewLevels(50), $this->equalTo($array2), 'Line:' . __Line__ . ' User 50 gets Public (level 1)');
-
-		$array3 = array(0 => 1, 1 => 4);
-		$this->assertThat($access->getAuthorisedViewLevels(99), $this->equalTo($array3), 'Line:' . __Line__ . ' User 99 gets Level 4');
 	}
 
 	/**
@@ -70,13 +64,10 @@ class JAccessTest extends TestCaseDatabase
 	public function casesCheck()
 	{
 		return array(
-			'valid_admin_site_login' => array(45, 'core.login.site', 3, true, 'Line:' . __LINE__ . ' Administrator group can login to site'),
-			'valid_editor_site_login' => array(46, 'core.login.site', 1, true, 'Line:' . __LINE__ . ' Editor group'),
 			'valid_manager_admin_login' => array(44, 'core.login.admin', 1, true, 'Line:' . __LINE__ . ' Administrator group can login to admin'),
 			'valid_manager_login' => array(44, 'core.admin', 1, false, 'Line:' . __LINE__ . ' Administrator group cannot login to admin core'),
 			'super_user_admin' => array(42, 'core.admin', 3, true, 'Line:' . __LINE__ . ' Super User group can do anything'),
 			'super_user_admin' => array(42, 'core.admin', null, true, 'Line:' . __LINE__ . ' Null asset should default to root'),
-			'publisher_create_banner' => array(43, 'core.create', 3, false, 'Line:' . __LINE__ . ' Editor has explicit deny on banner create'),
 			'publisher_delete_banner' => array(
 				43,
 				'core.delete',
@@ -85,12 +76,6 @@ class JAccessTest extends TestCaseDatabase
 				'Line:' . __LINE__ . ' Explicit deny for editor overrides allow for publisher'),
 			'invalid_user_group_login' => array(58, 'core.login.site', 3, null, 'Line:' . __LINE__ . ' Invalid user and group cannot log in to site'),
 			'invalid_action' => array(42, 'complusoft', 3, null, 'Line:' . __LINE__ . ' Invalid action returns null permission'),
-			'invalid_asset_id' => array(
-				42,
-				'core.login.site',
-				345,
-				true,
-				'Line:' . __LINE__ . ' Super user has permissions even for invalid asset id'),
 			'publisher_login_admin' => array(43, 'core.login.admin', 1, null, 'Line:' . __LINE__ . ' Publisher may not log into admin'));
 	}
 
@@ -141,7 +126,6 @@ class JAccessTest extends TestCaseDatabase
 			'valid_manager_login' => array(6, 'core.admin', 1, false, 'Line:' . __LINE__ . ' Administrator group cannot login to admin core'),
 			'super_user_admin' => array(8, 'core.admin', 3, true, 'Line:' . __LINE__ . ' Super User group can do anything'),
 			'null_asset' => array(8, 'core.admin', null, true, 'Line:' . __LINE__ . ' Null asset should default to 1'),
-			'publisher_create_banner' => array(5, 'core.create', 3, false, 'Line:' . __LINE__ . ' Editor has explicit deny on banner create'),
 			'publisher_delete_banner' => array(
 				5,
 				'core.delete',
@@ -150,7 +134,6 @@ class JAccessTest extends TestCaseDatabase
 				'Line:' . __LINE__ . ' Explicit deny for editor overrides allow for publisher'),
 			'invalid_user_group_login' => array(99, 'core.login.site', 3, null, 'Line:' . __LINE__ . ' Invalid user and group cannot log in to site'),
 			'invalid_action' => array(8, 'complusoft', 3, null, 'Line:' . __LINE__ . ' Invalid action returns null permission'),
-			'invalid_asset_id' => array(8, 'core.login.site', 123, true, 'Line:' . __LINE__ . ' Super user has permissions even for invalid asset id'),
 			'publisher_login_admin' => array(5, 'core.login.admin', 1, null, 'Line:' . __LINE__ . ' Publisher may not log into admin'));
 	}
 
@@ -187,8 +170,9 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules(3, true);
-		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1,"7":1},"core.manage":{"7":1,"10":1,"6":1},' .
-			'"core.create":{"6":1,"4":0},"core.delete":{"6":1,"4":0,"5":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1,"7":1},' .
+			'"core.manage":{"7":1,"6":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},' .
+			'"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Recursive rules from a valid asset. Line: ' . __LINE__);
 	}
 
@@ -206,7 +190,7 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules(3, false);
-		$string1 = '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"4":0},"core.delete":{"4":0,"5":1},"core.edit":[],"core.edit.state":[]}';
+		$string1 = '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Non recursive rules from a valid asset. Line: ' . __LINE__);
 	}
 
@@ -224,8 +208,8 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules(1550, false);
-		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},' .
-			'"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1},"core.manage":{"7":1},' .
+			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
 	}
 
@@ -243,8 +227,8 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules('testasset', false);
-		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},' .
-			'"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1},"core.manage":{"7":1},' .
+			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
 	}
 
@@ -262,8 +246,8 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 		$ObjArrayJrules = $access->getAssetRules('testasset', true);
-		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1,"10":1},"core.create":{"6":1},' .
-			'"core.delete":{"6":1},"core.edit":{"6":1},"core.edit.state":{"6":1}}';
+		$string1 = '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":[],"core.admin":{"8":1},"core.manage":{"7":1},' .
+			'"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}';
 		$this->assertThat((string) $ObjArrayJrules, $this->equalTo($string1), 'Invalid asset uses rule from root. Line: ' . __LINE__);
 	}
 
@@ -296,8 +280,8 @@ class JAccessTest extends TestCaseDatabase
 	{
 		$access = new JAccess;
 
-		$array3 = array(0 => 42, 1 => 45, 2 => 47);
-		$this->assertThat($access->getUsersByGroup(7, true), $this->equalTo($array3), 'Get multiple users. Line: ' . __LINE__);
+		$array3 = array(0 => 42, 1 => 43, 2 => 44);
+		$this->assertThat($access->getUsersByGroup(1, true), $this->equalTo($array3), 'Get multiple users. Line: ' . __LINE__);
 	}
 
 	/**
@@ -328,7 +312,7 @@ class JAccessTest extends TestCaseDatabase
 	 */
 	public function testGetGroupsByUser()
 	{
-		$array1 = array(0 => 1, 1 => 6, 2 => 7, 3 => 8);
+		$array1 = array(0 => 1, 1 => 8);
 		$this->assertThat($array1, $this->equalTo(JAccess::getGroupsByUser(42, true)));
 
 		$array2 = array(0 => 8);
@@ -482,13 +466,21 @@ class JAccessTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   11.1
+	 * @since   3.1
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/stubs/S01.xml');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_assets', JPATH_TEST_DATABASE . '/jos_assets.csv');
+		$dataSet->addTable('jos_user_usergroup_map', JPATH_TEST_DATABASE . '/jos_user_usergroup_map.csv');
+		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
+		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
+		$dataSet->addTable('jos_viewlevels', JPATH_TEST_DATABASE . '/jos_viewlevels.csv');
+
+		return $dataSet;
 	}
 
 	/**

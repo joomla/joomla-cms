@@ -59,13 +59,21 @@ class JUserTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   12.1
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/JUserTest.xml');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_assets', JPATH_TEST_DATABASE . '/jos_assets.csv');
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
+		$dataSet->addTable('jos_user_usergroup_map', JPATH_TEST_DATABASE . '/jos_user_usergroup_map.csv');
+		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
+
+		return $dataSet;
 	}
 
 	/**
@@ -271,15 +279,15 @@ class JUserTest extends TestCaseDatabase
 		return array(
 			'User42' => array(
 				null,
-				array(1, 3)
+				array(1)
 			),
 			'User43' => array(
 				43,
-				array(1, 2)
+				array(1)
 			),
 			'User99' => array(
 				99,
-				array(1, 4)
+				array(1)
 			)
 		);
 	}
@@ -481,7 +489,7 @@ class JUserTest extends TestCaseDatabase
 			),
 			'existing-but-guest' => array(
 				0,
-				true,
+				false,
 				true
 			)
 		);

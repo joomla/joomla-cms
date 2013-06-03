@@ -46,7 +46,7 @@ class JDatabaseSQLSrvTest extends TestCaseDatabase
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/stubs/database.xml');
+		return $this->createXMLDataSet(JPATH_TESTS . '/stubs/database.xml');
 	}
 
 	/**
