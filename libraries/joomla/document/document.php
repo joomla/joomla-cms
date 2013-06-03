@@ -148,6 +148,14 @@ class JDocument
 	public $_script = array();
 
 	/**
+	 * Array of linked javascript modules
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
+	public $_modules = array();
+
+	/**
 	 * Array of linked style sheets
 	 *
 	 * @var    array
@@ -477,6 +485,36 @@ class JDocument
 		{
 			$this->_script[strtolower($type)] .= chr(13) . $content;
 		}
+
+		return $this;
+	}
+
+	/**
+	 * Adds a linked javascript module to the page.
+	 *
+	 * Example:
+	 *
+	 * $doc->addJavascriptModule('mediamanager', 'media/media/js/mediamanager.js');
+	 * $doc->addJavascriptModule('installation', 'installation/template/js/installation.js', array('mediamanager'));
+	 *
+	 * Reference: Why AMD? http://requirejs.org/docs/whyamd.html
+	 *
+	 * @param   string   $moduleId      Value of module identication in the module loader.
+	 * @param   string   $url           URL to the linked script
+	 * @param   array    $dependencies  Array of module dependencies
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   11.1
+	 */
+	public function addJavascriptModule($moduleId, $url, $dependencies = array())
+	{
+		if (count($this->_modules) == 0)
+		{
+			$this->addScript(JUri::root() . 'media/jui/js/require.min.js');
+		}
+		$this->_modules[$moduleId]['url'] = JUri::root() . $url;
+		$this->_modules[$moduleId]['dependencies'] = $dependencies;
 
 		return $this;
 	}
