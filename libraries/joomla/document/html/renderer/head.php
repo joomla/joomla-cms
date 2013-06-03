@@ -243,7 +243,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . $tab . $tab . 'require.config(config);' . $lnEnd;
 
 			// Loader initialization of main jcore, it depends on all previously declared modules
-			$buffer .= $tab . $tab . $tab . 'require(allKeys, function(Core) {});' . $lnEnd;
+			$buffer .= $tab . $tab . $tab . 'require(allKeys, function() {});' . $lnEnd;
 
 			$buffer .= $tab . $tab . '});' . $lnEnd;
 
