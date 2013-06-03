@@ -751,11 +751,15 @@ class JHelperTags
 		// Get the old tags
 		$oldTags = $this->getTagIds($table->$key, $this->typeAlias);
 
+		if (!empty($newTags))
+		{
+			$this->tags = implode(',', $newTags);
+		}
+
 		if (!empty($newTags) && !empty($oldTags))
 		{
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = ($oldTags != $newTags);
-			$this->tags = implode(',', $newTags);
 		}
 	}
 
