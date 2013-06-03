@@ -26,6 +26,7 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
 		$dataSet->addTable('jos_finder_terms_common', JPATH_TEST_DATABASE . '/jos_finder_terms_common.csv');
 		$dataSet->addTable('jos_finder_types', JPATH_TEST_DATABASE . '/jos_finder_types.csv');
 
@@ -63,8 +64,10 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 */
 	public function testStem()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertEquals(
+			FinderIndexerHelper::stem('token', 'en'),
+			'token'
+		);
 	}
 
 	/**
@@ -112,12 +115,19 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @todo   Implement testGetDefaultLanguage().
+	 * Tests the getDefaultLanguage method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function testGetDefaultLanguage()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+		$this->assertThat(
+			FinderIndexerHelper::getDefaultLanguage(),
+			$this->StringContains('en-GB'),
+			'The default language is en-GB'
+		);
 	}
 
 	/**
