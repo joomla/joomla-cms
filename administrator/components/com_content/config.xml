@@ -926,5 +926,7 @@
 			filter="rules"
 			component="com_content"
 			section="component" />
+
+
 	</fieldset>
 </config>
