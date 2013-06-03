@@ -6,6 +6,7 @@ figure,
 footer,
 header,
 hgroup,
+main,
 nav,
 section {
 	display: block;
@@ -6349,7 +6350,7 @@ h6 {
 	color: #FF0000;
 	font-weight: bold;
 }
-.enabled{
+.enabled {
 	color: green;
 	font-weight: bold;
 }
@@ -6562,6 +6563,12 @@ h6 {
 .form-horizontal #jform_catid_chzn {
 	vertical-align: middle;
 }
+fieldset.checkboxes input {
+	float: left;
+}
+fieldset.checkboxes li {
+	list-style: none;
+}
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;
 	width: 35px;
@@ -6619,7 +6626,6 @@ ul.treeselect ul.dropdown-menu li {
 td.has-context {
 	height: 23px;
 }
-/* Item associations */
 .item-associations {
 	margin: 0;
 }
