@@ -30,6 +30,10 @@ if (!defined('JPATH_TESTS'))
 {
 	define('JPATH_TESTS', realpath(__DIR__));
 }
+if (!defined('JPATH_TEST_DATABASE'))
+{
+	define('JPATH_TEST_DATABASE', JPATH_TESTS . '/stubs/database');
+}
 if (!defined('JPATH_PLATFORM'))
 {
 	define('JPATH_PLATFORM', realpath(dirname(dirname(__DIR__)) . '/libraries'));
