@@ -12,16 +12,13 @@ defined('_JEXEC') or die;
 <script type="text/javascript">
 function iFrameHeight()
 {
-	var h = 0;
-	if (!document.all)
-	{
-		h = document.getElementById('blockrandom').contentDocument.height;
-		document.getElementById('blockrandom').style.height = h + 60 + 'px';
-	} else if (document.all)
-	{
-		h = document.frames('blockrandom').document.body.scrollHeight;
-		document.all.blockrandom.style.height = h + 20 + 'px';
-	}
+    var iframe = document.getElementById('blockrandom');
+    if (iframe) {
+        var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+        if (iframeWin.document.body) {
+            iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+        }
+    }
 }
 </script>
 <div class="contentpane<?php echo $this->pageclass_sfx; ?>">
