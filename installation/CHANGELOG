@@ -28,6 +28,7 @@ $ -> Language fix or change
 04-Jun-2013 Jean-Marie Simonet
  ^ [#30973] Bootstrap 2.3.2 update. Thanks Anibal Sanchez
  # [#30757] Unpublished blog items output an extra DIV closure, breaking layout. Thanks David Hurley
+ # [#30990] 404 Component not found" doesn't added to redirect component, more. Thanks Ofer Cohen
 
 02-Jun-2013 Michael Babker
  ^ Sync Github package to Platform 13.1
