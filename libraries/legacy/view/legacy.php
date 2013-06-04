@@ -471,7 +471,7 @@ class JViewLegacy extends JObject
 			$lastPart = substr($classname, $viewpos + 4);
 			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
 
-			if(!empty($pathParts[1]))
+			if (!empty($pathParts[1]))
 			{
 				$this->_name = strtolower($pathParts[0]);
 			}
@@ -479,7 +479,6 @@ class JViewLegacy extends JObject
 			{
 				$this->_name = strtolower($lastPart);
 			}
-			//$this->_name = strtolower(substr($classname, $viewpos + 4));
 		}
 
 		return $this->_name;

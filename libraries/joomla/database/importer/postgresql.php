@@ -592,6 +592,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	{
 		// First pass, create a lookup of the keys.
 		$lookup = array();
+
 		foreach ($keys as $key)
 		{
 			if ($key instanceof SimpleXMLElement)
@@ -626,6 +627,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	{
 		// First pass, create a lookup of the keys.
 		$lookup = array();
+
 		foreach ($sequences as $seq)
 		{
 			if ($seq instanceof SimpleXMLElement)
@@ -729,6 +731,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 				$query = $this->xmlToCreate($table);
 
 				$this->db->setQuery($query);
+
 				try
 				{
 					$this->db->execute();

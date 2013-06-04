@@ -84,7 +84,7 @@ class ContentViewArticle extends JViewLegacy
 					$this->setLayout($active->query['layout']);
 				}
 				// Check for alternative layout of article
-				else if ($layout = $item->params->get('article_layout'))
+				elseif ($layout = $item->params->get('article_layout'))
 				{
 					$this->setLayout($layout);
 				}

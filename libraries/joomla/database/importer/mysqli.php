@@ -443,6 +443,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	{
 		// First pass, create a lookup of the keys.
 		$lookup = array();
+
 		foreach ($keys as $key)
 		{
 			if ($key instanceof SimpleXMLElement)
@@ -453,10 +454,12 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			{
 				$kName = $key->Key_name;
 			}
+
 			if (empty($lookup[$kName]))
 			{
 				$lookup[$kName] = array();
 			}
+
 			$lookup[$kName][] = $key;
 		}
 
@@ -481,6 +484,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		$kColumn = (string) $columns[0]['Column_name'];
 
 		$prefix = '';
+
 		if ($kName == 'PRIMARY')
 		{
 			$prefix = 'PRIMARY ';

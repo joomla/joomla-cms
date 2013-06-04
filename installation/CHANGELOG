@@ -25,6 +25,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jun-2013 Jean-Marie Simonet
+ ^ [#30973] Bootstrap 2.3.2 update. Thanks Anibal Sanchez
+ # [#30757] Unpublished blog items output an extra DIV closure, breaking layout. Thanks David Hurley
+ # [#30990] 404 Component not found" doesn't added to redirect component, more. Thanks Ofer Cohen
+
+02-Jun-2013 Michael Babker
+ ^ Sync Github package to Platform 13.1
+
 01-Jun-2013 Michael Babker
  # [#31057] Missing Read More Button in editing articles.  Thanks Hans Kuijpers
  # [#30909] Batch process modules doesnt allow new module positions.  Thanks Chad Windnagle
@@ -47,6 +55,9 @@ $ -> Language fix or change
  # [#31044] media manager overlay preview broken.  Thanks landor landor
  # [#31043] *Status filtering bug in categories Manager.  Thanks Jean-Marie Simonet
  + [#30931] Allow folder names without 's' at the end.  Thanks Elin Waring and Buddhima Wijeweera
+ # [#30990] "404 Component not found" doesn't added to redirect component.  Thanks Ofer Cohen
+ # [#31064] Wrong access check for com_checkin.  Thanks Sander Potjer
+ ^ [#31025] Sync Database package to Platform
 
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu

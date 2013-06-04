@@ -19,13 +19,18 @@ class JHtmlMenuTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   3.1
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/data/JHtmlTest.xml');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_menu', JPATH_TEST_DATABASE . '/jos_menu.csv');
+		$dataSet->addTable('jos_menu_types', JPATH_TEST_DATABASE . '/jos_menu_types.csv');
+
+		return $dataSet;
 	}
 
 	/**
@@ -54,7 +59,7 @@ class JHtmlMenuTest extends TestCaseDatabase
 	{
 		$this->assertThat(
 			JHtml::_('select.options', JHtml::_('menu.menuitems'), array('published' => '1')),
-			$this->stringContains('<option value="mainmenu.101">- Home</option>')
+			$this->stringContains('<option value="mainmenu.435">- Home</option>')
 		);
 	}
 

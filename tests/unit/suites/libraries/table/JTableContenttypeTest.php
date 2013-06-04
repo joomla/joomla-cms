@@ -40,7 +40,7 @@ class JTableContenttypeTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  CSV database tables
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   3.1
 	 */
@@ -48,7 +48,7 @@ class JTableContenttypeTest extends TestCaseDatabase
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
-		$dataSet->addTable('jos_content_types', __DIR__ . '/stubs/jos_content_types.csv');
+		$dataSet->addTable('jos_content_types', JPATH_TEST_DATABASE . '/jos_content_types.csv');
 
 		return $dataSet;
 	}
