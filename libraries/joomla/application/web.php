@@ -390,7 +390,14 @@ class JApplicationWeb extends JApplicationBase
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
-				$this->setHeader('X-Content-Encoded-By', 'Joomla');
+
+				/*
+				 * Header to be removed in 14.1 (Platform) & 3.5 (CMS)
+				 */
+				if ($this->get('MetaVersion'))
+				{
+					$this->setHeader('X-Content-Encoded-By', 'Joomla');
+				}
 
 				// Replace the output with the encoded data.
 				$this->setBody($gzdata);
