@@ -20,6 +20,14 @@ defined('_JEXEC') or die;
 class JAdministrator extends JApplication
 {
 	/**
+	 * Component title
+	 *
+	 * @var     string
+	 * @since   3.0
+	 */
+	public $JComponentTitle = '';
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  An optional associative array of configuration settings.
