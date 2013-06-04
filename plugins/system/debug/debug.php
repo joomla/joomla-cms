@@ -583,7 +583,7 @@ class PlgSystemDebug extends JPlugin
 				$explain = null;
 				if (in_array($db->name, array('mysqli','mysql', 'postgresql')))
 				{
-					$dbVersion56 = strncmp($db->name, 'mysql', 5) && version_compare($db->getVersion(), '5.6', '>=');
+					$dbVersion56 = ( strncmp($db->name, 'mysql', 5) == 0 ) && version_compare($db->getVersion(), '5.6', '>=');
 					if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0)||(stripos($query, 'update') === 0))))
 					{
 						$query2 = $db->getQuery(true);
@@ -627,10 +627,10 @@ class PlgSystemDebug extends JPlugin
 						{
 							$htmlFile = htmlspecialchars($functionCall['file']);
 							$htmlLine = htmlspecialchars($functionCall['line']);
-							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '">' . $htmlFile . ':' . $htmlLine . '</a></span>';
+							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '">' . $htmlFile . '</a>:' . $htmlLine . '</span>';
 						}
 					}
-					$tip = htmlspecialchars('<div>' . implode( '</div><div>', $htmlCallStackElements) . '</div>');
+					$tip = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
 					$htmlCallStack = ' ' . 'from' . ' ' . '<span class="dbgQueryCallStack hasTooltip" title="' . $tip . '">' . $htmlCallStackElements[0] . '</span>';;
 				}
 
@@ -710,7 +710,7 @@ class PlgSystemDebug extends JPlugin
 			return null;
 		}
 
-		$html = '<table class="table table-striped"><tr>';
+		$html = '<table class="table table-striped dbgQueryTable"><tr>';
 		foreach (array_keys($table[0]) as $k)
 			{
 				$html .= '<th>' . htmlspecialchars($k) . '</th>';
@@ -722,7 +722,7 @@ class PlgSystemDebug extends JPlugin
 			$html .= '<tr>';
 			foreach ($tr as $k => $td)
 			{
-				$html .= '<td>' . htmlspecialchars($td) . '</td>';
+				$html .= '<td>' . ( $td === null ? 'NULL' : htmlspecialchars($td) ) . '</td>';
 			}
 			$html .= '</tr>';
 		}

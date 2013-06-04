@@ -254,3 +254,11 @@ div#system-debug {
     font-weight: bold;
     background-color: #ffffcc;
 }
+.dbgQueryTable {
+    background-color: #ffffff;
+    color: #000;
+    opacity: 1.0;
+    border: 2px #000 solid;
+    float: left;
+    text-align: left;
+}
