@@ -499,6 +499,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
@@ -506,14 +510,18 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
-		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+			$this->timings[] = microtime(true);
+		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @mysqli_query($this->connection, $sql);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)

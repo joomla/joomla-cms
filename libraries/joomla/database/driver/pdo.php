@@ -377,6 +377,10 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
@@ -384,11 +388,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
-		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+			$this->timings[] = microtime(true);
+		}
 
 		// Execute the query.
 		$this->executed = false;
@@ -407,6 +409,12 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			}
 
 			$this->executed = $this->prepared->execute();
+		}
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
 		}
 
 		// If an error occurred handle it.

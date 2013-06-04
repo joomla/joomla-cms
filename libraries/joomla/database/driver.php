@@ -93,6 +93,19 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $log = array();
 
 	/**
+	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
+	 * @since  CMS 3.1.2
+	 */
+	protected $timings = array();
+
+
+	/**
+	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
+	 * @since  CMS 3.1.2
+	 */
+	protected $callStacks = array();
+
+	/**
 	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
 	 *                 etc.  The child classes should define this as necessary.  If a single character string the
 	 *                 same character is used for both sides of the quoted name, else the first character will be
@@ -653,6 +666,30 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getLog()
 	{
 		return $this->log;
+	}
+
+	/**
+	 * Get the database driver SQL statement log.
+	 *
+	 * @return  array  SQL statements executed by the database driver.
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getTimings()
+	{
+		return $this->timings;
+	}
+
+	/**
+	 * Get the database driver SQL statement log.
+	 *
+	 * @return  array  SQL statements executed by the database driver.
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getCallStacks()
+	{
+		return $this->callStacks;
 	}
 
 	/**

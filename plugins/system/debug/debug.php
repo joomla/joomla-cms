@@ -436,6 +436,34 @@ class PlgSystemDebug extends JPlugin
 			$html .= '<div>' . $mark . '</div>';
 		}
 
+		$db	= JFactory::getDbo();
+
+		$log = $db->getLog();
+		if ($log)
+		{
+			$timings = $db->getTimings();
+			if ($timings)
+			{
+				$totalQueryTime = 0.0;
+				$lastStart = null;
+				foreach ($timings as $k => $v)
+				{
+					if (!($k % 2))
+					{
+						$lastStart = $v;
+					}
+					else
+					{
+						$totalQueryTime += $v - $lastStart;
+					}
+				}
+
+				if ($totalQueryTime > 0.0)
+				{
+					$html .= '<div><code>' . sprintf('Database queries %.3f seconds total', $totalQueryTime) . '</code></div>';
+				}
+			}
+		}
 		return $html;
 	}
 
@@ -473,7 +501,18 @@ class PlgSystemDebug extends JPlugin
 
 		if ( ! $log)
 		{
-			return;
+			return null;
+		}
+
+		$timings = $db->getTimings();
+		$callStacks = $db->getCallStacks();
+
+		$db->setDebug(false);
+		if ($timings)
+		{
+			// We need to re-connect to database for running EXPLAIN statements as it got already disconnected because this runs in destructor of this plugin:
+			$db->disconnect();
+			$db->connect();
 		}
 
 		$html = '';
@@ -531,7 +570,77 @@ class PlgSystemDebug extends JPlugin
 
 			$text = $this->highlightQuery($query);
 
-			$html .= '<li><code>' . $text . '</code></li>';
+			if ($timings && isset($timings[$k*2+1]))
+			{
+				// Load the tooltip behavior:
+				JHtml::_('behavior.tooltip');
+
+				// Compute the query time:
+				$queryTime = ($timings[$k*2+1]-$timings[$k*2])*1000;
+				$htmlTiming = sprintf('Query Time: %.3f ms', $queryTime);
+
+				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
+				$explain = null;
+				if (in_array($db->name, array('mysqli','mysql', 'postgresql')))
+				{
+					$dbVersion56 = strncmp($db->name, 'mysql', 5) && version_compare($db->getVersion(), '5.6', '>=');
+					if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0)||(stripos($query, 'update') === 0))))
+					{
+						$query2 = $db->getQuery(true);
+						$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
+						if ($db->execute())
+						{
+							$explainTable = $db->loadAssocList();
+							$explain = $this->tableToHtml($explainTable);
+						}
+						else
+						{
+							$explain = 'Failed EXPLAIN on query: ' . htmlspecialchars($query);
+						}
+					}
+				}
+				$tip = htmlspecialchars($explain);
+
+				// Formats the output for the query time with EXPLAIN query results as tooltip:
+				if ($queryTime > 10)
+				{
+					$htmlTiming = '<span class="dbgQuery dbgQueryWarning hasTooltip" title="' . $tip . '">' . $htmlTiming . '</span>';
+				}
+				else
+				{
+					$htmlTiming = '<span class="dbgQuery hasTooltip" title="' . $tip . '">' . $htmlTiming . '</span>';
+				}
+
+				if ($k > 0)
+				{
+					$htmlTiming .= sprintf(' (%.1f ms after last query)', ($timings[$k*2]-$timings[$k*2-1])*1000);
+				}
+
+				// Backtrace/Called from:
+				$htmlCallStack = '';
+				if (isset($callStacks[$k]))
+				{
+					$htmlCallStackElements = array();
+					foreach ($callStacks[$k] as $functionCall)
+					{
+						if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'],'/libraries/joomla/database/') === false))
+						{
+							$htmlFile = htmlspecialchars($functionCall['file']);
+							$htmlLine = htmlspecialchars($functionCall['line']);
+							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '">' . $htmlFile . ':' . $htmlLine . '</a></span>';
+						}
+					}
+					$tip = htmlspecialchars('<div>' . implode( '</div><div>', $htmlCallStackElements) . '</div>');
+					$htmlCallStack = ' ' . 'from' . ' ' . '<span class="dbgQueryCallStack hasTooltip" title="' . $tip . '">' . $htmlCallStackElements[0] . '</span>';;
+				}
+
+				$html .= '<li><code>' . $text . ';' . '</code>' . ' ' . '<span class="dbgLogQueryTiming">' . $htmlTiming . $htmlCallStack . '</span></li>';
+
+			}
+			else
+			{
+				$html .= '<li><code>' . $text . '</code></li>';
+			}
 		}
 
 		$html .= '</ol>';
@@ -583,6 +692,41 @@ class PlgSystemDebug extends JPlugin
 			$html .= '</ol>';
 		}
 
+		return $html;
+	}
+
+	/**
+	 * Displays errors in language files.
+	 *
+	 * @param   array   $table
+	 *
+	 * @return  string
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	protected function tableToHtml($table)
+	{
+		if (! $table ) {
+			return null;
+		}
+
+		$html = '<table class="table table-striped"><tr>';
+		foreach (array_keys($table[0]) as $k)
+			{
+				$html .= '<th>' . htmlspecialchars($k) . '</th>';
+			}
+		$html .= '</tr>';
+
+		foreach ($table as $tr)
+		{
+			$html .= '<tr>';
+			foreach ($tr as $k => $td)
+			{
+				$html .= '<td>' . htmlspecialchars($td) . '</td>';
+			}
+			$html .= '</tr>';
+		}
+		$html .= '</table>';
 		return $html;
 	}
 
