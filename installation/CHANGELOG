@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jun-2013 Jean-Marie Simonet
+ ^ [#30973] Bootstrap 2.3.2 update. Thanks Anibal Sanchez
+
 02-Jun-2013 Michael Babker
  ^ Sync Github package to Platform 13.1
 
