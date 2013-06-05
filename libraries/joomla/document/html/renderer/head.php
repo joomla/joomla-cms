@@ -223,48 +223,48 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . $custom . $lnEnd;
 		}
 
-		// Generate javascript modules initialization
-		if (count($document->_modules))
+		// Generate Javascript modules initialization
+		if (!empty($document->_modules))
 		{
-			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
-			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'var jPaths = [];' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'var jDependencies = [];' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'jQuery(document).ready(function () {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . $tab . '"use strict";' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . $tab . 'var allKeys = [], config = {shim: {}, paths: {}};' . $lnEnd;
+			$modules = array();
 
-			// To load all paths in the loader configuration
-			$buffer .= $tab . $tab . $tab . $tab . 'jQuery.each(jPaths, function(index, path) {allKeys.push(path.key); config.paths[path.key] = path.value;});' . $lnEnd;
+			// Generate config
+			$config = array(
+					'baseUrl' => JUri::root(true),
+					'paths' => array()
+			);
 
-			// To load all dependencies in the loader configuration
-			$buffer .= $tab . $tab . $tab . $tab . 'jQuery.each(jDependencies, function(index, dependency) {config.shim[dependency.key] = dependency.value;});' . $lnEnd;
-
-			// Loader configuration
-			$buffer .= $tab . $tab . $tab . $tab . 'require.config(config);' . $lnEnd;
-
-			// Loader initialization of main jcore, it depends on all previously declared modules
-			$buffer .= $tab . $tab . $tab . $tab . 'require(allKeys, function() {});' . $lnEnd;
-
-			$buffer .= $tab . $tab . $tab . '});' . $lnEnd;
-
-			foreach ($document->_modules as $moduleId => $moduleAttr)
+			foreach ($document->_modules as $name => $options)
 			{
-				$url = str_replace('.js', '', $moduleAttr['url']);
-				$buffer .= $tab . $tab . $tab . 'jPaths.push({key:\'' . $moduleId . '\', value: \'' . $url . '\'});' . $lnEnd;
+				$modules[] = $name;
 
-				if (count($moduleAttr['dependencies']))
+				// To collect all paths in the loader configuration
+				$config['paths'][$name] = str_replace('.js', '', $options['url']);
+
+				// Shim
+				// To load all dependencies in the loader configuration
+				if (!empty($options['dependencies']))
 				{
-					$dependencies = $moduleAttr['dependencies'];
-					array_walk($dependencies,
-							function(&$value, $key)
-							{
-								$value = '\'' . $value . '\'';
-							});
-					$dependencies = implode(',', $dependencies);
-					$buffer .= $tab . $tab . $tab . 'jDependencies.push({key:\'' . $moduleId . '\', value: {deps: [' . $dependencies . ']}});' . $lnEnd;
+					$config['shim'][$name]['deps'] = $options['dependencies'];
+				}
+				if (!empty($options['exports']))
+				{
+					$config['shim'][$name]['exports'] = $options['exports'];
+				}
+				if (!empty($options['init']))
+				{
+					$config['shim'][$name]['init'] = $options['init'];
 				}
 			}
+
+			// Final require.js config render
+			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
+			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
+
+			// Loader configuration
+			$buffer .= $tab . $tab . $tab . 'var config = ' . json_encode($config) . ';' . $lnEnd;
+			$buffer .= $tab . $tab . $tab . 'require.config(config)' . $lnEnd;
+			$buffer .= $tab . $tab . $tab . 'require(' . stripslashes(json_encode($modules)) . ');' . $lnEnd;
 			$buffer .= $tab . $tab . '})();' . $lnEnd;
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}

@@ -495,27 +495,42 @@ class JDocument
 	 * Example:
 	 *
 	 * $doc->addJavascriptModule('mediamanager', 'media/media/js/mediamanager.js');
-	 * $doc->addJavascriptModule('installation', 'installation/template/js/installation.js', array('mediamanager'));
+	 * $doc->addJavascriptModule(
+	 * 		'installation',
+	 * 		'installation/template/js/installation.js',
+	 * 		array(
+	 * 				'dependencies' => array('mediamanager')
+	 * 		)
+	 * 	);
 	 *
 	 * Reference: Why AMD? http://requirejs.org/docs/whyamd.html
 	 *
-	 * @param   string   $moduleId      Value of module identication in the module loader.
-	 * @param   string   $url           URL to the linked script
-	 * @param   array    $dependencies  Array of module dependencies
+	 * @param   string  $name     Value of module identication in the module loader.
+	 * @param   string  $url      URL to the linked script
+	 * @param   array   $options  Advanced module configuration options
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function addJavascriptModule($moduleId, $url, $dependencies = array())
+	public function addJavascriptModule($name, $url, $options = array())
 	{
-		if (count($this->_modules) == 0)
+		if (empty($this->_modules))
 		{
-			$this->addScript(JUri::root() . 'media/jui/js/require.min.js');
+			$config = JFactory::getConfig();
+			$debug = (boolean) $config->get('debug');
+			JHtml::_('script', 'jui/require.min.js', false, true, false, false, $debug);
 		}
-		$this->_modules[$moduleId]['url'] = JUri::root() . $url;
-		$this->_modules[$moduleId]['dependencies'] = $dependencies;
-
+		$this->_modules[$name] = array_merge(
+									array(
+										'name' => $name,
+										'url' => $url,
+										'dependencies' => array(),
+										'exports' => '',
+										'init' => ''
+									),
+									$options
+								);
 		return $this;
 	}
 
