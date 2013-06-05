@@ -27,6 +27,7 @@ JHtml::_('behavior.framework');
 			$showon = $displayData->form->getFieldAttribute($field->fieldname, 'showon');
 			if (!empty($showon))
 			{
+				JHtml::_('jquery.framework');
 				JHtml::_('script', 'jui/cms.js', false, true);
 
 				$id = $displayData->form->getFormControl();
