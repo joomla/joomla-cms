@@ -174,7 +174,6 @@
 			type="radio"
 			class="btn-group"
 			default="0"
-			onchange="Joomla.linkedoptions(this);"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
 			filter="integer">
