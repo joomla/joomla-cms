@@ -92,10 +92,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
-		{
-			sqlsrv_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -155,6 +152,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Close the connection.
 		if (is_resource($this->connection))
 		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
 			sqlsrv_close($this->connection);
 		}
 
@@ -581,6 +583,10 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
@@ -588,11 +594,9 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			$this->log[] = $sql;
 
 			JLog::add($sql, JLog::DEBUG, 'databasequery');
-		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+			$this->timings[] = microtime(true);
+		}
 
 		// SQLSrv_num_rows requires a static or keyset cursor.
 		if (strncmp(ltrim(strtoupper($sql)), 'SELECT', strlen('SELECT')) == 0)
@@ -606,6 +610,12 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @sqlsrv_query($this->connection, $sql, array(), $array);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)

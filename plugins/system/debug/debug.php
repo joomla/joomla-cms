@@ -37,6 +37,30 @@ class PlgSystemDebug extends JPlugin
 	private $logEntries = array();
 
 	/**
+	 * Holds SHOW PROFILES of queries
+	 *
+	 * @var    array
+	 * @since  CMS 3.1.2
+	 */
+	private $sqlShowProfiles = array();
+
+	/**
+	 * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1
+	 *
+	 * @var    array
+	 * @since  CMS 3.1.2
+	 */
+	private $sqlShowProfileEach = array();
+
+	/**
+	 * Holds all EXPLAIN EXTENDED for all queries
+	 *
+	 * @var    array[]
+	 * @since  CMS 3.1.2
+	 */
+	private $explains = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe
@@ -88,6 +112,10 @@ class PlgSystemDebug extends JPlugin
 
 			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
 		}
+
+		// Prepare disconnect-handler for SQL profiling:
+		$db	= JFactory::getDbo();
+		$db->addDisconnectHandler(array($this,'mysqlDisconnectHandler'));
 	}
 
 	/**
@@ -436,6 +464,34 @@ class PlgSystemDebug extends JPlugin
 			$html .= '<div>' . $mark . '</div>';
 		}
 
+		$db	= JFactory::getDbo();
+
+		$log = $db->getLog();
+		if ($log)
+		{
+			$timings = $db->getTimings();
+			if ($timings)
+			{
+				$totalQueryTime = 0.0;
+				$lastStart = null;
+				foreach ($timings as $k => $v)
+				{
+					if (!($k % 2))
+					{
+						$lastStart = $v;
+					}
+					else
+					{
+						$totalQueryTime += $v - $lastStart;
+					}
+				}
+
+				if ($totalQueryTime > 0.0)
+				{
+					$html .= '<div><code>' . sprintf('Database queries %.3f seconds total', $totalQueryTime) . '</code></div>';
+				}
+			}
+		}
 		return $html;
 	}
 
@@ -473,18 +529,41 @@ class PlgSystemDebug extends JPlugin
 
 		if ( ! $log)
 		{
-			return;
+			return null;
+		}
+
+		$timings = $db->getTimings();
+		$callStacks = $db->getCallStacks();
+
+		$db->setDebug(false);
+		if ($timings)
+		{
+			// We need to re-connect to database for running EXPLAIN statements as it got already disconnected because this runs in destructor of this plugin:
+//			$db->disconnect();
+//			$db->connect();
 		}
 
 		$html = '';
 
 		$html .= '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $db->getCount()) . '</h4>';
 
-		$html .= '<ol>';
 
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
 
+		$timing = array();
+		$maxtime = 0;
+		foreach ($log as $k => $query)
+		{
+			if (isset($timings[$k * 2 + 1]))
+			{
+				// Compute the query time:
+				$timing[$k] = array(($timings[$k * 2 + 1] - $timings[$k * 2]) * 1000, $k > 0 ? ($timings[$k * 2] - $timings[$k * 2 - 1]) * 1000 : 0);
+				$maxtime = max($maxtime, $timing[$k]['0']);
+			}
+		}
+
+		$list = array();
 		foreach ($log as $k => $query)
 		{
 			// Start Query Type Ticker Additions
@@ -503,6 +582,7 @@ class PlgSystemDebug extends JPlugin
 
 			$fromString = substr($query, 0, $whereStart);
 			$fromString = str_replace("\t", " ", $fromString);
+			$fromString = str_replace("\n", " ", $fromString);
 			$fromString = str_replace("\n", " ", $fromString);
 			$fromString = trim($fromString);
 
@@ -529,12 +609,100 @@ class PlgSystemDebug extends JPlugin
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
-			$text = $this->highlightQuery($query);
+			$text = $this->highlightQuery($query) . ';';
 
-			$html .= '<li><code>' . $text . '</code></li>';
+			if (isset($timing[$k]))
+			{
+
+				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
+				$explain = null;
+				if (isset($this->explains[$k]))
+				{
+					$explain = $this->tableToHtml($this->explains[$k]);
+				}
+				else
+				{
+					$explain = 'Failed EXPLAIN on query: ' . htmlspecialchars($query);
+				}
+				$tipExplain = htmlspecialchars($explain);
+
+				// Run a SHOW PROFILE query:
+				$profile = null;
+				if (in_array($db->name, array('mysqli','mysql')))
+				{
+					if (isset($this->sqlShowProfileEach[$k]))
+					{
+						$profileTable = $this->sqlShowProfileEach[$k];
+						$profile = $this->tableToHtml($profileTable);
+					}
+					else
+					{
+						$profile = 'No SHOW PROFILE (maybe because more than 100 queries)';
+					}
+				}
+				$tipProfile = htmlspecialchars($profile);
+
+				// Formats the output for the query time with EXPLAIN query results as tooltip:
+				$perc = round($timing[$k]['0'] / $maxtime * 100);
+				if ($perc < 25)
+				{
+					$fillers = array($perc, 0, 0);
+				}
+				else if ($perc < 50)
+				{
+					$fillers = array(25, $perc - 25, 0);
+				}
+				else
+				{
+					$fillers = array(25, 25, $perc - 50);
+				}
+
+
+				$htmlTiming = '<div style="margin: 0px 0 5px;">' . sprintf('Query Time: <span class="label">%.3f ms</span>', $timing[$k]['0']);
+
+				if ($timing[$k]['1'])
+				{
+					$htmlTiming .= sprintf(' After last query: <span class="label">%.1f ms</span>', $timing[$k]['1']);
+				}
+
+				$htmlTiming .= '</div>';
+
+				$htmlTiming .= '<div class="progress dbgQuery hasTooltip" style="margin: 0px 0 5px;" title="' . $tipProfile . '">
+					<div class="bar bar-success" style="width: '.$fillers['0'].'%;"></div>
+					<div class="bar bar-warning" style="width: '.$fillers['1'].'%;"></div>
+					<div class="bar bar-danger" style="width: '.$fillers['2'].'%;"></div>
+					</div>';
+
+				// Backtrace/Called from:
+				$htmlCallStack = '';
+				if (isset($callStacks[$k]))
+				{
+					$htmlCallStackElements = array();
+					foreach ($callStacks[$k] as $functionCall)
+					{
+						if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'],'/libraries/joomla/database/') === false))
+						{
+							$htmlFile = htmlspecialchars($functionCall['file']);
+							$htmlLine = htmlspecialchars($functionCall['line']);
+							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a> : ' . $htmlLine . '</span>';
+						}
+					}
+					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
+					$htmlCallStack = '<span class="dbgQueryCallStack hasTooltip" title="' . $tipCallStack . '">' . $htmlCallStackElements[0] . '</span>';
+				}
+
+				$list[] = $htmlTiming
+					. '<pre class="hasTooltip" title="' . $tipExplain . '">' . $text . '</pre>'
+					. $htmlCallStack;
+
+			}
+			else
+			{
+				$list[] = '<pre>' . $text . '</pre>';
+			}
 		}
 
-		$html .= '</ol>';
+		$html .= '<ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
 
 		if (!$this->params->get('query_types', 1))
 		{
@@ -554,16 +722,15 @@ class PlgSystemDebug extends JPlugin
 
 			arsort($selectQueryTypeTicker);
 
-			$html .= '<ol>';
-
+			$list = array();
 			foreach ($selectQueryTypeTicker as $query => $occurrences)
 			{
-				$html .= '<li><code>'
+				$list[] = '<pre>'
 				. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
-				. '</code></li>';
+				. '</pre>';
 			}
 
-			$html .= '</ol>';
+			$html .= '<ol><li>' . implode('</li><li>', $list) . '</li></ol>';
 		}
 
 		if ($totalOtherQueryTypes)
@@ -572,20 +739,115 @@ class PlgSystemDebug extends JPlugin
 
 			arsort($otherQueryTypeTicker);
 
-			$html .= '<ol>';
-
+			$list = array();
 			foreach ($otherQueryTypeTicker as $query => $occurrences)
 			{
-				$html .= '<li><code>'
+				$list[] = '<pre>'
 				. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
-				. '</code></li>';
+				. '</pre>';
 			}
-			$html .= '</ol>';
+			$html .= '<ol><li>' . implode('</li><li>', $list) . '</li></ol>';
 		}
 
 		return $html;
 	}
 
+	/**
+	 * Displays errors in language files.
+	 *
+	 * @param   array   $table
+	 *
+	 * @return  string
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	protected function tableToHtml($table)
+	{
+		if (! $table ) {
+			return null;
+		}
+
+		$html = '<table class="table table-striped dbgQueryTable"><tr>';
+		foreach (array_keys($table[0]) as $k)
+			{
+				$html .= '<th>' . htmlspecialchars($k) . '</th>';
+			}
+		$html .= '</tr>';
+
+		$durations = array();
+		foreach ($table as $tr)
+		{
+			if (isset($tr['Duration']))
+			{
+				$durations[] = $tr['Duration'];
+			}
+		}
+		rsort($durations, SORT_NUMERIC);
+
+		foreach ($table as $tr)
+		{
+			$html .= '<tr>';
+			foreach ($tr as $k => $td)
+			{
+				if ($k == 'Duration' && $td >= 0.001 && ($td == $durations[0] || (isset($durations[1]) && $td == $durations[1])))
+				{
+					$html .= '<td class="dbgQueryWarning">';
+				}
+				else
+				{
+					$html .= '<td>';
+				}
+				$html .= ( $td === null ? ( $k == 'key' ? '<span class="dbgQueryWarning">NULL</span>' : 'NULL' ) : ( $k == 'Duration' ? sprintf('%.03f&nbsp;ms', $td * 1000) : htmlspecialchars($td) ) ) . '</td>';
+			}
+			$html .= '</tr>';
+		}
+		$html .= '</table>';
+		return $html;
+	}
+
+	/**
+	 * Disconnect-handler for database to collect profiling and explain information
+	 * @since CMS 3.1.2
+	 *
+	 * @param  JDatabaseDriver  $db
+	 *
+	 * @return void
+	 */
+	public function mysqlDisconnectHandler(&$db)
+	{
+		$db->setDebug(false);
+
+		$dbVersion5037 = ( strncmp($db->name, 'mysql', 5) == 0 ) && version_compare($db->getVersion(), '5.0.37', '>=');
+		if ($dbVersion5037)
+		{
+			// Run a SHOW PROFILE query:
+			$db->setQuery('SHOW PROFILES'); //SHOW PROFILE ALL FOR QUERY ' . (int) ($k+1));
+			$this->sqlShowProfiles = $db->loadAssocList();
+			if ($this->sqlShowProfiles)
+			{
+				foreach ($this->sqlShowProfiles as $qn)
+				{
+					$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
+					$this->sqlShowProfileEach[(int) ($qn['Query_ID']-1)] = $db->loadAssocList();
+				}
+			}
+		}
+
+		if (in_array($db->name, array('mysqli','mysql', 'postgresql')))
+		{
+			$log = $db->getLog();
+			foreach ($log as $k => $query)
+			{
+				$dbVersion56 = ( strncmp($db->name, 'mysql', 5) == 0 ) && version_compare($db->getVersion(), '5.6', '>=');
+				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0)||(stripos($query, 'update') === 0))))
+				{
+					$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
+					$this->explains[$k] = $db->loadAssocList();
+				}
+			}
+		}
+
+	}
 	/**
 	 * Displays errors in language files.
 	 *

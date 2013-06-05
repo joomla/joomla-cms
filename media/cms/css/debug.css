@@ -248,3 +248,23 @@ div#system-debug {
 #system-debug div.dbgHeader.dbgerror {
 	background-color: red;
 }
+
+.dbgQueryWarning, table tr td.dbgQueryWarning {
+    color: red;
+    font-weight: bold;
+    background-color: #ffffcc !important;
+}
+.dbgQueryTable, table.dbgQueryTable {
+    background-color: #ffffff;
+    color: #000;
+    opacity: 1.0;
+    border: 2px #000 solid;
+    float: left;
+    text-align: left;
+    font-size: 12px;
+    margin: 0px;
+}
+table.dbgQueryTable th, table.dbgQueryTable td {
+    padding: 3px;
+    line-height: normal;
+}
