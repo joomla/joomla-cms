@@ -599,16 +599,18 @@ class PlgSystemDebug extends JPlugin
 						}
 					}
 				}
-				$tip = htmlspecialchars($explain);
+				$tipExplain = htmlspecialchars($explain);
+
+				$tipProfile = 'Query execution time without data fetching';
 
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
 				if ($queryTime > 10)
 				{
-					$htmlTiming = '<span class="dbgQuery dbgQueryWarning hasTooltip" title="' . $tip . '">' . $htmlTiming . '</span>';
+					$htmlTiming = '<span class="dbgQuery dbgQueryWarning hasTooltip" title="' . $tipProfile . '">' . $htmlTiming . '</span>';
 				}
 				else
 				{
-					$htmlTiming = '<span class="dbgQuery hasTooltip" title="' . $tip . '">' . $htmlTiming . '</span>';
+					$htmlTiming = '<span class="dbgQuery hasTooltip" title="' . $tipProfile . '">' . $htmlTiming . '</span>';
 				}
 
 				if ($k > 0)
@@ -630,11 +632,11 @@ class PlgSystemDebug extends JPlugin
 							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '">' . $htmlFile . '</a>:' . $htmlLine . '</span>';
 						}
 					}
-					$tip = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
-					$htmlCallStack = ' ' . 'from' . ' ' . '<span class="dbgQueryCallStack hasTooltip" title="' . $tip . '">' . $htmlCallStackElements[0] . '</span>';;
+					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
+					$htmlCallStack = ' ' . 'from' . ' ' . '<span class="dbgQueryCallStack hasTooltip" title="' . $tipCallStack . '">' . $htmlCallStackElements[0] . '</span>';;
 				}
 
-				$html .= '<li><code>' . $text . ';' . '</code>' . ' ' . '<span class="dbgLogQueryTiming">' . $htmlTiming . $htmlCallStack . '</span></li>';
+				$html .= '<li><code class="hasTooltip" title="' . $tipExplain . '">' . $text . ';' . '</code>' . ' ' . '<span class="dbgLogQueryTiming">' . $htmlTiming . $htmlCallStack . '</span></li>';
 
 			}
 			else
