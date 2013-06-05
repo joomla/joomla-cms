@@ -90,8 +90,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		$this->freeResult();
-		unset($this->connection);
+		$this->disconnect();
 	}
 
 	/**
@@ -309,6 +308,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function disconnect()
 	{
+		foreach ($this->disconnectHandlers as $h)
+		{
+			call_user_func_array($h, array( &$this));
+		}
+
 		$this->freeResult();
 		unset($this->connection);
 	}

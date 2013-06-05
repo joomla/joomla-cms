@@ -92,10 +92,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
-		{
-			sqlsrv_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -155,6 +152,11 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		// Close the connection.
 		if (is_resource($this->connection))
 		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
 			sqlsrv_close($this->connection);
 		}
 

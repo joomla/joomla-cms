@@ -37,6 +37,30 @@ class PlgSystemDebug extends JPlugin
 	private $logEntries = array();
 
 	/**
+	 * Holds SHOW PROFILES of queries
+	 *
+	 * @var    array
+	 * @since  CMS 3.1.2
+	 */
+	private $sqlShowProfiles = array();
+
+	/**
+	 * Holds all SHOW PROFILE FOR QUERY n, indexed by n-1
+	 *
+	 * @var    array
+	 * @since  CMS 3.1.2
+	 */
+	private $sqlShowProfileEach = array();
+
+	/**
+	 * Holds all EXPLAIN EXTENDED for all queries
+	 *
+	 * @var    array[]
+	 * @since  CMS 3.1.2
+	 */
+	private $explains = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe
@@ -88,6 +112,10 @@ class PlgSystemDebug extends JPlugin
 
 			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
 		}
+
+		// Prepare disconnect-handler for SQL profiling:
+		$db	= JFactory::getDbo();
+		$db->addDisconnectHandler(array($this,'mysqlDisconnectHandler'));
 	}
 
 	/**
@@ -511,8 +539,8 @@ class PlgSystemDebug extends JPlugin
 		if ($timings)
 		{
 			// We need to re-connect to database for running EXPLAIN statements as it got already disconnected because this runs in destructor of this plugin:
-			$db->disconnect();
-			$db->connect();
+//			$db->disconnect();
+//			$db->connect();
 		}
 
 		$html = '';
@@ -572,36 +600,37 @@ class PlgSystemDebug extends JPlugin
 
 			if ($timings && isset($timings[$k*2+1]))
 			{
-				// Load the tooltip behavior:
-				JHtml::_('behavior.tooltip');
-
 				// Compute the query time:
 				$queryTime = ($timings[$k*2+1]-$timings[$k*2])*1000;
 				$htmlTiming = sprintf('Query Time: %.3f ms', $queryTime);
 
 				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
 				$explain = null;
-				if (in_array($db->name, array('mysqli','mysql', 'postgresql')))
+				if (isset($this->explains[$k]))
 				{
-					$dbVersion56 = ( strncmp($db->name, 'mysql', 5) == 0 ) && version_compare($db->getVersion(), '5.6', '>=');
-					if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0)||(stripos($query, 'update') === 0))))
-					{
-						$query2 = $db->getQuery(true);
-						$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
-						if ($db->execute())
-						{
-							$explainTable = $db->loadAssocList();
-							$explain = $this->tableToHtml($explainTable);
-						}
-						else
-						{
-							$explain = 'Failed EXPLAIN on query: ' . htmlspecialchars($query);
-						}
-					}
+					$explain = $this->tableToHtml($this->explains[$k]);
+				}
+				else
+				{
+					$explain = 'Failed EXPLAIN on query: ' . htmlspecialchars($query);
 				}
 				$tipExplain = htmlspecialchars($explain);
 
-				$tipProfile = 'Query execution time without data fetching';
+				// Run a SHOW PROFILE query:
+				$profile = null;
+				if (in_array($db->name, array('mysqli','mysql')))
+				{
+					if (isset($this->sqlShowProfileEach[$k]))
+					{
+						$profileTable = $this->sqlShowProfileEach[$k];
+						$profile = $this->tableToHtml($profileTable);
+					}
+					else
+					{
+						$profile = 'No SHOW PROFILE (maybe because more than 100 queries)';
+					}
+				}
+				$tipProfile = htmlspecialchars($profile);
 
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
 				if ($queryTime > 10)
@@ -719,12 +748,30 @@ class PlgSystemDebug extends JPlugin
 			}
 		$html .= '</tr>';
 
+		$durations = array();
+		foreach ($table as $tr)
+		{
+			if (isset($tr['Duration']))
+			{
+				$durations[] = $tr['Duration'];
+			}
+		}
+		rsort($durations, SORT_NUMERIC);
+
 		foreach ($table as $tr)
 		{
 			$html .= '<tr>';
 			foreach ($tr as $k => $td)
 			{
-				$html .= '<td>' . ( $td === null ? 'NULL' : htmlspecialchars($td) ) . '</td>';
+				if ($k == 'Duration' && $td >= 0.001 && ($td == $durations[0] || (isset($durations[1]) && $td == $durations[1])))
+				{
+					$html .= '<td class="dbgQueryWarning">';
+				}
+				else
+				{
+					$html .= '<td>';
+				}
+				$html .= ( $td === null ? ( $k == 'key' ? '<span class="dbgQueryWarning">NULL</span>' : 'NULL' ) : ( $k == 'Duration' ? sprintf('%.03f&nbsp;ms', $td * 1000) : htmlspecialchars($td) ) ) . '</td>';
 			}
 			$html .= '</tr>';
 		}
@@ -732,6 +779,49 @@ class PlgSystemDebug extends JPlugin
 		return $html;
 	}
 
+	/**
+	 * Disconnect-handler for database to collect profiling and explain information
+	 * @since CMS 3.1.2
+	 *
+	 * @param  JDatabaseDriver  $db
+	 *
+	 * @return void
+	 */
+	public function mysqlDisconnectHandler(&$db)
+	{
+		$db->setDebug(false);
+
+		$dbVersion5037 = ( strncmp($db->name, 'mysql', 5) == 0 ) && version_compare($db->getVersion(), '5.0.37', '>=');
+		if ($dbVersion5037)
+		{
+			// Run a SHOW PROFILE query:
+			$db->setQuery('SHOW PROFILES'); //SHOW PROFILE ALL FOR QUERY ' . (int) ($k+1));
+			$this->sqlShowProfiles = $db->loadAssocList();
+			if ($this->sqlShowProfiles)
+			{
+				foreach ($this->sqlShowProfiles as $qn)
+				{
+					$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
+					$this->sqlShowProfileEach[(int) ($qn['Query_ID']-1)] = $db->loadAssocList();
+				}
+			}
+		}
+
+		if (in_array($db->name, array('mysqli','mysql', 'postgresql')))
+		{
+			$log = $db->getLog();
+			foreach ($log as $k => $query)
+			{
+				$dbVersion56 = ( strncmp($db->name, 'mysql', 5) == 0 ) && version_compare($db->getVersion(), '5.6', '>=');
+				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0)||(stripos($query, 'update') === 0))))
+				{
+					$db->setQuery('EXPLAIN ' . ($dbVersion56 ? 'EXTENDED ' : '') . $query);
+					$this->explains[$k] = $db->loadAssocList();
+				}
+			}
+		}
+
+	}
 	/**
 	 * Displays errors in language files.
 	 *

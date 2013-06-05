@@ -54,10 +54,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
-		{
-			mysql_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -98,6 +95,12 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		// Set charactersets (needed for MySQL 4.1.2+).
 		$this->setUTF();
+
+		// Turn MySQL profiling ON in debug mode:
+		if ($this->debug)
+		{
+			mysqli_query($this->connection, "SET profiling = 1;");
+		}
 	}
 
 	/**
@@ -110,7 +113,15 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	public function disconnect()
 	{
 		// Close the connection.
-		mysql_close($this->connection);
+		if (is_resource($this->connection))
+		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
+			mysql_close($this->connection);
+		}
 
 		$this->connection = null;
 	}

@@ -184,6 +184,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $transactionDepth = 0;
 
 	/**
+	 * @var    callable[]  List of callables to call just before disconnecting database
+	 * @since  CMS 3.1.2
+	 */
+	protected $disconnectHandlers = array();
+
+	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
 	 * the class exists and the static test method returns true.  This gives us the ability to have a multitude
 	 * of connector classes that are self-aware as to whether or not they are able to be used on a given system.
@@ -476,6 +482,19 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since   12.1
 	 */
 	abstract public function disconnect();
+
+	/**
+	 * Adds a function callable just before disconnecting the database. Parameter of the callable is $this JDatabaseDriver
+	 *
+	 * @param   callable  $callable  Function to call in disconnect() method just before disconnecting from database
+	 * @return  void
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function addDisconnectHandler($callable)
+	{
+		$this->disconnectHandlers[] = $callable;
+	}
 
 	/**
 	 * Drops a table from the database.

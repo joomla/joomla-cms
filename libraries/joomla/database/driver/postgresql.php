@@ -84,10 +84,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
-		{
-			pg_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -136,6 +133,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Close the connection.
 		if (is_resource($this->connection))
 		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
 			pg_close($this->connection);
 		}
 
