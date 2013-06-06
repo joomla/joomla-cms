@@ -18,14 +18,13 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionFolders
 {
-
 	protected $type = 'Folders';
 
 	/**
 	 * Method to get a list of options.
 	 *
-	 * @param  SimpleXMLElement  $option     <option/> element
-	 * @param  string            $fieldname  The name of the field containing this option.
+	 * @param   SimpleXMLElement  $option     <option/> element
+	 * @param   string            $fieldname  The name of the field containing this option.
 	 *
 	 * @return  array  A list of objects representing HTML option elements (such as created by JHtmlSelect::option).
 	 *
@@ -43,6 +42,7 @@ abstract class JFormOptionFolders
 
 		// Get the path in which to search for file options.
 		$path = (string) $option['directory'];
+
 		if (!is_dir($path))
 		{
 			$path = JPATH_ROOT . '/' . $path;
@@ -53,6 +53,7 @@ abstract class JFormOptionFolders
 		{
 			$options[] = JHtml::_('select.option', '-1', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $fieldname)));
 		}
+
 		if (!$hideDefault)
 		{
 			$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $fieldname)));
@@ -66,7 +67,6 @@ abstract class JFormOptionFolders
 		{
 			foreach ($folders as $folder)
 			{
-
 				// Check to see if the file is in the exclude mask.
 				if ($exclude)
 				{
@@ -82,5 +82,4 @@ abstract class JFormOptionFolders
 
 		return $options;
 	}
-
 }

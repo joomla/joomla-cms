@@ -18,14 +18,13 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionLanguages
 {
-
 	protected $type = 'Languages';
 
 	/**
 	 * Method to get a list of options.
 	 *
-	 * @param  SimpleXMLElement  $option     <option/> element
-	 * @param  string            $fieldname  The name of the field containing this option.
+	 * @param   SimpleXMLElement  $option     <option/> element
+	 * @param   string            $fieldname  The name of the field containing this option.
 	 *
 	 * @return  array  A list of objects representing HTML option elements (such as created by JHtmlSelect::option).
 	 *
@@ -35,6 +34,7 @@ abstract class JFormOptionLanguages
 	{
 		// Initialize some field attributes.
 		$client = (string) $option['client'];
+
 		if ($client != 'site' && $client != 'administrator')
 		{
 			$client = 'site';
@@ -45,12 +45,11 @@ abstract class JFormOptionLanguages
 		$path = constant('JPATH_' . strtoupper($client));
 
 		// For some reason we get a list of associative arrays, we need objects.
-		foreach(JLanguageHelper::createLanguageList($language, $path, true, true) as $option)
+		foreach (JLanguageHelper::createLanguageList($language, $path, true, true) as $option)
 		{
 			$options[] = (object) $option;
 		}
 
 		return $options;
 	}
-
 }
