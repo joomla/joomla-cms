@@ -1480,6 +1480,7 @@ class JForm
 				{
 					$return = JFilterInput::getInstance()->clean($value, $filter);
 				}
+
 				break;
 		}
 

@@ -105,54 +105,7 @@ class JFormFieldList extends JFormField
 
 		foreach ($this->element->xpath('option') as $option)
 		{
-			// Filter requirements
-			if ($requires = explode(',', (string) $option['requires']))
-			{
-				// Requires multilanguage
-				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
-				{
-					continue;
-				}
-
-				// Requires associations
-				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
-				{
-					continue;
-				}
-			}
-
-<<<<<<< 9c37b27d5b2cc24361ea09777f6b92c2cf22e214
-			$value = (string) $option['value'];
-			$text = trim((string) $option) ? trim((string) $option) : $value;
-
-			$disabled = (string) $option['disabled'];
-			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-			$disabled = $disabled || ($this->readonly && $value != $this->value);
-
-			$checked = (string) $option['checked'];
-			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
-
-			$selected = (string) $option['selected'];
-			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
-
-			$tmp = array(
-					'value'    => $value,
-					'text'     => JText::alt($text, $fieldname),
-					'disable'  => $disabled,
-					'class'    => (string) $option['class'],
-					'selected' => ($checked || $selected),
-					'checked'  => ($checked || $selected)
-				);
-
-			// Set some event handler attributes. But really, should be using unobtrusive js.
-			$tmp['onclick']  = (string) $option['onclick'];
-			$tmp['onchange']  = (string) $option['onchange'];
-
-			// Add the option object to the result set.
-			$options[] = (object) $tmp;
-=======
 			$options = array_merge($options, JFormOption::getOptions($option, $this->fieldname));
->>>>>>> Make JFormFieldCheckboxes and JFormFieldRadio subclasses of JFormFieldList so that there is only one implementation of getOptions().
 		}
 
 		reset($options);
