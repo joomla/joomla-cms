@@ -18,14 +18,13 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionPlugins
 {
-
 	protected $type = 'Plugins';
 
 	/**
 	 * Method to get a list of options.
 	 *
-	 * @param  SimpleXMLElement  $option     <option/> element
-	 * @param  string            $fieldname  The name of the field containing this option.
+	 * @param   SimpleXMLElement  $option     <option/> element
+	 * @param   string            $fieldname  The name of the field containing this option.
 	 *
 	 * @return  array  A list of objects representing HTML option elements (such as created by JHtmlSelect::option).
 	 *
@@ -49,6 +48,7 @@ abstract class JFormOptionPlugins
 			$options = $db->setQuery($query)->loadObjectList();
 
 			$lang = JFactory::getLanguage();
+
 			foreach ($options as $i => $item)
 			{
 				$source = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
@@ -67,5 +67,4 @@ abstract class JFormOptionPlugins
 
 		return $options;
 	}
-
 }

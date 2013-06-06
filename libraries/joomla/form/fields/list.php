@@ -82,8 +82,9 @@ class JFormFieldList extends JFormField
 				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
 			}
 		}
-		else
+
 		// Create a regular list.
+		else
 		{
 			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}

@@ -18,12 +18,11 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOption
 {
-
 	/**
 	 * Method to get a list of options.
 	 *
-	 * @param  SimpleXMLElement  $option     <option/> element
-	 * @param  string            $fieldname  The name of the field containing this option.
+	 * @param   SimpleXMLElement  $option     <option/> element
+	 * @param   string            $fieldname  The name of the field containing this option.
 	 *
 	 * @return  array  A list of objects representing HTML option elements (such as created by JHtmlSelect::option).
 	 *
@@ -37,5 +36,4 @@ abstract class JFormOption
 
 		return $class ? $class::getOptions($option, $fieldname) : array();
 	}
-
 }
