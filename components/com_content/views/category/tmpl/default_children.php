@@ -39,6 +39,7 @@ JHtml::_('bootstrap.tooltip');
 				<?php if (count($child->getChildren()) > 0) : ?>
 					<a href="#category-<?php echo $child->id;?>" data-toggle="collapse" data-toggle="button" class="btn btn-mini pull-right"><span class="icon-plus"></span></a>
 				<?php endif;?>
+			</h3>
 			<?php else : ?>
 			<h3 class="page-header item-title"><a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($child->id));?>">
 				<?php echo $this->escape($child->title); ?></a>
