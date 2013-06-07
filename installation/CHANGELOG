@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jun-2013 Michael Babker
+ + [#30324] *Added ability to restrict the number of displayed results to mod_related_items.  Thanks Ben Tasker and Jean-Marie Simonet
+
 04-Jun-2013 Jean-Marie Simonet
  ^ [#30973] Bootstrap 2.3.2 update. Thanks Anibal Sanchez
  # [#30757] Unpublished blog items output an extra DIV closure, breaking layout. Thanks David Hurley
