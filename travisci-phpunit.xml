@@ -34,6 +34,8 @@
 			<directory suffix=".php">libraries/legacy</directory>
 			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
 			<file>administrator/includes/helper.php</file>
+			<file>libraries/loader.php</file>
+			<file>libraries/platform.php</file>
 		</whitelist>
 	</filter>
 </phpunit>

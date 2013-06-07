@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('FinderIndexerStemmer', dirname(__DIR__) . '/stemmer.php');
+
 /**
  * Porter English stemmer class for the Finder indexer package.
  *
