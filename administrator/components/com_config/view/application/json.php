@@ -47,20 +47,6 @@ class ConfigViewApplicationJson extends JViewLegacy
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		// Required data
-		$requiredData = array("sitename" => null,
-				"offline" => null,
-				"access" => null,
-				"list_limit" => null,
-				"MetaDesc" => null,
-				"MetaKeys" => null,
-				"MetaRights" => null,
-				"MetaAuthor" => null,
-				"sef" => null,
-				"sitename_pagetitles" => null);
-
-		$data = array_intersect_key($data,$requiredData);
-
 		echo json_encode($data);
 	}
 
