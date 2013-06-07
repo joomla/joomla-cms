@@ -61,7 +61,7 @@ abstract class JFactory
 	/**
 	 * @var    JAccess
 	 * @since  11.1
-	 * @deprecated  13.3
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
 	 */
 	public static $acl = null;
 
@@ -273,7 +273,7 @@ abstract class JFactory
 	 *
 	 * @return  JAccess object
 	 *
-	 * @deprecated  13.3  Use JAccess directly.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
 	 */
 	public static function getACL()
 	{
@@ -342,6 +342,7 @@ abstract class JFactory
 	 * @return  mixed  SimplePie parsed object on success, false on failure.
 	 *
 	 * @since   11.1
+	 * @throws  BadMethodCallException
 	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
 	 */
 	public static function getFeedParser($url, $cache_time = 0)
@@ -367,7 +368,7 @@ abstract class JFactory
 	 * @see     JXMLElement
 	 * @since   11.1
 	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
-	 * @deprecated  13.3 Use SimpleXML directly.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXML directly.
 	 */
 	public static function getXML($data, $isFile = true)
 	{
@@ -419,7 +420,8 @@ abstract class JFactory
 	 * @return  JEditor instance of JEditor
 	 *
 	 * @since   11.1
-	 * @deprecated 12.3 Use JEditor directly
+	 * @throws  BadMethodCallException
+	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use JEditor directly
 	 */
 	public static function getEditor($editor = null)
 	{
@@ -443,21 +445,21 @@ abstract class JFactory
 	}
 
 	/**
-	 * Return a reference to the {@link JURI} object
+	 * Return a reference to the {@link JUri} object
 	 *
 	 * @param   string  $uri  Uri name.
 	 *
-	 * @return  JURI object
+	 * @return  JUri object
 	 *
-	 * @see     JURI
+	 * @see     JUri
 	 * @since   11.1
-	 * @deprecated  13.3 Use JURI directly.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JUri directly.
 	 */
 	public static function getURI($uri = 'SERVER')
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JURI directly.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated. Use JUri directly.', JLog::WARNING, 'deprecated');
 
-		return JURI::getInstance($uri);
+		return JUri::getInstance($uri);
 	}
 
 	/**

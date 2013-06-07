@@ -31,7 +31,7 @@ const JERROR_ILLEGAL_MODE = 3;
  * @package     Joomla.Legacy
  * @subpackage  Error
  * @since       11.1
- * @deprecated  12.1   Use PHP Exception
+ * @deprecated  12.1 (Platform) & 4.0 (CMS) - Use PHP Exception
  */
 abstract class JError
 {
@@ -771,7 +771,7 @@ abstract class JError
 			$document->setError($error);
 
 			@ob_end_clean();
-			$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
+			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
 			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
 			// Failsafe to get the error displayed.

@@ -15,7 +15,7 @@
 abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 {
 	/**
-	 * @var    JDatabaseDriver  The active database driver being used for the tests.
+	 * @var    JDatabaseDriverPostgresql  The active database driver being used for the tests.
 	 * @since  12.1
 	 */
 	protected static $driver;

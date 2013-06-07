@@ -180,21 +180,21 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->jPrint ("Test Contact Category List\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/contact-component/contact-single-category';
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Buyer')]"));
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Owner')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Buyer')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Owner')]"));
 		$this->jPrint ("Change Owner to different category and check that it is no longer shown\n");
 		$this->gotoAdmin();
 		$this->changeCategory('Owner', 'Contacts', 'Uncategorised');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Buyer')]"));
-		$this->assertFalse($this->isElementPresent("//strong[@class='list-title'][contains(.,'Owner')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Buyer')]"));
+		$this->assertFalse($this->isElementPresent("//div[@class='list-title'][contains(.,'Owner')]"));
 		$this->jPrint ("Change Owner back to Staff and make sure it is shown\n");
 		$this->changeCategory('Owner', 'Contacts', 'Staff');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Buyer')]"));
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Owner')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Buyer')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Owner')]"));
 
 		$this->jPrint ("Check caching for Single Contact\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/contact-component/single-contact';
@@ -259,21 +259,21 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->jPrint ("Test Weblinks Category List\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/weblinks-component/weblinks-single-category';
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'OpenSourceMatters')]"));
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! - Forums')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'OpenSourceMatters')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! - Forums')]"));
 		$this->jPrint ("Change OpenSourceMatters to different category and check that it is no longer shown\n");
 		$this->gotoAdmin();
 		$this->changeCategory('OpenSourceMatters', 'Weblinks', 'Uncategorised');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertFalse($this->isElementPresent("//strong[@class='list-title'][contains(.,'OpenSourceMatters')]"));
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! - Forums')]"));
+		$this->assertFalse($this->isElementPresent("//div[@class='list-title'][contains(.,'OpenSourceMatters')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! - Forums')]"));
 		$this->jPrint ("Change OpenSourceMatters back to Joomla! Specific Links and make sure it is shown\n");
 		$this->changeCategory('OpenSourceMatters', 'Weblinks', 'Joomla! Specific Links');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'OpenSourceMatters')]"));
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! - Forums')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'OpenSourceMatters')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! - Forums')]"));
 
 		$this->jPrint ("Check caching for Weblinks Categories\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/weblinks-component/weblinks-categories';
@@ -339,21 +339,21 @@ class Cache0001Test extends SeleniumJoomlaTestCase
 		$this->jPrint ("Test Newsfeed Category List\n");
 		$link = $this->cfg->path . 'index.php/using-joomla/extensions/components/news-feeds-component/news-feed-category';
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! Announcements')]"));
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! Connect')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! Announcements')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! Connect')]"));
 		$this->jPrint ("Change Joomla! Connect to different category and check that it is no longer shown\n");
 		$this->gotoAdmin();
 		$this->changeCategory('Joomla! Connect', 'Newsfeeds', 'Uncategorised');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! Announcements')]"));
-		$this->assertFalse($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! Connect')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! Announcements')]"));
+		$this->assertFalse($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! Connect')]"));
 		$this->jPrint ("Change Joomla! Connect back to Sample Data-Newsfeeds and make sure it is shown\n");
 		$this->changeCategory('Joomla! Connect', 'Newsfeeds', 'Sample Data-Newsfeeds');
 		$this->gotoSite();
 		$this->open($link, 'true');
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! Announcements')]"));
-		$this->assertTrue($this->isElementPresent("//strong[@class='list-title'][contains(.,'Joomla! Connect')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! Announcements')]"));
+		$this->assertTrue($this->isElementPresent("//div[@class='list-title'][contains(.,'Joomla! Connect')]"));
 
 	}
 

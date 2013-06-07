@@ -199,7 +199,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
-	 * @deprecated  13.1
+	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
 	 * @see     loadSession()
 	 * @see     loadDocument()
 	 * @see     loadLanguage()
@@ -1180,7 +1180,7 @@ class JApplicationWeb extends JApplicationBase
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.3
- * @deprecated  12.3
+ * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */
 class JWeb extends JApplicationWeb
 {

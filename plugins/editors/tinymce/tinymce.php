@@ -778,11 +778,12 @@ class PlgEditorTinymce extends JPlugin
 				 */
 				if ( $button->get('name') )
 				{
-					$modal		= ($button->get('modal')) ? ' class="modal-button btn"' : null;
+					$class		= ($button->get('class')) ? $button->get('class') : null;
+					$class		.= ($button->get('modal')) ? ' modal-button' : null;
 					$href		= ($button->get('link')) ? ' href="'.JURI::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : ' onclick="IeCursorFix(); return false;"';
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= '<a' . $modal . ' title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')
+					$return .= '<a class="' . $class . '" title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')
 						. '"><i class="icon-' . $button->get('name'). '"></i> ' . $button->get('text') . "</a>\n";
 				}
 			}

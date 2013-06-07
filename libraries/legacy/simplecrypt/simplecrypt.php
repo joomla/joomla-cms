@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Simplecrypt
  * @since       11.1
- * @deprecated  12.3  Use JCrypt instead.
+ * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JCrypt instead.
  */
 class JSimplecrypt
 {
