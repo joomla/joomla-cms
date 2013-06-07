@@ -45,7 +45,7 @@
 			size="10"
 		/>
 
-		<field name="image" type="text"
+		<field name="image" type="flagedit"
 			class="inputbox"
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
