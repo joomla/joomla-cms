@@ -26,7 +26,8 @@ $ -> Language fix or change
 ! -> Note
 
 07-Jun-2013 Jean-Marie Simonet
- + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets 
+ + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets
+ # [#30804] [3.x] *plug-in manager search give errors and warning for '/','*' and '\
 
 06-Jun-2013 Michael Babker
  + [#30324] *Added ability to restrict the number of displayed results to mod_related_items.  Thanks Ben Tasker and Jean-Marie Simonet
