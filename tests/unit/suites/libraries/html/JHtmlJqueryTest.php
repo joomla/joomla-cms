@@ -33,6 +33,9 @@ class JHtmlJqueryTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		// Ensure the loaded states are reset
+		JHtmlJqueryInspector::resetLoaded();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -57,8 +60,6 @@ class JHtmlJqueryTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
-
-		JHtmlJqueryInspector::resetLoaded();
 	}
 
 	/**

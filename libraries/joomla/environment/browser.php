@@ -657,7 +657,7 @@ class JBrowser
 	 * @return  boolean  True if using SSL, false if not.
 	 *
 	 * @since   11.1
-	 * @deprecated  13.3  Use the isSSLConnection method on the application object.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the isSSLConnection method on the application object.
 	 */
 	public function isSSLConnection()
 	{

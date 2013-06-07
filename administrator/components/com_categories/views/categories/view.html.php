@@ -81,6 +81,7 @@ class CategoriesViewCategories extends JViewLegacy
 		$section	= $this->state->get('filter.section');
 		$canDo		= null;
 		$user		= JFactory::getUser();
+		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -241,7 +242,7 @@ class CategoriesViewCategories extends JViewLegacy
 	{
 		return array(
 			'a.lft' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.state' => JText::_('JSTATUS'),
+			'a.published' => JText::_('JSTATUS'),
 			'a.title' => JText::_('JGLOBAL_TITLE'),
 			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
 			'language' => JText::_('JGRID_HEADING_LANGUAGE'),

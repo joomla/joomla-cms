@@ -33,6 +33,7 @@ class PlgSystemRedirect extends JPlugin
 
 		// Set the error handler for E_ERROR to be the class handleError method.
 		JError::setErrorHandling(E_ERROR, 'callback', array('PlgSystemRedirect', 'handleError'));
+		set_exception_handler(array('PlgSystemRedirect', 'handleError'));
 	}
 
 	public static function handleError(&$error)

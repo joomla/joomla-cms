@@ -20,7 +20,7 @@
 .input-block-level {
 	display: block;
 	width: 100%;
-	min-height: 30px;
+	min-height: ;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -3199,4 +3199,18 @@ table {
 }
 .is-tagbox {
 	float: left;
+}
+
+/* Item associations */
+.item-associations {
+	margin: 0;
+}
+.item-associations li {
+	list-style: none;
+	display: inline-block;
+	margin: 0 0 3px 0;
+}
+.item-associations li a,
+table.adminlist .item-associations li a {
+	color: #ffffff;
 }

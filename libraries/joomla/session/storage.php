@@ -197,7 +197,7 @@ abstract class JSessionStorage
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.3 Use JSessionStorage::isSupported() instead.
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JSessionStorage::isSupported() instead.
 	 */
 	public static function test()
 	{

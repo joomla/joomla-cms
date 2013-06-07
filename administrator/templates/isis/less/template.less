@@ -78,6 +78,9 @@
 
 // Extended for JUI
 @import "../../../../media/jui/less/bootstrap-extended.less"; // Has to be last to override when necessary
+// div.modal (instead of .modal)
+@import "../../../../media/jui/less/modals.joomla.less";
+@import "../../../../media/jui/less/responsive-767px-max.joomla.less";
 
 // Icon Font
 @import "icomoon.less";
@@ -372,15 +375,20 @@ h6 { font-size: 12px; line-height: 14px; }
 
 /* Disabled (generic) */
 .disabled {
-  cursor: default;
-  background-image: none;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+	cursor: default;
+	background-image: none;
+	opacity: 0.65;
+	filter: alpha(opacity=65);
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;	
+	box-shadow: none;
+	color: #FF0000;
+	font-weight: bold;
 }
-
+.enabled{
+	color: green;
+	font-weight: bold;
+}
 /* Nav list filters */
 .nav-filters hr{
 	margin: 5px 0;
@@ -634,7 +642,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 1200;
+	z-index: 100;
 }
 
 /* Tree Select */
@@ -678,4 +686,17 @@ ul.treeselect ul.dropdown-menu li {
 td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
 	height: 23px;
+}
+
+/* Item associations */
+.item-associations {
+	margin: 0;
+}
+.item-associations li {
+	list-style: none;
+	display: inline-block;
+	margin: 0 0 3px 0;
+}
+.item-associations li a {
+	color: #ffffff;
 }

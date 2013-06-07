@@ -86,6 +86,8 @@ class JArchiveBzip2 implements JArchiveExtractable
 				}
 			}
 
+			jimport('joomla.filesystem.file');
+
 			if (JFile::write($destination, $buffer) === false)
 			{
 				if (class_exists('JError'))
