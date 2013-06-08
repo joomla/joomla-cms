@@ -28,6 +28,7 @@ $ -> Language fix or change
 08-Jun-2013 Jean-Marie Simonet
  # [#31073] Preview image has height of max 18px. Thanks Piotr Konieczny
  # [#29766] Missed ordering lists in User Manager. Thanks Aleksander Linkov
+ # [#30675] Display incorrect for type checkboxes. Thanks Chad Windnagle
 
 07-Jun-2013 Jean-Marie Simonet
  + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets
