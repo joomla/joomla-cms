@@ -516,9 +516,9 @@ class UsersModelRegistration extends JModelForm
 
 			// Get all admin users
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('name', 'email', 'sendEmail')))
-				->from($db->quoteName('#__users'))
-				->where($db->quoteName('sendEmail') . ' = ' . 1);
+			$query->select('name', 'email', 'sendEmail')
+				->from('#__users')
+				->where('sendEmail=1');
 
 			$db->setQuery($query);
 
@@ -552,12 +552,11 @@ class UsersModelRegistration extends JModelForm
 			$this->setError(JText::_('COM_USERS_REGISTRATION_SEND_MAIL_FAILED'));
 
 			// Send a system message to administrators receiving system mails
-			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
-				->from($db->quoteName('#__users'))
-				->where($db->quoteName('block') . ' = ' . (int) 0)
-				->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
+			$query->select('name, email, sendEmail, id')
+				->from('#__users')
+				->where('block=0')
+				->where('sendEmail=1');
 			$db->setQuery($query);
 
 			try
