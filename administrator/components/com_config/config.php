@@ -26,24 +26,25 @@ if ($controllerTask = $app->input->get('controller'))
 	// Checking for new MVC controller
 	$array = explode(".", $controllerTask);
 else
+{
 	// Checking for old MVC task
 	$task = $app->input->get('task');
-
-$array = explode(".", $task);
+	$array = explode(".", $task);
+}
 
 if (empty($array[1]))
-	$controller = 'display';
+	$activity = 'display';
 elseif ($array[1] == 'apply')
-	$controller = 'save';
-else $controller = $array[1];
+	$activity = 'save';
+else $activity = $array[1];
 
 // Create the controller
 // if ($array[0]=='application')
 	// For Application
-	$classname  = 'ConfigControllerApplication' . ucfirst($controller);// only for applications
+	$classname  = 'ConfigControllerApplication' . ucfirst($activity);// only for applications
 if ($array[0] == 'component')
 	// For Component
-	$classname  = 'ConfigControllerComponent' . ucfirst($controller); // if task=component.* etc
+	$classname  = 'ConfigControllerComponent' . ucfirst($activity); // if task=component.* etc
 
 $controller = new $classname;
 

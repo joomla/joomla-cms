@@ -27,9 +27,9 @@ class ConfigViewApplicationJson extends JViewLegacy
 
 	/**
 	 * Display the view
-	 * 
+	 *
 	 * @param   string  $tpl  Layout
-	 * 
+	 *
 	 * @return  string
 	 */
 	public function render($tpl = null)
@@ -46,6 +46,25 @@ class ConfigViewApplicationJson extends JViewLegacy
 		}
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
+
+		// Required data
+		$requiredData = array("sitename" => null,
+				"offline" => null,
+				"access" => null,
+				"list_limit" => null,
+				"MetaDesc" => null,
+				"MetaKeys" => null,
+				"MetaRights" => null,
+				"sef" => null,
+				"sitename_pagetitles" => null,
+				"debug" => null,
+				"debug_lang" =>null,
+				"error_reporting" => null,
+				"mailfrom" => null,
+				"fromname" => null
+		);
+
+		$data = array_intersect_key($data,$requiredData);
 
 		echo json_encode($data);
 	}

@@ -45,6 +45,10 @@ class ConfigControllerApplicationSave extends JControllerBase
 		$form  = $model->getForm();
 		$data  = $this->input->post->get('jform', array(), 'array');
 
+		// Complete data array if needed
+		$oldData = $model->getData();
+		$data = array_replace($oldData, $data);
+
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
@@ -71,7 +75,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$app->redirect(JRoute::_('index.php?option=com_config&view=application', false));
+			$app->redirect(JRoute::_('index.php?option=com_config&controller=application.display', false));
 
 			return false;
 		}
@@ -89,7 +93,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JERROR_SAVE_FAILED', $model->getError());
 
-			$app->redirect(JRoute::_('index.php?option=com_config&view=application', false), $message, 'error');
+			$app->redirect(JRoute::_('index.php?option=com_config&controller=application.display', false), $message, 'error');
 
 			return false;
 		}
