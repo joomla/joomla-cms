@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jun-2013 Jean-Marie Simonet
+ + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets 
+
 24-May-2013 Michael Babker
  # [#30994] Untranslated String.  Thanks Jean-Marie Simonet
 
