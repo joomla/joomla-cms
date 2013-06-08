@@ -38,13 +38,19 @@ class JUserHelperTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml dataset
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   12.2
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/JUserTest.xml');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
+		$dataSet->addTable('jos_user_usergroup_map', JPATH_TEST_DATABASE . '/jos_user_usergroup_map.csv');
+		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
+
+		return $dataSet;
 	}
 
 	/**
@@ -76,12 +82,12 @@ class JUserHelperTest extends TestCaseDatabase
 			),
 			'publisher' => array(
 				43,
-				array(5 => 5,),
+				array(5 => 5),
 				array(),
 			),
 			'manager' => array(
 				44,
-				array(2 => 2, 6 => 6),
+				array(6 => 6),
 				array(),
 			),
 		);

@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_PLATFORM . '/joomla/form/fields/accesslevel.php';
+require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+
 /**
  * Test class for JFormFieldAccessLevel.
  *
@@ -17,30 +20,19 @@
 class JFormFieldAccessLevelTest extends TestCaseDatabase
 {
 	/**
-	 * Sets up dependencies for the test.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/accesslevel.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
-	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  xml  dataset
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   12.1
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/testfiles/JFormField.xml');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_viewlevels', JPATH_TEST_DATABASE . '/jos_viewlevels.csv');
+
+		return $dataSet;
 	}
 
 	/**
