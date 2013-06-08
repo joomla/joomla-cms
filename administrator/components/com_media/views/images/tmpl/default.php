@@ -106,15 +106,14 @@ echo $params->get('image_path', 'images'); ?>/';
 		<input type="hidden" id="dirPath" name="dirPath" />
 		<input type="hidden" id="f_file" name="f_file" />
 		<input type="hidden" id="tmpl" name="component" />
-
-	</div>
+	
 </form>
 
 <?php if ($user->authorise('core.create', 'com_media')) : ?>
 	<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
-		<div id="uploadform" class="well">
+		
 			<fieldset id="upload-noflash" class="actions">
-				<div class="control-group">
+				
 					<div class="control-label">
 						<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
 					</div>
@@ -122,9 +121,10 @@ echo $params->get('image_path', 'images'); ?>/';
 						<input type="file" id="upload-file" name="Filedata[]" multiple /><button class="btn btn-primary" id="upload-submit"><i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
 						<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
 					</div>
-				</div>
+				
 			</fieldset>
 			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
-		</div>
+		
 	</form>
+</div>
 <?php endif; ?>
