@@ -929,12 +929,12 @@ abstract class JHtml
 			}
 			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
+				. '<button type="button" class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
 		}
 		else
 		{
 			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, str_replace("%", "", $format), null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}

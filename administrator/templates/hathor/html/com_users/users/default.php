@@ -42,7 +42,7 @@ $loggeduser = JFactory::getUser();
 		</div>
 
 		<div class="filter-select">
-			<span class="faux-label")><?php echo JText::_('COM_USERS_FILTER_LABEL'); ?></span>
+			<span class="faux-label"><?php echo JText::_('COM_USERS_FILTER_LABEL'); ?></span>
 
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('COM_USERS_FILTER_LABEL'); ?>
