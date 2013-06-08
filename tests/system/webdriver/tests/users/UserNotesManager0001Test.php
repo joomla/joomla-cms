@@ -167,4 +167,71 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$userManagerPage = $this->userNotesManagerPage->clickMenu('User Manager', 'UserManagerPage');
 		$userManagerPage->deleteUser($newUserName);
 	}
+	/**
+	 * @test
+	 */
+	public function setFilter_TestOrdering_ShouldOrderNotes()
+	{
+		$salt = rand();
+		$superUserNotesName = 'UserNotes B';
+		$category = 'Uncategorised';
+		$status = 'Published';
+		$reviewTime = '2014-01-01';
+		$note = 'This is a user note with custom fields.';
+		$this->userNotesManagerPage->addUserNotes($superUserNotesName, 'Super User', array('Category' => $category, 'Status' => $status, 'Review time' => $reviewTime, 'Note' => $note));
+
+		/* @var $userManagerPage UserManagerPage */
+		$userManagerPage = $this->userNotesManagerPage->clickMenu('User Manager', 'UserManagerPage');
+		$userName1 = '1 Test User';
+		$userManagerPage->addUser($userName1);
+		$userName2 = 'Test User 2';
+		$userManagerPage->addUser($userName2, 'test2', 'password2', 'test2@test.com');
+
+		/* @var $userEditPage UserEditPage */
+		$this->userNotesManagerPage = $userManagerPage->clickMenu('User Notes', 'UserNotesManagerPage');
+		$user1NotesName = 'UserNotes C';
+		$user1Status = 'Unpublished';
+		$user1ReviewTime = '2012-12-30';
+		$user1Note = 'This is another user note with custom fields.';
+		$this->userNotesManagerPage->addUserNotes($user1NotesName, $userName1, array('Category' => $category, 'Status' => $user1Status, 'Review time' => $user1ReviewTime, 'Note' => $user1Note));
+
+		$user2NotesName = 'UserNotes A';
+		$user2Status = 'Published';
+		$user2ReviewTime = '2012-12-31';
+		$user2Note = 'This is another user note with custom fields.';
+		$this->userNotesManagerPage->addUserNotes($user2NotesName, $userName2, array('Category' => $category, 'Status' => $user2Status, 'Review time' => $user2ReviewTime, 'Note' => $user2Note));
+
+		$orderings = array('User', 'Subject', 'Category', 'Status', 'Review date', 'ID');
+		$rows = array('1 Test User', 'Super User', 'Test User 2');
+		$actualRowNumbers = $this->userNotesManagerPage->orderAndGetRowNumbers($orderings, $rows);
+
+		$expectedRowNumbers = array(
+				'User' => array('ascending' => array(1, 2, 3), 'descending' => array(3, 2, 1)),
+				'Subject' => array('ascending' => array(3, 2, 1), 'descending' => array(1, 2, 3)),
+				'Category' => array('ascending' => array(2, 1, 3), 'descending' => array(2, 1, 3)),
+				'Status' => array('ascending' => array(1, 2, 3), 'descending' => array(3, 1, 2)),
+				'Review date' => array('ascending' => array(1, 3, 2), 'descending' => array(3, 1, 2)),
+				'ID' => array('ascending' => array(2, 1, 3), 'descending' => array(2, 3, 1))
+		);
+
+		foreach ($actualRowNumbers as $ordering => $orderingRowNumbers)
+		{
+			foreach ($orderingRowNumbers as $order => $rowNumbers)
+			{
+				foreach ($rowNumbers as $key => $rowNumber)
+				{
+					$this->assertEquals(
+							$expectedRowNumbers[$ordering][$order][$key],
+							$rowNumber,
+							'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
+							. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
+					);
+				}
+			}
+		}
+
+		$this->userNotesManagerPage->deleteItem('UserNotes');
+		$userManagerPage = $this->userNotesManagerPage->clickMenu('User Manager', 'UserManagerPage');
+		$userManagerPage->deleteUser('Test User');
+	}
 }
