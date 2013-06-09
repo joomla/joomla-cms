@@ -72,9 +72,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo $this->pagination->getListFooter(); ?>
 						<p class="footer-tip">
 							<?php if ($this->enabled) : ?>
-								<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
+								<span class="plugin-enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
 							<?php else : ?>
-								<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
+								<span class="plugin-disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
 							<?php endif; ?>
 						</p>
 					</td>
