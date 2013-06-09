@@ -570,7 +570,7 @@ Joomla.DOMContentLoaded = function(fn) {
 Joomla.addListener = function(event, fn, to) {
 	to = to || window;
 	//add to eventlisteners, but only real events
-	if (event.indexOf('ready') !== -1) {
+	if (event === 'domready') {
 		if(!Joomla.initLoadCalled)
 			Joomla.DOMContentLoaded(fn);
 	}
@@ -594,7 +594,7 @@ Joomla.addListener = function(event, fn, to) {
 Joomla.removeListener = function(event, fn, from){
 	from = from || window;
 	//remove from eventlisteners, but only real events
-	if (event.indexOf('ready') === -1) {
+	if (event !== 'domready') {
 		if (from.removeEventListener) { // W3C DOM
 			from.removeEventListener(event, fn);
 		}
@@ -629,13 +629,13 @@ Joomla.addEvent = function (event, fn) {
 	// add to .jinit namespace
 	// that we will fire when first "domready" or "load" will fired
 	if(!Joomla.initLoadCalled && names[1] !== 'jinit'
-		&& (nameBase === 'load' || nameBase.indexOf('ready') !== -1)
+		&& (nameBase === 'load' || nameBase === 'domready')
 	){
 		Joomla.addEvent(nameBase+'.jinit', fn);
 	}
 
-	// subscribe a "ready" event to "load"
-	if(nameBase.indexOf('ready') !== -1 && names[1] !== 'jinit') {
+	// subscribe a "domready" event to "load"
+	if(nameBase === 'domready' && names[1] !== 'jinit') {
 		names = event.replace(nameBase, 'load').split('.');
 		nameBase = 'load';
 	}
@@ -643,7 +643,7 @@ Joomla.addEvent = function (event, fn) {
 	//attache only once, cause we use same callback
 	if(!Joomla.eventsStorage[nameBase]) {
 		//callback for execute all callbacs in the event
-		var initEvent =  (nameBase === 'load' || nameBase.indexOf('ready') !== -1) ? nameBase + '.jinit' : nameBase;
+		var initEvent =  (nameBase === 'load' || nameBase === 'domready') ? nameBase + '.jinit' : nameBase;
 		var callback = Joomla.fireEvent.bind(window, initEvent, document);
 		Joomla.addListener(nameBase, callback);
 	}
@@ -674,7 +674,7 @@ Joomla.removeEvent = function (event, fn) {
 	var names = event.split('.'), nameBase = names[0];
 
 	//as we subscribed "domready" to "load", there also need clean up
-	if(nameBase.indexOf('ready') !== -1) {
+	if(nameBase === 'domready') {
 		Joomla.removeEvent(event.replace(nameBase, 'load'), fn);
 	}
 
@@ -736,7 +736,7 @@ Joomla.fireEvent = function(event, element) {
 		delete Joomla.eventsStorage[nameBase].jinit;
 
 	//clean up "domready" storage
-	if(nameBase.indexOf('ready') !== -1)
+	if(nameBase === 'domready')
 		delete Joomla.eventsStorage[nameBase];
 
 	//marker used for check whether a first "load" was fired
