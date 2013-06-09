@@ -7221,3 +7221,6 @@ td.has-context {
 .item-associations li a {
 	color: #ffffff;
 }
+td.nowrap.has-context{
+	width:  45%;
+}
