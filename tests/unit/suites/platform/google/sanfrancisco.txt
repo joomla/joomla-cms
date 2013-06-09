@@ -1,0 +1,58 @@
+{
+   "results" : [
+      {
+	 "address_components" : [
+	    {
+	       "long_name" : "San Francisco",
+	       "short_name" : "SF",
+	       "types" : [ "locality", "political" ]
+	    },
+	    {
+	       "long_name" : "San Francisco",
+	       "short_name" : "San Francisco",
+	       "types" : [ "administrative_area_level_2", "political" ]
+	    },
+	    {
+	       "long_name" : "California",
+	       "short_name" : "CA",
+	       "types" : [ "administrative_area_level_1", "political" ]
+	    },
+	    {
+	       "long_name" : "United States",
+	       "short_name" : "US",
+	       "types" : [ "country", "political" ]
+	    }
+	 ],
+	 "formatted_address" : "San Francisco, CA, USA",
+	 "geometry" : {
+	    "bounds" : {
+	       "northeast" : {
+		  "lat" : 37.92977070,
+		  "lng" : -122.32791490
+	       },
+	       "southwest" : {
+		  "lat" : 37.69333540,
+		  "lng" : -123.10777330
+	       }
+	    },
+	    "location" : {
+	       "lat" : 37.77492950,
+	       "lng" : -122.41941550
+	    },
+	    "location_type" : "APPROXIMATE",
+	    "viewport" : {
+	       "northeast" : {
+		  "lat" : 37.8120,
+		  "lng" : -122.34820
+	       },
+	       "southwest" : {
+		  "lat" : 37.70339999999999,
+		  "lng" : -122.5270
+	       }
+	    }
+	 },
+	 "types" : [ "locality", "political" ]
+      }
+   ],
+   "status" : "OK"
+}

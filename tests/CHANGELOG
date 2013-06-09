@@ -12,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6 automated tests, including alpha and beta versions.
+Joomla! automated tests, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -25,6 +25,26 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+02-Jun-2013 Michael Babker
+ + Port Feed, Filesystem, Filter, and Form package unit tests from Platform
+ + Port Github package unit tests from Platform
+ + Port Google and Grid package unit tests from Platform
+ + Port Image, Keychain, and Language package unit tests from Platform
+ + Port Mail, Mediawiki, Model, and Object package unit tests from Platform
+ + Port Plugin, Profiler, Registry, String, and Twitter package unit tests from Platform
+ + Port User, Utilities, and View package unit tests from Platform
+ ^ Refactor unit tests to use CSV datasets
+ + Port legacy tree unit tests from Platform
+
+01-Jun-2013 Michael Babker
+ + Port Database package unit tests from Platform
+ + Port URI package unit tests from Platform
+ + Port Facebook package unit tests from Platform
+ + Port Linkedin, Oauth1, OAuth2, and Openstreetmap package unit tests from Platform
+ + Port Access and Application package unit tests from Platform
+ + Port Archive, Base, Cache, Client, Controller, and Crypt package unit tests from Platform
+ + Port Data, Document, Date, Environment, and Event package unit tests from Platform
 
 28-May-2013 Mark Dexter
  + Add webdriver tests for contacts, weblinks, and banners. Thanks George Wilson.

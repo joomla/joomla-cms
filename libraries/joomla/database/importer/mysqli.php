@@ -147,9 +147,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getAddColumnSQL($table, SimpleXMLElement $field)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -164,9 +164,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getAddKeySQL($table, $keys)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD ' . $this->getKeySQL($keys);
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD ' . $this->getKeySQL($keys);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -330,10 +330,10 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' CHANGE COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' CHANGE COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
 			. $this->getColumnSQL($field);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -356,39 +356,39 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		$fDefault = isset($field['Default']) ? (string) $field['Default'] : null;
 		$fExtra = (string) $field['Extra'];
 
-		$query = $this->db->quoteName($fName) . ' ' . $fType;
+		$sql = $this->db->quoteName($fName) . ' ' . $fType;
 
 		if ($fNull == 'NO')
 		{
 			if (in_array($fType, $blobs) || $fDefault === null)
 			{
-				$query .= ' NOT NULL';
+				$sql .= ' NOT NULL';
 			}
 			else
 			{
 				// TODO Don't quote numeric values.
-				$query .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
+				$sql .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
 			}
 		}
 		else
 		{
 			if ($fDefault === null)
 			{
-				$query .= ' DEFAULT NULL';
+				$sql .= ' DEFAULT NULL';
 			}
 			else
 			{
 				// TODO Don't quote numeric values.
-				$query .= ' DEFAULT ' . $this->db->quote($fDefault);
+				$sql .= ' DEFAULT ' . $this->db->quote($fDefault);
 			}
 		}
 
 		if ($fExtra)
 		{
-			$query .= ' ' . strtoupper($fExtra);
+			$sql .= ' ' . strtoupper($fExtra);
 		}
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -403,9 +403,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getDropColumnSQL($table, $name)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -420,9 +420,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getDropKeySQL($table, $name)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP KEY ' . $this->db->quoteName($name);
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP KEY ' . $this->db->quoteName($name);
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -436,9 +436,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getDropPrimaryKeySQL($table)
 	{
-		$query = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP PRIMARY KEY';
+		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP PRIMARY KEY';
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -455,6 +455,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	{
 		// First pass, create a lookup of the keys.
 		$lookup = array();
+
 		foreach ($keys as $key)
 		{
 			if ($key instanceof SimpleXMLElement)
@@ -465,10 +466,12 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			{
 				$kName = $key->Key_name;
 			}
+
 			if (empty($lookup[$kName]))
 			{
 				$lookup[$kName] = array();
 			}
+
 			$lookup[$kName][] = $key;
 		}
 
@@ -493,6 +496,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		$kColumn = (string) $columns[0]['Column_name'];
 
 		$prefix = '';
+
 		if ($kName == 'PRIMARY')
 		{
 			$prefix = 'PRIMARY ';
@@ -517,9 +521,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			}
 		}
 
-		$query = $prefix . 'KEY ' . ($kName != 'PRIMARY' ? $this->db->quoteName($kName) : '') . ' (' . implode(',', $kColumns) . ')';
+		$sql = $prefix . 'KEY ' . ($kName != 'PRIMARY' ? $this->db->quoteName($kName) : '') . ' (' . implode(',', $kColumns) . ')';
 
-		return $query;
+		return $sql;
 	}
 
 	/**
@@ -583,7 +587,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 					// Run the queries to upgrade the data structure.
 					foreach ($queries as $query)
 					{
-						$this->db->setQuery($query);
+						$this->db->setQuery((string) $query);
 
 						try
 						{
@@ -602,9 +606,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			else
 			{
 				// This is a new table.
-				$query = $this->xmlToCreate($table);
+				$sql = $this->xmlToCreate($table);
 
-				$this->db->setQuery($query);
+				$this->db->setQuery((string) $sql);
 
 				try
 				{

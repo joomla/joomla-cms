@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1398,15 +1398,15 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->setQuery('select * from #__users');
 	 *
-	 * @param   mixed  $query  An SQL Query
+	 * @param   mixed  $sql  An SQL Query
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setQuery($query)
+	public function setQuery($sql)
 	{
-		$this->sql = $query;
+		$this->sql = $sql;
 
 		return $this;
 	}
@@ -1509,7 +1509,7 @@ abstract class JDatabaseQuery
 
 			if (is_object($v) || is_array($v))
 			{
-				$this->$k = unserialize(serialize($v));
+				$this->{$k} = unserialize(serialize($v));
 			}
 		}
 	}
@@ -1789,9 +1789,8 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
+	 * @see     http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
 	 * @since   13.1
-	 *
-	 * @see http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{

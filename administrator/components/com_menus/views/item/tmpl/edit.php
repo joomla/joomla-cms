@@ -80,9 +80,10 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								</div>
 							</div>
 						<?php endif; ?>
-						<?php if ($this->item->type == 'alias') : ?>
+
+						<?php if ($this->item->link == 'index.php?Itemid=') : ?>
 							<?php $fieldSets = $this->form->getFieldsets('params'); ?>
-							<?php foreach ($this->form->getFieldset('request') as $field) : ?>
+							<?php foreach ($this->form->getFieldset('aliasoptions') as $field) : ?>
 								<div class="control-group">
 									<div class="control-label">
 										<?php echo $field->label; ?>

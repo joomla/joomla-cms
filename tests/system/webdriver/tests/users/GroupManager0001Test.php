@@ -114,4 +114,47 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertStringEndsWith('Publisher', $values[0], 'Actual group parent should be Publisher');
 		$this->groupManagerPage->deleteGroup($groupName);
 	}
+
+	/**
+	 * @test
+	 */
+	public function setFilter_TestOrdering_ShouldOrderGroups()
+	{
+		$orderings = array('Group Title', 'ID');
+		$rows = array(
+			'Administrator',
+			'Author',
+			'Customer Group',
+			'Editor',
+			'Guest',
+			'Manager',
+			'Public',
+			'Publisher',
+			'Registered',
+			'Shop Suppliers',
+			'Super Users'
+		);
+		$actualRowNumbers = $this->groupManagerPage->orderAndGetRowNumbers($orderings, $rows);
+
+		$expectedRowNumbers = array(
+				'Group Title' => array('ascending' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), 'descending' => array(11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)),
+				'ID' => array('ascending' => array(7, 3, 10, 4, 11, 6, 1, 5, 2, 9, 8), 'descending' => array(5, 9, 2, 8, 1, 6, 11, 7, 10, 3, 4))
+		);
+
+		foreach ($actualRowNumbers as $ordering => $orderingRowNumbers)
+		{
+			foreach ($orderingRowNumbers as $order => $rowNumbers)
+			{
+				foreach ($rowNumbers as $key => $rowNumber)
+				{
+					$this->assertEquals(
+							$expectedRowNumbers[$ordering][$order][$key],
+							$rowNumber,
+							'When the table is sorted by ' . strtolower($ordering) . ' in the ' . $order . ' order '
+							. $rows[$key] . ' should be in row ' . $expectedRowNumbers[$ordering][$order][$key]
+					);
+				}
+			}
+		}
+	}
 }

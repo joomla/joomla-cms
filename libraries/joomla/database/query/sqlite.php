@@ -58,6 +58,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		if (empty($key))
 		{
 			$this->bounded = array();
+
 			return $this;
 		}
 
@@ -193,7 +194,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
-	 * @link http://www.sqlite.org/lang_datefunc.html
+	 * @link    http://www.sqlite.org/lang_datefunc.html
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
@@ -203,6 +204,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 			$interval = .001 * $interval;
 			$datePart = 'seconds';
 		}
+
 		if (substr($interval, 0, 1) != '-')
 		{
 			return "datetime('" . $date . "', '+" . $interval . " " . $datePart . "')";

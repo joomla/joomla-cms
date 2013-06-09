@@ -771,7 +771,7 @@ abstract class JError
 			$document->setError($error);
 
 			@ob_end_clean();
-			$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
+			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
 			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
 			// Failsafe to get the error displayed.

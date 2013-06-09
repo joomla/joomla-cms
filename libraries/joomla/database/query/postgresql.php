@@ -70,6 +70,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 			case 'select':
 				$query .= (string) $this->select;
 				$query .= (string) $this->from;
+
 				if ($this->join)
 				{
 					// Special case for joins
@@ -168,6 +169,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 					}
 
 					$elements = $this->values->getElements();
+
 					if (!($elements[0] instanceof $this))
 					{
 						$query .= ' VALUES ';
@@ -611,8 +613,8 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
-	 * @note Not all drivers support all units. Check appropriate references
-	 * @link http://www.postgresql.org/docs/9.0/static/functions-datetime.html.
+	 * @note    Not all drivers support all units. Check appropriate references
+	 * @link    http://www.postgresql.org/docs/9.0/static/functions-datetime.html.
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{

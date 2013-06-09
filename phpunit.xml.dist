@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="tests/unit/bootstrap.php" colors="false">
+	<!-- These constants help setup environment configurations for running optional tests.
+	<php>
+		<const name="JTEST_DATABASE_MYSQL_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
+		<const name="JTEST_DATABASE_MYSQLI_DSN" value="host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234" />
+		<const name="JTEST_DATABASE_POSTGRESQL_DSN" value="host=localhost;port=5432;dbname=joomla_ut;user=utuser;pass=ut1234" />
+	</php>
+	-->
+
 	<testsuites>
 		<testsuite name="libraries">
 			<directory>tests/unit/suites/libraries</directory>
+		</testsuite>
+		<testsuite name="database">
+			<directory>tests/unit/suites/database</directory>
+		</testsuite>
+		<testsuite name="platform">
+			<directory>tests/unit/suites/platform</directory>
 		</testsuite>
 		<testsuite name="administrator">
 			<directory>tests/unit/suites/administrator</directory>
@@ -21,8 +35,12 @@
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">libraries/cms</directory>
+			<directory suffix=".php">libraries/joomla</directory>
+			<directory suffix=".php">libraries/legacy</directory>
 			<directory suffix=".php">administrator/components/com_finder/helpers/indexer</directory>
 			<file>administrator/includes/helper.php</file>
+			<file>libraries/loader.php</file>
+			<file>libraries/platform.php</file>
 		</whitelist>
 	</filter>
 </phpunit>

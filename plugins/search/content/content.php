@@ -270,7 +270,7 @@ class PlgSearchContent extends JPlugin
 				$new_row = array();
 				foreach ($row as $key => $article)
 				{
-					if (searchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
+					if (SearchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
 					{
 						$new_row[] = $article;
 					}
