@@ -262,6 +262,7 @@ abstract class JModelLegacy extends JObject
 		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
 
 		// Set the internal state marker - used to ignore setting state from the request

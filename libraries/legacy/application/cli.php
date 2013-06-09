@@ -16,6 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Application
  * @since       11.1
  * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationCli instead.
+ * @codeCoverageIgnore
  */
 class JCli extends JApplicationCli
 {

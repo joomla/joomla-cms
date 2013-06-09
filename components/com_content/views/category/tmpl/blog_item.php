@@ -76,8 +76,4 @@ JHtml::_('behavior.framework');
 
 <?php endif; ?>
 
-<?php if ($this->item->state == 0) : ?>
-</div>
-<?php endif; ?>
-
 <?php echo $this->item->event->afterDisplayContent; ?>

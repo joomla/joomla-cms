@@ -65,6 +65,26 @@ class JText
 				$jsSafe = false;
 			}
 		}
+		if (!(strpos($string, ',') === false))
+		{
+			$test = substr($string, strpos($string, ','));
+			if (strtoupper($test) === $test)
+			{
+				$strs = explode(',', $string);
+				foreach ($strs as $i => $str)
+				{
+					$strs[$i] = $lang->_($str, $jsSafe, $interpretBackSlashes);
+					if ($script)
+					{
+						self::$strings[$str] = $strs[$i];
+					}
+				}
+				$str = array_shift($strs);
+				$str = vsprintf($str, $strs);
+
+				return $str;
+			}
+		}
 		if ($script)
 		{
 			self::$strings[$string] = $lang->_($string, $jsSafe, $interpretBackSlashes);
