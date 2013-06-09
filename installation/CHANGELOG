@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jun-2013 Jean-Marie Simonet
+ # [#30954] Support for accent-insensitive search using the default search component. Thanks Viliam Kubis
+
 08-Jun-2013 Jean-Marie Simonet
  # [#31073] Preview image has height of max 18px. Thanks Piotr Konieczny
  # [#29766] Missed ordering lists in User Manager. Thanks Aleksander Linkov
