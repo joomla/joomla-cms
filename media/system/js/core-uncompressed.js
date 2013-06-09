@@ -488,6 +488,7 @@ if (!Array.prototype.indexOf) {
  * http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28119
  * https://groups.google.com/d/topic/joomla-dev-cms/jyKt5VE5PWw/discussion
  *
+ * TODO: wrap in to self executable function
  */
 
 /**
@@ -710,8 +711,8 @@ Joomla.fireEvent = function(event, element) {
 
 	//Init variables
 	var names = event.split('.'), nameBase = names[0],
-		storage = Joomla.eventsStorage,
-		element = element || document;
+		storage = Joomla.eventsStorage;
+	arguments[1] = element || document;
 
 	//get a callback storage for a current event
 	for (var i = 0; i < names.length; i++) {
@@ -722,7 +723,9 @@ Joomla.fireEvent = function(event, element) {
 	for (var i = 0; i < storage.cb.length; i++) {
 		//try do not break site if some script is buggy
 		try {
-			storage.cb[i].call(window, event, element);
+			//using apply + arguments allow to more interaction
+			//when need to send a more arguments for a some event callback
+			storage.cb[i].apply(window, arguments);
 		} catch (e) {
 			if(window.console){ console.log(e); console.log(e.stack);}
 		}
