@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="3.1" type="plugin" group="shortcode" method="upgrade">
+	<name>plg_shortcode_youtube</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2013</creationDate>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>1.0</version>
+	<description>PLG_SHORTCODE_YOUTUBE_XML_DESCRIPTION</description>
+	<scriptfile />
+	<files>
+		<filename plugin="youtube">youtube.php</filename>
+		<filename>index.html</filename>
+	</files>
+	<languages folder="language">
+		<language tag="pt-BR">pt-BR/pt-BR.plg_shortcode_youtube.ini</language>
+		<language tag="pt-BR">pt-BR/pt-BR.plg_shortcode_youtube.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+
+				<field
+					type="text"
+					name="width"
+					label="Width"
+					default="480" />
+
+				<field
+					type="text"
+					name="height"
+					label="Height"
+					default="390" />
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>
