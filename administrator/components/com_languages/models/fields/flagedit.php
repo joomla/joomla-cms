@@ -39,7 +39,7 @@ class JFormFieldFlagEdit extends JFormFieldFileList
 	{
 		$path = JPATH_SITE . '/media/mod_languages/images/';
 
-	if ($flags = JFolder::files($path, '.gif|.png|.jpg'))
+	if ($flags = JFolder::files($path, '.gif'))
 	{
 		foreach ($flags as $flag)
 			{
