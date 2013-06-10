@@ -6934,7 +6934,7 @@ h6 {
 	color: #FF0000;
 	font-weight: bold;
 }
-.enabled{
+.enabled {
 	color: green;
 	font-weight: bold;
 }
@@ -7204,7 +7204,6 @@ ul.treeselect ul.dropdown-menu li {
 td.has-context {
 	height: 23px;
 }
-/* Item associations */
 .item-associations {
 	margin: 0;
 }
@@ -7215,4 +7214,8 @@ td.has-context {
 }
 .item-associations li a {
 	color: #ffffff;
+}
+#flag img {
+	padding-top: 6px;
+	vertical-align: top;
 }
