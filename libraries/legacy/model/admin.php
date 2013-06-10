@@ -570,6 +570,7 @@ abstract class JModelAdmin extends JModelForm
 
 				$oldTags = $table->get('tagsHelper')->getTagIds($pk, $typeAlias);
 				$table->get('tagsHelper')->oldTags = $oldTags;
+
 				if (!$table->get('tagsHelper')->postStoreProcess($table, $tags, false))
 				{
 					$this->setError($table->getError());

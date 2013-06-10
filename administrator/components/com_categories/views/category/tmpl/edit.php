@@ -201,14 +201,10 @@ JHtml::_('formbehavior.chosen', 'select');
 					</div>
 				</div>
 				<div class="control-group">
-					<?php foreach ($this->form->getFieldset('jmetadata') as $field) : ?>
-						<?php if ($this->typeId && $field->name == 'jform[metadata][tags][]') :?>
-						<div class="control-group">
-							<div class="control-label"><?php echo $field->label; ?></div>
-							<div class="controls"><?php echo $field->input; ?></div>
-						</div>
-						<?php endif; ?>
-					<?php endforeach; ?>
+					<?php echo $this->form->getLabel('tags'); ?>
+					<div class="controls">
+						<?php echo $this->form->getInput('tags'); ?>
+					</div>
 				</div>
 			</fieldset>
 		</div>
