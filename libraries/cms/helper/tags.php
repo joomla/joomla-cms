@@ -62,7 +62,12 @@ class JHelperTags
 		$item = $table->$key;
 		$typeId = $this->getTypeId($this->typeAlias);
 
+
 		// Insert the new tag maps
+		if (strpos('#', implode(',', $tags)) === false)
+		{
+			$tags = self::createTagsFromField($tags);
+		}
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('core_content_id'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'),  $db->quoteName('type_id')));
@@ -73,6 +78,7 @@ class JHelperTags
 		}
 
 		$db->setQuery($query);
+
 		return (boolean) $db->execute();
 	}
 
@@ -173,7 +179,7 @@ class JHelperTags
 	public function createTagsFromField($tags)
 	{
 
-		if (empty($tags) || $tags[0] = '')
+		if (empty($tags) || $tags[0] == '')
 		{
 			return;
 		}
@@ -233,7 +239,7 @@ class JHelperTags
 			}
 
 			// At this point $tags is an array of all tag ids
-			$this->tags = $newTags; var_dump($newTags);die;
+			$this->tags = $newTags;
 			$result = $newTags;
 		}
 
@@ -747,16 +753,20 @@ class JHelperTags
 	 *
 	 * @since   3.1
 	 */
-	public function postStoreProcess($table)
+	public function postStoreProcess($table, $newTags = array(), $replace = true)
 	{
-		$metaObject = json_decode($table->get('metadata'));
-		$tags = (isset($metaObject->tags)) ? $metaObject->tags : null;
+		// If existing row, check to see if tags have changed.
+		$newTable = clone $table;
+		$newTable->reset();
+		$key = $newTable->getKeyName();
+		$typeAlias = $newTable->get('tagsHelper')->typeAlias;
+
 		$result = true;
 
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
-		if ($this->tagsChanged || $tags)
+		if ($this->tagsChanged || $newTags)
 		{
-			if (!$tags)
+			if (!$newTags)
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();
@@ -780,7 +790,7 @@ class JHelperTags
 				$ucmId = $ucmContentTable->core_content_id;
 
 				// Store the tag data if the article data was saved and run related methods.
-				$result = $result && $this->tagItem($ucmId, $table, json_decode($table->metadata)->tags, true);
+				$result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
 			}
 		}
 		return $result;
@@ -795,27 +805,26 @@ class JHelperTags
 	 *
 	 * @since   3.1
 	 */
-	public function preStoreProcess($table)
+	public function preStoreProcess($table, $newTags = array())
 	{
-		if ($newMetadata = $this->createTagsFromMetadata($table->metadata))
+		if ($newTags != array())
 		{
-			$table->metadata = $newMetadata;
+			$this->newTags = $newTags;
 		}
 
 		// If existing row, check to see if tags have changed.
 		$oldTable = clone $table;
 		$oldTable->reset();
 		$key = $oldTable->getKeyName();
+		$typeAlias = $oldTable->get('tagsHelper')->typeAlias;
+
 		if ($oldTable->$key && $oldTable->load())
 		{
-			$oldMetaObject = json_decode($oldTable->get('metadata'));
-			$oldTags = (isset($oldMetaObject->tags)) ? $oldMetaObject->tags : null;
-			$newMetaObject = json_decode($table->get('metadata'));
-			$newTags = (isset($newMetaObject->tags)) ? $newMetaObject->tags : null;
+			$this->oldTags = $this->getTagIds($oldTable->$key, $typeAlias);
 		}
 
 		// New items with no tags bypass this step.
-		if (!empty($newTags) && !empty($oldTags))
+		if (!empty($this->newTags) && !empty($this->oldTags))
 		{
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = ($oldTags != $newTags) || !$table->$key;
@@ -944,16 +953,32 @@ class JHelperTags
 	 */
 	public function tagItem($ucmId, $table, $tags = array(), $replace = true)
 	{
+		$key = $table->get('_tbl_key');
+		$oldTags = $table->get('tagsHelper')->getTagIds((int) $table->$key, $table->get('tagsHelper')->typeAlias);
+		$oldTags = explode(',', $oldTags);
 		$result = $this->unTagItem($ucmId, $table);
+
 		if ($replace)
 		{
 			$newTags = $tags;
 		}
 		else
 		{
-			$oldTags = json_decode($table->metadata)->tags;
-			$newTags = array_unique(array_merge($tags, $oldTags));
+			if ($tags == array())
+			{
+				$newTags = $table->newTags;
+			}
+			else
+			{
+				$newTags = $tags;
+			}
+
+			if ($oldTags[0] != '')
+			{
+				$newTags = array_unique(array_merge($newTags, $oldTags));
+			}
 		}
+
 		if (is_array($newTags) && count($newTags) > 0)
 		{
 			$result = $result && $this->addTagMapping($ucmId, $table, $newTags);
