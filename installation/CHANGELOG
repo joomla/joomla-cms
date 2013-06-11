@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jun-2013 Jean-Marie Simonet
+ $ Adding Czech cs-CZ to installation language files
+
 09-Jun-2013 Jean-Marie Simonet
  # [#30954] Support for accent-insensitive search using the default search component. Thanks Viliam Kubis
  # [#29560] jumping column in Contact Manager: Contacts. Thanks Daria Mikhailova and Roland Dalmulder
