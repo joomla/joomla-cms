@@ -1,0 +1,2 @@
+INSERT INTO `#__extensions` (`name`, `type`, `element`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`) VALUES
+('com_services', 'component', 'com_services', 1, 1, 1, 0, '{"name":"com_services","type":"component","creationDate":"June 2013","author":"Joomla! Project","copyright":"(C) 2005 - 2013 Open Source Matters. All rights reserved.\n\t","authorEmail":"admin@joomla.org","authorUrl":"www.joomla.org","version":"3.0.0","description":"COM_SERVICES_XML_DESCRIPTION","group":""}');
