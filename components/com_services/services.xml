@@ -8,7 +8,7 @@
 	<copyright>Copyright Info</copyright>
 	<license>License Info</license>
 	<version>1.0.0</version>
-	<description>COM_SERVCES_DESCRIPTION</description>
+	<description>COM_SERVICES_DESCRIPTION</description>
 
 
 	<files folder="site">
@@ -17,7 +17,6 @@
 		<folder>view</folder>
 		<filename>index.html</filename>
 		<filename>services.php</filename>
-		<filename>access.xml</filename>
 	</files> 
 	<administration>
 	</administration>
