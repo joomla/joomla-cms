@@ -736,7 +736,12 @@ class JHelperTags
 		}
 
 		// New items with no tags bypass this step.
-		if (!empty($newTags) && !empty($oldTags))
+		// if (!empty($newTags) && !empty($oldTags))
+		
+		// tags does not get deleted when all the attached tags have been removed from the com_content(article)
+		// in the previous condition there is nothing set in $newTags so it will not set the tagsChanged parameter
+		// to true which ultimately does not delete the tag in postStroreProcess where tagsChanged paramter is checked
+		if (!empty($oldTags))
 		{
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = ($oldTags != $newTags) || !$table->$key;
