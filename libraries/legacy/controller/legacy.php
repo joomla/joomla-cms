@@ -693,34 +693,9 @@ class JControllerLegacy extends JObject
 		$conf = JFactory::getConfig();
 
 		// Display the view
-		if ($this->isCachable($cachable,$viewType,,$conf->get('caching')))
+		if ($this->isCachable($cachable,$viewType,$conf->get('caching')))
 		{
-			$option = $this->input->get('option');
-			$cache = JFactory::getCache($option, 'view');
-
-			if (is_array($urlparams))
-			{
-				$app = JFactory::getApplication();
-
-				if (!empty($app->registeredurlparams))
-				{
-					$registeredurlparams = $app->registeredurlparams;
-				}
-				else
-				{
-					$registeredurlparams = new stdClass;
-				}
-
-				foreach ($urlparams as $key => $value)
-				{
-					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
-					$registeredurlparams->$key = $value;
-				}
-
-				$app->registeredurlparams = $registeredurlparams;
-			}
-
-			$cache->get($view, 'display');
+			$this->addViewToCache($urlparams, $view);
 		}
 		else
 		{
@@ -746,6 +721,51 @@ class JControllerLegacy extends JObject
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Method to catch the view
+	 * 
+	 * @param array $urlparams An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param JView $view 
+	 * 
+	 * @return void
+	 */
+	protected function addViewToCache($urlparams, JView $view)
+	{
+		$option = $this->input->get('option');
+		$cache = JFactory::getCache($option, 'view');
+		
+		if (is_array($urlparams))
+		{
+			$this->addUrlparamsToApplication($urlparams);
+		}
+		
+		$cache->get($view, 'display');
+	}
+	
+	/**
+	 * Method to add safe url params to the applications registeredurlparams
+	 * 
+	 * @param array $urlparams
+	 */
+	protected function addUrlparamsToApplication($urlparams)
+	{
+		$app = JFactory::getApplication();
+		$registeredurlparams = new stdClass;
+		
+		if (!empty($app->registeredurlparams))
+		{
+			$registeredurlparams = $app->registeredurlparams;
+		}
+			
+		foreach ($urlparams as $key => $value)
+		{
+			// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
+			$registeredurlparams->$key = $value;
+		}
+		
+		$app->registeredurlparams = $registeredurlparams;
 	}
 
 	/**
