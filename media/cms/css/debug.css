@@ -258,15 +258,23 @@ div#system-debug {
     background-color: #ffffff;
     color: #000;
     opacity: 1.0;
-    border: 2px #000 solid;
     float: left;
     text-align: left;
     font-size: 12px;
     margin: 0px 0px 6px;
 }
+table.dbgQueryTable {
+    border: 2px #000 solid;
+}
 table.dbgQueryTable th, table.dbgQueryTable td {
     padding: 3px;
     line-height: normal;
+}
+#system-debug .dbgQueryCallStack.hasPopover {
+    cursor: pointer;
+}
+#system-debug span.dbgQueryCallStack.hasPopover a {
+    background-color: transparent;
 }
 /* This is a workaround to allow popovers to have the needed width for our queries debug tables: */
 .popover.top.fade.in {

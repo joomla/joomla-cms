@@ -728,11 +728,14 @@ class PlgSystemDebug extends JPlugin
 						{
 							$htmlFile = htmlspecialchars($functionCall['file']);
 							$htmlLine = htmlspecialchars($functionCall['line']);
-							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a>&nbsp;:&nbsp;' . $htmlLine . '</span>';
+							// $htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a>&nbsp;:&nbsp;' . $htmlLine . '</span>';
+							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom">' . $this->formatLink($htmlFile, $htmlLine). '</span>';
 						}
 					}
 					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
-					$htmlCallStack = '<span class="dbgQueryCallStack ' . $hasTipCssClass . '" title="Call-Stack" data-content="' . $tipCallStack . '">' . $htmlCallStackElements[0] . '</span>';
+					$firstfile = preg_replace('/<a.*>(.*)<\/a>/', '\1', $htmlCallStackElements[0]);
+					$callStackHelpText = ' (click to see call-stack' . ( $this->linkFormat ? '' : ', ' . '<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'configure for links' . '</a>') . ')';
+					$htmlCallStack = '<span class="dbgQueryCallStack ' . $hasTipCssClass . '" title="Call-Stack" data-content="' . $tipCallStack . '" data-trigger="click">' . $firstfile . ' ' . $callStackHelpText . '</span>';
 				}
 
 				$list[] = $htmlTiming
