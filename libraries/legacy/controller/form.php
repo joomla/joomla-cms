@@ -753,7 +753,6 @@ class JControllerForm extends JControllerLegacy
 
 				// Redirect to the list screen.
 				$this->setRedirectToList();
-				);
 				break;
 		}
 
