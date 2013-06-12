@@ -556,13 +556,7 @@ class JControllerLegacy extends JObject
 	{
 		if (defined('JDEBUG') && JDEBUG)
 		{
-			$logMsg = sprintf
-					  (
-					  	'Checking edit ID %s.%s: %d %s', 
-						$context, 
-						$id,(int) 
-						$result,str_replace("\n", ' ', print_r($values, 1)
-					  );
+			$logMsg = sprintf('Checking edit ID %s.%s: %d %s', $context, $id,(int) $result, str_replace("\n", ' ', print_r($values, 1)));
 			 
 			JLog::add($logMsg, JLog::INFO, 'controller');
 		}
