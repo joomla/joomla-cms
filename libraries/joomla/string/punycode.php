@@ -9,7 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('punycode.punycode');
+JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert_080/idna_convert.class.php');
+
 /**
  * Joomla Platform String Punycode Class
  *
@@ -26,7 +27,7 @@ abstract class JStringPunycode
 	/*
 	 * Transforms a UTF-8 string to a Punycode string
 	 *
-	 * @param  string  $utfSstring  The UTF-8 string to transform
+	 * @param  string  $utfString  The UTF-8 string to transform
 	 *
 	 * @return  string  The punycode string
 	 *
@@ -34,7 +35,10 @@ abstract class JStringPunycode
 	 */
 	public static function toPunycode($utfString)
 	{
-		return punycode::encode($utfString);
+		$idn = new idna_convert();
+		return $idn->encode($utfString);
+
+		//return idna_convert::encode($utfString);
 	}
 
 	/*
@@ -48,7 +52,8 @@ abstract class JStringPunycode
 	*/
 	public static function fromPunycode($punycodeString)
 	{
-		return punycode::decode($punycodeString);
+		$idn = new idna_convert();
+		return $idn->decode($punycodeString);
 
 	}
 
@@ -111,6 +116,11 @@ abstract class JStringPunycode
 	*/
 	public static function urlToUTF8($uri)
 	{
+		if (empty($uri))
+		{
+			return;
+		}
+
 		$parsed = JString::parse_url($uri);
 		$host = $parsed['host'];
 		$hostExploded = explode('.', $host);
@@ -163,13 +173,14 @@ abstract class JStringPunycode
 
 		// Not addressing UTF-8 user names
 		$newEmail = $explodedAddress[0];
+
 		if (!empty($explodedAddress[1]))
 		{
 			$domainExploded = explode('.', $explodedAddress[1]);
 			$newdomain = '';
 			foreach ($domainExploded as $domainex)
 			{
-				$domainex = self::toPunycode($domainex);
+				$domainex = JStringPunycode::toPunycode($domainex);
 				$newdomain .= $domainex . '.';
 			}
 
