@@ -262,9 +262,13 @@ div#system-debug {
     float: left;
     text-align: left;
     font-size: 12px;
-    margin: 0px;
+    margin: 0px 0px 6px;
 }
 table.dbgQueryTable th, table.dbgQueryTable td {
     padding: 3px;
     line-height: normal;
+}
+/* This is a workaround to allow popovers to have the needed width for our queries debug tables: */
+.popover.top.fade.in {
+    width: auto;
 }

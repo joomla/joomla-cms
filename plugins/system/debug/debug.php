@@ -133,6 +133,14 @@ class PlgSystemDebug extends JPlugin
 		{
 			JHtml::_('stylesheet', 'cms/debug.css', array(), true);
 		}
+
+		// Only if debugging is enabled for SQL queries popovers
+		if (JDEBUG && $this->isAuthorisedDisplayDebug())
+		{
+			// JHtml::_('bootstrap.tooltip');
+			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
+		}
+
 	}
 
 	/**
@@ -536,12 +544,6 @@ class PlgSystemDebug extends JPlugin
 		$callStacks = $db->getCallStacks();
 
 		$db->setDebug(false);
-		if ($timings)
-		{
-			// We need to re-connect to database for running EXPLAIN statements as it got already disconnected because this runs in destructor of this plugin:
-//			$db->disconnect();
-//			$db->connect();
-		}
 
 		$html = '';
 
@@ -553,15 +555,33 @@ class PlgSystemDebug extends JPlugin
 
 		$timing = array();
 		$maxtime = 0;
-		foreach ($log as $k => $query)
+
+		if (isset($timings[0]))
 		{
-			if (isset($timings[$k * 2 + 1]))
+			$startTime = $timings[0];
+			$endTime = $timings[count($timings) -1];
+			$totalBargraphTime = $endTime - $startTime;
+			if ( $totalBargraphTime > 0 )
 			{
-				// Compute the query time:
-				$timing[$k] = array(($timings[$k * 2 + 1] - $timings[$k * 2]) * 1000, $k > 0 ? ($timings[$k * 2] - $timings[$k * 2 - 1]) * 1000 : 0);
-				$maxtime = max($maxtime, $timing[$k]['0']);
-			}
+
+                foreach ($log as $k => $query)
+                {
+                    if (isset($timings[$k * 2 + 1]))
+                    {
+                        // Compute the query time: $timing[$k] = array( queryTime, timeBetweenQueries ):
+                        $timing[$k] = array(($timings[$k * 2 + 1] - $timings[$k * 2]) * 1000, $k > 0 ? ($timings[$k * 2] - $timings[$k * 2 - 1]) * 1000 : 0);
+                        $maxtime = max($maxtime, $timing[$k]['0']);
+                    }
+                }
+            }
 		}
+		else
+		{
+			$startTime = null;
+			$totalBargraphTime = 1;
+		}
+
+		$hasTipCssClass = 'hasPopover';		// $hasTipCssClass = JFactory::getApplication()->isAdmin() ? 'hasTip' : 'hasToolTip';
 
 		$list = array();
 		foreach ($log as $k => $query)
@@ -582,7 +602,6 @@ class PlgSystemDebug extends JPlugin
 
 			$fromString = substr($query, 0, $whereStart);
 			$fromString = str_replace("\t", " ", $fromString);
-			$fromString = str_replace("\n", " ", $fromString);
 			$fromString = str_replace("\n", " ", $fromString);
 			$fromString = trim($fromString);
 
@@ -609,16 +628,21 @@ class PlgSystemDebug extends JPlugin
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
-			$text = $this->highlightQuery($query) . ';';
+			$text = $this->highlightQuery($query);
 
-			if (isset($timing[$k]))
+			if ($timings && isset($timings[$k*2+1]))
 			{
+				// Compute the query time:
+				$queryTime = ($timings[$k * 2 + 1]-$timings[$k * 2]) * 1000;
 
 				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
 				$explain = null;
+				$hasWarnings = false;
+				$hasWarningsInProfile = false;
+
 				if (isset($this->explains[$k]))
 				{
-					$explain = $this->tableToHtml($this->explains[$k]);
+					$explain = $this->tableToHtml($this->explains[$k], $hasWarnings);
 				}
 				else
 				{
@@ -633,7 +657,7 @@ class PlgSystemDebug extends JPlugin
 					if (isset($this->sqlShowProfileEach[$k]))
 					{
 						$profileTable = $this->sqlShowProfileEach[$k];
-						$profile = $this->tableToHtml($profileTable);
+						$profile = $this->tableToHtml($profileTable, $hasWarningsInProfile);
 					}
 					else
 					{
@@ -642,23 +666,44 @@ class PlgSystemDebug extends JPlugin
 				}
 				$tipProfile = htmlspecialchars($profile);
 
-				// Formats the output for the query time with EXPLAIN query results as tooltip:
-				$perc = round($timing[$k]['0'] / $maxtime * 100);
-				if ($perc < 25)
+				// Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time:
+				$bargraphBeginPercents = round(100.0 * ($timings[$k * 2] - $startTime) / $totalBargraphTime, 1);
+				$bargraphWidthPercents = round(100.0 * ($timings[$k * 2 + 1] - $timings[$k * 2]) / $totalBargraphTime, 1);
+				if ($bargraphWidthPercents < 0.3)
 				{
-					$fillers = array($perc, 0, 0);
+					$bargraphWidthPercents = 0.3;
 				}
-				else if ($perc < 50)
+				if ($bargraphBeginPercents + $bargraphWidthPercents > 100)
 				{
-					$fillers = array(25, $perc - 25, 0);
+					$bargraphBeginPercents = 100 - $bargraphWidthPercents;
+				}
+
+				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN:
+				if ($queryTime < 4)
+				{
+					if ($hasWarnings)
+					{
+						$bargraphColorCSS = 'bar-warning';
+					}
+					else
+					{
+						$bargraphColorCSS = 'bar-success';
+					}
+					$labelCSS = null;
+				}
+				elseif ($queryTime > 10)
+				{
+					$bargraphColorCSS = 'bar-danger';
+					$labelCSS = ' label-important';
 				}
 				else
 				{
-					$fillers = array(25, 25, $perc - 50);
+					$bargraphColorCSS = 'bar-warning';
+					$labelCSS = ' label-warning';
 				}
 
-
-				$htmlTiming = '<div style="margin: 0px 0 5px;">' . sprintf('Query Time: <span class="label">%.3f ms</span>', $timing[$k]['0']);
+				// Formats the output for the query time with EXPLAIN query results as tooltip:
+				$htmlTiming = '<div style="margin: 0px 0 5px;">' . sprintf('Query Time: <span class="label' . $labelCSS . '">%.3f ms</span>', $timing[$k]['0']);
 
 				if ($timing[$k]['1'])
 				{
@@ -667,11 +712,10 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlTiming .= '</div>';
 
-				$htmlTiming .= '<div class="progress dbgQuery hasTooltip" style="margin: 0px 0 5px;" title="' . $tipProfile . '">
-					<div class="bar bar-success" style="width: '.$fillers['0'].'%;"></div>
-					<div class="bar bar-warning" style="width: '.$fillers['1'].'%;"></div>
-					<div class="bar bar-danger" style="width: '.$fillers['2'].'%;"></div>
-					</div>';
+				$htmlTiming .= '<div class="progress dbgQuery ' . $hasTipCssClass . '" style="margin: 0px 0 5px;" title="PROFILE QUERY" data-content="' . $tipProfile . '">'
+				. '<div class="bar" style="background: transparent; width: '. $bargraphBeginPercents .'%;"></div>'
+				. '<div class="bar  ' . $bargraphColorCSS . '" style="width: '. $bargraphWidthPercents .'%;"></div>'
+				. '</div>';
 
 				// Backtrace/Called from:
 				$htmlCallStack = '';
@@ -684,15 +728,15 @@ class PlgSystemDebug extends JPlugin
 						{
 							$htmlFile = htmlspecialchars($functionCall['file']);
 							$htmlLine = htmlspecialchars($functionCall['line']);
-							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a> : ' . $htmlLine . '</span>';
+							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a>&nbsp;:&nbsp;' . $htmlLine . '</span>';
 						}
 					}
 					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
-					$htmlCallStack = '<span class="dbgQueryCallStack hasTooltip" title="' . $tipCallStack . '">' . $htmlCallStackElements[0] . '</span>';
+					$htmlCallStack = '<span class="dbgQueryCallStack ' . $hasTipCssClass . '" title="Call-Stack" data-content="' . $tipCallStack . '">' . $htmlCallStackElements[0] . '</span>';
 				}
 
 				$list[] = $htmlTiming
-					. '<pre class="hasTooltip" title="' . $tipExplain . '">' . $text . '</pre>'
+					. '<pre class="' . $hasTipCssClass . '" title="EXPLAIN" data-content="' . $tipExplain . '">' . $text . '</pre>'
 					. $htmlCallStack;
 
 			}
@@ -755,14 +799,16 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Displays errors in language files.
 	 *
-	 * @param   array   $table
+	 * @param   array    $table
+	 * @param   boolean  $hasWarnings   Changes value to true if warnings are displayed, otherwise untouched
 	 *
 	 * @return  string
 	 *
 	 * @since   CMS 3.1.2
 	 */
-	protected function tableToHtml($table)
+	protected function tableToHtml($table, &$hasWarnings)
 	{
+
 		if (! $table ) {
 			return null;
 		}
@@ -789,15 +835,60 @@ class PlgSystemDebug extends JPlugin
 			$html .= '<tr>';
 			foreach ($tr as $k => $td)
 			{
-				if ($k == 'Duration' && $td >= 0.001 && ($td == $durations[0] || (isset($durations[1]) && $td == $durations[1])))
+				if ($td === null)
 				{
-					$html .= '<td class="dbgQueryWarning">';
+					// Display null's as 'NULL':
+					$td = 'NULL';
+				}
+
+				// Treat special columns:
+				if ($k == 'Duration')
+				{
+					if ($td >= 0.001 && ($td == $durations[0] || (isset($durations[1]) && $td == $durations[1])))
+					{
+						// Duration column with duration value of more than 1 ms and within 2 top duration in SQL engine: Highlight warning:
+						$html .= '<td class="dbgQueryWarning">';
+						$hasWarnings = true;
+					}
+					else
+					{
+						$html .= '<td>';
+					}
+					// Display duration in ms with the unit instead of seconds:
+					$html .= sprintf('%.03f&nbsp;ms', $td * 1000);
+				}
+				elseif ($k == 'key')
+				{
+					if ($td === 'NULL')
+					{
+						// Displays query parts which don't use a key with warning:
+						$html .= '<td><strong>' . '<span class="dbgQueryWarning">NULL</span>' . '</strong>';
+						$hasWarnings = true;
+					}
+					else
+					{
+						$html .= '<td><strong>' . htmlspecialchars($td) . '</strong>';
+					}
+				}
+				elseif ($k == 'Extra')
+				{
+					$htmlTd = htmlspecialchars($td);
+					// Replace spaces with nbsp for less tall tables displayed:
+					$htmlTd = preg_replace('/([^;]) /', '\1&nbsp;', $htmlTd);
+					// Displays warnings for "Using filesort":
+					$htmlTdWithWarnings = str_replace('Using&nbsp;filesort', '<span class="dbgQueryWarning">Using&nbsp;filesort</span>', $htmlTd);
+					if ($htmlTdWithWarnings !== $htmlTd)
+					{
+						$hasWarnings = true;
+					}
+
+					$html .= '<td>' . $htmlTdWithWarnings;
 				}
 				else
 				{
-					$html .= '<td>';
+					$html .= '<td>' . htmlspecialchars($td);
 				}
-				$html .= ( $td === null ? ( $k == 'key' ? '<span class="dbgQueryWarning">NULL</span>' : 'NULL' ) : ( $k == 'Duration' ? sprintf('%.03f&nbsp;ms', $td * 1000) : htmlspecialchars($td) ) ) . '</td>';
+				$html .= '</td>';
 			}
 			$html .= '</tr>';
 		}
@@ -1052,7 +1143,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * Stolen from JError to prevent it's removal.
 	 *
-	 * @param   integer  $error  The error
+	 * @param   Exception  $error  The error
 	 *
 	 * @return  string  Contents of the backtrace
 	 *
