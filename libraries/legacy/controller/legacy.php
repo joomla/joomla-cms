@@ -1136,21 +1136,10 @@ class JControllerLegacy extends JObject
 	 *
 	 * @since   12.2
 	 */
-	public function setMessage($msg, $type = null)
+	public function setMessage($text, $type = 'message')
 	{
 		$previous = $this->message;
-		
-		if (!empty($msg))
-		{
-			$this->message = $msg;
-		}
-
-		// I'm not sure we need this check, but I redirected the logic from setRedirect to here and this was one of the checks going on there.
-		if (empty($type) && empty($this->messageType))
-		{
-			$type = 'message';
-		}
-		
+		$this->message = $text;
 		$this->messageType = $type;
 
 		return $previous;
@@ -1176,7 +1165,7 @@ class JControllerLegacy extends JObject
 		$this->addPath($type, $path);
 	}
 
-	/**
+		/**
 	 * Set a URL for browser redirection.
 	 *
 	 * @param   string  $url   URL to redirect to.
@@ -1190,11 +1179,28 @@ class JControllerLegacy extends JObject
 	public function setRedirect($url, $msg = null, $type = null)
 	{
 		$this->redirect = $url;
-		
-		$this->setMessage($msg, $type);
-		
+		if ($msg !== null)
+		{
+			// Controller may have set this directly
+			$this->message = $msg;
+		}
+
+		// Ensure the type is not overwritten by a previous call to setMessage.
+		if (empty($type))
+		{
+			if (empty($this->messageType))
+			{
+				$this->messageType = 'message';
+			}
+		}
+		// If the type is explicitly set, set it.
+		else
+		{
+			$this->messageType = $type;
+		}
+
 		return $this;
-	}
+	}}
 	
 	/**
 	 * Method to check for request forgeries.
