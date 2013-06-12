@@ -1139,10 +1139,14 @@ class JControllerLegacy extends JObject
 	public function setMessage($msg, $type = 'message')
 	{
 		$previous = $this->message;
-		$this->message = $msg;
+		
+		if (!empty($msg))
+		{
+			$this->message = $msg;
+		}
 
 		// I'm not sure we need this check, but I redirected the logic from setRedirect to here and this was one of the checks going on there.
-		if (empty($type))
+		if (empty($type) && empty($this->messageType))
 		{
 			$type = 'message';
 		}
