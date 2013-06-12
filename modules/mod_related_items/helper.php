@@ -27,6 +27,7 @@ abstract class ModRelatedItemsHelper
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$date = JFactory::getDate();
+		$maximum = (int) $params->get('maximum', 5);
 
 		$option = $app->input->get('option');
 		$view = $app->input->get('view');
@@ -111,7 +112,7 @@ abstract class ModRelatedItemsHelper
 						$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 					}
 
-					$db->setQuery($query);
+					$db->setQuery($query, 0, $maximum);
 					$temp = $db->loadObjectList();
 
 					if (count($temp))

@@ -189,7 +189,7 @@ class SearchHelper
 			{
 				continue;
 			}
-			$text = $object->$field;
+			$text = self::remove_accents($object->$field);
 
 			foreach ($searchRegex as $regex)
 			{
@@ -198,6 +198,7 @@ class SearchHelper
 
 			foreach ($terms as $term)
 			{
+				$term = self::remove_accents($term);
 				if (JString::stristr($text, $term) !== false)
 				{
 					return true;
@@ -205,6 +206,22 @@ class SearchHelper
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Transliterates given text to ASCII//TRANSLIT.
+	 * Simulates glibc transliteration style even if libiconv is used by PHP
+	 *
+	 * @return string
+	 *
+	 * @since  3.2
+	 */
+	public static function remove_accents($str)
+	{
+		setlocale(LC_ALL, "en_GB.UTF-8");
+		$str = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", $str);
+		//TODO: remove other prefixes as well?
+		return preg_replace("/[\"'^]([a-z])/ui", '\1', $str);
 	}
 
 	/**
@@ -221,19 +238,20 @@ class SearchHelper
 	{
 		$lang = JFactory::getLanguage();
 		$length = $lang->getSearchDisplayedCharactersNumber();
-		$textlen = JString::strlen($text);
-		$lsearchword = JString::strtolower($searchword);
+		$ltext = self::remove_accents($text);
+		$textlen = JString::strlen($ltext);
+		$lsearchword = JString::strtolower(self::remove_accents($searchword));
 		$wordfound = false;
 		$pos = 0;
 		while ($wordfound === false && $pos < $textlen)
 		{
-			if (($wordpos = @JString::strpos($text, ' ', $pos + $length)) !== false)
+			if (($wordpos = @JString::strpos($ltext, ' ', $pos + $length)) !== false)
 			{
 				$chunk_size = $wordpos - $pos;
 			} else {
 				$chunk_size = $length;
 			}
-			$chunk = JString::substr($text, $pos, $chunk_size);
+			$chunk = JString::substr($ltext, $pos, $chunk_size);
 			$wordfound = JString::strpos(JString::strtolower($chunk), $lsearchword);
 			if ($wordfound === false)
 			{
@@ -243,7 +261,7 @@ class SearchHelper
 
 		if ($wordfound !== false)
 		{
-			return (($pos > 0) ? '...&#160;' : '') . $chunk . '&#160;...';
+			return (($pos > 0) ? '...&#160;' : '') . JString::substr($text, $pos, $chunk_size) . '&#160;...';
 		}
 		else
 		{

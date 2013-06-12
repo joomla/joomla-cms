@@ -152,7 +152,7 @@ class TagsModelTags extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id')
 
 			->select('ug.title AS access_title')
-			->join('LEFT', '#__usergroups AS ug on ug.id = a.access');
+			->join('LEFT', '#__viewlevels AS ug on ug.id = a.access');
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))

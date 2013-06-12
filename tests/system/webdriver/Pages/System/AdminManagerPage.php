@@ -131,6 +131,30 @@ abstract class AdminManagerPage extends AdminPage
 		return $result;
 	}
 
+	public function orderAndGetRowNumbers($orderings, $rows)
+	{
+		$result = array();
+
+		foreach ($orderings as $order)
+		{
+			$result[$order] = array();
+			$this->setOrder($order);
+
+			foreach ($rows as $row)
+			{
+				$result[$order]['ascending'][] = $this->getRowNumber($row);
+			}
+
+			$this->setOrderDirection('Descending');
+
+			foreach ($rows as $row)
+			{
+				$result[$order]['descending'][] = $this->getRowNumber($row);
+			}
+		}
+		return $result;
+	}
+
 	public function searchFor($search = false)
 	{
 		if ($search)
@@ -175,6 +199,26 @@ abstract class AdminManagerPage extends AdminPage
 			$this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
+		return $this->test->getPageObject(get_class($this));
+	}
+
+	public function setOrder($value)
+	{
+		$container = $this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']"));
+		$this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+
+		return $this->test->getPageObject(get_class($this));
+	}
+
+	public function setOrderDirection($value)
+	{
+		$container = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']"));
+		$this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+
 		return $this->test->getPageObject(get_class($this));
 	}
 

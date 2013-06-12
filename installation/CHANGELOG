@@ -25,6 +25,63 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jun-2013 Jean-Marie Simonet
+ $ Adding Czech cs-CZ to installation language files
+
+09-Jun-2013 Jean-Marie Simonet
+ # [#30954] Support for accent-insensitive search using the default search component. Thanks Viliam Kubis
+ # [#29560] jumping column in Contact Manager: Contacts. Thanks Daria Mikhailova and Roland Dalmulder
+
+08-Jun-2013 Jean-Marie Simonet
+ # [#31073] Preview image has height of max 18px. Thanks Piotr Konieczny
+ # [#29766] Missed ordering lists in User Manager. Thanks Aleksander Linkov
+ # [#30675] Display incorrect for type checkboxes. Thanks Chad Windnagle
+ # [#31099] Incorrect Access Levels in Tags List View. Thanks Justin Herrin and Chad Windnagle
+
+07-Jun-2013 Jean-Marie Simonet
+ + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets
+ # [#30804] [3.x] *plug-in manager search give errors and warning for '/','*' and '\
+
+07-Jun-2013 David Hurley
+ + [#30370] Added ability to add sprintf variables to JText string. Thanks Peter van Westen
+
+06-Jun-2013 Michael Babker
+ + [#30324] *Added ability to restrict the number of displayed results to mod_related_items.  Thanks Ben Tasker and Jean-Marie Simonet
+
+04-Jun-2013 Jean-Marie Simonet
+ ^ [#30973] Bootstrap 2.3.2 update. Thanks Anibal Sanchez
+ # [#30757] Unpublished blog items output an extra DIV closure, breaking layout. Thanks David Hurley
+ # [#30990] 404 Component not found" doesn't added to redirect component, more. Thanks Ofer Cohen
+
+02-Jun-2013 Michael Babker
+ ^ Sync Github package to Platform 13.1
+
+01-Jun-2013 Michael Babker
+ # [#31057] Missing Read More Button in editing articles.  Thanks Hans Kuijpers
+ # [#30909] Batch process modules doesnt allow new module positions.  Thanks Chad Windnagle
+ # [#31039] Error when a 'Manager' deletes a category.  Thanks Tobias Zulauf
+ # [#30693] Unclosed span tag in permissions field.  Thanks Dennis Hermatski
+ # [#31045] HITS Column Admin Panel.  Thanks David Hurley
+ # [#31034] Not colored text as in joomla 2.5 for com_redirect.  Thanks Tobias Zulauf
+ # [#30544] Article Alternative Layout is not applied in Single Article menu item.  Thanks Dennis Hermatski
+ # [#31026] Fatal error: Class 'JFile' not found when saving content override.  Thanks Roland Dalmulder
+ ^ [#31032] 'Default' toolbar buttons with different labels.  Thanks Tobias Zulauf
+ ^ [#31033] System messages with the "X".  Thanks Tobias Zulauf
+ ^ [#31008] Sync up Platform Bootstrap
+ # [#30923] Notice in Tags.  Thanks Elin Waring
+ # [#30987] Menu type alias does not behave as expected [regression].  Thanks Elin Waring
+ # [#30868] MySQL specific syntax used in JTableCorecontent::storeUcmBase()
+ ^ [#30983] Move JPagination to the CMS tree
+ + [#30525] Add a PSR-0 compatible autoloader to JLoader.  Thanks Don Gilbert
+ ^ [#31028] *Multilang code quality normalisation.  Thanks Jean-Marie Simonet
+ ^$ [#30077] Install Sample Data - Options are confusing.  Thanks Peter Martin
+ # [#31044] media manager overlay preview broken.  Thanks landor landor
+ # [#31043] *Status filtering bug in categories Manager.  Thanks Jean-Marie Simonet
+ + [#30931] Allow folder names without 's' at the end.  Thanks Elin Waring and Buddhima Wijeweera
+ # [#30990] "404 Component not found" doesn't added to redirect component.  Thanks Ofer Cohen
+ # [#31064] Wrong access check for com_checkin.  Thanks Sander Potjer
+ ^ [#31025] Sync Database package to Platform
+
 24-May-2013 Michael Babker
  + [#31004] Add JTwitter package to /libraries/joomla.  Thanks Diana Prajescu
  ^ [#30985] *New JLayout for edit_associations.  Thanks Jean-Marie Simonet

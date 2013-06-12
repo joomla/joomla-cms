@@ -15,7 +15,7 @@
 abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 {
 	/**
-	 * @var    JDatabaseDriver  The active database driver being used for the tests.
+	 * @var    JDatabaseDriverOracle  The active database driver being used for the tests.
 	 * @since  12.1
 	 */
 	protected static $driver;
