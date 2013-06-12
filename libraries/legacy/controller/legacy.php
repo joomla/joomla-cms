@@ -1200,7 +1200,7 @@ class JControllerLegacy extends JObject
 		}
 
 		return $this;
-	}}
+	}
 	
 	/**
 	 * Method to check for request forgeries.
