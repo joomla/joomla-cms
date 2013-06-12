@@ -149,19 +149,26 @@ class SearchViewSearch extends JViewLegacy
 				}
 
 				$row = SearchHelper::prepareSearchContent($row, $needle);
-				$searchwords = array_unique($searchwords);
-				$searchRegex = '#(';
-				$x = 0;
-
+				$searchwords = array_values(array_unique($searchwords));
+				$srow = strtolower(SearchHelper::remove_accents($row));
+				$hl1 = '<span class="highlight">';
+				$hl2 = '</span>';
+				$cnt = 0;
+				
 				foreach ($searchwords as $k => $hlword)
 				{
-					$searchRegex .= ($x == 0 ? '' : '|');
-					$searchRegex .= preg_quote($hlword, '#');
-					$x++;
+					if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false) 
+					{
+						$pos += $cnt++ * mb_strlen($hl1 . $hl2);
+						// iconv transliterates '€' to 'EUR' 
+						// TODO: add other expanding translations?
+						$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
+						$pos -= $eur_compensation;
+						$row = mb_substr($row, 0, $pos) 
+							. $hl1 . mb_substr($row, $pos, mb_strlen($hlword)). $hl2
+							. mb_substr($row, $pos + mb_strlen($hlword));
+					}
 				}
-				$searchRegex .= ')#iu';
-
-				$row = preg_replace($searchRegex, '<span class="highlight">\0</span>', $row);
 
 				$result = &$results[$i];
 				if ($result->created)
