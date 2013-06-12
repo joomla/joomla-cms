@@ -48,12 +48,12 @@ $canDo		= SearchHelper::getActions();
 	<?php if ($this->enabled) : ?>
 	<div class="alert alert-info">
 		<a class="close" data-dismiss="alert">×</a>
-		<span class="enabled"><?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?></span>
+		<span class="plugin-enabled"><?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?></span>
 	</div>
 	<?php else : ?>
 	<div class="alert alert-error">
 		<a class="close" data-dismiss="alert">×</a>
-		<span class="disabled"><?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?></span>
+		<span class="plugin-disabled"><?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?></span>
 	</div>
 	<?php endif; ?>
 	<table class="table table-striped">
