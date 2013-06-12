@@ -547,11 +547,23 @@ class PlgSystemDebug extends JPlugin
 
 		$html .= '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $db->getCount()) . '</h4>';
 
-		$html .= '<ol>';
 
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
 
+		$timing = array();
+		$maxtime = 0;
+		foreach ($log as $k => $query)
+		{
+			if (isset($timings[$k * 2 + 1]))
+			{
+				// Compute the query time:
+				$timing[$k] = array(($timings[$k * 2 + 1] - $timings[$k * 2]) * 1000, $k > 0 ? ($timings[$k * 2] - $timings[$k * 2 - 1]) * 1000 : 0);
+				$maxtime = max($maxtime, $timing[$k]['0']);
+			}
+		}
+
+		$list = array();
 		foreach ($log as $k => $query)
 		{
 			// Start Query Type Ticker Additions
@@ -570,6 +582,7 @@ class PlgSystemDebug extends JPlugin
 
 			$fromString = substr($query, 0, $whereStart);
 			$fromString = str_replace("\t", " ", $fromString);
+			$fromString = str_replace("\n", " ", $fromString);
 			$fromString = str_replace("\n", " ", $fromString);
 			$fromString = trim($fromString);
 
@@ -596,13 +609,10 @@ class PlgSystemDebug extends JPlugin
 				unset($selectQueryTypeTicker[$fromString]);
 			}
 
-			$text = $this->highlightQuery($query);
+			$text = $this->highlightQuery($query) . ';';
 
-			if ($timings && isset($timings[$k*2+1]))
+			if (isset($timing[$k]))
 			{
-				// Compute the query time:
-				$queryTime = ($timings[$k*2+1]-$timings[$k*2])*1000;
-				$htmlTiming = sprintf('Query Time: %.3f ms', $queryTime);
 
 				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
 				$explain = null;
@@ -633,19 +643,35 @@ class PlgSystemDebug extends JPlugin
 				$tipProfile = htmlspecialchars($profile);
 
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
-				if ($queryTime > 10)
+				$perc = round($timing[$k]['0'] / $maxtime * 100);
+				if ($perc < 25)
 				{
-					$htmlTiming = '<span class="dbgQuery dbgQueryWarning hasTooltip" title="' . $tipProfile . '">' . $htmlTiming . '</span>';
+					$fillers = array($perc, 0, 0);
+				}
+				else if ($perc < 50)
+				{
+					$fillers = array(25, $perc - 25, 0);
 				}
 				else
 				{
-					$htmlTiming = '<span class="dbgQuery hasTooltip" title="' . $tipProfile . '">' . $htmlTiming . '</span>';
+					$fillers = array(25, 25, $perc - 50);
 				}
 
-				if ($k > 0)
+
+				$htmlTiming = '<div style="margin: 0px 0 5px;">' . sprintf('Query Time: <span class="label">%.3f ms</span>', $timing[$k]['0']);
+
+				if ($timing[$k]['1'])
 				{
-					$htmlTiming .= sprintf(' (%.1f ms after last query)', ($timings[$k*2]-$timings[$k*2-1])*1000);
+					$htmlTiming .= sprintf(' After last query: <span class="label">%.1f ms</span>', $timing[$k]['1']);
 				}
+
+				$htmlTiming .= '</div>';
+
+				$htmlTiming .= '<div class="progress dbgQuery hasTooltip" style="margin: 0px 0 5px;" title="' . $tipProfile . '">
+					<div class="bar bar-success" style="width: '.$fillers['0'].'%;"></div>
+					<div class="bar bar-warning" style="width: '.$fillers['1'].'%;"></div>
+					<div class="bar bar-danger" style="width: '.$fillers['2'].'%;"></div>
+					</div>';
 
 				// Backtrace/Called from:
 				$htmlCallStack = '';
@@ -658,23 +684,25 @@ class PlgSystemDebug extends JPlugin
 						{
 							$htmlFile = htmlspecialchars($functionCall['file']);
 							$htmlLine = htmlspecialchars($functionCall['line']);
-							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '">' . $htmlFile . '</a>:' . $htmlLine . '</span>';
+							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a> : ' . $htmlLine . '</span>';
 						}
 					}
 					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
-					$htmlCallStack = ' ' . 'from' . ' ' . '<span class="dbgQueryCallStack hasTooltip" title="' . $tipCallStack . '">' . $htmlCallStackElements[0] . '</span>';;
+					$htmlCallStack = '<span class="dbgQueryCallStack hasTooltip" title="' . $tipCallStack . '">' . $htmlCallStackElements[0] . '</span>';
 				}
 
-				$html .= '<li><code class="hasTooltip" title="' . $tipExplain . '">' . $text . ';' . '</code>' . ' ' . '<span class="dbgLogQueryTiming">' . $htmlTiming . $htmlCallStack . '</span></li>';
+				$list[] = $htmlTiming
+					. '<pre class="hasTooltip" title="' . $tipExplain . '">' . $text . '</pre>'
+					. $htmlCallStack;
 
 			}
 			else
 			{
-				$html .= '<li><code>' . $text . '</code></li>';
+				$list[] = '<pre>' . $text . '</pre>';
 			}
 		}
 
-		$html .= '</ol>';
+		$html .= '<ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
 
 		if (!$this->params->get('query_types', 1))
 		{
@@ -694,16 +722,15 @@ class PlgSystemDebug extends JPlugin
 
 			arsort($selectQueryTypeTicker);
 
-			$html .= '<ol>';
-
+			$list = array();
 			foreach ($selectQueryTypeTicker as $query => $occurrences)
 			{
-				$html .= '<li><code>'
-				. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
-				. '</code></li>';
+				$list[] = '<pre>'
+					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
+					. '</pre>';
 			}
 
-			$html .= '</ol>';
+			$html .= '<ol><li>' . implode('</li><li>', $list) . '</li></ol>';
 		}
 
 		if ($totalOtherQueryTypes)
@@ -712,15 +739,14 @@ class PlgSystemDebug extends JPlugin
 
 			arsort($otherQueryTypeTicker);
 
-			$html .= '<ol>';
-
+			$list = array();
 			foreach ($otherQueryTypeTicker as $query => $occurrences)
 			{
-				$html .= '<li><code>'
-				. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
-				. '</code></li>';
+				$list[] = '<pre>'
+					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
+					. '</pre>';
 			}
-			$html .= '</ol>';
+			$html .= '<ol><li>' . implode('</li><li>', $list) . '</li></ol>';
 		}
 
 		return $html;
@@ -743,9 +769,9 @@ class PlgSystemDebug extends JPlugin
 
 		$html = '<table class="table table-striped dbgQueryTable"><tr>';
 		foreach (array_keys($table[0]) as $k)
-			{
-				$html .= '<th>' . htmlspecialchars($k) . '</th>';
-			}
+		{
+			$html .= '<th>' . htmlspecialchars($k) . '</th>';
+		}
 		$html .= '</tr>';
 
 		$durations = array();
@@ -874,8 +900,8 @@ class PlgSystemDebug extends JPlugin
 				$html .= '<li>';
 
 				$html .= ($status)
-				? JText::_('PLG_DEBUG_LANG_LOADED')
-				: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
+					? JText::_('PLG_DEBUG_LANG_LOADED')
+					: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
 
 				$html .= ' : ';
 				$html .= $this->formatLink($file);
@@ -1000,17 +1026,17 @@ class PlgSystemDebug extends JPlugin
 
 		$regex = array(
 
-		// Tables are identified by the prefix
-		'/(=)/'
-		=> '<b class="dbgOperator">$1</b>',
+			// Tables are identified by the prefix
+			'/(=)/'
+			=> '<b class="dbgOperator">$1</b>',
 
-		// All uppercase words have a special meaning
-		'/(?<!\w|>)([A-Z_]{2,})(?!\w)/x'
-		=> '<span class="dbgCommand">$1</span>',
+			// All uppercase words have a special meaning
+			'/(?<!\w|>)([A-Z_]{2,})(?!\w)/x'
+			=> '<span class="dbgCommand">$1</span>',
 
-		// Tables are identified by the prefix
-		'/(' . JFactory::getDbo()->getPrefix() . '[a-z_0-9]+)/'
-		=> '<span class="dbgTable">$1</span>'
+			// Tables are identified by the prefix
+			'/(' . JFactory::getDbo()->getPrefix() . '[a-z_0-9]+)/'
+			=> '<span class="dbgTable">$1</span>'
 
 		);
 
