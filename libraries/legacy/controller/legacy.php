@@ -1136,7 +1136,7 @@ class JControllerLegacy extends JObject
 	 *
 	 * @since   12.2
 	 */
-	public function setMessage($msg, $type = 'message')
+	public function setMessage($msg, $type = null)
 	{
 		$previous = $this->message;
 		
