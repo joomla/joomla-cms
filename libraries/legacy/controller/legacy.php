@@ -390,15 +390,7 @@ class JControllerLegacy extends JObject
 		// Set the models prefix
 		if (empty($this->model_prefix))
 		{
-			if (array_key_exists('model_prefix', $config))
-			{
-				// User-defined prefix
-				$this->model_prefix = $config['model_prefix'];
-			}
-			else
-			{
-				$this->model_prefix = $this->name . 'Model';
-			}
+			$this->setModelPrefix($config);
 		}
 
 		// Set the default model search path
@@ -433,6 +425,26 @@ class JControllerLegacy extends JObject
 			$this->default_view = $this->getName();
 		}
 
+	}
+	
+	/**
+	 * Method to set the model_prefix
+	 * 
+	 * @param array $config An optional associative array of configuration settings.
+	 * 
+	 * @return void
+	 */
+	protected function setModelPrefix($config = array())
+	{
+		if (array_key_exists('model_prefix', $config))
+		{
+			// User-defined prefix
+			$this->model_prefix = $config['model_prefix'];
+		}
+		else
+		{
+			$this->model_prefix = $this->name . 'Model';
+		}
 	}
 
 	/**
@@ -519,21 +531,8 @@ class JControllerLegacy extends JObject
 
 			$result = in_array((int) $id, $values);
 
-			if (defined('JDEBUG') && JDEBUG)
-			{
-				JLog::add(
-					sprintf(
-						'Checking edit ID %s.%s: %d %s',
-						$context,
-						$id,
-						(int) $result,
-						str_replace("\n", ' ', print_r($values, 1))
-					),
-					JLog::INFO,
-					'controller'
-				);
-			}
-
+			$this->debugcheckEditId($context,$id,$result, $values);
+			
 			return $result;
 		}
 		else
@@ -543,6 +542,32 @@ class JControllerLegacy extends JObject
 		}
 	}
 
+	/**
+	 * Method to log debuging information for checkEditId()
+	 * 
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
+	 * @param   bool     $result   result of in_array()
+	 * @param	array    $values   array of values
+	 * 
+	 * @return void
+	 */
+	protected function debugcheckEditId($context, $id, $result, $values)
+	{
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$logMsg = sprintf
+					  (
+					  	'Checking edit ID %s.%s: %d %s', 
+						$context, 
+						$id,(int) 
+						$result,str_replace("\n", ' ', print_r($values, 1)
+					  );
+			 
+			JLog::add($logMsg, JLog::INFO, 'controller');
+		}
+	}
+	
 	/**
 	 * Method to load and return a model object.
 	 *
@@ -595,27 +620,43 @@ class JControllerLegacy extends JObject
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
 
-		if (!class_exists($viewClass))
+		if (class_exists($viewClass) || $this->includeViewClassFile($viewName, $viewType, $viewClass))
 		{
-			jimport('joomla.filesystem.path');
-			$path = JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
-
-			if ($path)
-			{
-				require_once $path;
-
-				if (!class_exists($viewClass))
-				{
-					throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
-				}
-			}
-			else
-			{
-				return null;
-			}
+			return new $viewClass($config);
 		}
-
-		return new $viewClass($config);
+		
+		return null;
+	}
+	
+	/**
+	 * Method to include a default view class file.
+	 * 
+	 *   @param string $viewName 
+	 *   @param string $viewType
+	 *   @param string $viewClass derived class name
+	 *   
+	 *   @return bool
+	 *   @throws Exception
+	 */
+	protected function includeViewClassFile($viewName, $viewType, $viewClass)
+	{
+		jimport('joomla.filesystem.path');
+		$path = JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+		
+		if ($path)
+		{
+			require_once $path;
+		}
+		
+		if (class_exists($viewClass))
+		{
+			return true;
+		}
+		else
+		{
+			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+			return false;
+		}
 	}
 
 	/**
@@ -652,7 +693,7 @@ class JControllerLegacy extends JObject
 		$conf = JFactory::getConfig();
 
 		// Display the view
-		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1)
+		if ($this->isCachable($cachable,$viewType,,$conf->get('caching')))
 		{
 			$option = $this->input->get('option');
 			$cache = JFactory::getCache($option, 'view');
@@ -687,6 +728,24 @@ class JControllerLegacy extends JObject
 		}
 
 		return $this;
+	}
+	
+	/**
+	 * Method to check if the view should be cached
+	 * 
+	 * @param bool $cachable If true, the view output should be cached
+	 * @param string $viewType type of view IE: html, feed, etc...
+	 * @param int $catchingConfig configuration setting 
+	 * 
+	 * @return bool
+	 */
+	protected function isCachable($cachable, $viewType, $catchingConfig)
+	{
+		if ($cachable && $viewType != 'feed' && $catchingConfig >= 1)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1087,5 +1146,15 @@ class JControllerLegacy extends JObject
 		}
 
 		return $this;
+	}
+	
+	/**
+	 * Method to check for request forgeries.
+	 * 
+	 * @return void
+	 */
+	protected function isValidSession()
+	{
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 	}
 }
