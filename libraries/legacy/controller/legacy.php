@@ -828,20 +828,12 @@ class JControllerLegacy extends JObject
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 
-			if (is_object($menu))
-			{
-				if ($item = $menu->getActive())
-				{
-					$params = $menu->getParams($item->id);
-
-					// Set default state data
-					$model->setState('parameters.menu', $params);
-				}
-			}
+			$menuParams = $this->getMenuParams();
+			$model->setState('parameters.menu', $params);
 		}
 		return $model;
 	}
-
+	
 	/**
 	 * Method to get the controller name
 	 *
@@ -868,6 +860,29 @@ class JControllerLegacy extends JObject
 		return $this->name;
 	}
 
+	/**
+	 * Method to get menu params for the active menu item
+	 *
+	 * @returns JRegistry Object
+	 */
+	protected function getMenuParams()
+	{
+		$app = JFactory::getApplication();
+		$menu = $app->getMenu();
+	
+		if (!is_object($menu))
+		{
+			return new JRegistry;
+		}
+	
+		$item = $menu->getActive();
+		if (is_null($item))
+		{
+			return new JRegistry;
+		}
+	
+		return $menu->getParams($item->id);
+	}
 	/**
 	 * Get the last task that is being performed or was most recently performed.
 	 *
@@ -960,23 +975,28 @@ class JControllerLegacy extends JObject
 			array_push($values, (int) $id);
 			$values = array_unique($values);
 			$app->setUserState($context . '.id', $values);
-
-			if (defined('JDEBUG') && JDEBUG)
-			{
-				JLog::add(
-					sprintf(
-						'Holding edit ID %s.%s %s',
-						$context,
-						$id,
-						str_replace("\n", ' ', print_r($values, 1))
-					),
-					JLog::INFO,
-					'controller'
-				);
-			}
+			$this->debugHoldEditId($context, $id, $values);
 		}
 	}
 
+	/**
+	 * Method to log debuging information for holdEditId()
+	 * 
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
+	 * @param	array    $values   array of values
+	 * 
+	 * @return void
+	 */
+	protected function debugHoldEditId($context,$id, $values)
+	{
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$logMsg = sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)));
+			JLog::add($logMsg,JLog::INFO,'controller');
+		}
+	}
+	
 	/**
 	 * Redirects the browser or returns false if no redirect is set.
 	 *
@@ -1069,20 +1089,27 @@ class JControllerLegacy extends JObject
 		{
 			unset($values[$index]);
 			$app->setUserState($context . '.id', $values);
-
-			if (defined('JDEBUG') && JDEBUG)
-			{
-				JLog::add(
-					sprintf(
-						'Releasing edit ID %s.%s %s',
-						$context,
-						$id,
-						str_replace("\n", ' ', print_r($values, 1))
-					),
-					JLog::INFO,
-					'controller'
-				);
-			}
+			
+			$this->debugReleaseEditId($context, $id, $values);
+		}
+	}
+	
+	/**
+	 * Method to log debuging information for releaseEditId()
+	 *
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
+	 * @param   bool     $result   result of in_array()
+	 * @param	array    $values   array of values
+	 *
+	 * @return void
+	 */
+	protected function debugReleaseEditId($context, $id, $values)
+	{
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$logMsg = sprintf('Releasing edit ID %s.%s %s', $context,$id, str_replace("\n", ' ', print_r($values, 1)));
+			JLog::add($logMsg, JLog::INFO, 'controller');
 		}
 	}
 
@@ -1096,10 +1123,17 @@ class JControllerLegacy extends JObject
 	 *
 	 * @since   12.2
 	 */
-	public function setMessage($text, $type = 'message')
+	public function setMessage($msg, $type = 'message')
 	{
 		$previous = $this->message;
-		$this->message = $text;
+		$this->message = $msg;
+
+		// I'm not sure we need this check, but I redirected the logic from setRedirect to here and this was one of the checks going on there.
+		if (empty($type))
+		{
+			$type = 'message';
+		}
+		
 		$this->messageType = $type;
 
 		return $previous;
@@ -1139,26 +1173,9 @@ class JControllerLegacy extends JObject
 	public function setRedirect($url, $msg = null, $type = null)
 	{
 		$this->redirect = $url;
-		if ($msg !== null)
-		{
-			// Controller may have set this directly
-			$this->message = $msg;
-		}
-
-		// Ensure the type is not overwritten by a previous call to setMessage.
-		if (empty($type))
-		{
-			if (empty($this->messageType))
-			{
-				$this->messageType = 'message';
-			}
-		}
-		// If the type is explicitly set, set it.
-		else
-		{
-			$this->messageType = $type;
-		}
-
+		
+		$this->setMessage($msg, $type);
+		
 		return $this;
 	}
 	
