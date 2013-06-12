@@ -91,7 +91,8 @@ class JControllerAdmin extends JControllerLegacy
 		{
 			try 
 			{
-				$view_list = $this->guessViewList()
+				$classNameArray = $this->getClassNameAsArray();
+				$view_list = strtolower($classNameArray[2]);
 			}
 			catch (Exception $e)
 			{
@@ -100,24 +101,6 @@ class JControllerAdmin extends JControllerLegacy
 			
 			$this->view_list = $view_list;
 		}
-	}
-
-	/**
-	 * Method to guess the list view as the controller suffix.
-	 * eg: OptionControllerSuffix.
-	 * 
-	 * @return string
-	 * @throws Exception
-	 */
-	protected function guessViewList()
-	{
-		$classNameArray = null;
-		if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $classNameArray))
-		{
-			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			return false;
-		}
-		return strtolower($classNameArray[2]);
 	}
 
 	/**

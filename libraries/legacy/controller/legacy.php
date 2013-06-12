@@ -849,17 +849,30 @@ class JControllerLegacy extends JObject
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
+			$r = $this->getClassNameAsArray();
 			$this->name = strtolower($r[1]);
 		}
-
+		
 		return $this->name;
 	}
 
+	/**
+	 * Method to break the the controller class name into an array using preg_match
+	 * 
+	 * @return mixed Array or false
+	 * @throws Exception
+	 */
+	protected function getClassNameAsArray()
+	{
+		$classNameArray = null;
+		if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $classNameArray))
+		{
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+			return false;
+		}
+		return $classNameArray;
+	}
+	
 	/**
 	 * Method to get menu params for the active menu item
 	 *
