@@ -45,6 +45,7 @@
 			filter="raw"
 			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
 			size="30"
+			validate="password"
 		/>
 
 		<field name="email1" type="email"
