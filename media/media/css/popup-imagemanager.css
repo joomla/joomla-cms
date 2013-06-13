@@ -197,3 +197,12 @@ li a#upload-start:hover {
 label.hidelabeltxt {
 	text-indent: -9999em;
 }
+
+/* makes DIVs .well smaller */
+form#imageForm div.well {
+    padding: 5px;
+    margin-bottom: 10px;
+}
+form#uploadForm .well {
+    padding: 8px 5px;
+}

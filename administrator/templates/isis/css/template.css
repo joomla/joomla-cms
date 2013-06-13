@@ -6881,6 +6881,12 @@ h6 {
 #system-debug {
 	padding-bottom: 50px;
 }
+#imageForm button#upbutton {
+    left: 5px;
+    position: relative;
+    top: -9px;
+}
+
 #status {
 	background: #EDEDED;
 	border-top: 1px solid #DDDDDD;
