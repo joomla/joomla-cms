@@ -49,9 +49,6 @@ class JFormRulePassword extends JFormRule
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
 		$field = (string) $element['field'];
-		// If we have parameters from com_users, use those instead.
-		// Some of these may be empty for legacy reasons.
-		$params = JComponentHelper::getParams('com_users');
 
 		$meter		= isset($this->element['strengthmeter'])  ? ' meter="0"' : '1';
 		$threshold	= isset($this->element['threshold']) ? (int) $this->element['threshold'] : 66;
@@ -59,6 +56,10 @@ class JFormRulePassword extends JFormRule
 		$minimumIntegers = isset($this->element['minimum_integers']) ? (int) $this->element['minimum_integers'] : 0;
 		$minimumSymbols = isset($this->element['minimum_symbols']) ? (int) $this->element['minimum_symbols'] : 0;
 		$minimumUppercase = isset($this->element['minimum_uppercase']) ? (int) $this->element['minimum_uppercase'] : 0;
+
+		// If we have parameters from com_users, use those instead.
+		// Some of these may be empty for legacy reasons.
+		$params = JComponentHelper::getParams('com_users');
 
 		if(!empty($params))
 		{
@@ -69,7 +70,7 @@ class JFormRulePassword extends JFormRule
 			$meterp = $params->get('meter');
 			$thresholdp = $params->get('threshold');
 
-			empty($minimumLength) ? : $minimumLength = (int) $minimumLengthp;
+			empty($minimumLengthp) ? : $minimumLength = (int) $minimumLengthp;
 			empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
 			empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
 			empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
