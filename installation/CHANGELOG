@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
  $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker
  # [#30779] Fatal error in single contact category list if category is unpublished. Thanks Elin Waring.
+ # [#31122] archived articles module shows multiple entries same month. Thanks David Hurley.
 
 11-Jun-2013 Jean-Marie Simonet
  $ Adding Czech cs-CZ to installation language files
