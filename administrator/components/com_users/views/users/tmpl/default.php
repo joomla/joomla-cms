@@ -15,6 +15,7 @@ JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 
 $canDo = UsersHelper::getActions();
+$user = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
