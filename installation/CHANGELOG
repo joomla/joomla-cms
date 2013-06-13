@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 13-Jun-2013 Jean-Marie Simonet
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
+ # [#31120] [2.5] *plug-in manager search give errors and warning for '/','*' and '\
 
 07-Jun-2013 Jean-Marie Simonet
  + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets 
