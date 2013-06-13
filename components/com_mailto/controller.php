@@ -128,9 +128,7 @@ class MailtoController extends JControllerLegacy
 		// Build the message to send
 		$msg	= JText::_('COM_MAILTO_EMAIL_MSG');
 
-		// We want to render the link in the message in idn. The email of the sender
-		// is left as it was entered.
-		$link = JStringPunycode::urlToUTF8($link);
+		$link = $link;
 		$body	= sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data

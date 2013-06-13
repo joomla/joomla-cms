@@ -152,7 +152,7 @@ class ContactControllerContact extends JControllerForm
 			$copytext 	= JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 
 			$name		= $data['contact_name'];
-			$email		= $data['contact_email'];
+			$email		= JstringPunycode::emailToPunycode($data['contact_email']);
 			$subject	= $data['contact_subject'];
 			$body		= $data['contact_message'];
 
