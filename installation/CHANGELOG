@@ -29,6 +29,7 @@ $ -> Language fix or change
  ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
  # [#31147] *Install sample data None does not display tooltip.
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
+ # [#30354] Invalid Javascript Redirect in JApplication::redirect() when headers have already been sent. Thanks Ben Tasker.
 
 11-Jun-2013 Jean-Marie Simonet
  $ Adding Czech cs-CZ to installation language files
