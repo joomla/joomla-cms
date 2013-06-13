@@ -581,7 +581,86 @@ class PlgSystemDebug extends JPlugin
 			$totalBargraphTime = 1;
 		}
 
-		$hasTipCssClass = 'hasPopover';		// $hasTipCssClass = JFactory::getApplication()->isAdmin() ? 'hasTip' : 'hasToolTip';
+		$bars = array();
+		$info = array();
+		foreach ($log as $k => $query)
+		{
+			if ($timings && isset($timings[$k*2+1]))
+			{
+				// Compute the query time:
+				$queryTime = ($timings[$k * 2 + 1]-$timings[$k * 2]) * 1000;
+
+				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
+				$hasWarnings = false;
+				$hasWarningsInProfile = false;
+
+				if (isset($this->explains[$k]))
+				{
+					$explain = $this->tableToHtml($this->explains[$k], $hasWarnings);
+				}
+				else
+				{
+					$explain = 'Failed EXPLAIN on query: ' . htmlspecialchars($query);
+				}
+
+				// Run a SHOW PROFILE query:
+				$profile = '';
+				if (in_array($db->name, array('mysqli','mysql')))
+				{
+					if (isset($this->sqlShowProfileEach[$k]))
+					{
+						$profileTable = $this->sqlShowProfileEach[$k];
+						$profile = $this->tableToHtml($profileTable, $hasWarningsInProfile);
+					}
+					else
+					{
+						$profile = 'No SHOW PROFILE (maybe because more than 100 queries)';
+					}
+				}
+
+
+				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN:
+				if ($queryTime < 4)
+				{
+					$barClass = $hasWarnings ? 'bar-warning' : 'bar-success';
+					$labelClass = 'label-success';
+				}
+				elseif ($queryTime > 10)
+				{
+					$barClass = 'bar-danger';
+					$labelClass = 'label-important';
+				}
+				else
+				{
+					$barClass = 'bar-warning';
+					$labelClass = 'label-warning';
+				}
+
+				// Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time:
+				$barPrev = round($timing[$k]['1'] / ($totalBargraphTime*10), 4);
+				$barWidth = round($timing[$k]['0'] / ($totalBargraphTime*10), 4);
+
+				$bars[$k] = (object) array(
+					'class' => $barClass,
+					'width' => $barWidth,
+					'prev' => $barPrev,
+					'pos' => ($k && isset($bars[$k-1])) ? $bars[$k-1]->pos + $bars[$k-1]->width + $barPrev : 0,
+				);
+				$info[$k] = (object) array(
+					'class' => $labelClass,
+					'explain' => $explain,
+					'profile' => $profile
+				);
+
+			}
+		}
+		$barhtml = array();
+		foreach($bars as $i => $bar) {
+			$barhtml[] = '<div class="bar" style="background:transparent; width:'. $bar->prev .'%;"></div>';
+			$barhtml[] = '<div class="bar  ' . $bar->class . '" style="width: '. $bar->width .'%;"></div>';
+
+		}
+		$barhtml = implode('', $barhtml);
 
 		$list = array();
 		foreach ($log as $k => $query)
@@ -635,75 +714,8 @@ class PlgSystemDebug extends JPlugin
 				// Compute the query time:
 				$queryTime = ($timings[$k * 2 + 1]-$timings[$k * 2]) * 1000;
 
-				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
-				$explain = null;
-				$hasWarnings = false;
-				$hasWarningsInProfile = false;
-
-				if (isset($this->explains[$k]))
-				{
-					$explain = $this->tableToHtml($this->explains[$k], $hasWarnings);
-				}
-				else
-				{
-					$explain = 'Failed EXPLAIN on query: ' . htmlspecialchars($query);
-				}
-				$tipExplain = htmlspecialchars($explain);
-
-				// Run a SHOW PROFILE query:
-				$profile = null;
-				if (in_array($db->name, array('mysqli','mysql')))
-				{
-					if (isset($this->sqlShowProfileEach[$k]))
-					{
-						$profileTable = $this->sqlShowProfileEach[$k];
-						$profile = $this->tableToHtml($profileTable, $hasWarningsInProfile);
-					}
-					else
-					{
-						$profile = 'No SHOW PROFILE (maybe because more than 100 queries)';
-					}
-				}
-				$tipProfile = htmlspecialchars($profile);
-
-				// Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time:
-				$bargraphBeginPercents = round(100.0 * ($timings[$k * 2] - $startTime) / $totalBargraphTime, 1);
-				$bargraphWidthPercents = round(100.0 * ($timings[$k * 2 + 1] - $timings[$k * 2]) / $totalBargraphTime, 1);
-				if ($bargraphWidthPercents < 0.3)
-				{
-					$bargraphWidthPercents = 0.3;
-				}
-				if ($bargraphBeginPercents + $bargraphWidthPercents > 100)
-				{
-					$bargraphBeginPercents = 100 - $bargraphWidthPercents;
-				}
-
-				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN:
-				if ($queryTime < 4)
-				{
-					if ($hasWarnings)
-					{
-						$bargraphColorCSS = 'bar-warning';
-					}
-					else
-					{
-						$bargraphColorCSS = 'bar-success';
-					}
-					$labelCSS = null;
-				}
-				elseif ($queryTime > 10)
-				{
-					$bargraphColorCSS = 'bar-danger';
-					$labelCSS = ' label-important';
-				}
-				else
-				{
-					$bargraphColorCSS = 'bar-warning';
-					$labelCSS = ' label-warning';
-				}
-
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
-				$htmlTiming = '<div style="margin: 0px 0 5px;">' . sprintf('Query Time: <span class="label' . $labelCSS . '">%.3f ms</span>', $timing[$k]['0']);
+				$htmlTiming = '<div style="margin: 0px 0 5px;">' . sprintf('Query Time: <span class="label ' . $info[$k]->class . '">%.3f ms</span>', $timing[$k]['0']);
 
 				if ($timing[$k]['1'])
 				{
@@ -712,10 +724,11 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlTiming .= '</div>';
 
-				$htmlTiming .= '<div class="progress dbgQuery ' . $hasTipCssClass . '" style="margin: 0px 0 5px;" title="PROFILE QUERY" data-content="' . $tipProfile . '">'
-				. '<div class="bar" style="background: transparent; width: '. $bargraphBeginPercents .'%;"></div>'
-				. '<div class="bar  ' . $bargraphColorCSS . '" style="width: '. $bargraphWidthPercents .'%;"></div>'
-				. '</div>';
+
+				$htmlTiming .= '<span class="icon-arrow-down" style="margin-left:-6.5px;padding-left:'.($bars[$k]->pos+($bars[$k]->width/2)).'%"></span>';
+
+				$htmlTiming .= '<div class="progress dbgQuery hasPopover" style="margin: 0px 0 5px;" title="PROFILE QUERY" data-content="' . htmlspecialchars($info[$k]->profile) . '">'
+					. $barhtml . '</div>';
 
 				// Backtrace/Called from:
 				$htmlCallStack = '';
@@ -734,14 +747,17 @@ class PlgSystemDebug extends JPlugin
 					}
 					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
 					$firstfile = preg_replace('/<a.*>(.*)<\/a>/', '\1', $htmlCallStackElements[0]);
-					$callStackHelpText = ' (click to see call-stack' . ( $this->linkFormat ? '' : ', ' . '<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'configure for links' . '</a>') . ')';
-					$htmlCallStack = '<span class="dbgQueryCallStack ' . $hasTipCssClass . '" title="Call-Stack" data-content="' . $tipCallStack . '" data-trigger="click">' . $firstfile . ' ' . $callStackHelpText . '</span>';
+					$htmlCallStack = '<h4>Call Stack</h4>'
+						. $firstfile
+						. ' [<a href="javascript://Call-Stack" class="dbgQueryCallStack hasPopover" title="Call-Stack" data-content="' . $tipCallStack . '" data-trigger="click">More...</a>]'
+						. ' [<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'Config for Link Format' . '</a>]';
 				}
 
 				$list[] = $htmlTiming
-					. '<pre class="' . $hasTipCssClass . '" title="EXPLAIN" data-content="' . $tipExplain . '">' . $text . '</pre>'
+					. '<pre>' . $text . '</pre>'
+					.'<h4>EXPLAIN</h4>'
+					. $info[$k]->explain
 					. $htmlCallStack;
-
 			}
 			else
 			{
