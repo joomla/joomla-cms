@@ -585,10 +585,10 @@ class PlgSystemDebug extends JPlugin
 		$info = array();
 		foreach ($log as $k => $query)
 		{
-			if ($timings && isset($timings[$k*2+1]))
+			if ($timings && isset($timings[$k * 2 + 1]))
 			{
 				// Compute the query time:
-				$queryTime = ($timings[$k * 2 + 1]-$timings[$k * 2]) * 1000;
+				$queryTime = ($timings[$k * 2 + 1] - $timings[$k * 2]) * 1000;
 
 				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
 				$hasWarnings = false;
@@ -605,7 +605,7 @@ class PlgSystemDebug extends JPlugin
 
 				// Run a SHOW PROFILE query:
 				$profile = '';
-				if (in_array($db->name, array('mysqli','mysql')))
+				if (in_array($db->name, array('mysqli', 'mysql')))
 				{
 					if (isset($this->sqlShowProfileEach[$k]))
 					{
@@ -617,7 +617,6 @@ class PlgSystemDebug extends JPlugin
 						$profile = 'No SHOW PROFILE (maybe because more than 100 queries)';
 					}
 				}
-
 
 				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN:
 				if ($queryTime < 4)
@@ -637,28 +636,27 @@ class PlgSystemDebug extends JPlugin
 				}
 
 				// Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time:
-				$barPrev = round($timing[$k]['1'] / ($totalBargraphTime*10), 4);
-				$barWidth = round($timing[$k]['0'] / ($totalBargraphTime*10), 4);
+				$barPrev = round($timing[$k]['1'] / ($totalBargraphTime * 10), 4);
+				$barWidth = round($timing[$k]['0'] / ($totalBargraphTime * 10), 4);
 
 				$bars[$k] = (object) array(
 					'class' => $barClass,
 					'width' => $barWidth,
 					'prev' => $barPrev,
-					'pos' => ($k && isset($bars[$k-1])) ? $bars[$k-1]->pos + $bars[$k-1]->width + $barPrev : 0,
+					'pos' => ($k && isset($bars[$k - 1])) ? $bars[$k - 1]->pos + $bars[$k - 1]->width + $barPrev : 0,
 				);
 				$info[$k] = (object) array(
 					'class' => $labelClass,
 					'explain' => $explain,
 					'profile' => $profile
 				);
-
 			}
 		}
 		$barhtml = array();
-		foreach($bars as $i => $bar) {
-			$barhtml[] = '<div class="bar" style="background:transparent; width:'. $bar->prev .'%;"></div>';
-			$barhtml[] = '<div class="bar  ' . $bar->class . '" style="width: '. $bar->width .'%;"></div>';
-
+		foreach ($bars as $i => $bar)
+		{
+			$barhtml[] = '<div class="bar" style="background:transparent; width:' . $bar->prev . '%;"></div>';
+			$barhtml[] = '<div class="bar  ' . $bar->class . '" style="width: ' . $bar->width . '%;"></div>';
 		}
 		$barhtml = implode('', $barhtml);
 
@@ -709,10 +707,10 @@ class PlgSystemDebug extends JPlugin
 
 			$text = $this->highlightQuery($query);
 
-			if ($timings && isset($timings[$k*2+1]))
+			if ($timings && isset($timings[$k * 2 + 1]))
 			{
 				// Compute the query time:
-				$queryTime = ($timings[$k * 2 + 1]-$timings[$k * 2]) * 1000;
+				$queryTime = ($timings[$k * 2 + 1] - $timings[$k * 2]) * 1000;
 
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
 				$htmlTiming = '<div style="margin: 0px 0 5px;">' . sprintf('Query Time: <span class="label ' . $info[$k]->class . '">%.3f ms</span>', $timing[$k]['0']);
@@ -724,8 +722,7 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlTiming .= '</div>';
 
-
-				$htmlTiming .= '<span class="icon-arrow-down" style="margin-left:-6.5px;padding-left:'.($bars[$k]->pos+($bars[$k]->width/2)).'%"></span>';
+				$htmlTiming .= '<span class="icon-arrow-down" style="margin-left:-6.5px;padding-left:' . ($bars[$k]->pos + ($bars[$k]->width / 2)) . '%"></span>';
 
 				$htmlTiming .= '<div class="progress dbgQuery hasPopover" style="margin: 0px 0 5px;" title="PROFILE QUERY" data-content="' . htmlspecialchars($info[$k]->profile) . '">'
 					. $barhtml . '</div>';
@@ -737,25 +734,28 @@ class PlgSystemDebug extends JPlugin
 					$htmlCallStackElements = array();
 					foreach ($callStacks[$k] as $functionCall)
 					{
-						if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'],'/libraries/joomla/database/') === false))
+						if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'], '/libraries/joomla/database/') === false))
 						{
 							$htmlFile = htmlspecialchars($functionCall['file']);
 							$htmlLine = htmlspecialchars($functionCall['line']);
 							// $htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a>&nbsp;:&nbsp;' . $htmlLine . '</span>';
-							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom">' . $this->formatLink($htmlFile, $htmlLine). '</span>';
+							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom">' . $this->formatLink($htmlFile, $htmlLine) . '</span>';
 						}
 					}
-					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
+					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode('</div><div>', $htmlCallStackElements) . '</div></div>');
 					$firstfile = preg_replace('/<a.*>(.*)<\/a>/', '\1', $htmlCallStackElements[0]);
 					$htmlCallStack = '<h4>Call Stack</h4>'
 						. $firstfile
-						. ' [<a href="javascript://Call-Stack" class="dbgQueryCallStack hasPopover" title="Call-Stack" data-content="' . $tipCallStack . '" data-trigger="click">More...</a>]'
-						. ' [<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'Config for Link Format' . '</a>]';
+						. ' [<a href="javascript://Call-Stack" class="dbgQueryCallStack hasPopover" title="Call-Stack" data-content="' . $tipCallStack . '" data-trigger="click">More...</a>]';
+					if (!$this->linkFormat)
+					{
+						$htmlCallStack .= ' [<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'Config for Link Format' . '</a>]';
+					}
 				}
 
 				$list[] = $htmlTiming
 					. '<pre>' . $text . '</pre>'
-					.'<h4>EXPLAIN</h4>'
+					. '<h4>EXPLAIN</h4>'
 					. $info[$k]->explain
 					. $htmlCallStack;
 			}
