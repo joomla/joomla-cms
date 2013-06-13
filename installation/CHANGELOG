@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 13-Jun-2013 Jean-Marie Simonet
  ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
+ # [#31147] *Install sample data None does not display tooltip.
 
 11-Jun-2013 Jean-Marie Simonet
  $ Adding Czech cs-CZ to installation language files
