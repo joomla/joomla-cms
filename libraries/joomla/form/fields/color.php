@@ -76,7 +76,7 @@ class JFormFieldColor extends JFormField
 					'#f89406',
 					'#c3325f',
 					'#7a43b6',
-					'#FFFFFF',
+					'#ffffff',
 					'#999999',
 					'#555555',
 					'#000000'
