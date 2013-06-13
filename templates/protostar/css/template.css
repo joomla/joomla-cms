@@ -6609,10 +6609,6 @@ body.site.fluid {
 .accordion-group {
 	background: #fff;
 }
-.select[multiple],
-select[size] {
-	height: 28px;
-}
 .site-title {
 	font-size: 40px;
 	line-height: 48px;
