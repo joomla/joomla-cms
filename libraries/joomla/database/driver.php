@@ -93,6 +93,19 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $log = array();
 
 	/**
+	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
+	 * @since  CMS 3.1.2
+	 */
+	protected $timings = array();
+
+
+	/**
+	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
+	 * @since  CMS 3.1.2
+	 */
+	protected $callStacks = array();
+
+	/**
 	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
 	 *                 etc.  The child classes should define this as necessary.  If a single character string the
 	 *                 same character is used for both sides of the quoted name, else the first character will be
@@ -169,6 +182,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since  12.3
 	 */
 	protected $transactionDepth = 0;
+
+	/**
+	 * @var    callable[]  List of callables to call just before disconnecting database
+	 * @since  CMS 3.1.2
+	 */
+	protected $disconnectHandlers = array();
 
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
@@ -465,6 +484,19 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function disconnect();
 
 	/**
+	 * Adds a function callable just before disconnecting the database. Parameter of the callable is $this JDatabaseDriver
+	 *
+	 * @param   callable  $callable  Function to call in disconnect() method just before disconnecting from database
+	 * @return  void
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function addDisconnectHandler($callable)
+	{
+		$this->disconnectHandlers[] = $callable;
+	}
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $table     The name of the database table to drop.
@@ -653,6 +685,30 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getLog()
 	{
 		return $this->log;
+	}
+
+	/**
+	 * Get the database driver SQL statement log.
+	 *
+	 * @return  array  SQL statements executed by the database driver.
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getTimings()
+	{
+		return $this->timings;
+	}
+
+	/**
+	 * Get the database driver SQL statement log.
+	 *
+	 * @return  array  SQL statements executed by the database driver.
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getCallStacks()
+	{
+		return $this->callStacks;
 	}
 
 	/**
