@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#31128] Double category description newsfeed categories. Thanks Rob de Cleen and David Hurley
  # [#30150] com_content loads articles before error checking. Thanks Richard McDaniel.
  # [#29424] Multilevel select collapsed. Thanks Sergey Romanov.
+ + [#31130] Added js files to protostar template and modified index.php. Thanks Buddhima Wijeweera
 
 11-Jun-2013 Jean-Marie Simonet
  $ Adding Czech cs-CZ to installation language files
