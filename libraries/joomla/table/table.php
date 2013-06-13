@@ -492,7 +492,8 @@ abstract class JTable extends JObject
 			// If empty primary key there's is no need to load anything
 			if (empty($keyValue))
 			{
-				return true;
+				// Row not found, return false.
+				return false;
 			}
 
 			$keys = array($keyName => $keyValue);
