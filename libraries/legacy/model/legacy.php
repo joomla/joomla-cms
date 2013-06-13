@@ -314,7 +314,8 @@ abstract class JModelLegacy extends JObject
 	protected function _getListCount($query)
 	{
 		// Use fast COUNT(*) on JDatabaseQuery objects.
-		if ($query instanceof JDatabaseQuery) {
+		if ($query instanceof JDatabaseQuery)
+		{
 			$query = clone $query;
 			$query->clear('select')->clear('order')->select('COUNT(*)');
 
