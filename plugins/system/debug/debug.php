@@ -115,7 +115,7 @@ class PlgSystemDebug extends JPlugin
 
 		// Prepare disconnect-handler for SQL profiling:
 		$db	= JFactory::getDbo();
-		$db->addDisconnectHandler(array($this,'mysqlDisconnectHandler'));
+		$db->addDisconnectHandler(array($this, 'mysqlDisconnectHandler'));
 	}
 
 	/**
@@ -559,7 +559,7 @@ class PlgSystemDebug extends JPlugin
 		if (isset($timings[0]))
 		{
 			$startTime = $timings[0];
-			$endTime = $timings[count($timings) -1];
+			$endTime = $timings[count($timings) - 1];
 			$totalBargraphTime = $endTime - $startTime;
 			if ( $totalBargraphTime > 0 )
 			{
@@ -630,10 +630,10 @@ class PlgSystemDebug extends JPlugin
 
 			$text = $this->highlightQuery($query);
 
-			if ($timings && isset($timings[$k*2+1]))
+			if ($timings && isset($timings[$k * 2 + 1]))
 			{
 				// Compute the query time:
-				$queryTime = ($timings[$k * 2 + 1]-$timings[$k * 2]) * 1000;
+				$queryTime = ($timings[$k * 2 + 1] - $timings[$k * 2]) * 1000;
 
 				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
 				$explain = null;
@@ -652,7 +652,7 @@ class PlgSystemDebug extends JPlugin
 
 				// Run a SHOW PROFILE query:
 				$profile = null;
-				if (in_array($db->name, array('mysqli','mysql')))
+				if (in_array($db->name, array('mysqli', 'mysql')))
 				{
 					if (isset($this->sqlShowProfileEach[$k]))
 					{
@@ -713,8 +713,8 @@ class PlgSystemDebug extends JPlugin
 				$htmlTiming .= '</div>';
 
 				$htmlTiming .= '<div class="progress dbgQuery ' . $hasTipCssClass . '" style="margin: 0px 0 5px;" title="PROFILE QUERY" data-content="' . $tipProfile . '">'
-				. '<div class="bar" style="background: transparent; width: '. $bargraphBeginPercents .'%;"></div>'
-				. '<div class="bar  ' . $bargraphColorCSS . '" style="width: '. $bargraphWidthPercents .'%;"></div>'
+				. '<div class="bar" style="background: transparent; width: ' . $bargraphBeginPercents . '%;"></div>'
+				. '<div class="bar  ' . $bargraphColorCSS . '" style="width: ' . $bargraphWidthPercents . '%;"></div>'
 				. '</div>';
 
 				// Backtrace/Called from:
@@ -724,15 +724,15 @@ class PlgSystemDebug extends JPlugin
 					$htmlCallStackElements = array();
 					foreach ($callStacks[$k] as $functionCall)
 					{
-						if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'],'/libraries/joomla/database/') === false))
+						if (isset($functionCall['file']) && isset($functionCall['line']) && (strpos($functionCall['file'], '/libraries/joomla/database/') === false))
 						{
 							$htmlFile = htmlspecialchars($functionCall['file']);
 							$htmlLine = htmlspecialchars($functionCall['line']);
 							// $htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a>&nbsp;:&nbsp;' . $htmlLine . '</span>';
-							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom">' . $this->formatLink($htmlFile, $htmlLine). '</span>';
+							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom">' . $this->formatLink($htmlFile, $htmlLine) . '</span>';
 						}
 					}
-					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode( '</div><div>', $htmlCallStackElements) . '</div></div>');
+					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode('</div><div>', $htmlCallStackElements) . '</div></div>');
 					$firstfile = preg_replace('/<a.*>(.*)<\/a>/', '\1', $htmlCallStackElements[0]);
 					$callStackHelpText = ' (click to see call-stack' . ( $this->linkFormat ? '' : ', ' . '<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'configure for links' . '</a>') . ')';
 					$htmlCallStack = '<span class="dbgQueryCallStack ' . $hasTipCssClass . '" title="Call-Stack" data-content="' . $tipCallStack . '" data-trigger="click">' . $firstfile . ' ' . $callStackHelpText . '</span>';
@@ -922,12 +922,12 @@ class PlgSystemDebug extends JPlugin
 				foreach ($this->sqlShowProfiles as $qn)
 				{
 					$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
-					$this->sqlShowProfileEach[(int) ($qn['Query_ID']-1)] = $db->loadAssocList();
+					$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
 				}
 			}
 		}
 
-		if (in_array($db->name, array('mysqli','mysql', 'postgresql')))
+		if (in_array($db->name, array('mysqli', 'mysql', 'postgresql')))
 		{
 			$log = $db->getLog();
 			foreach ($log as $k => $query)
