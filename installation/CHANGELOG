@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#31147] *Install sample data None does not display tooltip.
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
  $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker
+ # [#30779] Fatal error in single contact category list if category is unpublished. Thanks Elin Waring.
 
 11-Jun-2013 Jean-Marie Simonet
  $ Adding Czech cs-CZ to installation language files
