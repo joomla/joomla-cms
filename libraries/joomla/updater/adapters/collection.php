@@ -244,7 +244,7 @@ class JUpdaterCollection extends JUpdateAdapter
 			$response = null;
 		}
 
-		if (!isset($reponse) || 200 != $response->code)
+		if (!isset($response) || 200 != $response->code)
 		{
 			$query = $db->getQuery(true)
 				->update('#__update_sites')
