@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.updater.updateadapter');
+
 /**
  * Extension class for updater
  *
@@ -171,8 +172,18 @@ class JUpdaterExtension extends JUpdateAdapter
 		$db = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
-		if (!empty($response->code) && 200 != $response->code)
+
+		// JHttp transport throws an exception when there's no reponse.
+		try
+		{
+			$response = $http->get($url);
+		}
+		catch (Exception $e)
+		{
+			$response = null;
+		}
+
+		if (!isset($response) || (!empty($response->code) && 200 != $response->code))
 		{
 			$query = $db->getQuery(true)
 				->update('#__update_sites')
