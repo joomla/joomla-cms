@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Save Controller for global configuration
  *
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_services
  * @since       3.2
 */
