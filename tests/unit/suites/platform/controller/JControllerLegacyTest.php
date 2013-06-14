@@ -510,7 +510,7 @@ class JControllerLegacyTest extends TestCase
 	{
 		$this->class->setMessage(null);
 		$this->assertAttributeEquals(null, 'message', $this->class, 'Checks the message.');
-		$this->assertAttributeEquals(null, 'messageType', $this->class, 'Checks the message type.');
+		$this->assertAttributeEquals('message', 'messageType', $this->class, 'Checks the message type.');
 	}
 
 	/**
