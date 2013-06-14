@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_services
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
  * Save Controller for global configuration
  *
  * @package     Joomla.Administrator
- * @subpackage  com_config
+ * @subpackage  com_services
  * @since       3.2
 */
 class ServicesControllerConfigSave extends JControllerBase
