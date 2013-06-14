@@ -1126,6 +1126,7 @@ class JControllerLegacy extends JObject
 		}
 	}
 
+
 	/**
 	 * Sets an entire array of search paths for resources.
 	 *
@@ -1162,7 +1163,22 @@ class JControllerLegacy extends JObject
 		$this->redirect = $url;
 		if ($msg !== null)
 		{
-			$this->setMessage($msg, $type);
+			// Controller may have set this directly
+			$this->message = $msg;
+		}
+
+		// Ensure the type is not overwritten by a previous call to setMessage.
+		if (empty($type))
+		{
+			if (empty($this->messageType))
+			{
+				$this->messageType = 'message';
+			}
+		}
+		// If the type is explicitly set, set it.
+		else
+		{
+			$this->messageType = $type;
 		}
 
 		return $this;
@@ -1181,26 +1197,26 @@ class JControllerLegacy extends JObject
 	public function setMessage($msg, $type = null)
 	{
 		$previous = $this->message;
-		
+
 		$shouldSetType = false;
 		$msgType = 'message';
-		
+
 		if ($msg !== null)
 		{
 			$this->message = $msg;
 			$shouldSetType = true;
 		}
-		
+
 		if ($type !== null)
 		{
 			$msgType = $type;
 		}
-		
+
 		if ($shouldSetType)
 		{
 			$this->messageType = $msgType;
 		}	
-		
+
 		return $previous;
 	}
 	
