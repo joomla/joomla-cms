@@ -756,14 +756,14 @@ class PlgSystemDebug extends JPlugin
 						}
 					}
 					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode('</div><div>', $htmlCallStackElements) . '</div></div>');
+					if (!$this->linkFormat)
+					{
+						$tipCallStack .= htmlspecialchars('<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'Add xdebug.file_link_format directive to your php.ini file to have links for files' . '</a>]</div>');
+					}
 					$firstfile = preg_replace('/<a.*>(.*)<\/a>/', '\1', $htmlCallStackElements[0]);
 					$htmlCallStack = '<h4>Call Stack</h4>'
 						. $firstfile
 						. ' [<a href="javascript://Call-Stack" class="dbgQueryCallStack hasPopover" title="Call-Stack" data-content="' . $tipCallStack . '" data-trigger="click">More...</a>]';
-					if (!$this->linkFormat)
-					{
-						$htmlCallStack .= ' [<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'Config for Link Format' . '</a>]';
-					}
 				}
 
 				$list[] = $htmlTiming
