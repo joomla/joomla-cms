@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_config
+ * @package     Joomla.Site
+ * @subpackage  com_services
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,9 @@ defined('_JEXEC') or die;
  * This view is displayed after successfull saving of config data.
  * Use it to show a message informing about success or simply close a modal window.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
- * @since       3.1
+ * @package     Joomla.Site
+ * @subpackage  com_services
+ * @since       3.2
  */
 class ConfigViewCloseHtml extends JViewLegacy
 {
