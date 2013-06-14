@@ -137,7 +137,7 @@ class PlgSystemDebug extends JPlugin
 		// Only if debugging is enabled for SQL queries popovers
 		if (JDEBUG && $this->isAuthorisedDisplayDebug())
 		{
-			// JHtml::_('bootstrap.tooltip');
+			JHtml::_('bootstrap.tooltip');
 			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
 		}
 
@@ -583,6 +583,7 @@ class PlgSystemDebug extends JPlugin
 
 		$bars = array();
 		$info = array();
+
 		foreach ($log as $k => $query)
 		{
 			if ($timings && isset($timings[$k * 2 + 1]))
@@ -600,7 +601,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				else
 				{
-					$explain = 'Failed EXPLAIN on query: ' . htmlspecialchars($query);
+					$explain = 'EXPLAIN not possible on query: ' . htmlspecialchars($query);
 				}
 
 				// Run a SHOW PROFILE query:
@@ -622,7 +623,7 @@ class PlgSystemDebug extends JPlugin
 				if ($queryTime < 4)
 				{
 					$barClass = $hasWarnings ? 'bar-warning' : 'bar-success';
-					$labelClass = $queryTime < 1 ? 'label-success' : '';
+					$labelClass = $queryTime < 1 && !$hasWarnings ? 'label-success' : '';
 				}
 				elseif ($queryTime > 10)
 				{
@@ -636,6 +637,7 @@ class PlgSystemDebug extends JPlugin
 				}
 
 /*
+ * TODO: FIXME: This previous version displayed only one bargraph, but ensured a minimum of 0.3% (=2px with 650px width), now we have some widths of 0px in Safari/Opera.... Needs fixing
                 // Computes bargraph as follows: Position begin and end of the bar relatively to whole execution time:
 				$bargraphBeginPercents = round(100.0 * ($timings[$k * 2] - $startTime) / $totalBargraphTime, 1);
 				$bargraphWidthPercents = round(100.0 * ($timings[$k * 2 + 1] - $timings[$k * 2]) / $totalBargraphTime, 1);
@@ -661,17 +663,11 @@ class PlgSystemDebug extends JPlugin
 				$info[$k] = (object) array(
 					'class' => $labelClass,
 					'explain' => $explain,
-					'profile' => $profile
+					'profile' => $profile,
+					'hasWarnings' => $hasWarnings
 				);
 			}
 		}
-		$barhtml = array();
-		foreach ($bars as $i => $bar)
-		{
-			$barhtml[] = '<div class="bar" style="background:transparent; width:' . $bar->prev . '%;"></div>';
-			$barhtml[] = '<div class="bar  ' . $bar->class . '" style="width: ' . $bar->width . '%;"></div>';
-		}
-		$barhtml = implode('', $barhtml);
 
 		$list = array();
 		foreach ($log as $k => $query)
@@ -725,6 +721,16 @@ class PlgSystemDebug extends JPlugin
 				// Compute the query time:
 				$queryTime = ($timings[$k * 2 + 1] - $timings[$k * 2]) * 1000;
 
+				// Generate the cool bargraph:
+				//TODO FIXME: In Safari and IE we have sub-pixel roundings to pixels, and bargraphs are not displayed correctly. Needs fixing.
+				$barhtml = array();
+				foreach ($bars as $i => $bar)
+				{
+					$barhtml[] = '<div class="bar" style="background:transparent; width:' . $bar->prev . '%;"></div>';
+					$barhtml[] = '<div class="bar  ' . $bar->class . '" style="width: ' . $bar->width . '%;' . (($k == 0 || $i == $k) ? '' : 'opacity:0.1;') . '"></div>';
+				}
+				$barhtml = implode('', $barhtml);
+
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
 				$htmlTiming = '<div style="margin: 0px 0 5px;">' . sprintf('Query Time: <span class="label ' . $info[$k]->class . '">%.3f ms</span>', $timing[$k]['0']);
 
@@ -737,7 +743,7 @@ class PlgSystemDebug extends JPlugin
 
 				$htmlTiming .= '<span class="icon-arrow-down" style="margin-left:-6.5px;padding-left:' . ($bars[$k]->pos + ($bars[$k]->width / 2)) . '%"></span>';
 
-				$htmlTiming .= '<div class="progress dbgQuery hasPopover" style="margin: 0px 0 5px;" title="PROFILE QUERY" data-content="' . htmlspecialchars($info[$k]->profile) . '">'
+				$htmlTiming .= '<div class="progress dbgQuery hasPopover" style="margin: 0px 0 5px;" title="PROFILE QUERY" data-content="' . htmlspecialchars($info[$k]->profile) . '" data-html="true">'
 					. $barhtml . '</div>';
 
 				// Backtrace/Called from:
@@ -751,25 +757,53 @@ class PlgSystemDebug extends JPlugin
 						{
 							$htmlFile = htmlspecialchars($functionCall['file']);
 							$htmlLine = htmlspecialchars($functionCall['line']);
-							// $htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom"><a href="editor://open/?file=' . $htmlFile . '&line=' . $htmlLine . '"><code>' . $htmlFile . '</code></a>&nbsp;:&nbsp;' . $htmlLine . '</span>';
 							$htmlCallStackElements[] = '<span class="dbgLogQueryCalledFrom">' . $this->formatLink($htmlFile, $htmlLine) . '</span>';
 						}
 					}
-					$tipCallStack = htmlspecialchars('<div class="dbgQueryTable"><div>' . implode('</div><div>', $htmlCallStackElements) . '</div></div>');
+					$tipCallStack = '<div class="dbgQueryTable"><div>' . implode('</div><div>', $htmlCallStackElements) . '</div></div>';
 					if (!$this->linkFormat)
 					{
-						$tipCallStack .= htmlspecialchars('<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'Add xdebug.file_link_format directive to your php.ini file to have links for files' . '</a>]</div>');
+						$tipCallStack .= '<div>[<a href="http://xdebug.org/docs/all_settings#file_link_format" target="_blank">' . 'Add xdebug.file_link_format directive to your php.ini file to have links for files' . '</a>]</div>';
 					}
+
+					// Remove link from first file:
 					$firstfile = preg_replace('/<a.*>(.*)<\/a>/', '\1', $htmlCallStackElements[0]);
-					$htmlCallStack = '<h4>Call Stack</h4>'
-						. $firstfile
-						. ' [<a href="javascript://Call-Stack" class="dbgQueryCallStack hasPopover" title="Call-Stack" data-content="' . $tipCallStack . '" data-trigger="click">More...</a>]';
+
+					$htmlCallStack = '<div class="accordion" id="accordion' . $k . '">
+										  <div class="accordion-group">
+											<div class="accordion-heading">
+											  <span class="accordion-toggle" data-toggle="collapse" data-parent="#accordion' . $k . '" href="#collapse' . $k . '">
+												Call Stack: ' . $firstfile . ' [More...]
+											  </span>
+											</div>
+											<div id="collapse' . $k . '" class="accordion-body collapse">
+											  <div class="accordion-inner">
+												' . $tipCallStack . '
+											  </div>
+											</div>
+										  </div>
+									  </div>';
 				}
+
+				// Explain:
+				$htmlExplain = '<div class="accordion" id="explainaccordion' . $k . '">
+									  <div class="accordion-group">
+										<div class="accordion-heading">
+										  <span class="accordion-toggle" data-toggle="collapse" data-parent="#explainaccordion' . $k . '" href="#explaincollapse' . $k . '">
+											<h4>Explain</h4>
+										  </span>
+										</div>
+										<div id="explaincollapse' . $k . '" class="accordion-body collapse' . ($info[$k]->hasWarnings ? ' in' : '') . '">
+										  <div class="accordion-inner">
+											' .$info[$k]->explain . '
+										  </div>
+										</div>
+									  </div>
+								  </div>';
 
 				$list[] = $htmlTiming
 					. '<pre>' . $text . '</pre>'
-					. '<h4>EXPLAIN</h4>'
-					. $info[$k]->explain
+					. $htmlExplain
 					. $htmlCallStack;
 			}
 			else
@@ -894,7 +928,7 @@ class PlgSystemDebug extends JPlugin
 					if ($td === 'NULL')
 					{
 						// Displays query parts which don't use a key with warning:
-						$html .= '<td><strong>' . '<span class="dbgQueryWarning">NULL</span>' . '</strong>';
+						$html .= '<td><strong>' . '<span class="dbgQueryWarning hasTooltip" title="This table has probably a missing index on WHERE equalities and/or JOIN ON column(s) or is written in a way that no index can be used, causing a time-consuming full table scan.">NO INDEX KEY COULD BE USED</span>' . '</strong>';
 						$hasWarnings = true;
 					}
 					else
@@ -908,7 +942,7 @@ class PlgSystemDebug extends JPlugin
 					// Replace spaces with nbsp for less tall tables displayed:
 					$htmlTd = preg_replace('/([^;]) /', '\1&nbsp;', $htmlTd);
 					// Displays warnings for "Using filesort":
-					$htmlTdWithWarnings = str_replace('Using&nbsp;filesort', '<span class="dbgQueryWarning">Using&nbsp;filesort</span>', $htmlTd);
+					$htmlTdWithWarnings = str_replace('Using&nbsp;filesort', '<span class="dbgQueryWarning hasTooltip" title="This table has probably a missing index on WHERE/ON equality column(s) ending by the ORDER BY column(s) or is written in a way that no index can be used, causing a time-consuming filesort.">Using&nbsp;filesort</span>', $htmlTd);
 					if ($htmlTdWithWarnings !== $htmlTd)
 					{
 						$hasWarnings = true;

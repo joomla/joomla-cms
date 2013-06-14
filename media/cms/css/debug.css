@@ -152,7 +152,3 @@ table.dbgQueryTable th, table.dbgQueryTable td {
 #system-debug span.dbgQueryCallStack.hasPopover a {
     background-color: transparent;
 }
-/* This is a workaround to allow popovers to have the needed width for our queries debug tables: */
-.popover.top.fade.in {
-    width: auto;
-}
