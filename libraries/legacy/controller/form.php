@@ -87,12 +87,8 @@ class JControllerForm extends JControllerLegacy
 		// Guess the context as the suffix, eg: OptionControllerContent.
 		if (empty($this->context))
 		{
-			$r = null;
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
-			$this->context = strtolower($r[2]);
+			$classNameArray = $this->getClassNameAsArray();
+			$this->context = strtolower($classNameArray[2]);
 		}
 
 		// Guess the item view as the context.
@@ -149,16 +145,13 @@ class JControllerForm extends JControllerLegacy
 		// Access check.
 		if (!$this->allowAdd())
 		{
-			// Set the internal error and also the redirect error.
+			// Set the internal error 
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_CREATE_RECORD_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
+			
+			//redirect with error
+			$msg = $this->getError();
+			$type = 'error';
+			$this->setRedirectToList($msg, $type);
 
 			return false;
 		}
@@ -167,16 +160,41 @@ class JControllerForm extends JControllerLegacy
 		$app->setUserState($context . '.data', null);
 
 		// Redirect to the edit screen.
-		$this->setRedirect(
-			JRoute::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_item
-				. $this->getRedirectToItemAppend(), false
-			)
-		);
+		$this->setRedirectToItem();
 
 		return true;
 	}
 
+	/**
+	 * Method to set redirect to the list view
+	 * 
+	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
+	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
+	 * 
+	 * @return void
+	 */
+	protected function setRedirectToList($msg = null, $type = null)
+	{
+		$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list. $this->getRedirectToListAppend();
+		$this->setRedirect(JRoute::_($url, false), $msg, $type);
+	}
+	
+	/**
+	 * Method to set redirect to the item view
+	 *
+	 * @param   string  $msg   Message to display on redirect. Optional, defaults to value set internally by controller, if any.
+	 * @param   string  $type  Message type. Optional, defaults to 'message' or the type set by a previous call to setMessage.
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 * 
+	 * @return void
+	 */
+	protected function setRedirectToItem($msg = null, $type = null, $recordId = null, $urlVar = 'id')
+	{
+		$url = 'index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, $urlVar);
+		$this->setRedirect(JRoute::_($url, false), $msg, $type);
+	}
+	
 	/**
 	 * Method to check if you can add a new record.
 	 *
@@ -315,14 +333,11 @@ class JControllerForm extends JControllerLegacy
 			{
 				// Somehow the person just went to the form - we don't allow that.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-				$this->setMessage($this->getError(), 'error');
-
-				$this->setRedirect(
-					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. $this->getRedirectToListAppend(), false
-					)
-				);
+				
+				//redirect with error
+				$msg = $this->getError();
+				$type = 'error';
+				$this->setRedirectToList($msg, $type);
 
 				return false;
 			}
@@ -333,15 +348,11 @@ class JControllerForm extends JControllerLegacy
 				{
 					// Check-in failed, go back to the record and display a notice.
 					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-					$this->setMessage($this->getError(), 'error');
 
-					$this->setRedirect(
-						JRoute::_(
-							'index.php?option=' . $this->option . '&view=' . $this->view_item
-							. $this->getRedirectToItemAppend($recordId, $key), false
-						)
-					);
-
+					//return to edit with error
+					$msg = $this->getError();
+					$type = 'error';
+					$this->setRedirectToItem($msg, $type, $recordId,$urlVar);
 					return false;
 				}
 			}
@@ -351,12 +362,8 @@ class JControllerForm extends JControllerLegacy
 		$this->releaseEditId($context, $recordId);
 		$app->setUserState($context . '.data', null);
 
-		$this->setRedirect(
-			JRoute::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
-			)
-		);
+		//redirect with error
+		$this->setRedirectToList();
 
 		return true;
 	}
@@ -400,14 +407,11 @@ class JControllerForm extends JControllerLegacy
 		if (!$this->allowEdit(array($key => $recordId), $key))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-			$this->setMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
+			
+			//redirect with error
+			$msg = $this->getError();
+			$type = 'error';
+			$this->setRedirectToList($msg, $type);
 
 			return false;
 		}
@@ -417,14 +421,11 @@ class JControllerForm extends JControllerLegacy
 		{
 			// Check-out failed, display a notice but allow the user to see the record.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKOUT_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
-				)
-			);
+			
+			//return to edit with error
+			$msg = $this->getError();
+			$type = 'error';
+			$this->setRedirectToItem($msg, $type, $recordId,$urlVar);
 
 			return false;
 		}
@@ -434,12 +435,10 @@ class JControllerForm extends JControllerLegacy
 			$this->holdEditId($context, $recordId);
 			$app->setUserState($context . '.data', null);
 
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
-				)
-			);
+			//go to edit
+			$msg =  null;
+			$type = null;
+			$this->setRedirectToItem($msg, $type, $recordId,$urlVar);
 
 			return true;
 		}
@@ -579,14 +578,11 @@ class JControllerForm extends JControllerLegacy
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
+			
+			//redirect with error
+			$msg = $this->getError();
+			$type = 'error';
+			$this->setRedirectToList($msg, $type);
 
 			return false;
 		}
@@ -602,14 +598,11 @@ class JControllerForm extends JControllerLegacy
 			{
 				// Check-in failed. Go back to the item and display a notice.
 				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-				$this->setMessage($this->getError(), 'error');
-
-				$this->setRedirect(
-					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend($recordId, $urlVar), false
-					)
-				);
+				
+				//return to edit with error
+				$msg = $this->getError();
+				$type = 'error';
+				$this->setRedirectToItem($msg, $type, $recordId,$urlVar);
 
 				return false;
 			}
@@ -625,12 +618,10 @@ class JControllerForm extends JControllerLegacy
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
+			// Redirect to the list screen with error.
+			$msg = $this->getError();
+			$type = 'error';
+			$this->setRedirectToList($msg, $type);
 
 			return false;
 		}
@@ -672,12 +663,9 @@ class JControllerForm extends JControllerLegacy
 			$app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
-				)
-			);
+			$msg = $model->getErrors();
+			$type = 'error';
+			$this->setRedirectToItem($msg, $type, $recordId,$urlVar);
 
 			return false;
 		}
@@ -695,14 +683,11 @@ class JControllerForm extends JControllerLegacy
 
 			// Redirect back to the edit screen.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
-				)
-			);
+			
+			//return to edit with error
+			$msg = $this->getError();
+			$type = 'error';
+			$this->setRedirectToItem($msg, $type, $recordId,$urlVar);
 
 			return false;
 		}
@@ -715,14 +700,11 @@ class JControllerForm extends JControllerLegacy
 
 			// Check-in failed, so go back to the record and display a notice.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()));
-			$this->setMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_item
-					. $this->getRedirectToItemAppend($recordId, $urlVar), false
-				)
-			);
+			
+			//return to edit with error	
+			$msg = $this->getError();
+			$type = 'error';
+			$this->setRedirectToItem($msg, $type, $recordId,$urlVar);
 
 			return false;
 		}
@@ -746,12 +728,10 @@ class JControllerForm extends JControllerLegacy
 				$model->checkout($recordId);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(
-					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend($recordId, $urlVar), false
-					)
-				);
+				$msg = $this->getError();
+				$type = 'error';
+				$this->setRedirectToItem($msg, $type, $recordId,$urlVar);
+				
 				break;
 
 			case 'save2new':
@@ -760,12 +740,10 @@ class JControllerForm extends JControllerLegacy
 				$app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(
-					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_item
-						. $this->getRedirectToItemAppend(null, $urlVar), false
-					)
-				);
+								//return to edit with error
+				$msg = null;
+				$type = null;
+				$this->setRedirectToItem($msg, $type, null,$urlVar);
 				break;
 
 			default:
@@ -774,12 +752,7 @@ class JControllerForm extends JControllerLegacy
 				$app->setUserState($context . '.data', null);
 
 				// Redirect to the list screen.
-				$this->setRedirect(
-					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. $this->getRedirectToListAppend(), false
-					)
-				);
+				$this->setRedirectToList();
 				break;
 		}
 

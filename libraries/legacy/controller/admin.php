@@ -89,12 +89,17 @@ class JControllerAdmin extends JControllerLegacy
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
 		if (empty($this->view_list))
 		{
-			$r = null;
-			if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $r))
+			try 
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+				$classNameArray = $this->getClassNameAsArray();
+				$view_list = strtolower($classNameArray[2]);
 			}
-			$this->view_list = strtolower($r[2]);
+			catch (Exception $e)
+			{
+				throw new Exception($e);
+			}
+			
+			$this->view_list = $view_list;
 		}
 	}
 
@@ -108,7 +113,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->isValidSession();
 
 		// Get items to remove from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
@@ -121,20 +126,7 @@ class JControllerAdmin extends JControllerLegacy
 		{
 			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
-
-			// Remove the items.
-			if ($model->delete($cid))
-			{
-				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
-			}
-			else
-			{
-				$this->setMessage($model->getError());
-			}
+			$this->deleteItems($model, $cid);
 		}
 		// Invoke the postDelete method to allow for the child class to access the model.
 		$this->postDeleteHook($model, $cid);
@@ -142,6 +134,31 @@ class JControllerAdmin extends JControllerLegacy
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
+	/**
+	 * Method to delete items from the database.
+	 * 
+	 * @param JModel $model
+	 * @param array $cidArray
+	 * 
+	 * @return void
+	 */
+	protected function deleteItems($model, $cidArray)
+	{
+		// Make sure the item ids are integers
+		jimport('joomla.utilities.arrayhelper');
+		JArrayHelper::toInteger($cidArray);
+		
+		// Remove the items.
+		if ($model->delete($cid))
+		{
+			$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cidArray)));
+		}
+		else
+		{
+			$this->setMessage($model->getError());
+		}
+	}
+	
 	/**
 	 * Function that allows child controller access to model data
 	 * after the item has been deleted.
@@ -181,8 +198,8 @@ class JControllerAdmin extends JControllerLegacy
 	 */
 	public function publish()
 	{
-		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		// Check for request forgeries.
+		$this->isValidSession();
 
 		// Get items to publish from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
@@ -196,34 +213,14 @@ class JControllerAdmin extends JControllerLegacy
 		}
 		else
 		{
-			// Get the model.
 			$model = $this->getModel();
-
-			// Make sure the item ids are integers
 			JArrayHelper::toInteger($cid);
-
-			// Publish the items.
+			
 			try
 			{
 				$model->publish($cid, $value);
-
-				if ($value == 1)
-				{
-					$ntext = $this->text_prefix . '_N_ITEMS_PUBLISHED';
-				}
-				elseif ($value == 0)
-				{
-					$ntext = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
-				}
-				elseif ($value == 2)
-				{
-					$ntext = $this->text_prefix . '_N_ITEMS_ARCHIVED';
-				}
-				else
-				{
-					$ntext = $this->text_prefix . '_N_ITEMS_TRASHED';
-				}
-				$this->setMessage(JText::plural($ntext, count($cid)));
+				$this->getPublishResultMsg($value);
+				$this->setMessage(JText::plural($msg, count($cid)));
 			}
 			catch (Exception $e)
 			{
@@ -234,6 +231,35 @@ class JControllerAdmin extends JControllerLegacy
 		$extension = $this->input->get('extension');
 		$extensionURL = ($extension) ? '&extension=' . $extension : '';
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $extensionURL, false));
+	}
+	
+	/**
+	 * Method to get a message based on the publish method being executed
+	 * 
+	 * @param int $publishMethod
+	 * 
+	 * @return string untranslated JText constent 
+	 */
+	protected function getPublishResultMsg($publishMethod)
+	{
+		$msg = '';
+		switch ($publishMethod)
+		{
+			case 0:
+				$msg = $this->text_prefix . '_N_ITEMS_UNPUBLISHED';
+				break;
+			case 1:
+				$msg = $this->text_prefix . '_N_ITEMS_PUBLISHED';
+				break;
+			case 2:
+				$msg = $this->text_prefix . '_N_ITEMS_ARCHIVED';
+				break;
+			default:
+				$msg = $this->text_prefix . '_N_ITEMS_TRASHED';
+				break;
+		}
+		
+		return $msg;
 	}
 
 	/**
@@ -246,7 +272,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function reorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->isValidSession();
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 		$inc = ($this->getTask() == 'orderup') ? -1 : +1;
@@ -279,7 +305,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->isValidSession();
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -321,7 +347,7 @@ class JControllerAdmin extends JControllerLegacy
 	public function checkin()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->isValidSession();
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 

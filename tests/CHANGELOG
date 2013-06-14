@@ -26,6 +26,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Jun-2013 Mathew Lenning
+# Fixed fragile tests in the legacy controller suite
++ Added testSetRedirectWithUrl in legacy controller
++ Added testSetRedirectWithNullMsg in legacy controller
++ Added testSetRedirectWithMsg
++ Added testSetMessageWithNullMsg in legacy controller 
++ Added testSetMessageWithMsgAndType in legacy controller
++ Added testSetMessageWithMsgAndNullType in legacy controller
+- Removed testSetRedirect in legacy controller
+- Removed testSetMessage in legacy controller
+
 11-Jun-2013 Mark Dexter
  # Fix problems with system tests from changes in HTML markup.
 

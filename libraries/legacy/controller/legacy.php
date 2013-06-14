@@ -390,15 +390,7 @@ class JControllerLegacy extends JObject
 		// Set the models prefix
 		if (empty($this->model_prefix))
 		{
-			if (array_key_exists('model_prefix', $config))
-			{
-				// User-defined prefix
-				$this->model_prefix = $config['model_prefix'];
-			}
-			else
-			{
-				$this->model_prefix = $this->name . 'Model';
-			}
+			$this->setModelPrefix($config);
 		}
 
 		// Set the default model search path
@@ -433,6 +425,26 @@ class JControllerLegacy extends JObject
 			$this->default_view = $this->getName();
 		}
 
+	}
+	
+	/**
+	 * Method to set the model_prefix
+	 * 
+	 * @param array $config An optional associative array of configuration settings.
+	 * 
+	 * @return void
+	 */
+	protected function setModelPrefix($config = array())
+	{
+		if (array_key_exists('model_prefix', $config))
+		{
+			// User-defined prefix
+			$this->model_prefix = $config['model_prefix'];
+		}
+		else
+		{
+			$this->model_prefix = $this->name . 'Model';
+		}
 	}
 
 	/**
@@ -519,21 +531,8 @@ class JControllerLegacy extends JObject
 
 			$result = in_array((int) $id, $values);
 
-			if (defined('JDEBUG') && JDEBUG)
-			{
-				JLog::add(
-					sprintf(
-						'Checking edit ID %s.%s: %d %s',
-						$context,
-						$id,
-						(int) $result,
-						str_replace("\n", ' ', print_r($values, 1))
-					),
-					JLog::INFO,
-					'controller'
-				);
-			}
-
+			$this->debugcheckEditId($context,$id,$result, $values);
+			
 			return $result;
 		}
 		else
@@ -543,6 +542,26 @@ class JControllerLegacy extends JObject
 		}
 	}
 
+	/**
+	 * Method to log debuging information for checkEditId()
+	 * 
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
+	 * @param   bool     $result   result of in_array()
+	 * @param	array    $values   array of values
+	 * 
+	 * @return void
+	 */
+	protected function debugcheckEditId($context, $id, $result, $values)
+	{
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$logMsg = sprintf('Checking edit ID %s.%s: %d %s', $context, $id,(int) $result, str_replace("\n", ' ', print_r($values, 1)));
+			 
+			JLog::add($logMsg, JLog::INFO, 'controller');
+		}
+	}
+	
 	/**
 	 * Method to load and return a model object.
 	 *
@@ -595,27 +614,43 @@ class JControllerLegacy extends JObject
 		// Build the view class name
 		$viewClass = $classPrefix . $viewName;
 
-		if (!class_exists($viewClass))
+		if (class_exists($viewClass) || $this->includeViewClassFile($viewName, $viewType, $viewClass))
 		{
-			jimport('joomla.filesystem.path');
-			$path = JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
-
-			if ($path)
-			{
-				require_once $path;
-
-				if (!class_exists($viewClass))
-				{
-					throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
-				}
-			}
-			else
-			{
-				return null;
-			}
+			return new $viewClass($config);
 		}
-
-		return new $viewClass($config);
+		
+		return null;
+	}
+	
+	/**
+	 * Method to include a default view class file.
+	 * 
+	 *   @param string $viewName 
+	 *   @param string $viewType
+	 *   @param string $viewClass derived class name
+	 *   
+	 *   @return bool
+	 *   @throws Exception
+	 */
+	protected function includeViewClassFile($viewName, $viewType, $viewClass)
+	{
+		jimport('joomla.filesystem.path');
+		$path = JPath::find($this->paths['view'], $this->createFileName('view', array('name' => $viewName, 'type' => $viewType)));
+		
+		if ($path)
+		{
+			require_once $path;
+		}
+		
+		if (class_exists($viewClass))
+		{
+			return true;
+		}
+		else
+		{
+			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_VIEW_CLASS_NOT_FOUND', $viewClass, $path), 500);
+			return false;
+		}
 	}
 
 	/**
@@ -652,34 +687,9 @@ class JControllerLegacy extends JObject
 		$conf = JFactory::getConfig();
 
 		// Display the view
-		if ($cachable && $viewType != 'feed' && $conf->get('caching') >= 1)
+		if ($this->isCachable($cachable,$viewType,$conf->get('caching')))
 		{
-			$option = $this->input->get('option');
-			$cache = JFactory::getCache($option, 'view');
-
-			if (is_array($urlparams))
-			{
-				$app = JFactory::getApplication();
-
-				if (!empty($app->registeredurlparams))
-				{
-					$registeredurlparams = $app->registeredurlparams;
-				}
-				else
-				{
-					$registeredurlparams = new stdClass;
-				}
-
-				foreach ($urlparams as $key => $value)
-				{
-					// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
-					$registeredurlparams->$key = $value;
-				}
-
-				$app->registeredurlparams = $registeredurlparams;
-			}
-
-			$cache->get($view, 'display');
+			$this->addViewToCache($urlparams, $view);
 		}
 		else
 		{
@@ -687,6 +697,69 @@ class JControllerLegacy extends JObject
 		}
 
 		return $this;
+	}
+	
+	/**
+	 * Method to check if the view should be cached
+	 * 
+	 * @param bool $cachable If true, the view output should be cached
+	 * @param string $viewType type of view IE: html, feed, etc...
+	 * @param int $catchingConfig configuration setting 
+	 * 
+	 * @return bool
+	 */
+	protected function isCachable($cachable, $viewType, $catchingConfig)
+	{
+		if ($cachable && $viewType != 'feed' && $catchingConfig >= 1)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Method to catch the view
+	 * 
+	 * @param array $urlparams An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param JView $view 
+	 * 
+	 * @return void
+	 */
+	protected function addViewToCache($urlparams, JView $view)
+	{
+		$option = $this->input->get('option');
+		$cache = JFactory::getCache($option, 'view');
+		
+		if (is_array($urlparams))
+		{
+			$this->addUrlparamsToApplication($urlparams);
+		}
+		
+		$cache->get($view, 'display');
+	}
+	
+	/**
+	 * Method to add safe url params to the applications registeredurlparams
+	 * 
+	 * @param array $urlparams
+	 */
+	protected function addUrlparamsToApplication($urlparams)
+	{
+		$app = JFactory::getApplication();
+		$registeredurlparams = new stdClass;
+		
+		if (!empty($app->registeredurlparams))
+		{
+			$registeredurlparams = $app->registeredurlparams;
+		}
+			
+		foreach ($urlparams as $key => $value)
+		{
+			// Add your safe url parameters with variable type as value {@see JFilterInput::clean()}.
+			$registeredurlparams->$key = $value;
+		}
+		
+		$app->registeredurlparams = $registeredurlparams;
 	}
 
 	/**
@@ -755,20 +828,12 @@ class JControllerLegacy extends JObject
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 
-			if (is_object($menu))
-			{
-				if ($item = $menu->getActive())
-				{
-					$params = $menu->getParams($item->id);
-
-					// Set default state data
-					$model->setState('parameters.menu', $params);
-				}
-			}
+			$menuParams = $this->getMenuParams();
+			$model->setState('parameters.menu', $params);
 		}
 		return $model;
 	}
-
+	
 	/**
 	 * Method to get the controller name
 	 *
@@ -784,17 +849,53 @@ class JControllerLegacy extends JObject
 	{
 		if (empty($this->name))
 		{
-			$r = null;
-			if (!preg_match('/(.*)Controller/i', get_class($this), $r))
-			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
-			}
+			$r = $this->getClassNameAsArray();
 			$this->name = strtolower($r[1]);
 		}
-
+		
 		return $this->name;
 	}
 
+	/**
+	 * Method to break the the controller class name into an array using preg_match
+	 * 
+	 * @return mixed Array or false
+	 * @throws Exception
+	 */
+	protected function getClassNameAsArray()
+	{
+		$classNameArray = null;
+		if (!preg_match('/(.*)Controller(.*)/i', get_class($this), $classNameArray))
+		{
+			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
+			return false;
+		}
+		return $classNameArray;
+	}
+	
+	/**
+	 * Method to get menu params for the active menu item
+	 *
+	 * @returns JRegistry Object
+	 */
+	protected function getMenuParams()
+	{
+		$app = JFactory::getApplication();
+		$menu = $app->getMenu();
+	
+		if (!is_object($menu))
+		{
+			return new JRegistry;
+		}
+	
+		$item = $menu->getActive();
+		if (is_null($item))
+		{
+			return new JRegistry;
+		}
+	
+		return $menu->getParams($item->id);
+	}
 	/**
 	 * Get the last task that is being performed or was most recently performed.
 	 *
@@ -887,23 +988,28 @@ class JControllerLegacy extends JObject
 			array_push($values, (int) $id);
 			$values = array_unique($values);
 			$app->setUserState($context . '.id', $values);
-
-			if (defined('JDEBUG') && JDEBUG)
-			{
-				JLog::add(
-					sprintf(
-						'Holding edit ID %s.%s %s',
-						$context,
-						$id,
-						str_replace("\n", ' ', print_r($values, 1))
-					),
-					JLog::INFO,
-					'controller'
-				);
-			}
+			$this->debugHoldEditId($context, $id, $values);
 		}
 	}
 
+	/**
+	 * Method to log debuging information for holdEditId()
+	 * 
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
+	 * @param	array    $values   array of values
+	 * 
+	 * @return void
+	 */
+	protected function debugHoldEditId($context,$id, $values)
+	{
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$logMsg = sprintf('Holding edit ID %s.%s %s', $context, $id, str_replace("\n", ' ', print_r($values, 1)));
+			JLog::add($logMsg,JLog::INFO,'controller');
+		}
+	}
+	
 	/**
 	 * Redirects the browser or returns false if no redirect is set.
 	 *
@@ -996,41 +1102,30 @@ class JControllerLegacy extends JObject
 		{
 			unset($values[$index]);
 			$app->setUserState($context . '.id', $values);
-
-			if (defined('JDEBUG') && JDEBUG)
-			{
-				JLog::add(
-					sprintf(
-						'Releasing edit ID %s.%s %s',
-						$context,
-						$id,
-						str_replace("\n", ' ', print_r($values, 1))
-					),
-					JLog::INFO,
-					'controller'
-				);
-			}
+			
+			$this->debugReleaseEditId($context, $id, $values);
+		}
+	}
+	
+	/**
+	 * Method to log debuging information for releaseEditId()
+	 *
+	 * @param   string   $context  The context for the session storage.
+	 * @param   integer  $id       The ID of the record to add to the edit list.
+	 * @param   bool     $result   result of in_array()
+	 * @param	array    $values   array of values
+	 *
+	 * @return void
+	 */
+	protected function debugReleaseEditId($context, $id, $values)
+	{
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			$logMsg = sprintf('Releasing edit ID %s.%s %s', $context,$id, str_replace("\n", ' ', print_r($values, 1)));
+			JLog::add($logMsg, JLog::INFO, 'controller');
 		}
 	}
 
-	/**
-	 * Sets the internal message that is passed with a redirect
-	 *
-	 * @param   string  $text  Message to display on redirect.
-	 * @param   string  $type  Message type. Optional, defaults to 'message'.
-	 *
-	 * @return  string  Previous message
-	 *
-	 * @since   12.2
-	 */
-	public function setMessage($text, $type = 'message')
-	{
-		$previous = $this->message;
-		$this->message = $text;
-		$this->messageType = $type;
-
-		return $previous;
-	}
 
 	/**
 	 * Sets an entire array of search paths for resources.
@@ -1052,7 +1147,7 @@ class JControllerLegacy extends JObject
 		$this->addPath($type, $path);
 	}
 
-	/**
+		/**
 	 * Set a URL for browser redirection.
 	 *
 	 * @param   string  $url   URL to redirect to.
@@ -1069,23 +1164,55 @@ class JControllerLegacy extends JObject
 		if ($msg !== null)
 		{
 			// Controller may have set this directly
-			$this->message = $msg;
-		}
-
-		// Ensure the type is not overwritten by a previous call to setMessage.
-		if (empty($type))
-		{
-			if (empty($this->messageType))
-			{
-				$this->messageType = 'message';
-			}
-		}
-		// If the type is explicitly set, set it.
-		else
-		{
-			$this->messageType = $type;
+			$this->setMessage($msg, $type);
 		}
 
 		return $this;
+	}
+	
+	/**
+	 * Sets the internal message that is passed with a redirect
+	 *
+	 * @param   string  $text  Message to display on redirect.
+	 * @param   string  $type  Message type. Optional, defaults to 'message'.
+	 *
+	 * @return  string  Previous message
+	 *
+	 * @since   12.2
+	 */
+	public function setMessage($msg, $type = null)
+	{
+		$previous = $this->message;
+
+		$shouldSetType = false;
+		$msgType = 'message';
+
+		if ($msg !== null)
+		{
+			$this->message = $msg;
+			$shouldSetType = true;
+		}
+
+		if ($type !== null)
+		{
+			$msgType = $type;
+		}
+
+		if ($shouldSetType)
+		{
+			$this->messageType = $msgType;
+		}	
+
+		return $previous;
+	}
+	
+	/**
+	 * Method to check for request forgeries.
+	 * 
+	 * @return void
+	 */
+	protected function isValidSession()
+	{
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 	}
 }
