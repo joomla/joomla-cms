@@ -1127,25 +1127,6 @@ class JControllerLegacy extends JObject
 	}
 
 	/**
-	 * Sets the internal message that is passed with a redirect
-	 *
-	 * @param   string  $text  Message to display on redirect.
-	 * @param   string  $type  Message type. Optional, defaults to 'message'.
-	 *
-	 * @return  string  Previous message
-	 *
-	 * @since   12.2
-	 */
-	public function setMessage($text, $type = 'message')
-	{
-		$previous = $this->message;
-		$this->message = $text;
-		$this->messageType = $type;
-
-		return $previous;
-	}
-
-	/**
 	 * Sets an entire array of search paths for resources.
 	 *
 	 * @param   string  $type  The type of path to set, typically 'view' or 'model'.
@@ -1181,25 +1162,46 @@ class JControllerLegacy extends JObject
 		$this->redirect = $url;
 		if ($msg !== null)
 		{
-			// Controller may have set this directly
-			$this->message = $msg;
-		}
-
-		// Ensure the type is not overwritten by a previous call to setMessage.
-		if (empty($type))
-		{
-			if (empty($this->messageType))
-			{
-				$this->messageType = 'message';
-			}
-		}
-		// If the type is explicitly set, set it.
-		else
-		{
-			$this->messageType = $type;
+			$this->setMessage($msg, $type);
 		}
 
 		return $this;
+	}
+	
+	/**
+	 * Sets the internal message that is passed with a redirect
+	 *
+	 * @param   string  $text  Message to display on redirect.
+	 * @param   string  $type  Message type. Optional, defaults to 'message'.
+	 *
+	 * @return  string  Previous message
+	 *
+	 * @since   12.2
+	 */
+	public function setMessage($msg, $type = null)
+	{
+		$previous = $this->message;
+		
+		$shouldSetType = false;
+		$msgType = 'message';
+		
+		if ($msg !== null)
+		{
+			$this->message = $msg;
+			$shouldSetType = true;
+		}
+		
+		if ($type !== null)
+		{
+			$msgType = $type;
+		}
+		
+		if ($shouldSetType)
+		{
+			$this->messageType = $msgType;
+		}	
+		
+		return $previous;
 	}
 	
 	/**
