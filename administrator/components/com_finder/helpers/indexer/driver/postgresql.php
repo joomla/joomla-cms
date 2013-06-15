@@ -202,9 +202,11 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 					// Tokenize an array of content and add it to the database.
 					foreach ($item->$property as $ip)
 					{
-						// If the group is path, we need to a few extra processing
-						// steps to strip the extension and convert slashes and dashes
-						// to spaces.
+						/*
+						 * If the group is path, we need to a few extra processing
+						 * steps to strip the extension and convert slashes and dashes
+						 * to spaces.
+						 */
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
@@ -224,9 +226,11 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				}
 				else
 				{
-					// If the group is path, we need to a few extra processing
-					// steps to strip the extension and convert slashes and dashes
-					// to spaces.
+					/*
+					 * If the group is path, we need to a few extra processing
+					 * steps to strip the extension and convert slashes and dashes
+					 * to spaces.
+					 */
 					if ($group === static::PATH_CONTEXT)
 					{
 						$item->$property = JFile::stripExt($item->$property);
