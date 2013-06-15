@@ -16,6 +16,9 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 
+//Add the chosen.css from media/jui/css
+JHtml::_('formbehavior.chosen', 'select');
+
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 ?>
