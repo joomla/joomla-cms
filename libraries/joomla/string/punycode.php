@@ -36,9 +36,8 @@ abstract class JStringPunycode
 	public static function toPunycode($utfString)
 	{
 		$idn = new idna_convert();
-		return $idn->encode($utfString);
 
-		//return idna_convert::encode($utfString);
+		return $idn->encode($utfString);
 	}
 
 	/*
@@ -53,6 +52,7 @@ abstract class JStringPunycode
 	public static function fromPunycode($punycodeString)
 	{
 		$idn = new idna_convert();
+
 		return $idn->decode($punycodeString);
 
 	}
@@ -68,11 +68,11 @@ abstract class JStringPunycode
 	*/
 	public static function urlToPunycode($uri)
 	{
-
 		$parsed = JString::parse_url($uri);
 		$host = $parsed['host'];
 		$hostExploded = explode('.', $host);
 		$newhost = '';
+
 		foreach ($hostExploded as $hostex)
 		{
 			$hostex = JStringPunycode::toPunycode($hostex);
@@ -97,6 +97,7 @@ abstract class JStringPunycode
 		{
 			$newuri .= $parsed['path'] ;
 		}
+
 		if (!empty($parsed['query']))
 		{
 			$newuri .= '?' . $parsed['query'];
@@ -149,6 +150,7 @@ abstract class JStringPunycode
 		{
 			$newuri .= $parsed['path'] ;
 		}
+
 		if (!empty($parsed['query']))
 		{
 			$newuri .= '?' . $parsed['query'];
@@ -207,6 +209,7 @@ abstract class JStringPunycode
 
 		// Not addressing UTF-8 user names
 		$newEmail = $explodedAddress[0];
+
 		if (!empty($explodedAddress[1]))
 		{
 			$domainExploded = explode('.', $explodedAddress[1]);
