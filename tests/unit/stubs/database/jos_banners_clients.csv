@@ -1,0 +1,4 @@
+'id','name','contact','email','extrainfo','state','checked_out','checked_out_time','metakey','own_prefix','metakey_prefix','purchase_type','track_clicks','track_impressions'
+'1','Joomla!','Administrator','email@email.com',,'1','0','0000-00-00 00:00:00',,'0',,'-1','-1','-1'
+'2','Shop','Example','example@example.com',,'1','0','0000-00-00 00:00:00',,'0',,'-1','0','0'
+'3','Bookstore','Bookstore Example','example@example.com',,'1','0','0000-00-00 00:00:00',,'0',,'-1','0','0'

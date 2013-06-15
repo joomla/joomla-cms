@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<!-- Add fields to the request variables for the layout. -->
+
 	<fields name="params">
-		<fieldset name="request">
 
-			<field name="aliasoptions" type="menuitem"
-				description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
-				label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
-				required="true" />
+	<fieldset name="aliasoptions">
+		<field name="aliasoptions" type="menuitem"
+			description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
+			label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
+			required="true" />
+	</fieldset>
 
-		</fieldset>
-
-		<fieldset name="menu-options"
+	<fieldset name="menu-options"
 			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
 		>
 

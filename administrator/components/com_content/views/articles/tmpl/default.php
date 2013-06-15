@@ -105,22 +105,25 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<th>
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-				<th width="10%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-				</th>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+					</th>
 				<?php if ($assoc) : ?>
-				<th width="5%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-				</th>
+					<th width="5%" class="nowrap hidden-phone">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+					</th>
 				<?php endif;?>
-				<th width="10%" class="nowrap hidden-phone">
-					<?php echo JHtml::_('grid.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
-				</th>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JHtml::_('grid.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
+					</th>
 					<th width="5%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
+					</th>
+					<th width="10%">
+						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -253,6 +256,9 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					</td>
 					<td class="nowrap small hidden-phone">
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
+					</td>
+					<td class="center">
+						<?php echo (int) $item->hits; ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo (int) $item->id; ?>

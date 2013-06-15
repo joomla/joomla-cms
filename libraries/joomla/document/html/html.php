@@ -138,6 +138,7 @@ class JDocumentHTML extends JDocument
 		$data['scripts']     = $this->_scripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
+		$data['scriptText']  = JText::script();
 		return $data;
 	}
 
@@ -157,16 +158,24 @@ class JDocumentHTML extends JDocument
 			return;
 		}
 
-		$this->title = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
-		$this->description = (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
-		$this->link = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
-		$this->_metaTags = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
-		$this->_links = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
+		$this->title        = (isset($data['title']) && !empty($data['title'])) ? $data['title'] : $this->title;
+		$this->description  = (isset($data['description']) && !empty($data['description'])) ? $data['description'] : $this->description;
+		$this->link         = (isset($data['link']) && !empty($data['link'])) ? $data['link'] : $this->link;
+		$this->_metaTags    = (isset($data['metaTags']) && !empty($data['metaTags'])) ? $data['metaTags'] : $this->_metaTags;
+		$this->_links       = (isset($data['links']) && !empty($data['links'])) ? $data['links'] : $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets'])) ? $data['styleSheets'] : $this->_styleSheets;
-		$this->_style = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
-		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
-		$this->_script = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
-		$this->_custom = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
+		$this->_style       = (isset($data['style']) && !empty($data['style'])) ? $data['style'] : $this->_style;
+		$this->_scripts     = (isset($data['scripts']) && !empty($data['scripts'])) ? $data['scripts'] : $this->_scripts;
+		$this->_script      = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
+		$this->_custom      = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
+
+		if (isset($data['scriptText']) && !empty($data['scriptText']))
+		{
+			foreach ($data['scriptText'] as $key => $string)
+			{
+				JText::script($key, $string);
+			}
+		}
 
 		return $this;
 	}

@@ -40,7 +40,8 @@ abstract class JHtmlContact
 			// Get the associated contact items
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-				->select('c.*')
+				->select('c.id, c.name as title')
+				->select('l.sef as lang_sef')
 				->from('#__contact_details as c')
 				->select('cat.title as category_title')
 				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
@@ -61,25 +62,27 @@ abstract class JHtmlContact
 				return false;
 			}
 
-			$flags = array();
-
-			// Construct html
-			foreach ($associations as $tag => $associated)
+			if ($items)
 			{
-				if ($associated != $contactid)
+				foreach ($items as &$item)
 				{
-					$flags[] = JText::sprintf(
-						'COM_CONTACT_TIP_ASSOCIATED_LANGUAGE',
-						JHtml::_('image', 'mod_languages/' . $items[$associated]->image . '.gif',
-							$items[$associated]->language_title,
-							array('title' => $items[$associated]->language_title),
-							true
+					$text = strtoupper($item->lang_sef);
+					$url = JRoute::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
+					$tooltipParts = array(
+						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
+								$item->language_title,
+								array('title' => $item->language_title),
+								true
 						),
-						$items[$associated]->name, $items[$associated]->category_title
+						$item->title,
+						'(' . $item->category_title . ')'
 					);
+
+					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTip label label-association label-' . $item->lang_sef);
 				}
 			}
-			$html = JHtml::_('tooltip', implode('<br />', $flags), JText::_('COM_CONTACT_TIP_ASSOCIATION'), 'admin/icon-16-links.png');
+
+			$html = JLayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;

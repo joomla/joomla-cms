@@ -32,7 +32,8 @@
 					type="text"
 					size="30"
 					label="MOD_WRAPPER_FIELD_URL_LABEL"
-					description="MOD_WRAPPER_FIELD_URL_DESC" />
+					description="MOD_WRAPPER_FIELD_URL_DESC"
+					required="true" />
 				<field
 					name="add"
 					type="radio"

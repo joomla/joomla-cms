@@ -34,7 +34,7 @@ if ($user->authorise('core.admin'))
 	$menu->addSeparator();
 }
 
-$chm = $user->authorise('core.admin', 'com_checkin');
+$chm = $user->authorise('core.manage', 'com_checkin');
 $cam = $user->authorise('core.manage', 'com_cache');
 
 if ($chm || $cam )

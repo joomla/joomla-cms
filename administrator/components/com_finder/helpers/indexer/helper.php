@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
 JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
