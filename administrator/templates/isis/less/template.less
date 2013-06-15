@@ -621,6 +621,14 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 }
 
+/* Display checkboxes without bullets in list */
+fieldset.checkboxes input {
+	float: left;
+}
+fieldset.checkboxes li {
+	list-style: none;
+}
+
 /* Media Manager folder icon override */
 ul.manager .height-50 .icon-folder-2 {
 	height: 35px;
@@ -687,6 +695,9 @@ td.has-context {
 	// Fixes difference in height between normal and hover on cell with context
 	height: 23px;
 }
+td.nowrap.has-context{
+  width:  45%;
+}
 
 /* Item associations */
 .item-associations {
@@ -699,4 +710,10 @@ td.has-context {
 }
 .item-associations li a {
 	color: #ffffff;
+}
+
+/* Content Languages flag */
+#flag img {
+	padding-top: 6px;
+	vertical-align: top;
 }

@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Jun-2013 Mark Dexter
+ # Fix problems with system tests from changes in HTML markup.
+
 02-Jun-2013 Michael Babker
  + Port Feed, Filesystem, Filter, and Form package unit tests from Platform
  + Port Github package unit tests from Platform

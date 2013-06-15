@@ -310,7 +310,7 @@ class UsersModelUsers extends JModelList
 		}
 
 		// Filter the items over the search string if set.
-		if ($this->getState('filter.search') !== '')
+		if ($this->getState('filter.search') !== '' && $this->getState('filter.search') !== null)
 		{
 			// Escape the search token.
 			$token = $db->quote('%' . $db->escape($this->getState('filter.search')) . '%');
