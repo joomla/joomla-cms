@@ -184,8 +184,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 		if (!empty($document->_scripts_otions))
 		{
 			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
-			//TODO: use .extend(Joomla.optionsStorage, options)
-			$buffer .= $tab . 'Joomla.optionsStorage = ' . json_encode($document->_scripts_otions) . ';' . $lnEnd;
+			//TODO: use Joomla.optionsStorage + .extend(Joomla.optionsStorage, options)
+			//when it will be safe
+			$buffer .= $tab . 'var JOptionsStorage = ' . json_encode($document->_scripts_otions) . ';' . $lnEnd;
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
