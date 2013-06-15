@@ -180,6 +180,15 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= '></script>' . $lnEnd;
 		}
 
+		//render scripts options
+		if (!empty($document->_scripts_otions))
+		{
+			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
+			//TODO: use .extend(Joomla.optionsStorage, options)
+			$buffer .= $tab . 'Joomla.optionsStorage = ' . json_encode($document->_scripts_otions) . ';' . $lnEnd;
+			$buffer .= $tab . '</script>' . $lnEnd;
+		}
+
 		// Generate script declarations
 		foreach ($document->_script as $type => $content)
 		{
