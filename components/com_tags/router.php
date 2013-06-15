@@ -127,6 +127,11 @@ function TagsParseRoute($segments)
 
 	$found = 0;
 
+	/* TODO: Sort this code out. Makes no sense!
+	 * $found isn't used.
+	 * Indentation is all off
+	 * The foreach loop will always break in first itteration
+	 */
 	foreach($segments as $segment)
 	{
 		if ($found == 0)

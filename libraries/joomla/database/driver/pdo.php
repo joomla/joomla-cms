@@ -115,8 +115,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			throw new RuntimeException('PDO Extension is not available.', 1);
 		}
 
-		// Initialize the connection string variable:
-		$connectionString = '';
 		$replace = array();
 		$with = array();
 

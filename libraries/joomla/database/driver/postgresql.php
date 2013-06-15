@@ -1197,8 +1197,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function replacePrefix($query, $prefix = '#__')
 	{
-		$query           = trim($query);
-		$replacedQuery = '';
+		$query = trim($query);
 
 		if (strpos($query, '\''))
 		{
