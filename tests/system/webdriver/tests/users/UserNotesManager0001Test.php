@@ -53,12 +53,8 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$this->userNotesManagerPage->clickButton('toolbar-new');
 		$userNotesEditPage = $this->getPageObject('UserNotesEditPage');
 		$testElements = $userNotesEditPage->getAllInputFields();
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		$actualFields = $this->getActualFieldsFromElements($testElements);
+
 		$this->assertEquals($userNotesEditPage->inputFields, $actualFields);
 		$userNotesEditPage->clickButton('toolbar-cancel');
 		$this->userNotesManagerPage = $this->getPageObject('UserNotesManagerPage');

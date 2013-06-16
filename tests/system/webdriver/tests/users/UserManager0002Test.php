@@ -117,12 +117,12 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 
 		$userNames = array($this->cfg->username, 'login2', 'login1', 'login3');
 		$userNamesSorted = $userNames;
-		sort($userNamesSorted, SORT_STRING | SORT_FLAG_CASE);
+		sort($userNamesSorted, SORT_STRING);
 		$userNamesReversed = array_reverse($userNamesSorted);
 
 		$emails = array($this->cfg->admin_email, 'user1@test.com', 'user3@test.com', 'user2@test.com');
 		$emailsSorted = $emails;
-		sort($emailsSorted, SORT_STRING | SORT_FLAG_CASE);
+		sort($emailsSorted, SORT_STRING);
 		$emailsReversed = array_reverse($emailsSorted);
 
 		$expectedRowNumbers = array(

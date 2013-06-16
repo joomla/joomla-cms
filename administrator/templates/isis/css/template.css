@@ -7210,6 +7210,9 @@ ul.treeselect ul.dropdown-menu li {
 td.has-context {
 	height: 23px;
 }
+td.nowrap.has-context {
+	width: 45%;
+}
 .item-associations {
 	margin: 0;
 }
@@ -7220,4 +7223,8 @@ td.has-context {
 }
 .item-associations li a {
 	color: #ffffff;
+}
+#flag img {
+	padding-top: 6px;
+	vertical-align: top;
 }

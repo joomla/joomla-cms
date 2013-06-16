@@ -31,7 +31,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 	 * @since   3.2
 	 */
 	protected $weblinkManagerPage = null;
-	
+
 	/**
 	 * Login to back end and navigate to menu Weblinks.
 	 *
@@ -54,7 +54,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -63,17 +63,12 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$this->weblinkManagerPage->clickButton('toolbar-new');
 		$weblinkEditPage = $this->getPageObject('WeblinkEditPage');
 		$testElements = $weblinkEditPage->getAllInputFields(array('details', 'publishing', 'params-jbasic', 'metadata-jmetadata'));
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($weblinkEditPage->inputFields, $actualFields);
 		$weblinkEditPage->clickButton('toolbar-cancel');
 		$this->weblinkManagerPage = $this->getPageObject('WeblinkManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -84,7 +79,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$weblinkEditPage->clickButton('cancel');
 		$this->weblinkManagerPage = $this->getPageObject('WeblinkManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -97,7 +92,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$weblinkEditPage->clickButton('toolbar-cancel');
 		$this->weblinkManagerPage = $this->getPageObject('WeblinkManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -114,7 +109,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$this->weblinkManagerPage->deleteItem($weblinkName);
 		$this->assertFalse($this->weblinkManagerPage->getRowNumber($weblinkName), 'Test Weblink should not be present');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -152,7 +147,7 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$values = $this->weblinkManagerPage->getFieldValues('WeblinkEditPage', $weblinkName, array('Alt text', 'Caption', 'Image Float'));
 		$this->weblinkManagerPage->deleteItem($weblinkName);
 	}
-	
+
 	/**
 	 * @test
 	 */
