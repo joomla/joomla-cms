@@ -477,7 +477,7 @@ class PlgSystemDebug extends JPlugin
 			$totalTime += $mark->time;
 			$totalMem += $mark->memory;
 			$htmlMark = sprintf(
-				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.3f ' . JText::_('PLG_DEBUG_SECONDS') . '</span> / <span class="label">%.3f ' . JText::_('PLG_DEBUG_SECONDS') . '</span>'
+				JText::_('PLG_DEBUG_TIME') . ': <span class="label label-time">%.1f&nbsp;ms</span> / <span class="label">%.1f&nbsp;ms</span>'
 				. ' ' . JText::_('PLG_DEBUG_MEMORY') . ': <span class="label label-memory">%0.3f MB</span> / <span class="label">%0.2f MB</span>'
 				. ' %s: %s',
 				$mark->time,
@@ -575,10 +575,10 @@ class PlgSystemDebug extends JPlugin
 					$html[] = '<br /><div>' . JText::sprintf(
 							JText::_('PLG_DEBUG_QUERIES_TIME'),
 							sprintf(
-								'<span class="label">%.3f' . JText::_('PLG_DEBUG_SECONDS') . '</span>',
-								$totalQueryTime
+								'<span class="label">%.1f&nbsp;ms</span>',
+								($totalQueryTime * 1000)
 							)
-						) . '</code></div>';
+						) . '</div>';
 				}
 			}
 		}
@@ -623,10 +623,6 @@ class PlgSystemDebug extends JPlugin
 
 		$db->setDebug(false);
 
-		$html = '';
-
-		$html .= '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $db->getCount()) . '</h4>';
-
 		$selectQueryTypeTicker = array();
 		$otherQueryTypeTicker = array();
 
@@ -660,13 +656,22 @@ class PlgSystemDebug extends JPlugin
 
 		$bars = array();
 		$info = array();
+		$totalQueryTime = 0;
+		$duplicates = array();
 
 		foreach ($log as $id => $query)
 		{
+			$did = md5($query);
+			if(!isset($duplicates[$did])) {
+				$duplicates[$did] = array();
+			}
+			$duplicates[$did][] = $id;
+
 			if ($timings && isset($timings[$id * 2 + 1]))
 			{
 				// Compute the query time:
 				$queryTime = ($timings[$id * 2 + 1] - $timings[$id * 2]) * 1000;
+				$totalQueryTime += $queryTime;
 
 				// Run an EXPLAIN EXTENDED query on the SQL query if possible:
 				$hasWarnings = false;
@@ -733,7 +738,7 @@ class PlgSystemDebug extends JPlugin
 					'class' => $barClass,
 					'width' => $barWidth,
 					'pre' => $barPre,
-					'tip' => sprintf('%.3f ms', $queryTime)
+					'tip' => sprintf('%.2f&nbsp;ms', $queryTime)
 				);
 				$info[$id] = (object) array(
 					'class' => $labelClass,
@@ -811,11 +816,11 @@ class PlgSystemDebug extends JPlugin
 
 				// Timing
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
-				$htmlTiming = '<div style="margin: 0px 0 5px;">' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_TIME'), sprintf('<span class="label ' . $info[$id]->class . '">%.3f ms</span>', $timing[$id]['0']));
+				$htmlTiming = '<div style="margin: 0px 0 5px;">' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_TIME'), sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
 
 				if ($timing[$id]['1'])
 				{
-					$htmlTiming .= ' ' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_AFTER_LAST'), sprintf('<span class="label">%.2f ms</span>', $timing[$id]['1']));
+					$htmlTiming .= ' ' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_AFTER_LAST'), sprintf('<span class="label">%.2f&nbsp;ms</span>', $timing[$id]['1']));
 				}
 
 				$htmlTiming .= '</div>';
@@ -874,10 +879,29 @@ class PlgSystemDebug extends JPlugin
 				}
 				$htmlAccordions .= JHtml::_('bootstrap.endAccordion');
 
-				$list[] = '<a name="dbg-query-' . $id . '"></a>'
+				$did = md5($query);
+				if (isset($duplicates[$did]) && count($duplicates[$did]) > 1)
+				{
+					$dups = array();
+					foreach ($duplicates[$did] as $dup)
+					{
+						if ($dup != $id)
+						{
+							$dups[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
+						}
+					}
+					$htmlQuery = '<div class="alert alert-error">' . JText::_('PLG_DEBUG_QUERY_DUPLICATES') . ': ' . implode(', ', $dups) . '</div>'
+						. '<pre class="alert hasTooltip" title="' . JText::_('PLG_DEBUG_QUERY_DUPLICATES_FOUND') . '">' . $text . '</pre>';
+				}
+				else
+				{
+					$htmlQuery = '<pre>' . $text . '</pre>';
+				}
+
+				$list[] = '<a name="dbg-query-' . ($id + 1) . '"></a>'
 					. $htmlTiming
 					. $htmlBar
-					. '<pre>' . $text . '</pre>'
+					. $htmlQuery
 					. $htmlAccordions;
 			}
 			else
@@ -886,7 +910,9 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		$html .= '<ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
+		$html = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $db->getCount())
+			. sprintf(' <span class="label">%.1f&nbsp;ms</span>', ($totalQueryTime)) . '</h4>'
+			. '<br /><ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
 
 		if (!$this->params->get('query_types', 1))
 		{
@@ -965,7 +991,7 @@ class PlgSystemDebug extends JPlugin
 				$tip = $bar->tip;
 			}
 
-			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: ' . $bar->width . '%;" href="#dbg-' . $class . '-' . $i . '"></a>';
+			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: ' . $bar->width . '%;" href="#dbg-' . $class . '-' . ($i + 1) . '"></a>';
 		}
 		return '<div class="progress dbg-bars dbg-bars-' . $class . '">' . implode('', $html) . '</div>';
 	}
@@ -1028,7 +1054,7 @@ class PlgSystemDebug extends JPlugin
 						$html .= '<td>';
 					}
 					// Display duration in ms with the unit instead of seconds:
-					$html .= sprintf('%.03f&nbsp;ms', $td * 1000);
+					$html .= sprintf('%.1f&nbsp;ms', $td * 1000);
 				}
 				elseif ($k == 'key')
 				{

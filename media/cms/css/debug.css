@@ -136,6 +136,7 @@ div#system-debug {
 }
 
 /* dbg-bars */
+#system-debug .alert,
 #system-debug .dbg-bars {
 	margin-bottom: 10px;
 }
@@ -169,4 +170,10 @@ div#system-debug {
 #system-debug table.dbg-query-table th,
 #system-debug table.dbg-query-table td {
 	padding: 3px 8px;
+}
+
+#system-debug #dbg_container_profile_information .label {
+	display: inline-block;
+	min-width: 60px;
+	text-align: right;
 }

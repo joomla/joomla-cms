@@ -70,7 +70,7 @@ class JProfiler
 	 */
 	public function __construct($prefix = '')
 	{
-		$this->start = $this->getmicrotime();
+		$this->start = microtime(1);
 		$this->prefix = $prefix;
 		$this->marks = array();
 		$this->buffer = array();
@@ -110,15 +110,13 @@ class JProfiler
 	 */
 	public function mark($label)
 	{
-		$current = self::getmicrotime() - $this->start;
-		$currentMem = 0;
-
+		$current = microtime(1) - $this->start;
 		$currentMem = memory_get_usage() / 1048576;
 
 		$m = (object) array(
 			'prefix' => $this->prefix,
-			'time' => ($current > $this->previousTime ? '+' : '-') . $current - $this->previousTime,
-			'totalTime' => $current,
+			'time' => ($current > $this->previousTime ? '+' : '-') . (($current - $this->previousTime) * 1000),
+			'totalTime' => ($current * 1000),
 			'memory' => ($currentMem > $this->previousMem ? '+' : '-') . ($currentMem - $this->previousMem),
 			'totalMemory' => $currentMem,
 			'label' => $label
@@ -128,8 +126,8 @@ class JProfiler
 		$mark = sprintf(
 			'%s %.3f seconds (%.3f); %0.2f MB (%0.3f) - %s',
 			$m->prefix,
-			$m->totalTime,
-			$m->time,
+			$m->totalTime / 1000,
+			$m->time / 1000,
 			$m->totalMemory,
 			$m->memory,
 			$m->label
@@ -148,6 +146,7 @@ class JProfiler
 	 * @return  float The current time
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's microtime(1)
 	 */
 	public static function getmicrotime()
 	{
