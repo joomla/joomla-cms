@@ -16,3 +16,6 @@
 
 # Test Related Files #
 /phpunit.xml
+
+# Adding com_fieldsdemo #
+com_fieldsdemo/
