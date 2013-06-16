@@ -3111,10 +3111,14 @@ fieldset.uploadform {
 }
 .alert .close {
 	position: relative;
-	top: -2px;
-	right: -21px;
+    	right: -30px;
+    	top: -5px;
 	line-height: 18px;
+   	float: right;
+   	font-size: 20px;
+    	font-weight: bold;
 }
+
 .alert-success {
 	background-color: #dff0d8;
 	border-color: #d6e9c6;
