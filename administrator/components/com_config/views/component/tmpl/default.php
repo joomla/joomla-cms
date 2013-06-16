@@ -54,9 +54,6 @@ JHtml::_('formbehavior.chosen', 'select');
 				?>
 					<div class="tab-pane" id="<?php echo $name;?>">
 						<?php
-							if (isset($fieldSet->description) && !empty($fieldSet->description)) :
-								echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
-							endif;
 							foreach ($this->form->getFieldset($name) as $field):
 						?>
 							<div class="control-group">
