@@ -919,11 +919,16 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
-		if ($totalQueryTime > ($totalBargraphTime * 0.25))
+		$totalTime = 0;
+		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
+		{
+			$totalTime += $mark->time;
+		}
+		if ($totalQueryTime > ($totalTime * 0.25))
 		{
 			$labelClass = 'label-important';
 		}
-		else if ($totalQueryTime < ($totalBargraphTime * 0.15))
+		else if ($totalQueryTime < ($totalTime * 0.15))
 		{
 			$labelClass = 'label-success';
 		}
