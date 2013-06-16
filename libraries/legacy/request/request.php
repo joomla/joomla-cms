@@ -33,7 +33,7 @@ JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
  * @package     Joomla.Legacy
  * @subpackage  Request
  * @since       11.1
- * @deprecated  12.1  Get the JInput object from the application instead
+ * @deprecated  12.1 (Platform) & 4.0 (CMS) - Get the JInput object from the application instead
  */
 class JRequest
 {

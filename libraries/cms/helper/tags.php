@@ -173,6 +173,12 @@ class JHelperTags
 	public function createTagsFromMetadata($metadata)
 	{
 		$metaObject = json_decode($metadata);
+
+		if (empty($metaObject->tags))
+		{
+			return $metadata;
+		}
+
 		$tags = $metaObject->tags;
 		if (empty($tags) || !is_array($tags))
 		{

@@ -243,7 +243,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jPrint ( "Add group " . $groupName . " to " . $levelName . " access level.\n");
 		$this->jPrint ( "Navagating to Access Levels.\n");
 		$this->jClick('Access Levels');
-		$this->click("//tr/td[contains(a,'$levelName')]/preceding-sibling::*/input");
+		$this->click("//tr/td[contains(a,'" . $levelName . "')]/..//input[@type='checkbox']");
 		$this->jClick('Edit');
 		$this->assertTrue($this->isTextPresent(": Edit", $this->getText("//h1")));
 		$id = $this->click("//label[contains(., '" . $groupName . "')]/input");

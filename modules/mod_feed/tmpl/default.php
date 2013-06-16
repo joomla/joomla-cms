@@ -87,7 +87,11 @@ else
 	{ ?>
 	<ul>
 		<?php for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
-		{  ?>
+		{
+			if( !$feed->offsetExists($i)) {
+				break;
+			}
+			?>
 			<?php
 				$uri = (!empty($feed[$i]->guid) || !is_null($feed[$i]->guid)) ? $feed[$i]->guid : $feed[$i]->uri;
 

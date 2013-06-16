@@ -127,20 +127,9 @@ class PluginsModelPlugins extends JModelList
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
-			if (!empty($search))
-			{
-				foreach ($result as $i => $item)
-				{
-					if (!preg_match("/$search/i", $item->name))
-					{
-						unset($result[$i]);
-					}
-				}
-			}
-
 			$lang = JFactory::getLanguage();
 			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
-			JArrayHelper::sortObjects($result, $ordering, $direction, true, $lang->getLocale());
+			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
@@ -248,11 +237,19 @@ class PluginsModelPlugins extends JModelList
 			$query->where('a.folder = ' . $db->quote($folder));
 		}
 
-		// Filter by search in id
+		// Filter by search in name or id
 		$search = $this->getState('filter.search');
-		if (!empty($search) && stripos($search, 'id:') === 0)
+		if (!empty($search))
 		{
-			$query->where('a.extension_id = ' . (int) substr($search, 3));
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.extension_id = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$query->where('(' . 'a.name LIKE ' . $search . ')');
+			}
 		}
 
 		return $query;

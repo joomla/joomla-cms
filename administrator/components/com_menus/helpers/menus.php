@@ -265,12 +265,16 @@ class MenusHelper
 		}
 		catch (RuntimeException $e)
 		{
-			JError::raiseWarning(500, $e->getMessage());
-			return false;
+			throw new Exception($e->getMessage(), 500);
 		}
+
 		foreach ($menuitems as $tag => $item)
 		{
-			$associations[$tag] = $item->id;
+			// Do not return itself as result
+			if ((int) $item->id != $pk)
+			{
+				$associations[$tag] = $item->id;
+			}
 		}
 		return $associations;
 	}

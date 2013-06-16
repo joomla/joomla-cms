@@ -15,10 +15,21 @@ class JHtmlBatchTest extends TestCaseDatabase
 {
 	/**
 	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   3.1
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/data/JHtmlTest.xml');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_categories', JPATH_TEST_DATABASE . '/jos_categories.csv');
+		$dataSet->addTable('jos_languages', JPATH_TEST_DATABASE . '/jos_languages.csv');
+		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
+		$dataSet->addTable('jos_viewlevels', JPATH_TEST_DATABASE . '/jos_viewlevels.csv');
+
+		return $dataSet;
 	}
 
 	/**
@@ -39,7 +50,7 @@ class JHtmlBatchTest extends TestCaseDatabase
 	{
 		$this->assertThat(
 			JHtmlBatch::item('com_content'),
-			$this->StringContains('<option value="2">Uncategorised</option>')
+			$this->StringContains('<option value="9">Uncategorised</option>')
 		);
 	}
 
