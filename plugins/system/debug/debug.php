@@ -499,12 +499,12 @@ class PlgSystemDebug extends JPlugin
 
 		foreach ($marks as $mark)
 		{
-			if ($mark->time > $avgTime * 1.5 )
+			if ($mark->time > $avgTime * 1.5)
 			{
 				$barClass = 'bar-danger';
 				$labelClass = 'label-important';
 			}
-			else if ($mark->time < $avgTime / 1.5 )
+			else if ($mark->time < $avgTime / 1.5)
 			{
 				$barClass = 'bar-success';
 				$labelClass = 'label-success';
@@ -515,12 +515,12 @@ class PlgSystemDebug extends JPlugin
 				$labelClass = 'label-warning';
 			}
 
-			if ($mark->memory > $avgMem * 1.5 )
+			if ($mark->memory > $avgMem * 1.5)
 			{
 				$barClassMem = 'bar-danger';
 				$labelClassMem = 'label-important';
 			}
-			else if ($mark->memory < $avgMem / 1.5 )
+			else if ($mark->memory < $avgMem / 1.5)
 			{
 				$barClassMem = 'bar-success';
 				$labelClassMem = 'label-success';
@@ -733,7 +733,7 @@ class PlgSystemDebug extends JPlugin
 					'class' => $barClass,
 					'width' => $barWidth,
 					'pre' => $barPre,
-					'tip' =>  sprintf('%.3f ms', $queryTime)
+					'tip' => sprintf('%.3f ms', $queryTime)
 				);
 				$info[$id] = (object) array(
 					'class' => $labelClass,
@@ -959,12 +959,13 @@ class PlgSystemDebug extends JPlugin
 				$barClass .= ' dbg-bar-active';
 			}
 			$tip = '';
-			if (isset($bar->tip) && $bar->tip) {
+			if (isset($bar->tip) && $bar->tip)
+			{
 				$barClass .= ' hasTooltip';
 				$tip = $bar->tip;
 			}
 
-			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="'.$tip.'" style="width: ' . $bar->width . '%;" href="#dbg-' . $class . '-' . $i . '"></a>';
+			$html[] = '<a class="bar dbg-bar ' . $barClass . '" title="' . $tip . '" style="width: ' . $bar->width . '%;" href="#dbg-' . $class . '-' . $i . '"></a>';
 		}
 		return '<div class="progress dbg-bars dbg-bars-' . $class . '">' . implode('', $html) . '</div>';
 	}
