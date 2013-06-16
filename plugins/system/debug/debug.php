@@ -546,7 +546,8 @@ class PlgSystemDebug extends JPlugin
 		$html[] = $this->renderBars($bars, 'profile');
 		$html[] = '<h4>' . JText::_('PLG_DEBUG_MEMORY') . '</h4>';
 		$html[] = $this->renderBars($barsMem, 'profile');
-		$html[] = implode('', $htmlMarks);
+
+		$html[] = '<div class="dbg-profile-list">' . implode('', $htmlMarks) . '</div>';
 
 		$db = JFactory::getDbo();
 
@@ -569,17 +570,25 @@ class PlgSystemDebug extends JPlugin
 						$totalQueryTime += $v - $lastStart;
 					}
 				}
+				$totalQueryTime = $totalQueryTime * 1000;
 
-				if ($totalQueryTime > 0.0)
+				if ($totalQueryTime > ($totalTime * 0.25))
 				{
-					$html[] = '<br /><div>' . JText::sprintf(
-							JText::_('PLG_DEBUG_QUERIES_TIME'),
-							sprintf(
-								'<span class="label">%.1f&nbsp;ms</span>',
-								($totalQueryTime * 1000)
-							)
-						) . '</div>';
+					$labelClass = 'label-important';
 				}
+				else if ($totalQueryTime < ($totalTime * 0.15))
+				{
+					$labelClass = 'label-success';
+				}
+				else
+				{
+					$labelClass = 'label-warning';
+				}
+
+				$html[] = '<br /><div>' . JText::sprintf(
+						JText::_('PLG_DEBUG_QUERIES_TIME'),
+						sprintf('<span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', $totalQueryTime)
+					) . '</div>';
 			}
 		}
 		return implode('', $html);
@@ -910,8 +919,21 @@ class PlgSystemDebug extends JPlugin
 			}
 		}
 
+		if ($totalQueryTime > ($totalBargraphTime * 0.25))
+		{
+			$labelClass = 'label-important';
+		}
+		else if ($totalQueryTime < ($totalBargraphTime * 0.15))
+		{
+			$labelClass = 'label-success';
+		}
+		else
+		{
+			$labelClass = 'label-warning';
+		}
+
 		$html = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $db->getCount())
-			. sprintf(' <span class="label">%.1f&nbsp;ms</span>', ($totalQueryTime)) . '</h4>'
+			. sprintf(' <span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', ($totalQueryTime)) . '</h4>'
 			. '<br /><ol><li>' . implode('<hr /></li><li>', $list) . '<hr /></li></ol>';
 
 		if (!$this->params->get('query_types', 1))

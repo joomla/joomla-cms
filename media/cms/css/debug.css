@@ -172,7 +172,7 @@ div#system-debug {
 	padding: 3px 8px;
 }
 
-#system-debug #dbg_container_profile_information .label {
+#system-debug .dbg-profile-list .label {
 	display: inline-block;
 	min-width: 60px;
 	text-align: right;
