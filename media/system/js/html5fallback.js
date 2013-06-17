@@ -1,6 +1,6 @@
 jQuery(document).ready(function() {
     	if (!("placeholder" in document.createElement("input"))){
-  		jQuery('[placeholder]').focus(function() {
+  		jQuery('[placeholder]:not(:password)').focus(function() {
 		  var input = jQuery(this);
 		  if (input.hasClass('placeholder')) {
 		    input.val('');
