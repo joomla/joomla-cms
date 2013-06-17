@@ -30,11 +30,9 @@
 			<fieldset name="basic">
 				<field
 					name="maximum"
-					type="integer"
-					default="5"
-					first="1"
-					last="20"
-					step="1"
+					type="text"
+					default="10"
+          filter="integer"
 					label="MOD_TAGS_CLOUD_FIELD_MAX_LABEL"
 					description="MOD_TAGS_CLOUD_FIELD_MAX_DESC">
 				</field>

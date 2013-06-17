@@ -24,7 +24,7 @@ abstract class ModTagsCloudHelper
 		$user             = JFactory::getUser();
 		$groups           = implode(',', $user->getAuthorisedViewLevels());
 		$timeframe        = $params->get('timeframe', 'alltime');
-		$maximum          = $params->get('maximum', 5);
+		$maximum          = $params->get('maximum', 10);
 		$minsize          = $params->get('minsize', 1);
 		$maxsize          = $params->get('maxsize', 2);
 		$order_value      = $params->get('order_value', 'rand()');
