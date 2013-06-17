@@ -37,6 +37,9 @@ class JFormFieldColor extends JFormField
 	 */
 	protected function getInput()
 	{
+		//Translate placeholder text
+		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+
 		// Control value can be: hue (default), saturation, brightness, wheel or simpel
 		$control = (string) $this->element['control'];
 
@@ -130,7 +133,7 @@ class JFormFieldColor extends JFormField
 			$class = ' class="' . trim('minicolors ' . $class) . '"';
 			$control = $control ? ' data-control="' . $control . '"' : '';
 			$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-			$hint = $this->hint ? ' placeholder="' . $this->hint . '"' : ' placeholder="#rrggbb"';
+			$hint = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="#rrggbb"';
 
 			//Including fallback code for HTML5 non supported browsers.
 			JHtml::_('jquery.framework');

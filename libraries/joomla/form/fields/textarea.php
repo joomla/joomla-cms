@@ -38,13 +38,16 @@ class JFormFieldTextarea extends JFormField
 	 */
 	protected function getInput()
 	{
+		//Translate placeholder text
+		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
 		$rows = $this->element['rows'] ? ' rows="' . (int) $this->element['rows'] . '"' : '';
 		$required = $this->required ? ' required="required" aria-required="true"' : '';
-		$hint = $this->hint ? ' placeholder="' . $this->hint . '"' : '';
+		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';

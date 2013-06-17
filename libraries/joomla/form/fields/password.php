@@ -38,6 +38,9 @@ class JFormFieldPassword extends JFormField
 	 */
 	protected function getInput()
 	{
+		//Translate placeholder text
+		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '99';
@@ -47,7 +50,7 @@ class JFormFieldPassword extends JFormField
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$meter		= ((string) $this->element['strengthmeter'] == 'true' ? ' $meter= 1' : ' $meter = 0');
 		$required   = $this->required ? ' required="required" aria-required="true"' : '';
-		$hint 		= $this->hint ? ' placeholder="' . $this->hint . '"' : '';
+		$hint 		= $hint ? ' placeholder="' . $hint . '"' : '';
 		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 		$minimumLength = $this->element['minimum_length'] ? (int) $this->element['minimum_length'] : 4;
 		$minimumIntegers = $this->element['minimum_integers'] ? (int) $this->element['minimum_integers'] : 0;

@@ -39,6 +39,9 @@ class JFormFieldCalendar extends JFormField
 	 */
 	protected function getInput()
 	{
+		//Translate placeholder text
+		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+
 		// Initialize some field attributes.
 		$format = $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
 
@@ -73,9 +76,9 @@ class JFormFieldCalendar extends JFormField
 			$attributes['required'] = 'required';
 			$attributes['aria-required'] = 'true';
 		}
-		if ($this->hint)
+		if ($hint)
 		{
-			$attributes['placeholder'] = $this->hint;
+			$attributes['placeholder'] = $hint;
 		}
 
 		// Handle the special case for "now".
