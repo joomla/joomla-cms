@@ -130,11 +130,16 @@ class JFormFieldColor extends JFormField
 			$class = ' class="' . trim('minicolors ' . $class) . '"';
 			$control = $control ? ' data-control="' . $control . '"' : '';
 			$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+			$hint = $this->hint ? ' placeholder="' . $this->hint . '"' : ' placeholder="#rrggbb"';
+
+			//Including fallback code for HTML5 non supported browsers.
+			JHtml::_('jquery.framework');
+			JHtml::_('script', 'system/html5fallback.js', false, true);
 
 			JHtml::_('behavior.colorpicker');
 
 			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $class . $position . $control . $disabled . $onchange . '/>';
+				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control . $disabled . $onchange . '/>';
 		}
 	}
 }
