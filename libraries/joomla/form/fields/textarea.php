@@ -49,6 +49,10 @@ class JFormFieldTextarea extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
+		// Including fallback code for HTML5 non supported browsers.
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/html5fallback.js', false, true);
+
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class . $hint . $disabled . $onchange . $required . '>'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}

@@ -118,6 +118,10 @@ class JFormFieldCalendar extends JFormField
 				break;
 		}
 
+		// Including fallback code for HTML5 non supported browsers.
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/html5fallback.js', false, true);
+
 		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
 	}
 }
