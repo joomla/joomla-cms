@@ -27,6 +27,14 @@ abstract class JFormField
 	protected $description;
 
 	/**
+	 * The hint text for the form field used to display hint inside the field.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $hint;
+
+	/**
 	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
 	 *
 	 * @var    SimpleXMLElement
@@ -73,6 +81,14 @@ abstract class JFormField
 	 * @since  11.1
 	 */
 	protected $translateDescription = true;
+
+	/**
+	 * True to translate the field hint string.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $translateHint = true;
 
 	/**
 	 * The document id for the form field.
@@ -235,6 +251,7 @@ abstract class JFormField
 		switch ($name)
 		{
 			case 'description':
+			case 'hint':
 			case 'formControl':
 			case 'hidden':
 			case 'id':
@@ -358,13 +375,17 @@ abstract class JFormField
 		// Set the field description text.
 		$this->description = (string) $element['description'];
 
+		// Set the field hint text.
+		$this->hint = (string) $element['hint'];
+
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
 
-		// Determine whether to translate the field label and/or description.
+		// Determine whether to translate the field label and/or description and/or hint.
 		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');
 		$this->translateDescription = !((string) $this->element['translate_description'] == 'false'
 			|| (string) $this->element['translate_description'] == '0');
+		$this->translateHint = !((string) $this->element['translate_hint'] == 'false' || (string) $this->element['hint'] == '0');
 
 		// Set the group of the field.
 		$this->group = $group;
