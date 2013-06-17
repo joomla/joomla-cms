@@ -73,6 +73,10 @@ class JFormFieldCalendar extends JFormField
 			$attributes['required'] = 'required';
 			$attributes['aria-required'] = 'true';
 		}
+		if ($this->hint)
+		{
+			$attributes['placeholder'] = $this->hint;
+		}
 
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
