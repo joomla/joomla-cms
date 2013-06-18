@@ -83,7 +83,7 @@ abstract class ModTagsCloudHelper
     
 		$results = $db->loadObjectList();
     
-    if($minsize > $maxsize) {
+    if ($minsize > $maxsize) {
       // swap $minsize and $maxsize if minimum > maximum
       $tempsize = $minsize;
       $minsize = $maxsize;
@@ -96,12 +96,16 @@ abstract class ModTagsCloudHelper
     $mincount = null;
     $maxcount = null;
     foreach ($results as $row) {
-      if($mincount === null || $mincount > $row->count) {
+      if ($mincount === null || $mincount > $row->count) {
         $mincount = $row->count;
       }
-      if($maxcount === null || $maxcount < $row->count) {
+      if ($maxcount === null || $maxcount < $row->count) {
         $maxcount = $row->count;
       }      
+    }
+    // avoid division by zero
+    if ($mincount == $maxcount) {
+      $mincount = $mincount - 1;
     }
     
     // fontsizes for tag cloud
