@@ -1,5 +1,5 @@
 jQuery(document).ready(function() {
-    	if (!("placeholder" in document.createElement("input"))){
+    if (!("placeholder" in document.createElement("input"))){
   		jQuery('[placeholder]:not(:password)').focus(function() {
 		  var input = jQuery(this);
 		  if (input.hasClass('placeholder')) {
@@ -23,5 +23,9 @@ jQuery(document).ready(function() {
 		jQuery(window).unload(function() {
 		    $('[placeholder]').val('');
 		});
+	}
+	if (!("required" in document.createElement("input"))){
+		jQuery('[required]').addClass('required')
+							.parents('form').addClass('form-validate');
 	}
 });
