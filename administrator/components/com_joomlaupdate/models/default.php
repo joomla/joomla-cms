@@ -28,7 +28,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since    3.1.2
+	 * @since    2.5.4
 	 */
 	public function applyUpdateSite()
 	{
@@ -51,7 +51,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				$updateURL = 'http://update.joomla.org/core/test/list_test.xml';
 				break;
 
-			// "Custom" if custom URL clear no chages
+			// "Custom" if custom URL empty no changes
 			case 'custom':
 				if($params->get('customurl', '') != '')
 				{
