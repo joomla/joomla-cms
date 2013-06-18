@@ -103,15 +103,18 @@ abstract class ModTagsCloudHelper
         $maxcount = $row->count;
       }      
     }
-    // avoid division by zero
-    if ($mincount == $maxcount) {
-      $mincount = $mincount - 1;
-    }
+    
+    $countdiff = $maxcount - $mincount;
     
     // fontsizes for tag cloud
     for ($i = 0; $i < $num; $i++) {
       $count = $results[$i]->count;
-      $fontsize = $minsize + (($maxsize - $minsize) / ($maxcount - $mincount)) * ($count - $mincount);
+      if ($countdiff == 0) {
+        $fontsize = $minsize;
+      }
+      else {
+        $fontsize = $minsize + (($maxsize - $minsize) / ($countdiff)) * ($count - $mincount);
+      }
       $results[$i]->size = $fontsize;
       
       // pass param "display_count" to the view
