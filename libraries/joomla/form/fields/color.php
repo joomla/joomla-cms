@@ -63,7 +63,7 @@ class JFormFieldColor extends JFormField
 			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 			JHtml::_('behavior.simplecolorpicker');
 
-			$colors = (string) $this->element['colors'];
+			$colors = strtolower((string) $this->element['colors']);
 
 			if (empty($colors))
 			{
