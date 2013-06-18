@@ -134,6 +134,7 @@ class JFormFieldColor extends JFormField
 			$control = $control ? ' data-control="' . $control . '"' : '';
 			$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 			$hint = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="#rrggbb"';
+			$required = $this->required ? ' required="required" aria-required="true"' : '';
 
 			//Including fallback code for HTML5 non supported browsers.
 			JHtml::_('jquery.framework');
@@ -142,7 +143,8 @@ class JFormFieldColor extends JFormField
 			JHtml::_('behavior.colorpicker');
 
 			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control . $disabled . $onchange . '/>';
+				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control 
+				. $disabled . $required . $onchange . '/>';
 		}
 	}
 }
