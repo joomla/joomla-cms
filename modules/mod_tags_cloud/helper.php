@@ -28,6 +28,8 @@ abstract class ModTagsCloudHelper
 		$minsize          = $params->get('minsize', 1);
 		$maxsize          = $params->get('maxsize', 2);
 		$order_value      = $params->get('order_value', 'rand()');
+    $display_count    = $params->get('display_count', 0);
+    
     if ($order_value == 'rand()') {
       $order_direction = '';
     }
@@ -107,6 +109,9 @@ abstract class ModTagsCloudHelper
       $count = $results[$i]->count;
       $fontsize = $minsize + (($maxsize - $minsize) / ($maxcount - $mincount)) * ($count - $mincount);
       $results[$i]->size = $fontsize;
+      
+      // pass param "display_count" to the view
+      $results[$i]->display_count = $display_count;
     }
     
 		return $results;

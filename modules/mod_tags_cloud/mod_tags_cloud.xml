@@ -95,6 +95,18 @@
 					<option
 						value="desc">JGLOBAL_ORDER_DESCENDING</option>
 				</field>
+				<field
+					name="display_count"
+					type="radio"
+          class="btn-group"
+					default="0"
+					label="MOD_TAGS_CLOUD_FIELD_DISPLAY_COUNT_LABEL"
+					description="MOD_TAGS_CLOUD_FIELD_DISPLAY_COUNT_DESC"
+          filter="integer"
+        >
+					<option	value="0">JNO</option>
+					<option	value="1">JYES</option>
+				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">
