@@ -40,6 +40,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			return false;
 		}
 
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}

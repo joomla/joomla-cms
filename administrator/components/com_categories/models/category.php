@@ -395,12 +395,13 @@ class CategoriesModelCategory extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'categoryedit');
+					$field->addAttribute('type', 'modal_category');
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
-					$option = $field->addChild('option', 'COM_CATEGORIES_ITEM_FIELD_ASSOCIATION_NO_VALUE');
-					$option->addAttribute('value', '');
+					$field->addAttribute('extension', $extension);
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 				}
 			}
 			if ($add)

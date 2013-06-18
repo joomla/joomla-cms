@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_content
+ * @subpackage  com_categories
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,10 +13,10 @@ defined('JPATH_BASE') or die;
  * Supports a modal article picker.
  *
  * @package     Joomla.Administrator
- * @subpackage  com_content
- * @since       1.6
+ * @subpackage  com_categories
+ * @since       3.1
  */
-class JFormFieldModal_Article extends JFormField
+class JFormFieldModal_Category extends JFormField
 {
 	/**
 	 * The form field type.
@@ -24,7 +24,7 @@ class JFormFieldModal_Article extends JFormField
 	 * @var		string
 	 * @since   1.6
 	 */
-	protected $type = 'Modal_Article';
+	protected $type = 'Modal_Category';
 
 	/**
 	 * Method to get the field input markup.
@@ -34,6 +34,8 @@ class JFormFieldModal_Article extends JFormField
 	 */
 	protected function getInput()
 	{
+		$extension 		= $this->element['extension'] ? (string) $this->element['extension'] : (string) JFactory::getApplication()->input->get('extension', 'com_content');
+
 		$allowEdit		= ((string) $this->element['edit'] == 'true') ? true : false;
 		$allowClear		= ((string) $this->element['clear'] != 'false') ? true : false;
 
@@ -41,7 +43,7 @@ class JFormFieldModal_Article extends JFormField
 		$modalY			= ((string) $this->element['modaly']) ? (string) $this->element['modaly'] : '600';
 
 		// Load language
-		JFactory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+		JFactory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
 		// Load the modal behavior script.
 		JHtml::_('behavior.modal', 'a.modal');
@@ -50,7 +52,7 @@ class JFormFieldModal_Article extends JFormField
 		$script = array();
 
 		// Select button script
-		$script[] = '	function jSelectArticle_'.$this->id.'(id, title, catid, object) {';
+		$script[] = '	function jSelectCategory_'.$this->id.'(id, title, object) {';
 		$script[] = '		document.getElementById("'.$this->id.'_id").value = id;';
 		$script[] = '		document.getElementById("'.$this->id.'_name").value = title;';
 
@@ -74,10 +76,10 @@ class JFormFieldModal_Article extends JFormField
 		{
 			$scriptEdit = true;
 
-			$script[] = '	function jEditArticle(id) {';
+			$script[] = '	function jEditCategory(id) {';
 			$script[] = '		SqueezeBox.open(null, {';
 			$script[] = '			handler: "iframe",';
-			$script[] = '			url: "index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id=" + id,';
+			$script[] = '			url: "index.php?option=com_categories&layout=modal&tmpl=component&task=category.edit&id=" + id,';
 			$script[] = '			size: {x:'.$modalX.', y:'.$modalY.'}';
 			$script[] = '		});';
 			$script[] = '		return false;';
@@ -91,9 +93,9 @@ class JFormFieldModal_Article extends JFormField
 		{
 			$scriptClear = true;
 
-			$script[] = '	function jClearArticle(id) {';
+			$script[] = '	function jClearCategory(id) {';
 			$script[] = '		document.getElementById(id + "_id").value = "";';
-			$script[] = '		document.getElementById(id + "_name").value = "'.htmlspecialchars(JText::_('COM_CONTENT_SELECT_AN_ARTICLE', true), ENT_COMPAT, 'UTF-8').'";';
+			$script[] = '		document.getElementById(id + "_name").value = "'.htmlspecialchars(JText::_('COM_CATEGORIES_SELECT_A_CATEGORY', true), ENT_COMPAT, 'UTF-8').'";';
 			$script[] = '		jQuery("#"+id + "_clear").addClass("hidden");';
 			$script[] = '		if (document.getElementById(id + "_edit")) {';
 			$script[] = '			jQuery("#"+id + "_edit").addClass("hidden");';
@@ -107,7 +109,7 @@ class JFormFieldModal_Article extends JFormField
 
 		// Setup variables for display.
 		$html	= array();
-		$link	= 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;function=jSelectArticle_'.$this->id;
+		$link	= 'index.php?option=com_categories&amp;view=categories&amp;layout=modal&amp;tmpl=component&amp;extension='.$extension.'&amp;function=jSelectCategory_'.$this->id;
 
 		if (isset($this->element['language']))
 		{
@@ -117,7 +119,7 @@ class JFormFieldModal_Article extends JFormField
 		$db	= JFactory::getDbo();
 		$db->setQuery(
 			'SELECT title' .
-			' FROM #__content' .
+			' FROM #__categories' .
 			' WHERE id = '.(int) $this->value
 		);
 
@@ -132,7 +134,7 @@ class JFormFieldModal_Article extends JFormField
 
 		if (empty($title))
 		{
-			$title = JText::_('COM_CONTENT_SELECT_AN_ARTICLE');
+			$title = JText::_('COM_CATEGORIES_SELECT_A_CATEGORY');
 		}
 		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
 
@@ -149,18 +151,18 @@ class JFormFieldModal_Article extends JFormField
 		// The current article display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="'.$this->id.'_name" value="'.$title.'" disabled="disabled" size="35" />';
-		$html[] = '<a class="modal btn" title="'.JText::_('COM_CONTENT_CHANGE_ARTICLE').'"  href="'.$link.'&amp;'.JSession::getFormToken().'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> '.JText::_('JSELECT').'</a>';
+		$html[] = '<a class="modal btn" title="'.JText::_('COM_CATEGORIES_CHANGE_CATEGORY').'"  href="'.$link.'&amp;'.JSession::getFormToken().'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> '.JText::_('JSELECT').'</a>';
 
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<button id="'.$this->id.'_edit" class="btn'.($value ? '' : ' hidden').'" title="'.JText::_('COM_CONTENT_EDIT_ARTICLE').'" onclick="return jEditArticle(jQuery(\'#'.$this->id.'_id\').val())"><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</button>';
+			$html[] = '<button id="'.$this->id.'_edit" class="btn'.($value ? '' : ' hidden').'" title="'.JText::_('COM_CATEGORIES_EDIT_CATEGORY').'" onclick="return jEditCategory(jQuery(\'#'.$this->id.'_id\').val())"><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</button>';
 		}
 
 		// Clear article button
 		if ($allowClear)
 		{
-			$html[] = '<button id="'.$this->id.'_clear" class="btn'.($value ? '' : ' hidden').'" onclick="return jClearArticle(\''.$this->id.'\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
+			$html[] = '<button id="'.$this->id.'_clear" class="btn'.($value ? '' : ' hidden').'" onclick="return jClearCategory(\''.$this->id.'\')"><span class="icon-remove"></span> ' . JText::_('JCLEAR') . '</button>';
 		}
 
 		$html[] = '</span>';
