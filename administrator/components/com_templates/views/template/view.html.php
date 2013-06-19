@@ -23,6 +23,10 @@ class TemplatesViewTemplate extends JViewLegacy
 	protected $state;
 
 	protected $template;
+	
+	protected $tree;
+	
+	protected $level = 0;
 
 	/**
 	 * Display the view
@@ -32,6 +36,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->files	= $this->get('Files');
 		$this->state	= $this->get('State');
 		$this->template	= $this->get('Template');
+		$this->tree 	= $this->get('DirectoryTree');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -74,5 +79,28 @@ class TemplatesViewTemplate extends JViewLegacy
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
+	}
+	
+	function listTree($parent,$children)
+	{
+		$tmp = null;
+		if($this->search('parent',$children))
+		{
+			$this->level = $children;
+			$tmp = $this->loadTemplate('tree');
+			$this->level = $parent;
+		}
+		return $tmp;
+	}
+	
+	function search($key,$value)
+	{
+		foreach($this->tree as $folder)
+		{
+			if(isset($folder[$key]) && $folder[$key] == $value)
+			{
+			return true;
+			}
+		}
 	}
 }
