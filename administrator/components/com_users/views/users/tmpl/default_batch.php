@@ -15,7 +15,6 @@ $options = array(
 	JHtml::_('select.option', 'del', JText::_('COM_USERS_BATCH_DELETE')),
 	JHtml::_('select.option', 'set', JText::_('COM_USERS_BATCH_SET'))
 );
-JHtml::_('formbehavior.chosen', 'select');
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">

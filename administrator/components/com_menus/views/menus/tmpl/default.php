@@ -16,7 +16,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
-JHtml::_('formbehavior.chosen', 'select');
 
 $uri = JUri::getInstance();
 $return = base64_encode($uri);

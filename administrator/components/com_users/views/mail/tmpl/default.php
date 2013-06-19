@@ -29,7 +29,6 @@ $script .= "\t\t".'}'."\n";
 
 // Load the tooltip behavior.
 JHtml::_('behavior.tooltip');
-JHtml::_('formbehavior.chosen', 'select');
 
 JFactory::getDocument()->addScriptDeclaration($script);
 ?>

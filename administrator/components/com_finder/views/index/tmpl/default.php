@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
-JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.popover');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
