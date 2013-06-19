@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	<?php foreach($this->tree as $folder):?>
 		<li>
 			<?php if($folder['parent'] == $this->level):?>
-				<a href="index.php?option=com_templates&view=template&folderid=<?php echo $folder['id'];?>"><i class="icon-folder-2">&nbsp;<?php echo $folder['name']?></i></a>
+				<a href="index.php?option=com_templates&task=template.files&folderid=<?php echo $folder['id'];?>"><i class="icon-folder-2">&nbsp;<?php echo $folder['name']?></i></a>
 				<?php echo $this->listTree($this->level,$folder['id']);?>
 			<?php endif;?>	
 		</li>

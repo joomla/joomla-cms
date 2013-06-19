@@ -54,7 +54,7 @@ class TemplatesViewTemplate extends JViewLegacy
 	 *
 	 * @since   1.6
 	 */
-	protected function addToolbar()
+protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
@@ -64,8 +64,26 @@ class TemplatesViewTemplate extends JViewLegacy
 		$canDo = TemplatesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
+		
+		if ($user->authorise('core.create', 'com_templates'))
+		{
+			$title = JText::_('JTOOLBAR_UPLOAD');
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-small btn-success\">
+			<i class=\"icon-plus icon-white\" title=\"$title\"></i>
+			$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+			JToolbarHelper::divider();
+		}
 
-		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+		// Add a new file button
+		if ($user->authorise('core.create', 'com_templates'))
+		{
+			$title = JText::_('New File');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+			<i class=\"icon-file\" title=\"$title\"></i>
+			$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+		}
 
 		// Add a copy button
 		if ($user->authorise('core.create', 'com_templates'))
@@ -76,6 +94,18 @@ class TemplatesViewTemplate extends JViewLegacy
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
+		
+		//Add a Compile Button
+		if ($user->authorise('core.create', 'com_templates'))
+		{
+			$title = JText::_('Compile LESS');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+			<i class=\"icon-play\" title=\"$title\"></i>
+			$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+		}
+		
+		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');

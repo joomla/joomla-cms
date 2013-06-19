@@ -65,32 +65,13 @@ class TemplatesModelTemplate extends JModelLegacy
 		{
 			
 			jimport('joomla.filesystem.folder');
-			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$path	= JPath::clean($client->path.'/templates/'.$template->element.'/');
-			$folderid = JInput::Get('folderid');
+			$client 	= JApplicationHelper::getClientInfo($template->client_id);
+			$path		= JPath::clean($client->path.'/templates/'.$template->element.'/');
+			$app 		= JFactory::getApplication();
+			$folderid 	= $app->input->get('folderid');
 
 			if (is_dir($path))
 			{
-				/*$result['main'] = array();
-				$result['css'] = array();
-				$result['clo'] = array();
-				$result['mlo'] = array();
-				$result['html'] = array();
-
-				// Handle the main PHP files.
-				$result['main']['index'] = $this->getFile($path, 'index.php');
-				$result['main']['error'] = $this->getFile($path, 'error.php');
-				$result['main']['print'] = $this->getFile($path, 'component.php');
-				$result['main']['offline'] = $this->getFile($path, 'offline.php');
-
-				// Handle the CSS files.
-				$files = JFolder::files($path.'/css', '\.css$', false, false);
-
-				foreach ($files as $file)
-				{
-					$result['css'][] = $this->getFile($path.'/css/', 'css/'.$file);
-				}*/
-				
 				$folder = $this->getFolder($path,$folderid);
 				$files = JFolder::files($folder['fullname'],'\.php$',false,false);
 				foreach($files as $file)

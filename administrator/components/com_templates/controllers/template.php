@@ -102,4 +102,34 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 		}
 	}
+	
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string	The model name. Optional.
+	 * @param   string	The class prefix. Optional.
+	 * @param   array  Configuration array for model. Optional (note, the empty array is atypical compared to other models).
+	 *
+	 * @return  object  The model.
+	 */
+	public function getModel($name = 'Template', $prefix = 'TemplatesModel', $config = array())
+	{
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
+	}
+	
+	public function files()
+	{
+		$app		= JFactory::getApplication();
+		$model		= $this->getModel();
+		$recordId	= $app->input->get('folderid');
+		$context	= 'com_templates.template.files';
+		$returnId 	= (int) $model->getState('extension.id');
+		
+		// Check-out succeeded, push the new record id into the session.
+		$app->setUserState($context.'.id',	$recordId);
+		$app->setUserState($context.'.data', null);
+		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$returnId, false));
+		return true;
+	}
 }
