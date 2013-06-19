@@ -27,7 +27,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		{
 			<?php echo $this->form->getField('misc')->save(); ?>
 
-			if (task == 'contact.save')
+			if (task == 'contact.save' || task == 'contact.cancel')
 			{
 				window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 			}
@@ -40,7 +40,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 <div class="pull-right">
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('contact.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('contact.save');"><?php echo JText::_('JTOOLBAR_SAVE') ?></button>
-	<button class="btn" type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></button>
+	<button class="btn" type="button" onclick="Joomla.submitbutton('contact.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
 <div class="clearfix"> </div>

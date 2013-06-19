@@ -63,11 +63,11 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 
-			if (task == 'article.save')
+			if (task == 'article.save' || task == 'article.cancel')
 			{
 				window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 			}
-			
+
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
 	}
@@ -76,7 +76,7 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 <div class="pull-right">
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('article.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('article.save');"><?php echo JText::_('JTOOLBAR_SAVE') ?></button>
-	<button class="btn" type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></button>
+	<button class="btn" type="button" onclick="Joomla.submitbutton('article.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
 <div class="clearfix"> </div>

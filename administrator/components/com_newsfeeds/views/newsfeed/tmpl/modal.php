@@ -28,7 +28,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 	{
 		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form')))
 		{
-			if (task == 'newsfeed.save')
+			if (task == 'newsfeed.save' || task == 'newsfeed.cancel')
 			{
 				window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 			}
@@ -41,7 +41,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 <div class="pull-right">
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('newsfeed.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('newsfeed.save');"><?php echo JText::_('JTOOLBAR_SAVE') ?></button>
-	<button class="btn" type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></button>
+	<button class="btn" type="button" onclick="Joomla.submitbutton('newsfeed.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&layout=modal&tmpl=component&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate form-horizontal">

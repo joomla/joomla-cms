@@ -29,7 +29,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
 		{
 			<?php echo $this->form->getField('description')->save(); ?>
-			if (task == 'category.save')
+			if (task == 'category.save' || task == 'category.cancel')
 			{
 				window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 			}
@@ -41,11 +41,11 @@ JHtml::_('formbehavior.chosen', 'select');
 <div class="pull-right">
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('category.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('category.save');"><?php echo JText::_('JTOOLBAR_SAVE') ?></button>
-	<button class="btn" type="button" onclick="window.parent.SqueezeBox.close();"><?php echo JText::_('JCANCEL') ?></button>
+	<button class="btn" type="button" onclick="Joomla.submitbutton('category.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
 <div class="clearfix"> </div>
-<hr class="hr-condensed" /> 
+<hr class="hr-condensed" />
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
 	<div class="row-fluid">
@@ -162,11 +162,11 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php endif; ?>
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-			
+
 			<div class="hidden">
 				<?php echo $this->loadTemplate('associations'); ?>
 			</div>
-			
+
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />
 			<?php echo JHtml::_('form.token'); ?>
@@ -217,7 +217,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php endforeach; ?>
 				</div>
 			</fieldset>
-		</div> 
+		</div>
 		<!-- End Sidebar -->
 	</div>
 </form>
