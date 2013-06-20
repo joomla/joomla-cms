@@ -96,14 +96,13 @@ var JFormValidator = function($) {
 	};
 
 	var isValid = function(form) {
-		var valid = true, $form = $(form), i, elements;
+		var valid = true, $form = $(form), i;
 		// Validate form fields
-		elements = $form.find('fieldset').toArray().concat(Array.from(form.elements));
-		for ( i = 0; i < elements.length; i++) {
-			if (validate(elements[i]) === false) {
+		$form.find('input, textarea, select, button, fieldset').each(function(index, el){
+			if (validate(el) === false) {
 				valid = false;
 			}
-		}
+		});
 		// Run custom form validators if present
 		new Hash(custom).each(function(validator) {
 			if (validator.exec() !== true) {
