@@ -86,27 +86,12 @@ class JFormRulePassword extends JFormRule
 			return true;
 		}
 
-		// Minimum length option
-		if (!empty($minimumLength))
-		{
-
-			if (strlen($value) < $minimumLength)
-			{
-				JFactory::getApplication()->enqueueMessage(
-					JText::sprintf('COM_USERS_MSG_PASSWORD_TOO_SHORT', $minimumLength),
-					'warning'
-				);
-
-				return false;
-			}
-			$this->regex = '/^\S[\S ]{' . $minimumLength .',98}\S$/';
-		}
-
 		// Minimum number of integers required
 		if (!empty($minimumIntegers))
 		{
 
 			$nInts = preg_match_all('/[0-9]/', $value );
+
 			if ($nInts < $minimumIntegers)
 			{
 				JFactory::getApplication()->enqueueMessage(
@@ -149,6 +134,23 @@ class JFormRulePassword extends JFormRule
 				return false;
 			}
 		}
+
+		// Minimum length option
+		if (!empty($minimumLength))
+		{
+
+			if (strlen($value) < $minimumLength)
+			{
+				JFactory::getApplication()->enqueueMessage(
+				JText::sprintf('COM_USERS_MSG_PASSWORD_TOO_SHORT', $minimumLength),
+				'warning'
+						);
+
+				return false;
+			}
+			$this->regex = '/^\S[\S ]{' . $minimumLength .',98}\S$/';
+		}
+
 
 		// Test the value against the regular expression.
 		if (preg_match($this->regex, $value) == false)
