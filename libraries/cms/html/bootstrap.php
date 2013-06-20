@@ -664,6 +664,7 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+			$opt['class'] = (isset($params['class']) && ($params['class'])) ? (string) $params['class'] : '';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -676,7 +677,7 @@ abstract class JHtmlBootstrap
 			self::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
-		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector, 'class'=>$opt['class']));
 
 		return $html;
 	}
