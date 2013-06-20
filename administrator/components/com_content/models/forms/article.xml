@@ -800,6 +800,7 @@
 				<field name="tags" type="tag"
 					label="JTAG" description="JTAG_DESC"
 					class="inputbox span12 small" multiple="true"
+					content_type="com_content.article"
 				>
 				</field>
 	

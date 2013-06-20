@@ -123,6 +123,33 @@ class JFormFieldTag extends JFormFieldList
 			->from('#__tags AS a')
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
+		// Get the name of the ID field of this item. The field must exist in the form.
+		$id_key = $this->element['id_key'] ? $this->element['id_key'] : 'id';
+
+		// Get the tag content type. If it's empty we will not fetch the tags from the database
+		$content_type = $this->element['content_type'] ? $this->element['content_type'] : '';
+
+		if (!empty($content_type))
+		{
+			$id_field = $this->form->getField($id_key);
+
+			if ($id_field instanceof JFormField)
+			{
+				$content_id = $id_field->value;
+
+				$selected_query = $db->getQuery(true);
+				$selected_query
+					->select('tag_id')
+					->from('#__contentitem_tag_map')
+					->where('content_item_id = ' . (int) $content_id)
+					->where('type_alias = ' . $db->quote($content_type));
+
+				$db->setQuery($selected_query);
+
+				$this->value = $db->loadColumn();
+			}
+		}
+
 		// Ajax tag only loads assigned values
 		if (!$this->isNested())
 		{

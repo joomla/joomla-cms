@@ -187,13 +187,6 @@ class WeblinksModelWeblink extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadString($item->images);
 			$item->images = $registry->toArray();
-
-			if (!empty($item->id))
-			{
-				$item->tags = new JHelperTags;
-				$item->tags->getTagIds($item->id, 'com_weblinks.weblink');
-				$item->metadata['tags'] = $item->tags;
-			}
 		}
 
 		return $item;

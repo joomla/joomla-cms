@@ -222,6 +222,7 @@
 			<field name="tags" type="tag"
 				label="JTAG" description="JTAG_DESC"
 				class="inputbox" multiple="true"
+				content_type="com_weblinks.weblink"
 			>
 			</field>
 
