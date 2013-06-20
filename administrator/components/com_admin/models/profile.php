@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
 
 /**
- * User model.
+ * User profile model
  *
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -34,10 +34,12 @@ class AdminModelProfile extends UsersModelUser
 	{
 		// Get the form.
 		$form = $this->loadForm('com_admin.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
 		}
+
 		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			$form->setFieldAttribute('username', 'required', 'false');
@@ -76,15 +78,15 @@ class AdminModelProfile extends UsersModelUser
 	/**
 	 * Method to get a single record.
 	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
 	 * @return  mixed  Object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
 	public function getItem($pk = null)
 	{
-		$user = JFactory::getUser();
-
-		return parent::getItem($user->get('id'));
+		return parent::getItem(JFactory::getUser()->id);
 	}
 
 	/**

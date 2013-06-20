@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * Utility class working with directory
+ * Utility class working with directories
  *
  * @package     Joomla.Administrator
  * @subpackage  com_admin
@@ -21,32 +21,36 @@ abstract class JHtmlDirectory
 	/**
 	 * Method to generate a (un)writable message for directory
 	 *
-	 * @param   boolean	$writable is the directory writable?
+	 * @param   boolean  $writable  Is the directory writable?
 	 *
-	 * @return  string	html code
+	 * @return  string  HTML markup displaying whether the item is writable
+	 *
+	 * @since   1.6
 	 */
 	public static function writable($writable)
 	{
 		if ($writable)
 		{
-			return '<span class="badge badge-success">'. JText::_('COM_ADMIN_WRITABLE') .'</span>';
+			return '<span class="badge badge-success">' . JText::_('COM_ADMIN_WRITABLE') . '</span>';
 		}
 		else
 		{
-			return '<span class="badge badge-important">'. JText::_('COM_ADMIN_UNWRITABLE') .'</span>';
+			return '<span class="badge badge-important">' . JText::_('COM_ADMIN_UNWRITABLE') . '</span>';
 		}
 	}
 
 	/**
 	 * Method to generate a message for a directory
 	 *
-	 * @param   string	$dir the directory
-	 * @param   boolean	$message the message
-	 * @param   boolean	$visible is the $dir visible?
+	 * @param   string   $dir      The directory
+	 * @param   boolean  $message  The message
+	 * @param   boolean  $visible  Is the $dir visible?
 	 *
-	 * @return  string	html code
+	 * @return  string	HTML markup for the message
+	 *
+	 * @since   1.6
 	 */
-	public static function message($dir, $message, $visible=true)
+	public static function message($dir, $message, $visible = true)
 	{
 		if ($visible)
 		{
@@ -56,13 +60,14 @@ abstract class JHtmlDirectory
 		{
 			$output = '';
 		}
+
 		if (empty($message))
 		{
 			return $output;
 		}
 		else
 		{
-			return $output.' <strong>'.JText::_($message).'</strong>';
+			return $output . ' <strong>' . JText::_($message) . '</strong>';
 		}
 	}
 }

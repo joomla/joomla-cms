@@ -20,24 +20,24 @@ class AdminModelHelp extends JModelLegacy
 {
 	/**
 	 * The search string
-	 * @var    string
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $help_search = null;
 
 	/**
 	 * The page to be viewed
-	 * @var    string
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $page = null;
 
 	/**
-	 * The iso language tag
-	 * @var    string
+	 * The ISO language tag
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $lang_tag = null;
@@ -71,6 +71,7 @@ class AdminModelHelp extends JModelLegacy
 		{
 			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
 		}
+
 		return $this->help_search;
 	}
 
@@ -88,15 +89,16 @@ class AdminModelHelp extends JModelLegacy
 			$page = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
 			$this->page = JHelp::createUrl($page);
 		}
+
 		return $this->page;
 	}
 
 	/**
-	 * Method to get the lang tag
+	 * Method to get the current language ISO tag
 	 *
-	 * @return  string  lang iso tag
+	 * @return  string  Language ISO tag
 	 *
-	 * @since  1.6
+	 * @since   1.6
 	 */
 	public function getLangTag()
 	{
@@ -107,19 +109,20 @@ class AdminModelHelp extends JModelLegacy
 
 			if (!is_dir(JPATH_BASE . '/help/' . $this->lang_tag))
 			{
-				// Use english as fallback
+				// Use English as fallback
 				$this->lang_tag = 'en-GB';
 			}
-
 		}
 
 		return $this->lang_tag;
 	}
 
 	/**
-	 * Method to get the toc
+	 * Method to get the table of contents for an item
 	 *
 	 * @return  array  Table of contents
+	 *
+	 * @since   1.6
 	 */
 	public function &getToc()
 	{
@@ -133,18 +136,23 @@ class AdminModelHelp extends JModelLegacy
 			jimport('joomla.filesystem.folder');
 			$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 			$this->toc = array();
+
 			foreach ($files as $file)
 			{
 				$buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
+
 				if (preg_match('#<title>(.*?)</title>#', $buffer, $m))
 				{
 					$title = trim($m[1]);
+
 					if ($title)
 					{
 						// Translate the page title
 						$title = JText::_($title);
-						// strip the extension
+
+						// Strip the extension
 						$file = preg_replace('#\.xml$|\.html$#', '', $file);
+
 						if ($help_search)
 						{
 							if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false)
@@ -161,6 +169,7 @@ class AdminModelHelp extends JModelLegacy
 					}
 				}
 			}
+
 			// Sort the Table of Contents
 			asort($this->toc);
 		}
@@ -169,9 +178,11 @@ class AdminModelHelp extends JModelLegacy
 	}
 
 	/**
-	 * Method to get the latest version check
+	 * Method to get the latest version check URL
 	 *
 	 * @return  string  Latest Version Check URL
+	 *
+	 * @since   1.6
 	 */
 	public function &getLatestVersionCheck()
 	{
