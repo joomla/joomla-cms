@@ -8,17 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-?>
-<fieldset class="form-horizontal">
-	<legend><?php echo JText::_('COM_CONFIG_COOKIE_SETTINGS'); ?></legend>
-	<?php
-	foreach ($this->form->getFieldset('cookie') as $field):
-	?>
-		<div class="control-group">
-			<div class="control-label"><?php echo $field->label; ?></div>
-			<div class="controls"><?php echo $field->input; ?></div>
-		</div>
-	<?php
-	endforeach;
-	?>
-</fieldset>
+
+$this->name = JText::_('COM_CONFIG_COOKIE_SETTINGS');
+$this->fieldsname = 'cookie';
+echo JLayoutHelper::render('joomla.content.options_default', $this);
