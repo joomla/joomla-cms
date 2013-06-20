@@ -29,6 +29,7 @@ $ -> Language fix or change
  + [#29945] Joomla administration shows the Name of the author, not the User Name. Thanks Stefania Gaianigo
  $ [#31176] Change the Language String for the Language Keyword INSTL_ADMIN_USER_DESC. Thanks Ilagnayeru 'MIG' Manickam
  # [#31158] *Multilanguage: Editing an article in frontend deletes its associations. Thanks Benjamin Trenkle.
+ # [#31184] *Multilanguage: Frontend article edit may break when using associations.
 
 13-Jun-2013 Jean-Marie Simonet
  ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
