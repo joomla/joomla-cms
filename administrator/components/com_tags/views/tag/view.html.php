@@ -76,7 +76,7 @@ class TagsViewTag extends JViewLegacy
 		$title = JText::_('COM_TAGS_BASE_'.($isNew?'ADD':'EDIT').'_TITLE');
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'tag-'.($isNew?'add':'edit').($isNew?'add':'edit'));
+		JToolbarHelper::title($title, 'tags.png');
 
 		// For new records, check the create permission.
 		if ($isNew)

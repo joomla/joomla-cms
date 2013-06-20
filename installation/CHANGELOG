@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#31184] *Multilanguage: Frontend article edit may break when using associations.
  # [#31189] Some fields are missing from the tags edit screen. Thanks Elin Waring
  # [#31167] Add class="btn-group" for hathor Options. Thanks Tobias Zulauf
+ # [#30751] No image for Tag Component at the template Hathor. Thanks Andrea Tarr and Ulrika Hall
 
 13-Jun-2013 Jean-Marie Simonet
  ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
