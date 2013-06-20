@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#31175] More text as we need at Text Filters. Thanks Tobias Zulauf
  # [#31125] Category images don't show in Categories list. Thanks David Hurley
  # [#31166] Undefined property: JTableCorecontent::$metakey. Thanks Fedik Zinchuk
+ # [#30756] Blog layout has duplicate elements with "icons" ID. Thanks David Hurley.
 
 13-Jun-2013 Jean-Marie Simonet
  ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
