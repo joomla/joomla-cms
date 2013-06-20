@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jun-2013 Jean-Marie Simonet
+ + [#29945] Joomla administration shows the Name of the author, not the User Name. Thanks Stefania Gaianigo
+
 13-Jun-2013 Jean-Marie Simonet
  ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
  # [#31147] *Install sample data None does not display tooltip.

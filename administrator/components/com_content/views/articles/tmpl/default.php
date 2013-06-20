@@ -241,10 +241,12 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<?php endif;?>
 					<td class="small hidden-phone">
 						<?php if ($item->created_by_alias) : ?>
-							<?php echo $this->escape($item->author_name); ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+							<?php echo $this->escape($item->author_name); ?></a>
 							<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
 						<?php else : ?>
-							<?php echo $this->escape($item->author_name); ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+							<?php echo $this->escape($item->author_name); ?></a>
 						<?php endif; ?>
 					</td>
 					<td class="small hidden-phone">
