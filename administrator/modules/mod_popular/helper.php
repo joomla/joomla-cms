@@ -27,7 +27,7 @@ abstract class ModPopularHelper
 	 *
 	 * @return  array
 	 */
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$user = JFactory::getuser();
 

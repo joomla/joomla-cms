@@ -522,7 +522,7 @@ class ContentModelArticle extends JModelAdmin
 					$query->clear()
 						->insert('#__associations');
 
-					foreach ($associations as $tag => $id)
+					foreach ($associations as $id)
 					{
 						$query->values($id . ',' . $db->quote('com_content.item') . ',' . $db->quote($key));
 					}

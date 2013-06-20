@@ -41,8 +41,6 @@ class TagsModelTag extends JModelAdmin
 			{
 				return;
 			}
-			$user = JFactory::getUser();
-
 			return parent::canDelete($record);
 		}
 	}
@@ -58,8 +56,6 @@ class TagsModelTag extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		return parent::canEditState($record);
 	}
 
@@ -180,7 +176,6 @@ class TagsModelTag extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$extension = $this->getState('tag');
 		$jinput = JFactory::getApplication()->input;
 
 		// Get the form.

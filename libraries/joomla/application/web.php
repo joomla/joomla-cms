@@ -840,8 +840,6 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function detectRequestUri()
 	{
-		$uri = '';
-
 		// First we need to detect the URI scheme.
 		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
 		{

@@ -199,7 +199,6 @@ class JRouterSite extends JRouter
 	 */
 	protected function _parseSefRoute($uri)
 	{
-		$vars  = array();
 		$app   = JApplication::getInstance('site');
 		$menu  = $app->getMenu(true);
 		$route = $uri->getPath();
@@ -554,8 +553,6 @@ class JRouterSite extends JRouter
 
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			$app = JApplication::getInstance('site');
-
 			if ($limitstart = $uri->getVar('limitstart'))
 			{
 				$uri->setVar('start', (int) $limitstart);

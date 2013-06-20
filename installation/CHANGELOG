@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jun-2013 Michael Babker
+ ^ [#30479] Cleanup of unused variables.  Thanks Peter van Westen
+
 20-Jun-2013 Jean-Marie Simonet
  + [#29945] Joomla administration shows the Name of the author, not the User Name. Thanks Stefania Gaianigo
  $ [#31176] Change the Language String for the Language Keyword INSTL_ADMIN_USER_DESC. Thanks Ilagnayeru 'MIG' Manickam
@@ -40,7 +43,7 @@ $ -> Language fix or change
  # [#30756] Blog layout has duplicate elements with "icons" ID. Thanks David Hurley.
 
 13-Jun-2013 Jean-Marie Simonet
- ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
+ ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder
  # [#31147] *Install sample data None does not display tooltip.
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
  $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker

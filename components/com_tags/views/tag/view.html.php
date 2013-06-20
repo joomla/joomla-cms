@@ -79,7 +79,7 @@ class TagsViewTag extends JViewLegacy
 				$dispatcher = JEventDispatcher::getInstance();
 
 				JPluginHelper::importPlugin('content');
-				$results = $dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
@@ -170,7 +170,6 @@ class TagsViewTag extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,
@@ -186,11 +185,9 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		$id = (int) @$menu->query['id'];
-
 		if ($menu && ($menu->query['option'] != 'com_tags'))
 		{
-			$this->params->set('page_subheading', $item->title);
+			$this->params->set('page_subheading', $menu->title);
 		}
 
 		// If this is not a single tag menu item, set the page title to the menu item title
@@ -218,7 +215,7 @@ class TagsViewTag extends JViewLegacy
 
 		$this->document->setTitle($title);
 
-		foreach ($this->item as $j => $itemElement)
+		foreach ($this->item as $itemElement)
 		{
 			if ($itemElement->metadesc)
 			{

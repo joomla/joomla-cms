@@ -181,8 +181,6 @@ class CategoriesControllerCategory extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
-
 		$item = $model->getItem();
 
 		if (isset($item->params) && is_array($item->params))
@@ -197,7 +195,6 @@ class CategoriesControllerCategory extends JControllerForm
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
 		}
-		$id = $item->id;
 
 		return;
 	}

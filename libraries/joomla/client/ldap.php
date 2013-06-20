@@ -623,7 +623,6 @@ class JClientLdap
 	 */
 	public static function generatePassword($password, $type = 'md5')
 	{
-		$userpassword = '';
 		switch (strtolower($type))
 		{
 			case 'sha':

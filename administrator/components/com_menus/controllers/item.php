@@ -298,7 +298,6 @@ class MenusControllerItem extends JControllerForm
 
 		// Get the posted values from the request.
 		$data = $this->input->post->get('jform', array(), 'array');
-		$recordId = $this->input->getInt('id');
 
 		// Get the type.
 		$type = $data['type'];

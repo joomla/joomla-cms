@@ -53,7 +53,6 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$input      = JFactory::getApplication()->input;
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 

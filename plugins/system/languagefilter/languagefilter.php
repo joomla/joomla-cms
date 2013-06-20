@@ -231,7 +231,6 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		$array = array();
 		$lang_code = $app->input->cookie->getString(JApplication::getHash('language'));
 		// No cookie - let's try to detect browser language or use site default
 		if (!$lang_code)

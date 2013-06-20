@@ -104,8 +104,6 @@ class JProfiler
 	public function mark($label)
 	{
 		$current = self::getmicrotime() - $this->start;
-		$currentMem = 0;
-
 		$currentMem = memory_get_usage() / 1048576;
 		$mark = sprintf(
 			'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',

@@ -147,7 +147,6 @@ class JAdministrator extends JApplication
 		}
 
 		$document = JFactory::getDocument();
-		$user = JFactory::getUser();
 
 		switch ($document->getType())
 		{
