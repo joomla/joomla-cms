@@ -221,7 +221,7 @@ class JTableUsergroup extends JTable
 
 		if (!empty($match_ids))
 		{
-			$query = $db->getQuery(true)
+			$query->clear()
 				->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace))
 				->update('#__viewlevels')
 				->where('id IN (' . implode(',', $match_ids) . ')');

@@ -53,7 +53,6 @@ class TemplatesViewStyle extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user  = JFactory::getUser();
 		$isNew = ($this->item->id == 0);
 		$canDo = TemplatesHelper::getActions();
 

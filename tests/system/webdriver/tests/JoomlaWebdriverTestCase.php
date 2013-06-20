@@ -109,6 +109,25 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		return $loginPage;
 	}
 
+	public function getActualFieldsFromElements($testElements)
+	{
+		$actualFields = array();
+		foreach ($testElements as $el)
+		{
+			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
+			if (isset($el->group))
+			{
+				$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab, 'group' => $el->group);
+			}
+			else
+			{
+				$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
+			}
+
+		}
+		return $actualFields;
+	}
+
 	/**
 	 * Takes screenshot of current screen, saves it in specified default directory or as specified in parameter
 	 * @param String $folder

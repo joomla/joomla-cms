@@ -21,9 +21,9 @@ class JOpenstreetmapInfo extends JOpenstreetmapObject
 {
 	/**
 	 * Method to get capabilities of the API
-	 * 
+	 *
 	 * @return	array The xml response
-	 * 
+	 *
 	 * @since	13.1
 	 */
 	public function getCapabilities()
@@ -44,14 +44,14 @@ class JOpenstreetmapInfo extends JOpenstreetmapObject
 
 	/**
 	 * Method to retrieve map data of a bounding box
-	 * 
+	 *
 	 * @param   float  $left    left boundary
 	 * @param   float  $bottom  bottom boundary
 	 * @param   float  $right   right boundary
 	 * @param   float  $top     top boundary
-	 * 
+	 *
 	 * @return  array The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function retrieveMapData($left, $bottom, $right, $top)
@@ -72,18 +72,13 @@ class JOpenstreetmapInfo extends JOpenstreetmapObject
 
 	/**
 	 * Method to retrieve permissions for current user
-	 * 
+	 *
 	 * @return  array The xml response
-	 * 
+	 *
 	 * @since   13.1
 	 */
 	public function retrievePermissions()
 	{
-		if ($this->oauth != null)
-		{
-			$token = $this->oauth->getToken();
-		}
-
 		// Set the API base
 		$base = 'permissions';
 

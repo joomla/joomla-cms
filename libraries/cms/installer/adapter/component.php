@@ -1145,7 +1145,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		}
 
 		// Remove categories for this component
-		$query = $db->getQuery(true)
+		$query->clear()
 			->delete('#__categories')
 			->where('extension=' . $db->quote($element), 'OR')
 			->where('extension LIKE ' . $db->quote($element . '.%'));
@@ -1289,7 +1289,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			if (!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// The menu item already exists. Delete it and retry instead of throwing an error.
-				$query = $db->getQuery(true)
+				$query->clear()
 					->select('id')
 					->from('#__menu')
 					->where('menutype = ' . $db->quote('main'))
@@ -1312,7 +1312,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				else
 				{
 					// Remove the old menu item
-					$query = $db->getQuery(true)
+					$query->clear()
 						->delete('#__menu')
 						->where('id = ' . (int) $menu_id);
 

@@ -840,8 +840,6 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function detectRequestUri()
 	{
-		$uri = '';
-
 		// First we need to detect the URI scheme.
 		$scheme = $this->isSSLConnection() ? 'https://' : 'http://';
 

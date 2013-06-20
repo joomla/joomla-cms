@@ -25,6 +25,56 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jun-2013 Michael Babker
+ ^ [#30479] Cleanup of unused variables.  Thanks Peter van Westen
+
+20-Jun-2013 Jean-Marie Simonet
+ + [#29945] Joomla administration shows the Name of the author, not the User Name. Thanks Stefania Gaianigo
+ $ [#31176] Change the Language String for the Language Keyword INSTL_ADMIN_USER_DESC. Thanks Ilagnayeru 'MIG' Manickam
+ # [#31158] *Multilanguage: Editing an article in frontend deletes its associations. Thanks Benjamin Trenkle.
+ # [#31184] *Multilanguage: Frontend article edit may break when using associations.
+ # [#31189] Some fields are missing from the tags edit screen. Thanks Elin Waring
+ # [#31167] Add class="btn-group" for hathor Options. Thanks Tobias Zulauf
+ # [#30751] No image for Tag Component at the template Hathor. Thanks Andrea Tarr and Ulrika Hall
+ $ [#31173] Only default/global Filter Label for seach at the Extensions Manager. Thanks Tobias Zulauf
+ # [#31175] More text as we need at Text Filters. Thanks Tobias Zulauf
+ # [#31125] Category images don't show in Categories list. Thanks David Hurley
+ # [#31166] Undefined property: JTableCorecontent::$metakey. Thanks Fedik Zinchuk
+ # [#30756] Blog layout has duplicate elements with "icons" ID. Thanks David Hurley.
+
+13-Jun-2013 Jean-Marie Simonet
+ ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder
+ # [#31147] *Install sample data None does not display tooltip.
+ # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
+ $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker
+ # [#30779] Fatal error in single contact category list if category is unpublished. Thanks Elin Waring.
+ # [#31122] archived articles module shows multiple entries same month. Thanks David Hurley.
+ # [#31128] Double category description newsfeed categories. Thanks Rob de Cleen and David Hurley
+ # [#30150] com_content loads articles before error checking. Thanks Richard McDaniel.
+ # [#29424] Multilevel select collapsed. Thanks Sergey Romanov.
+ + [#31130] Added js files to protostar template and modified index.php. Thanks Buddhima Wijeweera
+ # [#30576] $isNew not being passed to onContentBeforeSave. Thanks Elijah Madden
+
+11-Jun-2013 Jean-Marie Simonet
+ $ Adding Czech cs-CZ to installation language files
+
+09-Jun-2013 Jean-Marie Simonet
+ # [#30954] Support for accent-insensitive search using the default search component. Thanks Viliam Kubis
+ # [#29560] jumping column in Contact Manager: Contacts. Thanks Daria Mikhailova and Roland Dalmulder
+
+08-Jun-2013 Jean-Marie Simonet
+ # [#31073] Preview image has height of max 18px. Thanks Piotr Konieczny
+ # [#29766] Missed ordering lists in User Manager. Thanks Aleksander Linkov
+ # [#30675] Display incorrect for type checkboxes. Thanks Chad Windnagle
+ # [#31099] Incorrect Access Levels in Tags List View. Thanks Justin Herrin and Chad Windnagle
+
+07-Jun-2013 Jean-Marie Simonet
+ + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets
+ # [#30804] [3.x] *plug-in manager search give errors and warning for '/','*' and '\
+
+07-Jun-2013 David Hurley
+ + [#30370] Added ability to add sprintf variables to JText string. Thanks Peter van Westen
+
 06-Jun-2013 Michael Babker
  + [#30324] *Added ability to restrict the number of displayed results to mod_related_items.  Thanks Ben Tasker and Jean-Marie Simonet
 

@@ -44,6 +44,7 @@ class PlgSearchWeblinks extends JPlugin
 	 *
 	 * The sql must return the following fields that are used in a common display
 	 * routine: href, title, section, created, text, browsernav
+	 *
 	 * @param string Target search string
 	 * @param string mathcing option, exact|any|all
 	 * @param string ordering option, newest|oldest|popular|alpha|category
@@ -79,6 +80,11 @@ class PlgSearchWeblinks extends JPlugin
 			$state[] = 2;
 		}
 
+		if (!empty($state))
+		{
+			return array();
+		}
+
 		$text = trim($text);
 		if ($text == '')
 		{
@@ -86,7 +92,7 @@ class PlgSearchWeblinks extends JPlugin
 		}
 		$section = JText::_('PLG_SEARCH_WEBLINKS');
 
-		$wheres = array();
+		/* TODO: The $where variable does not seem to be used at all
 		switch ($phrase)
 		{
 			case 'exact':
@@ -115,6 +121,7 @@ class PlgSearchWeblinks extends JPlugin
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
+		*/
 
 		switch ($ordering)
 		{
@@ -139,65 +146,62 @@ class PlgSearchWeblinks extends JPlugin
 				$order = 'a.created DESC';
 		}
 
-		$return = array();
-		if (!empty($state))
+		$query = $db->getQuery(true);
+		//sqlsrv changes
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('a.alias', '!=', '0');
+		$case_when .= ' THEN ';
+		$a_id = $query->castAsChar('a.id');
+		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $a_id . ' END as slug';
+
+		$case_when1 = ' CASE WHEN ';
+		$case_when1 .= $query->charLength('c.alias', '!=', '0');
+		$case_when1 .= ' THEN ';
+		$c_id = $query->castAsChar('c.id');
+		$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
+		$case_when1 .= ' ELSE ';
+		$case_when1 .= $c_id . ' END as catslug';
+
+		$query->select(
+			'a.title AS title, a.description AS text, a.created AS created, a.url, '
+				. $case_when . ',' . $case_when1 . ', '
+				. $query->concatenate(array($db->quote($section), "c.title"), " / ") . ' AS section, \'1\' AS browsernav'
+		)
+			->from('#__weblinks AS a')
+			->join('INNER', '#__categories AS c ON c.id = a.catid')
+			->where('(' . $where . ') AND a.state in (' . implode(',', $state) . ') AND  c.published=1 AND  c.access IN (' . $groups . ')')
+			->order($order);
+
+		// Filter by language
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
-			$query = $db->getQuery(true);
-			//sqlsrv changes
-			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias', '!=', '0');
-			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
-			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ';
-			$case_when .= $a_id . ' END as slug';
+			$tag = JFactory::getLanguage()->getTag();
+			$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
+				->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+		}
 
-			$case_when1 = ' CASE WHEN ';
-			$case_when1 .= $query->charLength('c.alias', '!=', '0');
-			$case_when1 .= ' THEN ';
-			$c_id = $query->castAsChar('c.id');
-			$case_when1 .= $query->concatenate(array($c_id, 'c.alias'), ':');
-			$case_when1 .= ' ELSE ';
-			$case_when1 .= $c_id . ' END as catslug';
+		$db->setQuery($query, 0, $limit);
+		$rows = $db->loadObjectList();
 
-			$query->select(
-				'a.title AS title, a.description AS text, a.created AS created, a.url, '
-					. $case_when . ',' . $case_when1 . ', '
-					. $query->concatenate(array($db->quote($section), "c.title"), " / ") . ' AS section, \'1\' AS browsernav'
-			);
-			$query->from('#__weblinks AS a')
-				->join('INNER', '#__categories AS c ON c.id = a.catid')
-				->where('(' . $where . ') AND a.state in (' . implode(',', $state) . ') AND  c.published=1 AND  c.access IN (' . $groups . ')')
-				->order($order);
-
-			// Filter by language
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+		$return = array();
+		if ($rows)
+		{
+			foreach ($rows as $key => $row)
 			{
-				$tag = JFactory::getLanguage()->getTag();
-				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
-					->where('c.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')');
+				$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
 			}
 
-			$db->setQuery($query, 0, $limit);
-			$rows = $db->loadObjectList();
-
-			$return = array();
-			if ($rows)
+			foreach ($rows as $weblink)
 			{
-				foreach ($rows as $key => $row)
+				if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title')))
 				{
-					$rows[$key]->href = WeblinksHelperRoute::getWeblinkRoute($row->slug, $row->catslug);
-				}
-
-				foreach ($rows as $key => $weblink)
-				{
-					if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title')))
-					{
-						$return[] = $weblink;
-					}
+					$return[] = $weblink;
 				}
 			}
 		}
+
 		return $return;
 	}
 }

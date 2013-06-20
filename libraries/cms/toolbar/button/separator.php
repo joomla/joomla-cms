@@ -46,7 +46,7 @@ class JToolbarButtonSeparator extends JToolbarButton
 		// Custom width
 		$style = (empty($definition[2])) ? null : ' style="width:' . (int) $definition[2] . 'px;"';
 
-		return '<div class="' . $class . '"' . $style . ">\n</div>\n";
+		return '<div class="' . $class . '"' . $style . '></div>';
 	}
 
 	/**

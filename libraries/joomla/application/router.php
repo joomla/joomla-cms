@@ -166,8 +166,6 @@ class JRouter
 	 */
 	public function parse($uri)
 	{
-		$vars = array();
-
 		// Process the parsed variables based on custom defined rules
 		$vars = $this->_processParseRules($uri);
 
