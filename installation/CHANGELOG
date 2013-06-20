@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#30751] No image for Tag Component at the template Hathor. Thanks Andrea Tarr and Ulrika Hall
  $ [#31173] Only default/global Filter Label for seach at the Extensions Manager. Thanks Tobias Zulauf
  # [#31175] More text as we need at Text Filters. Thanks Tobias Zulauf
+ # [#31125] Category images don't show in Categories list. Thanks David Hurley
 
 13-Jun-2013 Jean-Marie Simonet
  ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
