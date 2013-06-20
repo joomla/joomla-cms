@@ -664,7 +664,7 @@ class JFilterInput
 		$source = preg_replace_callback('/&#(\d+);/m', function($m){return utf8_encode(chr($m[1]));}, $source); // decimal notation
 
 		// Convert hex
-		$source = preg_replace('/&#x([a-f0-9]+);/mi', function($m){utf8_encode(chr('0x'.$m[1]));}, $source); // hex notation
+		$source = preg_replace('/&#x([a-f0-9]+);/mi', function($m){return utf8_encode(chr('0x'.$m[1]));}, $source); // hex notation
 		return $source;
 	}
 
