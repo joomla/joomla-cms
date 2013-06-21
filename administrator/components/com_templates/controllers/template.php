@@ -118,18 +118,4 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		return $model;
 	}
 	
-	public function files()
-	{
-		$app		= JFactory::getApplication();
-		$model		= $this->getModel();
-		$recordId	= $app->input->get('folderid');
-		$context	= 'com_templates.template.files';
-		$returnId 	= (int) $model->getState('extension.id');
-		
-		// Check-out succeeded, push the new record id into the session.
-		$app->setUserState($context.'.id',	$recordId);
-		$app->setUserState($context.'.data', null);
-		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$returnId, false));
-		return true;
-	}
 }

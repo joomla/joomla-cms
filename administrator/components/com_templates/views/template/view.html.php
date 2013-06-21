@@ -133,4 +133,14 @@ protected function addToolbar()
 			}
 		}
 	}
+	
+	function listTreeFiles($folder)
+	{
+		$files = $this->files;
+		foreach($files[$folder] as $file)
+		{
+			$treeFiles[] = $file;
+		}
+		return $treeFiles;
+	}
 }

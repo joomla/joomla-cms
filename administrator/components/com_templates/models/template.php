@@ -32,9 +32,9 @@ class TemplatesModelTemplate extends JModelLegacy
 
 		if ($template = $this->getTemplate())
 		{
-			$temp->name = $name;
-			$temp->exists = file_exists($path.$name);
-			$temp->id = urlencode(base64_encode($template->extension_id.':'.$name));
+			$temp->name = str_replace('-', '_', $name);
+			$temp->exists = file_exists($path);
+			$temp->id = urlencode(base64_encode($template->extension_id.':'.$path.'/'.$name));
 			return $temp;
 		}
 	}
@@ -67,16 +67,18 @@ class TemplatesModelTemplate extends JModelLegacy
 			jimport('joomla.filesystem.folder');
 			$client 	= JApplicationHelper::getClientInfo($template->client_id);
 			$path		= JPath::clean($client->path.'/templates/'.$template->element.'/');
-			$app 		= JFactory::getApplication();
-			$folderid 	= $app->input->get('folderid');
 
 			if (is_dir($path))
 			{
-				$folder = $this->getFolder($path,$folderid);
-				$files = JFolder::files($folder['fullname'],'\.php$',false,false);
-				foreach($files as $file)
+				$folders = $this->getDirectoryTree();
+				foreach($folders as $folder)
 				{
-					$result[] = $this->getFile($folder['fullname'], $file);
+					$files = JFolder::files($folder['fullname'],'\.(css|php|js|less|xml|ini)$',false,false);
+					foreach($files as $file)
+					{
+						$fileLoc	= str_replace($path, '', $folder['fullname']);
+						$result[$folder['id']][] = $this->getFile($fileLoc, $file);
+					}
 				}
 				
 			} else {
@@ -108,7 +110,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		
 			if (is_dir($path))
 			{
-				$folders = JFolder::listFolderTree($path,'.',5);
+				$folders = JFolder::listFolderTree($path,'.',4);
 				return $folders;
 			}else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));

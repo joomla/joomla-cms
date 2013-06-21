@@ -24,12 +24,12 @@ $input = JFactory::getApplication()->input;
 			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'browser')); ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'browser', JText::_('File Browser', true)); ?>
 					<div class="row-fluid">
-						<div class="span2">
+						<div class="span3">
 							<?php if(!empty($this->tree)):?>
 								<?php echo $this->loadTemplate('tree');?>
 							<?php endif;?>
 						</div>
-						<div class="span10"><?php var_dump($this->files);?></div>
+						<div class="span9"><?php var_dump($this->files);?></div>
 					</div>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'preview', JText::_('Template Preview', true)); ?>
