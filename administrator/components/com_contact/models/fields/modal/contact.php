@@ -37,8 +37,8 @@ class JFormFieldModal_Contact extends JFormField
 		$allowEdit		= ((string) $this->element['edit'] == 'true') ? true : false;
 		$allowClear		= ((string) $this->element['clear'] != 'false') ? true : false;
 
-		$modalX			= ((string) $this->element['modalx']) ? (string) $this->element['modalx'] : '1000';
-		$modalY			= ((string) $this->element['modaly']) ? (string) $this->element['modaly'] : '600';
+		$modalX			= ((string) $this->element['modalx']) ? (string) $this->element['modalx'] : '800';
+		$modalY			= ((string) $this->element['modaly']) ? (string) $this->element['modaly'] : '500';
 
 		// Load language
 		JFactory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
