@@ -39,7 +39,6 @@ class ContentViewCategory extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
 
 		// Get some data from the models
 		$category	= $this->get('Category');
@@ -115,7 +114,7 @@ class ContentViewCategory extends JViewLegacy
 			}
 
 			JPluginHelper::importPlugin('content');
-			$results = $dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
+			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;

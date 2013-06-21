@@ -169,7 +169,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		}
 
 		// Set up the variables we will need during processing.
-		$tokens = array();
 		$count = 0;
 
 		// Mark afterLinking in the profiler.
@@ -203,9 +202,11 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 					// Tokenize an array of content and add it to the database.
 					foreach ($item->$property as $ip)
 					{
-						// If the group is path, we need to a few extra processing
-						// steps to strip the extension and convert slashes and dashes
-						// to spaces.
+						/*
+						 * If the group is path, we need to a few extra processing
+						 * steps to strip the extension and convert slashes and dashes
+						 * to spaces.
+						 */
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
@@ -225,9 +226,11 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				}
 				else
 				{
-					// If the group is path, we need to a few extra processing
-					// steps to strip the extension and convert slashes and dashes
-					// to spaces.
+					/*
+					 * If the group is path, we need to a few extra processing
+					 * steps to strip the extension and convert slashes and dashes
+					 * to spaces.
+					 */
 					if ($group === static::PATH_CONTEXT)
 					{
 						$item->$property = JFile::stripExt($item->$property);
@@ -463,9 +466,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-
-		// Get the indexer state.
-		$state = static::getState();
 
 		// Update the link counts and remove the mapping records.
 		for ($i = 0; $i <= 15; $i++)

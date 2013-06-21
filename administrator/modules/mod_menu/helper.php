@@ -62,7 +62,6 @@ abstract class ModMenuHelper
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 		$result	= array();
-		$langs	= array();
 
 		// Prepare the query.
 		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element')

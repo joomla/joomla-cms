@@ -140,9 +140,8 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$query = $this->getQuery(true);
-
-		$query->setQuery('DROP TABLE :tableName');
+		$query = $this->getQuery(true)
+			->setQuery('DROP TABLE :tableName');
 		$query->bind(':tableName', $tableName);
 
 		$this->setQuery($query);
@@ -210,16 +209,13 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->connect();
 
 		$result = array();
-		$query = $this->getQuery(true);
-
-		$query->select('dbms_metadata.get_ddl(:type, :tableName)');
-		$query->from('dual');
-
-		$query->bind(':type', 'TABLE');
+		$query = $this->getQuery(true)
+			->select('dbms_metadata.get_ddl(:type, :tableName)')
+			->from('dual')
+			->bind(':type', 'TABLE');
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
-
 		foreach ($tables as $table)
 		{
 			$query->bind(':tableName', $table);
@@ -306,11 +302,10 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		$this->setOption(PDO::ATTR_CASE, PDO::CASE_UPPER);
 
 		$table = strtoupper($table);
-		$query->select('*');
-		$query->from('ALL_CONSTRAINTS');
-		$query->where('table_name = :tableName');
-
-		$query->bind(':tableName', $table);
+		$query->select('*')
+			->from('ALL_CONSTRAINTS')
+			->where('table_name = :tableName')
+			->bind(':tableName', $table);
 
 		$this->setQuery($query);
 		$keys = $this->loadObjectList();
@@ -337,8 +332,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 		$query = $this->getQuery(true);
 
-		$tables = array();
-
 		if ($includeDatabaseName)
 		{
 			$query->select('owner, table_name');
@@ -349,11 +342,10 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		}
 
 		$query->from('all_tables');
-
 		if ($databaseName)
 		{
-			$query->where('owner = :database');
-			$query->bind(':database', $databaseName);
+			$query->where('owner = :database')
+				->bind(':database', $databaseName);
 		}
 
 		$query->order('table_name');
@@ -431,7 +423,6 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 		}
 
 		$this->setQuery("ALTER SESSION SET NLS_TIMESTAMP_FORMAT = '$dateFormat'");
-
 		if (!$this->execute())
 		{
 			return false;
@@ -526,40 +517,38 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 * This function replaces a string identifier <var>$prefix</var> with the string held is the
 	 * <var>tablePrefix</var> class variable.
 	 *
-	 * @param   string  $sql     The SQL statement to prepare.
+	 * @param   string  $query   The SQL statement to prepare.
 	 * @param   string  $prefix  The common table prefix.
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
 	 * @since   11.1
 	 */
-	public function replacePrefix($sql, $prefix = '#__')
+	public function replacePrefix($query, $prefix = '#__')
 	{
-		$escaped = false;
 		$startPos = 0;
 		$quoteChar = "'";
 		$literal = '';
 
-		$sql = trim($sql);
-		$n = strlen($sql);
+		$query = trim($query);
+		$n = strlen($query);
 
 		while ($startPos < $n)
 		{
-			$ip = strpos($sql, $prefix, $startPos);
-
+			$ip = strpos($query, $prefix, $startPos);
 			if ($ip === false)
 			{
 				break;
 			}
 
-			$j = strpos($sql, "'", $startPos);
+			$j = strpos($query, "'", $startPos);
 
 			if ($j === false)
 			{
 				$j = $n;
 			}
 
-			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
+			$literal .= str_replace($prefix, $this->tablePrefix, substr($query, $startPos, $j - $startPos));
 			$startPos = $j;
 
 			$j = $startPos + 1;
@@ -572,16 +561,14 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 			// Quote comes first, find end of quote
 			while (true)
 			{
-				$k = strpos($sql, $quoteChar, $j);
+				$k = strpos($query, $quoteChar, $j);
 				$escaped = false;
-
 				if ($k === false)
 				{
 					break;
 				}
 				$l = $k - 1;
-
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $query{$l} == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
@@ -598,12 +585,12 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 				// Error in the query - no end quote; ignore it
 				break;
 			}
-			$literal .= substr($sql, $startPos, $k - $startPos + 1);
+			$literal .= substr($query, $startPos, $k - $startPos + 1);
 			$startPos = $k + 1;
 		}
 		if ($startPos < $n)
 		{
-			$literal .= substr($sql, $startPos, $n - $startPos);
+			$literal .= substr($query, $startPos, $n - $startPos);
 		}
 
 		return $literal;

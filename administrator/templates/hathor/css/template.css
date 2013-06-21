@@ -2867,6 +2867,9 @@ ul.helpmenu li {
 .menu-weblinks-cat {
 	background-image: url(../images/menu/icon-16-links-cat.png);
 }
+.menu-tags {
+	background-image: url(../images/menu/icon-16-tags.png);
+}
 #menu li a:focus+ul {
 	margin-left: 0;
 }

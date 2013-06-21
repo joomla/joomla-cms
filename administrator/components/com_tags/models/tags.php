@@ -63,7 +63,6 @@ class TagsModelTags extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication();
 		$context = $this->context;
 
 		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
@@ -124,7 +123,6 @@ class TagsModelTags extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(

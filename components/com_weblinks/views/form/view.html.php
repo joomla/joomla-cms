@@ -28,7 +28,6 @@ class WeblinksViewForm extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 
 		// Get model data.

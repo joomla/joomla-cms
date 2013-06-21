@@ -347,7 +347,7 @@ class JMenuNode extends JObject
 			$params = $uri->getQuery(true);
 			$parts = array();
 
-			foreach ($params as $name => $value)
+			foreach ($params as $value)
 			{
 				$parts[] = str_replace(array('.', '_'), '-', $value);
 			}

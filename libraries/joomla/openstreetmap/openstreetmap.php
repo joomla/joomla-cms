@@ -14,55 +14,70 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- *
  * @since       13.1
  */
 class JOpenstreetmap
 {
 	/**
-	 * @var    JRegistry  Options for the Openstreetmap object.
+	 * Options for the Openstreetmap object.
+	 *
+	 * @var    JRegistry
 	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttp      The HTTP client object to use in sending HTTP requests.
+	 * The HTTP client object to use in sending HTTP requests.
+	 *
+	 * @var    JHttp
 	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
-	 * @var   JOpenstreetmapOauth  The OAuth client.
+	 * The OAuth client.
+	 *
+	 * @var   JOpenstreetmapOauth
 	 * @since 13.1
 	 */
 	protected $oauth;
 
 	/**
-	 * @var    JOpenstreetmapChangesets  Openstreetmap API object for changesets.
+	 * Openstreetmap API object for changesets.
+	 *
+	 * @var    JOpenstreetmapChangesets
 	 * @since  13.1
 	 */
 	protected $changesets;
 
 	/**
-	 * @var    JOpenstreetmapElements  Openstreetmap API object for elements.
+	 * Openstreetmap API object for elements.
+	 *
+	 * @var    JOpenstreetmapElements
 	 * @since  13.1
 	 */
 	protected $elements;
 
 	/**
-	 * @var   JOpenstreetmapGps  Openstreetmap API object for gps.
+	 * Openstreetmap API object for GPS.
+	 *
+	 * @var   JOpenstreetmapGps
 	 * @since  13.1
 	 */
 	protected $gps;
 
 	/**
-	 * @var    JOpenstreetmapInfo  Openstreetmap API object for info.
+	 * Openstreetmap API object for info.
+	 *
+	 * @var    JOpenstreetmapInfo
 	 * @since  13.1
 	 */
 	protected $info;
 
 	/**
-	 * @var    JOpenstreetmapUser  Openstreetmap API object for user.
+	 * Openstreetmap API object for user.
+	 *
+	 * @var    JOpenstreetmapUser
 	 * @since  13.1
 	 */
 	protected $user;
@@ -70,9 +85,9 @@ class JOpenstreetmap
 	/**
 	 * Constructor.
 	 *
-	 * @param   JOpenstreetmapOauth  $oauth    Openstreetmap oauth client.
-	 * @param   JRegistry            $options  Openstreetmap options object.
-	 * @param   JOpenstreetmapHttp   $client   The HTTP client object.
+	 * @param   JOpenstreetmapOauth  $oauth    Openstreetmap oauth client
+	 * @param   JRegistry            $options  Openstreetmap options object
+	 * @param   JHttp                $client   The HTTP client object
 	 *
 	 * @since   13.1
 	 */
@@ -88,12 +103,12 @@ class JOpenstreetmap
 		// $this->options->def('api.url', 'http://api06.dev.openstreetmap.org/api/0.6/');
 	}
 
-	/**	
+	/**
 	 * Method to get object instances
-	 * 
+	 *
 	 * @param   string  $name  Name of property to retrieve
 	 *
-	 * @return  JOpenstreetmapObject  Openstreetmap API object .
+	 * @return  JOpenstreetmapObject  Openstreetmap API object
 	 *
 	 * @since   13.1
 	 */
@@ -106,6 +121,7 @@ class JOpenstreetmap
 				{
 					$this->changesets = new JOpenstreetmapChangesets($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->changesets;
 
 			case 'elements':
@@ -113,6 +129,7 @@ class JOpenstreetmap
 				{
 					$this->elements = new JOpenstreetmapElements($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->elements;
 
 			case 'gps':
@@ -120,6 +137,7 @@ class JOpenstreetmap
 				{
 					$this->gps = new JOpenstreetmapGps($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->gps;
 
 			case 'info':
@@ -127,6 +145,7 @@ class JOpenstreetmap
 				{
 					$this->info = new JOpenstreetmapInfo($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->info;
 
 			case 'user':
@@ -134,6 +153,7 @@ class JOpenstreetmap
 				{
 					$this->user = new JOpenstreetmapUser($this->options, $this->client, $this->oauth);
 				}
+
 				return $this->user;
 		}
 	}

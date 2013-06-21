@@ -25,8 +25,29 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jun-2013 Jean-Marie Simonet
+ $ Missing language string (hardcoded)
+ # [#31186] Some HTML errors. Thanks Achal Aggarwal
+
+20-Jun-2013 Michael Babker
+ ^ [#30479] Cleanup of unused variables.  Thanks Peter van Westen
+
+20-Jun-2013 Jean-Marie Simonet
+ + [#29945] Joomla administration shows the Name of the author, not the User Name. Thanks Stefania Gaianigo
+ $ [#31176] Change the Language String for the Language Keyword INSTL_ADMIN_USER_DESC. Thanks Ilagnayeru 'MIG' Manickam
+ # [#31158] *Multilanguage: Editing an article in frontend deletes its associations. Thanks Benjamin Trenkle.
+ # [#31184] *Multilanguage: Frontend article edit may break when using associations.
+ # [#31189] Some fields are missing from the tags edit screen. Thanks Elin Waring
+ # [#31167] Add class="btn-group" for hathor Options. Thanks Tobias Zulauf
+ # [#30751] No image for Tag Component at the template Hathor. Thanks Andrea Tarr and Ulrika Hall
+ $ [#31173] Only default/global Filter Label for seach at the Extensions Manager. Thanks Tobias Zulauf
+ # [#31175] More text as we need at Text Filters. Thanks Tobias Zulauf
+ # [#31125] Category images don't show in Categories list. Thanks David Hurley
+ # [#31166] Undefined property: JTableCorecontent::$metakey. Thanks Fedik Zinchuk
+ # [#30756] Blog layout has duplicate elements with "icons" ID. Thanks David Hurley.
+
 13-Jun-2013 Jean-Marie Simonet
- ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
+ ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder
  # [#31147] *Install sample data None does not display tooltip.
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
  $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker
