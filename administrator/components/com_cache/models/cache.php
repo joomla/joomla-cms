@@ -19,23 +19,29 @@ defined('_JEXEC') or die;
 class CacheModelCache extends JModelList
 {
 	/**
-	 * An Array of CacheItems indexed by cache group ID
+	 * An array of CacheItems indexed by cache group ID
 	 *
-	 * @var Array
+	 * @var    array
+	 * @since  1.6
+	 * @deprecated  4.0  Will be renamed $data
 	 */
 	protected $_data = array();
 
 	/**
 	 * Group total
 	 *
-	 * @var integer
+	 * @var    integer
+	 * @since  1.6
+	 * @deprecated  4.0  Will be renamed $total
 	 */
 	protected $_total = null;
 
 	/**
 	 * Pagination object
 	 *
-	 * @var object
+	 * @var    JPagination
+	 * @since  1.6
+	 * @deprecated  4.0  Will be renamed $pagination
 	 */
 	protected $_pagination = null;
 
@@ -43,6 +49,11 @@ class CacheModelCache extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -60,7 +71,9 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get cache data
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   1.6
 	 */
 	public function getData()
 	{
@@ -89,27 +102,32 @@ class CacheModelCache extends JModelList
 						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
 					}
 				}
-			} else {
+			}
+			else
+			{
 				$this->_data = array();
 			}
 		}
+
 		return $this->_data;
 	}
 
 	/**
-	 * Method to get cache instance
+	 * Method to get a JCache instance
 	 *
-	 * @return object
+	 * @return  JCache
+	 *
+	 * @since   1.6
 	 */
 	public function getCache()
 	{
 		$conf = JFactory::getConfig();
 
 		$options = array(
-			'defaultgroup'	=> '',
-			'storage' 		=> $conf->get('cache_handler', ''),
-			'caching'		=> true,
-			'cachebase'		=> ($this->getState('clientId') == 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
+			'defaultgroup' => '',
+			'storage'      => $conf->get('cache_handler', ''),
+			'caching'      => true,
+			'cachebase'    => ($this->getState('clientId') == 1) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache')
 		);
 
 		$cache = JCache::getInstance('', $options);
@@ -120,7 +138,9 @@ class CacheModelCache extends JModelList
 	/**
 	 * Method to get client data
 	 *
-	 * @return array
+	 * @return  array
+	 *
+	 * @since   1.6
 	 */
 	public function getClient()
 	{
@@ -130,7 +150,9 @@ class CacheModelCache extends JModelList
 	/**
 	 * Get the number of current Cache Groups
 	 *
-	 * @return  int
+	 * @return  integer
+	 *
+	 * @since   1.6
 	 */
 	public function getTotal()
 	{
@@ -146,6 +168,8 @@ class CacheModelCache extends JModelList
 	 * Method to get a pagination object for the cache
 	 *
 	 * @return  integer
+	 *
+	 * @since   1.6
 	 */
 	public function getPagination()
 	{
@@ -161,7 +185,11 @@ class CacheModelCache extends JModelList
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
 	 *
-	 * @param String $group
+	 * @param   string  $group  The group to clean
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function clean($group = '')
 	{
@@ -169,7 +197,16 @@ class CacheModelCache extends JModelList
 		$cache->clean($group);
 	}
 
-	public function cleanlist($array)
+	/**
+	 * Method to clean a group of cache groups
+	 *
+	 * @param   array  $array  Cache groups to clean
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
+	public function cleanlist(array $array)
 	{
 		foreach ($array as $group)
 		{
@@ -177,9 +214,17 @@ class CacheModelCache extends JModelList
 		}
 	}
 
+	/**
+	 * Executes gc() on the global cache
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   1.6
+	 */
 	public function purge()
 	{
 		$cache = JFactory::getCache('');
+
 		return $cache->gc();
 	}
 }

@@ -18,17 +18,61 @@ defined('_JEXEC') or die;
  */
 class CacheViewCache extends JViewLegacy
 {
+	/**
+	 * Array containing client information
+	 *
+	 * @var    array
+	 * @since  1.6
+	 */
 	protected $client;
+
+	/**
+	 * Array containing the cache data
+	 *
+	 * @var    array
+	 * @since  1.6
+	 */
 	protected $data;
+
+	/**
+	 * Pagination object
+	 *
+	 * @var    JPagination
+	 * @since  1.6
+	 */
 	protected $pagination;
+
+	/**
+	 * State object
+	 *
+	 * @var    object
+	 * @since  1.6
+	 */
 	protected $state;
 
+	/**
+	 * HTML markup for the sidebar
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	protected $sidebar;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
+	 */
 	public function display($tpl = null)
 	{
-		$this->data			= $this->get('Data');
-		$this->client		= $this->get('Client');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->data       = $this->get('Data');
+		$this->client     = $this->get('Client');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -39,11 +83,14 @@ class CacheViewCache extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -52,10 +99,12 @@ class CacheViewCache extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'clear.png');
 		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
 		JToolbarHelper::divider();
+
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))
 		{
 			JToolbarHelper::preferences('com_cache');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
 

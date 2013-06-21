@@ -11,22 +11,22 @@ defined('_JEXEC') or die;
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if (!empty( $this->sidebar)) : ?>
-    <div id="j-sidebar-container" class="span2">
-      <?php echo $this->sidebar; ?>
-    </div>  
-    <div id="j-main-container" class="span10">
-  <?php else : ?>
-    <div id="j-main-container">
-  <?php endif;?>
-  	<fieldset>
-  		<legend><?php echo JText::_('COM_CACHE_PURGE_EXPIRED_ITEMS'); ?></legend>
-  		<p><?php echo JText::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?></p>
-  	</fieldset>
-  	<div class="alert">
-  		<p><?php echo JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
-  	</div>
-  	<input type="hidden" name="task" value="" />
-  	<?php echo JHtml::_('form.token'); ?>
+	<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+	<?php else : ?>
+	<div id="j-main-container">
+	<?php endif;?>
+		<fieldset>
+			<legend><?php echo JText::_('COM_CACHE_PURGE_EXPIRED_ITEMS'); ?></legend>
+			<p><?php echo JText::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?></p>
+		</fieldset>
+		<div class="alert">
+			<p><?php echo JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
+		</div>
+		<input type="hidden" name="task" value="" />
+		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
