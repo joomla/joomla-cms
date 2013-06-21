@@ -15,6 +15,9 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
+JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.keepalive');
+
 $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 ?>
@@ -29,7 +32,9 @@ $input = JFactory::getApplication()->input;
 								<?php echo $this->loadTemplate('tree');?>
 							<?php endif;?>
 						</div>
-						<div class="span9"><?php var_dump($this->files);?></div>
+						<div class="span9"><?php //var_dump($this->files);?>
+							
+						</div>
 					</div>
 				<?php echo JHtml::_('bootstrap.endTab'); ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'preview', JText::_('Template Preview', true)); ?>

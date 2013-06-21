@@ -27,6 +27,13 @@ class TemplatesViewTemplate extends JViewLegacy
 	protected $tree;
 	
 	protected $level = 0;
+	
+	
+	protected $form;
+	
+	protected $ftp;
+	
+	protected $source;
 
 	/**
 	 * Display the view
@@ -37,6 +44,10 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->state	= $this->get('State');
 		$this->template	= $this->get('Template');
 		$this->tree 	= $this->get('DirectoryTree');
+		
+		$this->form	= $this->get('Form');
+		$this->ftp		= JClientHelper::setCredentialsFromRequest('ftp');
+		$this->source	= $this->get('Source');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

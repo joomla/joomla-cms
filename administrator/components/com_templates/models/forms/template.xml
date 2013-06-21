@@ -10,7 +10,7 @@
 			type="hidden" />
 
 		<field
-			name="source"
+			name="template"
 			type="editor"
 			editor="codemirror|none"
 			buttons="no"

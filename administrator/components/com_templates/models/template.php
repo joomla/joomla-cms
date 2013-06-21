@@ -128,14 +128,26 @@ class TemplatesModelTemplate extends JModelLegacy
 	 */
 	protected function populateState()
 	{
+		jimport('joomla.filesystem.file');
 		$app = JFactory::getApplication('administrator');
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
 		$this->setState('extension.id', $pk);
-
+		
+		
+		/*$id = $app->getUserState('com_templates.edit.source.id');
+		$temp = explode(':', base64_decode($id));
+		$fileName = array_shift($temp);*/
+		$fileName = 'index.php';
+			
+		$this->setState('filename', $fileName);
+		
+		// Save the syntax for later use
+		$app->setUserState('editor.source.syntax', JFile::getExt($fileName));
+		
 		// Load the parameters.
-		$params	= JComponentHelper::getParams('com_templates');
+		$params = JComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
 	}
 
@@ -306,6 +318,163 @@ class TemplatesModelTemplate extends JModelLegacy
 		}
 
 		return $result;
+	}
+	
+	/**
+	 * Method to get the record form.
+	 *
+	 * @param   array      $data        Data for the form.
+	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+	 * @return  JForm    A JForm object on success, false on failure
+	 * @since   1.6
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		$app = JFactory::getApplication();
+	
+		// Codemirror or Editor None should be enabled
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+		->select('COUNT(*)')
+		->from('#__extensions as a')
+		->where('(a.name =' . $db->quote('plg_editors_codemirror') . ' AND a.enabled = 1) OR (a.name =' . $db->quote('plg_editors_none') . ' AND a.enabled = 1)');
+		$db->setQuery($query);
+		$state = $db->loadResult();
+		if ((int) $state < 1)
+		{
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
+		}
+	
+		// Get the form.
+		$form = $this->loadForm('com_templates.template', 'template', array('control' => 'jform', 'load_data' => $loadData));
+		if (empty($form))
+		{
+			return false;
+		}
+	
+		return $form;
+	}
+	
+	/**
+	 * Method to get the data that should be injected in the form.
+	 *
+	 * @return  mixed  The data for the form.
+	 * @since   1.6
+	 */
+	protected function loadFormData()
+	{
+		// Check the session for previously entered form data.
+		$data = JFactory::getApplication()->getUserState('com_templates.edit.source.data', array());
+	
+		if (empty($data))
+		{
+			$data = $this->getSource();
+		}
+	
+		$this->preprocessData('com_templates.source', $data);
+	
+		return $data;
+	}
+	
+	/**
+	 * Method to get a single record.
+	 *
+	 * @return  mixed  Object on success, false on failure.
+	 * @since   1.6
+	 */
+	public function &getSource()
+	{
+		$item = new stdClass;
+		if (!$this->template)
+		{
+			$this->getTemplate();
+		}
+	
+		if ($this->template)
+		{
+			$fileName = $this->getState('filename');
+			$client = JApplicationHelper::getClientInfo($this->template->client_id);
+			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+	
+			if (file_exists($filePath))
+			{
+				$item->extension_id = $this->getState('extension.id');
+				$item->filename = $this->getState('filename');
+				$item->source = file_get_contents($filePath);
+			}
+			else
+			{
+				$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
+			}
+		}
+	
+		return $item;
+	}
+	
+	/**
+	 * Method to store the source file contents.
+	 *
+	 * @param   array  The souce data to save.
+	 *
+	 * @return  boolean  True on success, false otherwise and internal error set.
+	 * @since   1.6
+	 */
+	public function save($data)
+	{
+		jimport('joomla.filesystem.file');
+	
+		// Get the template.
+		$template = $this->getTemplate();
+		if (empty($template))
+		{
+			return false;
+		}
+	
+		$dispatcher = JEventDispatcher::getInstance();
+		$fileName = $this->getState('filename');
+		$client = JApplicationHelper::getClientInfo($template->client_id);
+		$filePath = JPath::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
+	
+		// Include the extension plugins for the save events.
+		JPluginHelper::importPlugin('extension');
+	
+		// Set FTP credentials, if given.
+		JClientHelper::setCredentialsFromRequest('ftp');
+		$ftp = JClientHelper::getCredentials('ftp');
+	
+		// Try to make the template file writeable.
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0644'))
+		{
+			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'));
+			return false;
+		}
+	
+		// Trigger the onExtensionBeforeSave event.
+		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_templates.source', &$data, false));
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+	
+		$return = JFile::write($filePath, $data['source']);
+	
+		// Try to make the template file unwriteable.
+		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
+		{
+			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'));
+			return false;
+		}
+		elseif (!$return)
+		{
+			$this->setError(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName));
+			return false;
+		}
+	
+		// Trigger the onExtensionAfterSave event.
+		$dispatcher->trigger('onExtensionAfterSave', array('com_templates.source', &$table, false));
+	
+		return true;
 	}
 
 }
