@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jun-2013 Jean-Marie Simonet
+ $ Missing language string (hardcoded)
+
 20-Jun-2013 Michael Babker
  ^ [#30479] Cleanup of unused variables.  Thanks Peter van Westen
 
