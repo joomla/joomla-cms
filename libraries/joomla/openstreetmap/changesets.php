@@ -14,7 +14,6 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- *
  * @since       13.1
  */
 class JOpenstreetmapChangesets extends JOpenstreetmapObject
@@ -22,9 +21,9 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	/**
 	 * Method to create a changeset
 	 *
-	 * @param   array  $changesets  array which contains changeset data
+	 * @param   array  $changesets  Array which contains changeset data
 	 *
-	 * @return  array  The xml response
+	 * @return  array  The XML response
 	 *
 	 * @since   13.1
 	 */
@@ -34,8 +33,8 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-				'oauth_token' => $token['key'],
-				'oauth_token_secret' => $token['secret']
+			'oauth_token' => $token['key'],
+			'oauth_token_secret' => $token['secret']
 		);
 
 		// Set the API base
@@ -53,16 +52,16 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 			foreach ($changesets as $tags)
 			{
 				$xml .= '<changeset>';
+
 				if (!empty($tags))
 				{
 					// Create a list of tags for each changeset
 					foreach ($tags as $key => $value)
 					{
-
 						$xml .= '<tag k="' . $key . '" v="' . $value . '"/>';
-
 					}
 				}
+
 				$xml .= '</changeset>';
 			}
 		}
@@ -75,21 +74,19 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 		$response = $this->oauth->oauthRequest($path, 'PUT', $parameters, $xml, $header);
 
 		return $response->body;
-
 	}
 
 	/**
 	 * Method to read a changeset
 	 *
-	 * @param   int  $id  identifier of the changeset
+	 * @param   integer  $id  identifier of the changeset
 	 *
-	 * @return  array    The xml response about a changeset
+	 * @return  array  The XML response about a changeset
 	 *
 	 * @since   13.1
 	 */
 	public function readChangeset($id)
 	{
-
 		// Set the API base
 		$base = 'changeset/' . $id;
 
@@ -100,26 +97,25 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 		$xml_string = $this->sendRequest($path);
 
 		return $xml_string->changeset;
-
 	}
 
 	/**
 	 * Method to update a changeset
 	 *
-	 * @param   int    $id    identifier of the changeset
-	 * @param   array  $tags  array of tags to update
+	 * @param   integer  $id    Identifier of the changeset
+	 * @param   array    $tags  Array of tags to update
 	 *
-	 * @return  array    The xml response of updated changeset
+	 * @return  array  The XML response of updated changeset
 	 *
 	 * @since   13.1
 	 */
-	public function updateChangeset($id, $tags=array() )
+	public function updateChangeset($id, $tags = array())
 	{
 		$token = $this->oauth->getToken();
 
 		// Set parameters.
 		$parameters = array(
-				'oauth_token' => $token['key']
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -135,9 +131,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 		{
 			foreach ($tags as $key => $value)
 			{
-
 				$tag_list .= '<tag k="' . $key . '" v="' . $value . '"/>';
-
 			}
 		}
 
@@ -161,9 +155,9 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	/**
 	 * Method to close a changeset
 	 *
-	 * @param   int  $id  identifier of the changeset
+	 * @param   integer  $id  identifier of the changeset
 	 *
-	 * @return  No value returns
+	 * @return  void
 	 *
 	 * @since   13.1
 	 */
@@ -173,7 +167,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-				'oauth_token' => $token['key']
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -186,21 +180,19 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Send the request.
 		$this->oauth->oauthRequest($path, 'PUT', $parameters, $header);
-
 	}
 
 	/**
 	 * Method to download a changeset
 	 *
-	 * @param   int  $id  identifier of the changeset
+	 * @param   integer  $id  Identifier of the changeset
 	 *
-	 * @return  array	The xml response of requested changeset
+	 * @return  array  The XML response of requested changeset
 	 *
 	 * @since   13.1
 	 */
 	public function downloadChangeset($id)
 	{
-
 		// Set the API base
 		$base = 'changeset/' . $id . '/download';
 
@@ -216,10 +208,10 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	/**
 	 * Method to expand the bounding box of a changeset
 	 *
-	 * @param   int    $id     identifier of the changeset
-	 * @param   array  $nodes  list of lat lon about nodes
+	 * @param   integer  $id     Identifier of the changeset
+	 * @param   array    $nodes  List of lat lon about nodes
 	 *
-	 * @return  array    The xml response of changed changeset
+	 * @return  array  The XML response of changed changeset
 	 *
 	 * @since   13.1
 	 */
@@ -229,7 +221,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-				'oauth_token' => $token['key']
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
@@ -245,9 +237,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 		{
 			foreach ($nodes as $node)
 			{
-
 				$node_list .= '<node lat="' . $node[0] . '" lon="' . $node[1] . '"/>';
-
 			}
 		}
 
@@ -269,11 +259,11 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	}
 
 	/**
-	 * Method to Query on changesets
+	 * Method to query on changesets
 	 *
-	 * @param   string  $param  parameters for query
+	 * @param   string  $param  Parameters for query
 	 *
-	 * @return  array    The xml response
+	 * @return  array  The XML response
 	 *
 	 * @since   13.1
 	 */
@@ -294,10 +284,10 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	/**
 	 * Method to upload a diff to a changeset
 	 *
-	 * @param   string  $xml  diff data to upload
-	 * @param   int     $id   identifier of the changeset
+	 * @param   string   $xml  Diff data to upload
+	 * @param   integer  $id   Identifier of the changeset
 	 *
-	 * @return  array    The xml response of result
+	 * @return  array  The XML response of result
 	 *
 	 * @since   13.1
 	 */
@@ -307,7 +297,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-				'oauth_token' => $token['key']
+			'oauth_token' => $token['key']
 		);
 
 		// Set the API base
