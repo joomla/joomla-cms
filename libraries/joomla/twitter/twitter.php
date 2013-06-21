@@ -113,7 +113,7 @@ class JTwitter
 	 *
 	 * @param   JTwitterOauth  $oauth    The oauth client.
 	 * @param   JRegistry      $options  Twitter options object.
-	 * @param   JTwitterHttp   $client   The HTTP client object.
+	 * @param   JHttp          $client   The HTTP client object.
 	 *
 	 * @since   12.3
 	 */
@@ -135,95 +135,23 @@ class JTwitter
 	 * @return  JTwitterObject  Twitter API object (statuses, users, favorites, etc.).
 	 *
 	 * @since   12.3
+	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		$class = 'JTwitter' . ucfirst($name);
+
+		if (class_exists($class))
 		{
-			case 'friends':
-				if ($this->friends == null)
-				{
-					$this->friends = new JTwitterFriends($this->options, $this->client, $this->oauth);
-				}
-				return $this->friends;
+			if (false == isset($this->$name))
+			{
+				$this->$name = new $class($this->options, $this->client, $this->oauth);
+			}
 
-			case 'help':
-				if ($this->help == null)
-				{
-					$this->help = new JTwitterHelp($this->options, $this->client, $this->oauth);
-				}
-				return $this->help;
-
-			case 'statuses':
-				if ($this->statuses == null)
-				{
-					$this->statuses = new JTwitterStatuses($this->options, $this->client, $this->oauth);
-				}
-				return $this->statuses;
-
-			case 'users':
-				if ($this->users == null)
-				{
-					$this->users = new JTwitterUsers($this->options, $this->client, $this->oauth);
-				}
-				return $this->users;
-
-			case 'search':
-				if ($this->search == null)
-				{
-					$this->search = new JTwitterSearch($this->options, $this->client, $this->oauth);
-				}
-				return $this->search;
-
-			case 'favorites':
-				if ($this->favorites == null)
-				{
-					$this->favorites = new JTwitterFavorites($this->options, $this->client, $this->oauth);
-				}
-				return $this->favorites;
-
-			case 'directMessages':
-				if ($this->directMessages == null)
-				{
-					$this->directMessages = new JTwitterDirectmessages($this->options, $this->client, $this->oauth);
-				}
-				return $this->directMessages;
-
-			case 'lists':
-				if ($this->lists == null)
-				{
-					$this->lists = new JTwitterLists($this->options, $this->client, $this->oauth);
-				}
-				return $this->lists;
-
-			case 'places':
-				if ($this->places == null)
-				{
-					$this->places = new JTwitterPlaces($this->options, $this->client, $this->oauth);
-				}
-				return $this->places;
-
-			case 'trends':
-				if ($this->trends == null)
-				{
-					$this->trends = new JTwitterTrends($this->options, $this->client, $this->oauth);
-				}
-				return $this->trends;
-
-			case 'block':
-				if ($this->block == null)
-				{
-					$this->block = new JTwitterBlock($this->options, $this->client, $this->oauth);
-				}
-				return $this->block;
-
-			case 'profile':
-				if ($this->profile == null)
-				{
-					$this->profile = new JTwitterProfile($this->options, $this->client, $this->oauth);
-				}
-				return $this->profile;
+			return $this->$name;
 		}
+
+		throw new InvalidArgumentException(sprintf('Argument %s produced an invalid class name: %s', $name, $class));
 	}
 
 	/**
