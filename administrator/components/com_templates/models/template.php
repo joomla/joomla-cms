@@ -33,7 +33,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		if ($template = $this->getTemplate())
 		{
 			$temp->name = str_replace('-', '_', $name);
-			$temp->exists = file_exists($path);
+			$temp->exists = file_exists($path.'/'.$name);
 			$temp->id = urlencode(base64_encode($template->extension_id.':'.$path.'/'.$name));
 			return $temp;
 		}
