@@ -25,7 +25,10 @@ jQuery(document).ready(function() {
 		});
 	}
 	if (!("required" in document.createElement("input"))){
-		jQuery('[required]').addClass('required')
-							.parents('form').addClass('form-validate');
+		var $el = jQuery('[required]');
+		$el.addClass('required');
+		var $form = $el.parents('form');
+		$form.addClass('form-validate');
+		$form.find(':submit').addClass('validate');	
 	}
 });
