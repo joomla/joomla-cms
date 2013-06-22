@@ -57,12 +57,12 @@ abstract class JHtmlJGrid
 
 		if ($tip)
 		{
-			JHtml::_('behavior.tooltip');
+			JHtml::_('bootstrap.tooltip');
 		}
 
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-micro ' . ($active_class == "publish" ? 'active' : '') . '" ' . ($tip ? 'rel="tooltip"' : '') . '';
+			$html[] = '<a class="btn btn-micro ' . ($active_class == "publish" ? 'active' : '') . ' ' . ($tip ? 'hasTooltip"' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
 			$html[] = '<i class="icon-' . $active_class . '">';
@@ -71,7 +71,7 @@ abstract class JHtmlJGrid
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-micro disabled jgrid" ' . ($tip ? 'rel="tooltip"' : '') . '';
+			$html[] = '<a class="btn btn-micro disabled jgrid ' . ($tip ? 'hasTooltip"' : '') . '"';
 			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
 
 			if ($active_class == "protected")
