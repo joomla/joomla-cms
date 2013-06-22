@@ -71,7 +71,8 @@ var JFormValidator = function($) {
 					}
 					i++;
 				}
-			} else if (!$el.val()) {
+				//If element has class placeholder that means it is empty.
+			} else if (!$el.val() || $el.hasClass('placeholder')) {
 				handleResponse(false, $el);
 				return false;
 			}
@@ -130,8 +131,8 @@ var JFormValidator = function($) {
 		// Iterate through the form object and attach the validate method to all input fields.
 		$(form).find('input,textarea,select,button').each(function() {
 			var $el = $(this), tagName = $el.prop("tagName").toLowerCase();
-			if ($el.hasClass('required')) {
-				$el.attr('aria-required', 'true').attr('required', 'required');
+			if ($el.attr('required') === 'required') {
+				$el.attr('aria-required', 'true');
 			}
 			if ((tagName === 'input' || tagName === 'button') && $el.attr('type') === 'submit') {
 				if ($el.hasClass('validate')) {
@@ -178,7 +179,7 @@ var JFormValidator = function($) {
 		// Attach to forms with class 'form-validate'
 		$('form.form-validate').each(function() {
 			attachToForm(this);
-		}, this);
+		});
 	};
 
 	return {
