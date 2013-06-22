@@ -72,7 +72,7 @@ var JFormValidator = function($) {
 					i++;
 				}
 				//If element has class placeholder that means it is empty.
-			} else if (!$el.val() || $el.hasClass('placeholder') || !$el.is(':checked')) {
+			} else if (!$el.val() || $el.hasClass('placeholder') || (tagName === 'checkbox' && !$el.is(':checked'))) {
 				handleResponse(false, $el);
 				return false;
 			}
