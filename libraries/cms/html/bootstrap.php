@@ -57,8 +57,7 @@ abstract class JHtmlBootstrap
 
 			// Attach the carousel to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function() {
 					jQuery('#$selector').affix($options);
 				});"
 			);
@@ -92,8 +91,7 @@ abstract class JHtmlBootstrap
 
 		// Attach the alerts to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(document).ready(function()
-			{
+			"jQuery(document).ready(function() {
 				jQuery('.$selector').alert();
 			});"
 		);
@@ -125,8 +123,7 @@ abstract class JHtmlBootstrap
 
 		// Attach the alerts to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(document).ready(function()
-			{
+			"jQuery(document).ready(function() {
 				jQuery('.$selector').button();
 			});"
 		);
@@ -168,8 +165,7 @@ abstract class JHtmlBootstrap
 
 			// Attach the carousel to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function() {
 					jQuery('.$selector').carousel($options);
 				});"
 			);
@@ -203,8 +199,7 @@ abstract class JHtmlBootstrap
 
 		// Attach the dropdown to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(document).ready(function()
-			{
+			"jQuery(document).ready(function() {
 				jQuery('.$selector').dropdown();
 			});"
 		);
@@ -283,8 +278,7 @@ abstract class JHtmlBootstrap
 
 			// Attach the modal to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function() {
 					jQuery('#$selector').modal($options);
 				});"
 			);
@@ -381,8 +375,7 @@ abstract class JHtmlBootstrap
 
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(document).ready(function()
-			{
+			"jQuery(document).ready(function() {
 				jQuery('" . $selector . "').popover(" . $options . ");
 			});"
 		);
@@ -420,8 +413,7 @@ abstract class JHtmlBootstrap
 
 			// Attach ScrollSpy to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function() {
 					jQuery('#$selector').scrollspy($options);
 				});"
 			);
@@ -479,8 +471,7 @@ abstract class JHtmlBootstrap
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function() {
 					jQuery('" . $selector . "').tooltip(" . $options . ");
 				});"
 			);
@@ -538,8 +529,7 @@ abstract class JHtmlBootstrap
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function() {
 					jQuery('" . $selector . "').typeahead(" . $options . ");
 				});"
 			);
@@ -584,8 +574,7 @@ abstract class JHtmlBootstrap
 
 			// Attach accordion to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function() {
 					jQuery('#$selector').collapse($options);
 				});"
 			);
@@ -769,8 +758,7 @@ abstract class JHtmlBootstrap
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function()
-				{
+				"jQuery(document).ready(function() {
 					jQuery('#$selector a').click(function(e) {
 						e.preventDefault();
 						jQuery(this).tab('show');
