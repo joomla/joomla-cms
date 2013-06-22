@@ -63,7 +63,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
 
-		// Wheather debug enabled
+		// Whether debug enabled
 		$debug = JFactory::getConfig()->get('debug');
 
 		// Get line endings
