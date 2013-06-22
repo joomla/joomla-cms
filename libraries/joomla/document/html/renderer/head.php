@@ -63,6 +63,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 		$app = JFactory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
 
+		// Wheather debug enabled
+		$debug = JFactory::getConfig()->get('debug');
+
 		// Get line endings
 		$lnEnd = $document->_getLineEnd();
 		$tab = $document->_getTab();
@@ -187,7 +190,12 @@ class JDocumentRendererHead extends JDocumentRenderer
 			//TODO: use .extend(Joomla.optionsStorage, options)
 			//when it will be safe
 			$buffer .= $tab . 'var Joomla = Joomla || {};' . $lnEnd;
-			$buffer .= $tab . 'Joomla.optionsStorage = ' . json_encode($document->_scripts_otions) . ';' . $lnEnd;
+			$buffer .= $tab . 'Joomla.optionsStorage = '
+					. json_encode(
+						$document->_scripts_otions,
+						($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false)
+					)
+					. ';' . $lnEnd;
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
