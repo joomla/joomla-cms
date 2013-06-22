@@ -72,7 +72,7 @@ var JFormValidator = function($) {
 					i++;
 				}
 				//If element has class placeholder that means it is empty.
-			} else if (!$el.val() || $el.hasClass('placeholder')) {
+			} else if (!$el.val() || $el.hasClass('placeholder') || !$el.is(':checked')) {
 				handleResponse(false, $el);
 				return false;
 			}
@@ -134,7 +134,7 @@ var JFormValidator = function($) {
 			if ($el.attr('required') === 'required') {
 				$el.attr('aria-required', 'true');
 			}
-			if ((tagName === 'input' || tagName === 'button') && $el.attr('type') === 'submit') {
+			if ((tagName === 'input' && $el.attr('type') === 'submit') || (tagName === 'button' && $el.attr('type') === undefined)) {
 				if ($el.hasClass('validate')) {
 					$el.on('click', function() {
 						return isValid(form);
