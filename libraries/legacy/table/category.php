@@ -209,7 +209,7 @@ class JTableCategory extends JTableNested
 	 */
 	public function delete($pk = null, $children = true)
 	{
-		$result = parent::delete($pk,$children);
+		$result = parent::delete($pk, $children);
 		$this->tagsHelper->typeAlias = $this->extension . '.category';
 		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
