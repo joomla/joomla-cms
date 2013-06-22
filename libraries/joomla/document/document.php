@@ -152,7 +152,7 @@ class JDocument
 	 *
 	 *  @var    array
 	 */
-	public $_scripts_otions = array();
+	public $_script_otions = array();
 
 	/**
 	 * Array of linked style sheets
@@ -499,7 +499,7 @@ class JDocument
 	 */
 	public function setScriptOptions($options, $name)
 	{
-		$this->_scripts_otions[$name] = $options;
+		$this->_script_otions[$name] = $options;
 		return $this;
 	}
 
@@ -515,10 +515,10 @@ class JDocument
 	{
 		if ($name)
 		{
-			return (empty($this->_scripts_otions[$name])) ? array() : $this->_scripts_otions[$name];
+			return (empty($this->_script_otions[$name])) ? array() : $this->_script_otions[$name];
 		}
 		else {
-			return $this->_scripts_otions;
+			return $this->_script_otions;
 		}
 	}
 

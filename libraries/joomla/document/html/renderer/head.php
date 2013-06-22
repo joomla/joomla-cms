@@ -184,7 +184,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 		}
 
 		// Generate scripts options
-		if (!empty($document->_scripts_otions))
+		if (!empty($document->_script_otions))
 		{
 			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
 			//TODO: use .extend(Joomla.optionsStorage, options)
@@ -192,7 +192,7 @@ class JDocumentRendererHead extends JDocumentRenderer
 			$buffer .= $tab . 'var Joomla = Joomla || {};' . $lnEnd;
 			$buffer .= $tab . 'Joomla.optionsStorage = '
 					. json_encode(
-						$document->_scripts_otions,
+						$document->_script_otions,
 						($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false)
 					)
 					. ';' . $lnEnd;
