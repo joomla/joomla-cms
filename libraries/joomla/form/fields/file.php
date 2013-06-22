@@ -52,6 +52,9 @@ class JFormFieldFile extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
+		// Including fallback code for HTML5 non supported browsers.
+		JHTML::_('behavior.formvalidation');
+
 		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '" value=""' . $accept . $disabled . $class . $size
 			. $onchange . $required . ' />';
 	}

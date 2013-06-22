@@ -124,6 +124,7 @@ class JFormFieldCalendar extends JFormField
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
+		JHTML::_('behavior.formvalidation');
 
 		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
 	}

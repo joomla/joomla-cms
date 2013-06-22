@@ -98,6 +98,9 @@ class JFormFieldPassword extends JFormField
 			);</script>';
 		}
 
+		// Including fallback code for HTML5 non supported browsers.
+		JHTML::_('behavior.formvalidation');
+
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $hint .
 			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . '/>' . $script;
