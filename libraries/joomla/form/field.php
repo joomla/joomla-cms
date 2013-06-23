@@ -35,6 +35,15 @@ abstract class JFormField
 	protected $hint;
 
 	/**
+	 * The autocomplete of state for the form field. If true element will be automatically
+	 * completed by browser otherwise not.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $autocomplete = true;
+
+	/**
 	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
 	 *
 	 * @var    SimpleXMLElement
@@ -361,6 +370,9 @@ abstract class JFormField
 
 		// Set the field hint text.
 		$this->hint = (string) $element['hint'];
+
+		//Determine whenther to automatically fill the field or not.
+		$this->autocomplete = !((string) $this->element['autocomplete'] == 'false' || (string) $this->element['autocomplete'] == '0');
 
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
