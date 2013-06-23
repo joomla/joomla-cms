@@ -52,9 +52,6 @@ class JFormRuleEmail extends JFormRule
 			return true;
 		}
 
-		// Handle idn e-mail addresses by converting to punycode.
-		$value =  JStringPunycode::emailToPunycode($value);
-
 		// If the tld attribute is present, change the regular expression to require at least 2 characters for it.
 		$tld = ((string) $element['tld'] == 'tld' || (string) $element['tld'] == 'required');
 
@@ -73,6 +70,9 @@ class JFormRuleEmail extends JFormRule
 
 		if (!$multiple)
 		{
+			// Handle idn e-mail addresses by converting to punycode.
+			$value =  JStringPunycode::emailToPunycode($value);
+
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
@@ -83,6 +83,9 @@ class JFormRuleEmail extends JFormRule
 		{
 			foreach ($values as $value)
 			{
+				// Handle idn e-mail addresses by converting to punycode.
+				$value =  JStringPunycode::emailToPunycode($value);
+
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{
