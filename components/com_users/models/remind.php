@@ -75,6 +75,7 @@ class UsersModelRemind extends JModelForm
 	{
 		// Get the form.
 		$form = $this->getForm();
+		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if (empty($form))

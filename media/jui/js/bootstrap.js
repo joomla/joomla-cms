@@ -543,12 +543,12 @@
       dimension = this.dimension()
       this.reset(this.$element[dimension]())
 	  /* >>> JUI >>> */
-	  /* ORIGINAL:       
+	  /* ORIGINAL:
       this.transition('removeClass', $.Event('hide'), 'hidden')
       */
       this.transition('removeClass', $.Event('hideme'), 'hidden')
       /* <<< JUI <<< */
-            
+
       this.$element[dimension](0)
     }
 
@@ -680,24 +680,23 @@
 
   , toggle: function (e) {
       /* >>> JUI >>> */
-      /* ORIGINAL	  
+      /* ORIGINAL
       var $this = $(this)
         , $parent
         , isActive
-      
-      */      
+      */
       var $this = $(this)
         , $parent
         , isActive
         , url
-        
+
       url = $this.attr('href')
       if ((url) && (url !== '#')) {
          window.location = url
          return
       }
       /* <<< JUI <<< */
-      
+
       if ($this.is('.disabled, :disabled')) return
 
       $parent = getParent($this)
@@ -1293,16 +1292,16 @@
 
   , hide: function () {
 	  /* >>> JUI >>> */
-	  /* ORIGINAL: 
+	  /* ORIGINAL:
       var that = this
         , $tip = this.tip()
         , e = $.Event('hide')
-      */ 
+      */
       var that = this
         , $tip = this.tip()
         , e = $.Event('hideme')
       /* <<< JUI <<< */
-        
+
       this.$element.trigger(e)
       if (e.isDefaultPrevented()) return
 
@@ -1423,7 +1422,12 @@
   , trigger: 'hover focus'
   , title: ''
   , delay: 0
+  /* >>> JUI >>> */
+  /* ORIGINAL:
   , html: false
+  */
+  , html: true
+  /* <<< JUI <<< */
   , container: false
   }
 

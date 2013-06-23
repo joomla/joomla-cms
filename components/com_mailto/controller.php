@@ -127,12 +127,18 @@ class MailtoController extends JControllerLegacy
 
 		// Build the message to send
 		$msg	= JText::_('COM_MAILTO_EMAIL_MSG');
+
+		$link = $link;
 		$body	= sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
 		$subject = JMailHelper::cleanSubject($subject);
 		$body	 = JMailHelper::cleanBody($body);
-		$sender	 = JMailHelper::cleanAddress($sender);
+
+		// To send we need to use punycode.
+		$from = JStringPunycode::emailToPunycode($from);
+		$from	 = JMailHelper::cleanAddress($from);
+		$email = JStringPunycode::emailToPunycode($email);
 
 		// Send the email
 		if (JFactory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)

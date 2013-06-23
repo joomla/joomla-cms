@@ -243,7 +243,7 @@ class UsersModelProfile extends JModelForm
 		$user = new JUser($userId);
 
 		// Prepare the data for the user object.
-		$data['email']		= $data['email1'];
+		$data['email']		= JStringPunycode::emailToPunycode($data['email1']);
 		$data['password']	= $data['password1'];
 
 		// Unset the username if it should not be overwritten
