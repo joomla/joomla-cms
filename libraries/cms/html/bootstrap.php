@@ -278,9 +278,9 @@ abstract class JHtmlBootstrap
 
 			// Attach the modal to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"jQuery(document).ready(function() {
-					jQuery('#$selector').modal($options);
-				});"
+				"(function($){
+					$('#$selector').modal($options);
+				})(jQuery);"
 			);
 
 			// Set static array
