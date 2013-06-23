@@ -876,23 +876,34 @@ abstract class JHtml
 	}
 
 	/**
-	 * Converts a double colon seperated string to a string ready for bootstrap tooltips
+	 * Converts a double colon seperated string or 2 separate strings to a string ready for bootstrap tooltips
 	 *
-	 * @param   string  $str  The string to convert
+	 * @param   string  $title  The string to convert
+	 * @param   string  $text   Optional text to convert
 	 *
-	 * @return  string  The converted string
+	 * @return  string  The tooltip string
 	 *
 	 * @since   3.1.2
 	 */
-	public static function prepareTooltip($str = '')
+	public static function prepareTooltip($title = '', $text = '')
 	{
-		if (!(strpos($str, '::') === false))
+		if (!$title)
 		{
-			$str = explode('::', $str, 2);
-			$str = '<strong>' . $str['0'] . '</strong><br />' . $str['1'];
+			return $text;
 		}
 
-		return $str;
+		if ($text)
+		{
+			return '<strong>' . $title . '</strong><br />' . $text;
+		}
+
+		if (!(strpos($title, '::') === false))
+		{
+			$title = explode('::', $title, 2);
+			$title = '<strong>' . $title['0'] . '</strong><br />' . $title['1'];
+		}
+
+		return $title;
 	}
 
 	/**
