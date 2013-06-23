@@ -20,7 +20,7 @@
 .input-block-level {
 	display: block;
 	width: 100%;
-	min-height: ;
+	min-height: 25px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -3248,10 +3248,10 @@ table.adminlist .item-associations li a {
 .tooltip-inner {
 	max-width: 200px;
 	padding: 8px;
-	color: #fff;
+	color: #ffffff;
 	text-align: center;
 	text-decoration: none;
-	background-color: #000;
+	background-color: #000000;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -3268,26 +3268,26 @@ table.adminlist .item-associations li a {
 	left: 50%;
 	margin-left: -5px;
 	border-width: 5px 5px 0;
-	border-top-color: #000;
+	border-top-color: #000000;
 }
 .tooltip.right .tooltip-arrow {
 	top: 50%;
 	left: 0;
 	margin-top: -5px;
 	border-width: 5px 5px 5px 0;
-	border-right-color: #000;
+	border-right-color: #000000;
 }
 .tooltip.left .tooltip-arrow {
 	top: 50%;
 	right: 0;
 	margin-top: -5px;
 	border-width: 5px 0 5px 5px;
-	border-left-color: #000;
+	border-left-color: #000000;
 }
 .tooltip.bottom .tooltip-arrow {
 	top: 0;
 	left: 50%;
 	margin-left: -5px;
 	border-width: 0 5px 5px;
-	border-bottom-color: #000;
+	border-bottom-color: #000000;
 }
