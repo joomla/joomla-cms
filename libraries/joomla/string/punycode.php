@@ -60,11 +60,11 @@ abstract class JStringPunycode
 	/**
 	 * Transforms a UTF-8 URL to a Punycode URL
 	 *
-	 * @param  string  $uri  The UTF-8 URL to transform
+	 * @param   string  $uri  The UTF-8 URL to transform
 	 *
 	 * @return  string  The punycode URL
 	 *
-	 * @since  3.1.2
+	 * @since   3.1.2
 	 */
 	public static function urlToPunycode($uri)
 	{
