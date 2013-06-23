@@ -244,7 +244,6 @@ class JAdminCssMenu extends JObject
 	 *
 	 * @return  string	CSS class name
 	 *
-	 * @access	public
 	 * @since   1.5
 	 */
 	public function getIconClass($identifier)
