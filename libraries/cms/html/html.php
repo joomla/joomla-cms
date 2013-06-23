@@ -869,7 +869,7 @@ abstract class JHtml
 
 		if($class == 'hasTooltip')
 		{
-			$tooltip = self::prepareTooltip($tooltip);
+			$tooltip = self::tooltipText($tooltip);
 		}
 
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
@@ -885,7 +885,7 @@ abstract class JHtml
 	 *
 	 * @since   3.1.2
 	 */
-	public static function prepareTooltip($title = '', $text = '')
+	public static function tooltipText($title = '', $text = '')
 	{
 		if (!$title)
 		{

@@ -61,7 +61,7 @@ abstract class JHtmlJGrid
 		if ($tip)
 		{
 			JHtml::_('bootstrap.tooltip');
-			$title = JHtml::prepareTooltip($title);
+			$title = JHtml::tooltipText($title);
 		}
 
 		if ($enabled)
