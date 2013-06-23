@@ -451,6 +451,15 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
+
+			foreach ($data['urls'] as $i => $url)
+			{
+				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i = 'urlc'))
+				{
+					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+				}
+
+			}
 			$registry = new JRegistry;
 			$registry->loadArray($data['urls']);
 			$data['urls'] = (string) $registry;

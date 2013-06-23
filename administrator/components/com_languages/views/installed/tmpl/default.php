@@ -103,7 +103,7 @@ $clientId	= $this->state->get('filter.client_id', 0);
 						<?php echo $this->escape($row->author); ?>
 					</td>
 					<td align="center">
-						<?php echo $this->escape($row->authorEmail); ?>
+						<?php echo JStringPunycode::emailToUTF8($this->escape($row->authorEmail)); ?>
 					</td>
 				</tr>
 			<?php endforeach;?>
