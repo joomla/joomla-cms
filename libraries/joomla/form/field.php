@@ -372,7 +372,8 @@ abstract class JFormField
 		$this->hint = (string) $element['hint'];
 
 		//Determine whenther to automatically fill the field or not.
-		$this->autocomplete = !((string) $this->element['autocomplete'] == 'false' || (string) $this->element['autocomplete'] == '0');
+		$this->autocomplete = !((string) $element['autocomplete'] == 'false' || (string) $element['autocomplete'] == 'off' 
+			|| (string) $element['autocomplete'] == '0');
 
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
