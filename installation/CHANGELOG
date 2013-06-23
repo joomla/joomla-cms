@@ -30,6 +30,7 @@ $ -> Language fix or change
  + [#30966] Add handling for punycode urls and emails and fix a number of places where urls and emails are used. Thanks Elin Waring
  # [#31168] Add chosen.css for com_templates and com_admin. Thanks Tobias Zulauf
  # [#30465] ACL dropdown hidden. Thanks Artur Alves
+ # [#31199] *Various tooltips issues in back-end.
  
 21-Jun-2013 Jean-Marie Simonet
  $ Missing language string (hardcoded)
