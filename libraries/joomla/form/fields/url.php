@@ -46,7 +46,7 @@ class JFormFieldUrl extends JFormFieldText
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		return '<input type="url" name="' .  $this->name . $class . $this->id . '" value="'
-			. JStringPunycode::urlToUTF8($value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . $required . '/>';
+			. JStringPunycode::urlToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . $required . '/>';
 
 	}
 }
