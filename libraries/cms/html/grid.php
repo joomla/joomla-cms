@@ -37,7 +37,7 @@ abstract class JHtmlGrid
 
 		// Build the title.
 		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
-		$title .= '::' . JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE');
+		$title = JHtml::tooltipText($title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'));
 
 		// Build the <a> tag.
 		$bool = ($value) ? 'true' : 'false';
@@ -46,7 +46,7 @@ abstract class JHtmlGrid
 
 		if ($toggle)
 		{
-			$html = '<a class="grid_' . $bool . ' hasTip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
+			$html = '<a class="grid_' . $bool . ' hasToolip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
 				. '\'}" href="#toggle"></a>';
 		}
 		else

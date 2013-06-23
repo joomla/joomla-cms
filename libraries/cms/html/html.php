@@ -864,12 +864,14 @@ abstract class JHtml
 
 		if ($title)
 		{
-			$tooltip = $title . '::' . $tooltip;
-		}
-
-		if($class == 'hasTooltip')
-		{
-			$tooltip = self::tooltipText($tooltip);
+			if ($class == 'hasTip')
+			{
+				$tooltip = $title . '::' . $tooltip;
+			}
+			else
+			{
+				$tooltip = self::tooltipText($title, $tooltip);
+			}
 		}
 
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
