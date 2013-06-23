@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+//Add the chosen.css from media/jui/css
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 <?php
 	echo JHtml::_('bootstrap.startAccordion', 'templatestyleOptions', array('active' => 'collapse0'));
