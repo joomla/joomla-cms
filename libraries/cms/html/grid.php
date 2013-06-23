@@ -74,7 +74,7 @@ abstract class JHtmlGrid
 	 */
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '')
 	{
-		JHtml::_('behavior.tooltip');
+		JHtml::_('bootstrap.tooltip');
 
 		$direction = strtolower($direction);
 		$icon = array('arrow-up-3', 'arrow-down-3');
@@ -90,7 +90,7 @@ abstract class JHtmlGrid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
-			. ' class="hasTip" title="' . JText::_($tip ? $tip : $title) . '::' . JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
+			. ' class="hasTooltip" title="' . JHtml::tooltipText(JText::_($tip ? $tip : $title), JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') ) . '">';
 		$html .= JText::_($title);
 
 		if ($order == $selected)
@@ -279,12 +279,14 @@ abstract class JHtmlGrid
 
 		if ($overlib)
 		{
+			JHtml::_('bootstrap.tooltip');
+
 			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
 
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
-			$hover = '<span class="editlinktip hasTip" title="' . JText::_('JLIB_HTML_CHECKED_OUT') . '::' . $text . '<br />' . $date . '<br />'
+			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::tooltipText(JText::_('JLIB_HTML_CHECKED_OUT'), $text) . '<br />' . $date . '<br />'
 				. $time . '">';
 		}
 

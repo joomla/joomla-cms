@@ -822,7 +822,7 @@ abstract class JHtml
 	 *
 	 * @since   1.5
 	 */
-	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTip')
+	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTooltip')
 	{
 		if (is_array($title))
 		{
@@ -867,7 +867,43 @@ abstract class JHtml
 			$tooltip = $title . '::' . $tooltip;
 		}
 
+		if($class == 'hasTooltip')
+		{
+			$tooltip = self::tooltipText($tooltip);
+		}
+
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
+	}
+
+	/**
+	 * Converts a double colon seperated string or 2 separate strings to a string ready for bootstrap tooltips
+	 *
+	 * @param   string  $title  The string to convert
+	 * @param   string  $text   Optional text to convert
+	 *
+	 * @return  string  The tooltip string
+	 *
+	 * @since   3.1.2
+	 */
+	public static function tooltipText($title = '', $text = '')
+	{
+		if (!$title)
+		{
+			return $text;
+		}
+
+		if ($text)
+		{
+			return '<strong>' . $title . '</strong><br />' . $text;
+		}
+
+		if (!(strpos($title, '::') === false))
+		{
+			$title = explode('::', $title, 2);
+			$title = '<strong>' . $title['0'] . '</strong><br />' . $title['1'];
+		}
+
+		return $title;
 	}
 
 	/**
