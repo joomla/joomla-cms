@@ -53,7 +53,7 @@ class JFormRuleEmail extends JFormRule
 		}
 
 		// Handle idn e-mail addresses by converting to punycode.
-		$value =  JStringPunycode::emailToPunycode($value);
+		$value = JStringPunycode::emailToPunycode($value);
 
 		// If the tld attribute is present, change the regular expression to require at least 2 characters for it.
 		$tld = ((string) $element['tld'] == 'tld' || (string) $element['tld'] == 'required');
