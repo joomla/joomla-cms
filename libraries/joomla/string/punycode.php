@@ -69,6 +69,13 @@ abstract class JStringPunycode
 	public static function urlToPunycode($uri)
 	{
 		$parsed = JString::parse_url($uri);
+
+		if (!isset($parsed['host']) || $parsed['host'] == '')
+		{
+			// If there is no host we do not need to convert it.
+			return;
+		}
+
 		$host = $parsed['host'];
 		$hostExploded = explode('.', $host);
 		$newhost = '';
@@ -123,6 +130,13 @@ abstract class JStringPunycode
 		}
 
 		$parsed = JString::parse_url($uri);
+
+		if (!isset($parsed['host']) || $parsed['host'] == '')
+		{
+			// If there is no host we do not need to convert it.
+			return;
+		}
+
 		$host = $parsed['host'];
 		$hostExploded = explode('.', $host);
 		$newhost = '';
