@@ -1536,4 +1536,38 @@ class JHtmlTest extends TestCase
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
+
+	/**
+	 * Tests JHtml::prepareTooltip().
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testTooltipText()
+	{
+		$this->assertThat(
+			JHtml::tooltipText('Title::Text'),
+			$this->equalTo('<strong>Title</strong><br />Text'),
+			'A string with "::" should be converted'
+		);
+
+		$this->assertThat(
+			JHtml::tooltipText('Title:Text'),
+			$this->equalTo('Title:Text'),
+			'A string without "::" should not be converted'
+		);
+
+		$this->assertThat(
+			JHtml::tooltipText('Title', 'Text'),
+			$this->equalTo('<strong>Title</strong><br />Text'),
+			'A title and content should be combined'
+		);
+
+		$this->assertThat(
+			JHtml::tooltipText('', 'Text'),
+			$this->equalTo('Text'),
+			'If no title is given, return text string'
+		);
+	}
 }
