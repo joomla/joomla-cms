@@ -19,7 +19,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   <?php if (!empty( $this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
   <?php else : ?>
     <div id="j-main-container">
@@ -31,7 +31,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   					<?php echo JText::_('COM_CACHE_NUM'); ?>
   				</th>
   				<th width="20">
-  					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+  					<?php echo JHtml::_('grid.checkall'); ?>
   				</th>
   				<th class="title nowrap">
   					<?php echo JHtml::_('grid.sort',  'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
@@ -75,7 +75,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php $i++; endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="client" value="<?php echo $this->client->id;?>" />

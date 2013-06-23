@@ -16,30 +16,30 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-discover">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=discover');?>" method="post" name="adminForm" id="adminForm">
-	
+
 	<?php if (!empty( $this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
   <?php else : ?>
     <div id="j-main-container">
   <?php endif;?>
-  
+
   	<?php if ($this->showMessage) : ?>
   		<?php echo $this->loadTemplate('message'); ?>
   	<?php endif; ?>
-  
+
   	<?php if ($this->ftp) : ?>
   		<?php echo $this->loadTemplate('ftp'); ?>
   	<?php endif; ?>
-  
+
   	<!-- Begin Content -->
   		<?php if (count($this->items)) : ?>
   		<table class="table table-striped">
   			<thead>
   				<tr>
-  					<th width="20"><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" /></th>
+  					<th width="20"><?php echo JHtml::_('grid.checkall'); ?></th>
   					<th class="nowrap"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>
   					<th class="center"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?></th>
   					<th width="10%" class="center"><?php echo JText::_('JVERSION'); ?></th>
@@ -81,7 +81,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   				<?php echo JText::_('COM_INSTALLER_MSG_DISCOVER_NOEXTENSION'); ?>
   			</div>
   		<?php endif; ?>
-  
+
   		<input type="hidden" name="task" value="" />
   		<input type="hidden" name="boxchecked" value="0" />
   		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
