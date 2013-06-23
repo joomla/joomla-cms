@@ -1283,33 +1283,33 @@ class JHtmlTest extends TestCase
 		// Testing classical cases
 		$this->assertThat(
 			JHtml::tooltip('Content'),
-			$this->equalTo('<span class="hasTip" title="Content"><img src="' .
+			$this->equalTo('<span class="hasTooltip" title="Content"><img src="' .
 				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Basic tooltip failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title'),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' .
+			$this->equalTo('<span class="hasTooltip" title="Title::Content"><img src="' .
 				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Tooltip with title and content failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', null, 'Text'),
-			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
+			$this->equalTo('<span class="hasTooltip" title="Title::Content">Text</span>'),
 			'Tooltip with title and content and text failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', null, 'Text', 'http://www.monsite.com'),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
+			$this->equalTo('<span class="hasTooltip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
 			'Tooltip with title and content and text and href failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt'),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' .
+			$this->equalTo('<span class="hasTooltip" title="Title::Content"><img src="' .
 				JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
 			'Tooltip with title and content and alt failed'
 		);
@@ -1324,26 +1324,26 @@ class JHtmlTest extends TestCase
 		// Testing where title is an array
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title')),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' .
+			$this->equalTo('<span class="hasTooltip" title="Title::Content"><img src="' .
 				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Tooltip with title and content failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title', 'text' => 'Text')),
-			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
+			$this->equalTo('<span class="hasTooltip" title="Title::Content">Text</span>'),
 			'Tooltip with title and content and text failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title', 'text' => 'Text', 'href' => 'http://www.monsite.com')),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
+			$this->equalTo('<span class="hasTooltip" title="Title::Content"><a href="http://www.monsite.com">Text</a></span>'),
 			'Tooltip with title and content and text and href failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title', 'alt' => 'MyAlt')),
-			$this->equalTo('<span class="hasTip" title="Title::Content"><img src="' .
+			$this->equalTo('<span class="hasTooltip" title="Title::Content"><img src="' .
 				JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
 			'Tooltip with title and content and alt failed'
 		);
@@ -1355,7 +1355,7 @@ class JHtmlTest extends TestCase
 		);
 		$this->assertThat(
 			JHtml::tooltip('Content', array()),
-			$this->equalTo('<span class="hasTip" title="Content"><img src="' .
+			$this->equalTo('<span class="hasTooltip" title="Content"><img src="' .
 				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
 			'Basic tooltip (array version) failed'
 		);
