@@ -215,8 +215,8 @@ abstract class JHtmlJGrid
 				if ($tip)
 				{
 					$states[$key][1] = JText::_($states[$key][1]);
-					$states[$key][2] = JText::_($states[$key][2]) . '::' . $tip;
-					$states[$key][3] = JText::_($states[$key][3]) . '::' . $tip;
+					$states[$key][2] = JText::_($states[$key][2]) . '<br />' . $tip;
+					$states[$key][3] = JText::_($states[$key][3]) . '<br />' . $tip;
 					$states[$key][4] = true;
 				}
 			}
@@ -331,8 +331,8 @@ abstract class JHtmlJGrid
 		$text = addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
 		$date = addslashes(htmlspecialchars(JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8'));
 		$time = addslashes(htmlspecialchars(JHtml::_('date', $time, 'H:i'), ENT_COMPAT, 'UTF-8'));
-		$active_title = JText::_('JLIB_HTML_CHECKIN') . '::' . $text . '<br />' . $date . '<br />' . $time;
-		$inactive_title = JText::_('JLIB_HTML_CHECKED_OUT') . '::' . $text . '<br />' . $date . '<br />' . $time;
+		$active_title = JText::_('JLIB_HTML_CHECKIN') . '<br />' . $text . '<br />' . $date . '<br />' . $time;
+		$inactive_title = JText::_('JLIB_HTML_CHECKED_OUT') . '<br />' . $text . '<br />' . $date . '<br />' . $time;
 
 		return self::action(
 			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $active_title, $inactive_title, true, 'checkedout',
