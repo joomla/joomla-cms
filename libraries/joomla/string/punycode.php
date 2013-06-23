@@ -17,65 +17,72 @@ JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert_080/idna
  * Class for handling UTF-8 URLs
  * Wraps the Punycode library
  * All functions assume the validity of utf-8 URLs.
-
+ *
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       3.1.2
  */
 abstract class JStringPunycode
 {
-	/*
+	/**
 	 * Transforms a UTF-8 string to a Punycode string
 	 *
-	 * @param  string  $utfString  The UTF-8 string to transform
+	 * @param   string  $utfString  The UTF-8 string to transform
 	 *
 	 * @return  string  The punycode string
 	 *
-	 * @since  3.1.2
+	 * @since   3.1.2
 	 */
 	public static function toPunycode($utfString)
 	{
-		$idn = new idna_convert();
+		$idn = new idna_convert;
 
 		return $idn->encode($utfString);
 	}
 
-	/*
+	/**
 	 * Transforms a Punycode string to a UTF-8 string
-	*
-	* @param  string  $punycodeString  The Punycode string to transform
-	*
-	* @return  string  The UF-8 URL
-	*
-	* @since  3.1.2
-	*/
+	 *
+	 * @param   string  $punycodeString  The Punycode string to transform
+	 *
+	 * @return  string  The UF-8 URL
+	 *
+	 * @since   3.1.2
+	 */
 	public static function fromPunycode($punycodeString)
 	{
-		$idn = new idna_convert();
+		$idn = new idna_convert;
 
 		return $idn->decode($punycodeString);
 
 	}
 
-	/*
+	/**
 	 * Transforms a UTF-8 URL to a Punycode URL
-	*
-	* @param  string  $url  The UTF-8 URL to transform
-	*
-	* @return  string  The punycode URL
-	*
-	* @since  3.1.2
-	*/
+	 *
+	 * @param  string  $uri  The UTF-8 URL to transform
+	 *
+	 * @return  string  The punycode URL
+	 *
+	 * @since  3.1.2
+	 */
 	public static function urlToPunycode($uri)
 	{
 		$parsed = JString::parse_url($uri);
+
+		if (!isset($parsed['host']) || $parsed['host'] == '')
+		{
+			// If there is no host we do not need to convert it.
+			return;
+		}
+
 		$host = $parsed['host'];
 		$hostExploded = explode('.', $host);
 		$newhost = '';
 
 		foreach ($hostExploded as $hostex)
 		{
-			$hostex = JStringPunycode::toPunycode($hostex);
+			$hostex = static::toPunycode($hostex);
 			$newhost .= $hostex . '.';
 		}
 
@@ -95,7 +102,7 @@ abstract class JStringPunycode
 
 		if (!empty($parsed['path']))
 		{
-			$newuri .= $parsed['path'] ;
+			$newuri .= $parsed['path'];
 		}
 
 		if (!empty($parsed['query']))
@@ -106,15 +113,15 @@ abstract class JStringPunycode
 		return $newuri;
 	}
 
-	/*
+	/**
 	 * Transforms a Punycode URL to a UTF-8 URL
-	*
-	* @param  string  $url  The Punycode URL to transform
-	*
-	* @return  string  The UTF-8 URL
-	*
-	* @since  3.1.2
-	*/
+	 *
+	 * @param   string  $uri  The Punycode URL to transform
+	 *
+	 * @return  string  The UTF-8 URL
+	 *
+	 * @since   3.1.2
+	 */
 	public static function urlToUTF8($uri)
 	{
 		if (empty($uri))
@@ -123,9 +130,17 @@ abstract class JStringPunycode
 		}
 
 		$parsed = JString::parse_url($uri);
+
+		if (!isset($parsed['host']) || $parsed['host'] == '')
+		{
+			// If there is no host we do not need to convert it.
+			return $uri;
+		}
+
 		$host = $parsed['host'];
 		$hostExploded = explode('.', $host);
 		$newhost = '';
+
 		foreach ($hostExploded as $hostex)
 		{
 			$hostex = self::fromPunycode($hostex);
@@ -148,7 +163,7 @@ abstract class JStringPunycode
 
 		if (!empty($parsed['path']))
 		{
-			$newuri .= $parsed['path'] ;
+			$newuri .= $parsed['path'];
 		}
 
 		if (!empty($parsed['query']))
@@ -159,15 +174,15 @@ abstract class JStringPunycode
 		return $newuri;
 	}
 
-	/*
+	/**
 	 * Transforms a UTF-8 e-mail to a Punycode e-mail
 	 * This assumes a valid email address
 	 *
-	 * @param  string  $email  The UTF-8 e-mail to transform
+	 * @param   string  $email  The UTF-8 e-mail to transform
 	 *
 	 * @return  string  The punycode e-mail
 	 *
-	 * @since  3.1.2
+	 * @since   3.1.2
 	 */
 	public static function emailToPunycode($email)
 	{
@@ -180,9 +195,10 @@ abstract class JStringPunycode
 		{
 			$domainExploded = explode('.', $explodedAddress[1]);
 			$newdomain = '';
+
 			foreach ($domainExploded as $domainex)
 			{
-				$domainex = JStringPunycode::toPunycode($domainex);
+				$domainex = static::toPunycode($domainex);
 				$newdomain .= $domainex . '.';
 			}
 
@@ -193,15 +209,15 @@ abstract class JStringPunycode
 		return $newEmail;
 	}
 
-	/*
+	/**
 	 * Transforms a Punycode e-mail to a UTF-8 e-mail
 	 * This assumes a valid email address
 	 *
-	 * @param  string  $email  The punycode e-mail to transform
+	 * @param   string  $email  The punycode e-mail to transform
 	 *
 	 * @return  string  The punycode e-mail
 	 *
-	 * @since  3.1.2
+	 * @since   3.1.2
 	 */
 	public static function emailToUTF8($email)
 	{
@@ -214,9 +230,10 @@ abstract class JStringPunycode
 		{
 			$domainExploded = explode('.', $explodedAddress[1]);
 			$newdomain = '';
+
 			foreach ($domainExploded as $domainex)
 			{
-				$domainex = self::fromPunycode($domainex);
+				$domainex = static::fromPunycode($domainex);
 				$newdomain .= $domainex . '.';
 			}
 

@@ -31,9 +31,15 @@ class JFormFieldUrl extends JFormFieldText
 	 */
 	protected $type = 'Url';
 
+	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   3.1.2 (CMS)
+	 */
 	protected function getInput()
 	{
-
 		// Initialize some field attributes.
 		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
@@ -45,8 +51,7 @@ class JFormFieldUrl extends JFormFieldText
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<input type="text" name="' .  $this->name . $class . $this->id . '" value="'
+		return '<input type="url" name="' .  $this->name . $class . $this->id . '" value="'
 			. JStringPunycode::urlToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . $required . '/>';
-
 	}
 }

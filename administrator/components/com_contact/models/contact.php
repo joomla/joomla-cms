@@ -490,7 +490,7 @@ class ContactModelContact extends JModelAdmin
 		{
 			if ($data['params'][$link])
 			{
-				$data['params'][$link] =  JStringPunycode::urlToPunycode($data['params'][$link]);
+				$data['params'][$link] = JStringPunycode::urlToPunycode($data['params'][$link]);
 			}
 		}
 
