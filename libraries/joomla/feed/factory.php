@@ -27,7 +27,7 @@ class JFeedFactory
 	/**
 	 * Method to load a URI into the feed reader for parsing.
 	 *
-	 * @param   string  $uri  The URI of the feed to load.
+	 * @param   string  $uri  The URI of the feed to load. Idn uris must be passed already converted to punycode.
 	 *
 	 * @return  JFeedReader
 	 *
@@ -39,8 +39,6 @@ class JFeedFactory
 	{
 		// Create the XMLReader object.
 		$reader = new XMLReader;
-
-		$uri = JStringPunycode::urlToPunycode($uri);
 
 		// Open the URI within the stream reader.
 		if (!$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
