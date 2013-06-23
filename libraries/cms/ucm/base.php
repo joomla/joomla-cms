@@ -54,16 +54,16 @@ class JUcmBase implements JUcm
 	/**
 	 * Store data to the appropriate table
 	 *
-	 * @param   array   $data        Data to be stored
-	 * @param   JTable  $table       JTable Object
-	 * @param   string  $primaryKey  The primary key name
+	 * @param   array             $data        Data to be stored
+	 * @param   JTableInterface   $table       JTableInterface Object
+	 * @param   string            $primaryKey  The primary key name
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
 	 * @throws  Exception
 	 */
-	protected function store($data, JTable $table = null, $primaryKey = null)
+	protected function store($data, JTableInterface $table = null, $primaryKey = null)
 	{
 		if (!$table)
 		{
