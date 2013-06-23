@@ -60,10 +60,10 @@ class JFeedFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @covers             JFeedFactory::getFeed
-	 * @expectedException  InvalidArgumentException
+	 * @expectedException  RuntimeException
 	 * @since              3.1
 	 */
-	public function testGetFeedNoParser()
+	public function testGetFeedIdn()
 	{
 		$this->_instance->getFeed('http://джумла-тест.рф/master/article-category-blog?format=feed&type=rss');
 	}
