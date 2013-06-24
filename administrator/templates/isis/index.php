@@ -26,6 +26,9 @@ $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
+if ($this->direction == 'rtl') {
+	$doc->addStyleSheet('templates/' . $this->template . '/css/template_rtl.css');
+}
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
