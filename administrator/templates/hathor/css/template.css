@@ -3291,3 +3291,10 @@ table.adminlist .item-associations li a {
 	border-width: 0 5px 5px;
 	border-bottom-color: #000000;
 }
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	white-space: pre-wrap;
+}

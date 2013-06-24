@@ -7229,9 +7229,10 @@ td.nowrap.has-context {
 	vertical-align: top;
 }
 .tooltip {
-	width: 200px;
+	max-width: 400px;
 }
 .tooltip-inner {
+	max-width: none;
 	white-space: pre-wrap;
 }
 #permissions-sliders .chzn-container {

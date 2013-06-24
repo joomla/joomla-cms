@@ -380,7 +380,7 @@ h6 { font-size: 12px; line-height: 14px; }
 	opacity: 0.65;
 	filter: alpha(opacity=65);
 	-webkit-box-shadow: none;
-	-moz-box-shadow: none;	
+	-moz-box-shadow: none;
 	box-shadow: none;
 	color: #FF0000;
 	font-weight: bold;
@@ -720,9 +720,10 @@ td.nowrap.has-context{
 
 /* Allowing bootstrap tooltips to wrap */
 .tooltip {
-	width: 200px;
+	max-width: 400px;
 }
 .tooltip-inner {
+	max-width: none;
 	white-space: pre-wrap;
 }
 

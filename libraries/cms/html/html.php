@@ -262,12 +262,12 @@ abstract class JHtml
 	/**
 	 * Write a <iframe></iframe> element
 	 *
-	 * @param   string  $url       The relative URL to use for the src attribute
-	 * @param   string  $name      The target attribute to use
-	 * @param   array   $attribs   An associative array of attributes to add
-	 * @param   string  $noFrames  The message to display if the iframe tag is not supported
+	 * @param   string  $url       The relative URL to use for the src attribute.
+	 * @param   string  $name      The target attribute to use.
+	 * @param   array   $attribs   An associative array of attributes to add.
+	 * @param   string  $noFrames  The message to display if the iframe tag is not supported.
 	 *
-	 * @return  string  <iframe></iframe> element or message if not supported
+	 * @return  string  <iframe></iframe> element or message if not supported.
 	 *
 	 * @since   1.5
 	 */
@@ -284,13 +284,13 @@ abstract class JHtml
 	/**
 	 * Compute the files to be included
 	 *
-	 * @param   string   $folder          folder name to search into (images, css, js, ...)
-	 * @param   string   $file            path to file
-	 * @param   boolean  $relative        path to file is relative to /media folder  (and searches in template)
-	 * @param   boolean  $detect_browser  detect browser to include specific browser files
-	 * @param   boolean  $detect_debug    detect debug to include compressed files if debug is on
+	 * @param   string   $folder          folder name to search into (images, css, js, ...).
+	 * @param   string   $file            path to file.
+	 * @param   boolean  $relative        path to file is relative to /media folder  (and searches in template).
+	 * @param   boolean  $detect_browser  detect browser to include specific browser files.
+	 * @param   boolean  $detect_debug    detect debug to include compressed files if debug is on.
 	 *
-	 * @return  array    files to be included
+	 * @return  array    files to be included.
 	 *
 	 * @see     JBrowser
 	 * @since   1.6
@@ -554,11 +554,11 @@ abstract class JHtml
 	/**
 	 * Write a <img></img> element
 	 *
-	 * @param   string   $file      The relative or absolute URL to use for the src attribute
+	 * @param   string   $file      The relative or absolute URL to use for the src attribute.
 	 * @param   string   $alt       The alt text.
-	 * @param   mixed    $attribs   String or associative array of attribute(s) to use
-	 * @param   boolean  $relative  Path to file is relative to /media folder (and searches in template)
-	 * @param   mixed    $path_rel  Return html tag without (-1) or with file computing(false). Return computed path only (true)
+	 * @param   mixed    $attribs   String or associative array of attribute(s) to use.
+	 * @param   boolean  $relative  Path to file is relative to /media folder (and searches in template).
+	 * @param   mixed    $path_rel  Return html tag without (-1) or with file computing(false). Return computed path only (true).
 	 *
 	 * @return  string
 	 *
@@ -659,14 +659,14 @@ abstract class JHtml
 	/**
 	 * Write a <script></script> element
 	 *
-	 * @param   string   $file            path to file
-	 * @param   boolean  $framework       load the JS framework
-	 * @param   boolean  $relative        path to file is relative to /media folder
-	 * @param   boolean  $path_only       return the path to the file only
-	 * @param   boolean  $detect_browser  detect browser to include specific browser js files
-	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on
+	 * @param   string   $file            path to file.
+	 * @param   boolean  $framework       load the JS framework.
+	 * @param   boolean  $relative        path to file is relative to /media folder.
+	 * @param   boolean  $path_only       return the path to the file only.
+	 * @param   boolean  $detect_browser  detect browser to include specific browser js files.
+	 * @param   boolean  $detect_debug    detect debug to search for compressed files if debug is on.
 	 *
-	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected
+	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected.
 	 *
 	 * @see     JHtml::stylesheet
 	 * @since   1.5
@@ -736,10 +736,10 @@ abstract class JHtml
 	 * Returns formated date according to a given format and time zone.
 	 *
 	 * @param   string   $input      String in a format accepted by date(), defaults to "now".
-	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date})
+	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date}).
 	 * @param   mixed    $tz         Time zone to be used for the date.  Special cases: boolean true for user
 	 *                               setting, boolean false for server setting.
-	 * @param   boolean  $gregorian  True to use Gregorian calenar
+	 * @param   boolean  $gregorian  True to use Gregorian calenar.
 	 *
 	 * @return  string    A date translated by the given format and time zone.
 	 *
@@ -809,14 +809,14 @@ abstract class JHtml
 	/**
 	 * Creates a tooltip with an image as button
 	 *
-	 * @param   string  $tooltip  The tip string
+	 * @param   string  $tooltip  The tip string.
 	 * @param   mixed   $title    The title of the tooltip or an associative array with keys contained in
 	 *                            {'title','image','text','href','alt'} and values corresponding to parameters of the same name.
-	 * @param   string  $image    The image for the tip, if no text is provided
-	 * @param   string  $text     The text for the tip
-	 * @param   string  $href     An URL that will be used to create the link
-	 * @param   string  $alt      The alt attribute for img tag
-	 * @param   string  $class    CSS class for the tool tip
+	 * @param   string  $image    The image for the tip, if no text is provided.
+	 * @param   string  $text     The text for the tip.
+	 * @param   string  $href     An URL that will be used to create the link.
+	 * @param   string  $alt      The alt attribute for img tag.
+	 * @param   string  $class    CSS class for the tool tip.
 	 *
 	 * @return  string
 	 *
@@ -880,31 +880,48 @@ abstract class JHtml
 	/**
 	 * Converts a double colon seperated string or 2 separate strings to a string ready for bootstrap tooltips
 	 *
-	 * @param   string  $title  The string to convert
-	 * @param   string  $text   Optional text to convert
+	 * @param   string  $title    The title of the tooltip (or combined '::' separated string).
+	 * @param   string  $content  The content to tooltip.
+	 * @param   int     $escape   If true will pass texts through htmlspecialchars.
 	 *
 	 * @return  string  The tooltip string
 	 *
 	 * @since   3.1.2
 	 */
-	public static function tooltipText($title = '', $text = '')
+	public static function tooltipText($title = '', $content = '', $escape = 0)
 	{
+		// Escape the texts.
+		if($escape) {
+			$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
+		}
+
+		// Return only the content if no title is given.
 		if (!$title)
 		{
-			return $text;
+			return $content;
 		}
 
-		if ($text)
+		// Return only the title if title and text are the same.
+		if ($title == $content)
 		{
-			return '<strong>' . $title . '</strong><br />' . $text;
+			return '<strong>' . $title . '</strong>';
 		}
 
+		// Return the formated sting combining the title and  content.
+		if ($content)
+		{
+			return '<strong>' . $title . '</strong><br />' . $content;
+		}
+
+		// Create a formated string if the title contains '::' (old Mootools format).
 		if (!(strpos($title, '::') === false))
 		{
 			$title = explode('::', $title, 2);
 			$title = '<strong>' . $title['0'] . '</strong><br />' . $title['1'];
 		}
 
+		// Return the result.
 		return $title;
 	}
 
