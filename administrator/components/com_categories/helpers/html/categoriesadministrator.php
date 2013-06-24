@@ -80,5 +80,4 @@ abstract class JHtmlCategoriesAdministrator
 
 		return $html;
 	}
-
 }
