@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert_080/idna_convert.class.php');
+JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert/idna_convert.class.php');
 
 /**
  * Joomla Platform String Punycode Class
