@@ -315,7 +315,6 @@ class CategoriesModelCategory extends JModelAdmin
 		jimport('joomla.filesystem.path');
 
 		$lang = JFactory::getLanguage();
-		$extension = $this->getState('category.extension');
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
 		$extension = JFactory::getApplication()->input->get('extension', null);
