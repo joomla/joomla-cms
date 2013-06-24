@@ -29,7 +29,7 @@ abstract class JHtmlBanner
 	{
 		// Create the batch selector to change the client on a selection list.
 		$lines = array(
-			'<label id="batch-client-lbl" for="batch-client" class="hasTooltip" title="' . JHtml::tooltipText(JText::_('COM_BANNERS_BATCH_CLIENT_LABEL'), JText::_('COM_BANNERS_BATCH_CLIENT_LABEL_DESC')) . '">',
+			'<label id="batch-client-lbl" for="batch-client" class="hasTooltip" title="' . JHtml::tooltipText('COM_BANNERS_BATCH_CLIENT_LABEL', 'COM_BANNERS_BATCH_CLIENT_LABEL_DESC') . '">',
 			JText::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
 			'</label>',
 			'<select name="batch[client_id]" class="inputbox" id="batch-client-id">',

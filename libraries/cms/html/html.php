@@ -888,16 +888,33 @@ abstract class JHtml
 	 *
 	 * @since   3.1.2
 	 */
-	public static function tooltipText($title = '', $content = '', $escape = 0)
+	public static function tooltipText($title = '', $content = '', $escape = 1)
 	{
+		// Return empty in no title or content is given.
+		if ($title == '' && $content == '')
+		{
+			return '';
+		}
+
+		// split title into title and content if the title contains '::' (old Mootools format).
+		if ($content == '' && !(strpos($title, '::') === false))
+		{
+			list($title, $content) = explode('::', $title, 2);
+		}
+
+		// Pass texts through the JText.
+		$title = JText::_($title);
+		$content = JText::_($content);
+
 		// Escape the texts.
-		if($escape) {
+		if ($escape)
+		{
 			$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
 		}
 
 		// Return only the content if no title is given.
-		if (!$title)
+		if ($title == '')
 		{
 			return $content;
 		}
@@ -909,19 +926,12 @@ abstract class JHtml
 		}
 
 		// Return the formated sting combining the title and  content.
-		if ($content)
+		if ($content != '')
 		{
 			return '<strong>' . $title . '</strong><br />' . $content;
 		}
 
-		// Create a formated string if the title contains '::' (old Mootools format).
-		if (!(strpos($title, '::') === false))
-		{
-			$title = explode('::', $title, 2);
-			$title = '<strong>' . $title['0'] . '</strong><br />' . $title['1'];
-		}
-
-		// Return the result.
+		// Return only the title.
 		return $title;
 	}
 
