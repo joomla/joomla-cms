@@ -80,6 +80,10 @@ class JFormFieldCalendar extends JFormField
 		{
 			$attributes['placeholder'] = $hint;
 		}
+		if(!$this->autocomplete)
+		{
+			$attributes['autocomplete'] = 'off';
+		}
 
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
