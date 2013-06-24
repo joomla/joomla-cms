@@ -45,7 +45,7 @@ class PlgSystemRedirect extends JPlugin
 		if (!$app->isAdmin() and ($error->getCode() == 404))
 		{
 			// Get the full current URI.
-			$uri = JURI::getInstance();
+			$uri = JUri::getInstance();
 			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
 
 			// Attempt to ignore idiots.

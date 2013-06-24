@@ -194,7 +194,7 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		if (empty($return) || !JUri::isInternal(base64_decode($return)))
 		{
-			return JURI::base();
+			return JUri::base();
 		}
 		else
 		{

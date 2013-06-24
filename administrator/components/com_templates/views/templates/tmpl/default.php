@@ -25,12 +25,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   <?php if (!empty( $this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
+    </div>
     <div id="j-main-container" class="span10">
   <?php else : ?>
     <div id="j-main-container">
   <?php endif;?>
-  
+
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
   			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATES_FILTER_SEARCH_DESC'); ?>" />
@@ -82,7 +82,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
   					<p>
   					<?php if ($this->preview && $item->client_id == '0') : ?>
-  						<a href="<?php echo JURI::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">
+  						<a href="<?php echo JUri::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">
   							<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
   					<?php elseif ($item->client_id == '1') : ?>
   						<?php echo  JText::sprintf('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
@@ -119,7 +119,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php endforeach; ?>
   		</tbody>
   	</table>
-  
+
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
