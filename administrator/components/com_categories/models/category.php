@@ -318,6 +318,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$extension = $this->getState('category.extension');
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
+		$extension = JFactory::getApplication()->input->get('extension', null);
 
 		// Get the component form if it exists
 		$name = 'category' . ($section ? ('.' . $section) : '');
