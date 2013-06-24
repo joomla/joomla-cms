@@ -7234,6 +7234,7 @@ td.nowrap.has-context {
 .tooltip-inner {
 	max-width: none;
 	white-space: pre-wrap;
+	text-align: left;
 }
 #permissions-sliders .chzn-container {
 	position: absolute;
