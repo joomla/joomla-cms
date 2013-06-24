@@ -964,11 +964,12 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
+		self::_('bootstrap.tooltip');
+
 		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
 			self::_('behavior.calendar');
-			self::_('behavior.tooltip');
 
 			// Only display the triggers once for each control.
 			if (!in_array($id, $done))
@@ -991,13 +992,13 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
+			return '<div class="input-append"><input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. '<button class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
 		}
 		else
 		{
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
+			return '<input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
 				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}

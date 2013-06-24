@@ -21,8 +21,9 @@ class JHtmlIcon
 {
 	public static function create($weblink, $params)
 	{
-		$uri = JURI::getInstance();
+		JHtml::_('bootstrap.tooltip');
 
+		$uri = JURI::getInstance();
 		$url = JRoute::_(WeblinksHelperRoute::getFormRoute(0, base64_encode($uri)));
 		$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
 		$button = JHtml::_('link', $url, $text);
@@ -44,7 +45,8 @@ class JHtmlIcon
 			return;
 		}
 
-		JHtml::_('behavior.tooltip');
+		JHtml::_('bootstrap.tooltip');
+
 		$url	= WeblinksHelperRoute::getFormRoute($weblink->id, base64_encode($uri));
 		$icon	= $weblink->state ? 'edit.png' : 'edit_unpublished.png';
 		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), null, true);

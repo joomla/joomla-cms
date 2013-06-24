@@ -12,8 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));

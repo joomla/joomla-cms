@@ -144,7 +144,7 @@ abstract class JHtmlIcon
 			return;
 		}
 
-		JHtml::_('behavior.tooltip');
+		JHtml::_('bootstrap.tooltip');
 
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out') && property_exists($article, 'checked_out_time') && $article->checked_out > 0 && $article->checked_out != $user->get('id'))
