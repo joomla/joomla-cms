@@ -55,6 +55,21 @@ class JFeedFactoryTest extends TestCase
 	}
 
 	/**
+	 * Tests JFeedFactory::getFeed() with an idn feed.
+	 *
+	 * @return  void
+	 *
+	 * @covers             JFeedFactory::getFeed
+	 * @expectedException  RuntimeException
+	 * @since              3.1
+	 */
+	public function testGetFeedIdn()
+	{
+		$this->markTestSkipped('Unexpected failure testing in CMS environment');
+		$this->_instance->getFeed('http://джумла-тест.рф/master/article-category-blog?format=feed&type=rss');
+	}
+
+	/**
 	 * Tests JFeedFactory::getFeed() with a feed parser.
 	 *
 	 * @return  void
