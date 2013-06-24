@@ -303,7 +303,7 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
-				'<img src="' . JUri::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />'),
+				'<img src="' . JUri::base(true) . '/templates/' . $template . '/images/' . $urlpath . $urlfilename . '" alt="My Alt Text" />'),
 			'JHtml::image failed when we should get it from the templates directory');
 
 		$this->assertThat(
@@ -326,7 +326,7 @@ class JHtmlTest extends TestCase
 		// We do a test for the case that the image is in the media directory.
 		$this->assertThat(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="' . JUri::base(true) . '/media/' . $urlpath . 'images/' . $urlfilename . '" alt="My Alt Text"  />'),
+			$this->equalTo('<img src="' . JUri::base(true) . '/media/' . $urlpath . 'images/' . $urlfilename . '" alt="My Alt Text" />'),
 			'JHtml::image failed when we should get it from the media directory');
 
 		$this->assertThat(
@@ -347,7 +347,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="' . JUri::base(true) . '/media/system/images/' . $urlfilename . '" alt="My Alt Text"  />'),
+			$this->equalTo('<img src="' . JUri::base(true) . '/media/system/images/' . $urlfilename . '" alt="My Alt Text" />'),
 			'JHtml::image failed when we should get it from the media directory');
 
 		$this->assertThat(
@@ -359,7 +359,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::image($urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="" alt="My Alt Text"  />'),
+			$this->equalTo('<img src="" alt="My Alt Text" />'),
 			'JHtml::image failed when we should get it from the media directory');
 
 		$this->assertThat(
@@ -379,7 +379,7 @@ class JHtmlTest extends TestCase
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
 				'<img src="' . JUri::base(true) . '/media/' . $extension . '/' . $element . '/images/' . $urlpath . $urlfilename .
-				'" alt="My Alt Text"  />'),
+				'" alt="My Alt Text" />'),
 			'JHtml::image failed when we should get it from the media directory, with the plugin fix');
 
 		$this->assertThat(
@@ -401,7 +401,7 @@ class JHtmlTest extends TestCase
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
 				'<img src="' . JUri::base(true) . '/media/' . $extension . '/images/' . $element . '/' . $urlpath . $urlfilename .
-				'" alt="My Alt Text"  />')
+				'" alt="My Alt Text" />')
 		);
 
 		$this->assertThat(
@@ -421,7 +421,7 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
 			$this->equalTo(
-				'<img src="' . JUri::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text"  />')
+				'<img src="' . JUri::base(true) . '/media/system/images/' . $element . '/' . $urlpath . $urlfilename . '" alt="My Alt Text" />')
 		);
 
 		$this->assertThat(
@@ -438,7 +438,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::image($extension . '/' . $element . '/' . $urlpath . $urlfilename, 'My Alt Text', null, true),
-			$this->equalTo('<img src="" alt="My Alt Text"  />')
+			$this->equalTo('<img src="" alt="My Alt Text" />')
 		);
 
 		$this->assertThat(
@@ -1284,14 +1284,14 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content'),
 			$this->equalTo('<span class="hasTooltip" title="Content"><img src="' .
-				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>'),
 			'Basic tooltip failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title'),
 			$this->equalTo('<span class="hasTooltip" title="<strong>Title</strong><br />Content"><img src="' .
-				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>'),
 			'Tooltip with title and content failed'
 		);
 
@@ -1310,14 +1310,14 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt'),
 			$this->equalTo('<span class="hasTooltip" title="<strong>Title</strong><br />Content"><img src="' .
-				JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+				JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt" /></span>'),
 			'Tooltip with title and content and alt failed'
 		);
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt', 'hasTooltip2'),
 			$this->equalTo('<span class="hasTooltip2" title="<strong>Title</strong><br />Content"><img src="' . JUri::base(true) .
-				'/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+				'/media/system/images/tooltip.png" alt="MyAlt" /></span>'),
 			'Tooltip with title and content and alt and class failed'
 		);
 
@@ -1331,7 +1331,7 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title')),
 			$this->equalTo('<span class="hasTooltip" title="<strong>Title</strong><br />Content"><img src="' .
-				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>'),
 			'Tooltip with title and content failed'
 		);
 
@@ -1350,19 +1350,19 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title', 'alt' => 'MyAlt')),
 			$this->equalTo('<span class="hasTooltip" title="<strong>Title</strong><br />Content"><img src="' .
-				JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt"  /></span>'),
+				JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt" /></span>'),
 			'Tooltip with title and content and alt failed'
 		);
 		$this->assertThat(
 			JHtml::tooltip('Content', array('title' => 'Title', 'class' => 'hasTooltip2')),
 			$this->equalTo('<span class="hasTooltip2" title="<strong>Title</strong><br />Content"><img src="' .
-				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>'),
 			'Tooltip with title and content and class failed'
 		);
 		$this->assertThat(
 			JHtml::tooltip('Content', array()),
 			$this->equalTo('<span class="hasTooltip" title="Content"><img src="' .
-				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip"  /></span>'),
+				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>'),
 			'Basic tooltip (array version) failed'
 		);
 	}
