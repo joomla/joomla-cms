@@ -19,7 +19,7 @@ $active	= $menu->getActive();
 $active_id = isset($active) ? $active->id : $menu->getDefault()->id;
 $path	= isset($active) ? $active->tree : array();
 $showAll	= $params->get('showAllChildren');
-$class_sfx	= htmlspecialchars($params->get('class_sfx'));
+$class_sfx	= htmlspecialchars($params->get('moduleclass_sfx'));
 
 if(count($list)) {
 	require JModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));
