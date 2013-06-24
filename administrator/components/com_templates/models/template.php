@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_templates
  * @since       1.6
  */
-class TemplatesModelTemplate extends JModelLegacy
+class TemplatesModelTemplate extends JModelForm
 {
 	protected $template = null;
 
@@ -136,10 +136,12 @@ class TemplatesModelTemplate extends JModelLegacy
 		$this->setState('extension.id', $pk);
 		
 		
-		/*$id = $app->getUserState('com_templates.edit.source.id');
-		$temp = explode(':', base64_decode($id));
-		$fileName = array_shift($temp);*/
-		$fileName = 'index.php';
+		$fileName = $app->getUserState('com_templates.edit.source.file');
+		if($fileName == NULL)
+		{
+			$fileName = 'index.php';
+		}
+		
 			
 		$this->setState('filename', $fileName);
 		
@@ -346,7 +348,7 @@ class TemplatesModelTemplate extends JModelLegacy
 		}
 	
 		// Get the form.
-		$form = $this->loadForm('com_templates.template', 'template', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_templates.source', 'source', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form))
 		{
 			return false;
@@ -370,6 +372,9 @@ class TemplatesModelTemplate extends JModelLegacy
 		{
 			$data = $this->getSource();
 		}
+		
+		$app = JFactory::getApplication('administrator');
+		$app->setUserState('com_templates.edit.source.file', '');
 	
 		$this->preprocessData('com_templates.source', $data);
 	

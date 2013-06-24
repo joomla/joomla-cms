@@ -45,7 +45,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->template	= $this->get('Template');
 		$this->tree 	= $this->get('DirectoryTree');
 		
-		$this->form	= $this->get('Form');
+		$this->form		= $this->get('Form');
 		$this->ftp		= JClientHelper::setCredentialsFromRequest('ftp');
 		$this->source	= $this->get('Source');
 
@@ -76,14 +76,19 @@ protected function addToolbar()
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 		
+		if ($canDo->get('core.edit'))
+		{
+			JToolbarHelper::apply('template.apply');
+			JToolbarHelper::save('template.save');
+		}
+		
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('JTOOLBAR_UPLOAD');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-small btn-success\">
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-small \">
 			<i class=\"icon-plus icon-white\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
-			JToolbarHelper::divider();
 		}
 
 		// Add a new file button
@@ -92,6 +97,16 @@ protected function addToolbar()
 			$title = JText::_('New File');
 			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
 			<i class=\"icon-file\" title=\"$title\"></i>
+			$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+		}
+		
+		// Add new overrides button
+		if ($user->authorise('core.create', 'com_templates'))
+		{
+			$title = JText::_('Create Overrides');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+			<i class=\"icon-copy\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}

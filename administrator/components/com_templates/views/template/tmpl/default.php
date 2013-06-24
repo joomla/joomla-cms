@@ -24,23 +24,29 @@ $input = JFactory::getApplication()->input;
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 		<fieldset id="template-manager">
-			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'browser')); ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'browser', JText::_('File Browser', true)); ?>
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if(!empty($this->tree)):?>
 								<?php echo $this->loadTemplate('tree');?>
 							<?php endif;?>
 						</div>
-						<div class="span9"><?php //var_dump($this->files);?>
-							
+						<div class="span9">
+							<fieldset class="adminform">
+								<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
+						
+								<?php echo $this->form->getLabel('source'); ?>
+								<div class="clr"></div>
+								<div class="editor-border">
+								<?php echo $this->form->getInput('source'); ?>
+								</div>
+								<input type="hidden" name="task" value="" />
+								<?php echo JHtml::_('form.token'); ?>
+							</fieldset>
+						
+							<?php echo $this->form->getInput('extension_id'); ?>
+							<?php echo $this->form->getInput('filename'); ?>
 						</div>
 					</div>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'preview', JText::_('Template Preview', true)); ?>
-					
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
-			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 			<!--<div>
 				<a href="#" class="modal">
 					<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_ADD_CSS');?></a>

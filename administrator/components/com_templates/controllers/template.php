@@ -20,11 +20,27 @@ JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/co
  */
 class TemplatesControllerTemplate extends JControllerLegacy
 {
+	
 	/**
+	 * Constructor.
+	 *
+	 * @param   array An optional associative array of configuration settings.
+	 * @see     JController
 	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+	
+		// Apply, Save & New, and Save As copy should be standard on forms.
+		$this->registerTask('apply', 'save');
+	}
+	
 	public function cancel()
 	{
-		$this->setRedirect('index.php?option=com_templates&view=templates');
+		$app		= JFactory::getApplication('administrator');
+		$app->setUserState($context . '.file', null);
+		$app->setUserState($context . '.data', null);
+		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
 	}
 
 	public function copy()
@@ -147,19 +163,6 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	{
 		return $this->allowEdit();
 	}
-	/**
-	 * This controller does not have a display method. Redirect back to the list view of the component.
-	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 *
-	 * @return  JController		This object to support chaining.
-	 * @since   1.5
-	 */
-	public function display($cachable = false, $urlparams = false)
-	{
-		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
-	}
 	
 	/**
 	 * Method to edit an existing record.
@@ -170,10 +173,13 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	{
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
-		$recordId	= JRequest::getVar('id');
+		$id			= JRequest::getVar('id');
 		$context	= 'com_templates.edit.source';
+		$temp 		= explode(':', base64_decode($id));
+		$recordId 	= (int) array_shift($temp);
+		$fileName 	= array_shift($temp);
 	
-		if (preg_match('#\.\.#', base64_decode($recordId)))
+		if (preg_match('#\.\.#', base64_decode($id)))
 		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 		}
@@ -185,9 +191,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 	
 		// Check-out succeeded, push the new record id into the session.
-		$app->setUserState($context.'.id',	$recordId);
+		$app->setUserState($context.'.file',$fileName);
 		$app->setUserState($context.'.data', null);
-		$this->setRedirect('index.php?option=com_templates&view=source&layout=edit');
+		$this->setRedirect('index.php?option=com_templates&view=template&id='.$recordId);
 		return true;
 	}
 	/**
@@ -255,7 +261,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			$app->setUserState($context.'.data', $data);
 	
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=source&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$model->getState('extension.id'), false));
 					return false;
 		}
 	
@@ -267,7 +273,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=source&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$model->getState('extension.id'), false));
 					return false;
 		}
 
@@ -281,16 +287,16 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			$app->setUserState($context.'.data',	null);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=source&layout=edit', false));
+			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$model->getState('extension.id'), false));
 					break;
 
 					default:
 					// Clear the record id and data from the session.
-					$app->setUserState($context.'.id', null);
+					$app->setUserState($context.'.file', null);
 					$app->setUserState($context.'.data', null);
 
 					// Redirect to the list screen.
-					$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$model->getState('extension.id'), false));
+					$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
 							break;
 		}
 	}

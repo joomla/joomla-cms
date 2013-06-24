@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 					<ul class="nav nav-list">
 						<?php foreach($this->listTreeFiles($folder['id']) as $file):?>
 							<li>
-								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$file->id);?>">
+								<a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.edit&id='.$file->id);?>">
 									<i class="icon-edit">&nbsp;<?php echo $file->name;?></i>
 								</a>
 							</li>
