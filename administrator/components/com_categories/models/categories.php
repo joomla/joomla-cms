@@ -91,7 +91,7 @@ class CategoriesModelCategories extends JModelList
 
 		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
-		
+
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
 		if (!empty($forcedLanguage))
