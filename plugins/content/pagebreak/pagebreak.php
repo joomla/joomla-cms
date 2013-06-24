@@ -241,9 +241,9 @@ class PlgContentPagebreak extends JPlugin
 	/**
 	 * Creates a Table of Contents for the pagebreak
 	 *
-	 * @param &$row
-	 * @param &$matches
-	 * @param &$page
+	 * @param   stdClass  &$row
+	 * @param   stdClass  &$matches
+	 * @param   integer   &$page     The 'page' number
 	 *
 	 * @return  void
 	 *
