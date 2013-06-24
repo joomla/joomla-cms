@@ -37,7 +37,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	
 	public function cancel()
 	{
-		$app		= JFactory::getApplication('administrator');
+		$app = JFactory::getApplication('administrator');
 		$app->setUserState($context . '.file', null);
 		$app->setUserState($context . '.data', null);
 		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));

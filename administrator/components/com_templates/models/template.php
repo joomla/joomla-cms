@@ -374,7 +374,7 @@ class TemplatesModelTemplate extends JModelForm
 		}
 		
 		$app = JFactory::getApplication('administrator');
-		$app->setUserState('com_templates.edit.source.file', '');
+		$app->setUserState('com_templates.edit.source.file', null);
 	
 		$this->preprocessData('com_templates.source', $data);
 	
