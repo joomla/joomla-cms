@@ -113,6 +113,8 @@ abstract class JHtmlBatch
 	 */
 	public static function user($noUser = true)
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		$optionNo = '';
 		if ($noUser)
 		{
@@ -144,6 +146,8 @@ abstract class JHtmlBatch
 	 */
 	public static function tag()
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		// Create the batch selector to tag items on a selection list.
 		$lines = array(
 			'<label id="batch-tag-lbl" for="batch-tag-id" class="hasTooltip"'
