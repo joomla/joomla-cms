@@ -27,6 +27,8 @@ abstract class JHtmlBanner
 	 */
 	public static function clients()
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		// Create the batch selector to change the client on a selection list.
 		$lines = array(
 			'<label id="batch-client-lbl" for="batch-client" class="hasTooltip" title="' . JHtml::tooltipText('COM_BANNERS_BATCH_CLIENT_LABEL', 'COM_BANNERS_BATCH_CLIENT_LABEL_DESC') . '">',

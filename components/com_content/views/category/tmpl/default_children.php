@@ -8,11 +8,11 @@
  */
 
 defined('_JEXEC') or die;
-$class = ' class="first"';
-
-$lang	= JFactory::getLanguage();
 
 JHtml::_('bootstrap.tooltip');
+
+$lang	= JFactory::getLanguage();
+$class = ' class="first"';
 ?>
 
 <?php if (count($this->children[$this->category->id]) > 0) : ?>
