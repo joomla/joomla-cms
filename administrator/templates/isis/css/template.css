@@ -6163,6 +6163,10 @@ div.modal.fade.in {
 	font-style: normal;
 	speak: none;
 }
+[class^="icon-"].disabled,
+[class*=" icon-"].disabled {
+	font-weight: normal;
+}
 .icon-home:before {
 	content: "\21";
 }
