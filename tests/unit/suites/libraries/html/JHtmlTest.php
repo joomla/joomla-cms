@@ -1322,7 +1322,7 @@ class JHtmlTest extends TestCase
 		);
 
 		$this->assertThat(
-			JHtml::tooltip('Content', 'Title', null, null, null, null, 'hasTip'),
+			JHtml::tooltip('Content', 'Title', null, 'Text', null, null, 'hasTip'),
 			$this->equalTo('<span class="hasTip" title="Title::Content">Text</span>'),
 			'Tooltip with hasTip class failed'
 		);
