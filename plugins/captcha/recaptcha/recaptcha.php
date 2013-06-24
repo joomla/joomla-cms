@@ -143,7 +143,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 		else
 		{
-			// @TODO use exceptions here
+			// @todo use exceptions here
 			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
 
 			return false;
