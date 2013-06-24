@@ -91,7 +91,7 @@ class PlgContentEmailcloak extends JPlugin
 	 *
 	 * @param   string   &$text    The string to be cloaked.
 	 * @param   JObject  &$params  Additional parameters. Parameter "mode" (integer, default 1)
-	 *                  replaces addresses with "mailto:" links if nonzero.
+	 *                             replaces addresses with "mailto:" links if nonzero.
 	 *
 	 * @return  boolean  True on success.
 	 */
