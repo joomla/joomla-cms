@@ -64,8 +64,6 @@ class JFormFieldPassword extends JFormField
 			$minimumIntegersp = $params->get('minimum_integers');
 			$minimumSymbolsp = $params->get('minimum_symbols');
 			$minimumUppercasep = $params->get('minimum_uppercase');
-			$meterp = $params->get('meter');
-			$thresholdp = $params->get('threshold');
 
 			if (!empty($minimumLengthp))
 			{
@@ -75,8 +73,7 @@ class JFormFieldPassword extends JFormField
 			empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
 			empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
 			empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
-			empty($meterp) ? : $meter = $meterp;
-			empty($thresholdp) ? : $threshold = $thresholdp;
+
 		}
 
 		$script = '';

@@ -86,10 +86,33 @@ class JFormRulePassword extends JFormRule
 			return true;
 		}
 
+		$valueLength = strlen($value);
+
+		// We set a maximum length to prevent abuse since it is unfiltered.
+		if ($valueLength > 99)
+		{
+			JFactory::getApplication()->enqueueMessage(
+				JText::sprintf('COM_USERS_MSG_PASSWORD_TOO_LONG'),
+				'warning'
+				);
+		}
+
+		// We don't allow white space inside passwords
+		$valueTrim =  preg_replace('/\s+/', '', $value);
+
+		if (strlen($valueTrim) != $valueLength)
+		{
+			JFactory::getApplication()->enqueueMessage(
+				JText::sprintf('COM_USERS_MSG_SPACES_IN_PASSWORD'),
+				'warning'
+				);
+
+			return false;
+		}
+
 		// Minimum number of integers required
 		if (!empty($minimumIntegers))
 		{
-
 			$nInts = preg_match_all('/[0-9]/', $value );
 
 			if ($nInts < $minimumIntegers)
@@ -108,6 +131,7 @@ class JFormRulePassword extends JFormRule
 		{
 
 			$nsymbols = preg_match_all('[\W]', $value );
+
 			if ($nsymbols < $minimumSymbols)
 			{
 				JFactory::getApplication()->enqueueMessage(
@@ -138,17 +162,15 @@ class JFormRulePassword extends JFormRule
 		// Minimum length option
 		if (!empty($minimumLength))
 		{
-
-			if (strlen($value) < $minimumLength)
+			if (strlen((string) $value) < $minimumLength)
 			{
 				JFactory::getApplication()->enqueueMessage(
-				JText::sprintf('COM_USERS_MSG_PASSWORD_TOO_SHORT', $minimumLength),
-				'warning'
-						);
+					JText::sprintf('COM_USERS_MSG_PASSWORD_TOO_SHORT', $minimumLength),
+					'warning'
+					);
 
 				return false;
 			}
-			$this->regex = '/^\S[\S ]{' . $minimumLength .',98}\S$/';
 		}
 
 

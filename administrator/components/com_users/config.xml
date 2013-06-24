@@ -146,10 +146,10 @@
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
 			description="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH_DESC"
-			first="2"
-			last="98"
+			first="4"
+			last="99"
 			step="1"
-			default="2">
+			default="4">
 			</field>
 
 		<field
@@ -183,32 +183,6 @@
 			step="1"
 			default="0">
 			</field>
-
-		<field
-			name="meter"
-			type="radio"
-			class="btn-group"
-			label="COM_USERS_CONFIG_FIELD_METER"
-			description="COM_USERS_CONFIG_FIELD_METER_DESC"
-			default="0">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
-			</field>
-
-		<field
-			name="threshold"
-			type="integer"
-			label="COM_USERS_CONFIG_FIELD_METER_THRESHOLD"
-			description="COM_USERS_CONFIG_FIELD_METER_THRESHOLD_DESC"
-			first="0"
-			last="100"
-			step="1"
-			default="66">
-			</field>
-
-
 	</fieldset>
 
  	<fieldset
