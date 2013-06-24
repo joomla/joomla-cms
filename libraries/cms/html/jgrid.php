@@ -55,16 +55,20 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
+		$title = $enabled ? $active_title : $inactive_title;
+		$title = addslashes(htmlspecialchars($translate ? JText::_($title) : $title, ENT_COMPAT, 'UTF-8'));
+
 		if ($tip)
 		{
 			JHtml::_('bootstrap.tooltip');
+			$title = JHtml::tooltipText($title);
 		}
 
 		if ($enabled)
 		{
 			$html[] = '<a class="btn btn-micro ' . ($active_class == "publish" ? 'active' : '') . ' ' . ($tip ? 'hasTooltip"' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
-			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
+			$html[] = ' title="' . $title . '">';
 			$html[] = '<i class="icon-' . $active_class . '">';
 			$html[] = '</i>';
 			$html[] = '</a>';
@@ -72,7 +76,7 @@ abstract class JHtmlJGrid
 		else
 		{
 			$html[] = '<a class="btn btn-micro disabled jgrid ' . ($tip ? 'hasTooltip"' : '') . '"';
-			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
+			$html[] = ' title="' . $title . '">';
 
 			if ($active_class == "protected")
 			{
