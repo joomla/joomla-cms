@@ -108,7 +108,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					</td>
 					<td>
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>
-						<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_EDIT_ITEM');?>::<?php echo $this->escape($item->title); ?>">
+						<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText('JGLOBAL_EDIT_ITEM', $item->title); ?>">
 						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id='.(int) $item->lang_id); ?>">
 								<?php echo $this->escape($item->title); ?></a>

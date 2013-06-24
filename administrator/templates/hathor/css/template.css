@@ -3303,3 +3303,6 @@ table.adminlist .item-associations li a {
 	white-space: pre-wrap;
 	text-align: left;
 }
+th .tooltip-inner {
+	font-weight: normal;
+}

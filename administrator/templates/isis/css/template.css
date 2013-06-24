@@ -7240,6 +7240,9 @@ td.nowrap.has-context {
 	white-space: pre-wrap;
 	text-align: left;
 }
+th .tooltip-inner {
+	font-weight: normal;
+}
 #permissions-sliders .chzn-container {
 	position: absolute;
 }

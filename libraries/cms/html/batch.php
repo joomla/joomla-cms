@@ -30,7 +30,7 @@ abstract class JHtmlBatch
 		// Create the batch selector to change an access level on a selection list.
 		$lines = array(
 			'<label id="batch-access-lbl" for="batch-access" class="hasToolip"'
-			. 'title="' . JHtml::tooltipText(JText::_('JLIB_HTML_BATCH_ACCESS_LABEL'), JText::_('JLIB_HTML_BATCH_ACCESS_LABEL_DESC')) . '">',
+			. 'title="' . JHtml::tooltipText('JLIB_HTML_BATCH_ACCESS_LABEL', 'JLIB_HTML_BATCH_ACCESS_LABEL_DESC') . '">',
 			JText::_('JLIB_HTML_BATCH_ACCESS_LABEL'),
 			'</label>',
 			JHtml::_(
@@ -90,7 +90,7 @@ abstract class JHtmlBatch
 		// Create the batch selector to change the language on a selection list.
 		$lines = array(
 			'<label id="batch-language-lbl" for="batch-language-id" class="hasToolip"'
-			. ' title="' . JHtml::tooltipText(JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'), JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC')) . '">',
+			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">',
 			JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL'),
 			'</label>',
 			'<select name="batch[language_id]" class="inputbox" id="batch-language-id">',
@@ -124,7 +124,7 @@ abstract class JHtmlBatch
 		// Create the batch selector to select a user on a selection list.
 		$lines = array(
 			'<label id="batch-user-lbl" for="batch-user" class="hasTooltip"'
-			. ' title="' . JHtml::tooltipText(JText::_('JLIB_HTML_BATCH_USER_LABEL'), JText::_('JLIB_HTML_BATCH_USER_LABEL_DESC')) . '">',
+			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_USER_LABEL', 'JLIB_HTML_BATCH_USER_LABEL_DESC') . '">',
 			JText::_('JLIB_HTML_BATCH_USER_LABEL'),
 			'</label>',
 			'<select name="batch[user_id]" class="inputbox" id="batch-user-id">',
@@ -151,7 +151,7 @@ abstract class JHtmlBatch
 		// Create the batch selector to tag items on a selection list.
 		$lines = array(
 			'<label id="batch-tag-lbl" for="batch-tag-id" class="hasTooltip"'
-			. ' title="' . JHtml::tooltipText(JText::_('JLIB_HTML_BATCH_TAG_LABEL'), JText::_('JLIB_HTML_BATCH_TAG_LABEL_DESC')) . '">',
+			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC') . '">',
 			JText::_('JLIB_HTML_BATCH_TAG_LABEL'),
 			'</label>',
 			'<select name="batch[tag]" class="inputbox" id="batch-tag-id">',

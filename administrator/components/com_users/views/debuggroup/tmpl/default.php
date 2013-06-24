@@ -49,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</th>
 					<?php foreach ($this->actions as $key => $action) : ?>
 					<th width="5%" class="nowrap center">
-						<span class="hasTip" title="<?php echo htmlspecialchars(JText::_($key) . '::' . JText::_($action[1]), ENT_COMPAT, 'UTF-8'); ?>"><?php echo JText::_($key); ?></span>
+						<span class="hasTooltip" title="<?php echo JHtml::tooltipText($key, $action[1]); ?>"><?php echo JText::_($key); ?></span>
 					</th>
 					<?php endforeach; ?>
 					<th width="5%" class="nowrap center">

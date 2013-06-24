@@ -332,11 +332,9 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$text = addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
-		$date = addslashes(htmlspecialchars(JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8'));
-		$time = addslashes(htmlspecialchars(JHtml::_('date', $time, 'H:i'), ENT_COMPAT, 'UTF-8'));
-		$active_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKIN'), $text . '<br />' . $date . '<br />' . $time);
-		$inactive_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKED_OUT'), $text . '<br />' . $date . '<br />' . $time);
+		$text = $editorName . '<br />' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br />' . JHtml::_('date', $time, 'H:i');
+		$active_title = JHtml::tooltipText('JLIB_HTML_CHECKIN', $text);
+		$inactive_title = JHtml::tooltipText('JLIB_HTML_CHECKED_OUT', $text);
 
 		return self::action(
 			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $active_title, $inactive_title, true, 'checkedout',
