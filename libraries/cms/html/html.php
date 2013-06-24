@@ -844,12 +844,9 @@ abstract class JHtml
 			}
 		}
 
-		$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
-		$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
-		$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
-
 		if (!$text)
 		{
+			$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
 			$text = self::image($image, $alt, null, true);
 		}
 
@@ -864,12 +861,16 @@ abstract class JHtml
 
 		if ($title)
 		{
-			$tooltip = $title . '::' . $tooltip;
-		}
-
-		if($class == 'hasTooltip')
-		{
-			$tooltip = self::tooltipText($tooltip);
+			if ($class == 'hasTip')
+			{
+				$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
+				$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+				$tooltip = $title . '::' . $tooltip;
+			}
+			else
+			{
+				$tooltip = self::tooltipText($title, $tooltip);
+			}
 		}
 
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
@@ -878,31 +879,58 @@ abstract class JHtml
 	/**
 	 * Converts a double colon seperated string or 2 separate strings to a string ready for bootstrap tooltips
 	 *
-	 * @param   string  $title  The string to convert
-	 * @param   string  $text   Optional text to convert
+	 * @param   string  $title    The title of the tooltip (or combined '::' separated string).
+	 * @param   string  $content  The content to tooltip.
+	 * @param   int     $escape   If true will pass texts through htmlspecialchars.
 	 *
 	 * @return  string  The tooltip string
 	 *
 	 * @since   3.1.2
 	 */
-	public static function tooltipText($title = '', $text = '')
+	public static function tooltipText($title = '', $content = '', $escape = 1)
 	{
-		if (!$title)
+		// Return empty in no title or content is given.
+		if ($title == '' && $content == '')
 		{
-			return $text;
+			return '';
 		}
 
-		if ($text)
+		// split title into title and content if the title contains '::' (old Mootools format).
+		if ($content == '' && !(strpos($title, '::') === false))
 		{
-			return '<strong>' . $title . '</strong><br />' . $text;
+			list($title, $content) = explode('::', $title, 2);
 		}
 
-		if (!(strpos($title, '::') === false))
+		// Pass texts through the JText.
+		$title = JText::_($title);
+		$content = JText::_($content);
+
+		// Escape the texts.
+		if ($escape)
 		{
-			$title = explode('::', $title, 2);
-			$title = '<strong>' . $title['0'] . '</strong><br />' . $title['1'];
+			$title = str_replace('"', '&quot;', $title);
+			$content = str_replace('"', '&quot;', $content);
 		}
 
+		// Return only the content if no title is given.
+		if ($title == '')
+		{
+			return $content;
+		}
+
+		// Return only the title if title and text are the same.
+		if ($title == $content)
+		{
+			return '<strong>' . $title . '</strong>';
+		}
+
+		// Return the formated sting combining the title and  content.
+		if ($content != '')
+		{
+			return '<strong>' . $title . '</strong><br />' . $content;
+		}
+
+		// Return only the title.
 		return $title;
 	}
 
