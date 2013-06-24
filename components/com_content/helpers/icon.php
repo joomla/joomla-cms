@@ -62,7 +62,7 @@ abstract class JHtmlIcon
 
 		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
 
-		$output = '<span class="hasTip" title="' . JText::_('COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
+		$output = '<span class="hasTooltip" title="' . JHtml::tooltipText('COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
 
 		return $output;
 	}
@@ -154,7 +154,7 @@ abstract class JHtmlIcon
 			$date         = JHtml::_('date', $article->checked_out_time);
 			$tooltip      = JText::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . JText::sprintf('COM_CONTENT_CHECKED_OUT_BY', $checkoutUser->name) . ' <br /> ' . $date;
 
-			return '<span class="hasTip" title="' . htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8') . '">' . $button . '</span>';
+			return '<span class="hasTooltip" title="' . JHtml::tooltipText($tooltip) . '">' . $button . '</span>';
 		}
 
 		$url = 'index.php?option=com_content&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
@@ -184,7 +184,7 @@ abstract class JHtmlIcon
 		else
 		{
 			$icon = $article->state ? 'edit' : 'eye-close';
-			$text = '<span class="hasTip icon-' . $icon . ' tip" title="' . JText::_('COM_CONTENT_EDIT_ITEM') . ' :: ' . $overlib . '"></span>&#160;' . JText::_('JGLOBAL_EDIT') . '&#160;';
+			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText('COM_CONTENT_EDIT_ITEM', $overlib) . '"></span>&#160;' . JText::_('JGLOBAL_EDIT') . '&#160;';
 		}
 
 		$output = JHtml::_('link', JRoute::_($url), $text, $attribs);

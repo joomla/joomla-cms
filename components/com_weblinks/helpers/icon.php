@@ -26,7 +26,7 @@ class JHtmlIcon
 		$url = JRoute::_(WeblinksHelperRoute::getFormRoute(0, base64_encode($uri)));
 		$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
 		$button = JHtml::_('link', $url, $text);
-		$output = '<span class="hasTip" title="'.JText::_('COM_WEBLINKS_FORM_CREATE_WEBLINK').'">'.$button.'</span>';
+		$output = '<span class="hasTooltip" title="' . JHtml::tooltipText('COM_WEBLINKS_FORM_CREATE_WEBLINK') . '">' . $button . '</span>';
 		return $output;
 	}
 
@@ -68,7 +68,7 @@ class JHtmlIcon
 
 		$button = JHtml::_('link', JRoute::_($url), $text);
 
-		$output = '<span class="hasTip" title="'.JText::_('COM_WEBLINKS_EDIT').' :: '.$overlib.'">'.$button.'</span>';
+		$output = '<span class="hasTooltip" title="' . JHtml::tooltipText('COM_WEBLINKS_EDIT') . ' :: ' . $overlib . '">' . $button . '</span>';
 
 		return $output;
 	}

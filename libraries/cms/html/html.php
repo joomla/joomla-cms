@@ -844,12 +844,9 @@ abstract class JHtml
 			}
 		}
 
-		$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
-		$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
-		$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
-
 		if (!$text)
 		{
+			$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
 			$text = self::image($image, $alt, null, true);
 		}
 
@@ -866,6 +863,8 @@ abstract class JHtml
 		{
 			if ($class == 'hasTip')
 			{
+				$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
+				$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 				$tooltip = $title . '::' . $tooltip;
 			}
 			else
@@ -909,8 +908,8 @@ abstract class JHtml
 		// Escape the texts.
 		if ($escape)
 		{
-			$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
-			$content = htmlspecialchars($content, ENT_COMPAT, 'UTF-8');
+			$title = str_replace('"', '&quot;', $title);
+			$content = str_replace('"', '&quot;', $content);
 		}
 
 		// Return only the content if no title is given.
