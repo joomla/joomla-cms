@@ -19,15 +19,16 @@ defined('_JEXEC') or die;
 class CacheController extends JControllerLegacy
 {
 	/**
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
-	 * @since   1.5
+	 * @return  JController  This object to support chaining.
+	 *
+	 * @since   1.6
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, array $urlparams = array())
 	{
-		require_once JPATH_COMPONENT.'/helpers/cache.php';
+		require_once JPATH_COMPONENT . '/helpers/cache.php';
 
 		// Get the document object.
 		$document = JFactory::getDocument();
@@ -44,6 +45,7 @@ class CacheController extends JControllerLegacy
 			{
 				case 'purge':
 					break;
+
 				case 'cache':
 				default:
 					$model = $this->getModel($vName);
@@ -63,6 +65,13 @@ class CacheController extends JControllerLegacy
 		}
 	}
 
+	/**
+	 * Method to delete an array of cache groups
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public function delete()
 	{
 		// Check for request forgeries
@@ -81,13 +90,20 @@ class CacheController extends JControllerLegacy
 			$model->cleanlist($cid);
 		}
 
-		$this->setRedirect('index.php?option=com_cache&client='.$model->getClient()->id);
+		$this->setRedirect('index.php?option=com_cache&client=' . $model->getClient()->id);
 	}
 
+	/**
+	 * Method to purge the cache
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public function purge()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('cache');
 		$ret = $model->purge();

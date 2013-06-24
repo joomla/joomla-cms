@@ -18,20 +18,44 @@ defined('_JEXEC') or die;
  */
 class AdminViewProfile extends JViewLegacy
 {
+	/**
+	 * The form object
+	 *
+	 * @var    JForm
+	 * @since  1.6
+	 */
 	protected $form;
 
+	/**
+	 * The item object
+	 *
+	 * @var    object
+	 * @since  1.6
+	 */
 	protected $item;
 
+	/**
+	 * The state object
+	 *
+	 * @var    object
+	 * @since  1.6
+	 */
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->form			= $this->get('Form');
-		$this->item			= $this->get('Item');
-		$this->state		= $this->get('State');
+		$this->form  = $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -43,12 +67,15 @@ class AdminViewProfile extends JViewLegacy
 		$this->form->setValue('password',	null);
 		$this->form->setValue('password2',	null);
 
-		parent::display($tpl);
 		$this->addToolbar();
+
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
