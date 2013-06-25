@@ -7224,3 +7224,7 @@ td.nowrap.has-context {
 .item-associations li a {
 	color: #ffffff;
 }
+#flag img {
+	padding-top: 6px;
+	vertical-align: top;
+}
