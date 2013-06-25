@@ -79,7 +79,21 @@ class ServicesControllerConfigSave extends JControllerBase
 		// Attempt to save the configuration.
 		$data	= $return;
 
-		$return = $model->save($data);
+		// Access back-end com_config
+		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
+		$saveClass = new ConfigControllerApplicationSave;
+
+		// Get a document object
+		$document = JFactory::getDocument();
+
+		// Set back-end required params
+		$document->setType('json');
+
+		// Execute back-end controller
+		$return = $saveClass->execute();
+
+		// Reset params back after requesting from service
+		$document->setType('html');
 
 		// Check the return value.
 		if ($return === false)
