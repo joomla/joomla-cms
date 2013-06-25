@@ -28,15 +28,25 @@ class ServicesViewConfigHtml extends JViewLegacy
 	/**
 	 * Method to display the view.
 	 * 
-	 * @param   string  $tpl  Layout
+	 * @param   string  $tpl          Layout
+	 * @param   array   $serviceData  Data from service
 	 * 
 	 * @return  void
 	 *
 	 */
-	public function render($tpl = null)
+	public function render($tpl = null, $serviceData = null)
 	{
 		$form	= $this->get('Form');
-		$data	= $this->get('Data');
+
+		if ($serviceData == null)
+		{
+			$data = $this->get('Data');
+		}
+		else
+		{
+			$data = $serviceData;
+		}
+
 		$user = JFactory::getUser();
 
 		// Check for model errors.

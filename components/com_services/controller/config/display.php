@@ -40,6 +40,21 @@ class ServicesControllerConfigDisplay extends JControllerBase
 
 		$app->input->set('view', $viewName);
 
+		// Access back-end com_config
+		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
+		$displayClass = new ConfigControllerApplicationDisplay;
+
+		// Set back-end required params
+		$document->setType('json');
+		$app->input->set('view', 'application');
+
+		// Execute back-end controller
+		$serviceData = json_decode($displayClass->execute(), true);
+
+		// Reset params back after requesting from service
+		$document->setType('html');
+		$app->input->set('view', $viewName);
+
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
 		$paths->insert(JPATH_COMPONENT . '/view/' . 'config' . '/tmpl', 'normal');
@@ -70,7 +85,7 @@ class ServicesControllerConfigDisplay extends JControllerBase
 			$view->document = $document;
 
 			// Render view.
-			echo $view->render();
+			echo $view->render(null, $serviceData);
 		}
 		return true;
 	}
