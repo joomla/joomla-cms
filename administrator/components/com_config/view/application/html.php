@@ -16,7 +16,7 @@ require_once dirname(dirname(__DIR__)) . '/helper/component.php';
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @since       3.1
+ * @since       3.2
  */
 class ConfigViewApplicationHtml extends JViewLegacy
 {
@@ -86,7 +86,7 @@ class ConfigViewApplicationHtml extends JViewLegacy
 	 * 
 	 * @return  void
 	 *
-	 * @since	3.1
+	 * @since	3.2
 	 */
 	protected function addToolbar()
 	{

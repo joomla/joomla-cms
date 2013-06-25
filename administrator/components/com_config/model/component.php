@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @since       3.1
+ * @since       1.5
  */
 class ConfigModelComponent extends JModelForm
 {
@@ -25,7 +25,7 @@ class ConfigModelComponent extends JModelForm
 	 *
 	 * @return	void
 	 * 
-	 * @since	3.1
+	 * @since	1.6
 	 */
 	protected function populateState()
 	{
@@ -52,7 +52,7 @@ class ConfigModelComponent extends JModelForm
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 * 
-	 * @since	3.1
+	 * @since	1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -90,7 +90,7 @@ class ConfigModelComponent extends JModelForm
 	 *
 	 * @return	object
 	 * 
-	 * @since	3.1
+	 * @since	1.6
 	 */
 	function getComponent()
 	{
@@ -115,7 +115,7 @@ class ConfigModelComponent extends JModelForm
 	 *
 	 * @return  bool  True on success, false on failure.
 	 * 
-	 * @since	3.1
+	 * @since	1.6
 	 */
 	public function save($data)
 	{
