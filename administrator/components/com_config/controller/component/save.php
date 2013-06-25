@@ -23,7 +23,7 @@ class ConfigControllerComponentSave extends JControllerBase
 	 *
 	 * @return  bool	True on success, false on failure.
 	 *
-	 * @since   1.5
+	 * @since   3.1
 	 */
 	public function execute()
 	{

@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @since       1.5
+ * @since       3.1
  */
 class ConfigControllerComponentDisplay extends JControllerBase
 {
@@ -23,7 +23,7 @@ class ConfigControllerComponentDisplay extends JControllerBase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	public function execute()
 	{

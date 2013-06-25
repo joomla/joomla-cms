@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @since       3.0
+ * @since       3.1
  */
 class ConfigHelperComponent
 {
@@ -23,7 +23,7 @@ class ConfigHelperComponent
 	 *
 	 * @return  array
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	public static function getAllComponents()
 	{
@@ -46,7 +46,7 @@ class ConfigHelperComponent
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	public static function hasComponentConfig($component)
 	{
@@ -61,7 +61,7 @@ class ConfigHelperComponent
 	 *
 	 * @return  array
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	public static function getComponentsWithConfig($authCheck = true)
 	{
@@ -90,7 +90,7 @@ class ConfigHelperComponent
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
 	public static function loadLanguageForComponents($components)
 	{
