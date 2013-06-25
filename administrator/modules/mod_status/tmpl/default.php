@@ -15,7 +15,7 @@ $output    = array();
 
 // Print the Preview link to Main site.
 if ($params->get('show_viewsite', 1)) :
-	$output[] = '<div class="btn-group viewsite"><a href="'.JURI::root().'" target="_blank"><i class="icon-share-alt"></i> '.JText::_('JGLOBAL_VIEW_SITE').'</a></div><div class="btn-group divider">
+	$output[] = '<div class="btn-group viewsite"><a href="'.JUri::root().'" target="_blank"><i class="icon-share-alt"></i> '.JText::_('JGLOBAL_VIEW_SITE').'</a></div><div class="btn-group divider">
 	</div>';
 endif;
 

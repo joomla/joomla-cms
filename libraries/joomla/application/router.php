@@ -466,7 +466,7 @@ class JRouter
 				}
 			}
 
-			$url = 'index.php?' . JURI::buildQuery($vars);
+			$url = 'index.php?' . JUri::buildQuery($vars);
 		}
 
 		// Decompose link into url component parts

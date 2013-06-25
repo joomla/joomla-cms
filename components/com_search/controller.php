@@ -82,7 +82,7 @@ class SearchController extends JControllerLegacy
 		unset($post['task']);
 		unset($post['submit']);
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$uri->setQuery($post);
 		$uri->setVar('option', 'com_search');
 

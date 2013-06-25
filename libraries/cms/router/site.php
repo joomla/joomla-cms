@@ -46,7 +46,7 @@ class JRouterSite extends JRouter
 		$path = urldecode($uri->getPath());
 
 		// Remove the base URI path.
-		$path = substr_replace($path, '', 0, strlen(JURI::base(true)));
+		$path = substr_replace($path, '', 0, strlen(JUri::base(true)));
 
 		// Check to see if a request to a specific entry point has been made.
 		if (preg_match("#.*?\.php#u", $path, $matches))
@@ -128,7 +128,7 @@ class JRouterSite extends JRouter
 		}
 
 		// Add basepath to the uri
-		$uri->setPath(JURI::base(true) . '/' . $route);
+		$uri->setPath(JUri::base(true) . '/' . $route);
 
 		return $uri;
 	}

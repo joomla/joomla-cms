@@ -21,7 +21,7 @@ class JHtmlIcon
 {
 	public static function create($weblink, $params)
 	{
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 
 		$url = JRoute::_(WeblinksHelperRoute::getFormRoute(0, base64_encode($uri)));
 		$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
@@ -32,7 +32,7 @@ class JHtmlIcon
 
 	public static function edit($weblink, $params, $attribs = array())
 	{
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 
 		if ($params && $params->get('popup'))
 		{
