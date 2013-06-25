@@ -496,9 +496,7 @@ abstract class JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$text = trim($text, ':');
-			$description = $this->translateDescription ? JText::_($this->description) : $this->description;
-			$label .= ' title="' . JHtml::tooltipText($text, $description) . '"';
+			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), $this->description) . '"';
 		}
 
 		// Add the label text and closing tag.
