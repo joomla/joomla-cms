@@ -19,7 +19,7 @@ JHtml::_('behavior.framework');
 // Get the user object.
 $user = JFactory::getUser();
 // Check if user is allowed to add/edit based on weblinks permissinos.
-$canEdit = $user->authorise('core.edit', 'com_weblinks');
+$canEdit = $user->authorise('core.edit', 'com_weblinks.category.'.$this->category->id);
 $canCreate = $user->authorise('core.create', 'com_weblinks');
 $canEditState = $user->authorise('core.edit.state', 'com_weblinks');
 
@@ -114,9 +114,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 									break;
 								case 3:
 									// open in a modal window
-									JHtml::_('behavior.modal', 'a.modal'); ?>
-									<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $this->escape($width);?>, y:<?php echo $this->escape($height);?>}}">
-										<?php echo $this->escape($item->title). ' </a>';
+									JHtml::_('behavior.modal', 'a.modal');
+									echo '<a class="modal" href="'.$link.'"  rel="{handler: \'iframe\', size: {x:'.$this->escape($width).', y:'.$this->escape($height).'}}">'.
+										$this->escape($item->title). ' </a>';
 									break;
 
 								default:

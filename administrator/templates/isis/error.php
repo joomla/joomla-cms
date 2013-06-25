@@ -45,7 +45,7 @@ foreach ($this->submenumodules as $submenumodule)
 // Logo file
 if ($params->get('logoFile'))
 {
-	$logo = JURI::root() . $params->get('logoFile');
+	$logo = JUri::root() . $params->get('logoFile');
 }
 else
 {
@@ -72,7 +72,7 @@ else
 	if ($this->direction == 'rtl')
 	{
 	?>
-		<link rel="stylesheet" href="<?php echo JURI::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
 	<?php
 	}
 	// Load specific language related CSS
@@ -147,7 +147,7 @@ else
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<a class="brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>

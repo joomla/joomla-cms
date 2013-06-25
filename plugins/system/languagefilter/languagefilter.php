@@ -74,7 +74,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				$app->setLanguageFilter(true);
 				jimport('joomla.environment.uri');
-				$uri = JURI::getInstance();
+				$uri = JUri::getInstance();
 
 				if (self::$mode_sef)
 				{
@@ -331,7 +331,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$uri->setVar('lang', $sef);
 				if ($app->input->getMethod() != "POST" || count($app->input->post) == 0)
 				{
-					$app->redirect(JURI::base(true).'/index.php?'.$uri->getQuery());
+					$app->redirect(JUri::base(true).'/index.php?'.$uri->getQuery());
 				}
 			}
 		}
@@ -489,7 +489,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		$app = JFactory::getApplication();
 		$doc = JFactory::getDocument();
 		$menu = $app->getMenu();
-		$server = JURI::getInstance()->toString(array('scheme', 'host', 'port'));
+		$server = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 		$option = $app->input->get('option');
 		$eName = JString::ucfirst(JString::str_ireplace('com_', '', $option));
 
@@ -518,7 +518,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 
 				// Get current link
-				$current_link = JURI::getInstance()->toString(array('path', 'query'));
+				$current_link = JUri::getInstance()->toString(array('path', 'query'));
 				if ($current_link == JUri::base(true).'/')
 				{
 					$current_link .= 'index.php';

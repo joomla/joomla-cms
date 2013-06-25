@@ -195,12 +195,12 @@ final class JSite extends JApplication
 				$document->setMetaData('rights', $this->getCfg('MetaRights'));
 				if ($router->getMode() == JROUTER_MODE_SEF)
 				{
-					$document->setBase(htmlspecialchars(JURI::current()));
+					$document->setBase(htmlspecialchars(JUri::current()));
 				}
 				break;
 
 			case 'feed':
-				$document->setBase(htmlspecialchars(JURI::current()));
+				$document->setBase(htmlspecialchars(JUri::current()));
 				break;
 		}
 
@@ -254,7 +254,7 @@ final class JSite extends JApplication
 
 				if ($this->getCfg('offline') && !$user->authorise('core.login.offline'))
 				{
-					$uri = JURI::getInstance();
+					$uri = JUri::getInstance();
 					$return = (string) $uri;
 					$this->setUserState('users.login.form.data', array('return' => $return));
 					$file = 'offline';
@@ -307,7 +307,7 @@ final class JSite extends JApplication
 		// Set the application login entry point
 		if (!array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = JURI::base() . 'index.php?option=com_users&task=user.login';
+			$options['entry_url'] = JUri::base() . 'index.php?option=com_users&task=user.login';
 		}
 
 		// Set the access control action to check.
@@ -329,7 +329,7 @@ final class JSite extends JApplication
 			if ($user->get('id') == 0)
 			{
 				// Redirect to login
-				$uri = JURI::getInstance();
+				$uri = JUri::getInstance();
 				$return = (string) $uri;
 
 				$this->setUserState('users.login.form.data', array('return' => $return));
