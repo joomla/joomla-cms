@@ -25,7 +25,7 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @return  mixed	A JForm object on success, false on failure
 	 *
-	 * @since	3.1
+	 * @since	1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -49,7 +49,7 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @return	array		An array containg all global config data.
 	 *
-	 * @since	3.1
+	 * @since	1.6
 	 */
 	public function getData()
 	{
@@ -90,7 +90,7 @@ class ConfigModelApplication extends JModelForm
 	 *
 	 * @return	bool	True on success, false on failure.
 	 *
-	 * @since	3.1
+	 * @since	1.6
 	 */
 	public function save($data)
 	{
@@ -222,7 +222,7 @@ class ConfigModelApplication extends JModelForm
 	 * This method will load the global configuration data straight from
 	 * JConfig and remove the root_user value for security, then save the configuration.
 	 *
-	 * @since	3.1
+	 * @since	1.6
 	 */
 	public function removeroot()
 	{

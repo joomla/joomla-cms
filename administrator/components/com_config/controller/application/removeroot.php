@@ -13,7 +13,7 @@ defined('_JEXEC') or die('Restricted access');
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @since       3.1
+ * @since       3.2
 */
 class ConfigControllerApplicationRemoveroot extends JControllerBase
 {
@@ -23,7 +23,7 @@ class ConfigControllerApplicationRemoveroot extends JControllerBase
 	 *
 	 * @return  bool	True on success.
 	 *
-	 * @since   3.1
+	 * @since   3.2
 	 */
 	public function execute()
 	{
