@@ -417,7 +417,7 @@ class FinderIndexerHelper
 		// Build the relative route.
 		$uri = $router->build($url);
 		$route = $uri->toString(array('path', 'query', 'fragment'));
-		$route = str_replace(JURI::base(true) . '/', '', $route);
+		$route = str_replace(JUri::base(true) . '/', '', $route);
 
 		return $route;
 	}
