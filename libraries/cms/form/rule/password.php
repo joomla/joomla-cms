@@ -98,7 +98,7 @@ class JFormRulePassword extends JFormRule
 		}
 
 		// We don't allow white space inside passwords
-		$valueTrim =  preg_replace('/\s+/', '', $value);
+		$valueTrim =  trim($value);
 
 		if (strlen($valueTrim) != $valueLength)
 		{
