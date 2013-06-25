@@ -23,7 +23,7 @@ class JRouterAdministrator extends JRouter
 	/**
 	 * Function to convert a route to an internal URI.
 	 *
-	 * @param   JURI  $uri  The uri.
+	 * @param   JUri  $uri  The uri.
 	 *
 	 * @return  array
 	 */

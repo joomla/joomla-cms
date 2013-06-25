@@ -480,7 +480,7 @@ class JApplicationWeb extends JApplicationBase
 		 */
 		if (!preg_match('#^[a-z]+\://#i', $url))
 		{
-			// Get a JURI instance for the requested URI.
+			// Get a JUri instance for the requested URI.
 			$uri = JUri::getInstance($this->get('uri.request'));
 
 			// Get a base URL to prepend from the requested URI.
