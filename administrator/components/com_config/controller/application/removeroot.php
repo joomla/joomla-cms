@@ -23,7 +23,7 @@ class ConfigControllerApplicationRemoveroot extends JControllerBase
 	 *
 	 * @return  bool	True on success.
 	 *
-	 * @since   1.5
+	 * @since   3.1
 	 */
 	public function execute()
 	{

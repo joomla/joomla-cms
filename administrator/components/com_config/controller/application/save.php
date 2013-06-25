@@ -22,7 +22,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 	 *
 	 * @return  bool	True on success.
 	 *
-	 * @since   1.5
+	 * @since   3.1
 	 */
 	public function execute()
 	{
@@ -48,6 +48,17 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Complete data array if needed
 		$oldData = $model->getData();
 		$data = array_replace($oldData, $data);
+
+		// Get request type
+		$saveFormat   = JFactory::getDocument()->getType();
+
+		// Handle service requests
+		if ($saveFormat == 'json')
+		{
+			$return = $model->save($data);
+
+			return $return;
+		}
 
 		// Validate the posted data.
 		$return = $model->validate($form, $data);

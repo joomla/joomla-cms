@@ -23,7 +23,7 @@ class ConfigControllerApplicationDisplay extends JControllerBase
 	 *
 	 * @return  bool	True on success, false on failure.
 	 * 
-	 * @since   1.5
+	 * @since   3.1
 	 */
 	public function execute()
 	{
@@ -68,6 +68,12 @@ class ConfigControllerApplicationDisplay extends JControllerBase
 
 			// Push document object into the view.
 			$view->document = $document;
+
+			// Reply for service requests
+			if ($viewFormat == 'json')
+			{
+				return $view->render();
+			}
 
 			// Render view.
 			echo $view->render();

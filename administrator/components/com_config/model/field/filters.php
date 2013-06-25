@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @since       1.6
+ * @since       3.1
  */
 class JFormFieldFilters extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldFilters extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since	3.1
 	 */
 	public $type = 'Filters';
 
@@ -32,7 +32,7 @@ class JFormFieldFilters extends JFormField
 	 * TODO: Add access check.
 	 *
 	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @since	3.1
 	 */
 	protected function getInput()
 	{
@@ -111,7 +111,7 @@ class JFormFieldFilters extends JFormField
 	 * A helper to get the list of user groups.
 	 *
 	 * @return	array
-	 * @since	1.6
+	 * @since	3.1
 	 */
 	protected function getUserGroups()
 	{

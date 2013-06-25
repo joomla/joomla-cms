@@ -16,7 +16,7 @@ require_once dirname(dirname(__DIR__)) . '/helper/component.php';
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @since       1.5
+ * @since       3.1
  */
 class ConfigViewApplicationJson extends JViewLegacy
 {
@@ -66,7 +66,7 @@ class ConfigViewApplicationJson extends JViewLegacy
 
 		$data = array_intersect_key($data,$requiredData);
 
-		echo json_encode($data);
+		return json_encode($data);
 	}
 
 }
