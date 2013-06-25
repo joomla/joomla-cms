@@ -19,7 +19,7 @@ JHtml::_('behavior.framework');
 // Get the user object.
 $user = JFactory::getUser();
 // Check if user is allowed to add/edit based on weblinks permissinos.
-$canEdit = $user->authorise('core.edit', 'com_weblinks');
+$canEdit = $user->authorise('core.edit', 'com_weblinks.category.'.$this->category->id);
 $canCreate = $user->authorise('core.create', 'com_weblinks');
 $canEditState = $user->authorise('core.edit.state', 'com_weblinks');
 

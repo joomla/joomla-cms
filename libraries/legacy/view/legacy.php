@@ -193,7 +193,7 @@ class JViewLegacy extends JObject
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 	}
 
 	/**

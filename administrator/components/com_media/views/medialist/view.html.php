@@ -44,7 +44,7 @@ class MediaViewMediaList extends JViewLegacy
 		$folders = $this->get('folders');
 		$state = $this->get('state');
 
-		$this->baseURL = JURI::root();
+		$this->baseURL = JUri::root();
 		$this->images = &$images;
 		$this->documents = &$documents;
 		$this->folders = &$folders;
