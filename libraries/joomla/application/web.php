@@ -841,7 +841,7 @@ class JApplicationWeb extends JApplicationBase
 	protected function detectRequestUri()
 	{
 		// First we need to detect the URI scheme.
-		$scheme = $this->isSSLConnection() ? 'https://' : 'http://';
+		$scheme = self::isSSLConnection() ? 'https://' : 'http://';
 
 		/*
 		 * There are some differences in the way that Apache and IIS populate server environment variables.  To
