@@ -23,7 +23,7 @@ class PlgContentEmailcloak extends JPlugin
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
 	 * @param   mixed    &$row     An object with a "text" property or the string to be cloaked.
-	 * @param   array    &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
+	 * @param   JObject  &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
 	 * @return  boolean	True on success.
