@@ -38,7 +38,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	public function cancel()
 	{
 		$app = JFactory::getApplication('administrator');
-		$app->setUserState($context . '.file', null);
+		$context = 'com_templates.edit.source';
+		$model = $this->getModel();
+		$id = $model->getState('extension.id');
+		$app->setUserState($context. '.' . $id . '.file', null);
 		$app->setUserState($context . '.data', null);
 		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
 	}
@@ -191,7 +194,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 	
 		// Check-out succeeded, push the new record id into the session.
-		$app->setUserState($context.'.file',$fileName);
+		$app->setUserState($context. '.' . $recordId . '.file',$fileName);
 		$app->setUserState($context.'.data', null);
 		$this->setRedirect('index.php?option=com_templates&view=template&id='.$recordId);
 		return true;

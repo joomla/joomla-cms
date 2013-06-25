@@ -22,31 +22,31 @@ $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template'); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
-		<fieldset id="template-manager">
-					<div class="row-fluid">
-						<div class="span3">
-							<?php if(!empty($this->tree)):?>
-								<?php echo $this->loadTemplate('tree');?>
-							<?php endif;?>
-						</div>
-						<div class="span9">
-							<fieldset class="adminform">
-								<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
-						
-								<?php echo $this->form->getLabel('source'); ?>
-								<div class="clr"></div>
-								<div class="editor-border">
-								<?php echo $this->form->getInput('source'); ?>
-								</div>
-								<input type="hidden" name="task" value="" />
-								<?php echo JHtml::_('form.token'); ?>
-							</fieldset>
-						
-							<?php echo $this->form->getInput('extension_id'); ?>
-							<?php echo $this->form->getInput('filename'); ?>
-						</div>
-					</div>
+<div class="row-fluid">
+	<div class="span3">
+		<?php if(!empty($this->tree)):?>
+			<?php echo $this->loadTemplate('tree');?>
+		<?php endif;?>
+	</div>
+	<div class="span9">
+		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+			<fieldset class="adminform">
+				<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
+		
+				<?php echo $this->form->getLabel('source'); ?>
+				<div class="clr"></div>
+				<div class="editor-border">
+				<?php echo $this->form->getInput('source'); ?>
+				</div>
+				<input type="hidden" name="task" value="" />
+				<?php echo JHtml::_('form.token'); ?>
+			</fieldset>
+		
+			<?php echo $this->form->getInput('extension_id'); ?>
+			<?php echo $this->form->getInput('filename'); ?>
+		</form>
+	</div>
+</div>
 			<!--<div>
 				<a href="#" class="modal">
 					<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_ADD_CSS');?></a>
@@ -55,7 +55,7 @@ $input = JFactory::getApplication()->input;
 		</fieldset>
 
 		<input type="hidden" name="task" value="" />
-</form>
+
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id')); ?>"
 			method="post" name="adminForm" id="adminForm">
 	<div  id="collapseModal" class="modal hide fade">

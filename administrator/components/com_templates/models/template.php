@@ -136,7 +136,7 @@ class TemplatesModelTemplate extends JModelForm
 		$this->setState('extension.id', $pk);
 		
 		
-		$fileName = $app->getUserState('com_templates.edit.source.file');
+		$fileName = $app->getUserState('com_templates.edit.source.' . $pk . '.file');
 		if($fileName == NULL)
 		{
 			$fileName = 'index.php';
@@ -372,9 +372,6 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$data = $this->getSource();
 		}
-		
-		$app = JFactory::getApplication('administrator');
-		$app->setUserState('com_templates.edit.source.file', null);
 	
 		$this->preprocessData('com_templates.source', $data);
 	
