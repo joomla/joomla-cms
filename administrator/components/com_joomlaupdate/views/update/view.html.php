@@ -29,7 +29,7 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 	{
 		$password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
 		$filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
-		$ajaxUrl = JURI::base().'components/com_joomlaupdate/restore.php';
+		$ajaxUrl = JUri::base().'components/com_joomlaupdate/restore.php';
 		$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
 
 		// Set the toolbar information

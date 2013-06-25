@@ -32,7 +32,7 @@ abstract class JHtmlIcon
 	{
 		JHtml::_('bootstrap.tooltip');
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 
 		$url = 'index.php?option=com_content&task=article.add&return=' . base64_encode($uri) . '&a_id=0&catid=' . $category->id;
 
@@ -83,7 +83,7 @@ abstract class JHtmlIcon
 	{
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
 
-		$uri      = JURI::getInstance();
+		$uri      = JUri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = JFactory::getApplication()->getTemplate();
 		$link     = $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
@@ -132,7 +132,7 @@ abstract class JHtmlIcon
 	public static function edit($article, $params, $attribs = array(), $legacy = false)
 	{
 		$user = JFactory::getUser();
-		$uri  = JURI::getInstance();
+		$uri  = JUri::getInstance();
 
 		// Ignore if in a popup window.
 		if ($params && $params->get('popup'))

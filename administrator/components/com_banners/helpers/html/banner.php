@@ -95,7 +95,7 @@ abstract class JHtmlBanner
 				'COM_BANNERS_BANNERS_PINNED',
 				'COM_BANNERS_BANNERS_HTML_PIN_BANNER',
 				'COM_BANNERS_BANNERS_PINNED',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -104,7 +104,7 @@ abstract class JHtmlBanner
 				'COM_BANNERS_BANNERS_UNPINNED',
 				'COM_BANNERS_BANNERS_HTML_UNPIN_BANNER',
 				'COM_BANNERS_BANNERS_UNPINNED',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),

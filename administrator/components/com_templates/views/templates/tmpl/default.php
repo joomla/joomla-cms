@@ -83,13 +83,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
   					<p>
   					<?php if ($this->preview && $item->client_id == '0') : ?>
-  						<a href="<?php echo JURI::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">
-  							<?php echo  JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
+  						<a href="<?php echo JUri::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">
+  							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
   					<?php elseif ($item->client_id == '1') : ?>
-  						<?php echo  JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
+  						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
   					<?php else: ?>
   						<span class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
-  							<?php echo  JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+  							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
   					<?php endif; ?>
   					</p>
   				</td>

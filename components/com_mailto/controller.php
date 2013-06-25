@@ -56,7 +56,7 @@ class MailtoController extends JControllerLegacy
 		$link     = MailtoHelper::validateHash($this->input->get('link', '', 'post'));
 
 		// Verify that this is a local link
-		if (!$link || !JURI::isInternal($link))
+		if (!$link || !JUri::isInternal($link))
 		{
 			//Non-local url...
 			JError::raiseNotice(500, JText::_('COM_MAILTO_EMAIL_NOT_SENT'));

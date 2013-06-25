@@ -54,7 +54,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 
 		$data = $this->_doc;
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=atom');
 

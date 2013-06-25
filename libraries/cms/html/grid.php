@@ -124,7 +124,7 @@ abstract class JHtmlGrid
 		else
 		{
 			return '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
-				. '" onclick="Joomla.isChecked(this.checked);" title="' . JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)) . '" />';
+				. '" onclick="Joomla.isChecked(this.checked);" />';
 		}
 	}
 

@@ -277,7 +277,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the base URI.
-		$uri = JURI::getInstance($base);
+		$uri = JUri::getInstance($base);
 
 		// Add the static taxonomy filter if present.
 		if (!empty($this->filter))

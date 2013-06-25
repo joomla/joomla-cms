@@ -60,55 +60,48 @@ class JFormFieldMedia extends JFormField
 			JHtml::_('behavior.modal');
 
 			// Build the script.
-			$script = '
-				function jInsertFieldValue(value, id)
-				{
-					(function($)
-					{
-						var old_value = document.id(id).value;
-						if (old_value != value) {
-							var elem = document.id(id);
-							elem.value = value;
-							elem.fireEvent("change");
-							if (typeof(elem.onchange) === "function") {
-								elem.onchange();
-							}
-							jMediaRefreshPreview(id);
-						}
-					})(jQuery);
-				}
+			$script = array();
+			$script[] = '	function jInsertFieldValue(value, id) {';
+			$script[] = '		var old_value = document.id(id).value;';
+			$script[] = '		if (old_value != value) {';
+			$script[] = '			var elem = document.id(id);';
+			$script[] = '			elem.value = value;';
+			$script[] = '			elem.fireEvent("change");';
+			$script[] = '			if (typeof(elem.onchange) === "function") {';
+			$script[] = '				elem.onchange();';
+			$script[] = '			}';
+			$script[] = '			jMediaRefreshPreview(id);';
+			$script[] = '		}';
+			$script[] = '	}';
 
-				function jMediaRefreshPreview(id)
-				{
-					(function($)
-					{
-						var value = $("#" + id).val();
-						var img = $("#" + id + "_preview_img");
-						if (img) {
-							if (value) {
-								img.attr("src", "' . JURI::root() . '" + value);
-								$("#" + id + "_preview span.hasTipPreview")
-								.attr("title", $("#" + id + "_preview_hasimg").html())
-								.tooltip("fixTitle");
-								$(".hasTipPreview").on("shown", function () {
-									$(".tooltip.image-preview").addClass("hasimage");
-								});
-							} else {
-								img.attr("src", "");
-								$("#" + id + "_preview span.hasTipPreview").attr("title", $("#" + id + "_preview_empty").html()).tooltip("fixTitle");
-								$(".hasTipPreview").on("shown", function () {
-									$(".tooltip.image-preview").removeClass("hasimage");
-								});
-							}
-						}
-					})(jQuery);
-				}
+			$script[] = '	function jMediaRefreshPreview(id) {';
+			$script[] = '		var value = document.id(id).value;';
+			$script[] = '		var img = document.id(id + "_preview");';
+			$script[] = '		if (img) {';
+			$script[] = '			if (value) {';
+			$script[] = '				img.src = "' . JUri::root() . '" + value;';
+			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
+			$script[] = '				document.id(id + "_preview_img").setStyle("display", "");';
+			$script[] = '			} else { ';
+			$script[] = '				img.src = ""';
+			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "");';
+			$script[] = '				document.id(id + "_preview_img").setStyle("display", "none");';
+			$script[] = '			} ';
+			$script[] = '		} ';
+			$script[] = '	}';
 
-
-			';
+			$script[] = '	function jMediaRefreshPreviewTip(tip)';
+			$script[] = '	{';
+			$script[] = '		var img = tip.getElement("img.media-preview");';
+			$script[] = '		tip.getElement("div.tip").setStyle("max-width", "none");';
+			$script[] = '		var id = img.getProperty("id");';
+			$script[] = '		id = id.substring(0, id.length - "_preview".length);';
+			$script[] = '		jMediaRefreshPreview(id);';
+			$script[] = '		tip.setStyle("display", "block");';
+			$script[] = '	}';
 
 			// Add the script to the document head.
-			JFactory::getDocument()->addScriptDeclaration($script);
+			JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 			self::$initialised = true;
 		}
@@ -128,6 +121,8 @@ class JFormFieldMedia extends JFormField
 
 		// The Preview.
 		$preview = (string) $this->element['preview'];
+		$showPreview = true;
+		$showAsTooltip = false;
 		switch ($preview)
 		{
 			case 'no': // Deprecated parameter value
@@ -135,9 +130,19 @@ class JFormFieldMedia extends JFormField
 			case 'none':
 				$showPreview = false;
 				break;
+
+			case 'yes': // Deprecated parameter value
+			case 'true':
+			case 'show':
+				break;
+
+			case 'tooltip':
 			default:
-				JHtml::_('bootstrap.tooltip', '.hasTipPreview', array('template' => '<div class="tooltip image-preview"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>'));
-				$showPreview = true;
+				$showAsTooltip = true;
+				$options = array(
+					'onShow' => 'jMediaRefreshPreviewTip',
+				);
+				JHtml::_('behavior.tooltip', '.hasTipPreview', $options);
 				break;
 		}
 
@@ -145,12 +150,13 @@ class JFormFieldMedia extends JFormField
 		{
 			if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 			{
-				$src = JURI::root() . $this->value;
+				$src = JUri::root() . $this->value;
 			}
 			else
 			{
 				$src = '';
 			}
+
 			$width = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
 			$height = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
 			$style = '';
@@ -158,25 +164,34 @@ class JFormFieldMedia extends JFormField
 			$style .= ($height > 0) ? 'max-height:' . $height . 'px;' : '';
 
 			$imgattr = array(
-				'id' => $this->id . '_preview_img',
+				'id' => $this->id . '_preview',
 				'class' => 'media-preview',
 				'style' => $style,
 			);
 			$img = JHtml::image($src, JText::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
-			$previewHasImg = '<div id="' . $this->id . '_preview_hasimg" style="display:none">'
-				. $img . '</div>';
-			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty" style="display:none">'
-				. JHtml::tooltipText('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE', 'JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
+			$previewImg = '<div id="' . $this->id . '_preview_img"' . ($src ? '' : ' style="display:none"') . '>' . $img . '</div>';
+			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
+				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
-			$html[] = '<div class="media-preview add-on" id="' . $this->id . '_preview">';
-			$html[] = $previewImgEmpty . $previewHasImg;
-			$options = array(
-				'title' => 'JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE',
-				'text' => '<i class="icon-eye"></i>',
-				'class' => 'hasTipPreview'
-			);
-			$html[] = JHtml::tooltip('JLIB_FORM_MEDIA_PREVIEW_EMPTY', $options);
-			$html[] = '</div>';
+			if ($showAsTooltip)
+			{
+				$html[] = '<div class="media-preview add-on">';
+				$tooltip = $previewImgEmpty . $previewImg;
+				$options = array(
+					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
+					'text' => '<i class="icon-eye"></i>',
+					'class' => 'hasTipPreview'
+				);
+				$html[] = JHtml::tooltip($tooltip, $options);
+				$html[] = '</div>';
+			}
+			else
+			{
+				$html[] = '<div class="media-preview add-on" style="height:auto">';
+				$html[] = ' ' . $previewImgEmpty;
+				$html[] = ' ' . $previewImg;
+				$html[] = '</div>';
+			}
 		}
 
 		$html[] = '	<input type="text" class="input-small" name="' . $this->name . '" id="' . $this->id . '" value="'
@@ -210,7 +225,7 @@ class JFormFieldMedia extends JFormField
 					: 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;asset=' . $asset . '&amp;author='
 					. $this->form->getValue($authorField)) . '&amp;fieldid=' . $this->id . '&amp;folder=' . $folder) . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JHtml::tooltipText('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
+			$html[] = JText::_('JLIB_FORM_BUTTON_SELECT') . '</a><a class="btn hasTooltip" title="' . JText::_('JLIB_FORM_BUTTON_CLEAR') . '" href="#" onclick="';
 			$html[] = 'jInsertFieldValue(\'\', \'' . $this->id . '\');';
 			$html[] = 'return false;';
 			$html[] = '">';
