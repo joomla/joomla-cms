@@ -30,6 +30,7 @@ $ -> Language fix or change
  ^ [#31212] Changed tooltips of table headings from Mootools to Bootstrap. Thanks Peter van Westen.
  ^ [#31218] Added tooltips to simple state buttons in grid views. Thanks Peter van Westen.
  ^ [#31225] Added tooltips to simple state buttons in grid views (com_banners, com_installer). Thanks Peter van Westen.
+ # [#31211] Add Tooltip for mod_latest. Thanks Tobias Zulauf.
 
 23-Jun-2013 Jean-Marie Simonet
  # [#31137] Changed tooltip html behavior back to pre-bootstrap 2.3.2 (so default on). Thanks Peter van Westen.
