@@ -869,7 +869,7 @@ abstract class JHtml
 			}
 			else
 			{
-				$tooltip = self::tooltipText($title, $tooltip);
+				$tooltip = self::tooltipText($title, $tooltip, 0);
 			}
 		}
 

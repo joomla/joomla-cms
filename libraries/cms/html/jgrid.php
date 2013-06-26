@@ -56,13 +56,15 @@ abstract class JHtmlJGrid
 		}
 
 		$title = $enabled ? $active_title : $inactive_title;
-		$title = addslashes(htmlspecialchars($translate ? JText::_($title) : $title, ENT_COMPAT, 'UTF-8'));
+		$title = $translate ? JText::_($title) : $title;
 
 		if ($tip)
 		{
 			JHtml::_('bootstrap.tooltip');
-			$title = JHtml::tooltipText($title);
+			$title = JHtml::tooltipText($title, '', 0);
 		}
+
+		$title = addslashes(htmlspecialchars($title, ENT_COMPAT, 'UTF-8'));
 
 		if ($enabled)
 		{
@@ -333,8 +335,8 @@ abstract class JHtmlJGrid
 		}
 
 		$text = $editorName . '<br />' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br />' . JHtml::_('date', $time, 'H:i');
-		$active_title = JHtml::tooltipText('JLIB_HTML_CHECKIN', $text);
-		$inactive_title = JHtml::tooltipText('JLIB_HTML_CHECKED_OUT', $text);
+		$active_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKIN'), $text, 0);
+		$inactive_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
 		return self::action(
 			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $active_title, $inactive_title, true, 'checkedout',
