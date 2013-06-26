@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jun-2013 Jean-Marie Simonet
+ ^ [#31233] Complete move to Bootstrap tooltips. Thanks Peter van Westen.
+
 25-Jun-2013 Jean-Marie Simonet
  # [#31232] Fixed bootstrap.min.js [#31137]. Thanks Peter van Westen.
  ^ [#31212] Changed tooltips of table headings from Mootools to Bootstrap. Thanks Peter van Westen.
