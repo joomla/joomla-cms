@@ -164,23 +164,23 @@ $sortFields = $this->getSortFields();
 					?>
 				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->parent_id;?>" item-id="<?php echo $item->id?>" parents="<?php echo $parentsStr?>" level="<?php echo $item->level?>">
 					<td class="order nowrap center hidden-phone">
-					<?php if ($canChange) :
-						$disableClassName = '';
-						$disabledLabel    = '';
-						if (!$saveOrder) :
-							$disabledLabel    = 'JORDERINGDISABLED';
-							$disableClassName = 'inactive tip-top';
-						endif; ?>
-						<span class="sortable-handler hasTooltip <?php echo $disableClassName?>" title="<?php echo JHtml::tooltipText($disabledLabel); ?>">
+						<?php
+						$iconClass = '';
+						if (!$canChange)
+						{
+							$iconClass = ' inactive';
+						}
+						else if (!$saveOrder)
+						{
+							$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+						}
+						?>
+						<span class="sortable-handler<?php echo $iconClass ?>">
 							<i class="icon-menu"></i>
 						</span>
-
-					<?php else : ?>
-						<span class="sortable-handler inactive">
-							<i class="icon-menu"></i>
-						</span>
-					<?php endif; ?>
+						<?php if ($canChange && $saveOrder) : ?>
 						<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1;?>" />
+						<?php endif; ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>

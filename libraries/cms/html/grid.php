@@ -37,7 +37,7 @@ abstract class JHtmlGrid
 
 		// Build the title.
 		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
-		$title = JHtml::tooltipText($title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'));
+		$title = JHtml::tooltipText($title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
 
 		// Build the <a> tag.
 		$bool = ($value) ? 'true' : 'false';
@@ -91,7 +91,15 @@ abstract class JHtmlGrid
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
 			. ' class="hasTooltip" title="' . JHtml::tooltipText(($tip ? $tip : $title), 'JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
-		$html .= JText::_($title);
+
+		if (isset($title['0']) && $title['0'] == '<')
+		{
+			$html .= $title;
+		}
+		else
+		{
+			$html .= JText::_($title);
+		}
 
 		if ($order == $selected)
 		{
@@ -281,12 +289,10 @@ abstract class JHtmlGrid
 		{
 			JHtml::_('bootstrap.tooltip');
 
-			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
-
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
-			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::tooltipText('JLIB_HTML_CHECKED_OUT', $text) . '<br />' . $date . '<br />'
+			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::tooltipText('JLIB_HTML_CHECKED_OUT', $row->editor) . '<br />' . $date . '<br />'
 				. $time . '">';
 		}
 
