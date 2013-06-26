@@ -586,7 +586,7 @@ class PlgSystemDebug extends JPlugin
 				}
 
 				$html[] = '<br /><div>' . JText::sprintf(
-						JText::_('PLG_DEBUG_QUERIES_TIME'),
+						'PLG_DEBUG_QUERIES_TIME',
 						sprintf('<span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
 			}
@@ -693,7 +693,7 @@ class PlgSystemDebug extends JPlugin
 				}
 				else
 				{
-					$explain = 'EXPLAIN not possible on query: ' . htmlspecialchars($query);
+					$explain = JText::sprintf('PLG_DEBUG_QUERY_EXPLAIN_NOT_POSSIBLE', htmlspecialchars($query));
 				}
 
 				// Run a SHOW PROFILE query:
@@ -785,6 +785,7 @@ class PlgSystemDebug extends JPlugin
 			$bars[0]->width = $minWidth;
 		}
 
+		$memoryUsageNow = memory_get_usage();
 		$list = array();
 		foreach ($log as $id => $query)
 		{
@@ -839,11 +840,59 @@ class PlgSystemDebug extends JPlugin
 
 				// Timing
 				// Formats the output for the query time with EXPLAIN query results as tooltip:
-				$htmlTiming = '<div style="margin: 0px 0 5px;">' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_TIME'), sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
+				$htmlTiming = '<div style="margin: 0px 0 5px;"><span class="dbg-query-time">' . JText::sprintf('PLG_DEBUG_QUERY_TIME', sprintf('<span class="label ' . $info[$id]->class . '">%.2f&nbsp;ms</span>', $timing[$id]['0']));
 
 				if ($timing[$id]['1'])
 				{
-					$htmlTiming .= ' ' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_AFTER_LAST'), sprintf('<span class="label">%.2f&nbsp;ms</span>', $timing[$id]['1']));
+					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST', sprintf('<span class="label">%.2f&nbsp;ms</span>', $timing[$id]['1']));
+				}
+
+				if (isset($callStacks[$id][0]['memory']))
+				{
+					$memoryUsed = $callStacks[$id][0]['memory'][1] - $callStacks[$id][0]['memory'][0];
+					$memoryBeforeQuery = $callStacks[$id][0]['memory'][0];
+
+					// Determine color of query memory usage:
+					if ($memoryUsed > 0.1 * $memoryUsageNow)
+					{
+						$labelClass = 'label-important';
+					}
+					elseif ($memoryUsed > 0.05 * $memoryUsageNow)
+					{
+						$labelClass = 'label-warning';
+					}
+					else
+					{
+						$labelClass = 'label-success';
+					}
+					$htmlTiming .= ' ' . '<span class="dbg-query-memory">' . JText::sprintf('PLG_DEBUG_MEMORY_USED_FOR_QUERY',
+							sprintf('<span class="label ' . $labelClass . '">%.3f&nbsp;MB</span>', $memoryUsed / 1048576),
+							sprintf('<span class="label">%.3f&nbsp;MB</span>', $memoryBeforeQuery / 1048576))
+						. '</span>';
+
+					if ($callStacks[$id][0]['memory'][2] !== null)
+					{
+						// Determine color of number or results:
+						$resultsReturned = $callStacks[$id][0]['memory'][2];
+						if ($resultsReturned > 3000)
+						{
+							$labelClass = 'label-important';
+						}
+						elseif ($resultsReturned > 1000)
+						{
+							$labelClass = 'label-warning';
+						}
+						elseif ($resultsReturned == 0)
+						{
+							$labelClass = '';
+						}
+						else
+						{
+							$labelClass = 'label-success';
+						}
+						$htmlResultsReturned = '<span class="label ' . $labelClass . '">' . (int) $resultsReturned . '</span>';
+						$htmlTiming .= ' ' . '<span class="dbg-query-rowsnumber">' . JText::sprintf('PLG_DEBUG_ROWS_RETURNED_BY_QUERY', $htmlResultsReturned) . '</span>';
+					}
 				}
 
 				$htmlTiming .= '</div>';
@@ -959,18 +1008,15 @@ class PlgSystemDebug extends JPlugin
 		if ($total_duplicates)
 		{
 			$html[] = '<div class="alert alert-error">'
-				. '<h4>' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_DUPLICATES_TOTAL_NUMBER'), $total_duplicates) . '</h4>';
+				. '<h4>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_TOTAL_NUMBER', $total_duplicates) . '</h4>';
 			foreach ($duplicates as $dups)
 			{
 				$links = array();
 				foreach ($dups as $dup)
 				{
-					if ($dup != $id)
-					{
-						$links[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
-					}
+					$links[] = '<a href="#dbg-query-' . ($dup + 1) . '">#' . ($dup + 1) . '</a>';
 				}
-				$html[] = '<div>' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_DUPLICATES_NUMBER'), count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
+				$html[] = '<div>' . JText::sprintf('PLG_DEBUG_QUERY_DUPLICATES_NUMBER', count($links)) . ': ' . implode('&nbsp; ', $links) . '</div>';
 			}
 			$html[] = '</div>';
 		}

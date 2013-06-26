@@ -177,3 +177,9 @@ div#system-debug {
 	min-width: 60px;
 	text-align: right;
 }
+
+#system-debug .dbg-query-memory,
+#system-debug .dbg-query-rowsnumber
+{
+    margin-left: 50px;
+}

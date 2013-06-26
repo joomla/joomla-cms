@@ -160,7 +160,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			mysqli_query($this->connection, "SET profiling_history_size = 100;");
 			mysqli_query($this->connection, "SET profiling = 1;");
-		}
+	    }
 	}
 
 	/**
@@ -508,6 +508,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Reset the error values.
 		$this->errorNum = 0;
 		$this->errorMsg = '';
+		$memoryBefore = null;
 
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
@@ -518,6 +519,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			JLog::add($query, JLog::DEBUG, 'databasequery');
 
 			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				$this->freeResult();
+			}
+			$memoryBefore = memory_get_usage();
 		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
@@ -527,6 +534,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			$this->timings[] = microtime(true);
 			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
 		}
 
 		// If an error occurred handle it.
@@ -774,6 +782,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
+		if ((! $cursor) || ($cursor === $this->cursor))
+		{
+			$this->cursor = null;
+		}
 	}
 
 	/**
