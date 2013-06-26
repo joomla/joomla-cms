@@ -45,6 +45,11 @@ class JText
 	 */
 	public static function _($string, $jsSafe = false, $interpretBackSlashes = true, $script = false)
 	{
+		if ($string == '' || $string['0'] == '<')
+		{
+			return $string;
+		}
+
 		$lang = JFactory::getLanguage();
 		if (is_array($jsSafe))
 		{

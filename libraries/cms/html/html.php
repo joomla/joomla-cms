@@ -905,14 +905,8 @@ abstract class JHtml
 		// Pass texts through the JText.
 		if ($translate)
 		{
-			if ($title && $title['0'] != '<')
-			{
-				$title = JText::_($title);
-			}
-			if ($content && $content['0'] != '<')
-			{
-				$content = JText::_($content);
-			}
+			$title = JText::_($title);
+			$content = JText::_($content);
 		}
 
 		// Escape the texts.
