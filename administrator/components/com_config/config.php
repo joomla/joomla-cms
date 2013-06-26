@@ -7,13 +7,46 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-// Access checks are done internally because of different requirements for the two controllers.
+// Sessions
+jimport('joomla.session.session');
+
+// Load classes
+JLoader::registerPrefix('Config', JPATH_COMPONENT);
 
 // Tell the browser not to cache this page.
 JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 
-$controller = JControllerLegacy::getInstance('Config');
-$controller->execute(JFactory::getApplication()->input->get('task'));
-$controller->redirect();
+// Application
+$app = JFactory::getApplication();
+
+if ($controllerTask = $app->input->get('controller'))
+	// Checking for new MVC controller
+	$array = explode(".", $controllerTask);
+else
+{
+	// Checking for old MVC task
+	$task = $app->input->get('task');
+	$array = explode(".", $task);
+}
+
+if (empty($array[1]))
+	$activity = 'display';
+elseif ($array[1] == 'apply')
+	$activity = 'save';
+else $activity = $array[1];
+
+// Create the controller
+// if ($array[0]=='application')
+	// For Application
+	$classname  = 'ConfigControllerApplication' . ucfirst($activity);// only for applications
+if ($array[0] == 'component')
+	// For Component
+	$classname  = 'ConfigControllerComponent' . ucfirst($activity); // if task=component.* etc
+
+$controller = new $classname;
+
+// Perform the Request task
+$controller->execute();

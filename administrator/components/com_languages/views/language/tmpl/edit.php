@@ -71,6 +71,9 @@ $canDo = LanguagesHelper::getActions();
 					</div>
 					<div class="controls">
 						<?php echo $this->form->getInput('image'); ?>
+						<span id="flag">
+							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), array('title' => $this->form->getValue('image')), true); ?>
+						</span>
 					</div>
 			</div>
 			<div class="control-group">
@@ -153,3 +156,19 @@ $canDo = LanguagesHelper::getActions();
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+<script type="text/javascript">
+	jQuery('#jform_image').on('change', function() {
+		var flag = this.value;
+		if (!jQuery('#flag img').attr('src'))
+		{
+			jQuery('#flag img').attr('src', '<?php echo JUri::root(true);?>' + '/media/mod_languages/images/' + flag + '.gif');
+		}
+		else
+		{
+			jQuery('#flag img').attr('src', function(index, attr) {
+				return attr.replace(jQuery('#flag img').attr('title') + '.gif', flag + '.gif')
+			})
+		}
+		jQuery('#flag img').attr('title', flag).attr('alt', flag);
+	});
+</script>

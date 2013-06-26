@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,12 +27,12 @@ class ConfigHelperComponent
 	 */
 	public static function getAllComponents()
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('element')
-			->from('#__extensions')
-			->where('type = ' . $db->quote('component'))
-			->where('enabled = 1');
+		$db = JFactory::getDBO();
+		$query = $db->getQuery(true);
+		$query->select('element');
+		$query->from('#__extensions');
+		$query->where('type = ' . $db->quote('component'));
+		$query->where('enabled = 1');
 		$db->setQuery($query);
 		$result = $db->loadColumn();
 
@@ -42,7 +42,7 @@ class ConfigHelperComponent
 	/**
 	 * Returns true if the component has configuration options.
 	 *
-	 * @param   string  $components
+	 * @param   string  $component  Component
 	 *
 	 * @return  boolean
 	 *
@@ -57,7 +57,7 @@ class ConfigHelperComponent
 	 * Returns an array of all components with configuration options. By only
 	 * components for which the current user has 'core.manage' rights are returned.
 	 *
-	 * @param   boolean  $authCheck
+	 * @param   boolean  $authCheck  Auth Check Boolean
 	 *
 	 * @return  array
 	 *
@@ -86,7 +86,7 @@ class ConfigHelperComponent
 	/**
 	 * Load the sys language for the given component.
 	 *
-	 * @param   string  $components
+	 * @param   string  $components  Components
 	 *
 	 * @return  void
 	 *
@@ -99,7 +99,7 @@ class ConfigHelperComponent
 		foreach ($components as $component)
 		{
 			if (!empty($component))
-				{
+			{
 					// Load the core file then
 					// Load extension-local file.
 					$lang->load($component . '.sys', JPATH_BASE, null, false, false)
