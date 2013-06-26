@@ -22,31 +22,41 @@ $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 ?>
 
-<div class="row-fluid">
-	<div class="span3">
-		<?php if(!empty($this->tree)):?>
-			<?php echo $this->loadTemplate('tree');?>
-		<?php endif;?>
-	</div>
-	<div class="span9">
-		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
-			<fieldset class="adminform">
-				<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
+<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('Editor', true)); ?>
+		<div class="row-fluid">
+			<div class="span3">
+				<?php if(!empty($this->tree)):?>
+					<?php echo $this->loadTemplate('tree');?>
+				<?php endif;?>
+			</div>
+			<div class="span9">
+				<?php //var_dump($this->files);?>
+				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+					<fieldset class="adminform">
+						<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
+				
+						<?php echo $this->form->getLabel('source'); ?>
+						<div class="clr"></div>
+						<div class="editor-border">
+						<?php echo $this->form->getInput('source'); ?>
+						</div>
+						<input type="hidden" name="task" value="" />
+						<?php echo JHtml::_('form.token'); ?>
+					</fieldset>
+				
+					<?php echo $this->form->getInput('extension_id'); ?>
+					<?php echo $this->form->getInput('filename'); ?>
+				</form>
+			</div>
+		</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'preview', JText::_('Template Preview', true)); ?>
 		
-				<?php echo $this->form->getLabel('source'); ?>
-				<div class="clr"></div>
-				<div class="editor-border">
-				<?php echo $this->form->getInput('source'); ?>
-				</div>
-				<input type="hidden" name="task" value="" />
-				<?php echo JHtml::_('form.token'); ?>
-			</fieldset>
-		
-			<?php echo $this->form->getInput('extension_id'); ?>
-			<?php echo $this->form->getInput('filename'); ?>
-		</form>
-	</div>
-</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	
 			<!--<div>
 				<a href="#" class="modal">
 					<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_ADD_CSS');?></a>

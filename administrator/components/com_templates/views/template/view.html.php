@@ -83,10 +83,20 @@ protected function addToolbar()
 			JToolbarHelper::save('template.save');
 		}
 		
+		// Add a copy button
+		if ($user->authorise('core.create', 'com_templates'))
+		{
+			$title = JText::_('JLIB_HTML_BATCH_COPY');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+			<i class=\"icon-copy\" title=\"$title\"></i>
+			$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+		}
+		
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('JTOOLBAR_UPLOAD');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-small \">
+			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#\" class=\"btn btn-small \">
 			<i class=\"icon-plus icon-white\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
@@ -96,7 +106,7 @@ protected function addToolbar()
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('New File');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#\" class=\"btn btn-small\">
 			<i class=\"icon-file\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
@@ -106,19 +116,9 @@ protected function addToolbar()
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('Create Overrides');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#\" class=\"btn btn-small\">
 			<i class=\"icon-copy\" title=\"$title\"></i>
 			$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'upload');
-		}
-
-		// Add a copy button
-		if ($user->authorise('core.create', 'com_templates'))
-		{
-			$title = JText::_('JLIB_HTML_BATCH_COPY');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-copy\" title=\"$title\"></i>
-						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
 		
@@ -126,7 +126,7 @@ protected function addToolbar()
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('Compile LESS');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#\" class=\"btn btn-small\">
 			<i class=\"icon-play\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
@@ -164,9 +164,13 @@ protected function addToolbar()
 	function listTreeFiles($folder)
 	{
 		$files = $this->files;
-		foreach($files[$folder] as $file)
+		$treeFiles = null;
+		if(isset($files[$folder]))
 		{
-			$treeFiles[] = $file;
+			foreach($files[$folder] as $file)
+			{
+				$treeFiles[] = $file;
+			}
 		}
 		return $treeFiles;
 	}

@@ -80,6 +80,14 @@ class TemplatesModelTemplate extends JModelForm
 						$result[$folder['id']][] = $this->getFile($fileLoc, $file);
 					}
 				}
+				$rootFiles = JFolder::files($path,'\.(css|php|js|less|xml|ini)$',false,false);
+				
+				//get the root folder files
+				foreach($rootFiles as $file)
+				{
+					$fileLoc	= null;
+					$result[0][] = $this->getFile($fileLoc, $file);
+				}
 				
 			} else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
@@ -110,7 +118,30 @@ class TemplatesModelTemplate extends JModelForm
 		
 			if (is_dir($path))
 			{
-				$folders = JFolder::listFolderTree($path,'.',4);
+				$folders = JFolder::listFolderTree($path,'.',5);
+				return $folders;
+			}else {
+				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
+				return false;
+			}
+		}
+	}
+	
+	public function getDirectory()
+	{
+		if ($template = $this->getTemplate())
+		{
+		
+			$client = JApplicationHelper::getClientInfo($template->client_id);
+			$path	= JPath::clean($client->path.'/templates/'.$template->element.'/');
+		
+			// Check if the template path exists.
+		
+			if (is_dir($path))
+			{
+				
+				
+				
 				return $folders;
 			}else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
