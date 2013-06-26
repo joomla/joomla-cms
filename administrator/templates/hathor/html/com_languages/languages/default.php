@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-
-JHtml::_('bootstrap.tooltip');
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
 $user		= JFactory::getUser();
@@ -107,7 +106,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 				</td>
 				<td>
-					<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText('JGLOBAL_EDIT_ITEM', $item->title); ?>">
+					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_EDIT_ITEM');?>::<?php echo $this->escape($item->title); ?>">
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id='.(int) $item->lang_id); ?>">
 							<?php echo $this->escape($item->title); ?></a>

@@ -70,7 +70,7 @@ class JFormFieldSpacer extends JFormField
 			$text = $this->translateLabel ? JText::_($text) : $text;
 
 			// Build the class for the label.
-			$class = !empty($this->description) ? 'hasTooltip' : '';
+			$class = !empty($this->description) ? 'hasTip' : '';
 			$class = $this->required == true ? $class . ' required' : $class;
 
 			// Add the opening label tag and main attributes attributes.
@@ -79,7 +79,11 @@ class JFormFieldSpacer extends JFormField
 			// If a description is specified, use it to build a tooltip.
 			if (!empty($this->description))
 			{
-				$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), $this->description) . '"';
+				$label .= ' title="'
+					. htmlspecialchars(
+					trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
+					ENT_COMPAT, 'UTF-8'
+				) . '"';
 			}
 
 			// Add the label text and closing tag.
