@@ -27,9 +27,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   	<table class="table table-striped">
   		<thead>
   			<tr>
-  				<th class="title" width="10">
-  					<?php echo JText::_('COM_CACHE_NUM'); ?>
-  				</th>
   				<th width="20">
   					<?php echo JHtml::_('grid.checkall'); ?>
   				</th>
@@ -46,7 +43,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   		</thead>
   		<tfoot>
   			<tr>
-  				<td colspan="6">
+  				<td colspan="4">
   				<?php echo $this->pagination->getListFooter(); ?>
   				</td>
   			</tr>
@@ -56,9 +53,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			$i = 0;
   			foreach ($this->data as $folder => $item) : ?>
   				<tr class="row<?php echo $i % 2; ?>">
-  					<td>
-  						<?php echo $this->pagination->getRowOffset($i); ?>
-  					</td>
   					<td>
   						<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
   					</td>
