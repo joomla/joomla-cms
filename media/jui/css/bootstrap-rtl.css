@@ -543,3 +543,6 @@ body {
 #mediamanager-form .dimensions {
 	direction: ltr;
 }
+.tooltip-inner {
+	text-align: right;
+}
