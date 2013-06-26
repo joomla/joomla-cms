@@ -44,7 +44,7 @@ div#system-debug {
 	color: #ddd;
 	font-size: 14px;
 	cursor: pointer;
-	text-decoration:none;
+	text-decoration: none;
 }
 
 #system-debug div.dbg-container {
@@ -77,13 +77,13 @@ div#system-debug {
 
 #system-debug h4 {
 	font-size: 14px;
-	font-weight:bold;
+	font-weight: bold;
 	margin: 5px 0 0 0;
 }
 
 #system-debug h5 {
 	font-size: 13px;
-	font-weight:bold;
+	font-weight: bold;
 	margin: 5px 0 0 0;
 }
 
@@ -119,29 +119,61 @@ div#system-debug {
 	font-size: 13px;
 }
 
-
-
 #system-debug div.dbg-header.dbg-error {
 	background-color: red;
 }
 #system-debug .dbg-warning {
-    color: red;
-    font-weight: bold;
-    background-color: #ffffcc !important;
+	color: red;
+	font-weight: bold;
+	background-color: #ffffcc !important;
 }
-#system-debug table.dbg-query-table {
-    margin: 0px 0px 6px;
-}
-#system-debug table.dbg-query-table th,
-#system-debug table.dbg-query-table td {
-    padding: 3px 8px;
-}
-#system-debug .bar-ghosted {
-	opacity: 0.2;
-}
+
 #system-debug .accordion {
 	margin-bottom: 0;
 }
 #system-debug .dbg-noprofile {
 	text-decoration: line-through;
+}
+
+/* dbg-bars */
+#system-debug .alert,
+#system-debug .dbg-bars {
+	margin-bottom: 10px;
+}
+#system-debug .dbg-bar-spacer {
+	float: left;
+	height: 100%;
+}
+/* dbg-bars-query */
+#system-debug .dbg-bars-query .dbg-bar {
+	opacity: 0.3;
+	height: 12px;
+	margin-top: 3px;
+}
+#system-debug .dbg-bars-query:hover .dbg-bar {
+	opacity: 0.6;
+	height: 18px;
+	margin-top: 0;
+}
+#system-debug .dbg-bars-query .dbg-bar:hover,
+#system-debug .dbg-bars-query .dbg-bar-active,
+#system-debug .dbg-bars-query:hover .dbg-bar-active {
+	opacity: 1;
+	height: 18px;
+	margin-top: 0;
+}
+
+/* dbg-query-table */
+#system-debug table.dbg-query-table {
+	margin: 0px 0px 6px;
+}
+#system-debug table.dbg-query-table th,
+#system-debug table.dbg-query-table td {
+	padding: 3px 8px;
+}
+
+#system-debug .dbg-profile-list .label {
+	display: inline-block;
+	min-width: 60px;
+	text-align: right;
 }
