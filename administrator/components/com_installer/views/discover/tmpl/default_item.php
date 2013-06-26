@@ -8,6 +8,8 @@
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('bootstrap.tooltip');
 ?>
 <tr class="<?php echo "row".$this->item->index % 2; ?>" <?php echo $this->item->style; ?>>
 	<td>
@@ -28,7 +30,7 @@ defined('_JEXEC') or die;
 	<td class="center"><?php echo @$this->item->folder != '' ? $this->item->folder : 'N/A'; ?></td>
 	<td class="center"><?php echo @$this->item->client != '' ? $this->item->client : 'N/A'; ?></td>
 	<td>
-		<span class="editlinktip hasTip" title="<?php echo addslashes(htmlspecialchars(JText::_('COM_INSTALLER_AUTHOR_INFORMATION').'::'.$this->item->author_info)); ?>">
+		<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_AUTHOR_INFORMATION', $this->item->author_info); ?>">
 			<?php echo @$this->item->author != '' ? $this->item->author : '&#160;'; ?>
 		</span>
 	</td>
