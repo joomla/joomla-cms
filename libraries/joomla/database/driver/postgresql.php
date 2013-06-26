@@ -85,7 +85,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function __destruct()
 	{
 		$this->disconnect();
-		}
+	}
 
 	/**
 	 * Connects to the database if needed.

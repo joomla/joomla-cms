@@ -83,7 +83,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function __destruct()
 	{
 		$this->disconnect();
-		}
+	}
 
 	/**
 	 * Connects to the database if needed.
@@ -160,7 +160,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			mysqli_query($this->connection, "SET profiling_history_size = 100;");
 			mysqli_query($this->connection, "SET profiling = 1;");
-	}
+		}
 	}
 
 	/**

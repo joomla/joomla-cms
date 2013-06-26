@@ -55,7 +55,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	public function __destruct()
 	{
 		$this->disconnect();
-		}
+	}
 
 	/**
 	 * Connects to the database if needed.
@@ -100,7 +100,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if ($this->debug)
 		{
 			mysqli_query($this->connection, "SET profiling = 1;");
-	}
+		}
 	}
 
 	/**
@@ -120,7 +120,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				call_user_func_array($h, array( &$this));
 			}
 
-		mysql_close($this->connection);
+			mysql_close($this->connection);
 		}
 
 		$this->connection = null;
