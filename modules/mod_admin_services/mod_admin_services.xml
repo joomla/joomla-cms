@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" version="3.2" client="site" method="upgrade">
+	<name>Admin Services</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2013</creationDate>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights
+		reserved.
+	</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt
+	</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.2.0</version>
+	<description>MOD_ADMIN_SERVICES_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_admin_services">mod_admin_services.php</filename>
+		<folder>tmpl</folder>
+		<folder>language</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_admin_services.xml</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.mod_admin_services.ini
+		</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_admin_services.sys.ini
+		</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="config_visible" type="radio" class="btn-group"
+					default="1" label="MOD_ADMIN_SERVICES_FIELD_CONFIG_VISIBLE_LABEL"
+					description="MOD_ADMIN_SERVICES_FIELD_CONFIG_VISIBLE_DESCRIPTION">
+					<option value="1">JYES
+					</option>
+					<option value="0">JNO
+					</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
