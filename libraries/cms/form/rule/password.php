@@ -18,14 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormRulePassword extends JFormRule
 {
-	/**
-	 * The regular expression to use in testing a form field value.
-	 *
-	 * @var    string
-	 * @since  3.1.2
-	 * @see    http://www.w3.org/TR/html-markup/input.email.html
-	 */
-	protected $regex = '/^\S[\S ]{2,98}\S$/';
 
 	/**
 	 * Method to test if two values are not equal. To use this rule, the form
@@ -171,14 +163,6 @@ class JFormRulePassword extends JFormRule
 
 				return false;
 			}
-		}
-
-
-		// Test the value against the regular expression.
-		if (preg_match($this->regex, $value) == false)
-		{
-
-			return false;
 		}
 
 		return true;
