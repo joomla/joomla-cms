@@ -42,7 +42,7 @@ class WeblinksViewForm extends JViewLegacy
 		}
 		else
 		{
-			$authorised = $user->authorise('core.edit','com_weblinks.category.'.$this->item->catid);
+			$authorised = $user->authorise('core.edit', 'com_weblinks.category.'.$this->item->catid);
 
 		}
 

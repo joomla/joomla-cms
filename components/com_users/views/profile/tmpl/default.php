@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::_('behavior.tooltip');
 ?>
 <div class="profile <?php echo $this->pageclass_sfx?>">
 <?php if (JFactory::getUser()->id == $this->data->id) : ?>
