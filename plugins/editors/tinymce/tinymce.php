@@ -109,7 +109,7 @@ class PlgEditorTinymce extends JPlugin
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = 'content_css : "'. JURI::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
+				$content_css = 'content_css : "'. JUri::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
@@ -128,8 +128,6 @@ class PlgEditorTinymce extends JPlugin
 				// if no editor.css file in templates folder, check system template folder
 				if (!file_exists($templates_path . '/' . $template . '/css/editor.css'))
 				{
-					$template = 'system';
-
 					// if no editor.css file in system folder, show alert
 					if (!file_exists($templates_path . '/system/css/editor.css'))
 					{
@@ -137,12 +135,12 @@ class PlgEditorTinymce extends JPlugin
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JURI::root() .'templates/system/css/editor.css",';
+						$content_css = 'content_css : "' . JUri::root() .'templates/system/css/editor.css",';
 					}
 				}
 				else
 				{
-					$content_css = 'content_css : "' . JURI::root() .'templates/'. $template . '/css/editor.css",';
+					$content_css = 'content_css : "' . JUri::root() .'templates/'. $template . '/css/editor.css",';
 				}
 			}
 		}
@@ -183,7 +181,6 @@ class PlgEditorTinymce extends JPlugin
 		$html_width			= $this->params->def('html_width', '750');
 		$resizing			= $this->params->def('resizing', 'true');
 		$resize_horizontal	= $this->params->def('resize_horizontal', 'false');
-		$element_path = '';
 
 		if ($this->params->get('element_path', 1))
 		{
@@ -492,7 +489,7 @@ class PlgEditorTinymce extends JPlugin
 		{
 			case 0: /* Simple mode*/
 				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root().$this->_basePath.
+						JUri::root().$this->_basePath.
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -515,14 +512,14 @@ class PlgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					// Layout
 					$content_css
-					document_base_url : \"". JURI::root() ."\"
+					document_base_url : \"". JUri::root() ."\"
 				});
 				</script>";
 				break;
 
 			case 1: /* Advanced mode*/
 				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root().$this->_basePath.
+						JUri::root().$this->_basePath.
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -545,7 +542,7 @@ class PlgEditorTinymce extends JPlugin
 					// URL
 					relative_urls : $relative_urls,
 					remove_script_host : false,
-					document_base_url : \"". JURI::root() ."\",
+					document_base_url : \"". JUri::root() ."\",
 					// Layout
 					$content_css
 					// Advanced theme
@@ -562,7 +559,7 @@ class PlgEditorTinymce extends JPlugin
 
 			case 2: /* Extended mode*/
 				$load = "\t<script type=\"text/javascript\" src=\"".
-						JURI::root().$this->_basePath.
+						JUri::root().$this->_basePath.
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -587,9 +584,9 @@ class PlgEditorTinymce extends JPlugin
 					// URL
 					relative_urls : $relative_urls,
 					remove_script_host : false,
-					document_base_url : \"". JURI::root() ."\",
+					document_base_url : \"". JUri::root() ."\",
 					//Templates
-					template_external_list_url :  \"". JURI::root() ."media/editors/tinymce/templates/template_list.js\",
+					template_external_list_url :  \"". JUri::root() ."media/editors/tinymce/templates/template_list.js\",
 					// Layout
 					$content_css
 					// Advanced theme
@@ -780,7 +777,7 @@ class PlgEditorTinymce extends JPlugin
 				{
 					$class		= ($button->get('class')) ? $button->get('class') : null;
 					$class		.= ($button->get('modal')) ? ' modal-button' : null;
-					$href		= ($button->get('link')) ? ' href="'.JURI::base().$button->get('link').'"' : null;
+					$href		= ($button->get('link')) ? ' href="'.JUri::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : ' onclick="IeCursorFix(); return false;"';
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 					$return .= '<a class="' . $class . '" title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')

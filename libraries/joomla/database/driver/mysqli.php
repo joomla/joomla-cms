@@ -83,7 +83,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function __destruct()
 	{
 		$this->disconnect();
-	}
+		}
 
 	/**
 	 * Connects to the database if needed.
@@ -105,7 +105,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		 * have to extract them from the host string.
 		 */
 		$tmp = substr(strstr($this->options['host'], ':'), 1);
-
 		if (!empty($tmp))
 		{
 			// Get the port number or socket name
@@ -161,7 +160,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		{
 			mysqli_query($this->connection, "SET profiling_history_size = 100;");
 			mysqli_query($this->connection, "SET profiling = 1;");
-		}
+	}
 	}
 
 	/**
@@ -338,7 +337,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
-
 		foreach ($tables as $table)
 		{
 			// Set the query to get the table CREATE statement.
@@ -498,11 +496,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->replacePrefix((string) $this->sql);
-
+		$query = $this->replacePrefix((string) $this->sql);
 		if ($this->limit > 0 || $this->offset > 0)
 		{
-			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
 		// Increment the query counter.
@@ -516,15 +513,15 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if ($this->debug)
 		{
 			// Add the query to the object queue.
-			$this->log[] = $sql;
+			$this->log[] = $query;
 
-			JLog::add($sql, JLog::DEBUG, 'databasequery');
+			JLog::add($query, JLog::DEBUG, 'databasequery');
 
 			$this->timings[] = microtime(true);
 		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
-		$this->cursor = @mysqli_query($this->connection, $sql);
+		$this->cursor = @mysqli_query($this->connection, $query);
 
 		if ($this->debug)
 		{
@@ -536,7 +533,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if (!$this->cursor)
 		{
 			$this->errorNum = (int) mysqli_errno($this->connection);
-			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
+			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $query;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())

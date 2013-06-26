@@ -45,14 +45,14 @@ class PlgSystemRedirect extends JPlugin
 		if (!$app->isAdmin() and ($error->getCode() == 404))
 		{
 			// Get the full current URI.
-			$uri = JURI::getInstance();
+			$uri = JUri::getInstance();
 			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
 
 			// Attempt to ignore idiots.
 			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
 			{
 				// Render the error page.
-				JErrorPage::render($error);
+				JError::customErrorPage($error);
 			}
 
 			// See if the current url exists in the database as a redirect.
@@ -89,7 +89,7 @@ class PlgSystemRedirect extends JPlugin
 						$db->quoteName('published'),
 						$db->quoteName('created_date')
 					);
-					$query = $db->getQuery(true)
+					$query->clear()
 						->insert($db->quoteName('#__redirect_links'), false)
 						->columns($columns)
 						->values(
@@ -104,7 +104,7 @@ class PlgSystemRedirect extends JPlugin
 				else
 				{
 					// Existing error url, increase hit counter
-					$query = $db->getQuery(true)
+					$query->clear()
 						->update($db->quoteName('#__redirect_links'))
 						->set($db->quoteName('hits') . ' = ' . $db->quote('hits') . ' + 1')
 						->where('id = ' . (int) $res);
@@ -112,13 +112,13 @@ class PlgSystemRedirect extends JPlugin
 					$db->execute();
 				}
 				// Render the error page.
-				JErrorPage::render($error);
+				JError::customErrorPage($error);
 			}
 		}
 		else
 		{
 			// Render the error page.
-			JErrorPage::render($error);
+			JError::customErrorPage($error);
 		}
 	}
 }

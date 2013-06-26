@@ -31,21 +31,24 @@ abstract class ModQuickIconHelper
 	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
-	 * @param   JRegistry	The module parameters.
+	 * @param   JObject  $params  The module parameters.
 	 *
 	 * @return  array  An array of buttons
+	 *
 	 * @since   1.6
 	 */
 	public static function &getButtons($params)
 	{
 		$key = (string) $params;
+
 		if (!isset(self::$buttons[$key]))
 		{
 			$context = $params->get('context', 'mod_quickicon');
+
 			if ($context == 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
-			JFactory::getLanguage()->load('mod_quickicon');
+				JFactory::getLanguage()->load('mod_quickicon');
 
 				self::$buttons[$key] = array(
 					array(
@@ -126,7 +129,7 @@ abstract class ModQuickIconHelper
 						'access' => array('core.manage', 'com_templates')
 					),
 					array(
-						'link' => JRoute::_('index.php?option=com_admin&task=profile.edit&id='.JFactory::getUser()->id),
+						'link' => JRoute::_('index.php?option=com_admin&task=profile.edit&id=' . JFactory::getUser()->id),
 						'image' => 'vcard',
 						'icon' => 'header/icon-48-user-profile.png',
 						'text' => JText::_('MOD_QUICKICON_PROFILE'),
@@ -155,6 +158,7 @@ abstract class ModQuickIconHelper
 						'access' => true
 					);
 					$icon = array_merge($default, $icon);
+
 					if (!is_null($icon['link']) && !is_null($icon['text']))
 					{
 						self::$buttons[$key][] = $icon;
@@ -169,14 +173,15 @@ abstract class ModQuickIconHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param   JRegistry	The module parameters.
-	 * @param   object		The module.
+	 * @param   JObject  $params  The module parameters.
+	 * @param   JObject  $module  The module.
 	 *
 	 * @return  string	The alternate title for the module.
 	 */
 	public static function getTitle($params, $module)
 	{
 		$key = $params->get('context', 'mod_quickicon') . '_title';
+
 		if (JFactory::getLanguage()->hasKey($key))
 		{
 			return JText::_($key);

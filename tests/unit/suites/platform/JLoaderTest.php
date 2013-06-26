@@ -221,166 +221,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the JLoader::loadByNamespaceLowerCase method
-	 * with lower case namespace and path.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceLowerCase
-	 */
-	public function testLoadByNamespaceLowerCase()
-	{
-		// Register the 'animal' lower case namespace and lower case path.
-		$path = JPATH_TEST_STUBS . '/animal1';
-		JLoader::registerNamespace('animal', $path);
-
-		// Register a second lower case path for that namespace.
-		$path = JPATH_TEST_STUBS . '/animal2';
-		JLoader::registerNamespace('animal', $path);
-
-		// Check we can load a class from the first path.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('animal\\Cat'));
-
-		// Check we can load a class from the second path.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('animal\\Dog'));
-	}
-
-	/**
-	 * Test the JLoader::loadByNamespaceLowerCase method
-	 * with camel case namespace and lower case path.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceLowerCase
-	 */
-	public function testLoadByNamespaceLowerCaseCamelCaseNamespace()
-	{
-		// Register a camel cased namespace but lower case path.
-		$path = JPATH_TEST_STUBS . '/chess';
-		JLoader::registerNamespace('Chess', $path);
-
-		// Check we can load it by using his camel cased name.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('Chess\\Piece\\Pawn'));
-	}
-
-	/**
-	 * Tests the JLoader::loadByNamespaceNaturalCase method
-	 * with lower case namespace and lower case path.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceNaturalCase
-	 */
-	public function testLoadByNamespaceNaturalCaseLowCase()
-	{
-		// Test with a lower case path and lower case namespace.
-		$path = JPATH_TEST_STUBS . '/animal1';
-		JLoader::registerNamespace('animal', $path);
-
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('animal\\Cat'));
-	}
-
-	/**
-	 * Tests the JLoader::loadByNamespaceNaturalCase method
-	 * with a camel case namespace and camel case path.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceNaturalCase
-	 */
-	public function testLoadByNamespaceNaturalCaseCamelCase()
-	{
-		// Register the Color namespace and its path (camel case).
-		$path = JPATH_TEST_STUBS . '/Color';
-		JLoader::registerNamespace('Color', $path);
-
-		// Register a second path for that namespace (camel case).
-		$path = JPATH_TEST_STUBS . '/Color2';
-		JLoader::registerNamespace('Color', $path);
-
-		// Check we can load a class from the first path.
-		$this->assertTrue(JLoader::loadByNamespaceNaturalCase('Color\\Rgb\\Red'));
-
-		// Check we can load a class from the second path.
-		$this->assertTrue(JLoader::loadByNamespaceNaturalCase('Color\\Blue'));
-	}
-
-	/**
-	 * Tests the JLoader::loadByNamespaceMixedCase method
-	 * with a lower case namespace and path.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceMixedCase
-	 */
-	public function testLoadByNamespaceMixedCaseLow()
-	{
-		// Register the 'animal' lower case namespace and lower case path.
-		$path = JPATH_TEST_STUBS . '/animal1';
-		JLoader::registerNamespace('animal', $path);
-
-		// Register a second lower case path for that namespace.
-		$path = JPATH_TEST_STUBS . '/animal2';
-		JLoader::registerNamespace('animal', $path);
-
-		// Check we can load a class from the first path.
-		$this->assertTrue(JLoader::loadByNamespaceMixedCase('animal\\Cat'));
-
-		// Check we can load a class from the second path.
-		$this->assertTrue(JLoader::loadByNamespaceMixedCase('animal\\Dog'));
-	}
-
-	/**
-	 * Tests the JLoader::loadByNamespaceMixedCase method
-	 * with a camel case namespace and path.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceMixedCase
-	 */
-	public function testLoadByNamespaceMixedCaseCamelCase()
-	{
-		// Register the Color namespace and its path (camel case).
-		$path = JPATH_TEST_STUBS . '/Color';
-		JLoader::registerNamespace('Color', $path);
-
-		// Register a second path for that namespace (camel case).
-		$path = JPATH_TEST_STUBS . '/Color2';
-		JLoader::registerNamespace('Color', $path);
-
-		// Check we can load a class from the first path.
-		$this->assertTrue(JLoader::loadByNamespaceMixedCase('Color\\Rgb\\Red'));
-
-		// Check we can load a class from the second path.
-		$this->assertTrue(JLoader::loadByNamespaceMixedCase('Color\\Blue'));
-	}
-
-	/**
-	 * Tests the JLoader::loadByNamespaceMixedCase method
-	 * with a camel case namespace and low case path.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::loadByNamespaceMixedCase
-	 */
-	public function testLoadByNamespaceMixedCaseCamelCaseNamespaceLowCasePath()
-	{
-		// Register a camel cased namespace but lower case path.
-		$path = JPATH_TEST_STUBS . '/chess';
-		JLoader::registerNamespace('Chess', $path);
-
-		// Check we can load it by using his camel cased name.
-		$this->assertTrue(JLoader::loadByNamespaceLowerCase('Chess\\Piece\\Pawn'));
-	}
-
-	/**
 	 * The success of this test depends on some files being in the file system to be imported. If the FS changes, this test may need revisited.
 	 *
 	 * @param   string   $filePath     Path to object
@@ -574,9 +414,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 
 		$foundLoad = false;
 		$foundAutoload = false;
-		$foundLoadByNamespaceLowerCase = false;
-		$loadByNamespaceNaturalCase = false;
-		$loadByNamespaceMixedCase = false;
+		$foundLoadByPsr0 = false;
 
 		// We search the list of autoload functions to see if our methods are there.
 		foreach ($newLoaders as $loader)
@@ -593,19 +431,9 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 					$foundAutoload = true;
 				}
 
-				if ($loader[1] === 'loadByNamespaceLowerCase')
+				if ($loader[1] === 'loadByPsr0')
 				{
-					$foundLoadByNamespaceLowerCase = true;
-				}
-
-				if ($loader[1] === 'loadByNamespaceNaturalCase')
-				{
-					$loadByNamespaceNaturalCase = true;
-				}
-
-				if ($loader[1] === 'loadByNamespaceMixedCase')
-				{
-					$loadByNamespaceMixedCase = true;
+					$foundLoadByPsr0 = true;
 				}
 			}
 		}
@@ -620,10 +448,8 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		// Assert the prefix loader is found.
 		$this->assertTrue($foundAutoload);
 
-		// Assert the namespace loaders are not found.
-		$this->assertFalse($foundLoadByNamespaceLowerCase);
-		$this->assertFalse($loadByNamespaceNaturalCase);
-		$this->assertFalse($loadByNamespaceMixedCase);
+		// Assert the PSR-0 loader is not found.
+		$this->assertFalse($foundLoadByPsr0);
 	}
 
 	/**
@@ -640,7 +466,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$this->unregisterLoaders();
 
 		// Set up the auto loader with $enableClasses = false.
-		JLoader::setup(1, true, true, false);
+		JLoader::setup(false, true, false);
 
 		// Get the list of autoload functions.
 		$loaders = spl_autoload_functions();
@@ -680,7 +506,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$this->unregisterLoaders();
 
 		// Setup the loader with $enablePrefixes = false.
-		JLoader::setup(1, true, false, true);
+		JLoader::setup(false, false, true);
 
 		// Get the autoload functions
 		$loaders = spl_autoload_functions();
@@ -709,169 +535,40 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * Tests the JLoader::setup method.
-	 * We test the registration of the lower case namespace loader.
+	 * We test the registration of the PSR-0 loader.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.3
 	 * @covers  JLoader::setup
 	 */
-	public function testSetupNamespacesLowerCase()
+	public function testSetupPsr0()
 	{
 		// We unregister all loader functions if registered.
 		$this->unregisterLoaders();
 
-		// Setup the loader with $caseStrategy = 1 (lower case) and enableNamespace = true.
-		JLoader::setup(JLoader::LOWER_CASE, true, false, false);
+		// Setup the loader with $enablePsr = true.
+		JLoader::setup(true, false, false);
 
 		// Get the autoload functions
 		$loaders = spl_autoload_functions();
 
-		$foundLoadByNamespaceLowerCase = false;
+		$foundLoadPsr0 = false;
 
 		// We search the list of autoload functions to see if our method is here.
 		foreach ($loaders as $loader)
 		{
 			if (is_array($loader) && $loader[0] === 'JLoader')
 			{
-				if ($loader[1] === 'loadByNamespaceLowerCase')
+				if ($loader[1] === 'loadByPsr0')
 				{
-					$foundLoadByNamespaceLowerCase = true;
+					$foundLoadPsr0 = true;
 				}
 			}
 		}
 
 		// We expect to find it.
-		$this->assertTrue($foundLoadByNamespaceLowerCase);
-	}
-
-	/**
-	 * Tests the JLoader::setup method.
-	 * We test the registration of the Natural case namespace loader.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
-	 */
-	public function testSetupNamespacesNaturalCase()
-	{
-		// We unregister all loader functions if registered.
-		$this->unregisterLoaders();
-
-		// Setup the loader with $caseStrategy = 2 (natural case) and enableNamespace = true.
-		JLoader::setup(JLoader::NATURAL_CASE, true, false, false);
-
-		// Get the autoload functions
-		$loaders = spl_autoload_functions();
-
-		$loadByNamespaceNaturalCase = false;
-
-		// We search the list of autoload functions to see if our method is here.
-		foreach ($loaders as $loader)
-		{
-			if (is_array($loader) && $loader[0] === 'JLoader')
-			{
-				if ($loader[1] === 'loadByNamespaceNaturalCase')
-				{
-					$loadByNamespaceNaturalCase = true;
-				}
-			}
-		}
-
-		// We expect to find it.
-		$this->assertTrue($loadByNamespaceNaturalCase);
-	}
-
-	/**
-	 * Tests the JLoader::setup method.
-	 * We test the registration of the Mixed case namespace loader.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
-	 */
-	public function testSetupNamespacesMixedCase()
-	{
-		// We unregister all loader functions if registered.
-		$this->unregisterLoaders();
-
-		// Setup the loader with $caseStrategy = 3 (mixed case) and enableNamespace = true.
-		JLoader::setup(JLoader::MIXED_CASE, true, false, false);
-
-		// Get the autoload functions
-		$loaders = spl_autoload_functions();
-
-		$loadByNamespaceMixedCase = false;
-
-		// We search the list of autoload functions to see if our method is here.
-		foreach ($loaders as $loader)
-		{
-			if (is_array($loader) && $loader[0] === 'JLoader')
-			{
-				if ($loader[1] === 'loadByNamespaceMixedCase')
-				{
-					$loadByNamespaceMixedCase = true;
-				}
-			}
-		}
-
-		// We expect to find it.
-		$this->assertTrue($loadByNamespaceMixedCase);
-	}
-
-	/**
-	 * Tests the JLoader::setup method.
-	 * We test the registration of the namespace loader with an invalid case strategy.
-	 * We expect the lower case namespace loader to be registered by default.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.3
-	 * @covers  JLoader::setup
-	 */
-	public function testSetupNamespacesInvalidCase()
-	{
-		// We unregister all loader functions if registered.
-		$this->unregisterLoaders();
-
-		// Setup the loader with and invalid case strategy and enableNamespace = true.
-		JLoader::setup('invalid', true, false, false);
-
-		// Get the autoload functions
-		$loaders = spl_autoload_functions();
-
-		$foundLoadByNamespaceLowerCase = false;
-		$loadByNamespaceNaturalCase = false;
-		$loadByNamespaceMixedCase = false;
-
-		// We search the list of autoload functions to see if our methods are here.
-		foreach ($loaders as $loader)
-		{
-			if (is_array($loader) && $loader[0] === 'JLoader')
-			{
-				if ($loader[1] === 'loadByNamespaceLowerCase')
-				{
-					$foundLoadByNamespaceLowerCase = true;
-				}
-
-				if ($loader[1] === 'loadByNamespaceNaturalCase')
-				{
-					$loadByNamespaceNaturalCase = true;
-				}
-
-				if ($loader[1] === 'loadByNamespaceMixedCase')
-				{
-					$loadByNamespaceMixedCase = true;
-				}
-			}
-		}
-
-		// We expect to find only the lower case loader registered.
-		$this->assertTrue($foundLoadByNamespaceLowerCase);
-		$this->assertFalse($loadByNamespaceNaturalCase);
-		$this->assertFalse($loadByNamespaceMixedCase);
+		$this->assertTrue($foundLoadPsr0);
 	}
 
 	/**
@@ -892,9 +589,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			if (is_array($loader) && $loader[0] === 'JLoader'
 				&& ($loader[1] === 'load'
 				|| $loader[1] === '_autoload'
-				|| $loader[1] === 'loadByNamespaceLowerCase'
-				|| $loader[1] === 'loadByNamespaceNaturalCase'
-				|| $loader[1] === 'loadByNamespaceMixedCase'))
+				|| $loader[1] === 'loadByPsr0'))
 			{
 				spl_autoload_unregister($loader);
 			}

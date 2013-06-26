@@ -92,7 +92,7 @@ $n = count($this->items);
 		<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
-		</br>
+		<br/>
 	<?php endif; ?>
 </form>
 

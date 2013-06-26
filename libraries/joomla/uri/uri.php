@@ -83,7 +83,7 @@ class JUri
 	protected $vars = array();
 
 	/**
-	 * @var    array  An array of JURI instances.
+	 * @var    array  An array of JUri instances.
 	 * @since  11.1
 	 */
 	protected static $instances = array();

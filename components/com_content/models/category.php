@@ -125,7 +125,6 @@ class ContentModelCategory extends JModelList
 				// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
 			// limit to published for people who can't edit or edit.state.
@@ -210,7 +209,6 @@ class ContentModelCategory extends JModelList
 	 */
 	function getItems()
 	{
-		$params = $this->getState()->get('params');
 		$limit = $this->getState('list.limit');
 
 		if ($this->_articles === null && $category = $this->getCategory())
@@ -331,7 +329,6 @@ class ContentModelCategory extends JModelList
 			if (is_object($this->_item))
 			{
 				$user	= JFactory::getUser();
-				$userId	= $user->get('id');
 				$asset	= 'com_content.category.'.$this->_item->id;
 
 				// Check general create permission.

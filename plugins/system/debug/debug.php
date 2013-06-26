@@ -63,8 +63,8 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object &$subject  The object to observe
-	 * @param   array  $config    An array that holds the plugin configuration
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
 	 *
 	 * @since 1.5
 	 */
@@ -96,7 +96,7 @@ class PlgSystemDebug extends JPlugin
 
 			foreach ($this->params->get('log_priorities', array()) as $p)
 			{
-				$const = 'JLog::' . strtoupper($p);
+				$const = 'JLog::'.strtoupper($p);
 
 				if (!defined($const))
 				{
@@ -139,7 +139,7 @@ class PlgSystemDebug extends JPlugin
 		{
 			JHtml::_('bootstrap.tooltip');
 			JHtml::_('bootstrap.popover', '.hasPopover', array('placement' => 'top'));
-		}
+	}
 	}
 
 	/**
@@ -291,8 +291,8 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * General display method.
 	 *
-	 * @param   string $item    The item to display
-	 * @param   array  $errors  Errors occured during execution
+	 * @param   string  $item    The item to display
+	 * @param   array   $errors  Errors occured during execution
 	 *
 	 * @return  string
 	 *
@@ -339,9 +339,9 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * Called recursive.
 	 *
-	 * @param   string  $key      A session key
-	 * @param   mixed   $session  The session array, initially null
-	 * @param   integer $id       The id is used for JS toggling the div
+	 * @param   string   $key      A session key
+	 * @param   mixed    $session  The session array, initially null
+	 * @param   integer  $id       The id is used for JS toggling the div
 	 *
 	 * @return  string
 	 *
@@ -393,7 +393,7 @@ class PlgSystemDebug extends JPlugin
 					$style = ' style="display: none;"';
 
 					$html .= '<div ' . $style . ' class="dbg-container" id="dbg_container_session' . $id . '">';
-					$id++;
+					$id ++;
 
 					// Recurse...
 					$this->displaySession($sKey, $entries, $id);
@@ -529,11 +529,11 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayQueries()
 	{
-		$db = JFactory::getDbo();
+		$db	= JFactory::getDbo();
 
 		$log = $db->getLog();
 
-		if (!$log)
+		if ( ! $log)
 		{
 			return null;
 		}
@@ -562,7 +562,7 @@ class PlgSystemDebug extends JPlugin
 			{
 
 				foreach ($log as $k => $query)
-				{
+		{
 					if (isset($timings[$k * 2 + 1]))
 					{
 						// Compute the query time: $timing[$k] = array( queryTime, timeBetweenQueries ):
@@ -735,7 +735,7 @@ class PlgSystemDebug extends JPlugin
 				if ($timing[$k]['1'])
 				{
 					$htmlTiming .= ' ' . JText::sprintf(JText::_('PLG_DEBUG_QUERY_AFTER_LAST'), sprintf('<span class="label">%.1f ms</span>', $timing[$k]['1']));
-				}
+		}
 
 				$htmlTiming .= '</div>';
 
@@ -837,7 +837,7 @@ class PlgSystemDebug extends JPlugin
 			foreach ($selectQueryTypeTicker as $query => $occurrences)
 			{
 				$list[] = '<pre>'
-					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
+				. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
 					. '</pre>';
 			}
 
@@ -854,7 +854,7 @@ class PlgSystemDebug extends JPlugin
 			foreach ($otherQueryTypeTicker as $query => $occurrences)
 			{
 				$list[] = '<pre>'
-					. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
+				. JText::sprintf('PLG_DEBUG_QUERY_TYPE_AND_OCCURRENCES', $this->highlightQuery($query), $occurrences)
 					. '</pre>';
 			}
 			$html .= '<ol><li>' . implode('</li><li>', $list) . '</li></ol>';
@@ -1053,15 +1053,15 @@ class PlgSystemDebug extends JPlugin
 
 		$html .= '<ul>';
 
-		foreach (JFactory::getLanguage()->getPaths() as $extension => $files)
+		foreach (JFactory::getLanguage()->getPaths() as /* $extension => */ $files)
 		{
 			foreach ($files as $file => $status)
 			{
 				$html .= '<li>';
 
 				$html .= ($status)
-					? JText::_('PLG_DEBUG_LANG_LOADED')
-					: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
+				? JText::_('PLG_DEBUG_LANG_LOADED')
+				: JText::_('PLG_DEBUG_LANG_NOT_LOADED');
 
 				$html .= ' : ';
 				$html .= $this->formatLink($file);
@@ -1083,15 +1083,15 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayUntranslatedStrings()
 	{
-		$stripFirst = $this->params->get('strip-first');
-		$stripPref = $this->params->get('strip-prefix');
-		$stripSuff = $this->params->get('strip-suffix');
+		$stripFirst	= $this->params->get('strip-first');
+		$stripPref	= $this->params->get('strip-prefix');
+		$stripSuff	= $this->params->get('strip-suffix');
 
 		$orphans = JFactory::getLanguage()->getOrphans();
 
 		$html = '';
 
-		if (!count($orphans))
+		if ( ! count($orphans))
 		{
 			$html .= '<p>' . JText::_('JNONE') . '</p>';
 
@@ -1118,9 +1118,9 @@ class PlgSystemDebug extends JPlugin
 
 				if (($pos = strpos($info['string'], '=')) > 0)
 				{
-					$parts = explode('=', $info['string']);
-					$key = $parts[0];
-					$guess = $parts[1];
+					$parts	= explode('=', $info['string']);
+					$key	= $parts[0];
+					$guess	= $parts[1];
 				}
 				else
 				{
@@ -1170,7 +1170,7 @@ class PlgSystemDebug extends JPlugin
 	/**
 	 * Simple highlight for SQL queries.
 	 *
-	 * @param   string $query  The query to highlight
+	 * @param   string  $query  The query to highlight
 	 *
 	 * @return  string
 	 *
@@ -1186,16 +1186,16 @@ class PlgSystemDebug extends JPlugin
 
 		$regex = array(
 
-			// Tables are identified by the prefix
-			'/(=)/'
+		// Tables are identified by the prefix
+		'/(=)/'
 			=> '<b class="dbg-operator">$1</b>',
 
-			// All uppercase words have a special meaning
-			'/(?<!\w|>)([A-Z_]{2,})(?!\w)/x'
+		// All uppercase words have a special meaning
+		'/(?<!\w|>)([A-Z_]{2,})(?!\w)/x'
 			=> '<span class="dbg-command">$1</span>',
 
-			// Tables are identified by the prefix
-			'/(' . JFactory::getDbo()->getPrefix() . '[a-z_0-9]+)/'
+		// Tables are identified by the prefix
+		'/(' . JFactory::getDbo()->getPrefix() . '[a-z_0-9]+)/'
 			=> '<span class="dbg-table">$1</span>'
 
 		);
@@ -1278,8 +1278,8 @@ class PlgSystemDebug extends JPlugin
 	 * Formats a link with a special value xdebug.file_link_format
 	 * from the php.ini file.
 	 *
-	 * @param   string $file  The full path to the file.
-	 * @param   string $line  The line number.
+	 * @param   string  $file  The full path to the file.
+	 * @param   string  $line  The line number.
 	 *
 	 * @return  string
 	 *
@@ -1310,7 +1310,7 @@ class PlgSystemDebug extends JPlugin
 	 * Store log messages so they can be displayed later.
 	 * This function is passed log entries by JLogLoggerCallback.
 	 *
-	 * @param   JLogEntry $entry  A log entry.
+	 * @param   JLogEntry  $entry  A log entry.
 	 *
 	 * @since   3.1
 	 */

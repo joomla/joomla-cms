@@ -56,7 +56,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		else
 			// For items the old category is the category they are in when opened or 0 if new.
 		{
-			$thisItem = $jinput->get('id', 0);
 			$oldCat = $this->form->getValue($name, 0);
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}

@@ -99,7 +99,9 @@ abstract class JHtmlQuery
 					}
 
 					// Add the node to the explanation.
-					$parts[] = '<span class="query-taxonomy">' . JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, JText::_(FinderHelperLanguage::branchSingular($branch))) . '</span>';
+					$parts[] = '<span class="query-taxonomy">'
+						. JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, JText::_(FinderHelperLanguage::branchSingular($branch)))
+						. '</span>';
 				}
 			}
 		}
