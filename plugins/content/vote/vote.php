@@ -60,7 +60,7 @@ class PlgContentVote extends JPlugin
 
 			if ($view == 'article' && $row->state == 1)
 			{
-				$uri = JURI::getInstance();
+				$uri = JUri::getInstance();
 				$uri->setQuery($uri->getQuery().'&hitcount=0');
 
 				// create option list for voting select box

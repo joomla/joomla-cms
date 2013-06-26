@@ -484,6 +484,16 @@ class ContactModelContact extends JModelAdmin
 			$data['published'] = 0;
 		}
 
+		$links = array('linka', 'linkb', 'linkc', 'linkd', 'linke');
+
+		foreach ($links as $link)
+		{
+			if ($data['params'][$link])
+			{
+				$data['params'][$link] = JStringPunycode::urlToPunycode($data['params'][$link]);
+			}
+		}
+
 		if (parent::save($data))
 		{
 
