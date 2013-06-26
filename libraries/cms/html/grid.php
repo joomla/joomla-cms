@@ -92,7 +92,7 @@ abstract class JHtmlGrid
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
 			. ' class="hasTooltip" title="' . JHtml::tooltipText(($tip ? $tip : $title), 'JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 
-		if ($string == '' || $string['0'] == '<')
+		if ($title != '' && $title['0'] == '<')
 		{
 			$html .= $title;
 		}
