@@ -118,7 +118,7 @@ abstract class JHtmlGrid
 	{
 		JHtml::_('bootstrap.tooltip');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JText::_($tip) . '" onclick="' . $action . '" />';
+		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
 	}
 
 	/**
