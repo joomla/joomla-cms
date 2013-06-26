@@ -25,6 +25,20 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jun-2013 Jean-Marie Simonet
+ ^ [#31233] Complete move to Bootstrap tooltips. Thanks Peter van Westen.
+
+25-Jun-2013 Jean-Marie Simonet
+ # [#31232] Fixed bootstrap.min.js [#31137]. Thanks Peter van Westen.
+ ^ [#31212] Changed tooltips of table headings from Mootools to Bootstrap. Thanks Peter van Westen.
+ ^ [#31218] Added tooltips to simple state buttons in grid views. Thanks Peter van Westen.
+ ^ [#31225] Added tooltips to simple state buttons in grid views (com_banners, com_installer). Thanks Peter van Westen.
+ # [#31211] Add Tooltip for mod_latest. Thanks Tobias Zulauf.
+ # [#31217] Removed useless title on ID checkboxes. Thanks Peter van Westen.
+ ^ [#31209] Add the Tooltip for "Clear" at Joomla! Help. Thanks Tobias Zulauf.
+ # [#31148] wrong check for permissions to edit weblinks in frontend. Thanks Philippe Saint-Pierre and Tobias Zulauf
+ ^ [#31231] Removed useless row id columns Edit. Thanks Peter van Westen.
+
 23-Jun-2013 Jean-Marie Simonet
  # [#31137] Changed tooltip html behavior back to pre-bootstrap 2.3.2 (so default on). Thanks Peter van Westen.
  + [#30966] Add handling for punycode urls and emails and fix a number of places where urls and emails are used. Thanks Elin Waring

@@ -37,7 +37,7 @@ abstract class JHtmlGrid
 
 		// Build the title.
 		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
-		$title .= '::' . JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE');
+		$title = JHtml::tooltipText($title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'));
 
 		// Build the <a> tag.
 		$bool = ($value) ? 'true' : 'false';
@@ -46,7 +46,7 @@ abstract class JHtmlGrid
 
 		if ($toggle)
 		{
-			$html = '<a class="grid_' . $bool . ' hasTip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
+			$html = '<a class="grid_' . $bool . ' hasToolip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
 				. '\'}" href="#toggle"></a>';
 		}
 		else
@@ -74,7 +74,7 @@ abstract class JHtmlGrid
 	 */
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '')
 	{
-		JHtml::_('behavior.tooltip');
+		JHtml::_('bootstrap.tooltip');
 
 		$direction = strtolower($direction);
 		$icon = array('arrow-up-3', 'arrow-down-3');
@@ -90,7 +90,7 @@ abstract class JHtmlGrid
 		}
 
 		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
-			. ' class="hasTip" title="' . JText::_($tip ? $tip : $title) . '::' . JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
+			. ' class="hasTooltip" title="' . JHtml::tooltipText(($tip ? $tip : $title), 'JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
 		$html .= JText::_($title);
 
 		if ($order == $selected)
@@ -124,7 +124,7 @@ abstract class JHtmlGrid
 		else
 		{
 			return '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
-				. '" onclick="Joomla.isChecked(this.checked);" title="' . JText::sprintf('JGRID_CHECKBOX_ROW_N', ($rowNum + 1)) . '" />';
+				. '" onclick="Joomla.isChecked(this.checked);" />';
 		}
 	}
 
@@ -279,12 +279,14 @@ abstract class JHtmlGrid
 
 		if ($overlib)
 		{
+			JHtml::_('bootstrap.tooltip');
+
 			$text = addslashes(htmlspecialchars($row->editor, ENT_COMPAT, 'UTF-8'));
 
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
-			$hover = '<span class="editlinktip hasTip" title="' . JText::_('JLIB_HTML_CHECKED_OUT') . '::' . $text . '<br />' . $date . '<br />'
+			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::tooltipText('JLIB_HTML_CHECKED_OUT', $text) . '<br />' . $date . '<br />'
 				. $time . '">';
 		}
 

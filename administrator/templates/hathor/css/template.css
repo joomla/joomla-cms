@@ -51,6 +51,10 @@
 	font-style: normal;
 	speak: none;
 }
+[class^="icon-"].disabled,
+[class*=" icon-"].disabled {
+	font-weight: normal;
+}
 .icon-home:before {
 	content: "\21";
 }
@@ -3290,4 +3294,22 @@ table.adminlist .item-associations li a {
 	margin-left: -5px;
 	border-width: 0 5px 5px;
 	border-bottom-color: #000000;
+}
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+fieldset.panelform .tooltip img {
+	float: none;
+	margin: 0;
 }

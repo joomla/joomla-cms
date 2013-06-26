@@ -9,17 +9,16 @@
 
 defined('_JEXEC') or die;
 
-// Code to support edit links for weblinks
-// Create a shortcut for params.
-$params = &$this->item->params;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.framework');
 
+// Create a shortcut for params.
+$params = &$this->item->params;
 // Get the user object.
 $user = JFactory::getUser();
 // Check if user is allowed to add/edit based on weblinks permissinos.
-$canEdit = $user->authorise('core.edit', 'com_weblinks');
+$canEdit = $user->authorise('core.edit', 'com_weblinks.category.'.$this->category->id);
 $canCreate = $user->authorise('core.create', 'com_weblinks');
 $canEditState = $user->authorise('core.edit.state', 'com_weblinks');
 
