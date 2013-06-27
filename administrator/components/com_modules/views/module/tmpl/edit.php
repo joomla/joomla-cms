@@ -50,6 +50,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php if ($this->item->client_id == 0) : ?>
 				<li><a href="#assignment" data-toggle="tab"><?php echo JText::_('COM_MODULES_MENU_ASSIGNMENT'); ?></a></li>
 			<?php endif; ?>
+			<?php if ($this->canDo->get('core.admin')) : ?>
+				<li><a href="#permissions" data-toggle="tab"><?php echo JText::_('COM_MODULES_FIELDSET_RULES');?></a></li>
+			<?php endif ?>
 		</ul>
 
 		<div class="tab-content">
@@ -181,6 +184,13 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<?php if ($this->item->client_id == 0) : ?>
 				<div class="tab-pane" id="assignment">
 					<?php echo $this->loadTemplate('assignment'); ?>
+				</div>
+			<?php endif; ?>
+			<?php if ($this->canDo->get('core.admin')) : ?>
+				<div class="tab-pane" id="permissions">
+					<fieldset>
+						<?php echo $this->form->getInput('rules'); ?>
+					</fieldset>
 				</div>
 			<?php endif; ?>
 		</div>
