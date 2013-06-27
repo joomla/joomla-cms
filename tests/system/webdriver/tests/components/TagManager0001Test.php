@@ -62,7 +62,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->tagManagerPage->clickButton('toolbar-new');
 		$tagEditPage = $this->getPageObject('TagEditPage');
-		$testElements = $tagEditPage->getAllInputFields(array('general','publishing','metadata'));
+		$testElements = $tagEditPage->getAllInputFields($tagEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($tagEditPage->inputFields, $actualFields);
 		$tagEditPage->clickButton('toolbar-cancel');
@@ -88,6 +88,10 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->clickButton('toolbar-new');
 		$tagEditPage = $this->getPageObject('TagEditPage');
 		$textArray = $tagEditPage->getTabIds();
+
+ 		// Keep the following line commented to make it easy to generate values for arrays as fields change.
+// 		$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
+
 		$this->assertEquals($tagEditPage->tabs, $textArray, 'Tab labels should match expected values.');
 		$tagEditPage->clickButton('toolbar-cancel');
 		$this->tagManagerPage = $this->getPageObject('TagManagerPage');

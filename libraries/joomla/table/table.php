@@ -1045,7 +1045,7 @@ abstract class JTable extends JObject
 				if ($row->ordering != $i + 1)
 				{
 					// Update the row ordering field.
-					$query = $this->_db->getQuery(true)
+					$query->clear()
 						->update($this->_tbl)
 						->set('ordering = ' . ($i + 1))
 						->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
@@ -1121,7 +1121,7 @@ abstract class JTable extends JObject
 		if (!empty($row))
 		{
 			// Update the ordering field for this instance to the row's ordering value.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_tbl)
 				->set('ordering = ' . (int) $row->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
@@ -1129,7 +1129,7 @@ abstract class JTable extends JObject
 			$this->_db->execute();
 
 			// Update the ordering field for the row to this instance's ordering value.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_tbl)
 				->set('ordering = ' . (int) $this->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
@@ -1142,7 +1142,7 @@ abstract class JTable extends JObject
 		else
 		{
 			// Update the ordering field for this instance.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_tbl)
 				->set('ordering = ' . (int) $this->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));

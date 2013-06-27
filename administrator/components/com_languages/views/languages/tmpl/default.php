@@ -46,9 +46,6 @@ $saveOrder	= $listOrder == 'a.ordering';
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th width="5">
-						<?php echo JText::_('JGRID_HEADING_ROW_NUMBER'); ?>
-					</th>
 					<th width="20">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 					</th>
@@ -86,7 +83,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="11">
+					<td colspan="10">
 						<?php echo $this->pagination->getListFooter(); ?>
 					</td>
 				</tr>
@@ -100,9 +97,6 @@ $saveOrder	= $listOrder == 'a.ordering';
 				$canChange = $user->authorise('core.edit.state', 'com_languages');
 			?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td>
-						<?php echo $this->pagination->getRowOffset($i); ?>
-					</td>
 					<td>
 						<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 					</td>

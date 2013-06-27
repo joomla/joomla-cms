@@ -21,7 +21,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	protected $options;
 
 	/**
-	 * @var    JURI  URI of the page being rendered.
+	 * @var    JUri  URI of the page being rendered.
 	 */
 	protected $uri;
 
@@ -49,7 +49,7 @@ class JGoogleEmbedMapsTest extends TestCase
 		$this->options = new JRegistry;
 
 		$this->http = $this->getMock('JHttp', array('get'), array($this->options));
-		$this->uri = new JURI;
+		$this->uri = new JUri;
 		$this->object = new JGoogleEmbedMaps($this->options, $this->uri, $this->http);
 	}
 

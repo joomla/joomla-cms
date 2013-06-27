@@ -362,7 +362,7 @@ abstract class JHtmlBootstrap
 		self::framework();
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
-		$opt['html'] = isset($params['html']) ? $params['html'] : null;
+		$opt['html'] = isset($params['html']) ? $params['html'] : true;
 		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
 		$opt['selector'] = isset($params['selector']) ? $params['selector'] : null;
 		$opt['title'] = isset($params['title']) ? $params['title'] : null;
@@ -460,7 +460,7 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['animation'] = (isset($params['animation']) && ($params['animation'])) ? (boolean) $params['animation'] : null;
-			$opt['html'] = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : null;
+			$opt['html'] = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : true;
 			$opt['placement'] = (isset($params['placement']) && ($params['placement'])) ? (string) $params['placement'] : null;
 			$opt['selector'] = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : null;
 			$opt['title'] = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : null;
@@ -665,8 +665,6 @@ abstract class JHtmlBootstrap
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			$options = JHtml::getJSObject($opt);
-
 			// Attach tabs to document
 			JFactory::getDocument()
 				->addScriptDeclaration(JLayoutHelper::render('libraries.cms.html.bootstrap.starttabsetscript', array('selector' => $selector)));
@@ -760,8 +758,6 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
-
-			$options = JHtml::getJSObject($opt);
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(

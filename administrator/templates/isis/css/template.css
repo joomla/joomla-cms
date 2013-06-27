@@ -7228,3 +7228,12 @@ td.nowrap.has-context {
 	padding-top: 6px;
 	vertical-align: top;
 }
+.tooltip {
+	width: 200px;
+}
+.tooltip-inner {
+	white-space: pre-wrap;
+}
+#permissions-sliders .chzn-container {
+	position: absolute;
+}

@@ -232,6 +232,7 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if ($info['FLG'] & $this->_flags['FHCRC'])
 		{
+			// TODO: $hcrc doesn't seem to be used...
 			$hcrc = unpack('vCRC', substr($this->_data, $position + 0, 2));
 			$hcrc = $hcrc['CRC'];
 			$position += 2;

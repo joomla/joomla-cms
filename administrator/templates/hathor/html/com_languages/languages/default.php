@@ -57,9 +57,6 @@ $saveOrder	= $listOrder == 'a.ordering';
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th class="row-number-col">
-					<?php echo JText::_('JGRID_HEADING_ROW_NUMBER'); ?>
-				</th>
 				<th class="checkmark-col">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
@@ -105,9 +102,6 @@ $saveOrder	= $listOrder == 'a.ordering';
 			$canChange = $user->authorise('core.edit.state', 'com_languages');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<td>
-					<?php echo $this->pagination->getRowOffset($i); ?>
-				</td>
 				<td>
 					<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 				</td>

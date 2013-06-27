@@ -160,6 +160,9 @@ $params = $params->toArray();
 							</div>
 						<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+						<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'options', JText::_('COM_TAGS_BASIC_FIELDSET_LABEL', true)); ?>
+							<?php echo $this->loadTemplate('options'); ?>
+						<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
 							<?php echo $this->loadTemplate('metadata'); ?>

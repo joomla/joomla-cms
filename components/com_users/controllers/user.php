@@ -92,7 +92,7 @@ class UsersControllerUser extends UsersController
 			// Get the return url from the request and validate that it is internal.
 			$return = JRequest::getVar('return', '', 'method', 'base64');
 			$return = base64_decode($return);
-			if (!JURI::isInternal($return))
+			if (!JUri::isInternal($return))
 			{
 				$return = '';
 			}

@@ -44,7 +44,7 @@ $user = JFactory::getUser();
 // Logo file
 if ($params->get('logoFile'))
 {
-	$logo = JURI::root() . $params->get('logoFile');
+	$logo = JUri::root() . $params->get('logoFile');
 }
 else
 {

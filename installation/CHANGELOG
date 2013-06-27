@@ -25,8 +25,54 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jun-2013 Mark Dexter
+# Revert [#31233] Complete move to Bootstrap tooltips.
+
+26-Jun-2013 Jean-Marie Simonet
+ ^ [#31233] Complete move to Bootstrap tooltips. Thanks Peter van Westen.
+
+25-Jun-2013 Jean-Marie Simonet
+ # [#31232] Fixed bootstrap.min.js [#31137]. Thanks Peter van Westen.
+ ^ [#31212] Changed tooltips of table headings from Mootools to Bootstrap. Thanks Peter van Westen.
+ ^ [#31218] Added tooltips to simple state buttons in grid views. Thanks Peter van Westen.
+ ^ [#31225] Added tooltips to simple state buttons in grid views (com_banners, com_installer). Thanks Peter van Westen.
+ # [#31211] Add Tooltip for mod_latest. Thanks Tobias Zulauf.
+ # [#31217] Removed useless title on ID checkboxes. Thanks Peter van Westen.
+ ^ [#31209] Add the Tooltip for "Clear" at Joomla! Help. Thanks Tobias Zulauf.
+ # [#31148] wrong check for permissions to edit weblinks in frontend. Thanks Philippe Saint-Pierre and Tobias Zulauf
+ ^ [#31231] Removed useless row id columns Edit. Thanks Peter van Westen.
+
+23-Jun-2013 Jean-Marie Simonet
+ # [#31137] Changed tooltip html behavior back to pre-bootstrap 2.3.2 (so default on). Thanks Peter van Westen.
+ + [#30966] Add handling for punycode urls and emails and fix a number of places where urls and emails are used. Thanks Elin Waring
+ # [#31168] Add chosen.css for com_templates and com_admin. Thanks Tobias Zulauf
+ # [#30465] ACL dropdown hidden. Thanks Artur Alves
+ # [#31199] *Various tooltips issues in back-end.
+ 
+21-Jun-2013 Jean-Marie Simonet
+ $ Missing language string (hardcoded)
+ # [#31186] Some HTML errors. Thanks Achal Aggarwal
+ # [#31195] *Isis: Bootstrap tooltip displays only one line, truncates tip
+
+20-Jun-2013 Michael Babker
+ ^ [#30479] Cleanup of unused variables.  Thanks Peter van Westen
+
+20-Jun-2013 Jean-Marie Simonet
+ + [#29945] Joomla administration shows the Name of the author, not the User Name. Thanks Stefania Gaianigo
+ $ [#31176] Change the Language String for the Language Keyword INSTL_ADMIN_USER_DESC. Thanks Ilagnayeru 'MIG' Manickam
+ # [#31158] *Multilanguage: Editing an article in frontend deletes its associations. Thanks Benjamin Trenkle.
+ # [#31184] *Multilanguage: Frontend article edit may break when using associations.
+ # [#31189] Some fields are missing from the tags edit screen. Thanks Elin Waring
+ # [#31167] Add class="btn-group" for hathor Options. Thanks Tobias Zulauf
+ # [#30751] No image for Tag Component at the template Hathor. Thanks Andrea Tarr and Ulrika Hall
+ $ [#31173] Only default/global Filter Label for seach at the Extensions Manager. Thanks Tobias Zulauf
+ # [#31175] More text as we need at Text Filters. Thanks Tobias Zulauf
+ # [#31125] Category images don't show in Categories list. Thanks David Hurley
+ # [#31166] Undefined property: JTableCorecontent::$metakey. Thanks Fedik Zinchuk
+ # [#30756] Blog layout has duplicate elements with "icons" ID. Thanks David Hurley.
+
 13-Jun-2013 Jean-Marie Simonet
- ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder 
+ ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder
  # [#31147] *Install sample data None does not display tooltip.
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
  $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker
