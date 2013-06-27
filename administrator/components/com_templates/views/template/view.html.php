@@ -25,8 +25,6 @@ class TemplatesViewTemplate extends JViewLegacy
 
 	protected $template;
 	
-	protected $tree;
-	
 	protected $level = 0;
 	
 	
@@ -44,7 +42,6 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->files	= $this->get('Files');
 		$this->state	= $this->get('State');
 		$this->template	= $this->get('Template');
-		$this->tree 	= $this->get('DirectoryTree');
 		
 		$this->form		= $this->get('Form');
 		$this->ftp		= JClientHelper::setCredentialsFromRequest('ftp');
@@ -138,40 +135,35 @@ protected function addToolbar()
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
 	}
 	
-	function listTree($parent,$children)
-	{
-		$tmp = null;
-		if($this->search('parent',$children))
-		{
-			$this->level = $children;
-			$tmp = $this->loadTemplate('tree');
-			$this->level = $parent;
-		}
-		return $tmp;
-	}
 	
-	function search($key,$value)
+	function listDirectoryTree($array)
 	{
-		foreach($this->tree as $folder)
+		echo "<ul class='nav nav-list directory-tree'>";
+		ksort($array, SORT_STRING);
+		foreach($array as $key => $value)
 		{
-			if(isset($folder[$key]) && $folder[$key] == $value)
-			{
-			return true;
+			if(is_array($value))
+			{		
+				echo "<li class='folder'>";
+				echo "<a class='folder-url' href=''><i class='icon-folder-close'>&nbsp;";
+				echo $key;
+				echo "</i></a>";
+				$this->listDirectoryTree($value);
+				echo "</li>";
 			}
-		}
-	}
 	
-	function listTreeFiles($folder)
-	{
-		$files = $this->files;
-		$treeFiles = null;
-		if(isset($files[$folder]))
-		{
-			foreach($files[$folder] as $file)
-			{
-				$treeFiles[] = $file;
+			elseif(is_object($value))
+			{		
+				echo "<li>";
+				echo "<a href='" . JRoute::_('index.php?option=com_templates&task=template.edit&id='.$value->id) . "'>";
+				echo "<i class='icon-edit'>&nbsp;" . $value->name . "</i>";
+				echo "</a>";
+				echo "</li>";
 			}
+	
 		}
-		return $treeFiles;
+	
+		echo "</ul>";
+	
 	}
 }

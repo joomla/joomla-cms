@@ -33,21 +33,8 @@ class TemplatesModelTemplate extends JModelForm
 		if ($template = $this->getTemplate())
 		{
 			$temp->name = str_replace('-', '_', $name);
-			$temp->exists = file_exists($path.'/'.$name);
-			$temp->id = urlencode(base64_encode($template->extension_id.':'.$path.'/'.$name));
+			$temp->id = urlencode(base64_encode($template->extension_id . ':' . $path . $name));
 			return $temp;
-		}
-	}
-	
-	protected function getFolder($path,$id)
-	{
-		$folders = JFolder::listFolderTree($path,'.',5);
-		foreach($folders as $folder)
-		{
-			if($folder['id'] == $id)
-			{
-				return $folder;
-			}
 		}
 	}
 
@@ -70,24 +57,7 @@ class TemplatesModelTemplate extends JModelForm
 
 			if (is_dir($path))
 			{
-				$folders = $this->getDirectoryTree();
-				foreach($folders as $folder)
-				{
-					$files = JFolder::files($folder['fullname'],'\.(css|php|js|less|xml|ini)$',false,false);
-					foreach($files as $file)
-					{
-						$fileLoc	= str_replace($path, '', $folder['fullname']);
-						$result[$folder['id']][] = $this->getFile($fileLoc, $file);
-					}
-				}
-				$rootFiles = JFolder::files($path,'\.(css|php|js|less|xml|ini)$',false,false);
-				
-				//get the root folder files
-				foreach($rootFiles as $file)
-				{
-					$fileLoc	= null;
-					$result[0][] = $this->getFile($fileLoc, $file);
-				}
+				$result = $this->getDirectoryTree($path,$template->element . '/');
 				
 			} else {
 				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
@@ -106,48 +76,36 @@ class TemplatesModelTemplate extends JModelForm
 	 * @since   3.1
 	 */
 	
-	public function getDirectoryTree()
+	public function getDirectoryTree($dir,$element)
 	{
-		if ($template = $this->getTemplate())
-		{
-		
-			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$path	= JPath::clean($client->path.'/templates/'.$template->element.'/');
-		
-			// Check if the template path exists.
-		
-			if (is_dir($path))
-			{
-				$folders = JFolder::listFolderTree($path,'.',5);
-				return $folders;
-			}else {
-				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
-				return false;
-			}
-		}
-	}
+		$result = array();
 	
-	public function getDirectory()
-	{
-		if ($template = $this->getTemplate())
-		{
-		
-			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$path	= JPath::clean($client->path.'/templates/'.$template->element.'/');
-		
-			// Check if the template path exists.
-		
-			if (is_dir($path))
-			{
-				
-				
-				
-				return $folders;
-			}else {
-				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
-				return false;
-			}
-		}
+		$fileInfo = new StdClass();
+	
+		$dirFiles = scandir($dir);
+		foreach ($dirFiles as $key => $value) 
+		{ 
+			if (!in_array($value,array(".",".."))) 
+			{ 
+				if (is_dir($dir . $value . '/')) 
+				{ 
+					$result[$value] = $this->getDirectoryTree($dir . $value . '/',$element); 
+				} 
+				else 
+				{
+					$ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
+					if(in_array($ext, array('css','js','php','xml','ini','less'))) 
+					{
+						$pos = strpos($dir,$element) + strlen($element);
+						$relativePath = substr($dir, $pos);
+						$info = $this->getFile($relativePath,$value);
+						$result[] = $info;
+					}
+				} 
+			} 
+		} 
+	   
+		return $result;
 	}
 
 	/**

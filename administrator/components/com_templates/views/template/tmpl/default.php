@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JHTML::script('tree.js');
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
@@ -21,17 +23,30 @@ JHtml::_('behavior.keepalive');
 $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 ?>
+<script type="text/javascript">
+	jQuery(document).ready(function($){
+		$('.folder ul').hide();
+		$('.folder-url').click(function(event){
 
+			event.preventDefault();
+			
+		});
+		$('.folder').bind('click',function(e){
+
+			e.stopPropagation();
+			$(this).children('ul').slideToggle();
+			
+		});
+		
+	});
+</script>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('Editor', true)); ?>
 		<div class="row-fluid">
 			<div class="span3">
-				<?php if(!empty($this->tree)):?>
-					<?php echo $this->loadTemplate('tree');?>
-				<?php endif;?>
+				<?php $this->listDirectoryTree($this->files);?>
 			</div>
 			<div class="span9">
-				<?php //var_dump($this->files);?>
 				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 					<fieldset class="adminform">
 						<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
