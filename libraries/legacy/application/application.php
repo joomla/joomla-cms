@@ -616,9 +616,11 @@ class JApplication extends JApplicationBase
 			// Validate that the user should be able to login (different to being authenticated).
 			// This permits authentication plugins blocking the user
 			$authorisations = $authenticate->authorise($response, $options);
+
 			foreach ($authorisations as $authorisation)
 			{
 				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
+
 				if (in_array($authorisation->status, $denied_states))
 				{
 					// Trigger onUserAuthorisationFailure Event.
@@ -636,9 +638,11 @@ class JApplication extends JApplicationBase
 						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
 							break;
+
 						case JAuthentication::STATUS_DENIED:
 							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
 							break;
+
 						default:
 							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
 							break;
@@ -665,22 +669,10 @@ class JApplication extends JApplicationBase
 				// Set the remember me cookie if enabled.
 				if (isset($options['remember']) && $options['remember'])
 				{
-					// Create the encryption key, apply extra hardening using the user agent string.
-					$privateKey = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
+					// The user is successfully logged in. Set a remember me cookie if requested.
+					$results = $this->triggerEvent('onUserAfterLogin', array((array) $credentials, $this, $options));
 
-					$key = new JCryptKey('simple', $privateKey, $privateKey);
-					$crypt = new JCrypt(new JCryptCipherSimple, $key);
-					$rcookie = $crypt->encrypt(json_encode($credentials));
-					$lifetime = time() + 365 * 24 * 60 * 60;
-
-					// Use domain and path set in config for cookie if it exists.
-					$cookie_domain = $this->getCfg('cookie_domain', '');
-					$cookie_path = $this->getCfg('cookie_path', '/');
-
-					$secure = $this->isSSLConnection();
-					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
 				}
-
 				return true;
 			}
 		}
