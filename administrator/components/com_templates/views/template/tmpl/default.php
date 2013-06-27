@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHTML::script('tree.js');
-
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.tooltip');
@@ -34,7 +32,7 @@ $input = JFactory::getApplication()->input;
 		$('.folder').bind('click',function(e){
 
 			e.stopPropagation();
-			$(this).children('ul').slideToggle();
+			$(this).children('ul').toggle();
 			
 		});
 		
