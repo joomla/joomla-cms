@@ -44,7 +44,7 @@ class JFormRulePassword extends JFormRule
 
 		$meter		= isset($this->element['strengthmeter'])  ? ' meter="0"' : '1';
 		$threshold	= isset($this->element['threshold']) ? (int) $this->element['threshold'] : 66;
-		$minimumLength = isset($this->element['minimum_length']) ? (int) $this->element['minimum_length'] : 2;
+		$minimumLength = isset($this->element['minimum_length']) ? (int) $this->element['minimum_length'] : 4;
 		$minimumIntegers = isset($this->element['minimum_integers']) ? (int) $this->element['minimum_integers'] : 0;
 		$minimumSymbols = isset($this->element['minimum_symbols']) ? (int) $this->element['minimum_symbols'] : 0;
 		$minimumUppercase = isset($this->element['minimum_uppercase']) ? (int) $this->element['minimum_uppercase'] : 0;
@@ -84,7 +84,7 @@ class JFormRulePassword extends JFormRule
 		if ($valueLength > 99)
 		{
 			JFactory::getApplication()->enqueueMessage(
-				JText::sprintf('COM_USERS_MSG_PASSWORD_TOO_LONG'),
+				JText::plural('COM_USERS_MSG_PASSWORD_TOO_LONG'),
 				'warning'
 				);
 		}
@@ -95,7 +95,7 @@ class JFormRulePassword extends JFormRule
 		if (strlen($valueTrim) != $valueLength)
 		{
 			JFactory::getApplication()->enqueueMessage(
-				JText::sprintf('COM_USERS_MSG_SPACES_IN_PASSWORD'),
+				JText::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
 				'warning'
 				);
 
@@ -110,7 +110,7 @@ class JFormRulePassword extends JFormRule
 			if ($nInts < $minimumIntegers)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::sprintf('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', count($minimumIntegers)),
 					'warning'
 				);
 
@@ -127,7 +127,7 @@ class JFormRulePassword extends JFormRule
 			if ($nsymbols < $minimumSymbols)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::sprintf('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', count($minimumSymbols)),
 					'warning'
 				);
 
@@ -143,7 +143,7 @@ class JFormRulePassword extends JFormRule
 			if ($nUppercase < $minimumUppercase)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::sprintf('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', count($minimumUppercase)),
 					'warning'
 			);
 
@@ -157,7 +157,7 @@ class JFormRulePassword extends JFormRule
 			if (strlen((string) $value) < $minimumLength)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::sprintf('COM_USERS_MSG_PASSWORD_TOO_SHORT', $minimumLength),
+					JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT', count($minimumLength)),
 					'warning'
 					);
 
