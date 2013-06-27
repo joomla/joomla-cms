@@ -126,7 +126,9 @@ class JCrypt
 	 */
 	public static function genRandomBytes($length = 16)
 	{
+		$length = (int) $length;
 		$sslStr = '';
+
 		/*
 		 * if a secure randomness generator exists and we don't
 		 * have a buggy PHP version use it.

@@ -58,31 +58,36 @@ class PlgSystemRemember extends JPlugin
 				//Find the matching record if it exists
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
-				$query->select($db->quotename(array('user_id', 'token', 'series', 'timestamp', 'invalid')) )
-				//->where('SUBSTRING( ' . $db->quoteName('series') . ', 1, ' . $privateKeyLength . ' )  = ' . $db->quote($privateKey64))
-				->where($db->quoteName('time') . ' > ' . $db->quote($nowtime))
-				->from($db->quoteName('#__user_keys'));
+				$query->select($db->quotename(array('user_id', 'token', 'series', 'timestamp', 'invalid')))
+					->where($db->quoteName('time') . ' > ' . $db->quote($nowtime))
+					->from($db->quoteName('#__user_keys'));
 				$db->setQuery($query);
 				$results = $db->loadObjectList();
 
 				$invalid = 0;
 				foreach ($results as $result)
 				{
-					if ($result->invalid)
+					if ($result->invalid == 1)
 					{
-						 $invalid =1;
+						 $invalid = 1;
 						 continue;
 					}
 
 					$series = substr($result->series, 0, $privateKeyLength);
+					$privateKey64 = substr($privateKey64, 0, $privateKeyLength);
 
 					if ($series == $privateKey64)
 					{
 						$match = $result;
+						// Now check the key
+						$keyCheck = new JCryptKey('simple', $result->token, $result->token);
+						$cryptCheck = new JCrypt(new JCryptCipherSimple, $keyCheck);
+						$cryptedToken = $cryptCheck->encrypt(sha1($user->username));
 					}
+
 				}
 
-				// We have a cookie but it's not in the database or the cookie is invalid. Possible replay, invalidate every thing.
+				// We have a cookie but it's not in the database or the cookie is invalid. Possible attack, invalidate every thing.
 				if (!$results || !isset($match) || $invalid != 0)
 				{
 					//Should this start by throwing an exception?
@@ -107,37 +112,23 @@ class PlgSystemRemember extends JPlugin
 
 
 /*
+					// We probably should add back some sanity checks but not as many as before
 					if (!is_string($str))
 					{
 						throw new InvalidArgumentException('Decoded cookie is not a string.');
 					}
 
-					$cookieData = json_decode($str);
-					if (null === $cookieData)
-					{
-						throw new InvalidArgumentException('JSON could not be decoded.');
-					}
-
-					if (!is_object($cookieData))
-					{
-						throw new InvalidArgumentException('Decoded JSON is not an object.');
-					}
-
-					// json_decoded cookie could be any object structure, so make sure the
-					// credentials are well structured and only have user and password.
-					if (isset($cookieData->username) && is_string($cookieData->username))
-					{
-						$credentials['username'] = $filter->clean($cookieData->username, 'username');
-					}
-					else
-					{
-						throw new InvalidArgumentException('Malformed username.');
-					}
 */
+					$credentials['username'] = $result->user_id;
 					$return = $app->login($credentials, array('silent' => true));
+/*
+					// We've used this cookie so destroy it.
+					$cookie_domain = $app->getCfg('cookie_domain', '');
+					$cookie_path = $app->getCfg('cookie_path', '/');
 
-					$user->set('rememberLogin', true);
-
+					// Destroy the cookie
+					setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
+*/
 					if (!$return)
 					{
 						throw new Exception('Log-in failed.');
@@ -162,40 +153,31 @@ class PlgSystemRemember extends JPlugin
 	{
 		$response->type = 'Remember';
 
-		// Get a database object
+		// Get a database object and make sure there really is a user with this name
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
-		->select('id, password')
-		->from('#__users')
-		->where('username=' . $db->quote($credentials['username']));
+			->select('id, username, password')
+			->from('#__users')
+			->where('username=' . $db->quote($credentials['username']));
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
 		if ($result)
 		{
-			$parts	= explode(':', $result->password);
-			$crypt	= $parts[0];
-			$salt	= @$parts[1];
-			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
+			// Bring this in line with the rest of the system
+			$user = JUser::getInstance($result->id);
+			$user->set('rememberLogin', true);
 
-			if ($crypt == $testcrypt)
-			{
-				// Bring this in line with the rest of the system
-				$user = JUser::getInstance($result->id);
-				$response->email = $user->email;
-				$response->fullname = $user->name;
+			$response->username = $result->username;
 
-					$response->language = $user->getParam('language');
+			$response->email = $user->email;
+			$response->fullname = $user->name;
+			$response->password = $result->password;
+			$response->language = $user->getParam('language');
 
-				$response->status = JAuthentication::STATUS_SUCCESS;
-				$response->error_message = '';
-			}
-			else
-			{
-				$response->status = JAuthentication::STATUS_FAILURE;
-				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_COOKIE');
-			}
+			$response->status = JAuthentication::STATUS_SUCCESS;
+			$response->error_message = '';
 		}
 		else
 		{
@@ -205,29 +187,27 @@ class PlgSystemRemember extends JPlugin
 	}
 
 	/**
-	 * This method should handle any login logic and report back to the subject
 	 * This is where we set the remember me cookie. We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  $user                     Holds the user data
-	 * @param   JApplication  $app               The application object
-	 * @param   integer       $length            Length of the private key
-	 * @param   integer       $timeToExpiration  Time limit for remember me cookie in days
-	 * @param   array         $options           Array holding options (remember, autoregister, group)
+	 * @param   array  options     Array holding options (length, timeToExpiration,)
 	 *
 	 * @return  boolean  True on success
 	 * @since   3.1.2
 	 */
-	public function onUserAfterLogin($user, $app, $length = 16, $timeToExpiration = 30, $options = array())
+	public function onUserAfterLogin($options)
 	{
-		$length = (int) $length;
-		$privateKey = JCrypt::genRandomBytes($length);
 
+		$app = JFactory::getApplication();
+		$length = (int) $options['length'];
+		$privateKey = JCrypt::genRandomBytes(70);
+
+		$user = JFactory::getUser();
 		$key = new JCryptKey('simple', $privateKey, $privateKey);
 		$crypt = new JCrypt(new JCryptCipherSimple, $key);
-		$rcookie = $crypt->encrypt(sha1($user['username']));
-		$lifetime = time() + $timeToExpiration * 24 * 60 * 60;
-		$key64 = base64_encode(json_encode($key));
+		$rcookie = $crypt->encrypt(sha1($user->username));
+		$lifetime = time() + $options['timeToExpiration'] * 24 * 60 * 60;
+		$key64 = base64_encode($privateKey);
 
 		$series = JApplication::getHash('JLOGIN_REMEMBER');
 		$series64 = base64_encode($series);
@@ -238,14 +218,18 @@ class PlgSystemRemember extends JPlugin
 
 		$secure = $app->isSSLConnection();
 
+		// We've used this cookie so destroy it.
+		//setcookie($series, false, time() - 86400, $cookie_path, $cookie_domain);
+
+		//And make a new one
 		setcookie($series, $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$expire = time() + $timeToExpiration * 24 * 60 * 60;
-		 ;
-		$tuple = $db->quote($user['username']) . ', ' . $expire . ', ' .  $db->quote($key64) . ' , '. $db->quote($series64);
+		$expire = time() + $options['timeToExpiration'] * 24 * 60 * 60;
+
+		$tuple = $db->quote($user->username) . ', ' . $expire . ', ' .  $db->quote($key64) . ' , '. $db->quote($series64);
 
 		$user = JFactory::getUser();
 
@@ -256,7 +240,7 @@ class PlgSystemRemember extends JPlugin
 		else
 		{
 			$query->update($db->quoteName('#__user_keys'))
-				->where($db->quote($user['username']) . ' = ' . $db->quoteName('user_id') . ' AND ' .  $db->quote($key64) . ' = ' . $db->quoteName('series'));
+				->where($db->quote($user->username) . ' = ' . $db->quoteName('user_id') . ' AND ' .  $db->quote($key64) . ' = ' . $db->quoteName('token'));
 		}
 		$query->values($tuple)
 			->columns(array($db->quoteName('user_id'), $db->quoteName('time'), $db->quoteName('token'), $db->quoteName('series')));
@@ -265,5 +249,36 @@ class PlgSystemRemember extends JPlugin
 		$db->execute();
 
 	}
+	/**
+	 * This is where we delete remember the remember me cookie when a user logs out
+	 *
+	 * @param   array  options     Array holding options (length, timeToExpiration,)
+	 *
+	 * @return  boolean  True on success
+	 * @since   3.1.2
+	 */
+	public function onUserAfterLogout($options)
+	{var_dump($options);die;
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+		// Use domain and path set in config for cookie if it exists.
+		$cookie_domain = $app->getCfg('cookie_domain', '');
+		$cookie_path = $app->getCfg('cookie_path', '/');
+		$cookieName64 = base64_encode($options['cookieName']);
+		$cookieNameLength = strlen($cookieName64);
+		$series = substr($result->series, 0, $cookieNameLength);
 
+		// We need to delete the records from the database also.
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete('#__user_keys');
+		$query->where($db->quoteName('series') . ' = ' . $db->quote($cookieName64) . ' AND ' . $db->quoteName('user_id') . ' = ' . $user->id );
+		$db->setQuery($query);
+		$db->execute();
+
+
+		setcookie(Japplication::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+
+		return;
+	}
 }

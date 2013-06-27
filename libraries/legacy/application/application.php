@@ -664,13 +664,21 @@ class JApplication extends JApplicationBase
 			 * to provide much more information about why the routine may have failed.
 			 */
 
-			if (!in_array(false, $results, true))
+			if ($response->type == 'Remember')
+			{
+				$user = JFactory::getUser()->set('rememberLogin', true);
+			}
+
+			if (!in_array(false, $results, true) )
 			{
 				// Set the remember me cookie if enabled.
-				if (isset($options['remember']) && $options['remember'])
+				if (isset($options['remember']) &&  $options['remember'] === true && JPluginHelper::isEnabled('system', 'remember'))
 				{
+					$options['length'] = 70;
+					$options['timeToExpiration'] = 30;
+
 					// The user is successfully logged in. Set a remember me cookie if requested.
-					$results = $this->triggerEvent('onUserAfterLogin', array((array) $credentials, $this, $options));
+					$results = $this->triggerEvent('onUserAfterLogin', $options);
 
 				}
 				return true;
@@ -737,11 +745,18 @@ class JApplication extends JApplicationBase
 
 		if (!in_array(false, $results, true))
 		{
-			// Use domain and path set in config for cookie if it exists.
-			$cookie_domain = $this->getCfg('cookie_domain', '');
-			$cookie_path = $this->getCfg('cookie_path', '/');
-			setcookie(self::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+			$cookieName = self::getHash('JLOGIN_REMEMBER');
+			$inputCookie = new JInputCookie();
 
+			if (!empty($inputCookie->get($cookieName)))
+			{
+				$cookieValue = $inputCookie->get($cookieName);
+				$cookie_domain = $this->getCfg('cookie_domain', '');
+				$cookie_path = $this->getCfg('cookie_path', '/');
+
+				$options = array('cookieName' => $cookieName, 'cookieValue' =>$cookieValue, 'cookie_path' => $cookie_path, 'cookie_domain' => $cookie_domain);
+				$results = $this->triggerEvent('onUserAfterLogout', $options);
+			}
 			return true;
 		}
 
