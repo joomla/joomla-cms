@@ -40,7 +40,7 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getInput()
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('behavior.tooltip');
 
 		// Initialise some field attributes.
 		$section = $this->element['section'] ? (string) $this->element['section'] : '';
@@ -165,7 +165,7 @@ class JFormFieldRules extends JFormField
 			{
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
-				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
+				$html[] = '<label class="tip" for="' . $this->id . '_' . $action->name . '_' . $group->value . '" title="'
 					. htmlspecialchars(JText::_($action->title) . ' ' . JText::_($action->description), ENT_COMPAT, 'UTF-8') . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';

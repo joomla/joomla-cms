@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::_('behavior.tooltip');
 
 $function  = JFactory::getApplication()->input->getCmd('function', 'jSelectPosition');
 $lang      = JFactory::getLanguage();

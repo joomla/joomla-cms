@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal', 'a.modal');
 JHtml::_('formbehavior.chosen', 'select');
@@ -41,7 +42,7 @@ $sortFields = $this->getSortFields();
 <?php if (!empty( $this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>
+    </div>  
     <div id="j-main-container" class="span10">
   <?php else : ?>
     <div id="j-main-container">
@@ -128,7 +129,7 @@ $sortFields = $this->getSortFields();
   		<?php endforeach; ?>
   		</tbody>
   	</table>
-
+  
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />
   	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />

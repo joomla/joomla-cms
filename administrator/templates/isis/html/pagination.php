@@ -156,7 +156,6 @@ function pagination_item_active(&$item)
 	// Check for "Prev" item
 	if ($item->text == JText::_('JPREV'))
 	{
-		$item->text = JText::_('JPREVIOUS');
 		$display = '<i class="icon-previous"></i>';
 	}
 
@@ -187,14 +186,7 @@ function pagination_item_active(&$item)
 		$limit = 'limitstart.value=0';
 	}
 
-	$title = '';
-	if (!is_numeric($item->text))
-	{
-		JHtml::_('bootstrap.tooltip');
-		$title = ' class="hasTooltip" title="' . $item->text . '"';
-	}
-
-	return '<li><a' . $title . ' href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
+	return '<li><a href="#" title="' . $item->text . '" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
 }
 
 /**
