@@ -6941,9 +6941,6 @@ h6 {
 .nav-filters hr {
 	margin: 5px 0;
 }
-.view-module .tab-content {
-	overflow: visible;
-}
 #assignment.tab-pane {
 	min-height: 500px;
 }
