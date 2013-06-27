@@ -326,6 +326,8 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		if (is_array($prefix))
 		{
 			$options = $prefix;

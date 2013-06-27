@@ -34,6 +34,7 @@ abstract class JHtmlGrid
 	{
 		// Load the behavior.
 		self::behavior();
+		JHtml::_('bootstrap.tooltip');
 
 		// Build the title.
 		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
