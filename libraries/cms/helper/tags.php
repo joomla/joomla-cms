@@ -301,10 +301,7 @@ class JHelperTags
 		$query->where('t.access IN (' . $groups . ')');
 
 		// Optionally filter on language
-		if (empty($language))
-		{
-			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
-		}
+		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
 		if ($language != 'all')
 		{
