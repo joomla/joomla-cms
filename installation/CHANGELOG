@@ -25,8 +25,20 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jun-2013 Michael Babker
+ ^ [#30783] Use JDatabase instead of MySQL queries on com_menus.  Thanks Matias Aguirre
+ # [#31157] Field mapping for core_urls is wrong for weblinks.  Thanks Elin Waring
+ ^ [#30977] loadmodule/loadposition styles.  Thanks Lasindu Charith
+ # [#30895] Fix An undefined variable called in JApplication.  Thanks Roberto Seguara
+ ^ [#30871] Remove an unneeded empty().  Thanks Elin Waring
+ # [#30946] Platform bug fixes.  Thanks Elin Waring
+ # [#31208] No border bottom right radius and border bottom top radius for buttons at com_finder view.  Thanks David Hurley
+ # [#31150] Weblinks images.  Thanks Elin Waring
+ !^ [#31080] Deprecating X-Content-Encoded-By.  Thanks Piotr Konieczny
+ ^ [#31216] Improved some syntax.  Thanks Peter van Westen
+
 26-Jun-2013 Mark Dexter
-# Revert [#31233] Complete move to Bootstrap tooltips.
+ # Revert [#31233] Complete move to Bootstrap tooltips.
 
 26-Jun-2013 Jean-Marie Simonet
  ^ [#31233] Complete move to Bootstrap tooltips. Thanks Peter van Westen.
@@ -48,7 +60,7 @@ $ -> Language fix or change
  # [#31168] Add chosen.css for com_templates and com_admin. Thanks Tobias Zulauf
  # [#30465] ACL dropdown hidden. Thanks Artur Alves
  # [#31199] *Various tooltips issues in back-end.
- 
+
 21-Jun-2013 Jean-Marie Simonet
  $ Missing language string (hardcoded)
  # [#31186] Some HTML errors. Thanks Achal Aggarwal
