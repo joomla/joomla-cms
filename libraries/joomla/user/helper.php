@@ -306,16 +306,16 @@ abstract class JUserHelper
 	 *                                  Defaults to md5-hex.
 	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
 	 *                                  encryption to the crypted password ({SHA},
-	 *                                  etc). Defaults to false.
+	 *                                  etc). Defaults to true.
 	 *
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   11.1
 	 */
-	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
+	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = true)
 	{
 		// Get the salt to use.
-		$salt = self::getSalt($encryption, $salt, $plaintext);
+		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
 
 		// Encrypt the password.
 		switch ($encryption)
@@ -402,6 +402,29 @@ abstract class JUserHelper
 				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
 
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+
+			case 'bcrypt':
+			default:
+				if (version_compare(PHP_VERSION, '5.3.7') >= 0 )
+				{
+					$options = array('salt' => $salt);
+					include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+					$encrypted =  ($salt) ? password_hash($plaintext, PASSWORD_BCRYPT, $options) . ':' . $salt :  password_hash($plaintext, PASSWORD_BCRYPT, $options);
+					if (!$encrypted)
+					{
+						// Something went wrong.
+						return false;
+					}
+
+					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
+				}
+				else
+				{
+					$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
+
+					return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+
+				}
 		}
 	}
 
@@ -440,6 +463,7 @@ abstract class JUserHelper
 				}
 				break;
 
+
 			case 'crypt-md5':
 				if ($seed)
 				{
@@ -450,6 +474,17 @@ abstract class JUserHelper
 					return '$1$' . substr(md5(mt_rand()), 0, 8) . '$';
 				}
 				break;
+			case 'bcrypt':
+				if ($seed)
+				{
+					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 23);
+				}
+				else
+				{
+					return '$1$' . substr(md5(mt_rand()), 0, 23) . '$';
+				}
+				break;
+
 
 			case 'crypt-blowfish':
 				if ($seed)

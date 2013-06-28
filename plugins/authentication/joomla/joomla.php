@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+
 /**
  * Joomla Authentication plugin
  *
@@ -52,14 +54,38 @@ class PlgAuthenticationJoomla extends JPlugin
 		$db->setQuery($query);
 		$result = $db->loadObject();
 
-		if ($result)
+		if (!empty($result))
 		{
-			$parts	= explode(':', $result->password);
-			$crypt	= $parts[0];
-			$salt	= @$parts[1];
-			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
+			if (substr($result->password,0,8) == '{BCRYPT}')
+			{
+				$parts	= explode(':', $result->password);
+				$crypt	= $parts[0];
+				$salt	= @$parts[1];
 
-			if ($crypt == $testcrypt)
+				$lengthCrypt = strlen($crypt);var_dump($lengthCrypt);
+				$options = array('salt' => $salt);
+
+				$testcrypt =  '{BCRYPT}' . password_hash($credentials['password'], PASSWORD_BCRYPT, $options);
+
+ 				if (strstr($testcrypt, '.', true) == strstr($crypt, '.', true))
+ 				{
+					$match = true;
+ 				}
+			}
+			else
+			{
+				$parts	= explode('.', $result->password);
+				$crypt	= $parts[0];
+				$salt	= @$parts[1];
+
+				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'md5-hex', false);
+
+				if ($crypt == $testcrypt)
+				{
+					$match = true;
+				}
+			}
+			if ($match === true)
 			{
 				// Bring this in line with the rest of the system
 				$user = JUser::getInstance($result->id);
