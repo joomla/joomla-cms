@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 JHtml::_('behavior.framework');
-JHtml::_('formbehavior.chosen', 'select');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 	<fieldset>

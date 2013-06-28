@@ -66,6 +66,12 @@ else
 	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
 }
 
+//enable Chosen if selected
+if($this->params->get('enableChosen', '1'))
+{
+	JHtml::_('formbehavior.chosen', 'select');
+}
+
 // Template Parameters
 $displayHeader = $this->params->get('displayHeader', '1');
 $statusFixed = $this->params->get('statusFixed', '1');
