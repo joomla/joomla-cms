@@ -467,6 +467,7 @@ abstract class JHtmlBootstrap
 			$opt['trigger'] = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : null;
 			$opt['delay'] = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : null;
 			$opt['container'] = (isset($params['container']) && ($params['container'])) ? (int) $params['container'] : false;
+			$opt['template'] = (isset($params['template']) && ($params['template'])) ? (string) $params['template'] : null;
 
 			$options = JHtml::getJSObject($opt);
 

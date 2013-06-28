@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $template = $app->getTemplate();
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('bootstrap.framework');
 ?>
