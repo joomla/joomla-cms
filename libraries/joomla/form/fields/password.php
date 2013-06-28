@@ -38,7 +38,6 @@ class JFormFieldPassword extends JFormField
 	 */
 	protected function getInput()
 	{
-
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '99';
@@ -58,7 +57,7 @@ class JFormFieldPassword extends JFormField
 		// Some of these may be empty for legacy reasons.
 		$params = JComponentHelper::getParams('com_users');
 
-		if(!empty($params))
+		if (!empty($params))
 		{
 			$minimumLengthp = $params->get('minimum_length');
 			$minimumIntegersp = $params->get('minimum_integers');
@@ -77,6 +76,7 @@ class JFormFieldPassword extends JFormField
 		}
 
 		$script = '';
+
 		if ($meter == 1)
 		{
 			JHtml::_('script', 'system/passwordstrength.js', true, true);
