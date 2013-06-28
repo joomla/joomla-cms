@@ -307,7 +307,7 @@ class JApplicationWeb extends JApplicationBase
 		// Setup the document options.
 		$options = array(
 			'template' => $this->get('theme'),
-			'file' => 'index.php',
+			'file' => $this->get('themeFile', 'index.php'),
 			'params' => $this->get('themeParams')
 		);
 
@@ -390,7 +390,12 @@ class JApplicationWeb extends JApplicationBase
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
-				$this->setHeader('X-Content-Encoded-By', 'Joomla');
+
+				// Header will be removed at 4.0
+				if ($this->get('MetaVersion'))
+				{
+					$this->setHeader('X-Content-Encoded-By', 'Joomla');
+				}
 
 				// Replace the output with the encoded data.
 				$this->setBody($gzdata);

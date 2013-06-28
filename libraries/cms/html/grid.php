@@ -51,10 +51,8 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			$html = '<a class="grid_' . $bool . '"></a>';
+			return '<a class="grid_' . $bool . '"></a>';
 		}
-
-		return $html;
 	}
 
 	/**
@@ -125,15 +123,8 @@ abstract class JHtmlGrid
 	 */
 	public static function id($rowNum, $recId, $checkedOut = false, $name = 'cid')
 	{
-		if ($checkedOut)
-		{
-			return '';
-		}
-		else
-		{
-			return '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
-				. '" onclick="Joomla.isChecked(this.checked);" />';
-		}
+		return $checkedOut ? '' : '<input type="checkbox" id="cb' . $rowNum . '" name="' . $name . '[]" value="' . $recId
+			. '" onclick="Joomla.isChecked(this.checked);" />';
 	}
 
 	/**
@@ -163,21 +154,19 @@ abstract class JHtmlGrid
 
 		if ($result)
 		{
-			$checked = self::_checkedOut($row);
+			return self::_checkedOut($row);
 		}
 		else
 		{
 			if ($identifier == 'id')
 			{
-				$checked = JHtml::_('grid.id', $i, $row->$identifier);
+				return JHtml::_('grid.id', $i, $row->$identifier);
 			}
 			else
 			{
-				$checked = JHtml::_('grid.id', $i, $row->$identifier, $result, $identifier);
+				return JHtml::_('grid.id', $i, $row->$identifier, $result, $identifier);
 			}
 		}
-
-		return $checked;
 	}
 
 	/**
@@ -205,11 +194,8 @@ abstract class JHtmlGrid
 		$alt = $value ? JText::_('JPUBLISHED') : JText::_('JUNPUBLISHED');
 		$action = $value ? JText::_('JLIB_HTML_UNPUBLISH_ITEM') : JText::_('JLIB_HTML_PUBLISH_ITEM');
 
-		$href = '
-		<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
+		return '<a href="#" onclick="return listItemTask(\'cb' . $i . '\',\'' . $prefix . $task . '\')" title="' . $action . '">'
 			. JHtml::_('image', 'admin/' . $img, $alt, null, true) . '</a>';
-
-		return $href;
 	}
 
 	/**
@@ -265,10 +251,8 @@ abstract class JHtmlGrid
 	 */
 	public static function order($rows, $image = 'filesave.png', $task = 'saveorder')
 	{
-		$href = '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
+		return '<a href="javascript:saveorder(' . (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
 			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
-
-		return $href;
 	}
 
 	/**
@@ -296,9 +280,7 @@ abstract class JHtmlGrid
 				. $time . '">';
 		}
 
-		$checked = $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
-
-		return $checked;
+		return $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
 	}
 
 	/**
