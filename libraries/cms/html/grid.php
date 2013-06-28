@@ -33,7 +33,7 @@ abstract class JHtmlGrid
 	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
 		// Load the behavior.
-		self::behavior();
+		static::behavior();
 		JHtml::_('bootstrap.tooltip');
 
 		// Build the title.
@@ -173,7 +173,7 @@ abstract class JHtmlGrid
 
 		if ($result)
 		{
-			return self::_checkedOut($row);
+			return static::_checkedOut($row);
 		}
 		else
 		{

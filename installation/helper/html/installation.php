@@ -43,7 +43,7 @@ class JHtmlInstallation
 		$html[] = '<ul class="nav nav-tabs">';
 		foreach ($tabs as $tab)
 		{
-			$html[] = self::getTab($tab, $tabs);
+			$html[] = static::getTab($tab, $tabs);
 		}
 		$html[] = '</ul>';
 		return implode('', $html);
@@ -68,7 +68,7 @@ class JHtmlInstallation
 		$html[] = '<ul class="nav nav-tabs">';
 		foreach ($tabs as $tab)
 		{
-			$html[] = self::getTab($tab, $tabs);
+			$html[] = static::getTab($tab, $tabs);
 		}
 		$html[] = '</ul>';
 
@@ -88,8 +88,8 @@ class JHtmlInstallation
 	private static function getTab($id, $tabs)
 	{
 		$input = JFactory::getApplication()->input;
-		$num   = self::getTabNumber($id, $tabs);
-		$view  = self::getTabNumber($input->getWord('view'), $tabs);
+		$num   = static::getTabNumber($id, $tabs);
+		$view  = static::getTabNumber($input->getWord('view'), $tabs);
 		$tab   = '<span class="badge">' . $num . '</span> ' . JText::_('INSTL_STEP_' . strtoupper($id) . '_LABEL');
 
 		if ($view + 1 == $num)
