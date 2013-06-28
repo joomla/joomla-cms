@@ -7,41 +7,63 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/form/form.php';
-require_once JPATH_PLATFORM . '/joomla/form/field.php';
+require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+include_once 'JFormDataHelper.php';
 
 /**
  * Test class for JFormField.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldTest extends TestCase
 {
 	/**
-	 * set up for testing
+	 * Backup of the SERVER superglobal
 	 *
-	 * @return void
+	 * @var    array
+	 * @since  3.1
 	 */
-	public function setUp()
+	protected $backupServer;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function setUp()
 	{
 		parent::setUp();
 
 		$this->saveFactoryState();
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-		include_once 'JFormDataHelper.php';
+
+		JFactory::$application = $this->getMockApplication();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
-	 * Tear down test
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
