@@ -25,7 +25,7 @@ class JFormFieldRulesTest extends TestCase
 	protected function setUp()
 	{
 		jimport('joomla.environment.request');
-		require_once JPATH_PLATFORM . '/joomla/form/fields/rules.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/rules.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 
 		$this->saveFactoryState();

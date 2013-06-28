@@ -25,7 +25,7 @@ class JFormFieldRadioTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		require_once JPATH_PLATFORM . '/joomla/form/fields/radio.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/radio.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

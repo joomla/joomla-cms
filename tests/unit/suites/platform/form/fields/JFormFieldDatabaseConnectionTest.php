@@ -27,7 +27,7 @@ class JFormFieldDatabaseConnectionTest extends TestCase
 	{
 				parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/databaseconnection.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/databaseconnection.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

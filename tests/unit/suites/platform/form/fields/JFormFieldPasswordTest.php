@@ -24,7 +24,7 @@ class JFormFieldPasswordTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/password.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/password.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

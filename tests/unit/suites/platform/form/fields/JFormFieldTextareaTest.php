@@ -26,7 +26,7 @@ class JFormFieldTextareaTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/textarea.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/textarea.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

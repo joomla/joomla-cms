@@ -26,7 +26,7 @@ class JFormFieldCalendarTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/calendar.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/calendar.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 		$this->saveFactoryState();
 	}

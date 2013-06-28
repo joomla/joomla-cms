@@ -26,7 +26,7 @@ class JFormFieldHiddenTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/hidden.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/hidden.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

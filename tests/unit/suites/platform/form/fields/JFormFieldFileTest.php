@@ -24,7 +24,7 @@ class JFormFieldFileTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/file.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/file.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

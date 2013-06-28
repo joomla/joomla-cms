@@ -27,7 +27,7 @@ class JFormFieldFolderListTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/folderlist.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/folderlist.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

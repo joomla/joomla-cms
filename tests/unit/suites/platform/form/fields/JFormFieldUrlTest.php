@@ -27,7 +27,7 @@ class JFormFieldUrlTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/url.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/url.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

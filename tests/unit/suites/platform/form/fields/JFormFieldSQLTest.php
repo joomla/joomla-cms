@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/form/fields/sql.php';
+require_once JPATH_PLATFORM . '/joomla/form/field/sql.php';
 require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 
 /**

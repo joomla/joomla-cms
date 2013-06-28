@@ -27,7 +27,7 @@ class JFormFieldSessionHandlerTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/sessionhandler.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/sessionhandler.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

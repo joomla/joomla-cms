@@ -27,7 +27,7 @@ class JFormFieldFileListTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/filelist.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/filelist.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

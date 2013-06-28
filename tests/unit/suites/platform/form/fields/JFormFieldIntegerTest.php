@@ -26,7 +26,7 @@ class JFormFieldIntegersTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/integer.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/integer.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

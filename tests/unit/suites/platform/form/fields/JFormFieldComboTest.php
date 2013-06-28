@@ -24,7 +24,7 @@ class JFormFieldComboTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/combo.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/combo.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 

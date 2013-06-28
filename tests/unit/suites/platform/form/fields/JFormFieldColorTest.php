@@ -27,7 +27,7 @@ class JFormFieldColorTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/color.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/color.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 	}
 
