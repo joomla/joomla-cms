@@ -200,7 +200,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::formvalidation();
 		$this->assertEquals(
-			array('JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidation' => true),
+			array('JHtmlBehavior::framework' => array('core' => true, 'more' => true), 'JHtmlBehavior::formvalidation' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
@@ -281,7 +281,7 @@ class JHtmlBehaviorTest extends TestCase
 				array(
 					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
-						md5(serialize(array('.hasTip', array()))) => true
+						md5(serialize(array('.hasTooltip', array()))) => true
 					),
 				),
 			),
@@ -289,19 +289,19 @@ class JHtmlBehaviorTest extends TestCase
 				array(
 					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
-						md5(serialize(array('.hasTip2', array()))) => true
+						md5(serialize(array('.hasTooltip2', array()))) => true
 					),
 				),
-				'.hasTip2'
+				'.hasTooltip2'
 			),
 			array(
 				array(
 					'JHtmlBehavior::framework' => array('core' => true, 'more' => true),
 					'JHtmlBehavior::tooltip' => array(
-						md5(serialize(array('.hasTip2', array('showDelay' => 1000)))) => true
+						md5(serialize(array('.hasTooltip2', array('showDelay' => 1000)))) => true
 					),
 				),
-				'.hasTip2',
+				'.hasTooltip2',
 				array('showDelay' => 1000)
 			),
 		);
@@ -321,7 +321,7 @@ class JHtmlBehaviorTest extends TestCase
 	 * @since         3.1
 	 * @dataProvider  getTooltipData
 	 */
-	public function testTooltip($expected, $selector = '.hasTip', $params = array())
+	public function testTooltip($expected, $selector = '.hasTooltip', $params = array())
 	{
 		// We generate a random template name so that we don't collide or hit anything//
 		$template = 'mytemplate' . rand(1, 10000);
