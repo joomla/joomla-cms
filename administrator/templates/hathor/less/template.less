@@ -3442,3 +3442,21 @@ table.adminlist .item-associations li a  {
 // Bootstrap Tooltips (need to load last, something is overriding these styles in the CSS, debug later ;-) )
 @import "../../../../media/jui/less/tooltip.less";
 
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+fieldset.panelform .tooltip img {
+	float: none;
+	margin: 0;
+}
