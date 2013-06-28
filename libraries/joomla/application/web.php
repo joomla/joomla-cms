@@ -307,7 +307,7 @@ class JApplicationWeb extends JApplicationBase
 		// Setup the document options.
 		$options = array(
 			'template' => $this->get('theme'),
-			'file' => 'index.php',
+			'file' => $this->get('themeFile', 'index.php'),
 			'params' => $this->get('themeParams')
 		);
 
