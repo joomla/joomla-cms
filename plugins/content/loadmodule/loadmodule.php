@@ -110,45 +110,46 @@ class PlgContentLoadmodule extends JPlugin
 
 	protected function _load($position, $style = 'none')
 	{
+		self::$modules[$position] = '';
+		$document	= JFactory::getDocument();
+		$renderer	= $document->loadRenderer('module');
+		$modules	= JModuleHelper::getModules($position);
+		$params		= array('style' => $style);
+		ob_start();
 
-			self::$modules[$position] = '';
-			$document	= JFactory::getDocument();
-			$renderer	= $document->loadRenderer('module');
-			$modules	= JModuleHelper::getModules($position);
-			$params		= array('style' => $style);
-			ob_start();
+		foreach ($modules as $module)
+		{
+			echo $renderer->render($module, $params);
+		}
 
-			foreach ($modules as $module)
-			{
-				echo $renderer->render($module, $params);
-			}
+		self::$modules[$position] = ob_get_clean();
 
-			self::$modules[$position] = ob_get_clean();
-		
 		return self::$modules[$position];
 	}
+
 	// This is always going to get the first instance of the module type unless
 	// there is a title.
 	protected function _loadmod($module, $title, $style = 'none')
 	{
+		self::$mods[$module] = '';
+		$document	= JFactory::getDocument();
+		$renderer	= $document->loadRenderer('module');
+		$mod		= JModuleHelper::getModule($module, $title);
 
-			self::$mods[$module] = '';
-			$document	= JFactory::getDocument();
-			$renderer	= $document->loadRenderer('module');
-			$mod		= JModuleHelper::getModule($module, $title);
-			// If the module without the mod_ isn't found, try it with mod_.
-			// This allows people to enter it either way in the content
-			if (!isset($mod)){
-				$name = 'mod_'.$module;
-				$mod  = JModuleHelper::getModule($name, $title);
-			}
-			$params = array('style' => $style);
-			ob_start();
+		// If the module without the mod_ isn't found, try it with mod_.
+		// This allows people to enter it either way in the content
+		if (!isset($mod))
+		{
+			$name = 'mod_'.$module;
+			$mod  = JModuleHelper::getModule($name, $title);
+		}
+		$params = array('style' => $style);
+		ob_start();
 
-			echo $renderer->render($mod, $params);
+		echo $renderer->render($mod, $params);
 
-			self::$mods[$module] = ob_get_clean();
-		
+		self::$mods[$module] = ob_get_clean();
+
 		return self::$mods[$module];
 	}
 }
