@@ -157,7 +157,7 @@ class JFormRulePassword extends JFormRule
 			if (strlen((string) $value) < $minimumLength)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT', count($minimumLength)),
+					JText::_('COM_USERS_MSG_PASSWORD_TOO_SHORT', count($minimumLength)),
 					'warning'
 					);
 
