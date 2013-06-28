@@ -748,7 +748,7 @@ class JApplication extends JApplicationBase
 			$cookieName = self::getHash('JLOGIN_REMEMBER');
 			$inputCookie = new JInputCookie();
 
-			if (!empty($inputCookie->get($cookieName)))
+			if (!empty($cookieName))
 			{
 				$cookieValue = $inputCookie->get($cookieName);
 				$cookie_domain = $this->getCfg('cookie_domain', '');

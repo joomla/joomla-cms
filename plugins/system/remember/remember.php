@@ -45,6 +45,18 @@ class PlgSystemRemember extends JPlugin
 
 			if ($str = $inputCookie->get($hash))
 			{
+				// We're going to clear out expired tokens very time someone logs in with remember me.
+				$nowtime = time();
+
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true);
+				$query->delete('#__user_keys');
+				$query->where($db->quoteName('time') . ' < ' . $db->quote($nowtime));
+				$db->setQuery($query);
+				$db->execute();
+
+				$query->clear();
+
 				$credentials = array();
 				$filter = JFilterInput::getInstance();
 
@@ -60,9 +72,10 @@ class PlgSystemRemember extends JPlugin
 				$query = $db->getQuery(true);
 				$query->select($db->quotename(array('user_id', 'token', 'series', 'timestamp', 'invalid')))
 					->where($db->quoteName('time') . ' > ' . $db->quote($nowtime))
-					->from($db->quoteName('#__user_keys'));
+					->from($db->quoteName('#__user_keys'))
+					->order($db->quoteName('time'), 'desc');
 				$db->setQuery($query);
-				$results = $db->loadObjectList();
+				$results = $db->loadObject();
 
 				$invalid = 0;
 				foreach ($results as $result)
@@ -257,8 +270,8 @@ class PlgSystemRemember extends JPlugin
 	 * @return  boolean  True on success
 	 * @since   3.1.2
 	 */
-	public function onUserAfterLogout($options)
-	{var_dump($options);die;
+	public function onUserAfterLogout($parameters, $options)
+	{
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		// Use domain and path set in config for cookie if it exists.
