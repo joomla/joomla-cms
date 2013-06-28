@@ -71,37 +71,34 @@ class PlgSystemRemember extends JPlugin
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
 				$query->select($db->quotename(array('user_id', 'token', 'series', 'timestamp', 'invalid')))
-					->where($db->quoteName('time') . ' > ' . $db->quote($nowtime))
+					->where($db->quoteName('series') . ' = ' . $db->quote($privateKey64) )
 					->from($db->quoteName('#__user_keys'))
 					->order($db->quoteName('time'), 'desc');
 				$db->setQuery($query);
-				$results = $db->loadObject();
+				$results = $db->loadObjectList();
 
-				$invalid = 0;
-				foreach ($results as $result)
+				$countResults = count($results);
+var_dump($countResults);die;
+				if ($countResults == 0)
 				{
-					if ($result->invalid == 1)
-					{
-						 $invalid = 1;
-						 continue;
-					}
+					return false;
+				}
 
-					$series = substr($result->series, 0, $privateKeyLength);
-					$privateKey64 = substr($privateKey64, 0, $privateKeyLength);
+				// If the user has multiple cookies for the same key something is wrong, delete them all.
+				// Should we invalidate instead?
+				if ($countResults > 1)
+				{
+					$query->clear();
+					$query->delete('#__user_keys');
+					$query->where($db->quoteName('user_id') . ' = ' . $db->quote($result->user_id));
+					$db->setQuery($query);
+					$db->execute();
 
-					if ($series == $privateKey64)
-					{
-						$match = $result;
-						// Now check the key
-						$keyCheck = new JCryptKey('simple', $result->token, $result->token);
-						$cryptCheck = new JCrypt(new JCryptCipherSimple, $keyCheck);
-						$cryptedToken = $cryptCheck->encrypt(sha1($user->username));
-					}
-
+					return false;
 				}
 
 				// We have a cookie but it's not in the database or the cookie is invalid. Possible attack, invalidate every thing.
-				if (!$results || !isset($match) || $invalid != 0)
+				if (!$results || !isset($match) || $results->invalid != 0)
 				{
 					//Should this start by throwing an exception?
 					// We can only invalidate if there is a user.
@@ -124,6 +121,21 @@ class PlgSystemRemember extends JPlugin
 				}
 
 
+				// So now we have a user with one valid cookie and a corresponding record in the database.
+					$series = substr($result->series, 0, $privateKeyLength);
+					$privateKey64 = substr($privateKey64, 0, $privateKeyLength);
+
+					if ($series == $privateKey64)
+					{
+						// Now check the key
+						$keyCheck = new JCryptKey('simple', $result->token, $result->token);
+						$cryptCheck = new JCrypt(new JCryptCipherSimple, $keyCheck);
+						$cryptedToken = $cryptCheck->encrypt(sha1($user->username));
+					}
+
+
+
+
 /*
 					// We probably should add back some sanity checks but not as many as before
 					if (!is_string($str))
@@ -140,7 +152,7 @@ class PlgSystemRemember extends JPlugin
 					$cookie_path = $app->getCfg('cookie_path', '/');
 
 					// Destroy the cookie
-					setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
+					//setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 */
 					if (!$return)
 					{
@@ -210,7 +222,6 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onUserAfterLogin($options)
 	{
-
 		$app = JFactory::getApplication();
 		$length = (int) $options['length'];
 		$privateKey = JCrypt::genRandomBytes(70);
@@ -232,7 +243,7 @@ class PlgSystemRemember extends JPlugin
 		$secure = $app->isSSLConnection();
 
 		// We've used this cookie so destroy it.
-		//setcookie($series, false, time() - 86400, $cookie_path, $cookie_domain);
+		setcookie($series, false, time() - 86400, $cookie_path, $cookie_domain, $secure, true);
 
 		//And make a new one
 		setcookie($series, $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
