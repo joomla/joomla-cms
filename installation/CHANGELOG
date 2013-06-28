@@ -37,6 +37,7 @@ $ -> Language fix or change
 27-Jun-2013 Elin Waring
  $ [#31272] Fix tags help screen views. Thanks George Wilson
  ^ [#1313] Simplify magic getters in third party API classes. Thanks Michael Babker
+
 27-Jun-2013 Michael Babker
  ^ [#30783] Use JDatabase instead of MySQL queries on com_menus.  Thanks Matias Aguirre
  # [#31157] Field mapping for core_urls is wrong for weblinks.  Thanks Elin Waring
