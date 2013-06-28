@@ -1,5 +1,8 @@
 <?php
 /**
+ * Bootstrap file for the Joomla Platform [with legacy libraries].  Including this file into your application
+ * will make Joomla Platform libraries [including legacy libraries] available for use.
+ *
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -14,6 +17,7 @@ if (!defined('JPATH_PLATFORM'))
 
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
+
 if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
@@ -43,13 +47,21 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-class_exists('JLoader') or die;
+// Make sure that the Joomla Platform has been successfully loaded.
+if (!class_exists('JLoader'))
+{
+	throw new RuntimeException('Joomla Platform not loaded.');
+}
+
+/*
+ * Register the legacy library base path for deprecated or legacy libraries.
+ * Due to LIFO ordering, the legacy folder must be loaded before setup(), which
+ * loads JPATH_PLATFORM . '/joomla'
+ */
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Setup the autoloaders.
 JLoader::setup();
-
-// Register the legacy library base path for deprecated or legacy libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Import the Joomla Factory.
 JLoader::import('joomla.factory');

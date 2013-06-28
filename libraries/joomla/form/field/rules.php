@@ -95,9 +95,6 @@ class JFormFieldRules extends JFormField
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
 
-		// Build the form control.
-		$curLevel = 0;
-
 		// Prepare output
 		$html = array();
 
@@ -119,9 +116,9 @@ class JFormFieldRules extends JFormField
 			}
 
 			$html[] = '<li class="' . $active . '">';
-				$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
-				$html[] = str_repeat('<span class="level">&ndash; ', $curLevel = $group->level) . $group->text;
-				$html[] = '</a>';
+			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
+			$html[] = str_repeat('<span class="level">&ndash;</span> ', $curLevel = $group->level) . $group->text;
+			$html[] = '</a>';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';
@@ -137,8 +134,6 @@ class JFormFieldRules extends JFormField
 			{
 				$active = " active";
 			}
-
-			$difLevel = $group->level - $curLevel;
 
 			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
 			$html[] = '<table class="table table-striped">';

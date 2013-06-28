@@ -15,7 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.1
- * @deprecated  12.3 Use JApplicationCli instead.
+ * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JApplicationCli instead.
+ * @codeCoverageIgnore
  */
 class JCli extends JApplicationCli
 {

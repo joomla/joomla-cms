@@ -7,7 +7,7 @@
 2- What is Joomla?
 	* Joomla is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
 	* It's a free and OpenSource software, distributed under the GNU General Public License version 2 or later
-	* This is a simple and powerful web server application and it requires a server with PHP and MySQL to run it. 
+	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, PostgreSQL, or SQL Server to run it.
 	More details here: http://www.joomla.org/about-joomla.html
 
 3- Is Joomla for you?
@@ -36,7 +36,7 @@
 	* See minimum requirements here: http://www.joomla.org/technical-requirements.html
 	* How do you install Joomla! ? - http://docs.joomla.org/Installing_Joomla!
 	* Start your Joomla experience building your site with a local test server.
-	When ready it can be moved to an on-line hosting account of your choice. 
+	When ready it can be moved to an on-line hosting account of your choice.
 	See the tutorial: http://docs.joomla.org/Tutorial:Joomla_Local_install
 
 9- Updates are free!

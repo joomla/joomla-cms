@@ -37,8 +37,7 @@ class JoomlaInstallerScript
 		$db = JFactory::getDbo();
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
-			$query = 'SHOW ENGINES';
-			$db->setQuery($query);
+			$db->setQuery('SHOW ENGINES');
 			$results = $db->loadObjectList();
 			if ($db->getErrorNum())
 			{
@@ -49,8 +48,7 @@ class JoomlaInstallerScript
 			{
 				if ($result->Support == 'DEFAULT')
 				{
-					$query = 'ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine;
-					$db->setQuery($query);
+					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 					$db->execute();
 					if ($db->getErrorNum())
 					{
@@ -101,6 +99,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'simplepie', '', 0);
 		$extensions[] = array('library', 'phputf8', '', 0);
 		$extensions[] = array('library', 'joomla', '', 0);
+		$extensions[] = array('library', 'idna_convert', '', 0);
 
 		// Modules site
 		// Site
@@ -587,6 +586,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/installer/index.html',
 			'/libraries/joomla/installer/librarymanifest.php',
 			'/libraries/joomla/installer/packagemanifest.php',
+			'/libraries/joomla/pagination/index.html',
+			'/libraries/joomla/pagination/object.php',
+			'/libraries/joomla/pagination/pagination.php',
 			'/libraries/legacy/html/contentlanguage.php',
 			'/libraries/legacy/html/index.html',
 			'/libraries/legacy/html/menu.php',
@@ -676,6 +678,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/html',
 			'/libraries/joomla/installer/adapters',
 			'/libraries/joomla/installer',
+			'/libraries/joomla/pagination',
 			'/libraries/legacy/html',
 			'/media/system/swf/',
 			// Joomla! 3.2

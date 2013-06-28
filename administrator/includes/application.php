@@ -33,7 +33,7 @@ class JAdministrator extends JApplication
 		parent::__construct($config);
 
 		//Set the root in the URI based on the application name
-		JURI::root(null, str_ireplace('/' . $this->getName(), '', JURI::base(true)));
+		JUri::root(null, str_ireplace('/' . $this->getName(), '', JUri::base(true)));
 	}
 
 	/**
@@ -105,7 +105,7 @@ class JAdministrator extends JApplication
 	 */
 	public function route()
 	{
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 
 		if ($this->getCfg('force_ssl') >= 1 && strtolower($uri->getScheme()) != 'https')
 		{
@@ -147,7 +147,6 @@ class JAdministrator extends JApplication
 		}
 
 		$document = JFactory::getDocument();
-		$user = JFactory::getUser();
 
 		switch ($document->getType())
 		{
@@ -234,7 +233,7 @@ class JAdministrator extends JApplication
 		//Set the application login entry point
 		if (!array_key_exists('entry_url', $options))
 		{
-			$options['entry_url'] = JURI::base() . 'index.php?option=com_users&task=login';
+			$options['entry_url'] = JUri::base() . 'index.php?option=com_users&task=login';
 		}
 
 		// Set the access control action to check.

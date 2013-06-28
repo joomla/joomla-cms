@@ -127,7 +127,9 @@ class PlgUserProfile extends JPlugin
 		}
 		else
 		{
-			$value = htmlspecialchars($value);
+			// Convert website url to utf8 for display
+			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
+
 			if (substr($value, 0, 4) == "http")
 			{
 				return '<a href="' . $value . '">' . $value . '</a>';
@@ -310,6 +312,9 @@ class PlgUserProfile extends JPlugin
 		{
 			try
 			{
+				// Convert website url to punycode
+				$data['profile']['website'] = JStringPunycode::urlToPunycode($data['profile']['website']);
+
 				$date = new JDate($data['profile']['dob']);
 				$this->_date = $date->format('Y-m-d');
 			}

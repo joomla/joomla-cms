@@ -623,7 +623,6 @@ class JClientLdap
 	 */
 	public static function generatePassword($password, $type = 'md5')
 	{
-		$userpassword = '';
 		switch (strtolower($type))
 		{
 			case 'sha':
@@ -644,7 +643,7 @@ class JClientLdap
  * @package     Joomla.Platform
  * @subpackage  Client
  * @since       11.1
- * @deprecated  12.3
+ * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */
 class JLDAP extends JClientLdap
 {

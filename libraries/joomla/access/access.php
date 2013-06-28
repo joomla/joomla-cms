@@ -141,6 +141,7 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
+			// TODO: $rootId doesn't seem to be used!
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 			$rootId = $assets->getRootId();
@@ -254,7 +255,7 @@ class JAccess
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 			$rootId = $assets->getRootId();
-			$query = $db->getQuery(true)
+			$query->clear()
 				->select('rules')
 				->from('#__assets')
 				->where('id = ' . $db->quote($rootId));

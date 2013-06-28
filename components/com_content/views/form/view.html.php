@@ -28,7 +28,6 @@ class ContentViewForm extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 
 		// Get model data.
@@ -100,7 +99,6 @@ class ContentViewForm extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,

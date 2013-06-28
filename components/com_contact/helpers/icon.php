@@ -22,7 +22,7 @@ class JHtmlIcon
 	public static function email($contact, $params, $attribs = array())
 	{
 		require_once JPATH_SITE . '/components/com_mailto/helpers/mailto.php';
-		$uri	= JURI::getInstance();
+		$uri	= JUri::getInstance();
 		$base	= $uri->toString(array('scheme', 'host', 'port'));
 		$link	= $base . JRoute::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid), false);
 		$url	= 'index.php?option=com_mailto&tmpl=component&link='.MailToHelper::addLink($link);

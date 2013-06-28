@@ -39,24 +39,12 @@ class ContentViewCategory extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
 
 		// Get some data from the models
-		$state		= $this->get('State');
-		$params		= $state->params;
-		$items		= $this->get('Items');
 		$category	= $this->get('Category');
-		$children	= $this->get('Children');
 		$parent		= $this->get('Parent');
-		$pagination = $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}
-
 		if ($category == false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
@@ -65,6 +53,20 @@ class ContentViewCategory extends JViewLegacy
 		if ($parent == false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
+		}
+
+		// Get some data from the models
+		$state		= $this->get('State');
+		$params		= $state->params;
+		$items		= $this->get('Items');
+		$children	= $this->get('Children');
+		$pagination 	= $this->get('Pagination');
+
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			JError::raiseError(500, implode("\n", $errors));
+			return false;
 		}
 
 		// Setup the category parameters.
@@ -112,7 +114,7 @@ class ContentViewCategory extends JViewLegacy
 			}
 
 			JPluginHelper::importPlugin('content');
-			$results = $dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
+			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;

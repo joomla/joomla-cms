@@ -264,7 +264,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && $this->item->p
 	<?php //Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) :
 		$link1 = JRoute::_('index.php?option=com_users&view=login');
-		$link = new JURI($link1);?>
+		$link = new JUri($link1);?>
 	<p class="readmore">
 		<a href="<?php echo $link; ?>">
 		<?php $attribs = json_decode($this->item->attribs); ?>
