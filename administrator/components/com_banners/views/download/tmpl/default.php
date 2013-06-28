@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::_('behavior.tooltip');
 ?>
 <form
 	action="<?php echo JRoute::_('index.php?option=com_banners&task=tracks.display&format=raw');?>"

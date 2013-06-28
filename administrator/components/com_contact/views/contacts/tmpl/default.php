@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
@@ -65,8 +64,8 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_CONTACT_SEARCH_IN_NAME'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_CONTACT_SEARCH_IN_NAME'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
@@ -145,10 +144,10 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 							$disableClassName = '';
 							$disabledLabel	  = '';
 							if (!$saveOrder) :
-								$disabledLabel    = 'JORDERINGDISABLED';
+								$disabledLabel    = JText::_('JORDERINGDISABLED');
 								$disableClassName = 'inactive tip-top';
 							endif; ?>
-							<span class="sortable-handler hasTooltip<?php echo $disableClassName?>" title="<?php echo JHtml::tooltipText($disabledLabel); ?>">
+							<span class="sortable-handler hasTooltip<?php echo $disableClassName?>" title="<?php echo $disabledLabel?>">
 								<i class="icon-menu"></i>
 							</span>
 							<input type="text" style="display:none" name="order[]" size="5"

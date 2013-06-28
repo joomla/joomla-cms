@@ -293,7 +293,9 @@ class JApplication extends JApplicationBase
 	 */
 	public function render()
 	{
-		$params = array('template' => $this->getTemplate(), 'file' => 'index.php', 'directory' => JPATH_THEMES, 'params' => $template->params);
+		$template = $this->getTemplate(true);
+
+		$params = array('template' => $template->template, 'file' => 'index.php', 'directory' => JPATH_THEMES, 'params' => $template->params);
 
 		// Parse the document.
 		$document = JFactory::getDocument();
@@ -775,9 +777,19 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	public function getTemplate($params = array())
+	public function getTemplate($params = false)
 	{
-		return 'system';
+		$template = new StdClass;
+
+		$template->template = 'system';
+		$template->params   = new JRegistry;
+
+		if ($params)
+		{
+			return $template;
+		}
+
+		return $template->template;
 	}
 
 	/**
