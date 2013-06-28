@@ -256,7 +256,10 @@ class JAuthentication extends JObject
 	{
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
-		$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+		if (JPluginHelper::isEnabled('system','remember'))
+		{
+			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+		}
 
 		// Create authentication response
 		$response = new JAuthenticationResponse;
@@ -328,7 +331,12 @@ class JAuthentication extends JObject
 	{
 		// Get plugins in case they haven't been imported already
 		JPluginHelper::importPlugin('user');
-		//JPluginHelper::importPlugin('system','remember');
+
+		if (JPluginHelper::isEnabled('system','remember'))
+		{
+			JPluginHelper::importPlugin('system','remember');
+		}
+
 		JPluginHelper::importPlugin('authentication');
 		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
