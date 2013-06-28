@@ -55,22 +55,21 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$title = $enabled ? $active_title : $inactive_title;
-		$title = $translate ? JText::_($title) : $title;
-
 		if ($tip)
 		{
 			JHtml::_('bootstrap.tooltip');
+
+			$title = $enabled ? $active_title : $inactive_title;
+			$title = $translate ? JText::_($title) : $title;
 			$title = JHtml::tooltipText($title, '', 0);
 		}
-
-		$title = addslashes(htmlspecialchars($title, ENT_COMPAT, 'UTF-8'));
 
 		if ($enabled)
 		{
 			$html[] = '<a class="btn btn-micro ' . ($active_class == "publish" ? 'active' : '') . ' ' . ($tip ? 'hasTooltip"' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
-			$html[] = ' title="' . $title . '">';
+			$html[] = $tip ? ' title="' . $title . '"' : '';
+			$html[] = '>';
 			$html[] = '<i class="icon-' . $active_class . '">';
 			$html[] = '</i>';
 			$html[] = '</a>';
@@ -78,7 +77,8 @@ abstract class JHtmlJGrid
 		else
 		{
 			$html[] = '<a class="btn btn-micro disabled jgrid ' . ($tip ? 'hasTooltip"' : '') . '"';
-			$html[] = ' title="' . $title . '">';
+			$html[] = $tip ? ' title="' . $title . '"' : '';
+			$html[] = '>';
 
 			if ($active_class == "protected")
 			{
@@ -258,8 +258,8 @@ abstract class JHtmlJGrid
 		}
 
 		$states = array(
-			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', false, 'featured', 'featured'),
-			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', false, 'unfeatured', 'unfeatured'),
+			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, 'unfeatured', 'unfeatured'),
+			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, 'featured', 'featured'),
 		);
 
 		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
@@ -326,6 +326,8 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		if (is_array($prefix))
 		{
 			$options = $prefix;
