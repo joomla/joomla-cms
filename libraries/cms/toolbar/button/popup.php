@@ -57,10 +57,15 @@ class JToolbarButtonPopup extends JToolbarButton
 		$class = 'out-2';
 		$doTask = $this->_getCommand($url);
 
-		$html = '<button class="btn btn-small modal" data-toggle="modal" data-target="#modal-' . $name . '">'
+		$html = array();
+
+		$html[] = '<button class="btn btn-small modal" data-toggle="modal" data-target="#modal-' . $name . '">'
 			. '<i class="icon-' . $class . '"></i> '
 			. $text
 			. '</button>';
+
+		// Place modal div and scripts in a new div
+		$html[] = '</div><div class="btn-group" style="width: 0; margin: 0">';
 
 		// Build the options array for the modal
 		$params = array();
@@ -68,18 +73,17 @@ class JToolbarButtonPopup extends JToolbarButton
 		$params['url']    = $doTask;
 		$params['height'] = $height;
 		$params['width']  = $width;
-		$html .= "\n" . JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
+		$html[] .= JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
 		if (strlen($onClose) >= 1)
 		{
-			$html .= "\n"
-				. '<script>'
+			$html[] = '<script>'
 				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
-				. '</script>\n';
+				. '</script>';
 		}
 
-		return $html;
+		return implode( "\n", $html);
 	}
 
 	/**
