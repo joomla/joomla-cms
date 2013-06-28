@@ -32,7 +32,7 @@ class JLogLoggerDatabaseInspector extends JLogLoggerDatabase
 
 	public $table;
 
-	public $dbo;
+	public $db;
 
 	/**
 	 * Test...

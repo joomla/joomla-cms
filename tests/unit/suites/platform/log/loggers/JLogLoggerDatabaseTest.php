@@ -46,7 +46,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$this->assertEquals($logger->driver, 'mysqli', 'Line: ' . __LINE__);
 		$this->assertEquals($logger->host, 'db.domain.com', 'Line: ' . __LINE__);
 		$this->assertEquals($logger->user, 'root', 'Line: ' . __LINE__);
-		$this->assertEquals($logger->dbo, null, 'Line: ' . __LINE__);
+		$this->assertEquals($logger->db, null, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 			'db_prefix' => 'jos_'
 		);
 		$logger = new JLogLoggerDatabase($config);
-		TestReflection::setValue($logger, 'dbo', JFactory::$database);
+		TestReflection::setValue($logger, 'db', JFactory::$database);
 
 		// Get the expected database from XML.
 		$expected = $this->createXMLDataSet(__DIR__ . '/stubs/database/S01E01.xml');
@@ -123,7 +123,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger = new JLogLoggerDatabaseInspector($config);
 		$logger->connect();
 
-		$this->assertTrue($logger->dbo instanceof JDatabaseDriver, 'Line: ' . __LINE__);
+		$this->assertTrue($logger->db instanceof JDatabaseDriver, 'Line: ' . __LINE__);
 	}
 
 	/**
