@@ -654,6 +654,10 @@ class JApplication extends JApplicationBase
 
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
+			if (JPluginHelper::isEnabled('system','remember'))
+			{
+				$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+			}
 
 			// OK, the credentials are authenticated and user is authorised.  Lets fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
