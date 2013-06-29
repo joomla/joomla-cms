@@ -175,7 +175,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 						{
 							$iconClass = ' inactive';
 						}
-						else if (!$saveOrder)
+						elseif (!$saveOrder)
 						{
 							$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
 						}
