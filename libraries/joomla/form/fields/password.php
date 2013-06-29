@@ -55,24 +55,28 @@ class JFormFieldPassword extends JFormField
 
 		// If we have parameters from com_users, use those instead.
 		// Some of these may be empty for legacy reasons.
-		$params = JComponentHelper::getParams('com_users');
+		$app = JFactory::getApplication();
 
-		if (!empty($params))
+		if ($app->getClientId() != 2)
 		{
-			$minimumLengthp = $params->get('minimum_length');
-			$minimumIntegersp = $params->get('minimum_integers');
-			$minimumSymbolsp = $params->get('minimum_symbols');
-			$minimumUppercasep = $params->get('minimum_uppercase');
+			$params = JComponentHelper::getParams('com_users');
 
-			if (!empty($minimumLengthp))
+			if (!empty($params))
 			{
-				$minimumLength = (int) $minimumLengthp;
+				$minimumLengthp = $params->get('minimum_length');
+				$minimumIntegersp = $params->get('minimum_integers');
+				$minimumSymbolsp = $params->get('minimum_symbols');
+				$minimumUppercasep = $params->get('minimum_uppercase');
+
+				if (!empty($minimumLengthp))
+				{
+					$minimumLength = (int) $minimumLengthp;
+				}
+
+				empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
+				empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
+				empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
 			}
-
-			empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
-			empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
-			empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
-
 		}
 
 		$script = '';
