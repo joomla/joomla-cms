@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ require_once __DIR__ . '/stubs/mock.application.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  JResponseJson
- * @since       12.2
+ * @since       3.1
  */
 class JResponseJsonTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function setUp()
 	{
@@ -36,7 +36,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function tearDown()
 	{
@@ -49,7 +49,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function testSimpleSuccess()
 	{
@@ -67,7 +67,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function testSuccessWithData()
 	{
@@ -94,7 +94,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function testFailureWithException()
 	{
@@ -116,7 +116,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function testFailureWithData()
 	{
@@ -142,7 +142,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function testFailureWithMessages()
 	{
@@ -172,7 +172,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function testFailureWithIgnoreMessages()
 	{
@@ -198,7 +198,7 @@ class JResponseJsonTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.2
+	 * @since  3.1
 	 */
 	public function testSuccessWithMessages()
 	{
