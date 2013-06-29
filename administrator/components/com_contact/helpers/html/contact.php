@@ -78,7 +78,7 @@ abstract class JHtmlContact
 						'(' . $item->category_title . ')'
 					);
 
-					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTip label label-association label-' . $item->lang_sef);
+					$item->link = JHtml::_('tooltip', implode(' ', $tooltipParts), null, null, $text, $url, null, 'hasTooltip label label-association label-' . $item->lang_sef);
 				}
 			}
 

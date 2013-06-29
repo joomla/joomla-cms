@@ -25,9 +25,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jun-2013 Jean-Marie Simonet
+ # Correcting #31772
+ ^ [#31267] *Switching to Bootstrap tooltips. Thanks Peter van Westen and Michael Babker.
+ #^ [#31143] Registration with invalid password when non-core template. Thansk Elin Waring
+ # [#31172] X at hathor messages. Thanks Tobias Zulauf
+ ^ [#31087] Add SQL queries profiler in Debug zone with backtrace of call and EXPLAIN hovers. Thanks Beat
+ ^ [#31060] Show item title on the Edit page
+ ^ [#31100] UX "showon": Dynamic options in the Joomla Backend. Thanks Jérôme GLATIGNY
+
 27-Jun-2013 Elin Waring
-$ [#31272] Fix tags help screen views. Thanks George Wilson
-^ [#1313] Simplify magic getters in third party API classes. Thanks Michael Babker
+ $ [#31272] Fix tags help screen views. Thanks George Wilson
+ ^ [#1313] Simplify magic getters in third party API classes. Thanks Michael Babker
 
 27-Jun-2013 Michael Babker
  ^ [#30783] Use JDatabase instead of MySQL queries on com_menus.  Thanks Matias Aguirre
