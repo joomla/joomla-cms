@@ -9,8 +9,10 @@
 
 defined('_JEXEC') or die;
 
-include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
-
+if (!function_exists('password_hash'))
+{
+	include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+}
 /**
  * Joomla Authentication plugin
  *
@@ -56,7 +58,7 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if (!empty($result))
 		{
-			if (substr($result->password,0,8) == '{BCRYPT}')
+			if (substr($result->password,0,8) == '{BCRYPT}' || substr($result->password,0,4) == '$2y$')
 			{
 				$parts	= explode(':', $result->password);
 				$crypt	= $parts[0];

@@ -405,10 +405,24 @@ abstract class JUserHelper
 
 			case 'bcrypt':
 			default:
-				if (version_compare(PHP_VERSION, '5.3.7') >= 0 )
+				if (function_exists('password_hash'))
 				{
 					$options = array('salt' => $salt);
+
+					$encrypted =  ($salt) ? password_hash($plaintext, PASSWORD_BCRYPT, $options) . ':' . $salt :  password_hash($plaintext, PASSWORD_BCRYPT, $options);
+					if (!$encrypted)
+					{
+						// Something went wrong.
+						return false;
+					}
+
+					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
+				}
+				elseif (!function_exists('password_hash') && version_compare(PHP_VERSION, '5.3.6', '>'))
+				{
 					include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+					$options = array('salt' => $salt);
+
 					$encrypted =  ($salt) ? password_hash($plaintext, PASSWORD_BCRYPT, $options) . ':' . $salt :  password_hash($plaintext, PASSWORD_BCRYPT, $options);
 					if (!$encrypted)
 					{
