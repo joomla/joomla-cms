@@ -312,7 +312,7 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = true)
+	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
 	{
 		// Get the salt to use.
 		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);

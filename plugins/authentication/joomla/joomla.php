@@ -58,7 +58,7 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if (!empty($result))
 		{
-			if (substr($result->password,0,8) == '{BCRYPT}' || substr($result->password,0,4) == '$2y$')
+			if (substr($result->password,0,4) == '$2y$')
 			{
 				$parts	= explode(':', $result->password);
 				$crypt	= $parts[0];
@@ -67,7 +67,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				$lengthCrypt = strlen($crypt);var_dump($lengthCrypt);
 				$options = array('salt' => $salt);
 
-				$testcrypt =  '{BCRYPT}' . password_hash($credentials['password'], PASSWORD_BCRYPT, $options);
+				$testcrypt =  password_hash($credentials['password'], PASSWORD_BCRYPT, $options);
 
  				if (strstr($testcrypt, '.', true) == strstr($crypt, '.', true))
  				{
