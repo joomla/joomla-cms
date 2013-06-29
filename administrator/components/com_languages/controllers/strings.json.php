@@ -27,7 +27,7 @@ class LanguagesControllerStrings extends JControllerAdmin
 	 */
 	public function refresh()
 	{
-		echo new JJsonResponse($this->getModel('strings')->refresh());
+		echo new JResponseJson($this->getModel('strings')->refresh());
 	}
 
 	/**
@@ -39,6 +39,6 @@ class LanguagesControllerStrings extends JControllerAdmin
 	 */
 	public function search()
 	{
-		echo new JJsonResponse($this->getModel('strings')->search());
+		echo new JResponseJson($this->getModel('strings')->search());
 	}
 }
