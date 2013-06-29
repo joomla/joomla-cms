@@ -110,7 +110,7 @@ class JFormRulePassword extends JFormRule
 			if ($nInts < $minimumIntegers)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', count($minimumIntegers)),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
 					'warning'
 				);
 
@@ -127,7 +127,7 @@ class JFormRulePassword extends JFormRule
 			if ($nsymbols < $minimumSymbols)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', count($minimumSymbols)),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
 					'warning'
 				);
 
@@ -143,7 +143,7 @@ class JFormRulePassword extends JFormRule
 			if ($nUppercase < $minimumUppercase)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', count($minimumUppercase)),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
 					'warning'
 			);
 
@@ -157,7 +157,7 @@ class JFormRulePassword extends JFormRule
 			if (strlen((string) $value) < $minimumLength)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', count($minimumLength)),
+					JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),
 					'warning'
 					);
 
