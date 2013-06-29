@@ -136,7 +136,7 @@ $sortFields = $this->getSortFields();
 						{
 							$iconClass = ' inactive';
 						}
-						else if (!$saveOrder)
+						elseif (!$saveOrder)
 						{
 							$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
 						}

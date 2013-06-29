@@ -53,7 +53,7 @@ class JFormRulePassword extends JFormRule
 		// Some of these may be empty for legacy reasons.
 		$params = JComponentHelper::getParams('com_users');
 
-		if(!empty($params))
+		if (!empty($params))
 		{
 			$minimumLengthp = $params->get('minimum_length');
 			$minimumIntegersp = $params->get('minimum_integers');
@@ -90,7 +90,7 @@ class JFormRulePassword extends JFormRule
 		}
 
 		// We don't allow white space inside passwords
-		$valueTrim =  trim($value);
+		$valueTrim = trim($value);
 
 		if (strlen($valueTrim) != $valueLength)
 		{
@@ -105,7 +105,7 @@ class JFormRulePassword extends JFormRule
 		// Minimum number of integers required
 		if (!empty($minimumIntegers))
 		{
-			$nInts = preg_match_all('/[0-9]/', $value );
+			$nInts = preg_match_all('/[0-9]/', $value);
 
 			if ($nInts < $minimumIntegers)
 			{
@@ -121,8 +121,7 @@ class JFormRulePassword extends JFormRule
 		// Minimum number of symbols required
 		if (!empty($minimumSymbols))
 		{
-
-			$nsymbols = preg_match_all('[\W]', $value );
+			$nsymbols = preg_match_all('[\W]', $value);
 
 			if ($nsymbols < $minimumSymbols)
 			{
@@ -138,8 +137,8 @@ class JFormRulePassword extends JFormRule
 		// Minimum number of upper case ASII characters required
 		if (!empty($minimumUppercase))
 		{
+			$nUppercase = preg_match_all("/[A-Z]/", $value);
 
-			$nUppercase = preg_match_all( "/[A-Z]/", $value );
 			if ($nUppercase < $minimumUppercase)
 			{
 				JFactory::getApplication()->enqueueMessage(

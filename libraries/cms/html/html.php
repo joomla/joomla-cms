@@ -896,7 +896,7 @@ abstract class JHtml
 			return '';
 		}
 
-		// split title into title and content if the title contains '::' (old Mootools format).
+		// Split title into title and content if the title contains '::' (old Mootools format).
 		if ($content == '' && !(strpos($title, '::') === false))
 		{
 			list($title, $content) = explode('::', $title, 2);
