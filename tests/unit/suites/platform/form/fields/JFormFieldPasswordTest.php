@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_PLATFORM . '/joomla/form/fields/password.php';
+require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+
 /**
  * Test class for JForm.
  *
@@ -18,14 +21,51 @@
 class JFormFieldPasswordTest extends TestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Backup of the SERVER superglobal
 	 *
-	 * @return void
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	protected function setUp()
 	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/password.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+		JFactory::$database    = $this->getMockDatabase();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
