@@ -1788,6 +1788,22 @@ CREATE TABLE IF NOT EXISTS `#__users` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__user_keys`
+--
+
+CREATE TABLE IF NOT EXISTS `#__user_keys` (
+  `user_id` varchar(255) NOT NULL,
+  `token` binary(100) NOT NULL,
+  `series` binary(100) NOT NULL,
+  `invalid` tinyint(4) NOT NULL,
+  `time` varchar(200) NOT NULL,
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `#__user_notes`
 --
 
