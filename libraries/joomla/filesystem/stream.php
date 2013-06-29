@@ -692,8 +692,6 @@ class JStream extends JObject
 			return false;
 		}
 
-		$res = false;
-
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -1122,8 +1120,6 @@ class JStream extends JObject
 	 */
 	public function removeFilter(&$resource, $byindex = false)
 	{
-		$res = false;
-
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -1164,8 +1160,6 @@ class JStream extends JObject
 	 */
 	public function copy($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
-		$res = false;
-
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -1224,8 +1218,6 @@ class JStream extends JObject
 	 */
 	public function move($src, $dest, $context = null, $use_prefix = true, $relative = false)
 	{
-		$res = false;
-
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');
@@ -1277,8 +1269,6 @@ class JStream extends JObject
 	 */
 	public function delete($filename, $context = null, $use_prefix = true, $relative = false)
 	{
-		$res = false;
-
 		// Capture PHP errors
 		$php_errormsg = '';
 		$track_errors = ini_get('track_errors');

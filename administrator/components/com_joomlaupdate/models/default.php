@@ -83,7 +83,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$db->updateObject('#__update_sites', $update_site, 'update_site_id');
 
 			// Remove cached updates
-			$query = $db->getQuery(true)
+			$query->clear()
 				->delete($db->quoteName('#__updates'))
 				->where($db->quoteName('extension_id') . ' = ' . $db->quote('700'));
 			$db->setQuery($query);
@@ -113,7 +113,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates(700, $cache_timeout);
+		$updater->findUpdates(700, $cache_timeout);
 	}
 
 	/**
@@ -528,7 +528,6 @@ ENDDATA;
 		$element = preg_replace('/\.xml/', '', basename($manifestPath));
 
 		// Run the script file
-		$scriptElement = $manifest->scriptfile;
 		$manifestScript = (string) $manifest->scriptfile;
 
 		if ($manifestScript)

@@ -558,9 +558,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 			// Loop through all elements and get list of files and folders
 			foreach ($xml->fileset->files as $eFiles)
 			{
-				$folder = (string) $eFiles->attributes()->folder;
-				$target = (string) $eFiles->attributes()->target;
-
 				// Create folder path
 				if (empty($target))
 				{

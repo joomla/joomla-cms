@@ -40,7 +40,7 @@ class JTableContenttypeTest extends TestCaseDatabase
 	/**
 	 * Gets the data set to be loaded into the database during setup
 	 *
-	 * @return  CSV database tables
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
 	 * @since   3.1
 	 */
@@ -48,7 +48,7 @@ class JTableContenttypeTest extends TestCaseDatabase
 	{
 		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
 
-		$dataSet->addTable('jos_content_types', __DIR__ . '/stubs/jos_content_types.csv');
+		$dataSet->addTable('jos_content_types', JPATH_TEST_DATABASE . '/jos_content_types.csv');
 
 		return $dataSet;
 	}
@@ -77,6 +77,21 @@ class JTableContenttypeTest extends TestCaseDatabase
 		}
 
 		$table->type_title = 'Unit Test';
+
+		try
+		{
+			$table->check();
+		}
+		catch (UnexpectedValueException $e)
+		{
+			$this->assertThat(
+				$e->getMessage(),
+				$this->equalTo('The type_alias is empty')
+			);
+		}
+
+		$table->type_alias = 'com_unit.test';
+
 		$this->assertThat(
 			$table->check(),
 			$this->isTrue(),
@@ -109,5 +124,4 @@ class JTableContenttypeTest extends TestCaseDatabase
 		'Line: ' . __LINE__ . ' Table store should successfully insert a record for the unit test item.'
 		);
 	}
-
 }

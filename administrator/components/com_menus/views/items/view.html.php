@@ -175,6 +175,10 @@ class MenusViewItems extends JViewLegacy
 
 		$this->addToolbar();
 		$this->sidebar = JHtmlSidebar::render();
+
+		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
+		JDispatcher::getInstance()->trigger('onBeforeRenderMenuItems', array($this));
+
 		parent::display($tpl);
 	}
 
@@ -188,6 +192,7 @@ class MenusViewItems extends JViewLegacy
 		require_once JPATH_COMPONENT.'/helpers/menus.php';
 
 		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -232,7 +237,7 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.edit'))
+		if ($user->authorise('core.create', 'com_menus') && $user->authorise('core.edit', 'com_menus') && $user->authorise('core.edit.state', 'com_menus'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');

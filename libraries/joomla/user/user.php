@@ -464,7 +464,7 @@ class JUser extends JObject
 	 * @return  object   The user parameters object.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.3  Instead use JUser::getParam()
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Instead use JUser::getParam()
 	 */
 	public function getParameters()
 	{
@@ -606,8 +606,6 @@ class JUser extends JObject
 
 		if (array_key_exists('params', $array))
 		{
-			$params = '';
-
 			$this->_params->loadArray($array['params']);
 
 			if (is_array($array['params']))
@@ -783,7 +781,6 @@ class JUser extends JObject
 		// Create the user table object
 		$table = $this->getTable();
 
-		$result = false;
 		if (!$result = $table->delete($this->id))
 		{
 			$this->setError($table->getError());

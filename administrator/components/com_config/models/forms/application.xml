@@ -189,6 +189,7 @@
 			label="COM_CONFIG_FIELD_FTP_HOST_LABEL"
 			description="COM_CONFIG_FIELD_FTP_HOST_DESC"
 			filter="string"
+			showon="ftp_enable:1"
 			size="14" />
 
 		<field
@@ -197,6 +198,7 @@
 			label="COM_CONFIG_FIELD_FTP_PORT_LABEL"
 			description="COM_CONFIG_FIELD_FTP_PORT_DESC"
 			filter="string"
+			showon="ftp_enable:1"
 			size="8" />
 
 		<field
@@ -205,6 +207,7 @@
 			label="COM_CONFIG_FIELD_FTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_FTP_USERNAME_DESC"
 			filter="string"
+			showon="ftp_enable:1"
 			autocomplete="off"
 			size="25" />
 
@@ -214,6 +217,7 @@
 			label="COM_CONFIG_FIELD_FTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_FTP_PASSWORD_DESC"
 			filter="raw"
+			showon="ftp_enable:1"
 			autocomplete="off"
 			size="25" />
 
@@ -221,6 +225,7 @@
 			name="ftp_root"
 			type="text"
 			label="COM_CONFIG_FIELD_FTP_ROOT_LABEL"
+			showon="ftp_enable:1"
 			description="COM_CONFIG_FIELD_FTP_ROOT_DESC"
 			filter="string"
 			size="50" />
@@ -280,6 +285,7 @@
 			name="sendmail"
 			type="text"
 			default="/usr/sbin/sendmail"
+			showon="mailer:sendmail"
 			label="COM_CONFIG_FIELD_MAIL_SENDMAIL_PATH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SENDMAIL_PATH_DESC"
 			filter="string"
@@ -290,6 +296,7 @@
 			type="radio"
 			class="btn-group"
 			default="0"
+			showon="mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_DESC"
 			filter="integer">
@@ -303,6 +310,7 @@
 			name="smtpsecure"
 			type="list"
 			default="none"
+			showon="mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_DESC"
 			filter="word">
@@ -318,6 +326,7 @@
 			name="smtpport"
 			type="text"
 			default="25"
+			showon="mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PORT_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PORT_DESC"
 			required="true"
@@ -327,6 +336,7 @@
 		<field
 			name="smtpuser"
 			type="text"
+			showon="mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_USERNAME_DESC"
 			filter="string"
@@ -336,6 +346,7 @@
 		<field
 			name="smtppass"
 			type="password"
+			showon="mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_PASSWORD_DESC"
 			filter="raw"
@@ -346,6 +357,7 @@
 			name="smtphost"
 			type="text"
 			default="localhost"
+			showon="mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_HOST_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_HOST_DESC"
 			filter="string"

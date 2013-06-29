@@ -32,7 +32,7 @@ class PlgContentPagenavigation extends JPlugin
 			return false;
 		}
 
-		if ($params->get('show_item_navigation') && ($context == 'com_content.article') && ($view == 'article'))
+		if (($context == 'com_content.article') && ($view == 'article') && $params->get('show_item_navigation'))
 		{
 			$db = JFactory::getDbo();
 			$user = JFactory::getUser();
@@ -169,6 +169,7 @@ class PlgContentPagenavigation extends JPlugin
 				$row->next = $rows[$location + 1];
 			}
 
+			// $pnSpace is/can be used in the include file
 			$pnSpace = "";
 			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
 			{

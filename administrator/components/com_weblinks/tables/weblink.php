@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class WeblinksTableWeblink extends JTable
 {
-
 	/**
 	 * Helper object for storing and deleting tag information.
 	 *
@@ -30,21 +29,24 @@ class WeblinksTableWeblink extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabaseDriver A database connector object
+	 * @param   JDatabaseDriver  &$db  A database connector object
 	 */
 	public function __construct(&$db)
 	{
 		parent::__construct('#__weblinks', 'id', $db);
 
-		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper = new JHelperTags;
 		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
 	}
 
 	/**
 	 * Overloaded bind function to pre-process the params.
 	 *
-	 * @param   array  Named array
-	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
 	 * @see     JTable:bind
 	 * @since   1.5
 	 */
@@ -85,6 +87,7 @@ class WeblinksTableWeblink extends JTable
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
+
 		if ($this->id)
 		{
 			// Existing item
@@ -125,6 +128,9 @@ class WeblinksTableWeblink extends JTable
 			$this->setError(JText::_('COM_WEBLINKS_ERROR_UNIQUE_ALIAS'));
 			return false;
 		}
+
+		// Convert IDN urls to punycode
+		$this->url = JStringPunycode::urlToPunycode($this->url);
 
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);

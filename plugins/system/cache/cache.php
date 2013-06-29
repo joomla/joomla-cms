@@ -35,7 +35,6 @@ class PlgSystemCache extends JPlugin
 		parent::__construct($subject, $config);
 
 		//Set the language in the class
-		$config = JFactory::getConfig();
 		$options = array(
 			'defaultgroup'	=> 'page',
 			'browsercache'	=> $this->params->get('browsercache', false),

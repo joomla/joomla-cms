@@ -67,12 +67,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$userEditPage = $this->getPageObject('UserEditPage');
 
 		$testElements = $userEditPage->getAllInputFields(array('details', 'settings'));
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($userEditPage->inputFields, $actualFields);
 		$userEditPage->clickButton('toolbar-cancel');
 		$this->userManagerPage = $this->getPageObject('UserManagerPage');

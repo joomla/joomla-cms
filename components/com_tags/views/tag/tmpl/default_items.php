@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.framework');
 
 // Get the user object.
@@ -27,7 +27,7 @@ $n = count($this->items);
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') !== '0' || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
 	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
@@ -63,7 +63,7 @@ $n = count($this->items);
 			<?php if ($item->core_state == 0) : ?>
 				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else: ?>
-				<li class="cat-list-row<?php echo $i % 2; ?>" >
+				<li class="cat-list-row<?php echo $i % 2; ?> clearfix" >
 				<h3>
 					<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 						<?php echo $this->escape($item->core_title); ?>
@@ -80,7 +80,6 @@ $n = count($this->items);
 				</span>
 			<?php endif; ?>
 				</li>
-			<div class="clearfix"></div>
 		<?php endforeach; ?>
 	</ul>
 
@@ -93,7 +92,7 @@ $n = count($this->items);
 		<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
-		</br>
+		<br/>
 	<?php endif; ?>
 </form>
 

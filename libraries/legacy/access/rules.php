@@ -15,7 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Access
  * @since       11.1
- * @deprecated  12.3
+ * @deprecated  12.3 (Platform) & 4.0 (CMS)
+ * @codeCoverageIgnore
  */
 class JRules extends JAccessRules
 {

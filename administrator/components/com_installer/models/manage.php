@@ -266,7 +266,6 @@ class InstallerModelManage extends InstallerModel
 		}
 		else
 		{
-			$result = false;
 			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
 	}
@@ -294,6 +293,10 @@ class InstallerModelManage extends InstallerModel
 			if ($status == '2')
 			{
 				$query->where('protected = 1');
+			}
+			elseif ($status == '3')
+			{
+				$query->where('protected = 0');
 			}
 			else
 			{

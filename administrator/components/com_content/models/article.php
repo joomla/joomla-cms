@@ -387,6 +387,18 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
 
+		// Prevent messing with article language and category when editing existing article with associations
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
+		if ($app->isSite() && $assoc && $this->getState('article.id'))
+		{
+			$form->setFieldAttribute('language', 'readonly', 'true');
+			$form->setFieldAttribute('catid', 'readonly', 'true');
+			$form->setFieldAttribute('language', 'filter', 'unset');
+			$form->setFieldAttribute('catid', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -439,6 +451,15 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
+
+			foreach ($data['urls'] as $i => $url)
+			{
+				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i = 'urlc'))
+				{
+					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+				}
+
+			}
 			$registry = new JRegistry;
 			$registry->loadArray($data['urls']);
 			$data['urls'] = (string) $registry;
@@ -510,7 +531,7 @@ class ContentModelArticle extends JModelAdmin
 					$query->clear()
 						->insert('#__associations');
 
-					foreach ($associations as $tag => $id)
+					foreach ($associations as $id)
 					{
 						$query->values($id . ',' . $db->quote('com_content.item') . ',' . $db->quote($key));
 					}
@@ -557,22 +578,21 @@ class ContentModelArticle extends JModelAdmin
 		try
 		{
 			$db = $this->getDbo();
-
-			$db->setQuery(
-				'UPDATE #__content' .
-					' SET featured = ' . (int) $value .
-					' WHERE id IN (' . implode(',', $pks) . ')'
-			);
+			$query = $db->getQuery(true)
+						->update($db->quoteName('#__content'))
+						->set('featured = ' . (int) $value)
+						->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
 			$db->execute();
 
 			if ((int) $value == 0)
 			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
-				$db->setQuery(
-					'DELETE FROM #__content_frontpage' .
-						' WHERE content_id IN (' . implode(',', $pks) . ')'
-				);
+				$query = $db->getQuery(true)
+							->delete($db->quoteName('#__content_frontpage'))
+							->where('content_id IN (' . implode(',', $pks) . ')');
+				$db->setQuery($query);
 				$db->execute();
 			}
 			else
@@ -594,14 +614,17 @@ class ContentModelArticle extends JModelAdmin
 				$tuples = array();
 				foreach ($new_featured as $pk)
 				{
-					$tuples[] = '(' . $pk . ', 0)';
+					$tuples[] = $pk . ', 0';
 				}
 				if (count($tuples))
 				{
-					$db->setQuery(
-						'INSERT INTO #__content_frontpage (' . $db->quoteName('content_id') . ', ' . $db->quoteName('ordering') . ')' .
-							' VALUES ' . implode(',', $tuples)
-					);
+					$db = $this->getDbo();
+					$columns = array('content_id', 'ordering');
+					$query = $db->getQuery(true)
+						->insert($db->quoteName('#__content_frontpage'))
+						->columns($db->quoteName($columns))
+						->values($tuples);
+					$db->setQuery($query);
 					$db->execute();
 				}
 			}

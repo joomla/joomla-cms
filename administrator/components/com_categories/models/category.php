@@ -181,14 +181,12 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (!empty($result->id))
 			{
-				$db = JFactory::getDbo();
 				$result->tags = new JHelperTags;
 				$result->tags->getTagIds($result->id, $result->extension . '.category');
 				$result->metadata['tags'] = $result->tags;
 			}
 		}
 
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -315,7 +313,6 @@ class CategoriesModelCategory extends JModelAdmin
 		jimport('joomla.filesystem.path');
 
 		$lang = JFactory::getLanguage();
-		$extension = $this->getState('category.extension');
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
 
@@ -372,7 +369,6 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Association category items
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -491,7 +487,6 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -539,7 +534,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$query->clear()
 					->insert('#__associations');
 
-				foreach ($associations as $tag => $id)
+				foreach ($associations as $id)
 				{
 					$query->values($id . ',' . $db->quote('com_categories.item') . ',' . $db->quote($key));
 				}

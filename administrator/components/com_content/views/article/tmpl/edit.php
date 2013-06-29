@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
@@ -68,6 +66,9 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+
+	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+
 	<div class="row-fluid">
 		<!-- Begin Content -->
 		<div class="span10 form-horizontal">
@@ -211,45 +212,41 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 					<?php  endif; ?>
 
 					<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))) : ?>
-							<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
-							<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+						<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
+						<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+
+							<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+								<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-' . $name, JText::_($fieldSet->label, true)); ?>
+							<?php endif; ?>
+
+							<?php // If the parameter says to show the article options or if the parameters have never been set, we will show the article options.?>
+							<?php if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))) : ?>
+								<?php // Go through all the fieldsets except the configuration and basic-limited, which are handled separately below.?>
 								<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
-									<?php $attribtabs = 'attrib-' . $name; ?>
-									<?php echo JHtml::_('bootstrap.addTab', 'myTab', $attribtabs, JText::_($fieldSet->label, true)); ?>
-								<?php endif; ?>
-
-							<?php
-								// If the parameter says to show the article options or if the parameters have never been set, we will
-								// show the article options.
-
-								if ($params['show_article_options'] || (( $params['show_article_options'] == '' && !empty($editoroptions) ))) : ?>
-								<?php	// Go through all the fieldsets except the configuration and basic-limited, which are
-									// handled separately below.
-								?>
-
-									<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
-										<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
-											<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
-										<?php endif; ?>
-										<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-											<div class="control-group">
-												<?php echo $field->label; ?>
-												<div class="controls">
-													<?php echo $field->input; ?>
-												</div>
-											</div>
-										<?php endforeach; ?>
+									<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
+										<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
 									<?php endif; ?>
-								<?php // If we are not showing the options we need to use the hidden fields so the values are not lost.
-								?>
-								<?php elseif ($name == 'basic-limited'):
-									foreach ($this->form->getFieldset('basic-limited') as $field) :
-										echo $field->input;
-									endforeach;
-								endif;
-							?>
+									<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+										<div class="control-group">
+											<?php echo $field->label; ?>
+											<div class="controls">
+												<?php echo $field->input; ?>
+											</div>
+										</div>
+									<?php endforeach; ?>
+								<?php endif; ?>
+							<?php // If we are not showing the options we need to use the hidden fields so the values are not lost.?>
+							<?php elseif ($name == 'basic-limited'):
+								foreach ($this->form->getFieldset('basic-limited') as $field) :
+									echo $field->input;
+								endforeach;
+							endif;?>
+
+							<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+								<?php echo JHtml::_('bootstrap.endTab'); ?>
+							<?php endif; ?>
+
 						<?php endforeach; ?>
-						<?php echo JHtml::_('bootstrap.endTab'); ?>
 					<?php endif; ?>
 
 					<?php // We need to make a separate space for the configuration

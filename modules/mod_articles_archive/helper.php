@@ -31,7 +31,7 @@ class ModArchiveHelper
 			->select($query->year($db->quoteName('created')) . ' AS created_year')
 			->from('#__content')
 			->where('state = 2 AND checked_out = 0')
-			->group('created_year, created_month, id, title, created');
+			->group('created_year, created_month');
 
 		// Filter by language
 		if (JFactory::getApplication()->getLanguageFilter())

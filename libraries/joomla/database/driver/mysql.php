@@ -54,10 +54,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
-		{
-			mysql_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -98,6 +95,12 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		// Set charactersets (needed for MySQL 4.1.2+).
 		$this->setUTF();
+
+		// Turn MySQL profiling ON in debug mode:
+		if ($this->debug)
+		{
+			mysqli_query($this->connection, "SET profiling = 1;");
+		}
 	}
 
 	/**
@@ -110,7 +113,15 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	public function disconnect()
 	{
 		// Close the connection.
-		mysql_close($this->connection);
+		if (is_resource($this->connection))
+		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
+			mysql_close($this->connection);
+		}
 
 		$this->connection = null;
 	}
@@ -254,6 +265,10 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
@@ -261,14 +276,18 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			$this->log[] = $query;
 
 			JLog::add($query, JLog::DEBUG, 'databasequery');
-		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+			$this->timings[] = microtime(true);
+		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @mysql_query($query, $this->connection);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)

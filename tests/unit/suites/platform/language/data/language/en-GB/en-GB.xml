@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="2.5" client="site">
+    <name>English (United Kingdom)</name>
+    <version>2.5.5</version>
+    <creationDate>2008-03-15</creationDate>
+    <author>Joomla! Project</author>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <description>en-GB site language</description>
+    <files>
+        <filename>en-GB.com_contact.ini</filename>
+        <filename>en-GB.com_content.ini</filename>
+        <filename>en-GB.com_finder.ini</filename>
+        <filename>en-GB.com_mailto.ini</filename>
+        <filename>en-GB.com_media.ini</filename>
+        <filename>en-GB.com_messages.ini</filename>
+        <filename>en-GB.com_newsfeeds.ini</filename>
+        <filename>en-GB.com_search.ini</filename>
+        <filename>en-GB.com_users.ini</filename>
+        <filename>en-GB.com_weblinks.ini</filename>
+        <filename>en-GB.com_wrapper.ini</filename>
+        <filename>en-GB.files_joomla.sys.ini</filename>
+        <filename>en-GB.finder_cli.ini</filename>
+        <filename>en-GB.ini</filename>
+        <filename>en-GB.lib_joomla.ini</filename>
+        <filename>en-GB.lib_joomla.sys.ini</filename>
+        <filename>en-GB.lib_phpmailer.sys.ini</filename>
+        <filename>en-GB.lib_phputf8.sys.ini</filename>
+        <filename>en-GB.lib_simplepie.sys.ini</filename>
+        <filename>en-GB.localise.php</filename>
+        <filename>en-GB.mod_articles_archive.ini</filename>
+        <filename>en-GB.mod_articles_archive.sys.ini</filename>
+        <filename>en-GB.mod_articles_categories.ini</filename>
+        <filename>en-GB.mod_articles_categories.sys.ini</filename>
+        <filename>en-GB.mod_articles_category.ini</filename>
+        <filename>en-GB.mod_articles_category.sys.ini</filename>
+        <filename>en-GB.mod_articles_latest.ini</filename>
+        <filename>en-GB.mod_articles_latest.sys.ini</filename>
+        <filename>en-GB.mod_articles_news.ini</filename>
+        <filename>en-GB.mod_articles_news.sys.ini</filename>
+        <filename>en-GB.mod_articles_popular.ini</filename>
+        <filename>en-GB.mod_articles_popular.sys.ini</filename>
+        <filename>en-GB.mod_banners.ini</filename>
+        <filename>en-GB.mod_banners.sys.ini</filename>
+        <filename>en-GB.mod_breadcrumbs.ini</filename>
+        <filename>en-GB.mod_breadcrumbs.sys.ini</filename>
+        <filename>en-GB.mod_custom.ini</filename>
+        <filename>en-GB.mod_custom.sys.ini</filename>
+        <filename>en-GB.mod_feed.ini</filename>
+        <filename>en-GB.mod_feed.sys.ini</filename>
+        <filename>en-GB.mod_finder.ini</filename>
+        <filename>en-GB.mod_finder.sys.ini</filename>
+        <filename>en-GB.mod_footer.ini</filename>
+        <filename>en-GB.mod_footer.sys.ini</filename>
+        <filename>en-GB.mod_languages.ini</filename>
+        <filename>en-GB.mod_languages.sys.ini</filename>
+        <filename>en-GB.mod_login.ini</filename>
+        <filename>en-GB.mod_login.sys.ini</filename>
+        <filename>en-GB.mod_menu.ini</filename>
+        <filename>en-GB.mod_menu.sys.ini</filename>
+        <filename>en-GB.mod_random_image.ini</filename>
+        <filename>en-GB.mod_random_image.sys.ini</filename>
+        <filename>en-GB.mod_related_items.ini</filename>
+        <filename>en-GB.mod_related_items.sys.ini</filename>
+        <filename>en-GB.mod_search.ini</filename>
+        <filename>en-GB.mod_search.sys.ini</filename>
+        <filename>en-GB.mod_stats.ini</filename>
+        <filename>en-GB.mod_stats.sys.ini</filename>
+        <filename>en-GB.mod_syndicate.ini</filename>
+        <filename>en-GB.mod_syndicate.sys.ini</filename>
+        <filename>en-GB.mod_users_latest.ini</filename>
+        <filename>en-GB.mod_users_latest.sys.ini</filename>
+        <filename>en-GB.mod_weblinks.ini</filename>
+        <filename>en-GB.mod_weblinks.sys.ini</filename>
+        <filename>en-GB.mod_whosonline.ini</filename>
+        <filename>en-GB.mod_whosonline.sys.ini</filename>
+        <filename>en-GB.mod_wrapper.ini</filename>
+        <filename>en-GB.mod_wrapper.sys.ini</filename>
+        <filename>en-GB.pkg_joomla.sys.ini</filename>
+        <filename>en-GB.tpl_atomic.ini</filename>
+        <filename>en-GB.tpl_atomic.sys.ini</filename>
+        <filename>en-GB.tpl_beez_20.ini</filename>
+        <filename>en-GB.tpl_beez_20.sys.ini</filename>
+        <filename>en-GB.tpl_beez5.ini</filename>
+        <filename>en-GB.tpl_beez5.sys.ini</filename>
+    </files>
+    <metadata>
+        <name>English (United Kingdom)</name>
+        <tag>en-GB</tag>
+        <rtl>0</rtl>
+        <locale>en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain, uk, united kingdom, united-kingdom</locale>
+        <firstDay>0</firstDay>
+    </metadata>
+    <params/>
+</metafile>
