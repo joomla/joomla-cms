@@ -37,7 +37,7 @@ class PlgSystemRemember extends JPlugin
 		$user = JFactory::getUser();
 
 		// Check for a cookie
-		if ($user->get('guest'))
+		if ($user->get('guest') == 1)
 		{
 			$hash = JApplication::getHash('JLOGIN_REMEMBER');
 
@@ -72,24 +72,18 @@ class PlgSystemRemember extends JPlugin
 				$query = $db->getQuery(true);
 				$query->select($db->quotename(array('user_id', 'token', 'series', 'timestamp', 'invalid')))
 					->where($db->quoteName('series') . ' = ' . $db->quote($privateKey64) )
-					->from($db->quoteName('#__user_keys'))
-					->order($db->quoteName('time'), 'desc');
+					->from($db->quoteName('#__user_keys'));
 				$db->setQuery($query);
 				$results = $db->loadObjectList();
 
 				$countResults = count($results);
-var_dump($countResults);die;
-				if ($countResults == 0)
-				{
-					return false;
-				}
 
-				// If the user has multiple cookies for the same key something is wrong, delete them all.
-				// Should we invalidate instead?
+				// If the user has multiple cookies for the same series something is wrong, invalidate them all.
 				if ($countResults > 1)
 				{
 					$query->clear();
-					$query->delete('#__user_keys');
+					$query->update('#__user_keys');
+					$query->set($db->quoteName('invalid') . ' = '  . (int) 1);
 					$query->where($db->quoteName('user_id') . ' = ' . $db->quote($result->user_id));
 					$db->setQuery($query);
 					$db->execute();
@@ -98,7 +92,7 @@ var_dump($countResults);die;
 				}
 
 				// We have a cookie but it's not in the database or the cookie is invalid. Possible attack, invalidate every thing.
-				if (!$results || !isset($match) || $results->invalid != 0)
+				if ($countResults == 0 || !$results || !isset($match) || $results->invalid != 0)
 				{
 					//Should this start by throwing an exception?
 					// We can only invalidate if there is a user.
@@ -108,20 +102,22 @@ var_dump($countResults);die;
 						$query = $db->getQuery(true);
 
 						$query->update($db->quoteName('#__user_keys'))
-						->values(1)
-						->columns($db->quoteName('invalid'))
-						->where($db->quotename('user_id') . '=' . $db->quote($results->user_id));
+							->values(1)
+							->columns($db->quoteName('invalid'))
+							->where($db->quotename('user_id') . ' = ' . $db->quote($results->username));
 						$db->setQuery($query);
 						$db->execute();
 
 						JLog::add('The remember me tokens were invalidated for user ' . $user['username']  . ' for the following reason: ' . $e->getMessage(), JLog::WARNING, 'security');
+
 						// Make this stronger ?
 						return false;
 					}
 				}
 
-
-				// So now we have a user with one valid cookie and a corresponding record in the database.
+				if ($countResults == 1)
+				{
+					// So now we have a user with one valid cookie and a corresponding record in the database.
 					$series = substr($result->series, 0, $privateKeyLength);
 					$privateKey64 = substr($privateKey64, 0, $privateKeyLength);
 
@@ -133,31 +129,16 @@ var_dump($countResults);die;
 						$cryptedToken = $cryptCheck->encrypt(sha1($user->username));
 					}
 
-
-
-
-/*
 					// We probably should add back some sanity checks but not as many as before
-					if (!is_string($str))
-					{
-						throw new InvalidArgumentException('Decoded cookie is not a string.');
-					}
 
-*/
 					$credentials['username'] = $result->user_id;
 					$return = $app->login($credentials, array('silent' => true));
-/*
-					// We've used this cookie so destroy it.
-					$cookie_domain = $app->getCfg('cookie_domain', '');
-					$cookie_path = $app->getCfg('cookie_path', '/');
 
-					// Destroy the cookie
-					//setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
-*/
 					if (!$return)
 					{
 						throw new Exception('Log-in failed.');
 					}
+				}
 			}
 		}
 	}
@@ -242,9 +223,6 @@ var_dump($countResults);die;
 
 		$secure = $app->isSSLConnection();
 
-		// We've used this cookie so destroy it.
-		setcookie($series, false, time() - 86400, $cookie_path, $cookie_domain, $secure, true);
-
 		//And make a new one
 		setcookie($series, $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
 
@@ -252,8 +230,6 @@ var_dump($countResults);die;
 		$query = $db->getQuery(true);
 
 		$expire = time() + $options['timeToExpiration'] * 24 * 60 * 60;
-
-		$tuple = $db->quote($user->username) . ', ' . $expire . ', ' .  $db->quote($key64) . ' , '. $db->quote($series64);
 
 		$user = JFactory::getUser();
 
@@ -266,8 +242,11 @@ var_dump($countResults);die;
 			$query->update($db->quoteName('#__user_keys'))
 				->where($db->quote($user->username) . ' = ' . $db->quoteName('user_id') . ' AND ' .  $db->quote($key64) . ' = ' . $db->quoteName('token'));
 		}
-		$query->values($tuple)
-			->columns(array($db->quoteName('user_id'), $db->quoteName('time'), $db->quoteName('token'), $db->quoteName('series')));
+		$query->set($db->quoteName('user_id') . ' = ' . $db->quote($user->username))
+			->set($db->quoteName('time') . ' = ' . $expire)
+			->set($db->quoteName('token') . ' = ' . $db->quote($key64))
+			->set($db->quoteName('series') . ' = ' . $db->quote($series64));
+
 		$db->setQuery($query);
 
 		$db->execute();

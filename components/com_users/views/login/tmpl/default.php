@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-if ($this->user->get('guest')):
+if ($this->user->get('guest') || $this->user->rememberLogin):
 	// The user is not logged in.
 	echo $this->loadTemplate('login');
 else:
