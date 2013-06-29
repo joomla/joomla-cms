@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Jun-2013 Mark Dexter
+# Revert [#31233] Complete move to Bootstrap tooltips.
+
 26-Jun-2013 Jean-Marie Simonet
  ^ [#31233] Complete move to Bootstrap tooltips. Thanks Peter van Westen.
 

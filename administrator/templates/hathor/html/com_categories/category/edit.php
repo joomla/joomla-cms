@@ -14,6 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 $input = JFactory::getApplication()->input;
 
+// Load the tooltip behavior.
+JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 ?>

@@ -84,7 +84,7 @@ class JFormFieldSpacerTest extends TestCase
 		);
 
 		$equals = '<span class="spacer"><span class="before"></span><span class="">' .
-			'<label id="spacer-lbl" class="hasTooltip" title="<strong>spacer</strong>">spacer</label></span>' .
+			'<label id="spacer-lbl" class="hasTip" title="spacer::spacer">spacer</label></span>' .
 			'<span class="after"></span></span>';
 
 		$this->assertEquals(
