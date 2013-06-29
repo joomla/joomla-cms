@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Jun-2013 Jean-Marie Simonet
+ $ [#27307] English only: weblink or web link. Web Link or Web link. Thanks George Wilson
+
 28-Jun-2013 Jean-Marie Simonet
  # Correcting #31772
  ^ [#31267] *Switching to Bootstrap tooltips. Thanks Peter van Westen and Michael Babker.
