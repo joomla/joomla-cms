@@ -149,7 +149,7 @@
 
 		isValueMissing : function(self, elem){
 			var $elem = $(elem),
-				node = /^(input|textarea)$/i,
+				node = /^(input|textarea|select)$/i,
 	            ignoredType = /^submit$/i,
 				val = $elem.val(),
 				type = elem.type !== undefined ? elem.type : elem.tagName.toLowerCase(),
