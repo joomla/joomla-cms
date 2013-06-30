@@ -276,7 +276,7 @@ class JControllerForm extends JControllerLegacy
 		}
 		else
 		{
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), warning);
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
 
 			return false;
 		}
