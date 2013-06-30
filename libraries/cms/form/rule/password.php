@@ -167,14 +167,12 @@ class JFormRulePassword extends JFormRule
 			}
 		}
 
-		// If valid password is still true return true, else return false.
-		if ($validPassword == true)
-		{
-			return true;
-		}
-		else
+		// If valid has violated any rules above return false.
+		if (!$validPassword)
 		{
 			return false;
 		}
+		
+		return true;
 	}
 }
