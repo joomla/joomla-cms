@@ -51,6 +51,7 @@ class PlgAuthenticationGMail extends JPlugin
 					// Check if we want to do suffix stuff, typically for Google Apps for Your Domain
 					if ($suffix && $applysuffix)
 					{
+						$offset = strpos($credentials['username'], '@');
 						if ($applysuffix == 1 && $offset === false)
 						{
 							// Apply suffix if missing
