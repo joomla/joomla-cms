@@ -98,7 +98,6 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	protected $timings = array();
 
-
 	/**
 	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
 	 * @since  CMS 3.1.2
@@ -487,6 +486,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * Adds a function callable just before disconnecting the database. Parameter of the callable is $this JDatabaseDriver
 	 *
 	 * @param   callable  $callable  Function to call in disconnect() method just before disconnecting from database
+	 *
 	 * @return  void
 	 *
 	 * @since   CMS 3.1.2
