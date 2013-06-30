@@ -270,10 +270,10 @@
 				var $elem = $(f[flen]),
 					$label = self.findLabel($elem);
 				if($elem.hasClass(self.options.requiredClass)) {
-						error.errors[flen] = $label.text().replace("*", "") + elf.options.requiredMessage;
+						error.errors[flen] = $label.text().replace("*", "") + self.options.requiredMessage;
 				}
 				if($elem.hasClass(self.options.patternClass)) {
-						error.errors[flen] = $label.text().replace("*", "") + elf.options.patternMessage;
+						error.errors[flen] = $label.text().replace("*", "") + self.options.patternMessage;
 				}
 			}
 			Joomla.renderMessages(error);
@@ -298,7 +298,7 @@
 	    urlPatt : /[a-z][\-\.+a-z]*:\/\//i
 	};
 	$(function(){
-		$('form').h5f({doRenderMessage : false});
+		$('form').h5f({doRenderMessage : true});
 		
 	});
 })(jQuery,document);
