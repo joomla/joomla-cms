@@ -44,6 +44,14 @@ class JHelperTags
 	public $typeAlias = null;
 
 	/**
+	 * Name of the property to use for tags metadata
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	public $metaDataVar = 'metadata';
+
+	/**
 	 * Method to add tag rows to mapping table.
 	 *
 	 * @param   integer  $ucmId  ID of the #__ucm_content item being tagged
@@ -665,7 +673,7 @@ class JHelperTags
 	 */
 	public function postStoreProcess($table)
 	{
-		$metaObject = json_decode($table->get('metadata'));
+		$metaObject = json_decode($table->get($this->metaDataVar));
 		$tags = (isset($metaObject->tags)) ? $metaObject->tags : null;
 		$result = true;
 
@@ -696,7 +704,7 @@ class JHelperTags
 				$ucmId = $ucmContentTable->core_content_id;
 
 				// Store the tag data if the article data was saved and run related methods.
-				$result = $result && $this->tagItem($ucmId, $table, json_decode($table->metadata)->tags, true);
+				$result = $result && $this->tagItem($ucmId, $table, json_decode($table->get($this->metaDataVar))->tags, true);
 			}
 		}
 		return $result;
@@ -713,9 +721,9 @@ class JHelperTags
 	 */
 	public function preStoreProcess($table)
 	{
-		if ($newMetadata = $this->createTagsFromMetadata($table->metadata))
+		if ($newMetadata = $this->createTagsFromMetadata($table->get($this->metaDataVar)))
 		{
-			$table->metadata = $newMetadata;
+			$table->set($this->metaDataVar, $newMetadata);
 		}
 
 		// If existing row, check to see if tags have changed.
@@ -724,9 +732,9 @@ class JHelperTags
 		$key = $oldTable->getKeyName();
 		if ($oldTable->$key && $oldTable->load())
 		{
-			$oldMetaObject = json_decode($oldTable->get('metadata'));
+			$oldMetaObject = json_decode($oldTable->get($this->metaDataVar));
 			$oldTags = (isset($oldMetaObject->tags)) ? $oldMetaObject->tags : null;
-			$newMetaObject = json_decode($table->get('metadata'));
+			$newMetaObject = json_decode($table->get($this->metaDataVar));
 			$newTags = (isset($newMetaObject->tags)) ? $newMetaObject->tags : null;
 		}
 
@@ -867,7 +875,7 @@ class JHelperTags
 		}
 		else
 		{
-			$oldTags = json_decode($table->metadata)->tags;
+			$oldTags = json_decode($table->get($this->metaDataVar))->tags;
 			$newTags = array_unique(array_merge($tags, $oldTags));
 		}
 		if (is_array($newTags) && count($newTags) > 0)
