@@ -44,6 +44,15 @@ abstract class JFormField
 	protected $autocomplete = true;
 
 	/**
+	 * The autofocus request for the form field. If true element will be automatically
+	 * focused on document load.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $autocomplete = false;
+
+	/**
 	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
 	 *
 	 * @var    SimpleXMLElement
@@ -371,9 +380,13 @@ abstract class JFormField
 		// Set the field hint text.
 		$this->hint = (string) $element['hint'];
 
-		//Determine whenther to automatically fill the field or not.
+		//Determine whether to automatically fill the field or not.
 		$this->autocomplete = !((string) $element['autocomplete'] == 'false' || (string) $element['autocomplete'] == 'off' 
 			|| (string) $element['autocomplete'] == '0');
+
+		//Determine whether to set focus on the field automatically or not.
+		$this->autofocus = ((string) $element['autofocus'] == 'true' || (string) $element['autofocus'] == 'off'
+			|| (string) $element['autofocus'] == '0');
 
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
