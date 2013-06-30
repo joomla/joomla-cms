@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Does a standard Joomla! installation
  */
@@ -17,44 +17,20 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$configFile = $cfg->folder.$cfg->path."configuration.php";
 
 		if (file_exists($configFile)) {
-			echo "Delete configuration file\n";
+			$this->jPrint ("Delete configuration file\n");
+			chmod($configFile, 0777);
 			unlink($configFile);
 		}
 		else {
-			echo "No configuration file found\n";
+			$this->jPrint ("No configuration file found\n");
 		}
 
-		echo("Starting Installation\n");
-		echo "Page through screen 1\n";
+		$this->jPrint("Starting Installation\n");
+		$this->jPrint ("Page through screen 1\n");
 		$this->open($cfg->path ."/installation/index.php");
-		$this->select("id=jform_language", "label=English (United Kingdom)");
-
-		$this->click("//a[@rel=\"next\"]");
-		$this->waitforElement("//h3[contains(text(), 'Recommended settings')]");
-
-		echo "Page through screen 2\n";
-		$this->click("//a[@rel=\"next\"]");
-		$this->waitforElement("//a[contains(text(), 'GNU GENERAL PUBLIC LICENSE')]");
-
-		echo "Page through screen 3\n";
-		$this->click("//a[@rel=\"next\"]");
-		$this->waitforElement("//select[@id='jform_db_type']");
-
-		echo "Enter database information\n";
-		$dbtype = (isset($cfg->db_type)) ? $cfg->db_type : 'MySQL';
-		$this->select("jform_db_type", "label=".$dbtype);
-		$this->type("jform_db_host", $cfg->db_host);
-		$this->type("jform_db_user", $cfg->db_user);
-		$this->type("jform_db_pass", $cfg->db_pass);
-		$this->type("jform_db_prefix", $cfg->db_prefix);
-		$this->type("jform_db_name", $cfg->db_name);
-		$this->click("jform_db_old0");
-		$this->click("//a[@rel=\"next\"]");
-		$this->waitforElement("//select[@id='jform_ftp_enable']");
-
-		echo "Enter site information\n";
-		$this->click("//a[@rel=\"next\"]");
-		$this->waitforElement("//input[@id='jform_site_name']");
+		$this->select("id=jform_language", "value=en-GB");
+		$this->waitforElement("//a/span[contains(text(), 'English (United Kingdom')]");
+		$this->checkNotices();
 
 		$this->type("jform_site_name", $cfg->site_name);
 		$this->type("jform_admin_user", $cfg->username);
@@ -62,35 +38,51 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->type("jform_admin_password", $cfg->password);
 		$this->type("jform_admin_password2", $cfg->password);
 
+		$this->click("//a[@rel=\"next\"]");
+		$this->waitforElement("//h3[contains(text(), 'Database Configuration')]");
+		$this->checkNotices();
+
+		$this->jPrint ("Enter database information\n");
+		$dbtype = (isset($cfg->db_type)) ? strtolower($cfg->db_type) : 'mysqli';
+		$this->select("jform_db_type", "value=".$dbtype);
+		$this->type("jform_db_host", $cfg->db_host);
+		$this->type("jform_db_user", $cfg->db_user);
+		$this->type("jform_db_pass", $cfg->db_pass);
+		$this->type("jform_db_prefix", $cfg->db_prefix);
+		$this->type("jform_db_name", $cfg->db_name);
+		$this->click("jform_db_old0");
+		$this->click("//a[@rel=\"next\"]");
+		$this->waitforElement("//h3[contains(text(), 'Finalisation')]");
+		$this->checkNotices();
+
 		// Default is install with sample data
 		if ($cfg->sample_data !== false)
 		{
-			echo "Install sample data and wait for success message\n";
-			$this->click("instDefault");
-
-			// wait up to 30 seconds for success message on sample data
-			$this->waitforElement("//input[contains(translate(@value, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),'installed successfully')]");
+			$this->jPrint ("Install sample data and wait for success message\n");
+			$this->click("//input[@id='jform_sample_file4']");
 		}
 		else {
-			echo "Install without sample data\n";
+			$this->jPrint ("Install without sample data\n");
 		}
 
-		echo "Finish installation\n";
-		$this->click("//a[@rel=\"next\"]");
+		$this->jPrint ("Finish installation\n");
+		$this->click("link=Install");
+		$this->checkNotices();
 		$this->waitforElement("//h3[contains(text(), 'Joomla! is now installed')]");
+		$this->checkNotices();
 
-		echo "Login to back end\n";
+		$this->jPrint ("Login to back end\n");
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 
-		echo "Check for site menu\n";
-		$this->assertEquals("Site", $this->getText("link=Site"));
+		$this->jPrint ("Check for site menu\n");
+		$this->assertEquals($cfg->site_name, $this->getText("link=" . $cfg->site_name));
 
-		echo "Change error level to maximum\n";
+		$this->jPrint ("Change error level to value from config\n");
 		$this->jClick('Global Configuration');
-		$this->click("server");
-		$this->select("jform_error_reporting", "label=Maximum");
-		$this->click("//li[@id='toolbar-save']/a/span");
+		$this->click("//a[@href='#page-server']");
+		$this->select("jform_error_reporting", "value=" . $cfg->errorReporting);
+		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 
 		$this->setCache($cfg->cache);
@@ -102,7 +94,7 @@ class DoInstall extends SeleniumJoomlaTestCase
 			$this->click("link=Hathor - Default");
 			$this->waitForPageToLoad("30000");
 			$this->click("jform_home1");
-			$this->click("//li[@id='toolbar-save']/a/span");
+			$this->click("//div[@id='toolbar-save']/button");
 			$this->waitForPageToLoad("30000");
 		}
 

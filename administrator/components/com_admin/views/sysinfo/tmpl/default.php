@@ -1,62 +1,46 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Add specific helper files for html generation
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-// Load switcher behavior
-JHtml::_('behavior.switcher');
 ?>
 
 <form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm">
-	<div id="config-document">
-		<div id="page-site" class="tab">
-			<div class="noshow">
-				<div class="width-100">
+	<div class="row-fluid">
+		<!-- Begin Content -->
+		<div class="span10">
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'site')); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site', JText::_('COM_ADMIN_SYSTEM_INFORMATION', true)); ?>
 					<?php echo $this->loadTemplate('system'); ?>
-				</div>
-			</div>
-		</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<div id="page-phpsettings" class="tab">
-			<div class="noshow">
-				<div class="width-60">
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'phpsettings', JText::_('COM_ADMIN_PHP_SETTINGS', true)); ?>
 					<?php echo $this->loadTemplate('phpsettings'); ?>
-				</div>
-			</div>
-		</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<div id="page-config" class="tab">
-			<div class="noshow">
-				<div class="width-60">
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'config', JText::_('COM_ADMIN_CONFIGURATION_FILE', true)); ?>
 					<?php echo $this->loadTemplate('config'); ?>
-				</div>
-			</div>
-		</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<div id="page-directory" class="tab">
-			<div class="noshow">
-				<div class="width-60">
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'directory', JText::_('COM_ADMIN_DIRECTORY_PERMISSIONS', true)); ?>
 					<?php echo $this->loadTemplate('directory'); ?>
-				</div>
-			</div>
-		</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<div id="page-phpinfo" class="tab">
-			<div class="noshow">
-				<div class="width-100">
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'phpinfo', JText::_('COM_ADMIN_PHP_INFORMATION', true)); ?>
 					<?php echo $this->loadTemplate('phpinfo'); ?>
-				</div>
-			</div>
-		</div>
-	</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<div class="clr"></div>
+			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		</div>
+		<!-- End Content -->
+	</div>
 </form>

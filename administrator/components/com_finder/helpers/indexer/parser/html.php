@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
+
+JLoader::register('FinderIndexerParser', dirname(__DIR__) . '/parser.php');
 
 /**
  * HTML Parser class for the Finder indexer package.
@@ -29,10 +31,10 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	 */
 	protected function process($input)
 	{
-	    // Strip invalid UTF-8 characters.
-        $input = iconv("utf-8", "utf-8//IGNORE", $input);
+		// Strip invalid UTF-8 characters.
+		$input = iconv("utf-8", "utf-8//IGNORE", $input);
 
-        // Strip all script tags.
+		// Strip all script tags.
 		$input = preg_replace('#<script[^>]*>.*?</script>#si', ' ', $input);
 
 		// Deal with spacing issues in the input.

@@ -1,15 +1,17 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 JLoader::register('JHtmlUsers', JPATH_COMPONENT . '/helpers/html/users.php');
 JHtml::register('users.spacer', array('JHtmlUsers', 'spacer'));
+
 
 $fieldsets = $this->form->getFieldsets();
 if (isset($fieldsets['core']))   unset($fieldsets['core']);
@@ -19,11 +21,16 @@ foreach ($fieldsets as $group => $fieldset): // Iterate through the form fieldse
 	$fields = $this->form->getFieldset($group);
 	if (count($fields)):
 ?>
+<?php //if ($this->params->get('show_tags')) : ?>
+		<?php  //$this->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php //echo $this->tagLayout->render($this->tags); ?>
+	<?php // endif; ?>
+
 <fieldset id="users-profile-custom" class="users-profile-custom-<?php echo $group;?>">
 	<?php if (isset($fieldset->label)):// If the fieldset has a label set, display it as the legend.?>
 	<legend><?php echo JText::_($fieldset->label); ?></legend>
 	<?php endif;?>
-	<dl>
+	<dl class="dl-horizontal">
 	<?php foreach ($fields as $field):
 		if (!$field->hidden) :?>
 		<dt><?php echo $field->title; ?></dt>

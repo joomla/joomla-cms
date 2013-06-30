@@ -147,7 +147,7 @@
 			size="30"
 		/>
 
-		<fiel name="checked_out" type="hidden"
+		<field name="checked_out" type="hidden"
 			filter="unset"
 		/>
 

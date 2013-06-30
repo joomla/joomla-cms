@@ -1,50 +1,48 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_media
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_media
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
+$input  = JFactory::getApplication()->input;
+$user   = JFactory::getUser();
+$asset  = $input->get('asset');
+$author = $input->get('author');
+
 // Access check.
-
-$user = JFactory::getUser();
-$asset = JRequest::getCmd('asset');
-$author = JRequest::getCmd('author');
-
-if (	!$user->authorise('core.manage', 'com_media')
+if (!$user->authorise('core.manage', 'com_media')
 	&&	(!$asset or (
 			!$user->authorise('core.edit', $asset)
 		&&	!$user->authorise('core.create', $asset)
 		&& 	count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
-		&&	!($user->id==$author && $user->authorise('core.edit.own', $asset))))
+		&&	!($user->id == $author && $user->authorise('core.edit.own', $asset))))
 {
 	return JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
 $params = JComponentHelper::getParams('com_media');
 
-// Load the admin HTML view
-require_once JPATH_COMPONENT.'/helpers/media.php';
+// Load the helper class
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/media.php';
 
 // Set the path definitions
-$popup_upload = JRequest::getCmd('pop_up', null);
-$path = "file_path";
+$popup_upload = $input->get('pop_up', null);
+$path = 'file_path';
 
-$view = JRequest::getCmd('view');
-if (substr(strtolower($view), 0, 6) == "images" || $popup_upload == 1) {
-	$path = "image_path";
+$view = $input->get('view');
+if (substr(strtolower($view), 0, 6) == 'images' || $popup_upload == 1)
+{
+	$path = 'image_path';
 }
 
-define('COM_MEDIA_BASE',	JPATH_ROOT.'/'.$params->get($path, 'images'));
-define('COM_MEDIA_BASEURL', JURI::root().$params->get($path, 'images'));
+define('COM_MEDIA_BASE',    JPATH_ROOT . '/' . $params->get($path, 'images'));
+define('COM_MEDIA_BASEURL', JUri::root() . $params->get($path, 'images'));
 
-// Include dependancies
-jimport('joomla.application.component.controller');
-
-$controller	= JController::getInstance('Media');
-$controller->execute(JRequest::getCmd('task'));
+$controller	= JControllerLegacy::getInstance('Media', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
+$controller->execute($input->get('task'));
 $controller->redirect();

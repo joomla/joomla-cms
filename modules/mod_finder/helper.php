@@ -3,8 +3,8 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -22,38 +22,45 @@ class ModFinderHelper
 	 * Method to get hidden input fields for a get form so that control variables
 	 * are not lost upon form submission.
 	 *
-	 * @param   string  $route  The route to the page. [optional]
+	 * @param   string   $route      The route to the page. [optional]
+	 * @param   integer  $paramItem  The menu item ID. (@since 3.1) [optional]
 	 *
 	 * @return  string  A string of hidden input form fields
 	 *
 	 * @since   2.5
 	 */
-	public static function getGetFields($route = null)
+	public static function getGetFields($route = null, $paramItem = 0)
 	{
 		$fields = null;
-		$uri = JURI::getInstance(JRoute::_($route));
+		$uri = JUri::getInstance(JRoute::_($route));
 		$uri->delVar('q');
+		$elements = $uri->getQuery(true);
 
 		// Create hidden input elements for each part of the URI.
 		// Add the current menu id if it doesn't have one
-		$needId = true;
-		foreach ($uri->getQuery(true) as $n => $v)
+		foreach ($elements as $n => $v)
 		{
-			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
-			if ($n == 'Itemid') {
-				$needId = false;
+			if ($n == 'Itemid')
+			{
+				continue;
 			}
+			$fields .= '<input type="hidden" name="' . $n . '" value="' . $v . '" />';
 		}
-		if ($needId) {
-			$fields .= '<input type="hidden" name="Itemid" value="' . JFactory::getApplication()->input->get('Itemid', '0', 'int') . '" />';
-		}
+
+		/*
+		 * Figure out the Itemid value
+		 * First, check if the param is set.  If not, fall back to the Itemid from the JInput object
+		 */
+		$Itemid = $paramItem > 0 ? $paramItem : JFactory::getApplication()->input->getInt('Itemid');
+		$fields .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
+
 		return $fields;
 	}
 
 	/**
 	 * Get Smart Search query object.
 	 *
-	 * @param   JRegistry object containing module parameters.
+	 * @param   JRegistry  $params  Module parameters.
 	 *
 	 * @return  FinderIndexerQuery object
 	 *
@@ -68,11 +75,11 @@ class ModFinderHelper
 
 		// Get the static taxonomy filters.
 		$options = array();
-		$options['filter'] = !is_null($request->get('f')) ? $request->get('f', '', 'int') : $params->get('f');
+		$options['filter'] = ($request->get('f', 0, 'int') != 0) ? $request->get('f', '', 'int') : $params->get('searchfilter');
 		$options['filter'] = $filter->clean($options['filter'], 'int');
 
 		// Get the dynamic taxonomy filters.
-		$options['filters'] = !is_null($request->get('t')) ? $request->get('t', '', 'array') : $params->get('t');
+		$options['filters'] = $request->get('t', '', 'array');
 		$options['filters'] = $filter->clean($options['filters'], 'array');
 		JArrayHelper::toInteger($options['filters']);
 
@@ -81,5 +88,4 @@ class ModFinderHelper
 
 		return $query;
 	}
-
 }

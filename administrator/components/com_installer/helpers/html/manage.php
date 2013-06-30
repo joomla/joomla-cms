@@ -1,16 +1,18 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       2.5
  */
 abstract class InstallerHtmlManage
 {
@@ -36,7 +38,7 @@ abstract class InstallerHtmlManage
 				'COM_INSTALLER_EXTENSION_PROTECTED',
 				'',
 				'COM_INSTALLER_EXTENSION_PROTECTED',
-				false,
+				true,
 				'protected',
 				'protected'
 			),
@@ -45,7 +47,7 @@ abstract class InstallerHtmlManage
 				'COM_INSTALLER_EXTENSION_ENABLED',
 				'COM_INSTALLER_EXTENSION_DISABLE',
 				'COM_INSTALLER_EXTENSION_ENABLED',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -54,7 +56,7 @@ abstract class InstallerHtmlManage
 				'COM_INSTALLER_EXTENSION_DISABLED',
 				'COM_INSTALLER_EXTENSION_ENABLE',
 				'COM_INSTALLER_EXTENSION_DISABLED',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),

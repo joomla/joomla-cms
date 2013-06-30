@@ -1,44 +1,41 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controllerform');
 
 /**
  * Languages Override Controller
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesControllerOverride extends JControllerForm
 {
 	/**
 	 * Method to edit an existing override
 	 *
-	 * @param		string	$key		The name of the primary key of the URL variable (not used here).
-	 * @param		string	$urlVar	The name of the URL variable if different from the primary key (not used here).
+	 * @param   	string	$key		The name of the primary key of the URL variable (not used here).
+	 * @param   	string	$urlVar	The name of the URL variable if different from the primary key (not used here).
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		// Initialize variables
-		$app			= JFactory::getApplication();
-		$cid			= JRequest::getVar('cid', array(), 'post', 'array');
-		$context	= "$this->option.edit.$this->context";
+		$app     = JFactory::getApplication();
+		$cid     = $this->input->post->get('cid', array(), 'array');
+		$context = "$this->option.edit.$this->context";
 
 		// Get the constant name
-		$recordId	= (count($cid) ? $cid[0] : JRequest::getCmd('id'));
+		$recordId = (count($cid) ? $cid[0] : $this->input->get('id'));
 
 		// Access check
 		if (!$this->allowEdit())
@@ -57,10 +54,10 @@ class LanguagesControllerOverride extends JControllerForm
 	/**
 	 * Method to save an override
 	 *
-	 * @param		string	$key		The name of the primary key of the URL variable (not used here).
-	 * @param		string	$urlVar	The name of the URL variable if different from the primary key (not used here).
+	 * @param   	string	$key		The name of the primary key of the URL variable (not used here).
+	 * @param   	string	$urlVar	The name of the URL variable if different from the primary key (not used here).
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -69,14 +66,13 @@ class LanguagesControllerOverride extends JControllerForm
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialize variables
-		$app				= JFactory::getApplication();
-		$model			= $this->getModel();
-		$data				= JRequest::getVar('jform', array(), 'post', 'array');
-		$context		= "$this->option.edit.$this->context";
-		$task				= $this->getTask();
+		$app     = JFactory::getApplication();
+		$model   = $this->getModel();
+		$data    = $this->input->post->get('jform', array(), 'array');
+		$context = "$this->option.edit.$this->context";
+		$task    = $this->getTask();
 
-		$recordId		= JRequest::getCmd('id');
+		$recordId = $this->input->get('id');
 		$data['id'] = $recordId;
 
 		// Access check
@@ -154,7 +150,6 @@ class LanguagesControllerOverride extends JControllerForm
 		{
 			case 'apply':
 				// Set the record data in the session
-				$recordId = $model->getState($this->context.'.id');
 				$app->setUserState($context.'.data', null);
 
 				// Redirect back to the edit screen
@@ -182,9 +177,9 @@ class LanguagesControllerOverride extends JControllerForm
 	/**
 	 * Method to cancel an edit
 	 *
-	 * @param		string	$key	The name of the primary key of the URL variable (not used here).
+	 * @param   	string	$key	The name of the primary key of the URL variable (not used here).
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -192,9 +187,8 @@ class LanguagesControllerOverride extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialize variables
-		$app			= JFactory::getApplication();
-		$context	= "$this->option.edit.$this->context";
+		$app     = JFactory::getApplication();
+		$context = "$this->option.edit.$this->context";
 
 		$app->setUserState($context.'.data',	null);
 		$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));

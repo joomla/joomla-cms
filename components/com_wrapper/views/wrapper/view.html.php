@@ -1,39 +1,43 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Site
- * @subpackage	com_wrapper
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ * @since       1.5
  */
 class WrapperViewWrapper extends JViewLegacy
 {
+	/**
+	 * @since  1.5
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
-		$document	= JFactory::getDocument();
-
-		$menus	= $app->getMenu();
-		$menu	= $menus->getActive();
 
 		$params = $app->getParams();
 
 		// because the application sets a default page title, we need to get it
 		// right from the menu item itself
 		$title = $params->get('page_title', '');
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);
@@ -53,11 +57,14 @@ class WrapperViewWrapper extends JViewLegacy
 			$this->document->setMetadata('robots', $params->get('robots'));
 		}
 
-		$wrapper = new stdClass();
+		$wrapper = new stdClass;
 		// auto height control
-		if ($params->def('height_auto')) {
+		if ($params->def('height_auto'))
+		{
 			$wrapper->load = 'onload="iFrameHeight()"';
-		} else {
+		}
+		else
+		{
 			$wrapper->load = '';
 		}
 
@@ -70,22 +77,24 @@ class WrapperViewWrapper extends JViewLegacy
 				// relative url in component. use server http_host.
 				$wrapper->url = 'http://'. $_SERVER['HTTP_HOST'] . $url;
 			}
-			elseif (!strstr($url, 'http') && !strstr($url, 'https')) {
+			elseif (!strstr($url, 'http') && !strstr($url, 'https'))
+			{
 				$wrapper->url = 'http://'. $url;
 			}
 			else {
 				$wrapper->url = $url;
 			}
 		}
-		else {
+		else
+		{
 			$wrapper->url = $url;
 		}
 
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
-		$this->assignRef('params',	$params);
-		$this->assignRef('wrapper', $wrapper);
+		$this->params = &$params;
+		$this->wrapper = &$wrapper;
 
 		parent::display($tpl);
 	}

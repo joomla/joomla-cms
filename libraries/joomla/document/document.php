@@ -3,15 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('JDocumentRenderer', dirname(__FILE__) . '/renderer.php');
 jimport('joomla.environment.response');
-jimport('joomla.filter.filteroutput');
 
 /**
  * Document class, provides an easy interface to parse and display a document
@@ -20,7 +18,7 @@ jimport('joomla.filter.filteroutput');
  * @subpackage  Document
  * @since       11.1
  */
-class JDocument extends JObject
+class JDocument
 {
 	/**
 	 * Document title
@@ -212,8 +210,6 @@ class JDocument extends JObject
 	 */
 	public function __construct($options = array())
 	{
-		parent::__construct();
-
 		if (array_key_exists('lineend', $options))
 		{
 			$this->setLineEnd($options['lineend']);
@@ -260,6 +256,7 @@ class JDocument extends JObject
 	 * @return  object  The document object.
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
 	{
@@ -268,7 +265,7 @@ class JDocument extends JObject
 		if (empty(self::$instances[$signature]))
 		{
 			$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
-			$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
+			$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 			$ntype = null;
 
 			// Check if the document type exists
@@ -283,19 +280,19 @@ class JDocument extends JObject
 			$class = 'JDocument' . $type;
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/' . $type . '/' . $type . '.php';
+				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
 				if (file_exists($path))
 				{
 					require_once $path;
 				}
 				else
 				{
-					JError::raiseError(500, JText::_('JLIB_DOCUMENT_ERROR_UNABLE_LOAD_DOC_CLASS'));
+					throw new RuntimeException('Invalid JDocument Class', 500);
 				}
 			}
 
 			$instance = new $class($attributes);
-			self::$instances[$signature] = &$instance;
+			self::$instances[$signature] = $instance;
 
 			if (!is_null($ntype))
 			{
@@ -376,7 +373,6 @@ class JDocument extends JObject
 	 */
 	public function getMetaData($name, $httpEquiv = false)
 	{
-		$result = '';
 		$name = strtolower($name);
 		if ($name == 'generator')
 		{
@@ -407,13 +403,12 @@ class JDocument extends JObject
 	 * @param   string   $name        Value of name or http-equiv tag
 	 * @param   string   $content     Value of the content tag
 	 * @param   boolean  $http_equiv  META type "http-equiv" defaults to null
-	 * @param   boolean  $sync        Should http-equiv="content-type" by synced with HTTP-header?
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
 	 * @since   11.1
 	 */
-	public function setMetaData($name, $content, $http_equiv = false, $sync = true)
+	public function setMetaData($name, $content, $http_equiv = false)
 	{
 		$name = strtolower($name);
 
@@ -430,12 +425,6 @@ class JDocument extends JObject
 			if ($http_equiv == true)
 			{
 				$this->_metaTags['http-equiv'][$name] = $content;
-
-				// Syncing with HTTP-header
-				if ($sync && strtolower($name) == 'content-type')
-				{
-					$this->setMimeEncoding($content, false);
-				}
 			}
 			else
 			{
@@ -813,7 +802,7 @@ class JDocument extends JObject
 		// Syncing with meta-data
 		if ($sync)
 		{
-			$this->setMetaData('content-type', $type, true, false);
+			$this->setMetaData('content-type', $type . '; charset=' . $this->_charset, true);
 		}
 
 		return $this;
@@ -908,6 +897,7 @@ class JDocument extends JObject
 	 * @return  JDocumentRenderer  Object or null if class does not exist
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	public function loadRenderer($type)
 	{
@@ -915,7 +905,7 @@ class JDocument extends JObject
 
 		if (!class_exists($class))
 		{
-			$path = dirname(__FILE__) . '/' . $this->_type . '/renderer/' . $type . '.php';
+			$path = __DIR__ . '/' . $this->_type . '/renderer/' . $type . '.php';
 
 			if (file_exists($path))
 			{
@@ -923,7 +913,7 @@ class JDocument extends JObject
 			}
 			else
 			{
-				JError::raiseError(500, JText::_('Unable to load renderer class'));
+				throw new RuntimeException('Unable to load renderer class', 500);
 			}
 		}
 

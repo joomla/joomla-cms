@@ -1,25 +1,27 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View to edit a template style.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
-class TemplatesViewTemplate extends JView
+class TemplatesViewTemplate extends JViewLegacy
 {
 	protected $files;
+
 	protected $state;
+
 	protected $template;
 
 	/**
@@ -32,7 +34,8 @@ class TemplatesViewTemplate extends JView
 		$this->template	= $this->get('Template');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -44,18 +47,31 @@ class TemplatesViewTemplate extends JView
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
-		$user		= JFactory::getUser();
-		$canDo		= TemplatesHelper::getActions();
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		JToolBarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+		$user  = JFactory::getUser();
 
-		JToolBarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
+
+		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+
+		// Add a copy button
+		if ($user->authorise('core.create', 'com_templates'))
+		{
+			$title = JText::_('JLIB_HTML_BATCH_COPY');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+						<i class=\"icon-copy\" title=\"$title\"></i>
+						$title</button>";
+			$bar->appendButton('Custom', $dhtml, 'upload');
+		}
+
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
 	}
 }

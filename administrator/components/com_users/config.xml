@@ -4,6 +4,7 @@
 		<field
 			name="allowUserRegistration"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
@@ -30,6 +31,19 @@
 		</field>
 
 		<field
+			name="sendpassword"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
+			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+
+		<field
 			name="useractivation"
 			type="list"
 			default="1"
@@ -46,6 +60,7 @@
 		<field
 			name="mail_to_admin"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
@@ -72,6 +87,7 @@
 		<field
 			name="frontend_userparams"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
@@ -83,6 +99,7 @@
 		<field
 			name="site_language"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC">
@@ -94,6 +111,7 @@
 		<field
 			name="change_login_name"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
@@ -121,6 +139,49 @@
 			last="24"
 			step="1"
 			default="1">
+			</field>
+
+		<field
+			name="minimum_length"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
+			description="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH_DESC"
+			first="4"
+			last="99"
+			step="1"
+			default="4">
+			</field>
+
+		<field
+			name="minimum_integers"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
+			description="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS_DESC"
+			first="0"
+			last="98"
+			step="1"
+			default="0">
+			</field>
+
+		<field
+			name="minimum_symbols"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
+			description="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS_DESC"
+			first="0"
+			last="98"
+			step="1"
+			default="0">
+			</field>
+		<field
+			name="minimum_uppercase"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
+			description="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE_DESC"
+			first="0"
+			last="98"
+			step="1"
+			default="0">
 			</field>
 	</fieldset>
 

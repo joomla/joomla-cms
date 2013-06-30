@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -31,6 +31,7 @@ class FinderViewSearch extends JViewLegacy
 	{
 		// Get the application
 		$app = JFactory::getApplication();
+
 		// Adjust the list limit to the feed limit.
 		$app->input->set('limit', $app->getCfg('feed_limit'));
 
@@ -42,7 +43,6 @@ class FinderViewSearch extends JViewLegacy
 
 		// Push out the query data.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		$suggested = JHtml::_('query.suggested', $query);
 		$explained = JHtml::_('query.explained', $query);
 
 		// Set the document title.
@@ -72,6 +72,12 @@ class FinderViewSearch extends JViewLegacy
 		// Set the document link.
 		$this->document->link = JRoute::_($query->toURI());
 
+		// If we don't have any results, we are done.
+		if (empty($results))
+		{
+			return;
+		}
+
 		// Convert the results to feed entries.
 		foreach ($results as $result)
 		{
@@ -80,7 +86,7 @@ class FinderViewSearch extends JViewLegacy
 			$item->title = $result->title;
 			$item->link = JRoute::_($result->route);
 			$item->description = $result->description;
-			$item->date = intval($result->start_date) ? JHtml::date($result->start_date, 'l d F Y') : $result->indexdate;
+			$item->date = (int) $result->start_date ? JHtml::date($result->start_date, 'l d F Y') : $result->indexdate;
 
 			// Get the taxonomy data.
 			$taxonomy = $result->getTaxonomy();
@@ -92,7 +98,7 @@ class FinderViewSearch extends JViewLegacy
 				$item->category = $node->title;
 			}
 
-			// loads item info into rss array
+			// Loads item info into RSS array
 			$this->document->addItem($item);
 		}
 	}

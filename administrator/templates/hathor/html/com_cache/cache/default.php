@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -15,6 +14,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 		<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-select fltrt">
@@ -33,9 +40,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <table class="adminlist">
 	<thead>
 		<tr>
-			<th class="title row-number-col">
-				<?php echo JText::_('COM_CACHE_NUM'); ?>
-			</th>
 			<th class="checkmark-col">
 				<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 			</th>
@@ -54,13 +58,10 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<tbody>
 		<?php
 		$i = 0;
-		foreach ($this->data as $folder => $item): ?>
+		foreach ($this->data as $folder => $item) : ?>
 		<tr class="row<?php echo $i % 2; ?>">
 			<td>
-				<?php echo $this->pagination->getRowOffset($i); ?>
-			</td>
-			<td>
-				<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" title="<?php echo JText::sprintf('JGRID_CHECKBOX_ROW_N', ($i + 1)); ?>" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
+				<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />
 			</td>
 			<td>
 				<span class="bold">
@@ -86,4 +87,5 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 <input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 <?php echo JHtml::_('form.token'); ?>
+</div>
 </form>

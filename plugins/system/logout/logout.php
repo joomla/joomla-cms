@@ -1,7 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  System.logout
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -9,54 +12,63 @@ defined('JPATH_BASE') or die;
 /**
  * Plugin class for logout redirect handling.
  *
- * @package		Joomla.Plugin
- * @subpackage	System.logout
+ * @package     Joomla.Plugin
+ * @subpackage  System.logout
+ * @since       1-6
  */
-class plgSystemLogout extends JPlugin
+class PlgSystemLogout extends JPlugin
 {
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
 	/**
 	 * Object Constructor.
 	 *
 	 * @access	public
-	 * @param	object	The object to observe -- event dispatcher.
-	 * @param	object	The configuration object for the plugin.
-	 * @return	void
-	 * @since	1.5
+	 * @param   object	The object to observe -- event dispatcher.
+	 * @param   object	The configuration object for the plugin.
+	 * @return  void
+	 * @since   1.6
 	 */
-	function __construct(&$subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-		$this->loadLanguage();
 
-		$hash = JApplication::getHash('plgSystemLogout');
-		if (JFactory::getApplication()->isSite() and JRequest::getString($hash, null , 'cookie'))
+		$input = JFactory::getApplication()->input;
+		$hash  = JApplication::getHash('PlgSystemLogout');
+		if (JFactory::getApplication()->isSite() && $input->cookie->getString($hash))
 		{
 			// Destroy the cookie
 			$conf = JFactory::getConfig();
-			$cookie_domain 	= $conf->get('config.cookie_domain', '');
-			$cookie_path 	= $conf->get('config.cookie_path', '/');
+			$cookie_domain = $conf->get('config.cookie_domain', '');
+			$cookie_path   = $conf->get('config.cookie_path', '/');
 			setcookie($hash, false, time() - 86400, $cookie_path, $cookie_domain);
 
 			// Set the error handler for E_ALL to be the class handleError method.
-			JError::setErrorHandling(E_ALL, 'callback', array('plgSystemLogout', 'handleError'));
+			JError::setErrorHandling(E_ALL, 'callback', array('PlgSystemLogout', 'handleError'));
 		}
 	}
 
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param	array	$user		Holds the user data.
-	 * @param	array	$options	Array holding options (client, ...).
+	 * @param   array  $user		Holds the user data.
+	 * @param   array  $options	Array holding options (client, ...).
 	 *
-	 * @return	object	True on success
-	 * @since	1.5
+	 * @return  boolean Always returns true
+	 * @since   1.6
 	 */
 	public function onUserLogout($user, $options = array())
 	{
 		if (JFactory::getApplication()->isSite())
 		{
 			// Create the cookie
-			$hash = JApplication::getHash('plgSystemLogout');
+			$hash = JApplication::getHash('PlgSystemLogout');
 			$conf = JFactory::getConfig();
 			$cookie_domain 	= $conf->get('config.cookie_domain', '');
 			$cookie_path 	= $conf->get('config.cookie_path', '/');
@@ -65,17 +77,19 @@ class plgSystemLogout extends JPlugin
 		return true;
 	}
 
-	static function handleError(&$error)
+	public static function handleError(&$error)
 	{
 		// Get the application object.
 		$app = JFactory::getApplication();
 
 		// Make sure the error is a 403 and we are in the frontend.
-		if ($error->getCode() == 403 and $app->isSite()) {
+		if ($error->getCode() == 403 and $app->isSite())
+		{
 			// Redirect to the home page
 			$app->redirect('index.php', JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), null, true, false);
 		}
-		else {
+		else
+		{
 			// Render the error page.
 			JError::customErrorPage($error);
 		}

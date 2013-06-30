@@ -5,8 +5,19 @@
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
 		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION" >
 		<field
+			name="enabled"
+			type="radio"
+			class="btn-group"
+			default="0"
+			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
+			description="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_DESCRIPTION">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field
 			name="show_description"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_DESCRIPTION_DESCRIPTION">
@@ -23,6 +34,7 @@
 			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION" />
 		<field name="allow_empty_query"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
 			description="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_DESCRIPTION">
@@ -32,6 +44,7 @@
 		<field
 			name="show_url"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_URL_DESCRIPTION">
@@ -41,6 +54,7 @@
 		<field
 			name="show_autosuggest"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_DESCRIPTION">
@@ -50,15 +64,26 @@
 		<field
 			name="show_advanced"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_ADVANCED_DESCRIPTION">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
+		<field name="show_advanced_tips"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
+			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION">
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+		</field>
 		<field
 			name="expand_advanced"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
 			description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESCRIPTION">
@@ -68,6 +93,7 @@
 		<field
 			name="show_date_filters"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
 			description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESCRIPTION">
@@ -96,6 +122,7 @@
 		<field
 			name="highlight_terms"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
 			description="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_DESCRIPTION">
@@ -184,6 +211,7 @@
 		<field
 			name="stem"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_FINDER_CONFIG_STEMMER_ENABLE_LABEL"
 			description="COM_FINDER_CONFIG_STEMMER_ENABLE_DESCRIPTION" >
@@ -197,11 +225,13 @@
 			label="COM_FINDER_CONFIG_STEMMER_LABEL"
 			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION" >
 			<option value="porter_en">COM_FINDER_CONFIG_STEMMER_PORTER_EN</option>
+			<option value="fr">COM_FINDER_CONFIG_STEMMER_FR</option>
 			<option value="snowball">COM_FINDER_CONFIG_STEMMER_SNOWBALL</option>
 		</field>
 		<field
 			name="enable_logging"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
 			description="COM_FINDER_CONFIG_ENABLE_LOGGING_DESCRIPTION">

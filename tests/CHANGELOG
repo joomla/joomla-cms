@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -12,7 +12,7 @@ see source code and the LICENSE file
 2. Changelog
 ------------
 This is a non-exhaustive (but still near complete) changelog for
-Joomla! 1.6 automated tests, including alpha and beta versions.
+Joomla! automated tests, including alpha and beta versions.
 Our thanks to all those people who've contributed bug reports and
 code fixes.
 
@@ -26,14 +26,239 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-18-June-2012 Mark Dexter
+20-Jun-2013 Mark Dexter
+ # Fix Webdriver tests for Google Chrome, markup changes.
+
+15-Jun-2013 Mark Dexter
+ # Fix failing system test.
+
+11-Jun-2013 Mark Dexter
+ # Fix problems with system tests from changes in HTML markup.
+
+02-Jun-2013 Michael Babker
+ + Port Feed, Filesystem, Filter, and Form package unit tests from Platform
+ + Port Github package unit tests from Platform
+ + Port Google and Grid package unit tests from Platform
+ + Port Image, Keychain, and Language package unit tests from Platform
+ + Port Mail, Mediawiki, Model, and Object package unit tests from Platform
+ + Port Plugin, Profiler, Registry, String, and Twitter package unit tests from Platform
+ + Port User, Utilities, and View package unit tests from Platform
+ ^ Refactor unit tests to use CSV datasets
+ + Port legacy tree unit tests from Platform
+
+01-Jun-2013 Michael Babker
+ + Port Database package unit tests from Platform
+ + Port URI package unit tests from Platform
+ + Port Facebook package unit tests from Platform
+ + Port Linkedin, Oauth1, OAuth2, and Openstreetmap package unit tests from Platform
+ + Port Access and Application package unit tests from Platform
+ + Port Archive, Base, Cache, Client, Controller, and Crypt package unit tests from Platform
+ + Port Data, Document, Date, Environment, and Event package unit tests from Platform
+
+28-May-2013 Mark Dexter
+ + Add webdriver tests for contacts, weblinks, and banners. Thanks George Wilson.
+ + Add skeleton classes for com_categories to work around inconsistent URL issue.
+
+22-May-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
+16-May-2013 Mark Dexter
+ + Added TagManager0002Test.php. Thanks Puneet Kala.
+
+09-May-2013 Mark Dexter
+ # Finish system tests for back end Tags Manager. Thanks Puneet Kala.
+
+08-May-2013 Mark Dexter
+ # Fix failing system test for markup change in Template Manager.
+
+04-May-2013 Michael Babker
+ # Fix failing unit tests
+
+03-May-2013 JM Simonet
+ # Corrected test for #30788
+
+02-May-2013 Mark Dexter
+ # Fix up doc blocks as example for Webdriver page classes and tests.
+ # Added test for Tag Manager. Thanks Puneet Kala.
+
+30-Apr-2013 Mark Dexter
+ # Fix system tests for clearfix class in front end
+
+25-Apr-2013 Mark Dexter
+ # Fix webdriver tests for change in module edit form (using textarea for class suffix)
+
+22-Apr-2013 Mark Dexter
+ # Change error reporting to Development in auto install.
+
+20-Apr-2013 Mark Dexter
+ # Fix failing system test from change in class suffix from input to textarea.
+
+12-Apr-2013 Michael Babker
+ # Fix failing unit tests from UCM refactor
+
+06-Apr-2013 Mark Dexter
+ # Fix failing system test.
+
+29-Mar-2013 Michael Babker
+ +# Test JTableCorecontent, fix bugs found in class
+
+29-Mar-2013 Mark Dexter
+ # Fix failing system tests.
+ # More system test fixes, fix CHANGELOG typo.
+
+26-Mar-2013 Mark Dexter
+ # Fix failing system tests due to login markup change, Tags menu item change
+
+26-Mar-2013 Michael Babker
+ +# Expand Schema test coverage
+
+25-Mar-2013 Michael Babker
+ +# Test JTableContenttype, fix bugs found in class
+ +# Start testing JTags
+
+05-Mar-2013 Mark Dexter
+ # Fix system tests for tags component and modules
+
+03-Mar-2013 Michael Babker
+ + Add tests for FinderIndexerToken, JHtmlBootstrap, and JHtmlJquery
+ + Add tests for JFormField and JHtml instances
+
+27-Feb-2013 Mark Dexter
+ # Fix failing system change from markup change in [#30157] *Bootstrapping tabs in administration (big patch)
+
+22-Feb-2013 Michael Babker
+ ^ Remove @covers tags in docblocks due to negative test coverage influence
+ + Add test framework for FinderIndexer** library
+
+01-Jan-2013 Mark Dexter
+ # Fix failing webdriver test due to change in Module edit UI
+
+27-Dec-2012 Michael Babker
+ ^ Sync core test framework to the Platform
+ + Add tests for Editor and Layout packages
+
+22-Dec-2012 Mark Dexter
+ # Fix failing system tests caused by markup changes
+
+21-Dec-2012 Mark Dexter
+ + Add tests for module manager.
+
+18-Dec-2012 Mark Dexter
+ # Fix intermittent failures in Webdriver tests
+
+13-Dec-2012 Mark Dexter
+ + Add Webdriver tests for Menu Items.
+ # Fix system test for change in hathor login markup
+
+07-Nov-2012 Mark Dexter
+ + Add new Webdriver tests for Menu Manager.
+ ^ Organize Pages classes in folders. Improve autoloader.
+
+21-Nov-2012 Mark Dexter
+ # Fix failing system test
+
+11-Nov-2012 Mark Dexter
+ ^ Rename config-def.php-dist to be consistent with xml files
+
+09-Nov-2012 Mark Dexter
+ ^ Change echo statements to jEcho for selective logging
+
+05-Nov-2012 Mark Dexter
+ # Fix failing system tests (from HTML output changes)
+ ^ Remove some asserts from try/catch blocks (makes it easier to trace failures)
+ # Fix failing Webdriver tests (from HTML output changes)
+
+02-Nov-2012 Mark Dexter
+ ^ Fix up phpunit.xml.dist for old system tests.
+ # Remove logs folder (should not be tracked in Git)
+ # Fix up system test XML file
+
+01-Nov-2012 Mark Dexter
+ + Add Webdriver system tests
+ # Clean up Webdriver tests, fix Linux bug.
+
+27-Oct-2012 Mark Dexter
+ # Fix up servers/config-def.php-dist
+ # Fix typo in TestSuite.php
+
+24-Oct-2012 Mark Dexter
+ # Fix failing system test (to accommodate markup changes)
+
+19-Oct-2012 Mark Dexter
+ # Fix system test for HTML output change
+
+14-Oct-2012 Mark Dexter
+ # Fix redirect test for Firefox
+
+13-Oct-2012 Mark Dexter
+ # Fix remaining system tests for version 3.0.
+ # Fix exception/error problem in com_contact and com_newsfeed.
+
+26-Sep-2012 Mark Dexter
+ # Fix a few more system tests
+
+20-Sep-2012 Mark Dexter
+ # Fix some more system tests
+
+17-Sep-2012 Mark Dexter
+ # Fix up system tests output changes
+
+09-Sep-2012 Rouven Weßling
+ - Test the Feed package. Thanks Michael.
+ - Add a test for JAdministratorHelper.
+
+05-Sep-2012 Mark Dexter
+ # Fix some failing system tests for changes in master
+ # Select old sample data in doInstall
+
+02-Sep-2012 Mark Dexter
+ # Yet another fix for reorder mouse movement in controlpanel0004Test
+
+01-Sep-2012 Mark Dexter
+ # Fix reorder mouse movement in controlpanel0004Test
+
+01-Sep-2012 Rouven Weßling
+ - Removed the xx-XX testing language.
+
+29-Aug-2012 Mark Dexter
+ # Fix controlPanel0004Test system test
+
+29-Aug-2012 Rouven Weßling
+ + Import unit tests for JHtmlBatch from the platform.
+
+25-Aug-2012 Mark Dexter
+ + Unit test framework for CMS. Thanks Michael.
+
+20-Aug-2012 Rouven Weßling
+ + Add setup for unit testing. Thanks Michael.
+
+24-Aug-2012 Mark Dexter
+ # Fix first batch of system tests for 3.0 with Bootstrap templates
+ # Fix two more system tests
+
+30-Jul-2012 Mark Dexter
+ ^ Add ability to capture screenshots on failure for system tests
+
+09-Jul-2012 Mark Dexter
+ ^ Detect notices in modals and popups
+
+05-Jul-2012 Mark Dexter
+ # Fix installation to chmod configuration before delete
+
+30-Jun-2012 Mark Dexter
+ # More fixes for Selenium RC2 -- don't use TinyMCE for tests
+
+26-Jun-2012 Mark Dexter
+ # Fixes for Selenium RC2 and Google Chrome browser
+
+18-Jun-2012 Mark Dexter
  ^ Update phpunit.php for debugging system tests
 
 05-May-2012 Mark Dexter
  ^ Update phpunit.php for PHPUnit version 3.5
 
 04-May-2012 Mark Dexter
- # Fix PHP strict error 
+ # Fix PHP strict error
 
 02-May-2012 Mark Dexter
  ^ Change system test suite to work with PHPUnit version 3.6
@@ -84,7 +309,7 @@ $ -> Language fix or change
  # Fix system test for changed message
 
 06-Jul-2011 Mark Dexter
- ^ Force test db prefix to jos_ 
+ ^ Force test db prefix to jos_
 
 04-Jul-2011 Mark Dexter
  # Fix failing system test
@@ -173,7 +398,7 @@ $ -> Language fix or change
  # [#22648] function isCompatible incorrectly checks current version (Mark Dexter)
 
 08-Dec-2010 Mark Dexter
-# Fix failing sample_data0001Test.php 
+# Fix failing sample_data0001Test.php
 ^ Add option to doInstall.php to set hathor as default admin template
 
 06-Dec-2010 Christophe Demko
@@ -354,13 +579,13 @@ $ -> Language fix or change
 
 07-Jun-2010 Mark Dexter
 + New system test for featured blog ordering
-# Clean up doc blocks for system tests 
+# Clean up doc blocks for system tests
 
 04-Jun-2010 Mark Dexter
 ^ Improvements to SeleniumJoomlaTestCase. (Matt Thomas)
 
 30-May-2010 Mark Dexter
-# JLanguageTest fixes and improvements. Thanks Tudor Mazilu!  
+# JLanguageTest fixes and improvements. Thanks Tudor Mazilu!
 
 28-May-2010 Mark Dexter
 # Fix broken acl0001Test.php system test

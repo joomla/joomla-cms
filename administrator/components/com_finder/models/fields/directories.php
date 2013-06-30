@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JFormFieldDirectories extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.7
+	 * @since  2.5
 	 */
 	protected $type = 'Directories';
 
@@ -36,7 +36,7 @@ class JFormFieldDirectories extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.7
+	 * @since   2.5
 	 */
 	public function getOptions()
 	{
@@ -58,6 +58,7 @@ class JFormFieldDirectories extends JFormFieldList
 		);
 
 		// Get the base directories.
+		jimport('joomla.filesystem.folder');
 		$dirs = JFolder::folders(JPATH_SITE, '.', false, true);
 
 		// Iterate through the base directories and find the subdirectories.
@@ -81,22 +82,13 @@ class JFormFieldDirectories extends JFormFieldList
 		}
 
 		// Convert the values to options.
-		for ($i = 0, $c = count($values); $i < $c; $i++)
+		foreach ($values as $value)
 		{
-			$options[] = JHtml::_('select.option', str_replace(JPATH_SITE . DS, '', $values[$i]), str_replace(JPATH_SITE . DS, '', $values[$i]));
+			$options[] = JHtml::_('select.option', str_replace(JPATH_SITE . '/', '', $value), str_replace(JPATH_SITE . '/', '', $values));
 		}
 
 		// Add a null option.
-		array_unshift($options, JHTML::_('select.option', '', '- ' . JText::_('JNONE') . ' -'));
-
-		// Handle default values of value1|value2|value3
-		if (is_string($value) && strpos($value, '|') && preg_match('#(?<!\\\)\|#', $value))
-		{
-			// Explode the value if it is serialized as an array of value1|value2|value3
-			$value = preg_split('/(?<!\\\)\|/', $value);
-			$value = str_replace('\|', '|', $value);
-			$value = str_replace('\n', "\n", $value);
-		}
+		array_unshift($options, JHtml::_('select.option', '', '- ' . JText::_('JNONE') . ' -'));
 
 		return $options;
 	}

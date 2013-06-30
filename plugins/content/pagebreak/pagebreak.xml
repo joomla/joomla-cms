@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="content">
+<extension version="3.1" type="plugin" group="content">
 	<name>plg_content_pagebreak</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<description>PLG_CONTENT_PAGEBREAK_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="pagebreak">pagebreak.php</filename>
@@ -22,6 +22,7 @@
 
 			<fieldset name="basic">
 				<field name="title" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
@@ -30,6 +31,7 @@
 					<option value="1">JSHOW</option>
 				</field>
 				<field name="article_index" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
@@ -42,6 +44,7 @@
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC" />
 
 				<field name="multipage_toc" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
@@ -51,6 +54,7 @@
 				</field>
 
 				<field name="showall" type="radio"
+					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"

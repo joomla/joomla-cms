@@ -1,26 +1,28 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function() {
+	window.addEvent('domready', function()
+	{
 		document.id('jform_type0').addEvent('click', function(e){
 			document.id('image').setStyle('display', 'block');
 			document.id('url').setStyle('display', 'block');
@@ -31,99 +33,188 @@ JHtml::_('behavior.formvalidation');
 			document.id('url').setStyle('display', 'block');
 			document.id('custom').setStyle('display', 'block');
 		});
-		if(document.id('jform_type0').checked==true) {
+		if (document.id('jform_type0').checked==true)
+		{
 			document.id('jform_type0').fireEvent('click');
-		} else {
+		}
+		else
+		{
 			document.id('jform_type1').fireEvent('click');
 		}
 	});
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
-	<div class="width-60 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_BANNER') : JText::sprintf('COM_BANNERS_BANNER_DETAILS', $this->item->id); ?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('name'); ?>
-				<?php echo $this->form->getInput('name'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate form-horizontal">
 
-				<li><?php echo $this->form->getLabel('alias'); ?>
-				<?php echo $this->form->getInput('alias'); ?></li>
+<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
-				<li><?php echo $this->form->getLabel('access'); ?>
-				<?php echo $this->form->getInput('access'); ?></li>
+<!-- Begin Banner -->
+<div class="span10 form-horizontal">
 
-				<li><?php echo $this->form->getLabel('catid'); ?>
-				<?php echo $this->form->getInput('catid'); ?></li>
+	<fieldset>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-				<li><?php echo $this->form->getLabel('state'); ?>
-				<?php echo $this->form->getInput('state'); ?></li>
-
-				<li><?php echo $this->form->getLabel('type'); ?>
-				<?php echo $this->form->getInput('type'); ?></li>
-
-				<li>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS', true)); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('name'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('name'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('alias'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('alias'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('catid'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('catid'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('type'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('type'); ?>
+					</div>
+				</div>
 				<div id="image">
-					<?php foreach($this->form->getFieldset('image') as $field): ?>
-						<?php echo $field->label; ?>
-						<?php echo $field->input; ?>
-					<?php endforeach; ?>
+						<?php foreach ($this->form->getFieldset('image') as $field) : ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $field->label; ?>
+								</div>
+								<div class="controls">
+									<?php echo $field->input; ?>
+								</div>
+							</div>
+						<?php endforeach; ?>
 				</div>
-				</li>
-
-				<li><div id="custom">
-					<?php echo $this->form->getLabel('custombannercode'); ?>
-					<?php echo $this->form->getInput('custombannercode'); ?>
+				<div class="control-group" id="custom">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('custombannercode'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('custombannercode'); ?>
+					</div>
 				</div>
-				</li>
-
-				<li><div id="url">
-				<?php echo $this->form->getLabel('clickurl'); ?>
-				<?php echo $this->form->getInput('clickurl'); ?>
+				<div class="control-group" id="url">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('clickurl'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('clickurl'); ?>
+					</div>
 				</div>
-				</li>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('description'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('description'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('id'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('id'); ?>
+					</div>
+				</div>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<li><?php echo $this->form->getLabel('description'); ?>
-				<?php echo $this->form->getInput('description'); ?></li>
-
-				<li><?php echo $this->form->getLabel('language'); ?>
-				<?php echo $this->form->getInput('language'); ?></li>
-
-				<li><?php echo $this->form->getLabel('id'); ?>
-				<?php echo $this->form->getInput('id'); ?></li>
-			</ul>
-			<div class="clr"> </div>
-
-		</fieldset>
-	</div>
-
-<div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start', 'banner-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
-
-	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details'); ?>
-		<fieldset class="panelform">
-		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('publish') as $field): ?>
-				<li><?php echo $field->label; ?>
-					<?php echo $field->input; ?></li>
-			<?php endforeach; ?>
-			</ul>
-		</fieldset>
-
-	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
-					<li><?php echo $field->label; ?>
-						<?php echo $field->input; ?></li>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS', true)); ?>
+				<?php foreach ($this->form->getFieldset('publish') as $field) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
 				<?php endforeach; ?>
-			</ul>
-		</fieldset>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php echo JHtml::_('sliders.end'); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'otherparams', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS', true)); ?>
+				<?php foreach ($this->form->getFieldset('otherparams') as $field) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+				<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	</fieldset>
+
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-</div>
+	</div>
+	<!-- End Newsfeed -->
+	<!-- Begin Sidebar -->
+	<div class="span2">
+		<h4><?php echo JText::_('JDETAILS');?></h4>
+		<hr />
+		<fieldset class="form-vertical">
+				<div class="control-group">
+					<div class="controls">
+						<?php echo $this->form->getValue('name'); ?>
+					</div>
+				</div>
 
-<div class="clr"></div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('state'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('state'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('sticky'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('sticky'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('language'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('language'); ?>
+				</div>
+			</div>
+		</fieldset>
+	</div>
+	<!-- End Sidebar -->
 </form>

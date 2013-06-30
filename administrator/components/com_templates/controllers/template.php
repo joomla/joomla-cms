@@ -1,23 +1,24 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
 
 /**
  * Template style controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
-class TemplatesControllerTemplate extends JController
+class TemplatesControllerTemplate extends JControllerLegacy
 {
 	/**
 	 */
@@ -31,11 +32,11 @@ class TemplatesControllerTemplate extends JController
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
-		JRequest::setVar('installtype', 'folder');
-		$newName = JRequest::getCmd('new_name');
-		$newNameRaw = JRequest::getVar('new_name', null, '', 'string');
-		$templateID = JRequest::getInt('id', 0);
+		$this->input->set('installtype', 'folder');
+		$newName    = $this->input->get('new_name');
+		$newNameRaw = $this->input->get('new_name', null, 'string');
+		$templateID = $this->input->getInt('id', 0);
+
 		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID);
 		$model = $this->getModel('Template', 'TemplatesModel');
 		$model->setState('new_name', $newName);
@@ -56,7 +57,8 @@ class TemplatesControllerTemplate extends JController
 			JClientHelper::setCredentialsFromRequest('ftp');
 
 			// Check that new name is valid
-			if (($newNameRaw !== null) && ($newName !== $newNameRaw)) {
+			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
+			{
 				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'));
 				return false;
 			}
@@ -84,7 +86,7 @@ class TemplatesControllerTemplate extends JController
 			}
 
 			// Call installation model
-			JRequest::setVar('install_directory', JFactory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+			$this->input->set('install_directory', JFactory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 			$installModel = $this->getModel('Install', 'InstallerModel');
 			JFactory::getLanguage()->load('com_installer');
 			if (!$installModel->install())

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Utilities
  * @since       11.1
  */
-class JArrayHelper
+abstract class JArrayHelper
 {
 	/**
 	 * Option to perform case-sensitive sorts.
@@ -77,7 +77,7 @@ class JArrayHelper
 			}
 			elseif (is_array($default))
 			{
-				JArrayHelper::toInteger($default, null);
+				self::toInteger($default, null);
 				$array = $default;
 			}
 			else
@@ -100,14 +100,16 @@ class JArrayHelper
 	public static function toObject(&$array, $class = 'stdClass')
 	{
 		$obj = null;
+
 		if (is_array($array))
 		{
 			$obj = new $class;
+
 			foreach ($array as $k => $v)
 			{
 				if (is_array($v))
 				{
-					$obj->$k = JArrayHelper::toObject($v, $class);
+					$obj->$k = self::toObject($v, $class);
 				}
 				else
 				{
@@ -145,7 +147,7 @@ class JArrayHelper
 						$output[] = $key;
 					}
 					// This is value is an array, go and do it again!
-					$output[] = JArrayHelper::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
+					$output[] = self::toString($item, $inner_glue, $outer_glue, $keepOuterKey);
 				}
 				else
 				{
@@ -196,6 +198,7 @@ class JArrayHelper
 		if (is_object($item))
 		{
 			$result = array();
+
 			foreach (get_object_vars($item) as $k => $v)
 			{
 				if (!$regex || preg_match($regex, $k))
@@ -214,6 +217,7 @@ class JArrayHelper
 		elseif (is_array($item))
 		{
 			$result = array();
+
 			foreach ($item as $k => $v)
 			{
 				$result[$k] = self::_fromObject($v, $recurse, $regex);
@@ -242,12 +246,8 @@ class JArrayHelper
 
 		if (is_array($array))
 		{
-			$n = count($array);
-
-			for ($i = 0; $i < $n; $i++)
+			foreach ($array as &$item)
 			{
-				$item = &$array[$i];
-
 				if (is_array($item) && isset($item[$index]))
 				{
 					$result[] = $item[$index];
@@ -256,7 +256,7 @@ class JArrayHelper
 				{
 					$result[] = $item->$index;
 				}
-				// else ignore the entry
+				// Else ignore the entry
 			}
 		}
 		return $result;
@@ -276,7 +276,6 @@ class JArrayHelper
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
 	{
-		// Initialise variables.
 		$result = null;
 
 		if (isset($array[$name]))
@@ -336,6 +335,56 @@ class JArrayHelper
 	}
 
 	/**
+	 * Takes an associative array of arrays and inverts the array keys to values using the array values as keys.
+	 *
+	 * Example:
+	 * $input = array(
+	 *     'New' => array('1000', '1500', '1750'),
+	 *     'Used' => array('3000', '4000', '5000', '6000')
+	 * );
+	 * $output = JArrayHelper::invert($input);
+	 *
+	 * Output would be equal to:
+	 * $output = array(
+	 *     '1000' => 'New',
+	 *     '1500' => 'New',
+	 *     '1750' => 'New',
+	 *     '3000' => 'Used',
+	 *     '4000' => 'Used',
+	 *     '5000' => 'Used',
+	 *     '6000' => 'Used'
+	 * );
+	 *
+	 * @param   array  $array  The source array.
+	 *
+	 * @return  array  The inverted array.
+	 *
+	 * @since   12.3
+	 */
+	public static function invert($array)
+	{
+		$return = array();
+
+		foreach ($array as $base => $values)
+		{
+			if (!is_array($values))
+			{
+				continue;
+			}
+
+			foreach ($values as $key)
+			{
+				// If the key isn't scalar then ignore it.
+				if (is_scalar($key))
+				{
+					$return[$key] = $base;
+				}
+			}
+		}
+		return $return;
+	}
+
+	/**
 	 * Method to determine if an array is an associative array.
 	 *
 	 * @param   array  $array  An array to test.
@@ -370,7 +419,7 @@ class JArrayHelper
 	 *
 	 * @since   11.3
 	 */
-	public function pivot($source, $key = null)
+	public static function pivot($source, $key = null)
 	{
 		$result = array();
 		$counter = array();
@@ -450,7 +499,7 @@ class JArrayHelper
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
 	{
-		if (!is_array($locale) or !is_array($locale[0]))
+		if (!is_array($locale) || !is_array($locale[0]))
 		{
 			$locale = array($locale);
 		}
@@ -505,7 +554,7 @@ class JArrayHelper
 			$va = $a->$key[$i];
 			$vb = $b->$key[$i];
 
-			if ((is_bool($va) or is_numeric($va)) and (is_bool($vb) or is_numeric($vb)))
+			if ((is_bool($va) || is_numeric($va)) && (is_bool($vb) || is_numeric($vb)))
 			{
 				$cmp = $va - $vb;
 			}

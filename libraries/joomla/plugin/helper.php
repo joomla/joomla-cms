@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,6 +25,51 @@ abstract class JPluginHelper
 	 * @since  11.3
 	 */
 	protected static $plugins = null;
+
+	/**
+	 * Get the path to a layout from a Plugin
+	 *
+	 * @param   string  $type    Plugin type
+	 * @param   string  $name    Plugin name
+	 * @param   string  $layout  Layout name
+	 *
+	 * @return  string  Layout path
+	 *
+	 * @since   12.2
+	 */
+	public static function getLayoutPath($type, $name, $layout = 'default')
+	{
+		$template = JFactory::getApplication()->getTemplate();
+		$defaultLayout = $layout;
+
+		if (strpos($layout, ':') !== false)
+		{
+			// Get the template and file name from the string
+			$temp = explode(':', $layout);
+			$template = ($temp[0] == '_') ? $template : $temp[0];
+			$layout = $temp[1];
+			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
+		}
+
+		// Build the template and base path for the layout
+		$tPath = JPATH_THEMES . '/' . $template . '/html/plg_' . $type . '_' . $name . '/' . $layout . '.php';
+		$bPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/' . $defaultLayout . '.php';
+		$dPath = JPATH_BASE . '/plugins/' . $type . '/' . $name . '/tmpl/default.php';
+
+		// If the template has a layout override use it
+		if (file_exists($tPath))
+		{
+			return $tPath;
+		}
+		elseif (file_exists($bPath))
+		{
+			return $bPath;
+		}
+		else
+		{
+			return $dPath;
+		}
+	}
 
 	/**
 	 * Get the plugin data of a specific type if no specific plugin is specified
@@ -83,6 +128,7 @@ abstract class JPluginHelper
 	public static function isEnabled($type, $plugin = null)
 	{
 		$result = self::getPlugin($type, $plugin);
+
 		return (!empty($result));
 	}
 
@@ -90,21 +136,22 @@ abstract class JPluginHelper
 	 * Loads all the plugin files for a particular type if no specific plugin is specified
 	 * otherwise only the specific plugin is loaded.
 	 *
-	 * @param   string       $type        The plugin type, relates to the sub-directory in the plugins directory.
-	 * @param   string       $plugin      The plugin name.
-	 * @param   boolean      $autocreate  Autocreate the plugin.
-	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   string            $type        The plugin type, relates to the sub-directory in the plugins directory.
+	 * @param   string            $plugin      The plugin name.
+	 * @param   boolean           $autocreate  Autocreate the plugin.
+	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public static function importPlugin($type, $plugin = null, $autocreate = true, $dispatcher = null)
+	public static function importPlugin($type, $plugin = null, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
 		static $loaded = array();
 
-		// check for the default args, if so we can optimise cheaply
+		// Check for the default args, if so we can optimise cheaply
 		$defaults = false;
+
 		if (is_null($plugin) && $autocreate == true && is_null($dispatcher))
 		{
 			$defaults = true;
@@ -141,31 +188,27 @@ abstract class JPluginHelper
 	/**
 	 * Loads the plugin file.
 	 *
-	 * @param   JPlugin      &$plugin     The plugin.
-	 * @param   boolean      $autocreate  True to autocreate.
-	 * @param   JDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 * @param   object            $plugin      The plugin.
+	 * @param   boolean           $autocreate  True to autocreate.
+	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	protected static function _import(&$plugin, $autocreate = true, $dispatcher = null)
+	protected static function _import($plugin, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
 		static $paths = array();
 
 		$plugin->type = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->type);
 		$plugin->name = preg_replace('/[^A-Z0-9_\.-]/i', '', $plugin->name);
 
-		$legacypath = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '.php';
 		$path = JPATH_PLUGINS . '/' . $plugin->type . '/' . $plugin->name . '/' . $plugin->name . '.php';
 
-		if (!isset($paths[$path]) || !isset($paths[$legacypath]))
+		if (!isset($paths[$path]))
 		{
-			$pathExists = file_exists($path);
-			if ($pathExists || file_exists($legacypath))
+			if (file_exists($path))
 			{
-				$path = $pathExists ? $path : $legacypath;
-
 				if (!isset($paths[$path]))
 				{
 					require_once $path;
@@ -177,10 +220,11 @@ abstract class JPluginHelper
 					// Makes sure we have an event dispatcher
 					if (!is_object($dispatcher))
 					{
-						$dispatcher = JDispatcher::getInstance();
+						$dispatcher = JEventDispatcher::getInstance();
 					}
 
 					$className = 'plg' . $plugin->type . $plugin->name;
+
 					if (class_exists($className))
 					{
 						// Load the plugin from the database.
@@ -224,23 +268,16 @@ abstract class JPluginHelper
 		if (!self::$plugins = $cache->get($levels))
 		{
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select('folder AS type, element AS name, params')
+			$query = $db->getQuery(true)
+				->select('folder AS type, element AS name, params')
 				->from('#__extensions')
 				->where('enabled >= 1')
-				->where('type =' . $db->Quote('plugin'))
+				->where('type =' . $db->quote('plugin'))
 				->where('state >= 0')
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
 
 			self::$plugins = $db->setQuery($query)->loadObjectList();
-
-			if ($error = $db->getErrorMsg())
-			{
-				JError::raiseWarning(500, $error);
-				return false;
-			}
 
 			$cache->store(self::$plugins, $levels);
 		}

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,24 +12,28 @@ defined('_JEXEC') or die;
 /**
  * Frontpage View class
  *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since		1.6
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.6
  */
 class ContactViewFeatured extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $categories;
+
 	protected $pagination;
 
 	/**
 	 * Display the view
 	 *
-	 * @return	mixed	False on error, null otherwise.
+	 * @return  mixed  False on error, null otherwise.
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$params		= $app->getParams();
@@ -42,14 +47,11 @@ class ContactViewFeatured extends JViewLegacy
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 			return false;
 		}
-
-		// Check whether category access level allows access.
-		$user	= JFactory::getUser();
-		$groups	= $user->getAuthorisedViewLevels();
 
 		// Prepare the data.
 		// Compute the contact slug.
@@ -57,13 +59,15 @@ class ContactViewFeatured extends JViewLegacy
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-			$temp		= new JRegistry();
+			$temp		= new JRegistry;
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
-			if ($item->params->get('show_email', 0) == 1) {
+			if ($item->params->get('show_email', 0) == 1)
+			{
 				$item->email_to = trim($item->email_to);
-				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to)) {
+				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to))
+				{
 					$item->email_to = JHtml::_('email.cloak', $item->email_to);
 				} else {
 					$item->email_to = '';
@@ -71,17 +75,18 @@ class ContactViewFeatured extends JViewLegacy
 			}
 		}
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
-		$maxLevel = $params->get('maxLevel', -1);
-		$this->assignRef('maxLevel',	$maxLevel);
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
-		$this->assignRef('category',	$category);
-		$this->assignRef('children',	$children);
-		$this->assignRef('params',		$params);
-		$this->assignRef('parent',		$parent);
-		$this->assignRef('pagination',	$pagination);
+
+		$maxLevel         = $params->get('maxLevel', -1);
+		$this->maxLevel   = &$maxLevel;
+		$this->state      = &$state;
+		$this->items      = &$items;
+		$this->category   = &$category;
+		$this->children   = &$children;
+		$this->params     = &$params;
+		$this->parent     = &$parent;
+		$this->pagination = &$pagination;
 
 		$this->_prepareDocument();
 
@@ -95,28 +100,31 @@ class ContactViewFeatured extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if($menu)
+		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		} else {
+		}
+		else
+		{
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
-		$id = (int) @$menu->query['id'];
 
 		$title = $this->params->get('page_title', '');
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 		$this->document->setTitle($title);

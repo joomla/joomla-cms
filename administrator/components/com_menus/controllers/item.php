@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controllerform');
 
 /**
  * The Menu Item Controller
@@ -29,7 +27,6 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function add()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$context = 'com_menus.edit.item';
 
@@ -60,7 +57,6 @@ class MenusControllerItem extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$model = $this->getModel('Item', '', array());
 
 		// Preset the redirect
@@ -82,7 +78,6 @@ class MenusControllerItem extends JControllerForm
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$context = 'com_menus.edit.item';
 		$result = parent::cancel();
@@ -108,7 +103,6 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 		$result = parent::edit();
 
@@ -137,13 +131,12 @@ class MenusControllerItem extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$app = JFactory::getApplication();
-		$model = $this->getModel('Item', '', array());
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
-		$task = $this->getTask();
-		$context = 'com_menus.edit.item';
-		$recordId = JRequest::getInt('id');
+		$app      = JFactory::getApplication();
+		$model    = $this->getModel('Item', '', array());
+		$data     = $this->input->post->get('jform', array(), 'array');
+		$task     = $this->getTask();
+		$context  = 'com_menus.edit.item';
+		$recordId = $this->input->getInt('id');
 
 		if (!$this->checkEditId($context, $recordId))
 		{
@@ -299,14 +292,12 @@ class MenusControllerItem extends JControllerForm
 	 *
 	 * @since   1.6
 	 */
-	function setType()
+	public function setType()
 	{
-		// Initialise variables.
 		$app = JFactory::getApplication();
 
 		// Get the posted values from the request.
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
-		$recordId = JRequest::getInt('id');
+		$data = $this->input->post->get('jform', array(), 'array');
 
 		// Get the type.
 		$type = $data['type'];
@@ -315,7 +306,8 @@ class MenusControllerItem extends JControllerForm
 		$title = isset($type->title) ? $type->title : null;
 		$recordId = isset($type->id) ? $type->id : 0;
 
-		if ($title != 'alias' && $title != 'separator' && $title != 'url')
+		$specialTypes = array('alias', 'separator', 'url', 'heading');
+		if (!in_array($title, $specialTypes))
 		{
 			$title = 'component';
 		}
@@ -328,7 +320,7 @@ class MenusControllerItem extends JControllerForm
 				$component = JComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 
-				$app->setUserState('com_menus.edit.item.link', 'index.php?' . JURI::buildQuery((array) $type->request));
+				$app->setUserState('com_menus.edit.item.link', 'index.php?' . JUri::buildQuery((array) $type->request));
 			}
 		}
 		// If the type is alias you just need the item id from the menu item referenced.
@@ -339,7 +331,7 @@ class MenusControllerItem extends JControllerForm
 
 		unset($data['request']);
 		$data['type'] = $title;
-		if (JRequest::getCmd('fieldtype') == 'type')
+		if ($this->input->get('fieldtype') == 'type')
 		{
 			$data['link'] = $app->getUserState('com_menus.edit.item.link');
 		}

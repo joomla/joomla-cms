@@ -1,31 +1,29 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modellist');
 
 /**
  * Languages Overrides Model
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesModelOverrides extends JModelList
 {
 	/**
 	 * Constructor
 	 *
-	 * @param		array	An optional associative array of configuration settings
+	 * @param   	array	An optional associative array of configuration settings
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -39,9 +37,9 @@ class LanguagesModelOverrides extends JModelList
 	/**
 	 * Retrieves the overrides data
 	 *
-	 * @param		boolean	True if all overrides shall be returned without considering pagination, defaults to false
+	 * @param   	boolean	True if all overrides shall be returned without considering pagination, defaults to false
 	 *
-	 * @return	array		Array of objects containing the overrides of the override.ini file
+	 * @return  array  	Array of objects containing the overrides of the override.ini file
 	 *
 	 * @since		2.5
 	 */
@@ -57,7 +55,7 @@ class LanguagesModelOverrides extends JModelList
 		}
 
 		// Parse the override.ini file in oder to get the keys and strings
-		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))).DS.'language'.DS.'overrides'.DS.$this->getState('filter.language').'.override.ini';
+		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
 		// Consider the odering
@@ -99,7 +97,7 @@ class LanguagesModelOverrides extends JModelList
 	/**
 	 * Method to get the total number of overrides
 	 *
-	 * @return	int	The total number of overrides
+	 * @return  int	The total number of overrides
 	 *
 	 * @since		2.5
 	 */
@@ -125,10 +123,10 @@ class LanguagesModelOverrides extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param		string	An optional ordering field.
-	 * @param		string	An optional direction (asc|desc).
+	 * @param   	string	An optional ordering field.
+	 * @param   	string	An optional direction (asc|desc).
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */
@@ -172,7 +170,7 @@ class LanguagesModelOverrides extends JModelList
 	 * The resulting array has entries of the following style:
 	 * <Language Tag>0|1 => <Language Name> - <Client Name>
 	 *
-	 * @return	array	Sorted associative array of languages
+	 * @return  array  Sorted associative array of languages
 	 *
 	 * @since		2.5
 	 */
@@ -211,9 +209,9 @@ class LanguagesModelOverrides extends JModelList
 	/**
 	 * Method to delete one or more overrides
 	 *
-	 * @param		array		Array of keys to delete
+	 * @param   	array		Array of keys to delete
 	 *
-	 * @return	int			Number of successfully deleted overrides, boolean false if an error occured
+	 * @return  integer   	Number of successfully deleted overrides, boolean false if an error occured
 	 *
 	 * @since		2.5
 	 */
@@ -230,10 +228,8 @@ class LanguagesModelOverrides extends JModelList
 		jimport('joomla.filesystem.file');
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
-		$app = JFactory::getApplication();
-
 		// Parse the override.ini file in oder to get the keys and strings
-		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))).DS.'language'.DS.'overrides'.DS.$this->getState('filter.language').'.override.ini';
+		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
 		// Unset strings that shall be deleted
@@ -245,15 +241,16 @@ class LanguagesModelOverrides extends JModelList
 			}
 		}
 
-		foreach ($strings as $key => $string) {
+		foreach ($strings as $key => $string)
+		{
 			$strings[$key] = str_replace('"', '"_QQ_"', $string);
 		}
 
 		// Write override.ini file with the left strings
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 		$registry->loadObject($strings);
 
-		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))).DS.'language'.DS.'overrides'.DS.$this->getState('filter.language').'.override.ini';
+		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 
 		if (!JFile::write($filename, $registry->toString('INI')))
 		{

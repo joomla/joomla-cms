@@ -2,14 +2,12 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * The Joomla! update controller for the Update view
@@ -18,14 +16,14 @@ jimport('joomla.application.component.controller');
  * @subpackage  com_joomlaupdate
  * @since       2.5.4
  */
-class JoomlaupdateControllerUpdate extends JController
+class JoomlaupdateControllerUpdate extends JControllerLegacy
 {
 	/**
 	 * Performs the download of the update package
-	 * 
-	 * @return void 
-	 * 
-	 * @since 2.5.4
+	 *
+	 * @return  void
+	 *
+	 * @since   2.5.4
 	 */
 	public function download()
 	{
@@ -55,9 +53,9 @@ class JoomlaupdateControllerUpdate extends JController
 	/**
 	 * Start the installation of the new Joomla! version
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.5.4
+	 * @since   2.5.4
 	 */
 	public function install()
 	{
@@ -74,9 +72,9 @@ class JoomlaupdateControllerUpdate extends JController
 	/**
 	 * Finalise the upgrade by running the necessary scripts
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 2.5.4
+	 * @since   2.5.4
 	 */
 	public function finalise()
 	{
@@ -92,10 +90,10 @@ class JoomlaupdateControllerUpdate extends JController
 
 	/**
 	 * Clean up after ourselves
-	 * 
-	 * @return void
 	 *
-	 * @since 2.5.4
+	 * @return  void
+	 *
+	 * @since   2.5.4
 	 */
 	public function cleanup()
 	{
@@ -110,27 +108,47 @@ class JoomlaupdateControllerUpdate extends JController
 	}
 
 	/**
+	 * Purges updates.
+	 *
+	 * @return  void
+	 *
+	 * @since	3.0
+	 */
+	public function purge()
+	{
+		// Purge updates
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$model = $this->getModel('Default');
+		$model->purge();
+
+		$url = 'index.php?option=com_joomlaupdate';
+		$this->setRedirect($url, $model->_message);
+	}
+
+	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean  $cachable   If true, the view output will be cached
-	 * @param	array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
+	 * @return  JoomlaupdateControllerUpdate  This object to support chaining.
 	 *
 	 * @since	2.5.4
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'update');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
+		$vName   = $this->input->get('view', 'update');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat))
+		{
 			// Get the model for the view.
 			$model = $this->getModel('Default');
 
@@ -139,7 +157,7 @@ class JoomlaupdateControllerUpdate extends JController
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 			$view->display();
 		}
 
@@ -148,15 +166,13 @@ class JoomlaupdateControllerUpdate extends JController
 
 	/**
 	 * Applies FTP credentials to Joomla! itself, when required
-	 * 
-	 * @return void
+	 *
+	 * @return  void
 	 *
 	 * @since	2.5.4
 	 */
 	protected function _applyCredentials()
 	{
-		jimport('joomla.client.helper');
-		
 		if (!JClientHelper::hasCredentials('ftp'))
 		{
 			$user = JFactory::getApplication()->getUserStateFromRequest('com_joomlaupdate.ftp_user', 'ftp_user', null, 'raw');
@@ -165,13 +181,9 @@ class JoomlaupdateControllerUpdate extends JController
 			if ($user != '' && $pass != '')
 			{
 				// Add credentials to the session
-				if (JClientHelper::setCredentials('ftp', $user, $pass))
+				if (!JClientHelper::setCredentials('ftp', $user, $pass))
 				{
-					$return = false;
-				}
-				else
-				{
-					$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+					JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
 				}
 			}
 		}

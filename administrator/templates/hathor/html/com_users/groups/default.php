@@ -1,20 +1,17 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
 $user		= JFactory::getUser();
@@ -30,11 +27,13 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 		{
 			var f = document.adminForm;
 			var cb='';
-<?php foreach ($this->items as $i=>$item):?>
+<?php foreach ($this->items as $i => $item):?>
 <?php if ($item->user_count > 0):?>
 			cb = f['cb'+<?php echo $i;?>];
-			if (cb && cb.checked) {
-				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE'))) {
+			if (cb && cb.checked)
+			{
+				if (confirm(Joomla.JText._('COM_USERS_GROUPS_CONFIRM_DELETE')))
+				{
 					Joomla.submitform(task);
 				}
 				return;
@@ -46,6 +45,14 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('COM_USERS_SEARCH_GROUPS_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -77,10 +84,11 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canCreate	= $user->authorise('core.create',		'com_users');
-			$canEdit	= $user->authorise('core.edit',			'com_users');
+			$canCreate = $user->authorise('core.create', 'com_users');
+			$canEdit   = $user->authorise('core.edit',   'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin'))) {
+			if (!$user->authorise('core.admin') && (JAccess::checkGroup($item->id, 'core.admin')))
+			{
 				$canEdit = false;
 			}
 			$canChange	= $user->authorise('core.edit.state',	'com_users');
@@ -122,4 +130,5 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+</div>
 </form>

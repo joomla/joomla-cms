@@ -1,14 +1,10 @@
 <?php
 /**
- * @package     Joomla.CLI
- * @subpackage  com_finder
+ * @package    Joomla.Cli
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-// Make sure we're being called from the command line, not a web interface
-if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
 
 /**
  * Finder CLI Bootstrap
@@ -17,36 +13,25 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER)) die();
  */
 
 // We are a valid entry point.
-define('_JEXEC', 1);
-define('DS', DIRECTORY_SEPARATOR);
+const _JEXEC = 1;
 
 // Load system defines
-if (file_exists(dirname(dirname(__FILE__)) . '/defines.php'))
+if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
-	require_once dirname(dirname(__FILE__)) . '/defines.php';
+	require_once dirname(__DIR__) . '/defines.php';
 }
 
 if (!defined('_JDEFINES'))
 {
-	define('JPATH_BASE', dirname(dirname(__FILE__)));
+	define('JPATH_BASE', dirname(__DIR__));
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
 // Get the framework.
-require_once JPATH_LIBRARIES . '/import.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
-
-// Force library to be in JError legacy mode
-JError::$legacy = true;
-
-// Import necessary classes not handled by the autoloaders
-jimport('joomla.application.menu');
-jimport('joomla.environment.uri');
-jimport('joomla.event.dispatcher');
-jimport('joomla.utilities.utility');
-jimport('joomla.utilities.arrayhelper');
 
 // Import the configuration.
 require_once JPATH_CONFIGURATION . '/configuration.php';
@@ -120,14 +105,11 @@ class FinderCli extends JApplicationCli
 	 */
 	private function _index()
 	{
-		// initialize the time value
 		$this->_time = microtime(true);
 
-		// import library dependencies
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php';
-		jimport('joomla.application.component.helper');
 
-		// fool the system into thinking we are running as JSite with Finder as the active component
+		// Fool the system into thinking we are running as JSite with Finder as the active component
 		JFactory::getApplication('site');
 		$_SERVER['HTTP_HOST'] = 'domain.com';
 		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_finder');
@@ -147,7 +129,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
-		JDispatcher::getInstance()->trigger('onStartIndex');
+		JEventDispatcher::getInstance()->trigger('onStartIndex');
 
 		// Remove the script time limit.
 		@set_time_limit(0);
@@ -159,7 +141,7 @@ class FinderCli extends JApplicationCli
 		$this->out(JText::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
-		JDispatcher::getInstance()->trigger('onBeforeIndex');
+		JEventDispatcher::getInstance()->trigger('onBeforeIndex');
 
 		// Startup reporting.
 		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->_time, 3)), true);
@@ -169,20 +151,34 @@ class FinderCli extends JApplicationCli
 		$c = (int) ceil($t / $state->batchSize);
 		$c = $c === 0 ? 1 : $c;
 
-		// Process the batches.
-		for ($i = 0; $i < $c; $i++)
+		try
 		{
-			// Set the batch start time.
-			$this->_qtime = microtime(true);
+			// Process the batches.
+			for ($i = 0; $i < $c; $i++)
+			{
+				// Set the batch start time.
+				$this->_qtime = microtime(true);
 
-			// Reset the batch offset.
-			$state->batchOffset = 0;
+				// Reset the batch offset.
+				$state->batchOffset = 0;
 
-			// Trigger the onBuildIndex event.
-			JDispatcher::getInstance()->trigger('onBuildIndex');
+				// Trigger the onBuildIndex event.
+				JEventDispatcher::getInstance()->trigger('onBuildIndex');
 
-			// Batch reporting.
-			$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->_qtime, 3)), true);
+				// Batch reporting.
+				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->_qtime, 3)), true);
+			}
+		}
+		catch (Exception $e)
+		{
+			// Display the error
+			$this->out($e->getMessage(), true);
+
+			// Reset the indexer state.
+			FinderIndexer::resetState();
+
+			// Close the app
+			$this->close($e->getCode());
 		}
 
 		// Total reporting.

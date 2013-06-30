@@ -1,16 +1,14 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  Templates.hathor
+ * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -21,11 +19,16 @@ JText::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-Joomla.submitbutton = function(pressbutton) {
-	if (pressbutton == 'map.delete') {
-		if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT'))) {
+Joomla.submitbutton = function(pressbutton)
+{
+	if (pressbutton == 'map.delete')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -33,6 +36,14 @@ Joomla.submitbutton = function(pressbutton) {
 }
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=maps');?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::sprintf('COM_FINDER_SEARCH_LABEL', JText::_('COM_FINDER_MAPS')); ?></legend>
 		<div class="filter-search">
@@ -77,7 +88,7 @@ Joomla.submitbutton = function(pressbutton) {
 		</thead>
 
 		<tbody>
-		<?php if (count($this->items) == 0): ?>
+		<?php if (count($this->items) == 0) : ?>
 			<tr class="row0">
 				<td class="center" colspan="5">
 					<?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
@@ -131,4 +142,5 @@ Joomla.submitbutton = function(pressbutton) {
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

@@ -4,6 +4,7 @@
 		<field
 			name="enabled"
 			type="radio"
+			class="btn-group"
 			default="0"
 			label="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			description="COM_SEARCH_CONFIG_GATHER_SEARCH_STATISTICS_DESC">
@@ -15,6 +16,7 @@
 
 		<field name="search_areas"
 				type="radio"
+				class="btn-group"
 				default="1"
 				description="COM_SEARCH_FIELD_SEARCH_AREAS_DESC"
 				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
@@ -26,6 +28,7 @@
 		<field
 			name="show_date"
 			type="radio"
+			class="btn-group"
 			default="1"
 			label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
 			description="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_DESC">

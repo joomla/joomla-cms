@@ -118,11 +118,11 @@ var Autocompleter = new Class({
 			'link': 'cancel',
 			'duration': 200
 		}, this.options.fxOptions)).addEvent('onStart', Chain.prototype.clearChain).set(0);
-		this.element.setProperty('autocomplete', 'off').addEvent((Browser.ie || Browser.safari || Browser.chrome) ? 'keydown' : 'keypress', this.onCommand.bind(this)).addEvent('click', this.onCommand.bind(this, [false])).addEvent('focus', this.toggleFocus.create({
+		this.element.setProperty('autocomplete', 'off').addEvent((Browser.ie || Browser.safari || Browser.chrome) ? 'keydown' : 'keypress', this.onCommand.bind(this)).addEvent('click', this.onCommand.bind(this, [false])).addEvent('focus', this.toggleFocus.pass({
 			bind: this,
 			arguments: true,
 			delay: 100
-		})).addEvent('blur', this.toggleFocus.create({
+		})).addEvent('blur', this.toggleFocus.pass({
 			bind: this,
 			arguments: false,
 			delay: 100

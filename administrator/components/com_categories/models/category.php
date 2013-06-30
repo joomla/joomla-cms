@@ -3,14 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Categories Component Category Model
@@ -34,7 +31,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
@@ -90,7 +87,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @return  JTable  A JTable object
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function getTable($type = 'Category', $prefix = 'CategoriesTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -109,14 +106,14 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		$app = JFactory::getApplication('administrator');
 
-		$parentId = JRequest::getInt('parent_id');
+		$parentId = $app->input->getInt('parent_id');
 		$this->setState('category.parent_id', $parentId);
 
 		// Load the User state.
-		$pk = (int) JRequest::getInt('id');
+		$pk = $app->input->getInt('id');
 		$this->setState($this->getName() . '.id', $pk);
 
-		$extension = JRequest::getCmd('extension', 'com_content');
+		$extension = $app->input->get('extension', 'com_content');
 		$this->setState('category.extension', $extension);
 		$parts = explode('.', $extension);
 
@@ -153,15 +150,14 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Convert the metadata field to an array.
-			$registry = new JRegistry();
+			$registry = new JRegistry;
 			$registry->loadString($result->metadata);
 			$result->metadata = $registry->toArray();
 
 			// Convert the created and modified dates to local user time for display in the form.
-			jimport('joomla.utilities.date');
 			$tz = new DateTimeZone(JFactory::getApplication()->getCfg('offset'));
 
-			if (intval($result->created_time))
+			if ((int) $result->created_time)
 			{
 				$date = new JDate($result->created_time);
 				$date->setTimezone($tz);
@@ -172,7 +168,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$result->created_time = null;
 			}
 
-			if (intval($result->modified_time))
+			if ((int) $result->modified_time)
 			{
 				$date = new JDate($result->modified_time);
 				$date->setTimezone($tz);
@@ -181,6 +177,27 @@ class CategoriesModelCategory extends JModelAdmin
 			else
 			{
 				$result->modified_time = null;
+			}
+
+			if (!empty($result->id))
+			{
+				$result->tags = new JHelperTags;
+				$result->tags->getTagIds($result->id, $result->extension . '.category');
+				$result->metadata['tags'] = $result->tags;
+			}
+		}
+
+		$assoc = $this->getAssoc();
+		if ($assoc)
+		{
+			if ($result->id != null)
+			{
+				$result->associations = CategoriesHelper::getAssociations($result->id, $result->extension);
+				JArrayHelper::toInteger($result->associations);
+			}
+			else
+			{
+				$result->associations = array();
 			}
 		}
 
@@ -199,7 +216,6 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Initialise variables.
 		$extension = $this->getState('category.extension');
 		$jinput = JFactory::getApplication()->input;
 
@@ -254,7 +270,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->_db->Quote($table->extension);
+		return 'extension = ' . $this->_db->quote($table->extension);
 	}
 
 	/**
@@ -274,6 +290,8 @@ class CategoriesModelCategory extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_categories.category', $data);
+
 		return $data;
 	}
 
@@ -282,7 +300,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @param   JForm   $form    A JForm object.
 	 * @param   mixed   $data    The data expected for the form.
-	 * @param   string  $groups  The name of the plugin group to import.
+	 * @param   string  $group   The name of the plugin group to import.
 	 *
 	 * @return  void
 	 *
@@ -294,14 +312,11 @@ class CategoriesModelCategory extends JModelAdmin
 	{
 		jimport('joomla.filesystem.path');
 
-		// Initialise variables.
 		$lang = JFactory::getLanguage();
-		$extension = $this->getState('category.extension');
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
 
 		// Get the component form if it exists
-		jimport('joomla.filesystem.path');
 		$name = 'category' . ($section ? ('.' . $section) : '');
 
 		// Looking first in the component models/forms folder
@@ -353,6 +368,43 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'component', $component);
 		$form->setFieldAttribute('rules', 'section', $name);
 
+		// Association category items
+		$assoc = $this->getAssoc();
+		if ($assoc)
+		{
+			$languages = JLanguageHelper::getLanguages('lang_code');
+
+			// Force to array (perhaps move to $this->loadFormData())
+			$data = (array) $data;
+
+			$addform = new SimpleXMLElement('<form />');
+			$fields = $addform->addChild('fields');
+			$fields->addAttribute('name', 'associations');
+			$fieldset = $fields->addChild('fieldset');
+			$fieldset->addAttribute('name', 'item_associations');
+			$fieldset->addAttribute('description', 'COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_DESC');
+			$add = false;
+			foreach ($languages as $tag => $language)
+			{
+				if (empty($data['language']) || $tag != $data['language'])
+				{
+					$add = true;
+					$field = $fieldset->addChild('field');
+					$field->addAttribute('name', $tag);
+					$field->addAttribute('type', 'categoryedit');
+					$field->addAttribute('language', $tag);
+					$field->addAttribute('label', $language->title);
+					$field->addAttribute('translate_label', 'false');
+					$option = $field->addChild('option', 'COM_CATEGORIES_ITEM_FIELD_ASSOCIATION_NO_VALUE');
+					$option->addAttribute('value', '');
+				}
+			}
+			if ($add)
+			{
+				$form->load($addform, false);
+			}
+		}
+
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -368,9 +420,9 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Initialise variables;
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
+		$input = JFactory::getApplication()->input;
 		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
@@ -391,11 +443,12 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Alter the title for save as copy
-		if (JRequest::getVar('task') == 'save2copy')
+		if ($input->get('task') == 'save2copy')
 		{
 			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
 			$data['title'] = $title;
 			$data['alias'] = $alias;
+			$data['published'] = 0;
 		}
 
 		// Bind the data.
@@ -434,6 +487,69 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
+		$assoc = $this->getAssoc();
+		if ($assoc)
+		{
+
+			// Adding self to the association
+			$associations = $data['associations'];
+
+			foreach ($associations as $tag => $id)
+			{
+				if (empty($id))
+				{
+					unset($associations[$tag]);
+				}
+			}
+
+			// Detecting all item menus
+			$all_language = $table->language == '*';
+
+			if ($all_language && !empty($associations))
+			{
+				JError::raiseNotice(403, JText::_('COM_CATEGORIES_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+			}
+
+			$associations[$table->language] = $table->id;
+
+			// Deleting old association for these items
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete('#__associations')
+				->where($db->quoteName('context') . ' = ' . $db->quote('com_categories.item'))
+				->where($db->quoteName('id') . ' IN (' . implode(',', $associations) . ')');
+			$db->setQuery($query);
+			$db->execute();
+
+			if ($error = $db->getErrorMsg())
+			{
+				$this->setError($error);
+				return false;
+			}
+
+			if (!$all_language && count($associations))
+			{
+				// Adding new association for these items
+				$key = md5(json_encode($associations));
+				$query->clear()
+					->insert('#__associations');
+
+				foreach ($associations as $id)
+				{
+					$query->values($id . ',' . $db->quote('com_categories.item') . ',' . $db->quote($key));
+				}
+
+				$db->setQuery($query);
+				$db->execute();
+
+				if ($error = $db->getErrorMsg())
+				{
+					$this->setError($error);
+					return false;
+				}
+			}
+		}
+
 		// Trigger the onContentAfterSave event.
 		$dispatcher->trigger($this->event_after_save, array($this->option . '.' . $this->name, &$table, $isNew));
 
@@ -462,19 +578,19 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    $pks    A list of the primary keys to change.
-	 * @param   integer  $value  The value of the published state.
+	 * @param   array    &$pks    A list of the primary keys to change.
+	 * @param   integer  $value   The value of the published state.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
 	 */
-	function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = 1)
 	{
-		if (parent::publish($pks, $value)) {
-			// Initialise variables.
-			$dispatcher	= JDispatcher::getInstance();
-			$extension	= JRequest::getCmd('extension');
+		if (parent::publish($pks, $value))
+		{
+			$dispatcher = JEventDispatcher::getInstance();
+			$extension = JFactory::getApplication()->input->get('extension');
 
 			// Include the content plugins for the change of category state event.
 			JPluginHelper::importPlugin('content');
@@ -521,7 +637,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @return  boolean  False on failure or error, True otherwise
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function saveorder($idArray = null, $lft_array = null)
 	{
 		// Get an instance of the table object.
@@ -610,15 +726,18 @@ class CategoriesModelCategory extends JModelAdmin
 		$parents = array();
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
-		$query = $db->getQuery(true);
-		$query->select('COUNT(id)');
-		$query->from($db->quoteName('#__categories'));
+		$query = $db->getQuery(true)
+			->select('COUNT(id)')
+			->from($db->quoteName('#__categories'));
 		$db->setQuery($query);
-		$count = $db->loadResult();
 
-		if ($error = $db->getErrorMsg())
+		try
 		{
-			$this->setError($error);
+			$count = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -648,11 +767,11 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
-			$query->clear();
-			$query->select('id');
-			$query->from($db->quoteName('#__categories'));
-			$query->where('lft > ' . (int) $table->lft);
-			$query->where('rgt < ' . (int) $table->rgt);
+			$query->clear()
+				->select('id')
+				->from($db->quoteName('#__categories'))
+				->where('lft > ' . (int) $table->lft)
+				->where('rgt < ' . (int) $table->rgt);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -680,7 +799,7 @@ class CategoriesModelCategory extends JModelAdmin
 			$table->setLocation($table->parent_id, 'last-child');
 
 			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
+			// $table->ordering	= 1;
 			$table->level = null;
 			$table->asset_id = null;
 			$table->lft = null;
@@ -819,12 +938,21 @@ class CategoriesModelCategory extends JModelAdmin
 			if ($parentId != $table->parent_id)
 			{
 				// Add the child node ids to the children array.
-				$query->clear();
-				$query->select('id');
-				$query->from($db->quoteName('#__categories'));
-				$query->where($db->quoteName('lft' ) .' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$query->clear()
+					->select('id')
+					->from($db->quoteName('#__categories'))
+					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
 				$db->setQuery($query);
-				$children = array_merge($children, (array) $db->loadColumn());
+
+				try
+				{
+					$children = array_merge($children, (array) $db->loadColumn());
+				}
+				catch (RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
+					return false;
+				}
 			}
 
 			// Store the row.
@@ -848,13 +976,6 @@ class CategoriesModelCategory extends JModelAdmin
 			// Remove any duplicates and sanitize ids.
 			$children = array_unique($children);
 			JArrayHelper::toInteger($children);
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				$this->setError($db->getErrorMsg());
-				return false;
-			}
 		}
 
 		return true;
@@ -863,11 +984,11 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Custom clean the cache of com_content and content modules
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
-		$extension = JRequest::getCmd('extension');
+		$extension = JFactory::getApplication()->input->get('extension');
 		switch ($extension)
 		{
 			case 'com_content':
@@ -894,7 +1015,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
-	 * @since	1.7
+	 * @since   1.7
 	 */
 	protected function generateNewTitle($parent_id, $alias, $title)
 	{
@@ -907,5 +1028,37 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		return array($title, $alias);
+	}
+
+	public function getAssoc()
+	{
+		static $assoc = null;
+
+		if (!is_null($assoc))
+		{
+			return $assoc;
+		}
+
+		$app = JFactory::getApplication();
+		$extension = $this->getState('category.extension');
+
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$extension = explode('.', $extension);
+		$component = array_shift($extension);
+		$cname = str_replace('com_', '', $component);
+
+		if (!$assoc || !$component || !$cname)
+		{
+			$assoc = false;
+		}
+		else
+		{
+			$hname = $cname . 'HelperAssociation';
+			JLoader::register($hname, JPATH_SITE . '/components/' . $component . '/helpers/association.php');
+
+			$assoc = class_exists($hname) && !empty($hname::$category_association);
+		}
+
+		return $assoc;
 	}
 }

@@ -1,20 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * CodeMirror Editor Plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.codemirror
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ * @since       1.6
  */
-class plgEditorCodemirror extends JPlugin
+class PlgEditorCodemirror extends JPlugin
 {
 	/**
 	 * Base path for editor files
@@ -24,11 +26,11 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return	string	JavaScript Initialization string.
+	 * @return  string	JavaScript Initialization string.
 	 */
 	public function onInit()
 	{
-		JHtml::_('core');
+		JHtml::_('behavior.framework');
 		$uncompressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
 		JHtml::_('script', $this->_basePath . 'js/codemirror'.$uncompressed.'.js', false, false, false, false);
 		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
@@ -39,9 +41,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param	string	$id	The id of the editor field.
+	 * @param   string	$id	The id of the editor field.
 	 *
-	 * @return string Javascript
+	 * @return  string Javascript
 	 */
 	public function onSave($id)
 	{
@@ -51,9 +53,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param	string	$id	The id of the editor field.
+	 * @param   string	$id	The id of the editor field.
 	 *
-	 * @return string Javascript
+	 * @return  string Javascript
 	 */
 	public function onGetContent($id)
 	{
@@ -63,10 +65,10 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param	string	$id			The id of the editor field.
-	 * @param	string	$content	The content to set.
+	 * @param   string	$id			The id of the editor field.
+	 * @param   string	$content	The content to set.
 	 *
-	 * @return string Javascript
+	 * @return  string Javascript
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -76,7 +78,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
 	public function onGetInsertMethod()
 	{
@@ -87,7 +89,8 @@ class plgEditorCodemirror extends JPlugin
 		{
 			$done = true;
 			$doc = JFactory::getDocument();
-			$js = "\tfunction jInsertEditorText(text, editor) {
+			$js = "\tfunction jInsertEditorText(text, editor)
+				{
 					Joomla.editors.instances[editor].replaceSelection(text);\n
 			}";
 			$doc->addScriptDeclaration($js);
@@ -99,32 +102,35 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param	string	$name		The control name.
-	 * @param	string	$html		The contents of the text area.
-	 * @param	string	$width		The width of the text area (px or %).
-	 * @param	string	$height		The height of the text area (px or %).
-	 * @param	int		$col		The number of columns for the textarea.
-	 * @param	int		$row		The number of rows for the textarea.
-	 * @param	boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param	string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param	string	$asset
-	 * @param	object	$author
-	 * @param	array	$params		Associative array of editor parameters.
+	 * @param   string	$name		The control name.
+	 * @param   string	$html		The contents of the text area.
+	 * @param   string	$width		The width of the text area (px or %).
+	 * @param   string	$height		The height of the text area (px or %).
+	 * @param   integer  $col		The number of columns for the textarea.
+	 * @param   integer  $row		The number of rows for the textarea.
+	 * @param   boolean	$buttons	True and the editor buttons will be displayed.
+	 * @param   string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string	$asset
+	 * @param   object	$author
+	 * @param   array  $params		Associative array of editor parameters.
 	 *
-	 * @return string HTML
+	 * @return  string HTML
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
-		if (empty($id)) {
+		if (empty($id))
+		{
 			$id = $name;
 		}
 
 		// Only add "px" to width and height if they are not given as a percentage
-		if (is_numeric($width)) {
+		if (is_numeric($width))
+		{
 			$width .= 'px';
 		}
 
-		if (is_numeric($height)) {
+		if (is_numeric($height))
+		{
 			$height .= 'px';
 		}
 
@@ -140,7 +146,8 @@ class plgEditorCodemirror extends JPlugin
 		// Look if we need special syntax coloring.
 		$syntax = JFactory::getApplication()->getUserState('editor.source.syntax');
 
-		if ($syntax) {
+		if ($syntax)
+		{
 			switch($syntax)
 			{
 				case 'css':
@@ -164,32 +171,33 @@ class plgEditorCodemirror extends JPlugin
 					break;
 
 				default:
-					;
 					break;
 			} //switch
 		}
 
 		foreach ($styleSheet as &$style)
 		{
-			$style = JURI::root(true).'/'.$this->_basePath.'css/'.$style;
+			$style = JUri::root(true).'/'.$this->_basePath.'css/'.$style;
 		}
 
 		$options	= new stdClass;
 
 		$options->basefiles		= array('basefiles'.$compressed.'.js');
-		$options->path			= JURI::root(true).'/'.$this->_basePath.'js/';
+		$options->path			= JUri::root(true).'/'.$this->_basePath.'js/';
 		$options->parserfile	= $parserFile;
 		$options->stylesheet	= $styleSheet;
 		$options->height		= $height;
 		$options->width			= $width;
 		$options->continuousScanning = 500;
 
-		if ($this->params->get('linenumbers', 0)) {
+		if ($this->params->get('linenumbers', 0))
+		{
 			$options->lineNumbers	= true;
 			$options->textWrapping	= false;
 		}
 
-		if ($this->params->get('tabmode', '') == 'shift') {
+		if ($this->params->get('tabmode', '') == 'shift')
+		{
 			$options->tabMode = 'shift';
 		}
 
@@ -212,7 +220,7 @@ class plgEditorCodemirror extends JPlugin
 	 * @param string $name
 	 * @param mixed $buttons [array with button objects | boolean true to display buttons]
 	 *
-	 * @return string HTML
+	 * @return  string HTML
 	 */
 	protected function _displayButtons($name, $buttons, $asset, $author)
 	{
@@ -227,31 +235,36 @@ class plgEditorCodemirror extends JPlugin
 
 		foreach ($results as $result)
 		{
-			if (is_string($result) && trim($result)) {
+			if (is_string($result) && trim($result))
+			{
 				$html[] = $result;
 			}
 		}
 
-		if (is_array($buttons) || (is_bool($buttons) && $buttons)) {
+		if (is_array($buttons) || (is_bool($buttons) && $buttons))
+		{
 			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			$html[] = '<div id="editor-xtd-buttons">';
+			$html[] = '<div class="btn-toolbar">';
 
 			foreach ($results as $button)
 			{
 				// Results should be an object
-				if ($button->get('name')) {
-					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
+				if ($button->get('name'))
+				{
+					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
+					$href		= ($button->get('link')) ? ' class="btn" href="'.JUri::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$html[] = '<div class="button2-left"><div class="'.$button->get('name').'">';
 					$html[] = '<a '.$modal.' title="'.$title.'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';
-					$html[] = $button->get('text').'</a></div></div>';
+					$html[] = '<i class="icon-' . $button->get('name'). '"></i> ';
+					$html[] = $button->get('text').'</a>';
 				}
 			}
 
+			$html[] = '</div>';
 			$html[] = '</div>';
 		}
 

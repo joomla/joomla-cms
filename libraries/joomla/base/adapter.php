@@ -3,14 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
 
 /**
  * Adapter Class
@@ -55,7 +52,7 @@ class JAdapter extends JObject
 	/**
 	 * Database Connector Object
 	 *
-	 * @var    JDatabase
+	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	protected $_db;
@@ -75,13 +72,13 @@ class JAdapter extends JObject
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 	}
 
 	/**
 	 * Get the database connector object
 	 *
-	 * @return  JDatabase  Database connector object
+	 * @return  JDatabaseDriver  Database connector object
 	 *
 	 * @since   11.1
 	 */
@@ -165,27 +162,34 @@ class JAdapter extends JObject
 	 */
 	public function loadAllAdapters($options = array())
 	{
-		$list = JFolder::files($this->_basepath . '/' . $this->_adapterfolder);
+		$files = new DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
-		foreach ($list as $filename)
+		foreach ($files as $file)
 		{
-			if (JFile::getExt($filename) == 'php')
+			$fileName = $file->getFilename();
+
+			// Only load for php files.
+			// Note: DirectoryIterator::getExtension only available PHP >= 5.3.6
+			if (!$file->isFile() || substr($fileName, strrpos($fileName, '.') + 1) != 'php')
 			{
-				// Try to load the adapter object
-				require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $filename;
-
-				$name = JFile::stripExt($filename);
-				$class = $this->_classprefix . ucfirst($name);
-
-				if (!class_exists($class))
-				{
-					// Skip to next one
-					continue;
-				}
-
-				$adapter = new $class($this, $this->_db, $options);
-				$this->_adapters[$name] = clone $adapter;
+				continue;
 			}
+
+			// Try to load the adapter object
+			require_once $this->_basepath . '/' . $this->_adapterfolder . '/' . $fileName;
+
+			// Derive the class name from the filename.
+			$name = str_ireplace('.php', '', ucfirst(trim($fileName)));
+			$class = $this->_classprefix . ucfirst($name);
+
+			if (!class_exists($class))
+			{
+				// Skip to next one
+				continue;
+			}
+
+			$adapter = new $class($this, $this->_db, $options);
+			$this->_adapters[$name] = clone $adapter;
 		}
 	}
 }

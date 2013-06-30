@@ -3,15 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
-JLoader::register('FinderIndexerStemmer', dirname(__FILE__) . '/stemmer.php');
-JLoader::register('FinderIndexerToken', dirname(__FILE__) . '/token.php');
+JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
+JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
+JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
  * Helper class for the Finder indexer package.
@@ -71,18 +71,17 @@ class FinderIndexerHelper
 		}
 
 		$tokens = array();
-		$terms = array();
 		$quotes = html_entity_decode('&#8216;&#8217;&#39;', ENT_QUOTES, 'UTF-8');
 
 		// Get the simple language key.
-		$lang = FinderIndexerHelper::getPrimaryLanguage($lang);
+		$lang = self::getPrimaryLanguage($lang);
 
 		/*
 		 * Parsing the string input into terms is a multi-step process.
 		 *
 		 * Regexes:
-		 *	1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
-		 *	2. Remove plus, dash, period, and comma characters located before letter characters.
+		 *  1. Remove everything except letters, numbers, quotes, apostrophe, plus, dash, period, and comma.
+		 *  2. Remove plus, dash, period, and comma characters located before letter characters.
 		 *  3. Remove plus, dash, period, and comma characters located after other characters.
 		 *  4. Remove plus, period, and comma characters enclosed in alphabetical characters. Ungreedy.
 		 *  5. Remove orphaned apostrophe, plus, dash, period, and comma characters.
@@ -94,7 +93,7 @@ class FinderIndexerHelper
 		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
 		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
-		$input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input); // Ungreedy
+		$input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input);
 		$input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
@@ -248,26 +247,19 @@ class FinderIndexerHelper
 	{
 		static $types;
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
 		if (empty($types))
 		{
 			// Build the query to get the types.
-			$query->select('*');
-			$query->from($db->quoteName('#__finder_types'));
+			$query->select('*')
+				->from($db->quoteName('#__finder_types'));
 
 			// Get the types.
 			$db->setQuery($query);
 			$types = $db->loadObjectList('title');
-
-			// Check for a database error.
-			if ($db->getErrorNum())
-			{
-				// Throw database error exception.
-				throw new Exception($db->getErrorMsg(), 500);
-			}
 		}
 
 		// Check if the type already exists.
@@ -277,19 +269,12 @@ class FinderIndexerHelper
 		}
 
 		// Add the type.
-		$query->clear();
-		$query->insert($db->quoteName('#__finder_types'));
-		$query->columns(array($db->quoteName('title'), $db->quoteName('mime')));
-		$query->values($db->quote($title) . ', ' . $db->quote($mime));
+		$query->clear()
+			->insert($db->quoteName('#__finder_types'))
+			->columns(array($db->quoteName('title'), $db->quoteName('mime')))
+			->values($db->quote($title) . ', ' . $db->quote($mime));
 		$db->setQuery($query);
-		$db->query();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
+		$db->execute();
 
 		// Return the new id.
 		return (int) $db->insertid();
@@ -312,7 +297,7 @@ class FinderIndexerHelper
 		// Load the common tokens for the language if necessary.
 		if (!isset($data[$lang]))
 		{
-			$data[$lang] = FinderIndexerHelper::getCommonWords($lang);
+			$data[$lang] = self::getCommonWords($lang);
 		}
 
 		// Check if the token is in the common array.
@@ -338,24 +323,17 @@ class FinderIndexerHelper
 	 */
 	public static function getCommonWords($lang)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Create the query to load all the common terms for the language.
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('term'));
-		$query->from($db->quoteName('#__finder_terms_common'));
-		$query->where($db->quoteName('language') . ' = ' . $db->quote($lang));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('term'))
+			->from($db->quoteName('#__finder_terms_common'))
+			->where($db->quoteName('language') . ' = ' . $db->quote($lang));
 
 		// Load all of the common terms for the language.
 		$db->setQuery($query);
 		$results = $db->loadColumn();
-
-		// Check for a database error.
-		if ($db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($db->getErrorMsg(), 500);
-		}
 
 		return $results;
 	}
@@ -371,7 +349,7 @@ class FinderIndexerHelper
 	{
 		static $lang;
 
-		// Get the default language.
+		// We need to go to com_languages to get the site default language, it's the best we can guess.
 		if (empty($lang))
 		{
 			$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
@@ -439,7 +417,7 @@ class FinderIndexerHelper
 		// Build the relative route.
 		$uri = $router->build($url);
 		$route = $uri->toString(array('path', 'query', 'fragment'));
-		$route = str_replace(JURI::base(true) . '/', '', $route);
+		$route = str_replace(JUri::base(true) . '/', '', $route);
 
 		return $route;
 	}
@@ -458,7 +436,7 @@ class FinderIndexerHelper
 	public static function getContentExtras(FinderIndexerResult &$item)
 	{
 		// Get the event dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
@@ -499,7 +477,7 @@ class FinderIndexerHelper
 		static $loaded;
 
 		// Get the dispatcher.
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Load the content plugins if necessary.
 		if (empty($loaded))

@@ -1,0 +1,7 @@
+SeleniumClient
+Copyright 2012-present Nearsoft, Inc
+
+This product includes software developed at
+Nearsoft, Inc
+ 
+SeleniumClient interacts with Selenium WebDriver API through JsonWireProtocol

@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -11,19 +12,23 @@ defined('_JEXEC') or die;
 /**
  * HTML View class for the Contacts component
  *
- * @package		Joomla.Site
- * @subpackage	com_contact
- * @since		1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactViewCategory extends JViewLegacy
 {
 	protected $state;
+
 	protected $items;
+
 	protected $category;
+
 	protected $categories;
+
 	protected $pagination;
 
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$params		= $app->getParams();
@@ -37,23 +42,27 @@ class ContactViewCategory extends JViewLegacy
 		$pagination	= $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		if ($category == false) {
+		if ($category == false)
+		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
-		if ($parent == false) {
+		if ($parent == false)
+		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		// Check whether category access level allows access.
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
-		if (!in_array($category->access, $groups)) {
+		if (!in_array($category->access, $groups))
+		{
 			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
@@ -63,15 +72,17 @@ class ContactViewCategory extends JViewLegacy
 		{
 			$item		= &$items[$i];
 			$item->slug	= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
-			$temp		= new JRegistry();
+			$temp		= new JRegistry;
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
 
-			if ($item->params->get('show_email', 0) == 1) {
+			if ($item->params->get('show_email', 0) == 1)
+			{
 				$item->email_to = trim($item->email_to);
 
-				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to)) {
+				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to))
+				{
 					$item->email_to = JHtml::_('email.cloak', $item->email_to);
 				}
 				else {
@@ -87,14 +98,15 @@ class ContactViewCategory extends JViewLegacy
 		$children = array($category->id => $children);
 
 		$maxLevel = $params->get('maxLevel', -1);
-		$this->assignRef('maxLevel',	$maxLevel);
-		$this->assignRef('state',		$state);
-		$this->assignRef('items',		$items);
-		$this->assignRef('category',	$category);
-		$this->assignRef('children',	$children);
-		$this->assignRef('params',		$params);
-		$this->assignRef('parent',		$parent);
-		$this->assignRef('pagination',	$pagination);
+		$this->maxLevel   = &$maxLevel;
+		$this->state      = &$state;
+		$this->items      = &$items;
+		$this->category   = &$category;
+		$this->children   = &$children;
+		$this->params     = &$params;
+		$this->parent     = &$parent;
+		$this->pagination = &$pagination;
+		$this->user       = &$user;
 
 		//Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
@@ -102,15 +114,21 @@ class ContactViewCategory extends JViewLegacy
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
 		$active	= $app->getMenu()->getActive();
-		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false))) {
-			if ($layout = $category->params->get('category_layout')) {
+		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
+		{
+			if ($layout = $category->params->get('category_layout'))
+			{
 				$this->setLayout($layout);
 			}
 		}
-		elseif (isset($active->query['layout'])) {
+		elseif (isset($active->query['layout']))
+		{
 			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
 			$this->setLayout($active->query['layout']);
 		}
+
+		$category->tags = new JHelperTags;
+		$category->tags->getItemTags('com_contact.category', $category->id);
 
 		$this->_prepareDocument();
 
@@ -131,16 +149,19 @@ class ContactViewCategory extends JViewLegacy
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
 
-		if ($menu) {
+		if ($menu)
+		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		}
-		else {
+		else
+		{
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
 
 		$id = (int) @$menu->query['id'];
 
-		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] == 'contact' || $id != $this->category->id)) {
+		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] == 'contact' || $id != $this->category->id))
+		{
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
@@ -160,13 +181,16 @@ class ContactViewCategory extends JViewLegacy
 
 		$title = $this->params->get('page_title', '');
 
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 
@@ -195,7 +219,8 @@ class ContactViewCategory extends JViewLegacy
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->getCfg('MetaAuthor') == '1') {
+		if ($app->getCfg('MetaAuthor') == '1')
+		{
 			$this->document->setMetaData('author', $this->category->getMetadata()->get('author'));
 		}
 
@@ -203,7 +228,8 @@ class ContactViewCategory extends JViewLegacy
 
 		foreach ($mdata as $k => $v)
 		{
-			if ($v) {
+			if ($v)
+			{
 				$this->document->setMetadata($k, $v);
 			}
 		}

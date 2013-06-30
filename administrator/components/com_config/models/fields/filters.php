@@ -1,9 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
@@ -11,9 +12,9 @@ defined('JPATH_BASE') or die;
 /**
  * Text Filters form field.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ * @since       1.6
  */
 class JFormFieldFilters extends JFormField
 {
@@ -21,7 +22,7 @@ class JFormFieldFilters extends JFormField
 	 * The form field type.
 	 *
 	 * @var		string
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public $type = 'Filters';
 
@@ -30,8 +31,8 @@ class JFormFieldFilters extends JFormField
 	 *
 	 * TODO: Add access check.
 	 *
-	 * @return	string	The field input markup.
-	 * @since	1.6
+	 * @return  string	The field input markup.
+	 * @since   1.6
 	 */
 	protected function getInput()
 	{
@@ -41,7 +42,7 @@ class JFormFieldFilters extends JFormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table id="filter-config">';
+		$html[] = '<table id="filter-config" class="table table-striped">';
 
 		// The table heading.
 		$html[] = '	<thead>';
@@ -50,13 +51,13 @@ class JFormFieldFilters extends JFormField
 		$html[] = '			<span class="acl-action">'.JText::_('JGLOBAL_FILTER_GROUPS_LABEL').'</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'">'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'</span>';
+		$html[] = '			<span class="acl-action">'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="'.JText::_('JGLOBAL_FILTER_TAGS_LABEL').'">'.JText::_('JGLOBAL_FILTER_TAGS_LABEL').'</span>';
+		$html[] = '			<span class="acl-action">'.JText::_('JGLOBAL_FILTER_TAGS_LABEL').'</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="'.JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL').'">'.JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL').'</span>';
+		$html[] = '			<span class="acl-action">'.JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL').'</span>';
 		$html[] = '		</th>';
 		$html[] = '	</tr>';
 		$html[] = '	</thead>';
@@ -64,8 +65,10 @@ class JFormFieldFilters extends JFormField
 		// The table body.
 		$html[] = '	<tbody>';
 
-		foreach ($groups as $group) {
-			if (!isset($this->value[$group->value])) {
+		foreach ($groups as $group)
+		{
+			if (!isset($this->value[$group->value]))
+			{
 				$this->value[$group->value] = array('filter_type' => 'BL', 'filter_tags' => '', 'filter_attributes' => '');
 			}
 			$group_filter = $this->value[$group->value];
@@ -75,7 +78,7 @@ class JFormFieldFilters extends JFormField
 			$html[] = '			'.str_repeat('<span class="gi">|&mdash;</span>', $group->level).$group->text;
 			$html[] = '		</th>';
 			$html[] = '		<td>';
-			$html[] = '				<select name="'.$this->name.'['.$group->value.'][filter_type]" id="'.$this->id.$group->value.'_filter_type" class="hasTip" title="'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'::'.JText::_('JGLOBAL_FILTER_TYPE_DESC').'">';
+			$html[] = '				<select name="'.$this->name.'['.$group->value.'][filter_type]" id="'.$this->id.$group->value.'_filter_type">';
 			$html[] = '					<option value="BL"'.($group_filter['filter_type'] == 'BL' ? ' selected="selected"' : '').'>'.JText::_('COM_CONFIG_FIELD_FILTERS_DEFAULT_BLACK_LIST').'</option>';
 			$html[] = '					<option value="CBL"'.($group_filter['filter_type'] == 'CBL' ? ' selected="selected"' : '').'>'.JText::_('COM_CONFIG_FIELD_FILTERS_CUSTOM_BLACK_LIST').'</option>';
 			$html[] = '					<option value="WL"'.($group_filter['filter_type'] == 'WL' ? ' selected="selected"' : '').'>'.JText::_('COM_CONFIG_FIELD_FILTERS_WHITE_LIST').'</option>';
@@ -84,10 +87,10 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '				<input name="'.$this->name.'['.$group->value.'][filter_tags]" id="'.$this->id.$group->value.'_filter_tags" title="'.JText::_('JGLOBAL_FILTER_TAGS_LABEL').'" value="'.$group_filter['filter_tags'].'"/>';
+			$html[] = '				<input name="'.$this->name.'['.$group->value.'][filter_tags]" id="'.$this->id.$group->value.'_filter_tags" value="'.$group_filter['filter_tags'].'"/>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '				<input name="'.$this->name.'['.$group->value.'][filter_attributes]" id="'.$this->id.$group->value.'_filter_attributes" title="'.JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL').'" value="'.$group_filter['filter_attributes'].'"/>';
+			$html[] = '				<input name="'.$this->name.'['.$group->value.'][filter_attributes]" id="'.$this->id.$group->value.'_filter_attributes" value="'.$group_filter['filter_attributes'].'"/>';
 			$html[] = '		</td>';
 			$html[] = '	</tr>';
 		}
@@ -95,26 +98,34 @@ class JFormFieldFilters extends JFormField
 
 		// Close the table.
 		$html[] = '</table>';
+
+		// Add notes
+		$html[] = '<div class="alert">';
+		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
+		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
+		$html[] = '<p>' . JText::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
+		$html[] = '</div>';
+
 		return implode("\n", $html);
 	}
 
 	/**
 	 * A helper to get the list of user groups.
 	 *
-	 * @return	array
-	 * @since	1.6
+	 * @return  array
+	 * @since   1.6
 	 */
 	protected function getUserGroups()
 	{
 		// Get a database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		// Get the user groups from the database.
-		$query = $db->getQuery(true);
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level');
-		$query->from('#__usergroups AS a');
-		$query->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt');
-		$query->group('a.id, a.title, a.lft');
-		$query->order('a.lft ASC');
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level')
+			->from('#__usergroups AS a')
+			->join('LEFT', '#__usergroups AS b on a.lft > b.lft AND a.rgt < b.rgt')
+			->group('a.id, a.title, a.lft')
+			->order('a.lft ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 

@@ -1,6 +1,0 @@
-'id','name','username','email','password','usertype','block','sendEmail','registerDate','lastvisitDate','activation','params'
-'42','Super User','admin','admin@example.com','7017fe127670faddb25f3a893a36229c:eCU2KtKahxQIMH5i3nwc05zVTBtZXbVV','deprecated','0','1','2010-02-13 00:34:42','0000-00-00 00:00:00',,
-'43','Publisher','publisher','publisher@example.com','b69eafa62e549e5fa875e127fadc3c83:VapLaQZx00iYDRwgMjgsfyIHgoe01DK8','deprecated','0','1','2010-02-13 00:34:42','0000-00-00 00:00:00',,'{"admin_language":"","language":"","editor":"","helpsite":"","timezone":""}'
-'44','Test User','test','test@test.com',,,'0','0','2010-11-24 00:44:18','0000-00-00 00:00:00',,'{}'
-'45','Test User1','test1','test1@test.com',,,'0','0','2010-11-24 00:44:18','0000-00-00 00:00:00',,'{}'
-'46','Test User2','test2','test2@test.com',,,'0','0','2010-11-24 00:44:18','0000-00-00 00:00:00',,'{}'

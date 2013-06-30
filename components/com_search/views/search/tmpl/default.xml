@@ -19,7 +19,7 @@
 			/>
 		</fieldset>
 	</fields>
-	<!-- Add fields to the parameters object for the layout. -->	
+	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
 
 		<!-- Basic options. -->
@@ -44,14 +44,14 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field name="spacer1" type="spacer" class="text"
 			label="COM_SEARCH_SAVED_SEARCH_OPTIONS"
 			/>
-			
+
 			<!-- Add fields to define saved search. -->
 
-			<field name="searchphrase" type="radio"
+			<field name="searchphrase" type="list"
 				default="0"
 				description="COM_SEARCH_FOR_DESC"
 				label="COM_SEARCH_FOR_LABEL"
@@ -70,8 +70,8 @@
 				<option value="popular">COM_SEARCH_MOST_POPULAR</option>
 				<option value="alpha">COM_SEARCH_ALPHABETICAL</option>
 				<option value="category">JCATEGORY</option>
-			</field>			
-			
+			</field>
+
 		</fieldset>
 	</fields>
 </metadata>

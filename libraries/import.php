@@ -1,36 +1,30 @@
 <?php
 /**
+ * Bootstrap file for the Joomla Platform.  Including this file into your application will make Joomla
+ * Platform libraries available for use.
+ *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 // Set the platform root path as a constant if necessary.
 if (!defined('JPATH_PLATFORM'))
 {
-	define('JPATH_PLATFORM', dirname(__FILE__));
-}
-
-// Set the directory separator define if necessary.
-if (!defined('DS'))
-{
-	define('DS', DIRECTORY_SEPARATOR);
+	define('JPATH_PLATFORM', __DIR__);
 }
 
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
+
 if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
 }
-if (!defined('IS_MAC'))
-{
-	define('IS_MAC', ($os === 'MAC') ? true : false);
-}
 if (!defined('IS_UNIX'))
 {
-	define('IS_UNIX', (($os !== 'MAC') && ($os !== 'WIN')) ? true : false);
+	define('IS_UNIX', (IS_WIN === false) ? true : false);
 }
 
 // Import the platform version library if necessary.
@@ -45,39 +39,24 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-class_exists('JLoader') or die;
+// Make sure that the Joomla Platform has been successfully loaded.
+if (!class_exists('JLoader'))
+{
+	throw new RuntimeException('Joomla Platform not loaded.');
+}
 
 // Setup the autoloaders.
 JLoader::setup();
 
-/**
- * Import the base Joomla Platform libraries.
- */
-
-// Import the factory library.
+// Import the base Joomla Platform libraries.
 JLoader::import('joomla.factory');
 
-// Import the exception and error handling libraries.
-JLoader::import('joomla.error.exception');
-
-/*
- * If the HTTP_HOST environment variable is set we assume a Web request and
- * thus we import the request library and most likely clean the request input.
- */
-if (isset($_SERVER['HTTP_HOST']))
+// Register classes for compatability with PHP 5.3
+if (version_compare(PHP_VERSION, '5.4.0', '<'))
 {
-	JLoader::register('JRequest', JPATH_PLATFORM . '/joomla/environment/request.php');
-
-	// If an application flags it doesn't want this, adhere to that.
-	if (!defined('_JREQUEST_NO_CLEAN') && (bool) ini_get('register_globals'))
-	{
-		JRequest::clean();
-	}
+	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/compat/jsonserializable.php');
 }
 
-// Import the base object library.
-JLoader::import('joomla.base.object');
-
 // Register classes that don't follow one file per class naming conventions.
-JLoader::register('JText', JPATH_PLATFORM . '/joomla/methods.php');
-JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/methods.php');
+JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
+JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');

@@ -2,14 +2,12 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       2.5.4
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Joomla! Update's Update View
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_installer
  * @since       2.5.4
  */
-class JoomlaupdateViewUpdate extends JView
+class JoomlaupdateViewUpdate extends JViewLegacy
 {
 	/**
 	 * Renders the view
@@ -31,14 +29,19 @@ class JoomlaupdateViewUpdate extends JView
 	{
 		$password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
 		$filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
-		$ajaxUrl = JURI::base().'components/com_joomlaupdate/restore.php';
+		$ajaxUrl = JUri::base().'components/com_joomlaupdate/restore.php';
 		$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
 
 		// Set the toolbar information
-		JToolBarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Add toolbar buttons
-		JToolBarHelper::preferences('com_joomlaupdate');
+		if (JFactory::getUser()->authorise('core.admin', 'com_joomlaupdate'))
+		{
+			JToolbarHelper::preferences('com_joomlaupdate');
+		}
 
 		// Load mooTools
 		JHtml::_('behavior.framework', true);

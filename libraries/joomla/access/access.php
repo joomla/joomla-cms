@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Access
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,7 +98,10 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			$asset = 1;
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
+			$asset = $rootId;
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -138,7 +141,10 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
-			$asset = 1;
+			// TODO: $rootId doesn't seem to be used!
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
 		}
 
 		// Get the rules for the asset recursively to root if not already retrieved.
@@ -215,29 +221,28 @@ class JAccess
 		$db = JFactory::getDbo();
 
 		// Build the database query to get the rules for the asset.
-		$query = $db->getQuery(true);
-		$query->select($recursive ? 'b.rules' : 'a.rules');
-		$query->from('#__assets AS a');
-		//sqlsrv change
+		$query = $db->getQuery(true)
+			->select($recursive ? 'b.rules' : 'a.rules')
+			->from('#__assets AS a');
+
+		// SQLsrv change
 		$query->group($recursive ? 'b.id, b.rules, b.lft' : 'a.id, a.rules, a.lft');
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
 		if (is_numeric($asset))
 		{
-			// Get the root even if the asset is not found
-			$query->where('(a.id = ' . (int) $asset . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.id = ' . (int) $asset . ')');
 		}
 		else
 		{
-			// Get the root even if the asset is not found
-			$query->where('(a.name = ' . $db->quote($asset) . ($recursive ? ' OR a.parent_id=0' : '') . ')');
+			$query->where('(a.name = ' . $db->quote($asset) . ')');
 		}
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->leftJoin('#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
-			$query->order('b.lft');
+			$query->join('LEFT', '#__assets AS b ON b.lft <= a.lft AND b.rgt >= a.rgt')
+				->order('b.lft');
 		}
 
 		// Execute the query and load the rules from the result.
@@ -245,16 +250,19 @@ class JAccess
 		$result = $db->loadColumn();
 
 		// Get the root even if the asset is not found and in recursive mode
-		if ($recursive && empty($result))
+		if (empty($result))
 		{
-			$query = $db->getQuery(true);
-			$query->select('rules');
-			$query->from('#__assets');
-			$query->where('parent_id = 0');
+			$db = JFactory::getDbo();
+			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
+			$rootId = $assets->getRootId();
+			$query->clear()
+				->select('rules')
+				->from('#__assets')
+				->where('id = ' . $db->quote($rootId));
 			$db->setQuery($query);
-			$result = $db->loadColumn();
+			$result = $db->loadResult();
+			$result = array($result);
 		}
-
 		// Instantiate and return the JAccessRules object for the asset rules.
 		$rules = new JAccessRules;
 		$rules->mergeCollection($result);
@@ -281,10 +289,20 @@ class JAccess
 
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
+			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
+			if (class_exists('JComponentHelper'))
+			{
+				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+			}
+			else
+			{
+				$guestUsergroup = 1;
+			}
+
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)
 			{
-				$result = array(JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+				$result = array($guestUsergroup);
 			}
 			// Registered user and guest if all groups are requested
 			else
@@ -292,24 +310,24 @@ class JAccess
 				$db = JFactory::getDbo();
 
 				// Build the database query to get the rules for the asset.
-				$query = $db->getQuery(true);
-				$query->select($recursive ? 'b.id' : 'a.id');
+				$query = $db->getQuery(true)
+					->select($recursive ? 'b.id' : 'a.id');
 				if (empty($userId))
 				{
-					$query->from('#__usergroups AS a');
-					$query->where('a.id = ' . (int) JComponentHelper::getParams('com_users')->get('guest_usergroup', 1));
+					$query->from('#__usergroups AS a')
+						->where('a.id = ' . (int) $guestUsergroup);
 				}
 				else
 				{
-					$query->from('#__user_usergroup_map AS map');
-					$query->where('map.user_id = ' . (int) $userId);
-					$query->leftJoin('#__usergroups AS a ON a.id = map.group_id');
+					$query->from('#__user_usergroup_map AS map')
+						->where('map.user_id = ' . (int) $userId)
+						->join('LEFT', '#__usergroups AS a ON a.id = map.group_id');
 				}
 
 				// If we want the rules cascading up to the global asset node we need a self-join.
 				if ($recursive)
 				{
-					$query->leftJoin('#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
+					$query->join('LEFT', '#__usergroups AS b ON b.lft <= a.lft AND b.rgt >= a.rgt');
 				}
 
 				// Execute the query and load the rules from the result.
@@ -354,12 +372,12 @@ class JAccess
 		$test = $recursive ? '>=' : '=';
 
 		// First find the users contained in the group
-		$query = $db->getQuery(true);
-		$query->select('DISTINCT(user_id)');
-		$query->from('#__usergroups as ug1');
-		$query->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt');
-		$query->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id');
-		$query->where('ug1.id=' . $db->Quote($groupId));
+		$query = $db->getQuery(true)
+			->select('DISTINCT(user_id)')
+			->from('#__usergroups as ug1')
+			->join('INNER', '#__usergroups AS ug2 ON ug2.lft' . $test . 'ug1.lft AND ug1.rgt' . $test . 'ug2.rgt')
+			->join('INNER', '#__user_usergroup_map AS m ON ug2.id=m.group_id')
+			->where('ug1.id=' . $db->quote($groupId));
 
 		$db->setQuery($query);
 
@@ -389,15 +407,15 @@ class JAccess
 		if (empty(self::$viewLevels))
 		{
 			// Get a database object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			// Build the base query.
-			$query = $db->getQuery(true);
-			$query->select('id, rules');
-			$query->from($query->qn('#__viewlevels'));
+			$query = $db->getQuery(true)
+				->select('id, rules')
+				->from($db->quoteName('#__viewlevels'));
 
 			// Set the query for execution.
-			$db->setQuery((string) $query);
+			$db->setQuery($query);
 
 			// Build the view levels array.
 			foreach ($db->loadAssocList() as $level)
@@ -445,8 +463,6 @@ class JAccess
 	 *
 	 * @codeCoverageIgnore
 	 *
-	 * @todo    Need to decouple this method from the CMS. Maybe check if $component is a
-	 *          valid file (or create a getActionsFromFile method).
 	 */
 	public static function getActions($component, $section = 'component')
 	{
@@ -477,7 +493,7 @@ class JAccess
 	 */
 	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
-		if (!is_file($file))
+		if (!is_file($file) || !is_readable($file))
 		{
 			// If unable to find the file return false.
 			return false;
@@ -485,7 +501,8 @@ class JAccess
 		else
 		{
 			// Else return the actions from the xml.
-			return self::getActionsFromData(JFactory::getXML($file, true), $xpath);
+			$xml = simplexml_load_file($file);
+			return self::getActionsFromData($xml, $xpath);
 		}
 	}
 
@@ -510,7 +527,14 @@ class JAccess
 		// Attempt to load the XML if a string.
 		if (is_string($data))
 		{
-			$data = JFactory::getXML($data, false);
+			try
+			{
+				$data = new SimpleXMLElement($data);
+			}
+			catch (Exception $e)
+			{
+				return false;
+			}
 
 			// Make sure the XML loaded correctly.
 			if (!$data)

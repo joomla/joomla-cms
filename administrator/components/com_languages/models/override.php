@@ -1,32 +1,30 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.modeladmin');
 
 /**
  * Languages Override Model
  *
- * @package			Joomla.Administrator
- * @subpackage	com_languages
- * @since				2.5
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       2.5
  */
 class LanguagesModelOverride extends JModelAdmin
 {
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param		array		$data			Data for the form.
-	 * @param		boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   	array		$data			Data for the form.
+	 * @param   	boolean	$loadData	True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return	mixed		A JForm object on success, false on failure
+	 * @return  mixed  	A JForm object on success, false on failure
 	 *
 	 * @since		2.5
 	 */
@@ -58,7 +56,7 @@ class LanguagesModelOverride extends JModelAdmin
 	/**
 	 * Method to get the data that should be injected in the form.
 	 *
-	 * @return	mixed The data for the form
+	 * @return  mixed The data for the form
 	 *
 	 * @since		2.5
 	 */
@@ -72,15 +70,17 @@ class LanguagesModelOverride extends JModelAdmin
 			$data = $this->getItem();
 		}
 
+		$this->preprocessData('com_languages.override', $data);
+
 		return $data;
 	}
 
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param		string	$pk	The key name.
+	 * @param   	string	$pk	The key name.
 	 *
-	 * @return	mixed		Object on success, false otherwise.
+	 * @return  mixed  	Object on success, false otherwise.
 	 *
 	 * @since		2.5
 	 */
@@ -88,17 +88,18 @@ class LanguagesModelOverride extends JModelAdmin
 	{
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 
-		$pk	= (!empty($pk)) ? $pk : JRequest::getCmd('id');
+		$input = JFactory::getApplication()->input;
+		$pk	= (!empty($pk)) ? $pk : $input->get('id');
 		$filename = constant('JPATH_'.strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language', 'en-GB').'.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
-		$result = new stdClass();
-		$result->key			= '';
-		$result->override	= '';
+		$result = new stdClass;
+		$result->key      = '';
+		$result->override = '';
 		if (isset($strings[$pk]))
 		{
-			$result->key			= $pk;
-			$result->override	= $strings[$pk];
+			$result->key      = $pk;
+			$result->override = $strings[$pk];
 		}
 
 		return $result;
@@ -107,10 +108,10 @@ class LanguagesModelOverride extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param		array		$data							The form data.
-	 * @param		boolean	$opposite_client	Indicates whether the override should not be created for the current client
+	 * @param   	array		$data							The form data.
+	 * @param   	boolean	$opposite_client	Indicates whether the override should not be created for the current client
 	 *
-	 * @return	boolean	True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since		2.5
 	 */
@@ -118,12 +119,13 @@ class LanguagesModelOverride extends JModelAdmin
 	{
 		$app = JFactory::getApplication();
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
+		jimport('joomla.filesystem.file');
 
 		$client		= $app->getUserState('com_languages.overrides.filter.client', 0);
 		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
 		// If the override should be created for both
-		if($opposite_client)
+		if ($opposite_client)
 		{
 			$client = 1 - $client;
 		}
@@ -156,12 +158,13 @@ class LanguagesModelOverride extends JModelAdmin
 			$strings = array($data['key'] => $data['override']) + $strings;
 		}
 
-		foreach ($strings as $key => $string) {
+		foreach ($strings as $key => $string)
+		{
 			$strings[$key] = str_replace('"', '"_QQ_"', $string);
 		}
 
 		// Write override.ini file with the strings
-		$registry = new JRegistry();
+		$registry = new JRegistry;
 		$registry->loadObject($strings);
 
 		if (!JFile::write($filename, $registry->toString('INI')))
@@ -171,7 +174,7 @@ class LanguagesModelOverride extends JModelAdmin
 
 		// If the override should be stored for both clients save
 		// it also for the other one and prevent endless recursion
-		if(isset($data['both']) && $data['both'] && !$opposite_client)
+		if (isset($data['both']) && $data['both'] && !$opposite_client)
 		{
 			return $this->save($data, true);
 		}
@@ -184,7 +187,7 @@ class LanguagesModelOverride extends JModelAdmin
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @return	void
+	 * @return  void
 	 *
 	 * @since		2.5
 	 */

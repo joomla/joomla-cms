@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * GitHub API Issues class for the Joomla Platform.
@@ -108,6 +108,45 @@ class JGithubIssues extends JGithubObject
 	}
 
 	/**
+	 * Method to create a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $name   The label name.
+	 * @param   string  $color  The label color.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function createLabel($user, $repo, $name, $color)
+	{
+		// Build the request path.
+		$path = '/repos/' . $user . '/' . $repo . '/labels';
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'name' => $name,
+				'color' => $color
+			)
+		);
+
+		// Send the request.
+		$response = $this->client->post($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 201)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
 	 * Method to delete a comment on an issue.
 	 *
 	 * @param   string   $user       The name of the owner of the GitHub repository.
@@ -122,6 +161,34 @@ class JGithubIssues extends JGithubObject
 	{
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/issues/comments/' . (int) $commentId;
+
+		// Send the request.
+		$response = $this->client->delete($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 204)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+	}
+
+	/**
+	 * Method to delete a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $label  The label name.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function deleteLabel($user, $repo, $label)
+	{
+		// Build the request path.
+		$path = '/repos/' . $user . '/' . $repo . '/labels/' . $label;
 
 		// Send the request.
 		$response = $this->client->delete($this->fetchUrl($path));
@@ -258,6 +325,46 @@ class JGithubIssues extends JGithubObject
 	}
 
 	/**
+	 * Method to update a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $label  The label name.
+	 * @param   string  $name   The label name.
+	 * @param   string  $color  The label color.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function editLabel($user, $repo, $label, $name, $color)
+	{
+		// Build the request path.
+		$path = '/repos/' . $user . '/' . $repo . '/labels/' . $label;
+
+		// Build the request data.
+		$data = json_encode(
+			array(
+				'name' => $name,
+				'color' => $color
+			)
+		);
+
+		// Send the request.
+		$response = $this->client->patch($this->fetchUrl($path), $data);
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
 	 * Method to get a single issue.
 	 *
 	 * @param   string   $user     The name of the owner of the GitHub repository.
@@ -350,6 +457,65 @@ class JGithubIssues extends JGithubObject
 	}
 
 	/**
+	 * Method to get a specific label on a repo.
+	 *
+	 * @param   string  $user  The name of the owner of the GitHub repository.
+	 * @param   string  $repo  The name of the GitHub repository.
+	 * @param   string  $name  The label name to get.
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function getLabel($user, $repo, $name)
+	{
+		// Build the request path.
+		$path = '/repos/' . $user . '/' . $repo . '/labels/' . $name;
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
+	 * Method to get the list of labels on a repo.
+	 *
+	 * @param   string  $user  The name of the owner of the GitHub repository.
+	 * @param   string  $repo  The name of the GitHub repository.
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public function getLabels($user, $repo)
+	{
+		// Build the request path.
+		$path = '/repos/' . $user . '/' . $repo . '/labels';
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		// Validate the response code.
+		if ($response->code != 200)
+		{
+			// Decode the error response and throw an exception.
+			$error = json_decode($response->body);
+			throw new DomainException($error->message, $response->code);
+		}
+
+		return json_decode($response->body);
+	}
+
+	/**
 	 * Method to list an authenticated user's issues.
 	 *
 	 * @param   string   $filter     The filter type: assigned, created, mentioned, subscribed.
@@ -370,7 +536,7 @@ class JGithubIssues extends JGithubObject
 		// Build the request path.
 		$path = '/issues';
 
-		//TODO Implement the filtering options.
+		// TODO Implement the filtering options.
 
 		// Send the request.
 		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
@@ -412,10 +578,50 @@ class JGithubIssues extends JGithubObject
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/issues';
 
-		//TODO Implement the filtering options.
+		$uri = new JUri($this->fetchUrl($path, $page, $limit));
+
+		if ($milestone)
+		{
+			$uri->setVar('milestone', $milestone);
+		}
+
+		if ($state)
+		{
+			$uri->setVar('state', $state);
+		}
+
+		if ($assignee)
+		{
+			$uri->setVar('assignee', $assignee);
+		}
+
+		if ($mentioned)
+		{
+			$uri->setVar('mentioned', $mentioned);
+		}
+
+		if ($labels)
+		{
+			$uri->setVar('labels', $labels);
+		}
+
+		if ($sort)
+		{
+			$uri->setVar('sort', $sort);
+		}
+
+		if ($direction)
+		{
+			$uri->setVar('direction', $direction);
+		}
+
+		if ($since)
+		{
+			$uri->setVar('since', $since->toISO8601());
+		}
 
 		// Send the request.
-		$response = $this->client->get($this->fetchUrl($path, $page, $limit));
+		$response = $this->client->get((string) $uri);
 
 		// Validate the response code.
 		if ($response->code != 200)

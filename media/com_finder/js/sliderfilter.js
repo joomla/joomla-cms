@@ -18,7 +18,7 @@ FinderFilter = new Class({
 		this.elements = elements || [];
 		this.container = document.id(container);
 		this.frame = document.id(frame);
-		
+
 		this.effects = {};
 		if (this.options.opacity) this.effects.opacity = 'fullOpacity';
 		if (this.options.width) this.effects.width = this.options.fixedWidth ? 'fullWidth' : 'offsetWidth';
@@ -73,12 +73,12 @@ FinderFilter = new Class({
 			}
 			el.getElement('dt').getElement('input').addEvent('change', function (e) {
 				if (e.target.getProperty('checked')) {
-					el.getElements('dd').each(function (dd) {
-						dd.getElement('input').setProperty('checked', 'checked');
+					el.getElements('div').each(function (div) {
+						div.getElements('input').setProperty('checked', 'checked');
 					});
 				} else {
-					el.getElements('dd').each(function (dd) {
-						dd.getElement('input').removeProperty('checked');
+					el.getElements('div').each(function (div) {
+						div.getElements('input').removeProperty('checked');
 					});
 				}
 			});

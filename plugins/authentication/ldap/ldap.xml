@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="authentication">
+<extension version="3.1" type="plugin" group="authentication">
 	<name>plg_authentication_ldap</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<description>PLG_LDAP_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="ldap">ldap.php</filename>
@@ -36,6 +36,7 @@
 
 				<field name="use_ldapV3" type="radio"
 					default="0"
+					class="btn-group"
 					description="PLG_LDAP_FIELD_V3_DESC"
 					label="PLG_LDAP_FIELD_V3_LABEL"
 				>
@@ -45,6 +46,7 @@
 
 				<field name="negotiate_tls" type="radio"
 					default="0"
+					class="btn-group"
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 				>
@@ -54,6 +56,7 @@
 
 				<field name="no_referrals" type="radio"
 					default="0"
+					class="btn-group"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 				>

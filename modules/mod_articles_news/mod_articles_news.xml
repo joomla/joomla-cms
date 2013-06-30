@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="2.5"
+	version="3.1"
 	client="site"
 	method="upgrade">
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<description>MOD_ARTICLES_NEWS_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_articles_news">mod_articles_news.php</filename>
@@ -43,6 +43,7 @@
 				<field
 					name="image"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC">
@@ -54,6 +55,7 @@
 
 				<field
 					name="item_title"
+					class="btn-group"
 					type="radio"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
@@ -98,6 +100,7 @@
 				<field
 					name="showLastSeparator"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC">
@@ -110,6 +113,7 @@
 				<field
 					name="readmore"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC">
@@ -155,7 +159,7 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="text"
+					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

@@ -1,17 +1,15 @@
 <?php
 /**
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
-JLoader::register('JSchemaChangeitem', JPATH_LIBRARIES . '/cms/schema/changeitem.php');
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
@@ -19,39 +17,41 @@ JLoader::register('JSchemaChangeitem', JPATH_LIBRARIES . '/cms/schema/changeitem
  * the database when this database was created or updated. This enables the
  * Installation Manager to check that the current database schema is up to date.
  *
- * @package     CMS.Library
+ * @package     Joomla.Libraries
  * @subpackage  Schema
  * @since       2.5
  */
-class JSchemaChangeset extends JObject
+class JSchemaChangeset
 {
 	/**
-	 * Array of JSchemaChangeItem objects
+	 * Array of JSchemaChangeitem objects
 	 *
-	 * @var    string
+	 * @var    array
+	 * @since  2.5
 	 */
 	protected $changeItems = array();
 
 	/**
-	* JDatabase object
-	*
-	* @var    string
-	*/
+	 * JDatabaseDriver object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  2.5
+	 */
 	protected $db = null;
 
 	/**
-	* Folder where SQL update files will be found
-	*
-	* @var    string
-	*/
+	 * Folder where SQL update files will be found
+	 *
+	 * @var    string
+	 */
 	protected $folder = null;
 
 	/**
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is administrator/components/com_admin/sql/updates/<database>.
 	 *
-	 * @param   JDatabase  $db      The current database object
-	 * @param   string     $folder  The full path to the folder containing the update queries
+	 * @param   JDatabaseDriver  $db      The current database object
+	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
 	 */
@@ -63,28 +63,29 @@ class JSchemaChangeset extends JObject
 		$updateQueries = $this->getUpdateQueries($updateFiles);
 		foreach ($updateQueries as $obj)
 		{
-			$this->changeItems[] = JSchemaChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
+			$this->changeItems[] = JSchemaChangeitem::getInstance($db, $obj->file, $obj->updateQuery);
 		}
 	}
 
 	/**
-	 * Returns the existing JSchemaChangeset object if it exists.
-	 * Otherwise, it creates a new one.
+	 * Returns a reference to the JSchemaChangeset object, only creating it if it doesn't already exist.
 	 *
-	 * @param   JDatabase  $db      The current database object
-	 * @param   string     $folder  The full path to the folder containing the update queries
+	 * @param   JDatabaseDriver  $db      The current database object
+	 * @param   string           $folder  The full path to the folder containing the update queries
 	 *
-	 * @return  JSchemaChangeSet    The (possibly chached) instance of JSchemaChangeSet
+	 * @return  JSchemaChangeset
 	 *
 	 * @since   2.5
 	 */
 	public static function getInstance($db, $folder)
 	{
 		static $instance;
+
 		if (!is_object($instance))
 		{
-			$instance = new JSchemaChangeSet($db, $folder);
+			$instance = new JSchemaChangeset($db, $folder);
 		}
+
 		return $instance;
 	}
 
@@ -186,9 +187,14 @@ class JSchemaChangeset extends JObject
 	{
 		// Get the folder from the database name
 		$sqlFolder = $this->db->name;
-		if (substr($sqlFolder, 0, 5) == 'mysql')
+
+		if ($sqlFolder == 'mysqli')
 		{
 			$sqlFolder = 'mysql';
+		}
+		elseif ($sqlFolder == 'sqlsrv')
+		{
+			$sqlFolder = 'sqlazure';
 		}
 
 		// Default folder to core com_admin
@@ -196,7 +202,10 @@ class JSchemaChangeset extends JObject
 		{
 			$this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 		}
-		return JFolder::files($this->folder . '/' . $sqlFolder, '\.sql$', 1, true);
+
+		return JFolder::files(
+			$this->folder . '/' . $sqlFolder, '\.sql$', 1, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX'), array('^\..*', '.*~'), true
+		);
 	}
 
 	/**
@@ -219,14 +228,14 @@ class JSchemaChangeset extends JObject
 			$buffer = file_get_contents($file);
 
 			// Create an array of queries from the sql file
-			$queries = $this->db->splitSql($buffer);
+			$queries = JDatabaseDriver::splitSql($buffer);
 			foreach ($queries as $query)
 			{
-				if (trim($query))
+				if ($trimmedQuery = $this->trimQuery($query))
 				{
 					$fileQueries = new stdClass;
 					$fileQueries->file = $file;
-					$fileQueries->updateQuery = $query;
+					$fileQueries->updateQuery = $trimmedQuery;
 					$result[] = $fileQueries;
 				}
 			}
@@ -234,4 +243,34 @@ class JSchemaChangeset extends JObject
 		return $result;
 	}
 
+	/**
+	 * Trim comment and blank lines out of a query string
+	 *
+	 * @param   string  $query  query string to be trimmed
+	 *
+	 * @return  string  String with leading comment lines removed
+	 *
+	 * @since   3.1
+	 */
+	private function trimQuery($query)
+	{
+		$query = trim($query);
+
+		while (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--' || substr($query, 0, 2) == '/*')
+		{
+			$endChars = (substr($query, 0, 1) == '#' || substr($query, 0, 2) == '--') ? "\n" : "*/";
+
+			if ($position = strpos($query, $endChars))
+			{
+				$query = trim(substr($query, $position + strlen($endChars)));
+			}
+			else
+			{
+				// If no newline, the rest of the file is a comment, so return an empty string.
+				return '';
+			}
+		}
+
+		return trim($query);
+	}
 }

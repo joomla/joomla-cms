@@ -1,26 +1,29 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * View class for a list of users.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_users
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_users
+ * @since       1.6
  */
-class UsersViewDebugUser extends JView
+class UsersViewDebuguser extends JViewLegacy
 {
 	protected $actions;
+
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -28,6 +31,12 @@ class UsersViewDebugUser extends JView
 	 */
 	public function display($tpl = null)
 	{
+		// Access check.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users') || !JFactory::getConfig()->get('debug'))
+		{
+			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
+
 		$this->actions		= $this->get('DebugActions');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
@@ -37,24 +46,54 @@ class UsersViewDebugUser extends JView
 		$this->components	= UsersHelperDebug::getComponents();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		JToolBarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'user');
+		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'user');
 
-		JToolBarHelper::help('JHELP_USERS_DEBUG_USERS');
+		JToolbarHelper::help('JHELP_USERS_DEBUG_USERS');
+
+		JHtmlSidebar::setAction('index.php?option=com_users&view=debuguser&user_id=' . (int) $this->state->get('filter.user_id'));
+
+		$option = '';
+		if (!empty($this->components))
+		{
+			$option = JHtml::_('select.options', $this->components, 'value', 'text', $this->state->get('filter.component'));
+		}
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_OPTION_SELECT_COMPONENT'),
+			'filter_component',
+			$option
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_OPTION_SELECT_LEVEL_START'),
+			'filter_level_start',
+			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_start'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_USERS_OPTION_SELECT_LEVEL_END'),
+			'filter_level_end',
+			JHtml::_('select.options', $this->levels, 'value', 'text', $this->state->get('filter.level_end'))
+		);
+
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

@@ -1,27 +1,31 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License, see LICENSE.php
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
+ * Installer Database Controller
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       2.5
  */
-class InstallerControllerDatabase extends JController
+class InstallerControllerDatabase extends JControllerLegacy
 {
-
 	/**
 	 * Tries to fix missing database updates
 	 *
-	 * @since	2.5
+	 * @return  void
+	 *
+	 * @since   2.5
 	 */
-	function fix()
+	public function fix()
 	{
 		$model = $this->getModel('database');
 		$model->fix();

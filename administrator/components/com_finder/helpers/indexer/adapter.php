@@ -3,17 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-// Register dependent classes.
-JLoader::register('FinderIndexer', dirname(__FILE__) . '/indexer.php');
-JLoader::register('FinderIndexerHelper', dirname(__FILE__) . '/helper.php');
-JLoader::register('FinderIndexerResult', dirname(__FILE__) . '/result.php');
-JLoader::register('FinderIndexerTaxonomy', dirname(__FILE__) . '/taxonomy.php');
+JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
+JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
+JLoader::register('FinderIndexerResult', __DIR__ . '/result.php');
+JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 
 /**
  * Prototype adapter class for the Finder indexer package.
@@ -108,6 +107,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected $table;
 
 	/**
+	 * The indexer object.
+	 *
+	 * @var    FinderIndexer
+	 * @since  3.0
+	 */
+	protected $indexer;
+
+	/**
 	 * The field the published state is stored in.
 	 *
 	 * @var    string
@@ -126,7 +133,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	public function __construct(&$subject, $config)
 	{
 		// Get the database object.
-		$this->db = JFactory::getDBO();
+		$this->db = JFactory::getDbo();
 
 		// Call the parent constructor.
 		parent::__construct($subject, $config);
@@ -145,6 +152,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 		{
 			$this->layout = $this->params->get('layout');
 		}
+
+		// Get the indexer object
+		$this->indexer = FinderIndexer::getInstance();
 	}
 
 	/**
@@ -153,11 +163,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws	Exception on error.
+	 * @throws    Exception on error.
 	 */
 	public function onStartIndex()
 	{
-		JLog::add('FinderIndexerAdapter::onStartIndex', JLog::INFO);
 
 		// Get the indexer state.
 		$iState = FinderIndexer::getState();
@@ -187,8 +196,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	public function onBeforeIndex()
 	{
-		JLog::add('FinderIndexerAdapter::onBeforeIndex', JLog::INFO);
-
 		// Get the indexer and adapter state.
 		$iState = FinderIndexer::getState();
 		$aState = $iState->pluginState[$this->context];
@@ -216,8 +223,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	public function onBuildIndex()
 	{
-		JLog::add('FinderIndexerAdapter::onBuildIndex', JLog::INFO);
-
 		// Get the indexer and adapter state.
 		$iState = FinderIndexer::getState();
 		$aState = $iState->pluginState[$this->context];
@@ -267,12 +272,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws	Exception on database error.
+	 * @throws    Exception on database error.
 	 */
 	protected function change($id, $property, $value)
 	{
-		JLog::add('FinderIndexerAdapter::change', JLog::INFO);
-
 		// Check for a property we know how to handle.
 		if ($property !== 'state' && $property !== 'access')
 		{
@@ -283,19 +286,12 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
-		$query = $this->db->getQuery(true);
-		$query->update($this->db->quoteName('#__finder_links'));
-		$query->set($this->db->quoteName($property) . ' = ' . (int) $value);
-		$query->where($this->db->quoteName('url') . ' = ' . $item);
+		$query = $this->db->getQuery(true)
+			->update($this->db->quoteName('#__finder_links'))
+			->set($this->db->quoteName($property) . ' = ' . (int) $value)
+			->where($this->db->quoteName('url') . ' = ' . $item);
 		$this->db->setQuery($query);
-		$this->db->query();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
+		$this->db->execute();
 
 		return true;
 	}
@@ -346,25 +342,16 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function remove($id)
 	{
-		JLog::add('FinderIndexerAdapter::remove', JLog::INFO);
-
 		// Get the item's URL
 		$url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Get the link ids for the content items.
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('link_id'));
-		$query->from($this->db->quoteName('#__finder_links'));
-		$query->where($this->db->quoteName('url') . ' = ' . $url);
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('link_id'))
+			->from($this->db->quoteName('#__finder_links'))
+			->where($this->db->quoteName('url') . ' = ' . $url);
 		$this->db->setQuery($query);
 		$items = $this->db->loadColumn();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		// Check the items.
 		if (empty($items))
@@ -375,7 +362,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Remove the items.
 		foreach ($items as $item)
 		{
-			FinderIndexer::remove($item);
+			$this->indexer->remove($item);
 		}
 
 		return true;
@@ -402,11 +389,11 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function categoryAccessChange($row)
 	{
-		$sql = clone($this->getStateQuery());
-		$sql->where('c.id = ' . (int) $row->id);
+		$query = clone($this->getStateQuery());
+		$query->where('c.id = ' . (int) $row->id);
 
 		// Get the access level.
-		$this->db->setQuery($sql);
+		$this->db->setQuery($query);
 		$items = $this->db->loadObjectList();
 
 		// Adjust the access level for each item within the category.
@@ -435,16 +422,18 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function categoryStateChange($pks, $value)
 	{
-		// The item's published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
+		/*
+		 * The item's published state is tied to the category
+		 * published state so we need to look up all published states
+		 * before we change anything.
+		 */
 		foreach ($pks as $pk)
 		{
-			$sql = clone($this->getStateQuery());
-			$sql->where('c.id = ' . (int) $pk);
+			$query = clone($this->getStateQuery());
+			$query->where('c.id = ' . (int) $pk);
 
 			// Get the published states.
-			$this->db->setQuery($sql);
+			$this->db->setQuery($query);
 			$items = $this->db->loadObjectList();
 
 			// Adjust the state for each item within the category.
@@ -473,10 +462,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function checkCategoryAccess($row)
 	{
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('access'));
-		$query->from($this->db->quoteName('#__categories'));
-		$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('access'))
+			->from($this->db->quoteName('#__categories'))
+			->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
 		$this->db->setQuery($query);
 
 		// Store the access level to determine if it changes
@@ -494,10 +483,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function checkItemAccess($row)
 	{
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('access'));
-		$query->from($this->db->quoteName($this->table));
-		$query->where($this->db->quoteName('id') . ' = ' . (int)$row->id);
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('access'))
+			->from($this->db->quoteName($this->table))
+			->where($this->db->quoteName('id') . ' = ' . (int) $row->id);
 		$this->db->setQuery($query);
 
 		// Store the access level to determine if it changes
@@ -514,38 +503,29 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getContentCount()
 	{
-		JLog::add('FinderIndexerAdapter::getContentCount', JLog::INFO);
-
 		$return = 0;
 
 		// Get the list query.
-		$sql = $this->getListQuery();
+		$query = $this->getListQuery();
 
 		// Check if the query is valid.
-		if (empty($sql))
+		if (empty($query))
 		{
 			return $return;
 		}
 
 		// Tweak the SQL query to make the total lookup faster.
-		if ($sql instanceof JDatabaseQuery)
+		if ($query instanceof JDatabaseQuery)
 		{
-			$sql = clone($sql);
-			$sql->clear('select');
-			$sql->select('COUNT(*)');
-			$sql->clear('order');
+			$query = clone($query);
+			$query->clear('select')
+				->select('COUNT(*)')
+				->clear('order');
 		}
 
 		// Get the total number of content items to index.
-		$this->db->setQuery($sql);
+		$this->db->setQuery($query);
 		$return = (int) $this->db->loadResult();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		return $return;
 	}
@@ -562,22 +542,13 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getItem($id)
 	{
-		JLog::add('FinderIndexerAdapter::getItem', JLog::INFO);
-
 		// Get the list query and add the extra WHERE clause.
-		$sql = $this->getListQuery();
-		$sql->where('a.' . $this->db->quoteName('id') . ' = ' . (int) $id);
+		$query = $this->getListQuery();
+		$query->where('a.id = ' . (int) $id);
 
 		// Get the item to index.
-		$this->db->setQuery($sql);
+		$this->db->setQuery($query);
 		$row = $this->db->loadAssoc();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		// Convert the item to a result object.
 		$item = JArrayHelper::toObject($row, 'FinderIndexerResult');
@@ -596,29 +567,20 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   integer         $offset  The list offset.
 	 * @param   integer         $limit   The list limit.
-	 * @param   JDatabaseQuery  $sql     A JDatabaseQuery object. [optional]
+	 * @param   JDatabaseQuery  $query   A JDatabaseQuery object. [optional]
 	 *
 	 * @return  array  An array of FinderIndexerResult objects.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function getItems($offset, $limit, $sql = null)
+	protected function getItems($offset, $limit, $query = null)
 	{
-		JLog::add('FinderIndexerAdapter::getItems', JLog::INFO);
-
 		$items = array();
 
 		// Get the content items to index.
-		$this->db->setQuery($this->getListQuery($sql), $offset, $limit);
+		$this->db->setQuery($this->getListQuery($query), $offset, $limit);
 		$rows = $this->db->loadAssocList();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		// Convert the items to result objects.
 		foreach ($rows as $row)
@@ -651,20 +613,18 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $sql  A JDatabaseQuery object. [optional]
+	 * @param   mixed  $query  A JDatabaseQuery object. [optional]
 	 *
 	 * @return  JDatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
-	protected function getListQuery($sql = null)
+	protected function getListQuery($query = null)
 	{
-		JLog::add('FinderIndexerAdapter::getListQuery', JLog::INFO);
-
 		// Check if we can use the supplied SQL query.
-		$sql = $sql instanceof JDatabaseQuery ? $sql : $this->db->getQuery(true);
+		$query = $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -679,10 +639,10 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function getPluginType($id)
 	{
 		// Prepare the query
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('element'));
-		$query->from($this->db->quoteName('#__extensions'));
-		$query->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('element'))
+			->from($this->db->quoteName('#__extensions'))
+			->where($this->db->quoteName('extension_id') . ' = ' . (int) $id);
 		$this->db->setQuery($query);
 		$type = $this->db->loadResult();
 
@@ -699,17 +659,20 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getStateQuery()
 	{
-		$sql = $this->db->getQuery(true);
-		// Item ID
-		$sql->select('a.id');
-		// Item and category published state
-		$sql->select('a.' . $this->state_field . ' AS state, c.published AS cat_state');
-		// Item and category access levels
-		$sql->select('a.access, c.access AS cat_access');
-		$sql->from($this->table . ' AS a');
-		$sql->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query = $this->db->getQuery(true);
 
-		return $sql;
+		// Item ID
+		$query->select('a.id');
+
+		// Item and category published state
+		$query->select('a.' . $this->state_field . ' AS state, c.published AS cat_state');
+
+		// Item and category access levels
+		$query->select('a.access, c.access AS cat_access')
+			->from($this->table . ' AS a')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		return $query;
 	}
 
 	/**
@@ -723,13 +686,11 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getUpdateQueryByTime($time)
 	{
-		JLog::add('FinderIndexerAdapter::getUpdateQueryByTime', JLog::INFO);
-
 		// Build an SQL query based on the modified time.
-		$sql = $this->db->getQuery(true);
-		$sql->where('a.' . $this->db->quoteName('modified') . ' >= ' . $this->db->quote($time));
+		$query = $this->db->getQuery(true)
+			->where('a.modified >= ' . $this->db->quote($time));
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -743,13 +704,11 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getUpdateQueryByIds($ids)
 	{
-		JLog::add('FinderIndexerAdapter::getUpdateQueryByIds', JLog::INFO);
-
 		// Build an SQL query based on the item ids.
-		$sql = $this->db->getQuery(true);
-		$sql->where('a.' . $this->db->quoteName('id') . ' IN(' . implode(',', $ids) . ')');
+		$query = $this->db->getQuery(true)
+			->where('a.id IN(' . implode(',', $ids) . ')');
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -762,22 +721,13 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getTypeId()
 	{
-		JLog::add('FinderIndexerAdapter::getTypeId', JLog::INFO);
-
 		// Get the type id from the database.
-		$query = $this->db->getQuery(true);
-		$query->select($this->db->quoteName('id'));
-		$query->from($this->db->quoteName('#__finder_types'));
-		$query->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('id'))
+			->from($this->db->quoteName('#__finder_types'))
+			->where($this->db->quoteName('title') . ' = ' . $this->db->quote($this->type_title));
 		$this->db->setQuery($query);
 		$result = (int) $this->db->loadResult();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		return $result;
 	}
@@ -812,8 +762,6 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function getItemMenuTitle($url)
 	{
-		JLog::add('FinderIndexerAdapter::getItemMenuTitle', JLog::INFO);
-
 		$return = null;
 
 		// Set variables
@@ -821,23 +769,16 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Build a query to get the menu params.
-		$sql = $this->db->getQuery(true);
-		$sql->select($this->db->quoteName('params'));
-		$sql->from($this->db->quoteName('#__menu'));
-		$sql->where($this->db->quoteName('link') . ' = ' . $this->db->quote($url));
-		$sql->where($this->db->quoteName('published') . ' = 1');
-		$sql->where($this->db->quoteName('access') . ' IN (' . $groups . ')');
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName('params'))
+			->from($this->db->quoteName('#__menu'))
+			->where($this->db->quoteName('link') . ' = ' . $this->db->quote($url))
+			->where($this->db->quoteName('published') . ' = 1')
+			->where($this->db->quoteName('access') . ' IN (' . $groups . ')');
 
 		// Get the menu params from the database.
-		$this->db->setQuery($sql);
+		$this->db->setQuery($query);
 		$params = $this->db->loadResult();
-
-		// Check for a database error.
-		if ($this->db->getErrorNum())
-		{
-			// Throw database error exception.
-			throw new Exception($this->db->getErrorMsg(), 500);
-		}
 
 		// Check the results.
 		if (empty($params))
@@ -868,11 +809,11 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function itemAccessChange($row)
 	{
-		$sql = clone($this->getStateQuery());
-		$sql->where('a.id = ' . (int) $row->id);
+		$query = clone($this->getStateQuery());
+		$query->where('a.id = ' . (int) $row->id);
 
 		// Get the access level.
-		$this->db->setQuery($sql);
+		$this->db->setQuery($query);
 		$item = $this->db->loadObject();
 
 		// Set the access level.
@@ -894,16 +835,18 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 */
 	protected function itemStateChange($pks, $value)
 	{
-		// The item's published state is tied to the category
-		// published state so we need to look up all published states
-		// before we change anything.
+		/*
+		 * The item's published state is tied to the category
+		 * published state so we need to look up all published states
+		 * before we change anything.
+		 */
 		foreach ($pks as $pk)
 		{
-			$sql = clone($this->getStateQuery());
-			$sql->where('a.id = ' . (int) $pk);
+			$query = clone($this->getStateQuery());
+			$query->where('a.id = ' . (int) $pk);
 
 			// Get the published states.
-			$this->db->setQuery($sql);
+			$this->db->setQuery($query);
 			$item = $this->db->loadObject();
 
 			// Translate the state.
@@ -935,8 +878,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 			if ($this->getPluginType($pk) == strtolower($this->context))
 			{
 				// Get all of the items to unindex them
-				$sql = clone($this->getStateQuery());
-				$this->db->setQuery($sql);
+				$query = clone($this->getStateQuery());
+				$this->db->setQuery($query);
 				$items = $this->db->loadColumn();
 
 				// Remove each item

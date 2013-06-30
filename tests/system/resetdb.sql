@@ -990,7 +990,6 @@ INSERT INTO `jos_plugins` (`id`, `name`, `element`, `folder`, `access`, `orderin
 (12, 'Content - Pagebreak', 'pagebreak', 'content', 0, 10000, 1, 1, 0, 0, '0000-00-00 00:00:00', 'enabled=1\ntitle=1\nmultipage_toc=1\nshowall=1\n\n'),
 (13, 'Content - Rating', 'vote', 'content', 0, 4, 1, 1, 0, 0, '0000-00-00 00:00:00', ''),
 (14, 'Content - Email Cloaking', 'emailcloak', 'content', 0, 5, 1, 0, 0, 0, '0000-00-00 00:00:00', 'mode=1\n\n'),
-(15, 'Content - Code Hightlighter (GeSHi)', 'geshi', 'content', 0, 5, 0, 0, 0, 0, '0000-00-00 00:00:00', ''),
 (16, 'Content - Load Module', 'loadmodule', 'content', 0, 6, 1, 0, 0, 0, '0000-00-00 00:00:00', 'enabled=1\nstyle=0\n\n'),
 (17, 'Content - Page Navigation', 'pagenavigation', 'content', 0, 2, 1, 1, 0, 0, '0000-00-00 00:00:00', 'position=1\n\n'),
 (18, 'Editor - No Editor', 'none', 'editors', 0, 0, 1, 1, 0, 0, '0000-00-00 00:00:00', ''),
@@ -1170,12 +1169,10 @@ CREATE TABLE IF NOT EXISTS `jos_session` (
   `session_id` varchar(200) NOT NULL default '0',
   `guest` tinyint(4) default '1',
   `userid` int(11) default '0',
-  `usertype` varchar(50) default '',
   `gid` tinyint(3) unsigned NOT NULL default '0',
   `client_id` tinyint(3) unsigned NOT NULL default '0',
   `data` longtext,
   PRIMARY KEY  (`session_id`(64)),
-  KEY `whosonline` (`guest`,`usertype`),
   KEY `userid` (`userid`),
   KEY `time` (`time`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -1184,7 +1181,7 @@ CREATE TABLE IF NOT EXISTS `jos_session` (
 -- Dumping data for table `jos_session`
 --
 
-INSERT INTO `jos_session` (`username`, `time`, `session_id`, `guest`, `userid`, `usertype`, `gid`, `client_id`, `data`) VALUES
+INSERT INTO `jos_session` (`username`, `time`, `session_id`, `guest`, `userid`, `gid`, `client_id`, `data`) VALUES
 ('', '1248585184', 'b39725b384cc94043043498ee88cbf08', 1, 0, '', 0, 0, '__default|a:8:{s:15:"session.counter";i:1;s:19:"session.timer.start";i:1248585184;s:18:"session.timer.last";i:1248585184;s:17:"session.timer.now";i:1248585184;s:22:"session.client.browser";s:80:"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.1.1) Gecko/20090715 Firefox/3.5.1";s:8:"registry";O:9:"JRegistry":3:{s:17:"_defaultNameSpace";s:7:"session";s:9:"_registry";a:1:{s:7:"session";a:1:{s:4:"data";O:8:"stdClass":0:{}}}s:7:"_errors";a:0:{}}s:4:"user";O:5:"JUser":19:{s:2:"id";i:0;s:4:"name";N;s:8:"username";N;s:5:"email";N;s:8:"password";N;s:14:"password_clear";s:0:"";s:8:"usertype";N;s:5:"block";N;s:9:"sendEmail";i:0;s:3:"gid";i:0;s:12:"registerDate";N;s:13:"lastvisitDate";N;s:10:"activation";N;s:6:"params";N;s:3:"aid";i:0;s:5:"guest";i:1;s:7:"_params";O:10:"JParameter":7:{s:4:"_raw";s:0:"";s:4:"_xml";N;s:9:"_elements";a:0:{}s:12:"_elementPath";a:1:{i:0;s:67:"/home/ian/www/selsampledata/libraries/joomla/html/parameter/element";}s:17:"_defaultNameSpace";s:8:"_default";s:9:"_registry";a:1:{s:8:"_default";a:1:{s:4:"data";O:8:"stdClass":0:{}}}s:7:"_errors";a:0:{}}s:9:"_errorMsg";N;s:7:"_errors";a:0:{}}s:13:"session.token";s:32:"1b0feeee06e36018d65b9ed24c7dd81f";}');
 
 -- --------------------------------------------------------
@@ -1240,7 +1237,6 @@ CREATE TABLE IF NOT EXISTS `jos_users` (
   `username` varchar(150) NOT NULL default '',
   `email` varchar(100) NOT NULL default '',
   `password` varchar(100) NOT NULL default '',
-  `usertype` varchar(25) NOT NULL default '',
   `block` tinyint(4) NOT NULL default '0',
   `sendEmail` tinyint(4) default '0',
   `gid` tinyint(3) unsigned NOT NULL default '1',
@@ -1249,7 +1245,6 @@ CREATE TABLE IF NOT EXISTS `jos_users` (
   `activation` varchar(100) NOT NULL default '',
   `params` text NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`),
   KEY `gid_block` (`gid`,`block`),
   KEY `username` (`username`),
@@ -1260,7 +1255,7 @@ CREATE TABLE IF NOT EXISTS `jos_users` (
 -- Dumping data for table `jos_users`
 --
 
-INSERT INTO `jos_users` (`id`, `name`, `username`, `email`, `password`, `usertype`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`) VALUES
+INSERT INTO `jos_users` (`id`, `name`, `username`, `email`, `password`, `block`, `sendEmail`, `gid`, `registerDate`, `lastvisitDate`, `activation`, `params`) VALUES
 (62, 'Administrator', 'admin', 'ian@ianmaclennan.org', '2969da7538b7dd99f3e90ac24b304216:r7HAPBmpKUyi6zPTu4rX2ehlph28GScy', 'Super Administrator', 0, 1, 25, '2009-07-26 01:12:56', '0000-00-00 00:00:00', '', '');
 
 -- --------------------------------------------------------

@@ -1,0 +1,191 @@
+/**
+
+ * @author ( Angie Radtke )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+
+
+#all { width: expression(document . body . clientWidth > 1050 ? "1050" : "auto");  }
+#footer-inner { width: expression(document . body . clientWidth > 1050 ? "1025" : "auto");  }
+#footer { width: expression(document . body . clientWidth > 1050 ? "1020" : "auto");  }
+
+#all
+{
+        border:solid 1px #fff;
+                zoom:1
+}
+
+#header
+{ position:relative; zoom:1}
+
+
+#line
+{
+        width:19.0em;
+        margin-right:20px;
+
+}
+
+
+#header ul.skiplinks li a
+{
+
+background:#cc0000;
+border:0px solid #000
+
+}
+
+
+#contentarea,
+#contentarea2
+{
+       display:inline-block;
+        position:relative;
+}
+
+#main
+{
+            height:520px;
+}
+
+#back
+{
+        margin: 0;
+        padding:0 0px;
+}
+
+#right
+{
+        float:left;
+        width: 20.5%;
+        text-align:left !important
+}
+
+.left
+{
+            margin:10px 0px 10px 18px;
+
+}
+
+/* haslayout erzwingen */
+
+.blog
+{
+            width:100%
+}
+
+.article_row
+{
+        width:auto;
+}
+
+.row1 .cols2
+{
+        width:auto;
+}
+
+.moduletable,
+.moduletable_js
+{
+            zoom:1
+}
+
+#nav ul li,
+#right ul li,
+#bottom ul li
+{
+            height:1%
+}
+
+p.articleinfo
+{
+            display:inline-block
+}
+
+h1
+{
+
+}
+
+ul.tabs
+{
+        text-align:left
+}
+
+ul.newsflash-horiz,
+#footer-outer,
+ul.tabs
+{
+        zoom:1
+}
+
+.tabcontent
+{
+        overflow:hidden !important;
+        position:relative
+}
+
+#main h1
+{ zoom:1}
+
+.box {width:26%}
+
+#bottom
+{display:inline-block}
+
+.panel,
+div.current
+{zoom:1}
+
+.contact-image
+{
+	display:inline-block
+}
+.item-page
+{ width:100%}
+
+#mailto-window  .mailto-close a
+{
+
+	width:25px;
+	height:25px;
+
+
+
+}
+
+#users-profile-core legend,
+#users-profile-custom legend,
+.profile-edit legend,
+.registration legend
+{
+	margin-bottom:15px
+}
+
+
+.login-fields input
+{
+	width:14em
+}
+
+dd.error
+{zoom:1}
+
+#close a
+{
+	cursor:pointer
+}
+
+#close a span
+{
+	line-height:normal
+}

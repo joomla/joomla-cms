@@ -37,7 +37,6 @@ class JCryptCipherSimple implements JCryptCipher
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
 		}
 
-		// Initialise variables.
 		$decrypted = '';
 		$tmp = $key->public;
 
@@ -79,7 +78,6 @@ class JCryptCipherSimple implements JCryptCipher
 			throw new InvalidArgumentException('Invalid key of type: ' . $key->type . '.  Expected simple.');
 		}
 
-		// Initialise variables.
 		$encrypted = '';
 		$tmp = $key->private;
 
@@ -134,7 +132,6 @@ class JCryptCipherSimple implements JCryptCipher
 	 */
 	private function _getRandomKey($length = 256)
 	{
-		// Initialise variables.
 		$key = '';
 		$salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 		$saltLength = strlen($salt);
@@ -160,7 +157,6 @@ class JCryptCipherSimple implements JCryptCipher
 	 */
 	private function _hexToInt($s, $i)
 	{
-		// Initialise variables.
 		$j = (int) $i * 2;
 		$k = 0;
 		$s1 = (string) $s;
@@ -241,7 +237,6 @@ class JCryptCipherSimple implements JCryptCipher
 	 */
 	private function _hexToIntArray($hex)
 	{
-		// Initialise variables.
 		$array = array();
 
 		$j = (int) strlen($hex) / 2;

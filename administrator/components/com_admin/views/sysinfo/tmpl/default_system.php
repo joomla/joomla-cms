@@ -1,20 +1,20 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_admin
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_admin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_ADMIN_SYSTEM_INFORMATION'); ?></legend>
-	<table class="adminlist">
+	<table class="table table-striped">
 		<thead>
 			<tr>
-				<th width="250">
+				<th width="25%">
 					<?php echo JText::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th>
@@ -24,8 +24,7 @@ defined('_JEXEC') or die;
 		</thead>
 		<tfoot>
 			<tr>
-				<td colspan="2">&#160;
-				</td>
+				<td colspan="2">&#160;</td>
 			</tr>
 		</tfoot>
 		<tbody>
@@ -98,7 +97,7 @@ defined('_JEXEC') or die;
 					<strong><?php echo JText::_('COM_ADMIN_USER_AGENT'); ?></strong>
 				</td>
 				<td>
-					<?php echo $this->info['useragent'];?>
+					<?php echo htmlspecialchars($this->info['useragent']);?>
 				</td>
 			</tr>
 		</tbody>

@@ -1,35 +1,35 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Template style controller class.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_templates
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_templates
+ * @since       1.6
  */
-class TemplatesControllerSource extends JController
+class TemplatesControllerSource extends JControllerLegacy
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param	array An optional associative array of configuration settings.
-	 * @see		JController
+	 * @param   array An optional associative array of configuration settings.
+	 * @see     JController
 	 */
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
-		$this->registerTask('apply',		'save');
+		$this->registerTask('apply', 'save');
 	}
 
 	/**
@@ -37,10 +37,10 @@ class TemplatesControllerSource extends JController
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array  An array of input data.
+	 * @param   string	The name of the key for the primary key.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	protected function allowEdit()
 	{
@@ -52,10 +52,10 @@ class TemplatesControllerSource extends JController
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param	array	An array of input data.
-	 * @param	string	The name of the key for the primary key.
+	 * @param   array  An array of input data.
+	 * @param   string	The name of the key for the primary key.
 	 *
-	 * @return	boolean
+	 * @return  boolean
 	 */
 	protected function allowSave()
 	{
@@ -65,11 +65,11 @@ class TemplatesControllerSource extends JController
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param	string	The model name. Optional.
-	 * @param	string	The class prefix. Optional.
-	 * @param	array	Configuration array for model. Optional (note, the empty array is atypical compared to other models).
+	 * @param   string	The model name. Optional.
+	 * @param   string	The class prefix. Optional.
+	 * @param   array  Configuration array for model. Optional (note, the empty array is atypical compared to other models).
 	 *
-	 * @return	object	The model.
+	 * @return  object  The model.
 	 */
 	public function getModel($name = 'Source', $prefix = 'TemplatesModel', $config = array())
 	{
@@ -80,11 +80,11 @@ class TemplatesControllerSource extends JController
 	/**
 	 * This controller does not have a display method. Redirect back to the list view of the component.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -94,22 +94,22 @@ class TemplatesControllerSource extends JController
 	/**
 	 * Method to edit an existing record.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function edit()
 	{
-		// Initialise variables.
 		$app		= JFactory::getApplication();
-		$model		= $this->getModel();
 		$recordId	= JRequest::getVar('id');
 		$context	= 'com_templates.edit.source';
 
-		if (preg_match('#\.\.#', base64_decode($recordId))) {
+		if (preg_match('#\.\.#', base64_decode($recordId)))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
 		}
 
 		// Access check.
-		if (!$this->allowEdit()) {
+		if (!$this->allowEdit())
+		{
 			return JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
 		}
 
@@ -123,22 +123,21 @@ class TemplatesControllerSource extends JController
 	/**
 	 * Method to cancel an edit
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function cancel()
 	{
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
 		$app		= JFactory::getApplication();
 		$model		= $this->getModel();
 		$context	= 'com_templates.edit.source';
 		$returnId	= (int) $model->getState('extension.id');
 
 		// Clean the session data and redirect.
-		$app->setUserState($context.'.id',		null);
-		$app->setUserState($context.'.data',	null);
+		$app->setUserState($context . '.id', null);
+		$app->setUserState($context . '.data', null);
 		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$returnId, false));
 	}
 
@@ -150,26 +149,29 @@ class TemplatesControllerSource extends JController
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Initialise variables.
-		$app		= JFactory::getApplication();
-		$data		= JRequest::getVar('jform', array(), 'post', 'array');
-		$context	= 'com_templates.edit.source';
-		$task		= $this->getTask();
-		$model		= $this->getModel();
+		$app     = JFactory::getApplication();
+		$data    = $this->input->post->get('jform', array(), 'array');
+		$context = 'com_templates.edit.source';
+		$task    = $this->getTask();
+		$model   = $this->getModel();
 
 		// Access check.
-		if (!$this->allowSave()) {
+		if (!$this->allowSave())
+		{
 			return JError::raiseWarning(403, JText::_('JERROR_SAVE_NOT_PERMITTED'));
 		}
 
 		// Match the stored id's with the submitted.
-		if (empty($data['extension_id']) || empty($data['filename'])) {
+		if (empty($data['extension_id']) || empty($data['filename']))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		elseif ($data['extension_id'] != $model->getState('extension.id')) {
+		elseif ($data['extension_id'] != $model->getState('extension.id'))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
-		elseif ($data['filename'] != $model->getState('filename')) {
+		elseif ($data['filename'] != $model->getState('filename'))
+		{
 			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
 		}
 
@@ -191,7 +193,8 @@ class TemplatesControllerSource extends JController
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if ($errors[$i] instanceof Exception) {
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else {

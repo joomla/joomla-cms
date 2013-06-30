@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.model');
 
 /**
  * Filter table class for the Finder package.
@@ -23,7 +21,7 @@ class FinderTableFilter extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param   object  &$db  JDatabase connector object.
+	 * @param   JDatabaseDriver  &$db  JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
@@ -109,7 +107,6 @@ class FinderTableFilter extends JTable
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		// Initialise variables.
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
@@ -146,17 +143,19 @@ class FinderTableFilter extends JTable
 		}
 
 		// Update the publishing state for rows with the given primary keys.
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
-		$query->where($where);
+		$query = $this->_db->getQuery(true)
+			->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('state') . ' = ' . (int) $state)
+			->where($where);
 		$this->_db->setQuery($query . $checkin);
-		$this->_db->query();
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
+		try
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->_db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 			return false;
 		}
 
@@ -202,16 +201,16 @@ class FinderTableFilter extends JTable
 		if ($this->filter_id)
 		{
 			// Existing item
-			$this->modified = $date->toMySQL();
+			$this->modified = $date->toSql();
 			$this->modified_by = $user->get('id');
 		}
 		else
 		{
 			// New item. A filter's created field can be set by the user,
 			// so we don't touch it if it is set.
-			if (!intval($this->created))
+			if (!(int) $this->created)
 			{
-				$this->created = $date->toMySQL();
+				$this->created = $date->toSql();
 			}
 			if (empty($this->created_by))
 			{

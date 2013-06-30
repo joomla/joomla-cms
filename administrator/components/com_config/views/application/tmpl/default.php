@@ -1,86 +1,115 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_config
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
-// Load tooltips behavior
 JHtml::_('behavior.formvalidation');
-JHtml::_('behavior.switcher');
-JHtml::_('behavior.tooltip');
-
-// Load submenu template, using element id 'submenu' as needed by behavior.switcher
-$this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
+JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
+		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form')))
+		{
 			Joomla.submitform(task, document.getElementById('application-form'));
 		}
 	}
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="application-form" method="post" name="adminForm" class="form-validate">
-	<?php if ($this->ftp) : ?>
-		<?php echo $this->loadTemplate('ftplogin'); ?>
-	<?php endif; ?>
-	<div id="config-document">
-		<div id="page-site" class="tab">
-			<div class="noshow">
-				<div class="width-60 fltlft">
-					<?php echo $this->loadTemplate('site'); ?>
-					<?php echo $this->loadTemplate('metadata'); ?>
-				</div>
-				<div class="width-40 fltrt">
-					<?php echo $this->loadTemplate('seo'); ?>
-					<?php echo $this->loadTemplate('cookie'); ?>
-				</div>
+	<div class="row-fluid">
+		<!-- Begin Sidebar -->
+		<div id="sidebar" class="span2">
+			<div class="sidebar-nav">
+				<?php echo $this->loadTemplate('navigation'); ?>
+				<?php
+					// Display the submenu position modules
+					$this->submenumodules = JModuleHelper::getModules('submenu');
+					foreach ($this->submenumodules as $submenumodule)
+					{
+						$output = JModuleHelper::renderModule($submenumodule);
+						$params = new JRegistry;
+						$params->loadString($submenumodule->params);
+						echo $output;
+					}
+				?>
 			</div>
 		</div>
-		<div id="page-system" class="tab">
-			<div class="noshow">
-				<div class="width-60 fltlft">
-					<?php echo $this->loadTemplate('system'); ?>
-				</div>
-				<div class="width-40 fltrt">
-					<?php echo $this->loadTemplate('debug'); ?>
-					<?php echo $this->loadTemplate('cache'); ?>
-					<?php echo $this->loadTemplate('session'); ?>
-				</div>
+		<!-- End Sidebar -->
+		<!-- Begin Content -->
+		<div class="span10">
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'page-site')); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-site', JText::_('JSITE', true)); ?>
+					<div class="row-fluid">
+						<div class="span6">
+							<?php echo $this->loadTemplate('site'); ?>
+							<?php echo $this->loadTemplate('metadata'); ?>
+						</div>
+						<div class="span6">
+							<?php echo $this->loadTemplate('seo'); ?>
+							<?php echo $this->loadTemplate('cookie'); ?>
+						</div>
+					</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-system', JText::_('COM_CONFIG_SYSTEM', true)); ?>
+					<div class="row-fluid">
+						<div class="span6">
+							<?php echo $this->loadTemplate('system'); ?>
+							<?php echo $this->loadTemplate('debug'); ?>
+						</div>
+						<div class="span6">
+							<?php echo $this->loadTemplate('cache'); ?>
+							<?php echo $this->loadTemplate('session'); ?>
+						</div>
+					</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-server', JText::_('COM_CONFIG_SERVER', true)); ?>
+					<div class="row-fluid">
+						<div class="span6">
+							<?php echo $this->loadTemplate('server'); ?>
+							<?php echo $this->loadTemplate('locale'); ?>
+							<?php echo $this->loadTemplate('ftp'); ?>
+						</div>
+						<div class="span6">
+							<?php echo $this->loadTemplate('database'); ?>
+							<?php echo $this->loadTemplate('mail'); ?>
+						</div>
+					</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-permissions', JText::_('COM_CONFIG_PERMISSIONS', true)); ?>
+					<div class="row-fluid">
+						<?php echo $this->loadTemplate('permissions'); ?>
+					</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-filters', JText::_('COM_CONFIG_TEXT_FILTERS', true)); ?>
+					<div class="row-fluid">
+						<?php echo $this->loadTemplate('filters'); ?>
+					</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+				<?php if ($this->ftp) : ?>
+					<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'page-ftp', JText::_('COM_CONFIG_FTP_SETTINGS', true)); ?>
+						<?php echo $this->loadTemplate('ftplogin'); ?>
+					<?php echo JHtml::_('bootstrap.endTab'); ?>
+				<?php endif; ?>
+
+				<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+
+				<input type="hidden" name="task" value="" />
+				<?php echo JHtml::_('form.token'); ?>
 			</div>
-		</div>
-		<div id="page-server" class="tab">
-			<div class="noshow">
-				<div class="width-60 fltlft">
-					<?php echo $this->loadTemplate('server'); ?>
-					<?php echo $this->loadTemplate('locale'); ?>
-					<?php echo $this->loadTemplate('ftp'); ?>
-				</div>
-				<div class="width-40 fltrt">
-					<?php echo $this->loadTemplate('database'); ?>
-					<?php echo $this->loadTemplate('mail'); ?>
-				</div>
-			</div>
-		</div>
-		<div id="page-permissions" class="tab">
-			<div class="noshow">
-				<?php echo $this->loadTemplate('permissions'); ?>
-			</div>
-		</div>
-		<div id="page-filters" class="tab">
-			<div class="noshow">
-				<?php echo $this->loadTemplate('filters'); ?>
-			</div>
-		</div>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
+		<!-- End Content -->
 	</div>
-	<div class="clr"></div>
 </form>

@@ -1,18 +1,17 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.multiselect');
 
 $user		= JFactory::getUser();
@@ -23,9 +22,18 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state',	'com_menus');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <?php //Set up the filter bar. ?>
 <form action="<?php echo JRoute::_('index.php?option=com_menus&view=items');?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></legend>
 		<div class="filter-search">
@@ -95,11 +103,11 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				<th class="nowrap ordering-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.lft', $listDirn, $listOrder); ?>
 					<?php if ($canOrder && $saveOrder) :?>
-						<?php echo JHtml::_('grid.order',  $this->items, 'filesave.png', 'items.saveorder'); ?>
+						<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'items.saveorder'); ?>
 					<?php endif; ?>
 				</th>
 				<th class="title access-col">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
 				<th width="10%">
 					<?php echo JText::_('JGRID_HEADING_MENU_ITEM_TYPE'); ?>
@@ -107,7 +115,9 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				<th class="home-col">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 				</th>
-				<?php if ($app->get('menu_associations', 0)):?>
+				<?php
+				if ($assoc):
+				?>
 				<th class="width-5">
 					<?php echo JHtml::_('grid.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 				</th>
@@ -116,7 +126,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 				</th>
 				<th class="nowrap id-col">
-					<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
 		</thead>
@@ -125,18 +135,18 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 		<?php
 		$originalOrders = array();
 		foreach ($this->items as $i => $item) :
-			$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
-			$canCreate	= $user->authorise('core.create',		'com_menus');
-			$canEdit	= $user->authorise('core.edit',			'com_menus');
-			$canCheckin	= $user->authorise('core.manage',		'com_checkin') || $item->checked_out==$user->get('id')|| $item->checked_out==0;
-			$canChange	= $user->authorise('core.edit.state',	'com_menus') && $canCheckin;
+			$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
+			$canCreate  = $user->authorise('core.create',     'com_menus');
+			$canEdit    = $user->authorise('core.edit',       'com_menus');
+			$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
+			$canChange  = $user->authorise('core.edit.state', 'com_menus') && $canCheckin;
 			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td class="center">
 					<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 				</td>
 				<td>
-					<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level-1) ?>
+					<?php echo str_repeat('<span class="gi">|&mdash;</span>', $item->level - 1) ?>
 					<?php if ($item->checked_out) : ?>
 						<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'items.', $canCheckin); ?>
 					<?php endif; ?>
@@ -147,14 +157,14 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php echo $this->escape($item->title); ?>
 					<?php endif; ?>
 					<p class="smallsub" title="<?php echo $this->escape($item->path);?>">
-						<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level-1) ?>
-						<?php if ($item->type !='url') : ?>
+						<?php echo str_repeat('<span class="gtr">|&mdash;</span>', $item->level - 1) ?>
+						<?php if ($item->type != 'url') : ?>
 							<?php if (empty($item->note)) : ?>
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
 							<?php else : ?>
 								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note));?>
 							<?php endif; ?>
-						<?php elseif($item->type =='url' && $item->note) : ?>
+						<?php elseif ($item->type == 'url' && $item->note) : ?>
 							<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 						<?php endif; ?></p>
 				</td>
@@ -183,18 +193,20 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				</td>
 				<td class="center">
 					<?php if ($item->type == 'component') : ?>
-						<?php if ($item->language=='*' || $item->home=='0'):?>
+						<?php if ($item->language == '*' || $item->home == '0'):?>
 							<?php echo JHtml::_('jgrid.isdefault', $item->home, $i, 'items.', ($item->language != '*' || !$item->home) && $canChange);?>
 						<?php elseif ($canChange):?>
 							<a href="<?php echo JRoute::_('index.php?option=com_menus&task=items.unsetDefault&cid[]='.$item->id.'&'.JSession::getFormToken().'=1');?>">
-								<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
+								<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => JText::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true);?>
 							</a>
 						<?php else:?>
-							<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->language_title, array('title'=>$item->language_title), true);?>
+							<?php echo JHtml::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true);?>
 						<?php endif;?>
 					<?php endif; ?>
 				</td>
-				<?php if ($app->get('menu_associations', 0)):?>
+				<?php
+				if ($assoc):
+				?>
 				<td class="center">
 					<?php if ($item->association):?>
 						<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
@@ -202,9 +214,9 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 				</td>
 				<?php endif;?>
 				<td class="center">
-					<?php if ($item->language==''):?>
+					<?php if ($item->language == ''):?>
 						<?php echo JText::_('JDEFAULT'); ?>
-					<?php elseif ($item->language=='*'):?>
+					<?php elseif ($item->language == '*'):?>
 						<?php echo JText::alt('JALL', 'language'); ?>
 					<?php else:?>
 						<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
@@ -223,7 +235,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 	<div class="clr"> </div>
 
 	<?php //Load the batch processing form.is user is allowed ?>
-	<?php if($user->authorize('core.create', 'com_menus') || $user->authorize('core.edit', 'com_menus')) : ?>
+	<?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
 		<?php echo $this->loadTemplate('batch'); ?>
 	<?php endif;?>
 
@@ -233,4 +245,5 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 	<input type="hidden" name="original_order_values" value="<?php echo implode($originalOrders, ','); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

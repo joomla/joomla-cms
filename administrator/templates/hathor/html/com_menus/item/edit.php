@@ -1,10 +1,10 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,28 +12,32 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
 JHtml::_('behavior.framework');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
+
 $canDo = MenusHelper::getActions();
 ?>
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task, type)
 	{
-		if (task == 'item.setType' || task == 'item.setMenuType') {
-			if(task == 'item.setType') {
+		if (task == 'item.setType' || task == 'item.setMenuType')
+		{
+			if (task == 'item.setType')
+			{
 				document.id('item-form').elements['jform[type]'].value = type;
 				document.id('fieldtype').value = 'type';
 			} else {
 				document.id('item-form').elements['jform[menutype]'].value = type;
 			}
 			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			Joomla.submitform(task, document.id('item-form'));
-		} else {
+		}
+		else
+		{
 			// special case for modal popups validation response
 			$$('#item-form .modal-value.invalid').each(function(field){
 				var idReversed = field.id.split("").reverse().join("");
@@ -60,17 +64,17 @@ $canDo = MenusHelper::getActions();
 				<li><?php echo $this->form->getLabel('title'); ?>
 				<?php echo $this->form->getInput('title'); ?></li>
 
-				<?php if ($this->item->type =='url'): ?>
+				<?php if ($this->item->type == 'url') : ?>
 					<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif; ?>
 
-				<?php if ($this->item->type == 'alias'): ?>
+				<?php if ($this->item->type == 'alias') : ?>
 					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
 				<?php endif; ?>
 
-				<?php if ($this->item->type !='url'): ?>
+				<?php if ($this->item->type != 'url') : ?>
 					<li><?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?></li>
 				<?php endif; ?>
@@ -78,7 +82,7 @@ $canDo = MenusHelper::getActions();
 				<li><?php echo $this->form->getLabel('note'); ?>
 				<?php echo $this->form->getInput('note'); ?></li>
 
-				<?php if ($this->item->type !=='url'): ?>
+				<?php if ($this->item->type !== 'url') : ?>
 					<li><?php echo $this->form->getLabel('link'); ?>
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>

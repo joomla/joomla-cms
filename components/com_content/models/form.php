@@ -1,12 +1,12 @@
 <?php
 /**
- * @package		Joomla.Site
- * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
 defined('_JEXEC') or die;
 
 // Base this model on the backend version.
@@ -15,9 +15,9 @@ require_once JPATH_ADMINISTRATOR.'/components/com_content/models/article.php';
 /**
  * Content Component Article Model
  *
- * @package		Joomla.Site
- * @subpackage	com_content
- * @since 1.5
+ * @package     Joomla.Site
+ * @subpackage  com_content
+ * @since       1.5
  */
 class ContentModelForm extends ContentModelArticle
 {
@@ -26,38 +26,38 @@ class ContentModelForm extends ContentModelArticle
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
 		$app = JFactory::getApplication();
 
 		// Load state from the request.
-		$pk = JRequest::getInt('a_id');
+		$pk = $app->input->getInt('a_id');
 		$this->setState('article.id', $pk);
 
-		$this->setState('article.catid', JRequest::getInt('catid'));
+		$this->setState('article.catid', $app->input->getInt('catid'));
 
-		$return = JRequest::getVar('return', null, 'default', 'base64');
+		$return = $app->input->get('return', null, 'base64');
 		$this->setState('return_page', base64_decode($return));
 
 		// Load the parameters.
 		$params	= $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('layout', JRequest::getCmd('layout'));
+		$this->setState('layout', $app->input->get('layout'));
 	}
 
 	/**
 	 * Method to get article data.
 	 *
-	 * @param	integer	The id of the article.
+	 * @param   integer	The id of the article.
 	 *
-	 * @return	mixed	Content item data object on success, false on failure.
+	 * @return  mixed  Content item data object on success, false on failure.
 	 */
 	public function getItem($itemId = null)
 	{
-		// Initialise variables.
+
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.
@@ -67,7 +67,8 @@ class ContentModelForm extends ContentModelArticle
 		$return = $table->load($itemId);
 
 		// Check for a table object error.
-		if ($return === false && $table->getError()) {
+		if ($return === false && $table->getError())
+		{
 			$this->setError($table->getError());
 			return false;
 		}
@@ -82,41 +83,61 @@ class ContentModelForm extends ContentModelArticle
 		// Compute selected asset permissions.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
-		$asset	= 'com_content.article.'.$value->id;
+		$asset	= 'com_content.article.'. $value->id;
 
 		// Check general edit permission first.
-		if ($user->authorise('core.edit', $asset)) {
+		if ($user->authorise('core.edit', $asset))
+		{
 			$value->params->set('access-edit', true);
 		}
 		// Now check if edit.own is available.
-		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset)) {
+		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
+		{
 			// Check for a valid user and that they are the owner.
-			if ($userId == $value->created_by) {
+			if ($userId == $value->created_by)
+			{
 				$value->params->set('access-edit', true);
 			}
 		}
 
 		// Check edit state permission.
-		if ($itemId) {
+		if ($itemId)
+		{
 			// Existing item
 			$value->params->set('access-change', $user->authorise('core.edit.state', $asset));
 		}
-		else {
+		else
+		{
 			// New item.
 			$catId = (int) $this->getState('article.catid');
 
-			if ($catId) {
+			if ($catId)
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
 				$value->catid = $catId;
 			}
-			else {
+			else
+			{
 				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content'));
 			}
 		}
 
 		$value->articletext = $value->introtext;
-		if (!empty($value->fulltext)) {
+		if (!empty($value->fulltext))
+		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
+		}
+
+		// Convert the metadata field to an array.
+		$registry = new JRegistry;
+		$registry->loadString($value->metadata);
+		$value->metadata = $registry->toArray();
+
+		if ($itemId)
+		{
+			$value->tags = new JHelperTags;
+			$value->tags->getTagIds($value->id, 'com_content.article');
+			$value->metadata['tags'] = $value->tags;
 		}
 
 		return $value;
@@ -125,11 +146,32 @@ class ContentModelForm extends ContentModelArticle
 	/**
 	 * Get the return URL.
 	 *
-	 * @return	string	The return URL.
-	 * @since	1.6
+	 * @return  string	The return URL.
+	 * @since   1.6
 	 */
 	public function getReturnPage()
 	{
 		return base64_encode($this->getState('return_page'));
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.2
+	 */
+	public function save($data)
+	{
+		// Prevent deleting multilang associations
+		$app = JFactory::getApplication();
+		$assoc = $app->item_associations;
+		$app->item_associations = 0;
+		$result = parent::save($data);
+		$app->item_associations = $assoc;
+
+		return $result;
 	}
 }

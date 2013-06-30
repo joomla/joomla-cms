@@ -1,43 +1,41 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_cache
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_cache
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controller');
 
 /**
  * Cache Controller
  *
- * @package		Joomla.Administrator
- * @subpackage	com_cache
- * @since 1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_cache
+ * @since       1.6
  */
-class CacheController extends JController
+class CacheController extends JControllerLegacy
 {
 	/**
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
 		require_once JPATH_COMPONENT.'/helpers/cache.php';
 
 		// Get the document object.
-		$document	= JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName		= JRequest::getCmd('view', 'cache');
-		$vFormat	= $document->getType();
-		$lName		= JRequest::getCmd('layout', 'default');
+		$vName   = $this->input->get('view', 'cache');
+		$vFormat = $document->getType();
+		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
@@ -56,10 +54,10 @@ class CacheController extends JController
 			$view->setLayout($lName);
 
 			// Push document object into the view.
-			$view->assignRef('document', $document);
+			$view->document = $document;
 
 			// Load the submenu.
-			CacheHelper::addSubmenu(JRequest::getCmd('view', 'cache'));
+			CacheHelper::addSubmenu($this->input->get('view', 'cache'));
 
 			$view->display();
 		}
@@ -70,13 +68,16 @@ class CacheController extends JController
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$cid = $this->input->post->get('cid', array(), 'array');
 
 		$model = $this->getModel('cache');
 
-		if(empty($cid)) {
+		if (empty($cid))
+		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
-		} else {
+		}
+		else
+		{
 			$model->cleanlist($cid);
 		}
 
@@ -94,8 +95,9 @@ class CacheController extends JController
 		$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED');
 		$msgType = 'message';
 
-		if ($ret === false) {
-			$msg = JText::_('Error purging expired items');
+		if ($ret === false)
+		{
+			$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR');
 			$msgType = 'error';
 		}
 

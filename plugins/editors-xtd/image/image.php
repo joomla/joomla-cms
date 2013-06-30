@@ -1,47 +1,43 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Plugin
+ * @subpackage  Editors-xtd.image
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 /**
  * Editor Image buton
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors-xtd.image
- * @since 1.5
+ * @package     Joomla.Plugin
+ * @subpackage  Editors-xtd.image
+ * @since       1.5
  */
-class plgButtonImage extends JPlugin
+class PlgButtonImage extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Display the button
 	 *
 	 * @return array A two element array of (imageName, textToInsert)
 	 */
-	function onDisplay($name, $asset, $author)
+	public function onDisplay($name, $asset, $author)
 	{
 		$app = JFactory::getApplication();
-		$params = JComponentHelper::getParams('com_media');
 		$user = JFactory::getUser();
-		$extension = JRequest::getCmd('option');
-		if ($asset == ''){
+		$extension = $app->input->get('option');
+		if ($asset == '')
+		{
 			$asset = $extension;
 		}
 		if (	$user->authorise('core.edit', $asset)
@@ -55,14 +51,15 @@ class plgButtonImage extends JPlugin
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
 			JHtml::_('behavior.modal');
 			$button = new JObject;
-			$button->set('modal', true);
-			$button->set('link', $link);
-			$button->set('text', JText::_('PLG_IMAGE_BUTTON_IMAGE'));
-			$button->set('name', 'image');
-			$button->set('options', "{handler: 'iframe', size: {x: 800, y: 500}}");
+			$button->modal = true;
+			$button->class = 'btn';
+			$button->link = $link;
+			$button->text = JText::_('PLG_IMAGE_BUTTON_IMAGE');
+			$button->name = 'picture';
+			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 			return $button;
 		}
-				else
+		else
 		{
 			return false;
 		}

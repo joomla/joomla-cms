@@ -24,7 +24,7 @@
 		</field>
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
-			class="inputbox" size="1" default="1" >
+			class="inputbox span12 small" size="1" default="1" >
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -35,7 +35,7 @@
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox"
+			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
 		>
 			<option value="*">JALL</option>
 		</field>
@@ -45,7 +45,7 @@
 			rows="3" cols="30" label="JGLOBAL_DESCRIPTION"
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
 
-		<field name="type" type="radio"
+		<field name="type" type="list"
 			label="COM_BANNERS_FIELD_TYPE_LABEL" description="COM_BANNERS_FIELD_TYPE_DESC"
 			default="0" class="inputbox"
 		>
@@ -72,6 +72,26 @@
 			label="COM_BANNERS_FIELD_CREATED_LABEL" description="COM_BANNERS_FIELD_CREATED_DESC"
 			class="inputbox" size="22" format="%Y-%m-%d %H:%M:%S"
 			filter="user_utc" />
+		<field name="created_by" type="user"
+			label="COM_BANNERS_FIELD_CREATED_BY_LABEL" description="COM_BANNERS_FIELD_CREATED_BY_DESC" />
+
+		<field name="created_by_alias" type="text"
+			label="COM_BANNERS_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_BANNERS_FIELD_CREATED_BY_ALIAS_DESC"
+			class="inputbox" size="20" />
+
+		<field name="modified" type="calendar" class="readonly"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_BANNERS_FIELD_MODIFIED_DESC"
+			size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" />
+
+		<field name="modified_by" type="user"
+		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		class="readonly"
+		readonly="true"
+		filter="unset"
+		 />
+		<field name="version" type="text" class="readonly"
+			label="COM_BANNERS_FIELD_VERSION_LABEL" size="6" description="COM_BANNERS_FIELD_VERSION_DESC"
+			readonly="true" filter="unset" />
 
 		<field name="publish_up" type="calendar"
 			label="COM_BANNERS_FIELD_PUBLISH_UP_LABEL" description="COM_BANNERS_FIELD_PUBLISH_UP_DESC"
@@ -82,15 +102,23 @@
 			label="COM_BANNERS_FIELD_PUBLISH_DOWN_LABEL" description="COM_BANNERS_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
 			filter="user_utc" />
+	</fieldset>
+
+	<fieldset name="bannerdetails"
+		label="COM_BANNERS_GROUP_LABEL_BANNER_DETAILS"
+	>
 
 			<field name="sticky" type="list" default="0"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
+			class="span12 small"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
+	</fieldset>
+	<fieldset name="otherparams">
 		<field name="imptotal" type="imptotal" default="0"
 			label="COM_BANNERS_FIELD_IMPTOTAL_LABEL" description="COM_BANNERS_FIELD_IMPTOTAL_DESC" />
 
@@ -139,7 +167,6 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
 	</fieldset>
 
 	<fieldset name="metadata"
@@ -150,10 +177,10 @@
 			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
 			description="COM_BANNERS_FIELD_METAKEYWORDS_DESC" />
 
-		<field name="own_prefix" type="radio"
+		<field name="own_prefix" type="radio" class="btn-group"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
-			default="0" class="inputbox"
+			default="0"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

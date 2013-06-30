@@ -3,14 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.controllerform');
 
 /**
  * User controller class.
@@ -88,7 +85,7 @@ class UsersControllerUser extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$data = JRequest::getVar('jform', array(), 'post', 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
 
 		// TODO: JForm should really have a validation handler for this.
 		if (isset($data['password']) && isset($data['password2']))
@@ -104,5 +101,20 @@ class UsersControllerUser extends JControllerForm
 		}
 
 		return parent::save();
+	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model      The data model object.
+	 * @param   array         $validData  The validated data.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+		return;
 	}
 }

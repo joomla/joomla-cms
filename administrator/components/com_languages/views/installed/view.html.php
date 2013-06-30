@@ -1,22 +1,22 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Check to ensure this file is included in Joomla!
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Displays a list of the installed languages.
  *
- * @package		Joomla.Administrator
- * @subpackage	com_languages
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_languages
+ * @since       1.6
  */
-class LanguagesViewInstalled extends JView
+class LanguagesViewInstalled extends JViewLegacy
 {
 	/**
 	 * @var object client object
@@ -36,12 +36,12 @@ class LanguagesViewInstalled extends JView
 	/**
 	 * @var object pagination information
 	 */
-	protected $pagination=null;
+	protected $pagination = null;
 
 	/**
 	 * @var array languages information
 	 */
-	protected $rows=null;
+	protected $rows = null;
 
 	/**
 	 * @var object user object
@@ -51,25 +51,25 @@ class LanguagesViewInstalled extends JView
 	/**
 	 * Display the view
 	 */
-	function display($tpl = null)
+	public function display($tpl = null)
 	{
-		// Get data from the model
-		$this->ftp			= $this->get('Ftp');
-		$this->option		= $this->get('Option');
-		$this->pagination	= $this->get('Pagination');
-		$this->rows			= $this->get('Data');
-		$this->state		= $this->get('State');
+		$this->ftp        = $this->get('Ftp');
+		$this->option     = $this->get('Option');
+		$this->pagination = $this->get('Pagination');
+		$this->rows       = $this->get('Data');
+		$this->state      = $this->get('State');
 
-		$document = JFactory::getDocument();
-		$document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
+		$client = (int) $this->state->get('filter.client_id', 0);
+		LanguagesHelper::addSubmenu('installed', $client);
 
 		$this->addToolbar();
 		parent::display($tpl);
 	}
+
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -77,18 +77,27 @@ class LanguagesViewInstalled extends JView
 
 		$canDo	= LanguagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'langmanager.png');
 
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::makeDefault('installed.setDefault');
-			JToolBarHelper::divider();
+		if ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::makeDefault('installed.setDefault');
+			JToolbarHelper::divider();
 		}
 
-		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_languages');
-			JToolBarHelper::divider();
+		if ($canDo->get('core.admin'))
+		{
+			// Add install languages link to the lang installer component
+			$bar = JToolbar::getInstance('toolbar');
+			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
+			JToolbarHelper::divider();
+
+			JToolbarHelper::preferences('com_languages');
+			JToolbarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
+		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');
+
+		$this->sidebar = JHtmlSidebar::render();
 	}
 }

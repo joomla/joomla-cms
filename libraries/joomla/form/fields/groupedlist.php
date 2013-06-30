@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,10 +33,10 @@ class JFormFieldGroupedList extends JFormField
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	protected function getGroups()
 	{
-		// Initialize variables.
 		$groups = array();
 		$label = 0;
 
@@ -116,8 +116,7 @@ class JFormFieldGroupedList extends JFormField
 
 				// Unknown element type.
 				default:
-					JError::raiseError(500, JText::sprintf('JLIB_FORM_ERROR_FIELDS_GROUPEDLIST_ELEMENT_NAME', $element->getName()));
-					break;
+					throw new UnexpectedValueException(sprintf('Unsupported element %s in JFormFieldGroupedList', $element->getName()), 500);
 			}
 		}
 
@@ -136,7 +135,6 @@ class JFormFieldGroupedList extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Initialize variables.
 		$html = array();
 		$attr = '';
 
@@ -145,6 +143,7 @@ class JFormFieldGroupedList extends JFormField
 		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
+		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';

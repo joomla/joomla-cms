@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="2.5"
+	version="3.1"
 	client="site"
 	method="upgrade">
 	<name>mod_feed</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<description>MOD_FEED_XML_DESCRIPTION</description>
 	<files>
 		<filename module="mod_feed">mod_feed.php</filename>
@@ -36,6 +36,7 @@
 				<field
 					name="rssrtl"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_FEED_FIELD_RTL_LABEL"
 					description="MOD_FEED_FIELD_RTL_DESC">
@@ -47,6 +48,7 @@
 				<field
 					name="rsstitle"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
 					description="MOD_FEED_FIELD_RSSTITLE_DESC">
@@ -58,6 +60,7 @@
 				<field
 					name="rssdesc"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_DESCRIPTION_DESC">
@@ -69,6 +72,7 @@
 				<field
 					name="rssimage"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
 					description="MOD_FEED_FIELD_IMAGE_DESC">
@@ -86,6 +90,7 @@
 				<field
 					name="rssitemdesc"
 					type="radio"
+					class="btn-group"
 					default="1"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC">
@@ -112,7 +117,7 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="text"
+					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

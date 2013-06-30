@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Statistics view class for Finder.
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewStatistics extends JView
+class FinderViewStatistics extends JViewLegacy
 {
 	/**
 	 * Method to display the view.

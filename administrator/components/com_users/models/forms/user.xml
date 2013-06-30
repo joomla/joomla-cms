@@ -4,7 +4,7 @@
 		<field name="name" type="text"
 			class="inputbox"
 			description="COM_USERS_USER_FIELD_NAME_DESC"
-			label="COM_USERS_HEADING_NAME"
+			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
 			size="30"
 		/>
@@ -19,20 +19,23 @@
 
 		<field name="password" type="password"
 			autocomplete="off"
-			class="inputbox"
+			class="inputbox validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
+			validate="password"
 			label="JGLOBAL_PASSWORD"
 			size="30"
 		/>
 
 		<field name="password2" type="password"
 			autocomplete="off"
-			class="inputbox"
+			class="inputbox validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
 			size="30"
+			validate="equals"
+			field="password"
 		/>
 
 		<field name="email" type="email"
@@ -94,6 +97,7 @@
 				name="sendEmail"
 				type="radio"
 				default="0"
+				class="btn-group"
 				label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 				description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
 				<option
@@ -105,6 +109,7 @@
 		<field
 				name="block"
 				type="radio"
+				class="btn-group"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">
@@ -176,6 +181,8 @@
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
+
 		</fieldset>
+
 	</fields>
 </form>

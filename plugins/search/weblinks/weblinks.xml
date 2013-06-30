@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="search">
+<extension version="3.1" type="plugin" group="search">
 	<name>plg_search_weblinks</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<description>PLG_SEARCH_WEBLINKS_XML_DESCRIPTION</description>
 	<files>
 		<filename plugin="weblinks">weblinks.php</filename>
@@ -29,6 +29,7 @@
 				/>
 
 				<field name="search_content" type="radio"
+					class="btn-group"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
@@ -38,6 +39,7 @@
 				</field>
 
 				<field name="search_archived" type="radio"
+					class="btn-group"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"

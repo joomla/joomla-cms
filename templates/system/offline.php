@@ -1,8 +1,10 @@
 <?php
 /**
- * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Site
+ * @subpackage  Template.system
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -27,11 +29,11 @@ $app = JFactory::getApplication();
 		<h1>
 			<?php echo htmlspecialchars($app->getCfg('sitename')); ?>
 		</h1>
-	<?php if ($app->getCfg('display_offline_message', 1) == 1 && str_replace(' ', '', $app->getCfg('offline_message')) != ''): ?>
+	<?php if ($app->getCfg('display_offline_message', 1) == 1 && str_replace(' ', '', $app->getCfg('offline_message')) != '') : ?>
 		<p>
 			<?php echo $app->getCfg('offline_message'); ?>
 		</p>
-	<?php elseif ($app->getCfg('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != ''): ?>
+	<?php elseif ($app->getCfg('display_offline_message', 1) == 2 && str_replace(' ', '', JText::_('JOFFLINE_MESSAGE')) != '') : ?>
 		<p>
 			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
 		</p>
@@ -53,7 +55,7 @@ $app = JFactory::getApplication();
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGIN') ?>" />
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
-		<input type="hidden" name="return" value="<?php echo base64_encode(JURI::base()) ?>" />
+		<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()) ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 	</form>

@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.application.component.view');
 
 /**
  * Indexer view class for Finder.
@@ -18,7 +16,7 @@ jimport('joomla.application.component.view');
  * @subpackage  com_finder
  * @since       2.5
  */
-class FinderViewIndexer extends JView
+class FinderViewIndexer extends JViewLegacy
 {
 	/**
 	 * Method to display the view.
@@ -32,8 +30,9 @@ class FinderViewIndexer extends JView
 	public function display($tpl = null)
 	{
 		JHtml::_('behavior.framework');
-		JHtml::stylesheet('com_finder/indexer.css', false, true, false);
-		JHtml::script('com_finder/indexer.js', false, true);
+		JHtml::_('stylesheet', 'com_finder/indexer.css', false, true, false);
+		JHtml::_('script', 'com_finder/indexer.js', false, true);
+		JHtml::_('script', 'system/progressbar.js', true, true);
 
 		parent::display();
 	}

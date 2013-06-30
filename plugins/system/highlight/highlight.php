@@ -3,13 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_BASE') or die;
-
-jimport('joomla.application.component.helper');
 
 /**
  * System plugin to highlight terms.
@@ -57,21 +55,21 @@ class PlgSystemHighlight extends JPlugin
 
 		// Get the terms to highlight from the request.
 		$terms = $input->request->get('highlight', null, 'base64');
-		$terms = $terms ? unserialize(base64_decode($terms)) : null;
+		$terms = $terms ? json_decode(base64_decode($terms)) : null;
 
 		// Check the terms.
 		if (empty($terms))
 		{
 			return true;
 		}
-		
+
 		// Clean the terms array
 		$filter = JFilterInput::getInstance();
 
 		$cleanTerms = array();
 		foreach ($terms as $term)
 		{
-			$cleanTerms[] = $filter->clean($term, 'string');
+			$cleanTerms[] = htmlspecialchars($filter->clean($term, 'string'));
 		}
 
 		// Activate the highlighter.

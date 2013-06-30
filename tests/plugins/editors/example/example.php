@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,17 +109,17 @@ class plgEditorExample extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param	string	$name		The control name.
-	 * @param	string	$html		The contents of the text area.
-	 * @param	string	$width		The width of the text area (px or %).
-	 * @param	string	$height		The height of the text area (px or %).
-	 * @param	int		$col		The number of columns for the textarea.
-	 * @param	int		$row		The number of rows for the textarea.
-	 * @param	boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param	string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param	string	$asset
-	 * @param	object	$author
-	 * @param	array	$params		Associative array of editor parameters.
+	 * @param   string	$name		The control name.
+	 * @param   string	$html		The contents of the text area.
+	 * @param   string	$width		The width of the text area (px or %).
+	 * @param   string	$height		The height of the text area (px or %).
+	 * @param   integer  $col		The number of columns for the textarea.
+	 * @param   integer  $row		The number of rows for the textarea.
+	 * @param   boolean	$buttons	True and the editor buttons will be displayed.
+	 * @param   string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string	$asset
+	 * @param   object	$author
+	 * @param   array	$params		Associative array of editor parameters.
 	 *
 	 * @return	string
 	 */
@@ -173,7 +173,7 @@ class plgEditorExample extends JPlugin
 				// Results should be an object
 				if ($button->get('name')) {
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
+					$href		= ($button->get('link')) ? 'href="'.JUri::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$title."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";

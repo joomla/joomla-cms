@@ -1,98 +1,139 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_banners
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_banners
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
+
 $canDo	= BannersHelper::getActions();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form'))) {
+		if (task == 'client.cancel' || document.formvalidator.isValid(document.id('client-form')))
+		{
 			Joomla.submitform(task, document.getElementById('client-form'));
 		}
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate form-horizontal">
 
-<div class="width-60 fltlft">
-	<fieldset class="adminform">
-		<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT') : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id); ?></legend>
-		<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('name'); ?>
-				<?php echo $this->form->getInput('name'); ?></li>
+	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
-				<li><?php echo $this->form->getLabel('contact'); ?>
-				<?php echo $this->form->getInput('contact'); ?></li>
-
-				<li><?php echo $this->form->getLabel('email'); ?>
-				<?php echo $this->form->getInput('email'); ?></li>
-
-				<?php if ($canDo->get('core.edit.state')) : ?>
-					<li><?php echo $this->form->getLabel('state'); ?>
-					<?php echo $this->form->getInput('state'); ?></li>
-				<?php endif; ?>
-
-				<li><?php echo $this->form->getLabel('purchase_type'); ?>
-				<?php echo $this->form->getInput('purchase_type'); ?></li>
-
-				<li><?php echo $this->form->getLabel('track_impressions'); ?>
-				<?php echo $this->form->getInput('track_impressions'); ?></li>
-
-				<li><?php echo $this->form->getLabel('track_clicks'); ?>
-				<?php echo $this->form->getInput('track_clicks'); ?></li>
-
-				<li><?php echo $this->form->getLabel('id'); ?>
-				<?php echo $this->form->getInput('id'); ?></li>
-		</ul>
-
-	</fieldset>
-</div>
-
-<div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start', 'banner-client-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
-
-	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
-		<fieldset class="panelform">
-		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('metadata') as $field): ?>
-				<li>
-					<?php if (!$field->hidden): ?>
-						<?php echo $field->label; ?>
+	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT', true) : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id, true)); ?>
+			<div class="row-fluid">
+				<div class="span6">
+					<?php if ($canDo->get('core.edit.state')) : ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('state'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('state'); ?>
+							</div>
+						</div>
 					<?php endif; ?>
-					<?php echo $field->input; ?>
-				</li>
-			<?php endforeach; ?>
-			</ul>
-		</fieldset>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('name'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('name'); ?>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('contact'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('contact'); ?>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('email'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('email'); ?>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('purchase_type'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('purchase_type'); ?>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('track_impressions'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('track_impressions'); ?>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('track_clicks'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('track_clicks'); ?>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('id'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('id'); ?>
+						</div>
+					</div>
+				</div>
+				<div class="span6">
+					<?php foreach ($this->form->getFieldset('extra') as $field) : ?>
+						<div class="control-group">
+							<?php if (!$field->hidden) : ?>
+								<div class="control-label">
+									<?php echo $field->label; ?>
+								</div>
+							<?php endif; ?>
+							<div class="controls">
+								<?php echo $field->input; ?>
+							</div>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_EXTRA'), 'extra'); ?>
-		<fieldset class="panelform">
-		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('extra') as $field): ?>
-				<li><?php if (!$field->hidden): ?>
-					<?php echo $field->label; ?>
-				<?php endif; ?>
-				<?php echo $field->input; ?></li>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
+			<?php foreach ($this->form->getFieldset('metadata') as $field) : ?>
+				<div class="control-group">
+					<?php if (!$field->hidden) : ?>
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+					<?php endif; ?>
+					<div class="controls">
+						<?php echo $field->input; ?>
+					</div>
+				</div>
 			<?php endforeach; ?>
-			</ul>
-		</fieldset>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php echo JHtml::_('sliders.end'); ?>
+	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-</div>
-
-<div class="clr"></div>
 </form>

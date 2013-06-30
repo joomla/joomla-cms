@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,12 +43,22 @@ class JFormFieldCheckbox extends JFormField
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$checked = ((string) $this->element['value'] == $this->value) ? ' checked="checked"' : '';
+		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
+		$required = $this->required ? ' required="required" aria-required="true"' : '';
+
+		if (empty($this->value))
+		{
+			$checked = (isset($this->element['checked'] )) ? ' checked="checked"' : '';
+		}
+		else
+		{
+			$checked = ' checked="checked"';
+		}
 
 		// Initialize JavaScript field attributes.
 		$onclick = $this->element['onclick'] ? ' onclick="' . (string) $this->element['onclick'] . '"' : '';
 
-		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars((string) $this->element['value'], ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . '/>';
+		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
+			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $required . ' />';
 	}
 }

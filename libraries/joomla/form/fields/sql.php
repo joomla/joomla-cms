@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,6 @@ class JFormFieldSQL extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Initialize variables.
 		$options = array();
 
 		// Initialize some field attributes.
@@ -48,18 +47,11 @@ class JFormFieldSQL extends JFormFieldList
 		$query = (string) $this->element['query'];
 
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Set the query and get the result list.
 		$db->setQuery($query);
 		$items = $db->loadObjectlist();
-
-		// Check for an error.
-		if ($db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-			return $options;
-		}
 
 		// Build the field options.
 		if (!empty($items))

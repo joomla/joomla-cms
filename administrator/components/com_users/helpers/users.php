@@ -3,11 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
@@ -36,7 +35,7 @@ class UsersHelper
 	 */
 	public static function addSubmenu($vName)
 	{
-		JSubMenuHelper::addEntry(
+		JHtmlSidebar::addEntry(
 			JText::_('COM_USERS_SUBMENU_USERS'),
 			'index.php?option=com_users&view=users',
 			$vName == 'users'
@@ -47,27 +46,27 @@ class UsersHelper
 
 		if ($canDo->get('core.admin'))
 		{
-			JSubMenuHelper::addEntry(
+			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_GROUPS'),
 				'index.php?option=com_users&view=groups',
 				$vName == 'groups'
 			);
-			JSubMenuHelper::addEntry(
+			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_LEVELS'),
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
 			);
-			JSubMenuHelper::addEntry(
+			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTES'),
 				'index.php?option=com_users&view=notes',
 				$vName == 'notes'
 			);
 
-			$extension = JRequest::getString('extension');
-			JSubMenuHelper::addEntry(
+			$extension = JFactory::getApplication()->input->getString('extension');
+			JHtmlSidebar::addEntry(
 				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users.notes',
-				$vName == 'categories' || $extension == 'com_users.notes'
+				'index.php?option=com_categories&extension=com_users',
+				$vName == 'categories' || $extension == 'com_users'
 			);
 		}
 	}
@@ -105,7 +104,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getStateOptions()
+	public static function getStateOptions()
 	{
 		// Build the filter options.
 		$options = array();
@@ -122,7 +121,7 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getActiveOptions()
+	public static function getActiveOptions()
 	{
 		// Build the filter options.
 		$options = array();
@@ -139,22 +138,26 @@ class UsersHelper
 	 *
 	 * @since   1.6
 	 */
-	static function getGroups()
+	public static function getGroups()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
-			' FROM #__usergroups AS a' .
-			' LEFT JOIN '.$db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
-			' GROUP BY a.id, a.title, a.lft, a.rgt' .
-			' ORDER BY a.lft ASC'
-		);
-		$options = $db->loadObjectList();
+		$query = $db->getQuery(true)
+			->select('a.id AS value')
+			->select('a.title AS text')
+			->select('COUNT(DISTINCT b.id) AS level')
+			->from('#__usergroups as a')
+			->join('LEFT', '#__usergroups  AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->group('a.id, a.title, a.lft, a.rgt')
+			->order('a.lft ASC');
+		$db->setQuery($query);
 
-		// Check for a database error.
-		if ($db->getErrorNum())
+		try
 		{
-			JError::raiseNotice(500, $db->getErrorMsg());
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseNotice(500, $e->getMessage());
 			return null;
 		}
 

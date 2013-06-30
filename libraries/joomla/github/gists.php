@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * GitHub API Gists class for the Joomla Platform.
@@ -567,17 +567,16 @@ class JGithubGists extends JGithubObject
 	 */
 	protected function buildFileData(array $files)
 	{
-		// Initialize variables.
 		$data = array();
 
 		foreach ($files as $key => $file)
 		{
-			// if the key isn't numeric, then we are dealing with a file whose content has been supplied
+			// If the key isn't numeric, then we are dealing with a file whose content has been supplied
 			if (!is_numeric($key))
 			{
 				$data[$key] = array('content' => $file);
 			}
-			// otherwise, we have been given a path and we have to load the content
+			// Otherwise, we have been given a path and we have to load the content
 			// Verify that the each file exists.
 			elseif (!file_exists($file))
 			{

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension
 	type="module"
-	version="2.5"
+	version="3.1"
 	client="site"
 	method="upgrade">
 	<name>mod_weblinks</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2009</creationDate>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
-	<version>2.5.0</version>
+	<version>3.0.0</version>
 	<description>MOD_WEBLINKS_XML_DESCRIPTION</description>
 	<files>
 	<filename module="mod_weblinks">mod_weblinks.php</filename>
@@ -80,18 +80,19 @@
 				</field>
 				<field
 					name="follow"
-					type="radio"
+					type="list"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_FOLLOW_LABEL"
 					description="MOD_WEBLINKS_FIELD_FOLLOW_DESC">
 					<option
 						value="follow">MOD_WEBLINKS_FIELD_VALUE_FOLLOW</option>
 					<option
-						value="no follow">MOD_WEBLINKS_FIELD_VALUE_NOFOLLOW</option>
+						value="nofollow">MOD_WEBLINKS_FIELD_VALUE_NOFOLLOW</option>
 				</field>
 				<field
 					name="description"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_DESCRIPTION_LABEL"
 					description="MOD_WEBLINKS_FIELD_DESCRIPTION_DESC">
@@ -103,6 +104,7 @@
 				<field
 					name="hits"
 					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_HITS_LABEL"
 					description="MOD_WEBLINKS_FIELD_HITS_DESC">
@@ -114,7 +116,8 @@
 
 				<field
 					name="count_clicks"
-					type="List"
+					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 					description="MOD_WEBLINKS_FIELD_COUNTCLICKS_DESC">
@@ -135,7 +138,7 @@
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 				<field
 					name="moduleclass_sfx"
-					type="text"
+					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field

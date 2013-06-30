@@ -1,13 +1,12 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	Templates.hathor
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  Template.hathor
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
 defined('_JEXEC') or die;
 ?>
 <fieldset class="adminform" title="<?php echo JText::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?>">
@@ -15,7 +14,7 @@ defined('_JEXEC') or die;
 
 	<?php echo JText::_('COM_INSTALLER_MSG_DESCFTP'); ?>
 
-	<?php if ($this->ftp instanceof Exception): ?>
+	<?php if ($this->ftp instanceof Exception) : ?>
 		<p><?php echo JText::_($this->ftp->getMessage()); ?></p>
 	<?php endif; ?>
 

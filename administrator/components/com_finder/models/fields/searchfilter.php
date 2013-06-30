@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class JFormFieldSearchFilter extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.7
+	 * @since  2.5
 	 */
 	protected $type = 'SearchFilter';
 
@@ -33,20 +33,17 @@ class JFormFieldSearchFilter extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.7
+	 * @since   2.5
 	 */
 	public function getOptions()
 	{
-		// Initialize variables.
-		$options = array();
-
 		// Build the query.
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('f.' . $db->quoteName('title') . ' AS text, f.' . $db->quoteName('filter_id') . ' AS value');
-		$query->from($db->quoteName('#__finder_filters') . ' AS f');
-		$query->where('f.' . $db->quoteName('state') . ' = 1');
-		$query->order('f.title ASC');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('f.title AS text, f.filter_id AS value')
+			->from($db->quoteName('#__finder_filters') . ' AS f')
+			->where('f.state = 1')
+			->order('f.title ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 

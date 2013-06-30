@@ -2,17 +2,17 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * Smart download helper. Automatically uses cURL or URL fopen() wrappers to
  * fetch the package.
- * 
+ *
  * @package  Joomla.Administrator
  * @since    2.5.4
  */
@@ -20,20 +20,17 @@ class AdmintoolsHelperDownload
 {
 	/**
 	 * Downloads from a URL and saves the result as a local file
-	 * 
+	 *
 	 * @param   string  $url     The URL to download from
 	 * @param   string  $target  The file path to download to
-	 * 
+	 *
 	 * @return  bool	True on success
 	 *
 	 * @since   2.5.4
 	 */
 	public static function download($url, $target)
 	{
-		// Import Joomla! libraries
 		jimport('joomla.filesystem.file');
-
-		$hackPermissions = false;
 
 		// Make sure the target does not exist
 		if (JFile::exists($target))
@@ -55,7 +52,6 @@ class AdmintoolsHelperDownload
 				if ( self::chmod($target, 511) )
 				{
 					$fp = @fopen($target, 'wb');
-					$hackPermissions = true;
 				}
 			}
 		}
@@ -118,9 +114,9 @@ class AdmintoolsHelperDownload
 
 	/**
 	 * Downloads from a URL and returns the result as a string
-	 * 
+	 *
 	 * @param   string  $url  The URL to download from
-	 * 
+	 *
 	 * @return  mixed Result string on success, false on failure
 	 *
 	 * @since   2.5.4
@@ -143,7 +139,7 @@ class AdmintoolsHelperDownload
 
 	/**
 	 * Does the server support PHP's cURL extension?
-	 * 
+	 *
 	 * @return  bool True if it is supported
 	 *
 	 * @since   2.5.4
@@ -163,19 +159,17 @@ class AdmintoolsHelperDownload
 	/**
 	 * Downloads the contents of a URL and writes them to disk (if $fp is not null)
 	 * or returns them as a string (if $fp is null)
-	 * 
+	 *
 	 * @param   string    $url       The URL to download from
 	 * @param   resource  $fp        The file pointer to download to. Omit to return the contents.
 	 * @param   boolean   $nofollow  Should we follow 301/302/307 redirection HTTP headers?
-	 * 
+	 *
 	 * @return   bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
 	 *
 	 * @since   2.5.4
 	 */
 	private static function &getCURL($url, $fp = null, $nofollow = false)
 	{
-		$result = false;
-
 		$ch = curl_init($url);
 
 		if ( !@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) && !$nofollow )
@@ -247,8 +241,8 @@ class AdmintoolsHelperDownload
 
 	/**
 	 * Does the server support URL fopen() wrappers?
-	 * 
-	 * @return bool
+	 *
+	 * @return  bool
 	 *
 	 * @since   2.5.4
 	 */
@@ -276,10 +270,10 @@ class AdmintoolsHelperDownload
 
 	/**
 	 * Download from a URL using URL fopen() wrappers
-	 * 
+	 *
 	 * @param   string    $url  The URL to download from
 	 * @param   resource  $fp   The file pointer to download to; leave null to return the d/l file as a string
-	 * 
+	 *
 	 * @return  bool|string False on failure, true on success ($fp not null) or the URL contents (if $fp is null)
 	 *
 	 * @since   2.5.4
@@ -287,12 +281,6 @@ class AdmintoolsHelperDownload
 	private static function &getFOPEN($url, $fp = null)
 	{
 		$result = false;
-
-		// Track errors
-		if ( function_exists('ini_set') )
-		{
-			$track_errors = ini_set('track_errors', true);
-		}
 
 		// Open the URL for reading
 		if (function_exists('stream_context_create'))
@@ -365,7 +353,7 @@ class AdmintoolsHelperDownload
 	/**
 	 * Detect and return available download "adapters" (not really adapters, as
 	 * we don't follow the Adapter pattern, yet)
-	 * 
+	 *
 	 * @return  array
 	 *
 	 * @since   2.5.4
@@ -387,10 +375,10 @@ class AdmintoolsHelperDownload
 
 	/**
 	 * Change the permissions of a file, optionally using FTP
-	 * 
+	 *
 	 * @param   string  $path  Absolute path to file
 	 * @param   int     $mode  Permissions, e.g. 0755
-	 * 
+	 *
 	 * @return  boolean True on success
 	 *
 	 * @since   2.5.4
@@ -406,8 +394,6 @@ class AdmintoolsHelperDownload
 			}
 		}
 
-		// Initialize variables
-		jimport('joomla.client.helper');
 		$ftpOptions = JClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
@@ -417,8 +403,7 @@ class AdmintoolsHelperDownload
 		{
 
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = &JFTP::getInstance(
+			$ftp = JClientFtp::getInstance(
 				$ftpOptions['host'], $ftpOptions['port'], null,
 				$ftpOptions['user'], $ftpOptions['pass']
 			);
@@ -430,9 +415,7 @@ class AdmintoolsHelperDownload
 		}
 		elseif ($ftpOptions['enabled'] == 1)
 		{
-
 			// Translate path and delete
-			jimport('joomla.client.ftp');
 			$path = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $path), '/');
 
 			// FTP connector throws an error
@@ -441,6 +424,7 @@ class AdmintoolsHelperDownload
 		{
 			return false;
 		}
+		return $ret;
 	}
 
 }

@@ -1,25 +1,27 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_quickicon
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  mod_quickicon
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
 defined('_JEXEC') or die;
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	mod_quickicon
- * @since		1.6
+ * Helper for mod_quickicon
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  mod_quickicon
+ * @since       1.6
  */
-abstract class modQuickIconHelper
+abstract class ModQuickIconHelper
 {
 	/**
 	 * Stack to hold buttons
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected static $buttons = array();
 
@@ -29,91 +31,107 @@ abstract class modQuickIconHelper
 	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
-	 * @param	JRegistry	The module parameters.
+	 * @param   JObject  $params  The module parameters.
 	 *
-	 * @return	array	An array of buttons
-	 * @since	1.6
+	 * @return  array  An array of buttons
+	 *
+	 * @since   1.6
 	 */
 	public static function &getButtons($params)
 	{
-		$key = (string)$params;
-		if (!isset(self::$buttons[$key])) {
+		$key = (string) $params;
+
+		if (!isset(self::$buttons[$key]))
+		{
 			$context = $params->get('context', 'mod_quickicon');
+
 			if ($context == 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
-			JFactory::getLanguage()->load('mod_quickicon');
+				JFactory::getLanguage()->load('mod_quickicon');
 
 				self::$buttons[$key] = array(
 					array(
 						'link' => JRoute::_('index.php?option=com_content&task=article.add'),
-						'image' => 'header/icon-48-article-add.png',
+						'image' => 'file-add',
+						'icon' => 'header/icon-48-article-add.png',
 						'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content', )
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_content'),
-						'image' => 'header/icon-48-article.png',
+						'image' => 'pencil-2',
+						'icon' => 'header/icon-48-article.png',
 						'text' => JText::_('MOD_QUICKICON_ARTICLE_MANAGER'),
 						'access' => array('core.manage', 'com_content')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_categories&extension=com_content'),
-						'image' => 'header/icon-48-category.png',
+						'image' => 'folder',
+						'icon' => 'header/icon-48-category.png',
 						'text' => JText::_('MOD_QUICKICON_CATEGORY_MANAGER'),
 						'access' => array('core.manage', 'com_content')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_media'),
-						'image' => 'header/icon-48-media.png',
+						'image' => 'pictures',
+						'icon' => 'header/icon-48-media.png',
 						'text' => JText::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_menus'),
-						'image' => 'header/icon-48-menumgr.png',
+						'image' => 'list-view',
+						'icon' => 'header/icon-48-menumgr.png',
 						'text' => JText::_('MOD_QUICKICON_MENU_MANAGER'),
 						'access' => array('core.manage', 'com_menus')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_users'),
-						'image' => 'header/icon-48-user.png',
+						'image' => 'address',
+						'icon' => 'header/icon-48-user.png',
 						'text' => JText::_('MOD_QUICKICON_USER_MANAGER'),
 						'access' => array('core.manage', 'com_users')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_modules'),
-						'image' => 'header/icon-48-module.png',
+						'image' => 'cube',
+						'icon' => 'header/icon-48-module.png',
 						'text' => JText::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_installer'),
-						'image' => 'header/icon-48-extension.png',
+						'image' => 'puzzle',
+						'icon' => 'header/icon-48-extension.png',
 						'text' => JText::_('MOD_QUICKICON_EXTENSION_MANAGER'),
 						'access' => array('core.manage', 'com_installer')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_languages'),
-						'image' => 'header/icon-48-language.png',
+						'image' => 'comments-2',
+						'icon' => 'header/icon-48-language.png',
 						'text' => JText::_('MOD_QUICKICON_LANGUAGE_MANAGER'),
 						'access' => array('core.manage', 'com_languages')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_config'),
-						'image' => 'header/icon-48-config.png',
+						'image' => 'cog',
+						'icon' => 'header/icon-48-config.png',
 						'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config')
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_templates'),
-						'image' => 'header/icon-48-themes.png',
+						'image' => 'eye',
+						'icon' => 'header/icon-48-themes.png',
 						'text' => JText::_('MOD_QUICKICON_TEMPLATE_MANAGER'),
 						'access' => array('core.manage', 'com_templates')
 					),
 					array(
-						'link' => JRoute::_('index.php?option=com_admin&task=profile.edit&id='.JFactory::getUser()->id),
-						'image' => 'header/icon-48-user-profile.png',
+						'link' => JRoute::_('index.php?option=com_admin&task=profile.edit&id=' . JFactory::getUser()->id),
+						'image' => 'vcard',
+						'icon' => 'header/icon-48-user-profile.png',
 						'text' => JText::_('MOD_QUICKICON_PROFILE'),
 						'access' => true
 					),
@@ -129,16 +147,20 @@ abstract class modQuickIconHelper
 			$app = JFactory::getApplication();
 			$arrays = (array) $app->triggerEvent('onGetIcons', array($context));
 
-			foreach ($arrays as $response) {
-				foreach ($response as $icon) {
+			foreach ($arrays as $response)
+			{
+				foreach ($response as $icon)
+				{
 					$default = array(
 						'link' => null,
-						'image' => 'header/icon-48-config.png',
+						'image' => 'cog',
 						'text' => null,
 						'access' => true
 					);
 					$icon = array_merge($default, $icon);
-					if (!is_null($icon['link']) && !is_null($icon['text'])) {
+
+					if (!is_null($icon['link']) && !is_null($icon['text']))
+					{
 						self::$buttons[$key][] = $icon;
 					}
 				}
@@ -151,14 +173,15 @@ abstract class modQuickIconHelper
 	/**
 	 * Get the alternate title for the module
 	 *
-	 * @param	JRegistry	The module parameters.
-	 * @param	object		The module.
+	 * @param   JObject  $params  The module parameters.
+	 * @param   JObject  $module  The module.
 	 *
-	 * @return	string	The alternate title for the module.
+	 * @return  string	The alternate title for the module.
 	 */
 	public static function getTitle($params, $module)
 	{
 		$key = $params->get('context', 'mod_quickicon') . '_title';
+
 		if (JFactory::getLanguage()->hasKey($key))
 		{
 			return JText::_($key);

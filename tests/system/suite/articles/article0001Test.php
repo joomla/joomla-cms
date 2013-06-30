@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -16,15 +16,15 @@ class Article0001 extends SeleniumJoomlaTestCase
 	function testUnpublishArticle()
 	{
 		$this->setUp();
-		echo "Starting testUnpublishArticle.\n";
+		$this->jPrint ("Starting testUnpublishArticle.\n");
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 
-		echo "Go to front end and check that Professionals is shown" . "\n";
+		$this->jPrint ("Go to front end and check that Professionals is shown" . "\n");
 		$this->gotoSite();
 		$this->assertTrue($this->isTextPresent("Professionals"));
 
-		echo "Go to back end and unpublish" . "\n";
+		$this->jPrint ("Go to back end and unpublish" . "\n");
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
@@ -33,14 +33,14 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-unpublish']/a/span");
+    	$this->click("//div[@id='toolbar-unpublish']/button");
     	$this->waitForPageToLoad("30000");
 
-		echo "Go to front end and check that Professionals is not shown" . "\n";
+		$this->jPrint ("Go to front end and check that Professionals is not shown" . "\n");
 		$this->gotoSite();
 		$this->assertFalse($this->isTextPresent("Professionals"));
 
-		echo "Go to back end and publish Professionals" . "\n";
+		$this->jPrint ("Go to back end and publish Professionals" . "\n");
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
@@ -50,7 +50,7 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-publish']/a/span");
+    	$this->click("//div[@id='toolbar-publish']/button");
     	$this->waitForPageToLoad("30000");
 
 		$this->gotoAdmin();
@@ -62,11 +62,11 @@ class Article0001 extends SeleniumJoomlaTestCase
 	function testPublishArticle()
 	{
 		$this->setUp();
-		echo "Starting testPublishArticle.\n";
+		$this->jPrint ("Starting testPublishArticle.\n");
 		$this->gotoAdmin();
 		$this->doAdminLogin();
 
-		echo "Go to back end and unpublish Professionals" . "\n";
+		$this->jPrint ("Go to back end and unpublish Professionals" . "\n");
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
@@ -76,14 +76,14 @@ class Article0001 extends SeleniumJoomlaTestCase
 
 
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-unpublish']/a/span");
+    	$this->click("//div[@id='toolbar-unpublish']/button");
     	$this->waitForPageToLoad("30000");
 
-		echo "Go to front end and check that Professionals is not shown" . "\n";
+		$this->jPrint ("Go to front end and check that Professionals is not shown" . "\n");
 		$this->gotoSite();
 		$this->assertFalse($this->isTextPresent("Professionals"));
 
-		echo "Go to back end and publish Professionals" . "\n";
+		$this->jPrint ("Go to back end and publish Professionals" . "\n");
 		$this->gotoAdmin();
 		$this->click("link=Article Manager");
 		$this->waitForPageToLoad("30000");
@@ -93,10 +93,10 @@ class Article0001 extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
     	$this->click("cb0");
-    	$this->click("//li[@id='toolbar-publish']/a/span");
+    	$this->click("//div[@id='toolbar-publish']/button");
     	$this->waitForPageToLoad("30000");
 
-		echo "Go to front end and check that Professionals is shown" . "\n";
+		$this->jPrint ("Go to front end and check that Professionals is shown" . "\n");
 		$this->gotoSite();
 		$this->assertTrue($this->isTextPresent("Professionals"));
 		$this->gotoAdmin();
@@ -106,34 +106,32 @@ class Article0001 extends SeleniumJoomlaTestCase
 
 	function testEditPermission()
 	{
-		echo "Starting testEditPermission" . "\n";
-		echo "Go to front end and login as admin" . "\n";
+		$this->jPrint ("Starting testEditPermission" . "\n");
+		$this->jPrint ("Go to front end and login as admin" . "\n");
 		$this->gotoSite();
 		$this->doFrontEndLogin();
-		echo "Go to Home and check that edit icon is visible" . "\n";
+		$this->jPrint ("Go to Home and check that edit icon is visible" . "\n");
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
-		echo "Drill to Sample Data article and check that edit icon is visible" . "\n";
+		$this->assertTrue($this->isElementPresent("//span[contains(@class, 'icon-edit')]"));
+		$this->jPrint ("Drill to Sample Data article and check that edit icon is visible" . "\n");
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		$this->click("link=Sample Sites");
 		$this->waitForPageToLoad("30000");
-		$this->click("link=Park Blog");
-		$this->waitForPageToLoad("30000");
-		$this->assertTrue($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertTrue($this->isElementPresent("//span[contains(@class, 'icon-edit')]"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-		echo "Logout of front end." . "\n";
+		$this->jPrint ("Logout of front end." . "\n");
 		$this->doFrontEndLogout();
-		echo "Go to home and check that edit icon is not visible." . "\n";
+		$this->jPrint ("Go to home and check that edit icon is not visible." . "\n");
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
-		$this->assertFalse($this->isElementPresent("//img[@alt='Edit']"));
-		echo "Drill to Sample Data article and check that edit icon is not visible." . "\n";
+		$this->assertFalse($this->isElementPresent("//span[contains(@class, 'icon-edit')]"));
+		$this->jPrint ("Drill to Sample Data article and check that edit icon is not visible." . "\n");
 		$this->click("link=Sample Sites");
 		$this->waitForPageToLoad("30000");
-		$this->assertFalse($this->isElementPresent("//img[@alt='Edit']"));
+		$this->assertFalse($this->isElementPresent("//span[contains(@class, 'icon-edit')]"));
 		$this->click("link=Home");
 		$this->waitForPageToLoad("30000");
 		$this->deleteAllVisibleCookies();
