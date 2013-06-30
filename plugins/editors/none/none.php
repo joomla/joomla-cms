@@ -92,9 +92,9 @@ class PlgEditorNone extends JPlugin
 	}
 
 	/**
-	 * @param   string  $id
+	 * @param   string  $id  The id of the editor field
 	 *
-	 * @return  string
+	 * @return  boolean  returns true when complete
 	 */
 	public function onGetInsertMethod($id)
 	{
@@ -158,7 +158,7 @@ class PlgEditorNone extends JPlugin
 	/**
 	 * Displays the editor buttons.
 	 *
-	 * @param   string  $name
+	 * @param   string  $name     The control name.
 	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
 	 * @param   string  $asset
 	 * @param   string  $author

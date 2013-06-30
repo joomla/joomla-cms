@@ -217,7 +217,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Displays the editor buttons.
 	 *
-	 * @param   string  $name
+	 * @param   string  $name     Name of the button
 	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
 	 * @param   string  $asset
 	 * @param   string  $author

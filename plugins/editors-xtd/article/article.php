@@ -29,7 +29,7 @@ class PlgButtonArticle extends JPlugin
 	/**
 	 * Display the button
 	 *
-	 * @param   string $name
+	 * @param   string  $name  The name of the button to add
 	 *
 	 * @return array A four element array of (article_id, article_title, category_id, object)
 	 */

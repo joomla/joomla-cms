@@ -29,7 +29,7 @@ class PlgButtonImage extends JPlugin
 	/**
 	 * Display the button
 	 *
-	 * @param   string  $name
+	 * @param   string  $name  The name of the button to display
 	 * @param   string  $asset
 	 * @param   string  $author
 	 *

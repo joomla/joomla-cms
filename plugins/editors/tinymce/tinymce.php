@@ -623,7 +623,7 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - get the editor content
 	 *
-	 * @param  string  The name of the editor
+	 * @param   string  $editor  The name of the editor
 	 *
 	 * @return  string
 	 */
@@ -635,7 +635,8 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - set the editor content
 	 *
-	 * @param   string  The name of the editor
+	 * @param   string  $editor  The name of the editor
+	 * @param   string  $html    HTML code to set as the content for the editor
 	 *
 	 * @return  string
 	 */
@@ -647,7 +648,7 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - copy editor content to form field
 	 *
-	 * @param   string  The name of the editor
+	 * @param   string  $editor  The name of the editor
 	 *
 	 * @return  string
 	 */
@@ -657,6 +658,7 @@ class PlgEditorTinymce extends JPlugin
 	}
 
 	/**
+	 * @param  string  $name
 	 *
 	 * @return  boolean
 	 */
