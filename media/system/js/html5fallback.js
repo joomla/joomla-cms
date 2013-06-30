@@ -170,7 +170,7 @@
 				else {
 					var elements;
 					if(type === "fieldset"){
-						elements = $elem.children('input');
+						elements = $elem.find('input');
 					}
 					else{
 						elements = document.getElementsByName(elem.name);
