@@ -43,10 +43,10 @@ class PlgContentPagebreak extends JPlugin
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
 	 * @param   object   &$row     The article object.  Note $article->text is also available
-	 * @param   JObject  &$params  The article params
+	 * @param   mixed    &$params  The article params
 	 * @param   integer  $page     The 'page' number
 	 *
-	 * @return  void
+	 * @return  mixed  Always returns void or true
 	 *
 	 * @since   1.6
 	 */
@@ -77,6 +77,7 @@ class PlgContentPagebreak extends JPlugin
 		if ($print)
 		{
 			$row->text = preg_replace($regex, '<br />', $row->text);
+
 			return true;
 		}
 

@@ -28,7 +28,7 @@ class PlgContentLoadmodule extends JPlugin
 	 *
 	 * @param   string   $context   The context of the content being passed to the plugin.
 	 * @param   object   &$article  The article object.  Note $article->text is also available
-	 * @param   object   &$params   The article params
+	 * @param   mixed    &$params   The article params
 	 * @param   integer  $page      The 'page' number
 	 *
 	 */

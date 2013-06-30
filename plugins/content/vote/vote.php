@@ -27,11 +27,12 @@ class PlgContentVote extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 *
-	 * @param   string   $context   The context of the content being passed to the plugin.
-	 * @param   object   &$row
+	 * @param   string   $context   The context of the content being passed to the plugin
+	 * @param   object   &$row      The article object
 	 * @param   object   &$params   The article params
 	 * @param   integer  $page      The 'page' number
+	 *
+	 * @return  string  html string containing code for the votes
 	 *
 	 * @since   1.6
 	 */
