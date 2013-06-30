@@ -42,8 +42,9 @@ class PlgSystemRemember extends JPlugin
 			$hash = JApplication::getHash('JLOGIN_REMEMBER');
 
 			$inputCookie = new JInputCookie();
+			$cookieValue = $inputCookie->get($hash);
 
-			if ($str = $inputCookie->get($hash))
+			if (!empty($cookieValue))
 			{
 				// We're going to clear out expired tokens very time someone logs in with remember me.
 				$nowtime = time();
@@ -65,12 +66,10 @@ class PlgSystemRemember extends JPlugin
 
 				$privateKeyLength = strlen($privateKey);
 
-				$nowtime = time();
-
 				//Find the matching record if it exists
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
-				$query->select($db->quotename(array('user_id', 'token', 'series', 'timestamp', 'invalid')))
+				$query->select($db->quotename(array('user_id', 'token', 'series', 'time', 'invalid')))
 					->where($db->quoteName('series') . ' = ' . $db->quote($privateKey64) )
 					->from($db->quoteName('#__user_keys'));
 				$db->setQuery($query);
@@ -211,7 +210,7 @@ class PlgSystemRemember extends JPlugin
 		$key = new JCryptKey('simple', $privateKey, $privateKey);
 		$crypt = new JCrypt(new JCryptCipherSimple, $key);
 		$rcookie = $crypt->encrypt(sha1($user->username));
-		$lifetime = time() + $options['timeToExpiration'] * 24 * 60 * 60;
+		$lifetime = time() + ($options['timeToExpiration'] * 24 * 60 * 60);
 		$key64 = base64_encode($privateKey);
 
 		$series = JApplication::getHash('JLOGIN_REMEMBER');
@@ -224,14 +223,10 @@ class PlgSystemRemember extends JPlugin
 		$secure = $app->isSSLConnection();
 
 		//And make a new one
-		setcookie($series, $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
+		$test = setcookie($series, $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-
-		$expire = time() + $options['timeToExpiration'] * 24 * 60 * 60;
-
-		$user = JFactory::getUser();
 
 		if (empty($user->rememberLogin))
 		{
@@ -240,18 +235,19 @@ class PlgSystemRemember extends JPlugin
 		else
 		{
 			$query->update($db->quoteName('#__user_keys'))
-				->where($db->quote($user->username) . ' = ' . $db->quoteName('user_id') . ' AND ' .  $db->quote($key64) . ' = ' . $db->quoteName('token'));
+				->where($db->quote($user->username) . ' = ' . $db->quoteName('user_id') . ' AND ' .  $db->quote($series64) . ' = ' . $db->quoteName('series'));
 		}
 		$query->set($db->quoteName('user_id') . ' = ' . $db->quote($user->username))
-			->set($db->quoteName('time') . ' = ' . $expire)
+			->set($db->quoteName('time') . ' = ' . $lifetime)
 			->set($db->quoteName('token') . ' = ' . $db->quote($key64))
 			->set($db->quoteName('series') . ' = ' . $db->quote($series64));
-
 		$db->setQuery($query);
 
 		$db->execute();
 
+		return true;
 	}
+
 	/**
 	 * This is where we delete remember the remember me cookie when a user logs out
 	 *
@@ -264,6 +260,7 @@ class PlgSystemRemember extends JPlugin
 	{
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
+
 		// Use domain and path set in config for cookie if it exists.
 		$cookie_domain = $app->getCfg('cookie_domain', '');
 		$cookie_path = $app->getCfg('cookie_path', '/');

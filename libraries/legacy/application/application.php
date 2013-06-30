@@ -654,7 +654,7 @@ class JApplication extends JApplicationBase
 
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
-			if (JPluginHelper::isEnabled('system','remember'))
+			if ($options['remember'] === true)
 			{
 				$plugins[] = JPluginHelper::getPlugin('system', 'remember');
 			}
@@ -678,7 +678,7 @@ class JApplication extends JApplicationBase
 			if (!in_array(false, $results, true) )
 			{
 				// Set the remember me cookie if enabled.
-				if (isset($options['remember']) &&  $options['remember'] === true && JPluginHelper::isEnabled('system', 'remember'))
+				if (isset($options['remember']) &&  $options['remember'] === true)
 				{
 					$options['length'] = 70;
 					$options['timeToExpiration'] = 30;
@@ -686,7 +686,9 @@ class JApplication extends JApplicationBase
 					// The user is successfully logged in. Set a remember me cookie if requested.
 					$results = $this->triggerEvent('onUserAfterLogin', $options);
 
+					return true;
 				}
+
 				return true;
 			}
 		}
@@ -747,7 +749,10 @@ class JApplication extends JApplicationBase
 		// OK, the credentials are built. Lets fire the onLogout event.
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
-		// Check if any of the plugins failed. If none did, success.
+		if ($options['remember'] === true)
+		{
+			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+		}
 
 		if (!in_array(false, $results, true))
 		{
@@ -761,6 +766,7 @@ class JApplication extends JApplicationBase
 				$cookie_path = $this->getCfg('cookie_path', '/');
 
 				$options = array('cookieName' => $cookieName, 'cookieValue' =>$cookieValue, 'cookie_path' => $cookie_path, 'cookie_domain' => $cookie_domain);
+
 				$results = $this->triggerEvent('onUserAfterLogout', $options);
 			}
 			return true;
