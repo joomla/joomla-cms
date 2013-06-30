@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jun-2013 Jean-Marie Simonet
+ # [#31188] Fixed issue with not being able to select color white. Thanks Peter van Westen
+
 29-Jun-2013 Jean-Marie Simonet
  $ [#27307] English only: weblink or web link. Web Link or Web link. Thanks George Wilson
  # [#31285] Joomla Installation is broken with the current git!
