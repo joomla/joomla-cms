@@ -654,7 +654,7 @@ class JApplication extends JApplicationBase
 
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
-			if ($options['remember'] === true)
+			if (JPluginHelper::isEnabled('system', 'remember'))
 			{
 				$plugins[] = JPluginHelper::getPlugin('system', 'remember');
 			}
@@ -684,7 +684,7 @@ class JApplication extends JApplicationBase
 					$options['timeToExpiration'] = 30;
 
 					// The user is successfully logged in. Set a remember me cookie if requested.
-					$results = $this->triggerEvent('onUserAfterLogin', $options);
+					$this->triggerEvent('onUserAfterLogin', array($options));
 
 					return true;
 				}

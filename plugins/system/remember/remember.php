@@ -26,19 +26,20 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		$app = JFactory::getApplication();
-
-		// No remember me for admin
-		if ($app->isAdmin())
-		{
-			return;
-		}
 
 		$user = JFactory::getUser();
 
 		// Check for a cookie
 		if ($user->get('guest') == 1)
 		{
+			$app = JFactory::getApplication();
+
+			// No remember me for admin
+			if ($app->isAdmin())
+			{
+				return;
+			}
+
 			$hash = JApplication::getHash('JLOGIN_REMEMBER');
 
 			$inputCookie = new JInputCookie();
@@ -61,7 +62,7 @@ class PlgSystemRemember extends JPlugin
 				$credentials = array();
 				$filter = JFilterInput::getInstance();
 
-				$privateKey = JApplication::getHash('JLOGIN_REMEMBER');
+				$privateKey = $hash;
 				$privateKey64 = base64_encode($privateKey);
 
 				$privateKeyLength = strlen($privateKey);
@@ -83,7 +84,7 @@ class PlgSystemRemember extends JPlugin
 					$query->clear();
 					$query->update('#__user_keys');
 					$query->set($db->quoteName('invalid') . ' = '  . (int) 1);
-					$query->where($db->quoteName('user_id') . ' = ' . $db->quote($result->user_id));
+					$query->where($db->quoteName('user_id') . ' = ' . $db->quote($results[0]->user_id));
 					$db->setQuery($query);
 					$db->execute();
 
@@ -117,20 +118,21 @@ class PlgSystemRemember extends JPlugin
 				if ($countResults == 1)
 				{
 					// So now we have a user with one valid cookie and a corresponding record in the database.
-					$series = substr($result->series, 0, $privateKeyLength);
+					$series = substr($results[0]->series, 0, $privateKeyLength);
 					$privateKey64 = substr($privateKey64, 0, $privateKeyLength);
 
 					if ($series == $privateKey64)
 					{
 						// Now check the key
-						$keyCheck = new JCryptKey('simple', $result->token, $result->token);
+
+						$keyCheck = new JCryptKey('simple', $results[0]->token, $results[0]->token);
 						$cryptCheck = new JCrypt(new JCryptCipherSimple, $keyCheck);
 						$cryptedToken = $cryptCheck->encrypt(sha1($user->username));
 					}
 
 					// We probably should add back some sanity checks but not as many as before
 
-					$credentials['username'] = $result->user_id;
+					$credentials['username'] = $results[0]->user_id;
 					$return = $app->login($credentials, array('silent' => true));
 
 					if (!$return)

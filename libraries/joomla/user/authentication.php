@@ -256,7 +256,7 @@ class JAuthentication extends JObject
 	{
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
-		if ($options['remember'] === true)
+		if (JpluginHelper::isEnabled('system', 'remember'))
 		{
 			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
 		}
@@ -332,7 +332,7 @@ class JAuthentication extends JObject
 		// Get plugins in case they haven't been imported already
 		JPluginHelper::importPlugin('user');
 
-		if ($options['remember'] === true)
+		if (JPluginHelper::isEnabled('system','remember'))
 		{
 			JPluginHelper::importPlugin('system','remember');
 		}
