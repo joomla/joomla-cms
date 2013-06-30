@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 // Create a shortcut for params.
 $params = &$this->item->params;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 
 // Get the user object.
@@ -108,9 +107,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							break;
 						case 3:
 							// open in a modal window
-							JHtml::_('behavior.modal', 'a.modal'); ?>
-							<a class="modal" href="<?php echo $link;?>"  rel="{handler: 'iframe', size: {x:<?php echo $this->escape($width);?>, y:<?php echo $this->escape($height);?>}}">
-								<?php echo $this->escape($item->title). ' </a>';
+							JHtml::_('behavior.modal', 'a.modal');
+							echo '<a class="modal" href="'.$link.'"  rel="{handler: \'iframe\', size: {x:'.$this->escape($width).', y:'.$this->escape($height).'}}">'.
+								$this->escape($item->title). ' </a>';
 							break;
 
 						default:
@@ -130,8 +129,31 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							</ul>
 						<?php endif; ?>
 			</p>
+			<?php $tagsData = $item->tags->getItemTags('com_weblinks.weblink', $item->id); ?>
+			<?php if ($this->params->get('show_tags', 1)) : ?>
+				<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+				<?php echo $this->item->tagLayout->render($tagsData); ?>
+			<?php endif; ?>
 
 			<?php if (($this->params->get('show_link_description')) and ($item->description != '')) : ?>
+				<?php $images = json_decode($item->images); ?>
+				<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
+				<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
+				<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
+					<?php if ($images->image_first_caption):
+						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption) .'"';
+					endif; ?>
+					src="<?php echo htmlspecialchars($images->image_first); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt); ?>"/> </div>
+				<?php endif; ?>
+				<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
+					<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
+					<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+					<?php if ($images->image_second_caption):
+						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption) .'"';
+					endif; ?>
+					src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
+				<?php endif; ?>
+
 				<?php echo $item->description; ?>
 			<?php endif; ?>
 		</td>

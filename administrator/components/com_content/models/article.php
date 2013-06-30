@@ -387,6 +387,18 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('state', 'filter', 'unset');
 		}
 
+		// Prevent messing with article language and category when editing existing article with associations
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
+		if ($app->isSite() && $assoc && $this->getState('article.id'))
+		{
+			$form->setFieldAttribute('language', 'readonly', 'true');
+			$form->setFieldAttribute('catid', 'readonly', 'true');
+			$form->setFieldAttribute('language', 'filter', 'unset');
+			$form->setFieldAttribute('catid', 'filter', 'unset');
+		}
+
 		return $form;
 	}
 
@@ -439,6 +451,15 @@ class ContentModelArticle extends JModelAdmin
 
 		if (isset($data['urls']) && is_array($data['urls']))
 		{
+
+			foreach ($data['urls'] as $i => $url)
+			{
+				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i = 'urlc'))
+				{
+					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
+				}
+
+			}
 			$registry = new JRegistry;
 			$registry->loadArray($data['urls']);
 			$data['urls'] = (string) $registry;
@@ -510,7 +531,7 @@ class ContentModelArticle extends JModelAdmin
 					$query->clear()
 						->insert('#__associations');
 
-					foreach ($associations as $tag => $id)
+					foreach ($associations as $id)
 					{
 						$query->values($id . ',' . $db->quote('com_content.item') . ',' . $db->quote($key));
 					}

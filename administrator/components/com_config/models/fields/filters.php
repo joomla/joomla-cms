@@ -51,13 +51,13 @@ class JFormFieldFilters extends JFormField
 		$html[] = '			<span class="acl-action">'.JText::_('JGLOBAL_FILTER_GROUPS_LABEL').'</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'">'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'</span>';
+		$html[] = '			<span class="acl-action">'.JText::_('JGLOBAL_FILTER_TYPE_LABEL').'</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="'.JText::_('JGLOBAL_FILTER_TAGS_LABEL').'">'.JText::_('JGLOBAL_FILTER_TAGS_LABEL').'</span>';
+		$html[] = '			<span class="acl-action">'.JText::_('JGLOBAL_FILTER_TAGS_LABEL').'</span>';
 		$html[] = '		</th>';
 		$html[] = '		<th>';
-		$html[] = '			<span class="acl-action" title="'.JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL').'">'.JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL').'</span>';
+		$html[] = '			<span class="acl-action">'.JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL').'</span>';
 		$html[] = '		</th>';
 		$html[] = '	</tr>';
 		$html[] = '	</thead>';
@@ -87,10 +87,10 @@ class JFormFieldFilters extends JFormField
 			$html[] = '				</select>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '				<input name="'.$this->name.'['.$group->value.'][filter_tags]" id="'.$this->id.$group->value.'_filter_tags" title="'.JText::_('JGLOBAL_FILTER_TAGS_LABEL').'" value="'.$group_filter['filter_tags'].'"/>';
+			$html[] = '				<input name="'.$this->name.'['.$group->value.'][filter_tags]" id="'.$this->id.$group->value.'_filter_tags" value="'.$group_filter['filter_tags'].'"/>';
 			$html[] = '		</td>';
 			$html[] = '		<td>';
-			$html[] = '				<input name="'.$this->name.'['.$group->value.'][filter_attributes]" id="'.$this->id.$group->value.'_filter_attributes" title="'.JText::_('JGLOBAL_FILTER_ATTRIBUTES_LABEL').'" value="'.$group_filter['filter_attributes'].'"/>';
+			$html[] = '				<input name="'.$this->name.'['.$group->value.'][filter_attributes]" id="'.$this->id.$group->value.'_filter_attributes" value="'.$group_filter['filter_attributes'].'"/>';
 			$html[] = '		</td>';
 			$html[] = '	</tr>';
 		}

@@ -32,7 +32,6 @@ class ContentViewArticle extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
 		$dispatcher	= JEventDispatcher::getInstance();
 
 		$this->item		= $this->get('Item');
@@ -85,7 +84,7 @@ class ContentViewArticle extends JViewLegacy
 					$this->setLayout($active->query['layout']);
 				}
 				// Check for alternative layout of article
-				else if ($layout = $item->params->get('article_layout'))
+				elseif ($layout = $item->params->get('article_layout'))
 				{
 					$this->setLayout($layout);
 				}
@@ -151,7 +150,7 @@ class ContentViewArticle extends JViewLegacy
 		// Process the content plugins.
 
 		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
+		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 
 		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$this->params, $offset));

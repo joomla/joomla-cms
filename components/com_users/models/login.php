@@ -57,7 +57,7 @@ class UsersModelLogin extends JModelForm
 		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
 		{
 			$data['return'] = base64_decode($return);
-			if (!JURI::isInternal($data['return']))
+			if (!JUri::isInternal($data['return']))
 			{
 				$data['return'] = '';
 			}

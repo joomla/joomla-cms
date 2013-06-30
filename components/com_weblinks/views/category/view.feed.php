@@ -26,7 +26,6 @@ class WeblinksViewCategory extends JViewLegacy
 		$document->link = JRoute::_(WeblinksHelperRoute::getCategoryRoute($app->input->getInt('id')));
 
 		$app->input->set('limit', $app->getCfg('feed_limit'));
-		$params = $app->getParams();
 		$siteEmail = $app->getCfg('mailfrom');
 		$fromName  = $app->getCfg('fromname');
 		$feedEmail = $app->getCfg('feed_email', 'author');
