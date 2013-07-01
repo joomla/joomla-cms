@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2013 Elin Waring
+ # [#31298] Drop downs on menu item edit are broken. Corrects #31060.
+
 30-Jun-2013 Jean-Marie Simonet
  # [#31188] Fixed issue with not being able to select color white. Thanks Peter van Westen
  # [#31098] *UX Suggestions for Batch button

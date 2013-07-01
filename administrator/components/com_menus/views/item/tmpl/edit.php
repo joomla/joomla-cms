@@ -54,8 +54,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
 
-	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
-
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
