@@ -52,13 +52,14 @@ class JFormFieldCheckboxes extends JFormField
 		$class = $this->element['class'] ? ' class="checkboxes ' . (string) $this->element['class'] . '"' : ' class="checkboxes"';
 		$checkedOptions = explode(',', (string) $this->element['checked']);
 		$required = $this->required ? ' required="required" aria-required="true"' : '';
+		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		//Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		// Start the checkbox field output.
-		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . '>';
+		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . '>';
 
 		// Get the field options.
 		$options = $this->getOptions();

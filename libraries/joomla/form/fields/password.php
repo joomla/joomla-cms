@@ -53,6 +53,7 @@ class JFormFieldPassword extends JFormField
 		$hint 		= $hint ? ' placeholder="' . $hint . '"' : '';
 		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
+		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		$minimumLength = $this->element['minimum_length'] ? (int) $this->element['minimum_length'] : 4;
 		$minimumIntegers = $this->element['minimum_integers'] ? (int) $this->element['minimum_integers'] : 0;
@@ -106,6 +107,6 @@ class JFormFieldPassword extends JFormField
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $hint . $autocomplete . 
-			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . '/>' . $script;
+			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . $autofocus . '/>' . $script;
 	}
 }

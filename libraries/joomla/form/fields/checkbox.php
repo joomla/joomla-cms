@@ -45,6 +45,7 @@ class JFormFieldCheckbox extends JFormField
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
 		$required = $this->required ? ' required="required" aria-required="true"' : '';
+		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		if (empty($this->value))
 		{
@@ -63,6 +64,7 @@ class JFormFieldCheckbox extends JFormField
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 		
 		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $required . ' />';
+			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick 
+			. $required . $autofocus . ' />';
 	}
 }

@@ -50,7 +50,7 @@ abstract class JFormField
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $autocomplete = false;
+	protected $autofocus = false;
 
 	/**
 	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
@@ -385,8 +385,8 @@ abstract class JFormField
 			|| (string) $element['autocomplete'] == '0');
 
 		//Determine whether to set focus on the field automatically or not.
-		$this->autofocus = ((string) $element['autofocus'] == 'true' || (string) $element['autofocus'] == 'off'
-			|| (string) $element['autofocus'] == '0');
+		$this->autofocus = ((string) $element['autofocus'] == 'true' || (string) $element['autofocus'] == 'on'
+			|| (string) $element['autofocus'] == '1');
 
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');

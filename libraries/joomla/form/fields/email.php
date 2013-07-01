@@ -50,6 +50,7 @@ class JFormFieldEMail extends JFormField
 		$required = $this->required ? ' required="required" aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="email"';
+		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
@@ -60,6 +61,6 @@ class JFormFieldEMail extends JFormField
 		
 		return '<input type="text" name="' . $this->name . '" class="validate-email' . $class . '" id="' . $this->id . '" value="'
 			. JStringPunycode::emailToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $autocomplete
-			. $maxLength . $hint . $required . '/>';
+			. $maxLength . $hint . $required . $autofocus  . '/>';
 	}
 }

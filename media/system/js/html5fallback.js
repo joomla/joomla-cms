@@ -50,7 +50,6 @@
 					}
 				});
 			}
-			console.log($form.selector);
 			$form.on('focusout focusin submit', self.polyfill);
 			$form.on('focusout change', self.validateField);
 			$form.find('fieldset').on('change',function(){self.validateField(this);});
