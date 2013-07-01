@@ -99,7 +99,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 					</td>
 					<td>
-						<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description); ?>">
+						<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
 							<?php echo $item->name; ?>
 						</span>
 					</td>
@@ -123,7 +123,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 					</td>
 					<td class="center">
-						<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_AUTHOR_INFORMATION', $item->author_info); ?>">
+						<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 							<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 						</span>
 					</td>

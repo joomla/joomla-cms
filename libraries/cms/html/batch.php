@@ -27,6 +27,8 @@ abstract class JHtmlBatch
 	 */
 	public static function access()
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		// Create the batch selector to change an access level on a selection list.
 		return
 			'<label id="batch-access-lbl" for="batch-access" class="hasToolip"'
@@ -86,6 +88,8 @@ abstract class JHtmlBatch
 	 */
 	public static function language()
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		// Create the batch selector to change the language on a selection list.
 		return
 			'<label id="batch-language-lbl" for="batch-language-id" class="hasToolip"'
@@ -109,6 +113,8 @@ abstract class JHtmlBatch
 	 */
 	public static function user($noUser = true)
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		$optionNo = '';
 		if ($noUser)
 		{
@@ -137,6 +143,8 @@ abstract class JHtmlBatch
 	 */
 	public static function tag()
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		// Create the batch selector to tag items on a selection list.
 		return
 			'<label id="batch-tag-lbl" for="batch-tag-id" class="hasTooltip"'

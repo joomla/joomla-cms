@@ -25,6 +25,50 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2013 Elin Waring
+ # [#31298] Drop downs on menu item edit are broken. Corrects #31060.
+
+30-Jun-2013 Jean-Marie Simonet
+ # [#31188] Fixed issue with not being able to select color white. Thanks Peter van Westen
+ # [#31098] *UX Suggestions for Batch button
+
+29-Jun-2013 Jean-Marie Simonet
+ $ [#27307] English only: weblink or web link. Web Link or Web link. Thanks George Wilson
+ # [#31285] Joomla Installation is broken with the current git!
+
+28-Jun-2013 Jean-Marie Simonet
+ # Correcting #31772
+ ^ [#31267] *Switching to Bootstrap tooltips. Thanks Peter van Westen and Michael Babker.
+ #^ [#31143] Registration with invalid password when non-core template. Thansk Elin Waring
+ # [#31172] X at hathor messages. Thanks Tobias Zulauf
+ ^ [#31087] Add SQL queries profiler in Debug zone with backtrace of call and EXPLAIN hovers. Thanks Beat
+ ^ [#31060] Show item title on the Edit page
+ ^ [#31100] UX "showon": Dynamic options in the Joomla Backend. Thanks Jérôme GLATIGNY
+
+27-Jun-2013 Elin Waring
+ $ [#31272] Fix tags help screen views. Thanks George Wilson
+ ^ [#1313] Simplify magic getters in third party API classes. Thanks Michael Babker
+
+27-Jun-2013 Michael Babker
+ ^ [#30783] Use JDatabase instead of MySQL queries on com_menus.  Thanks Matias Aguirre
+ # [#31157] Field mapping for core_urls is wrong for weblinks.  Thanks Elin Waring
+ ^ [#30977] loadmodule/loadposition styles.  Thanks Lasindu Charith
+ # [#30895] Fix An undefined variable called in JApplication.  Thanks Roberto Seguara
+ ^ [#30871] Remove an unneeded empty().  Thanks Elin Waring
+ # [#30946] Platform bug fixes.  Thanks Elin Waring
+ # [#31208] No border bottom right radius and border bottom top radius for buttons at com_finder view.  Thanks David Hurley
+ # [#31150] Weblinks images.  Thanks Elin Waring
+ !^ [#31080] Deprecating X-Content-Encoded-By.  Thanks Piotr Konieczny
+ ^ [#31216] Improved some syntax.  Thanks Peter van Westen
+ ^ [#31069] Sync Log package to Platform.
+ 
+27-Jun-2013 Jean-Marie Simonet
+ $ Updating Installation lang files: bs-BA, cs-CZ, fr-FR, id-ID, it-IT, mk-MK, sk-SK, sr-RS, sr-YU, sw-KE, ta-IN, th-TH, tr-TR
+ $ [#31263] Missing JHELP Keys from 5 Tags Adiministrative Views, Help Buttons do not resolve correctly. Thanks Tom Hutchison
+
+26-Jun-2013 Mark Dexter
+ # Revert [#31233] Complete move to Bootstrap tooltips.
+
 26-Jun-2013 Jean-Marie Simonet
  ^ [#31233] Complete move to Bootstrap tooltips. Thanks Peter van Westen.
 
@@ -45,7 +89,7 @@ $ -> Language fix or change
  # [#31168] Add chosen.css for com_templates and com_admin. Thanks Tobias Zulauf
  # [#30465] ACL dropdown hidden. Thanks Artur Alves
  # [#31199] *Various tooltips issues in back-end.
- 
+
 21-Jun-2013 Jean-Marie Simonet
  $ Missing language string (hardcoded)
  # [#31186] Some HTML errors. Thanks Achal Aggarwal
