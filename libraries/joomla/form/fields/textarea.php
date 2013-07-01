@@ -50,6 +50,7 @@ class JFormFieldTextarea extends JFormField
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
+		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
@@ -59,7 +60,7 @@ class JFormFieldTextarea extends JFormField
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class 
-			. $hint . $disabled . $onchange . $required . $autocomplete . $autofocus . '>'
+			. $hint . $disabled . $onchange . $required . $autocomplete . $autofocus . $spellcheck . '>'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }

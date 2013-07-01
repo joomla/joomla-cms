@@ -44,6 +44,15 @@ abstract class JFormField
 	protected $autocomplete = true;
 
 	/**
+	 * The autocomplete of state for the form field. If true element will be automatically
+	 * completed by browser otherwise not.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $spellcheck = true;
+
+	/**
 	 * The autofocus request for the form field. If true element will be automatically
 	 * focused on document load.
 	 *
@@ -387,6 +396,10 @@ abstract class JFormField
 		//Determine whether to set focus on the field automatically or not.
 		$this->autofocus = ((string) $element['autofocus'] == 'true' || (string) $element['autofocus'] == 'on'
 			|| (string) $element['autofocus'] == '1');
+
+		//Determine whether to off spellcheck or not.
+		$this->spellcheck = !((string) $element['spellcheck'] == 'false' || (string) $element['spellcheck'] == 'off' 
+			|| (string) $element['spellcheck'] == '0');
 
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
