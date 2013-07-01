@@ -7,27 +7,63 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_PLATFORM . '/joomla/form/fields/spacer.php';
+require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+
 /**
  * Test class for JForm.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldSpacerTest extends TestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Backup of the SERVER superglobal
 	 *
-	 * @return void
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/spacer.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -84,7 +120,7 @@ class JFormFieldSpacerTest extends TestCase
 		);
 
 		$equals = '<span class="spacer"><span class="before"></span><span class="">' .
-			'<label id="spacer-lbl" class="hasTip" title="spacer::spacer">spacer</label></span>' .
+			'<label id="spacer-lbl" class="hasTooltip" title="<strong>spacer</strong>">spacer</label></span>' .
 			'<span class="after"></span></span>';
 
 		$this->assertEquals(

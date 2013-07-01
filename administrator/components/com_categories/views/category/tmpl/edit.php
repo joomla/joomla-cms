@@ -15,8 +15,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
@@ -35,6 +33,9 @@ JHtml::_('formbehavior.chosen', 'select');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+
+	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+
 	<div class="row-fluid">
 	<!-- Begin Content -->
 		<div class="span10 form-horizontal">
