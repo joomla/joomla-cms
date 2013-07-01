@@ -40,7 +40,7 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getInput()
 	{
-		JHtml::_('behavior.tooltip');
+		JHtml::_('bootstrap.tooltip');
 
 		// Initialise some field attributes.
 		$section = $this->element['section'] ? (string) $this->element['section'] : '';
@@ -95,9 +95,6 @@ class JFormFieldRules extends JFormField
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
 
-		// Build the form control.
-		$curLevel = 0;
-
 		// Prepare output
 		$html = array();
 
@@ -138,8 +135,6 @@ class JFormFieldRules extends JFormField
 				$active = " active";
 			}
 
-			$difLevel = $group->level - $curLevel;
-
 			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
 			$html[] = '<table class="table table-striped">';
 			$html[] = '<thead>';
@@ -170,7 +165,7 @@ class JFormFieldRules extends JFormField
 			{
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
-				$html[] = '<label class="tip" for="' . $this->id . '_' . $action->name . '_' . $group->value . '" title="'
+				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
 					. htmlspecialchars(JText::_($action->title) . ' ' . JText::_($action->description), ENT_COMPAT, 'UTF-8') . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';

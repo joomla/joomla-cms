@@ -79,7 +79,7 @@ class TagsViewTags extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'modules.png');
+		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
 		if ($canDo->get('core.create'))
 		{

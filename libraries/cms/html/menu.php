@@ -186,12 +186,11 @@ abstract class JHtmlMenu
 	 */
 	public static function ordering(&$row, $id)
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
 		if ($id)
 		{
-			$query->select('ordering AS value, title AS text')
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('ordering AS value, title AS text')
 				->from($db->quoteName('#__menu'))
 				->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype))
 				->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id)
@@ -224,10 +223,10 @@ abstract class JHtmlMenu
 	public static function linkoptions($all = false, $unassigned = false)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
 
 		// Get a list of the menu items
-		$query->select('m.id, m.parent_id, m.title, m.menutype')
+		$query = $db->getQuery(true)
+			->select('m.id, m.parent_id, m.title, m.menutype')
 			->from($db->quoteName('#__menu') . ' AS m')
 			->where($db->quoteName('m.published') . ' = 1')
 			->order('m.menutype, m.parent_id, m.ordering');

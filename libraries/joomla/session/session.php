@@ -745,9 +745,6 @@ class JSession implements IteratorAggregate
 			return false;
 		}
 
-		// Save values
-		$values = $_SESSION;
-
 		// Keep session config
 		$cookie = session_get_cookie_params();
 

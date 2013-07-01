@@ -10,29 +10,28 @@
 defined('JPATH_PLATFORM') or die();
 
 /**
- * Openstreetmap API Gps class for the Joomla Platform
+ * Openstreetmap API GPS class for the Joomla Platform
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- *
  * @since       13.1
  */
 class JOpenstreetmapGps extends JOpenstreetmapObject
 {
 	/**
 	 * Method to retrieve GPS points
-	 * 
-	 * @param   float  $left    left boundary
-	 * @param   float  $bottom  bottom boundary
-	 * @param   float  $right   right boundary
-	 * @param   float  $top     top boundary
-	 * @param   int    $page    page number
-	 * 
-	 * @return	array	The xml response containing GPS points
-	 * 
+	 *
+	 * @param   float    $left    Left boundary
+	 * @param   float    $bottom  Bottom boundary
+	 * @param   float    $right   Right boundary
+	 * @param   float    $top     Top boundary
+	 * @param   integer  $page    Page number
+	 *
+	 * @return	array  The XML response containing GPS points
+	 *
 	 * @since	13.1
 	 */
-	public function retrieveGps($left,$bottom,$right,$top,$page=0)
+	public function retrieveGps($left, $bottom, $right, $top, $page = 0)
 	{
 		// Set the API base
 		$base = 'trackpoints?bbox=' . $left . ',' . $bottom . ',' . $right . ',' . $top . '&page=' . $page;
@@ -50,28 +49,28 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 
 	/**
 	 * Method to upload GPS Traces
-	 * 
-	 * @param   string  $file         file name that contains trace points
-	 * @param   string  $description  description on trace points
-	 * @param   string  $tags         tags for trace
-	 * @param   int     $public       1 for public, 0 for private
-	 * @param   string  $visibility   One of the following: private, public, trackable, identifiable
-	 * @param   string  $username     username
-	 * @param   string  $password     password
-	 * 
-	 * @return  JHttpResponse the response
-	 * 
+	 *
+	 * @param   string   $file         File name that contains trace points
+	 * @param   string   $description  Description on trace points
+	 * @param   string   $tags         Tags for trace
+	 * @param   integer  $public       1 for public, 0 for private
+	 * @param   string   $visibility   One of the following: private, public, trackable, identifiable
+	 * @param   string   $username     Username
+	 * @param   string   $password     Password
+	 *
+	 * @return  JHttpResponse  The response
+	 *
 	 * @since   13.1
 	 */
 	public function uploadTrace($file, $description, $tags, $public, $visibility, $username, $password)
 	{
 		// Set parameters.
 		$parameters = array(
-				'file' => $file,
-				'description' => $description,
-				'tags' => $tags,
-				'public' => $public,
-				'visibility' => $visibility
+			'file' => $file,
+			'description' => $description,
+			'tags' => $tags,
+			'public' => $public,
+			'visibility' => $visibility
 		);
 
 		// Set the API base
@@ -93,13 +92,13 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 
 	/**
 	 * Method to download Trace details
-	 * 
-	 * @param   int     $id        trace identifier
-	 * @param   string  $username  username
-	 * @param   string  $password  password
-	 * 
-	 * @return  array  The xml response
-	 * 
+	 *
+	 * @param   integer  $id        Trace identifier
+	 * @param   string   $username  Username
+	 * @param   string   $password  Password
+	 *
+	 * @return  array  The XML response
+	 *
 	 * @since   13.1
 	 */
 	public function downloadTraceMetadetails($id, $username, $password)
@@ -118,13 +117,13 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 
 	/**
 	 * Method to download Trace data
-	 * 
-	 * @param   int     $id        trace identifier
-	 * @param   string  $username  username
-	 * @param   string  $password  password
-	 * 
-	 * @return  array  The xml response
-	 * 
+	 *
+	 * @param   integer  $id        Trace identifier
+	 * @param   string   $username  Username
+	 * @param   string   $password  Password
+	 *
+	 * @return  array  The XML response
+	 *
 	 * @since   13.1
 	 */
 	public function downloadTraceMetadata($id, $username, $password)
@@ -134,8 +133,6 @@ class JOpenstreetmapGps extends JOpenstreetmapObject
 
 		// Build the request path.
 		$path = $this->getOption('api.url') . $base;
-
-		$client = JHttpFactory::getHttp();
 
 		// Send the request.
 		$xml_string = $this->sendRequest($path, 'GET', array('Authorization' => 'Basic ' . base64_encode($username . ':' . $password)));

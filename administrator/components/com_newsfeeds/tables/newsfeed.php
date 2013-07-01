@@ -190,6 +190,9 @@ class NewsfeedsTableNewsfeed extends JTable
 			return false;
 		}
 
+		// Save links as punycode.
+		$this->link = JStringPunycode::urlToPunycode($this->link);
+
 		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);

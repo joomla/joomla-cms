@@ -56,7 +56,6 @@ class TemplatesViewTemplate extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		$user  = JFactory::getUser();
-		$canDo = TemplatesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 

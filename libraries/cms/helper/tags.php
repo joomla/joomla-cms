@@ -56,7 +56,6 @@ class JHelperTags
 	 */
 	public function addTagMapping($ucmId, $table, $tags = array())
 	{
-		$typeId = $this->typeAlias;
 		$db = $table->getDbo();
 		$key = $table->getKeyName();
 		$item = $table->$key;
@@ -276,7 +275,7 @@ class JHelperTags
 			$tagTable = JTable::getInstance('Tag', 'TagsTable');
 			$newTags = array();
 
-			foreach ($tags as $key => $tag)
+			foreach ($tags as $tag)
 			{
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
@@ -387,10 +386,7 @@ class JHelperTags
 		$query->where('t.access IN (' . $groups . ')');
 
 		// Optionally filter on language
-		if (empty($language))
-		{
-			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
-		}
+		$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 
 		if ($language != 'all')
 		{
@@ -435,10 +431,9 @@ class JHelperTags
 			}
 
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
 
 			// Load the tags.
-			$query->clear()
+			$query = $db->getQuery(true)
 				->select($db->quoteName('t.id'))
 				->from($db->quoteName('#__tags') . ' AS t ')
 				->join(
@@ -617,8 +612,8 @@ class JHelperTags
 			$tagIds = implode(',', $tagIds);
 
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('title'))
+			$query = $db->getQuery(true)
+				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
 				->where($db->quoteName('id') . ' IN (' . $tagIds . ')');
 			$query->order($db->quoteName('title'));
@@ -702,8 +697,8 @@ class JHelperTags
 	{
 		// Initialize some variables.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('*');
+		$query = $db->getQuery(true)
+			->select('*');
 
 		if (!empty($selectTypes))
 		{

@@ -57,7 +57,7 @@ class UsersModelUser extends JModelAdmin
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the data preparation event.
-		$results = $dispatcher->trigger('onContentPrepareData', array('com_users.user', $result));
+		$dispatcher->trigger('onContentPrepareData', array('com_users.user', $result));
 
 		return $result;
 	}
@@ -74,7 +74,6 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = JFactory::getApplication();
 		$plugin = JPluginHelper::getPlugin('user', 'joomla');
 		$pluginParams = new JRegistry($plugin->params);
 

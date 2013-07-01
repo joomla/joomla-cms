@@ -36,6 +36,7 @@ else
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
@@ -67,7 +68,7 @@ else
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="'. JURI::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
+	$logo = '<img src="'. JUri::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
 }
 elseif ($this->params->get('sitetitle'))
 {

@@ -57,12 +57,10 @@ class JToolbarButtonPopup extends JToolbarButton
 		$class = 'out-2';
 		$doTask = $this->_getCommand($url);
 
-		$html = "<button class=\"btn btn-small modal\" data-toggle=\"modal\" data-target=\"#modal-" . $name . "\">\n";
-		$html .= "<i class=\"icon-" . $class . "\">\n";
-		$html .= "</i>\n";
-		$html .= "$text\n";
-
-		$html .= "</button>\n";
+		$html = '<button class="btn btn-small modal" data-toggle="modal" data-target="#modal-' . $name . '">'
+			. '<i class="icon-' . $class . '"></i> '
+			. $text
+			. '</button>';
 
 		// Build the options array for the modal
 		$params = array();
@@ -70,17 +68,15 @@ class JToolbarButtonPopup extends JToolbarButton
 		$params['url']    = $doTask;
 		$params['height'] = $height;
 		$params['width']  = $width;
-		$html .= JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
+		$html .= "\n" . JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
 		if (strlen($onClose) >= 1)
 		{
-			$html .= "<script>\n";
-			$html .= "jQuery('#modal-" . $name . "').on('hide', function () {\n";
-			$html .= $onClose . ";\n";
-			$html .= "}";
-			$html .= ");";
-			$html .= "</script>\n";
+			$html .= "\n"
+				. '<script>'
+				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
+				. '</script>\n';
 		}
 
 		return $html;
@@ -98,7 +94,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	 */
 	public function fetchId($type, $name)
 	{
-		return $this->_parent->getName() . '-' . "popup-$name";
+		return $this->_parent->getName() . '-popup-' . $name;
 	}
 
 	/**
@@ -114,7 +110,7 @@ class JToolbarButtonPopup extends JToolbarButton
 	{
 		if (substr($url, 0, 4) !== 'http')
 		{
-			$url = JURI::base() . $url;
+			$url = JUri::base() . $url;
 		}
 
 		return $url;
