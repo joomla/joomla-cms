@@ -176,18 +176,6 @@ class ContentModelArticles extends JModelList
 			)
 		);
 
-<<<<<<< HEAD
-=======
-		// Process an Archived Article layout
-		if ($this->getState('filter.published') == 2)
-		{
-			// If badcats is not null, this means that the article is inside an archived category
-			// In this case, the state is set to 2 to indicate Archived (even if the article state is Published)
-			$query->select($this->getState('list.select', 'CASE WHEN badcats.id is null THEN a.state ELSE 2 END AS state'));
-		}
-		else
-		{
->>>>>>> 817573f9fc3946b095cd432c0333a27bde29410b
 			// Process non-archived layout
 			// If badcats is not null, this means that the article is inside an unpublished category
 			// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
@@ -195,7 +183,6 @@ class ContentModelArticles extends JModelList
 
 		$query->from('#__content AS a');
 		$query->where('a.state <> 2');
-
 
 		// Join over the frontpage articles.
 		if ($this->context != 'com_content.featured')
@@ -218,7 +205,7 @@ class ContentModelArticles extends JModelList
 		$params = $this->state->params;
 
 		// Define the basic group by list
-		$groupstring = 'a.id, a.title, a.alias, a.title_alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls';
+		$groupstring = 'a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls';
 
 		// Join on contact table
 		$subQuery = $db->getQuery(true)
@@ -268,6 +255,7 @@ class ContentModelArticles extends JModelList
 
 		// Join to check for category published state in parent categories up the tree
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
+
 		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
 		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
 		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');

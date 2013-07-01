@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/articles.php';
+//require_once __DIR__ . '/articles.php';
 
 /**
  * Content Component Archive Model
@@ -144,7 +144,7 @@ class ContentModelArchive extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.title_alias, a.introtext, ' .
+				'a.id, a.title, a.alias, a.introtext, ' .
 				'a.checked_out, a.checked_out_time, ' .
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// use created if modified is 0
