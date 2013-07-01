@@ -29,23 +29,12 @@ class ServicesViewConfigHtml extends JViewLegacy
 	 * Method to display the view.
 	 * 
 	 * @param   string  $tpl          Layout
-	 * @param   array   $serviceData  Data from service
 	 * 
 	 * @return  void
 	 *
 	 */
-	public function render($tpl = null, $serviceData = null)
+	public function render($tpl = null)
 	{
-		$form	= $this->get('Form');
-
-		if ($serviceData == null)
-		{
-			$data = $this->get('Data');
-		}
-		else
-		{
-			$data = $serviceData;
-		}
 
 		$user = JFactory::getUser();
 
@@ -56,15 +45,6 @@ class ServicesViewConfigHtml extends JViewLegacy
 
 			return false;
 		}
-
-		// Bind the form to the data.
-		if ($form && $data)
-		{
-			$form->bind($data);
-		}
-
-		$this->form = &$form;
-		$this->data = &$data;
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 

@@ -84,8 +84,19 @@ class ServicesControllerConfigDisplay extends JControllerBase
 			// Push document object into the view.
 			$view->document = $document;
 
+			// Load form and bind data
+			$form = $model->getForm();
+			if ($form)
+			{
+				$form->bind($serviceData);
+			}
+
+			// Set form and data to the view
+			$view->form = &$form;
+			$view->data = &$serviceData;
+
 			// Render view.
-			echo $view->render(null, $serviceData);
+			echo $view->render();
 		}
 		return true;
 	}
