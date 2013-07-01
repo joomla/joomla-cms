@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2013 Jean-Marie Simonet
+ ^ [#30849] Show alias for menu items on menu assignement. Thanks David Hurley
+
 01-Jul-2013 Elin Waring
  # [#31298] Drop downs on menu item edit are broken. Corrects #31060.
 
