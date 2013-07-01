@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2013 Jean-Marie Simonet
+ # [#31280] Loadmodule support for htmlspecialchars in title. Thanks Peter Wiseman
+ 
 13-Jun-2013 Jean-Marie Simonet
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
  # [#31120] [2.5] *plug-in manager search give errors and warning for '/','*' and '\
