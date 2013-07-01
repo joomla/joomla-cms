@@ -134,6 +134,11 @@ class ContactTableContact extends JTable
 		{
 			$this->publish_down = $this->_db->getNullDate();
 		}
+		// Store utf8 email as punycode
+		$this->email_to = JStringPunycode::emailToPunycode($this->email_to);
+
+		// Convert IDN urls to punycode
+		$this->webpage = JStringPunycode::urlToPunycode($this->webpage);
 
 		// Set xreference to empty string if not set
 		if (!$this->xreference)
