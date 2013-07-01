@@ -29,6 +29,7 @@ $ -> Language fix or change
  ^ [#30849] Show alias for menu items on menu assignement. Thanks David Hurley
  $ Updating Installation lang files: ar-AA, fi-FI, ja-JP, sy-IQ, uk-UA
  # [#31229] Fixed: DebugGroup not working. Thanks Peter van Westen
+ # [#31066] Cleanup Tag Storing. Thanks Nicolas Dionysopoulos and Elin Waring.
 
 01-Jul-2013 Elin Waring
  # [#31298] Drop downs on menu item edit are broken. Corrects #31060.

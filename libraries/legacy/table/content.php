@@ -294,6 +294,7 @@ class JTableContent extends JTable
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Content', 'JTable');
+
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
@@ -305,7 +306,7 @@ class JTableContent extends JTable
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
-		return $result && $this->tagsHelper->postStoreProcess($this);
+		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
 	}
 
 	/**
