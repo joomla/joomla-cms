@@ -49,6 +49,7 @@ class JFormFieldColor extends JFormField
 
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 		$class = (string) $this->element['class'];
+		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		$color = strtolower($this->value);
 
@@ -113,7 +114,7 @@ class JFormFieldColor extends JFormField
 
 			$html = array();
 			$html[] = '<select name="' . $this->name . '" id="' . $this->id . '"'
-				. $class . $position . $onchange . ' style="visibility:hidden;width:22px;height:1px">';
+				. $class . $position . $onchange . $autofocus . ' style="visibility:hidden;width:22px;height:1px">';
 
 			foreach ($colors as $i => $c)
 			{
@@ -136,7 +137,6 @@ class JFormFieldColor extends JFormField
 			$hint = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="#rrggbb"';
 			$required = $this->required ? ' required="required" aria-required="true"' : '';
 			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
-			$autofocus = $this->autofocus ? ' autofocus' : '';
 
 			//Including fallback code for HTML5 non supported browsers.
 			JHtml::_('jquery.framework');

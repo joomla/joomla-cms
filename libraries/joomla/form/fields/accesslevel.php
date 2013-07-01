@@ -48,6 +48,7 @@ class JFormFieldAccessLevel extends JFormFieldList
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
 		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
+		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
