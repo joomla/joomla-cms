@@ -683,9 +683,9 @@ class JControllerForm extends JControllerLegacy
 			return false;
 		}
 
-		if (!isset($validData['metadata']['tags']))
+		if (!isset($validData['tags']))
 		{
-			$validData['metadata']['tags'] = null;
+			$validData['tags'] = null;
 		}
 
 		// Attempt to save the data.
