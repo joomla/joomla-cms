@@ -1,11 +1,11 @@
 @charset "UTF-8";
 
 /**
- * @package		Joomla.Administrator
- * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
- * @since		1.6
+ * @package    Joomla.Administrator
+ * @subpackage  templates.hathor
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @since    1.6
  *
  * Changes to use bold text as the default
  */
@@ -14,5 +14,5 @@
  * Default to bold text
  */
 body {
-	font-weight: bold;
+  font-weight: bold;
 }
