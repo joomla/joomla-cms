@@ -88,9 +88,6 @@ class BannersModelBanners extends JModelList
 		}
 
 		// Filter by a single or group of categories
-		$categoryId = $this->getState('filter.category_id');
-		$catid = $this->getState('filter.category_id', array());
-
 		if (is_numeric($categoryId))
 		{
 			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';

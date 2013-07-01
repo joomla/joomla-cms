@@ -177,13 +177,13 @@ class PlgEditorCodemirror extends JPlugin
 
 		foreach ($styleSheet as &$style)
 		{
-			$style = JURI::root(true).'/'.$this->_basePath.'css/'.$style;
+			$style = JUri::root(true).'/'.$this->_basePath.'css/'.$style;
 		}
 
 		$options	= new stdClass;
 
 		$options->basefiles		= array('basefiles'.$compressed.'.js');
-		$options->path			= JURI::root(true).'/'.$this->_basePath.'js/';
+		$options->path			= JUri::root(true).'/'.$this->_basePath.'js/';
 		$options->parserfile	= $parserFile;
 		$options->stylesheet	= $styleSheet;
 		$options->height		= $height;
@@ -255,7 +255,7 @@ class PlgEditorCodemirror extends JPlugin
 				if ($button->get('name'))
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
-					$href		= ($button->get('link')) ? ' class="btn" href="'.JURI::base().$button->get('link').'"' : null;
+					$href		= ($button->get('link')) ? ' class="btn" href="'.JUri::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 					$html[] = '<a '.$modal.' title="'.$title.'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';

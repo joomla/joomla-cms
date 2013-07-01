@@ -43,9 +43,13 @@ class JUcmType implements JUcm
 	protected $alias;
 
 	/**
-	 * @param  string            $alias        The alias for the item
-	 * @param  JDatabaseDriver   $database     The database object
-	 * @param  JApplicationBase  $application  The application object
+	 * Class constructor
+	 *
+	 * @param   string            $alias        The alias for the item
+	 * @param   JDatabaseDriver   $database     The database object
+	 * @param   JApplicationBase  $application  The application object
+	 *
+	 * @since   3.1
 	 */
 	public function __construct($alias = null, JDatabaseDriver $database = null, JApplicationBase $application = null)
 	{
@@ -90,7 +94,7 @@ class JUcmType implements JUcm
 	 *
 	 * @param   string  $alias  The string of the type alias
 	 *
-	 * @return  integer  The ID of the requested type
+	 * @return  mixed  The ID of the requested type or false if type is not found
 	 *
 	 * @since   3.1
 	 */
@@ -109,6 +113,11 @@ class JUcmType implements JUcm
 		$this->db->setQuery($query);
 
 		$id = $this->db->loadResult();
+
+		if (!$id)
+		{
+			return false;
+		}
 
 		return $id;
 

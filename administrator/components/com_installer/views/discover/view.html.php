@@ -48,7 +48,6 @@ class InstallerViewDiscover extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= InstallerHelper::getActions();
 		/*
 		 * Set toolbar items for the page
 		 */

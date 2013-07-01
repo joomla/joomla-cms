@@ -133,7 +133,6 @@ class CategoriesModelCategories extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(

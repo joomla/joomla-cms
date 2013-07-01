@@ -194,7 +194,7 @@ abstract class ModulesHelper
 			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 			$modules[$i]->text = JText::_($module->text);
 		}
-		JArrayHelper::sortObjects($modules, 'text', 1, true, $lang->getLocale());
+		JArrayHelper::sortObjects($modules, 'text', 1, true, true);
 		return $modules;
 	}
 

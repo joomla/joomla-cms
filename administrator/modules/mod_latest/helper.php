@@ -27,7 +27,7 @@ abstract class ModLatestHelper
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$user = JFactory::getuser();
 

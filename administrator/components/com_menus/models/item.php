@@ -1292,7 +1292,7 @@ class MenusModelItem extends JModelAdmin
 				$key = md5(json_encode($associations));
 				$query->clear()
 					->insert('#__associations');
-				foreach ($associations as $tag => $id)
+				foreach ($associations as $id)
 				{
 					$query->values($id . ',' . $db->quote('com_menus.item') . ',' . $db->quote($key));
 				}
@@ -1315,8 +1315,8 @@ class MenusModelItem extends JModelAdmin
 
 		if (isset($data['link']))
 		{
-			$base = JURI::base();
-			$juri = JURI::getInstance($base . $data['link']);
+			$base = JUri::base();
+			$juri = JUri::getInstance($base . $data['link']);
 			$option = $juri->getVar('option');
 
 			// Clean the cache
@@ -1367,7 +1367,6 @@ class MenusModelItem extends JModelAdmin
 	{
 		$table = $this->getTable();
 		$pks = (array) $pks;
-		$user = JFactory::getUser();
 
 		$languages = array();
 		$onehome = false;

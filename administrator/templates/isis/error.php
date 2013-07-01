@@ -20,10 +20,6 @@ $this->direction = $doc->direction;
 $input = $app->input;
 $user  = JFactory::getUser();
 
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
-$doc->addScript('templates/' .$this->template. '/js/template.js');
-
 // Detecting Active Variables
 $option   = $input->get('option', '');
 $view     = $input->get('view', '');
@@ -49,7 +45,7 @@ foreach ($this->submenumodules as $submenumodule)
 // Logo file
 if ($params->get('logoFile'))
 {
-	$logo = JURI::root() . $params->get('logoFile');
+	$logo = JUri::root() . $params->get('logoFile');
 }
 else
 {
@@ -64,13 +60,19 @@ else
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="language" content="<?php echo $this->language; ?>" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<?php // If debug  mode
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+		<!-- Load additional CSS styles for debug mode-->
+		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/cms/css/debug.css" type="text/css" />
+	<?php endif; ?>
 	<?php
 	// If Right-to-Left
 	if ($this->direction == 'rtl')
 	{
 	?>
-		<link rel="stylesheet" href="<?php echo JURI::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
 	<?php
 	}
 	// Load specific language related CSS
@@ -124,6 +126,10 @@ else
 	<?php
 	}
 	?>
+	<script src="../media/jui/js/jquery.js" type="text/javascript"></script>
+	<script src="../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+	<script src="../media/jui/js/bootstrap.js" type="text/javascript"></script>
+	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
@@ -141,7 +147,7 @@ else
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JGLOBAL_PREVIEW');?> <?php echo $sitename; ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<a class="brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>

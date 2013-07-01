@@ -94,7 +94,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td>
 					<?php if ($this->preview && $item->client_id == '0') : ?>
-						<a target="_blank"href="<?php echo JURI::root().'index.php?tp=1&templateStyle='.(int) $item->id ?>"  class="jgrid hasTip" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>::<?php echo htmlspecialchars($item->title);?>" ><span class="state icon-16-preview"><span class="text"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span></span></a>
+						<a target="_blank"href="<?php echo JUri::root().'index.php?tp=1&templateStyle='.(int) $item->id ?>"  class="jgrid hasTip" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>::<?php echo htmlspecialchars($item->title);?>" ><span class="state icon-16-preview"><span class="text"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span></span></a>
 					<?php elseif ($item->client_id == '1') : ?>
 						<span class="jgrid hasTip" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN')); ?>" ><span class="state icon-16-nopreview"><span class="text"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?></span></span></span>
 					<?php else: ?>

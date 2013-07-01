@@ -104,8 +104,6 @@ class JProfiler
 	public function mark($label)
 	{
 		$current = self::getmicrotime() - $this->start;
-		$currentMem = 0;
-
 		$currentMem = memory_get_usage() / 1048576;
 		$mark = sprintf(
 			'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
@@ -145,7 +143,7 @@ class JProfiler
 	 *
 	 * @link    PHP_MANUAL#memory_get_usage
 	 * @since   11.1
-	 * @deprecated  12.3  Use PHP's native memory_get_usage()
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's native memory_get_usage()
 	 */
 	public function getMemory()
 	{

@@ -26,20 +26,23 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabaseDriver A database connector object
+	 * @param   JDatabaseDriver  &$db  A database connector object
 	 */
 	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
-		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper = new JHelperTags;
 		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
 	}
 
 	/**
 	 * Overloaded bind function to pre-process the params.
 	 *
-	 * @param   array  Named array
-	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   mixed  $array   An associative array or object to bind to the JTable instance.
+	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
+	 *
+	 * @return  boolean  True on success.
+	 *
 	 * @see     JTable:bind
 	 * @since   1.5
 	 */
@@ -150,8 +153,10 @@ class NewsfeedsTableNewsfeed extends JTable
 	/**
 	 * Overriden JTable::store to set modified data.
 	 *
-	 * @param   boolean	True to update fields even if they are null.
+	 * @param   boolean	 $updateNulls  True to update fields even if they are null.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function store($updateNulls = false)
@@ -185,11 +190,13 @@ class NewsfeedsTableNewsfeed extends JTable
 			return false;
 		}
 
+		// Save links as punycode.
+		$this->link = JStringPunycode::urlToPunycode($this->link);
+
 		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
 		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
-
 }

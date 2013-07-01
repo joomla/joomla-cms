@@ -15,6 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Legacy
  * @subpackage  Table
  * @since       11.1
+ * @deprecated  Class will be removed upon completion of transition to UCM
  */
 class JTableContent extends JTable
 {
@@ -37,7 +38,7 @@ class JTableContent extends JTable
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		$this->tagsHelper = new JHelperTags();
+		$this->tagsHelper = new JHelperTags;
 		$this->tagsHelper->typeAlias = 'com_content.article';
 	}
 
@@ -357,11 +358,9 @@ class JTableContent extends JTable
 			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
-		// Get the JDatabaseQuery object
-		$query = $this->_db->getQuery(true);
-
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl))
+		$query = $this->_db->getQuery(true)
+			->update($this->_db->quoteName($this->_tbl))
 			->set($this->_db->quoteName('state') . ' = ' . (int) $state)
 			->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);

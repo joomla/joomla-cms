@@ -240,7 +240,7 @@ class JApplication extends JApplicationBase
 	public function route()
 	{
 		// Get the full request URI.
-		$uri = clone JURI::getInstance();
+		$uri = clone JUri::getInstance();
 
 		$router = $this->getRouter();
 		$result = $router->parse($uri);
@@ -336,7 +336,7 @@ class JApplication extends JApplicationBase
 		// Check for relative internal links.
 		if (preg_match('#^index2?\.php#', $url))
 		{
-			$url = JURI::base() . $url;
+			$url = JUri::base() . $url;
 		}
 
 		// Strip out any line breaks.
@@ -350,7 +350,7 @@ class JApplication extends JApplicationBase
 		 */
 		if (!preg_match('#^http#i', $url))
 		{
-			$uri = JURI::getInstance();
+			$uri = JUri::getInstance();
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
 			if ($url[0] == '/')
@@ -385,7 +385,7 @@ class JApplication extends JApplicationBase
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='" . htmlspecialchars($url) . "';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
 		}
 		else
 		{
@@ -396,7 +396,7 @@ class JApplication extends JApplicationBase
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
+					. '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script></head></html>';
 			}
 			else
 			{

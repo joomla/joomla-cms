@@ -140,6 +140,7 @@ abstract class AdminPage
 			'Security Center'		=> 'http://developer.joomla.org/security.html',
 			'Developer Resources'	=> 'http://developer.joomla.org/',
 			'Joomla Shop'			=> 'http://shop.joomla.org/',
+			'Tags'			=>	'administrator/index.php?option=com_tags',
 	);
 
 

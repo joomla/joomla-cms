@@ -37,8 +37,7 @@ class JoomlaInstallerScript
 		$db = JFactory::getDbo();
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
-			$query = 'SHOW ENGINES';
-			$db->setQuery($query);
+			$db->setQuery('SHOW ENGINES');
 			$results = $db->loadObjectList();
 			if ($db->getErrorNum())
 			{
@@ -49,8 +48,7 @@ class JoomlaInstallerScript
 			{
 				if ($result->Support == 'DEFAULT')
 				{
-					$query = 'ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine;
-					$db->setQuery($query);
+					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 					$db->execute();
 					if ($db->getErrorNum())
 					{
@@ -101,6 +99,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'simplepie', '', 0);
 		$extensions[] = array('library', 'phputf8', '', 0);
 		$extensions[] = array('library', 'joomla', '', 0);
+		$extensions[] = array('library', 'idna_convert', '', 0);
 
 		// Modules site
 		// Site
@@ -551,6 +550,28 @@ class JoomlaInstallerScript
 			'/libraries/joomla/form/rules/tel.php',
 			'/libraries/joomla/form/rules/url.php',
 			'/libraries/joomla/form/rules/username.php',
+			'/libraries/joomla/html/access.php',
+			'/libraries/joomla/html/behavior.php',
+			'/libraries/joomla/html/content.php',
+			'/libraries/joomla/html/date.php',
+			'/libraries/joomla/html/email.php',
+			'/libraries/joomla/html/form.php',
+			'/libraries/joomla/html/grid.php',
+			'/libraries/joomla/html/html.php',
+			'/libraries/joomla/html/index.html',
+			'/libraries/joomla/html/jgrid.php',
+			'/libraries/joomla/html/list.php',
+			'/libraries/joomla/html/number.php',
+			'/libraries/joomla/html/rules.php',
+			'/libraries/joomla/html/select.php',
+			'/libraries/joomla/html/sliders.php',
+			'/libraries/joomla/html/string.php',
+			'/libraries/joomla/html/tabs.php',
+			'/libraries/joomla/html/tel.php',
+			'/libraries/joomla/html/user.php',
+			'/libraries/joomla/html/language/index.html',
+			'/libraries/joomla/html/language/en-GB/en-GB.jhtmldate.ini',
+			'/libraries/joomla/html/language/en-GB/index.html',
 			'/libraries/joomla/installer/adapters/component.php',
 			'/libraries/joomla/installer/adapters/file.php',
 			'/libraries/joomla/installer/adapters/index.html',
@@ -565,6 +586,12 @@ class JoomlaInstallerScript
 			'/libraries/joomla/installer/index.html',
 			'/libraries/joomla/installer/librarymanifest.php',
 			'/libraries/joomla/installer/packagemanifest.php',
+			'/libraries/joomla/pagination/index.html',
+			'/libraries/joomla/pagination/object.php',
+			'/libraries/joomla/pagination/pagination.php',
+			'/libraries/legacy/html/contentlanguage.php',
+			'/libraries/legacy/html/index.html',
+			'/libraries/legacy/html/menu.php',
 			'/media/system/css/mooRainbow.css',
 			'/media/system/js/mooRainbow-uncompressed.js',
 			'/media/system/js/mooRainbow.js',
@@ -612,8 +639,13 @@ class JoomlaInstallerScript
 			'/libraries/joomla/log/loggers',
 			// Joomla! 3.1
 			'/libraries/joomla/form/rules',
+			'/libraries/joomla/html/language/en-GB',
+			'/libraries/joomla/html/language',
+			'/libraries/joomla/html',
 			'/libraries/joomla/installer/adapters',
 			'/libraries/joomla/installer',
+			'/libraries/joomla/pagination',
+			'/libraries/legacy/html',
 			'/media/system/swf/',
 		);
 

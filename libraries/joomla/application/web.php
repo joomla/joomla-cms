@@ -199,7 +199,7 @@ class JApplicationWeb extends JApplicationBase
 	 *
 	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
-	 * @deprecated  13.1
+	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
 	 * @see     loadSession()
 	 * @see     loadDocument()
 	 * @see     loadLanguage()
@@ -480,8 +480,8 @@ class JApplicationWeb extends JApplicationBase
 		 */
 		if (!preg_match('#^[a-z]+\://#i', $url))
 		{
-			// Get a JURI instance for the requested URI.
-			$uri = JURI::getInstance($this->get('uri.request'));
+			// Get a JUri instance for the requested URI.
+			$uri = JUri::getInstance($this->get('uri.request'));
 
 			// Get a base URL to prepend from the requested URI.
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -840,8 +840,6 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function detectRequestUri()
 	{
-		$uri = '';
-
 		// First we need to detect the URI scheme.
 		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
 		{
@@ -1180,7 +1178,7 @@ class JApplicationWeb extends JApplicationBase
  * @package     Joomla.Platform
  * @subpackage  Application
  * @since       11.3
- * @deprecated  12.3
+ * @deprecated  12.3 (Platform) & 4.0 (CMS)
  */
 class JWeb extends JApplicationWeb
 {

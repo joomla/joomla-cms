@@ -229,16 +229,6 @@ class JCacheStorageCachelite extends JCacheStorage
 	{
 		jimport('joomla.filesystem.folder');
 
-		if (trim($group) == '')
-		{
-			$clmode = 'notgroup';
-		}
-
-		if ($mode == null)
-		{
-			$clmode = 'group';
-		}
-
 		switch ($mode)
 		{
 			case 'notgroup':

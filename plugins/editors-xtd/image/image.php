@@ -52,6 +52,7 @@ class PlgButtonImage extends JPlugin
 			JHtml::_('behavior.modal');
 			$button = new JObject;
 			$button->modal = true;
+			$button->class = 'btn';
 			$button->link = $link;
 			$button->text = JText::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name = 'picture';

@@ -60,9 +60,9 @@ if ($urls && (!empty($urls->urla) || !empty($urls->urlb) || !empty($urls->urlc))
 							break;
 						case 3:
 							// open in a modal window
-							JHtml::_('behavior.modal', 'a.modal'); ?>
-							<a class="modal" href="<?php echo htmlspecialchars($link); ?>"  rel="{handler: 'iframe', size: {x:600, y:600}}">
-								<?php echo htmlspecialchars($label) . ' </a>';
+							JHtml::_('behavior.modal', 'a.modal');
+							echo '<a class="modal" href="'.htmlspecialchars($link).'"  rel="{handler: \'iframe\', size: {x:600, y:600}}">'.
+								htmlspecialchars($label) . ' </a>';
 							break;
 
 						default:

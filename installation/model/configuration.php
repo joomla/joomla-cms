@@ -273,7 +273,7 @@ class InstallationModelConfiguration extends JModelBase
 
 		if ($db->loadResult())
 		{
-			$query = $db->getQuery(true)
+			$query->clear()
 				->update($db->quoteName('#__users'))
 				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
 				->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user))
@@ -289,15 +289,14 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		else
 		{
-			$query = $db->getQuery(true);
 			$columns = array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
 							$db->quoteName('email'), $db->quoteName('password'),
 							$db->quoteName('block'),
 							$db->quoteName('sendEmail'), $db->quoteName('registerDate'),
 							$db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params'));
-			$query->insert('#__users', true)
+			$query->clear()
+				->insert('#__users', true)
 				->columns($columns)
-
 				->values(
 				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', ' .
 				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
@@ -319,7 +318,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 
 		// Map the super admin to the Super Admin Group
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select($db->quoteName('user_id'))
 			->from($db->quoteName('#__user_usergroup_map'))
 			->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
@@ -328,14 +327,14 @@ class InstallationModelConfiguration extends JModelBase
 
 		if ($db->loadResult())
 		{
-			$query = $db->getQuery(true)
+			$query->clear()
 				->update($db->quoteName('#__user_usergroup_map'))
 				->set($db->quoteName('user_id') . ' = ' . $db->quote($userId))
 				->set($db->quoteName('group_id') . ' = 8');
 		}
 		else
 		{
-			$query = $db->getQuery(true)
+			$query->clear()
 				->insert($db->quoteName('#__user_usergroup_map'), false)
 				->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
 				->values($db->quote($userId) . ', 8');

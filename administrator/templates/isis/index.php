@@ -59,7 +59,7 @@ foreach ($this->submenumodules as $submenumodule)
 // Logo file
 if ($this->params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = JUri::root() . $this->params->get('logoFile');
 }
 else
 {
@@ -82,7 +82,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	{
 	?>
 	<style type="text/css">
-		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
+		.navbar-inner, .navbar-inverse .navbar-inner, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle, #status.status-top
 		{
 			background: <?php echo $this->params->get('templateColor');?>;
 		}
@@ -109,6 +109,17 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<?php
 	}
 	?>
+
+	<!-- Sidebar background color -->
+	<?php if ($this->params->get('sidebarColor')) : ?>
+	<style type="text/css">
+		.nav-list > .active > a, .nav-list > .active > a:hover
+		{
+			background: <?php echo $this->params->get('sidebarColor'); ?>;
+		}
+	</style>
+	<?php endif; ?>
+
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
@@ -126,7 +137,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JGLOBAL_PREVIEW');?> <?php echo $sitename; ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<a class="brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($this->params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>
@@ -234,13 +245,17 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						<jdoc:include type="component" />
 					</div>
 			</div>
-			<jdoc:include type="modules" name="bottom" style="xhtml" />
+			<?php if ($this->countModules('bottom')) : ?>
+				<jdoc:include type="modules" name="bottom" style="xhtml" />
+			<?php endif; ?>
 			<!-- End Content -->
 		</section>
-		<hr />
-		<?php if (!$this->countModules('status')) : ?>
+
+		<?php if (!$this->countModules('status') || (!$statusFixed && $this->countModules('status'))) : ?>
 			<footer class="footer">
-				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+				<p align="center">
+				<jdoc:include type="modules" name="footer" style="no" />
+				&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
 			</footer>
 		<?php endif; ?>
 	</div>
@@ -249,7 +264,9 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
 		<div class="btn-toolbar">
 			<div class="btn-group pull-right">
-				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+				<p><jdoc:include type="modules" name="footer" style="no" />
+				&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+
 			</div>
 			<jdoc:include type="modules" name="status" style="no" />
 		</div>
