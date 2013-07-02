@@ -105,7 +105,7 @@ class JFormRulePassword extends JFormRule
 		// Minimum number of integers required
 		if (!empty($minimumIntegers))
 		{
-			$nInts = preg_match_all('/[0-9]/', $value);
+			$nInts = preg_match_all('/[0-9]/', $value, $imatch);
 
 			if ($nInts < $minimumIntegers)
 			{
@@ -121,7 +121,7 @@ class JFormRulePassword extends JFormRule
 		// Minimum number of symbols required
 		if (!empty($minimumSymbols))
 		{
-			$nsymbols = preg_match_all('[\W]', $value);
+			$nsymbols = preg_match_all('[\W]', $value, $smatch);
 
 			if ($nsymbols < $minimumSymbols)
 			{
@@ -137,7 +137,7 @@ class JFormRulePassword extends JFormRule
 		// Minimum number of upper case ASII characters required
 		if (!empty($minimumUppercase))
 		{
-			$nUppercase = preg_match_all("/[A-Z]/", $value);
+			$nUppercase = preg_match_all("/[A-Z]/", $value, $umatch);
 
 			if ($nUppercase < $minimumUppercase)
 			{
