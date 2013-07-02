@@ -44,6 +44,17 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		</div>
 		<div class="clearfix"> </div>
+			<?php if ($this->enabled) : ?>
+		<div class="alert alert-info">
+			<a class="close" data-dismiss="alert">×</a>
+			<span class="alert-info"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
+		</div>
+			<?php else : ?>
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert">×</a>
+			<?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?><span class="alert-error"></span>
+		</div>
+		<?php endif; ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -71,13 +82,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<tr>
 					<td colspan="7">
 						<?php echo $this->pagination->getListFooter(); ?>
-						<p class="footer-tip">
-							<?php if ($this->enabled) : ?>
-								<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
-							<?php else : ?>
-								<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
-							<?php endif; ?>
-						</p>
 					</td>
 				</tr>
 			</tfoot>
