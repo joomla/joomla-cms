@@ -62,7 +62,7 @@ class CacheViewCache extends JViewLegacy
 		JHtmlSidebar::setAction('index.php?option=com_cache');
 
 		JHtmlSidebar::addFilter(
-			// @todo We need an actual label here
+		// @todo We need an actual label here
 			'',
 			'filter_client_id',
 			JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'))

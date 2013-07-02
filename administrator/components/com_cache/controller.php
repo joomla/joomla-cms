@@ -19,23 +19,23 @@ defined('_JEXEC') or die;
 class CacheController extends JControllerLegacy
 {
 	/**
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean      If true, the view output will be cached
+	 * @param   array        An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/cache.php';
+		require_once JPATH_COMPONENT . '/helpers/cache.php';
 
 		// Get the document object.
 		$document = JFactory::getDocument();
 
 		// Set the default view name and format from the Request.
-		$vName   = $this->input->get('view', 'cache');
+		$vName = $this->input->get('view', 'cache');
 		$vFormat = $document->getType();
-		$lName   = $this->input->get('layout', 'default');
+		$lName = $this->input->get('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
@@ -81,7 +81,7 @@ class CacheController extends JControllerLegacy
 			$model->cleanlist($cid);
 		}
 
-		$this->setRedirect('index.php?option=com_cache&client='.$model->getClient()->id);
+		$this->setRedirect('index.php?option=com_cache&client=' . $model->getClient()->id);
 	}
 
 	public function purge()
