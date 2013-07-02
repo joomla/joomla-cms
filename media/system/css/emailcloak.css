@@ -1,0 +1,18 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.email_address span:before {
+	content: attr(data-content-pre);
+}
+.email_address span:after {
+	content: attr(data-content-post);
+}
+
+.email_address .email_address_placeholder {
+	display: none;
+}
+.email_address .email_address_cloaked.has_placeholder {
+	display: initial !important;
+}

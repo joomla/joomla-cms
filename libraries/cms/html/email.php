@@ -32,98 +32,80 @@ abstract class JHtmlEmail
 	 *
 	 * @since   1.5
 	 */
-	public static function cloak($mail, $mailto = true, $text = '', $email = true)
+	public static function cloak($mail, $mailto = true, $text = '', $email = true, $pre = '', $post = '')
 	{
-		// Convert text
-		$mail = self::convertEncoding($mail);
+		JHtml::_('jquery.framework');
+		JHtml::script('system/emailcloak.js', false, true);
+		JHtml::stylesheet('system/emailcloak.css', false, true);
 
-		// Split email by @ symbol
-		$mail = explode('@', $mail);
-		$mail_parts = explode('.', $mail[1]);
+		$id = 'e_' . substr(md5(rand()), 0, 8);
 
-		// Random number
-		$rand = rand(1, 100000);
-
-		$replacement = "\n <script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
-		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
-		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
-		$replacement .= "\n addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';";
-
-		if ($mailto)
+		$hide = '';
+		if ($text && $text != $mail)
 		{
-			// Special handling when mail text is different from mail address
-			if ($text)
+			$hide = ' style="display:none;"';
+			if ($email)
 			{
-				if ($email)
-				{
-					// Convert text
-					$text = self::convertEncoding($text);
-
-					// Split email by @ symbol
-					$text = explode('@', $text);
-					$text_parts = explode('.', $text[1]);
-					$replacement .= "\n var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
-						. "';";
-				}
-				else
-				{
-					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
-				}
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy_text" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
+				$parts = self::_createParts($text);
+				$text = '<span data-content-post="' . $parts['5'] . '" data-content-pre="' . $parts['0'] . '">'
+					. '<span data-content-post="' . $parts['4'] . '" data-content-pre="' . $parts['1'] . '">'
+					. '<span data-content-post="' . $parts['3'] . '" data-content-pre="' . $parts['2'] . '">'
+					. '</span></span></span>';
 			}
-			else
-			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
-			}
+		}
+		elseif (!$mailto)
+		{
+			$parts = self::_createParts($mail);
+			$text = '<span data-content-post="' . $parts['5'] . '" data-content-pre="' . $parts['0'] . '">'
+				. '<span data-content-post="' . $parts['4'] . '" data-content-pre="' . $parts['1'] . '">'
+				. '<span data-content-post="' . $parts['3'] . '" data-content-pre="' . $parts['2'] . '">'
+				. '</span></span></span>';
 		}
 		else
 		{
-			$replacement .= "\n document.write(addy" . $rand . ");";
+			$text = '';
 		}
-		$replacement .= "\n //-->";
-		$replacement .= '\n </script>';
 
-		// XHTML compliance no Javascript text handling
-		$replacement .= "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('<span style=\'display: none;\'>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
-		$replacement .= JText::_('JLIB_HTML_CLOAKING');
-		$replacement .= "\n <script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('</');";
-		$replacement .= "\n document.write('span>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
+		if($mailto) {
+			$parts = self::_createParts($mail);
+			$spans = '<span class="cloaked_email" id="' . $id . '"' . $hide . '>'
+				. '<span data-content-post="' . $parts['5'] . '" data-content-pre="' . $parts['0'] . '">'
+				. '<span data-content-post="' . $parts['4'] . '" data-content-pre="' . $parts['1'] . '">'
+				. '<span data-content-post="' . $parts['3'] . '" data-content-pre="' . $parts['2'] . '">'
+				. '</span></span></span></span>'
+				. $text;
 
-		return $replacement;
+				return '<a ' . $pre . 'class="email_address" href="javascript:// ' . htmlentities(JText::_('JLIB_HTML_CLOAKING'), ENT_COMPAT, 'UTF-8') . '"' . $post . '>'
+				. $spans
+				. '</a>';
+		} else {
+			return '<!--- ' . JText::_('JLIB_HTML_CLOAKING') . ' --->'
+			.'<span class="email_address">'. $text . '</span>';
+		}
 	}
 
 	/**
-	 * Convert encoded text
+	 * Convert text to 6 encoded parts in an array.
 	 *
-	 * @param   string  $text  Text to convert
+	 * @param   string  $text  Text to convert.
 	 *
-	 * @return  string  The converted text.
+	 * @return  array   The encoded parts.
 	 *
-	 * @since   1.5
+	 * @since   3.2
 	 */
-	protected static function convertEncoding($text)
+	protected static function _createParts($str)
 	{
-		// Replace vowels with character encoding
-		$text = str_replace('a', '&#97;', $text);
-		$text = str_replace('e', '&#101;', $text);
-		$text = str_replace('i', '&#105;', $text);
-		$text = str_replace('o', '&#111;', $text);
-		$text = str_replace('u', '&#117;', $text);
-
-		return $text;
+		$str = mb_convert_encoding($str, 'UTF-32', 'UTF-8');
+		$split = str_split($str, 4);
+		$size = ceil(count($split) / 6);
+		$parts = array('', '', '', '', '', '');
+		foreach ($split as $i => $c)
+		{
+			$c = trim($c);
+			$v = ($c == '@' || (strlen($c) === 1 && rand(0, 2))) ? '&#' . ord($c) . ';' : $c;
+			$pos = floor($i / $size);
+			$parts[$pos] .= $v;
+		}
+		return $parts;
 	}
 }
