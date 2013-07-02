@@ -23,8 +23,8 @@ class AdminControllerProfile extends JControllerForm
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param   array  An array of input data.
-	 * @param   string	The name of the key for the primary key.
+	 * @param   array   An array of input data.
+	 * @param   string  The name of the key for the primary key.
 	 *
 	 * @return  boolean
 	 * @since   1.6
@@ -51,7 +51,7 @@ class AdminControllerProfile extends JControllerForm
 			if ($data['password'] != $data['password2'])
 			{
 				$this->setMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'warning');
-				$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id='.JFactory::getUser()->id, false));
+				$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id=' . JFactory::getUser()->id, false));
 				return false;
 			}
 
@@ -72,9 +72,9 @@ class AdminControllerProfile extends JControllerForm
 	/**
 	 * Method to cancel an edit.
 	 *
-	 * @param   string	$key	The name of the primary key of the URL variable.
+	 * @param   string   $key   The name of the primary key of the URL variable.
 	 *
-	 * @return  Boolean	True if access level checks pass, false otherwise.
+	 * @return  Boolean  True if access level checks pass, false otherwise.
 	 * @since   1.6
 	 */
 	public function cancel($key = null)

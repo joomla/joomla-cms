@@ -20,6 +20,7 @@ class AdminModelHelp extends JModelLegacy
 {
 	/**
 	 * The search string
+	 *
 	 * @var    string
 	 *
 	 * @since  1.6
@@ -28,6 +29,7 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * The page to be viewed
+	 *
 	 * @var    string
 	 *
 	 * @since  1.6
@@ -36,6 +38,7 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * The iso language tag
+	 *
 	 * @var    string
 	 *
 	 * @since  1.6
@@ -110,7 +113,6 @@ class AdminModelHelp extends JModelLegacy
 				// Use english as fallback
 				$this->lang_tag = 'en-GB';
 			}
-
 		}
 
 		return $this->lang_tag;
