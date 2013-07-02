@@ -165,6 +165,15 @@ class ContentModelArticle extends JModelItem
 					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
 				}
 
+				// onBeforeQueryProcess System Plugin
+				$dispatcher  = JEventDispatcher::getInstance();
+
+				// import system event
+				JPluginHelper::importPlugin('system');
+
+				// update query by reference
+				$dispatcher->trigger('onBeforeQueryProcess', array ('com_content.article', &$query));
+
 				$db->setQuery($query);
 
 				$data = $db->loadObject();
@@ -278,8 +287,8 @@ class ContentModelArticle extends JModelItem
 			$db->setQuery(
 
 				'UPDATE #__content' .
-					' SET hits = hits + 1' .
-					' WHERE id = ' . (int) $pk
+				' SET hits = hits + 1' .
+				' WHERE id = ' . (int) $pk
 			);
 
 			try
@@ -304,8 +313,8 @@ class ContentModelArticle extends JModelItem
 
 			$db->setQuery(
 				'SELECT *' .
-					' FROM #__content_rating' .
-					' WHERE content_id = ' . (int) $pk
+				' FROM #__content_rating' .
+				' WHERE content_id = ' . (int) $pk
 			);
 
 			$rating = $db->loadObject();
@@ -315,7 +324,7 @@ class ContentModelArticle extends JModelItem
 				// There are no ratings yet, so lets insert our rating
 				$db->setQuery(
 					'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-						' VALUES ( ' . (int) $pk . ', ' . $db->quote($userIP) . ', ' . (int) $rate . ', 1 )'
+					' VALUES ( ' . (int) $pk . ', ' . $db->quote($userIP) . ', ' . (int) $rate . ', 1 )'
 				);
 
 				try
@@ -334,8 +343,8 @@ class ContentModelArticle extends JModelItem
 				{
 					$db->setQuery(
 						'UPDATE #__content_rating' .
-							' SET rating_count = rating_count + 1, rating_sum = rating_sum + ' . (int) $rate . ', lastip = ' . $db->quote($userIP) .
-							' WHERE content_id = ' . (int) $pk
+						' SET rating_count = rating_count + 1, rating_sum = rating_sum + ' . (int) $rate . ', lastip = ' . $db->quote($userIP) .
+						' WHERE content_id = ' . (int) $pk
 					);
 
 					try
