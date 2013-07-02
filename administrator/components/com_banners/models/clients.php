@@ -22,6 +22,7 @@ class BannersModelClients extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -74,7 +75,7 @@ class BannersModelClients extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
@@ -104,13 +105,13 @@ class BannersModelClients extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id AS id,' .
-					'a.name AS name,' .
-					'a.contact AS contact,' .
-					'a.checked_out AS checked_out,' .
-					'a.checked_out_time AS checked_out_time, ' .
-					'a.state AS state,' .
-					'a.metakey AS metakey,' .
-					'a.purchase_type as purchase_type'
+				'a.name AS name,' .
+				'a.contact AS contact,' .
+				'a.checked_out AS checked_out,' .
+				'a.checked_out_time AS checked_out_time, ' .
+				'a.state AS state,' .
+				'a.metakey AS metakey,' .
+				'a.purchase_type as purchase_type'
 			)
 		);
 

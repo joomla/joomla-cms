@@ -11,16 +11,11 @@
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"
 			class="inputbox">
-			<option
-				value="1">COM_BANNERS_FIELD_VALUE_1</option>
-			<option
-				value="2">COM_BANNERS_FIELD_VALUE_2</option>
-			<option
-				value="3">COM_BANNERS_FIELD_VALUE_3</option>
-			<option
-				value="4">COM_BANNERS_FIELD_VALUE_4</option>
-			<option
-				value="5">COM_BANNERS_FIELD_VALUE_5</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_1</option>
+			<option value="2">COM_BANNERS_FIELD_VALUE_2</option>
+			<option value="3">COM_BANNERS_FIELD_VALUE_3</option>
+			<option value="4">COM_BANNERS_FIELD_VALUE_4</option>
+			<option value="5">COM_BANNERS_FIELD_VALUE_5</option>
 		</field>
 
 		<field
@@ -30,10 +25,8 @@
 			default="0"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
@@ -43,10 +36,8 @@
 			default="0"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field

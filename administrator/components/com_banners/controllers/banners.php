@@ -28,6 +28,7 @@ class BannersControllerBanners extends JControllerAdmin
 	 * Constructor.
 	 *
 	 * @param   array An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -35,11 +36,12 @@ class BannersControllerBanners extends JControllerAdmin
 	{
 		parent::__construct($config);
 
-		$this->registerTask('sticky_unpublish',	'sticky_publish');
+		$this->registerTask('sticky_unpublish', 'sticky_publish');
 	}
 
 	/**
 	 * Proxy for getModel.
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Banner', $prefix = 'BannersModel', $config = array('ignore_request' => true))
@@ -56,10 +58,10 @@ class BannersControllerBanners extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids = $this->input->get('cid', array(), 'array');
 		$values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
-		$task   = $this->getTask();
-		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
+		$task = $this->getTask();
+		$value = JArrayHelper::getValue($values, $task, 0, 'int');
 
 		if (empty($ids))
 		{
@@ -68,17 +70,21 @@ class BannersControllerBanners extends JControllerAdmin
 		else
 		{
 			// Get the model.
-			$model	= $this->getModel();
+			$model = $this->getModel();
 
 			// Change the state of the records.
 			if (!$model->stick($ids, $value))
 			{
 				JError::raiseWarning(500, $model->getError());
-			} else {
+			}
+			else
+			{
 				if ($value == 1)
 				{
 					$ntext = 'COM_BANNERS_N_BANNERS_STUCK';
-				} else {
+				}
+				else
+				{
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
 				$this->setMessage(JText::plural($ntext, count($ids)));

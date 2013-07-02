@@ -21,23 +21,24 @@ class BannersController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean      If true, the view output will be cached
+	 * @param   array        An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 		BannersHelper::updateReset();
 
-		$view   = $this->input->get('view', 'banners');
+		$view = $this->input->get('view', 'banners');
 		$layout = $this->input->get('layout', 'default');
-		$id     = $this->input->getInt('id');
+		$id = $this->input->getInt('id');
 
 		// Check for edit form.
-		if ($view == 'banner' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.banner', $id)) {
+		if ($view == 'banner' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.banner', $id))
+		{
 
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
@@ -46,7 +47,8 @@ class BannersController extends JControllerLegacy
 
 			return false;
 		}
-		elseif ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id)) {
+		elseif ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id))
+		{
 
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));

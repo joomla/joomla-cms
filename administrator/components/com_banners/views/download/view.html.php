@@ -19,12 +19,13 @@ defined('_JEXEC') or die;
 class BannersViewDownload extends JViewLegacy
 {
 	protected $form;
+
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
-		$this->form	= $this->get('Form');
+		$this->form = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

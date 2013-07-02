@@ -31,20 +31,20 @@ class BannersModelDownload extends JModelForm
 	{
 		$input = JFactory::getApplication()->input;
 
-		$basename = $input->cookie->getString(JApplication::getHash($this->_context.'.basename'), '__SITE__');
+		$basename = $input->cookie->getString(JApplication::getHash($this->_context . '.basename'), '__SITE__');
 		$this->setState('basename', $basename);
 
-		$compressed = $input->cookie->getInt(JApplication::getHash($this->_context.'.compressed'), 1);
+		$compressed = $input->cookie->getInt(JApplication::getHash($this->_context . '.compressed'), 1);
 		$this->setState('compressed', $compressed);
 	}
 
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed    A JForm object on success, false on failure
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -68,8 +68,8 @@ class BannersModelDownload extends JModelForm
 	protected function loadFormData()
 	{
 		$data = array(
-			'basename'		=> $this->getState('basename'),
-			'compressed'	=> $this->getState('compressed')
+			'basename' => $this->getState('basename'),
+			'compressed' => $this->getState('compressed')
 		);
 
 		$this->preprocessData('com_banners.download', $data);

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT.'/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
 
 /**
  * View to edit a banner.
@@ -32,9 +32,9 @@ class BannersViewBanner extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialiase variables.
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -56,12 +56,12 @@ class BannersViewBanner extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$user = JFactory::getUser();
+		$userId = $user->get('id');
+		$isNew = ($this->item->id == 0);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= BannersHelper::getActions($this->item->catid, 0);
+		$canDo = BannersHelper::getActions($this->item->catid, 0);
 
 		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'banners.png');
 

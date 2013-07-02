@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT.'/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
 
 /**
  * View to edit a client.
@@ -31,9 +31,9 @@ class BannersViewClient extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->form	= $this->get('Form');
-		$this->item	= $this->get('Item');
-		$this->state	= $this->get('State');
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
+		$this->state = $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -55,20 +55,21 @@ class BannersViewClient extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user		= JFactory::getUser();
-		$isNew		= ($this->item->id == 0);
-		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		$canDo		= BannersHelper::getActions();
+		$user = JFactory::getUser();
+		$isNew = ($this->item->id == 0);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+		$canDo = BannersHelper::getActions();
 
 		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'banners-clients.png');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create')))
+		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create')))
 		{
 			JToolbarHelper::apply('client.apply');
 			JToolbarHelper::save('client.save');
 		}
-		if (!$checkedOut && $canDo->get('core.create')) {
+		if (!$checkedOut && $canDo->get('core.create'))
+		{
 
 			JToolbarHelper::save2new('client.save2new');
 		}
