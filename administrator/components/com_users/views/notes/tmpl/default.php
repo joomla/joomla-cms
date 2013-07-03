@@ -80,7 +80,7 @@ $sortFields = $this->getSortFields();
 			<thead>
 				<tr>
 					<th width="1%" class="nowrap center">
-						<input type="checkbox" name="toggle" value="" class="checklist-toggle" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th class="left" class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'COM_USERS_USER_HEADING', 'u.name', $listDirn, $listOrder); ?>
