@@ -413,7 +413,7 @@ class TemplatesModelTemplate extends JModelForm
 		JPluginHelper::importPlugin('extension');
 	
 		// Try to make the template file writable.
-		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0644'))
+		if (!is_writable($filePath))
 		{
             $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'),'warning');
 			return false;
