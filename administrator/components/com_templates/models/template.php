@@ -33,7 +33,7 @@ class TemplatesModelTemplate extends JModelForm
 		if ($template = $this->getTemplate())
 		{
 			$temp->name = str_replace('-', '_', $name);
-			$temp->id = urlencode(base64_encode($template->extension_id . ':' . $path . $name));
+			$temp->id = urlencode(base64_encode($path . $name));
 			return $temp;
 		}
 	}
@@ -52,35 +52,34 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			
 			jimport('joomla.filesystem.folder');
+            $app = JFactory::getApplication();
 			$client 	= JApplicationHelper::getClientInfo($template->client_id);
 			$path		= JPath::clean($client->path.'/templates/'.$template->element.'/');
 
 			if (is_dir($path))
 			{
-				$result = $this->getDirectoryTree($path,$template->element . '/');
-				
+				$result = $this->getDirectoryTree($path);
 			} else {
-				$this->setError(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'));
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'),'warning');
 				return false;
 			}
 		}
 
 		return $result;
 	}
+
+    /**
+     * Method to get the directory tree.
+     *
+     * @param $dir
+     * @internal param \The $string base path.
+     * @return  array
+     * @since   3.1
+     */
 	
-	/**
-	 * Method to get the directory tree.
-	 *
-	 * @param   string The base path.
-	 * @return  array
-	 * @since   3.1
-	 */
-	
-	public function getDirectoryTree($dir,$element)
+	public function getDirectoryTree($dir)
 	{
 		$result = array();
-	
-		$fileInfo = new StdClass();
 	
 		$dirFiles = scandir($dir);
 		foreach ($dirFiles as $key => $value) 
@@ -89,14 +88,14 @@ class TemplatesModelTemplate extends JModelForm
 			{ 
 				if (is_dir($dir . $value . '/')) 
 				{ 
-					$result[$value] = $this->getDirectoryTree($dir . $value . '/',$element); 
+					$result[$value] = $this->getDirectoryTree($dir . $value . '/');
 				} 
 				else 
 				{
 					$ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
-					if(in_array($ext, array('css','js','php','xml','ini','less'))) 
+					if(in_array($ext, array('css','js','php','xml','ini','less')))
 					{
-						$pos = strpos($dir,$element) + strlen($element);
+						$pos = strpos($dir,$this->getFromName()) + strlen($this->getFromName());
 						$relativePath = substr($dir, $pos);
 						$info = $this->getFile($relativePath,$value);
 						$result[] = $info;
@@ -124,19 +123,6 @@ class TemplatesModelTemplate extends JModelForm
 		$pk = $app->input->getInt('id');
 		$this->setState('extension.id', $pk);
 		
-		
-		$fileName = $app->getUserState('com_templates.edit.source.' . $pk . '.file');
-		if($fileName == NULL)
-		{
-			$fileName = 'index.php';
-		}
-		
-			
-		$this->setState('filename', $fileName);
-		
-		// Save the syntax for later use
-		$app->setUserState('editor.source.syntax', JFile::getExt($fileName));
-		
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_templates');
 		$this->setState('params', $params);
@@ -154,6 +140,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			$pk		= $this->getState('extension.id');
 			$db		= $this->getDbo();
+            $app = JFactory::getApplication();
 
 			// Get the template information.
 			$query = $db->getQuery(true)
@@ -169,14 +156,14 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			catch (RuntimeException $e)
 			{
-				$this->setError($e->getMessage());
+				$app->enqueueMessage($e->getMessage(),'warning');
 				$this->template = false;
 				return false;
 			}
 
 			if (empty($result))
 			{
-				$this->setError(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'));
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'),'warning');
 				$this->template = false;
 			} else {
 				$this->template = $result;
@@ -353,13 +340,7 @@ class TemplatesModelTemplate extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState('com_templates.edit.source.data', array());
-	
-		if (empty($data))
-		{
-			$data = $this->getSource();
-		}
+		$data = $this->getSource();
 	
 		$this->preprocessData('com_templates.source', $data);
 	
@@ -374,6 +355,7 @@ class TemplatesModelTemplate extends JModelForm
 	 */
 	public function &getSource()
 	{
+        $app = JFactory::getApplication();
 		$item = new stdClass;
 		if (!$this->template)
 		{
@@ -382,19 +364,24 @@ class TemplatesModelTemplate extends JModelForm
 	
 		if ($this->template)
 		{
-			$fileName = $this->getState('filename');
+            $input = JFactory::getApplication()->input;
+			$fileName = base64_decode($input->get('file'));
+            if(empty($fileName))
+            {
+                $fileName = '/index.php';
+            }
 			$client = JApplicationHelper::getClientInfo($this->template->client_id);
-			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . $fileName);
 	
 			if (file_exists($filePath))
 			{
 				$item->extension_id = $this->getState('extension.id');
-				$item->filename = $this->getState('filename');
+				$item->filename = $fileName;
 				$item->source = file_get_contents($filePath);
 			}
 			else
 			{
-				$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'),'warning');
 			}
 		}
 	
@@ -419,50 +406,35 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			return false;
 		}
-	
-		$dispatcher = JEventDispatcher::getInstance();
-		$fileName = $this->getState('filename');
+
+        $app = JFactory::getApplication();
+        $fileName = base64_decode($app->input->get('file'));
 		$client = JApplicationHelper::getClientInfo($template->client_id);
 		$filePath = JPath::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
 	
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
 	
-		// Set FTP credentials, if given.
-		JClientHelper::setCredentialsFromRequest('ftp');
-		$ftp = JClientHelper::getCredentials('ftp');
-	
 		// Try to make the template file writeable.
-		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0644'))
+		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0644'))
 		{
-			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'));
-			return false;
-		}
-	
-		// Trigger the onExtensionBeforeSave event.
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_templates.source', &$data, false));
-		if (in_array(false, $result, true))
-		{
-			$this->setError($table->getError());
+            $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'),'warning');
 			return false;
 		}
 	
 		$return = JFile::write($filePath, $data['source']);
 	
-		// Try to make the template file unwriteable.
-		if (!$ftp['enabled'] && JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
+		// Try to make the template file unwritable.
+		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
 		{
-			$this->setError(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'));
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'),'warning');
 			return false;
 		}
 		elseif (!$return)
 		{
-			$this->setError(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName));
+            $app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName),'warning');
 			return false;
 		}
-	
-		// Trigger the onExtensionAfterSave event.
-		$dispatcher->trigger('onExtensionAfterSave', array('com_templates.source', &$table, false));
 	
 		return true;
 	}

@@ -36,6 +36,12 @@ class TemplatesViewTemplates extends JViewLegacy
 	 */
 	protected $state;
 
+    /**
+     * @var		string
+     * @since   3.1
+     */
+    protected $file;
+
 	/**
 	 * Display the view.
 	 *
@@ -50,6 +56,7 @@ class TemplatesViewTemplates extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
+        $this->file         = urlencode(base64_encode('/index.php'));
 
 		TemplatesHelper::addSubmenu('templates');
 

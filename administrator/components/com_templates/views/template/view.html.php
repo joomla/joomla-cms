@@ -19,20 +19,18 @@ defined('_JEXEC') or die;
 class TemplatesViewTemplate extends JViewLegacy
 {
 	protected $files;
-
 	
 	protected $state;
 
 	protected $template;
-	
-	protected $level = 0;
-	
-	
+
 	protected $form;
 	
-	protected $ftp;
-	
 	protected $source;
+
+    protected $id;
+
+    protected $file;
 
 	/**
 	 * Display the view
@@ -44,8 +42,9 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->template	= $this->get('Template');
 		
 		$this->form		= $this->get('Form');
-		$this->ftp		= JClientHelper::setCredentialsFromRequest('ftp');
 		$this->source	= $this->get('Source');
+        $this->id       = $this->state->get('extension.id');
+        $this->file     = JFactory::getApplication()->input->get('file');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -155,7 +154,7 @@ protected function addToolbar()
 			elseif(is_object($value))
 			{		
 				echo "<li>";
-				echo "<a href='" . JRoute::_('index.php?option=com_templates&task=template.edit&id='.$value->id) . "'>";
+				echo "<a href='" . JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) . "'>";
 				echo "<i class='icon-edit'>&nbsp;" . $value->name . "</i>";
 				echo "</a>";
 				echo "</li>";

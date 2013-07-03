@@ -46,7 +46,7 @@ $input = JFactory::getApplication()->input;
 				<?php $this->listDirectoryTree($this->files);?>
 			</div>
 			<div class="span9">
-				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+				<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 					<fieldset class="adminform">
 						<legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
 				

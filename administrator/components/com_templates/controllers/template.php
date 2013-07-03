@@ -37,12 +37,6 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	
 	public function cancel()
 	{
-		$app = JFactory::getApplication('administrator');
-		$context = 'com_templates.edit.source';
-		$model = $this->getModel();
-		$id = $model->getState('extension.id');
-		$app->setUserState($context. '.' . $id . '.file', null);
-		$app->setUserState($context . '.data', null);
 		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
 	}
 
@@ -165,39 +159,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	{
 		return $this->allowEdit();
 	}
-	
-	/**
-	 * Method to edit an existing record.
-	 *
-	 * @return  void
-	 */
-	public function edit()
-	{
-		$app		= JFactory::getApplication();
-		$model		= $this->getModel();
-		$id			= JRequest::getVar('id');
-		$context	= 'com_templates.edit.source';
-		$temp 		= explode(':', base64_decode($id));
-		$recordId 	= (int) array_shift($temp);
-		$fileName 	= array_shift($temp);
-	
-		if (preg_match('#\.\.#', base64_decode($id)))
-		{
-			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'));
-		}
-	
-		// Access check.
-		if (!$this->allowEdit())
-		{
-			return JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
-		}
-	
-		// Check-out succeeded, push the new record id into the session.
-		$app->setUserState($context. '.' . $recordId . '.file',$fileName);
-		$app->setUserState($context.'.data', null);
-		$this->setRedirect('index.php?option=com_templates&view=template&id='.$recordId);
-		return true;
-	}
+
 	/**
 	 * Saves a template source file.
 	 */
@@ -208,35 +170,39 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	
 		$app     = JFactory::getApplication();
 		$data    = $this->input->post->get('jform', array(), 'array');
-		$context = 'com_templates.edit.source';
 		$task    = $this->getTask();
 		$model   = $this->getModel();
+        $fileName = $app->input->get('file');
 	
 		// Access check.
 		if (!$this->allowSave())
 		{
-			return JError::raiseWarning(403, JText::_('JERROR_SAVE_NOT_PERMITTED'));
+			$app->enqueueMessage(JText::_('JERROR_SAVE_NOT_PERMITTED'),'error');
+            return false;
 		}
 	
 		// Match the stored id's with the submitted.
 		if (empty($data['extension_id']) || empty($data['filename']))
 		{
-			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'),'error');
+            return false;
 		}
 		elseif ($data['extension_id'] != $model->getState('extension.id'))
 		{
-			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'),'error');
+            return false;
 		}
-		elseif ($data['filename'] != $model->getState('filename'))
+		elseif ($data['filename'] != base64_decode($fileName))
 		{
-			return JError::raiseError(500, JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'));
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'),'error');
+            return false;
 		}
 	
 		// Validate the posted data.
 		$form	= $model->getForm();
 		if (!$form)
 		{
-			JError::raiseError(500, $model->getError());
+            $app->enqueueMessage($model->getError(),'error');
 			return false;
 		}
 		$data = $model->validate($form, $data);
@@ -259,47 +225,40 @@ class TemplatesControllerTemplate extends JControllerLegacy
 				}
 			}
 	
-			// Save the data in the session.
-			$app->setUserState($context.'.data', $data);
-	
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$model->getState('extension.id'), false));
-					return false;
+            $url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
+			$this->setRedirect(JRoute::_($url, false));
+			return false;
 		}
 	
 		// Attempt to save the data.
 		if (!$model->save($data))
 		{
-		// Save the data in the session.
-			$app->setUserState($context.'.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setMessage(JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$model->getState('extension.id'), false));
-					return false;
+            $url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
+            $this->setRedirect(JRoute::_($url, false));
+			return false;
 		}
 
 		$this->setMessage(JText::_('COM_TEMPLATES_FILE_SAVE_SUCCESS'));
 
-				// Redirect the user and adjust session state based on the chosen task.
+		// Redirect the user based on the chosen task.
 		switch ($task)
 		{
 		case 'apply':
-			// Reset the record data in the session.
-			$app->setUserState($context.'.data',	null);
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_templates&view=template&id='.$model->getState('extension.id'), false));
-					break;
+            $url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
+            $this->setRedirect(JRoute::_($url, false));
+			break;
 
-					default:
-					// Clear the record id and data from the session.
-					$app->setUserState($context.'.file', null);
-					$app->setUserState($context.'.data', null);
+        default:
 
-					// Redirect to the list screen.
-					$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
-							break;
+            // Redirect to the list screen.
+            $this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
+            break;
 		}
 	}
 	
