@@ -181,12 +181,12 @@ class JFormFieldTag extends JFormFieldList
 			}
 
 			return $options;
-			}
-			else
-			{
-				return true;
-			}
 		}
+		else
+		{
+			return true;
+		}
+	}
 
 	/**
 	 * Add "-" before nested tags, depending on level
