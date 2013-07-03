@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ [#31214] Added method to generate the check-all checkbox in grids. Thanks Peter van Westen
  # [#31310] Password rule warning in 5.3. Thanks Elin Waring
  # [#31220] Invalid Feed URL for Module Feed Display causes generation of page "The requested page cannot be found". Thanks Elin Waring 
+ # [#31293] Allow all password error messages to be shown. Thanks George Wilson.
 
 01-Jul-2013 Jean-Marie Simonet
  ^ [#30849] Show alias for menu items on menu assignement. Thanks David Hurley
