@@ -42,11 +42,11 @@ $fieldsets = $this->form->getFieldsets();
 	<?php endforeach; ?>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php
-	foreach ($fieldsets as $fieldset) :
-		if ($fieldset->name == 'user_details') :
+	<?php foreach ($fieldsets as $fieldset) : ?>
+		<?php
+		if ($fieldset->name == 'user_details') {
 			continue;
-		endif;
+		}
 		?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', $fieldset->name, JText::_($fieldset->label, true)); ?>
 		<?php foreach ($this->form->getFieldset($fieldset->name) as $field) : ?>

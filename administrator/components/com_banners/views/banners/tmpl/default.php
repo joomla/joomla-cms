@@ -135,7 +135,8 @@ $sortFields = $this->getSortFields();
 				</tr>
 			</tfoot>
 			<tbody>
-				<?php foreach ($this->items as $i => $item) :
+				<?php foreach ($this->items as $i => $item) : ?>
+					<?php
 					$ordering = ($listOrder == 'ordering');
 					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
 					$canCreate = $user->authorise('core.create', 'com_banners.category.' . $item->catid);
@@ -190,29 +191,39 @@ $sortFields = $this->getSortFields();
 								// Create dropdown items
 								JHtml::_('dropdown.edit', $item->id, 'banner.');
 								JHtml::_('dropdown.divider');
-								if ($item->state) :
+								if ($item->state)
+								{
 									JHtml::_('dropdown.unpublish', 'cb' . $i, 'banners.');
-								else :
+								}
+								else
+								{
 									JHtml::_('dropdown.publish', 'cb' . $i, 'banners.');
-								endif;
+								}
 
 								JHtml::_('dropdown.divider');
 
-								if ($archived) :
+								if ($archived)
+								{
 									JHtml::_('dropdown.unarchive', 'cb' . $i, 'banners.');
-								else :
+								}
+								else
+								{
 									JHtml::_('dropdown.archive', 'cb' . $i, 'banners.');
-								endif;
+								}
 
-								if ($item->checked_out) :
+								if ($item->checked_out)
+								{
 									JHtml::_('dropdown.checkin', 'cb' . $i, 'banners.');
-								endif;
+								}
 
-								if ($trashed) :
+								if ($trashed)
+								{
 									JHtml::_('dropdown.untrash', 'cb' . $i, 'banners.');
-								else :
+								}
+								else
+								{
 									JHtml::_('dropdown.trash', 'cb' . $i, 'banners.');
-								endif;
+								}
 
 								// render dropdown list
 								echo JHtml::_('dropdown.render');

@@ -81,7 +81,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</thead>
 
 			<tbody>
-				<?php foreach ($this->items as $i => $item) :
+				<?php foreach ($this->items as $i => $item) : ?>
+					<?php
 					$ordering = ($listOrder == 'ordering');
 					$canCreate = $user->authorise('core.create', 'com_banners');
 					$canEdit = $user->authorise('core.edit', 'com_banners');

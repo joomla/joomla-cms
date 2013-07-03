@@ -124,7 +124,8 @@ $saveOrder = $listOrder == 'ordering';
 			</thead>
 
 			<tbody>
-				<?php foreach ($this->items as $i => $item) :
+				<?php foreach ($this->items as $i => $item) : ?>
+					<?php
 					$ordering = ($listOrder == 'ordering');
 					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
 					$canCreate = $user->authorise('core.create', 'com_banners.category.' . $item->catid);

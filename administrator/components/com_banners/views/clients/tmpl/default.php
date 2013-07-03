@@ -119,7 +119,8 @@ $sortFields = $this->getSortFields();
 				</tr>
 			</tfoot>
 			<tbody>
-				<?php foreach ($this->items as $i => $item) :
+				<?php foreach ($this->items as $i => $item) : ?>
+					<?php
 					$ordering = ($listOrder == 'ordering');
 					$canCreate = $user->authorise('core.create', 'com_banners');
 					$canEdit = $user->authorise('core.edit', 'com_banners');
@@ -150,29 +151,39 @@ $sortFields = $this->getSortFields();
 								// Create dropdown items
 								JHtml::_('dropdown.edit', $item->id, 'client.');
 								JHtml::_('dropdown.divider');
-								if ($item->state) :
+								if ($item->state)
+								{
 									JHtml::_('dropdown.unpublish', 'cb' . $i, 'clients.');
-								else :
+								}
+								else
+								{
 									JHtml::_('dropdown.publish', 'cb' . $i, 'clients.');
-								endif;
+								}
 
 								JHtml::_('dropdown.divider');
 
-								if ($archived) :
+								if ($archived)
+								{
 									JHtml::_('dropdown.unarchive', 'cb' . $i, 'clients.');
-								else :
+								}
+								else
+								{
 									JHtml::_('dropdown.archive', 'cb' . $i, 'clients.');
-								endif;
+								}
 
-								if ($item->checked_out) :
+								if ($item->checked_out)
+								{
 									JHtml::_('dropdown.checkin', 'cb' . $i, 'clients.');
-								endif;
+								}
 
-								if ($trashed) :
+								if ($trashed)
+								{
 									JHtml::_('dropdown.untrash', 'cb' . $i, 'clients.');
-								else :
+								}
+								else
+								{
 									JHtml::_('dropdown.trash', 'cb' . $i, 'clients.');
-								endif;
+								}
 
 								// render dropdown list
 								echo JHtml::_('dropdown.render');

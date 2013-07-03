@@ -41,12 +41,12 @@ $fieldsets = $this->form->getFieldsets();
 	</div>
 
 	<div class="col options-section">
-		<?php
-		echo JHtml::_('sliders.start');
-		foreach ($fieldsets as $fieldset) :
-			if ($fieldset->name == 'user_details') :
+		<?php echo JHtml::_('sliders.start'); ?>
+		<?php foreach ($fieldsets as $fieldset) : ?>
+			<?php
+			if ($fieldset->name == 'user_details') {
 				continue;
-			endif;
+			}
 			echo JHtml::_('sliders.panel', JText::_($fieldset->label), $fieldset->name);
 			?>
 			<fieldset class="panelform">
