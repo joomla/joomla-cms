@@ -54,28 +54,7 @@ class PluginManager0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
-	/**
-	 * @test
-	 */
-	public function getAllInputFields_ScreenDisplayed_EqualExpected()
-	{
-		$test_plugin = 'Content - Joomla'; //A test Plugin which we are going to select to open the edit page
-		$this->pluginManagerPage = $this->getPageObject('PluginManagerPage');
-		$this->pluginManagerPage->clickItem($test_plugin);
-		$pluginEditPage = $this->getPageObject('PluginEditPage');
-		$testElements = $pluginEditPage->getAllInputFields(array('details'));
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
-		$this->assertEquals($pluginEditPage->inputFields, $actualFields);
-		$pluginEditPage->clickButton('toolbar-cancel');
-		$this->pluginManagerPage = $this->getPageObject('PluginManagerPage');
-	}
-	
+	 
 	
 	/**
 	 * @test
