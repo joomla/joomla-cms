@@ -17,6 +17,7 @@ defined('_JEXEC') or die;
 class TemplatesModelTemplate extends JModelForm
 {
 	protected $template = null;
+	protected $element = null;
 
 	/**
 	 * Internal method to get file properties.
@@ -55,6 +56,7 @@ class TemplatesModelTemplate extends JModelForm
             $app = JFactory::getApplication();
 			$client 	= JApplicationHelper::getClientInfo($template->client_id);
 			$path		= JPath::clean($client->path.'/templates/'.$template->element.'/');
+            $this->element = $path;
 
 			if (is_dir($path))
 			{
@@ -95,8 +97,9 @@ class TemplatesModelTemplate extends JModelForm
 					$ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
 					if(in_array($ext, array('css','js','php','xml','ini','less')))
 					{
-						$pos = strpos($dir,$this->getFromName()) + strlen($this->getFromName());
-						$relativePath = substr($dir, $pos);
+						/*$pos = strpos($dir,$this->element) + strlen($this->element);
+						$relativePath = substr($dir, $pos);*/
+                        $relativePath = str_replace($this->element,'',$dir);
 						$info = $this->getFile($relativePath,$value);
 						$result[] = $info;
 					}
@@ -368,7 +371,7 @@ class TemplatesModelTemplate extends JModelForm
             $input = JFactory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
 			$client = JApplicationHelper::getClientInfo($this->template->client_id);
-			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . $fileName);
+			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
 	
 			if (file_exists($filePath))
 			{
@@ -416,6 +419,11 @@ class TemplatesModelTemplate extends JModelForm
 		if (!is_writable($filePath))
 		{
             $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'),'warning');
+            $app->enqueueMessage(JText::_('The File Permissions are ' . JPath::getPermissions($filePath)),'warning');
+            if(!JPath::isOwner($filePath))
+            {
+                $app->enqueueMessage(JText::_('Check file ownership'),'warning');
+            }
 			return false;
 		}
 

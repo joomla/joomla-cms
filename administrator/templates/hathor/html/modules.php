@@ -28,21 +28,21 @@ defined('_JEXEC') or die;
  */
 function modChrome_xhtmlid($module, &$params, &$attribs)
 {
-	if ($module->content)
-	{
-		?>
-		<div id="<?php echo (int) $attribs['id'] ?>">
+  if ($module->content)
+  {
+    ?>
+    <div id="<?php echo (int) $attribs['id'] ?>">
 
-				<?php echo $module->content; ?>
-				<div class="clr"></div>
+        <?php echo $module->content; ?>
+        <div class="clr"></div>
 
-		</div>
-		<?php
-	} elseif ($attribs['id'] == "submenu-box")
-	{
-		?>
-		<div id="no-submenu"></div>
-		<?php
-	}
+    </div>
+    <?php
+  } elseif ($attribs['id'] == "submenu-box")
+  {
+    ?>
+    <div id="no-submenu"></div>
+    <?php
+  }
 }
 ?>

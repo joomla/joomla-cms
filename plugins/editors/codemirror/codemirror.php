@@ -144,7 +144,8 @@ class PlgEditorCodemirror extends JPlugin
 		$styleSheet = array('xmlcolors.css');
 
 		// Look if we need special syntax coloring.
-		$syntax = JFactory::getApplication()->getUserState('editor.source.syntax');
+		$file = JFactory::getApplication()->input->get('file');
+		$syntax = end(explode('.',base64_decode($file)));
 
 		if ($syntax)
 		{

@@ -16,3 +16,7 @@
 
 # Test Related Files #
 /phpunit.xml
+
+# Template Folders #
+/templates
+/administrator/templates

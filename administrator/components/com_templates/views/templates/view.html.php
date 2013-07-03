@@ -56,7 +56,7 @@ class TemplatesViewTemplates extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
-        $this->file         = urlencode(base64_encode('/index.php'));
+        $this->file         = urlencode(base64_encode('index.php'));
 
 		TemplatesHelper::addSubmenu('templates');
 
