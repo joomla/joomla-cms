@@ -80,7 +80,7 @@ $input = JFactory::getApplication()->input;
 
 		<input type="hidden" name="task" value="" />
 
-<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id')); ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
 			method="post" name="adminForm" id="adminForm">
 	<div  id="collapseModal" class="modal hide fade">
 		<div class="modal-header">

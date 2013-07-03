@@ -44,12 +44,14 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->source	= $this->get('Source');
         $this->id       = $this->state->get('extension.id');
-        $this->file     = JFactory::getApplication()->input->get('file');
+
+        $app            = JFactory::getApplication();
+        $this->file     = $app->input->get('file');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
+            $app->enqueueMessage(implode("\n", $errors));
 			return false;
 		}
 

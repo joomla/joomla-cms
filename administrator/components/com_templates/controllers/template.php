@@ -45,12 +45,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
+        $app        = JFactory::getApplication();
 		$this->input->set('installtype', 'folder');
 		$newName    = $this->input->get('new_name');
 		$newNameRaw = $this->input->get('new_name', null, 'string');
 		$templateID = $this->input->getInt('id', 0);
+		$file       = $app->input->get('file');
 
-		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID);
+		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
 		$model = $this->getModel('Template', 'TemplatesModel');
 		$model->setState('new_name', $newName);
 		$model->setState('tmp_prefix', uniqid('template_copy_'));
@@ -62,7 +64,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			if (!JFactory::getUser()->authorise('core.create', 'com_templates'))
 			{
 				// User is not authorised to delete
-				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'));
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'),'error');
 				return false;
 			}
 
@@ -72,14 +74,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			// Check that new name is valid
 			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
 			{
-				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'));
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'),'error');
 				return false;
 			}
 
 			// Check that new name doesn't already exist
 			if (!$model->checkNewName())
 			{
-				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_DUPLICATE_TEMPLATE_NAME'));
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_DUPLICATE_TEMPLATE_NAME'),'error');
 				return false;
 			}
 
@@ -87,14 +89,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			$fromName = $model->getFromName();
 			if (!$fromName)
 			{
-				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'));
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'),'error');
 				return false;
 			}
 
 			// Call model's copy method
 			if (!$model->copy())
 			{
-				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_COULD_NOT_COPY'));
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_COPY'),'error');
 				return false;
 			}
 
@@ -104,7 +106,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			JFactory::getLanguage()->load('com_installer');
 			if (!$installModel->install())
 			{
-				JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_COULD_NOT_INSTALL'));
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_INSTALL'),'error');
 				return false;
 			}
 

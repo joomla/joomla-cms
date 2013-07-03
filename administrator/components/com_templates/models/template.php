@@ -209,6 +209,7 @@ class TemplatesModelTemplate extends JModelForm
 	 */
 	public function copy()
 	{
+        $app = JFactory::getApplication();
 		if ($template = $this->getTemplate())
 		{
 			jimport('joomla.filesystem.folder');
@@ -221,7 +222,7 @@ class TemplatesModelTemplate extends JModelForm
 			{
 				if (!JFolder::delete($toPath))
 				{
-					JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'));
+                    $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'),'error');
 					return false;
 				}
 			}
@@ -236,7 +237,7 @@ class TemplatesModelTemplate extends JModelForm
 		}
 		else
 		{
-			JError::raiseWarning(403, JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'));
+            $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'),'error');
 			return false;
 		}
 	}
@@ -366,10 +367,6 @@ class TemplatesModelTemplate extends JModelForm
 		{
             $input = JFactory::getApplication()->input;
 			$fileName = base64_decode($input->get('file'));
-            if(empty($fileName))
-            {
-                $fileName = '/index.php';
-            }
 			$client = JApplicationHelper::getClientInfo($this->template->client_id);
 			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . $fileName);
 	
@@ -381,7 +378,7 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			else
 			{
-                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'),'warning');
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'),'error');
 			}
 		}
 	
@@ -415,13 +412,13 @@ class TemplatesModelTemplate extends JModelForm
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
 	
-		// Try to make the template file writeable.
+		// Try to make the template file writable.
 		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0644'))
 		{
             $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'),'warning');
 			return false;
 		}
-	
+
 		$return = JFile::write($filePath, $data['source']);
 	
 		// Try to make the template file unwritable.
