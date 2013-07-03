@@ -26,7 +26,8 @@ $ -> Language fix or change
 ! -> Note
 
 03-Jul-2013 Jean-Marie Simonet
- # [#31321] Fixed issue with tooltip text not being escaped when no title is given. Thanks Thanks Peter van Westen
+ # [#31321] Fixed issue with tooltip text not being escaped when no title is given. Thanks Peter van Westen
+ # [#31322] Made title of search boxes show as tooltip. Thanks Peter van Westen
 
 01-Jul-2013 Jean-Marie Simonet
  ^ [#30849] Show alias for menu items on menu assignement. Thanks David Hurley
