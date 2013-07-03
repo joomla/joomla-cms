@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31321] Fixed issue with tooltip text not being escaped when no title is given. Thanks Peter van Westen
  # [#31322] Made title of search boxes show as tooltip. Thanks Peter van Westen
  ^ [#31214] Added method to generate the check-all checkbox in grids. Thanks Peter van Westen
+ # [#31310] Password rule warning in 5.3. Thanks Elin Waring
 
 01-Jul-2013 Jean-Marie Simonet
  ^ [#30849] Show alias for menu items on menu assignement. Thanks David Hurley
