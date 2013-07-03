@@ -37,7 +37,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
   		<thead>
   			<tr>
   				<th width="1%">
-  					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+  					<?php echo JHtml::_('grid.checkall'); ?>
   				</th>
   				<th class="left"><?php echo JHtml::_('grid.sort', 'COM_CHECKIN_DATABASE_TABLE', 'table', $listDirn, $listOrder); ?></th>
   				<th><?php echo JHtml::_('grid.sort', 'COM_CHECKIN_ITEMS_TO_CHECK_IN', 'count', $listDirn, $listOrder); ?></th>
