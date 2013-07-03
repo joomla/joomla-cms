@@ -1129,7 +1129,7 @@ class PlgSystemDebug extends JPlugin
 	 *
 	 * @since   3.1.2
 	 */
-	protected function renderBars(&$bars, $class = '', $id = '')
+	protected function renderBars(&$bars, $class = '', $id = null)
 	{
 		$html = array();
 
@@ -1142,7 +1142,7 @@ class PlgSystemDebug extends JPlugin
 
 			$barClass = trim('bar dbg-bar ' . (isset($bar->class) ? $bar->class : ''));
 
-			if ($id != '' && $i == $id)
+			if ($id !== null && $i == $id)
 			{
 				$barClass .= ' dbg-bar-active';
 			}
