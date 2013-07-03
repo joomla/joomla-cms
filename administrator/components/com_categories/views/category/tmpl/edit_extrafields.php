@@ -18,8 +18,8 @@ defined('_JEXEC') or die;
 		<fieldset>
 			<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 				<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description)); ?></p>
-			<?php endif;
-			foreach ($this->form->getFieldset($name) as $field) : ?>
+			<?php endif; ?>
+			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $field->label; ?>
