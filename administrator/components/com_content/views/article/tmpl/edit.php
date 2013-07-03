@@ -66,6 +66,9 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+
+	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+
 	<div class="row-fluid">
 		<!-- Begin Content -->
 		<div class="span10 form-horizontal">

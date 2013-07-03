@@ -40,7 +40,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   		<table class="table table-striped">
   			<thead>
   				<tr>
-  					<th width="20"><input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" /></th>
+  					<th width="20"><?php echo JHtml::_('grid.checkall'); ?></th>
   					<th class="nowrap"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?></th>
   					<th class="center"><?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_TYPE', 'type', $listDirn, $listOrder); ?></th>
   					<th width="10%" class="center"><?php echo JText::_('JVERSION'); ?></th>
@@ -57,14 +57,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php foreach ($this->items as $i => $item) : ?>
   				<tr class="row<?php echo $i % 2;?>">
   					<td><?php echo JHtml::_('grid.id', $i, $item->extension_id); ?></td>
-  					<td><span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description); ?>"><?php echo $item->name; ?></span></td>
+  					<td><span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span></td>
   					<td class="center"><?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?></td>
   					<td class="center"><?php echo @$item->version != '' ? $item->version : '&#160;'; ?></td>
   					<td class="center"><?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?></td>
   					<td class="center"><?php echo @$item->folder != '' ? $item->folder : JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?></td>
   					<td class="center"><?php echo $item->client; ?></td>
   					<td class="center">
-  						<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_AUTHOR_INFORMATION', $item->author_info); ?>">
+  						<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
   							<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
   						</span>
   					</td>

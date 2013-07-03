@@ -859,18 +859,20 @@ abstract class JHtml
 			$tip = $text;
 		}
 
-		if ($title)
+		if ($class == 'hasTip')
 		{
-			if ($class == 'hasTip')
+			// Still using MooTools tooltips!
+			$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
+
+			if ($title)
 			{
-				$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
 				$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 				$tooltip = $title . '::' . $tooltip;
 			}
-			else
-			{
-				$tooltip = self::tooltipText($title, $tooltip);
-			}
+		}
+		else
+		{
+			$tooltip = self::tooltipText($title, $tooltip, 0);
 		}
 
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
@@ -879,15 +881,16 @@ abstract class JHtml
 	/**
 	 * Converts a double colon seperated string or 2 separate strings to a string ready for bootstrap tooltips
 	 *
-	 * @param   string  $title    The title of the tooltip (or combined '::' separated string).
-	 * @param   string  $content  The content to tooltip.
-	 * @param   int     $escape   If true will pass texts through htmlspecialchars.
+	 * @param   string  $title      The title of the tooltip (or combined '::' separated string).
+	 * @param   string  $content    The content to tooltip.
+	 * @param   int     $translate  If true will pass texts through JText.
+	 * @param   int     $escape     If true will pass texts through htmlspecialchars.
 	 *
 	 * @return  string  The tooltip string
 	 *
 	 * @since   3.1.2
 	 */
-	public static function tooltipText($title = '', $content = '', $escape = 1)
+	public static function tooltipText($title = '', $content = '', $translate = 1, $escape = 1)
 	{
 		// Return empty in no title or content is given.
 		if ($title == '' && $content == '')
@@ -895,15 +898,18 @@ abstract class JHtml
 			return '';
 		}
 
-		// split title into title and content if the title contains '::' (old Mootools format).
+		// Split title into title and content if the title contains '::' (old Mootools format).
 		if ($content == '' && !(strpos($title, '::') === false))
 		{
 			list($title, $content) = explode('::', $title, 2);
 		}
 
 		// Pass texts through the JText.
-		$title = JText::_($title);
-		$content = JText::_($content);
+		if ($translate)
+		{
+			$title = JText::_($title);
+			$content = JText::_($content);
+		}
 
 		// Escape the texts.
 		if ($escape)

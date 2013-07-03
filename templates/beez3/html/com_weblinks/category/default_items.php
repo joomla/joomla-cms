@@ -129,8 +129,31 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							</ul>
 						<?php endif; ?>
 			</p>
+			<?php $tagsData = $item->tags->getItemTags('com_weblinks.weblink', $item->id); ?>
+			<?php if ($this->params->get('show_tags', 1)) : ?>
+				<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+				<?php echo $this->item->tagLayout->render($tagsData); ?>
+			<?php endif; ?>
 
 			<?php if (($this->params->get('show_link_description')) and ($item->description != '')) : ?>
+				<?php $images = json_decode($item->images); ?>
+				<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
+				<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
+				<div class="img-intro-<?php echo htmlspecialchars($imgfloat); ?>"> <img
+					<?php if ($images->image_first_caption):
+						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_first_caption) .'"';
+					endif; ?>
+					src="<?php echo htmlspecialchars($images->image_first); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt); ?>"/> </div>
+				<?php endif; ?>
+				<?php  if (isset($images->image_second) and !empty($images->image_second)) : ?>
+					<?php $imgfloat = (empty($images->float_second)) ? $this->params->get('float_second') : $images->float_second; ?>
+					<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image"> <img
+					<?php if ($images->image_second_caption):
+						echo 'class="caption"'.' title="' .htmlspecialchars($images->image_second_caption) .'"';
+					endif; ?>
+					src="<?php echo htmlspecialchars($images->image_second); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt); ?>"/> </div>
+				<?php endif; ?>
+
 				<?php echo $item->description; ?>
 			<?php endif; ?>
 		</td>

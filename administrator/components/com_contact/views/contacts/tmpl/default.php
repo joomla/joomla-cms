@@ -62,7 +62,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC');?></label>
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_CONTACT_SEARCH_IN_NAME'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_CONTACT_SEARCH_IN_NAME'); ?>" />
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_CONTACT_SEARCH_IN_NAME'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -96,7 +96,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 					</th>
 					<th width="1%" class="hidden-phone">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th width="1%" style="min-width:55px" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
@@ -141,22 +141,23 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				?>
 				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
 					<td class="order nowrap center hidden-phone">
-						<?php if ($canChange) :
-							$disableClassName = '';
-							$disabledLabel	  = '';
-							if (!$saveOrder) :
-								$disabledLabel    = 'JORDERINGDISABLED';
-								$disableClassName = 'inactive tip-top';
-							endif; ?>
-							<span class="sortable-handler hasTooltip<?php echo $disableClassName?>" title="<?php echo JHtml::tooltipText($disabledLabel); ?>">
-								<i class="icon-menu"></i>
-							</span>
+						<?php
+						$iconClass = '';
+						if (!$canChange)
+						{
+							$iconClass = ' inactive';
+						}
+						elseif (!$saveOrder)
+						{
+							$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+						}
+						?>
+						<span class="sortable-handler<?php echo $iconClass ?>">
+							<i class="icon-menu"></i>
+						</span>
+						<?php if ($canChange && $saveOrder) : ?>
 							<input type="text" style="display:none" name="order[]" size="5"
-							value="<?php echo $item->ordering;?>" class="width-20 text-area-order " />
-						<?php else : ?>
-							<span class="sortable-handler inactive" >
-								<i class="icon-menu"></i>
-							</span>
+								value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
 						<?php endif; ?>
 					</td>
 					<td class="center hidden-phone">
