@@ -863,6 +863,7 @@ abstract class JHtml
 		{
 			// Still using MooTools tooltips!
 			$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
+
 			if ($title)
 			{
 				$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
