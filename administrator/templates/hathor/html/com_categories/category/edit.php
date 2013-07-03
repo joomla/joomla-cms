@@ -112,8 +112,8 @@ JHtml::_('behavior.keepalive');
 
 			<?php $fieldSets = $this->form->getFieldsets('attribs'); ?>
 			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-				<?php
-				if ($name != 'editorConfig' && $name != 'basic-limited') :
+				<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
+					<?php
 					$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
 					echo JHtml::_('sliders.panel', JText::_($label), $name . '-options');
 					if (isset($fieldSet->description) && trim($fieldSet->description))

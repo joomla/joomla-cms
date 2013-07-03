@@ -109,9 +109,9 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				</thead>
 
 				<tbody>
-					<?php
-					$originalOrders = array();
-					foreach ($this->items as $i => $item) :
+					<?php $originalOrders = array(); ?>
+					<?php foreach ($this->items as $i => $item) : ?>
+						<?php
 						$orderkey = array_search($item->id, $this->ordering[$item->parent_id]);
 						$canEdit = $user->authorise('core.edit', $extension . '.category.' . $item->id);
 						$canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
