@@ -68,7 +68,7 @@ $input = JFactory::getApplication()->input;
         <div class="row-fluid">
             <div class="span6">
                 <legend>Modules</legend>
-                <ul class="nav nav-list">
+                <ul class="nav nav-tabs nav-stacked">
                     <?php foreach($this->overridesList['modules'] as $module): ?>
                         <li><a href="#"><i class="icon-copy"></i>&nbsp;<?php echo $module; ?></a></li>
                     <?php endforeach; ?>
@@ -76,7 +76,7 @@ $input = JFactory::getApplication()->input;
             </div>
             <div class="span6">
                 <legend>Components</legend>
-                <ul class="nav nav-list">
+                <ul class="nav nav-tabs nav-stacked">
                     <?php foreach($this->overridesList['components'] as $component): ?>
                         <li><a href="#"><i class="icon-copy"></i>&nbsp;<?php echo $component; ?></a></li>
                     <?php endforeach; ?>
