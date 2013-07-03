@@ -90,15 +90,13 @@ class TemplatesModelTemplate extends JModelForm
 			{ 
 				if (is_dir($dir . $value . '/')) 
 				{ 
-					$result[$value] = $this->getDirectoryTree($dir . $value . '/');
+					$result[$dir . $value] = $this->getDirectoryTree($dir . $value . '/');
 				} 
 				else 
 				{
 					$ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
 					if(in_array($ext, array('css','js','php','xml','ini','less')))
 					{
-						/*$pos = strpos($dir,$this->element) + strlen($this->element);
-						$relativePath = substr($dir, $pos);*/
                         $relativePath = str_replace($this->element,'',$dir);
 						$info = $this->getFile($relativePath,$value);
 						$result[] = $info;
@@ -443,5 +441,20 @@ class TemplatesModelTemplate extends JModelForm
 	
 		return true;
 	}
+
+    public function getOverridesList()
+    {
+        if ($template = $this->getTemplate())
+        {
+            $app = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $componentPath		= JPath::clean($client->path.'/components/');
+            $modulePath		= JPath::clean($client->path.'/modules/');
+            $result['components'] = JFolder::folders($componentPath);
+            $result['modules'] = JFolder::folders($modulePath);
+
+        }
+        return $result;
+    }
 
 }

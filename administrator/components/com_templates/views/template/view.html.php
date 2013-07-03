@@ -32,6 +32,8 @@ class TemplatesViewTemplate extends JViewLegacy
 
     protected $file;
 
+    protected $overridesList;
+
 	/**
 	 * Display the view
 	 */
@@ -43,6 +45,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		
 		$this->form		= $this->get('Form');
 		$this->source	= $this->get('Source');
+		$this->overridesList	= $this->get('OverridesList');
         $this->id       = $this->state->get('extension.id');
 
         $app            = JFactory::getApplication();
@@ -113,9 +116,9 @@ protected function addToolbar()
 		// Add new overrides button
 		if ($user->authorise('core.create', 'com_templates'))
 		{
-			$title = JText::_('Create Overrides');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#\" class=\"btn btn-small\">
-			<i class=\"icon-copy\" title=\"$title\"></i>
+			$title = JText::_('Delete');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#deleteModal\" class=\"btn btn-small\">
+			<i class=\"icon-remove\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
@@ -147,7 +150,7 @@ protected function addToolbar()
 			{		
 				echo "<li class='folder'>";
 				echo "<a class='folder-url' href=''><i class='icon-folder-close'>&nbsp;";
-				echo $key;
+				echo end(explode('/',$key));
 				echo "</i></a>";
 				$this->listDirectoryTree($value);
 				echo "</li>";
@@ -157,7 +160,7 @@ protected function addToolbar()
 			{		
 				echo "<li>";
 				echo "<a href='" . JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) . "'>";
-				echo "<i class='icon-edit'>&nbsp;" . $value->name . "</i>";
+				echo "<i class='icon-file'>&nbsp;" . $value->name . "</i>";
 				echo "</a>";
 				echo "</li>";
 			}
