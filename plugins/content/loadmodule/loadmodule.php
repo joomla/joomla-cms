@@ -97,7 +97,7 @@ class PlgContentLoadmodule extends JPlugin
 				}
 
 				$module = trim($matchesmodlist[0]);
-				$name   = trim($matchesmodlist[1]);
+				$name   = htmlspecialchars_decode(trim($matchesmodlist[1]));
 				$stylemod  = trim($matchesmodlist[2]);
 				// $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
 				$output = $this->_loadmod($module, $name, $stylemod);

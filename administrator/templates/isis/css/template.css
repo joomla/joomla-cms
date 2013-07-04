@@ -6174,10 +6174,6 @@ div.modal.fade.in {
 	font-style: normal;
 	speak: none;
 }
-[class^="icon-"].disabled,
-[class*=" icon-"].disabled {
-	font-weight: normal;
-}
 .icon-home:before {
 	content: "\21";
 }
@@ -6946,12 +6942,6 @@ h6 {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
-	color: #FF0000;
-	font-weight: bold;
-}
-.enabled {
-	color: green;
-	font-weight: bold;
 }
 .nav-filters hr {
 	margin: 5px 0;
@@ -7242,6 +7232,20 @@ td.nowrap.has-context {
 #flag img {
 	padding-top: 6px;
 	vertical-align: top;
+}
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
 }
 #permissions-sliders .chzn-container {
 	position: absolute;
