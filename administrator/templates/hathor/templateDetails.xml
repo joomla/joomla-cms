@@ -49,7 +49,7 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="showSiteName" type="radio" default="0" label="TPL_HATHOR_SHOW_SITE_NAME_LABEL" description="TPL_HATHOR_SHOW_SITE_NAME_DESC">
+				<field name="showSiteName" type="radio" class="btn-group" default="0" label="TPL_HATHOR_SHOW_SITE_NAME_LABEL" description="TPL_HATHOR_SHOW_SITE_NAME_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -63,7 +63,7 @@
 					<option value="brown">TPL_HATHOR_COLOUR_CHOICE_BROWN</option>
 					<option value="blue">TPL_HATHOR_COLOUR_CHOICE_BLUE</option>
 				</field>
-				<field name="boldText" type="radio" default="0" label="TPL_HATHOR_BOLD_TEXT_LABEL" description="TPL_HATHOR_BOLD_TEXT_DESC">
+				<field name="boldText" type="radio" class="btn-group" default="0" label="TPL_HATHOR_BOLD_TEXT_LABEL" description="TPL_HATHOR_BOLD_TEXT_DESC">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>

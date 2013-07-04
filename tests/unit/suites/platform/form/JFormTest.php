@@ -7,16 +7,65 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+include_once 'JFormDataHelper.php';
+
 /**
  * Test class for JForm.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormTest extends TestCase
 {
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
 	/**
 	 * Test showXml
 	 *
@@ -31,30 +80,6 @@ class JFormTest extends TestCase
 		$dom->formatOutput = true;
 		$dom->loadXML($form->getXml()->asXML());
 		echo $dom->saveXML();
-	}
-
-	/**
-	 * Set up for testing
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-
-		$this->saveFactoryState();
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-		include_once 'JFormDataHelper.php';
-	}
-
-	/**
-	 * Tear down test
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-		$this->restoreFactoryState();
 	}
 
 	/**
@@ -1138,8 +1163,8 @@ class JFormTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$expected = '<label id="title_id-lbl" for="title_id" class="hasTip required" ' .
-				'title="Title::The title.">Title<span class="star">&#160;*</span></label>';
+		$expected = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" ' .
+				'title="<strong>Title</strong><br />The title.">Title<span class="star">&#160;*</span></label>';
 
 		$this->assertThat(
 			$form->getLabel('title'),

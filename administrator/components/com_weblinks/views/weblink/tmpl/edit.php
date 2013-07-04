@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -27,6 +27,9 @@ JHtml::_('formbehavior.chosen', 'select');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_weblinks&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
+
+	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+
 	<div class="row-fluid">
 		<!-- Begin Weblinks -->
 		<div class="span10 form-horizontal">

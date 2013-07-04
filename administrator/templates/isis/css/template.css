@@ -2617,12 +2617,9 @@ input[type="submit"].btn.btn-mini {
 }
 .btn-group > .btn:first-child {
 	margin-left: 0;
-	-webkit-border-top-left-radius: 4px;
-	-moz-border-radius-topleft: 4px;
-	border-top-left-radius: 4px;
-	-webkit-border-bottom-left-radius: 4px;
-	-moz-border-radius-bottomleft: 4px;
-	border-bottom-left-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 }
 .btn-group > .btn:last-child,
 .btn-group > .dropdown-toggle {
@@ -6079,6 +6076,20 @@ fieldset.radio.btn-group {
 input.invalid {
 	border: 1px solid #9d261d;
 }
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
 .tip-text {
 	text-align: left;
 }
@@ -6931,12 +6942,6 @@ h6 {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
-	color: #FF0000;
-	font-weight: bold;
-}
-.enabled {
-	color: green;
-	font-weight: bold;
 }
 .nav-filters hr {
 	margin: 5px 0;
@@ -7227,4 +7232,21 @@ td.nowrap.has-context {
 #flag img {
 	padding-top: 6px;
 	vertical-align: top;
+}
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+#permissions-sliders .chzn-container {
+	position: absolute;
 }

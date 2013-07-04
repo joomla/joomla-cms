@@ -20,7 +20,7 @@
 .input-block-level {
 	display: block;
 	width: 100%;
-	min-height: ;
+	min-height: 25px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1384,6 +1384,9 @@ a img.calendar {
 }
 .icon-48-weblinks-category-add {
 	background-image: url(../images/header/icon-48-category-add.png);
+}
+.icon-48-tags {
+	background-image: url(../images/header/icon-48-tags.png);
 }
 div.message {
 	border: 1px solid #c7c8b2;

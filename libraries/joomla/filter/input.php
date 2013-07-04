@@ -325,10 +325,6 @@ class JFilterInput
 		// In the beginning we don't really have a tag, so everything is postTag
 		$preTag = null;
 		$postTag = $source;
-		$currentSpace = false;
-
-		// Setting to null to deal with undefined variables
-		$attr = '';
 
 		// Is there a tag? If so it will certainly start with a '<'.
 		$tagOpen_start = strpos($source, '<');
@@ -370,7 +366,6 @@ class JFilterInput
 			}
 
 			// Let's get some information about our tag and setup attribute pairs
-			$tagOpen_nested = (strpos($fromTagOpen, '<') + $tagOpen_start + 1);
 			$currentTag = substr($fromTagOpen, 0, $tagOpen_end);
 			$tagLength = strlen($currentTag);
 			$tagLeft = $currentTag;
@@ -418,9 +413,6 @@ class JFilterInput
 				$nextSpace = strpos($fromSpace, ' ');
 				$openQuotes = strpos($fromSpace, '"');
 				$closeQuotes = strpos(substr($fromSpace, ($openQuotes + 1)), '"') + $openQuotes + 1;
-
-				$startAtt = '';
-				$startAttPosition = 0;
 
 				// Find position of equal and open quotes ignoring
 				if (preg_match('#\s*=\s*\"#', $fromSpace, $matches, PREG_OFFSET_CAPTURE))

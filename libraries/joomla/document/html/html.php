@@ -531,6 +531,7 @@ class JDocumentHTML extends JDocument
 					->from('#__menu')
 					->where('parent_id = ' . $active->id)
 					->where('published = 1');
+				$db->setQuery($query);
 				$children = $db->loadResult();
 			}
 			else
@@ -581,7 +582,7 @@ class JDocumentHTML extends JDocument
 			{
 				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(JURI::base(true) . '/' . $path . 'favicon.ico');
+				$this->addFavicon(JUri::base(true) . '/' . $path . 'favicon.ico');
 				break;
 			}
 		}
@@ -622,7 +623,7 @@ class JDocumentHTML extends JDocument
 
 		// Assign the variables
 		$this->template = $template;
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
 
 		// Load

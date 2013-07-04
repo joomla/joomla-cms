@@ -235,13 +235,12 @@ class JGithubTest extends TestCase
 	 * @since  11.3
 	 *
 	 * @return void
+	 *
+	 * @expectedException  InvalidArgumentException
 	 */
 	public function test__GetFailure()
 	{
-		$this->assertThat(
-			$this->object->other,
-			$this->isNull()
-		);
+		$this->object->other;
 	}
 
 	/**

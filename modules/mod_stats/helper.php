@@ -124,7 +124,6 @@ class ModStatsHelper
 				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data	= $hits + $increase;
-				$i++;
 			}
 		}
 

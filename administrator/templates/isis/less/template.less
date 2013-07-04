@@ -380,14 +380,8 @@ h6 { font-size: 12px; line-height: 14px; }
 	opacity: 0.65;
 	filter: alpha(opacity=65);
 	-webkit-box-shadow: none;
-	-moz-box-shadow: none;	
+	-moz-box-shadow: none;
 	box-shadow: none;
-	color: #FF0000;
-	font-weight: bold;
-}
-.enabled{
-	color: green;
-	font-weight: bold;
 }
 /* Nav list filters */
 .nav-filters hr{
@@ -716,4 +710,25 @@ td.nowrap.has-context{
 #flag img {
 	padding-top: 6px;
 	vertical-align: top;
+}
+
+/* Tweaking of tooltips */
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+
+/* Permissions dropdown display */
+#permissions-sliders .chzn-container {
+	position: absolute;
 }

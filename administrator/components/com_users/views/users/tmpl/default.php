@@ -9,10 +9,8 @@
 
 defined('_JEXEC') or die;
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('behavior.modal');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -50,11 +48,11 @@ $sortFields = $this->getSortFields();
 	<?php endif;?>
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="filter-search btn-group pull-left">
-			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_USERS'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_USERS'); ?>" />
 		</div>
 		<div class="btn-group pull-left">
-			<button type="submit" class="btn tip" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-			<button type="button" class="btn tip" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_RESET'); ?>"><i class="icon-remove"></i></button>
+			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_RESET'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 		</div>
 		<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
@@ -81,7 +79,7 @@ $sortFields = $this->getSortFields();
 		<thead>
 			<tr>
 				<th width="1%" class="nowrap center">
-					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+					<?php echo JHtml::_('grid.checkall'); ?>
 				</th>
 				<th class="left">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
@@ -175,13 +173,13 @@ $sortFields = $this->getSortFields();
 				</td>
 				<td class="center">
 					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
-						<span class="hasTip" title="<?php echo JText::_('COM_USERS_HEADING_GROUPS').'::'.nl2br($item->group_names); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+						<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 					<?php else : ?>
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->email); ?>
+					<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 				</td>
 				<td class="center">
 					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>

@@ -137,8 +137,19 @@ abstract class AdminEditPage extends AdminPage
 		$containerElement = $this->driver->findElement(By::xPath($containerSelector));
 		if ($containerElement->getAttribute('class') == 'accordion-body collapse')
 		{
-			$toggleElement->click();
+			try
+			{
+				$toggleElement->click();
+			}
+			catch (Exception $e)
+			{
+				$this->driver->executeScript("window.scrollBy(0,400)");
+				$toggleElement->click();
+				$this->driver->executeScript("window.scrollTo(0,0)");
+			}
+
 		}
+		sleep(1);
 
 	}
 
@@ -364,23 +375,24 @@ abstract class AdminEditPage extends AdminPage
 		{
 			// Process a Chosen select field
 			$container = $checkArray[0];
-			$location = $container->getCoordinates();
+
 			$type = $container->getAttribute('class');
 			if (strpos($type, 'chzn-container-single-nosearch') > 0)
 			{
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
 
 				// Click the last element in the list to make sure they are all in view
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[last()]"))->click();
-
-				// Re-open the link so we can click the selected item
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
+				$lastElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[last()]"));
+				$lastElement->getLocationOnScreenOnceScrolledIntoView();
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $values['value'] . "')]"))->click();
 			}
 			elseif (strpos($type, 'chzn-container-single') > 0)
 			{
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//input"))->sendKeys($values['value'] . "\n");
+				$el = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//input"));
+				$el->clear();
+				$el->sendKeys($values['value']);
+				$el->sendKeys(chr(9));
 			}
 		}
 		else

@@ -200,7 +200,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 
 		<?php if ($params->get('show_create_date')) : ?>
 			<dd class="create">
-				<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+				<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 			</dd>
 		<?php endif; ?>
 
@@ -234,7 +234,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
 		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
-		$link = new JURI($link1);
+		$link = new JUri($link1);
 		$link->setVar('return', base64_encode($returnURL));
 	endif; ?>
 

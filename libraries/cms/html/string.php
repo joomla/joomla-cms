@@ -189,6 +189,7 @@ abstract class JHtmlString
 				return substr($html, 0, $l) . '</' . $tag . '...';
 			}
 
+			// TODO: $character doesn't seem to be used...
 			$character = substr(strip_tags($html), 0, 1);
 
 			return substr($html, 0, $l) . '</' . $tag . '...';
@@ -221,8 +222,6 @@ abstract class JHtmlString
 		$ptString = rtrim($ptString, '.');
 
 		// Now deal with more complex truncation.
-		$diffLength = 0;
-
 		while ($maxLength <= $baseLength)
 		{
 			// Get the truncated string assuming HTML is allowed.

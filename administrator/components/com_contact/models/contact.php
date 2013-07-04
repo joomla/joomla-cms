@@ -429,7 +429,6 @@ class ContactModelContact extends JModelAdmin
 		{
 			$item->tags = new JHelperTags;
 			$item->tags->getTagIds($item->id, 'com_contact.contact');
-			$item->metadata['tags'] = $item->tags;
 		}
 
 		return $item;
@@ -484,6 +483,16 @@ class ContactModelContact extends JModelAdmin
 			$data['published'] = 0;
 		}
 
+		$links = array('linka', 'linkb', 'linkc', 'linkd', 'linke');
+
+		foreach ($links as $link)
+		{
+			if ($data['params'][$link])
+			{
+				$data['params'][$link] = JStringPunycode::urlToPunycode($data['params'][$link]);
+			}
+		}
+
 		if (parent::save($data))
 		{
 
@@ -536,7 +545,7 @@ class ContactModelContact extends JModelAdmin
 					$query->clear()
 						->insert('#__associations');
 
-					foreach ($associations as $tag => $id)
+					foreach ($associations as $id)
 					{
 						$query->values($id . ',' . $db->quote('com_contact.item') . ',' . $db->quote($key));
 					}

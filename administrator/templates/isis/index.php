@@ -59,7 +59,7 @@ foreach ($this->submenumodules as $submenumodule)
 // Logo file
 if ($this->params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = JUri::root() . $this->params->get('logoFile');
 }
 else
 {
@@ -137,7 +137,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<a class="brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($this->params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>

@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
-$class = ' class="first"';
 JHtml::_('bootstrap.tooltip');
+
+$class = ' class="first"';
 
 if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 ?>
@@ -28,7 +29,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 				<a href="<?php echo JRoute::_(WeblinksHelperRoute::getCategoryRoute($item->id));?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_num_articles_cat') == 1) :?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo JText::_('COM_WEBLINKS_NUM_ITEMS'); ?>">
+						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_WEBLINKS_NUM_ITEMS'); ?>">
 							<?php echo $item->numitems; ?>
 						</span>
 					<?php endif; ?>
