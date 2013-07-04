@@ -44,15 +44,27 @@
 				flen = f.length;
 			if(self.options.formValidationEvent === "onSubmit"){
 				$form.on('submit',function(e){
-					if(!novalidate && !self.validateForm(self)){
+					var formnovalidate = this.H5Form.donotValidate != undefined ? this.H5Form.donotValidate : false;
+					if(!formnovalidate && !novalidate && !self.validateForm(self)){
 						//prevent form from submit
 						e.preventDefault();
+						this.donotValidate = false;
 					}
+					else{
+						$form.find(':input').each(function(){
+							self.placeholder(self,this,'submit');
+						});
 				});
 			}
-			$form.on('focusout focusin submit', self.polyfill);
+			$form.on('focusout focusin', self.polyfill);
 			$form.on('focusout change', self.validateField);
 			$form.find('fieldset').on('change',function(){self.validateField(this);});
+
+			if(!self.browser.isFormnovalidateNative){
+				$form.find(':submit[formnovalidate]').on('click',function(){
+					self.donotValidate = true;
+				});
+			}
 			while(flen--) {
 				//assign graphical polyfills
 				var elem = f[flen];
@@ -74,6 +86,7 @@
 			self.browser.isPatternNative = !!("pattern" in self.field);
 			self.browser.isPlaceholderNative = !!("placeholder" in self.field);
 			self.browser.isAutofocusNative = !!("autofocus" in self.field);
+			self.browser.isFormnovalidateNative = !!("formnovalidate" in self.field);
 		},
 
 		validateForm : function(){
