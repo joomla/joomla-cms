@@ -108,7 +108,6 @@ abstract class JToolbarButton
 		$layout = new JLayoutFile('joomla.toolbar.iconclass');
 
 		return $layout->render(array('icon' => $identifier));
-		return 'icon-' . $identifier;
 	}
 
 	/**
