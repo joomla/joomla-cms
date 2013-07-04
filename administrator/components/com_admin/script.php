@@ -603,7 +603,7 @@ class JoomlaInstallerScript
 			'/media/system/swf/uploader.swf',
 			// Joomla! 3.2
 			'/administrator/components/com_contacts/models/fields/modal/contacts.php',
-			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeed.php',
+			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeeds.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
