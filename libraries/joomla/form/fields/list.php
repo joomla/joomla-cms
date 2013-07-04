@@ -40,10 +40,8 @@ class JFormFieldList extends JFormField
 		$html = array();
 		$attr = '';
 
-		$chznrtl = JFactory::getLanguage()->isRTL() ? ' chzn-rtl' : '';
-
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . $chznrtl . '"' : $chznrtl;
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
 		if ((string) $this->element['readonly'] == 'true' || (string) $this->element['disabled'] == 'true')
