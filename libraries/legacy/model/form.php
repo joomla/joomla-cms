@@ -47,6 +47,7 @@ abstract class JModelForm extends JModelLegacy
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
+
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
@@ -85,15 +86,22 @@ abstract class JModelForm extends JModelLegacy
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = JFactory::getUser();
-
 			// Get an instance of the row to checkout.
 			$table = $this->getTable();
+
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
 				return false;
 			}
+
+			// If there is no checked_out or checked_out_time field, just return true.
+			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			{
+				return true;
+			}
+
+			$user = JFactory::getUser();
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
