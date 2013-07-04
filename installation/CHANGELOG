@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#31340] *PHP notice when saving weblink
  # [#31338] Exception when saving articles etc with no tags. Thanks Elin Waring
  $ Updating Installation lang file: lv-LV. Adding el-GR
+ # [#31325] Modified date used instead of created date in article layout. Thanks Brian Teeman
 
 03-Jul-2013 Jean-Marie Simonet
  # [#31321] Fixed issue with tooltip text not being escaped when no title is given. Thanks Peter van Westen
