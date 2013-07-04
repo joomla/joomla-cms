@@ -1,609 +1,237 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  OAuth
+ * @subpackage  OAuth1
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
-jimport('joomla.environment.response');
+defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
+ * OAuth Client class for the Joomla Platform
  *
  * @package     Joomla.Platform
- * @subpackage  OAuth
- *
- * @since       13.1
+ * @subpackage  OAuth1
+ * @since       12.1
  */
-abstract class JOAuth1Client
+class JOAuth1Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth1Client object.
-	 * @since  13.1
+	 * @var    JDatabaseDriver  Driver for persisting the client object.
+	 * @since  12.1
 	 */
-	protected $options;
+	private $_db;
 
 	/**
-	 * @var array  Contains access token key, secret and verifier.
-	 * @since 13.1
+	 * @var    array  Client property array.
+	 * @since  12.1
 	 */
-	protected $token = array();
+	private $_properties = array(
+		'client_id' => '',
+		'alias' => '',
+		'key' => '',
+		'secret' => '',
+		'title' => '',
+		'callback' => '',
+		'resource_owner_id' => ''
+	);
 
 	/**
-	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  13.1
-	 */
-	protected $client;
-
-	/**
-	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  13.1
-	 */
-	protected $input;
-
-	/**
-	 * @var   JApplicationWeb  The application object to send HTTP headers for redirects.
-	 * @since 13.1
-	 */
-	protected $application;
-
-	/**
-	 * @var   string  Selects which version of OAuth to use: 1.0 or 1.0a.
-	 * @since 13.1
-	 */
-	protected $version;
-
-	/**
-	 * Constructor.
+	 * Object constructor.
 	 *
-	 * @param   JRegistry        $options      OAuth1Client options object.
-	 * @param   JHttp            $client       The HTTP client object.
-	 * @param   JInput           $input        The input object
-	 * @param   JApplicationWeb  $application  The application object
-	 * @param   string           $version      Specify the OAuth version. By default we are using 1.0a.
+	 * @param   JDatabaseDriver  $db          The database driver to use when persisting the object.
+	 * @param   array            $properties  A set of properties with which to prime the object.
 	 *
-	 * @since 13.1
+	 * @codeCoverageIgnore
+	 * @since   12.1
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
-		$version = null)
+	public function __construct(JDatabaseDriver $db = null, array $properties = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : JHttpFactory::getHttp($this->options);
-		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
-		$this->application = isset($application) ? $application : new JApplicationWeb;
-		$this->version = isset($version) ? $version : '1.0a';
-	}
+		// Setup the database object.
+		$this->_db = $db ? $db : JFactory::getDbo();
 
-	/**
-	 * Method to for the oauth flow.
-	 *
-	 * @return void
-	 *
-	 * @since  13.1
-	 *
-	 * @throws DomainException
-	 */
-	public function authenticate()
-	{
-		// Already got some credentials stored?
-		if ($this->token)
+		// Iterate over any input properties and bind them to the object.
+		if ($properties)
 		{
-			$response = $this->verifyCredentials();
-
-			if ($response)
+			foreach ($properties as $k => $v)
 			{
-				return $this->token;
-			}
-			else
-			{
-				$this->token = null;
+				$this->_properties[$k] = $v;
 			}
 		}
-
-		// Check for callback.
-		if (strcmp($this->version, '1.0a') === 0)
-		{
-			$verifier = $this->input->get('oauth_verifier');
-		}
-		else
-		{
-			$verifier = $this->input->get('oauth_token');
-		}
-
-		if (empty($verifier))
-		{
-			// Generate a request token.
-			$this->_generateRequestToken();
-
-			// Authenticate the user and authorise the app.
-			$this->_authorise();
-		}
-
-		// Callback
-		else
-		{
-			$session = JFactory::getSession();
-
-			// Get token form session.
-			$this->token = array('key' => $session->get('key', null, 'oauth_token'), 'secret' => $session->get('secret', null, 'oauth_token'));
-
-			// Verify the returned request token.
-			if (strcmp($this->token['key'], $this->input->get('oauth_token')) !== 0)
-			{
-				throw new DomainException('Bad session!');
-			}
-
-			// Set token verifier for 1.0a.
-			if (strcmp($this->version, '1.0a') === 0)
-			{
-				$this->token['verifier'] = $this->input->get('oauth_verifier');
-			}
-
-			// Generate access token.
-			$this->_generateAccessToken();
-
-			// Return the access token.
-			return $this->token;
-		}
 	}
 
 	/**
-	 * Method used to get a request token.
+	 * Method to get a property value.
 	 *
-	 * @return void
+	 * @param   string  $p  The name of the property for which to return the value.
 	 *
-	 * @since  13.1
-	 * @throws  DomainException
+	 * @return  mixed  The property value for the given property name.
+	 *
+	 * @since   12.1
 	 */
-	private function _generateRequestToken()
+	public function __get($p)
 	{
-		// Set the callback URL.
-		if ($this->getOption('callback'))
+		if (isset($this->_properties[$p]))
 		{
-			$parameters = array(
-				'oauth_callback' => $this->getOption('callback')
-			);
-		}
-		else
-		{
-			$parameters = array();
-		}
-
-		// Make an OAuth request for the Request Token.
-		$response = $this->oauthRequest($this->getOption('requestTokenURL'), 'POST', $parameters);
-
-		parse_str($response->body, $params);
-
-		if (strcmp($this->version, '1.0a') === 0 && strcmp($params['oauth_callback_confirmed'], 'true') !== 0)
-		{
-			throw new DomainException('Bad request token!');
-		}
-
-		// Save the request token.
-		$this->token = array('key' => $params['oauth_token'], 'secret' => $params['oauth_token_secret']);
-
-		// Save the request token in session
-		$session = JFactory::getSession();
-		$session->set('key', $this->token['key'], 'oauth_token');
-		$session->set('secret', $this->token['secret'], 'oauth_token');
-	}
-
-	/**
-	 * Method used to authorise the application.
-	 *
-	 * @return void
-	 *
-	 * @since  13.1
-	 */
-	private function _authorise()
-	{
-		$url = $this->getOption('authoriseURL') . '?oauth_token=' . $this->token['key'];
-
-		if ($this->getOption('scope'))
-		{
-			$scope = is_array($this->getOption('scope')) ? implode(' ', $this->getOption('scope')) : $this->getOption('scope');
-			$url .= '&scope=' . urlencode($scope);
-		}
-
-		if ($this->getOption('sendheaders'))
-		{
-			$this->application->redirect($url);
+			return $this->_properties[$p];
 		}
 	}
 
 	/**
-	 * Method used to get an access token.
+	 * Method to set a value for a property.
 	 *
-	 * @return void
-	 *
-	 * @since  13.1
-	 */
-	private function _generateAccessToken()
-	{
-		// Set the parameters.
-		$parameters = array(
-			'oauth_token' => $this->token['key']
-		);
-
-		if (strcmp($this->version, '1.0a') === 0)
-		{
-			$parameters = array_merge($parameters, array('oauth_verifier' => $this->token['verifier']));
-		}
-
-		// Make an OAuth request for the Access Token.
-		$response = $this->oauthRequest($this->getOption('accessTokenURL'), 'POST', $parameters);
-
-		parse_str($response->body, $params);
-
-		// Save the access token.
-		$this->token = array('key' => $params['oauth_token'], 'secret' => $params['oauth_token_secret']);
-	}
-
-	/**
-	 * Method used to make an OAuth request.
-	 *
-	 * @param   string  $url         The request URL.
-	 * @param   string  $method      The request method.
-	 * @param   array   $parameters  Array containing request parameters.
-	 * @param   mixed   $data        The POST request data.
-	 * @param   array   $headers     An array of name-value pairs to include in the header of the request
-	 *
-	 * @return  object  The JHttpResponse object.
-	 *
-	 * @since 13.1
-	 * @throws  DomainException
-	 */
-	public function oauthRequest($url, $method, $parameters, $data = array(), $headers = array())
-	{
-		// Set the parameters.
-		$defaults = array(
-			'oauth_consumer_key' => $this->getOption('consumer_key'),
-			'oauth_signature_method' => 'HMAC-SHA1',
-			'oauth_version' => '1.0',
-			'oauth_nonce' => $this->generateNonce(),
-			'oauth_timestamp' => time()
-		);
-
-		$parameters = array_merge($parameters, $defaults);
-
-		// Do not encode multipart parameters. Do not include $data in the signature if $data is not array.
-		if (isset($headers['Content-Type']) && strpos($headers['Content-Type'], 'multipart/form-data') !== false || !is_array($data))
-		{
-			$oauth_headers = $parameters;
-		}
-		else
-		{
-			// Use all parameters for the signature.
-			$oauth_headers = array_merge($parameters, $data);
-		}
-
-		// Sign the request.
-		$oauth_headers = $this->_signRequest($url, $method, $oauth_headers);
-
-		// Get parameters for the Authorisation header.
-		if (is_array($data))
-		{
-			$oauth_headers = array_diff_key($oauth_headers, $data);
-		}
-
-		// Send the request.
-		switch ($method)
-		{
-			case 'GET':
-				$url = $this->toUrl($url, $data);
-				$response = $this->client->get($url, array('Authorization' => $this->_createHeader($oauth_headers)));
-				break;
-			case 'POST':
-				$headers = array_merge($headers, array('Authorization' => $this->_createHeader($oauth_headers)));
-				$response = $this->client->post($url, $data, $headers);
-				break;
-			case 'PUT':
-				$headers = array_merge($headers, array('Authorization' => $this->_createHeader($oauth_headers)));
-				$response = $this->client->put($url, $data, $headers);
-				break;
-			case 'DELETE':
-				$headers = array_merge($headers, array('Authorization' => $this->_createHeader($oauth_headers)));
-				$response = $this->client->delete($url, $headers);
-				break;
-		}
-
-		// Validate the response code.
-		$this->validateResponse($url, $response);
-
-		return $response;
-	}
-
-	/**
-	 * Method to validate a response.
-	 *
-	 * @param   string         $url       The request URL.
-	 * @param   JHttpResponse  $response  The response to validate.
+	 * @param   string  $p  The name of the property for which to set the value.
+	 * @param   mixed   $v  The property value to set.
 	 *
 	 * @return  void
 	 *
-	 * @since  13.1
-	 * @throws DomainException
+	 * @since   12.1
 	 */
-	abstract public function validateResponse($url, $response);
-
-	/**
-	 * Method used to create the header for the POST request.
-	 *
-	 * @param   array  $parameters  Array containing request parameters.
-	 *
-	 * @return  string  The header.
-	 *
-	 * @since 13.1
-	 */
-	private function _createHeader($parameters)
+	public function __set($p, $v)
 	{
-		$header = 'OAuth ';
-
-		foreach ($parameters as $key => $value)
+		if (isset($this->_properties[$p]))
 		{
-			if (!strcmp($header, 'OAuth '))
-			{
-				$header .= $key . '="' . $this->safeEncode($value) . '"';
-			}
-			else
-			{
-				$header .= ', ' . $key . '="' . $value . '"';
-			}
+			$this->_properties[$p] = $v;
 		}
-
-		return $header;
 	}
 
 	/**
-	 * Method to create the URL formed string with the parameters.
+	 * Method to create the client in the database.
 	 *
-	 * @param   string  $url         The request URL.
-	 * @param   array   $parameters  Array containing request parameters.
+	 * @return  boolean  True on success.
 	 *
-	 * @return  string  The formed URL.
-	 *
-	 * @since  13.1
+	 * @since   12.1
 	 */
-	public function toUrl($url, $parameters)
+	public function create()
 	{
-		foreach ($parameters as $key => $value)
-		{
-			if (is_array($value))
-			{
-				foreach ($value as $v)
-				{
-					if (strpos($url, '?') === false)
-					{
-						$url .= '?' . $key . '=' . $v;
-					}
-					else
-					{
-						$url .= '&' . $key . '=' . $v;
-					}
-				}
-			}
-			else
-			{
-				if (strpos($value, ' ') !== false)
-				{
-					$value = $this->safeEncode($value);
-				}
+		// Setup the object to be inserted.
+		$object = (object) $this->_properties;
 
-				if (strpos($url, '?') === false)
-				{
-					$url .= '?' . $key . '=' . $value;
-				}
-				else
-				{
-					$url .= '&' . $key . '=' . $value;
-				}
-			}
+		// Can't insert something that already has an ID.
+		if ($object->client_id)
+		{
+			return false;
 		}
 
-		return $url;
+		// Ensure we don't have an id to insert... use the auto-incrementor instead.
+		unset($object->client_id);
+
+		// Insert the object into the database.
+		$success = $this->_db->insertObject('#__oauth_clients', $object, 'client_id');
+
+		if ($success)
+		{
+			$this->_properties['client_id'] = (int) $object->client_id;
+		}
+
+		return $success;
 	}
 
 	/**
-	 * Method used to sign requests.
-	 *
-	 * @param   string  $url         The URL to sign.
-	 * @param   string  $method      The request method.
-	 * @param   array   $parameters  Array containing request parameters.
+	 * Method to delete the client from the database.
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   12.1
 	 */
-	private function _signRequest($url, $method, $parameters)
+	public function delete()
 	{
-		// Create the signature base string.
-		$base = $this->_baseString($url, $method, $parameters);
+		// Build the query to delete the row from the database.
+		$query = $this->_db->getQuery(true);
+		$query->delete('#__oauth_clients')
+			->where('client_id = ' . (int) $this->_properties['client_id']);
 
-		$parameters['oauth_signature'] = $this->safeEncode(
-			base64_encode(
-				hash_hmac('sha1', $base, $this->_prepareSigningKey(), true)
-				)
-			);
-
-		return $parameters;
+		// Set and execute the query.
+		$this->_db->setQuery($query);
+		$this->_db->execute();
 	}
 
 	/**
-	 * Prepare the signature base string.
+	 * Method to load a client by id.
 	 *
-	 * @param   string  $url         The URL to sign.
-	 * @param   string  $method      The request method.
-	 * @param   array   $parameters  Array containing request parameters.
+	 * @param   integer  $clientId  The id of the client to load.
 	 *
-	 * @return string  The base string.
+	 * @return  void
 	 *
-	 * @since 13.1
+	 * @since   12.1
 	 */
-	private function _baseString($url, $method, $parameters)
+	public function load($clientId)
 	{
-		// Sort the parameters alphabetically
-		uksort($parameters, 'strcmp');
+		// Build the query to load the row from the database.
+		$query = $this->_db->getQuery(true);
+		$query->select('*')
+			->from('#__oauth_clients')
+			->where('client_id = ' . (int) $clientId);
 
-		// Encode parameters.
-		foreach ($parameters as $key => $value)
+		// Set and execute the query.
+		$this->_db->setQuery($query);
+		$properties = $this->_db->loadAssoc();
+
+		// Iterate over any the loaded properties and bind them to the object.
+		if ($properties)
 		{
-			$key = $this->safeEncode($key);
-
-			if (is_array($value))
+			foreach ($properties as $k => $v)
 			{
-				foreach ($value as $v)
-				{
-					$v = $this->safeEncode($v);
-					$kv[] = "{$key}={$v}";
-				}
-			}
-			else
-			{
-				$value = $this->safeEncode($value);
-				$kv[] = "{$key}={$value}";
+				$this->_properties[$k] = $v;
 			}
 		}
-		// Form the parameter string.
-		$params = implode('&', $kv);
-
-		// Signature base string elements.
-		$base = array(
-			$method,
-			$url,
-			$params
-			);
-
-		// Return the base string.
-		return implode('&', $this->safeEncode($base));
 	}
 
 	/**
-	 * Encodes the string or array passed in a way compatible with OAuth.
-	 * If an array is passed each array value will will be encoded.
+	 * Method to load a client by key.
 	 *
-	 * @param   mixed  $data  The scalar or array to encode.
+	 * @param   string  $key  The key of the client to load.
 	 *
-	 * @return  string  $data encoded in a way compatible with OAuth.
+	 * @return  void
 	 *
-	 * @since 13.1
+	 * @since   12.1
 	 */
-	public function safeEncode($data)
+	public function loadByKey($key)
 	{
-		if (is_array($data))
+		// Build the query to load the row from the database.
+		$query = $this->_db->getQuery(true);
+		$query->select('*')
+			->from('#__oauth_clients')
+			->where($this->_db->quoteName('key') . ' = ' . $this->_db->quote($key));
+
+		// Set and execute the query.
+		$this->_db->setQuery($query);
+		$properties = $this->_db->loadAssoc();
+
+		// Iterate over any the loaded properties and bind them to the object.
+		if ($properties)
 		{
-			return array_map(array($this, 'safeEncode'), $data);
+			foreach ($properties as $k => $v)
+			{
+				$this->_properties[$k] = $v;
+			}
 		}
-		elseif (is_scalar($data))
+	}
+
+	/**
+	 * Method to update the client in the database.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   12.1
+	 */
+	public function update()
+	{
+		// Setup the object to be inserted.
+		$object = (object) $this->_properties;
+
+		if (!$object->client_id)
 		{
-			return str_ireplace(
-				array('+', '%7E'),
-				array(' ', '~'),
-				rawurlencode($data)
-				);
+			return false;
 		}
 		else
 		{
-			return '';
+			$object->client_id = (int) $object->client_id;
 		}
-	}
 
-	/**
-	 * Method used to generate the current nonce.
-	 *
-	 * @return  string  The current nonce.
-	 *
-	 * @since 13.1
-	 */
-	public static function generateNonce()
-	{
-		$mt = microtime();
-		$rand = mt_rand();
-
-		// The md5s look nicer than numbers.
-		return md5($mt . $rand);
-	}
-
-	/**
-	 * Prepares the OAuth signing key.
-	 *
-	 * @return string  The prepared signing key.
-	 *
-	 * @since 13.1
-	 */
-	private function _prepareSigningKey()
-	{
-		return $this->safeEncode($this->getOption('consumer_secret')) . '&' . $this->safeEncode(($this->token) ? $this->token['secret'] : '');
-	}
-
-	/**
-	 * Returns an HTTP 200 OK response code and a representation of the requesting user if authentication was successful;
-	 * returns a 401 status code and an error message if not.
-	 *
-	 * @return  array  The decoded JSON response
-	 *
-	 * @since   13.1
-	 */
-	abstract public function verifyCredentials();
-
-	/**
-	 * Get an option from the JOauth1aClient instance.
-	 *
-	 * @param   string  $key  The name of the option to get
-	 *
-	 * @return  mixed  The option value
-	 *
-	 * @since   13.1
-	 */
-	public function getOption($key)
-	{
-		return $this->options->get($key);
-	}
-
-	/**
-	 * Set an option for the JOauth1aClient instance.
-	 *
-	 * @param   string  $key    The name of the option to set
-	 * @param   mixed   $value  The option value to set
-	 *
-	 * @return  JOAuth1Client  This object for method chaining
-	 *
-	 * @since   13.1
-	 */
-	public function setOption($key, $value)
-	{
-		$this->options->set($key, $value);
-
-		return $this;
-	}
-
-	/**
-	 * Get the oauth token key or secret.
-	 *
-	 * @return  array  The oauth token key and secret.
-	 *
-	 * @since   13.1
-	 */
-	public function getToken()
-	{
-		return $this->token;
-	}
-
-	/**
-	 * Set the oauth token.
-	 *
-	 * @param   array  $token  The access token key and secret.
-	 *
-	 * @return  JOAuth1Client  This object for method chaining.
-	 *
-	 * @since   13.1
-	 */
-	public function setToken($token)
-	{
-		$this->token = $token;
-
-		return $this;
+		// Update the object into the database.
+		return $this->_db->updateObject('#__oauth_clients', $object, 'client_id');
 	}
 }
