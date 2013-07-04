@@ -122,11 +122,18 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 		$float='Right';
 		$caption='Sample Caption' . $salt;
 
+		$this->weblinkManagerPage->searchFor($weblinkName);
 		$this->assertFalse($this->weblinkManagerPage->getRowNumber($weblinkName), 'Test weblink should not be present');
+		$this->weblinkManagerPage->searchFor();
+
 		$this->weblinkManagerPage->addWeblink($weblinkName, $url, array('Alt text' => $alt, 'Caption' => $caption, 'Image Float' => $float));
 		$message = $this->weblinkManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Weblink successfully saved') >= 0, 'Weblink save should return success');
-		$this->assertEquals(10, $this->weblinkManagerPage->getRowNumber($weblinkName), 'Test weblink should be in row 10');
+
+		$this->weblinkManagerPage->searchFor($weblinkName);
+		$this->assertEquals(1, $this->weblinkManagerPage->getRowNumber($weblinkName), 'Test weblink should be in row 10');
+		$this->weblinkManagerPage->searchFor();
+
 		$values = $this->weblinkManagerPage->getFieldValues('WeblinkEditPage', $weblinkName, array('Title', 'Alt text', 'Caption', 'Image Float'));
 		$this->assertEquals(array($weblinkName,$alt,$caption,$float), $values, 'Actual title, alt text, caption and image float should match expected');
 		$this->weblinkManagerPage->deleteItem($weblinkName);

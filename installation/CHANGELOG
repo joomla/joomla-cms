@@ -25,6 +25,129 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jul-2013 Jean-Marie Simonet
+ # [#31138] Correct the Bug after #31034. Thanks Tobias Zulauf and Peter Wiseman
+ # [#31324] Fixed error about Undefined property JTableUser::$checked_out when saving a user. Thanks Peter van Westen
+ # [#31327] Debug plugin (git master version only) doesn't catch SQL errors. Thanks Beat.
+ # [#31340] *PHP notice when saving weblink
+ # [#31338] Exception when saving articles etc with no tags. Thanks Elin Waring
+
+03-Jul-2013 Jean-Marie Simonet
+ # [#31321] Fixed issue with tooltip text not being escaped when no title is given. Thanks Peter van Westen
+ # [#31322] Made title of search boxes show as tooltip. Thanks Peter van Westen
+ ^ [#31214] Added method to generate the check-all checkbox in grids. Thanks Peter van Westen
+ # [#31310] Password rule warning in 5.3. Thanks Elin Waring
+ # [#31220] Invalid Feed URL for Module Feed Display causes generation of page "The requested page cannot be found". Thanks Elin Waring 
+ # [#31293] Allow all password error messages to be shown. Thanks George Wilson.
+ # [#31256] Commit for issue 30966 garbles HTML for emails in forms. Thanks George Wilson.
+
+01-Jul-2013 Jean-Marie Simonet
+ ^ [#30849] Show alias for menu items on menu assignement. Thanks David Hurley
+ $ Updating Installation lang files: ar-AA, fi-FI, ja-JP, sy-IQ, uk-UA
+ # [#31229] Fixed: DebugGroup not working. Thanks Peter van Westen
+ # [#31066] Cleanup Tag Storing. Thanks Nicolas Dionysopoulos and Elin Waring.
+ # [#31280] Loadmodule support for htmlspecialchars in title. Thanks Peter Wiseman
+
+01-Jul-2013 Elin Waring
+ # [#31298] Drop downs on menu item edit are broken. Corrects #31060.
+
+30-Jun-2013 Jean-Marie Simonet
+ # [#31188] Fixed issue with not being able to select color white. Thanks Peter van Westen
+ # [#31098] *UX Suggestions for Batch button
+
+29-Jun-2013 Jean-Marie Simonet
+ $ [#27307] English only: weblink or web link. Web Link or Web link. Thanks George Wilson
+ # [#31285] Joomla Installation is broken with the current git!
+
+28-Jun-2013 Jean-Marie Simonet
+ # Correcting #31772
+ ^ [#31267] *Switching to Bootstrap tooltips. Thanks Peter van Westen and Michael Babker.
+ #^ [#31143] Registration with invalid password when non-core template. Thansk Elin Waring
+ # [#31172] X at hathor messages. Thanks Tobias Zulauf
+ ^ [#31087] Add SQL queries profiler in Debug zone with backtrace of call and EXPLAIN hovers. Thanks Beat
+ ^ [#31060] Show item title on the Edit page
+ ^ [#31100] UX "showon": Dynamic options in the Joomla Backend. Thanks Jérôme GLATIGNY
+
+27-Jun-2013 Elin Waring
+ $ [#31272] Fix tags help screen views. Thanks George Wilson
+ ^ [#1313] Simplify magic getters in third party API classes. Thanks Michael Babker
+
+27-Jun-2013 Michael Babker
+ ^ [#30783] Use JDatabase instead of MySQL queries on com_menus.  Thanks Matias Aguirre
+ # [#31157] Field mapping for core_urls is wrong for weblinks.  Thanks Elin Waring
+ ^ [#30977] loadmodule/loadposition styles.  Thanks Lasindu Charith
+ # [#30895] Fix An undefined variable called in JApplication.  Thanks Roberto Seguara
+ ^ [#30871] Remove an unneeded empty().  Thanks Elin Waring
+ # [#30946] Platform bug fixes.  Thanks Elin Waring
+ # [#31208] No border bottom right radius and border bottom top radius for buttons at com_finder view.  Thanks David Hurley
+ # [#31150] Weblinks images.  Thanks Elin Waring
+ !^ [#31080] Deprecating X-Content-Encoded-By.  Thanks Piotr Konieczny
+ ^ [#31216] Improved some syntax.  Thanks Peter van Westen
+ ^ [#31069] Sync Log package to Platform.
+ 
+27-Jun-2013 Jean-Marie Simonet
+ $ Updating Installation lang files: bs-BA, cs-CZ, fr-FR, id-ID, it-IT, mk-MK, sk-SK, sr-RS, sr-YU, sw-KE, ta-IN, th-TH, tr-TR
+ $ [#31263] Missing JHELP Keys from 5 Tags Adiministrative Views, Help Buttons do not resolve correctly. Thanks Tom Hutchison
+
+26-Jun-2013 Mark Dexter
+ # Revert [#31233] Complete move to Bootstrap tooltips.
+
+26-Jun-2013 Jean-Marie Simonet
+ ^ [#31233] Complete move to Bootstrap tooltips. Thanks Peter van Westen.
+
+25-Jun-2013 Jean-Marie Simonet
+ # [#31232] Fixed bootstrap.min.js [#31137]. Thanks Peter van Westen.
+ ^ [#31212] Changed tooltips of table headings from Mootools to Bootstrap. Thanks Peter van Westen.
+ ^ [#31218] Added tooltips to simple state buttons in grid views. Thanks Peter van Westen.
+ ^ [#31225] Added tooltips to simple state buttons in grid views (com_banners, com_installer). Thanks Peter van Westen.
+ # [#31211] Add Tooltip for mod_latest. Thanks Tobias Zulauf.
+ # [#31217] Removed useless title on ID checkboxes. Thanks Peter van Westen.
+ ^ [#31209] Add the Tooltip for "Clear" at Joomla! Help. Thanks Tobias Zulauf.
+ # [#31148] wrong check for permissions to edit weblinks in frontend. Thanks Philippe Saint-Pierre and Tobias Zulauf
+ ^ [#31231] Removed useless row id columns Edit. Thanks Peter van Westen.
+
+23-Jun-2013 Jean-Marie Simonet
+ # [#31137] Changed tooltip html behavior back to pre-bootstrap 2.3.2 (so default on). Thanks Peter van Westen.
+ + [#30966] Add handling for punycode urls and emails and fix a number of places where urls and emails are used. Thanks Elin Waring
+ # [#31168] Add chosen.css for com_templates and com_admin. Thanks Tobias Zulauf
+ # [#30465] ACL dropdown hidden. Thanks Artur Alves
+ # [#31199] *Various tooltips issues in back-end.
+
+21-Jun-2013 Jean-Marie Simonet
+ $ Missing language string (hardcoded)
+ # [#31186] Some HTML errors. Thanks Achal Aggarwal
+ # [#31195] *Isis: Bootstrap tooltip displays only one line, truncates tip
+
+20-Jun-2013 Michael Babker
+ ^ [#30479] Cleanup of unused variables.  Thanks Peter van Westen
+
+20-Jun-2013 Jean-Marie Simonet
+ + [#29945] Joomla administration shows the Name of the author, not the User Name. Thanks Stefania Gaianigo
+ $ [#31176] Change the Language String for the Language Keyword INSTL_ADMIN_USER_DESC. Thanks Ilagnayeru 'MIG' Manickam
+ # [#31158] *Multilanguage: Editing an article in frontend deletes its associations. Thanks Benjamin Trenkle.
+ # [#31184] *Multilanguage: Frontend article edit may break when using associations.
+ # [#31189] Some fields are missing from the tags edit screen. Thanks Elin Waring
+ # [#31167] Add class="btn-group" for hathor Options. Thanks Tobias Zulauf
+ # [#30751] No image for Tag Component at the template Hathor. Thanks Andrea Tarr and Ulrika Hall
+ $ [#31173] Only default/global Filter Label for seach at the Extensions Manager. Thanks Tobias Zulauf
+ # [#31175] More text as we need at Text Filters. Thanks Tobias Zulauf
+ # [#31125] Category images don't show in Categories list. Thanks David Hurley
+ # [#31166] Undefined property: JTableCorecontent::$metakey. Thanks Fedik Zinchuk
+ # [#30756] Blog layout has duplicate elements with "icons" ID. Thanks David Hurley.
+
+13-Jun-2013 Jean-Marie Simonet
+ ^ [#31134] *Improving Content Languages edit and manager. Thanks Benjamin Trenkle and Roland Dalmulder
+ # [#31147] *Install sample data None does not display tooltip.
+ # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
+ $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker
+ # [#30779] Fatal error in single contact category list if category is unpublished. Thanks Elin Waring.
+ # [#31122] archived articles module shows multiple entries same month. Thanks David Hurley.
+ # [#31128] Double category description newsfeed categories. Thanks Rob de Cleen and David Hurley
+ # [#30150] com_content loads articles before error checking. Thanks Richard McDaniel.
+ # [#29424] Multilevel select collapsed. Thanks Sergey Romanov.
+ + [#31130] Added js files to protostar template and modified index.php. Thanks Buddhima Wijeweera
+ # [#30576] $isNew not being passed to onContentBeforeSave. Thanks Elijah Madden
+
 11-Jun-2013 Jean-Marie Simonet
  $ Adding Czech cs-CZ to installation language files
 

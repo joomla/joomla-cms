@@ -38,7 +38,7 @@ abstract class InstallerHtmlManage
 				'COM_INSTALLER_EXTENSION_PROTECTED',
 				'',
 				'COM_INSTALLER_EXTENSION_PROTECTED',
-				false,
+				true,
 				'protected',
 				'protected'
 			),
@@ -47,7 +47,7 @@ abstract class InstallerHtmlManage
 				'COM_INSTALLER_EXTENSION_ENABLED',
 				'COM_INSTALLER_EXTENSION_DISABLE',
 				'COM_INSTALLER_EXTENSION_ENABLED',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
@@ -56,7 +56,7 @@ abstract class InstallerHtmlManage
 				'COM_INSTALLER_EXTENSION_DISABLED',
 				'COM_INSTALLER_EXTENSION_ENABLE',
 				'COM_INSTALLER_EXTENSION_DISABLED',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),

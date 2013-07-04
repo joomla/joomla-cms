@@ -767,22 +767,7 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function prepareTable($table)
 	{
-		$date = JFactory::getDate();
-		$user = JFactory::getUser();
-
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
-
-		if (empty($table->id))
-		{
-			// Set the values
-			// $table->created = $date->toSql();
-		}
-		else
-		{
-			// Set the values
-			// $table->modified    = $date->toSql();
-			// $table->modified_by = $user->get('id');
-		}
 	}
 
 	/**

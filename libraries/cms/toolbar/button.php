@@ -72,22 +72,19 @@ abstract class JToolbarButton
 		/*
 		 * Initialise some variables
 		 */
-		$html = null;
 		$id = call_user_func_array(array(&$this, 'fetchId'), $definition);
 		$action = call_user_func_array(array(&$this, 'fetchButton'), $definition);
 
 		// Build id attribute
 		if ($id)
 		{
-			$id = "id=\"$id\"";
+			$id = ' id="' . $id . '"';
 		}
 
 		// Build the HTML Button
-		$html .= "<div class=\"btn-group\" $id>\n";
-		$html .= $action;
-		$html .= "</div>\n";
-
-		return $html;
+		return '<div class="btn-group"' . $id . '>'
+			. $action
+			. '</div>';
 	}
 
 	/**
@@ -103,7 +100,7 @@ abstract class JToolbarButton
 	 */
 	public function fetchIconClass($identifier)
 	{
-		return "icon-$identifier";
+		return 'icon-' . $identifier;
 	}
 
 	/**

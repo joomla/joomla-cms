@@ -21,7 +21,7 @@ class JGoogleEmbedAnalyticsTest extends TestCase
 	protected $options;
 
 	/**
-	 * @var    JURI  URI of the page being rendered.
+	 * @var    JUri  URI of the page being rendered.
 	 */
 	protected $uri;
 
@@ -43,7 +43,7 @@ class JGoogleEmbedAnalyticsTest extends TestCase
 
 		$this->options = new JRegistry;
 
-		$this->uri = new JURI;
+		$this->uri = new JUri;
 		$this->object = new JGoogleEmbedAnalytics($this->options, $this->uri);
 	}
 

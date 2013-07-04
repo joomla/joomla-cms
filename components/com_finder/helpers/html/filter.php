@@ -195,7 +195,8 @@ abstract class JHtmlFilter
 			$html .= '<dl class="checklist" rel="tax-' . $bk . '">';
 			$html .= '<dt>';
 			$html .= '<label for="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" class="checkbox">';
-			$html .= '<input type="checkbox" class="branch-selector filter-branch' . $classSuffix . '" id="tax-' . JFilterOutput::stringUrlSafe($bv->title) . '" />';
+			$html .= '<input type="checkbox" class="branch-selector filter-branch' . $classSuffix . '" id="tax-'
+				. JFilterOutput::stringUrlSafe($bv->title) . '" />';
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</dt>';
@@ -209,7 +210,8 @@ abstract class JHtmlFilter
 
 				// Build a node.
 				$html .= '<label for="tax-' . $nk . '" class="checkbox">';
-				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-' . $nk . '"' . $checked . ' />';
+				$html .= '<input class="selector filter-node' . $classSuffix . '" type="checkbox" value="' . $nk . '" name="t[]" id="tax-'
+					. $nk . '"' . $checked . ' />';
 				$html .= $nv->title;
 				$html .= '</label>';
 			}
@@ -230,8 +232,8 @@ abstract class JHtmlFilter
 	/**
 	 * Method to generate filters using select box drop down controls.
 	 *
-	 * @param   FinderIndexerQuery  $idxQuery A FinderIndexerQuery object.
-	 * @param   array               $options  An array of options.
+	 * @param   FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
+	 * @param   array               $options   An array of options.
 	 *
 	 * @return  mixed  A rendered HTML widget on success, null otherwise.
 	 *
@@ -261,7 +263,7 @@ abstract class JHtmlFilter
 			// Load the predefined filter if specified.
 			if (!empty($idxQuery->filter))
 			{
-				$query->select('f.data, '. $db->quoteName('f.params'))
+				$query->select('f.data, ' . $db->quoteName('f.params'))
 					->from($db->quoteName('#__finder_filters') . ' AS f')
 					->where('f.filter_id = ' . (int) $idxQuery->filter);
 
@@ -415,7 +417,10 @@ abstract class JHtmlFilter
 			$html .= JText::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', JText::_(FinderHelperLanguage::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '<div class="controls">';
-			$html .= JHtml::_('select.genericlist', $branches[$bk]->nodes, 't[]', 'class="inputbox"', 'id', 'title', $active, 'tax-' . JFilterOutput::stringUrlSafe($bv->title));
+			$html .= JHtml::_(
+				'select.genericlist', $branches[$bk]->nodes, 't[]', 'class="inputbox"', 'id', 'title', $active,
+				'tax-' . JFilterOutput::stringUrlSafe($bv->title)
+			);
 			$html .= '</div>';
 			$html .= '</div>';
 		}
@@ -435,8 +440,8 @@ abstract class JHtmlFilter
 	/**
 	 * Method to generate fields for filtering dates
 	 *
-	 * @param   FinderIndexerQuery  $idxQuery A FinderIndexerQuery object.
-	 * @param   array               $options  An array of options.
+	 * @param   FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
+	 * @param   array               $options   An array of options.
 	 *
 	 * @return  mixed  A rendered HTML widget on success, null otherwise.
 	 *
@@ -474,7 +479,9 @@ abstract class JHtmlFilter
 			$html .= JText::_('COM_FINDER_FILTER_DATE1');
 			$html .= '</label>';
 			$html .= '<br />';
-			$html .= JHtml::_('select.genericlist', $operators, 'w1', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1');
+			$html .= JHtml::_(
+				'select.genericlist', $operators, 'w1', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when1, 'finder-filter-w1'
+			);
 			$html .= JHtml::calendar($idxQuery->date1, 'd1', 'filter_date1', '%Y-%m-%d', 'title="' . JText::_('COM_FINDER_FILTER_DATE1_DESC') . '"');
 			$html .= '</li>';
 
@@ -484,7 +491,9 @@ abstract class JHtmlFilter
 			$html .= JText::_('COM_FINDER_FILTER_DATE2');
 			$html .= '</label>';
 			$html .= '<br />';
-			$html .= JHtml::_('select.genericlist', $operators, 'w2', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2');
+			$html .= JHtml::_(
+				'select.genericlist', $operators, 'w2', 'class="inputbox filter-date-operator"', 'value', 'text', $idxQuery->when2, 'finder-filter-w2'
+			);
 			$html .= JHtml::calendar($idxQuery->date2, 'd2', 'filter_date2', '%Y-%m-%d', 'title="' . JText::_('COM_FINDER_FILTER_DATE2_DESC') . '"');
 			$html .= '</li>';
 

@@ -45,12 +45,16 @@
 			size="10"
 		/>
 
-		<field name="image" type="text"
+		<field name="image" type="filelist"
 			class="inputbox"
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
-			maxlength="7"
+			stripext="1"
+			directory="media/mod_languages/images/"
+			hide_none="1"
+			hide_default="1"
 			required="true"
+			filter="\.gif$"
 			size="10"
 		/>
 

@@ -24,13 +24,8 @@ class WeblinksViewWeblink extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
-		$params		= $app->getParams();
-
 		// Get some data from the models
-		$state		= $this->get('State');
 		$item		= $this->get('Item');
-		$category	= $this->get('Category');
 
 		if ($this->getLayout() == 'edit')
 		{
@@ -41,12 +36,12 @@ class WeblinksViewWeblink extends JViewLegacy
 		if ($item->url)
 		{
 			// redirects to url if matching id found
-			$app->redirect($item->url);
+			JFactory::getApplication()->redirect($item->url);
 		}
 		else
 		{
 			//TODO create proper error handling
-			$app->redirect(JRoute::_('index.php'), JText::_('COM_WEBLINKS_ERROR_WEBLINK_NOT_FOUND'), 'notice');
+			JFactory::getApplication()->redirect(JRoute::_('index.php'), JText::_('COM_WEBLINKS_ERROR_WEBLINK_NOT_FOUND'), 'notice');
 		}
 	}
 }

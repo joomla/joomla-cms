@@ -169,6 +169,7 @@ class PlgContentPagenavigation extends JPlugin
 				$row->next = $rows[$location + 1];
 			}
 
+			// $pnSpace is/can be used in the include file
 			$pnSpace = "";
 			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
 			{

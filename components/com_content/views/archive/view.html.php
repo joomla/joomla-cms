@@ -28,15 +28,11 @@ class ContentViewArchive extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
 		$user		= JFactory::getUser();
 
 		$state 		= $this->get('State');
 		$items 		= $this->get('Items');
 		$pagination	= $this->get('Pagination');
-
-		$pathway	= $app->getPathway();
-		$document	= JFactory::getDocument();
 
 		// Get the page/component configuration
 		$params = &$state->params;
@@ -117,7 +113,6 @@ class ContentViewArchive extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,

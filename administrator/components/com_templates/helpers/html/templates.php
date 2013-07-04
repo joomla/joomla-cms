@@ -22,22 +22,25 @@ class JHtmlTemplates
 	 */
 	public static function thumb($template, $clientId = 0)
 	{
-		$client		= JApplicationHelper::getClientInfo($clientId);
-		$basePath	= $client->path.'/templates/'.$template;
-		$baseUrl	= ($clientId == 0) ? JUri::root(true) : JUri::root(true).'/administrator';
-		$thumb		= $basePath.'/template_thumbnail.png';
-		$preview	= $basePath.'/template_preview.png';
-		$html		= '';
+		$client = JApplicationHelper::getClientInfo($clientId);
+		$basePath = $client->path . '/templates/' . $template;
+		$baseUrl = ($clientId == 0) ? JUri::root(true) : JUri::root(true) . '/administrator';
+		$thumb = $basePath . '/template_thumbnail.png';
+		$preview = $basePath . '/template_preview.png';
+		$html = '';
 
 		if (file_exists($thumb))
 		{
+			JHtml::_('bootstrap.tooltip');
+			JHtml::_('behavior.modal');
+
 			$clientPath = ($clientId == 0) ? '' : 'administrator/';
-			$thumb	= $clientPath.'templates/'.$template.'/template_thumbnail.png';
-			$html	= JHtml::_('image', $thumb, JText::_('COM_TEMPLATES_PREVIEW'));
+			$thumb = $clientPath . 'templates/' . $template . '/template_thumbnail.png';
+			$html = JHtml::_('image', $thumb, JText::_('COM_TEMPLATES_PREVIEW'));
 			if (file_exists($preview))
 			{
-				$preview	= $baseUrl.'/templates/'.$template.'/template_preview.png';
-				$html		= '<a href="'.$preview.'" class="thumbnail pull-left modal" title="'.JText::_('COM_TEMPLATES_CLICK_TO_ENLARGE').'">'.$html.'</a>';
+				$preview = $baseUrl . '/templates/' . $template . '/template_preview.png';
+				$html = '<a href="' . $preview . '" class="thumbnail pull-left modal hasTooltip" title="' . JHtml::tooltipText('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</a>';
 			}
 		}
 

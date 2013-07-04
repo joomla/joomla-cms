@@ -88,6 +88,9 @@ class JTableUser extends JTable
 			return false;
 		}
 
+		// Convert e-mail from punycode
+		$data['email'] = JStringPunycode::emailToUTF8($data['email']);
+
 		// Bind the data to the table.
 		$return = $this->bind($data);
 
@@ -192,6 +195,9 @@ class JTableUser extends JTable
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 			return false;
 		}
+
+		// Convert e-mail to punycode for storage
+		$this->email = JStringPunycode::emailToPunycode($this->email);
 
 		// Set the registration timestamp
 		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())

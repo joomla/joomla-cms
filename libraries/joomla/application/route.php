@@ -75,7 +75,7 @@ class JRoute
 		 */
 		if ((int) $ssl)
 		{
-			$uri = JURI::getInstance();
+			$uri = JUri::getInstance();
 
 			// Get additional parts.
 			static $prefix;

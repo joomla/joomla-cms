@@ -150,13 +150,11 @@ class JOpenstreetmapTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   13.1
+	 * @expectedException  InvalidArgumentException
 	 */
 	public function test__GetOther()
 	{
-		$this->assertThat(
-				$this->object->other,
-				$this->isNull()
-		);
+		$this->object->other;
 	}
 
 	/**

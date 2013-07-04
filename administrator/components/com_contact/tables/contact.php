@@ -141,6 +141,12 @@ class ContactTableContact extends JTable
 			$this->xreference = '';
 		}
 
+		// Store utf8 email as punycode
+		$this->email_to = JStringPunycode::emailToPunycode($this->email_to);
+
+		// Convert IDN urls to punycode
+		$this->webpage = JStringPunycode::urlToPunycode($this->webpage);
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
@@ -153,7 +159,8 @@ class ContactTableContact extends JTable
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
-		return $result && $this->tagsHelper->postStoreProcess($this);	}
+		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+		}
 
 	/**
 	 * Overloaded check function

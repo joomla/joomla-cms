@@ -268,7 +268,6 @@ class ContactModelContact extends JModelForm
 
 				->where('a.id = ' . (int) $pk);
 			$published = $this->getState('filter.published');
-			$archived = $this->getState('filter.archived');
 			if (is_numeric($published))
 			{
 				$query->where('a.published IN (1,2)')

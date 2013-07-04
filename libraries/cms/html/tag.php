@@ -166,7 +166,7 @@ abstract class JHtmlTag
 			array(
 				'selector'    => $selector,
 				'type'        => 'GET',
-				'url'         => JURI::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'url'         => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
 				'dataType'    => 'json',
 				'jsonTermKey' => 'like'
 			)

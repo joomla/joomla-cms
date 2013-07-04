@@ -96,6 +96,9 @@ class ContactModelCategory extends JModelList
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
+			$this->tags = new JHelperTags;
+			$this->tags->getItemTags('com_contact.contact', $item->id);
+
 		}
 
 		return $items;
@@ -212,7 +215,6 @@ class ContactModelCategory extends JModelList
 	{
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_contact');
-		$db = $this->getDbo();
 
 		// List state information
 		$format = $app->input->getWord('format');
@@ -316,8 +318,6 @@ class ContactModelCategory extends JModelList
 				$this->_parent = false;
 			}
 		}
-		$this->tags = new JHelperTags;
-		$this->tags->getItemTags('com_contact.category', $this->_item->get('id'));
 
 		return $this->_item;
 	}

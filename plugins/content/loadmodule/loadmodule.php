@@ -74,6 +74,7 @@ class PlgContentLoadmodule extends JPlugin
 				$output = $this->_load($position, $style);
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
 				$article->text = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $article->text, 1);
+				$style = $this->params->def('style', 'none');
 			}
 		}
 		// Find all instances of plugin and put in $matchesmod for loadmodule
@@ -96,59 +97,59 @@ class PlgContentLoadmodule extends JPlugin
 				}
 
 				$module = trim($matchesmodlist[0]);
-				$name   = trim($matchesmodlist[1]);
-				$style  = trim($matchesmodlist[2]);
+				$name   = htmlspecialchars_decode(trim($matchesmodlist[1]));
+				$stylemod  = trim($matchesmodlist[2]);
 				// $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
-				$output = $this->_loadmod($module, $name, $style);
+				$output = $this->_loadmod($module, $name, $stylemod);
 				// We should replace only first occurrence in order to allow positions with the same name to regenerate their content:
 				$article->text = preg_replace("|$matchmod[0]|", addcslashes($output, '\\$'), $article->text, 1);
+				$stylemod = $this->params->def('style', 'none');
 			}
 		}
 	}
 
 	protected function _load($position, $style = 'none')
 	{
-		if (!isset(self::$modules[$position]))
+		self::$modules[$position] = '';
+		$document	= JFactory::getDocument();
+		$renderer	= $document->loadRenderer('module');
+		$modules	= JModuleHelper::getModules($position);
+		$params		= array('style' => $style);
+		ob_start();
+
+		foreach ($modules as $module)
 		{
-			self::$modules[$position] = '';
-			$document	= JFactory::getDocument();
-			$renderer	= $document->loadRenderer('module');
-			$modules	= JModuleHelper::getModules($position);
-			$params		= array('style' => $style);
-			ob_start();
-
-			foreach ($modules as $module)
-			{
-				echo $renderer->render($module, $params);
-			}
-
-			self::$modules[$position] = ob_get_clean();
+			echo $renderer->render($module, $params);
 		}
+
+		self::$modules[$position] = ob_get_clean();
+
 		return self::$modules[$position];
 	}
+
 	// This is always going to get the first instance of the module type unless
 	// there is a title.
 	protected function _loadmod($module, $title, $style = 'none')
 	{
-		if (!isset(self::$mods[$module]))
+		self::$mods[$module] = '';
+		$document	= JFactory::getDocument();
+		$renderer	= $document->loadRenderer('module');
+		$mod		= JModuleHelper::getModule($module, $title);
+
+		// If the module without the mod_ isn't found, try it with mod_.
+		// This allows people to enter it either way in the content
+		if (!isset($mod))
 		{
-			self::$mods[$module] = '';
-			$document	= JFactory::getDocument();
-			$renderer	= $document->loadRenderer('module');
-			$mod		= JModuleHelper::getModule($module, $title);
-			// If the module without the mod_ isn't found, try it with mod_.
-			// This allows people to enter it either way in the content
-			if (!isset($mod)){
-				$name = 'mod_'.$module;
-				$mod  = JModuleHelper::getModule($name, $title);
-			}
-			$params = array('style' => $style);
-			ob_start();
-
-			echo $renderer->render($mod, $params);
-
-			self::$mods[$module] = ob_get_clean();
+			$name = 'mod_'.$module;
+			$mod  = JModuleHelper::getModule($name, $title);
 		}
+		$params = array('style' => $style);
+		ob_start();
+
+		echo $renderer->render($mod, $params);
+
+		self::$mods[$module] = ob_get_clean();
+
 		return self::$mods[$module];
 	}
 }
