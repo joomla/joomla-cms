@@ -53,7 +53,7 @@ class JFormRulePassword extends JFormRule
 		// Some of these may be empty for legacy reasons.
 		$params = JComponentHelper::getParams('com_users');
 
-		if(!empty($params))
+		if (!empty($params))
 		{
 			$minimumLengthp = $params->get('minimum_length');
 			$minimumIntegersp = $params->get('minimum_integers');
@@ -90,7 +90,10 @@ class JFormRulePassword extends JFormRule
 		}
 
 		// We don't allow white space inside passwords
-		$valueTrim =  trim($value);
+		$valueTrim = trim($value);
+		
+		// Set a variable to check if any errors are made in password
+		$validPassword = true;
 
 		if (strlen($valueTrim) != $valueLength)
 		{
@@ -99,55 +102,54 @@ class JFormRulePassword extends JFormRule
 				'warning'
 				);
 
-			return false;
+			$validPassword = false;
 		}
 
 		// Minimum number of integers required
 		if (!empty($minimumIntegers))
 		{
-			$nInts = preg_match_all('/[0-9]/', $value );
+			$nInts = preg_match_all('/[0-9]/', $value, $imatch);
 
 			if ($nInts < $minimumIntegers)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', count($minimumIntegers)),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_INTEGERS_N', $minimumIntegers),
 					'warning'
 				);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
 		// Minimum number of symbols required
 		if (!empty($minimumSymbols))
 		{
-
-			$nsymbols = preg_match_all('[\W]', $value );
+			$nsymbols = preg_match_all('[\W]', $value, $smatch);
 
 			if ($nsymbols < $minimumSymbols)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', count($minimumSymbols)),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_SYMBOLS_N', $minimumSymbols),
 					'warning'
 				);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
 		// Minimum number of upper case ASII characters required
 		if (!empty($minimumUppercase))
 		{
+			$nUppercase = preg_match_all("/[A-Z]/", $value, $umatch);
 
-			$nUppercase = preg_match_all( "/[A-Z]/", $value );
 			if ($nUppercase < $minimumUppercase)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', count($minimumUppercase)),
+					JText::plural('COM_USERS_MSG_NOT_ENOUGH_UPPERCASE_LETTERS_N', $minimumUppercase),
 					'warning'
 			);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
@@ -157,14 +159,20 @@ class JFormRulePassword extends JFormRule
 			if (strlen((string) $value) < $minimumLength)
 			{
 				JFactory::getApplication()->enqueueMessage(
-					JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT', count($minimumLength)),
+					JText::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),
 					'warning'
 					);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
+		// If valid has violated any rules above return false.
+		if (!$validPassword)
+		{
+			return false;
+		}
+		
 		return true;
 	}
 }

@@ -25,9 +25,55 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jul-2013 Jean-Marie Simonet
+ # [#31138] Correct the Bug after #31034. Thanks Tobias Zulauf and Peter Wiseman
+ # [#31324] Fixed error about Undefined property JTableUser::$checked_out when saving a user. Thanks Peter van Westen
+ # [#31327] Debug plugin (git master version only) doesn't catch SQL errors. Thanks Beat.
+ # [#31340] *PHP notice when saving weblink
+ # [#31338] Exception when saving articles etc with no tags. Thanks Elin Waring
+ $ Updating Installation lang file: lv-LV. Adding el-GR
+ # [#31325] Modified date used instead of created date in article layout. Thanks Brian Teeman
+ # [#31320] Modified date used instead of created date in featured layout. Thanks Brian Teeman
+
+03-Jul-2013 Jean-Marie Simonet
+ # [#31321] Fixed issue with tooltip text not being escaped when no title is given. Thanks Peter van Westen
+ # [#31322] Made title of search boxes show as tooltip. Thanks Peter van Westen
+ ^ [#31214] Added method to generate the check-all checkbox in grids. Thanks Peter van Westen
+ # [#31310] Password rule warning in 5.3. Thanks Elin Waring
+ # [#31220] Invalid Feed URL for Module Feed Display causes generation of page "The requested page cannot be found". Thanks Elin Waring 
+ # [#31293] Allow all password error messages to be shown. Thanks George Wilson.
+ # [#31256] Commit for issue 30966 garbles HTML for emails in forms. Thanks George Wilson.
+
+01-Jul-2013 Jean-Marie Simonet
+ ^ [#30849] Show alias for menu items on menu assignement. Thanks David Hurley
+ $ Updating Installation lang files: ar-AA, fi-FI, ja-JP, sy-IQ, uk-UA
+ # [#31229] Fixed: DebugGroup not working. Thanks Peter van Westen
+ # [#31066] Cleanup Tag Storing. Thanks Nicolas Dionysopoulos and Elin Waring.
+ # [#31280] Loadmodule support for htmlspecialchars in title. Thanks Peter Wiseman
+
+01-Jul-2013 Elin Waring
+ # [#31298] Drop downs on menu item edit are broken. Corrects #31060.
+
+30-Jun-2013 Jean-Marie Simonet
+ # [#31188] Fixed issue with not being able to select color white. Thanks Peter van Westen
+ # [#31098] *UX Suggestions for Batch button
+
+29-Jun-2013 Jean-Marie Simonet
+ $ [#27307] English only: weblink or web link. Web Link or Web link. Thanks George Wilson
+ # [#31285] Joomla Installation is broken with the current git!
+
+28-Jun-2013 Jean-Marie Simonet
+ # Correcting #31772
+ ^ [#31267] *Switching to Bootstrap tooltips. Thanks Peter van Westen and Michael Babker.
+ #^ [#31143] Registration with invalid password when non-core template. Thansk Elin Waring
+ # [#31172] X at hathor messages. Thanks Tobias Zulauf
+ ^ [#31087] Add SQL queries profiler in Debug zone with backtrace of call and EXPLAIN hovers. Thanks Beat
+ ^ [#31060] Show item title on the Edit page
+ ^ [#31100] UX "showon": Dynamic options in the Joomla Backend. Thanks Jérôme GLATIGNY
+
 27-Jun-2013 Elin Waring
-$ [#31272] Fix tags help screen views. Thanks George Wilson
-^ [#1313] Simplify magic getters in third party API classes. Thanks Michael Babker
+ $ [#31272] Fix tags help screen views. Thanks George Wilson
+ ^ [#1313] Simplify magic getters in third party API classes. Thanks Michael Babker
 
 27-Jun-2013 Michael Babker
  ^ [#30783] Use JDatabase instead of MySQL queries on com_menus.  Thanks Matias Aguirre

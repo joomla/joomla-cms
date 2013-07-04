@@ -32,6 +32,9 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate form-horizontal">
+
+	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+
 	<div class="row-fluid">
 		<!-- Begin contact -->
 		<div class="span10 form-horizontal">

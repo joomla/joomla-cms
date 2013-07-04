@@ -859,18 +859,20 @@ abstract class JHtml
 			$tip = $text;
 		}
 
-		if ($title)
+		if ($class == 'hasTip')
 		{
-			if ($class == 'hasTip')
+			// Still using MooTools tooltips!
+			$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
+
+			if ($title)
 			{
-				$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
 				$title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 				$tooltip = $title . '::' . $tooltip;
 			}
-			else
-			{
-				$tooltip = self::tooltipText($title, $tooltip, 0);
-			}
+		}
+		else
+		{
+			$tooltip = self::tooltipText($title, $tooltip, 0);
 		}
 
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
@@ -896,7 +898,7 @@ abstract class JHtml
 			return '';
 		}
 
-		// split title into title and content if the title contains '::' (old Mootools format).
+		// Split title into title and content if the title contains '::' (old Mootools format).
 		if ($content == '' && !(strpos($title, '::') === false))
 		{
 			list($title, $content) = explode('::', $title, 2);
