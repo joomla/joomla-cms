@@ -8,5 +8,13 @@
  */
 
 defined('_JEXEC') or die;
+
+$doTask = $displayData['doTask'];
+$text   = $displayData['text'];
+
 ?>
-icon-32-<?php echo $displayData['icon']; ?>
+
+<a href="javascript:void(0)" onclick="<?php echo $doTask; ?>" rel="help" class="toolbar">
+	<span class="icon-32-help"></span>
+	<?php echo $text; ?>
+</a>
