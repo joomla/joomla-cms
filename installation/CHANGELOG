@@ -26,6 +26,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Jul-2013 Jean-Marie Simonet
+ # [#31280] Loadmodule support for htmlspecialchars in title. Thanks Peter Wiseman
+ 
+13-Jun-2013 Jean-Marie Simonet
+ # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
+ # [#31120] [2.5] *plug-in manager search give errors and warning for '/','*' and '\
+ # [#30354] Invalid Javascript Redirect in JApplication::redirect() when headers have already been sent. Thanks Ben Tasker.
+ $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker
+ # [#30150] com_content loads articles before error checking. Thanks Richard McDaniel.
+
 07-Jun-2013 Jean-Marie Simonet
  + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets 
 
