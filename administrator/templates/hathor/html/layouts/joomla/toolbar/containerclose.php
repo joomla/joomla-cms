@@ -8,14 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-
-$doTask = $displayData['doTask'];
-$class  = $displayData['class'];
-$text   = $displayData['text'];
-
 ?>
 
-<a href="#" onclick="<?php echo $doTask; ?>" class="toolbar">
-	<span class="<?php echo $class; ?>"></span>
-	<?php echo $text; ?>
-</a>
+	</ul>
+	<div class="clr"></div>
+</div>

@@ -82,9 +82,13 @@ abstract class JToolbarButton
 		}
 
 		// Build the HTML Button
-		return '<div class="btn-group"' . $id . '>'
-			. $action
-			. '</div>';
+		$options = array();
+		$options['id'] = $id;
+		$options['action'] = $action;
+
+		$layout = new JLayoutFile('joomla.toolbar.base');
+
+		return $layout->render($options);
 	}
 
 	/**
