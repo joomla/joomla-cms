@@ -287,28 +287,14 @@ class JApplication extends JApplicationBase
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the JResponse buffer.
 	 *
+	 * This method is overridden in the CMS by JAdministrator and JSite
+	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
 	public function render()
 	{
-		$params = array('template' => $this->getTemplate(), 'file' => 'index.php', 'directory' => JPATH_THEMES, 'params' => $template->params);
-
-		// Parse the document.
-		$document = JFactory::getDocument();
-		$document->parse($params);
-
-		// Trigger the onBeforeRender event.
-		JPluginHelper::importPlugin('system');
-		$this->triggerEvent('onBeforeRender');
-
-		// Render the document.
-		$caching = ($this->getCfg('caching') >= 2) ? true : false;
-		JResponse::setBody($document->render($caching, $params));
-
-		// Trigger the onAfterRender event.
-		$this->triggerEvent('onAfterRender');
 	}
 
 	/**
