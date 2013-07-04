@@ -40,7 +40,6 @@ class ConfigViewApplicationJson extends JViewLegacy
 		// Check for model errors.
 		if ($errors = $this->get('Errors'))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
 
 			return false;
 		}

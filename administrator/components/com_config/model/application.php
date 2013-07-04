@@ -120,7 +120,10 @@ class ConfigModelApplication extends JModelForm
 
 				if (!$asset->check() || !$asset->store())
 				{
-					JError::raiseNotice('SOME_ERROR_CODE', $asset->getError());
+					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+					
+					return;
+						
 				}
 			}
 			else
@@ -149,7 +152,10 @@ class ConfigModelApplication extends JModelForm
 
 				if (!$extension->check() || !$extension->store())
 				{
-					JError::raiseNotice('SOME_ERROR_CODE', $extension->getError());
+					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
+					
+					return;
+						
 				}
 			}
 			else
@@ -259,10 +265,13 @@ class ConfigModelApplication extends JModelForm
 		// Get the new FTP credentials.
 		$ftp = JClientHelper::getCredentials('ftp', true);
 
+		$app = JFactory::getApplication();
+
 		// Attempt to make the file writeable if using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 		{
-			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
+			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.
@@ -278,7 +287,7 @@ class ConfigModelApplication extends JModelForm
 		// Attempt to make the file unwriteable if using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 		{
-			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'));
+			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
 
 		return true;

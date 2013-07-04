@@ -37,13 +37,15 @@ class ServicesViewConfigHtml extends JViewLegacy
 	{
 
 		$user = JFactory::getUser();
+		$app   = JFactory::getApplication();
 
 		// Check for model errors.
 		if ($errors = $this->get('Errors'))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			$app->enqueueMessage(implode('<br />', $errors), 'error');
+			
+			return;
 
-			return false;
 		}
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');

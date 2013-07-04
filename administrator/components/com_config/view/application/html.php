@@ -39,13 +39,15 @@ class ConfigViewApplicationHtml extends JViewLegacy
 		$form	= $this->get('Form');
 		$data	= $this->get('Data');
 		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
 
 		// Check for model errors.
 		if ($errors = $this->get('Errors'))
 		{
-			JError::raiseError(500, implode('<br />', $errors));
+			$app->enqueueMessage(implode('<br />', $errors), 'error');
 
-			return false;
+			return;
+
 		}
 
 		// Bind the form to the data.
@@ -74,7 +76,6 @@ class ConfigViewApplicationHtml extends JViewLegacy
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		$app = JFactory::getApplication();
 		$this->_addPath('template', JPATH_THEMES . '/' . $app->getTemplate() . '/html/com_config/application');
 
 		$this->addToolbar();

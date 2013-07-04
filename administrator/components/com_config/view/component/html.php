@@ -39,9 +39,10 @@ class ConfigViewComponentHtml extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			$app->enqueueMessage(implode("\n", $errors), 'error');
+			
+			return;
+				
 		}
 
 		// Bind the form to the data.
@@ -62,7 +63,7 @@ class ConfigViewComponentHtml extends JViewLegacy
 
 		// Adding paths forcely to eliminate 's' issue
 		$this->_addPath('template', $this->_basePath . '/view/component/tmpl');
-		$app = JFactory::getApplication();
+
 		$this->_addPath('template', JPATH_THEMES . '/' . $app->getTemplate() . '/html/com_config/component');
 
 		$this->addToolbar();

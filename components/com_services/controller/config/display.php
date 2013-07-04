@@ -72,7 +72,10 @@ class ServicesControllerConfigDisplay extends JControllerBase
 				// Access check.
 				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 				{
-					return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+					$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+					return;
+
 				}
 
 				// Set model
