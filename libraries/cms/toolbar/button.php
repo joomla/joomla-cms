@@ -104,6 +104,10 @@ abstract class JToolbarButton
 	 */
 	public function fetchIconClass($identifier)
 	{
+		// It's an ugly hack, but this allows templates to define the icon classes for the toolbar
+		$layout = new JLayoutFile('joomla.toolbar.iconclass');
+
+		return $layout->render(array('icon' => $identifier));
 		return 'icon-' . $identifier;
 	}
 
