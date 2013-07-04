@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Jul-2013 Jean-Marie Simonet
+ # [#31138] Correct the Bug after #31034. Thanks Tobias Zulauf and Peter Wiseman
+
 03-Jul-2013 Jean-Marie Simonet
  # [#31321] Fixed issue with tooltip text not being escaped when no title is given. Thanks Peter van Westen
  # [#31322] Made title of search boxes show as tooltip. Thanks Peter van Westen
