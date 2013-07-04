@@ -181,6 +181,7 @@ class PlgContentPagebreak extends JPlugin
 				// Page text.
 				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
 				$row->text .= $text[$page];
+
 				// $row->text .= '<br />';
 				$row->text .= '<div class="pager">';
 
@@ -242,9 +243,9 @@ class PlgContentPagebreak extends JPlugin
 	/**
 	 * Creates a Table of Contents for the pagebreak
 	 *
-	 * @param   stdClass  &$row      The article object.  Note $article->text is also available
-	 * @param   stdClass  &$matches  Array of matches of a regex in onContentPrepare
-	 * @param   integer   &$page     The 'page' number
+	 * @param   object   &$row      The article object.  Note $article->text is also available
+	 * @param   array    &$matches  Array of matches of a regex in onContentPrepare
+	 * @param   integer  &$page     The 'page' number
 	 *
 	 * @return  void
 	 *
@@ -344,6 +345,12 @@ class PlgContentPagebreak extends JPlugin
 	}
 
 	/**
+	 * Creates the navigation for the item
+	 *
+	 * @param   object  &$row  The article object.  Note $article->text is also available
+	 * @param   int     $page  The total number of pages
+	 * @param   int     $n     The page number
+	 *
 	 * @return  void
 	 *
 	 * @since   1.6

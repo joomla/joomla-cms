@@ -31,6 +31,7 @@ class PlgContentLoadmodule extends JPlugin
 	 * @param   mixed    &$params   The article params
 	 * @param   integer  $page      The 'page' number
 	 *
+	 * @return  mixed   true if there is an error. Void otherwise.
 	 */
 	public function onContentPrepare($context, &$article, &$params, $page = 0)
 	{
@@ -116,6 +117,14 @@ class PlgContentLoadmodule extends JPlugin
 		}
 	}
 
+	/**
+	 * Loads and renders the module
+	 *
+	 * @param   string  $position  The position assigned to the module
+	 * @param   string  $style     The style assigned to the module
+	 *
+	 * @return mixed
+	 */
 	protected function _load($position, $style = 'none')
 	{
 		if (!isset(self::$modules[$position]))
@@ -134,11 +143,20 @@ class PlgContentLoadmodule extends JPlugin
 
 			self::$modules[$position] = ob_get_clean();
 		}
+
 		return self::$modules[$position];
 	}
 
-	// This is always going to get the first instance of the module type unless
-	// there is a title.
+	/**
+	 * This is always going to get the first instance of the module type unless
+	 * there is a title.
+	 *
+	 * @param   string  $module  The module title
+	 * @param   string  $title   The title of the module
+	 * @param   string  $style   The style of the module
+	 *
+	 * @return  mixed
+	 */
 	protected function _loadmod($module, $title, $style = 'none')
 	{
 		if (!isset(self::$mods[$module]))

@@ -19,10 +19,12 @@ defined('_JEXEC') or die;
 class PlgContentPagenavigation extends JPlugin
 {
 	/**
-	 * @param   string   $context   The context of the content being passed to the plugin
-	 * @param   object   &$row      The article object
-	 * @param   mixed    &$params   The article params
-	 * @param   integer  $page      The 'page' number
+	 * If in the article view and the parameter is enabled shows the page navigation
+	 *
+	 * @param   string   $context  The context of the content being passed to the plugin
+	 * @param   object   &$row     The article object
+	 * @param   mixed    &$params  The article params
+	 * @param   integer  $page     The 'page' number
 	 *
 	 * @return  mixed  void or true
 	 *

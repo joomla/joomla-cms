@@ -209,8 +209,9 @@ class PlgContentJoomla extends JPlugin
 	/**
 	 * Get count of items in a category's child categories
 	 *
-	 * @param   string    $table  table name of component table (column is catid)
-	 * @param   integer   $catid  id of the category to check
+	 * @param   string   $table  table name of component table (column is catid)
+	 * @param   integer  $catid  id of the category to check
+	 * @param   object   $data   The data relating to the content that was deleted.
 	 *
 	 * @return  mixed  count of items found or false if db error
 	 *
