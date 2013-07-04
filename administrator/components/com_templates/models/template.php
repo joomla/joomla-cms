@@ -478,7 +478,7 @@ class TemplatesModelTemplate extends JModelForm
 
     public function createOverride($override)
     {
-
+        jimport('joomla.filesystem.folder');
         if ($template = $this->getTemplate())
         {
             $app        = JFactory::getApplication();
@@ -497,18 +497,34 @@ class TemplatesModelTemplate extends JModelForm
                 return false;
             }
 
-            /*$return = JFolder::copy($override . '/views',$htmlPath);
+            if(stristr($name,'mod_') != FALSE)
+            {
+                $return = JFolder::copy($override . '/tmpl',$htmlPath,'',true);
+            }
+            elseif(stristr($name,'com_') != FALSE)
+            {
+                $folders = JFolder::folders($override . '/views');
+                foreach($folders as $folder)
+                {
+                    if(!JFolder::create($htmlPath . '/' . $folder))
+                    {
+                        $app->enqueueMessage('Not able to create folder.','error');
+                        return false;
+                    }
+                    $return = JFolder::copy($override . '/views/' . $folder . '/tmpl',$htmlPath . '/' . $folder,'',true);
+                }
+            }
 
             if($return)
             {
-                $rename = rename(,$htmlPath);
+                $app->enqueueMessage('Override created');
+                return true;
             }
             else
             {
                 $app->enqueueMessage('Failed to create override','error');
                 return false;
-            }*/
-            return true;
+            }
 
         }
     }

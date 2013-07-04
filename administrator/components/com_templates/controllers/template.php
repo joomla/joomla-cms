@@ -272,7 +272,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $model          = $this->getModel();
         $file           = $app->input->get('file');
         $override       = urldecode(base64_decode($app->input->get('folder')));
-        $id             = $model->getState('extension.id');
+        $id             = $app->input->get('id');
 
         if($model->createOverride($override))
         {

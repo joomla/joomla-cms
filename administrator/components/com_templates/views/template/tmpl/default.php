@@ -71,7 +71,7 @@ $input = JFactory::getApplication()->input;
                 <ul class="nav nav-tabs nav-stacked">
                     <?php foreach($this->overridesList['modules'] as $module): ?>
                         <li><a href="
-                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&file=' . $this->file); ?>
+                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>
                         "><i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?></a></li>
                     <?php endforeach; ?>
                 </ul>
@@ -81,7 +81,7 @@ $input = JFactory::getApplication()->input;
                 <ul class="nav nav-tabs nav-stacked">
                     <?php foreach($this->overridesList['components'] as $component): ?>
                         <li><a href="
-                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $component->path . '&file=' . $this->file); ?>
+                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $component->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>
                         "><i class="icon-copy"></i>&nbsp;<?php echo $component->name; ?></a></li>
                     <?php endforeach; ?>
                 </ul>
