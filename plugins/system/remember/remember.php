@@ -224,7 +224,10 @@ class PlgSystemRemember extends JPlugin
 
 		$secure = $app->isSSLConnection();
 
-		//And make a new one
+		// Destroy the old cookie.
+		setcookie($series, $rcookie, time() - 42000, $cookie_path, $cookie_domain, $secure, true);
+
+		// And make a new one.
 		$test = setcookie($series, $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
 
 		$db = JFactory::getDbo();

@@ -675,13 +675,18 @@ class JApplication extends JApplicationBase
 				$user = JFactory::getUser()->set('rememberLogin', true);
 			}
 
-			if (!in_array(false, $results, true) )
+			if (in_array(false, $results, true) == false)
 			{
 				// Set the remember me cookie if enabled.
-				if (isset($options['remember']) &&  $options['remember'] === true)
+				if ((isset($options['remember']) &&  $options['remember'] === true) || $response->type == 'Remember' )
 				{
 					$options['length'] = 70;
 					$options['timeToExpiration'] = 30;
+
+					if (JPluginHelper::isEnabled('system', 'remember'))
+					{
+						$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+					}
 
 					// The user is successfully logged in. Set a remember me cookie if requested.
 					$this->triggerEvent('onUserAfterLogin', array($options));
