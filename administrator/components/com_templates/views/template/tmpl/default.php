@@ -67,18 +67,22 @@ $input = JFactory::getApplication()->input;
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('Create Overrides', true)); ?>
         <div class="row-fluid">
             <div class="span6">
-                <legend>Modules</legend>
+                <legend><?php echo JText::_('Modules');?></legend>
                 <ul class="nav nav-tabs nav-stacked">
                     <?php foreach($this->overridesList['modules'] as $module): ?>
-                        <li><a href="#"><i class="icon-copy"></i>&nbsp;<?php echo $module; ?></a></li>
+                        <li><a href="
+                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&file=' . $this->file); ?>
+                        "><i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
             <div class="span6">
-                <legend>Components</legend>
+                <legend><?php echo JText::_('Components');?></legend>
                 <ul class="nav nav-tabs nav-stacked">
                     <?php foreach($this->overridesList['components'] as $component): ?>
-                        <li><a href="#"><i class="icon-copy"></i>&nbsp;<?php echo $component; ?></a></li>
+                        <li><a href="
+                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $component->path . '&file=' . $this->file); ?>
+                        "><i class="icon-copy"></i>&nbsp;<?php echo $component->name; ?></a></li>
                     <?php endforeach; ?>
                 </ul>
             </div>

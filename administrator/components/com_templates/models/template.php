@@ -442,19 +442,75 @@ class TemplatesModelTemplate extends JModelForm
 		return true;
 	}
 
+    public function getOverridesFolder($name,$path)
+    {
+        $folder = new stdClass();
+        $folder->name = $name;
+        $folder->path = urlencode(base64_encode($path . $name));
+
+        return $folder;
+    }
+
     public function getOverridesList()
     {
         if ($template = $this->getTemplate())
         {
-            $app = JFactory::getApplication();
             $client 	= JApplicationHelper::getClientInfo($template->client_id);
             $componentPath		= JPath::clean($client->path.'/components/');
             $modulePath		= JPath::clean($client->path.'/modules/');
-            $result['components'] = JFolder::folders($componentPath);
-            $result['modules'] = JFolder::folders($modulePath);
+            $components = JFolder::folders($componentPath);
+            foreach($components as $component)
+            {
+                $result['components'][] = $this->getOverridesFolder($component,$componentPath);
+            }
+            $modules = JFolder::folders($modulePath);
+            foreach($modules as $module)
+            {
+                $result['modules'][] = $this->getOverridesFolder($module,$modulePath);
+            }
 
         }
-        return $result;
+        if (!empty($result))
+        {
+            return $result;
+        }
+    }
+
+    public function createOverride($override)
+    {
+
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $name       = end(explode('/',$override));
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+            if(JFolder::exists($htmlPath))
+            {
+                $app->enqueueMessage('Override already exists.','error');
+                return false;
+            }
+
+            if(!JFolder::create($htmlPath))
+            {
+                $app->enqueueMessage('Not able to create folder.','error');
+                return false;
+            }
+
+            /*$return = JFolder::copy($override . '/views',$htmlPath);
+
+            if($return)
+            {
+                $rename = rename(,$htmlPath);
+            }
+            else
+            {
+                $app->enqueueMessage('Failed to create override','error');
+                return false;
+            }*/
+            return true;
+
+        }
     }
 
 }

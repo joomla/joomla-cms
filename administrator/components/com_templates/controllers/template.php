@@ -263,5 +263,26 @@ class TemplatesControllerTemplate extends JControllerLegacy
             break;
 		}
 	}
+
+    public function overrides()
+    {
+        // Check for request forgeries.
+        //JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+        $app            = JFactory::getApplication();
+        $model          = $this->getModel();
+        $file           = $app->input->get('file');
+        $override       = urldecode(base64_decode($app->input->get('folder')));
+        $id             = $model->getState('extension.id');
+
+        if($model->createOverride($override))
+        {
+            $this->setMessage(JText::_('Successfully created the override.'));
+        }
+
+        // Redirect back to the edit screen.
+        $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+        $this->setRedirect(JRoute::_($url, false));
+
+    }
 	
 }
