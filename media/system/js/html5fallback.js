@@ -201,14 +201,25 @@
 
 		matchPattern : function(self, elem){
 			var $elem = $(elem),
-				val = !self.browser.isPlaceholderNative && $elem.attr('placeholder') ? "" : $elem.val(),
-				pattern = $elem.attr('pattern');
+				val = !self.browser.isPlaceholderNative && $elem.attr('placeholder') && $elem.hasClass(self.options.placeholderCl
+				pattern = $elem.attr('pattern'),
+				type = $elem.attr('type');
 			if(val !== ""){
-				if(elem.type === "email") {
-					return !self.options.emailPatt.test(val);
-				} else if(elem.type === "url") {
+				if(type === "email") {
+					var emailMatched = true;
+					if($elem.attr('multiple') !== undefined){
+						val = val.split(self.options.mutipleDelimiter);
+						for (var i = 0; i < val.length; i++) {
+							emailMatched = self.options.emailPatt.test(val[i].replace(/[ ]*/g,''));
+							if(!emailMatched)return true;
+						}
+					}
+					else {
+						return !self.options.emailPatt.test(val);
+					}
+				} else if(type === "url") {
 					return !self.options.urlPatt.test(val);
-				} else if(elem.type === 'text') {
+				} else if(type === 'text') {
 					if(pattern !== undefined){
 						usrPatt = new RegExp('^(?:' + pattern + ')$');
 						return !usrPatt.test(val);
