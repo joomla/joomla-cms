@@ -54,6 +54,7 @@
 						$form.find(':input').each(function(){
 							self.placeholder(self,this,'submit');
 						});
+					}
 				});
 			}
 			$form.on('focusout focusin', self.polyfill);
