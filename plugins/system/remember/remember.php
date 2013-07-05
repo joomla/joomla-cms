@@ -91,24 +91,24 @@ class PlgSystemRemember extends JPlugin
 					return false;
 				}
 
+
 				// We have a cookie but it's not in the database or the cookie is invalid. Possible attack, invalidate every thing.
 				if ($countResults == 0 || !$results || !isset($match) || $results->invalid != 0)
 				{
 					//Should this start by throwing an exception?
 					// We can only invalidate if there is a user.
-					if (!empty($results->user_id))
+					if (!empty($results[0]->user_id))
 					{
 						$db = JFactory::getDbo();
 						$query = $db->getQuery(true);
 
 						$query->update($db->quoteName('#__user_keys'))
-							->values(1)
-							->columns($db->quoteName('invalid'))
-							->where($db->quotename('user_id') . ' = ' . $db->quote($results->username));
+							->set($db->quoteName('invalid') . '= ' . 1)
+							->where($db->quotename('user_id') . ' = ' . $db->quote($results[0]->user_id));
 						$db->setQuery($query);
 						$db->execute();
 
-						JLog::add('The remember me tokens were invalidated for user ' . $user['username']  . ' for the following reason: ' . $e->getMessage(), JLog::WARNING, 'security');
+						JLog::add('The remember me tokens were invalidated for user ' . $user->username  . ' because there was no matching record ', JLog::WARNING, 'security');
 
 						// Make this stronger ?
 						return false;
@@ -117,7 +117,7 @@ class PlgSystemRemember extends JPlugin
 
 				if ($countResults == 1)
 				{
-					// So now we have a user with one valid cookie and a corresponding record in the database.
+					// So now we have a user with one cookie with a valid series and a corresponding record in the database.
 					$series = substr($results[0]->series, 0, $privateKeyLength);
 					$privateKey64 = substr($privateKey64, 0, $privateKeyLength);
 
@@ -131,6 +131,21 @@ class PlgSystemRemember extends JPlugin
 					}
 
 					// We probably should add back some sanity checks but not as many as before
+
+					// Now we check the value against the token
+					if ($cookieValue != $cryptedToken)
+					{
+						$db = JFactory::getDbo();
+						$query = $db->getQuery(true);
+
+						$query->update($db->quoteName('#__user_keys'))
+						->set($db->quoteName('invalid') . '= ' . 1)
+						->where($db->quotename('user_id') . ' = ' . $db->quote($results[0]->username));
+						$db->setQuery($query);
+						$db->execute();
+
+						$return = false;
+					}
 
 					$credentials['username'] = $results[0]->user_id;
 					$return = $app->login($credentials, array('silent' => true));
