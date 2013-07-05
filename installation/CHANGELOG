@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#31105] Truncate introtext can break html. Thanks Chad Windnagle
  # [#31278] Improve counting of results in queries. Thanks Matias Griese
  # [#31179] code quality, mod_breadcrumbs. Thanks David Hurley and Denis Biwebco
+ # [#31346] Parent tag field not working. Thanks Elin Waring
 
 04-Jul-2013 Jean-Marie Simonet
  # [#31138] Correct the Bug after #31034. Thanks Tobias Zulauf and Peter Wiseman
