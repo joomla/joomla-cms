@@ -14,7 +14,7 @@
  * @subpackage  Html
  * @since       3.1
  */
-class JHtmlEmailTest extends PHPUnit_Framework_TestCase
+class JHtmlEmailTest extends TestCase
 {
 	/**
 	 * Backup of the SERVER superglobal
