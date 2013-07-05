@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once __DIR__ . '/stubs/JHtmlJqueryInspector.php';
+
 /**
  * Test class for JHtmlEmail.
  *
@@ -58,6 +60,8 @@ class JHtmlEmailTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		JHtmlJqueryInspector::resetLoaded();
 
 		parent::tearDown();
 	}
