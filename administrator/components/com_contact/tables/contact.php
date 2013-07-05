@@ -159,7 +159,7 @@ class ContactTableContact extends JTable
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
-		return $result && $this->tagsHelper->postStoreProcess($this);
+		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
 		}
 
 	/**

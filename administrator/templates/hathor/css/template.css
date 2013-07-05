@@ -3114,9 +3114,12 @@ fieldset.uploadform {
 }
 .alert .close {
 	position: relative;
-	top: -2px;
-	right: -21px;
+	right: -30px;
+	top: -5px;
 	line-height: 18px;
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
 }
 .alert-success {
 	background-color: #dff0d8;
@@ -3290,4 +3293,22 @@ table.adminlist .item-associations li a {
 	margin-left: -5px;
 	border-width: 0 5px 5px;
 	border-bottom-color: #000000;
+}
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+fieldset.panelform .tooltip img {
+	float: none;
+	margin: 0;
 }
