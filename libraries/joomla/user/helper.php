@@ -407,9 +407,7 @@ abstract class JUserHelper
 			default:
 				if (function_exists('password_hash'))
 				{
-					$options = array('salt' => $salt);
-
-					$encrypted =  ($salt) ? password_hash($plaintext, PASSWORD_BCRYPT, $options) . ':' . $salt :  password_hash($plaintext, PASSWORD_BCRYPT, $options);
+					$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
 					if (!$encrypted)
 					{
 						// Something went wrong.
@@ -421,9 +419,9 @@ abstract class JUserHelper
 				elseif (!function_exists('password_hash') && version_compare(PHP_VERSION, '5.3.6', '>'))
 				{
 					include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
-					$options = array('salt' => $salt);
 
-					$encrypted =  ($salt) ? password_hash($plaintext, PASSWORD_BCRYPT, $options) . ':' . $salt :  password_hash($plaintext, PASSWORD_BCRYPT, $options);
+					$encrypted = password_hash($plaintext, PASSWORD_BCRYPT);
+
 					if (!$encrypted)
 					{
 						// Something went wrong.
@@ -489,14 +487,9 @@ abstract class JUserHelper
 				}
 				break;
 			case 'bcrypt':
-				if ($seed)
-				{
-					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 23);
-				}
-				else
-				{
-					return '$1$' . substr(md5(mt_rand()), 0, 23) . '$';
-				}
+				// Bcrypt produces its own salt.
+
+				return;
 				break;
 
 
