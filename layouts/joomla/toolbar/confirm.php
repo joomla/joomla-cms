@@ -14,7 +14,6 @@ $class  = $displayData['class'];
 $text   = $displayData['text'];
 
 ?>
-
 <button onclick="<?php echo $doTask; ?>" class="btn btn-small">
 	<span class="<?php echo $class; ?>"></span>
 	<?php echo $text; ?>

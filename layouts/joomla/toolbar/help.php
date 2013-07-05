@@ -13,7 +13,6 @@ $doTask = $displayData['doTask'];
 $text   = $displayData['text'];
 
 ?>
-
 <button onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-small">
 	<span class="icon-question-sign"></span>
 	<?php echo $text; ?>

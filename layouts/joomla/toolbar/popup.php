@@ -14,7 +14,6 @@ $class  = $displayData['class'];
 $text   = $displayData['text'];
 $name   = $displayData['name'];
 ?>
-
 <button onclick="<?php echo $doTask; ?>" class="btn btn-small modal" data-toggle="modal" data-target="#modal-<?php echo $name; ?>">
 	<i class="icon-cog"></i>
 	<?php echo $text; ?>

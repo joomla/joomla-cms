@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 ?>
-
 <div class="btn-group" <?php echo $displayData['id']; ?>>
 	<?php echo $displayData['action']; ?>
 </div>
