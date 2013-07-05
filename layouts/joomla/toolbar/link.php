@@ -14,7 +14,7 @@ $class  = $displayData['class'];
 $text   = $displayData['text'];
 
 ?>
-<button onclick="location.href='<?php echo $doTask; ?>'" class="btn btn-small">
+<button onclick="location.href='<?php echo $doTask; ?>';" class="btn btn-small">
 	<span class="<?php echo $class; ?>"></span>
 	<?php echo $text; ?>
 </button>
