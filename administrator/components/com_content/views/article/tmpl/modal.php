@@ -73,6 +73,8 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 		}
 	}
 </script>
+<div class="container-popup">
+
 <div class="pull-right">
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('article.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('article.save');"><?php echo JText::_('JTOOLBAR_SAVE') ?></button>
@@ -307,3 +309,4 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 		<!-- End Sidebar -->
 	</div>
 </form>
+</div>

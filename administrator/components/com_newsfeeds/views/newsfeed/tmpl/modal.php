@@ -38,6 +38,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		}
 	}
 </script>
+<div class="container-popup">
 
 <div class="pull-right">
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('newsfeed.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
@@ -210,3 +211,4 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		<!-- End Sidebar -->
 	</div>
 </form>
+</div>

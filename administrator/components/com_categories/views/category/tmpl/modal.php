@@ -40,6 +40,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		}
 	}
 </script>
+<div class="container-popup">
 
 <div class="pull-right">
 	<button class="btn btn-primary" type="button" onclick="Joomla.submitbutton('category.apply');"><?php echo JText::_('JTOOLBAR_APPLY') ?></button>
@@ -224,3 +225,4 @@ JHtml::_('formbehavior.chosen', 'select');
 		<!-- End Sidebar -->
 	</div>
 </form>
+</div>

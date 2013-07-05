@@ -7253,3 +7253,6 @@ th .tooltip-inner {
 #permissions-sliders .chzn-container {
 	position: absolute;
 }
+.container-popup {
+	padding: 15px;
+}
