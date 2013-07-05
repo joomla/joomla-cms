@@ -197,7 +197,7 @@ class PlgSystemRemember extends JPlugin
 	 * This is where we set the remember me cookie. We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options     Array holding options (length, timeToExpiration,)
+	 * @param   array  options     Array holding options
 	 *
 	 * @return  boolean  True on success
 	 * @since   3.1.2
@@ -205,14 +205,14 @@ class PlgSystemRemember extends JPlugin
 	public function onUserAfterLogin($options)
 	{
 		$app = JFactory::getApplication();
-		$length = (int) $options['length'];
-		$privateKey = JCrypt::genRandomBytes(70);
+		$length = $this->params->get('key_length', '20');
+		$privateKey = JCrypt::genRandomBytes($length);
 
 		$user = JFactory::getUser();
 		$key = new JCryptKey('simple', $privateKey, $privateKey);
 		$crypt = new JCrypt(new JCryptCipherSimple, $key);
 		$rcookie = $crypt->encrypt(sha1($user->username));
-		$lifetime = time() + ($options['timeToExpiration'] * 24 * 60 * 60);
+		$lifetime = time() + ($this->params->get('cookie_lifetime', '20') * 24 * 60 * 60);
 		$key64 = base64_encode($privateKey);
 
 		$series = JApplication::getHash('JLOGIN_REMEMBER');

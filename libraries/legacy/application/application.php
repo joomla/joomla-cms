@@ -680,8 +680,6 @@ class JApplication extends JApplicationBase
 				// Set the remember me cookie if enabled.
 				if ((isset($options['remember']) &&  $options['remember'] === true) || $response->type == 'Remember' )
 				{
-					$options['length'] = 70;
-					$options['timeToExpiration'] = 30;
 
 					if (JPluginHelper::isEnabled('system', 'remember'))
 					{
