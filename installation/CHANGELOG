@@ -28,6 +28,7 @@ $ -> Language fix or change
 05-Jul-2013 Jean-Marie Simonet
  $ Updating installation lang files: af-ZA, be-BY, ca-ES, da-DK, de-DE, he-IL, hr-HR, hu-HU, pl-PL
  # [#31105] Truncate introtext can break html. Thanks Chad Windnagle
+ # [#31278] Improve counting of results in queries. Thanks Matias Griese
 
 04-Jul-2013 Jean-Marie Simonet
  # [#31138] Correct the Bug after #31034. Thanks Tobias Zulauf and Peter Wiseman
