@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_services
  * @since       3.2
  */
-class ServicesViewConfigHtml extends JViewLegacy
+class ServicesViewConfigHtml extends JViewCms
 {
 	public $state;
 
@@ -33,24 +33,30 @@ class ServicesViewConfigHtml extends JViewLegacy
 	 * @return  void
 	 *
 	 */
-	public function render($tpl = null)
+	public function render()
 	{
 
-		$user = JFactory::getUser();
-		$app   = JFactory::getApplication();
-
+		try
+		{
+			$user = JFactory::getUser();
+			$app   = JFactory::getApplication();
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
 		// Check for model errors.
-		if ($errors = $this->get('Errors'))
+		/* if ($errors = $this->get('Errors'))
 		{
 			$app->enqueueMessage(implode('<br />', $errors), 'error');
 			
 			return;
 
-		}
+		} */
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		parent::display($tpl);
+		return parent::render();
 	}
 
 }

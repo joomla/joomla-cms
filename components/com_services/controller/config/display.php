@@ -62,7 +62,7 @@ class ServicesControllerConfigDisplay extends JControllerBase
 		$viewClass  = 'ServicesView' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = 'ServicesModel' . ucfirst($viewName);
 
-		if ($view = new $viewClass)
+		if (class_exists($viewClass))
 		{
 
 			if ($viewName != 'close')
@@ -78,9 +78,9 @@ class ServicesControllerConfigDisplay extends JControllerBase
 
 				}
 
-				// Set model
-				$view->setModel($model, true);
 			}
+			
+			$view = new $viewClass($model, $paths);
 
 			$view->setLayout($layoutName);
 
