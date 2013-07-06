@@ -51,9 +51,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				$updateURL = 'http://update.joomla.org/core/test/list_test.xml';
 				break;
 
-			// "Custom"
+			// "Custom" if custom URL empty no changes
 			case 'custom':
-				$updateURL = $params->get('customurl', '');
+				if($params->get('customurl', '') != '')
+				{
+					$updateURL = $params->get('customurl', '');
+				}
+				else
+				{
+					return;
+				}
 				break;
 
 			// "Do not change"
