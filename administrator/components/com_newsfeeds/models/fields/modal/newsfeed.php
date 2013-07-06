@@ -150,12 +150,13 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		// class='required' for client side validation
 		$class = '';
+
 		if ($this->required)
 		{
 			$class = ' class="required modal-value"';
 		}
 
-		$html[].= '<input type="hidden" id="'.$this->id.'_id"'.$class.' name="'.$this->name.'" value="'.$value.'" />';
+		$html[] .= '<input type="hidden" id="'.$this->id.'_id"'.$class.' name="'.$this->name.'" value="'.$value.'" />';
 
 		return implode("\n", $html);
 	}
