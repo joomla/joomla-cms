@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 06-Jul-2013 Elin Waring
  ^ [#31275] Change use of self:: to static:: in JHtml helpers.  Thanks Michael Babker
+ # [#30870] Fix some mistakes. Thanks Rasmus Lerdorf
 
 06-Jul-2013 Michael Babker
  # [#31296] Edit profile button comes before page-header instead of after.  Thanks Rob de Cleen
