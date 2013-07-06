@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  * @since       2.5
+ * @deprecated	4.0
  */
 class JJsonResponse
 {
@@ -70,9 +71,12 @@ class JJsonResponse
 	 * @return  void
 	 *
 	 * @since		2.5
+	 * @deprecated	4.0	Use class JResponseJson instead
 	 */
 	public function __construct($response = null, $message = null, $error = false)
 	{
+		JLog::add('Class JJsonResponse is deprecated. Use class JResponseJson instead.', JLog::WARNING, 'deprecated');
+
 		$this->message = $message;
 
 		// Get the message queue
