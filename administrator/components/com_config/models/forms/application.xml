@@ -801,8 +801,7 @@
 		<field
 			name="rules"
 			type="rules"
-			label="FIELD_RULES_LABEL"
-			translate_label="false"
+			label="JCONFIG_PERMISSIONS_DESC"
 			validate="rules"
 			class="inputbox"
 			filter="rules">
