@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ [#31291] Remove timezone data from language file. Thanks Brian Teeman.
  $ [#31207] Can't find "Purge Cache" at Install language. Thanks Tobias Zulauf
  $ Updating installation lang files: bg-BG, es-ES, zh-CN, zh-TW
+ # [#31348] Regression for plugin filter search with spaces in the title. Reverting
 
 05-Jul-2013 Jean-Marie Simonet
  $ Updating installation lang files: af-ZA, be-BY, ca-ES, da-DK, de-DE, he-IL, hr-HR, hu-HU, pl-PL
