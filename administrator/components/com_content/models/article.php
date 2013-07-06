@@ -538,7 +538,6 @@ class ContentModelArticle extends JModelAdmin
 					$db->setQuery($query);
 					$db->execute();
 
-
 					if ($error = $db->getErrorMsg())
 					{
 						$this->setError($error);
