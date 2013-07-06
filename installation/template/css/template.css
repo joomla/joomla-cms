@@ -120,3 +120,6 @@
 .list-item-subtitle {
 	margin-bottom:9px;
 }
+.noresize{
+	resize: none;
+}
