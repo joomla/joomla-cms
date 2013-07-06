@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#31348] Regression for plugin filter search with spaces in the title. Reverting
  # [#31345] Correct typo in deprecated logging. Thanks Brian Teeman
  # [#29432] All parameters passed to Bootstrap's modal window always set to true. Thanks Michael Babker
+ # [#31213] Redundant code. Thanks Achal Aggarwal and Mark Antoine Thevenet
 
 05-Jul-2013 Jean-Marie Simonet
  $ Updating installation lang files: af-ZA, be-BY, ca-ES, da-DK, de-DE, he-IL, hr-HR, hu-HU, pl-PL
