@@ -28,6 +28,7 @@ $ -> Language fix or change
 06-Jul-2013 Jean-Marie Simonet
  ^$ [#31190] *Multilanguage improvement: edit associated items in the Association Tab. Thanks Dennis Hermatski.
  $ [#31290] Add Debug User Group Help Screen language string. Thanks George Wilson
+ $ [#31291] Remove timezone data from language file. Thanks Brian Teeman.
 
 05-Jul-2013 Jean-Marie Simonet
  $ Updating installation lang files: af-ZA, be-BY, ca-ES, da-DK, de-DE, he-IL, hr-HR, hu-HU, pl-PL
