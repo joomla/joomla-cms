@@ -30,7 +30,7 @@ abstract class JHtmlSliders
 	 */
 	public static function start($group = 'sliders', $params = array())
 	{
-		self::loadBehavior($group, $params);
+		static::loadBehavior($group, $params);
 
 		return '<div id="' . $group . '" class="pane-sliders"><div style="display:none;"><div>';
 	}
