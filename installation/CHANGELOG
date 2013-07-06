@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 06-Jul-2013 Jean-Marie Simonet
  $ [#31290] Add Debug User Group Help Screen language string. Thanks George Wilson
+ # [#31348] Regression for plugin filter search with spaces in the title. Reverting
 
 01-Jul-2013 Jean-Marie Simonet
  # [#31280] Loadmodule support for htmlspecialchars in title. Thanks Peter Wiseman
