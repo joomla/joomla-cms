@@ -51,7 +51,7 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['offset'] = (isset($params['offset']) && ($params['offset'])) ? $params['offset'] : 10;
+			$opt['offset'] = isset($params['offset']) ? $params['offset'] : 10;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -158,8 +158,8 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['interval'] = (isset($params['interval']) && ($params['interval'])) ? (int) $params['interval'] : 5000;
-			$opt['pause'] = (isset($params['pause']) && ($params['pause'])) ? $params['pause'] : 'hover';
+			$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
+			$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -269,10 +269,10 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['backdrop'] = (isset($params['backdrop']) && ($params['backdrop'])) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = (isset($params['keyboard']) && ($params['keyboard'])) ? (boolean) $params['keyboard'] : true;
-			$opt['show'] = (isset($params['show']) && ($params['show'])) ? (boolean) $params['show'] : true;
-			$opt['remote'] = (isset($params['remote']) && ($params['remote'])) ? $params['remote'] : '';
+			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
+			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
+			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
+			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -408,7 +408,7 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['offset'] = (isset($params['offset']) && ($params['offset'])) ? (int) $params['offset'] : 10;
+			$opt['offset'] = isset($params['offset']) ? (int) $params['offset'] : 10;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -442,7 +442,7 @@ abstract class JHtmlBootstrap
 	 *                             - selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
 	 *                             - title      string|function  Default title value if `title` tag isn't present
 	 *                             - trigger    string           How tooltip is triggered - hover | focus | manual
-	 *                             - delay      number           Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+	 *                             - delay      integer          Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
 	 *                                                           If a number is supplied, delay is applied to both hide/show
 	 *                                                           Object structure is: delay: { show: 500, hide: 100 }
 	 *                             - container  string|boolean   Appends the popover to a specific element: { container: 'body' }
@@ -459,15 +459,15 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['animation'] = (isset($params['animation']) && ($params['animation'])) ? (boolean) $params['animation'] : null;
-			$opt['html'] = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : true;
-			$opt['placement'] = (isset($params['placement']) && ($params['placement'])) ? (string) $params['placement'] : null;
-			$opt['selector'] = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : null;
-			$opt['title'] = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : null;
-			$opt['trigger'] = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : null;
-			$opt['delay'] = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : null;
-			$opt['container'] = (isset($params['container']) && ($params['container'])) ? (int) $params['container'] : false;
-			$opt['template'] = (isset($params['template']) && ($params['template'])) ? (string) $params['template'] : null;
+			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
+			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : null;
+			$opt['placement'] = isset($params['placement']) ? (string) $params['placement'] : null;
+			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
+			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
+			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
+			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
+			$opt['container'] = isset($params['container']) ? (int) $params['container'] : false;
+			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -520,13 +520,13 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['source'] = (isset($params['source']) && ($params['source'])) ? $params['source'] : '[]';
-			$opt['items'] = (isset($params['items']) && ($params['items'])) ? (int) $params['items'] : 8;
-			$opt['minLength'] = (isset($params['minLength']) && ($params['minLength'])) ? (int) $params['minLength'] : 1;
-			$opt['matcher'] = (isset($params['matcher']) && ($params['matcher'])) ? (string) $params['matcher'] : null;
-			$opt['sorter'] = (isset($params['sorter']) && ($params['sorter'])) ? (string) $params['sorter'] : null;
-			$opt['updater'] = (isset($params['updater']) && ($params['updater'])) ? (string) $params['updater'] : null;
-			$opt['highlighter'] = (isset($params['highlighter']) && ($params['highlighter'])) ? (int) $params['highlighter'] : null;
+			$opt['source']      = isset($params['source']) ? $params['source'] : '[]';
+			$opt['items']       = isset($params['items']) ? (int) $params['items'] : 8;
+			$opt['minLength']   = isset($params['minLength']) ? (int) $params['minLength'] : 1;
+			$opt['matcher']     = isset($params['matcher']) ? (string) $params['matcher'] : null;
+			$opt['sorter']      = isset($params['sorter']) ? (string) $params['sorter'] : null;
+			$opt['updater']     = isset($params['updater']) ? (string) $params['updater'] : null;
+			$opt['highlighter'] = isset($params['highlighter']) ? (int) $params['highlighter'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -570,9 +570,9 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['parent'] = (isset($params['parent']) && ($params['parent'])) ? (boolean) $params['parent'] : false;
-			$opt['toggle'] = (isset($params['toggle']) && ($params['toggle'])) ? (boolean) $params['toggle'] : true;
-			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+			$opt['parent'] = isset($params['parent']) ? (boolean) $params['parent'] : false;
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : true;
+			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -758,7 +758,7 @@ abstract class JHtmlBootstrap
 			self::framework();
 
 			// Setup options object
-			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
 			// Attach tooltips to document
 			JFactory::getDocument()->addScriptDeclaration(
