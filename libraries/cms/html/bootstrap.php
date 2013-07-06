@@ -45,10 +45,10 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['offset'] = isset($params['offset']) ? $params['offset'] : 10;
@@ -63,7 +63,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig] = true;
 		}
 
 		return;
@@ -81,13 +81,13 @@ abstract class JHtmlBootstrap
 	public static function alert($selector = 'alert')
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
 		// Include Bootstrap framework
-		self::framework();
+		static::framework();
 
 		// Attach the alerts to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -96,7 +96,7 @@ abstract class JHtmlBootstrap
 				})(jQuery);"
 		);
 
-		self::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -113,13 +113,13 @@ abstract class JHtmlBootstrap
 	public static function button($selector = 'button')
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
 		// Include Bootstrap framework
-		self::framework();
+		static::framework();
 
 		// Attach the alerts to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -128,7 +128,7 @@ abstract class JHtmlBootstrap
 				})(jQuery);"
 		);
 
-		self::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -152,10 +152,10 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
@@ -171,7 +171,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig] = true;
 		}
 
 		return;
@@ -189,13 +189,13 @@ abstract class JHtmlBootstrap
 	public static function dropdown($selector = 'dropdown-toggle')
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
 		// Include Bootstrap framework
-		self::framework();
+		static::framework();
 
 		// Attach the dropdown to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -204,7 +204,7 @@ abstract class JHtmlBootstrap
 				})(jQuery);"
 		);
 
-		self::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -223,7 +223,7 @@ abstract class JHtmlBootstrap
 	public static function framework($debug = null)
 	{
 		// Only load once
-		if (!empty(self::$loaded[__METHOD__]))
+		if (!empty(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -239,7 +239,7 @@ abstract class JHtmlBootstrap
 		}
 
 		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
@@ -263,10 +263,10 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
@@ -284,7 +284,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig] = true;
 		}
 
 		return;
@@ -304,7 +304,7 @@ abstract class JHtmlBootstrap
 	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
 	{
 		// Ensure the behavior is loaded
-		self::modal($selector, $params);
+		static::modal($selector, $params);
 
 		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
 		$html .= "<div class=\"modal-header\">\n";
@@ -353,13 +353,13 @@ abstract class JHtmlBootstrap
 	public static function popover($selector = '.hasPopover', $params = array())
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
 		// Include Bootstrap framework
-		self::framework();
+		static::framework();
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
 		$opt['html'] = isset($params['html']) ? $params['html'] : true;
@@ -381,7 +381,7 @@ abstract class JHtmlBootstrap
 			});"
 		);
 
-		self::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -402,10 +402,10 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['offset'] = isset($params['offset']) ? (int) $params['offset'] : 10;
@@ -420,7 +420,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig] = true;
 		}
 
 		return;
@@ -453,10 +453,10 @@ abstract class JHtmlBootstrap
 	 */
 	public static function tooltip($selector = '.hasTooltip', $params = array())
 	{
-		if (!isset(self::$loaded[__METHOD__][$selector]))
+		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
@@ -480,7 +480,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$selector] = true;
+			static::$loaded[__METHOD__][$selector] = true;
 		}
 
 		return;
@@ -514,10 +514,10 @@ abstract class JHtmlBootstrap
 	 */
 	public static function typeahead($selector = '.typeahead', $params = array())
 	{
-		if (!isset(self::$loaded[__METHOD__][$selector]))
+		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['source']      = isset($params['source']) ? $params['source'] : '[]';
@@ -539,7 +539,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$selector] = true;
+			static::$loaded[__METHOD__][$selector] = true;
 		}
 
 		return;
@@ -564,10 +564,10 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['parent'] = isset($params['parent']) ? (boolean) $params['parent'] : false;
@@ -584,8 +584,8 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
-			self::$loaded[__METHOD__]['active'] = $opt['active'];
+			static::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__]['active'] = $opt['active'];
 		}
 
 		return '<div id="' . $selector . '" class="accordion">';
@@ -617,7 +617,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in = (self::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
+		$in = (static::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="accordion-group' . $class . '">'
@@ -658,10 +658,10 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
@@ -671,8 +671,8 @@ abstract class JHtmlBootstrap
 				->addScriptDeclaration(JLayoutHelper::render('libraries.cms.html.bootstrap.starttabsetscript', array('selector' => $selector)));
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
-			self::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
+			static::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
 
 		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
@@ -713,7 +713,7 @@ abstract class JHtmlBootstrap
 		$tabScriptLayout = is_null($tabScriptLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
 		$tabLayout = is_null($tabLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
 
-		$active = (self::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		// Inject tab into UL
 		JFactory::getDocument()
@@ -752,10 +752,10 @@ abstract class JHtmlBootstrap
 	public static function startPane($selector = 'myTab', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
-		if (!isset(self::$loaded['JHtmlBootstrap::startTabSet'][$sig]))
+		if (!isset(static::$loaded['JHtmlBootstrap::startTabSet'][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
@@ -771,8 +771,8 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded['JHtmlBootstrap::startTabSet'][$sig] = true;
-			self::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] = $opt['active'];
+			static::$loaded['JHtmlBootstrap::startTabSet'][$sig] = true;
+			static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] = $opt['active'];
 		}
 
 		return '<div class="tab-content" id="' . $selector . 'Content">';
@@ -804,7 +804,7 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addPanel($selector, $id)
 	{
-		$active = (self::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		return '<div id="' . $id . '" class="tab-pane' . $active . '">';
 	}
