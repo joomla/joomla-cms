@@ -25,12 +25,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jul-2013 Elin Waring
+ ^ [#31275] Change use of self:: to static:: in JHtml helpers.  Thanks Michael Babker
+
 06-Jul-2013 Michael Babker
  # [#31296] Edit profile button comes before page-header instead of after.  Thanks Rob de Cleen
  ^ [#31355] *Multilanguage: Adding bootstrap tooltips to the associations button.  Thanks Jean-Marie Simonet
  # [#31363] Commit for issue 30966 garbles HTML for URL's in forms.  Thanks Mark Dexter
  # [#31361] SQL Error in Banner Manager: Clients.  Thanks Mark Dexter
  + [#31289] Add JResponseJson as a CMS library class.  Thanks Patrick Alt
+ ^ [#30607] Removing the array part in field_mappings.  Thanks Thomas Hunziker
 
 06-Jul-2013 Jean-Marie Simonet
  ^$ [#31190] *Multilanguage improvement: edit associated items in the Association Tab. Thanks Dennis Hermatski.
