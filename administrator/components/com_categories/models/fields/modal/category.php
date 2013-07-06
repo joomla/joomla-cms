@@ -131,12 +131,12 @@ class JFormFieldModal_Category extends JFormField
 		// The current category display field.
 		$html[] = '<span class="input-append">';
 		$html[] = '<input type="text" class="input-medium" id="'.$this->id.'_name" value="'.$title.'" disabled="disabled" size="35" />';
-		$html[] = '<a class="modal btn hasTooltip" title="'.JText::_('COM_CATEGORIES_CHANGE_CATEGORY').'"  href="'.$link.'&amp;'.JSession::getFormToken().'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> '.JText::_('JSELECT').'</a>';
+		$html[] = '<a class="modal btn hasTooltip" title="'.JHtml::tooltipText('COM_CATEGORIES_CHANGE_CATEGORY').'"  href="'.$link.'&amp;'.JSession::getFormToken().'=1" rel="{handler: \'iframe\', size: {x: 800, y: 450}}"><i class="icon-file"></i> '.JText::_('JSELECT').'</a>';
 
 		// Edit category button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip'.($value ? '' : ' hidden').'" href="index.php?option=com_categories&layout=modal&tmpl=component&task=category.edit&id=' . $value. '" target="_blank" title="'.JText::_('COM_CATEGORIES_EDIT_CATEGORY').'" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a class="btn hasTooltip'.($value ? '' : ' hidden').'" href="index.php?option=com_categories&layout=modal&tmpl=component&task=category.edit&id=' . $value. '" target="_blank" title="'.JHtml::tooltipText('COM_CATEGORIES_EDIT_CATEGORY').'" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear category button
