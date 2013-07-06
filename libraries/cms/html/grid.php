@@ -113,9 +113,9 @@ abstract class JHtmlGrid
 	/**
 	 * Method to check all checkboxes in a grid
 	 *
-	 * @param   string  $name           The name of the form element
-	 * @param   string  $tip            The text shown as tooltip title instead of $tip
-	 * @param   string  $action         The action to perform on clicking the checkbox
+	 * @param   string  $name    The name of the form element
+	 * @param   string  $tip     The text shown as tooltip title instead of $tip
+	 * @param   string  $action  The action to perform on clicking the checkbox
 	 *
 	 * @return  string
 	 *

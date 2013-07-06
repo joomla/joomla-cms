@@ -47,6 +47,13 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 
 		$input->set('hidemainmenu', true);
+
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+			$this->form->setFieldAttribute('parent_id', 'readonly', 'true');
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}

@@ -17,6 +17,8 @@
 			<field name="id" type="modal_article"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
 				required="true"
+				edit="true"
+				clear="false"
 				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 			/>
 		</fieldset>

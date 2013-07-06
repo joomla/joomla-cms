@@ -25,6 +25,34 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jul-2013 Jean-Marie Simonet
+ ^$ [#31190] *Multilanguage improvement: edit associated items in the Association Tab. Thanks Dennis Hermatski.
+ $ [#31290] Add Debug User Group Help Screen language string. Thanks George Wilson
+ $ [#31291] Remove timezone data from language file. Thanks Brian Teeman.
+ $ [#31207] Can't find "Purge Cache" at Install language. Thanks Tobias Zulauf
+ $ Updating installation lang files: bg-BG, es-ES, zh-CN, zh-TW
+ # [#31348] Regression for plugin filter search with spaces in the title. Reverting
+ # [#31345] Correct typo in deprecated logging. Thanks Brian Teeman
+ # [#29432] All parameters passed to Bootstrap's modal window always set to true. Thanks Michael Babker
+ # [#31213] Redundant code. Thanks Achal Aggarwal and Mark Antoine Thevenet
+
+05-Jul-2013 Jean-Marie Simonet
+ $ Updating installation lang files: af-ZA, be-BY, ca-ES, da-DK, de-DE, he-IL, hr-HR, hu-HU, pl-PL
+ # [#31105] Truncate introtext can break html. Thanks Chad Windnagle
+ # [#31278] Improve counting of results in queries. Thanks Matias Griese
+ # [#31179] code quality, mod_breadcrumbs. Thanks David Hurley and Denis Biwebco
+ # [#31346] Parent tag field not working. Thanks Elin Waring
+
+04-Jul-2013 Jean-Marie Simonet
+ # [#31138] Correct the Bug after #31034. Thanks Tobias Zulauf and Peter Wiseman
+ # [#31324] Fixed error about Undefined property JTableUser::$checked_out when saving a user. Thanks Peter van Westen
+ # [#31327] Debug plugin (git master version only) doesn't catch SQL errors. Thanks Beat.
+ # [#31340] *PHP notice when saving weblink
+ # [#31338] Exception when saving articles etc with no tags. Thanks Elin Waring
+ $ Updating Installation lang file: lv-LV. Adding el-GR
+ # [#31325] Modified date used instead of created date in article layout. Thanks Brian Teeman
+ # [#31320] Modified date used instead of created date in featured layout. Thanks Brian Teeman
+
 03-Jul-2013 Jean-Marie Simonet
  # [#31321] Fixed issue with tooltip text not being escaped when no title is given. Thanks Peter van Westen
  # [#31322] Made title of search boxes show as tooltip. Thanks Peter van Westen

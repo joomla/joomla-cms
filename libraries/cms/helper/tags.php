@@ -61,7 +61,6 @@ class JHelperTags
 		$item = $table->$key;
 		$typeId = $this->getTypeId($this->typeAlias);
 
-
 		// Insert the new tag maps
 		if (strpos('#', implode(',', $tags)) === false)
 		{
