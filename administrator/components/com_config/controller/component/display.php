@@ -47,30 +47,38 @@ class ConfigControllerComponentDisplay extends JControllerBase
 		$viewClass  = 'ConfigView' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = 'ConfigModel' . ucfirst($viewName);
 
-		if ($view = new $viewClass)
+		if (class_exists($viewClass))
 		{
 			if ($viewName != 'close')
 			{
 
 				$model = new $modelClass;
+				$state = $model->getState();
 
 				// Access check.
-				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
+				if (!JFactory::getUser()->authorise('core.admin', $state->get('component.option')))
 				{
 					$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-					
+
 					return;
-						
+
 				}
 
-				// Set model
-				$view->setModel($model, true);
 			}
+
+			$view = new $viewClass($model, $paths);
 
 			$view->setLayout($layoutName);
 
 			// Push document object into the view.
 			$view->document = $document;
+
+			// Reply for service requests
+			if ($viewFormat == 'json')
+			{
+
+				return $view->render();
+			}
 
 			// Render view.
 			echo $view->render();

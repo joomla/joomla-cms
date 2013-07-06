@@ -42,7 +42,9 @@ else $activity = $array[1];
 // if ($array[0]=='application')
 	// For Application
 	$classname  = 'ConfigControllerApplication' . ucfirst($activity);// only for applications
-if ($array[0] == 'component')
+//if ($array[0] == 'component') - not worked
+$componentRequired = $app->input->get('component');
+if(!empty($componentRequired))
 	// For Component
 	$classname  = 'ConfigControllerComponent' . ucfirst($activity); // if task=component.* etc
 

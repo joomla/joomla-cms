@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       1.5
  */
-class ConfigModelComponent extends JModelForm
+class ConfigModelComponent extends JModelCmsform
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -33,15 +33,19 @@ class ConfigModelComponent extends JModelForm
 
 		// Set the component (option) we are dealing with.
 		$component = $input->get('component');
-		$this->setState('component.option', $component);
+		$state = $this->loadState();
+		$state->set('component.option', $component);
 
 		// Set an alternative path for the configuration file.
 		if ($path = $input->getString('path'))
 		{
 			$path = JPath::clean(JPATH_SITE . '/' . $path);
 			JPath::check($path);
-			$this->setState('component.path', $path);
+			$state->set('component.path', $path);
 		}
+
+		$this->setState($state);
+
 	}
 
 	/**
@@ -56,7 +60,9 @@ class ConfigModelComponent extends JModelForm
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		if ($path = $this->getState('component.path'))
+		$state = $this->getState();
+
+		if ($path = $state->get('component.path'))
 		{
 			// Add the search path for the admin component config.xml file.
 			JForm::addFormPath($path);
@@ -64,7 +70,7 @@ class ConfigModelComponent extends JModelForm
 		else
 		{
 			// Add the search path for the admin component config.xml file.
-			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $this->getState('component.option'));
+			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/' . $state->get('component.option'));
 		}
 
 		// Get the form.
@@ -94,7 +100,8 @@ class ConfigModelComponent extends JModelForm
 	 */
 	function getComponent()
 	{
-		$option = $this->getState('component.option');
+		$state = $this->getState();
+		$option = $state->get('component.option');
 
 		// Load common and local language files.
 		$lang = JFactory::getLanguage();

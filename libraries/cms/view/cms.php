@@ -118,7 +118,7 @@ abstract class JViewCms extends JViewHtml
 			$templatePath = $this->paths->current();
 			$this->_path['template'] = array($defaultPath, $templatePath);
 		}
-		
+
 		// Load the template script
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->_createFileName('template', array('name' => $file));

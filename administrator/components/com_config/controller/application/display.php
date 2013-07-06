@@ -47,7 +47,7 @@ class ConfigControllerApplicationDisplay extends JControllerBase
 		$viewClass  = 'ConfigView' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = 'ConfigModel' . ucfirst($viewName);
 
-		if ($view = new $viewClass)
+		if (class_exists($viewClass))
 		{
 
 			if ($viewName != 'close')
@@ -63,9 +63,9 @@ class ConfigControllerApplicationDisplay extends JControllerBase
 
 				}
 
-				// Set model
-				$view->setModel($model, true);
 			}
+
+			$view = new $viewClass($model, $paths);
 
 			$view->setLayout($layoutName);
 
@@ -75,12 +75,14 @@ class ConfigControllerApplicationDisplay extends JControllerBase
 			// Reply for service requests
 			if ($viewFormat == 'json')
 			{
+
 				return $view->render();
 			}
 
 			// Render view.
 			echo $view->render();
 		}
+
 		return true;
 	}
 

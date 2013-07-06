@@ -176,7 +176,6 @@ abstract class JModelCmsform extends JModelCms
 
 		try
 		{
-
 			$form = JForm::getInstance($name, $source, $options, false, $xpath);
 
 			if (isset($options['load_data']) && $options['load_data'])
@@ -199,8 +198,8 @@ abstract class JModelCmsform extends JModelCms
 		}
 		catch (Exception $e)
 		{
-			
-			$app = JApplication::getInstance();
+
+			$app = JFactory::getApplication();
 			$app->enqueueMessage($e->getMessage());
 
 			return false;

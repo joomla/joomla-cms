@@ -18,7 +18,7 @@ require_once dirname(dirname(__DIR__)) . '/helper/component.php';
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigViewApplicationJson extends JViewLegacy
+class ConfigViewApplicationJson extends JViewCms
 {
 
 	public $state;
@@ -32,16 +32,19 @@ class ConfigViewApplicationJson extends JViewLegacy
 	 *
 	 * @return  string
 	 */
-	public function render($tpl = null)
+	public function render()
 	{
-		$data	= $this->get('Data');
-		$user = JFactory::getUser();
 
-		// Check for model errors.
-		if ($errors = $this->get('Errors'))
+		$this->data = $this->model->getData();
+
+		try
 		{
-
-			return false;
+			$user = JFactory::getUser();
+			$app = JFactory::getApplication();
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
@@ -63,9 +66,9 @@ class ConfigViewApplicationJson extends JViewLegacy
 				"fromname" => null
 		);
 
-		$data = array_intersect_key($data,$requiredData);
+		$this->data = array_intersect_key($this->data,$requiredData);
 
-		return json_encode($data);
+		return json_encode($this->data);
 	}
 
 }

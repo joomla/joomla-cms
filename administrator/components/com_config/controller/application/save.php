@@ -42,7 +42,6 @@ class ConfigControllerApplicationSave extends JControllerBase
 
 		$app   = JFactory::getApplication();
 		$model = new ConfigModelApplication;
-		$form  = $model->getForm();
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Complete data array if needed
@@ -59,6 +58,9 @@ class ConfigControllerApplicationSave extends JControllerBase
 
 			return $return;
 		}
+
+		// Must load after serving service-requests
+		$form  = $model->getForm();
 
 		// Validate the posted data.
 		$return = $model->validate($form, $data);

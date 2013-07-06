@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_config
  */
-class ConfigModelApplication extends JModelForm
+class ConfigModelApplication extends JModelCmsform
 {
 	/**
 	 * Method to get a form object.
@@ -279,7 +279,7 @@ class ConfigModelApplication extends JModelForm
 
 		if (!JFile::write($file, $configuration))
 		{
-			$this->setError(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
 
 			return false;
 		}

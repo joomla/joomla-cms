@@ -18,7 +18,7 @@ require_once dirname(dirname(__DIR__)) . '/helper/component.php';
  * @subpackage  com_config
  * @since       1.5
  */
-class ConfigViewComponent extends JViewLegacy
+class ConfigViewComponent extends JViewCms
 {
 	/**
 	 * Display the view
@@ -28,24 +28,9 @@ class ConfigViewComponent extends JViewLegacy
 	 * @return  void
 	 * 
 	 */
-	public function display($tpl = null)
+	public function render()
 	{
 		echo json_encode('To be implemented');
 	}
 
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @since   3.0
-	 */
-	protected function addToolbar()
-	{
-		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'config.png');
-		JToolbarHelper::apply('component.apply');
-		JToolbarHelper::save('component.save');
-		JToolbarHelper::divider();
-		JToolbarHelper::cancel('component.cancel');
-		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
-	}
 }

@@ -155,25 +155,23 @@ abstract class JModelCms extends JModelDatabase
 	/**
 	 * Method to get model state variables
 	 *
-	 * @param   string  $property  Optional parameter name
-	 * @param   mixed   $default   Optional default value
 	 *
 	 * @return  object  The property where specified, the state object where omitted
 	 *
 	 * @since   3.2
 	 */
-	public function getState($property = null, $default = null)
+	public function getState()
 	{
 		if (!$this->__state_set)
 		{
 			// Protected method to auto-populate the model state.
 			$this->populateState();
-
+		
 			// Set the model state set flag to true.
 			$this->__state_set = true;
 		}
 
-		return $property === null ? $this->state : $this->state->get($property, $default);
+		return $this->state;
 	}
 
 	/**
@@ -210,7 +208,6 @@ abstract class JModelCms extends JModelDatabase
 	 *
 	 * @since   3.2
 	 */
-
 	public function registerTablePaths($config = array())
 	{
 		// Set the default view search path
@@ -229,7 +226,33 @@ abstract class JModelCms extends JModelDatabase
 
 		}
 	}
+
+	/**
+	 * Clean the cache
+	 *
+	 * @param   string   $group      The cache group
+	 * @param   integer  $client_id  The ID of the client
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function cleanCache($group = null, $client_id = 0)
+	{
+		$conf = JFactory::getConfig();
+		$dispatcher = JEventDispatcher::getInstance();
 	
+		$options = array(
+				'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
+				'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
+	
+		$cache = JCache::getInstance('callback', $options);
+		$cache->clean();
+	
+		// Trigger the onContentCleanCache event.
+		$dispatcher->trigger($this->event_clean_cache, $options);
+	}
+
 	/**
 	 * Method to auto-populate the model state.
 	 *

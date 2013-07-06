@@ -18,7 +18,7 @@ require_once dirname(dirname(__DIR__)) . '/helper/component.php';
  * @subpackage  com_config
  * @since       1.5
  */
-class ConfigViewCloseJson extends JViewLegacy
+class ConfigViewCloseJson extends JViewCms
 {
 	/**
 	 * Display the view

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigViewCloseHtml extends JViewLegacy
+class ConfigViewCloseHtml extends JViewCms
 {
 	/**
 	 * Display the view
@@ -28,7 +28,7 @@ class ConfigViewCloseHtml extends JViewLegacy
 	 * 
 	 * 
 	 */
-	public function render($tpl = null)
+	public function render()
 	{
 		// Close a modal window
 		JFactory::getDocument()->addScriptDeclaration('
