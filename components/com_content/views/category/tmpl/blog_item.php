@@ -52,7 +52,7 @@ JHtml::_('behavior.framework');
 		$itemId = $active->id;
 		$link1 = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $itemId);
 		$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid));
-		$link = new JURI($link1);
+		$link = new JUri($link1);
 		$link->setVar('return', base64_encode($returnURL));
 	endif; ?>
 
@@ -74,10 +74,6 @@ JHtml::_('behavior.framework');
 
 	</a></p>
 
-<?php endif; ?>
-
-<?php if ($this->item->state == 0) : ?>
-</div>
 <?php endif; ?>
 
 <?php echo $this->item->event->afterDisplayContent; ?>

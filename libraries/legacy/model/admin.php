@@ -565,13 +565,13 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->reset();
 				$table->load($pk);
-				$metaObject = json_decode($table->metadata);
-				$metaObject->tags = (isset($metaObject->tags) && is_array($metaObject->tags)) ? $metaObject->tags : array();
-				$metaObject->tags[] = (int) $value;
-				$metaObject->tags = array_unique($metaObject->tags);
-				$table->metadata = json_encode($metaObject);
+				$tags = array($value);
+				$typeAlias = $table->get('tagsHelper')->typeAlias;
 
-				if (!$table->store())
+				$oldTags = $table->get('tagsHelper')->getTagIds($pk, $typeAlias);
+				$table->get('tagsHelper')->oldTags = $oldTags;
+
+				if (!$table->get('tagsHelper')->postStoreProcess($table, $tags, false))
 				{
 					$this->setError($table->getError());
 
@@ -977,7 +977,6 @@ abstract class JModelAdmin extends JModelForm
 					continue;
 				}
 
-				$where = array();
 				$where = $this->getReorderConditions($table);
 
 				if (!$table->move($delta, $where))
@@ -1024,6 +1023,11 @@ abstract class JModelAdmin extends JModelForm
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
+
+		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		{
+			$table->newTags = $data['tags'];
+		}
 
 		$key = $table->getKeyName();
 		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');

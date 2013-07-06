@@ -9,8 +9,22 @@
 
 defined('_JEXEC') or die;
 
-$clientId = $this->state->get('filter.client_id');
+$clientId  = $this->state->get('filter.client_id');
 $published = $this->state->get('filter.published');
+$positions = JHtml::_('modules.positions', $clientId, $published);
+
+// Add custom position to options
+$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
+
+// Build field
+$attr = array(
+	'id'          => 'batch-position-id',
+	'list.attr'   => 'class="chzn-custom-value input-xlarge" '
+	. 'data-custom_group_text="' . $customGroupText . '" '
+	. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
+	. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
+);
+
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
@@ -32,7 +46,15 @@ $published = $this->state->get('filter.published');
 		<?php if ($published >= 0) : ?>
 		<div class="control-group">
 			<div class="controls">
-				<?php echo JHtml::_('modules.positions', $clientId);?>
+				<label id="batch-choose-action-lbl" for="batch-choose-action">
+					<?php echo JText::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
+				</label>
+				<div id="batch-choose-action" class="control-group">
+					<?php echo JHtml::_('select.groupedlist', $positions, 'batch[position_id]', $attr) ?>
+					<div id="batch-move-copy" class="control-group radio">
+						<?php echo JHtml::_('modules.batchOptions'); ?>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php endif; ?>

@@ -47,16 +47,16 @@ class JToolbarButtonSlider extends JToolbarButton
 		$text = JText::_($text);
 		$class = 'cog';
 		$doTask = $this->_getCommand($url);
+		$doTask = 'Joomla.setcollapse(\'' . $doTask . '\', \'' . $name . '\', \'' . $height . '\');';
+		if ($onClose)
+		{
+			$onClose = ' rel="{onClose: function() {' . $onClose . '}}"';
+		}
 
-		$html = "<button class=\"btn btn-small\" data-toggle=\"collapse\" data-target=\"#collapse-" . $name . "\" rel=\"{onClose: function() {" . $onClose
-			. "}}\" onClick=\"Joomla.setcollapse('$doTask', '$name', '$height');\">\n";
-		$html .= "<i class=\"icon-$class\">\n";
-		$html .= "</i>\n";
-		$html .= "$text\n";
-
-		$html .= "</button>\n";
-
-		return $html;
+		return '<button class="btn btn-small" data-toggle="collapse" data-target="#collapse-' . $name . '"' . $onClose . ' onClick="' . $doTask . '">'
+			. '<span class="icon-' . $class . '"></span> '
+			. $text
+			. '</button>';
 	}
 
 	/**
@@ -87,7 +87,7 @@ class JToolbarButtonSlider extends JToolbarButton
 	{
 		if (substr($url, 0, 4) !== 'http')
 		{
-			$url = JURI::base() . $url;
+			$url = JUri::base() . $url;
 		}
 
 		return $url;

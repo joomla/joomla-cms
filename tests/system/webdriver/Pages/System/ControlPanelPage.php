@@ -33,7 +33,6 @@ class ControlPanelPage extends AdminPage
 			'Global Configuration' => 'administrator/index.php?option=com_config',
 			'Template Manager' => 'administrator/index.php?option=com_templates',
 			'Edit Profile' => 'administrator/index.php?option=com_admin&task=profile.edit&id=',
-			'Joomla! is up-to-date' => 'administrator/index.php?option=com_joomlaupdate',
 			'All extensions are up-to-date' => 'administrator/index.php?option=com_installer&view=update',
 	);
 

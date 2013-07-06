@@ -235,12 +235,11 @@ abstract class JUserHelper
 	 */
 	public static function activateUser($activation)
 	{
-		// Initialize some variables.
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
 
 		// Let's get the id of the user we want to activate
-		$query->select($db->quoteName('id'))
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('activation') . ' = ' . $db->quote($activation))
 			->where($db->quoteName('block') . ' = 1')

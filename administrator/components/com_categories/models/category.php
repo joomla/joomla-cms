@@ -181,14 +181,11 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (!empty($result->id))
 			{
-				$db = JFactory::getDbo();
 				$result->tags = new JHelperTags;
 				$result->tags->getTagIds($result->id, $result->extension . '.category');
-				$result->metadata['tags'] = $result->tags;
 			}
 		}
 
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -315,9 +312,9 @@ class CategoriesModelCategory extends JModelAdmin
 		jimport('joomla.filesystem.path');
 
 		$lang = JFactory::getLanguage();
-		$extension = $this->getState('category.extension');
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
+		$extension = JFactory::getApplication()->input->get('extension', null);
 
 		// Get the component form if it exists
 		$name = 'category' . ($section ? ('.' . $section) : '');
@@ -372,7 +369,6 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Association category items
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -395,12 +391,13 @@ class CategoriesModelCategory extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'categoryedit');
+					$field->addAttribute('type', 'modal_category');
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
-					$option = $field->addChild('option', 'COM_CATEGORIES_ITEM_FIELD_ASSOCIATION_NO_VALUE');
-					$option->addAttribute('value', '');
+					$field->addAttribute('extension', $extension);
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 				}
 			}
 			if ($add)
@@ -429,6 +426,11 @@ class CategoriesModelCategory extends JModelAdmin
 		$input = JFactory::getApplication()->input;
 		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
+
+		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		{
+			$table->newTags = $data['tags'];
+		}
 
 		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
@@ -491,7 +493,6 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -539,7 +540,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$query->clear()
 					->insert('#__associations');
 
-				foreach ($associations as $tag => $id)
+				foreach ($associations as $id)
 				{
 					$query->values($id . ',' . $db->quote('com_categories.item') . ',' . $db->quote($key));
 				}
@@ -655,6 +656,47 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		// Clear the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+	protected function batchTag($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.edit', $contexts[$pk]))
+			{
+				$table->reset();
+				$table->load($pk);
+				$tags = array($value);
+				//$typeAlias = $table->get('tagsHelper')->typeAlias;
+				$typeAlias = $table->extension . '.category';
+				$table->get('tagsHelper')->typeAlias = $typeAlias;
+
+				$oldTags = $table->get('tagsHelper')->getTagIds($pk, $typeAlias);
+				$table->get('tagsHelper')->oldTags = $oldTags;
+
+				if (!$table->get('tagsHelper')->postStoreProcess($table, $tags, false))
+				{
+					$this->setError($table->getError());
+
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+				return false;
+			}
+		}
+
+		// Clean the cache
 		$this->cleanCache();
 
 		return true;

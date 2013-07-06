@@ -129,7 +129,7 @@ class JTableCorecontent extends JTable
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->core_metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -265,23 +265,28 @@ class JTableCorecontent extends JTable
 		// Store the ucm_base row
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-
-		$query->set($db->quoteName('ucm_item_id') . ' = ' . $db->quote($this->core_content_item_id));
-		$query->set($db->quoteName('ucm_type_id') . ' = ' . $db->quote($this->core_type_id));
-
 		$languageId = JHelperContent::getLanguageId($this->core_language);
-		$query->set($db->quoteName('ucm_language_id') . ' = ' . $db->quote($languageId));
 
 		if ($isNew)
 		{
-			$query->set($db->quoteName('ucm_id') . ' = ' . $db->quote($this->core_content_id));
-			$query->insert($db->quoteName('#__ucm_base'));
+			$query->insert($db->quoteName('#__ucm_base'))
+				->columns(array($db->quoteName('ucm_id'), $db->quoteName('ucm_item_id'), $db->quoteName('ucm_type_id'), $db->quoteName('ucm_language_id')))
+				->values(
+					$db->quote($this->core_content_id) . ', '
+					. $db->quote($this->core_content_item_id) . ', '
+					. $db->quote($this->core_type_id) . ', '
+					. $db->quote($languageId)
+			);
 		}
 		else
 		{
-			$query->update($db->quoteName('#__ucm_base'));
-			$query->where($db->quoteName('ucm_id') . ' = ' . $db->quote($this->core_content_id));
+			$query->update($db->quoteName('#__ucm_base'))
+				->set($db->quoteName('ucm_item_id') . ' = ' . $db->quote($this->core_content_item_id))
+				->set($db->quoteName('ucm_type_id') . ' = ' . $db->quote($this->core_type_id))
+				->set($db->quoteName('ucm_language_id') . ' = ' . $db->quote($languageId))
+				->where($db->quoteName('ucm_id') . ' = ' . $db->quote($this->core_content_id));
 		}
+
 		$db->setQuery($query);
 
 		return $db->execute();

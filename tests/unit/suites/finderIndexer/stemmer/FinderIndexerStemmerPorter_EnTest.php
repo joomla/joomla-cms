@@ -48,7 +48,50 @@ class FinderIndexerStemmerPorter_EnTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertEquals(
 			'parti',
-			$this->object->stem('party', 'en')
+			$this->object->stem('party', 'en'),
+			'Tests for the proper stem of a word ending in y'
+		);
+
+		$this->assertEquals(
+			'backfil',
+			$this->object->stem('backfill', 'en'),
+			'Tests for the proper stem of a word ending in a double consonant'
+		);
+
+		$this->assertEquals(
+			'babi',
+			$this->object->stem('babies', 'en'),
+			'Tests for the proper stem of a pluralized word whose singular form ends in y'
+		);
+
+		$this->assertEquals(
+			'passion',
+			$this->object->stem('passionate', 'en'),
+			'Tests for the proper stem of a word ending in ate'
+		);
+
+		$this->assertEquals(
+			'irrat',
+			$this->object->stem('irrational', 'en'),
+			'Tests for the proper stem of a word ending in ational'
+		);
+
+		$this->assertEquals(
+			'cynic',
+			$this->object->stem('cynical', 'en'),
+			'Tests for the proper stem of a word ending in ical'
+		);
+
+		$this->assertEquals(
+			'bicycl',
+			$this->object->stem('bicycling', 'en'),
+			'Tests for the proper stem of a word ending in ing'
+		);
+
+		$this->assertEquals(
+			'substitut',
+			$this->object->stem('substitution', 'en'),
+			'Tests for the proper stem of a word ending in ion'
 		);
 	}
 

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.framework');
 
 // Get the user object.
@@ -27,7 +27,7 @@ $n = count($this->items);
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') !== '0' || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
 	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
@@ -92,7 +92,7 @@ $n = count($this->items);
 		<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
-		</br>
+		<br/>
 	<?php endif; ?>
 </form>
 

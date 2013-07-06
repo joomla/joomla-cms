@@ -169,12 +169,14 @@ class JDocumentHTML extends JDocument
 		$this->_script      = (isset($data['script']) && !empty($data['script'])) ? $data['script'] : $this->_script;
 		$this->_custom      = (isset($data['custom']) && !empty($data['custom'])) ? $data['custom'] : $this->_custom;
 
-		if (isset($data['scriptText']) && !empty($data['scriptText'])) {
-			foreach($data['scriptText'] as $key => $string) {
+		if (isset($data['scriptText']) && !empty($data['scriptText']))
+		{
+			foreach ($data['scriptText'] as $key => $string)
+			{
 				JText::script($key, $string);
 			}
 		}
-		
+
 		return $this;
 	}
 
@@ -529,6 +531,7 @@ class JDocumentHTML extends JDocument
 					->from('#__menu')
 					->where('parent_id = ' . $active->id)
 					->where('published = 1');
+				$db->setQuery($query);
 				$children = $db->loadResult();
 			}
 			else
@@ -579,7 +582,7 @@ class JDocumentHTML extends JDocument
 			{
 				$path = str_replace(JPATH_BASE . '/', '', $dir);
 				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(JURI::base(true) . '/' . $path . 'favicon.ico');
+				$this->addFavicon(JUri::base(true) . '/' . $path . 'favicon.ico');
 				break;
 			}
 		}
@@ -620,7 +623,7 @@ class JDocumentHTML extends JDocument
 
 		// Assign the variables
 		$this->template = $template;
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 		$this->params = isset($params['params']) ? $params['params'] : new JRegistry;
 
 		// Load

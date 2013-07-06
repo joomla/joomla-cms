@@ -90,35 +90,44 @@ class CategoriesControllerCategories extends JControllerAdmin
 	}
 
 	/**
-	 * Method to save the submitted ordering values for records via AJAX.
+	 * Deletes and returns correctly.
+ 	 *
+ 	 * @return	void
 	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
+ 	 * @since	3.1.2
+ 	 */
+	public function delete()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Get the arrays from the Request
-		$pks   = $this->input->post->get('cid', null, 'array');
-		$order = $this->input->post->get('order', null, 'array');
-		$originalOrder = explode(',', $this->input->getString('original_order_values'));
+		// Get items to remove from the request.
+		$cid       = $this->input->get('cid', array(), 'array');
+		$extension = $this->input->getCmd('extension', null);
 
-		// Make sure something has changed
-		if (!($order === $originalOrder))
+		if (!is_array($cid) || count($cid) < 1)
 		{
-			// Get the model
+			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+		}
+		else
+		{
+			// Get the model.
 			$model = $this->getModel();
-			// Save the ordering
-			$return = $model->saveorder($pks, $order);
-			if ($return)
+
+			// Make sure the item ids are integers
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
+
+			// Remove the items.
+			if ($model->delete($cid))
 			{
-				echo "1";
+				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+			}
+			else
+			{
+				$this->setMessage($model->getError());
 			}
 		}
-		// Close the application
-		JFactory::getApplication()->close();
 
+		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
 	}
 }

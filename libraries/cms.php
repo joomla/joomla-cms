@@ -20,7 +20,11 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-class_exists('JLoader') or die;
+// Make sure that the Joomla Platform has been successfully loaded.
+if (!class_exists('JLoader'))
+{
+	throw new RuntimeException('Joomla Platform not loaded.');
+}
 
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms');

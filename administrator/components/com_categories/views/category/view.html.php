@@ -47,6 +47,13 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 
 		$input->set('hidemainmenu', true);
+
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+			$this->form->setFieldAttribute('parent_id', 'readonly', 'true');
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -65,6 +72,10 @@ class CategoriesViewCategory extends JViewLegacy
 
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+
+		// Check to see if the type exists
+		$ucmType = new JUcmType;
+		$this->typeId = $ucmType->getTypeId($extension . '.category');
 
 		// Avoid nonsense situation.
 		if ($extension == 'com_categories')

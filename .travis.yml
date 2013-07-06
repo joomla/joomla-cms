@@ -8,6 +8,10 @@ before_script:
   - pyrus channel-discover pear.phpunit.de
   - pyrus install --force phpunit/DbUnit
   - phpenv rehash
+  - mysql -e 'create database joomla_ut;'
+  - mysql joomla_ut < tests/unit/suites/database/stubs/mysql.sql
+  - psql -c 'create database joomla_ut;' -U postgres
+  - psql -d joomla_ut -a -f tests/unit/suites/database/stubs/postgresql.sql
 
 script:
   - phpunit --configuration travisci-phpunit.xml

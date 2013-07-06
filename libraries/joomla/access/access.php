@@ -141,6 +141,7 @@ class JAccess
 		// Default to the root asset node.
 		if (empty($asset))
 		{
+			// TODO: $rootId doesn't seem to be used!
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 			$rootId = $assets->getRootId();
@@ -254,7 +255,7 @@ class JAccess
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 			$rootId = $assets->getRootId();
-			$query = $db->getQuery(true)
+			$query->clear()
 				->select('rules')
 				->from('#__assets')
 				->where('id = ' . $db->quote($rootId));
@@ -465,7 +466,7 @@ class JAccess
 	 */
 	public static function getActions($component, $section = 'component')
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.', JLog::WARNING, 'deprecated');
 		$actions = self::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
 			"/access/section[@name='" . $section . "']/"

@@ -34,6 +34,10 @@ class JHtmlBootstrapTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		// Ensure the loaded states are reset
+		JHtmlBootstrapInspector::resetLoaded();
+		JHtmlJqueryInspector::resetLoaded();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -58,9 +62,16 @@ class JHtmlBootstrapTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+	}
 
-		JHtmlBootstrapInspector::resetLoaded();
-		JHtmlJqueryInspector::resetLoaded();
+	/**
+	 * @todo   Implement testAffix().
+	 */
+	public function testAffix()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
 	}
 
 	/**
@@ -88,6 +99,34 @@ class JHtmlBootstrapTest extends TestCase
 			$document->_script['text/javascript'],
 			"(function($){\n\t\t\t\t$('.alert').alert();\n\t\t\t\t})(jQuery);",
 			'Verify that the alert script is initialised'
+		);
+	}
+
+	/**
+	 * Tests the button method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public function testButton()
+	{
+		// Initialise the alert script
+		JHtmlBootstrap::button();
+
+		// Get the document instance
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/bootstrap.min.js',
+			$document->_scripts,
+			'Verify that the button method initialises Bootstrap as well'
+		);
+
+		$this->assertEquals(
+			$document->_script['text/javascript'],
+			"(function($){\n\t\t\t\t$('.button').button();\n\t\t\t\t})(jQuery);",
+			'Verify that the button script is initialised'
 		);
 	}
 
@@ -201,6 +240,16 @@ class JHtmlBootstrapTest extends TestCase
 	 * @todo   Implement testTooltip().
 	 */
 	public function testTooltip()
+	{
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
+		);
+	}
+
+	/**
+	 * @todo   Implement testTypeahead().
+	 */
+	public function testTypeahead()
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete('This test has not been implemented yet.'
