@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Jul-2013 Jean-Marie Simonet
+ $ [#31290] Add Debug User Group Help Screen language string. Thanks George Wilson
+
 01-Jul-2013 Jean-Marie Simonet
  # [#31280] Loadmodule support for htmlspecialchars in title. Thanks Peter Wiseman
  
