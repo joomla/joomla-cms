@@ -306,14 +306,11 @@ class JTableContent extends JTable
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
-		if (isset($this->newTags))
-		{
-			return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
-		}
-		else
-		{
-			return $result && $this->tagsHelper->postStoreProcess($this, array());
-		}
+		// We need to set this here in order not to send it to the parent store method.
+		// Post processing must happen even if there are no new tags because there may have been old tags.
+		isset($this->newTags) ? : $this->newTags = array();
+
+		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
 	}
 
 	/**

@@ -159,6 +159,10 @@ class ContactTableContact extends JTable
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
+		// We need to set this here in order not to send it to the parent store method.
+		// Post processing must happen even if there are no new tags because there may have been old tags.
+		isset($this->newTags) ? : $this->newTags = array();
+
 		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
 		}
 
