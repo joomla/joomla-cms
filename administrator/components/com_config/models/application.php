@@ -87,9 +87,9 @@ class ConfigModelApplication extends JModelForm
 	/**
 	 * Method to save the configuration data.
 	 *
-	 * @param   array  An array containing all global config data.
+	 * @param   array  $data  An array containing all global config data.
 	 *
-	 * @return  bool  True on success, false on failure.
+	 * @return  bool   True on success, false on failure.
 	 *
 	 * @since   1.6
 	 */

@@ -30,7 +30,6 @@ class CategoriesControllerCategory extends JControllerForm
 	 * Constructor.
 	 *
 	 * @param  array  $config  An optional associative array of configuration settings.
-	 *
 	 * @since  1.6
 	 * @see    JController
 	 */
@@ -178,6 +177,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())

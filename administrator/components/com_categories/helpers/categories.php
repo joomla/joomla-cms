@@ -22,9 +22,10 @@ class CategoriesHelper
 	/**
 	 * Configure the Submenu links.
 	 *
-	 * @param   string    The extension being used for the categories.
+	 * @param   string  $extension  The extension being used for the categories.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($extension)
@@ -80,6 +81,7 @@ class CategoriesHelper
 	 * @param   integer  $categoryId  The category ID.
 	 *
 	 * @return  JObject
+	 *
 	 * @since   1.6
 	 */
 	public static function getActions($extension, $categoryId = 0)
