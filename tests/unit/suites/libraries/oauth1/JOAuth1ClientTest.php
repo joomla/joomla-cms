@@ -8,18 +8,18 @@
  */
 
 /**
- * Test class for JOAuth1Clientserver.
+ * Test class for JOAuth1Serverclient.
  *
  * @package     Joomla.UnitTest
  * @subpackage  JOAuth1
  *
  * @since       12.3
  */
-class JOAuth1ClientserverTest extends TestCase
+class JOAuth1ServerclientTest extends TestCase
 {
 	/**
 	 * The test object.
-	 * @var JOAuth1Clientserver
+	 * @var JOAuth1Serverclient
 	 */
 	protected $object;
 
@@ -50,7 +50,7 @@ class JOAuth1ClientserverTest extends TestCase
 			->disableArgumentCloning()
 			->getMock();
 
-		$this->object = new JOAuth1Clientserver($this->db);
+		$this->object = new JOAuth1Serverclient($this->db);
 	}
 
 	/**

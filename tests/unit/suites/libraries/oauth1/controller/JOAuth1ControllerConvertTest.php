@@ -8,7 +8,7 @@
  */
 
 /**
- * Test class for JOAuth1Client.
+ * Test class for JOAuth1Convert.
  *
  * @package     Joomla.UnitTest
  * @subpackage  JOAuth1

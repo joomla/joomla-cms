@@ -8,7 +8,7 @@
  */
 
 /**
- * Test class for JOAuth1Client.
+ * Test class for JOAuth1Initialise.
  *
  * @package     Joomla.UnitTest
  * @subpackage  JOAuth1
@@ -19,7 +19,7 @@ class JOAuth1ControllerInitialiseTest extends TestCase
 {
 	/**
 	 * The test object.
-	 * @var JOAuth1Client
+	 * @var JOAuth1Initalise
 	 */
 	protected $object;
 
