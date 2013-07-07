@@ -61,12 +61,12 @@ class JHelperTags
 		$item = $table->$key;
 		$typeId = $this->getTypeId($this->typeAlias);
 
-
 		// Insert the new tag maps
 		if (strpos('#', implode(',', $tags)) === false)
 		{
 			$tags = self::createTagsFromField($tags);
 		}
+
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('core_content_id'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'),  $db->quoteName('type_id')));
@@ -169,7 +169,7 @@ class JHelperTags
 	/**
 	 * Create any new tags by looking for #new# in the strings
 	 *
-	 * @param   array  $tagsText  Tags text array from the field
+	 * @param   array  $tags  Tags text array from the field
 	 *
 	 * @return  mixed   If successful, metadata with new tag titles replaced by tag ids. Otherwise false.
 	 *
@@ -177,7 +177,6 @@ class JHelperTags
 	 */
 	public function createTagsFromField($tags)
 	{
-
 		if (empty($tags) || $tags[0] == '')
 		{
 			return;
@@ -193,6 +192,7 @@ class JHelperTags
 			{
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
+
 				if ($tagText == $tag)
 				{
 					$newTags[] = (int) $tag;
@@ -264,6 +264,7 @@ class JHelperTags
 		}
 
 		$tags = $metaObject->tags;
+
 		if (empty($tags) || !is_array($tags))
 		{
 			$result = $metadata;
@@ -279,6 +280,7 @@ class JHelperTags
 			{
 				// Remove the #new# prefix that identifies new tags
 				$tagText = str_replace('#new#', '', $tag);
+
 				if ($tagText == $tag)
 				{
 					$newTags[] = (int) $tag;
@@ -346,6 +348,7 @@ class JHelperTags
 		$result = $this->unTagItem($contentItemId, $table);
 
 		$ucmContentTable = JTable::getInstance('Corecontent');
+
 		return $result && $ucmContentTable->deleteByContentId($contentItemId);
 	}
 
@@ -507,15 +510,18 @@ class JHelperTags
 					$tagTreeList .= implode(',', $this->getTagTreeArray($tag, $tagTreeArray)) . ',';
 				}
 			}
+
 			if ($tagTreeList)
 			{
 				$tagId = trim($tagTreeList, ',');
 			}
 		}
+
 		if (is_array($tagId))
 		{
 			$tagId = implode(',', $tagId);
 		}
+
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
 		$query->select('m.type_alias, m.content_item_id, m.core_content_id, count(m.tag_id) AS match_count,  MAX(m.tag_date) as tag_date, MAX(c.core_title) AS core_title')
 			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
@@ -606,6 +612,7 @@ class JHelperTags
 	public function getTagNames($tagIds)
 	{
 		$tagNames = array();
+
 		if (is_array($tagIds) && count($tagIds) > 0)
 		{
 			JArrayHelper::toInteger($tagIds);
@@ -643,8 +650,10 @@ class JHelperTags
 		if ($table->isLeaf($id))
 		{
 			$tagTreeArray[] .= $id;
+
 			return $tagTreeArray;
 		}
+
 		$tagTree = $table->getTree($id);
 
 		// Attempt to load the tree
@@ -654,6 +663,7 @@ class JHelperTags
 			{
 				$tagTreeArray[] = $tag->id;
 			}
+
 			return $tagTreeArray;
 		}
 	}
@@ -706,6 +716,7 @@ class JHelperTags
 			{
 				$selectTypes = implode(',', $selectTypes);
 			}
+
 			if ($useAlias)
 			{
 				$query->where($db->quoteName('type_alias') . ' IN (' . $db->quote($selectTypes) . ')');
@@ -724,16 +735,16 @@ class JHelperTags
 		{
 			case 'assocList':
 				$types = $db->loadAssocList();
-			break;
+				break;
 
 			case 'rowList':
 				$types = $db->loadRowList();
-			break;
+				break;
 
 			case 'objectList':
 			default:
 				$types = $db->loadObjectList();
-			break;
+				break;
 		}
 
 		return $types;
@@ -742,7 +753,9 @@ class JHelperTags
 	/**
 	 * Function that handles saving tags used in a table class after a store()
 	 *
-	 * @param   JTable  $table  JTable being processed
+	 * @param   JTable   $table    JTable being processed
+	 * @param   array    $newTags  Array of new tags
+	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
 	 *
 	 * @return  null
 	 *
@@ -794,7 +807,8 @@ class JHelperTags
 	/**
 	 * Function that preProcesses data from a table prior to a store() to ensure proper tag handling
 	 *
-	 * @param   JTable  $table  JTable being processed
+	 * @param   JTable  $table    JTable being processed
+	 * @param   array   $newTags  Array of new tags
 	 *
 	 * @return  null
 	 *
@@ -824,7 +838,6 @@ class JHelperTags
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = ($this->oldTags != $newTags) || !$table->$key;
 		}
-
 	}
 
 	/**

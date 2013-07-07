@@ -91,7 +91,7 @@ class JFormRulePassword extends JFormRule
 
 		// We don't allow white space inside passwords
 		$valueTrim = trim($value);
-		
+
 		// Set a variable to check if any errors are made in password
 		$validPassword = true;
 
@@ -172,7 +172,7 @@ class JFormRulePassword extends JFormRule
 		{
 			return false;
 		}
-		
+
 		return true;
 	}
 }
