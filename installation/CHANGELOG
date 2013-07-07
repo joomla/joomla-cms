@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jul-2013 Jean-Marie Simonet
+ # [#31270] Fix help screens links in sample testing data. Thanks George Wilson
+
 06-Jul-2013 Elin Waring
  ^ [#31275] Change use of self:: to static:: in JHtml helpers.  Thanks Michael Babker
  # [#30870] Fix some mistakes. Thanks Rasmus Lerdorf
