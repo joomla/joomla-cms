@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @since       13.1
  */
-class JLinkedinOauth extends JOAuth1Client
+class JLinkedinOauth extends JClientOAuth1
 {
 	/**
 	* @var    JRegistry  Options for the JLinkedinOauth object.

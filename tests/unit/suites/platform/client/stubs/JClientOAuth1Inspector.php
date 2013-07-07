@@ -8,7 +8,7 @@
  */
 
 /**
- * Inspector for the JOAuth1Client class.
+ * Inspector for the JClientOAuth1 class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Client
