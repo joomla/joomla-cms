@@ -128,6 +128,7 @@
   font-family: sans-serif;
   font-size: 1em;
   width: 100%;
+  height: auto;
   -moz-box-sizing   : border-box;
   -ms-box-sizing    : border-box;
   -webkit-box-sizing: border-box;
