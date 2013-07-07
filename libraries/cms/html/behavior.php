@@ -778,4 +778,29 @@ abstract class JHtmlBehavior
 			. ' Calendar._SMN = ' . json_encode($months_short) . ';'
 			. ' Calendar._TT = ' . json_encode($text) . ';';
 	}
+
+	/**
+	 * Add unobtrusive JavaScript support for a keeping tab state.
+	 *
+	 * Note that keeping tab state only work for inner tabs if the convension in accordance with the following example
+	 * parent tab = permissions
+	 * child tab = permission-<identifier>
+	 *
+	 * Each tab header "a" tag also should have a unique href attribute
+	 * 
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function tabstate()
+	{
+		if (isset(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/tabs-state.js', true, true);
+		self::$loaded[__METHOD__] = true;
+	}
 }
