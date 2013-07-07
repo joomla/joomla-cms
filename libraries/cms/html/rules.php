@@ -35,13 +35,13 @@ abstract class JHtmlRules
 	 */
 	public static function assetFormWidget($actions, $assetId = null, $parent = null, $control = 'jform[rules]', $idPrefix = 'jform_rules')
 	{
-		$images = self::_getImagesArray();
+		$images = static::_getImagesArray();
 
 		// Get the user groups.
-		$groups = self::_getUserGroups();
+		$groups = static::_getUserGroups();
 
 		// Get the incoming inherited rules as well as the asset specific rules.
-		$inheriting = JAccess::getAssetRules($parent ? $parent : self::_getParentAssetId($assetId), true);
+		$inheriting = JAccess::getAssetRules($parent ? $parent : static::_getParentAssetId($assetId), true);
 		$inherited = JAccess::getAssetRules($assetId, true);
 		$rules = JAccess::getAssetRules($assetId);
 
