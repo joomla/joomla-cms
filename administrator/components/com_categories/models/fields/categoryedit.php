@@ -34,6 +34,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 * Use the parent element to indicate that the field will be used for assigning parent categories.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   1.6
 	 */
 	protected function getOptions()
