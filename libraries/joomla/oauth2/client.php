@@ -30,6 +30,7 @@ class JOAuth2 extends JClientOAuth2
 	 * @param   mixed            $application  The application object
 	 *
 	 * @since   12.3
+	 * @deprecated  4.0  Use JClientOAuth2 instead.
 	 */
 	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null, $application = null)
 	{
