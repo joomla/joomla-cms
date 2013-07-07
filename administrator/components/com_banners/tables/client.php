@@ -35,6 +35,7 @@ class BannersTableClient extends JTable
 	 * @param   integer  The user id of the user performing the operation.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.0.4
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)

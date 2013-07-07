@@ -44,6 +44,7 @@ class BannersTableBanner extends JTable
 	 * Overloaded check function
 	 *
 	 * @return  boolean
+	 *
 	 * @see     JTable::check
 	 * @since   1.5
 	 */
@@ -87,8 +88,9 @@ class BannersTableBanner extends JTable
 	 * @param   array        $hash  named array
 	 *
 	 * @return  null|string  null is operation was satisfactory, otherwise returns an error
+	 *
 	 * @see     JTable:bind
-	 * @since 1.5
+	 * @since   1.5
 	 */
 	public function bind($array, $ignore = array())
 	{
@@ -216,6 +218,7 @@ class BannersTableBanner extends JTable
 	 * @param   integer  The user id of the user performing the operation.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -286,6 +289,7 @@ class BannersTableBanner extends JTable
 	 * @param   integer  The user id of the user performing the operation.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 	public function stick($pks = null, $state = 1, $userId = 0)

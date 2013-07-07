@@ -22,7 +22,6 @@ class AdminModelHelp extends JModelLegacy
 	 * The search string
 	 *
 	 * @var    string
-	 *
 	 * @since  1.6
 	 */
 	protected $help_search = null;
@@ -31,7 +30,6 @@ class AdminModelHelp extends JModelLegacy
 	 * The page to be viewed
 	 *
 	 * @var    string
-	 *
 	 * @since  1.6
 	 */
 	protected $page = null;
@@ -40,7 +38,6 @@ class AdminModelHelp extends JModelLegacy
 	 * The iso language tag
 	 *
 	 * @var    string
-	 *
 	 * @since  1.6
 	 */
 	protected $lang_tag = null;

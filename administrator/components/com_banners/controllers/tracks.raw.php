@@ -31,6 +31,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 * @param   string	$prefix	The prefix for the model class name.
 	 *
 	 * @return  JModel
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array())
@@ -46,6 +47,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 * @param   array        An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
+	 *
 	 * @since   1.5
 	 * @todo    This should be done as a view, not here!
 	 */

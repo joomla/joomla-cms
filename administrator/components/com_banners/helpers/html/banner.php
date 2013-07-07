@@ -48,6 +48,7 @@ abstract class JHtmlBanner
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   1.6
 	 */
 	public static function clientlist()
@@ -84,7 +85,6 @@ abstract class JHtmlBanner
 	 * @return  string   The Html code
 	 *
 	 * @see     JHtmlJGrid::state
-	 *
 	 * @since   2.5.5
 	 */
 	public static function pinned($value, $i, $enabled = true, $checkbox = 'cb')

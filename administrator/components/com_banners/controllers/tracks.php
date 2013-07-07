@@ -45,6 +45,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 * Method to remove a record.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function delete()

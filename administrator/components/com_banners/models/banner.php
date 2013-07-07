@@ -522,6 +522,7 @@ class BannersModelBanner extends JModelAdmin
 	 * @param   array  The form data.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 
