@@ -10,17 +10,15 @@
 defined('_JEXEC') or die;
 ?>
 <div class="width-100">
-<fieldset class="adminform">
-	<legend><?php echo JText::_('COM_CONFIG_SESSION_SETTINGS'); ?></legend>
+	<fieldset class="adminform">
+		<legend><?php echo JText::_('COM_CONFIG_SESSION_SETTINGS'); ?></legend>
 		<ul class="adminformlist">
-			<?php
-			foreach ($this->form->getFieldset('session') as $field):
-			?>
-					<li><?php echo $field->label; ?>
-					<?php echo $field->input; ?></li>
-			<?php
-			endforeach;
-			?>
-			</ul>
-</fieldset>
+			<?php foreach ($this->form->getFieldset('session') as $field): ?>
+				<li>
+					<?php echo $field->label; ?>
+					<?php echo $field->input; ?>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 </div>
