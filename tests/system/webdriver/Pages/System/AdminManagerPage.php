@@ -222,7 +222,7 @@ abstract class AdminManagerPage extends AdminPage
 		return $this->test->getPageObject(get_class($this));
 	}
 
-	public function deleteItem($name)
+	public function trashAndDelete($name)
 	{
 		$this->searchFor($name);
 		$this->checkAll();
@@ -235,6 +235,19 @@ abstract class AdminManagerPage extends AdminPage
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		$this->setFilter('Status', 'Select Status');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+	}
+
+	public function delete($name)
+	{
+		$this->searchFor($name);
+		$el = $this->driver->findElement(By::name("checkall-toggle"));
+		while(!$el->isSelected())
+		{
+			$el->click();
+		}
+		$this->clickButton('toolbar-delete');
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		$this->searchFor();
 	}
 
 }
