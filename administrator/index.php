@@ -25,12 +25,12 @@ if (file_exists(__DIR__ . '/defines.php'))
 if (!defined('_JDEFINES'))
 {
 	define('JPATH_BASE', __DIR__);
-	require_once JPATH_BASE.'/includes/defines.php';
+	require_once JPATH_BASE . '/includes/defines.php';
 }
 
-require_once JPATH_BASE.'/includes/framework.php';
-require_once JPATH_BASE.'/includes/helper.php';
-require_once JPATH_BASE.'/includes/toolbar.php';
+require_once JPATH_BASE . '/includes/framework.php';
+require_once JPATH_BASE . '/includes/helper.php';
+require_once JPATH_BASE . '/includes/toolbar.php';
 
 // Mark afterLoad in the profiler.
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
