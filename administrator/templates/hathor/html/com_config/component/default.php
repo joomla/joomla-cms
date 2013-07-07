@@ -34,9 +34,8 @@ JHtml::_('bootstrap.framework');
 		echo JHtml::_('tabs.panel', JText::_($label), 'publishing-details');
 		if (isset($fieldSet->description) && !empty($fieldSet->description))
 		{
+			echo '<p class="tab-description">' . JText::_($fieldSet->description) . '</p>';
 		}
-		echo '<p class="tab-description">' . JText::_($fieldSet->description) . '</p>';
-	}
 		?>
 		<ul class="config-option-list">
 			<?php foreach ($this->form->getFieldset($name) as $field): ?>
