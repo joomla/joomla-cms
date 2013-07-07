@@ -269,7 +269,7 @@ class JOAuth1ApplicationWeb extends JApplicationWeb
 	 *
 	 * @param   string  $consumerKey  The OAuth 1.0 consumer_key parameter for which to load the client.
 	 *
-	 * @return  JOAuth1Client
+	 * @return  JOAuth1Serverclient
 	 *
 	 * @since   12.3
 	 * @throws  InvalidArgumentException
@@ -320,7 +320,8 @@ class JOAuth1ApplicationWeb extends JApplicationWeb
 	 */
 	protected function createClient()
 	{
-		return new JOAuth1Client;
+
+		return new JOAuth1Serverclient;
 	}
 
 	/**

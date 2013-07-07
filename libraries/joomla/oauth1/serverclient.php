@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  OAuth1
  * @since       12.1
  */
-class JOAuth1Client
+class JOAuth1Serverclient
 {
 	/**
 	 * @var    JDatabaseDriver  Driver for persisting the client object.
