@@ -128,15 +128,15 @@ JHtml::_('behavior.keepalive');
 								<li>
 									<?php echo $field->label; ?>
 									<?php echo $field->input; ?>
-								</li>                            <?php endforeach; ?>
+								</li>
+							<?php endforeach; ?>
 						</ul>
 					</fieldset>
 				<?php endif; ?>
 			<?php endforeach; ?>
 
-			<?php $fieldSets = $this->form->getFieldsets('associations');
-			<?
-			php 				foreach ($fieldSets as $name => $fieldSet) : ?>
+			<?php $fieldSets = $this->form->getFieldsets('associations'); ?>
+			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 				<?php
 				$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
 				echo JHtml::_('sliders.panel', JText::_($label), $name . '-options');
@@ -152,7 +152,8 @@ JHtml::_('behavior.keepalive');
 							<li>
 								<?php echo $field->label; ?>
 								<?php echo $field->input; ?>
-							</li>                        <?php endforeach; ?>
+							</li>
+						<?php endforeach; ?>
 					</ul>
 				</fieldset>
 			<?php endforeach;?>
