@@ -72,9 +72,16 @@ class PlgSystemCache extends JPlugin
 
 		$data = $this->_cache->get($this->_cache_key);
 
-		if ($data !== false)
+		if ($data !== false && is_array($data) && isset($data['headers']) && isset($data['body']))
 		{
-			JResponse::setBody($data);
+			if (is_array($data['headers']))
+			{
+				foreach($data['headers'] as $header)
+				{
+					JResponse::setHeader($header['name'], $header['value']);
+				}
+			}
+			JResponse::setBody($data['body']);
 
 			echo JResponse::toString($app->getCfg('gzip'));
 
@@ -106,7 +113,7 @@ class PlgSystemCache extends JPlugin
 		if ($user->get('guest'))
 		{
 			//We need to check again here, because auto-login plugins have not been fired before the first aid check
-			$this->_cache->store($this->_cache_key);
+			$this->_cache->store(array(), $this->_cache_key);
 		}
 	}
 }
