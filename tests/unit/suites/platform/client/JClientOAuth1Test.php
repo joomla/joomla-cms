@@ -7,18 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
+include_once __DIR__ . '/stubs/JClientOAuth1Inspector.php';
 include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 
 
 /**
- * Test class for JOAuth1Client.
+ * Test class for JClientOAuth1.
  *
  * @package     Joomla.UnitTest
  * @subpackage  OAuth
  * @since       13.1
  */
-class JOAuth1ClientTest extends TestCase
+class JClientOAuth1Test extends TestCase
 {
 	/**
 	 * @var    Input  input for the OAuth object.
@@ -41,7 +41,7 @@ class JOAuth1ClientTest extends TestCase
 	/**
 	 * An instance of the object to test.
 	 *
-	 * @var    JOAuth1ClientInspector
+	 * @var    JClientOAuth1Inspector
 	 * @since  11.3
 	 */
 	protected $class;
@@ -87,7 +87,7 @@ class JOAuth1ClientTest extends TestCase
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
-		$this->object = new JOAuth1ClientInspector($this->options, $this->client, $this->input, $this->application);
+		$this->object = new JClientOAuth1Inspector($this->options, $this->client, $this->input, $this->application);
 	}
 
 	/**

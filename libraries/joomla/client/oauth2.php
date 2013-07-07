@@ -17,10 +17,10 @@ jimport('joomla.environment.response');
  * @subpackage  Oauth
  * @since       12.3
  */
-class JOAuth2Client
+class JClientOAuth2
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    JRegistry  Options for the JClientOAuth2 object.
 	 * @since  12.3
 	 */
 	protected $options;
@@ -46,7 +46,7 @@ class JOAuth2Client
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry        $options      JOAuth2Client options object
+	 * @param   JRegistry        $options      JClientOAuth2 options object
 	 * @param   JHttp            $http         The HTTP client object
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
@@ -257,7 +257,7 @@ class JOAuth2Client
 	}
 
 	/**
-	 * Get an option from the JOAuth2Client instance.
+	 * Get an option from the JClientOAuth2 instance.
 	 *
 	 * @param   string  $key  The name of the option to get
 	 *
@@ -271,12 +271,12 @@ class JOAuth2Client
 	}
 
 	/**
-	 * Set an option for the JOAuth2Client instance.
+	 * Set an option for the JClientOAuth2 instance.
 	 *
 	 * @param   string  $key    The name of the option to set
 	 * @param   mixed   $value  The option value to set
 	 *
-	 * @return  JOAuth2Client  This object for method chaining
+	 * @return  JClientOAuth2  This object for method chaining
 	 *
 	 * @since   12.3
 	 */
@@ -288,7 +288,7 @@ class JOAuth2Client
 	}
 
 	/**
-	 * Get the access token from the JOAuth2Client instance.
+	 * Get the access token from the JClientOAuth2 instance.
 	 *
 	 * @return  array  The access token
 	 *
@@ -300,11 +300,11 @@ class JOAuth2Client
 	}
 
 	/**
-	 * Set an option for the JOAuth2Client instance.
+	 * Set an option for the JClientOAuth2 instance.
 	 *
 	 * @param   array  $value  The access token
 	 *
-	 * @return  JOAuth2Client  This object for method chaining
+	 * @return  JClientOAuth2  This object for method chaining
 	 *
 	 * @since   12.3
 	 */
