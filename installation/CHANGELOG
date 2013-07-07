@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jul-2013 Michael Babker
+ # [#31371] Commit for issue 31351 causes PHP notice in Banner Tracks
+
 07-Jul-2013 Jean-Marie Simonet
  # [#31270] Fix help screens links in sample testing data. Thanks George Wilson
  ^ [#31351] Convert JToolbar to render toolbar items with JLayout. Thanks Michael Babker
