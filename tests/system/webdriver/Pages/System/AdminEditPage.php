@@ -316,7 +316,10 @@ abstract class AdminEditPage extends AdminPage
 			return;
 		}
 		$this->driver->executeScript("window.scrollTo(0,0)");
-		$this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . strtolower($label) . "')]"))->click();
+		$el = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . strtolower($label) . "')]"));
+		$el->click();
+		sleep(1);
+		$el->click();
 		if ($group)
 		{
 			$this->expandAccordionGroup($group);

@@ -29,13 +29,15 @@ class PlgButtonPagebreak extends JPlugin
 	/**
 	 * Display the button
 	 *
+	 * @param   string  $name  The name of the button to add
+	 *
 	 * @return array A two element array of (imageName, textToInsert)
 	 */
 	public function onDisplay($name)
 	{
 		JHtml::_('behavior.modal');
 
-		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name='.$name;
+		$link = 'index.php?option=com_content&amp;view=article&amp;layout=pagebreak&amp;tmpl=component&amp;e_name=' . $name;
 
 		$button = new JObject;
 		$button->modal = true;

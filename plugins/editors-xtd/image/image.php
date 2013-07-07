@@ -29,6 +29,10 @@ class PlgButtonImage extends JPlugin
 	/**
 	 * Display the button
 	 *
+	 * @param   string  $name  The name of the button to display
+	 * @param   string  $asset
+	 * @param   string  $author
+	 *
 	 * @return array A two element array of (imageName, textToInsert)
 	 */
 	public function onDisplay($name, $asset, $author)
@@ -36,17 +40,18 @@ class PlgButtonImage extends JPlugin
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $app->input->get('option');
+
 		if ($asset == '')
 		{
 			$asset = $extension;
 		}
+
 		if (	$user->authorise('core.edit', $asset)
 			||	$user->authorise('core.create', $asset)
 			||	(count($user->getAuthorisedCategories($asset, 'core.create')) > 0)
 			||	($user->authorise('core.edit.own', $asset) && $author == $user->id)
 			||	(count($user->getAuthorisedCategories($extension, 'core.edit')) > 0)
-			||	(count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id)
-		)
+			||	(count($user->getAuthorisedCategories($extension, 'core.edit.own')) > 0 && $author == $user->id))
 		{
 			$link = 'index.php?option=com_media&amp;view=images&amp;tmpl=component&amp;e_name=' . $name . '&amp;asset=' . $asset . '&amp;author=' . $author;
 			JHtml::_('behavior.modal');
@@ -57,6 +62,7 @@ class PlgButtonImage extends JPlugin
 			$button->text = JText::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name = 'picture';
 			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+
 			return $button;
 		}
 		else

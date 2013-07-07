@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/components/com_newsfeeds/helpers/route.php';
+
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
@@ -33,11 +35,11 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" data-placement="bottom" onclick="document.id('filter_search').value='';this.form.submit();">
 					<i class="icon-remove"></i></button>
 			</div>
-				<input onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('0', '<?php echo $this->escape(addslashes(JText::_('COM_NEWSFEEDS_SELECT_A_FEED'))); ?>', null, null);" class="btn" type="button" value="<?php echo JText::_('COM_NEWSFEEDS_FIELD_VALUE_NONE'); ?>" />
 			<div class="clearfix"></div>
 		</div>
 		<hr class="hr-condensed" />
-		<div class="filters">
+
+		<div class="filters pull-left">
 			<select name="filter_access" class="input-medium" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
@@ -97,10 +99,30 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
+			<?php if ($item->language && JLanguageMultilang::isEnabled())
+			{
+				$tag = strlen($item->language);
+				if ($tag == 5)
+				{
+					$lang = substr($item->language, 0, 2);
+				}
+				elseif ($tag == 6)
+				{
+					$lang = substr($item->language, 0, 3);
+				}
+				else {
+					$lang = "";
+				}
+			}
+			elseif (!JLanguageMultilang::isEnabled())
+			{
+				$lang = "";
+			}
+			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>');">
-						<?php echo $this->escape($item->name); ?></a>
+					<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(NewsfeedsHelperRoute::getNewsfeedRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+					<?php echo $this->escape($item->name); ?></a>
 				</td>
 				<td class="center">
 					<?php echo $this->escape($item->access_level); ?>
