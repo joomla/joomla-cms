@@ -51,7 +51,7 @@ class Menu0001 extends SeleniumJoomlaTestCase
 		$this->select("jform_menutype", "value=function-test-menu");
 		$this->jPrint ("Open Select Article modal\n");
 		sleep(2);
-		$this->click("//a[@title='Select or Change article']");
+		$this->click("//a[contains(@href,'jSelectArticle')]");
 		$this->waitforElement("//iframe[contains(@src, 'jSelectArticle')]");
 		$this->click("link=Australian Parks");
 		$this->waitforElement("//input[@id='jform_request_id_name']");

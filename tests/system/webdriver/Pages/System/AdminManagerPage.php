@@ -162,6 +162,10 @@ abstract class AdminManagerPage extends AdminPage
 			$el = $this->driver->findElement(By::id('filter_search'));
 			$el->clear();
 			$el->sendKeys($search);
+
+			// In some cases we have to click the button twice since using bootstrap tooltips. (Not sure why.)
+			$this->driver->findElement(By::xPath("//button[@data-original-title='Search' or @title='Search']"))->click();
+			$page = $this->test->getPageObject(get_class($this));
 			$this->driver->findElement(By::xPath("//button[@data-original-title='Search' or @title='Search']"))->click();
 		}
 		else
@@ -214,9 +218,15 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function setOrderDirection($value)
 	{
-		$container = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']"));
-		$this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a"))->click();
-		$this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
+		$el = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
+		$displayedBefore = $el->isDisplayed();
+		$container = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a"));
+		while (!$el->isDisplayed())
+		{
+			$container->click();
+		}
+		$displayedAfter = $el->isDisplayed();
+		$el->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 
 		return $this->test->getPageObject(get_class($this));
