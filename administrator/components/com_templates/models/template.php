@@ -412,7 +412,11 @@ class TemplatesModelTemplate extends JModelForm
 	
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
-	
+
+        $user = get_current_user();
+        chown($filePath,$user);
+        JPath::setPermissions($filePath,'0644');
+
 		// Try to make the template file writable.
 		if (!is_writable($filePath))
 		{
@@ -467,6 +471,12 @@ class TemplatesModelTemplate extends JModelForm
             foreach($modules as $module)
             {
                 $result['modules'][] = $this->getOverridesFolder($module,$modulePath);
+            }
+            $html = JPath::clean($client->path . '/templates/' . $template->element . '/html/');
+            $overrides = JFolder::folders($html);
+            foreach($overrides as $override)
+            {
+                $result['exists'][] = $override;
             }
 
         }
@@ -527,6 +537,17 @@ class TemplatesModelTemplate extends JModelForm
             }
 
         }
+    }
+
+    public function getLess()
+    {
+        if ($template = $this->getTemplate())
+        {
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path = JPath::clean($client->path . '/templates/' . $template->element . '/less/');
+            $less = JFolder::files($path,'');
+        }
+        return $less;
     }
 
 }

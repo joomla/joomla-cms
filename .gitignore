@@ -18,5 +18,5 @@
 /phpunit.xml
 
 # Template Folders #
-/templates
-/administrator/templates
+/templates/*
+/administrator/templates/*

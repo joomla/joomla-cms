@@ -34,6 +34,8 @@ class TemplatesViewTemplate extends JViewLegacy
 
     protected $overridesList;
 
+    protected $less;
+
 	/**
 	 * Display the view
 	 */
@@ -50,6 +52,7 @@ class TemplatesViewTemplate extends JViewLegacy
 
         $app            = JFactory::getApplication();
         $this->file     = $app->input->get('file');
+        $this->less     = $app->input->get('Less');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -127,7 +130,7 @@ protected function addToolbar()
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('Compile LESS');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#\" class=\"btn btn-small\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#lessModal\" class=\"btn btn-small\">
 			<i class=\"icon-play\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
