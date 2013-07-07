@@ -93,24 +93,24 @@ abstract class JHtml
 	 */
 	public static function _($key)
 	{
-		list($key, $prefix, $file, $func) = self::extract($key);
+		list($key, $prefix, $file, $func) = static::extract($key);
 
-		if (array_key_exists($key, self::$registry))
+		if (array_key_exists($key, static::$registry))
 		{
-			$function = self::$registry[$key];
+			$function = static::$registry[$key];
 			$args = func_get_args();
 
 			// Remove function name from arguments
 			array_shift($args);
 
-			return self::call($function, $args);
+			return static::call($function, $args);
 		}
 
 		$className = $prefix . ucfirst($file);
 
 		if (!class_exists($className))
 		{
-			$path = JPath::find(self::$includePaths, strtolower($file) . '.php');
+			$path = JPath::find(static::$includePaths, strtolower($file) . '.php');
 
 			if ($path)
 			{
@@ -131,13 +131,13 @@ abstract class JHtml
 
 		if (is_callable($toCall))
 		{
-			self::register($key, $toCall);
+			static::register($key, $toCall);
 			$args = func_get_args();
 
 			// Remove function name from arguments
 			array_shift($args);
 
-			return self::call($toCall, $args);
+			return static::call($toCall, $args);
 		}
 		else
 		{
@@ -157,11 +157,11 @@ abstract class JHtml
 	 */
 	public static function register($key, $function)
 	{
-		list($key) = self::extract($key);
+		list($key) = static::extract($key);
 
 		if (is_callable($function))
 		{
-			self::$registry[$key] = $function;
+			static::$registry[$key] = $function;
 
 			return true;
 		}
@@ -180,11 +180,11 @@ abstract class JHtml
 	 */
 	public static function unregister($key)
 	{
-		list($key) = self::extract($key);
+		list($key) = static::extract($key);
 
-		if (isset(self::$registry[$key]))
+		if (isset(static::$registry[$key]))
 		{
-			unset(self::$registry[$key]);
+			unset(static::$registry[$key]);
 
 			return true;
 		}
@@ -203,9 +203,9 @@ abstract class JHtml
 	 */
 	public static function isRegistered($key)
 	{
-		list($key) = self::extract($key);
+		list($key) = static::extract($key);
 
-		return isset(self::$registry[$key]);
+		return isset(static::$registry[$key]);
 	}
 
 	/**
@@ -568,7 +568,7 @@ abstract class JHtml
 	{
 		if ($path_rel !== -1)
 		{
-			$includes = self::includeRelativeFiles('images', $file, $relative, false, false);
+			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
 			$file = count($includes) ? $includes[0] : null;
 		}
 
@@ -626,7 +626,7 @@ abstract class JHtml
 	 */
 	public static function stylesheet($file, $attribs = array(), $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
-		$includes = self::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
+		$includes = static::includeRelativeFiles('css', $file, $relative, $detect_browser, $detect_debug);
 
 		// If only path is required
 		if ($path_only)
@@ -676,10 +676,10 @@ abstract class JHtml
 		// Include MooTools framework
 		if ($framework)
 		{
-			self::_('behavior.framework');
+			static::_('behavior.framework');
 		}
 
-		$includes = self::includeRelativeFiles('js', $file, $relative, $detect_browser, $detect_debug);
+		$includes = static::includeRelativeFiles('js', $file, $relative, $detect_browser, $detect_debug);
 
 		// If only path is required
 		if ($path_only)
@@ -725,9 +725,9 @@ abstract class JHtml
 	{
 		foreach ($options as $key => $val)
 		{
-			if (isset(self::$formatOptions[$key]))
+			if (isset(static::$formatOptions[$key]))
 			{
-				self::$formatOptions[$key] = $val;
+				static::$formatOptions[$key] = $val;
 			}
 		}
 	}
@@ -847,7 +847,7 @@ abstract class JHtml
 		if (!$text)
 		{
 			$alt = htmlspecialchars($alt, ENT_COMPAT, 'UTF-8');
-			$text = self::image($image, $alt, null, true);
+			$text = static::image($image, $alt, null, true);
 		}
 
 		if ($href)
@@ -970,12 +970,12 @@ abstract class JHtml
 			$attribs = JArrayHelper::toString($attribs);
 		}
 
-		self::_('bootstrap.tooltip');
+		static::_('bootstrap.tooltip');
 
 		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
-			self::_('behavior.calendar');
+			static::_('behavior.calendar');
 
 			// Only display the triggers once for each control.
 			if (!in_array($id, $done))
@@ -998,17 +998,18 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<div class="input-append"><input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
+			return '<div class="input-append"><input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. '<button class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
 		}
 		else
 		{
-			return '<input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
+			return '<input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
+				. '" value="' . (0 !== (int) $value ? static::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
+
 	/**
 	 * Add a directory where JHtml should search for helpers. You may
 	 * either pass a string or an array of directories.
@@ -1027,13 +1028,13 @@ abstract class JHtml
 		// Loop through the path directories
 		foreach ($path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, self::$includePaths))
+			if (!empty($dir) && !in_array($dir, static::$includePaths))
 			{
-				array_unshift(self::$includePaths, JPath::clean($dir));
+				array_unshift(static::$includePaths, JPath::clean($dir));
 			}
 		}
 
-		return self::$includePaths;
+		return static::$includePaths;
 	}
 
 	/**
@@ -1083,7 +1084,7 @@ abstract class JHtml
 			}
 			else
 			{
-				$elements[] = $key . ': ' . self::getJSObject(is_object($v) ? get_object_vars($v) : $v);
+				$elements[] = $key . ': ' . static::getJSObject(is_object($v) ? get_object_vars($v) : $v);
 			}
 		}
 

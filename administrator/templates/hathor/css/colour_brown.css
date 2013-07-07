@@ -519,6 +519,27 @@ div.toolbar-box {
 	border-left: 1px solid #000000;
 	background: #ffffff;
 }
+div.toolbar-list li {
+	color: #2c2c2c;
+}
+div.toolbar-list li.divider {
+	border-right: 1px dotted #e5d9c3;
+}
+div.toolbar-list a {
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	background: #d5c1b2;
+}
+div.toolbar-list a:hover {
+	border-left: 1px solid #868778;
+	border-top: 1px solid #868778;
+	border-right: 1px solid #f6f7db;
+	border-bottom: 1px solid #f6f7db;
+	background: #e5d9c3;
+	color: #054993;
+}
 div.btn-toolbar {
 	margin-left: 5px;
 	padding-top: 3px;
@@ -1177,6 +1198,9 @@ a img.calendar {
 }
 .icon-32-print {
 	background-image: url(../images/toolbar/icon-32-print.png);
+}
+.icon-32-batch {
+	background-image: url(../images/toolbar/icon-32-batch.png);
 }
 .icon-48-categories {
 	background-image: url(../images/header/icon-48-category.png);

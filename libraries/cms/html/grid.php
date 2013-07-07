@@ -33,7 +33,7 @@ abstract class JHtmlGrid
 	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
 		// Load the behavior.
-		self::behavior();
+		static::behavior();
 		JHtml::_('bootstrap.tooltip');
 
 		// Build the title.
@@ -113,9 +113,9 @@ abstract class JHtmlGrid
 	/**
 	 * Method to check all checkboxes in a grid
 	 *
-	 * @param   string  $name           The name of the form element
-	 * @param   string  $tip            The text shown as tooltip title instead of $tip
-	 * @param   string  $action         The action to perform on clicking the checkbox
+	 * @param   string  $name    The name of the form element
+	 * @param   string  $tip     The text shown as tooltip title instead of $tip
+	 * @param   string  $action  The action to perform on clicking the checkbox
 	 *
 	 * @return  string
 	 *
@@ -173,7 +173,7 @@ abstract class JHtmlGrid
 
 		if ($result)
 		{
-			return self::_checkedOut($row);
+			return static::_checkedOut($row);
 		}
 		else
 		{

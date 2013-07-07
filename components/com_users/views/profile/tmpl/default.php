@@ -10,6 +10,13 @@
 defined('_JEXEC') or die;
 ?>
 <div class="profile <?php echo $this->pageclass_sfx?>">
+<?php if ($this->params->get('show_page_heading')) : ?>
+<div class="page-header">
+	<h1>
+		<?php echo $this->escape($this->params->get('page_heading')); ?>
+	</h1>
+</div>
+<?php endif; ?>
 <?php if (JFactory::getUser()->id == $this->data->id) : ?>
 <ul class="btn-toolbar pull-right">
 	<li class="btn-group">
@@ -18,14 +25,6 @@ defined('_JEXEC') or die;
 	</li>
 </ul>
 <?php endif; ?>
-<?php if ($this->params->get('show_page_heading')) : ?>
-<div class="page-header">
-	<h1>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
-	</h1>
-</div>
-<?php endif; ?>
-
 <?php echo $this->loadTemplate('core'); ?>
 
 <?php echo $this->loadTemplate('params'); ?>
