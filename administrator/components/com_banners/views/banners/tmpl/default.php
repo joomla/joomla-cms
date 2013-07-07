@@ -73,14 +73,8 @@ $sortFields = $this->getSortFields();
 				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></label>
 				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></option>
-					<option value="asc" <?php if ($listDirn == 'asc')
-					{
-						echo 'selected="selected"';
-					} ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING'); ?></option>
-					<option value="desc" <?php if ($listDirn == 'desc')
-					{
-						echo 'selected="selected"';
-					} ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING'); ?></option>
+					<option value="asc"<?php echo $listDirn == 'asc' ? ' selected="selected"' : ''; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING'); ?></option>
+					<option value="desc"<?php echo $listDirn == 'desc' ? ' selected="selected"' : ''; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING'); ?></option>
 				</select>
 			</div>
 			<div class="btn-group pull-right">
