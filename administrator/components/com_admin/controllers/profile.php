@@ -23,8 +23,8 @@ class AdminControllerProfile extends JControllerForm
 	 *
 	 * Extended classes can override this if necessary.
 	 *
-	 * @param   array   An array of input data.
-	 * @param   string  The name of the key for the primary key.
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
 	 *

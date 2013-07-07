@@ -21,7 +21,7 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
 	 * @since   1.6
@@ -210,11 +210,11 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type      The table type to instantiate
-	 * @param   string    A prefix for the table class name. Optional.
-	 * @param   array     Configuration array for model. Optional.
+	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable    A database object
+	 * @return  JTable  A database object
 	 *
 	 * @since   1.6
 	 */

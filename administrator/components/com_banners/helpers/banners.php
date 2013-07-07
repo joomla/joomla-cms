@@ -64,7 +64,7 @@ class BannersHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  The category ID.
+	 * @param   integer  $categoryId  The category ID.
 	 *
 	 * @return  JObject
 	 *

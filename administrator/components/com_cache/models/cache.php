@@ -163,7 +163,7 @@ class CacheModelCache extends JModelList
 	 * Clean out a cache group as named by param.
 	 * If no param is passed clean all cache groups.
 	 *
-	 * @param String $group
+	 * @param  string  $group
 	 */
 	public function clean($group = '')
 	{
