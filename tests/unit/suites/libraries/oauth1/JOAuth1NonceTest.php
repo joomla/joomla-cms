@@ -86,7 +86,7 @@ class JOAuth1NonceTest extends TestCase
 	}
 
 	/**
-	 * Tests the sign() method.
+	 * Tests the validate() method.
 	 *
 	 * @param   integer  $timestamp       The timestamp to validate.
 	 * @param   boolean  $timestampValid  Whether the timestamp is valid.
