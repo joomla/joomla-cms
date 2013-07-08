@@ -31,7 +31,6 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
-$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -96,28 +95,30 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<th width="1%" class="hidden-phone">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th width="5%" class="nowrap center">
+					<th width="1%" class="nowrap center">
 						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 					</th>
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-phone">
+					<?php if ($this->langs) : ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+						</th>
+					<?php endif; ?>
+					<?php if ($this->assoc) : ?>
+						<th width="10%" class="nowrap hidden-phone center">
+							<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+						</th>
+					<?php endif; ?>
+					<th width="10%" class="nowrap hidden-phone center">
 						<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_NUM_ARTICLES_HEADING', 'numarticles', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-phone center">
 						<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_CACHE_TIME_HEADING', 'a.cache_time', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($assoc) : ?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-					</th>
-					<?php endif;?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -218,28 +219,31 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 						</div>
 
 					</td>
-					<td class="hidden-phone">
-						<?php echo $this->escape($item->access_level); ?>
+					<?php if ($this->langs) : ?>
+					<td class="small hidden-phone">
+						<?php if ($item->language == '*'):?>
+							<?php echo JText::alt('JALL', 'language'); ?>
+						<?php else:?>
+							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+						<?php endif;?>
 					</td>
+					<?php endif;?>
+					<?php if ($this->assoc) : ?>
+						<td class="hidden-phone">
+							<?php if ($item->association) : ?>
+								<?php echo JHtml::_('newsfeed.association', $item->id); ?>
+							<?php endif; ?>
+						</td>
+					<?php endif;?>
 					<td class="center hidden-phone">
 						<?php echo (int) $item->numarticles; ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo (int) $item->cache_time; ?>
 					</td>
-					<?php if ($assoc) : ?>
-					<td class="hidden-phone">
-						<?php if ($item->association) : ?>
-							<?php echo JHtml::_('newsfeed.association', $item->id); ?>
-						<?php endif; ?>
-					</td>
-					<?php endif;?>
-					<td class="hidden-phone">
-						<?php if ($item->language == '*'):?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else:?>
-							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
+
+					<td class="small hidden-phone">
+						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo (int) $item->id; ?>

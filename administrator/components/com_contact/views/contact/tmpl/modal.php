@@ -17,8 +17,6 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
 $input = $app->input;
-
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -214,9 +212,11 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</fieldset>
 
+		<?php if ($this->assoc) : ?>
 		<div class="hidden">
 			<?php echo $this->loadTemplate('associations'); ?>
 		</div>
+		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>

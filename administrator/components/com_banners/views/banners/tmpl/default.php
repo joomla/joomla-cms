@@ -101,6 +101,11 @@ $sortFields = $this->getSortFields();
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
+					<?php if ($this->langs) : ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+						</th>
+					<?php endif;?>
 					<th width="1%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_STICKY', 'a.sticky', $listDirn, $listOrder); ?>
 					</th>
@@ -112,9 +117,6 @@ $sortFields = $this->getSortFields();
 					</th>
 					<th width="10%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_CLICKS', 'clicks', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -213,6 +215,16 @@ $sortFields = $this->getSortFields();
 								?>
 						</div>
 					</td>
+
+					<?php if ($this->langs) : ?>
+						<td class="small nowrap hidden-phone">
+							<?php if ($item->language == '*'):?>
+								<?php echo JText::alt('JALL', 'language'); ?>
+							<?php else:?>
+								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+							<?php endif;?>
+						</td>
+					<?php endif;?>
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('banner.pinned', $item->sticky, $i, $canChange); ?>
 					</td>
@@ -225,14 +237,6 @@ $sortFields = $this->getSortFields();
 					<td class="center hidden-phone">
 						<?php echo $item->clicks;?> -
 						<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0);?>
-					</td>
-
-					<td class="nowrap hidden-phone">
-						<?php if ($item->language == '*'):?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else:?>
-							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo $item->id; ?>

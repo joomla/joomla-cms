@@ -31,7 +31,6 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
-$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -105,21 +104,23 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<th class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
+					<?php if ($this->langs) : ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+						</th>
+					<?php endif;?>
+					<?php if ($this->assoc) : ?>
+						<th width="10%" class="nowrap hidden-phone center">
+							<?php echo JHtml::_('grid.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+						</th>
+					<?php endif;?>
+					<th width="10%" class="nowrap hidden-phone center">
 						<?php echo JHtml::_('grid.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
 					</th>
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($assoc) : ?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-					</th>
-					<?php endif;?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
-					</th>
-					<th width="1%" class="nowrap center hidden-phone">
+					<th width="1%" class="nowrap center hidden-phone center">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -227,25 +228,27 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
 						<?php endif; ?>
 					</td>
+					<?php if ($this->langs) : ?>
+						<td class="small hidden-phone">
+							<?php if ($item->language == '*'):?>
+								<?php echo JText::alt('JALL', 'language'); ?>
+							<?php else:?>
+								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+							<?php endif;?>
+						</td>
+					<?php endif;?>
+					<?php if ($this->assoc) : ?>
+						<td class="hidden-phone center">
+							<?php if ($item->association) : ?>
+								<?php echo JHtml::_('contact.association', $item->id); ?>
+							<?php endif; ?>
+						</td>
+					<?php endif;?>
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 					</td>
 					<td align="hidden-phone">
 						<?php echo $item->access_level; ?>
-					</td>
-					<?php if ($assoc) : ?>
-					<td class="hidden-phone">
-						<?php if ($item->association) : ?>
-							<?php echo JHtml::_('contact.association', $item->id); ?>
-						<?php endif; ?>
-					</td>
-					<?php endif;?>
-					<td class="hidden-phone">
-						<?php if ($item->language == '*'):?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else:?>
-							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
 					</td>
 					<td align="center hidden-phone">
 						<?php echo $item->id; ?>

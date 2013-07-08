@@ -31,11 +31,14 @@ class CategoriesViewCategory extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->canDo = CategoriesHelper::getActions($this->state->get('category.component'));
-		$this->assoc = $this->get('Assoc');
+		$this->langs = isset($app->has_languages) ? $app->has_languages : 0;
+		$this->assoc = $this->langs ? $this->get('Assoc') : 0;
 
 		$input = JFactory::getApplication()->input;
 

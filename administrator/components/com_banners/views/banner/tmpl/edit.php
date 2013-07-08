@@ -206,6 +206,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php echo $this->form->getInput('sticky'); ?>
 				</div>
 			</div>
+			<?php if ($this->langs) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('language'); ?>
@@ -214,6 +215,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php echo $this->form->getInput('language'); ?>
 				</div>
 			</div>
+			<?php endif; ?>
 		</fieldset>
 	</div>
 	<!-- End Sidebar -->

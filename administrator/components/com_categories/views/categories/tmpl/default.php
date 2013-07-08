@@ -101,18 +101,20 @@ $sortFields = $this->getSortFields();
 					<th>
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
+					<?php if ($this->langs) : ?>
 					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 					</th>
+					<?php endif; ?>
 					<?php if ($this->assoc) : ?>
-						<th width="5%" class="hidden-phone">
+						<th width="10%" class="hidden-phone center">
 							<?php echo JHtml::_('grid.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
-					<th width="1%" class="nowrap hidden-phone">
+					<th width="1%" class="nowrap hidden-phone center">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
@@ -205,9 +207,16 @@ $sortFields = $this->getSortFields();
 							<?php endif; ?>
 						</span>
 						</td>
-						<td class="hidden-phone">
-							<?php echo $this->escape($item->access_level); ?>
-						</td>
+						<?php if ($this->langs) : ?>
+							<td class="small nowrap hidden-phone">
+								<?php if ($item->language == '*') : ?>
+									<?php echo JText::alt('JALL', 'language'); ?>
+								<?php else: ?>
+									<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+								<?php endif; ?>
+							</td>
+						<?php endif; ?>
+
 						<?php if ($this->assoc) : ?>
 							<td class="center hidden-phone">
 								<?php if ($item->association): ?>
@@ -215,12 +224,9 @@ $sortFields = $this->getSortFields();
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
-						<td class="nowrap hidden-phone">
-							<?php if ($item->language == '*') : ?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else: ?>
-								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif; ?>
+
+						<td class="small hidden-phone">
+							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="center hidden-phone">
 						<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">

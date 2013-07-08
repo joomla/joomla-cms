@@ -31,10 +31,13 @@ class CategoriesViewCategories extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
-		$this->assoc		= $this->get('Assoc');
+		$this->langs		= isset($app->has_languages) ? $app->has_languages : 0;
+		$this->assoc		= $this->langs ? $this->get('Assoc') : 0;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

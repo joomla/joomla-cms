@@ -29,9 +29,12 @@ class TagsViewTags extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
+		$this->langs		= isset($app->has_languages) ? $app->has_languages : 0;
 
 		TagsHelper::addSubmenu('tags');
 

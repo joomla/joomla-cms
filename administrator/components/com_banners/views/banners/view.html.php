@@ -37,10 +37,13 @@ class BannersViewBanners extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
 		$this->categories	= $this->get('CategoryOrders');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->langs		= isset($app->has_languages) ? $app->has_languages : 0;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
