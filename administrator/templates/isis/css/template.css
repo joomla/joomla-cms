@@ -6821,10 +6821,11 @@ body .navbar-fixed-top {
 }
 .subhead-collapse.collapse {
 	height: auto;
+	overflow: visible;
 }
 .btn-toolbar .btn-wrapper {
 	display: inline-block;
-	margin-left: 5px;
+	margin: 0 0 5px 5px;
 }
 .btn-toolbar .btn-wrapper:first-child {
 	margin-left: 0;
@@ -7066,6 +7067,7 @@ h6 {
 	}
 	.subhead-collapse.collapse {
 		height: 0;
+		overflow: hidden;
 	}
 	.btn-toolbar .btn-wrapper {
 		display: block;
