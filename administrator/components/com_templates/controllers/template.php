@@ -266,8 +266,6 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
     public function overrides()
     {
-        // Check for request forgeries.
-        //JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
         $app            = JFactory::getApplication();
         $model          = $this->getModel();
         $file           = $app->input->get('file');
@@ -283,6 +281,26 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
         $this->setRedirect(JRoute::_($url, false));
 
+    }
+
+    public function less()
+    {
+        $app            = JFactory::getApplication();
+        $model          = $this->getModel();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+
+        if($model->compileLess($file))
+        {
+            $this->setMessage(JText::_('Successfully compiled LESS.'));
+        }
+        else
+        {
+            $app->enqueueMessage(JText::_('Some error occurred. Failed to compile.','error'));
+        }
+
+        $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+        $this->setRedirect(JRoute::_($url, false));
     }
 	
 }

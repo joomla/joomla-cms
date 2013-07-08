@@ -545,9 +545,33 @@ class TemplatesModelTemplate extends JModelForm
         {
             $client 	= JApplicationHelper::getClientInfo($template->client_id);
             $path = JPath::clean($client->path . '/templates/' . $template->element . '/less/');
-            $less = JFolder::files($path,'');
+            $less = JFolder::files($path,'\.less');
         }
         return $less;
+    }
+
+    public function compileLess($input)
+    {
+        if ($template = $this->getTemplate())
+        {
+            JLoader::registerPrefix('J', JPATH_ROOT . '/build/libraries');
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
+            $inFile     = urldecode(base64_decode($input));
+            $fileName   = end(explode('/',$inFile));
+            $outFile    = reset(explode('.',$fileName));
+            $less       = new JLess();
+            try
+            {
+                $less->compileFile($path . $inFile, $path . 'css/' . $outFile . '.css');
+                return true;
+            }
+            catch(Exception $e)
+            {
+                $app->enqueueMessage($e->getMessage(),'error');
+            }
+        }
     }
 
 }

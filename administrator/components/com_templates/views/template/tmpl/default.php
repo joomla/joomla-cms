@@ -132,24 +132,3 @@ $input = JFactory::getApplication()->input;
         <a href="#" class="btn" data-dismiss="modal">Close</a>
     </div>
 </div>
-<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-      method="post" name="adminForm" id="adminForm">
-    <div  id="lessModal" class="modal hide fade">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3><?php echo JText::_('Select a LESS file to compile.');?></h3>
-        </div>
-        <div class="modal-body">
-            <select>
-                <?php foreach($this->less as $less): ?>
-                    <option><?php echo $less ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <button class="btn btn-primary" type="submit"><?php echo JText::_('Compile LESS'); ?></button>
-        </div>
-    </div>
-    <?php echo JHtml::_('form.token'); ?>
-</form>

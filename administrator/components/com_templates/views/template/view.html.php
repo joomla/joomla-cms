@@ -52,7 +52,7 @@ class TemplatesViewTemplate extends JViewLegacy
 
         $app            = JFactory::getApplication();
         $this->file     = $app->input->get('file');
-        $this->less     = $app->input->get('Less');
+        $this->less     = $this->get('Less');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -78,6 +78,9 @@ protected function addToolbar()
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		$user  = JFactory::getUser();
+
+        $fileName = urldecode(base64_decode($this->file));
+        $ext = end(explode('.',$fileName));
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 		
@@ -129,11 +132,14 @@ protected function addToolbar()
 		//Add a Compile Button
 		if ($user->authorise('core.create', 'com_templates'))
 		{
-			$title = JText::_('Compile LESS');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#lessModal\" class=\"btn btn-small\">
-			<i class=\"icon-play\" title=\"$title\"></i>
-			$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'upload');
+			if($ext == 'less')
+            {
+                $title = JText::_('Compile LESS');
+                $dhtml = "<button onclick=\"Joomla.submitbutton('template.less')\" class=\"btn btn-small\">
+                <i class=\"icon-play\" title=\"$title\"></i>
+                $title</button>";
+                $bar->appendButton('Custom', $dhtml, 'upload');
+            }
 		}
 		
 		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
