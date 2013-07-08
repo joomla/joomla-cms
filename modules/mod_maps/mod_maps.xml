@@ -29,55 +29,77 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field type="list" name="mapType" default="ROADMAP" label="MOD_MAPS_MAP_TYPE_LABEL"
-                       description="MOD_MAPS_MAP_TYPE_DESC">
-                    <option value="HYBRID">MOD_MAPS_HYBRID_LABEL</option>
-                    <option value="ROADMAP">MOD_MAPS_ROADMAP_LABEL</option>
-                    <option value="SATELLITE">MOD_MAPS_SATELLITE_LABEL</option>
-                    <option value="TERRAIN">MOD_MAPS_TERRAIN_LABEL</option>
+                <field
+		            name="mapType"
+		            type="list"
+		            default="ROADMAP"
+		            label="MOD_MAPS_MAP_TYPE_LABEL"
+                    description="MOD_MAPS_MAP_TYPE_DESC">
+                        <option value="HYBRID">MOD_MAPS_HYBRID_LABEL</option>
+                        <option value="ROADMAP">MOD_MAPS_ROADMAP_LABEL</option>
+                        <option value="SATELLITE">MOD_MAPS_SATELLITE_LABEL</option>
+                        <option value="TERRAIN">MOD_MAPS_TERRAIN_LABEL</option>
                 </field>
+
                 <field
                         name="zoom"
                         type="text"
-                        default="12"
+                        default="1"
                         label="MOD_MAPS_ZOOM_LABEL"
-                        description="MOD_MAPS_ZOOM_DESC">
-                </field>
+                        description="MOD_MAPS_ZOOM_DESC" />
+
                 <field
                         name="width"
                         type="text"
-                        default="auto"
+                        default=""
                         label="MOD_MAPS_WIDTH_LABEL"
-                        description="MOD_MAPS_WIDTH_DESC">
-                </field>
+                        description="MOD_MAPS_WIDTH_DESC" />
+
                 <field
                         name="height"
                         type="text"
                         default="350"
                         label="MOD_MAPS_HEIGHT_LABEL"
-                        description="MOD_MAPS_HEIGHT_DESC">
+                        description="MOD_MAPS_HEIGHT_DESC" />
+
+                <field
+		                name="mapCenterType"
+		                type="radio"
+		                default="address"
+		                class="btn-group"
+		                label="MOD_MAPS_CENTER_LABEL"
+                        description="MOD_MAPS_CENTER_DESC">
+                            <option value="address">MOD_MAPS_ADDRESS_BASED_LABEL</option>
+                            <option value="coordinate">MOD_MAPS_CORDINATES_BASED_LABEL</option>
                 </field>
 
-                <field type="radio" name="mapCenterType" default="address" class="btn-group" label="MOD_MAPS_CENTER_LABEL"
-                       description="MOD_MAPS_CENTER_DESC">
-                    <option value="address">MOD_MAPS_ADDRESS_BASED_LABEL</option>
-                    <option value="coordinate">MOD_MAPS_CORDINATES_BASED_LABEL</option>
-                </field>
-                <field type="text" name="mapCenterAddress"
-                       label="MOD_MAPS_CENTER_ADDRESS"
-                       description="MOD_MPAS_CENTER_ADDRESS_DESC">
+                <field
+		               name="mapCenterAddress"
+		               type="text"
+                       label="MOD_MAPS_CENTER_ADDRESS_LABEL"
+                       description="MOD_MPAS_CENTER_ADDRESS_DESC" />
 
-                </field>
-                <field name="mapCenterCoordinate"  type="text"
-                       label="MOD_MAPS_CENTER_CORDINATE"
-                       description="MOD_MAPS_CENTER_CORDINATE_DESC">
-                </field>
+
+                <field
+		               name="mapCenterCoordinate"
+		               type="text"
+                       label="MOD_MAPS_CENTER_CORDINATE_LABEL"
+                       description="MOD_MAPS_CENTER_CORDINATE_DESC" />
+
+	            <field
+			           name="mapApiKey"
+	                   type="text"
+	                   label="MOD_MAPS_API_KEY_LABEL"
+	                   description="MOD_MAPS_API_KEY_DESC" />
+
             </fieldset>
+
             <!-- Popup Text -->
             <fieldset name="customInfo" label="MOD_MAPS_CUSTOM_INFO">
                 <field type="editor" name="customInfoText" default="" label="MOD_MAPS_CUSTOM_INFO_LABEL"
                        description="MOD_MAPS_CUSTOM_INFO_DESC" filter="safehtml"/>
             </fieldset>
+
             <fieldset
                     name="advanced">
                 <field
