@@ -70,7 +70,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			}
 			else
 			{
-				$parts	= explode('.', $result->password);
+				$parts	= explode(':', $result->password);
 				$crypt	= $parts[0];
 				$salt	= @$parts[1];
 
@@ -81,7 +81,7 @@ class PlgAuthenticationJoomla extends JPlugin
 					$match = true;
 				}
 			}
-			if ($match === true)
+			if (isset($match) && $match === true)
 			{
 				// Bring this in line with the rest of the system
 				$user = JUser::getInstance($result->id);
