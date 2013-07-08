@@ -218,7 +218,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 						</div>
 
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center hidden-phone">
@@ -234,7 +234,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 						<?php endif; ?>
 					</td>
 					<?php endif;?>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 						<?php else:?>

@@ -124,7 +124,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center nowrap">

@@ -77,16 +77,16 @@ $version = new JVersion;
 								<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
 							<?php endif; ?>
 						</td>
-						<td class="center small">
+						<td class="center">
 							<?php echo $language->version; ?>
 						</td>
-						<td class="center small hidden-phone">
+						<td class="center hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $language->detailsurl; ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $language->update_id; ?>
 						</td>
 					</tr>
