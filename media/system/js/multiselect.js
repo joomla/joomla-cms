@@ -6,7 +6,7 @@
 /**
  * JavaScript behavior to allow shift select in administrator grids
  */
-(function() {
+(function($) {
 	Joomla = Joomla || {};
 
 	Joomla.JMultiSelect = new Class({
@@ -35,4 +35,25 @@
 			this.last = current;
 		}
 	});
-})();
+
+	$(document).ready(function (){
+		var selectActions = $('#toolbar').children('#toolbar-edit,#toolbar-publish,#toolbar-unpublish,#toolbar-featured,#toolbar-checkin,#toolbar-archive,#toolbar-trash,#toolbar-batch,#toolbar-remove,#toolbar-delete,#toolbar-default,#toolbar-unblock');
+		selectActions.hide();
+
+	    var multiCheckboxes = $('form#adminForm table.table-striped input[type=checkbox][onclick]');
+		multiCheckboxes.on('change', null, null, (function() {
+			var numberChecked = multiCheckboxes.filter(':checked').size();
+		    if (numberChecked > 0) {
+			    if (numberChecked == 1) {
+				    selectActions.fadeIn();
+			    } else {
+					selectActions.filter(':not(#toolbar-edit)').slideDown();
+				    selectActions.filter('#toolbar-edit').slideUp();
+			    }
+			} else {
+				selectActions.fadeOut();
+			}
+	    }));
+	});
+
+})(jQuery);
