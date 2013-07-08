@@ -217,7 +217,7 @@ $sortFields = $this->getSortFields();
 					</td>
 
 					<?php if ($this->langs) : ?>
-						<td class="small nowrap hidden-phone">
+						<td class="nowrap hidden-phone">
 							<?php if ($item->language == '*'):?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else:?>
@@ -235,8 +235,7 @@ $sortFields = $this->getSortFields();
 						<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED'));?>
 					</td>
 					<td class="center hidden-phone">
-						<?php echo $item->clicks;?> -
-						<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0);?>
+						<?php echo $item->clicks . sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0); ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo $item->id; ?>

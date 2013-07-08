@@ -208,7 +208,7 @@ $sortFields = $this->getSortFields();
 						</span>
 						</td>
 						<?php if ($this->langs) : ?>
-							<td class="small nowrap hidden-phone">
+							<td class="nowrap hidden-phone">
 								<?php if ($item->language == '*') : ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
 								<?php else: ?>
@@ -224,8 +224,7 @@ $sortFields = $this->getSortFields();
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
-
-						<td class="small hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $this->escape($item->access_level); ?>
 						</td>
 						<td class="center hidden-phone">

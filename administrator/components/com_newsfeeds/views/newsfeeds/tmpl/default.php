@@ -220,7 +220,7 @@ $sortFields = $this->getSortFields();
 
 					</td>
 					<?php if ($this->langs) : ?>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 						<?php else:?>
@@ -241,8 +241,7 @@ $sortFields = $this->getSortFields();
 					<td class="center hidden-phone">
 						<?php echo (int) $item->cache_time; ?>
 					</td>
-
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center hidden-phone">

@@ -229,7 +229,7 @@ $sortFields = $this->getSortFields();
 						<?php endif; ?>
 					</td>
 					<?php if ($this->langs) : ?>
-						<td class="small hidden-phone">
+						<td class="hidden-phone">
 							<?php if ($item->language == '*'):?>
 								<?php echo JText::alt('JALL', 'language'); ?>
 							<?php else:?>
