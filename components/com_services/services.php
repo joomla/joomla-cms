@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_config
+ * @package     Joomla.Site
+ * @subpackage  com_services
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -14,7 +14,7 @@ defined('_JEXEC') or die('Restricted access');
 jimport('joomla.session.session');
 
 // Load classes
-JLoader::registerPrefix('Config', JPATH_COMPONENT);
+JLoader::registerPrefix('Services', JPATH_COMPONENT);
 
 // Tell the browser not to cache this page.
 JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
@@ -23,8 +23,10 @@ JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 $app = JFactory::getApplication();
 
 if ($controllerTask = $app->input->get('controller'))
+{
 	// Checking for new MVC controller
 	$array = explode(".", $controllerTask);
+}
 else
 {
 	// Checking for old MVC task
@@ -32,19 +34,33 @@ else
 	$array = explode(".", $task);
 }
 
+// Get the controller name
 if (empty($array[1]))
+{
 	$activity = 'display';
+}
 elseif ($array[1] == 'apply')
+{
 	$activity = 'save';
-else $activity = $array[1];
+}
+else
+{
+	$activity = $array[1];
+}
 
 // Create the controller
-// if ($array[0]=='application')
-	// For Application
-	$classname  = 'ConfigControllerApplication' . ucfirst($activity);// only for applications
-if ($array[0] == 'component')
-	// For Component
-	$classname  = 'ConfigControllerComponent' . ucfirst($activity); // if task=component.* etc
+if ($array[0] == 'config')
+{
+	// For Config
+	$classname  = 'ServicesControllerConfig' . ucfirst($activity);
+}
+else
+{
+	$app->enqueueMessage(JText::_('COM_SERVICES_ERROR_CONTROLLER_NOT_FOUND'), 'error');
+
+	return;
+
+}
 
 $controller = new $classname;
 
