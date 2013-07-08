@@ -688,6 +688,7 @@ div.current fieldset.adminform {
 #form-login {
 	background: #ffffff;
 	border: 1px solid #c7c8b2;
+	font-size: 0.8em;
 }
 #form-login label {
 	color: #2c2c2c;
