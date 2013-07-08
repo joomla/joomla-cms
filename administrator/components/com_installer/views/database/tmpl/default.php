@@ -18,10 +18,8 @@ defined('_JEXEC') or die;
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<div id="j-main-container" class="span10">
-	<?php else : ?>
-		<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
+		<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 		<?php if ($this->errorCount === 0) : ?>
 			<div class="alert alert-info">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
