@@ -156,7 +156,7 @@ class JFormFieldModal_Newsfeed extends JFormField
 			$class = ' class="required modal-value"';
 		}
 
-		$html[] .= '<input type="hidden" id="'.$this->id.'_id"'.$class.' name="'.$this->name.'" value="'.$value.'" />';
+		$html[] = '<input type="hidden" id="'.$this->id.'_id"'.$class.' name="'.$this->name.'" value="'.$value.'" />';
 
 		return implode("\n", $html);
 	}
