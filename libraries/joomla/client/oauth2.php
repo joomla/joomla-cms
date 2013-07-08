@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  OAuth2
  * @since       12.3
  */
-class JOAuth2Client
+class JClientOAuth2
 {
 	/**
 	 * @var    JRegistry  Options for the JOAuth2Client object.
