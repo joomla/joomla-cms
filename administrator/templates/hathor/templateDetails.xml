@@ -11,7 +11,22 @@
 	<version>3.0.0</version>
 	<description>TPL_HATHOR_XML_DESCRIPTION</description>
 	<files>
+		<filename>component.php</filename>
+		<filename>cpanel.php</filename>
+		<filename>error.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.html</filename>
+		<filename>index.php</filename>
+		<filename>login.php</filename>
+		<filename>LICENSE.txt</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
 		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>js</folder>
+		<folder>language</folder>
 	</files>
 
 	<positions>
@@ -27,6 +42,10 @@
 		<position>debug</position>
 		<position>footer</position>
 	</positions>
+	 <languages>
+		<language tag="en-GB">language/en-GB/en-GB.tpl_hathor.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.tpl_hathor.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
