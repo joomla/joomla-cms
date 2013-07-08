@@ -50,8 +50,6 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			case '$2a$':
 			case JCryptPassword::BLOWFISH:
-				$salt = $this->getSalt(22);
-
 				if (version_compare(PHP_VERSION, '5.3.7') >= 0)
 				{
 					$type = '$2y$';

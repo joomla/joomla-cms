@@ -260,6 +260,7 @@
 		>
 			<option value="*">JALL</option>
 		</field>
+
 		<field name="featured"
 			type="list"
 			label="JFEATURED"
@@ -269,6 +270,15 @@
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+		</field>
+
+		<field name="tags" 
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="inputbox span12 small"
+			multiple="true"
+		>
 		</field>
 
 		<field name="contact_icons"
@@ -705,15 +715,11 @@
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
 	
-				<field name="rights" type="text"
-					label="JFIELD_METADATA_RIGHTS_LABEL"
-					description="JFIELD_METADATA_RIGHTS_DESC"
-					size="20" />
-			<field name="tags" type="tag"
-				label="JTAG" description="JTAG_DESC"
-				class="inputbox" multiple="true"
-			>
-			</field>
+			<field name="rights" type="text"
+				label="JFIELD_METADATA_RIGHTS_LABEL"
+				description="JFIELD_METADATA_RIGHTS_DESC"
+				size="20" />
+
 		</fieldset>
 	</fields>
 		<field name="hits"

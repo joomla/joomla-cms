@@ -26,6 +26,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jul-2013 Mark Dexter
+ # Refactor delete method in webdriver tests
+ # Fix failing system tests due to markup changes.
+
+20-Jun-2013 Mark Dexter
+ # Fix Webdriver tests for Google Chrome, markup changes.
+
+15-Jun-2013 Mark Dexter
+ # Fix failing system test.
+
+11-Jun-2013 Mark Dexter
+ # Fix problems with system tests from changes in HTML markup.
+
 02-Jun-2013 Michael Babker
  + Port Feed, Filesystem, Filter, and Form package unit tests from Platform
  + Port Github package unit tests from Platform

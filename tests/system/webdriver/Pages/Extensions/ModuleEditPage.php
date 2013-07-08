@@ -25,6 +25,18 @@ class ModuleEditPage extends AdminEditPage
 	public $tabLabels = array('Details', 'Options', 'Menu Assignment');
 
 	/**
+	 * Array of groups for this page. A group is a collapsable slider inside a tab.
+	 * The format of this array is <tab id> => <group label>. Note that each menu item type has its own options and its own groups.
+	 * These are the common ones for almost all core menu item types.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $groups = array(
+			'options' => array('Basic Options', 'Advanced Options'),
+	);
+
+	/**
 	 * Associative array of expected input fields for the Account Details and Basic Settings tabs
 	 * Assigned User Groups tab is omitted because that depends on the groups set up in the sample data
 	 * @var unknown_type
@@ -40,21 +52,21 @@ class ModuleEditPage extends AdminEditPage
 			array('label' => 'Finish Publishing', 'id' => 'jform_publish_down', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'Note', 'id' => 'jform_note', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Parent Category', 'id' => 'jform_params_parent', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Category Descriptions', 'id' => 'jform_params_show_description', 'type' => 'fieldset', 'tab' => 'options'),
-			array('label' => 'Show Subcategories', 'id' => 'jform_params_show_children', 'type' => 'fieldset', 'tab' => 'options'),
-			array('label' => '# First Subcategories', 'id' => 'jform_params_count', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Maximum Level Depth', 'id' => 'jform_params_maxlevel', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Alternative Layout', 'id' => 'jform_params_layout', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Heading style', 'id' => 'jform_params_item_heading', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Module Class Suffix', 'id' => 'jform_params_moduleclass_sfx', 'type' => 'textarea', 'tab' => 'options'),
-			array('label' => 'Caching', 'id' => 'jform_params_owncache', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Cache Time', 'id' => 'jform_params_cache_time', 'type' => 'input', 'tab' => 'options'),
-			array('label' => 'Module Tag', 'id' => 'jform_params_module_tag', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Bootstrap Size', 'id' => 'jform_params_bootstrap_size', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Header Tag', 'id' => 'jform_params_header_tag', 'type' => 'select', 'tab' => 'options'),
-			array('label' => 'Header Class', 'id' => 'jform_params_header_class', 'type' => 'input', 'tab' => 'options'),
-			array('label' => 'Module Style', 'id' => 'jform_params_style', 'type' => 'select', 'tab' => 'options'),
+			array('label' => 'Parent Category', 'id' => 'jform_params_parent', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),
+			array('label' => 'Category Descriptions', 'id' => 'jform_params_show_description', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Basic Options'),
+			array('label' => 'Show Subcategories', 'id' => 'jform_params_show_children', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Basic Options'),
+			array('label' => '# First Subcategories', 'id' => 'jform_params_count', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),
+			array('label' => 'Maximum Level Depth', 'id' => 'jform_params_maxlevel', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),
+			array('label' => 'Alternative Layout', 'id' => 'jform_params_layout', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Heading style', 'id' => 'jform_params_item_heading', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Module Class Suffix', 'id' => 'jform_params_moduleclass_sfx', 'type' => 'textarea', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Caching', 'id' => 'jform_params_owncache', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Cache Time', 'id' => 'jform_params_cache_time', 'type' => 'input', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Module Tag', 'id' => 'jform_params_module_tag', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Bootstrap Size', 'id' => 'jform_params_bootstrap_size', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Header Tag', 'id' => 'jform_params_header_tag', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Header Class', 'id' => 'jform_params_header_class', 'type' => 'input', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Module Style', 'id' => 'jform_params_style', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
 			array('label' => 'Module Assignment', 'id' => 'jform_menus', 'type' => 'div', 'tab' => 'assignment'),
 			);
 

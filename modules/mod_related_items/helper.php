@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
  */
 abstract class ModRelatedItemsHelper
 {
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();

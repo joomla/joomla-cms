@@ -94,24 +94,24 @@ class CategoriesViewCategories extends JViewLegacy
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-			$lang->load($component, JPATH_BASE, null, false, false)
-		||	$lang->load($component, JPATH_ADMINISTRATOR.'/components/'.$component, null, false, false)
-		||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load($component, JPATH_ADMINISTRATOR.'/components/'.$component, $lang->getDefault(), false, false);
+		$lang->load($component, JPATH_BASE, null, false, false)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
+		|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
 
 		// Load the category helper.
-		require_once JPATH_COMPONENT.'/helpers/categories.php';
+		require_once JPATH_COMPONENT . '/helpers/categories.php';
 
 		// Get the results for each action.
 		$canDo = CategoriesHelper::getActions($component, $categoryId);
 
 		// If a component categories title string is present, let's use it.
-		if ($lang->hasKey($component_title_key = strtoupper($component.($section?"_$section":'')).'_CATEGORIES_TITLE'))
+		if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE'))
 		{
 			$title = JText::_($component_title_key);
 		}
 		// Else if the component section string exits, let's use it
-		elseif ($lang->hasKey($component_section_key = strtoupper($component.($section?"_$section":''))))
+		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
 		{
 			$title = JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(JText::_($component_section_key)));
 		}
@@ -122,12 +122,12 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Load specific css component
-		JHtml::_('stylesheet', $component.'/administrator/categories.css', array(), true);
+		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'categories '.substr($component, 4).($section?"-$section":'').'-categories');
+		JToolbarHelper::title($title, 'categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0 )
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0)
 		{
 			JToolbarHelper::addNew('category.add');
 		}
@@ -163,9 +163,11 @@ class CategoriesViewCategories extends JViewLegacy
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-						$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
@@ -176,16 +178,16 @@ class CategoriesViewCategories extends JViewLegacy
 		}
 
 		// Compute the ref_key if it does exist in the component
-		if (!$lang->hasKey($ref_key = strtoupper($component.($section?"_$section":'')).'_CATEGORIES_HELP_KEY'))
+		if (!$lang->hasKey($ref_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_HELP_KEY'))
 		{
-			$ref_key = 'JHELP_COMPONENTS_'.strtoupper(substr($component, 4).($section?"_$section":'')).'_CATEGORIES';
+			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
 		}
 
 		// Get help for the categories view for the component by
 		// -remotely searching in a language defined dedicated URL: *component*_HELP_URL
 		// -locally  searching in a component help file if helpURL param exists in the component and is set to ''
 		// -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
-		if ($lang->hasKey($lang_help_url = strtoupper($component).'_HELP_URL'))
+		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
 			$url = JText::_($lang_help_url);
@@ -224,11 +226,10 @@ class CategoriesViewCategories extends JViewLegacy
 		);
 
 		JHtmlSidebar::addFilter(
-		JText::_('JOPTION_SELECT_TAG'),
-		'filter_tag',
-		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+			JText::_('JOPTION_SELECT_TAG'),
+			'filter_tag',
+			JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
 		);
-
 	}
 
 	/**

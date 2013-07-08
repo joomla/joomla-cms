@@ -43,7 +43,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Get view related request variables.
 		$print = $app->input->getBool('print');
@@ -59,6 +58,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
+			// TODO: $items is not used. Remove this line?
 			$items = $categoryModel->getItems();
 		}
 
@@ -134,8 +134,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			}
 		}
 
-		$offset = $state->get('list.offset');
-
 		// Check the access to the newsfeed
 		$levels = $user->getAuthorisedViewLevels();
 
@@ -146,8 +144,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 
 		// Get the current menu item
-		$menus	= $app->getMenu();
-		$menu	= $menus->getActive();
 		$params	= $app->getParams();
 
 		// Get the newsfeed
@@ -174,8 +170,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		{
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
-
-		$lists = array();
 
 		$feed_display_order = $params->get('feed_display_order', 'des');
 		if ($feed_display_order == 'asc')

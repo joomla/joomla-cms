@@ -8,12 +8,9 @@
  */
 
 defined('_JEXEC') or die;
-?>
-<fieldset class="form-vertical">
-	<legend><?php echo JText::_('COM_CONFIG_PERMISSION_SETTINGS'); ?></legend>
-	<?php foreach ($this->form->getFieldset('permissions') as $field) : ?>
-		<div class="control-group">
-			<div class="controls"><?php echo $field->input; ?></div>
-		</div>
-	<?php endforeach; ?>
-</fieldset>
+
+$this->name = JText::_('COM_CONFIG_PERMISSION_SETTINGS');
+$this->fieldsname = 'permissions';
+$this->formclass = 'form-vertical';
+$this->showlabel = false;
+echo JLayoutHelper::render('joomla.content.options_default', $this);

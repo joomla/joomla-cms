@@ -373,7 +373,7 @@ abstract class JOAuth1Client
 		{
 			if (is_array($value))
 			{
-				foreach ($value as $k => $v)
+				foreach ($value as $v)
 				{
 					if (strpos($url, '?') === false)
 					{
@@ -454,7 +454,7 @@ abstract class JOAuth1Client
 
 			if (is_array($value))
 			{
-				foreach ($value as $k => $v)
+				foreach ($value as $v)
 				{
 					$v = $this->safeEncode($v);
 					$kv[] = "{$key}={$v}";

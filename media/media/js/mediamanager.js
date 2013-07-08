@@ -62,7 +62,7 @@ var MediaManager = this.MediaManager = {
 			this.updatepaths.each(function(path){ path.value =folder; });
 			this.folderpath.value = basepath+'/'+folder;
 //			node = this.tree.get('node_'+folder);
-			node.toggle(false, true);
+//			node.toggle(false, true);
 		} else {
 			this.updatepaths.each(function(path){ path.value = ''; });
 			this.folderpath.value = basepath;

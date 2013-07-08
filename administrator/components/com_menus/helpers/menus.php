@@ -127,7 +127,11 @@ class MenusHelper
 	public static function getMenuTypes()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery('SELECT a.menutype FROM #__menu_types AS a');
+		$query = $db->getQuery(true)
+			->select('a.menutype')
+			->from('#__menu_types AS a');
+		$db->setQuery($query);
+
 		return $db->loadColumn();
 	}
 
@@ -143,7 +147,7 @@ class MenusHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
+			->select('a.id AS value, a.title AS text, a.alias, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 

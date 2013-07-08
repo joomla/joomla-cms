@@ -131,6 +131,30 @@ abstract class AdminManagerPage extends AdminPage
 		return $result;
 	}
 
+	public function orderAndGetRowNumbers($orderings, $rows)
+	{
+		$result = array();
+
+		foreach ($orderings as $order)
+		{
+			$result[$order] = array();
+			$this->setOrder($order);
+
+			foreach ($rows as $row)
+			{
+				$result[$order]['ascending'][] = $this->getRowNumber($row);
+			}
+
+			$this->setOrderDirection('Descending');
+
+			foreach ($rows as $row)
+			{
+				$result[$order]['descending'][] = $this->getRowNumber($row);
+			}
+		}
+		return $result;
+	}
+
 	public function searchFor($search = false)
 	{
 		if ($search)
@@ -138,6 +162,10 @@ abstract class AdminManagerPage extends AdminPage
 			$el = $this->driver->findElement(By::id('filter_search'));
 			$el->clear();
 			$el->sendKeys($search);
+
+			// In some cases we have to click the button twice since using bootstrap tooltips. (Not sure why.)
+			$this->driver->findElement(By::xPath("//button[@data-original-title='Search' or @title='Search']"))->click();
+			$page = $this->test->getPageObject(get_class($this));
 			$this->driver->findElement(By::xPath("//button[@data-original-title='Search' or @title='Search']"))->click();
 		}
 		else
@@ -178,7 +206,33 @@ abstract class AdminManagerPage extends AdminPage
 		return $this->test->getPageObject(get_class($this));
 	}
 
-	public function deleteItem($name)
+	public function setOrder($value)
+	{
+		$container = $this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']"));
+		$this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+
+		return $this->test->getPageObject(get_class($this));
+	}
+
+	public function setOrderDirection($value)
+	{
+		$el = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
+		$displayedBefore = $el->isDisplayed();
+		$container = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a"));
+		while (!$el->isDisplayed())
+		{
+			$container->click();
+		}
+		$displayedAfter = $el->isDisplayed();
+		$el->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+
+		return $this->test->getPageObject(get_class($this));
+	}
+
+	public function trashAndDelete($name)
 	{
 		$this->searchFor($name);
 		$this->checkAll();
@@ -191,6 +245,19 @@ abstract class AdminManagerPage extends AdminPage
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		$this->setFilter('Status', 'Select Status');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+	}
+
+	public function delete($name)
+	{
+		$this->searchFor($name);
+		$el = $this->driver->findElement(By::name("checkall-toggle"));
+		while(!$el->isSelected())
+		{
+			$el->click();
+		}
+		$this->clickButton('toolbar-delete');
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		$this->searchFor();
 	}
 
 }

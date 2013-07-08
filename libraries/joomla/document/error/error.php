@@ -98,7 +98,7 @@ class JDocumentError extends JDocument
 		}
 
 		// Set variables
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 		$this->template = $template;
 		$this->debug = isset($params['debug']) ? $params['debug'] : false;
 		$this->error = $this->_error;

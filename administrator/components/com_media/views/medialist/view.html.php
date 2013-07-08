@@ -25,20 +25,9 @@ class MediaViewMediaList extends JViewLegacy
 		// Do not allow cache
 		$app->allowCache(false);
 
-		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
-
-		$lang	= JFactory::getLanguage();
-
 		JHtml::_('behavior.framework', true);
 
-		$document = JFactory::getDocument();
-		/*
-		$document->addStyleSheet('../media/media/css/medialist-'.$style.'.css');
-		if ($lang->isRTL()) :
-			$document->addStyleSheet('../media/media/css/medialist-'.$style.'_rtl.css');
-		endif;
-		*/
-		$document->addScriptDeclaration("
+		JFactory::getDocument()->addScriptDeclaration("
 		window.addEvent('domready', function()
 		{
 			window.parent.document.updateUploader();
@@ -57,7 +46,7 @@ class MediaViewMediaList extends JViewLegacy
 		$folders = $this->get('folders');
 		$state = $this->get('state');
 
-		$this->baseURL = JURI::root();
+		$this->baseURL = JUri::root();
 		$this->images = &$images;
 		$this->documents = &$documents;
 		$this->folders = &$folders;

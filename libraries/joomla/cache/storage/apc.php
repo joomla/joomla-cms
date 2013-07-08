@@ -240,8 +240,6 @@ class JCacheStorageApc extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
-		$unlock = false;
-
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		$unlock = apc_delete($cache_id);

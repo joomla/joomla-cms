@@ -120,7 +120,7 @@ class MediaControllerFile extends JControllerLegacy
 
 			// Trigger the onContentBeforeSave event.
 			$object_file = new JObject($file);
-			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file));
+			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
 
 			if (in_array(false, $result, true))
 			{

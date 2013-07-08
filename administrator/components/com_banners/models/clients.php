@@ -52,8 +52,6 @@ class BannersModelClients extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -137,7 +135,7 @@ class BannersModelClients extends JModelList
 			$query->where('(a.state IN (0, 1))');
 		}
 
-		$query->group('a.id, a.name, a.contact, a.checked_out, a.checked_out_time, a.state, a.metakey, a.purchase_type, editor');
+		$query->group('a.id, a.name, a.contact, a.checked_out, a.checked_out_time, a.state, a.metakey, a.purchase_type, uc.name');
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
