@@ -16,7 +16,6 @@ JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -31,8 +30,6 @@ if ($saveOrder)
 }
 
 $sortFields = $this->getSortFields();
-$langs = isset($app->has_languages) ? $app->has_languages : 0;
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -110,12 +107,12 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 					<th>
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($langs) : ?>
+					<?php if ($this->langs) : ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<?php if ($assoc) : ?>
+					<?php if ($this->assoc) : ?>
 						<th width="10%" class="nowrap hidden-phone center">
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
@@ -139,7 +136,6 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			</thead>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) :
-					$item->max_ordering = 0; //??
 					$ordering = ($listOrder == 'a.ordering');
 					$canCreate = $user->authorise('core.create', 'com_content.category.' . $item->catid);
 					$canEdit = $user->authorise('core.edit', 'com_content.article.' . $item->id);
@@ -205,14 +201,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 									JHtml::_('dropdown.publish', 'cb' . $i, 'articles.');
 								}
 
-								if ($item->featured)
-								{
-									JHtml::_('dropdown.unfeatured', 'cb' . $i, 'articles.');
-								}
-								else
-								{
-									JHtml::_('dropdown.featured', 'cb' . $i, 'articles.');
-								}
+								JHtml::_('dropdown.featured', 'cb' . $i, 'articles.');
 
 								JHtml::_('dropdown.divider');
 
@@ -244,7 +233,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								?>
 							</div>
 						</td>
-						<?php if ($langs) : ?>
+						<?php if ($this->langs) : ?>
 							<td class="hidden-phone">
 								<?php if ($item->language == '*'): ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
@@ -253,7 +242,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
-						<?php if ($assoc) : ?>
+						<?php if ($this->assoc) : ?>
 							<td class="hidden-phone center">
 								<?php if ($item->association) : ?>
 									<?php echo JHtml::_('contentadministrator.association', $item->id); ?>

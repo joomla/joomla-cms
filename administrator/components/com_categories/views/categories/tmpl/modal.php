@@ -59,6 +59,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true);?>
 			</select>
 
+			<?php if ($this->langs) : ?>
 			<?php if ($this->state->get('filter.forcedLanguage')) : ?>
 			<input type="hidden" name="forcedLanguage" value="<?php echo $this->escape($this->state->get('filter.forcedLanguage')); ?>" />
 			<input type="hidden" name="filter_language" value="<?php echo $this->escape($this->state->get('filter.language')); ?>" />
@@ -67,6 +68,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
 			</select>
+			<?php endif; ?>
 			<?php endif; ?>
 		</div>
 	</fieldset>

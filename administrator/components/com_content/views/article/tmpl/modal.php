@@ -28,8 +28,6 @@ $editoroptions = isset($params['show_publishing_options']);
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-
 if (!$editoroptions)
 {
 	$params['show_publishing_options'] = '1';
@@ -295,9 +293,11 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-			<div class="hidden">
-				<?php echo $this->loadTemplate('associations'); ?>
-			</div>
+			<?php if ($this->assoc) : ?>
+				<div class="hidden">
+					<?php echo $this->loadTemplate('associations'); ?>
+				</div>
+			<?php endif; ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />

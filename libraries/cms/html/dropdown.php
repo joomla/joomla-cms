@@ -198,7 +198,7 @@ abstract class JHtmlDropdown
 	public static function featured($checkboxId, $prefix = '')
 	{
 		$task = $prefix . 'featured';
-		static::addCustomItem(JText::_('JFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		static::addCustomItem(JText::_('JFEATURE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
 		return;
 	}
 
@@ -215,7 +215,7 @@ abstract class JHtmlDropdown
 	public static function unfeatured($checkboxId, $prefix = '')
 	{
 		$task = $prefix . 'unfeatured';
-		static::addCustomItem(JText::_('JUNFEATURED'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		static::addCustomItem(JText::_('JUNFEATURE'), 'javascript:void(0)', 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
 		return;
 	}
 

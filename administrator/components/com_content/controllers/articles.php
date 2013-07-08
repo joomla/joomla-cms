@@ -85,7 +85,7 @@ class ContentControllerArticles extends JControllerAdmin
 			}
 		}
 
-		$this->setRedirect('index.php?option=com_content&view=articles');
+		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
 
 	/**
