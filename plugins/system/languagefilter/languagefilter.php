@@ -125,8 +125,10 @@ class PlgSystemLanguageFilter extends JPlugin
 
 	public function onAfterInitialise()
 	{
+		$languages = JLanguageHelper::getLanguages('lang_code');
 		$app = JFactory::getApplication();
-		$app->item_associations = $this->params->get('item_associations', 0);
+		$app->has_languages = count($languages) > 1;
+		$app->item_associations = $app->has_languages ? $this->params->get('item_associations', 0) : 0;
 
 		if ($app->isSite())
 		{
@@ -140,7 +142,6 @@ class PlgSystemLanguageFilter extends JPlugin
 			$router->attachParseRule(array($this, 'parseRule'));
 
 			// Adding custom site name
-			$languages = JLanguageHelper::getLanguages('lang_code');
 			if (isset($languages[self::$tag]) && $languages[self::$tag]->sitename)
 			{
 				JFactory::getConfig()->set('sitename', $languages[self::$tag]->sitename);
