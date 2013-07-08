@@ -100,21 +100,12 @@ class ConfigHelperComponent
 		{
 			if (!empty($component))
 			{
-<<<<<<< HEAD
-				// Load the core file then
-				// Load extension-local file.
-				$lang->load($component . '.sys', JPATH_BASE, null, false, false)
-				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
-				|| $lang->load($component . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
-				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
-=======
 					// Load the core file then
 					// Load extension-local file.
 					$lang->load($component . '.sys', JPATH_BASE, null, false, false)
 				||	$lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
 				||	$lang->load($component . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
 				||	$lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
->>>>>>> 4078c9f2dcadc37e4c6beb7c6368079c5068ebb3
 			}
 		}
 	}
