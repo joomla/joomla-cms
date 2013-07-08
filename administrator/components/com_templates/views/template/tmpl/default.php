@@ -25,18 +25,17 @@ $input = JFactory::getApplication()->input;
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 		$('.folder ul').hide();
+		$('.show > ul').show();
 		$('.folder-url').click(function(event){
-
 			event.preventDefault();
-			
 		});
+        $('.file').bind('click',function(e){
+            e.stopPropagation();
+        });
 		$('.folder').bind('click',function(e){
-
-			e.stopPropagation();
 			$(this).children('ul').toggle();
-			
+            e.stopPropagation();
 		});
-		
 	});
 </script>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>

@@ -89,8 +89,9 @@ class TemplatesModelTemplate extends JModelForm
 			if (!in_array($value,array(".",".."))) 
 			{ 
 				if (is_dir($dir . $value . '/')) 
-				{ 
-					$result[$dir . $value] = $this->getDirectoryTree($dir . $value . '/');
+				{
+                    $relativePath = str_replace($this->element,'',$dir . $value);
+					$result[$relativePath] = $this->getDirectoryTree($dir . $value . '/');
 				} 
 				else 
 				{
@@ -537,17 +538,6 @@ class TemplatesModelTemplate extends JModelForm
             }
 
         }
-    }
-
-    public function getLess()
-    {
-        if ($template = $this->getTemplate())
-        {
-            $client 	= JApplicationHelper::getClientInfo($template->client_id);
-            $path = JPath::clean($client->path . '/templates/' . $template->element . '/less/');
-            $less = JFolder::files($path,'\.less');
-        }
-        return $less;
     }
 
     public function compileLess($input)

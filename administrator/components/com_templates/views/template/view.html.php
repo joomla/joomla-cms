@@ -34,7 +34,7 @@ class TemplatesViewTemplate extends JViewLegacy
 
     protected $overridesList;
 
-    protected $less;
+    protected $fileName;
 
 	/**
 	 * Display the view
@@ -52,7 +52,7 @@ class TemplatesViewTemplate extends JViewLegacy
 
         $app            = JFactory::getApplication();
         $this->file     = $app->input->get('file');
-        $this->less     = $this->get('Less');
+        $this->fileName = urldecode(base64_decode($this->file));
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -79,8 +79,7 @@ protected function addToolbar()
 		$bar = JToolBar::getInstance('toolbar');
 		$user  = JFactory::getUser();
 
-        $fileName = urldecode(base64_decode($this->file));
-        $ext = end(explode('.',$fileName));
+        $ext = end(explode('.',$this->fileName));
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 		
@@ -99,12 +98,21 @@ protected function addToolbar()
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
-		
+
+        if ($user->authorise('core.create', 'com_templates'))
+        {
+            $title = JText::_('Save Parameters');
+            $dhtml = "<button data-toggle=\"collapse\" data-target=\"#\" class=\"btn btn-small \">
+			<i class=\"icon-list icon-white\" title=\"$title\"></i>
+			$title</button>";
+            $bar->appendButton('Custom', $dhtml, 'upload');
+        }
+
 		if ($user->authorise('core.create', 'com_templates'))
 		{
-			$title = JText::_('JTOOLBAR_UPLOAD');
+			$title = JText::_('Create Folder');
 			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#\" class=\"btn btn-small \">
-			<i class=\"icon-plus icon-white\" title=\"$title\"></i>
+			<i class=\"icon-folder icon-white\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
@@ -156,8 +164,16 @@ protected function addToolbar()
 		foreach($array as $key => $value)
 		{
 			if(is_array($value))
-			{		
-				echo "<li class='folder'>";
+			{
+                if(stristr($this->fileName,$key) != false)
+                {
+                    $class = "folder show";
+                }
+                else
+                {
+                    $class = "folder";
+                }
+				echo "<li class='" . $class . "'>";
 				echo "<a class='folder-url' href=''><i class='icon-folder-close'>&nbsp;";
 				echo end(explode('/',$key));
 				echo "</i></a>";
@@ -168,7 +184,7 @@ protected function addToolbar()
 			elseif(is_object($value))
 			{		
 				echo "<li>";
-				echo "<a href='" . JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) . "'>";
+				echo "<a class='file' href='" . JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) . "'>";
 				echo "<i class='icon-file'>&nbsp;" . $value->name . "</i>";
 				echo "</a>";
 				echo "</li>";
