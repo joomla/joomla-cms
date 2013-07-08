@@ -48,7 +48,7 @@ if ($saveOrder)
 			</div>
 		</div>
 		<div class="clearfix"> </div>
-		<table class="table table-striped">
+		<table class="table table-striped" id="contentList">
 			<thead>
 				<tr>
 					<th width="1%" class="nowrap center hidden-phone">
@@ -71,12 +71,6 @@ if ($saveOrder)
 					</th>
 					<th width="5%" class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_HEADING_LANG_IMAGE', 'a.image', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ORDERING', 'a.ordering', $listDirn, $listOrder); ?>
-						<?php if ($canOrder && $saveOrder) :?>
-							<?php echo JHtml::_('grid.order', $this->items, 'filesave.png', 'languages.saveorder'); ?>
-						<?php endif; ?>
 					</th>
 					<th width="5%" class="center nowrap">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
@@ -148,7 +142,7 @@ if ($saveOrder)
 						<?php echo $this->escape($item->sef); ?>
 					</td>
 					<td>
-						<?php echo $this->escape($item->image); ?>
+						<?php echo $this->escape($item->image); ?>&nbsp;<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->image, array('title' => $item->image), true); ?>
 					</td>
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
