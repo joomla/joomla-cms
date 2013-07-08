@@ -16,7 +16,7 @@
 class JGoogleDataPicasaAlbumTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    JRegistry  Options for the JClientOAuth2 object.
 	 */
 	protected $options;
 
@@ -31,7 +31,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 	protected $input;
 
 	/**
-	 * @var    JOAuth2Client  The OAuth client for sending requests to Google.
+	 * @var    JClientOAuth2  The OAuth client for sending requests to Google.
 	 */
 	protected $oauth;
 
@@ -67,7 +67,7 @@ class JGoogleDataPicasaAlbumTest extends TestCase
 		$this->options = new JRegistry;
 		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
 		$this->input = new JInput;
-		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
+		$this->oauth = new JClientOAuth2($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
 		$this->xml = new SimpleXMLElement(file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'album.txt'));
 		$this->object = new JGoogleDataPicasaAlbum($this->xml, $this->options, $this->auth);

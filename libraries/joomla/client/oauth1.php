@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  OAuth1
+ * @subpackage  Client
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die();
 abstract class JClientOAuth1
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth1Client object.
+	 * @var    JRegistry  Options for the JClientOAuth1 object.
 	 * @since  13.1
 	 */
 	protected $options;
@@ -546,7 +546,7 @@ abstract class JClientOAuth1
 	abstract public function verifyCredentials();
 
 	/**
-	 * Get an option from the JOauth1aClient instance.
+	 * Get an option from the JClientOauth1a instance.
 	 *
 	 * @param   string  $key  The name of the option to get
 	 *
@@ -560,12 +560,12 @@ abstract class JClientOAuth1
 	}
 
 	/**
-	 * Set an option for the JOauth1aClient instance.
+	 * Set an option for the JClientOauth1a instance.
 	 *
 	 * @param   string  $key    The name of the option to set
 	 * @param   mixed   $value  The option value to set
 	 *
-	 * @return  JOAuth1Client  This object for method chaining
+	 * @return  JClientOAuth1  This object for method chaining
 	 *
 	 * @since   13.1
 	 */
@@ -593,7 +593,7 @@ abstract class JClientOAuth1
 	 *
 	 * @param   array  $token  The access token key and secret.
 	 *
-	 * @return  JOAuth1Client  This object for method chaining.
+	 * @return  JClientOAuth1  This object for method chaining.
 	 *
 	 * @since   13.1
 	 */

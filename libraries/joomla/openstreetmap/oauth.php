@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die();
  * @subpackage  Openstreetmap
  * @since       13.1
  */
-class JOpenstreetmapOauth extends JOAuth1Client
+class JOpenstreetmapOauth extends JClientOAuth1
 {
 	/**
 	 * Options for the JOpenstreetmapOauth object.
@@ -49,7 +49,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 		$this->options->def('requestTokenURL', 'http://api06.dev.openstreetmap.org/oauth/request_token');
 		*/
 
-		// Call the JOauth1Client constructor to setup the object.
+		// Call the JClientOAuth1 constructor to setup the object.
 		parent::__construct($this->options, $client, $input, null, '1.0');
 	}
 

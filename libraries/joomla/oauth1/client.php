@@ -18,7 +18,7 @@ jimport('joomla.environment.response');
  * @since       13.1
  * @deprecated  4.0  Use JClientOAuth1 instead.
  */
-abstract class JOAuth1 extends JClientOAuth1
+abstract class JOAuth1Client extends JClientOAuth1
 {
 	/**
 	 * Constructor.

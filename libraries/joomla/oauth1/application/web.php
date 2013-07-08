@@ -55,7 +55,7 @@ class JOAuth1ApplicationWeb extends JApplicationWeb
 	 *
 	 * @since   12.1
 	 */
-	public function loadIdentity(JIdentity $identity = null)
+	public function loadIdentity(JUser $identity = null)
 	{
 		if ($identity === null)
 		{

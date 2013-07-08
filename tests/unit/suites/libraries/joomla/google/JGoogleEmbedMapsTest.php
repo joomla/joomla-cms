@@ -16,7 +16,7 @@
 class JGoogleEmbedMapsTest extends TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
+	 * @var    JRegistry  Options for the JClientOAuth2 object.
 	 */
 	protected $options;
 
