@@ -23,16 +23,18 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @var    boolean
 	 * @since  3.2
+	 * @deprecated  4.0  Will be renamed $language_filter
 	 */
-	private $_language_filter = false;
+	protected $_language_filter = false;
 
 	/**
 	 * Option to detect language by the browser
 	 *
 	 * @var    boolean
 	 * @since  3.2
+	 * @deprecated  4.0  Will be renamed $detect_browser
 	 */
-	private $_detect_browser = false;
+	protected $_detect_browser = false;
 
 	/**
 	 * Class constructor.
