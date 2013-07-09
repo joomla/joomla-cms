@@ -82,7 +82,6 @@ final class JApplicationAdministrator extends JApplicationCms
 
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
-				$this->set('themeFile', $this->input->get('tmpl', 'index') . '.php');
 				$this->set('themeParams', $template->params);
 
 				break;
@@ -496,6 +495,8 @@ final class JApplicationAdministrator extends JApplicationCms
 			$file = 'login';
 		}
 
+		$this->set('themeFile', $file . '.php');
+
 		// Safety check for when configuration.php root_user is in use.
 		$config = JFactory::getConfig();
 		$rootUser = $config->get('root_user');
@@ -513,41 +514,7 @@ final class JApplicationAdministrator extends JApplicationCms
 			);
 		}
 
-		// Setup the document options.
-		$options = array(
-			'template' => $this->get('theme'),
-			'file' => $file . '.php',
-			'params' => $this->get('themeParams')
-		);
-
-		if ($this->get('themes.base'))
-		{
-			$options['directory'] = $this->get('themes.base');
-		}
-		// Fall back to constants.
-		else
-		{
-			$options['directory'] = defined('JPATH_THEMES') ? JPATH_THEMES : (defined('JPATH_BASE') ? JPATH_BASE : __DIR__) . '/themes';
-		}
-
-		// Parse the document.
-		$this->document->parse($options);
-
-		// Trigger the onBeforeRender event.
-		JPluginHelper::importPlugin('system');
-		$this->triggerEvent('onBeforeRender');
-
-		// Render the document.
-		$data = $this->document->render(false, $options);
-
-		// Set the application output data.
-		$this->setBody($data);
-
-		// Trigger the onAfterRender event.
-		$this->triggerEvent('onAfterRender');
-
-		// Mark afterRender in the profiler.
-		JDEBUG ? $this->profiler->mark('afterRender') : null;
+		parent::render();
 	}
 
 	/**

@@ -150,7 +150,6 @@ final class JApplicationSite extends JApplicationCms
 
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
-				$this->set('themeFile', $this->input->get('tmpl', 'index') . '.php');
 				$this->set('themeParams', $template->params);
 
 				break;
@@ -681,7 +680,7 @@ final class JApplicationSite extends JApplicationCms
 			case 'html':
 			default:
 				$template = $this->getTemplate(true);
-				$file     = $this->get('themeFile', 'index.php');
+				$file     = $this->input->get('tmpl', 'index');
 
 				if (!$this->get('offline') && ($file == 'offline'))
 				{
@@ -698,6 +697,12 @@ final class JApplicationSite extends JApplicationCms
 				if (!is_dir(JPATH_THEMES . '/' . $template->template) && !$this->get('offline'))
 				{
 					$this->set('themeFile', 'component.php');
+				}
+
+				// Ensure themeFile is set by now
+				if ($this->get('themeFile') == '')
+				{
+					$this->set('themeFile', 'index.php');
 				}
 
 				break;
