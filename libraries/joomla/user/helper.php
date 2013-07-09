@@ -404,8 +404,9 @@ abstract class JUserHelper
 
 			case 'bcrypt':
 			default:
+
 				if (!defined('PASSWORD_DEFAULT') && (version_compare(PHP_VERSION, '5.3.6', '>')
-						|| static::checkVersionForCrypt ))
+						|| static::hasStrongPasswords()))
 				{
 					include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
 				}
@@ -422,12 +423,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					// Get the salt to use.
-					$salt = JUserHelper::getSalt('md5-hex', $salt, $plaintext);
-
-					$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
-
-					return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+					return static::getCryptedPassword($plaintext, '', 'md5-hex', false, $show_encrypt);
 
 				}
 		}
@@ -442,28 +438,35 @@ abstract class JUserHelper
 	 *
 	 * @since   3.1.2
 	 */
-		static public function prepareCrypt()
+		static public function hasStrongPasswords()
 		{
-			// Check to see whether crypt() is supported
-			$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
-			$test = crypt("password", $hash);
-			$pass = $test == $hash;
+			static $pass = null;
 
-			if ($pass)
+			if (is_null($pass))
 			{
-				return $pass;
+			// Check to see whether crypt() is supported.
+			if (version_compare(PHP_VERSION, '5.3.6', '>'))
+			{
+				// We have safe PHP version.
+				$pass = true;
+				}
+				else
+				{
+					// We need to test if we have patched PHP version.
+					$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
+					$test = crypt("password", $hash);
+					$pass = ($test == $hash);
 			}
-			if (!defined('PASSWORD_DEFAULT') && (version_compare(PHP_VERSION, '5.3.6', '>')
-					|| static::checkVersionForCrypt ))
+
+			if ($pass && !defined('PASSWORD_DEFAULT'))
 			{
+				// Always make sure that the password hashing API has been defined.
 				include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
-
-				return true;
 			}
-
-			return false;
 		}
 
+		  return $pass;
+		}
 	/**
 	 * Returns a salt for the appropriate kind of password encryption.
 	 * Optionally takes a seed and a plaintext password, to extract the seed
@@ -569,6 +572,9 @@ abstract class JUserHelper
 				}
 				break;
 
+			// BCrypt is aliased because a BCrypt has may be requested when it is not present, and so it falls back to
+			// the default behavior of generating a salt.
+			case 'bcrypt';
 			default:
 				$salt = '';
 
