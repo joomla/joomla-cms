@@ -78,7 +78,7 @@ $langs = isset($app->languages_enabled);
 				</div>
 			</div>
 		<?php else : ?>
-		<input type="hidden" name="language" value="<?php echo displayData->get('form')->getValue('language'); ?>" />
+		<input type="hidden" name="language" value="<?php echo $displayData->get('form')->getValue('language'); ?>" />
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="control-label">
