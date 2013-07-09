@@ -405,7 +405,7 @@ abstract class JUserHelper
 			case 'bcrypt':
 			default:
 
-				if (defined('PASSWORD_DEFAULT'))
+				if (static::hasStrongPasswords())
 				{
 					$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
 
@@ -464,6 +464,7 @@ abstract class JUserHelper
 
 		  return $pass;
 		}
+
 	/**
 	 * Returns a salt for the appropriate kind of password encryption.
 	 * Optionally takes a seed and a plaintext password, to extract the seed
@@ -498,7 +499,6 @@ abstract class JUserHelper
 					return substr(md5(mt_rand()), 0, 2);
 				}
 				break;
-
 
 			case 'crypt-md5':
 				if ($seed)

@@ -560,17 +560,7 @@ class JUser extends JObject
 			$salt = JUserHelper::genRandomPassword(32);
 			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
 
-			if (JUserHelper::hasStrongPasswords())
-			{
-				$passwordInfo = password_get_info($array['password']);
-				$array['password'] = $crypt . (($passwordInfo['algo'] != 0
-					&& $passwordInfo('algoName') != 'unknown') ? null : $salt);
-			}
-			else
-			{
-				$array['password'] = substr($crypt,0,4) == '$2y$' ? null : $salt;
-
-			}
+			$array['password'] = $this->createPasswordString($array['password']);
 
 			// Set the registration timestamp
 			$this->set('registerDate', JFactory::getDate()->toSql());
@@ -585,6 +575,7 @@ class JUser extends JObject
 
 			// Check that password is not greater than 100 characters
 			$password = $this->get('password');
+
 			if (strlen($password) > 100)
 			{
 				$password = substr($password, 0, 100);
@@ -604,19 +595,7 @@ class JUser extends JObject
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-
-				if (JUserHelper::hasStrongPasswords())
-				{
-					$passwordInfo = password_get_info($array['password']);
-					$array['password'] = $crypt . (($passwordInfo['algo'] != 0
-							&& $passwordInfo('algoName') != 'unknown') ? null : $salt);
-				}
-				else
-				{
-					$array['password'] = substr($crypt, 0, 4) == '$2y$' ? null : $salt;
-				}
+				$array['password'] = $this->createPasswordString($array['password']);
 			}
 			else
 			{
@@ -858,5 +837,21 @@ class JUser extends JObject
 		}
 
 		return true;
+	}
+	protected function createPasswordString($passwordString)
+	{
+		$salt = JUserHelper::genRandomPassword(32);
+		$crypt = JUserHelper::getCryptedPassword($passwordString, $salt);
+
+		if (JUserHelper::hasStrongPasswords())
+		{
+			$passwordInfo = password_get_info($passwordString);
+			return $crypt . (($passwordInfo['algo'] != 0
+					&& $passwordInfo('algoName') != 'unknown') ? null : $salt);
+		}
+		else
+		{
+			return substr($crypt, 0, 4) == '$2y$' ? null : $salt;
+		}
 	}
 }
