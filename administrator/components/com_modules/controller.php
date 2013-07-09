@@ -35,6 +35,9 @@ class ModulesController extends JControllerLegacy
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
+/*
+* TODO: THIS IS NOT NEEDED IMHO, AND PROBLEM IF PERSISTING SHOULD BE RESOLVED DIFFERENTLY
+* TODO: REFERENCE OF COMMIT REFERENCE THAT GOT IT ADDED: http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=21327
 		// Check for edit form.
 		if ($view == 'module' && $layout == 'edit' && !$this->checkEditId('com_modules.edit.module', $id))
 		{
@@ -45,6 +48,7 @@ class ModulesController extends JControllerLegacy
 
 			return false;
 		}
+*/
 
 		parent::display();
 	}

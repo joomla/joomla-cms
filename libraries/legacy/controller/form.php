@@ -311,6 +311,9 @@ class JControllerForm extends JControllerLegacy
 		// Attempt to check-in the current record.
 		if ($recordId)
 		{
+/*
+ * TODO: THIS IS NOT NEEDED IMHO, AND PROBLEM IF PERSISTING SHOULD BE RESOLVED DIFFERENTLY
+ * TODO: REFERENCE OF COMMIT REFERENCE THAT GOT IT ADDED: http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=21327
 			// Check we are holding the id in the edit list.
 			if (!$this->checkEditId($context, $recordId))
 			{
@@ -327,6 +330,7 @@ class JControllerForm extends JControllerLegacy
 
 				return false;
 			}
+*/
 
 			if ($checkin)
 			{
@@ -576,6 +580,9 @@ class JControllerForm extends JControllerLegacy
 
 		$recordId = $this->input->getInt($urlVar);
 
+/*
+ * TODO: THIS IS NOT NEEDED IMHO, AND PROBLEM IF PERSISTING SHOULD BE RESOLVED DIFFERENTLY
+ * TODO: REFERENCE OF COMMIT REFERENCE THAT GOT IT ADDED: http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=21327
 		if (!$this->checkEditId($context, $recordId))
 		{
 			// Somehow the person just went to the form and tried to save it. We don't allow that.
@@ -591,6 +598,7 @@ class JControllerForm extends JControllerLegacy
 
 			return false;
 		}
+*/
 
 		// Populate the row id from the session.
 		$data[$key] = $recordId;
