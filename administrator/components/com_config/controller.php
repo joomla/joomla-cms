@@ -49,9 +49,9 @@ class ConfigController extends JControllerLegacy
 		{
 			$controller = new ConfigControllerApplicationDisplay;
 		}
-		else if (ucfirst($vName) == 'Application')
+		else if (ucfirst($vName) == 'Component')
 		{
-			$controller = new ConfigControllercomponentDisplay;
+			$controller = new ConfigControllerComponentDisplay;
 		}
 
 		return $controller->execute();
