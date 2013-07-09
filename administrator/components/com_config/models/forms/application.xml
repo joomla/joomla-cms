@@ -646,6 +646,8 @@
 			<option value="30">J30</option>
 			<option value="50">J50</option>
 			<option value="100">J100</option>
+			<option value="500">J500</option>
+			<option value="1000">J1000</option>
 		</field>
 
 		<field

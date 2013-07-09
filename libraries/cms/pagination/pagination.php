@@ -470,6 +470,8 @@ class JPagination
 
 		$limits[] = JHtml::_('select.option', '50', JText::_('J50'));
 		$limits[] = JHtml::_('select.option', '100', JText::_('J100'));
+		$limits[] = JHtml::_('select.option', '100', JText::_('J500'));
+		$limits[] = JHtml::_('select.option', '1000', JText::_('J1000'));		
 		$limits[] = JHtml::_('select.option', '0', JText::_('JALL'));
 
 		$selected = $this->viewall ? 0 : $this->limit;
