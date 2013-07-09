@@ -615,11 +615,7 @@ class JUser extends JObject
 				else
 				{
 					$array['password'] = substr($crypt, 0, 4) == '$2y$' ? null : $salt;
-
 				}
-
-
-				//				$array['password'] = $crypt . ':' . $salt;
 			}
 			else
 			{
