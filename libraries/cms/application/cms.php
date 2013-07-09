@@ -836,6 +836,33 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Redirect to another URL.
+	 *
+	 * If the headers have not been sent the redirect will be accomplished using a "301 Moved Permanently"
+	 * or "303 See Other" code in the header pointing to the new location. If the headers have already been
+	 * sent this will be accomplished using a JavaScript statement.
+	 *
+	 * @param   string   $url    The URL to redirect to. Can only be http/https URL
+	 * @param   boolean  $moved  True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function redirect($url, $moved = false)
+	{
+		// Persist messages if they exist.
+		if (count($this->_messageQueue))
+		{
+			$session = JFactory::getSession();
+			$session->set('application.queue', $this->_messageQueue);
+		}
+
+		// Hand over processing to the parent now
+		parent::redirect($url, $moved);
+	}
+
+	/**
 	 * Rendering is the process of pushing the document buffers into the template
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the application response buffer.
