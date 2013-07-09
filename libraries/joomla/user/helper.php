@@ -398,7 +398,6 @@ abstract class JUserHelper
 				return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
 
 			case 'md5-hex':
-			default:
 				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
 
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
@@ -423,6 +422,9 @@ abstract class JUserHelper
 				}
 				else
 				{
+					// Get the salt to use.
+					$salt = JUserHelper::getSalt('md5-hex', $salt, $plaintext);
+
 					$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
 
 					return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
