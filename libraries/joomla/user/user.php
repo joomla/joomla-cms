@@ -568,7 +568,7 @@ class JUser extends JObject
 			}
 			else
 			{
-				substr($crypt,0,4) == '$2y$' ? null : $salt;
+				$array['password'] = substr($crypt,0,4) == '$2y$' ? null : $salt;
 
 			}
 
@@ -606,7 +606,20 @@ class JUser extends JObject
 
 				$salt = JUserHelper::genRandomPassword(32);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-				$array['password'] = $crypt . ':' . $salt;
+				if (function_exists(password_get_info))
+				{
+					$passwordInfo = password_get_info($array['password']);
+					$array['password'] = $crypt . (($passwordInfo['algo'] != 0
+							&& $passwordInfo('algoName') != 'unknown') ? null : $salt);
+				}
+				else
+				{
+					$array['password'] = substr($crypt, 0, 4) == '$2y$' ? null : $salt;
+
+				}
+
+
+				//				$array['password'] = $crypt . ':' . $salt;
 			}
 			else
 			{
