@@ -34,7 +34,6 @@ class WeblinksViewWeblink extends JViewLegacy
 		$this->state	= $this->get('State');
 		$this->item		= $this->get('Item');
 		$this->form		= $this->get('Form');
-		$this->langs	= isset($app->has_languages) ? $app->has_languages : 0;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

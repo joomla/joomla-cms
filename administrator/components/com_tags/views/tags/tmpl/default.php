@@ -29,7 +29,11 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax';
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
+
 $sortFields = $this->getSortFields();
+
+$langs = isset($app->languages_enabled);
+$assoc = isset($app->item_associations);
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -106,7 +110,7 @@ $sortFields = $this->getSortFields();
 					<th>
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($this->langs) : ?>
+					<?php if ($langs) : ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 						</th>
@@ -208,7 +212,7 @@ $sortFields = $this->getSortFields();
 								<?php endif; ?>
 							</span>
 						</td>
-						<?php if ($this->langs) : ?>
+						<?php if ($langs) : ?>
 							<td class="nowrap hidden-phone">
 								<?php if ($item->language == '*') : ?>
 									<?php echo JText::alt('JALL', 'language'); ?>

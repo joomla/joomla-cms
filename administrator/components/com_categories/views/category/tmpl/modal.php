@@ -204,12 +204,16 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('access'); ?>
 					</div>
 				</div>
-				<div class="control-group">
-					<?php echo $this->form->getLabel('language'); ?>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
+				<?php if ($this->langs) : ?>
+					<div class="control-group">
+						<?php echo $this->form->getLabel('language'); ?>
+						<div class="controls">
+							<?php echo $this->form->getInput('language'); ?>
+						</div>
 					</div>
-				</div>
+				<?php else : ?>
+					<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
+				<?php endif; ?>
 				<div class="control-group">
 					<?php if ($this->checkTags) : ?>
 						<div class="control-group">

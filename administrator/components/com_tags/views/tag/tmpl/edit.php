@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $app = JFactory::getApplication();
-$input = $app->input;
+$langs = isset($app->languages_enabled);
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
@@ -201,13 +201,15 @@ $params = $params->toArray();
 					<?php echo $this->form->getInput('access'); ?>
 				</div>
 			</div>
-			<?php if ($this->langs) : ?>
+			<?php if ($langs) : ?>
 			<div class="control-group">
 				<?php echo $this->form->getLabel('language'); ?>
 				<div class="controls">
 					<?php echo $this->form->getInput('language'); ?>
 				</div>
 			</div>
+			<?php else : ?>
+			<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
 			<?php endif; ?>
 		</fieldset>
 	</div>

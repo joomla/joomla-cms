@@ -212,7 +212,7 @@ $input = $app->input;
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</fieldset>
 
-		<?php if ($this->assoc) : ?>
+		<?php if ($assoc) : ?>
 		<div class="hidden">
 			<?php echo $this->loadTemplate('associations'); ?>
 		</div>

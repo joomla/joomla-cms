@@ -36,7 +36,7 @@ class CategoriesViewCategories extends JViewLegacy
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
-		$this->langs		= isset($app->has_languages) ? $app->has_languages : 0;
+		$this->langs		= isset($app->languages_enabled) ? $app->languages_enabled : 0;
 		$this->assoc		= $this->langs ? $this->get('Assoc') : 0;
 
 		// Check for errors.

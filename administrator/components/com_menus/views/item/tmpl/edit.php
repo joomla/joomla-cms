@@ -18,8 +18,8 @@ JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-
+$langs = isset($app->languages_enabled);
+$assoc = isset($app->item_associations);
 ?>
 
 <script type="text/javascript">
@@ -238,14 +238,18 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								<?php echo $this->form->getInput('template_style_id'); ?>
 							</div>
 						</div>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $this->form->getLabel('language'); ?>
+						<?php if ($langs) : ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('language'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('language'); ?>
+								</div>
 							</div>
-							<div class="controls">
-								<?php echo $this->form->getInput('language'); ?>
-							</div>
-						</div>
+						<?php else : ?>
+							<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
+						<?php endif; ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('note'); ?>

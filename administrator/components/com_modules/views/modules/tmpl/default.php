@@ -14,6 +14,7 @@ JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app		= JFactory::getApplication();
 $client		= $this->state->get('filter.client_id') ? 'administrator' : 'site';
 $user		= JFactory::getUser();
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -26,7 +27,10 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_modules&task=modules.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 $sortFields = $this->getSortFields();
+
+$langs = isset($app->languages_enabled);
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -107,11 +111,13 @@ $sortFields = $this->getSortFields();
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 					</th>
+					<?php if ($langs) : ?>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
+						</th>
+					<?php endif; ?>
 					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-					</th>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -218,18 +224,19 @@ $sortFields = $this->getSortFields();
 					<td class="hidden-phone">
 						<?php echo $item->pages; ?>
 					</td>
-
+					<?php if ($langs) : ?>
+						<td class="hidden-phone">
+							<?php if ($item->language == ''):?>
+								<?php echo JText::_('JDEFAULT'); ?>
+							<?php elseif ($item->language == '*'):?>
+								<?php echo JText::alt('JALL', 'language'); ?>
+							<?php else:?>
+								<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+							<?php endif;?>
+						</td>
+					<?php endif; ?>
 					<td class="hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>
-					</td>
-					<td class="hidden-phone">
-						<?php if ($item->language == ''):?>
-							<?php echo JText::_('JDEFAULT'); ?>
-						<?php elseif ($item->language == '*'):?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else:?>
-							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-						<?php endif;?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo (int) $item->id; ?>

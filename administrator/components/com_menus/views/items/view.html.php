@@ -277,7 +277,7 @@ class MenusViewItems extends JViewLegacy
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
 
-		if ($this->langs)
+		if (isset(JFactory::getApplication()->languages_enabled))
 		{
 			JHtmlSidebar::addFilter(
 				JText::_('JOPTION_SELECT_LANGUAGE'),

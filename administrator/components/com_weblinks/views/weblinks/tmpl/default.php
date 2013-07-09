@@ -15,6 +15,7 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -27,6 +28,8 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'weblinkList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
+
+$langs = isset($app->languages_enabled);
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -97,15 +100,15 @@ $sortFields = $this->getSortFields();
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($this->langs) : ?>
-					<th width="5%" class="nowrap hidden-phone">
+					<?php if ($langs) : ?>
+					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 					</th>
 					<?php endif; ?>
-					<th width="5%" class="nowrap center hidden-phone">
+					<th width="10%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
+					<th width="10%" class="nowrap hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap center hidden-phone">
@@ -172,7 +175,7 @@ $sortFields = $this->getSortFields();
 							<?php echo $this->escape($item->category_title); ?>
 						</div>
 					</td>
-					<?php if ($this->langs) : ?>
+					<?php if ($langs) : ?>
 					<td class="nowrap hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>

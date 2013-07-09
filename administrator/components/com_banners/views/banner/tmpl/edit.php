@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+
+$app = JFactory::getApplication();
+$langs = isset($app->languages_enabled);
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -206,7 +209,7 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php echo $this->form->getInput('sticky'); ?>
 				</div>
 			</div>
-			<?php if ($this->langs) : ?>
+			<?php if ($langs) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('language'); ?>
@@ -215,6 +218,8 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php echo $this->form->getInput('language'); ?>
 				</div>
 			</div>
+			<?php else : ?>
+			<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
 			<?php endif; ?>
 		</fieldset>
 	</div>

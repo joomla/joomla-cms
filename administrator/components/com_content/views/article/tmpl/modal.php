@@ -27,6 +27,7 @@ $editoroptions = isset($params['show_publishing_options']);
 
 $app = JFactory::getApplication();
 $input = $app->input;
+$assoc = isset($app->item_associations);
 
 if (!$editoroptions)
 {
@@ -293,7 +294,7 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-			<?php if ($this->assoc) : ?>
+			<?php if ($assoc) : ?>
 				<div class="hidden">
 					<?php echo $this->loadTemplate('associations'); ?>
 				</div>

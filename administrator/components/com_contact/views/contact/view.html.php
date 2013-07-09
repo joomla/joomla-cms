@@ -29,13 +29,9 @@ class ContactViewContact extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->langs	= isset($app->has_languages) ? $app->has_languages : 0;
-		$this->assoc	= isset($app->item_associations) ? $app->item_associations : 0;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

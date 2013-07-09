@@ -14,7 +14,7 @@ $app = JFactory::getApplication();
 // JLayout for standard handling of the details sidebar in administrator edit screens.
 $title = $displayData->get('form')->getValue('title');
 $published = $displayData->get('form')->getField('published');
-$langs = $displayData->get('langs', (isset($app->has_languages) ? $app->has_languages : 0));
+$langs = isset($app->languages_enabled);
 ?>
 <div class="span2">
 	<h4><?php echo JText::_('JDETAILS'); ?></h4>
@@ -77,6 +77,8 @@ $langs = $displayData->get('langs', (isset($app->has_languages) ? $app->has_lang
 					<?php echo $displayData->get('form')->getInput('language'); ?>
 				</div>
 			</div>
+		<?php else : ?>
+		<input type="hidden" name="language" value="<?php echo displayData->get('form')->getValue('language'); ?>" />
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="control-label">

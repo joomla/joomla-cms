@@ -16,6 +16,7 @@ JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app = JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -31,6 +32,9 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
+
+$langs = isset($app->languages_enabled);
+$assoc = isset($app->item_associations);
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -101,7 +105,7 @@ $sortFields = $this->getSortFields();
 					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_BANNERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($this->langs) : ?>
+					<?php if ($langs) : ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
@@ -216,7 +220,7 @@ $sortFields = $this->getSortFields();
 						</div>
 					</td>
 
-					<?php if ($this->langs) : ?>
+					<?php if ($langs) : ?>
 						<td class="nowrap hidden-phone">
 							<?php if ($item->language == '*'):?>
 								<?php echo JText::alt('JALL', 'language'); ?>

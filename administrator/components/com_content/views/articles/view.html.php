@@ -38,8 +38,6 @@ class ContentViewArticles extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 		$this->authors		= $this->get('Authors');
-		$this->langs		= isset($app->has_languages) ? $app->has_languages : 0;
-		$this->assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -168,7 +166,7 @@ class ContentViewArticles extends JViewLegacy
 			JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'))
 		);
 
-		if ($this->langs)
+		if (isset(JFactory::getApplication()->languages_enabled))
 		{
 			JHtmlSidebar::addFilter(
 				JText::_('JOPTION_SELECT_LANGUAGE'),

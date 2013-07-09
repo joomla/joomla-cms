@@ -34,8 +34,6 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
-		$this->langs	= isset($app->has_languages) ? $app->has_languages : 0;
-		$this->assoc	= isset($app->item_associations) ? $app->item_associations : 0;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -125,8 +123,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
 
-
-		if ($this->langs)
+		if (isset(JFactory::getApplication()->languages_enabled))
 		{
 			JHtmlSidebar::addFilter(
 				JText::_('JOPTION_SELECT_LANGUAGE'),

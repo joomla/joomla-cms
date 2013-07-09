@@ -15,6 +15,9 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app = JFactory::getApplication();
+$langs = isset($app->languages_enabled);
+
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 
 // Get Params Fieldsets
@@ -126,6 +129,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							</div>
 						<?php endif; ?>
 
+						<?php if ($langs) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('language'); ?>
@@ -134,6 +138,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 								<?php echo $this->form->getInput('language'); ?>
 							</div>
 						</div>
+						<?php else : ?>
+						<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
+						<?php endif; ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('note'); ?>

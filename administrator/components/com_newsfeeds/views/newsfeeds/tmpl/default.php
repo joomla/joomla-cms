@@ -30,7 +30,11 @@ if ($saveOrder)
 	$saveOrderingUrl = 'index.php?option=com_newsfeeds&task=newsfeeds.saveOrderAjax&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
+
 $sortFields = $this->getSortFields();
+
+$langs = isset($app->languages_enabled);
+$assoc = isset($app->item_associations);
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -101,12 +105,12 @@ $sortFields = $this->getSortFields();
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($this->langs) : ?>
+					<?php if ($langs) : ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<?php if ($this->assoc) : ?>
+					<?php if ($assoc) : ?>
 						<th width="10%" class="nowrap hidden-phone center">
 							<?php echo JHtml::_('grid.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
@@ -219,7 +223,7 @@ $sortFields = $this->getSortFields();
 						</div>
 
 					</td>
-					<?php if ($this->langs) : ?>
+					<?php if ($langs) : ?>
 					<td class="hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
@@ -228,7 +232,7 @@ $sortFields = $this->getSortFields();
 						<?php endif;?>
 					</td>
 					<?php endif;?>
-					<?php if ($this->assoc) : ?>
+					<?php if ($assoc) : ?>
 						<td class="hidden-phone">
 							<?php if ($item->association) : ?>
 								<?php echo JHtml::_('newsfeed.association', $item->id); ?>

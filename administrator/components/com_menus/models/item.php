@@ -740,9 +740,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		if ($assoc)
+		if (isset(JFactory::getApplication()->item_associations))
 		{
 			if ($pk != null)
 			{
@@ -1038,9 +1036,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Association menu items
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		if ($assoc)
+		if (isset(JFactory::getApplication()->item_associations))
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
@@ -1246,9 +1242,7 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $table->menutype);
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		if ($assoc)
+		if (isset(JFactory::getApplication()->item_associations))
 		{
 			// Adding self to the association
 			$associations = $data['associations'];

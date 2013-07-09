@@ -36,7 +36,6 @@ class BannersViewBanner extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->langs	= isset($app->has_languages) ? $app->has_languages : 0;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

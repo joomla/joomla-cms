@@ -16,6 +16,7 @@ JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
@@ -30,6 +31,9 @@ if ($saveOrder)
 }
 
 $sortFields = $this->getSortFields();
+
+$langs = isset($app->languages_enabled);
+$assoc = isset($app->item_associations);
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -107,12 +111,12 @@ $sortFields = $this->getSortFields();
 					<th>
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($this->langs) : ?>
+					<?php if ($langs) : ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<?php if ($this->assoc) : ?>
+					<?php if ($assoc) : ?>
 						<th width="10%" class="nowrap hidden-phone center">
 							<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
@@ -233,7 +237,7 @@ $sortFields = $this->getSortFields();
 								?>
 							</div>
 						</td>
-						<?php if ($this->langs) : ?>
+						<?php if ($langs) : ?>
 							<td class="hidden-phone">
 								<?php if ($item->language == '*'): ?>
 									<?php echo JText::alt('JALL', 'language'); ?>
@@ -242,7 +246,7 @@ $sortFields = $this->getSortFields();
 								<?php endif; ?>
 							</td>
 						<?php endif; ?>
-						<?php if ($this->assoc) : ?>
+						<?php if ($assoc) : ?>
 							<td class="hidden-phone center">
 								<?php if ($item->association) : ?>
 									<?php echo JHtml::_('contentadministrator.association', $item->id); ?>

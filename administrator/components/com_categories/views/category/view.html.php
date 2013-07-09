@@ -24,6 +24,8 @@ class CategoriesViewCategory extends JViewLegacy
 
 	protected $state;
 
+	protected $langs;
+
 	protected $assoc;
 
 	/**
@@ -37,7 +39,7 @@ class CategoriesViewCategory extends JViewLegacy
 		$this->item = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->canDo = CategoriesHelper::getActions($this->state->get('category.component'));
-		$this->langs = isset($app->has_languages) ? $app->has_languages : 0;
+		$this->langs = isset($app->languages_enabled) ? $app->languages_enabled : 0;
 		$this->assoc = $this->langs ? $this->get('Assoc') : 0;
 
 		$input = JFactory::getApplication()->input;

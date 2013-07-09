@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $app = JFactory::getApplication();
 $input = $app->input;
+$assoc = isset($app->item_associations);
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
@@ -144,7 +145,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 			<?php echo $this->loadTemplate('extrafields'); ?>
 
-			<?php if ($this->assoc) : ?>
+			<?php if ($assoc) : ?>
 				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 				<fieldset>
 					<?php echo $this->loadTemplate('associations'); ?>
@@ -201,6 +202,8 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('language'); ?>
 					</div>
 				</div>
+				<?php else : ?>
+				<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
 				<?php endif; ?>
 				<div class="control-group">
 					<?php echo $this->form->getLabel('tags'); ?>
