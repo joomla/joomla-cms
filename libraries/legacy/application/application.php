@@ -618,9 +618,11 @@ class JApplication extends JApplicationBase
 			// Validate that the user should be able to login (different to being authenticated).
 			// This permits authentication plugins blocking the user
 			$authorisations = $authenticate->authorise($response, $options);
+
 			foreach ($authorisations as $authorisation)
 			{
 				$denied_states = array(JAuthentication::STATUS_EXPIRED, JAuthentication::STATUS_DENIED);
+
 				if (in_array($authorisation->status, $denied_states))
 				{
 					// Trigger onUserAuthorisationFailure Event.
@@ -638,9 +640,11 @@ class JApplication extends JApplicationBase
 						case JAuthentication::STATUS_EXPIRED:
 							return JError::raiseWarning('102002', JText::_('JLIB_LOGIN_EXPIRED'));
 							break;
+
 						case JAuthentication::STATUS_DENIED:
 							return JError::raiseWarning('102003', JText::_('JLIB_LOGIN_DENIED'));
 							break;
+
 						default:
 							return JError::raiseWarning('102004', JText::_('JLIB_LOGIN_AUTHORISATION'));
 							break;
@@ -650,6 +654,10 @@ class JApplication extends JApplicationBase
 
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
+			if (JPluginHelper::isEnabled('system', 'remember'))
+			{
+				$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+			}
 
 			// OK, the credentials are authenticated and user is authorised.  Lets fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
@@ -662,25 +670,26 @@ class JApplication extends JApplicationBase
 			 * to provide much more information about why the routine may have failed.
 			 */
 
-			if (!in_array(false, $results, true))
+			if ($response->type == 'Remember')
+			{
+				$user = JFactory::getUser()->set('rememberLogin', true);
+			}
+
+			if (in_array(false, $results, true) == false)
 			{
 				// Set the remember me cookie if enabled.
-				if (isset($options['remember']) && $options['remember'])
+				if ((isset($options['remember']) &&  $options['remember'] === true) || $response->type == 'Remember' )
 				{
-					// Create the encryption key, apply extra hardening using the user agent string.
-					$privateKey = self::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
-					$key = new JCryptKey('simple', $privateKey, $privateKey);
-					$crypt = new JCrypt(new JCryptCipherSimple, $key);
-					$rcookie = $crypt->encrypt(json_encode($credentials));
-					$lifetime = time() + 365 * 24 * 60 * 60;
+					if (JPluginHelper::isEnabled('system', 'remember'))
+					{
+						$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+					}
 
-					// Use domain and path set in config for cookie if it exists.
-					$cookie_domain = $this->getCfg('cookie_domain', '');
-					$cookie_path = $this->getCfg('cookie_path', '/');
+					// The user is successfully logged in. Set a remember me cookie if requested.
+					$this->triggerEvent('onUserAfterLogin', array($options));
 
-					$secure = $this->isSSLConnection();
-					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
+					return true;
 				}
 
 				return true;
@@ -743,15 +752,26 @@ class JApplication extends JApplicationBase
 		// OK, the credentials are built. Lets fire the onLogout event.
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
-		// Check if any of the plugins failed. If none did, success.
+		if ($options['remember'] === true)
+		{
+			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+		}
 
 		if (!in_array(false, $results, true))
 		{
-			// Use domain and path set in config for cookie if it exists.
-			$cookie_domain = $this->getCfg('cookie_domain', '');
-			$cookie_path = $this->getCfg('cookie_path', '/');
-			setcookie(self::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+			$cookieName = self::getHash('JLOGIN_REMEMBER');
+			$inputCookie = new JInputCookie();
 
+			if (!empty($cookieName))
+			{
+				$cookieValue = $inputCookie->get($cookieName);
+				$cookie_domain = $this->getCfg('cookie_domain', '');
+				$cookie_path = $this->getCfg('cookie_path', '/');
+
+				$options = array('cookieName' => $cookieName, 'cookieValue' =>$cookieValue, 'cookie_path' => $cookie_path, 'cookie_domain' => $cookie_domain);
+
+				$results = $this->triggerEvent('onUserAfterLogout', $options);
+			}
 			return true;
 		}
 
