@@ -184,6 +184,23 @@ abstract class JFormField
 	protected $required = false;
 
 	/**
+	 * The disabled state for the form field.  If true then the field will be disabled and user can't
+	 * interact with the field.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $disabled = false;
+
+	/**
+	 * The readonly state for the form field.  If true then the field will be readonly.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $readonly = false;
+
+	/**
 	 * The form field type.
 	 *
 	 * @var    string
@@ -369,9 +386,17 @@ abstract class JFormField
 		$multiple = (string) $element['multiple'];
 		$name = (string) $element['name'];
 		$required = (string) $element['required'];
+		$disabled = (string) $element['disabled'];
+		$readonly = (string) $element['readonly'];
+		$autofocus = (string) $element['autofocus'];
+		$autocomplete = (string) $element['autocomplete'];
+		$spellcheck = (string) $element['spellcheck'];
+		$hidden = (string) $element['hidden'];
 
-		// Set the required and validation options.
+		// Set the required, disabled, readonly and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
+		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
 		$this->validate = (string) $element['validate'];
 
 		// Set the multiple values option.
@@ -390,19 +415,16 @@ abstract class JFormField
 		$this->hint = (string) $element['hint'];
 
 		//Determine whether to automatically fill the field or not.
-		$this->autocomplete = !((string) $element['autocomplete'] == 'false' || (string) $element['autocomplete'] == 'off' 
-			|| (string) $element['autocomplete'] == '0');
+		$this->autocomplete = !($autocomplete == 'false' || $autocomplete == 'off' || $autocomplete == '0');
 
 		//Determine whether to set focus on the field automatically or not.
-		$this->autofocus = ((string) $element['autofocus'] == 'true' || (string) $element['autofocus'] == 'on'
-			|| (string) $element['autofocus'] == '1');
+		$this->autofocus = ($autofocus == 'true' || $autofocus == 'on' || $autofocus == '1');
 
 		//Determine whether to off spellcheck or not.
-		$this->spellcheck = !((string) $element['spellcheck'] == 'false' || (string) $element['spellcheck'] == 'off' 
-			|| (string) $element['spellcheck'] == '0');
+		$this->spellcheck = !($spellcheck == 'false' || $spellcheck == 'off' $spellcheck == '0');
 
 		// Set the visibility.
-		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
+		$this->hidden = ((string) $element['type'] == 'hidden' || $hidden == 'true' || $hidden == '1');
 
 		// Determine whether to translate the field label and/or description and/or hint.
 		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');

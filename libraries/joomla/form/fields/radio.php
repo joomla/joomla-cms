@@ -57,7 +57,7 @@ class JFormFieldRadio extends JFormField
 			// Initialize some option attributes.
 			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
-			$disabled = !empty($option->disable) ? ' disabled="disabled"' : '';
+			$disabled = !empty($option->disable) || $this->disabled ? ' disabled="disabled"' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';

@@ -45,9 +45,8 @@ class JFormFieldPassword extends JFormField
 		$size		= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '99';
 		$class		= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$auto		= ((string) $this->element['autocomplete'] == 'off') ? ' autocomplete="off"' : '';
-		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$readonly	= $this->readonly ? ' readonly="readonly"' : '';
+		$disabled	= $this->disabled ? ' disabled="disabled"' : '';
 		$meter		= ((string) $this->element['strengthmeter'] == 'true' ? ' $meter= 1' : ' $meter = 0');
 		$required   = $this->required ? ' required="required" aria-required="true"' : '';
 		$hint 		= $hint ? ' placeholder="' . $hint . '"' : '';
@@ -107,6 +106,6 @@ class JFormFieldPassword extends JFormField
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $hint . $autocomplete . 
-			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . $autofocus . '/>' . $script;
+			$class . $readonly . $disabled . $size . $maxLength . $required . $autofocus . '/>' . $script;
 	}
 }

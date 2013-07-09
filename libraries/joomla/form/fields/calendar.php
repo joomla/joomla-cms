@@ -59,11 +59,11 @@ class JFormFieldCalendar extends JFormField
 		{
 			$attributes['class'] = (string) $this->element['class'];
 		}
-		if ((string) $this->element['readonly'] == 'true')
+		if ($this->readonly)
 		{
 			$attributes['readonly'] = 'readonly';
 		}
-		if ((string) $this->element['disabled'] == 'true')
+		if ($this->disabled)
 		{
 			$attributes['disabled'] = 'disabled';
 		}

@@ -39,7 +39,7 @@ class JFormFieldHidden extends JFormField
 	{
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$disabled = $this->disabled ? ' disabled="disabled"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
