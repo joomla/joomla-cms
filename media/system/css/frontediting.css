@@ -1,0 +1,18 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.jmoddiv.jmodinside {
+    position: relative;
+    top: 0;
+    left: 0;
+}
+.jmoddiv.jmodinside .btn.jmodedit
+{
+    z-index: 5000;
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
