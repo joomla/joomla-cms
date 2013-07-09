@@ -1956,6 +1956,7 @@ table th[class*="span"],
 	-webkit-background-clip: padding-box;
 	-moz-background-clip: padding;
 	background-clip: padding-box;
+	text-align: left;
 }
 .dropdown-menu.pull-right {
 	right: 0;
@@ -2598,7 +2599,8 @@ input[type="submit"].btn.btn-mini {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
-.btn-group > .btn + .btn {
+.btn-group > .btn + .btn,
+.btn-group > .btn + .dropdown-backdrop + .btn {
 	margin-left: -1px;
 }
 .btn-group > .btn,
@@ -2624,6 +2626,7 @@ input[type="submit"].btn.btn-mini {
 	-moz-border-radius-bottomleft: 4px;
 	border-bottom-left-radius: 4px;
 }
+/* a / button */
 .btn-group > .btn:last-child,
 .btn-group > .dropdown-toggle {
 	-webkit-border-top-right-radius: 4px;
@@ -2661,7 +2664,8 @@ input[type="submit"].btn.btn-mini {
 .btn-group.open .dropdown-toggle {
 	outline: 0;
 }
-.btn-group > .btn + .dropdown-toggle {
+.btn-group > .btn + .dropdown-toggle,
+.btn-group > .btn + .dropdown-backdrop + .dropdown-toggle {
 	padding-left: 8px;
 	padding-right: 8px;
 	-webkit-box-shadow: inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
@@ -2670,17 +2674,20 @@ input[type="submit"].btn.btn-mini {
 	*padding-top: 5px;
 	*padding-bottom: 5px;
 }
-.btn-group > .btn-mini + .dropdown-toggle {
+.btn-group > .btn-mini + .dropdown-toggle,
+.btn-group > .btn-mini + .dropdown-backdrop + .dropdown-toggle{
 	padding-left: 5px;
 	padding-right: 5px;
 	*padding-top: 2px;
 	*padding-bottom: 2px;
 }
-.btn-group > .btn-small + .dropdown-toggle {
+.btn-group > .btn-small + .dropdown-toggle,
+.btn-group > .btn-small + .dropdown-backdrop + .dropdown-toggle {
 	*padding-top: 5px;
 	*padding-bottom: 4px;
 }
-.btn-group > .btn-large + .dropdown-toggle {
+.btn-group > .btn-large + .dropdown-toggle,
+.btn-group > .btn-large + .dropdown-backdrop + .dropdown-toggle {
 	padding-left: 12px;
 	padding-right: 12px;
 	*padding-top: 7px;
@@ -2728,6 +2735,9 @@ input[type="submit"].btn.btn-mini {
 .btn-mini .caret,
 .btn-small .caret {
 	margin-top: 8px;
+}
+.btn.btn-micro .caret {
+	margin: 5px 0;
 }
 .dropup .btn-large .caret {
 	border-bottom-width: 5px;

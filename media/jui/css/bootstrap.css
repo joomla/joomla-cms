@@ -2927,6 +2927,7 @@ table th[class*="span"],
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
           background-clip: padding-box;
+	text-align: left;
 }
 
 .dropdown-menu.pull-right {

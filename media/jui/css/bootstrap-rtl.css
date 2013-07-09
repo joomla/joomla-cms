@@ -560,3 +560,6 @@ body {
 		margin-right: 10px;
 	}
 }
+.dropdown-menu {
+	text-align: right;
+}
