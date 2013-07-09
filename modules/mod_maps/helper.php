@@ -18,9 +18,6 @@ defined('_JEXEC') or die;
  */
 class ModMapsHelper
 {
-	/*
-	 * @since  3.2
-	 */
 	public static function getSize(&$size)
 	{
 		return (strpos($size, '%') === false ? $size . 'px' : $size);

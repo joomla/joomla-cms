@@ -15,23 +15,26 @@ require_once __DIR__ . '/helper.php';
 $doc = JFactory::getDocument();
 
 // Ready parameters
-$id                 = $module->id;
-$width              = $params->get('width', '100%');
-$height             = $params->get('height', '350');
-$mapType            = $params->get('mapType','ROADMAP');
-$zoomLevel          = $params->get('zoom', '1');
-$centerType         = $params->get('mapCenterType', 'address');
-$centerCoordinate   = $params->get('mapCenterCoordinate', '0,0');
-$centerAddress      = $params->get('mapCenterAddress', 'Earth');
-$key                = $params->get('api_key', false);
+$id = $module->id;
+$width = $params->get('width', '100%');
+$height = $params->get('height', '350');
+$mapType = $params->get('mapType', 'ROADMAP');
+$zoomLevel = $params->get('zoom', '1');
+$centerType = $params->get('mapCenterType', 'address');
+$centerCoordinate = $params->get('mapCenterCoordinate', '0,0');
+$centerAddress = $params->get('mapCenterAddress', 'New York');
+$key = $params->get('api_key', false);
 
 // Add map api
-if ($key) {
-	$gmapjs = 'https://maps.googleapis.com/maps/api/js?v=3&key='. $key .'&sensor=false';
+if ($key)
+{
+	$gmapjs = 'https://maps.googleapis.com/maps/api/js?v=3&key=' . $key . '&sensor=false';
 }
-else {
+else
+{
 	$gmapjs = 'https://maps.googleapis.com/maps/api/js?v=3&sensor=false';
 }
+
 $doc->addScript($gmapjs);
 
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));

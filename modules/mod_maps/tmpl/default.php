@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 
 ?>
 
-<div class="google-maps map<?php echo $moduleclass_sfx; ?>">
-	<div id="map-canvas-<?php echo $id; ?>"></div>
-</div>
+	<div class="google-maps map<?php echo $moduleclass_sfx; ?>">
+		<div id="map-canvas-<?php echo $id; ?>"></div>
+	</div>
 
 
 <?php
@@ -23,20 +23,20 @@ defined('_JEXEC') or die;
 $js = '
 		jQuery(document).ready(function() {
 				var mapOptions = {
-					zoom: '. $zoomLevel .',
-					mapTypeId: google.maps.MapTypeId.'. $mapType .'
+					zoom: ' . $zoomLevel . ',
+					mapTypeId: google.maps.MapTypeId.' . $mapType . '
 				};
 
-				var map = new google.maps.Map(document.getElementById("map-canvas-'. $id .'"), mapOptions);
+				var map = new google.maps.Map(document.getElementById("map-canvas-' . $id . '"), mapOptions);
 				';
 
 
 if ($centerType == 'coordinate'):
-	$js .= 'map.setCenter(new google.maps.LatLng('. $centerCoordinate .'));';
+	$js .= 'map.setCenter(new google.maps.LatLng(' . $centerCoordinate . '));';
 else:
 	$js .= 'var geocoder = new google.maps.Geocoder();
 
-				geocoder.geocode({"address": "'. $centerAddress .'"}, function(results, status) {
+				geocoder.geocode({"address": "' . $centerAddress . '"}, function(results, status) {
 					switch (status) {
 						case google.maps.GeocoderStatus.OK:
 							map.setCenter(results[0].geometry.location);
@@ -58,10 +58,10 @@ $js .= '});';
 $doc->addScriptDeclaration($js);
 
 // Compile CSS
-$css = '#map-canvas-'. $id .' {
+$css = '#map-canvas-' . $id . ' {
 	margin: 0;
 	padding: 0;
-	width: '. modMapsHelper::getSize($width) .';
-	height:' . modMapsHelper::getSize($height) .';
+	width: ' . modMapsHelper::getSize($width) . ';
+	height:' . modMapsHelper::getSize($height) . ';
 }';
 $doc->addStyleDeclaration($css);
