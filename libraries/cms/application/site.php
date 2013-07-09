@@ -662,35 +662,6 @@ final class JApplicationSite extends JApplicationCms
 	}
 
 	/**
-	 * Redirect to another URL.
-	 *
-	 * Optionally enqueues a message in the system message queue (which will be displayed
-	 * the next time a page is loaded) using the enqueueMessage method. If the headers have
-	 * not been sent the redirect will be accomplished using a "301 Moved Permanently"
-	 * code in the header pointing to the new location. If the headers have already been
-	 * sent this will be accomplished using a JavaScript statement.
-	 *
-	 * @param   string   $url         The URL to redirect to. Can only be http/https URL
-	 * @param   string   $msg         An optional message to display on redirect.
-	 * @param   string   $msgType     An optional message type. Defaults to message.
-	 * @param   boolean  $moved       True if the page is 301 Permanently Moved, otherwise 303 See Other is assumed.
-	 * @param   boolean  $persistMsg  True if the enqueued messages are passed to the redirection
-	 *
-	 * @return  void  Calls exit().
-	 *
-	 * @since   3.2
-	 */
-	public function redirect($url, $msg='', $msgType='message', $moved = false, $persistMsg = true)
-	{
-		if (!$persistMsg)
-		{
-			$this->_messageQueue = array();
-		}
-
-		parent::redirect($url, $msg, $msgType, $moved);
-	}
-
-	/**
 	 * Rendering is the process of pushing the document buffers into the template
 	 * placeholders, retrieving data from the document and pushing it into
 	 * the application response buffer.
