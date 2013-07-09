@@ -25,7 +25,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-078-Jul-2013 Jean-Marie Simonet
+09-Jul-2013 Jean-Marie Simonet
+ $ Updating installation lang files: eo-XX
+
+08-Jul-2013 Jean-Marie Simonet
  $ Updating installation lang files: et-EE, fa-IR, nl-NL, vi-VN
  ^ [#31219] Update to PHPMailer 5.2.6. Thanks Michael Babker.
  # [#31044] media manager overlay preview broken 2. Thanks Landor LeBaron
