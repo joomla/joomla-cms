@@ -94,12 +94,6 @@
 
             </fieldset>
 
-            <!-- Popup Text -->
-            <fieldset name="customInfo" label="MOD_MAPS_CUSTOM_INFO">
-                <field type="editor" name="customInfoText" default="" label="MOD_MAPS_CUSTOM_INFO_LABEL"
-                       description="MOD_MAPS_CUSTOM_INFO_DESC" filter="safehtml"/>
-            </fieldset>
-
             <fieldset
                     name="advanced">
                 <field
