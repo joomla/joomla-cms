@@ -25,6 +25,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Jul-2013 Jean-Marie Simonet
+ $ Updating installation lang files: eo-XX
+
+08-Jul-2013 Jean-Marie Simonet
+ $ Updating installation lang files: et-EE, fa-IR, nl-NL, vi-VN
+ ^ [#31219] Update to PHPMailer 5.2.6. Thanks Michael Babker.
+ # [#31044] media manager overlay preview broken 2. Thanks Landor LeBaron
+ # [#30790] Typo in header makes header useless. Thanks Tino Brackebusch
+
+07-Jul-2013 Michael Babker
+ # [#31371] Commit for issue 31351 causes PHP notice in Banner Tracks
+
+07-Jul-2013 Jean-Marie Simonet
+ # [#31270] Fix help screens links in sample testing data. Thanks George Wilson
+ ^ [#31351] Convert JToolbar to render toolbar items with JLayout. Thanks Michael Babker
+ $ Updating installation lang files: nb-NO, ta-IN
+
 06-Jul-2013 Elin Waring
  ^ [#31275] Change use of self:: to static:: in JHtml helpers.  Thanks Michael Babker
  # [#30870] Fix some mistakes. Thanks Rasmus Lerdorf

@@ -109,7 +109,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName), 'Test Tag should be in row 2');
-		$this->tagManagerPage->deleteItem($tagName);
+		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test Tag should not be present');
 	}
 
@@ -131,7 +131,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be in row 1');
 		$values = $this->tagManagerPage->getFieldValues('TagEditPage', $tagName, array('Title', 'Caption'));
 		$this->assertEquals(array($tagName,$caption), $values, 'Actual name, caption should match expected');
-		$this->tagManagerPage->deleteItem($tagName);
+		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
 	}
 
@@ -150,7 +150,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->editTag($tagName, array('Caption' => 'new_sample_Caption', 'Alt' => 'Sample_Alt'));
 		$values = $this->tagManagerPage->getFieldValues('tagEditPage', $tagName, array('Caption', 'Alt'));
 		$this->assertEquals(array('new_sample_Caption', 'Sample_Alt'), $values, 'Actual values should match expected');
-		$this->tagManagerPage->deleteItem($tagName);
+		$this->tagManagerPage->trashAndDelete($tagName);
 	}
 
 	/**
@@ -164,6 +164,6 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->changeTagState('Test Tag', 'unpublished');
 		$state = $this->tagManagerPage->getState('Test Tag');
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->tagManagerPage->deleteItem('Test Tag');
+		$this->tagManagerPage->trashAndDelete('Test Tag');
 	}
 }

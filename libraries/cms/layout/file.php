@@ -89,6 +89,8 @@ class JLayoutFile extends JLayoutBase
 	 */
 	protected function getPath()
 	{
+		jimport('joomla.filesystem.path');
+
 		if (is_null($this->fullPath) && !empty($this->layoutId))
 		{
 			$rawPath = str_replace('.', '/', $this->layoutId) . '.php';

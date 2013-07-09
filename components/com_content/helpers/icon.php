@@ -209,7 +209,7 @@ abstract class JHtmlIcon
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$request = $input->request;
-		
+
 		$url  = ContentHelperRoute::getArticleRoute($article->slug, $article->catid);
 		$url .= '&tmpl=component&print=1&layout=default&page=' . @ $request->limitstart;
 
