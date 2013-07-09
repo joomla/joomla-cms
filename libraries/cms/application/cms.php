@@ -291,7 +291,7 @@ class JApplicationCms extends JApplicationWeb
 			// Create a JApplicationCms object.
 			$classname = 'JApplication' . ucfirst($name);
 
-			if (class_exists($classname) && $classname instanceof static)
+			if (class_exists($classname))
 			{
 				$instance = new $classname;
 			}
