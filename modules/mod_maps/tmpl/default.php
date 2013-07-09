@@ -30,9 +30,13 @@ $js = '
 				var map = new google.maps.Map(document.getElementById("map-canvas-' . $id . '"), mapOptions);
 				';
 
-
 if ($centerType == 'coordinate'):
-	$js .= 'map.setCenter(new google.maps.LatLng(' . $centerCoordinate . '));';
+	$js .= 'var position = new google.maps.LatLng(' . $centerCoordinate . ');';
+	$js .= 'map.setCenter(position);';
+	$js .= 'var marker = new google.maps.Marker({
+         map: map,
+        position: position
+        });';
 else:
 	$js .= 'var geocoder = new google.maps.Geocoder();
 
@@ -40,6 +44,10 @@ else:
 					switch (status) {
 						case google.maps.GeocoderStatus.OK:
 							map.setCenter(results[0].geometry.location);
+							var marker = new google.maps.Marker({
+						        map: map,
+						        position: results[0].geometry.location
+						        });
 							break;
 						case google.maps.GeocoderStatus.ZERO_RESULTS:
 							alert("The address could not be found");
