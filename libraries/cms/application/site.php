@@ -116,9 +116,9 @@ final class JApplicationSite extends JApplicationCms
 		$this->loadDocument();
 
 		// Set up the params
-		$document	= $this->getDocument();
-		$router		= self::getRouter();
-		$params		= $this->getParams();
+		$document = $this->getDocument();
+		$router   = static::getRouter();
+		$params   = $this->getParams();
 
 		// Register the document object with JFactory
 		JFactory::$document = $document;

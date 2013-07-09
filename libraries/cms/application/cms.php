@@ -286,7 +286,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public static function getInstance($name = null)
 	{
-		if (empty(self::$instances[$name]))
+		if (empty(static::$instances[$name]))
 		{
 			// Create a JApplicationCms object.
 			$classname = 'JApplication' . ucfirst($name);
@@ -302,10 +302,10 @@ class JApplicationCms extends JApplicationWeb
 				return $error;
 			}
 
-			self::$instances[$name] = $instance;
+			static::$instances[$name] = $instance;
 		}
 
-		return self::$instances[$name];
+		return static::$instances[$name];
 	}
 
 	/**
