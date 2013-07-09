@@ -60,7 +60,7 @@ class PlgAuthenticationJoomla extends JPlugin
 		{
 			if (substr($result->password,0,4) == '$2y$')
 			{
-				$parts = explode($result->password);
+				$parts = explode('.', $result->password);
 
 				$test = password_verify($credentials['password'], $parts[0]);
  				if (strstr($testcrypt, '.', true) == strstr($crypt, '.', true))

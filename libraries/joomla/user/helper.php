@@ -306,7 +306,7 @@ abstract class JUserHelper
 	 *                                  Defaults to md5-hex.
 	 * @param   boolean  $show_encrypt  Some password systems prepend the kind of
 	 *                                  encryption to the crypted password ({SHA},
-	 *                                  etc). Defaults to true.
+	 *                                  etc). Defaults to false.
 	 *
 	 * @return  string  The encrypted password.
 	 *
@@ -405,23 +405,14 @@ abstract class JUserHelper
 
 			case 'bcrypt':
 			default:
-				if (function_exists('password_hash'))
-				{
-					$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
-					if (!$encrypted)
-					{
-						// Something went wrong.
-						return false;
-					}
-
-					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
-				}
-				elseif (!function_exists('password_hash') && version_compare(PHP_VERSION, '5.3.6', '>'))
+				if (!defined('PASSWORD_DEFAULT') && (version_compare(PHP_VERSION, '5.3.6', '>')
+						|| static::checkVersionForCrypt ))
 				{
 					include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
-
-					$encrypted = password_hash($plaintext, PASSWORD_BCRYPT);
-
+				}
+				if (defined('PASSWORD_DEFAULT'))
+				{
+					$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
 					if (!$encrypted)
 					{
 						// Something went wrong.
@@ -439,6 +430,24 @@ abstract class JUserHelper
 				}
 		}
 	}
+
+	/**
+	 * Tests for the availability of updated crypt().
+	 * Method by Anthony Ferrera
+	 * https://github.com/ircmaxell/password_compat/blob/master/version-test.php
+	 *
+	 * @return  boolean  True if updated crypt() is available.
+	 *
+	 * @since   3.1.2
+	 */
+		static public function verstionCheckForCrypt()
+		{
+			$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
+			$test = crypt("password", $hash);
+			$pass = $test == $hash;
+
+			return $pass;
+		}
 
 	/**
 	 * Returns a salt for the appropriate kind of password encryption.

@@ -75,10 +75,6 @@ if (version_compare(PHP_VERSION, '5.4.0', '<'))
 {
 	JLoader::register('JsonSerializable', __DIR__ . '/compat/jsonserializable.php');
 }
-if (version_compare(PHP_VERSION, '5.5.0', '<') && version_compare(PHP_VERSION, '5.3.7', '>'))
-{
-	JLoader::register('Password', JPATH_PLATFORM . '/compat/password/lib/password.php');
-}
 
 // Add deprecated constants
 // @deprecated 4.0

@@ -56,12 +56,6 @@ if (version_compare(PHP_VERSION, '5.4.0', '<'))
 {
 	JLoader::register('JsonSerializable', JPATH_PLATFORM . '/compat/jsonserializable.php');
 }
-// Register classes for compatability with PHP 5.3
-if (version_compare(PHP_VERSION, '5.5.0', '<') && version_compare(PHP_VERSION, '5.3.7', '>='))
-{
-	JLoader::register('Password', JPATH_PLATFORM . '/compat/password/lib/password.php');
-}
-
 
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
