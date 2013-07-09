@@ -224,7 +224,7 @@ class MenuItemEditPage extends AdminEditPage
 	{
 		$this->selectTab('Details');
 		$d = $this->driver;
-		$d->findElement(By::xPath("//a[@class = 'modal btn'][contains(@rel, 'iframe')]"))->click();
+		$d->findElement(By::xPath("//a[contains(@class, 'modal btn')][contains(@rel, 'iframe')]"))->click();
 		$frameElement = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'layout=modal')]"));
 		$d->switchTo()->getFrameByWebElement($frameElement);
 		$filter = $d->waitForElementUntilIsPresent(By::id('filter_search'));
