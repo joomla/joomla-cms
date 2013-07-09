@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-if (!function_exists('password_hash'))
-{
-	include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
-}
 /**
  * Joomla Authentication plugin
  *

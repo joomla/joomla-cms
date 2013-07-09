@@ -405,13 +405,10 @@ abstract class JUserHelper
 			case 'bcrypt':
 			default:
 
-				if (static::hasStrongPasswords())
-				{
-					include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
-				}
 				if (defined('PASSWORD_DEFAULT'))
 				{
 					$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
+
 					if (!$encrypted)
 					{
 						// Something went wrong.
@@ -422,7 +419,8 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return static::getCryptedPassword($plaintext, '', 'md5-hex', false, $show_encrypt);
+					// BCrypt isn't available, fall back to md5.
+					return static::getCryptedPassword($plaintext, '', 'md5-hex', false);
 
 				}
 		}
@@ -448,13 +446,13 @@ abstract class JUserHelper
 			{
 				// We have safe PHP version.
 				$pass = true;
-				}
-				else
-				{
-					// We need to test if we have patched PHP version.
-					$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
-					$test = crypt("password", $hash);
-					$pass = ($test == $hash);
+			}
+			else
+			{
+				// We need to test if we have patched PHP version.
+				$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
+				$test = crypt("password", $hash);
+				$pass = ($test == $hash);
 			}
 
 			if ($pass && !defined('PASSWORD_DEFAULT'))
