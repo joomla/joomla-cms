@@ -2597,7 +2597,6 @@ input[type="submit"].btn.btn-mini {
 	-webkit-border-radius: 0;
 	-moz-border-radius: 0;
 	border-radius: 0;
-	min-width: 50px;
 }
 .btn-group > .btn + .btn {
 	margin-left: -1px;
@@ -7253,4 +7252,7 @@ th .tooltip-inner {
 }
 .container-popup {
 	padding: 15px;
+}
+.controls .btn-group > .btn {
+	min-width: 50px;
 }
