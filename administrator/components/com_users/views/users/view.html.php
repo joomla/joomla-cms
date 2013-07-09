@@ -33,8 +33,6 @@ class UsersViewUsers extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
-		UsersHelper::addSubmenu('users');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

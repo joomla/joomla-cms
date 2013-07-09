@@ -21,8 +21,9 @@ class WeblinksHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
-	 * @since   1.6
+	 * @param       string The name of the active view.
+	 * @since       1.6
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($vName = 'weblinks')
 	{

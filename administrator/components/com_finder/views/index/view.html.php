@@ -40,8 +40,6 @@ class FinderViewIndex extends JViewLegacy
 		$this->state		= $this->get('State');
 		$this->pluginState  = $this->get('pluginState');
 
-		FinderHelper::addSubmenu('index');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

@@ -21,7 +21,8 @@ abstract class ModulesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $vName  The name of the active view.
+	 * @param       string  $vName  The name of the active view.
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($vName)
 	{

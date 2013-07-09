@@ -37,8 +37,6 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		$this->langs	= isset($app->has_languages) ? $app->has_languages : 0;
 		$this->assoc	= isset($app->item_associations) ? $app->item_associations : 0;
 
-		NewsfeedsHelper::addSubmenu('newsfeeds');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

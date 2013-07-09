@@ -35,8 +35,6 @@ class FinderViewFilters extends JViewLegacy
 		$this->total = $this->get('Total');
 		$this->state = $this->get('State');
 
-		FinderHelper::addSubmenu('filters');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

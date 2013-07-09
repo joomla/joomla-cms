@@ -27,11 +27,12 @@ class UsersHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $vName  The name of the active view.
+	 * @param       string  $vName  The name of the active view.
 	 *
-	 * @return  void
+	 * @return      void
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($vName)
 	{

@@ -67,8 +67,6 @@ class UsersViewNotes extends JViewLegacy
 		$this->state      = $this->get('State');
 		$this->user       = $this->get('User');
 
-		UsersHelper::addSubmenu('notes');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

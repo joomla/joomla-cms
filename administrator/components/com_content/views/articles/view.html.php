@@ -31,10 +31,6 @@ class ContentViewArticles extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		if ($this->getLayout() !== 'modal')
-		{
-			ContentHelper::addSubmenu('articles');
-		}
 
 		$app = JFactory::getApplication();
 

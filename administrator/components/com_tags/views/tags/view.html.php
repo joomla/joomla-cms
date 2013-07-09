@@ -36,8 +36,6 @@ class TagsViewTags extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->langs		= isset($app->has_languages) ? $app->has_languages : 0;
 
-		TagsHelper::addSubmenu('tags');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));

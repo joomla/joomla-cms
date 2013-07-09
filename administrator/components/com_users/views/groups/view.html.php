@@ -33,8 +33,6 @@ class UsersViewGroups extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
-		UsersHelper::addSubmenu('groups');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

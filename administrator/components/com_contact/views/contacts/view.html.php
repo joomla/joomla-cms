@@ -40,8 +40,6 @@ class ContactViewContacts extends JViewLegacy
 		$this->assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 
 
-		ContactHelper::addSubmenu('contacts');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

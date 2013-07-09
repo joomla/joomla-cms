@@ -31,7 +31,6 @@ class ContentViewFeatured extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		ContentHelper::addSubmenu('featured');
 
 		$app = JFactory::getApplication();
 

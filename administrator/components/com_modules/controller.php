@@ -31,9 +31,6 @@ class ModulesController extends JControllerLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/modules.php';
 
-		// Load the submenu.
-		ModulesHelper::addSubmenu($this->input->get('view', 'modules'));
-
 		$view   = $this->input->get('view', 'modules');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');

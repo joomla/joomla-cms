@@ -38,8 +38,6 @@ class WeblinksViewWeblinks extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->langs		= isset($app->has_languages) ? $app->has_languages : 0;
 
-		WeblinksHelper::addSubmenu('weblinks');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

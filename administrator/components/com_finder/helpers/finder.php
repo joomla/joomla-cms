@@ -27,11 +27,12 @@ class FinderHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $vName  The name of the active view.
+	 * @param       string  $vName  The name of the active view.
 	 *
-	 * @return  void
+	 * @return      void
 	 *
-	 * @since   2.5
+	 * @since       2.5
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($vName)
 	{

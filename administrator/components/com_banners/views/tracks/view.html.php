@@ -40,8 +40,6 @@ class BannersViewTracks extends JViewLegacy
 			return false;
 		}
 
-		BannersHelper::addSubmenu('tracks');
-
 		$this->addToolbar();
 		require_once JPATH_COMPONENT .'/models/fields/bannerclient.php';
 		$this->sidebar = JHtmlSidebar::render();

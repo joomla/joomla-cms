@@ -21,11 +21,12 @@ class JHelperContent
 	/**
 	 * Configure the Linkbar. Must be implemented by each extension.
 	 *
-	 * @param   string  $vName  The name of the active view.
+	 * @param       string  $vName  The name of the active view.
 	 *
-	 * @return  void
+	 * @return      void
 	 *
-	 * @since   3.1
+	 * @since       3.1
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($vName)
 	{

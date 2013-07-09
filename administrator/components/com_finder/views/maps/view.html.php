@@ -40,8 +40,6 @@ class FinderViewMaps extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
-		FinderHelper::addSubmenu('maps');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

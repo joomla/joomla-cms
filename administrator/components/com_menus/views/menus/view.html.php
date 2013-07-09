@@ -36,8 +36,6 @@ class MenusViewMenus extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
-		MenusHelper::addSubmenu('menus');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
