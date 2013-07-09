@@ -405,8 +405,7 @@ abstract class JUserHelper
 			case 'bcrypt':
 			default:
 
-				if (!defined('PASSWORD_DEFAULT') && (version_compare(PHP_VERSION, '5.3.6', '>')
-						|| static::hasStrongPasswords()))
+				if (static::hasStrongPasswords())
 				{
 					include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
 				}
@@ -513,12 +512,6 @@ abstract class JUserHelper
 					return '$1$' . substr(md5(mt_rand()), 0, 8) . '$';
 				}
 				break;
-			case 'bcrypt':
-				// Bcrypt produces its own salt.
-
-				return;
-				break;
-
 
 			case 'crypt-blowfish':
 				if ($seed)
