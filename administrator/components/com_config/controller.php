@@ -43,14 +43,15 @@ class ConfigController extends JControllerLegacy
 		$vName = $this->input->get('view', 'application');
 
 		JLog::add('ConfigController is deprecated. Use ConfigControllerApplicationDiaplay or ConfigControllerComponentDiaplay instead.', JLog::WARNING, 'deprecated');
-		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config/controller');
 
 		if (ucfirst($vName) == 'Application')
 		{
+			include JPATH_ADMINISTRATOR . '/components/com_config/controller/application/display.php';
 			$controller = new ConfigControllerApplicationDisplay;
 		}
 		else if (ucfirst($vName) == 'Component')
 		{
+			include JPATH_ADMINISTRATOR . '/components/com_config/controller/component/display.php';
 			$controller = new ConfigControllerComponentDisplay;
 		}
 

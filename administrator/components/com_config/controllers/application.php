@@ -49,10 +49,12 @@ class ConfigControllerApplication extends JControllerLegacy
 	{
 		
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationSave instead.', JLog::WARNING, 'deprecated');
-		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
+
+		include JPATH_ADMINISTRATOR . '/components/com_config/controller/application/save.php';
 		$controller = new ConfigControllerApplicationSave;
 
-		return $controller->execute();		
+		return $controller->execute();
+
 	}
 
 	/**
@@ -63,7 +65,8 @@ class ConfigControllerApplication extends JControllerLegacy
 	{
 
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationCancel instead.', JLog::WARNING, 'deprecated');
-		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
+
+		include JPATH_ADMINISTRATOR . '/components/com_config/controller/application/cancel.php';
 		$controller = new ConfigControllerApplicationCancel;
 
 		return $controller->execute();
@@ -73,7 +76,8 @@ class ConfigControllerApplication extends JControllerLegacy
 	{
 		
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRefreshhelp instead.', JLog::WARNING, 'deprecated');
-		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
+
+		include JPATH_ADMINISTRATOR . '/components/com_config/controller/application/refreshhelp.php';
 		$controller = new ConfigControllerApplicationRefreshhelp;
 
 		$controller->execute();
@@ -91,7 +95,8 @@ class ConfigControllerApplication extends JControllerLegacy
 	{
 
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRemoveroot instead.', JLog::WARNING, 'deprecated');
-		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
+
+		include JPATH_ADMINISTRATOR . '/components/com_config/controller/application/removeroot.php';
 		$controller = new ConfigControllerApplicationRemoveroot;
 
 		return $controller->execute();
