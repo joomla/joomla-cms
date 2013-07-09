@@ -74,6 +74,36 @@ class ModulesControllerModule extends JControllerForm
 	}
 
 	/**
+	 * Method override to check if you can add a new module.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2
+	 */
+	protected function allowAdd($data = array())
+	{
+		$user = JFactory::getUser();
+		$allow = null;
+
+			// If the user is authorized to create
+			if($user->authorise('core.create', 'com_modules')){
+				$allow=true;
+			}
+
+		if ($allow === null)
+		{
+			// In the absense of better information, revert to the parent permissions.
+			return parent::allowAdd();
+		}
+		else
+		{
+			return $allow;
+		}
+	}
+
+	/**
 	 * Override parent allowSave method.
 	 *
 	 * @param   array   $data  An array of input data.
