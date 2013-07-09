@@ -435,20 +435,33 @@ abstract class JUserHelper
 
 	/**
 	 * Tests for the availability of updated crypt().
-	 * Method by Anthony Ferrera
+	 * Based on a method by Anthony Ferrera
 	 * https://github.com/ircmaxell/password_compat/blob/master/version-test.php
 	 *
 	 * @return  boolean  True if updated crypt() is available.
 	 *
 	 * @since   3.1.2
 	 */
-		static public function verstionCheckForCrypt()
+		static public function prepareCrypt()
 		{
+			// Check to see whether crypt() is supported
 			$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
 			$test = crypt("password", $hash);
 			$pass = $test == $hash;
 
-			return $pass;
+			if ($pass)
+			{
+				return $pass;
+			}
+			if (!defined('PASSWORD_DEFAULT') && (version_compare(PHP_VERSION, '5.3.6', '>')
+					|| static::checkVersionForCrypt ))
+			{
+				include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+
+				return true;
+			}
+
+			return false;
 		}
 
 	/**
