@@ -41,7 +41,7 @@ class JFormFieldRadio extends JFormField
 
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="radio ' . (string) $this->element['class'] . '"' : ' class="radio"';
-		$required = $this->required ? ' required="required" aria-required="true"' : '';
+		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		// Start the radio field output.
@@ -55,9 +55,9 @@ class JFormFieldRadio extends JFormField
 		{
 
 			// Initialize some option attributes.
-			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
+			$checked = ((string) $option->value == (string) $this->value) ? ' checked' : '';
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
-			$disabled = !empty($option->disable) || $this->disabled ? ' disabled="disabled"' : '';
+			$disabled = !empty($option->disable) || $this->disabled ? ' disabled' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';

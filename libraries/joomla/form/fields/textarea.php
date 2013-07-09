@@ -43,10 +43,10 @@ class JFormFieldTextarea extends JFormField
 
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$disabled = $this->disabled ? ' disabled="disabled"' : '';
+		$disabled = $this->disabled ? ' disabled' : '';
 		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
 		$rows = $this->element['rows'] ? ' rows="' . (int) $this->element['rows'] . '"' : '';
-		$required = $this->required ? ' required="required" aria-required="true"' : '';
+		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';

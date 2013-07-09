@@ -43,10 +43,10 @@ class JFormFieldCombo extends JFormFieldList
 
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="combobox ' . (string) $this->element['class'] . '"' : ' class="combobox"';
-		$attr .= $this->readonly ? ' readonly="readonly"' : '';
-		$attr .= $this->disabled ? ' disabled="disabled"' : '';
+		$attr .= $this->readonly ? ' readonly' : '';
+		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';

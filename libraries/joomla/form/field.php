@@ -421,7 +421,7 @@ abstract class JFormField
 		$this->autofocus = ($autofocus == 'true' || $autofocus == 'on' || $autofocus == '1');
 
 		//Determine whether to off spellcheck or not.
-		$this->spellcheck = !($spellcheck == 'false' || $spellcheck == 'off' $spellcheck == '0');
+		$this->spellcheck = !($spellcheck == 'false' || $spellcheck == 'off' || $spellcheck == '0');
 
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || $hidden == 'true' || $hidden == '1');

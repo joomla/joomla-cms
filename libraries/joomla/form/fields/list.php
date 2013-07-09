@@ -46,12 +46,12 @@ class JFormFieldList extends JFormField
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
 		if ($this->readonly || $this->disabled)
 		{
-			$attr .= ' disabled="disabled"';
+			$attr .= ' disabled';
 		}
 
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.

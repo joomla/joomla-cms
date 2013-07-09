@@ -45,9 +45,9 @@ class JFormFieldEMail extends JFormField
 		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
 		$class = $this->element['class'] ? ' ' . (string) $this->element['class'] : '';
-		$readonly = $this->readonly ? ' readonly="readonly"' : '';
-		$disabled = $this->disabled ? ' disabled="disabled"' : '';
-		$required = $this->required ? ' required="required" aria-required="true"' : '';
+		$readonly = $this->readonly ? ' readonly' : '';
+		$disabled = $this->disabled ? ' disabled' : '';
+		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="email"';
 		$autofocus = $this->autofocus ? ' autofocus' : '';

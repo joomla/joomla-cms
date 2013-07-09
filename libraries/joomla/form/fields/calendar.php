@@ -59,13 +59,16 @@ class JFormFieldCalendar extends JFormField
 		{
 			$attributes['class'] = (string) $this->element['class'];
 		}
+
+		//Using the boolean attribute property which is the presence of attribute means it is true.
 		if ($this->readonly)
 		{
-			$attributes['readonly'] = 'readonly';
+			$attributes['readonly'] = '';
 		}
+
 		if ($this->disabled)
 		{
-			$attributes['disabled'] = 'disabled';
+			$attributes['disabled'] = '';
 		}
 		if ($this->element['onchange'])
 		{
@@ -73,7 +76,7 @@ class JFormFieldCalendar extends JFormField
 		}
 		if ($this->required)
 		{
-			$attributes['required'] = 'required';
+			$attributes['required'] = '';
 			$attributes['aria-required'] = 'true';
 		}
 		if ($hint)

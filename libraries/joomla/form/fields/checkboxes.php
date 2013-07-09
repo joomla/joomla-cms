@@ -51,7 +51,7 @@ class JFormFieldCheckboxes extends JFormField
 		// Initialize some field attributes.
 		$class = $this->element['class'] ? ' class="checkboxes ' . (string) $this->element['class'] . '"' : ' class="checkboxes"';
 		$checkedOptions = explode(',', (string) $this->element['checked']);
-		$required = $this->required ? ' required="required" aria-required="true"' : '';
+		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		//Including fallback code for HTML5 non supported browsers.
@@ -76,10 +76,10 @@ class JFormFieldCheckboxes extends JFormField
 			else
 			{
 				$value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
-				$checked = (in_array((string) $option->value, $value) ? ' checked="checked"' : '');
+				$checked = (in_array((string) $option->value, $value) ? ' checked' : '');
 			}
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
-			$disabled = !empty($option->disable) || $this->disabled ? ' disabled="disabled"' : '';
+			$disabled = !empty($option->disable) || $this->disabled ? ' disabled' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';

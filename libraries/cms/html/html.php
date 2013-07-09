@@ -962,9 +962,9 @@ abstract class JHtml
 			$done = array();
 		}
 
-		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
-		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
-
+		$readonly = isset($attribs['readonly']);
+		$disabled = isset($attribs['disabled']);
+		
 		if (is_array($attribs))
 		{
 			$attribs = JArrayHelper::toString($attribs);

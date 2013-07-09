@@ -133,9 +133,10 @@ class JFormFieldColor extends JFormField
 		{
 			$class = ' class="' . trim('minicolors ' . $class) . '"';
 			$control = $control ? ' data-control="' . $control . '"' : '';
-			$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+			$disabled = $this->disabled ? ' disabled' : '';
+			$readonly = $this->readonly ? ' readonly' : '';
 			$hint = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="#rrggbb"';
-			$required = $this->required ? ' required="required" aria-required="true"' : '';
+			$required = $this->required ? ' required aria-required="true"' : '';
 			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
 
 			//Including fallback code for HTML5 non supported browsers.
