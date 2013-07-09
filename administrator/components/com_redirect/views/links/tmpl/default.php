@@ -102,13 +102,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo $this->escape(str_replace(JUri::root(), '', $item->old_url)); ?>
 						<?php endif; ?>
 					</td>
-					<td class="small">
+					<td>
 						<?php echo $this->escape($item->new_url); ?>
 					</td>
-					<td class="small">
+					<td>
 						<?php echo $this->escape($item->referer); ?>
 					</td>
-					<td class="small">
+					<td>
 						<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
 					<td class="center">

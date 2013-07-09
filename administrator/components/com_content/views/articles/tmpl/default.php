@@ -242,6 +242,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 								// Render dropdown list
 								echo JHtml::_('dropdown.render');
 								?>
+<<<<<<< HEAD
 							</div>
 						</td>
 						<?php if ($langs) : ?>
@@ -280,6 +281,47 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 							<?php echo (int) $item->id; ?>
 						</td>
 					</tr>
+=======
+						</div>
+					</td>
+					<td class="hidden-phone">
+						<?php echo $this->escape($item->access_level); ?>
+					</td>
+					<?php if ($assoc) : ?>
+					<td class="hidden-phone">
+						<?php if ($item->association) : ?>
+							<?php echo JHtml::_('contentadministrator.association', $item->id); ?>
+						<?php endif; ?>
+					</td>
+					<?php endif;?>
+					<td class="hidden-phone">
+						<?php if ($item->created_by_alias) : ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+							<?php echo $this->escape($item->author_name); ?></a>
+							<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
+						<?php else : ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->created_by); ?>" title="<?php echo JText::_('JAUTHOR'); ?>">
+							<?php echo $this->escape($item->author_name); ?></a>
+						<?php endif; ?>
+					</td>
+					<td class="hidden-phone">
+						<?php if ($item->language == '*'):?>
+							<?php echo JText::alt('JALL', 'language'); ?>
+						<?php else:?>
+							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+						<?php endif;?>
+					</td>
+					<td class="nowrap hidden-phone">
+						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
+					</td>
+					<td class="center">
+						<?php echo (int) $item->hits; ?>
+					</td>
+					<td class="center hidden-phone">
+						<?php echo (int) $item->id; ?>
+					</td>
+				</tr>
+>>>>>>> removes small classes from table cells
 				<?php endforeach; ?>
 			</tbody>
 		</table>

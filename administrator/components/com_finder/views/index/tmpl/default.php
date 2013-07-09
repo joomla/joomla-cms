@@ -140,13 +140,13 @@ Joomla.submitbutton = function(pressbutton)
 							<i class="icon-calendar pull-right pop hasPopover" data-placement="left" title="<?php echo JText::_('JDETAILS');?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date);?>"></i>
 						<?php endif; ?>
 					</td>
-					<td class="small nowrap hidden-phone">
+					<td class="nowrap hidden-phone">
 						<?php
 						$key = FinderHelperLanguage::branchSingular($item->t_title);
 						echo $lang->hasKey($key) ? JText::_($key) : $item->t_title;
 						?>
 					</td>
-					<td class="small nowrap hidden-phone">
+					<td class="nowrap hidden-phone">
 						<?php echo JHtml::_('date', $item->indexdate, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
 				</tr>

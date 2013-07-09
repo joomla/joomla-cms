@@ -173,13 +173,13 @@ $sortFields = $this->getSortFields();
 								?>
 						</div>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $item->contact;?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo $item->nbanners; ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->purchase_type < 0):?>
 							<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_'.$params->get('purchase_type')));?>
 						<?php else:?>

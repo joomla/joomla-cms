@@ -182,10 +182,10 @@ $saveOrder	= $listOrder == 'fp.ordering';
 							<?php echo $item->ordering; ?>
 						<?php endif; ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->created_by_alias) : ?>
 							<?php echo $this->escape($item->author_name); ?>
 							<p class="smallsub"> <?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></p>
@@ -193,14 +193,14 @@ $saveOrder	= $listOrder == 'fp.ordering';
 							<?php echo $this->escape($item->author_name); ?>
 						<?php endif; ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 						<?php else:?>
 							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 						<?php endif;?>
 					</td>
-					<td class="nowrap small hidden-phone">
+					<td class="nowrap hidden-phone">
 						<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
 					<td class="center hidden-phone">

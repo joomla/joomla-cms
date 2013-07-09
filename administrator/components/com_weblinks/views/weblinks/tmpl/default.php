@@ -170,13 +170,13 @@ $sortFields = $this->getSortFields();
 							<?php echo $this->escape($item->category_title); ?>
 						</div>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo $item->hits; ?>
 					</td>
-					<td class="small nowrap hidden-phone">
+					<td class="nowrap hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 						<?php else:?>

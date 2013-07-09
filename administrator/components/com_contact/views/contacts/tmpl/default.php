@@ -222,7 +222,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 							?>
 						</div>
 					</td>
-					<td align="small hidden-phone">
+					<td align="hidden-phone">
 						<?php if (!empty($item->linked_user)) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
 						<?php endif; ?>
@@ -230,7 +230,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
 					</td>
-					<td align="small hidden-phone">
+					<td align="hidden-phone">
 						<?php echo $item->access_level; ?>
 					</td>
 					<?php if ($assoc) : ?>
@@ -240,7 +240,7 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 						<?php endif; ?>
 					</td>
 					<?php endif;?>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 						<?php else:?>

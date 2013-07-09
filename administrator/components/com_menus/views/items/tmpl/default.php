@@ -232,17 +232,17 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 							<?php endif;?>
 						<?php endif; ?>
 					</td>
-				<td class="small hidden-phone">
+				<td class="hidden-phone">
 					<?php echo $this->escape($item->access_level); ?>
 				</td>
 				<?php if ($assoc):?>
-				<td class="small hidden-phone">
+				<td class="hidden-phone">
 					<?php if ($item->association):?>
 						<?php echo JHtml::_('MenusHtml.Menus.association', $item->id);?>
 						<?php endif;?>
 					</td>
 					<?php endif;?>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->language == ''):?>
 							<?php echo JText::_('JDEFAULT'); ?>
 						<?php elseif ($item->language == '*'):?>
