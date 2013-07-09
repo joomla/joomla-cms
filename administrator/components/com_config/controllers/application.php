@@ -50,8 +50,8 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->redirect();
 		}
 
 		// Set FTP credentials, if given.
@@ -135,8 +135,8 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->redirect();
 		}
 
 		// Set FTP credentials, if given
@@ -185,8 +185,8 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->redirect();
 		}
 
 		// Initialise model.

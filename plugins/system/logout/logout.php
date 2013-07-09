@@ -86,7 +86,8 @@ class PlgSystemLogout extends JPlugin
 		if ($error->getCode() == 403 and $app->isSite())
 		{
 			// Redirect to the home page
-			$app->redirect('index.php', JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'), null, true, false);
+			$app->enqueueMessage(JText::_('PLG_SYSTEM_LOGOUT_REDIRECT'));
+			$app->redirect('index.php', true);
 		}
 		else
 		{
