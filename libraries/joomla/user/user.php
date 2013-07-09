@@ -560,7 +560,7 @@ class JUser extends JObject
 			$salt = JUserHelper::genRandomPassword(32);
 			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
 
-			if (static::hasStrongPasswords())
+			if (JUserHelper::hasStrongPasswords())
 			{
 				$passwordInfo = password_get_info($array['password']);
 				$array['password'] = $crypt . (($passwordInfo['algo'] != 0
@@ -606,7 +606,7 @@ class JUser extends JObject
 
 				$salt = JUserHelper::genRandomPassword(32);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-				if (static::hasStrongPasswords())
+				if (JUserHelper::hasStrongPasswords())
 				{
 					$passwordInfo = password_get_info($array['password']);
 					$array['password'] = $crypt . (($passwordInfo['algo'] != 0
