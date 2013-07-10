@@ -42,7 +42,7 @@ $doc->addScript('templates/' .$this->template. '/js/template.js');
 $doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
 
 // Load optional RTL Bootstrap CSS
-JHtml::_('bootstrap.loadCss', false, $this->direction);
+JHtml::_('bootstrap.loadCss', true, $this->direction);
 
 // Add current user information
 $user = JFactory::getUser();
