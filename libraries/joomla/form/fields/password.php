@@ -40,6 +40,7 @@ class JFormFieldPassword extends JFormField
 	{
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$placeholder = $this->element['placeholder'] ? ' placeholder="' . (string) $this->element['placeholder'] . '"' : '';
 		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
 		$class		= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$auto		= ((string) $this->element['autocomplete'] == 'off') ? ' autocomplete="off"' : '';
@@ -64,6 +65,6 @@ class JFormFieldPassword extends JFormField
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-			$auto . $class . $readonly . $disabled . $size . $maxLength . '/>' . $script;
+			$auto . $class . $readonly . $disabled . $size . $placeholder . $maxLength . '/>' . $script;
 	}
 }
