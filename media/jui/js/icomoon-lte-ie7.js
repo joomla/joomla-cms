@@ -8,7 +8,7 @@ window.onload = function() {
 	var icons = {
 			'icon-home' : '&#x21;',
 			'icon-user' : '&#x22;',
-			'icon-locked' : '&#x23;',
+			'icon-lock' : '&#x23;',
 			'icon-comments' : '&#x24;',
 			'icon-comments-2' : '&#x25;',
 			'icon-out' : '&#x26;',
@@ -146,7 +146,7 @@ window.onload = function() {
 			addIcon(el, attr);
 		}
 		c = el.className;
-		c = c.match(/icon-[^s'"]+/);
+		c = c.match(/icon-[^\s'"]+/);
 		if (c) {
 			addIcon(el, icons[c[0]]);
 		}
