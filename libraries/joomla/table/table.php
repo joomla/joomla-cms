@@ -81,6 +81,14 @@ abstract class JTable extends JObject
 	protected $_locked = false;
 
 	/**
+	 * Are tags supported?
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $supportTags = true;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -125,7 +133,7 @@ abstract class JTable extends JObject
 		}
 
 		// If the newTags property does not exists, set the default.
-		if (!property_exists($this, 'newTags'))
+		if ($this->supportTags && !property_exists($this, 'newTags'))
 		{
 			$this->newTags = array();
 		}

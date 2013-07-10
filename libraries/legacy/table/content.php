@@ -302,11 +302,10 @@ class JTableContent extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->typeAlias = 'com_content.article';
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 
 	/**
