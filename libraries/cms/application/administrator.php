@@ -35,13 +35,14 @@ final class JApplicationAdministrator extends JApplicationCms
 	 */
 	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
 	{
-		parent::__construct($input, $config, $client);
-
 		// Register the application name
 		$this->_name = 'administrator';
 
 		// Register the client ID
 		$this->_clientId = 1;
+
+		// Execute the parent constructor
+		parent::__construct($input, $config, $client);
 
 		// Set the root in the URI based on the application name
 		JUri::root(null, str_ireplace('/' . $this->getName(), '', JUri::base(true)));

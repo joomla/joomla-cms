@@ -53,13 +53,14 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public function __construct(JInput $input = null, JRegistry $config = null, JApplicationWebClient $client = null)
 	{
-		parent::__construct($input, $config, $client);
-
 		// Register the application name
 		$this->_name = 'site';
 
 		// Register the client ID
 		$this->_clientId = 0;
+
+		// Execute the parent constructor
+		parent::__construct($input, $config, $client);
 	}
 
 	/**
