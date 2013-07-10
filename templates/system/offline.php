@@ -23,7 +23,7 @@ $app = JFactory::getApplication();
 	<div id="frame" class="outline">
 		<?php if ($app->getCfg('offline_image') and file_exists($app->getCfg('offline_image'))) : ?>
 		<img src="<?php echo $app->getCfg('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->getCfg('sitename')); ?>" />
-		<?php endif;?>
+		<?php endif; ?>
 		<h1>
 			<?php echo htmlspecialchars($app->getCfg('sitename')); ?>
 		</h1>
