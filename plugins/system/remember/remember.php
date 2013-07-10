@@ -40,7 +40,7 @@ class PlgSystemRemember extends JPlugin
 				return;
 			}
 
-			JLoader::register('JAuthentication', JPATH_PLATFORM.'/joomla/user/authentication.php');
+			JLoader::register('JAuthentication', JPATH_PLATFORM . '/joomla/user/authentication.php');
 			$series = JApplication::getHash('JLOGIN_REMEMBER');
 
 			$inputCookie = new JInputCookie();
@@ -65,8 +65,6 @@ class PlgSystemRemember extends JPlugin
 				$filter = JFilterInput::getInstance();
 
 				$series64 = base64_encode($series);
-
-				$seriesLength = strlen($series);
 
 				//Find the matching record if it exists
 				$db = JFactory::getDbo();
@@ -94,7 +92,7 @@ class PlgSystemRemember extends JPlugin
 
 
 				// We have a cookie but it's not in the database or the cookie is invalid. Possible attack, invalidate every thing.
-				if ($countResults == 0 || !$results || !isset($match) || $results[0]->invalid != 0)
+				if ($countResults == 0 || !$results || $results[0]->invalid != 0)
 				{
 					//Should this start by throwing an exception?
 					// We can only invalidate if there is a user.
@@ -121,11 +119,6 @@ class PlgSystemRemember extends JPlugin
 				if ($countResults == 1)
 				{
 					// Now we have a user with one cookie with a valid series and a corresponding record in the database.
-					//$series = substr($results[0]->series, 0, $seriesLength);
-					//$series64 = substr($series64, 0, $seriesLength);
-
-					if (base64_encode($series) == $results[0]->series)
-					{
 						// Now check the key
 						if (substr($results[0]->token, 0, 4) == '$2y$')
 						{
@@ -148,7 +141,6 @@ class PlgSystemRemember extends JPlugin
 								$match = true;
 							}
 						}
-					}
 
 					// Now we check the value against the token
 					$credentials['username'] = $results[0]->user_id;
@@ -156,7 +148,7 @@ class PlgSystemRemember extends JPlugin
 
 					if (!$return)
 					{
-							JLog::add('Remember me login faild for user ' . $user->username , JLog::WARNING, 'security');
+							JLog::add('Remember me login failed for user ' . $user->username , JLog::WARNING, 'security');
 
 					}
 				}
