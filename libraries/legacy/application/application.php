@@ -752,7 +752,7 @@ class JApplication extends JApplicationBase
 		// OK, the credentials are built. Lets fire the onLogout event.
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
-		if ($options['remember'] === true)
+		if (JPluginHelper::isEnabled('system', 'remember'))
 		{
 			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
 		}
