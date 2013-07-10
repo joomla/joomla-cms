@@ -816,7 +816,7 @@ class JHelperTags
 	 */
 	public function preStoreProcess($table, $newTags = array())
 	{
-		if ($newTags != array())
+		if ($newTags != array() && !isset($this->newTags))
 		{
 			$this->newTags = $newTags;
 		}
