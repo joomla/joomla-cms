@@ -20,8 +20,8 @@ class ConfigModelApplication extends JModelForm
 	/**
 	 * Method to get a form object.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
@@ -46,15 +46,15 @@ class ConfigModelApplication extends JModelForm
 	 * JConfig. If configuration data has been saved in the session, that
 	 * data will be merged into the original data, overwriting it.
 	 *
-	 * @return  array  	An array containg all global config data.
+	 * @return  array  An array containg all global config data.
 	 *
 	 * @since   1.6
 	 */
 	public function getData()
 	{
 		// Get the config data.
-		$config	= new JConfig;
-		$data	= JArrayHelper::fromObject($config);
+		$config = new JConfig;
+		$data = JArrayHelper::fromObject($config);
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
@@ -87,9 +87,9 @@ class ConfigModelApplication extends JModelForm
 	/**
 	 * Method to save the configuration data.
 	 *
-	 * @param   array  An array containing all global config data.
+	 * @param   array  $data  An array containing all global config data.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  bool   True on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -98,7 +98,7 @@ class ConfigModelApplication extends JModelForm
 		// Save the rules
 		if (isset($data['rules']))
 		{
-			$rules	= new JAccessRules($data['rules']);
+			$rules = new JAccessRules($data['rules']);
 
 			// Check that we aren't removing our Super User permission
 			// Need to get groups from database, since they might have changed
@@ -237,11 +237,11 @@ class ConfigModelApplication extends JModelForm
 	/**
 	 * Method to write the configuration to a file.
 	 *
-	 * @param   JRegistry  $config	A JRegistry object containing all global config data.
+	 * @param   JRegistry  $config  A JRegistry object containing all global config data.
 	 *
-	 * @return  bool	   True on success, false on failure.
+	 * @return  bool       True on success, false on failure.
 	 *
-	 * @since	2.5.4
+	 * @since   2.5.4
 	 */
 	private function writeConfigFile(JRegistry $config)
 	{

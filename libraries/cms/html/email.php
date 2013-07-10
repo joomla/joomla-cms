@@ -35,7 +35,7 @@ abstract class JHtmlEmail
 	public static function cloak($mail, $mailto = true, $text = '', $email = true)
 	{
 		// Convert text
-		$mail = self::convertEncoding($mail);
+		$mail = static::convertEncoding($mail);
 
 		// Split email by @ symbol
 		$mail = explode('@', $mail);
@@ -59,7 +59,7 @@ abstract class JHtmlEmail
 				if ($email)
 				{
 					// Convert text
-					$text = self::convertEncoding($text);
+					$text = static::convertEncoding($text);
 
 					// Split email by @ symbol
 					$text = explode('@', $text);

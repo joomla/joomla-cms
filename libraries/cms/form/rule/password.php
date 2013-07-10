@@ -92,6 +92,9 @@ class JFormRulePassword extends JFormRule
 		// We don't allow white space inside passwords
 		$valueTrim = trim($value);
 
+		// Set a variable to check if any errors are made in password
+		$validPassword = true;
+
 		if (strlen($valueTrim) != $valueLength)
 		{
 			JFactory::getApplication()->enqueueMessage(
@@ -99,13 +102,13 @@ class JFormRulePassword extends JFormRule
 				'warning'
 				);
 
-			return false;
+			$validPassword = false;
 		}
 
 		// Minimum number of integers required
 		if (!empty($minimumIntegers))
 		{
-			$nInts = preg_match_all('/[0-9]/', $value);
+			$nInts = preg_match_all('/[0-9]/', $value, $imatch);
 
 			if ($nInts < $minimumIntegers)
 			{
@@ -114,14 +117,14 @@ class JFormRulePassword extends JFormRule
 					'warning'
 				);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
 		// Minimum number of symbols required
 		if (!empty($minimumSymbols))
 		{
-			$nsymbols = preg_match_all('[\W]', $value);
+			$nsymbols = preg_match_all('[\W]', $value, $smatch);
 
 			if ($nsymbols < $minimumSymbols)
 			{
@@ -130,14 +133,14 @@ class JFormRulePassword extends JFormRule
 					'warning'
 				);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
 		// Minimum number of upper case ASII characters required
 		if (!empty($minimumUppercase))
 		{
-			$nUppercase = preg_match_all("/[A-Z]/", $value);
+			$nUppercase = preg_match_all("/[A-Z]/", $value, $umatch);
 
 			if ($nUppercase < $minimumUppercase)
 			{
@@ -146,7 +149,7 @@ class JFormRulePassword extends JFormRule
 					'warning'
 			);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
@@ -160,8 +163,14 @@ class JFormRulePassword extends JFormRule
 					'warning'
 					);
 
-				return false;
+				$validPassword = false;
 			}
+		}
+
+		// If valid has violated any rules above return false.
+		if (!$validPassword)
+		{
+			return false;
 		}
 
 		return true;

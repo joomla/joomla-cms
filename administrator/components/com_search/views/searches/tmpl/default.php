@@ -23,7 +23,7 @@ $canDo		= SearchHelper::getActions();
 <form action="<?php echo JRoute::_('index.php?option=com_search&view=searches'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="filter-search btn-group pull-left">
-			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_SEARCH_SEARCH_IN_PHRASE'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_SEARCH_SEARCH_IN_PHRASE'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_SEARCH_SEARCH_IN_PHRASE'); ?>" />
 		</div>
 		<div class="filter-search btn-group pull-left">
 			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
@@ -49,12 +49,12 @@ $canDo		= SearchHelper::getActions();
 	<?php if ($this->enabled) : ?>
 	<div class="alert alert-info">
 		<a class="close" data-dismiss="alert">×</a>
-		<span class="enabled"><?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?></span>
+		<?php echo JText::_('COM_SEARCH_LOGGING_ENABLED'); ?>
 	</div>
 	<?php else : ?>
 	<div class="alert alert-error">
 		<a class="close" data-dismiss="alert">×</a>
-		<span class="disabled"><?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?></span>
+		<?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?>
 	</div>
 	<?php endif; ?>
 	<table class="table table-striped">
