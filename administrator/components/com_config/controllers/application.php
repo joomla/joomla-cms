@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_config
  * @since       1.5
- * @deprecated  3.2
+ * @deprecated  4.0
  */
 class ConfigControllerApplication extends JControllerLegacy
 {
@@ -27,7 +27,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  3.2
+	 * @deprecated  4.0
 	 */
 	public function __construct($config = array())
 	{
@@ -43,7 +43,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 * @return  bool  True on success, false on failure.
 	 *
 	 * @since   1.5
-	 * @deprecated  3.2  Use ConfigControllerApplicationSave instead.
+	 * @deprecated  4.0  Use ConfigControllerApplicationSave instead.
 	 */
 	public function save()
 	{
@@ -59,7 +59,7 @@ class ConfigControllerApplication extends JControllerLegacy
 
 	/**
 	 * Cancel operation
-	 * @deprecated  3.2  Use ConfigControllerApplicationCancel instead.
+	 * @deprecated  4.0  Use ConfigControllerApplicationCancel instead.
 	 */
 	public function cancel()
 	{
@@ -89,7 +89,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 * @return  bool  True on success, false on failure.
 	 *
 	 * @since   1.5
-	 * @deprecated  3.2  Use ConfigControllerApplicationRemoveroot instead.
+	 * @deprecated  4.0  Use ConfigControllerApplicationRemoveroot instead.
 	 */
 	public function removeroot()
 	{

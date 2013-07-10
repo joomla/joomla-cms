@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @deprecated  3.2
+ * @deprecated  4.0
  */
 
 JLog::add('models/ConfigModelApplication is deprecated. Use model/ConfigModelApplication instead.', JLog::WARNING, 'deprecated');

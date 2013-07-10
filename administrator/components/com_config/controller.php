@@ -21,7 +21,7 @@ class ConfigController extends JControllerLegacy
 	/**
 	 * @var    string  The default view.
 	 * @since  1.6
-	 * @deprecated  3.2
+	 * @deprecated  4.0
 	 */
 	protected $default_view = 'application';
 
@@ -34,7 +34,7 @@ class ConfigController extends JControllerLegacy
 	 * @return  JController  This object to support chaining.
 	 *
 	 * @since   1.5
-	 * @deprecated  3.2
+	 * @deprecated  4.0
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{

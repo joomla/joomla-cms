@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_config
  * @since       1.5
- * @deprecated  3.2
+ * @deprecated  4.0
  */
 class ConfigControllerComponent extends JControllerLegacy
 {
@@ -27,7 +27,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	 * @return  void
 	 *
 	 * @since   1.5
-	 * @deprecated  3.2
+	 * @deprecated  4.0
 	 */
 	public function __construct($config = array())
 	{
@@ -43,7 +43,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	 * @return  void
 	 *
 	 * @since   3.0
-	 * @deprecated  3.2  Use ConfigControllerComponentCancel instead.
+	 * @deprecated  4.0  Use ConfigControllerComponentCancel instead.
 	 */
 	function cancel()
 	{
@@ -57,7 +57,7 @@ class ConfigControllerComponent extends JControllerLegacy
 
 	/**
 	 * Save the configuration
-	 * @deprecated  3.2  Use ConfigControllerComponentSave instead.
+	 * @deprecated  4.0  Use ConfigControllerComponentSave instead.
 	 */
 	public function save()
 	{
