@@ -311,27 +311,6 @@ class JControllerForm extends JControllerLegacy
 		// Attempt to check-in the current record.
 		if ($recordId)
 		{
-/*
- * TODO: THIS IS NOT NEEDED IMHO, AND PROBLEM IF PERSISTING SHOULD BE RESOLVED DIFFERENTLY
- * TODO: REFERENCE OF COMMIT REFERENCE THAT GOT IT ADDED: http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=21327
-			// Check we are holding the id in the edit list.
-			if (!$this->checkEditId($context, $recordId))
-			{
-				// Somehow the person just went to the form - we don't allow that.
-				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-				$this->setMessage($this->getError(), 'error');
-
-				$this->setRedirect(
-					JRoute::_(
-						'index.php?option=' . $this->option . '&view=' . $this->view_list
-						. $this->getRedirectToListAppend(), false
-					)
-				);
-
-				return false;
-			}
-*/
-
 			if ($checkin)
 			{
 				if ($model->checkin($recordId) === false)
@@ -579,26 +558,6 @@ class JControllerForm extends JControllerLegacy
 		}
 
 		$recordId = $this->input->getInt($urlVar);
-
-/*
- * TODO: THIS IS NOT NEEDED IMHO, AND PROBLEM IF PERSISTING SHOULD BE RESOLVED DIFFERENTLY
- * TODO: REFERENCE OF COMMIT REFERENCE THAT GOT IT ADDED: http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=21327
-		if (!$this->checkEditId($context, $recordId))
-		{
-			// Somehow the person just went to the form and tried to save it. We don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
-
-			$this->setRedirect(
-				JRoute::_(
-					'index.php?option=' . $this->option . '&view=' . $this->view_list
-					. $this->getRedirectToListAppend(), false
-				)
-			);
-
-			return false;
-		}
-*/
 
 		// Populate the row id from the session.
 		$data[$key] = $recordId;

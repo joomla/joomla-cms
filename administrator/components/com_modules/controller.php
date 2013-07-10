@@ -21,10 +21,11 @@ class ModulesController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean         $cachable       If true, the view output will be cached
+	 * @param   array|boolean   $urlparams      An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}
+	.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController        This object to support chaining.
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -35,21 +36,6 @@ class ModulesController extends JControllerLegacy
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
-/*
-* TODO: THIS IS NOT NEEDED IMHO, AND PROBLEM IF PERSISTING SHOULD BE RESOLVED DIFFERENTLY
-* TODO: REFERENCE OF COMMIT REFERENCE THAT GOT IT ADDED: http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=21327
-		// Check for edit form.
-		if ($view == 'module' && $layout == 'edit' && !$this->checkEditId('com_modules.edit.module', $id))
-		{
-			// Somehow the person just went to the form - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_modules&view=modules', false));
-
-			return false;
-		}
-*/
-
-		parent::display();
+		return parent::display();
 	}
 }
