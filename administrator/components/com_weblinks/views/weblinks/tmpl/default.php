@@ -20,6 +20,8 @@ $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
+$archived	= $this->state->get('filter.state') == 2 ? true : false;
+$trashed	= $this->state->get('filter.state') == -2 ? true : false;
 $canOrder	= $user->authorise('core.edit.state', 'com_weblinks.category');
 $saveOrder	= $listOrder == 'a.ordering';
 if ($saveOrder)
@@ -156,7 +158,20 @@ $langs = isset($app->languages_enabled);
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+						<div class="btn-group">
+							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+							<?php
+							// Create dropdown items
+							$action = $archived ? 'unarchive' : 'archive';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'weblinks');
+
+							$action = $trashed ? 'untrash' : 'trash';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'weblinks');
+
+							// Render dropdown list
+							echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+							?>
+						</div>
 					</td>
 					<td class="nowrap has-context">
 						<?php if ($item->checked_out) : ?>

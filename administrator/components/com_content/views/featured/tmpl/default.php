@@ -13,7 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app		= JFactory::getApplication();
@@ -174,6 +173,17 @@ $assoc = isset($app->item_associations);
 							<div class="btn-group">
 								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 								<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
+								<?php
+								// Create dropdown items
+								$action = $archived ? 'unarchive' : 'archive';
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'newsfeeds');
+
+								$action = $trashed ? 'untrash' : 'trash';
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'newsfeeds');
+
+								// Render dropdown list
+								echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+								?>
 							</div>
 						</td>
 						<td class="nowrap has-context">
@@ -190,51 +200,6 @@ $assoc = isset($app->item_associations);
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
 								</div>
-							</div>
-							<div class="pull-left">
-								<?php
-								// Create dropdown items
-								JHtml::_('dropdown.edit', $item->id, 'article.', 'index.php?option=com_content&return=featured');
-								JHtml::_('dropdown.divider');
-								if ($item->state)
-								{
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'articles.');
-								}
-								else
-								{
-									JHtml::_('dropdown.publish', 'cb' . $i, 'articles.');
-								}
-
-								JHtml::_('dropdown.unfeatured', 'cb' . $i, 'articles.');
-
-								JHtml::_('dropdown.divider');
-
-								if ($archived)
-								{
-									JHtml::_('dropdown.unarchive', 'cb' . $i, 'articles.');
-								}
-								else
-								{
-									JHtml::_('dropdown.archive', 'cb' . $i, 'articles.');
-								}
-
-								if ($item->checked_out)
-								{
-									JHtml::_('dropdown.checkin', 'cb' . $i, 'articles.');
-								}
-
-								if ($trashed)
-								{
-									JHtml::_('dropdown.untrash', 'cb' . $i, 'articles.');
-								}
-								else
-								{
-									JHtml::_('dropdown.trash', 'cb' . $i, 'articles.');
-								}
-
-								// Render dropdown list
-								echo JHtml::_('dropdown.render');
-								?>
 							</div>
 						</td>
 						<?php if ($langs) : ?>

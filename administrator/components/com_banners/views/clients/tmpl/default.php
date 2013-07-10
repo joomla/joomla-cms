@@ -13,7 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $user       = JFactory::getUser();
@@ -21,8 +20,8 @@ $userId     = $user->get('id');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $params     = (isset($this->state->params)) ? $this->state->params : new JObject;
-$archived   = $this->state->get('filter.published') == 2 ? true : false;
-$trashed    = $this->state->get('filter.published') == -2 ? true : false;
+$archived   = $this->state->get('filter.state') == 2 ? true : false;
+$trashed    = $this->state->get('filter.state') == -2 ? true : false;
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
@@ -125,7 +124,20 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange);?>
+						<div class="btn-group">
+							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange);?>
+							<?php
+							// Create dropdown items
+							$action = $archived ? 'unarchive' : 'archive';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'clients');
+
+							$action = $trashed ? 'untrash' : 'trash';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'clients');
+
+							// Render dropdown list
+							echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+							?>
+						</div>
 					</td>
 					<td class="nowrap has-context">
 						<div class="pull-left">
@@ -138,39 +150,6 @@ $sortFields = $this->getSortFields();
 							<?php else : ?>
 									<?php echo $this->escape($item->name); ?>
 							<?php endif; ?>
-						</div>
-						<div class="pull-left">
-							<?php
-								// Create dropdown items
-								JHtml::_('dropdown.edit', $item->id, 'client.');
-								JHtml::_('dropdown.divider');
-								if ($item->state) :
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'clients.');
-								else :
-									JHtml::_('dropdown.publish', 'cb' . $i, 'clients.');
-								endif;
-
-								JHtml::_('dropdown.divider');
-
-								if ($archived) :
-									JHtml::_('dropdown.unarchive', 'cb' . $i, 'clients.');
-								else :
-									JHtml::_('dropdown.archive', 'cb' . $i, 'clients.');
-								endif;
-
-								if ($item->checked_out) :
-									JHtml::_('dropdown.checkin', 'cb' . $i, 'clients.');
-								endif;
-
-								if ($trashed) :
-									JHtml::_('dropdown.untrash', 'cb' . $i, 'clients.');
-								else :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'clients.');
-								endif;
-
-								// render dropdown list
-								echo JHtml::_('dropdown.render');
-								?>
 						</div>
 					</td>
 					<td class="hidden-phone">

@@ -13,7 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app		= JFactory::getApplication();
@@ -177,15 +176,15 @@ $assoc = isset($app->item_associations);
 								<?php
 								// Create dropdown items
 								$action = $archived ? 'unarchive' : 'archive';
-								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles.');
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
 
 								$action = $trashed ? 'untrash' : 'trash';
-								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles.');
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'articles');
 
 								// Render dropdown list
 								echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
 								?>
-						</div>
+							</div>
 						</td>
 						<td class="nowrap has-context">
 							<div class="pull-left">

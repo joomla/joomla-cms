@@ -7306,3 +7306,6 @@ th .tooltip-inner {
 #helpsite-refresh {
 	vertical-align: top;
 }
+.dropdown-menu > li > span {
+	padding: 3px 20px;
+}

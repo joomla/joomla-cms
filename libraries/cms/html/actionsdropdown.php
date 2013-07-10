@@ -22,7 +22,7 @@ abstract class JHtmlActionsDropdown
 	 * @var    string  HTML markup for the dropdown list
 	 * @since  3.2
 	 */
-	protected static $dropDownList = null;
+	protected static $dropDownList = array();
 
 	/**
 	 * Method to render current dropdown menu
@@ -33,134 +33,159 @@ abstract class JHtmlActionsDropdown
 	 */
 	public static function render($item = '')
 	{
-		$html = '<button data-toggle="dropdown" class="dropdown-toggle btn btn-micro">'
-			. '<span class="caret"></span>';
+		$html = array();
+
+		$html[] = '<button data-toggle="dropdown" class="dropdown-toggle btn btn-micro">';
+		$html[] = '<span class="caret"></span>';
 
 		if ($item)
 		{
-			$html .= '<span class="element-invisible">' . JText::sprintf('JACTIONS', $item) . '</span>';
+			$html[] = '<span class="element-invisible">' . JText::sprintf('JACTIONS', $item) . '</span>';
 		}
 
-		$html .= '</button>'
-			. '<ul class="dropdown-menu">'
-			. static::$dropDownList
-			. '</ul></div>';
+		$html[] = '</button>';
+		$html[] = '<ul class="dropdown-menu">';
+		$html[] = implode('', static::$dropDownList);
+		$html[] = '</ul></div>';
 
 		static::$dropDownList = null;
 
-		return $html;
+		return implode('', $html);
 	}
 
 	/**
 	 * Append a publish item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
 	 *
 	 * @since   3.2
 	 */
-	public static function publish($checkboxId, $prefix = '')
+	public static function publish($id, $prefix = '')
 	{
-		$task = $prefix . 'publish';
-		static::addCustomItem(JText::_('JTOOLBAR_PUBLISH'), 'publish', null, 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		$task = ($prefix ? $prefix . '.' : '') . 'publish';
+		static::addCustomItem(JText::_('JTOOLBAR_PUBLISH'), 'publish', $id, $task);
 	}
 
 	/**
 	 * Append an unpublish item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
 	 *
 	 * @since   3.2
 	 */
-	public static function unpublish($checkboxId, $prefix = '')
+	public static function unpublish($id, $prefix = '')
 	{
-		$task = $prefix . 'unpublish';
-		static::addCustomItem(JText::_('JTOOLBAR_UNPUBLISH'), 'unpublish', null, 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		$task = ($prefix ? $prefix . '.' : '') . 'unpublish';
+		static::addCustomItem(JText::_('JTOOLBAR_UNPUBLISH'), 'unpublish', $id, $task);
 	}
 
 	/**
 	 * Append a feature item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
 	 *
 	 * @since   3.2
 	 */
-	public static function feature($checkboxId, $prefix = '')
+	public static function feature($id, $prefix = '')
 	{
-		$task = $prefix . 'featured';
-		static::addCustomItem(JText::_('JFEATURE'), 'featured', null, 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		$task = ($prefix ? $prefix . '.' : '') . 'featured';
+		static::addCustomItem(JText::_('JFEATURE'), 'featured', $id, $task);
 	}
 
 	/**
 	 * Append an unfeature item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
 	 *
 	 * @since   3.2
 	 */
-	public static function unfeature($checkboxId, $prefix = '')
+	public static function unfeature($id, $prefix = '')
 	{
-		$task = $prefix . 'unfeatured';
-		static::addCustomItem(JText::_('JUNFEATURE'), 'unfeatured', null, 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		$task = ($prefix ? $prefix . '.' : '') . 'unfeatured';
+		static::addCustomItem(JText::_('JUNFEATURE'), 'unfeatured', $id, $task);
 	}
 
 	/**
 	 * Append an archive item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
 	 *
 	 * @since   3.2
 	 */
-	public static function archive($checkboxId, $prefix = '')
+	public static function archive($id, $prefix = '')
 	{
-		$task = $prefix . 'archive';
-		static::addCustomItem(JText::_('JTOOLBAR_ARCHIVE'), 'archive', null, 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		$task = ($prefix ? $prefix . '.' : '') . 'archive';
+		static::addCustomItem(JText::_('JTOOLBAR_ARCHIVE'), 'archive', $id, $task);
 	}
 
 	/**
 	 * Append an unarchive item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
 	 *
 	 * @since   3.2
 	 */
-	public static function unarchive($checkboxId, $prefix = '')
+	public static function unarchive($id, $prefix = '')
 	{
-		$task = $prefix . 'unpublish';
-		static::addCustomItem(JText::_('JTOOLBAR_UNARCHIVE'), 'unarchive', null, 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		$task = ($prefix ? $prefix . '.' : '') . 'unpublish';
+		static::addCustomItem(JText::_('JTOOLBAR_UNARCHIVE'), 'unarchive', $id, $task);
+	}
+
+	/**
+	 * Append a duplicate item to the current dropdown menu
+	 *
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
+	 *
+	 * @since   3.2
+	 */
+	public static function duplicate($id, $prefix = '')
+	{
+		$task = ($prefix ? $prefix . '.' : '') . 'duplicate';
+		static::addCustomItem(JText::_('JTOOLBAR_DUPLICATE'), 'copy', $id, $task);
 	}
 
 	/**
 	 * Append a trash item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
 	 *
 	 * @since   3.2
 	 */
-	public static function trash($checkboxId, $prefix = '')
+	public static function trash($id, $prefix = '')
 	{
-		$task = $prefix . 'trash';
-		static::addCustomItem(JText::_('JTOOLBAR_TRASH'), 'trash', null, 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		$task = ($prefix ? $prefix . '.' : '') . 'trash';
+		static::addCustomItem(JText::_('JTOOLBAR_TRASH'), 'trash', $id, $task);
 	}
 
 	/**
 	 * Append an untrash item to the current dropdown menu
 	 *
-	 * @param   string  $checkboxId  ID of corresponding checkbox of the record
-	 * @param   string  $prefix      The task prefix
+	 * @param   string  $id      ID of corresponding checkbox of the record
+	 * @param   string  $prefix  The task prefix
 	 *
 	 * @since   3.2
 	 */
-	public static function untrash($checkboxId, $prefix = '')
+	public static function untrash($id, $prefix = '')
 	{
-		$task = $prefix . 'publish';
-		static::addCustomItem(JText::_('JTOOLBAR_UNTRASH'), 'trash', null, 'onclick="contextAction(\'' . $checkboxId . '\', \'' . $task . '\')"');
+		self::publish($id, $prefix);
+	}
+
+	/**
+	 * Writes a divider between dropdown items
+	 *
+	 * @since   3.0
+	 */
+	public static function divider()
+	{
+		static::$dropDownList[] = '<li class="divider"></li>';
 	}
 
 	/**
@@ -173,12 +198,11 @@ abstract class JHtmlActionsDropdown
 	 *
 	 * @since   3.2
 	 */
-	public static function addCustomItem($label, $icon = '', $link = 'javascript://', $linkAttributes = '')
+	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
-		$icon = $icon ? '<span class="icon-' . $icon . '"></span> ' : '';
-		static::$dropDownList .= '<li>'
-			. '<a  href = "' . $link . '" ' . $linkAttributes . ' >'
-			. $icon
+		static::$dropDownList[] = '<li>'
+			. '<a href = "javascript://" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
+			. ($icon ? '<span class="icon-' . $icon . '"></span> ' : '')
 			. $label
 			. '</a>'
 			. '</li>';

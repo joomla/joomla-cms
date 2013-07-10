@@ -13,7 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app		= JFactory::getApplication();
@@ -166,7 +165,20 @@ $assoc = isset($app->item_associations);
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+						<div class="btn-group">
+							<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+							<?php
+							// Create dropdown items
+							$action = $archived ? 'unarchive' : 'archive';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'contacts');
+
+							$action = $trashed ? 'untrash' : 'trash';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'contacts');
+
+							// Render dropdown list
+							echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+							?>
+						</div>
 					</td>
 					<td class="nowrap has-context">
 						<div class="pull-left">
@@ -185,45 +197,6 @@ $assoc = isset($app->item_associations);
 							<div class="small">
 								<?php echo $item->category_title; ?>
 							</div>
-						</div>
-						<div class="pull-left">
-							<?php
-								// Create dropdown items
-								JHtml::_('dropdown.edit', $item->id, 'contact.');
-								JHtml::_('dropdown.divider');
-								if ($item->published) :
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.publish', 'cb' . $i, 'contacts.');
-								endif;
-
-								if ($item->featured) :
-									JHtml::_('dropdown.unfeatured', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.featured', 'cb' . $i, 'contacts.');
-								endif;
-
-								JHtml::_('dropdown.divider');
-
-								if ($archived) :
-									JHtml::_('dropdown.unarchive', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.archive', 'cb' . $i, 'contacts.');
-								endif;
-
-								if ($item->checked_out) :
-									JHtml::_('dropdown.checkin', 'cb' . $i, 'contacts.');
-								endif;
-
-								if ($trashed) :
-									JHtml::_('dropdown.untrash', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'contacts.');
-								endif;
-
-								// render dropdown list
-								echo JHtml::_('dropdown.render');
-							?>
 						</div>
 					</td>
 					<td align="hidden-phone">

@@ -13,7 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
@@ -22,8 +21,8 @@ $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_banners.category');
-$archived	= $this->state->get('filter.published') == 2 ? true : false;
-$trashed	= $this->state->get('filter.published') == -2 ? true : false;
+$archived	= $this->state->get('filter.state') == 2 ? true : false;
+$trashed	= $this->state->get('filter.state') == -2 ? true : false;
 $params		= (isset($this->state->params)) ? $this->state->params : new JObject;
 $saveOrder	= $listOrder == 'ordering';
 if ($saveOrder)
@@ -168,7 +167,20 @@ $assoc = isset($app->item_associations);
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+						<div class="btn-group">
+							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+							<?php
+							// Create dropdown items
+							$action = $archived ? 'unarchive' : 'archive';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'banners');
+
+							$action = $trashed ? 'untrash' : 'trash';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'banners');
+
+							// Render dropdown list
+							echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+							?>
+						</div>
 					</td>
 					<td class="nowrap has-context">
 						<div class="pull-left">
@@ -184,39 +196,6 @@ $assoc = isset($app->item_associations);
 							<div class="small">
 								<?php echo $this->escape($item->category_title); ?>
 							</div>
-						</div>
-						<div class="pull-left">
-							<?php
-								// Create dropdown items
-								JHtml::_('dropdown.edit', $item->id, 'banner.');
-								JHtml::_('dropdown.divider');
-								if ($item->state) :
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'banners.');
-								else :
-									JHtml::_('dropdown.publish', 'cb' . $i, 'banners.');
-								endif;
-
-								JHtml::_('dropdown.divider');
-
-								if ($archived) :
-									JHtml::_('dropdown.unarchive', 'cb' . $i, 'banners.');
-								else :
-									JHtml::_('dropdown.archive', 'cb' . $i, 'banners.');
-								endif;
-
-								if ($item->checked_out) :
-									JHtml::_('dropdown.checkin', 'cb' . $i, 'banners.');
-								endif;
-
-								if ($trashed) :
-									JHtml::_('dropdown.untrash', 'cb' . $i, 'banners.');
-								else :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'banners.');
-								endif;
-
-								// render dropdown list
-								echo JHtml::_('dropdown.render');
-								?>
 						</div>
 					</td>
 
