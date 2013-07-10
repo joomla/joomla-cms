@@ -69,7 +69,7 @@ class UserNotesEditPage extends AdminEditPage
 		$el = $this->driver->waitForElementUntilIsPresent(By::id('filter_search'));
 		$el->clear();
 		$el->sendKeys($userName);
-		$this->driver->findElement(By::xPath("//button[@title='Search']"))->click();
+		$this->driver->findElement(By::xPath("//button[@title='Search' or @data-original-title='Search']"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::id('filter_search'));
 		$this->driver->findElement(By::xPath("//a[contains(@onclick, '" . $userName . "')]"))->click();
 		$this->driver->waitForElementUntilIsNotPresent(By::xPath($frameXpath));

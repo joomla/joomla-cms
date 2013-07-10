@@ -28,7 +28,7 @@ abstract class CategoryHelperAssociation
 	 * @param   integer  $id         Id of the item
 	 * @param   string   $extension  Name of the component
 	 *
-	 * @return  array   Array of associations for the component categories
+	 * @return  array    Array of associations for the component categories
 	 *
 	 * @since  3.0
 	 */
@@ -52,7 +52,7 @@ abstract class CategoryHelperAssociation
 				}
 				else
 				{
-					$return[$tag] = 'index.php?option='.$extension.'&view=category&id='.$item;
+					$return[$tag] = 'index.php?option=' . $extension . '&view=category&id=' . $item;
 				}
 			}
 		}
