@@ -226,7 +226,7 @@ class PlgSystemRemember extends JPlugin
 	public function onUserAfterLogin($options)
 	{
 		$app = JFactory::getApplication();
-		$length = $this->params->get('key_length', '30');
+		$length = $this->params->get('key_length', '20');
 
 		$privateKey = JUserHelper::genRandomPassword($length);
 		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
