@@ -66,6 +66,9 @@ class JToolbarButtonPopup extends JToolbarButton
 		$html = array();
 		$html[] = $layout->render($options);
 
+		// Place modal div and scripts in a new div
+		$html[] = '</div><div class="btn-group" style="width: 0; margin: 0">';
+
 		// Build the options array for the modal
 		$params = array();
 		$params['title']  = $options['title'];
