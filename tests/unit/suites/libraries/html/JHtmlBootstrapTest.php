@@ -97,7 +97,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.alert').alert();\n\t\t\t\t})(jQuery);",
+			"jQuery(document).ready(function() {\n\t\t\t\tjQuery('.alert').alert();\n\t\t\t});",
 			'Verify that the alert script is initialised'
 		);
 	}
@@ -125,7 +125,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.button').button();\n\t\t\t\t})(jQuery);",
+			"jQuery(document).ready(function() {\n\t\t\t\tjQuery('.button').button();\n\t\t\t});",
 			'Verify that the button script is initialised'
 		);
 	}
@@ -163,7 +163,7 @@ class JHtmlBootstrapTest extends TestCase
 
 		$this->assertEquals(
 			$document->_script['text/javascript'],
-			"(function($){\n\t\t\t\t$('.dropdown-toggle').dropdown();\n\t\t\t\t})(jQuery);",
+			"jQuery(document).ready(function() {\n\t\t\t\tjQuery('.dropdown-toggle').dropdown();\n\t\t\t});",
 			'Verify that the dropdown script is initialised'
 		);
 	}
