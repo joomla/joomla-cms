@@ -256,7 +256,10 @@ class JAuthentication extends JObject
 	{
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
-		if (JpluginHelper::isEnabled('system', 'remember'))
+
+		$series = JApplication::getHash('JLOGIN_REMEMBER');
+		$inputCookie = new JInputCookie();
+		if (JpluginHelper::isEnabled('system', 'remember') && $inputCookie->get($series))
 		{
 			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
 		}
@@ -309,7 +312,7 @@ class JAuthentication extends JObject
 			$response->fullname = $credentials['username'];
 		}
 
-		if (empty($response->password))
+		if (empty($response->password) && isset($credentials['password']))
 		{
 			$response->password = $credentials['password'];
 		}

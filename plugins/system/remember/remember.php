@@ -40,6 +40,7 @@ class PlgSystemRemember extends JPlugin
 				return;
 			}
 
+			JLoader::register('JAuthentication', JPATH_PLATFORM.'/joomla/user/authentication.php');
 			$series = JApplication::getHash('JLOGIN_REMEMBER');
 
 			$inputCookie = new JInputCookie();
@@ -47,6 +48,7 @@ class PlgSystemRemember extends JPlugin
 
 			if (!empty($cookieValue))
 			{
+
 				// We're going to clear out expired tokens very time someone logs in with remember me.
 				$nowtime = time();
 
@@ -114,16 +116,18 @@ class PlgSystemRemember extends JPlugin
 					}
 				}
 
+				JLoader::register('JAuthentication', JPATH_ROOT . '/libraries/joomla/user/authentication.php');
+
 				if ($countResults == 1)
 				{
-					// So now we have a user with one cookie with a valid series and a corresponding record in the database.
-					$series = substr($results[0]->series, 0, $seriesLength);
-					$series64 = substr($series64, 0, $seriesLength);
+					// Now we have a user with one cookie with a valid series and a corresponding record in the database.
+					//$series = substr($results[0]->series, 0, $seriesLength);
+					//$series64 = substr($series64, 0, $seriesLength);
 
-					if ($series == $results[0]->series)
+					if (base64_encode($series) == $results[0]->series)
 					{
 						// Now check the key
-						if (substr($result->password,0,4) == '$2y$')
+						if (substr($results[0]->token, 0, 4) == '$2y$')
 						{
 
 							if (JUserHelper::hasStrongPasswords())
@@ -133,45 +137,18 @@ class PlgSystemRemember extends JPlugin
 						}
 						else
 						{
-							$parts	= explode(':', $result->token);
+							$parts	= explode(':', $results[0]->token);
 							$crypt	= $parts[0];
 							$salt	= @$parts[1];
 
-							$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'md5-hex', false);
+							$testcrypt = JUserHelper::getCryptedPassword($cookieValue, $salt, 'md5-hex', false);
 
 							if ($crypt == $testcrypt)
 							{
 								$match = true;
 							}
 						}
-						if (isset($match) && $match === true)
-						{
-							// Bring this in line with the rest of the system
-							$user = JUser::getInstance($result->id);
-							$response->email = $user->email;
-							$response->fullname = $user->name;
-
-							if (JFactory::getApplication()->isAdmin())
-							{
-								$response->language = $user->getParam('admin_language');
-							}
-							else
-							{
-								$response->language = $user->getParam('language');
-							}
-
-							$response->status = JAuthentication::STATUS_SUCCESS;
-							$response->error_message = '';
-						}
-						else
-						{
-							$response->status = JAuthentication::STATUS_FAILURE;
-							$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
-						}
-
 					}
-
-					// We probably should add back some sanity checks but not as many as before
 
 					// Now we check the value against the token
 					$credentials['username'] = $results[0]->user_id;
@@ -179,7 +156,6 @@ class PlgSystemRemember extends JPlugin
 
 					if (!$return)
 					{
-							$response->status = JAuthentication::STATUS_FAILURE;
 							JLog::add('Remember me login faild for user ' . $user->username , JLog::WARNING, 'security');
 
 					}
@@ -202,6 +178,7 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
+
 		$response->type = 'Remember';
 
 		// Get a database object and make sure there really is a user with this name
@@ -218,7 +195,15 @@ class PlgSystemRemember extends JPlugin
 		{
 			// Bring this in line with the rest of the system
 			$user = JUser::getInstance($result->id);
-			$user->set('rememberLogin', true);
+			$series = JApplication::getHash('JLOGIN_REMEMBER');
+			$inputCookie = new JInputCookie();
+
+			// If there is no cookie, bail out
+			if (!$inputCookie->get($series))
+			{
+				$user->set('rememberLogin', true);
+
+			}
 
 			$response->username = $result->username;
 
@@ -250,8 +235,6 @@ class PlgSystemRemember extends JPlugin
 	{
 		$app = JFactory::getApplication();
 		$length = $this->params->get('key_length', '30');
-		//$privateKey = JCrypt::genRandomBytes($length);
-		// Create a long random password
 
 		$privateKey = JUserHelper::genRandomPassword($length);
 		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
@@ -273,6 +256,8 @@ class PlgSystemRemember extends JPlugin
 
 		// And make a new one.
 		setcookie($series, $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
+
+		$user = JFactory::getUser();
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
@@ -316,9 +301,6 @@ class PlgSystemRemember extends JPlugin
 		$cookie_path = $app->getCfg('cookie_path', '/');
 		$cookieName64 = base64_encode($options['cookieName']);
 		$seriesFromCookie = base64_decode($options['cookieName']);
-
-		//$cookieNameLength = strlen($cookieName64);
-		//$series = substr($result->series, 0, $cookieNameLength);
 
 		// We need to delete the records from the database also.
 		$db = JFactory::getDbo();
