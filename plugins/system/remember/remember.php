@@ -291,17 +291,22 @@ class PlgSystemRemember extends JPlugin
 		// Use domain and path set in config for cookie if it exists.
 		$cookie_domain = $app->getCfg('cookie_domain', '');
 		$cookie_path = $app->getCfg('cookie_path', '/');
-		$cookieName64 = base64_encode($options['cookieName']);
-		$seriesFromCookie = base64_decode($options['cookieName']);
+		$series = JApplication::getHash('JLOGIN_REMEMBER');
+		$inputCookie = new JInputCookie();
 
-		// We need to delete the records from the database also.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->delete('#__user_keys');
-		$query->where($db->quoteName('series') . ' = ' . $db->quote($seriesFromCookie) . ' AND ' . $db->quoteName('user_id') . ' = ' . $user->id );
-		$db->setQuery($query);
-		$db->execute();
+		// If there is no cookie, bail out
+		if (!$inputCookie->get($series))
+		{
+			$cookieName64 = base64_encode($inputCookie->get($series));
 
+			// We need to delete the records from the database also.
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+			$query->delete('#__user_keys');
+			$query->where($db->quoteName('series') . ' = ' . $db->quote($cookieName64) . ' AND ' . $db->quoteName('user_id') . ' = ' . $user->id );
+			$db->setQuery($query);
+			$db->execute();
+		}
 
 		setcookie(Japplication::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
 
