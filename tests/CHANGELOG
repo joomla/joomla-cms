@@ -26,6 +26,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Jul-2013 Mark Dexter
+ # Refactor delete method in webdriver tests
+ # Fix failing system tests due to markup changes.
+
 20-Jun-2013 Mark Dexter
  # Fix Webdriver tests for Google Chrome, markup changes.
 

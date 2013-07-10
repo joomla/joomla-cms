@@ -92,7 +92,7 @@ class JRouter
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @since 11.1
+	 * @since   11.1
 	 */
 	public function __construct($options = array())
 	{
@@ -113,7 +113,7 @@ class JRouter
 	 * @param   string  $client   The name of the client
 	 * @param   array   $options  An associative array of options
 	 *
-	 * @return  JRouter A JRouter object.
+	 * @return  JRouter  A JRouter object.
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
@@ -135,6 +135,7 @@ class JRouter
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/router.php';
+
 					if (file_exists($path))
 					{
 						include_once $path;
@@ -295,10 +296,12 @@ class JRouter
 	public function getVar($key)
 	{
 		$result = null;
+
 		if (isset($this->_vars[$key]))
 		{
 			$result = $this->_vars[$key];
 		}
+
 		return $result;
 	}
 
@@ -449,6 +452,7 @@ class JRouter
 		if (substr($url, 0, 1) == '&')
 		{
 			$vars = array();
+
 			if (strpos($url, '&amp;') !== false)
 			{
 				$url = str_replace('&amp;', '&', $url);
@@ -485,6 +489,7 @@ class JRouter
 	protected function _encodeSegments($segments)
 	{
 		$total = count($segments);
+
 		for ($i = 0; $i < $total; $i++)
 		{
 			$segments[$i] = str_replace(':', '-', $segments[$i]);
@@ -505,6 +510,7 @@ class JRouter
 	protected function _decodeSegments($segments)
 	{
 		$total = count($segments);
+
 		for ($i = 0; $i < $total; $i++)
 		{
 			$segments[$i] = preg_replace('/-/', ':', $segments[$i], 1);

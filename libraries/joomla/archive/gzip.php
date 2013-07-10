@@ -71,6 +71,7 @@ class JArchiveGzip implements JArchiveExtractable
 		if (!isset($options['use_streams']) || $options['use_streams'] == false)
 		{
 			$this->_data = file_get_contents($archive);
+
 			if (!$this->_data)
 			{
 				if (class_exists('JError'))
@@ -85,6 +86,7 @@ class JArchiveGzip implements JArchiveExtractable
 
 			$position = $this->_getFilePosition();
 			$buffer = gzinflate(substr($this->_data, $position, strlen($this->_data) - $position));
+
 			if (empty($buffer))
 			{
 				if (class_exists('JError'))
@@ -134,6 +136,7 @@ class JArchiveGzip implements JArchiveExtractable
 			if (!$output->open($destination, 'w'))
 			{
 				$input->close();
+
 				if (class_exists('JError'))
 				{
 					return JError::raiseWarning(100, 'Unable to write archive (gz)');
@@ -147,11 +150,13 @@ class JArchiveGzip implements JArchiveExtractable
 			do
 			{
 				$this->_data = $input->read($input->get('chunksize', 8196));
+
 				if ($this->_data)
 				{
 					if (!$output->write($this->_data))
 					{
 						$input->close();
+
 						if (class_exists('JError'))
 						{
 							return JError::raiseWarning(100, 'Unable to write file (gz)');
@@ -232,7 +237,6 @@ class JArchiveGzip implements JArchiveExtractable
 
 		if ($info['FLG'] & $this->_flags['FHCRC'])
 		{
-			// TODO: $hcrc doesn't seem to be used...
 			$hcrc = unpack('vCRC', substr($this->_data, $position + 0, 2));
 			$hcrc = $hcrc['CRC'];
 			$position += 2;

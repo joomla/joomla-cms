@@ -20,10 +20,10 @@ abstract class JHtmlCategoriesAdministrator
 	/**
 	 * Render the list of associated items
 	 *
-	 * @param   integer  $catid	     Category identifier to search its associations
+	 * @param   integer  $catid      Category identifier to search its associations
 	 * @param   string   $extension  Category Extension
 	 *
-	 * @return  string  The language HTML
+	 * @return  string   The language HTML
 	 */
 	public static function association($catid, $extension = 'com_content')
 	{
@@ -63,10 +63,11 @@ abstract class JHtmlCategoriesAdministrator
 					$text = strtoupper($item->lang_sef);
 					$url = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
 					$tooltipParts = array(
-						JHtml::_('image', 'mod_languages/' . $item->image . '.gif',
-								$item->language_title,
-								array('title' => $item->language_title),
-								true
+						JHtml::_(
+							'image', 'mod_languages/' . $item->image . '.gif',
+							$item->language_title,
+							array('title' => $item->language_title),
+							true
 						),
 						$item->title
 					);
@@ -80,5 +81,4 @@ abstract class JHtmlCategoriesAdministrator
 
 		return $html;
 	}
-
 }
