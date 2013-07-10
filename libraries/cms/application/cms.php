@@ -246,6 +246,41 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Execute the application.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function execute()
+	{
+		// Perform application routines.
+		$this->doExecute();
+
+		// If we have an application document object, render it.
+		if ($this->document instanceof JDocument)
+		{
+			// Render the application output.
+			$this->render();
+		}
+
+		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		{
+			$this->compress();
+
+			// Trigger the onAfterCompress event.
+			$this->triggerEvent('onAfterCompress');
+		}
+
+		// Send the application response.
+		$this->respond();
+
+		// Trigger the onAfterRespond event.
+		$this->triggerEvent('onAfterRespond');
+	}
+
+	/**
 	 * Gets a configuration value.
 	 *
 	 * @param   string  $varname  The name of the value to get.
