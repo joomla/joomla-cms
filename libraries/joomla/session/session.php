@@ -124,6 +124,8 @@ class JSession implements IteratorAggregate
 
 		// Create handler
 		$this->_store = JSessionStorage::getInstance($store, $options);
+// 		var_dump( $this->_store );
+// 		var_dump( ini_get( 'session.save_handler' ) );
 
 		$this->storeName = $store;
 

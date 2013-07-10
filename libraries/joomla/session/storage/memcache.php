@@ -19,6 +19,11 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageMemcache extends JSessionStorage
 {
 	/**
+	 * @var array Container for memcache server conf arrays
+	 */
+	private $_servers = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
@@ -33,8 +38,6 @@ class JSessionStorageMemcache extends JSessionStorage
 			throw new RuntimeException('Memcache Extension is not available', 404);
 		}
 
-		parent::__construct($options);
-
 		$config = JFactory::getConfig();
 
 		// This will be an array of loveliness
@@ -45,6 +48,8 @@ class JSessionStorageMemcache extends JSessionStorage
 				'port' => $config->get('memcache_server_port', 11211)
 			)
 		);
+
+		parent::__construct($options);
 	}
 
 	/**
@@ -56,8 +61,12 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public function register()
 	{
-		ini_set('session.save_path', $this->_servers['host'] . ':' . $this->_servers['port']);
-		ini_set('session.save_handler', 'memcache');
+		if (!empty($this->_servers) && isset($this->_servers[0]))
+		{
+			$serverConf = current( $this->_servers );
+			ini_set('session.save_path', "{$serverConf['host']}:{$serverConf['port']}");
+			ini_set('session.save_handler', 'memcache');
+		}
 	}
 
 	/**
