@@ -44,8 +44,8 @@ class JSessionStorageMemcached extends JSessionStorage
 		// @todo: multiple servers
 		$this->_servers = array(
 			array(
-				'host' => $config->get('memcache_server_host', 'localhost'),
-				'port' => $config->get('memcache_server_port', 11211)
+				'host' => $config->get('session_memcache_server_host', 'localhost'),
+				'port' => $config->get('session_memcache_server_port', 11211)
 			)
 		);
 
