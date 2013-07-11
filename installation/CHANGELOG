@@ -25,6 +25,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Jul-2013 Jean-Marie Simonet
+ ^ [#31388] Admin login shows language option. Thanks Brian Teeman
+ ^ [#31383] Article manager options. Thanks Brian Teeman
+ # [#30957] System cache issue. Thanks Dennis Hermatski
+ # [#31208] No border bottom right radius and border bottom top radius for buttons at com_finder view (2). Thanks Peter van Westen.
+
 09-Jul-2013 Jean-Marie Simonet
  $ Updating installation lang files: eo-XX
 
