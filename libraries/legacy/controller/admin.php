@@ -71,6 +71,7 @@ class JControllerAdmin extends JControllerLegacy
 
 		// Value = -3
 		$this->registerTask('report', 'publish');
+		
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
@@ -89,16 +90,9 @@ class JControllerAdmin extends JControllerLegacy
 		// Guess the list view as the suffix, eg: OptionControllerSuffix.
 		if (empty($this->view_list))
 		{
-			try 
-			{
-				$classNameArray = $this->getClassNameAsArray();
-				$view_list = strtolower($classNameArray[2]);
-			}
-			catch (Exception $e)
-			{
-				throw new Exception($e);
-			}
-			
+			// Throw Exception if we cannot get class name as an array.
+			$className = $this->getClassNameAsArray();
+			$view_list = strtolower($className[2]);
 			$this->view_list = $view_list;
 		}
 	}
@@ -219,7 +213,7 @@ class JControllerAdmin extends JControllerLegacy
 			try
 			{
 				$model->publish($cid, $value);
-				$this->getPublishResultMsg($value);
+				$msg = $this->getPublishResultMsg($value);
 				$this->setMessage(JText::plural($msg, count($cid)));
 			}
 			catch (Exception $e)
@@ -236,7 +230,7 @@ class JControllerAdmin extends JControllerLegacy
 	/**
 	 * Method to get a message based on the publish method being executed
 	 * 
-	 * @param int $publishMethod
+	 * @param int $publishMethod the type of method being executed
 	 * 
 	 * @return string untranslated JText constent 
 	 */
@@ -308,18 +302,18 @@ class JControllerAdmin extends JControllerLegacy
 		$this->isValidSession();
 
 		// Get the input
-		$pks = $this->input->post->get('cid', array(), 'array');
+		$primaryKeys = $this->input->post->get('cid', array(), 'array');
 		$order = $this->input->post->get('order', array(), 'array');
 
 		// Sanitize the input
-		JArrayHelper::toInteger($pks);
+		JArrayHelper::toInteger($primaryKeys);
 		JArrayHelper::toInteger($order);
 
 		// Get the model
 		$model = $this->getModel();
 
 		// Save the ordering
-		$return = $model->saveorder($pks, $order);
+		$return = $model->saveorder($primaryKeys, $order);
 
 		if ($return === false)
 		{
