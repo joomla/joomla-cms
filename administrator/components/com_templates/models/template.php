@@ -474,10 +474,13 @@ class TemplatesModelTemplate extends JModelForm
                 $result['modules'][] = $this->getOverridesFolder($module,$modulePath);
             }
             $html = JPath::clean($client->path . '/templates/' . $template->element . '/html/');
-            $overrides = JFolder::folders($html);
-            foreach($overrides as $override)
+            if(file_exists($html))
             {
-                $result['exists'][] = $override;
+                $overrides = JFolder::folders($html);
+                foreach($overrides as $override)
+                {
+                    $result['exists'][] = $override;
+                }
             }
 
         }
@@ -561,6 +564,27 @@ class TemplatesModelTemplate extends JModelForm
             {
                 $app->enqueueMessage($e->getMessage(),'error');
             }
+        }
+    }
+
+    public function deleteFile($file)
+    {
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
+            $filePath   = $path . urldecode(base64_decode($file));
+
+            $return = JFile::delete($filePath);
+
+            if(!$return)
+            {
+                $app->enqueueMessage('Not able to delete the file.','error');
+                return false;
+            }
+
+            return true;
         }
     }
 

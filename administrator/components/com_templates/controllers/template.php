@@ -296,11 +296,33 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
         else
         {
-            $app->enqueueMessage(JText::_('Some error occurred. Failed to compile.','error'));
+            $app->enqueueMessage(JText::_('Some error occurred. Failed to compile.'),'error');
         }
 
         $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
         $this->setRedirect(JRoute::_($url, false));
+    }
+
+    public function delete()
+    {
+        $app            = JFactory::getApplication();
+        $model          = $this->getModel();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+
+        if($model->deleteFile($file))
+        {
+            $this->setMessage(JText::_('File deleted successfully.'));
+            $file = base64_encode(urlencode('index.php'));
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+        else
+        {
+            $app->enqueueMessage(JText::_('Some error occurred. Failed to delete.','error'));
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
     }
 	
 }

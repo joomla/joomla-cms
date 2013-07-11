@@ -125,9 +125,10 @@ $input = JFactory::getApplication()->input;
         <h3><?php echo JText::_('Are you sure?');?></h3>
     </div>
     <div class="modal-body">
-
+        <p>The file <?php echo $this->fileName; ?> will be deleted.</p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="btn btn-danger">Delete</a>
     </div>
 </div>
