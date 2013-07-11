@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JLog::add('JResponse is deprecated.', JLog::WARNING, 'deprecated');
+
 /**
  * JResponse Class.
  *
@@ -18,24 +20,28 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Environment
  * @since       11.1
+ * @deprecated  4.0  Use JApplicationWeb instead
  */
 class JResponse
 {
 	/**
 	 * @var    array  Body
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	protected static $body = array();
 
 	/**
 	 * @var    boolean  Cachable
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	protected static $cachable = false;
 
 	/**
 	 * @var    array  Headers
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	protected static $headers = array();
 
@@ -49,15 +55,11 @@ class JResponse
 	 * @return  boolean  True if browser caching should be allowed
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::allowCache() instead
 	 */
 	public static function allowCache($allow = null)
 	{
-		if (!is_null($allow))
-		{
-			self::$cachable = (bool) $allow;
-		}
-
-		return self::$cachable;
+		return JFactory::getApplication()->allowCache($allow);
 	}
 
 	/**
@@ -72,24 +74,11 @@ class JResponse
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::setHeader() instead
 	 */
 	public static function setHeader($name, $value, $replace = false)
 	{
-		$name = (string) $name;
-		$value = (string) $value;
-
-		if ($replace)
-		{
-			foreach (self::$headers as $key => $header)
-			{
-				if ($name == $header['name'])
-				{
-					unset(self::$headers[$key]);
-				}
-			}
-		}
-
-		self::$headers[] = array('name' => $name, 'value' => $value);
+		JFactory::getApplication()->setHeader($name, $value, $replace);
 	}
 
 	/**
@@ -98,10 +87,11 @@ class JResponse
 	 * @return  array
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::getHeaders() instead
 	 */
 	public static function getHeaders()
 	{
-		return self::$headers;
+		return JFactory::getApplication()->getHeaders();
 	}
 
 	/**
@@ -110,10 +100,11 @@ class JResponse
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::clearHeaders() instead
 	 */
 	public static function clearHeaders()
 	{
-		self::$headers = array();
+		JFactory::getApplication()->clearHeaders();
 	}
 
 	/**
@@ -122,24 +113,11 @@ class JResponse
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::sendHeaders() instead
 	 */
 	public static function sendHeaders()
 	{
-		if (!headers_sent())
-		{
-			foreach (self::$headers as $header)
-			{
-				if ('status' == strtolower($header['name']))
-				{
-					// 'status' headers indicate an HTTP status, and need to be handled slightly differently
-					header(ucfirst(strtolower($header['name'])) . ': ' . $header['value'], null, (int) $header['value']);
-				}
-				else
-				{
-					header($header['name'] . ': ' . $header['value'], false);
-				}
-			}
-		}
+		JFactory::getApplication()->sendHeaders();
 	}
 
 	/**
@@ -152,10 +130,11 @@ class JResponse
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::setBody() instead
 	 */
 	public static function setBody($content)
 	{
-		self::$body = array((string) $content);
+		JFactory::getApplication()->setBody($content);
 	}
 
 	/**
@@ -166,10 +145,11 @@ class JResponse
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::prependBody() instead
 	 */
 	public static function prependBody($content)
 	{
-		array_unshift(self::$body, (string) $content);
+		JFactory::getApplication()->prependBody($content);
 	}
 
 	/**
@@ -180,10 +160,11 @@ class JResponse
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::appendBody() instead
 	 */
 	public static function appendBody($content)
 	{
-		array_push(self::$body, (string) $content);
+		JFactory::getApplication()->appendBody($content);
 	}
 
 	/**
@@ -194,21 +175,11 @@ class JResponse
 	 * @return  string  array
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::getBody() instead
 	 */
 	public static function getBody($toArray = false)
 	{
-		if ($toArray)
-		{
-			return self::$body;
-		}
-
-		ob_start();
-		foreach (self::$body as $content)
-		{
-			echo $content;
-		}
-
-		return ob_get_clean();
+		return JFactory::getApplication()->getBody($toArray);
 	}
 
 	/**
@@ -219,28 +190,11 @@ class JResponse
 	 * @return  string
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationCms::toString() instead
 	 */
 	public static function toString($compress = false)
 	{
-		$data = self::getBody();
-
-		// Don't compress something if the server is going to do it anyway. Waste of time.
-		if ($compress && !ini_get('zlib.output_compression') && ini_get('output_handler') != 'ob_gzhandler')
-		{
-			$data = self::compress($data);
-		}
-
-		if (self::allowCache() === false)
-		{
-			self::setHeader('Cache-Control', 'no-cache', false);
-
-			// HTTP 1.0
-			self::setHeader('Pragma', 'no-cache');
-		}
-
-		self::sendHeaders();
-
-		return $data;
+		return JFactory::getApplication()->toString($compress);
 	}
 
 	/**
@@ -255,6 +209,7 @@ class JResponse
 	 *
 	 * @note    Replaces _compress method in 11.1
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationWeb::compress() instead
 	 */
 	protected static function compress($data)
 	{
@@ -314,6 +269,7 @@ class JResponse
 	 *
 	 * @since   11.1
 	 * @note    Replaces _clientEncoding method from 11.1
+	 * @deprecated  4.0  Use JApplicationWebClient instead
 	 */
 	protected static function clientEncoding()
 	{
