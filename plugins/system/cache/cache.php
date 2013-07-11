@@ -42,7 +42,7 @@ class PlgSystemCache extends JPlugin
 		);
 
 		$this->_cache		= JCache::getInstance('page', $options);
-		$this->_cache_key	= JRequest::getURI();
+		$this->_cache_key	= JUri::getInstance()->toString();
 	}
 
 	/**
@@ -52,10 +52,11 @@ class PlgSystemCache extends JPlugin
 	function onAfterInitialise()
 	{
 		global $_PROFILER;
+
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		if ($app->isAdmin() || JDEBUG)
+		if ($app->isAdmin())
 		{
 			return;
 		}
@@ -74,6 +75,7 @@ class PlgSystemCache extends JPlugin
 
 		if ($data !== false)
 		{
+			// Set cached body
 			$app->setBody($data);
 
 			echo $app->toString($app->getCfg('gzip'));
@@ -81,7 +83,6 @@ class PlgSystemCache extends JPlugin
 			if (JDEBUG)
 			{
 				$_PROFILER->mark('afterCache');
-				echo implode('', $_PROFILER->getBuffer());
 			}
 
 			$app->close();
@@ -92,7 +93,7 @@ class PlgSystemCache extends JPlugin
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin() || JDEBUG)
+		if ($app->isAdmin())
 		{
 			return;
 		}
@@ -105,8 +106,8 @@ class PlgSystemCache extends JPlugin
 		$user = JFactory::getUser();
 		if ($user->get('guest'))
 		{
-			//We need to check again here, because auto-login plugins have not been fired before the first aid check
-			$this->_cache->store($this->_cache_key);
+			// We need to check again here, because auto-login plugins have not been fired before the first aid check
+			$this->_cache->store(null, $this->_cache_key);
 		}
 	}
 }
