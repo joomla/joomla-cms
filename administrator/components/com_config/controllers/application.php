@@ -21,8 +21,10 @@ class ConfigControllerApplication extends JControllerLegacy
 	/**
 	 * Class Constructor
 	 *
-	 * @param   array  $config		An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @return  void
+	 *
 	 * @since   1.5
 	 */
 	public function __construct($config = array())
@@ -36,7 +38,8 @@ class ConfigControllerApplication extends JControllerLegacy
 	/**
 	 * Method to save the configuration.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  bool  True on success, false on failure.
+	 *
 	 * @since   1.5
 	 */
 	public function save()
@@ -54,10 +57,10 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$app   = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$model = $this->getModel('Application');
-		$form  = $model->getForm();
-		$data  = $this->input->post->get('jform', array(), 'array');
+		$form = $model->getForm();
+		$data = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
@@ -66,7 +69,7 @@ class ConfigControllerApplication extends JControllerLegacy
 		if ($return === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -74,7 +77,9 @@ class ConfigControllerApplication extends JControllerLegacy
 				if ($errors[$i] instanceof Exception)
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
+				}
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -88,7 +93,7 @@ class ConfigControllerApplication extends JControllerLegacy
 		}
 
 		// Attempt to save the configuration.
-		$data	= $return;
+		$data = $return;
 		$return = $model->save($data);
 
 		// Check the return value.
@@ -139,7 +144,7 @@ class ConfigControllerApplication extends JControllerLegacy
 
 		// Clean the session data.
 		$app = JFactory::getApplication();
-		$app->setUserState('com_config.config.global.data',	null);
+		$app->setUserState('com_config.config.global.data', null);
 
 		$this->setRedirect('index.php');
 	}
@@ -154,7 +159,8 @@ class ConfigControllerApplication extends JControllerLegacy
 		if (($data = file_get_contents('http://help.joomla.org/helpsites.xml')) === false)
 		{
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
-		} elseif (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data))
+		}
+		elseif (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data))
 		{
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
 		}
@@ -167,7 +173,8 @@ class ConfigControllerApplication extends JControllerLegacy
 	/**
 	 * Method to remove the root property from the configuration.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  bool  True on success, false on failure.
+	 *
 	 * @since   1.5
 	 */
 	public function removeroot()
@@ -183,7 +190,7 @@ class ConfigControllerApplication extends JControllerLegacy
 		}
 
 		// Initialise model.
-		$model	= $this->getModel('Application');
+		$model = $this->getModel('Application');
 
 		// Attempt to save the configuration and remove root.
 		$return = $model->removeroot();

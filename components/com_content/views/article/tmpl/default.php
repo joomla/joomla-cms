@@ -232,7 +232,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd class="create">
 					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_modify_date')) : ?>

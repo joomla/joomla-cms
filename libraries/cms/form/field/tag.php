@@ -112,7 +112,7 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		if (!empty($this->value[0]))
+		if (!empty($this->value[0]) || $this->element['parent'])
 		{
 			$published = $this->element['published']? $this->element['published'] : array(0,1);
 
