@@ -46,6 +46,8 @@ class PlgSystemRemember extends JPlugin
 			$inputCookie = new JInputCookie();
 			$cookieValue = $inputCookie->get($series);
 
+			//$crypt = new JCrypt();
+			//$cookieValue = $crypt->decrypt($cookieValue);
 			if (!empty($cookieValue))
 			{
 
@@ -80,16 +82,10 @@ class PlgSystemRemember extends JPlugin
 				// If the user has multiple cookies for the same series something is wrong, invalidate them all.
 				if ($countResults > 1)
 				{
-					$query->clear();
-					$query->update('#__user_keys');
-					$query->set($db->quoteName('invalid') . ' = '  . (int) 1);
-					$query->where($db->quoteName('user_id') . ' = ' . $db->quote($results[0]->user_id));
-					$db->setQuery($query);
-					$db->execute();
+					$this->invalidateCookie($results[0]->user_id);
 
 					return false;
 				}
-
 
 				// We have a cookie but it's not in the database or the cookie is invalid. Possible attack, invalidate every thing.
 				if ($countResults == 0 || !$results || $results[0]->invalid != 0)
@@ -98,15 +94,7 @@ class PlgSystemRemember extends JPlugin
 					// We can only invalidate if there is a user.
 					if (!empty($results[0]->user_id))
 					{
-						$db = JFactory::getDbo();
-						$query = $db->getQuery(true);
-
-						$query->update($db->quoteName('#__user_keys'))
-							->set($db->quoteName('invalid') . '= ' . 1)
-							->where($db->quotename('user_id') . ' = ' . $db->quote($results[0]->user_id));
-						$db->setQuery($query);
-						$db->execute();
-
+						$this->invalidateCookie($results[0]->user_id);
 						JLog::add('The remember me tokens were invalidated for user ' . $user->username  . ' because there was no matching record ', JLog::WARNING, 'security');
 
 						// Make this stronger ?
@@ -118,7 +106,9 @@ class PlgSystemRemember extends JPlugin
 
 				if ($countResults == 1)
 				{
-					// Now we have a user with one cookie with a valid series and a corresponding record in the database.
+
+
+						// Now we have a user with one cookie with a valid series and a corresponding record in the database.
 						// Now check the key
 						if (substr($results[0]->token, 0, 4) == '$2y$')
 						{
@@ -144,12 +134,14 @@ class PlgSystemRemember extends JPlugin
 						if (!$match)
 						{
 							JLog::add('Remember me login failed for user ' . $user->username , JLog::WARNING, 'security');
+							$this->invalidateCookie($results[0]->user_id);
 
 							return false;
 						}
 
-					// Now we check the value against the token
+					// Set up the credentials array
 					$credentials['username'] = $results[0]->user_id;
+
 					$return = $app->login($credentials, array('silent' => true));
 
 				}
@@ -244,10 +236,10 @@ class PlgSystemRemember extends JPlugin
 		$secure = $app->isSSLConnection();
 
 		// Destroy the old cookie.
-		setcookie($series, $rcookie, time() - 42000, $cookie_path, $cookie_domain, $secure, true);
+		setcookie($series, $privateKey, time() - 42000, $cookie_path, $cookie_domain, $secure, true);
 
 		// And make a new one.
-		setcookie($series, $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
+		setcookie($series, $privateKey, $lifetime, $cookie_path, $cookie_domain, $secure, true);
 
 		$user = JFactory::getUser();
 
@@ -312,4 +304,19 @@ class PlgSystemRemember extends JPlugin
 
 		return;
 	}
+
+	protected function invalidateCookie($userId)
+	{
+		// Invalidate cookie
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->update($db->quoteName('#__user_keys'))
+		->set($db->quoteName('invalid') . '= ' . 1)
+		->where($db->quotename('user_id') . ' = ' . $db->quote($userId));
+		$db->setQuery($query);
+		$db->execute();
+
+	}
+
 }

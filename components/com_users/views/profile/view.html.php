@@ -46,6 +46,15 @@ class UsersViewProfile extends JViewLegacy
 			JError::raiseError(500, implode('<br />', $errors));
 			return false;
 		}
+		// View also takes responsibility for checking if the user logged in with remember me.
+		$user = JFactory::getUser();
+		if (!empty($user->rememberLogin))
+		{
+			// If so, the user must login to edit the password and other data.
+			// What should happen here? Should we force a logout which detroys the cookies?
+			JFactory::getApplication()->redirect(JUri::base() . 'index.php?option=com_users&view=login', '', 302);
+						return false;
+		}
 
 		// Check if a user was found.
 		if (!$this->data->id)
