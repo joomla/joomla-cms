@@ -893,6 +893,49 @@ class JApplicationCms extends JApplicationWeb
 			$session->set('application.queue', $this->_messageQueue);
 		}
 
+		// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
+		if (func_num_args() > 1)
+		{
+			$args = func_get_args();
+
+			/*
+			 * Do some checks on the $args array, values below correspond to legacy redirect() method
+			 *
+			 * $args[0] = $url
+			 * $args[1] = Message to enqueue
+			 * $args[2] = Message type
+			 * $args[3] = $moved
+			 */
+			if (isset($args[1]) && !empty($args[1]) && !is_bool($args[1]))
+			{
+				// Log that passing the message to the function is deprecated
+				JLog::add(
+					'Passing a message and message type to JFactory::getApplication()->redirect() is deprecated. '
+					. 'Please set your message via JFactory::getApplication()->enqueueMessage() prior to calling redirect().',
+					JLog::WARNING,
+					'deprecated'
+				);
+
+				$message = $args[1];
+
+				// Set the message type if present
+				if (isset($args[2]) && !empty($args[2]))
+				{
+					$type = $args[2];
+				}
+				else
+				{
+					$type = null;
+				}
+
+				// Enqueue the message
+				$this->enqueueMessage($message, $type);
+
+				// Reset the $moved variable
+				$moved = isset($args[3]) ? (boolean) $args[3] : false;
+			}
+		}
+
 		// Hand over processing to the parent now
 		parent::redirect($url, $moved);
 	}
