@@ -118,6 +118,7 @@ class JCrypt
 	public static function genRandomBytes($length = 16)
 	{
 		$sslStr = '';
+
 		/*
 		 * if a secure randomness generator exists and we don't
 		 * have a buggy PHP version use it.
@@ -126,6 +127,7 @@ class JCrypt
 			&& (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
 		{
 			$sslStr = openssl_random_pseudo_bytes($length, $strong);
+
 			if ($strong)
 			{
 				return $sslStr;
@@ -150,6 +152,7 @@ class JCrypt
 		if (function_exists('stream_set_read_buffer') && @is_readable('/dev/urandom'))
 		{
 			$handle = @fopen('/dev/urandom', 'rb');
+
 			if ($handle)
 			{
 				$urandom = true;
@@ -160,6 +163,7 @@ class JCrypt
 		{
 			$bytes = ($total > $shaHashLength)? $shaHashLength : $total;
 			$total -= $bytes;
+
 			/*
 			 * Collect any entropy available from the PHP system and filesystem.
 			 * If we have ssl data that isn't strong, we use it once.
@@ -168,6 +172,7 @@ class JCrypt
 			$entropy .= implode('', @fstat(fopen(__FILE__, 'r')));
 			$entropy .= memory_get_usage();
 			$sslStr = '';
+
 			if ($urandom)
 			{
 				stream_set_read_buffer($handle, 0);
@@ -184,22 +189,28 @@ class JCrypt
 				 */
 				$samples = 3;
 				$duration = 0;
+
 				for ($pass = 0; $pass < $samples; ++$pass)
 				{
 					$microStart = microtime(true) * 1000000;
 					$hash = sha1(mt_rand(), true);
+
 					for ($count = 0; $count < 50; ++$count)
 					{
 						$hash = sha1($hash, true);
 					}
+
 					$microEnd = microtime(true) * 1000000;
 					$entropy .= $microStart . $microEnd;
+
 					if ($microStart >= $microEnd)
 					{
 						$microEnd += 1000000;
 					}
+
 					$duration += $microEnd - $microStart;
 				}
+
 				$duration = $duration / $samples;
 
 				/*
@@ -213,14 +224,17 @@ class JCrypt
 				 * at least $bitsPerRound bits of entropy from each measurement.
 				 */
 				$iter = $bytes * (int) ceil(8 / $bitsPerRound);
+
 				for ($pass = 0; $pass < $iter; ++$pass)
 				{
 					$microStart = microtime(true);
 					$hash = sha1(mt_rand(), true);
+
 					for ($count = 0; $count < $rounds; ++$count)
 					{
 						$hash = sha1($hash, true);
 					}
+
 					$entropy .= $microStart . microtime(true);
 				}
 			}
