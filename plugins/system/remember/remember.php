@@ -141,16 +141,17 @@ class PlgSystemRemember extends JPlugin
 								$match = true;
 							}
 						}
+						if (!$match)
+						{
+							JLog::add('Remember me login failed for user ' . $user->username , JLog::WARNING, 'security');
+
+							return false;
+						}
 
 					// Now we check the value against the token
 					$credentials['username'] = $results[0]->user_id;
 					$return = $app->login($credentials, array('silent' => true));
 
-					if (!$return)
-					{
-							JLog::add('Remember me login failed for user ' . $user->username , JLog::WARNING, 'security');
-
-					}
 				}
 			}
 		}
@@ -232,7 +233,6 @@ class PlgSystemRemember extends JPlugin
 		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
 
 		$lifetime = time() + ($this->params->get('cookie_lifetime', '60') * 24 * 60 * 60);
-		$rcookie = base64_encode($privateKey);
 
 		$series = JApplication::getHash('JLOGIN_REMEMBER');
 		$series64 = base64_encode($series);
