@@ -823,7 +823,8 @@ abstract class JHtmlBootstrap
 	}
 
 	/**
-	 * Loads CSS files needed by Bootstrap
+	 * Loads CSS files needed by Bootstrap. This function should only be called from a 
+	 * template and not any extension.
 	 *
 	 * @param   boolean  $includeMainCss  If true, main bootstrap.css files are loaded
 	 * @param   string   $direction       rtl or ltr direction. If empty, ltr is assumed
