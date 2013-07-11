@@ -141,8 +141,6 @@ class InstallationModelConfiguration extends JModelBase
 		/* Session Setting */
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
-		$registry->set('session_memcache_server_host', 'localhost');
-		$registry->set('session_memcache_server_port', 11211);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
