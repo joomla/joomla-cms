@@ -686,6 +686,8 @@ class JApplication extends JApplicationBase
 						$plugins[] = JPluginHelper::getPlugin('system', 'remember');
 					}
 
+					$options['responseType'] = $response->type;
+
 					// The user is successfully logged in. Set a remember me cookie if requested.
 					$this->triggerEvent('onUserAfterLogin', array($options));
 
