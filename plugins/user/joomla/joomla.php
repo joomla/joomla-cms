@@ -19,6 +19,14 @@ defined('_JEXEC') or die;
 class PlgUserJoomla extends JPlugin
 {
 	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var    boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Remove all sessions for the user name
 	 *
 	 * Method is called after user data is deleted from the database
