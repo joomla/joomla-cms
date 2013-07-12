@@ -16,3 +16,15 @@
 
 # Test Related Files #
 /phpunit.xml
+
+# Never ignore
+!.gitignore
+
+# OSX
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Desktop.ini
