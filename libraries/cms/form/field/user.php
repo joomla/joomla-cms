@@ -41,11 +41,11 @@ class JFormFieldUser extends JFormField
 		$link = 'index.php?option=com_users&amp;view=users&amp;layout=modal&amp;tmpl=component&amp;field=' . $this->id
 			. (isset($groups) ? ('&amp;groups=' . base64_encode(json_encode($groups))) : '')
 			. (isset($excluded) ? ('&amp;excluded=' . base64_encode(json_encode($excluded))) : '');
-
+        
 		// Initialize some field attributes.
 		$attr = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-
+        
 		// Initialize JavaScript field attributes.
 		$onchange = (string) $this->element['onchange'];
 
@@ -55,15 +55,15 @@ class JFormFieldUser extends JFormField
 		// Build the script.
 		$script = array();
 		$script[] = '	function jSelectUser_' . $this->id . '(id, title) {';
-		$script[] = '		var old_id = document.getElementById("' . $this->id . '_id").value;';
+		$script[] = '		var old_id = document.getElementById("' . $this->id . '").value;';
 		$script[] = '		if (old_id != id) {';
-		$script[] = '			document.getElementById("' . $this->id . '_id").value = id;';
+		$script[] = '			document.getElementById("' . $this->id . '").value = id;';
 		$script[] = '			document.getElementById("' . $this->id . '_name").value = title;';
 		$script[] = '			' . $onchange;
 		$script[] = '		}';
 		$script[] = '		SqueezeBox.close();';
 		$script[] = '	}';
-
+        
 		// Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
@@ -87,13 +87,13 @@ class JFormFieldUser extends JFormField
 		if ($this->element['readonly'] != 'true')
 		{
 			$html[] = '		<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
+				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}" id="btn_modal_user_' . $this->id . '">';
 			$html[] = '<i class="icon-user"></i></a>';
 		}
 		$html[] = '</div>';
 
 		// Create the real field, hidden, that stored the user id.
-		$html[] = '<input type="hidden" id="' . $this->id . '_id" name="' . $this->name . '" value="' . (int) $this->value . '" />';
+		$html[] = '<input type="hidden" class="validate-userreq" id="' . $this->id . '" name="' . $this->name . '" value="' . $this->value . '" />';
 
 		return implode("\n", $html);
 	}
