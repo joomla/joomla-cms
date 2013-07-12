@@ -62,10 +62,26 @@ class SearchModelSearch extends JModelLegacy
 		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
 		$this->setState('limitstart', JRequest::getUInt('limitstart', 0));
 
+		// Get parameters.
+		$params = $app->getParams();
+
+		if ($params->get('searchphrase') == 1)
+		{
+			$searchphrase = 'any';
+		}
+		elseif ($params->get('searchphrase') == 2)
+		{
+			$searchphrase = 'exact';
+		}
+		else
+		{
+			$searchphrase = 'all';
+		}
+
 		// Set the search parameters
 		$keyword		= urldecode(JRequest::getString('searchword'));
-		$match			= JRequest::getWord('searchphrase', 'all');
-		$ordering		= JRequest::getWord('ordering', 'newest');
+		$match			= JRequest::getWord('searchphrase', $searchphrase);
+		$ordering		= JRequest::getWord('ordering', $params->get('ordering', 'newest'));
 		$this->setSearch($keyword, $match, $ordering);
 
 		//Set the search areas
