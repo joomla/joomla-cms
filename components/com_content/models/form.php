@@ -167,7 +167,7 @@ class ContentModelForm extends ContentModelArticle
 	{
 		// Prevent deleting multilang associations
 		$app = JFactory::getApplication();
-		$assoc = $app->item_associations;
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 		$app->item_associations = 0;
 		$result = parent::save($data);
 		$app->item_associations = $assoc;
