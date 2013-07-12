@@ -73,7 +73,7 @@ class ContactViewContact extends JViewLegacy
 		if ($isNew)
 		{
 			// For new records, check the create permission.
-			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
+			if ($canDo->get('core.create'))
 			{
 				JToolbarHelper::apply('contact.apply');
 				JToolbarHelper::save('contact.save');
