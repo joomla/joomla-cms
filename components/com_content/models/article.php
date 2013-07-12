@@ -304,6 +304,14 @@ class ContentModelArticle extends JModelItem
 		return true;
 	}
 
+	/**
+	 * Save user vote on article
+	 *
+	 * @param   integer  $pk    Joomla Article Id
+	 * @param   integer  $rate  Voting rate
+	 *
+	 * @return  boolean          Return true on success
+	 */
 	public function storeVote($pk = 0, $rate = 0)
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
