@@ -202,7 +202,7 @@
 
 		matchPattern : function(self, elem){
 			var $elem = $(elem),
-				val = !self.browser.isPlaceholderNative && $elem.attr('placeholder') && $elem.hasClass(self.options.placeholderClass,
+				val = !self.browser.isPlaceholderNative && $elem.attr('placeholder') && $elem.hasClass(self.options.placeholderClass),
 				pattern = $elem.attr('pattern'),
 				type = $elem.attr('type');
 			if(val !== ""){
