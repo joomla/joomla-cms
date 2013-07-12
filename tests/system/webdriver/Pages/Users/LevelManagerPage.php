@@ -48,15 +48,6 @@ class LevelManagerPage extends AdminManagerPage
 		$this->levelManagerPage = $this->test->getPageObject('LevelManagerPage');
 	}
 
-	public function deleteLevel($name)
-	{
-		$this->searchFor($name);
-		$this->driver->findElement(By::name("checkall-toggle"))->click();
-		$this->clickButton('toolbar-delete');
-		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-		$this->searchFor();
-	}
-
 	public function editLevel($name, $groups)
 	{
 		$this->clickItem($name);

@@ -78,6 +78,7 @@ class JArchive
 			case 'gzip':
 				// This may just be an individual file (e.g. sql script)
 				$adapter = self::getAdapter('gzip');
+
 				if ($adapter)
 				{
 					$config = JFactory::getConfig();
@@ -130,6 +131,7 @@ class JArchive
 					if ($bzresult instanceof Exception)
 					{
 						@unlink($tmpfname);
+
 						return false;
 					}
 
@@ -171,7 +173,7 @@ class JArchive
 	 *
 	 * @param   string  $type  The type of adapter (bzip2|gzip|tar|zip).
 	 *
-	 * @return  object  JArchiveExtractable
+	 * @return  JArchiveExtractable  Adapter for the requested type
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
@@ -182,6 +184,7 @@ class JArchive
 		{
 			// Try to load the adapter object
 			$class = 'JArchive' . ucfirst($type);
+
 			if (!class_exists($class))
 			{
 				throw new UnexpectedValueException('Unable to load archive', 500);
