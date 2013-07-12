@@ -7284,3 +7284,6 @@ th .tooltip-inner {
 .container-popup {
 	padding: 15px;
 }
+.controls .btn-group > .btn {
+	min-width: 50px;
+}
