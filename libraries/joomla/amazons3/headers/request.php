@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
+ * @subpackage  Amazons3
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,10 +13,10 @@ defined('JPATH_PLATFORM') or die;
  * Defines the structure of a common request header
  *
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
+ * @subpackage  Amazons3
  * @since       ??.?
  */
-class JRequestHeader
+class JAmazons3HeadersRequest
 {
 	/**
 	 * @var    String	The name of the request header.

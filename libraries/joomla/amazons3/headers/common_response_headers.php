@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
+ * @subpackage  Amazons3
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,10 +13,10 @@ defined('JPATH_PLATFORM') or die;
  * Common Response Headers used by the Amazon S3 API
  *
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
+ * @subpackage  Amazons3
  * @since       11.3
  */
-class JCommonResponseHeaders
+class JAmazons3HeadersCommonResponseHeaders
 {
 	/**
 	 * Method to create a content-length response header.
@@ -89,7 +89,7 @@ class JCommonResponseHeaders
 	 *
 	 * @since   ??.?
 	 */
-	public function getServer(String $value = "AmazonS3")
+	public function getServer(String $value = "Amazons3")
 	{
 		return new JResponseHeader("Server", $value);
 	}

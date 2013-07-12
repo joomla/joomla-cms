@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
+ * @subpackage  Amazons3
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,90 +10,38 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * AmazonS3 API object class for the Joomla Platform.
+ * Amazons3 API object class for the Joomla Platform.
  *
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
- * @since       11.3
+ * @subpackage  Amazons3
+ * @since       ??.?
  */
-abstract class JAmazonS3Object
+abstract class JAmazons3Object
 {
 	/**
-	 * @var    JRegistry  Options for the AmazonS3 object.
-	 * @since  11.3
+	 * @var    JRegistry  Options for the Amazons3 object.
+	 * @since  ??.?
 	 */
 	protected $options;
 
 	/**
-	 * @var    JAmazonS3Http  The HTTP client object to use in sending HTTP requests.
-	 * @since  11.3
+	 * @var    JAmazons3Http  The HTTP client object to use in sending HTTP requests.
+	 * @since  ??.?
 	 */
 	protected $client;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  AmazonS3 options object.
-	 * @param   JAmazonS3Http  $client   The HTTP client object.
+	 * @param   JRegistry      $options  Amazons3 options object.
+	 * @param   JAmazons3Http  $client   The HTTP client object.
 	 *
-	 * @since   11.3
+	 * @since   ??.?
 	 */
-	public function __construct(JRegistry $options = null, JAmazonS3Http $client = null)
+	public function __construct(JRegistry $options = null, JAmazons3Http $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JAmazonS3Http($this->options);
-	}
-
-	/**
-	 * Method to build and return a full request URL for the request. This method will
-	 * add appropriate pagination details if necessary and also prepend the API url
-	 * to have a complete URL for the request.
-	 *
-	 * @param   string   $path   URL to inflect
-	 * @param   integer  $page   Page to request
-	 * @param   integer  $limit  Number of results to return per page
-	 *
-	 * @return  string   The request URL.
-	 *
-	 * @since   11.3
-	 */
-	protected function fetchUrl($path, $page = 0, $limit = 0)
-	{
-		// Get a new JUri object fousing the api url and given path.
-		$uri = new JUri($this->options->get('api.url') . $path);
-
-		if ($this->options->get('gh.token', false))
-		{
-			// Use oAuth authentication - @todo set in request header ?
-			$uri->setVar('access_token', $this->options->get('gh.token'));
-		}
-		else
-		{
-			// Use basic authentication
-			if ($this->options->get('api.username', false))
-			{
-				$uri->setUser($this->options->get('api.username'));
-			}
-
-			if ($this->options->get('api.password', false))
-			{
-				$uri->setPass($this->options->get('api.password'));
-			}
-		}
-
-		// If we have a defined page number add it to the JUri object.
-		if ($page > 0)
-		{
-			$uri->setVar('page', (int) $page);
-		}
-
-		// If we have a defined items per page add it to the JUri object.
-		if ($limit > 0)
-		{
-			$uri->setVar('per_page', (int) $limit);
-		}
-
-		return (string) $uri;
+		$this->client = isset($client) ? $client : new JAmazons3Http($this->options);
 	}
 
 	/**
@@ -108,6 +56,8 @@ abstract class JAmazonS3Object
 	 */
 	protected function processResponse(JHttpResponse $response, $expectedCode = 200)
 	{
+		// TODO - xml
+
 		// Validate the response code.
 		if ($response->code != $expectedCode)
 		{
@@ -118,4 +68,5 @@ abstract class JAmazonS3Object
 
 		return json_decode($response->body);
 	}
+
 }
