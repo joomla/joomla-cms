@@ -31,7 +31,9 @@
  <rule ref="Generic.Files.LineEndings"/>
  <rule ref="Generic.Files.LineLength">
 	 <!-- These exceptions are temporary -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
@@ -120,14 +122,18 @@
 
  <rule ref="Joomla.Classes.MethodScope">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.Commenting.FunctionComment">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
@@ -138,7 +144,9 @@
 
  <rule ref="Joomla.Commenting.SingleComment">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
@@ -150,14 +158,15 @@
  <rule ref="Joomla.Commenting.ClassComment">
   <!-- We exclude components and modules for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/modules/*</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
  </rule>
 
  <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
@@ -168,7 +177,9 @@
 
  <rule ref="Joomla.ControlStructures.ControlSignature">
   <!-- We only want this for libraries, languages and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
@@ -193,7 +204,9 @@
 
  <rule ref="Joomla.ControlStructures.MultiLineCondition">
   <!-- We only want this for libraries, language and cli for now -->
-  <exclude-pattern type="relative">administrator/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
+  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
