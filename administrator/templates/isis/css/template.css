@@ -1508,21 +1508,21 @@ select:focus:invalid:focus {
 	-moz-border-radius: 0 3px 3px 0;
 	border-radius: 0 3px 3px 0;
 }
-.input-prepend.input-append .add-on:first-child,
-.input-prepend.input-append .btn:first-child {
+.input-prepend.input-append .add-on:first-of-type,
+.input-prepend.input-append .btn:first-of-type {
 	margin-right: -1px;
 	-webkit-border-radius: 3px 0 0 3px;
 	-moz-border-radius: 3px 0 0 3px;
 	border-radius: 3px 0 0 3px;
 }
-.input-prepend.input-append .add-on:last-child,
-.input-prepend.input-append .btn:last-child {
+.input-prepend.input-append .add-on:last-of-type,
+.input-prepend.input-append .btn:last-of-type {
 	margin-left: -1px;
 	-webkit-border-radius: 0 3px 3px 0;
 	-moz-border-radius: 0 3px 3px 0;
 	border-radius: 0 3px 3px 0;
 }
-.input-prepend.input-append .btn-group:first-child {
+.input-prepend.input-append .btn-group:first-of-type {
 	margin-left: 0;
 }
 input.search-query {
@@ -2598,9 +2598,7 @@ input[type="submit"].btn.btn-mini {
 	-moz-border-radius: 0;
 	border-radius: 0;
 }
-.btn-group > .btn + .btn {
-	margin-left: -1px;
-}
+
 .btn-group > .btn,
 .btn-group > .dropdown-menu,
 .btn-group > .popover {
@@ -2615,7 +2613,7 @@ input[type="submit"].btn.btn-mini {
 .btn-group > .btn-large {
 	font-size: 16.25px;
 }
-.btn-group > .btn:first-child {
+.btn-group > .btn:first-of-type {
 	margin-left: 0;
 	-webkit-border-top-left-radius: 4px;
 	-moz-border-radius-topleft: 4px;
@@ -2624,7 +2622,7 @@ input[type="submit"].btn.btn-mini {
 	-moz-border-radius-bottomleft: 4px;
 	border-bottom-left-radius: 4px;
 }
-.btn-group > .btn:last-child,
+.btn-group > .btn:last-of-type,
 .btn-group > .dropdown-toggle {
 	-webkit-border-top-right-radius: 4px;
 	-moz-border-radius-topright: 4px;
@@ -2642,7 +2640,7 @@ input[type="submit"].btn.btn-mini {
 	-moz-border-radius-bottomleft: 6px;
 	border-bottom-left-radius: 6px;
 }
-.btn-group > .btn.large:last-child,
+.btn-group > .btn.large:last-of-type,
 .btn-group > .large.dropdown-toggle {
 	-webkit-border-top-right-radius: 6px;
 	-moz-border-radius-topright: 6px;
