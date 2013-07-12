@@ -305,26 +305,7 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	public static function test()
 	{
-		if ((extension_loaded('memcached') && class_exists('Memcached')) != true)
-		{
-			return false;
-		}
-
-		$config = JFactory::getConfig();
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
-
-		$memcached = new Memcached;
-		$memcachedtest = @$memcached->addServer($host, $port);
-
-		if (!$memcachedtest)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return extension_loaded('memcached') && class_exists('Memcached');
 	}
 
 	/**

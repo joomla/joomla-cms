@@ -300,26 +300,7 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public static function test()
 	{
-		if ((extension_loaded('memcache') && class_exists('Memcache')) != true)
-		{
-			return false;
-		}
-
-		$config = JFactory::getConfig();
-		$host = $config->get('memcache_server_host', 'localhost');
-		$port = $config->get('memcache_server_port', 11211);
-
-		$memcache = new Memcache;
-		$memcachetest = @$memcache->connect($host, $port);
-
-		if (!$memcachetest)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		return extension_loaded('memcache') && class_exists('Memcache');
 	}
 
 	/**
