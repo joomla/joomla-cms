@@ -21,16 +21,16 @@ class JAmazons3OperationsServiceGet extends JAmazons3OperationsService
 	/**
 	 * Creates the get request and returns the response from Amazon
 	 *
-	 * @return string	The response body
+	 * @return string   The response body
 	 *
 	 * @since   ??.?
 	 */
 	public function getService() {
 		$url = "/";
 		$headers = array(
-			"Host" => $this->options->get('api.url'),
-			"Date" => date("D, d M Y H:i:s Z"),
-			"Authorization" => $this->createAuthorization("GET", $url, $headers)
+			"Host"			=> $this->options->get('api.url'),
+			"Date"			=> date("D, d M Y H:i:s Z"),
+			"Authorization" => $this->createAuthorization("GET", $url, $headers),
 		);
 
 		// Send the http request
