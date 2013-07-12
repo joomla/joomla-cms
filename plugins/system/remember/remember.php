@@ -43,7 +43,7 @@ class PlgSystemRemember extends JPlugin
 			JLoader::register('JAuthentication', JPATH_PLATFORM . '/joomla/user/authentication.php');
 
 			// Create the series name
-			$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+			$series = $this->getShortHashedUserAgent();
 
 
 			$inputCookie = new JInputCookie();
@@ -169,7 +169,7 @@ class PlgSystemRemember extends JPlugin
 		{
 			// Bring this in line with the rest of the system
 			$user = JUser::getInstance($result->id);
-			$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+			$series = $this->getShortHashedUserAgent();
 			$inputCookie = new JInputCookie();
 
 			// If there is no cookie, bail out
@@ -212,7 +212,7 @@ class PlgSystemRemember extends JPlugin
 		$privateKey = JUserHelper::genRandomPassword($length);
 		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
 
-		$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+		$series = JApplication::getHash($uaShort);
 
 		// Use domain and path set in config for cookie if it exists.
 		$this->getCookieConfig();
@@ -270,13 +270,16 @@ class PlgSystemRemember extends JPlugin
 	 * @return  boolean  True on success
 	 * @since   3.1.2
 	 */
-	public function onUserAfterLogout($parameters, $options)
+	public function onUserAfterLogout($options)
 	{
-		$app = JFactory::getApplication();
-		$user = JFactory::getUser();
-
-		$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+		$series = $this->getShortHashedUserAgent();
 		$inputCookie = new JInputCookie();
+		$cookieValue = $inputCookie->get($series);
+
+		if (empty($series))
+		{
+			return true;
+		}
 
 		// Use domain and path set in config for cookie if it exists.
 		$this->getCookieConfig();
@@ -285,17 +288,13 @@ class PlgSystemRemember extends JPlugin
 		$query = $db->getQuery(true);
 
 		$db->setQuery($query);
-		$query->delete('#__user_keys');
-		$query->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)));
+		$query->delete('#__user_keys')
+			->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)))
+			->where($db->quoteName('user_id') . ' = ' . $db->quote($options['username']));
 		$db->execute();
 		$query->clear();
 
-		// If there is no cookie, skip this
-		if ($inputCookie->get($series))
-		{
-			$this->invalidateCookie($user->username, $series, $this->cookie_path, $this->cookie_domain, $secure, $httponly);
-
-		}
+		$this->invalidateCookie($user->username, $series, $this->cookie_path, $this->cookie_domain);
 
 		return;
 	}
@@ -329,6 +328,13 @@ class PlgSystemRemember extends JPlugin
 		// Destroy the  cookie.
 		setcookie($series, false, time() - 42000, $cookie_path, $cookie_domain, $secure, true);
 	}
+	/*
+	 * Method to get the cookie configuration data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1.2
+	 */
 
 	protected function getCookieConfig()
 	{
@@ -341,4 +347,23 @@ class PlgSystemRemember extends JPlugin
 
 		return true;
 	}
+	/*
+	 * Method to get a hashed user agent string that does not include browser version.
+	 * Used when frequent version changes cause problems.
+	 *
+	 * @return  string  A hashed user agent string with version replaced by 'abcd'
+	 *
+	 * @since   3.1.2
+	 */
+	public function getShortHashedUserAgent()
+	{
+		$ua = new JApplicationWebClient;
+		$uaString = $ua->userAgent;
+		$browserVersion = $ua->browserVersion;
+		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+
+		return JApplication::getHash($uaShort);
+
+	}
+
 }

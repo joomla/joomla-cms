@@ -761,21 +761,9 @@ class JApplication extends JApplicationBase
 
 		if (!in_array(false, $results, true))
 		{
-			// Create the series name using the user agent string.
-			$cookieName = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+				$options['username'] = $user->get('username');var_dump($options);
+				$results = $this->triggerEvent('onUserAfterLogout', array($options));
 
-			$inputCookie = new JInputCookie();
-
-			if (!empty($cookieName))
-			{
-				$cookieValue = $inputCookie->get($cookieName);
-				$cookie_domain = $this->getCfg('cookie_domain', '');
-				$cookie_path = $this->getCfg('cookie_path', '/');
-
-				$options = array('cookieName' => $cookieName, 'cookieValue' =>$cookieValue, 'cookie_path' => $cookie_path, 'cookie_domain' => $cookie_domain);
-
-				$results = $this->triggerEvent('onUserAfterLogout', $options);
-			}
 			return true;
 		}
 
