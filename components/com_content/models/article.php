@@ -31,6 +31,8 @@ class ContentModelArticle extends JModelItem
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @since   1.6
+	 *
+	 * @return void
 	 */
 	protected function populateState()
 	{
@@ -49,6 +51,7 @@ class ContentModelArticle extends JModelItem
 
 		// TODO: Tune these values based on other permissions.
 		$user = JFactory::getUser();
+
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			$this->setState('filter.published', 1);
@@ -61,7 +64,7 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Method to get article data.
 	 *
-	 * @param   integer    The id of the article.
+	 * @param   integer  $pk  The id of the article.
 	 *
 	 * @return  mixed  Menu item data object on success, false on failure.
 	 */
@@ -76,7 +79,6 @@ class ContentModelArticle extends JModelItem
 
 		if (!isset($this->_item[$pk]))
 		{
-
 			try
 			{
 				$db = $this->getDbo();
@@ -88,7 +90,7 @@ class ContentModelArticle extends JModelItem
 							// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
 							'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
 							'a.catid, a.created, a.created_by, a.created_by_alias, ' .
-							// use created if modified is 0
+							// Use created if modified is 0
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
@@ -205,6 +207,7 @@ class ContentModelArticle extends JModelItem
 					{
 						$data->params->set('access-edit', true);
 					}
+
 					// Now check if edit.own is available.
 					elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
 					{
@@ -261,7 +264,7 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Increment the hit counter for the article.
 	 *
-	 * @param   integer  Optional primary key of the article to increment.
+	 * @param   integer  $pk  Optional primary key of the article to increment.
 	 *
 	 * @return  boolean  True if successful; false otherwise and internal error set.
 	 */
@@ -297,6 +300,7 @@ class ContentModelArticle extends JModelItem
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -383,9 +387,12 @@ class ContentModelArticle extends JModelItem
 					return false;
 				}
 			}
+
 			return true;
 		}
+
 		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+
 		return false;
 	}
 }
