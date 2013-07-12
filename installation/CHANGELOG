@@ -25,6 +25,13 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+; Below is merged into v3.1.2
+
+12-Jul-2013 Jean-Marie Simonet
+ # [#31362] Various PHP notices and strict errors. Thanks Mark Dexter
+ # [#31376] JToolbar layout change breaks mobile. Thanks Roberto Segura
+
+
 10-Jul-2013 Jean-Marie Simonet
  ^ [#31388] Admin login shows language option. Thanks Brian Teeman
  ^ [#31383] Article manager options. Thanks Brian Teeman
