@@ -24,8 +24,8 @@ defined('_JEXEC') or die;
 					<?php else : ?>
 						<?php echo $item->title; ?>
 					<?php endif; ?>
-
-					<?php if ($item->displayHits) : ?>
+					
+					<?php if ($item->displayHits) :?>
 						<span class="mod-articles-category-hits">
 						(<?php echo $item->displayHits; ?>)  </span>
 					<?php endif; ?>
