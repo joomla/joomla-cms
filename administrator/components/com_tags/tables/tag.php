@@ -21,7 +21,7 @@ class TagsTableTag extends JTableNested
 	/**
 	 * Constructor
 	 *
-	 * @param JDatabaseDriver A database connector object
+	 * @param   JDatabaseDriver  $db  A database connector object
 	 */
 	public function __construct($db)
 	{
@@ -93,7 +93,9 @@ class TagsTableTag extends JTableNested
 		{
 			$this->alias = $this->title;
 		}
+
 		$this->alias = JApplication::stringURLSafe($this->alias);
+
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
@@ -112,13 +114,15 @@ class TagsTableTag extends JTableNested
 			// Only process if not empty
 			// Define array of characters to remove
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
+
 			// Remove bad characters
 			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
 			$clean_keys = array();
-			foreach($keys as $key)
+
+			foreach ($keys as $key)
 			{
 				if (trim($key))
 				{
@@ -132,7 +136,8 @@ class TagsTableTag extends JTableNested
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets
-		if (!empty($this->metadesc)) {
+		if (!empty($this->metadesc))
+		{
 			// Only process if not empty
 			$bad_characters = array("\"", "<", ">");
 			$this->metadesc = JString::str_ireplace($bad_characters, "", $this->metadesc);
@@ -154,7 +159,9 @@ class TagsTableTag extends JTableNested
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
-		if ($this->id) {
+
+		if ($this->id)
+		{
 			// Existing item
 			$this->modified_time		= $date->toSql();
 			$this->modified_user_id	= $user->get('id');
@@ -163,21 +170,27 @@ class TagsTableTag extends JTableNested
 		{
 			// New tag. A tag created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
-			if (!(int) $this->created_time) {
+			if (!(int) $this->created_time)
+			{
 				$this->created_time = $date->toSql();
 			}
-			if (empty($this->created_user_id)) {
+
+			if (empty($this->created_user_id))
+			{
 				$this->created_user_id = $user->get('id');
 			}
 		}
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Tag', 'TagsTable');
+
 		if ($table->load(array('alias' => $this->alias)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
+
 			return false;
 		}
+
 		return parent::store($updateNulls);
 	}
 
@@ -195,11 +208,13 @@ class TagsTableTag extends JTableNested
 	public function delete($pk = null, $children = false)
 	{
 		$return = parent::delete($pk, $children);
+
 		if ($return)
 		{
 			$helper = new JHelperTags;
 			$helper->tagDeleteInstances($pk);
 		}
+
 		return $return;
 	}
 }

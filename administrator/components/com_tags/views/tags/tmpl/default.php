@@ -24,11 +24,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state',	'com_tags');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax';
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
+
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
@@ -121,24 +123,28 @@ $sortFields = $this->getSortFields();
 			<tbody>
 			<?php
 			$originalOrders = array();
+
 			foreach ($this->items as $i => $item) :
 				$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 				$canCreate  = $user->authorise('core.create',     'com_tags');
 				$canEdit    = $user->authorise('core.edit',       'com_tags');
 				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
 				$canChange  = $user->authorise('core.edit.state', 'com_tags') && $canCheckin;
+
 				// Get the parents of item for sorting
 				if ($item->level > 1)
 				{
 					$parentsStr = "";
 					$_currentParentId = $item->parent_id;
-					$parentsStr = " ".$_currentParentId;
+					$parentsStr = " " . $_currentParentId;
+
 					for ($j = 0; $j < $item->level; $j++)
 					{
 						foreach ($this->ordering as $k => $v)
 						{
 							$v = implode("-", $v);
 							$v = "-" . $v . "-";
+
 							if (strpos($v, "-" . $_currentParentId . "-") !== false)
 							{
 								$parentsStr .= " " . $k;
@@ -157,6 +163,7 @@ $sortFields = $this->getSortFields();
 						<td class="order nowrap center hidden-phone">
 							<?php
 							$iconClass = '';
+
 							if (!$canChange)
 							{
 								$iconClass = ' inactive';
