@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * HTTP client class for connecting to a Amazons3 instance.
+ * HTTP client class for connecting to an Amazons3 instance.
  *
  * @package     Joomla.Platform
  * @subpackage  Amazons3
