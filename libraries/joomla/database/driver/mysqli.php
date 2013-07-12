@@ -122,7 +122,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 		elseif (preg_match('/^(?P<host>(\w+:\/{2,3})?[a-z0-9\.\-]+)(:(?P<port>[^:]+))?$/i', $this->options['host'], $matches))
 		{
-			//Named host (e.g domain.com or localhost) with ot without domain
+			//Named host (e.g domain.com or localhost) with ot without port
 			$this->options['host'] = $matches['host'];
 			if (!empty($matches['port']))
 				$port = $matches['port'];
