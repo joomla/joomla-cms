@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
+ * @subpackage  Amazons3
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,46 +10,57 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform class for interacting with a AmazonS3 server instance.
- *
- * @property-read  JAmazonS3Meta  $meta  AmazonS3 API object for meta.
+ * Joomla Platform class for interacting with a Amazons3 server instance.
  *
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
- * @since       11.3
+ * @subpackage  Amazons3
+ * @since       ??.?
  */
-class JAmazonS3
+class JAmazons3
 {
 	/**
-	 * @var    JRegistry  Options for the AmazonS3 object.
-	 * @since  11.3
+	 * @var    JRegistry  Options for the Amazons3 object.
+	 * @since  ??.?
 	 */
 	protected $options;
 
 	/**
-	 * @var    JAmazonS3Http  The HTTP client object to use in sending HTTP requests.
-	 * @since  11.3
+	 * @var    JAmazons3Http  The HTTP client object to use in sending HTTP requests.
+	 * @since  ??.?
 	 */
 	protected $client;
 
 	/**
-	 * @var    JAmazonS3Meta  AmazonS3 API object for meta.
-	 * @since  13.1
+	 * @var    JAmazons3Service  Amazons3 API object for Service.
+	 * @since  ??.?
 	 */
-	protected $meta;
+	protected $service;
+
+	/**
+	 * @var    JAmazons3Buckets  Amazons3 API object for Buckets.
+	 * @since  ??.?
+	 */
+	protected $buckets;
+
+	/**
+	 * @var    JAmazons3Objects  Amazons3 API object for Objects.
+	 * @since  ??.?
+	 */
+	protected $objects;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  AmazonS3 options object.
-	 * @param   JAmazonS3Http  $client   The HTTP client object.
+	 * @param   JRegistry      $options  Amazons3 options object. Should include
+	 *									 api.accessKeyId and api.secretAccessKey
+	 * @param   JAmazons3Http  $client   The HTTP client object.
 	 *
-	 * @since   11.3
+	 * @since   ??.?
 	 */
-	public function __construct(JRegistry $options = null, JAmazonS3Http $client = null)
+	public function __construct(JRegistry $options = null, JAmazons3Http $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client  = isset($client) ? $client : new JAmazonS3Http($this->options);
+		$this->client  = isset($client) ? $client : new JAmazons3Http($this->options);
 
 		// Setup the default API url if not already set.
 		$this->options->def('api.url', 's3.amazonaws.com');
@@ -58,16 +69,16 @@ class JAmazonS3
 	/**
 	 * Magic method to lazily create API objects
 	 *
-	 * @param   string  $name  Name of property to retrieve
+	 * @param   string  $name  Name of property to retrieve.
 	 *
-	 * @return  JAmazonS3Object  AmazonS3 API object (gists, issues, pulls, etc).
+	 * @return  JAmazons3Object  Amazons3 API object
 	 *
-	 * @since   11.3
+	 * @since   ??.?
 	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
 	{
-		$class = 'JAmazonS3' . ucfirst($name);
+		$class = 'JAmazons3Operations' . ucfirst($name);
 
 		if (class_exists($class))
 		{
@@ -83,13 +94,13 @@ class JAmazonS3
 	}
 
 	/**
-	 * Get an option from the JAmazonS3 instance.
+	 * Get an option from the JAmazons3 instance.
 	 *
 	 * @param   string  $key  The name of the option to get.
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   11.3
+	 * @since   ??.?
 	 */
 	public function getOption($key)
 	{
@@ -97,14 +108,14 @@ class JAmazonS3
 	}
 
 	/**
-	 * Set an option for the JAmazonS3 instance.
+	 * Set an option for the JAmazons3 instance.
 	 *
 	 * @param   string  $key    The name of the option to set.
 	 * @param   mixed   $value  The option value to set.
 	 *
-	 * @return  JAmazonS3  This object for method chaining.
+	 * @return  JAmazons3  This object for method chaining.
 	 *
-	 * @since   11.3
+	 * @since   ??.?
 	 */
 	public function setOption($key, $value)
 	{

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
+ * @subpackage  Amazons3
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -10,31 +10,25 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * HTTP client class for connecting to a AmazonS3 instance.
+ * HTTP client class for connecting to a Amazons3 instance.
  *
  * @package     Joomla.Platform
- * @subpackage  AmazonS3
- * @since       11.3
+ * @subpackage  Amazons3
+ * @since       ??.?
  */
-class JAmazonS3Http extends JHttp
+class JAmazons3Http extends JHttp
 {
 	/**
 	 * @const  integer  Use no authentication for HTTP connections.
-	 * @since  11.3
+	 * @since  ??.?
 	 */
 	const AUTHENTICATION_NONE = 0;
 
 	/**
-	 * @const  integer  Use basic authentication for HTTP connections.
-	 * @since  11.3
-	 */
-	const AUTHENTICATION_BASIC = 1;
-
-	/**
 	 * @const  integer  Use OAuth authentication for HTTP connections.
-	 * @since  11.3
+	 * @since  ??.?
 	 */
-	const AUTHENTICATION_OAUTH = 2;
+	const AUTHENTICATION_HEADER = 1;
 
 	/**
 	 * Constructor.
@@ -42,7 +36,7 @@ class JAmazonS3Http extends JHttp
 	 * @param   JRegistry       $options    Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
-	 * @since   11.3
+	 * @since   ??.?
 	 */
 	public function __construct(JRegistry $options = null, JHttpTransport $transport = null)
 	{
@@ -50,7 +44,7 @@ class JAmazonS3Http extends JHttp
 		parent::__construct($options, $transport);
 
 		// Make sure the user agent string is defined.
-		$this->options->def('userAgent', 'JAmazonS3');
+		$this->options->def('userAgent', 'JAmazons3');
 
 		// Set the default timeout to 120 seconds.
 		$this->options->def('timeout', 120);

@@ -10,21 +10,12 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Defines the get operation on the service
+ * Common items for operations on buckets
  *
  * @package     Joomla.Platform
  * @subpackage  Amazons3
  * @since       ??.?
  */
-class JAmazons3OperationsServiceGet extends JAmazons3OperationsService
+class JAmazons3OperationsBuckets extends JAmazons3Object
 {
-	/**
-	 * Creates the get request and returns the response from Amazon
-	 *
-	 * @return string	The response body
-	 *
-	 * @since   ??.?
-	 */
-	public function getService() {
-	}
 }
