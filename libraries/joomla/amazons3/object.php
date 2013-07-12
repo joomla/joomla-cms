@@ -69,4 +69,108 @@ abstract class JAmazons3Object
 		return json_decode($response->body);
 	}
 
+	/**
+	 * Creates the Authorization request header (which handles authentication).
+	 *
+	 * @param string $httpVerb  The HTTP Verb (GET, PUT, etc)
+	 * @param string $url       The target url of the request
+	 * @param string $headers   The headers of the request
+	 *
+	 * @return string The Authorization request header
+	 *
+	 * @since   ??.?
+	 */
+	protected function createAuthorization($httpVerb, $url, $headers) {
+		$authorization = "AWS " . $this->options->get('api.accessKeyId') . ":";
+
+
+		// TODO extract the following from $request
+		/**
+			* @param string $httpVerb		  The HTTP Verb (GET, PUT, etc)
+			* @param string $httpRequestURI   The request URI
+			* @param string $bucket			  The bucket name contained in the request
+			* @param string $subresources	   In case of multiple subresources, they must be lexicographically sorted
+			*									by subresource name and separated by '&', e.g., ?acl&versionId=value
+			*								   Accepted subresources:  acl, lifecycle, location, logging, notification,
+			*									partNumber,policy, requestPayment, torrent, uploadId, uploads, versionId,
+			*									versioning, versions, and website.
+			* @param string $queryParameters  The query string parameters in a GET request include response-content-type,
+			*									response-content-language, response-expires, response-cache-control,
+			*									response-content-disposition, and response-content-encoding.
+			*								   The delete query string parameter must be included when you create the
+			*									CanonicalizedResource for a multi-object Delete request.
+		*/
+		$contentMD5 = "";
+		$contentType = "";
+		$date = "";
+
+
+
+		// TODO new function
+		// Constructing the CanonicalizedAmzHeaders Element
+		// 1. Select all HTTP request headers that start with 'x-amz-' (using a case-insensitive comparison)
+		// 2. Convert each HTTP header name to lowercase. For example, 'X-Amz-Date' becomes 'x-amz-date'.
+		// 3. Sort the collection of headers lexicographically by header name.
+		// 4. Combine header fields with the same name into one "header-name:comma-separated-value-list"
+		//  pair as prescribed by RFC 2616, section 4.2, without any whitespace between values.
+		// 5. For example, the two metadata headers 'x-amz-meta-username: fred' and
+		//  'x-amz-meta-username: barney' would be combined into the single header
+		//  'x-amz-meta-username: fred,barney'.
+		$canonicalizedAmzHeaders  = "";
+
+
+
+		// TODO new function
+		// Constructing the CanonicalizedResource Element
+		/*
+			CanonicalizedResource = [ "/" + Bucket ] +
+			<HTTP-Request-URI, from the protocol name up to the query string> +
+			[ subresource, if present. For example "?acl", "?location", "?logging", or "?torrent"];
+		 */
+		$httpRequestURI = "";
+		$bucket = "";
+		$subresources = "";
+		$queryParameters = "";
+		if ($bucket == NULL) {
+			// For a request that does not address a bucket, such as GET Service, append "/".
+			$canonicalizedResource = "/";
+		} else {
+			// For a virtual hosted-style request "https://johnsmith.s3.amazonaws.com/photos/puppy.jpg",
+			// the CanonicalizedResource is "/johnsmith/photos/puppy.jpg".
+			$canonicalizedResource = "/" . $bucket;
+
+			// TODO check
+			$canonicalizedResource .= substr(
+				$httpRequestURI,
+				strpos ($httpRequestURI, $this->options->get('api.url'))
+				+ strlen($this->options->get('api.url'))
+			);
+
+			// Append existing subresources
+			if ($subresources) {
+				$canonicalizedResource .= $subresources;
+			}
+
+			// If the request specifies query string parameters overriding the response header values,
+			// append the query string parameters and their values.
+			if ($queryParameters != NULL) {
+				$canonicalizedResource .= $queryParameters;
+			}
+		}
+
+
+
+		$stringToSign = $httpVerb . "\n"
+			. $contentMD5 . "\n"
+			. $contentType . "\n"
+			. $date . "\n"
+			. $canonicalizedAmzHeaders . "\n"
+			. $canonicalizedResource;
+
+		// Signature = Base64( HMAC-SHA1( YourSecretAccessKeyID, UTF-8-Encoding-Of( StringToSign ) ) );
+		$signature = base64_encode(hash_hmac("sha1", utf8_encode($stringToSign), $this->options->get('api.accessKeyId')));
+
+		$authorization .= $signature;
+		return $authorization;
+	}
 }
