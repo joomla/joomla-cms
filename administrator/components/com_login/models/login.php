@@ -27,14 +27,19 @@ class LoginModelLogin extends JModelLegacy
 	 */
 	protected function populateState()
 	{
+		$app = JFactory::getApplication();
+
+		$input = $app->input;
+		$method = $input->getMethod();
+
 		$credentials = array(
-			'username' => JRequest::getVar('username', '', 'method', 'username'),
-			'password' => JRequest::getVar('passwd', '', 'post', 'string', JREQUEST_ALLOWRAW)
+			'username' => $input->$method->get('username', '', 'BASE64'),
+			'password' => $input->$method->get('password', '', 'BASE64')
 		);
 		$this->setState('credentials', $credentials);
 
-		// check for return URL from the request first
-		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
+		// Check for return URL from the request first
+		if ($return = $input->$method->get('return', '', 'BASE64'))
 		{
 			$return = base64_decode($return);
 			if (!JUri::isInternal($return))
