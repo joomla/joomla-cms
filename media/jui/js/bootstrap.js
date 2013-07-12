@@ -835,9 +835,9 @@
     .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
     .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
     .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-     /* >>> JUI >>> */
-     .on('mouseover.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-     /* <<< JUI <<< */
+    /* >>> JUI >>> */
+    .on('mouseover.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    /* <<< JUI <<< */
 }(window.jQuery);
 /* =========================================================
  * bootstrap-modal.js v2.3.2
