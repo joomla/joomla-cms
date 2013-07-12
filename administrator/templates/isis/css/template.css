@@ -7284,3 +7284,6 @@ th .tooltip-inner {
 .container-popup {
 	padding: 15px;
 }
+.img-preview > img{
+    max-height: 100%;
+}
