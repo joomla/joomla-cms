@@ -13,6 +13,19 @@ $input = JFactory::getApplication()->input;
 // Checking if loaded via index.php or component.php
 $tmpl = $input->getCmd('tmpl', '');
 $document = JFactory::getDocument();
+
+$sortedTypes = array();
+foreach ($this->types as $name => $list)
+{
+	$tmp = array();
+	foreach ($list as $item)
+	{
+		$tmp[JText::_($item->title)] = $item;
+	}
+	ksort($tmp);
+	$sortedTypes[JText::_($name)] = $tmp;
+}
+ksort($sortedTypes);
 ?>
 
 <script type="text/javascript">
@@ -30,14 +43,14 @@ $document = JFactory::getDocument();
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php
 		$i = 0;
-		foreach ($this->types as $name => $list) : ?>
-		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($name), 'collapse' . $i++); ?>
+		foreach ($sortedTypes as $name => $list) : ?>
+		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . $i++); ?>
 			<ul class="nav nav-tabs nav-stacked">
-				<?php foreach ($list as $item) : ?>
+				<?php foreach ($list as $title => $item) : ?>
 					<li>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
 							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => $item->title, 'request' => $item->request))); ?>')">
-							<?php echo JText::_($item->title);?> <small class="muted"><?php echo JText::_($item->description); ?></small>
+							<?php echo $title;?> <small class="muted"><?php echo JText::_($item->description); ?></small>
 						</a>
 					</li>
 				<?php endforeach; ?>
