@@ -104,27 +104,45 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		 * Unlike mysql_connect(), mysqli_connect() takes the port and socket as separate arguments. Therefore, we
 		 * have to extract them from the host string.
 		 */
-		$tmp = substr(strstr($this->options['host'], ':'), 1);
-		if (!empty($tmp))
+		$port = isset( $this->options['port'] ) ? $this->options['port'] : 3306;
+
+		if (preg_match('/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/', $this->options['host'], $matches))
 		{
-			// Get the port number or socket name
-			if (is_numeric($tmp))
-			{
-				$this->options['port'] = $tmp;
-			}
-			else
-			{
-				$this->options['socket'] = $tmp;
-			}
+			//It's an IPv4 address with ot without port
+			$this->options['host'] = $matches['host'];
+			if (!empty($matches['port']))
+				$port = $matches['port'];
+		}
+		elseif (preg_match('/^(?P<host>\[.*\])(:(?P<port>.+))?$/', $this->options['host'], $matches))
+		{
+			//We assume square-bracketed IPv6 address with or without port, e.g. [fe80:102::2%eth1]:3306
+			$this->options['host'] = $matches['host'];
+			if (!empty($matches['port']))
+				$port = $matches['port'];
+		}
+		elseif (preg_match('/^(?P<host>(\w+:\/{2,3})?[a-z0-9\.\-]+)(:(?P<port>[^:]+))?$/i', $this->options['host'], $matches))
+		{
+			//Named host (e.g domain.com or localhost) with ot without domain
+			$this->options['host'] = $matches['host'];
+			if (!empty($matches['port']))
+				$port = $matches['port'];
+		}
+		elseif (preg_match('/^:(?P<port>[^:]+)$/', $this->options['host'], $matches))
+		{
+			//Empty host, just port, e.g. ':3306'
+			$this->options['host'] = 'localhost';
+			$port = $matches['port'];
+		}
+		//... else we assume normal (naked) IPv6 address, so host and port stay as they are or default
 
-			// Extract the host name only
-			$this->options['host'] = substr($this->options['host'], 0, strlen($this->options['host']) - (strlen($tmp) + 1));
-
-			// This will take care of the following notation: ":3306"
-			if ($this->options['host'] == '')
-			{
-				$this->options['host'] = 'localhost';
-			}
+		// Get the port number or socket name
+		if (is_numeric($port))
+		{
+			$this->options['port'] = (int) $port;
+		}
+		else
+		{
+			$this->options['socket'] = $port;
 		}
 
 		// Make sure the MySQLi extension for PHP is installed and enabled.
