@@ -6827,9 +6827,6 @@ body .navbar-fixed-top {
 	display: inline-block;
 	margin: 0 0 5px 5px;
 }
-.btn-toolbar .btn-wrapper:first-child {
-	margin-left: 0;
-}
 .subhead-fixed {
 	position: fixed;
 	width: 100%;
