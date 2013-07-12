@@ -263,6 +263,17 @@ body .navbar-fixed-top{
 	margin-bottom: 10px;
 
 }
+.subhead-collapse.collapse {
+	height: auto;
+	overflow: visible;
+}
+.btn-toolbar .btn-wrapper {
+	display: inline-block;
+	margin: 0 0 5px 5px;
+}
+.btn-toolbar .btn-wrapper:first-child {
+	margin-left: 0;
+}
 .subhead-fixed{
 	position: fixed;
 	width: 100%;
@@ -495,8 +506,7 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 	.btn-group.divider,
 	.header .row-fluid .span3,
-	.header .row-fluid .span7,
-	.subhead-collapse{
+	.header .row-fluid .span7 {
 		display: none;
 	}
 	.navbar .btn{
@@ -508,10 +518,31 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 	.chzn-container,
 	.chzn-container .chzn-results,
-	.chzn-container-single .chzn-drop,
-	.btn-toolbar > .btn-group,
-	.btn-toolbar > .btn-group > .btn{
+	.chzn-container-single .chzn-drop {
 		width: 99% !important;
+	}
+	.subhead-collapse.collapse {
+		height: 0;
+		overflow: hidden;
+	}
+	.btn-toolbar .btn-wrapper {
+		display: block;
+		margin-left: 0;
+		margin-bottom: 5px;
+	}
+	.btn-toolbar .btn-wrapper .btn {
+		width: 95% !important;
+		margin-left: 10px;
+	}
+	.subhead-fixed {
+		box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+	}
+	.subhead {
+		background: none repeat scroll 0 0 transparent;
+		border-bottom: 0 solid #D3D3D3;
+	}
+	.btn-group + .btn-group {
+	  margin-left: 10px;
 	}
 	.login .chzn-single {
 	width: 222px !important;
