@@ -696,12 +696,6 @@
         , isActive
         , url
         , isHover
-
-      url = $this.attr('href')
-      if ((url) && (url !== '#')) {
-         window.location = url
-         return
-      }
       /* <<< JUI <<< */
 
       if ($this.is('.disabled, :disabled')) return
@@ -711,7 +705,14 @@
       isActive = $parent.hasClass('open')
       /* >>> JUI >>> */
       isHover = $parent.parent().hasClass('nav-hover')
+      if(!isHover && e.type == 'mouseover') return
       /* <<< JUI <<< */
+
+      url = $this.attr('href')
+      if (e.type == 'click' && (url) && (url !== '#')) {
+         window.location = url
+         return
+      }
 
       clearMenus()
 
