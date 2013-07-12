@@ -105,7 +105,7 @@ class ModulesModelSelect extends JModelList
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		// Get the list of items from the database.
 		$items = parent::getItems();
