@@ -89,6 +89,7 @@ class InstallationModelConfiguration extends JModelBase
 		/* Server Settings */
 		$registry->set('live_site', '');
 		$registry->set('secret', JUserHelper::genRandomPassword(16));
+		$registry->set('pwsecret', JUserHelper::genRandomPassword(16));
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
@@ -141,6 +142,9 @@ class InstallationModelConfiguration extends JModelBase
 		/* Session Setting */
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
+
+		// Set 'pwsecret' in the installation configuration.
+		JFactory::getConfig()->set('pwsecret', $registry->get('pwsecret'));
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));

@@ -31,6 +31,9 @@ class PlgAuthenticationJoomla extends JPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
+		// Get the CMS configuration.
+		$config = JFactory::getConfig();
+
 		$response->type = 'Joomla';
 
 		// Joomla does not like blank passwords
@@ -58,8 +61,16 @@ class PlgAuthenticationJoomla extends JPlugin
 			$crypt	= $parts[0];
 			$salt	= @$parts[1];
 			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
+			$testcrypt2 = false;        // like $testcrypt, but also using the `$config->get("pwsecret")`
 
-			if ($crypt == $testcrypt)
+		    // Use global password secret.
+		    if($config->exists("pwsecret"))
+		    {
+			    $dblSalt = $config->get("pwsecret") . $salt;
+			    $testcrypt2 = JUserHelper::getCryptedPassword($credentials['password'], $dblSalt);
+		    }
+
+			if ($crypt == $testcrypt || $crypt == $testcrypt2)
 			{
 				// Bring this in line with the rest of the system
 				$user = JUser::getInstance($result->id);
