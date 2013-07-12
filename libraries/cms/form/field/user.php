@@ -93,7 +93,7 @@ class JFormFieldUser extends JFormField
 		$html[] = '</div>';
 
 		// Create the real field, hidden, that stored the user id.
-		$html[] = '<input type="hidden" class="validate-userreq" id="' . $this->id . '" name="' . $this->name . '" value="' . $this->value . '" />';
+		$html[] = '<input type="hidden" id="' . $this->id . '" name="' . $this->name . '" value="' . $this->value . '" />';
 
 		return implode("\n", $html);
 	}
