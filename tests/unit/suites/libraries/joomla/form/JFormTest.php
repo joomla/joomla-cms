@@ -2309,6 +2309,12 @@ class JFormTest extends TestCase
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' A required field with a value should return true.'
 		);
+
+		$field = array_pop($xml->xpath('fields/field[@name="boolmessage"]'));
+
+		/** @var UnexpectedValueException $validationMessage */
+		$validationMessage = $form->validateField($field, null, 'hello');
+		$this->assertEquals('Invalid field boolmessage with attribute lambda and value hello', $validationMessage->getMessage());
 	}
 
 	/**

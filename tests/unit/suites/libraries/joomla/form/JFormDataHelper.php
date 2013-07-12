@@ -556,6 +556,13 @@ class JFormDataHelper
 		<field
 			name="required"
 			required="true" />
+
+		<field
+			name="boolmessage"
+			validate="boolean"
+			attribute="lambda"
+			message="Invalid field {name} with attribute {attribute} and value {value}"
+			/>
 	</fields>
 </form>';
 

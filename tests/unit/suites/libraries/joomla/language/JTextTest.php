@@ -143,4 +143,35 @@ class JTextTest extends PHPUnit_Framework_TestCase
 			'This test has not been implemented yet.'
 		);
 	}
+
+	/**
+	 * Data provider for replace.
+	 *
+	 * @return  array
+	 */
+	public function testReplaceProvider()
+	{
+		return array(
+			array('foo {bar}', 'foo {bar}', array()),
+			array('foo {bar}', 'foo {bar}', array('foo' => 'bar')),
+			array('foo {bar}', 'foo bar', array('bar' => 'bar')),
+			array('foo {bar} {foo}', 'foo bar bar', array('bar' => 'bar', 'foo' => 'bar')),
+		);
+	}
+
+	/**
+	 * Test the replace method.
+	 *
+	 * @param   string  $string    The string to replace.
+	 * @param   string  $replaced  The resulting string.
+	 * @param   array   $tags      The tags to replace.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider testReplaceProvider
+	 */
+	public function testReplace($string, $replaced, array $tags)
+	{
+		$this->assertEquals($replaced, JText::replace($string, $tags));
+	}
 }
