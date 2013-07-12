@@ -310,7 +310,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $id             = $app->input->get('id');
         $file           = $app->input->get('file');
 
-        if($model->deleteFile($file))
+        if(base64_decode(urldecode($file)) == 'index.php')
+        {
+            $app->enqueueMessage(JText::_('The file index.php cannot be deleted. Make changes in the editor if you want to change the file.'),'warning');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+
+        elseif($model->deleteFile($file))
         {
             $this->setMessage(JText::_('File deleted successfully.'));
             $file = base64_encode(urlencode('index.php'));
@@ -319,7 +326,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
         else
         {
-            $app->enqueueMessage(JText::_('Some error occurred. Failed to delete.','error'));
+            $app->enqueueMessage(JText::_('Some error occurred. Failed to delete.'),'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
             $this->setRedirect(JRoute::_($url, false));
         }
