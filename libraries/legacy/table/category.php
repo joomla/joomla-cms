@@ -256,6 +256,7 @@ class JTableCategory extends JTableNested
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
+		$this->newTags = isset($this->newTags) ? $this->newTags : array();
 		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
 	}
 }
