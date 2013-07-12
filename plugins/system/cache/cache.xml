@@ -3,8 +3,11 @@
 	<name>plg_system_cache</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2007</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights
+		reserved.
+	</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt
+	</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
@@ -18,22 +21,28 @@
 		<language tag="en-GB">en-GB.plg_system_cache.sys.ini</language>
 	</languages>
 	<config>
-	<fields name="params">
-
+		<fields name="params">
 			<fieldset name="basic">
-		<field	name="browsercache" type="radio"
-			class="btn-group"
-			default="0"
-			description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
-			label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
-		>
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
-		</field>
-		</fieldset>
-
-	</fields>
+				<field name="browsercache" type="radio" class="btn-group"
+					default="0" description="PLG_CACHE_FIELD_BROWSERCACHE_DESC" label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="menuitems" type="menuitem" multiple="true"
+					label="PLG_CACHE_FIELD_MENU_ITEMS_LABEL" description="PLG_CACHE_FIELD_MENU_ITEMS_DESC" />
+				<field name="menuitems_exclude" type="menuitem" multiple="true"
+					label="PLG_CACHE_FIELD_MENU_ITEMS_EXCLUDE_LABEL" description="PLG_CACHE_FIELD_MENU_ITEMS_EXCLUDE_DESC" />
+				<field name="components" type="sql" multiple="true" translate="true"
+					query="SELECT extension_id, name FROM `#__extensions` WHERE `type`='component' AND `enabled`=1"
+					label="PLG_CACHE_FIELD_COMPONENTS_LABEL" description="PLG_CACHE_FIELD_COMPONENTS_DESC"
+					key_field="name" value_field="name">
+				</field>
+				<field name="components_exclude" type="sql" multiple="true" translate="true"
+					query="SELECT extension_id, name FROM `#__extensions` WHERE `type`='component' AND `enabled`=1"
+					label="PLG_CACHE_FIELD_COMPONENTS_EXCLUDE_LABEL" description="PLG_CACHE_FIELD_COMPONENTS_EXCLUDE_DESC"
+					key_field="name" value_field="name">
+				</field>
+			</fieldset>
+		</fields>
 	</config>
 </extension>

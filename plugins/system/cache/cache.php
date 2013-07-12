@@ -18,9 +18,9 @@ defined('_JEXEC') or die;
 class PlgSystemCache extends JPlugin
 {
 
-	var $_cache		= null;
+	private $_cache		= null;
 
-	var $_cache_key	= null;
+	private $_cache_key	= null;
 
 	/**
 	 * Constructor
@@ -30,7 +30,7 @@ class PlgSystemCache extends JPlugin
 	 * @param   array  $config  An array that holds the plugin configuration
 	 * @since   1.0
 	 */
-	function __construct(& $subject, $config)
+	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -49,19 +49,14 @@ class PlgSystemCache extends JPlugin
 	* Converting the site URL to fit to the HTTP request
 	*
 	*/
-	function onAfterInitialise()
+	public function onAfterRoute()
 	{
 		global $_PROFILER;
 		
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		if ($app->isAdmin())
-		{
-			return;
-		}
-
-		if (count($app->getMessageQueue()))
+		if (!$this->isCachingEnabled())
 		{
 			return;
 		}
@@ -89,11 +84,11 @@ class PlgSystemCache extends JPlugin
 		}
 	}
 
-	function onAfterRender()
+	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
 
-		if ($app->isAdmin())
+		if (!$this->isCachingEnabled())
 		{
 			return;
 		}
@@ -109,5 +104,80 @@ class PlgSystemCache extends JPlugin
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check
 			$this->_cache->store(null, $this->_cache_key);
 		}
+	}
+	
+	private function isCachingEnabled()
+	{
+		$app  = JFactory::getApplication();
+		
+		if ($app->isAdmin())
+		{
+			return false;
+		}
+		
+		if (count($app->getMessageQueue()))
+		{
+			return false;
+		}
+		
+		// check for menu items to include
+		$menuItems = $this->params->get('menuitems');
+		if (!empty($menuItems))
+		{
+			if (!is_array($menuItems))
+			{
+				$menuItems = array($menuItems);
+			}
+				
+			if (!in_array(JRequest::getInt('Itemid'), $menuItems))
+			{
+				return false;
+			}
+		}
+		
+		$menuItems = $this->params->get('menuitems_exclude');
+		if (!empty($menuItems))
+		{
+			if (!is_array($menuItems))
+			{
+				$menuItems = array($menuItems);
+			}
+				
+			if (in_array(JRequest::getInt('Itemid'), $menuItems))
+			{
+				return false;
+			}
+		}
+		
+		// check for components to include
+		$components = $this->params->get('components');
+		if (!empty($components))
+		{
+			if (!is_array($components))
+			{
+				$components = array($components);
+			}
+				
+			if (!in_array(JRequest::getCmd('option'), $components))
+			{
+				return false;
+			}
+		}
+		
+		$components = $this->params->get('components_exclude');
+		if (!empty($components))
+		{
+			if (!is_array($components))
+			{
+				$components = array($components);
+			}
+				
+			if (in_array(JRequest::getCmd('option'), $components))
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 }
