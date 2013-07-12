@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Joomla Platform class for interacting with a Amazons3 server instance.
+ * Joomla Platform class for interacting with an Amazons3 server instance.
  *
  * @package     Joomla.Platform
  * @subpackage  Amazons3
