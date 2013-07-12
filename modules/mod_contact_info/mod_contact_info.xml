@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+        type="module"
+        version="3.1"
+        client="site"
+        method="upgrade">
+    <name>mod_contact_info</name>
+    <author>Joomla! Project</author>
+    <creationDate>June 2013</creationDate>
+    <copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <authorEmail>admin@joomla.org</authorEmail>
+    <authorUrl>www.joomla.org</authorUrl>
+    <version>3.1.0</version>
+    <description>MOD_CONTACT_INFO_XML_DESCRIPTION</description>
+    <files>
+        <filename module="mod_contact_info">mod_contact_info.php</filename>
+        <folder>tmpl</folder>
+        <filename>helper.php</filename>
+        <filename>index.html</filename>
+        <filename>mod_contact_info.xml</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_contact_info.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_contact_info.sys.ini</language>
+    </languages>
+    <help key="JHELP_EXTENSIONS_MODULE_MANAGER_CONTACT_INFO"/>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+
+                <field
+                        name="contact"
+                        type="sql"
+                        query="SELECT id, name AS name FROM `#__contact_details` WHERE published=1"
+                        label="MOD_CONTACT_INFO_FIELD_CONTACT_LABEL"
+                        key_field="id"
+                        value_field="name"
+                        description="MOD_CONTACT_INFO_FIELD_CONTACT_DESCRIPTION">
+
+                </field>
+
+                <field
+                        name="name_linked"
+                        type="radio"
+                        class="btn-group"
+                        default="0"
+                        label="MOD_CONTACT_INFO_FIELD_NAME_HYPERLINK_LABEL"
+                        description="MOD_CONTACT_INFO_FIELD_NAME_HYPERLINK_DESCRIPTION">
+                    <option
+                            value="0">JNO
+                    </option>
+                    <option
+                            value="1">JYES
+                    </option>
+                </field>
+
+                <field
+                        name="position"
+                        type="radio"
+                        class="btn-group"
+                        default="0"
+                        label="MOD_CONTACT_INFO_FIELD_POSITION_LABEL"
+                        description="MOD_CONTACT_INFO_FIELD_POSITION_DESCRIPTION">
+                    <option
+                            value="1">JSHOW
+                    </option>
+                    <option
+                            value="0">JHIDE
+                    </option>
+                </field>
+
+                <field
+                        name="address"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="MOD_CONTACT_INFO_FIELD_ADDRESS_LABEL"
+                        description="MOD_CONTACT_INFO_FIELD_ADDRESS_DESCRIPTION">
+                    <option
+                            value="1">JSHOW
+                    </option>
+                    <option
+                            value="0">JHIDE
+                    </option>
+                </field>
+                <field
+                        name="postcode"
+                        type="radio"
+                        class="btn-group"
+                        default="0"
+                        label="MOD_CONTACT_INFO_FIELD_POSTCODE_LABEL"
+                        description="MOD_CONTACT_INFO_FIELD_POSTCODE_DESCRIPTION">
+                    <option
+                            value="1">JSHOW
+                    </option>
+                    <option
+                            value="0">JHIDE
+                    </option>
+                </field>
+                <field
+                        name="telephone"
+                        type="radio"
+                        class="btn-group"
+                        default="1"
+                        label="MOD_CONTACT_INFO_FIELD_TELEPHONE_LABEL"
+                        description="MOD_CONTACT_INFO_FIELD_TELEPHONE_DESCRIPTION">
+                    <option
+                            value="1">JSHOW
+                    </option>
+                    <option
+                            value="0">JHIDE
+                    </option>
+                </field>
+                <field
+                        name="email"
+                        type="radio"
+                        class="btn-group"
+                        default="0"
+                        label="MOD_CONTACT_INFO_FIELD_EMAIL_LABEL"
+                        description="MOD_CONTACT_INFO_FIELD_EMAIL_DESCRIPTION">
+                    <option
+                            value="1">JSHOW
+                    </option>
+                    <option
+                            value="0">JHIDE
+                    </option>
+                </field>
+                <field
+                        name="email_visible"
+                        type="radio"
+                        class="btn-group"
+                        default="0"
+                        label="MOD_CONTACT_INFO_FIELD_EMAIL_ADDRESS_VISIBLE_LABEL"
+                        description="MOD_CONTACT_INFO_FIELD_EMAIL_ADDRESS_VISIBLE_DESCRIPTION">
+                    <option
+                            value="0">JNO
+                    </option>
+                    <option
+                            value="1">JYES
+                    </option>
+                </field>
+            </fieldset>
+            <fieldset
+                    name="advanced">
+                <field
+                        name="layout"
+                        type="modulelayout"
+                        label="JFIELD_ALT_LAYOUT_LABEL"
+                        description="JFIELD_ALT_MODULE_LAYOUT_DESC"/>
+
+                <field
+                        name="moduleclass_sfx"
+                        type="text"
+                        label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+                        description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
+
+                <field
+                        name="cache"
+                        type="list"
+                        default="1"
+                        label="COM_MODULES_FIELD_CACHING_LABEL"
+                        description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option
+                            value="1">JGLOBAL_USE_GLOBAL
+                    </option>
+                    <option
+                            value="0">COM_MODULES_FIELD_VALUE_NOCACHING
+                    </option>
+                </field>
+                <field
+                        name="cache_time"
+                        type="text"
+                        default="900"
+                        label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
+                        description="COM_MODULES_FIELD_CACHE_TIME_DESC"/>
+                <field
+                        name="cachemode"
+                        type="hidden"
+                        default="static">
+                    <option
+                            value="static">
+                    </option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
