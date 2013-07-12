@@ -6663,11 +6663,8 @@ body {
 }
 .view-login .container {
 	width: 300px;
-	position: absolute;
 	top: 50%;
 	left: 50%;
-	margin-top: -206px;
-	margin-left: -150px;
 }
 .view-login .navbar-fixed-bottom {
 	padding-left: 20px;
@@ -6900,9 +6897,6 @@ h6 {
 	color: #fff;
 }
 .container-main,
-#system-debug {
-	padding-bottom: 50px;
-}
 #status {
 	background: #EDEDED;
 	border-top: 1px solid #DDDDDD;
