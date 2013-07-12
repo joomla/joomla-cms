@@ -669,7 +669,13 @@
   var toggle = '[data-toggle=dropdown]'
     , Dropdown = function (element) {
         var $el = $(element).on('click.dropdown.data-api', this.toggle)
+        /* >>> JUI >>> */
+          .on('mouseover.dropdown.data-api', this.toggle)
+        /* <<< JUI <<< */
         $('html').on('click.dropdown.data-api', function () {
+          /* >>> JUI >>> */
+          $el.parent().parent().removeClass('nav-hover')
+          /* <<< JUI <<< */
           $el.parent().removeClass('open')
         })
       }
@@ -689,6 +695,7 @@
         , $parent
         , isActive
         , url
+        , isHover
 
       url = $this.attr('href')
       if ((url) && (url !== '#')) {
@@ -702,16 +709,22 @@
       $parent = getParent($this)
 
       isActive = $parent.hasClass('open')
+      /* >>> JUI >>> */
+      isHover = $parent.parent().hasClass('nav-hover')
+      /* <<< JUI <<< */
 
       clearMenus()
 
-      if (!isActive) {
+      /* >>> JUI >>> */
+      if ((!isActive && e.type != 'mouseover') || (isHover && e.type == 'mouseover')) {
         if ('ontouchstart' in document.documentElement) {
           // if mobile we we use a backdrop because click events don't delegate
           $('<div class="dropdown-backdrop"/>').insertBefore($(this)).on('click', clearMenus)
         }
+        $parent.parent().toggleClass('nav-hover');
         $parent.toggleClass('open')
       }
+      /* <<< JUI <<< */
 
       $this.focus()
 
@@ -762,6 +775,9 @@
   }
 
   function clearMenus() {
+    /* >>> JUI >>> */
+    $(toggle).parent().parent().removeClass('nav-hover')
+    /* <<< JUI <<< */
     $('.dropdown-backdrop').remove()
     $(toggle).each(function () {
       getParent($(this)).removeClass('open')
@@ -819,7 +835,9 @@
     .on('click.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
     .on('click.dropdown.data-api'  , toggle, Dropdown.prototype.toggle)
     .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
-
+     /* >>> JUI >>> */
+     .on('mouseover.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+     /* <<< JUI <<< */
 }(window.jQuery);
 /* =========================================================
  * bootstrap-modal.js v2.3.2
