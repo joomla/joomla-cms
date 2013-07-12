@@ -45,8 +45,8 @@ class JFormFieldUser extends JFormField
 		// Initialize some field attributes.
 		$attr = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-        
-		// Initialize JavaScript field attributes.
+
+        // Initialize JavaScript field attributes.
 		$onchange = (string) $this->element['onchange'];
 
 		// Load the modal behavior script.
@@ -63,8 +63,8 @@ class JFormFieldUser extends JFormField
 		$script[] = '		}';
 		$script[] = '		SqueezeBox.close();';
 		$script[] = '	}';
-        
-		// Add the script to the document head.
+
+        // Add the script to the document head.
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
 		// Load the current username if available.
@@ -87,7 +87,7 @@ class JFormFieldUser extends JFormField
 		if ($this->element['readonly'] != 'true')
 		{
 			$html[] = '		<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
-				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}" id="btn_modal_user_' . $this->id . '">';
+				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
 			$html[] = '<i class="icon-user"></i></a>';
 		}
 		$html[] = '</div>';
