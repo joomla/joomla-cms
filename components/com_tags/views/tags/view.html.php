@@ -40,6 +40,7 @@ class TagsViewTags extends JViewLegacy
 		$pagination	= $this->get('Pagination');
 
 		// Change to catch
+
 		/*if (count($errors = $this->get('Errors'))) {
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
@@ -49,6 +50,7 @@ class TagsViewTags extends JViewLegacy
 		// TODO: SHould already be computed in $item->params->get('access-view')
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
+
 		if (!empty($items))
 		{
 			foreach ($items as $itemElement)
@@ -73,7 +75,7 @@ class TagsViewTags extends JViewLegacy
 		$this->user       = &$user;
 		$this->item       = &$item;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		// Merge tag params. If this is single-tag view, menu params override tag params
@@ -86,11 +88,13 @@ class TagsViewTags extends JViewLegacy
 		if ($active)
 		{
 			$currentLink = $active->link;
+
 			// If the current view is the active item and the tags view, then the menu item params take priority
 			if (strpos($currentLink, 'view=tags'))
 			{
 				$this->params = $active->params;
 				$this->params->merge($temp);
+
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
 				{
@@ -117,6 +121,7 @@ class TagsViewTags extends JViewLegacy
 			// Merge so that tag params take priority
 			$temp->merge($item[0]->params);
 			$item[0]->params = $temp;
+
 			// Check for alternative layouts (since we are not in a single-tag menu item)
 			// Single-tag menu item layout takes priority over alt layout for a tag
 			if ($layout = $item[0]->params->get('tag_layout'))
@@ -132,6 +137,8 @@ class TagsViewTags extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return void
 	 */
 	protected function _prepareDocument()
 	{
@@ -159,6 +166,7 @@ class TagsViewTags extends JViewLegacy
 
 		// If this is not a single tag menu item, set the page title to the tag titles
 		$title = '';
+
 		if (!empty($this->item))
 		{
 			foreach ($this->item as $i => $itemElement)
@@ -169,6 +177,7 @@ class TagsViewTags extends JViewLegacy
 					{
 						$title .= ', ';
 					}
+
 					$title .= $itemElement->title;
 				}
 			}
@@ -219,6 +228,7 @@ class TagsViewTags extends JViewLegacy
 				}
 
 				$mdata = $this->item->metadata->toArray();
+
 				foreach ($mdata as $k => $v)
 				{
 					if ($v)
@@ -234,10 +244,9 @@ class TagsViewTags extends JViewLegacy
 		{
 			$link	= '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
-
 	}
 }

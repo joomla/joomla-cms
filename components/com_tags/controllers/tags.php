@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class TagsControllerTags extends JControllerLegacy
 {
-
 	/**
 	 * Method to search tags with AJAX
 	 *
@@ -46,5 +45,4 @@ class TagsControllerTags extends JControllerLegacy
 
 		$app->close();
 	}
-
 }

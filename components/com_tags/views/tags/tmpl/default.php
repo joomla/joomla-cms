@@ -8,25 +8,32 @@
  */
 
 defined('_JEXEC') or die;
+
 // Note that there are certain parts of this layout used only when there is exactly one tag.
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+
 $description = $this->params->get('all_tags_description');
 $descriptionImage = $this->params->get('all_tags_description_image');
 ?>
 <div class="tag-category<?php echo $this->pageclass_sfx; ?>">
-	<?php  if ($this->state->get('show_page_heading')) : ?>
-		<h1>
-		<?php echo $this->escape($this->params->get('page_heading')); ?>
-		</h1>
-	<?php endif;?>
-	<?php if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage)):?>
-		<div><?php echo '<img src="' . $descriptionImage . '">';?></div>
-	<?php endif;?>
-	<?php if (!empty($description)):?>
-		<div><?php echo $description;?></div>
-	<?php endif;?>
+	<?php
 
-	<?php echo $this->loadTemplate('items'); ?>
+	if ($this->state->get('show_page_heading'))
+	{
+		echo '<h1>' . $this->escape($this->params->get('page_heading')) . '</h1>';
+	}
 
+	if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage))
+	{
+		echo '<div><img src="' . $descriptionImage . '"></div>';
+	}
+
+	if (!empty($description))
+	{
+		echo "<div>$description</div>";
+	}
+
+	echo $this->loadTemplate('items');
+	?>
 </div>
