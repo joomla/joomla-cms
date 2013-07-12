@@ -41,7 +41,10 @@ class PlgSystemRemember extends JPlugin
 			}
 
 			JLoader::register('JAuthentication', JPATH_PLATFORM . '/joomla/user/authentication.php');
-			$series = JApplication::getHash('JLOGIN_REMEMBER');
+
+			// Create the series name
+			$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+
 
 			$inputCookie = new JInputCookie();
 			$cookieValue = $inputCookie->get($series);
@@ -63,28 +66,17 @@ class PlgSystemRemember extends JPlugin
 				$query->clear();
 
 				$credentials = array();
-				$filter = JFilterInput::getInstance();
-
-				$series64 = base64_encode($series);
 
 				//Find the matching record if it exists
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true);
 				$query->select($db->quotename(array('user_id', 'token', 'series', 'time', 'invalid')))
-					->where($db->quoteName('series') . ' = ' . $db->quote($series64) )
+					->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)))
 					->from($db->quoteName('#__user_keys'));
 				$db->setQuery($query);
 				$results = $db->loadObjectList();
 
 				$countResults = count($results);
-
-				// If the user has multiple cookies for the same series something is wrong, invalidate them all.
-				if ($countResults > 1)
-				{
-					$this->invalidateCookie($results[0]->user_id, $series, $this->cookie_path, $this->cookie_domain, $this->secure, $this->httponly);
-
-					return false;
-				}
 
 				// We have a cookie but it's not in the database or the cookie is invalid. Possible attack, invalidate every thing.
 				if ($countResults == 0 || !$results || $results[0]->invalid != 0)
@@ -177,7 +169,7 @@ class PlgSystemRemember extends JPlugin
 		{
 			// Bring this in line with the rest of the system
 			$user = JUser::getInstance($result->id);
-			$series = JApplication::getHash('JLOGIN_REMEMBER');
+			$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
 			$inputCookie = new JInputCookie();
 
 			// If there is no cookie, bail out
@@ -220,8 +212,7 @@ class PlgSystemRemember extends JPlugin
 		$privateKey = JUserHelper::genRandomPassword($length);
 		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
 
-		$series = JApplication::getHash('JLOGIN_REMEMBER');
-		$series64 = base64_encode($series);
+		$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
 
 		// Use domain and path set in config for cookie if it exists.
 		$this->getCookieConfig();
@@ -256,13 +247,13 @@ class PlgSystemRemember extends JPlugin
 		else
 		{
 			$query->update($db->quoteName('#__user_keys'))
-				->where($db->quote($user->username) . ' = ' . $db->quoteName('user_id') . ' AND ' .  $db->quote($series64) . ' = ' . $db->quoteName('series'));
+				->where($db->quote($user->username) . ' = ' . $db->quoteName('user_id') . ' AND ' .  $db->quote(base64_encode($series)) . ' = ' . $db->quoteName('series'));
 		}
 
 		$query->set($db->quoteName('user_id') . ' = ' . $db->quote($user->username))
 			->set($db->quoteName('time') . ' = ' . $this->lifetime)
 			->set($db->quoteName('token') . ' = ' . $db->quote($cryptedKey))
-			->set($db->quoteName('series') . ' = ' . $db->quote($series64))
+			->set($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)))
 			->set($db->quoteName('invalid') . ' = 0');
 		$db->setQuery($query);
 
@@ -284,7 +275,7 @@ class PlgSystemRemember extends JPlugin
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		$series = JApplication::getHash('JLOGIN_REMEMBER');
+		$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
 		$inputCookie = new JInputCookie();
 
 		// Use domain and path set in config for cookie if it exists.

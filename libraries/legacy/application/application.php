@@ -761,7 +761,9 @@ class JApplication extends JApplicationBase
 
 		if (!in_array(false, $results, true))
 		{
-			$cookieName = self::getHash('JLOGIN_REMEMBER');
+			// Create the series name using the user agent string.
+			$cookieName = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+
 			$inputCookie = new JInputCookie();
 
 			if (!empty($cookieName))

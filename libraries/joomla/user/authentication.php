@@ -257,7 +257,7 @@ class JAuthentication extends JObject
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
-		$series = JApplication::getHash('JLOGIN_REMEMBER');
+		$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
 		$inputCookie = new JInputCookie();
 		if (JpluginHelper::isEnabled('system', 'remember') && $inputCookie->get($series))
 		{
