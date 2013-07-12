@@ -763,7 +763,7 @@ class JHelperTags
 	 */
 	public function postStoreProcess($table, $newTags = array(), $replace = true)
 	{
-		if (isset($table->newTags))
+		if (isset($table->newTags) && empty($newTags))
 		{
 			$newTags = $table->newTags;
 		}
