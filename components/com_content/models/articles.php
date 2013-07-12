@@ -217,8 +217,16 @@ class ContentModelArticles extends JModelList
 			->where('contact.published = 1')
 			->group('contact.user_id, contact.language');
 
+		$onjoin = 'contact.user_id = a.created_by';
+
+		// Filter by language
+		if ($this->getState('filter.language'))
+		{
+			$onjoin .= ' AND (contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)';
+		}
+
 		$query->select('contact.id as contactid')
-			->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+			->join('LEFT', '(' . $subQuery . ') AS contact ON ' . $onjoin);
 
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
@@ -492,8 +500,7 @@ class ContentModelArticles extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')')
-				->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
+			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
 		// Add the list ordering clause.

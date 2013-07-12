@@ -86,13 +86,15 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			JToolbarHelper::trash('newsfeeds.trash');
 		}
 		// Add a batch button
-		if ($user->authorise('core.edit'))
+		if ($user->authorise('core.create', 'com_newsfeeds') && $user->authorise('core.edit', 'com_newsfeeds') && $user->authorise('core.edit.state', 'com_newsfeeds'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-						$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 		if ($canDo->get('core.admin'))
@@ -128,7 +130,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 		);
 
 		JHtmlSidebar::addFilter(
-		'-' . JText::_('JSELECT') . ' ' . JText::_('JTAG') . '-',
+		JText::_('JOPTION_SELECT_TAG'),
 		'filter_tag',
 		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
 		);

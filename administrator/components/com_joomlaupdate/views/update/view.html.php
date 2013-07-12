@@ -29,14 +29,19 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 	{
 		$password = JFactory::getApplication()->getUserState('com_joomlaupdate.password', null);
 		$filesize = JFactory::getApplication()->getUserState('com_joomlaupdate.filesize', null);
-		$ajaxUrl = JURI::base().'components/com_joomlaupdate/restore.php';
+		$ajaxUrl = JUri::base().'components/com_joomlaupdate/restore.php';
 		$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
 
 		// Set the toolbar information
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolBarHelper::divider();
+		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Add toolbar buttons
-		JToolbarHelper::preferences('com_joomlaupdate');
+		if (JFactory::getUser()->authorise('core.admin', 'com_joomlaupdate'))
+		{
+			JToolbarHelper::preferences('com_joomlaupdate');
+		}
 
 		// Load mooTools
 		JHtml::_('behavior.framework', true);

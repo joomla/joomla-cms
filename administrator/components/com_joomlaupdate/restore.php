@@ -2,7 +2,7 @@
 /**
  * Akeeba Restore
  * A JSON-powered JPA, JPS and ZIP archive extraction library
- * 
+ *
  * @copyright 2010-2012 Nicholas K. Dionysopoulos / AkeebaBackup.com
  * @license GNU GPL v2 or - at your option - any later version
  * @package akeebabackup
@@ -1323,7 +1323,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 					case 'rename_files': // Which files to rename (hash array)
 						$this->renameFiles = $value;
 						break;
-					
+
 					case 'rename_dirs': // Which files to rename (hash array)
 						$this->renameDirs = $value;
 						break;
@@ -1580,11 +1580,11 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	protected function setCorrectPermissions($path)
 	{
 		static $rootDir = null;
-		
+
 		if(is_null($rootDir)) {
 			$rootDir = rtrim(AKFactory::get('kickstart.setup.destdir',''),'/\\');
 		}
-		
+
 		$directory = rtrim(dirname($path),'/\\');
 		if($directory != $rootDir) {
 			// Is this an unwritable directory?
@@ -2056,7 +2056,7 @@ class AKPostprocDirect extends AKAbstractPostproc
 		} else {
 			$root = '';
 		}
-		
+
 		if(empty($dir)) return true;
 
 		$dirArray = explode('/', $dir);
@@ -2302,7 +2302,6 @@ class AKPostprocFTP extends AKAbstractPostproc
 		}
 
 		$absoluteFSPath = dirname($this->filename);
-		$relativeFTPPath = trim($remotePath, '/');
 		$absoluteFTPPath = '/'.trim( $this->dir, '/' ).'/'.trim($remotePath, '/');
 		$onlyFilename = basename($this->filename);
 
@@ -2439,7 +2438,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 			}
 		}
 		if(empty($dirName)) $dirName = ''; // 'cause the substr() above may return FALSE.
-		
+
 		$check = '/'.trim($this->dir,'/').'/'.trim($dirName, '/');
 		if($this->is_dir($check)) return true;
 
@@ -2578,9 +2577,6 @@ class AKPostprocFTP extends AKAbstractPostproc
 
 	public function rename( $from, $to )
 	{
-		$originalFrom = $from;
-		$originalTo = $to;
-
 		$removePath = AKFactory::get('kickstart.setup.destdir','');
 		if(!empty($removePath))
 		{
@@ -2744,7 +2740,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 				$isRenamed = true;
 			}
 		}
-		
+
 		// Handle directory renaming
 		$isDirRenamed = false;
 		if(is_array($this->renameDirs) && (count($this->renameDirs) > 0)) {
@@ -2888,8 +2884,6 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 		}
 		elseif($this->fileHeader->type == 'dir')
 		{
-			$dir = $this->fileHeader->file;
-
 			// Directory; just create it
 			if($restorePerms)
 			{
@@ -2990,7 +2984,6 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 		// Reference to the global timer
 		$timer = AKFactory::getTimer();
 
-		$toReadBytes = 0;
 		$leftBytes = $this->fileHeader->compressed - $this->dataReadLength;
 
 		// Loop while there's data to read and enough time to do it
@@ -3115,8 +3108,6 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 	 */
 	private function processTypeLink()
 	{
-		$readBytes = 0;
-		$toReadBytes = 0;
 		$leftBytes = $this->fileHeader->compressed;
 		$data = '';
 
@@ -3277,7 +3268,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 				if(defined('KSDEBUG')) {
 					debugMsg('EOF before reading header');
 				}
-				
+
 				$this->nextFile();
 			}
 		}
@@ -3292,7 +3283,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 			if(defined('KSDEBUG')) {
 				debugMsg('Not a file signature at '.(ftell($this->fp)-4));
 			}
-			
+
 			// The signature is not the one used for files. Is this a central directory record (i.e. we're done)?
 			if($headerData['sig'] == 0x02014b50)
 			{
@@ -3323,29 +3314,28 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 		// Read the last modified data and time
 		$lastmodtime = $headerData['lastmodtime'];
 		$lastmoddate = $headerData['lastmoddate'];
-		
+
 		if($lastmoddate && $lastmodtime)
 		{
 			// ----- Extract time
 			$v_hour = ($lastmodtime & 0xF800) >> 11;
 			$v_minute = ($lastmodtime & 0x07E0) >> 5;
 			$v_seconde = ($lastmodtime & 0x001F)*2;
-			
+
 			// ----- Extract date
 			$v_year = (($lastmoddate & 0xFE00) >> 9) + 1980;
 			$v_month = ($lastmoddate & 0x01E0) >> 5;
 			$v_day = $lastmoddate & 0x001F;
-			
+
 			// ----- Get UNIX date format
 			$this->fileHeader->timestamp = @mktime($v_hour, $v_minute, $v_seconde, $v_month, $v_day, $v_year);
 		}
-		
+
 		$isBannedFile = false;
 
 		$this->fileHeader->compressed	= $headerData['compsize'];
 		$this->fileHeader->uncompressed	= $headerData['uncomp'];
 		$nameFieldLength				= $headerData['fnamelen'];
-		$extraFieldLength				= $headerData['eflen'];
 
 		// Read filename field
 		$this->fileHeader->file			= fread( $this->fp, $nameFieldLength );
@@ -3360,26 +3350,11 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 				$isRenamed = true;
 			}
 		}
-		
-		// Handle directory renaming
-		$isDirRenamed = false;
-		if(is_array($this->renameDirs) && (count($this->renameDirs) > 0)) {
-			if(array_key_exists(dirname($file), $this->renameDirs)) {
-				$file = rtrim($this->renameDirs[dirname($file)],'/').'/'.basename($file);
-				$isRenamed = true;
-				$isDirRenamed = true;
-			}
-		}
 
-		// Read extra field if present
-		if($extraFieldLength > 0) {
-			$extrafield = fread( $this->fp, $extraFieldLength );
-		}
-		
 		if(defined('KSDEBUG')) {
 			debugMsg( '*'.ftell($this->fp).' IS START OF '.$this->fileHeader->file. ' ('.$this->fileHeader->compressed.' bytes)' );
 		}
-		
+
 
 		// Decide filetype -- Check for directories
 		$this->fileHeader->type = 'file';
@@ -3448,8 +3423,6 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 		elseif($this->fileHeader->type == 'dir')
 		{
 			$this->fileHeader->timestamp = 0;
-
-			$dir = $this->fileHeader->file;
 
 			$this->postProcEngine->createDirRecursive( $this->fileHeader->file, 0755 );
 			$this->postProcEngine->processFilename(null);
@@ -3788,7 +3761,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 				$isRenamed = true;
 			}
 		}
-		
+
 		// Handle directory renaming
 		$isDirRenamed = false;
 		if(is_array($this->renameDirs) && (count($this->renameDirs) > 0)) {
@@ -4594,7 +4567,7 @@ class AKText extends AKAbstractObject
 
 		$this->language = null;
 		$basename=basename(__FILE__, '.php') . '.ini';
-		
+
 		// Try to match main language part of the filename, irrespective of the location, e.g. de_DE will do if de_CH doesn't exist.
 		$fs = new AKUtilsLister();
 		$iniFiles = $fs->getFiles( dirname(__FILE__), '*.'.$basename );
@@ -4619,7 +4592,7 @@ class AKText extends AKAbstractObject
 				}
 			}
 		}
-		
+
 		if(is_null($this->language)) {
 			// Try to find a full language match
 			foreach($user_languages as $languageStruct)
@@ -4641,9 +4614,9 @@ class AKText extends AKAbstractObject
 				}
 			}
 		}
-		
+
 		// Now, scan for full language based on the partial match
-		
+
 	}
 
 	private function loadTranslation( $lang = null )
@@ -5003,9 +4976,9 @@ class AKFactory {
 /**
  * AES implementation in PHP (c) Chris Veness 2005-2011
  * (http://www.movable-type.co.uk/scripts/aes-php.html)
- * I offer these formulæ & scripts for free use and adaptation as my contribution to the 
- * open-source info-sphere from which I have received so much. You are welcome to re-use these 
- * scripts [under a simple attribution license or a GPL licence, without any warranty express or implied] 
+ * I offer these formulæ & scripts for free use and adaptation as my contribution to the
+ * open-source info-sphere from which I have received so much. You are welcome to re-use these
+ * scripts [under a simple attribution license or a GPL licence, without any warranty express or implied]
  * provided solely that you retain my copyright notice and a link to this page.
  * licence. No warranty of any form is offered.
  *

@@ -40,7 +40,7 @@ abstract class JHtmlTag
 	{
 		$hash = md5(serialize($config));
 
-		if (!isset(self::$items[$hash]))
+		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
@@ -86,17 +86,17 @@ abstract class JHtmlTag
 			$items = $db->loadObjectList();
 
 			// Assemble the list options.
-			self::$items[$hash] = array();
+			static::$items[$hash] = array();
 
 			foreach ($items as &$item)
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 		}
 
-		return self::$items[$hash];
+		return static::$items[$hash];
 	}
 
 	/**
@@ -138,15 +138,15 @@ abstract class JHtmlTag
 		$items = $db->loadObjectList();
 
 		// Assemble the list options.
-		self::$items[$hash] = array();
+		static::$items[$hash] = array();
 
 		foreach ($items as &$item)
 		{
 			$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 			$item->title = str_repeat('- ', $repeat) . $item->title;
-			self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+			static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 		}
-		return self::$items[$hash];
+		return static::$items[$hash];
 	}
 
 	/**
@@ -166,7 +166,7 @@ abstract class JHtmlTag
 			array(
 				'selector'    => $selector,
 				'type'        => 'GET',
-				'url'         => JURI::root() . 'index.php?option=com_tags&task=tags.searchAjax',
+				'url'         => JUri::root() . 'index.php?option=com_tags&task=tags.searchAjax',
 				'dataType'    => 'json',
 				'jsonTermKey' => 'like'
 			)
@@ -179,18 +179,55 @@ abstract class JHtmlTag
 			JFactory::getDocument()->addScriptDeclaration("
 				(function($){
 					$(document).ready(function () {
+
+						var customTagPrefix = '#new#';
+
 						// Method to add tags pressing enter
 						$('" . $selector . "_chzn input').keydown(function(event) {
-							// tag is greater than 3 chars and enter pressed
+
+							// Tag is greater than 3 chars and enter pressed
 							if (this.value.length >= 3 && (event.which === 13 || event.which === 188)) {
-								// Create the option
-								var option = $('<option>');
-								option.text(this.value).val('#new#' + this.value);
-								option.attr('selected','selected');
-								// Add the option an repopulate the chosen field
-								$('" . $selector . "').append(option).trigger('liszt:updated');
+
+								// Search an highlighted result
+								var highlighted = $('" . $selector . "_chzn').find('li.active-result.highlighted').first();
+
+								// Add the highlighted option
+								if (event.which === 13 && highlighted.text() !== '')
+								{
+									// Extra check. If we have added a custom tag with this text remove it
+									var customOptionValue = customTagPrefix + highlighted.text();
+									$('" . $selector . " option').filter(function () { return $(this).val() == customOptionValue; }).remove();
+
+									// Select the highlighted result
+									var tagOption = $('" . $selector . " option').filter(function () { return $(this).html() == highlighted.text(); });
+									tagOption.attr('selected', 'selected');
+								}
+								// Add the custom tag option
+								else
+								{
+									var customTag = this.value;
+
+									// Extra check. Search if the custom tag already exists (typed faster than AJAX ready)
+									var tagOption = $('" . $selector . " option').filter(function () { return $(this).html() == customTag; });
+									if (tagOption.text() !== '')
+									{
+										tagOption.attr('selected', 'selected');
+									}
+									else
+									{
+										var option = $('<option>');
+										option.text(this.value).val(customTagPrefix + this.value);
+										option.attr('selected','selected');
+
+										// Append the option an repopulate the chosen field
+										$('" . $selector . "').append(option);
+									}
+								}
+
 								this.value = '';
+								$('" . $selector . "').trigger('liszt:updated');
 								event.preventDefault();
+
 							}
 						});
 					});

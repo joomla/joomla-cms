@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Site
- * @subpackage  com_tagsxc v
+ * @subpackage  com_tags
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.framework');
 
 // Get the user object.
@@ -27,7 +27,7 @@ $n = count($this->items);
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') !== '0' || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
 	<fieldset class="filters btn-toolbar">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
@@ -60,29 +60,26 @@ $n = count($this->items);
 
 	<ul class="category list-striped list-condensed">
 		<?php foreach ($items as $i => $item) : ?>
-			<?php if ((!empty($item->core_access)) && in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
-				<?php if ($item->core_state == 0) : ?>
-					<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
-				<?php else: ?>
-					<li class="cat-list-row<?php echo $i % 2; ?>" >
-					<h3>
-						<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
-							<?php echo $this->escape($item->core_title); ?>
-						</a>
-					</h3>
-				<?php endif; ?>
-				<?php $images  = json_decode($item->core_images);?>
-				<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
-					<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
-				<?php endif; ?>
-				<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
-					<span class="tag-body">
-						<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
-					</span>
-				<?php endif; ?>
-					</li>
-			<?php endif;?>
-			<div class="clearfix"></div>
+			<?php if ($item->core_state == 0) : ?>
+				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
+			<?php else: ?>
+				<li class="cat-list-row<?php echo $i % 2; ?> clearfix" >
+				<h3>
+					<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+						<?php echo $this->escape($item->core_title); ?>
+					</a>
+				</h3>
+			<?php endif; ?>
+			<?php $images  = json_decode($item->core_images);?>
+			<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
+				<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+			<?php endif; ?>
+			<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
+				<span class="tag-body">
+					<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
+				</span>
+			<?php endif; ?>
+				</li>
 		<?php endforeach; ?>
 	</ul>
 
@@ -95,7 +92,7 @@ $n = count($this->items);
 		<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
-		</br>
+		<br/>
 	<?php endif; ?>
 </form>
 

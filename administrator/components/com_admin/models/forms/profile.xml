@@ -17,24 +17,26 @@
 			size="30"
 		/>
 
-		<field name="password" type="password"
-			autocomplete="off"
-			class="inputbox validate-password"
-			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
-			filter="raw"
-			label="JGLOBAL_PASSWORD"
-			size="30"
-			validate="equals"
-			field="password2"
-		/>
-
 		<field name="password2" type="password"
 			autocomplete="off"
-			class="inputbox validate-password"
+			class="validate-password"
+			description="COM_ADMIN_USER_FIELD_PASSWORD_DESC"
+			field="password1"
+			filter="raw"
+			label="JGLOBAL_PASSWORD"
+			message="COM_ADMIN_USER_FIELD_PASSWORD1_MESSAGE"
+			size="30"
+			validate="equals"
+		/>
+
+		<field name="password1" type="password"
+			autocomplete="off"
+			class="validate-password"
 			description="COM_ADMIN_USER_FIELD_PASSWORD2_DESC"
 			filter="raw"
 			label="COM_ADMIN_USER_FIELD_PASSWORD2_LABEL"
 			size="30"
+			validate="password"
 		/>
 
 		<field name="email" type="email"

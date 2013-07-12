@@ -296,11 +296,11 @@
 			name="filter_field"
 			type="radio"
 			class="btn-group"
-			default="0"
+			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
-				<option value="0">JHIDE</option>
+				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
 
@@ -345,7 +345,7 @@
 	<fieldset
 		name="data_entry"
 		label="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_LABEL"
-		description="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_LABEL">
+		description="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_DESC">
 		
 		<field 
 			name="tag_field_ajax_mode" 

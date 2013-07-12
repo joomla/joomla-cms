@@ -316,10 +316,9 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 		}
 
 		$this->set('tag', $tag);
-		$folder = $tag;
 
 		// Set the language installation path
-		$this->parent->setPath('extension_site', $basePath . '/language/' . $this->get('tag'));
+		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
 		if (count($xml->files->children()))
@@ -520,7 +519,7 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 			if ($registry->get($param_name) == $element)
 			{
 				$registry->set($param_name, '');
-				$query = $db->getQuery(true)
+				$query->clear()
 					->update('#__users')
 					->set('params=' . $db->quote($registry))
 					->where('id=' . (int) $user->id);
@@ -561,9 +560,11 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$extension->set('type', 'language');
 				$extension->set('client_id', 0);
 				$extension->set('element', $language);
+				$extension->set('folder', '');
 				$extension->set('name', $language);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 		}
@@ -576,9 +577,11 @@ class JInstallerAdapterLanguage extends JAdapterInstance
 				$extension->set('type', 'language');
 				$extension->set('client_id', 1);
 				$extension->set('element', $language);
+				$extension->set('folder', '');
 				$extension->set('name', $language);
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
 		}

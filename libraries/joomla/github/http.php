@@ -55,20 +55,4 @@ class JGithubHttp extends JHttp
 		// Set the default timeout to 120 seconds.
 		$this->options->def('timeout', 120);
 	}
-
-	/**
-	 * Method to send the PATCH command to the server.
-	 *
-	 * @param   string  $url      Path to the resource.
-	 * @param   mixed   $data     Either an associative array or a string to be sent with the request.
-	 * @param   array   $headers  An array of name-value pairs to include in the header of the request.
-	 *
-	 * @return  JHttpResponse
-	 *
-	 * @since   11.3
-	 */
-	public function patch($url, $data, array $headers = null)
-	{
-		return $this->transport->request('PATCH', new JUri($url), $data, $headers);
-	}
 }

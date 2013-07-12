@@ -127,10 +127,17 @@ class ContentModelForm extends ContentModelArticle
 		{
 			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
 		}
+
+		// Convert the metadata field to an array.
+		$registry = new JRegistry;
+		$registry->loadString($value->metadata);
+		$value->metadata = $registry->toArray();
+
 		if ($itemId)
 		{
 			$value->tags = new JHelperTags;
 			$value->tags->getTagIds($value->id, 'com_content.article');
+			$value->metadata['tags'] = $value->tags;
 		}
 
 		return $value;
@@ -145,5 +152,26 @@ class ContentModelForm extends ContentModelArticle
 	public function getReturnPage()
 	{
 		return base64_encode($this->getState('return_page'));
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.2
+	 */
+	public function save($data)
+	{
+		// Prevent deleting multilang associations
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$app->item_associations = 0;
+		$result = parent::save($data);
+		$app->item_associations = $assoc;
+
+		return $result;
 	}
 }

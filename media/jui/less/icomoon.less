@@ -2,9 +2,9 @@
 	font-family: 'IcoMoon';
 	src: url('../fonts/IcoMoon.eot');
 	src: url('../fonts/IcoMoon.eot?#iefix') format('embedded-opentype'),
-		url('../fonts/IcoMoon.svg#IcoMoon') format('svg'),
 		url('../fonts/IcoMoon.woff') format('woff'),
-		url('../fonts/IcoMoon.ttf') format('truetype');
+		url('../fonts/IcoMoon.ttf') format('truetype'),
+		url('../fonts/IcoMoon.svg#IcoMoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
@@ -31,6 +31,10 @@
 	font-family: 'IcoMoon';
 	font-style: normal;
 	speak: none;
+}
+[class^="icon-"].disabled,
+[class*=" icon-"].disabled {
+	font-weight: normal;
 }
 .icon-home:before {
 	content: "\21";

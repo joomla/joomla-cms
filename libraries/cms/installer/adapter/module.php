@@ -186,7 +186,6 @@ class JInstallerAdapterModule extends JAdapterInstance
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$cname = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
 		}
@@ -620,9 +619,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$extension->set('type', 'module');
 			$extension->set('client_id', $site_info->id);
 			$extension->set('element', $module);
+			$extension->set('folder', '');
 			$extension->set('name', $module);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = clone $extension;
 		}
 
@@ -633,9 +634,11 @@ class JInstallerAdapterModule extends JAdapterInstance
 			$extension->set('type', 'module');
 			$extension->set('client_id', $admin_info->id);
 			$extension->set('element', $module);
+			$extension->set('folder', '');
 			$extension->set('name', $module);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = clone $extension;
 		}
 
@@ -850,7 +853,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->languages, $row->client_id);
 
 		// Let's delete all the module copies for the type we are uninstalling
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))

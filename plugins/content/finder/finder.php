@@ -23,9 +23,10 @@ class PlgContentFinder extends JPlugin
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 * @param   string  The context of the content passed to the plugin (added in 1.6)
-	 * @param   object		A JTableContent object
-	 * @param   bool		If the content has just been created
+	 * @param   string  $context  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object  $article  A JTableContent object
+	 * @param   bool    $isNew    If the content has just been created
+	 *
 	 * @since	2.5
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
@@ -35,16 +36,17 @@ class PlgContentFinder extends JPlugin
 
 		// Trigger the onFinderAfterSave event.
 		$dispatcher->trigger('onFinderAfterSave', array($context, $article, $isNew));
-
 	}
+
 	/**
 	 * Finder before save content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 * @param   string  The context of the content passed to the plugin (added in 1.6)
-	 * @param   object		A JTableContent object
-	 * @param   bool		If the content is just about to be created
+	 * @param   string  $context  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object  $article  A JTableContent object
+	 * @param   bool    $isNew    If the content is just about to be created
+	 *
 	 * @since   2.5
 	 */
 	public function onContentBeforeSave($context, $article, $isNew)
@@ -54,15 +56,16 @@ class PlgContentFinder extends JPlugin
 
 		// Trigger the onFinderBeforeSave event.
 		$dispatcher->trigger('onFinderBeforeSave', array($context, $article, $isNew));
-
 	}
+
 	/**
 	 * Finder after delete content method
 	 * Article is passed by reference, but after the save, so no changes will be saved.
 	 * Method is called right after the content is saved
 	 *
-	 * @param   string  The context of the content passed to the plugin (added in 1.6)
-	 * @param   object		A JTableContent object
+	 * @param   string  $context  The context of the content passed to the plugin (added in 1.6)
+	 * @param   object  $article  A JTableContent object
+	 *
 	 * @since   2.5
 	 */
 	public function onContentAfterDelete($context, $article)
@@ -72,8 +75,8 @@ class PlgContentFinder extends JPlugin
 
 		// Trigger the onFinderAfterDelete event.
 		$dispatcher->trigger('onFinderAfterDelete', array($context, $article));
-
 	}
+
 	/**
 	 * Finder change state content method
 	 * Method to update the link information for items that have been changed
@@ -83,6 +86,7 @@ class PlgContentFinder extends JPlugin
 	 * @param   string   $context  The context for the content passed to the plugin.
 	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
 	 * @param   integer  $value    The value of the state that the content has been changed to.
+	 *
 	 * @since   2.5
 	 */
 	public function onContentChangeState($context, $pks, $value)
@@ -102,6 +106,7 @@ class PlgContentFinder extends JPlugin
 	 * @param   string   $extension  The extension whose category has been updated.
 	 * @param   array    $pks        A list of primary key ids of the content that has changed state.
 	 * @param   integer  $value      The value of the state that the content has been changed to.
+	 *
 	 * @since   2.5
 	 */
 	public function onCategoryChangeState($extension, $pks, $value)
@@ -111,6 +116,5 @@ class PlgContentFinder extends JPlugin
 
 		// Trigger the onFinderCategoryChangeState event.
 		$dispatcher->trigger('onFinderCategoryChangeState', array($extension, $pks, $value));
-
 	}
 }

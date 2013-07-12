@@ -20,7 +20,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
 	<fieldset class="filters btn-toolbar">
-		<?php if ($this->params->get('filter_field') !== '0') :?>
+		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
 					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL').'&#160;'; ?>
@@ -78,11 +78,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 						<td headers="categorylist_header_title" class="list-title">
-							<?php if (in_array($item->core_access, $this->user->getAuthorisedViewLevels())) : ?>
-								<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
-									<?php echo $this->escape($item->core_title); ?>
-								</a>
-							<?php endif; ?>
+							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+								<?php echo $this->escape($item->core_title); ?>
+							</a>
 							<?php if ($item->core_state == 0) : ?>
 								<span class="list-published label label-warning">
 									<?php echo JText::_('JUNPUBLISHED'); ?>

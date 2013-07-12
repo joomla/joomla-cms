@@ -55,7 +55,8 @@ CREATE TABLE `jos_categories` (
   `modified_user_id` INTEGER NOT NULL DEFAULT '0',
   `modified_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
   `hits` INTEGER NOT NULL DEFAULT '0',
-  `language` TEXT NOT NULL DEFAULT ''
+  `language` TEXT NOT NULL DEFAULT '',
+	`version` INTEGER NOT NULL DEFAULT '1'
 );
 
 CREATE INDEX `idx_categories_lookup` ON `jos_categories` (`extension`,`published`,`access`);
@@ -77,12 +78,9 @@ CREATE TABLE `jos_content` (
   `asset_id` INTEGER NOT NULL DEFAULT '0',
   `title` TEXT NOT NULL DEFAULT '',
   `alias` TEXT NOT NULL DEFAULT '',
-  `title_alias` TEXT NOT NULL DEFAULT '',
   `introtext` TEXT NOT NULL DEFAULT '',
   `fulltext` TEXT NOT NULL DEFAULT '',
   `state` INTEGER NOT NULL DEFAULT '0',
-  `sectionid` INTEGER NOT NULL DEFAULT '0',
-  `mask` INTEGER NOT NULL DEFAULT '0',
   `catid` INTEGER NOT NULL DEFAULT '0',
   `created` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` INTEGER NOT NULL DEFAULT '0',
@@ -97,7 +95,6 @@ CREATE TABLE `jos_content` (
   `urls` TEXT NOT NULL DEFAULT '',
   `attribs` TEXT NOT NULL DEFAULT '',
   `version` INTEGER NOT NULL DEFAULT '1',
-  `parentid` INTEGER NOT NULL DEFAULT '0',
   `ordering` INTEGER NOT NULL DEFAULT '0',
   `metakey` TEXT NOT NULL DEFAULT '',
   `metadesc` TEXT NOT NULL DEFAULT '',
@@ -135,61 +132,6 @@ CREATE TABLE `jos_content_types` (
 );
 
 CREATE INDEX `idx_content_types_alias` ON `jos_content_types` (`type_alias`);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jos_core_content`
---
-
-CREATE TABLE `jos_core_content` (
-  `core_content_id` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `core_type_alias` TEXT NOT NULL DEFAULT '',
-  `core_title` TEXT NOT NULL DEFAULT '',
-  `core_alias` TEXT NOT NULL DEFAULT '',
-  `core_body` TEXT NOT NULL DEFAULT '',
-  `core_state` INTEGER NOT NULL DEFAULT '0',
-  `core_checked_out_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_checked_out_user_id` INTEGER NOT NULL DEFAULT '0',
-  `core_access` INTEGER NOT NULL DEFAULT '0',
-  `core_params` TEXT NOT NULL DEFAULT '',
-  `core_featured` INTEGER NOT NULL DEFAULT '0',
-  `core_metadata` TEXT NOT NULL DEFAULT '',
-  `core_created_user_id` INTEGER NOT NULL DEFAULT '0',
-  `core_created_by_alias` TEXT NOT NULL DEFAULT '',
-  `core_created_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_modified_user_id` INTEGER NOT NULL DEFAULT '0',
-  `core_modified_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_language` TEXT NOT NULL DEFAULT '',
-  `core_publish_up` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_publish_down` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_content_item_id` INTEGER NOT NULL DEFAULT '0',
-  `asset_id` INTEGER NOT NULL DEFAULT '0',
-  `core_images` TEXT NOT NULL DEFAULT '',
-  `core_urls` TEXT NOT NULL DEFAULT '',
-  `core_hits` INTEGER NOT NULL DEFAULT '0',
-  `core_version` INTEGER NOT NULL DEFAULT '1',
-  `core_ordering` INTEGER NOT NULL DEFAULT '0',
-  `core_metakey` TEXT NOT NULL DEFAULT '',
-  `core_metadesc` TEXT NOT NULL DEFAULT '',
-  `core_catid` INTEGER NOT NULL DEFAULT '0',
-  `core_xreference` TEXT NOT NULL DEFAULT '',
-  `core_type_id` INTEGER NOT NULL DEFAULT '0'/*,
-	CONSTRAINT `idx_core_content_type_alias_item_id` UNIQUE (`core_type_alias`,`core_content_item_id`)*/
-);
-
-CREATE INDEX `tag_idx` ON `jos_core_content` (`core_state`,`core_access`);
-CREATE INDEX `idx_core_content_access` ON `jos_core_content` (`core_access`);
-CREATE INDEX `idx_core_content_alias` ON `jos_core_content` (`core_alias`);
-CREATE INDEX `idx_core_content_language` ON `jos_core_content` (`core_language`);
-CREATE INDEX `idx_core_content_title` ON `jos_core_content` (`core_title`);
-CREATE INDEX `idx_core_content_modified_time` ON `jos_core_content` (`core_modified_time`);
-CREATE INDEX `idx_core_content_created_time` ON `jos_core_content` (`core_created_time`);
-CREATE INDEX `idx_core_content_content_type` ON `jos_core_content` (`core_type_alias`);
-CREATE INDEX `idx_core_content_core_modified_user_id` ON `jos_core_content` (`core_modified_user_id`);
-CREATE INDEX `idx_core_content_core_checked_out_user_id` ON `jos_core_content` (`core_checked_out_user_id`);
-CREATE INDEX `idx_core_content_core_created_user_id` ON `jos_core_content` (`core_created_user_id`);
-CREATE INDEX `idx_core_content_core_type_id` ON `jos_core_content` (`core_type_id`);
 
 -- --------------------------------------------------------
 
@@ -235,6 +177,33 @@ CREATE INDEX `idx_extensions_lookup` ON `jos_extensions` (`type`,`element`,`fold
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jos_finder_terms_common`
+--
+
+CREATE TABLE `jos_finder_terms_common` (
+  `term` TEXT NOT NULL DEFAULT '',
+  `language` TEXT NOT NULL DEFAULT ''
+);
+
+CREATE INDEX `idx_finder_terms_common_word_lang` ON `jos_finder_terms_common` (`term`,`language`);
+CREATE INDEX `idx_finder_terms_common_lang` ON `jos_finder_terms_common` (`language`);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_finder_types`
+--
+
+CREATE TABLE `jos_finder_types` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `title` TEXT NOT NULL DEFAULT '',
+  `mime` TEXT NOT NULL DEFAULT '',
+  CONSTRAINT `idx_finder_types_title` UNIQUE (`title`)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `jos_languages`
 --
 
@@ -250,9 +219,10 @@ CREATE TABLE `jos_languages` (
   `metadesc` TEXT NOT NULL DEFAULT '',
   `sitename` varchar(1024) NOT NULL default '',
   `published` INTEGER NOT NULL DEFAULT '0',
+	`access` INTEGER NOT NULL DEFAULT '1',
   `ordering` int(11) NOT NULL default '0',
-  CONSTRAINT `idx_languages_sef` UNIQUE (`sef`)
-  CONSTRAINT `idx_languages_image` UNIQUE (`image`)
+  CONSTRAINT `idx_languages_sef` UNIQUE (`sef`),
+  CONSTRAINT `idx_languages_image` UNIQUE (`image`),
   CONSTRAINT `idx_languages_lang_code` UNIQUE (`lang_code`)
 );
 
@@ -290,7 +260,6 @@ CREATE TABLE `jos_menu` (
   `parent_id` INTEGER NOT NULL DEFAULT '1',
   `level` INTEGER NOT NULL DEFAULT '0',
   `component_id` INTEGER NOT NULL DEFAULT '0',
-  `ordering` INTEGER NOT NULL DEFAULT '0',
   `checked_out` INTEGER NOT NULL DEFAULT '0',
   `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `browserNav` INTEGER NOT NULL DEFAULT '0',
@@ -395,13 +364,101 @@ CREATE TABLE `jos_session` (
   `data` TEXT DEFAULT NULL,
   `userid` INTEGER DEFAULT '0',
   `username` TEXT DEFAULT '',
-  `usertype` TEXT DEFAULT '',
   CONSTRAINT `idx_session` PRIMARY KEY (`session_id`)
 );
 
-CREATE INDEX `idx_session_whosonline` ON `jos_session` (`guest`,`usertype`);
 CREATE INDEX `idx_session_user` ON `jos_session` (`userid`);
 CREATE INDEX `idx_session_time` ON `jos_session` (`time`);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_template_styles`
+--
+
+CREATE TABLE `jos_template_styles` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `template` TEXT NOT NULL DEFAULT '',
+  `client_id` INTEGER NOT NULL DEFAULT '0',
+  `home` TEXT NOT NULL DEFAULT '0',
+	`title` TEXT NOT NULL DEFAULT '',
+	`params` TEXT NOT NULL DEFAULT ''
+);
+
+CREATE INDEX `idx_template_styles_template` ON `jos_template_styles` (`template`);
+CREATE INDEX `idx_template_styles_home` ON `jos_template_styles` (`home`);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_ucm_base`
+--
+
+CREATE TABLE `jos_ucm_base` (
+  `ucm_id` INTEGER PRIMARY KEY,
+  `ucm_item_id` INTEGER NOT NULL DEFAULT '0',
+  `ucm_type_id` INTEGER NOT NULL DEFAULT '0',
+  `ucm_language_id` INTEGER NOT NULL DEFAULT '0'
+);
+
+CREATE INDEX `idx_ucm_base_ucm_item_id` ON `jos_ucm_base` (`ucm_item_id`);
+CREATE INDEX `idx_ucm_base_ucm_type_id` ON `jos_ucm_base` (`ucm_type_id`);
+CREATE INDEX `idx_ucm_base_ucm_language_id` ON `jos_ucm_base` (`ucm_language_id`);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jos_ucm_content`
+--
+
+CREATE TABLE `jos_ucm_content` (
+  `core_content_id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `core_type_alias` TEXT NOT NULL DEFAULT '',
+  `core_title` TEXT NOT NULL DEFAULT '',
+  `core_alias` TEXT NOT NULL DEFAULT '',
+  `core_body` TEXT NOT NULL DEFAULT '',
+  `core_state` INTEGER NOT NULL DEFAULT '0',
+  `core_checked_out_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `core_checked_out_user_id` INTEGER NOT NULL DEFAULT '0',
+  `core_access` INTEGER NOT NULL DEFAULT '0',
+  `core_params` TEXT NOT NULL DEFAULT '',
+  `core_featured` INTEGER NOT NULL DEFAULT '0',
+  `core_metadata` TEXT NOT NULL DEFAULT '',
+  `core_created_user_id` INTEGER NOT NULL DEFAULT '0',
+  `core_created_by_alias` TEXT NOT NULL DEFAULT '',
+  `core_created_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `core_modified_user_id` INTEGER NOT NULL DEFAULT '0',
+  `core_modified_time` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `core_language` TEXT NOT NULL DEFAULT '',
+  `core_publish_up` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `core_publish_down` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `core_content_item_id` INTEGER NOT NULL DEFAULT '0',
+  `asset_id` INTEGER NOT NULL DEFAULT '0',
+  `core_images` TEXT NOT NULL DEFAULT '',
+  `core_urls` TEXT NOT NULL DEFAULT '',
+  `core_hits` INTEGER NOT NULL DEFAULT '0',
+  `core_version` INTEGER NOT NULL DEFAULT '1',
+  `core_ordering` INTEGER NOT NULL DEFAULT '0',
+  `core_metakey` TEXT NOT NULL DEFAULT '',
+  `core_metadesc` TEXT NOT NULL DEFAULT '',
+  `core_catid` INTEGER NOT NULL DEFAULT '0',
+  `core_xreference` TEXT NOT NULL DEFAULT '',
+  `core_type_id` INTEGER NOT NULL DEFAULT '0'/*,
+	CONSTRAINT `idx_ucm_content_type_alias_item_id` UNIQUE (`core_type_alias`,`core_content_item_id`)*/
+);
+
+CREATE INDEX `tag_idx` ON `jos_ucm_content` (`core_state`,`core_access`);
+CREATE INDEX `idx_ucm_content_access` ON `jos_ucm_content` (`core_access`);
+CREATE INDEX `idx_ucm_content_alias` ON `jos_ucm_content` (`core_alias`);
+CREATE INDEX `idx_ucm_content_language` ON `jos_ucm_content` (`core_language`);
+CREATE INDEX `idx_ucm_content_title` ON `jos_ucm_content` (`core_title`);
+CREATE INDEX `idx_ucm_content_modified_time` ON `jos_ucm_content` (`core_modified_time`);
+CREATE INDEX `idx_ucm_content_created_time` ON `jos_ucm_content` (`core_created_time`);
+CREATE INDEX `idx_ucm_content_content_type` ON `jos_ucm_content` (`core_type_alias`);
+CREATE INDEX `idx_ucm_content_core_modified_user_id` ON `jos_ucm_content` (`core_modified_user_id`);
+CREATE INDEX `idx_ucm_content_core_checked_out_user_id` ON `jos_ucm_content` (`core_checked_out_user_id`);
+CREATE INDEX `idx_ucm_content_core_created_user_id` ON `jos_ucm_content` (`core_created_user_id`);
+CREATE INDEX `idx_ucm_content_core_type_id` ON `jos_ucm_content` (`core_type_id`);
 
 -- --------------------------------------------------------
 
@@ -413,7 +470,6 @@ CREATE TABLE `jos_updates` (
   `update_id` INTEGER PRIMARY KEY AUTOINCREMENT,
   `update_site_id` INTEGER DEFAULT '0',
   `extension_id` INTEGER DEFAULT '0',
-  `categoryid` INTEGER DEFAULT '0',
   `name` TEXT DEFAULT '',
   `description` TEXT NOT NULL DEFAULT '',
   `element` TEXT DEFAULT '',
@@ -422,21 +478,8 @@ CREATE TABLE `jos_updates` (
   `client_id` INTEGER DEFAULT '0',
   `version` TEXT DEFAULT '',
   `data` TEXT NOT NULL DEFAULT '',
-  `detailsurl` TEXT NOT NULL DEFAULT ''
-);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `jos_update_categories`
---
-
-CREATE TABLE `jos_update_categories` (
-  `categoryid` INTEGER PRIMARY KEY AUTOINCREMENT,
-  `name` TEXT DEFAULT '',
-  `description` TEXT NOT NULL DEFAULT '',
-  `parent` INTEGER DEFAULT '0',
-  `updatesite` INTEGER DEFAULT '0'
+  `detailsurl` TEXT NOT NULL DEFAULT '',
+	`infourl` TEXT NOT NULL DEFAULT ''
 );
 
 -- --------------------------------------------------------
@@ -450,7 +493,8 @@ CREATE TABLE `jos_update_sites` (
   `name` TEXT DEFAULT '',
   `type` TEXT DEFAULT '',
   `location` TEXT NOT NULL DEFAULT '',
-  `enabled` INTEGER DEFAULT '0'
+  `enabled` INTEGER DEFAULT '0',
+	`last_check_timestamp` INTEGER DEFAULT '0'
 );
 
 -- --------------------------------------------------------
@@ -496,16 +540,16 @@ CREATE TABLE `jos_users` (
   `username` TEXT NOT NULL DEFAULT '',
   `email` TEXT NOT NULL DEFAULT '',
   `password` TEXT NOT NULL DEFAULT '',
-  `usertype` TEXT NOT NULL DEFAULT '',
   `block` INTEGER NOT NULL DEFAULT '0',
   `sendEmail` INTEGER DEFAULT '0',
   `registerDate` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
   `lastvisitDate` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
   `activation` TEXT NOT NULL DEFAULT '',
-  `params` TEXT NOT NULL DEFAULT ''
+  `params` TEXT NOT NULL DEFAULT '',
+	`lastResetTime` TEXT NOT NULL DEFAULT '0000-00-00 00:00:00',
+	`resetCount` INTEGER DEFAULT '0'
 );
 
-CREATE INDEX `idx_users_usertype` ON `jos_users` (`usertype`);
 CREATE INDEX `idx_users_name` ON `jos_users` (`name`);
 CREATE INDEX `idx_users_block` ON `jos_users` (`block`);
 CREATE INDEX `idx_users_username` ON `jos_users` (`username`);

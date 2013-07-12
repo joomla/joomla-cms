@@ -614,11 +614,13 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
-			return $this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			return false;
 		}
 
 		$type = (string) $this->manifest->attributes()->type;
@@ -1025,7 +1027,6 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
 	{
-		$files = array();
 		$update_count = 0;
 
 		// Ensure we have an XML element and a valid extension id
@@ -1123,7 +1124,7 @@ class JInstaller extends JAdapter
 					}
 
 					// Update the database
-					$query = $db->getQuery(true)
+					$query->clear()
 						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
@@ -1653,13 +1654,6 @@ class JInstaller extends JAdapter
 
 		$retval = true;
 
-		$debug = false;
-
-		if (isset($GLOBALS['installerdebug']) && $GLOBALS['installerdebug'])
-		{
-			$debug = true;
-		}
-
 		// Get the client info if we're using a specific client
 		if ($cid > -1)
 		{
@@ -1791,7 +1785,7 @@ class JInstaller extends JAdapter
 
 		if (!empty($folder))
 		{
-			$val = JFolder::delete($source);
+			JFolder::delete($source);
 		}
 
 		return $retval;
