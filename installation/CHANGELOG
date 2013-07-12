@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 12-Jul-2013 Jean-Marie Simonet
  # [#31362] Various PHP notices and strict errors. Thanks Mark Dexter
+ # [#31376] JToolbar layout change breaks mobile. Thanks Roberto Segura
 
 10-Jul-2013 Jean-Marie Simonet
  ^ [#31388] Admin login shows language option. Thanks Brian Teeman

@@ -200,7 +200,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	?>
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR');?> <i class="icon-wrench"></i></a>
-	<div class="subhead-collapse">
+	<div class="subhead-collapse collapse">
 		<div class="subhead">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>
