@@ -23,7 +23,7 @@ class JAmazons3OperationsService extends JAmazons3Object
 	 * @since  ??.?
 	 */
 	protected $get;
-	
+
 	/**
 	 * Magic method to lazily create API objects
 	 *
@@ -48,7 +48,9 @@ class JAmazons3OperationsService extends JAmazons3Object
 			return $this->$name;
 		}
 
-		throw new InvalidArgumentException(sprintf('Argument %s produced an invalid class name: %s', $name, $class));
+		throw new InvalidArgumentException(
+		    sprintf('Argument %s produced an invalid class name: %s', $name, $class)
+		);
 	}
 
 }

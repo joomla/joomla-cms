@@ -86,19 +86,19 @@ abstract class JAmazons3Object
 
 		// TODO extract the following from $request
 		/**
-			* @param string $httpVerb		  The HTTP Verb (GET, PUT, etc)
-			* @param string $httpRequestURI   The request URI
-			* @param string $bucket			  The bucket name contained in the request
-			* @param string $subresources	   In case of multiple subresources, they must be lexicographically sorted
-			*									by subresource name and separated by '&', e.g., ?acl&versionId=value
-			*								   Accepted subresources:  acl, lifecycle, location, logging, notification,
-			*									partNumber,policy, requestPayment, torrent, uploadId, uploads, versionId,
-			*									versioning, versions, and website.
+			* @param string $httpVerb	     The HTTP Verb (GET, PUT, etc)
+			* @param string $httpRequestURI  The request URI
+			* @param string $bucket		     The bucket name contained in the request
+			* @param string $subresources	 In case of multiple subresources, they must be lexicographically sorted
+			*                                 by subresource name and separated by '&', e.g., ?acl&versionId=value
+			*                                 Accepted subresources:  acl, lifecycle, location, logging, notification,
+			*                                 partNumber,policy, requestPayment, torrent, uploadId, uploads, versionId,
+			*                                 versioning, versions, and website.
 			* @param string $queryParameters  The query string parameters in a GET request include response-content-type,
-			*									response-content-language, response-expires, response-cache-control,
-			*									response-content-disposition, and response-content-encoding.
-			*								   The delete query string parameter must be included when you create the
-			*									CanonicalizedResource for a multi-object Delete request.
+			*                                  response-content-language, response-expires, response-cache-control,
+			*                                  response-content-disposition, and response-content-encoding.
+			*                                  The delete query string parameter must be included when you create the
+			*                                  CanonicalizedResource for a multi-object Delete request.
 		*/
 		$contentMD5 = "";
 		$contentType = "";
@@ -168,7 +168,9 @@ abstract class JAmazons3Object
 			. $canonicalizedResource;
 
 		// Signature = Base64( HMAC-SHA1( YourSecretAccessKeyID, UTF-8-Encoding-Of( StringToSign ) ) );
-		$signature = base64_encode(hash_hmac("sha1", utf8_encode($stringToSign), $this->options->get('api.accessKeyId')));
+		$signature = base64_encode(
+			hash_hmac("sha1", utf8_encode($stringToSign), $this->options->get('api.accessKeyId'))
+		);
 
 		$authorization .= $signature;
 		return $authorization;
