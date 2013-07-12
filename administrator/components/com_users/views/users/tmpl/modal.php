@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('formbehavior.chosen', 'select');
@@ -17,7 +17,7 @@ JHtml::_('behavior.multiselect');
 
 $input     = JFactory::getApplication()->input;
 $field     = $input->getCmd('field');
-$function  = 'jSelectUser_'.$field;
+$function  = 'jSelectUser_' . $field;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -64,6 +64,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<tbody>
 		<?php
 			$i = 0;
+
 			foreach ($this->items as $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
