@@ -199,8 +199,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	if (!$cpanel):
 	?>
 	<!-- Subheader -->
-	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR');?> <i class="icon-wrench"></i></a>
-	<div class="subhead-collapse">
+	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse2"><?php echo JText::_('TPL_ISIS_TOOLBAR');?> <i class="icon-wrench"></i></a>
+	<div class="subhead-collapse2 collapse">
 		<div class="subhead">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>
