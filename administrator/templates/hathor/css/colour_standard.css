@@ -141,7 +141,7 @@
 .input-append,
 .input-prepend {
 	margin-bottom: 5px;
-	font-size: 0;
+	font-size: 100%;
 	white-space: nowrap;
 }
 .input-append input,
