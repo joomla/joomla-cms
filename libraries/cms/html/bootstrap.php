@@ -148,7 +148,7 @@ abstract class JHtmlBootstrap
 	 *
 	 * @since   3.0
 	 */
-	public static function carousel($selector = 'carousel', $params = array())
+	public static function carousel($selector = '.carousel', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
@@ -165,9 +165,10 @@ abstract class JHtmlBootstrap
 
 			// Attach the carousel to document
 			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('.$selector').carousel($options);
-					})(jQuery);"
+				"jQuery(document).ready(function()
+				{
+					jQuery('$selector').carousel($options);
+				});"
 			);
 
 			// Set static array
