@@ -153,7 +153,7 @@ class JFilterInput
 	 * specified bad code.
 	 *
 	 * @param   mixed   $source  Input string/array-of-string to be 'cleaned'
-	 * @param   string  $type    Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, NONE)
+	 * @param   string  $type    Return type for the variable (INT, UINT, FLOAT, BOOLEAN, WORD, ALNUM, CMD, BASE64, STRING, ARRAY, PATH, RAW)
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
