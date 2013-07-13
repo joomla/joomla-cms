@@ -85,7 +85,7 @@ class PlgSystemRemember extends JPlugin
 					// We can only invalidate if there is a user.
 					if (!empty($results[0]->user_id))
 					{
-						$this->invalidateCookie($results[0]->user_id, $cookieName, $this->cookie_path, $this->cookie_domain);
+						$this->invalidateCookie($results[0]->user_id, $rememberArray[2], $this->cookie_path, $this->cookie_domain);
 						JLog::add('The remember me tokens were invalidated for user ' . $user->username  . ' because there was no matching record ', JLog::WARNING, 'security');
 
 						// Possibly e-mail user and admin here.
@@ -257,9 +257,11 @@ class PlgSystemRemember extends JPlugin
 		// they can use remember once again.
 		if ($options['responseType'] != 'Remember')
 		{
-			$db->setQuery($query);
+
 			$query->delete('#__user_keys');
-			$query->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($rememberArray[1])));
+			$query->where($db->quoteName('uastring') . ' = ' . $db->quote($cookieName))
+				->where($db->quoteName('user_id') . ' = ' . $db->quote($user->username));
+			$db->setQuery($query);
 			$db->execute();
 			$query->clear();
 		}
@@ -293,7 +295,7 @@ class PlgSystemRemember extends JPlugin
 			->set($db->quoteName('token') . ' = ' . $db->quote($cryptedKey))
 			->set($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)))
 			->set($db->quoteName('invalid') . ' = 0')
-			->set($db->quoteName('uastring') . ' = ' . $db->quote($cookieName));//echo $query->dump();die;
+			->set($db->quoteName('uastring') . ' = ' . $db->quote($cookieName));
 		$db->setQuery($query);
 
 		$db->execute();
