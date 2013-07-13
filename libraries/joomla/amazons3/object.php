@@ -127,7 +127,7 @@ abstract class JAmazons3Object
 			$lowercaseHeader = strtolower($header_key);
 
 			// Select all HTTP request headers that start with 'x-amz-' (using a case-insensitive comparison)
-			if (strpos($lowercaseHeader, 'x-amz-') == 0) {
+			if (strpos($lowercaseHeader, 'x-amz-') === 0) {
 				// Combine header fields with the same name into one "header-name:comma-separated-value-list"
 				//  pair as prescribed by RFC 2616, section 4.2, without any whitespace between values.
 				// For example, the two metadata headers 'x-amz-meta-username: fred' and
@@ -135,8 +135,7 @@ abstract class JAmazons3Object
 				//  'x-amz-meta-username: fred,barney'.
 				if (is_array($headers[$header_key])) {
 					$commaSeparatedValues = implode(',', $headers[$header_key]);
-					$values = rtrim($commaSeparatedValues, ',');
-					$xAmzHeaders[$lowercaseHeader] = $values;
+					$xAmzHeaders[$lowercaseHeader] = $commaSeparatedValues;
 				} else {
 					$xAmzHeaders[$lowercaseHeader] = $headers[$header_key];
 				}
@@ -145,7 +144,14 @@ abstract class JAmazons3Object
 
 		// Sort the collection of headers lexicographically by header name.
 		ksort($xAmzHeaders);
-		return $xAmzHeaders;
+
+		// Convert the array to a string
+		$xAmzHeadersString = "";
+		foreach (array_keys($xAmzHeaders) as $headerKey) {
+			$xAmzHeadersString .= $headerKey . ":" . $xAmzHeaders[$headerKey] . "\n";
+		}
+		rtrim($xAmzHeadersString, "\n");
+		return $xAmzHeadersString;
 	}
 
 
