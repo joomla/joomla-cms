@@ -341,7 +341,7 @@ class PlgSystemRemember extends JPlugin
 	}
 
 	/**
-	 * Method do remove a cookie record from the database and the browser
+	 * Method to remove a cookie record from the database and the browser
 	 *
 	 * @param   string   $username       Username for this user
 	 * @param   string   $series         Series id (cookie name decoded)

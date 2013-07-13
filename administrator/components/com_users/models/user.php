@@ -343,7 +343,7 @@ class UsersModelUser extends JModelAdmin
 						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false, $table->getProperties()));
 						if (in_array(false, $result, true))
 						{
-							// Plugin will have to raise it's own error or throw an exception.
+							// Plugin will have to raise its own error or throw an exception.
 							return false;
 						}
 
