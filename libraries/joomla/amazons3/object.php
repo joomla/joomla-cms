@@ -121,19 +121,31 @@ abstract class JAmazons3Object
 	 * @since   ??.?
 	 */
 	private function createCanonicalizedAmzHeaders($headers) {
-		$canonicalizedAmzHeaders  = "";
-		// TODO
-		// Constructing the CanonicalizedAmzHeaders Element
-		// 1. Select all HTTP request headers that start with 'x-amz-' (using a case-insensitive comparison)
-		// 2. Convert each HTTP header name to lowercase. For example, 'X-Amz-Date' becomes 'x-amz-date'.
-		// 3. Sort the collection of headers lexicographically by header name.
-		// 4. Combine header fields with the same name into one "header-name:comma-separated-value-list"
-		//  pair as prescribed by RFC 2616, section 4.2, without any whitespace between values.
-		// 5. For example, the two metadata headers 'x-amz-meta-username: fred' and
-		//  'x-amz-meta-username: barney' would be combined into the single header
-		//  'x-amz-meta-username: fred,barney'.
+		$xAmzHeaders = array();
+		foreach (array_keys($headers) as $header_key) {
+			// Convert each HTTP header name to lowercase. For example, 'X-Amz-Date' becomes 'x-amz-date'.
+			$lowercaseHeader = strtolower($header_key);
 
-		return $canonicalizedAmzHeaders;
+			// Select all HTTP request headers that start with 'x-amz-' (using a case-insensitive comparison)
+			if (strpos($lowercaseHeader, 'x-amz-') == 0) {
+				// Combine header fields with the same name into one "header-name:comma-separated-value-list"
+				//  pair as prescribed by RFC 2616, section 4.2, without any whitespace between values.
+				// For example, the two metadata headers 'x-amz-meta-username: fred' and
+				//  'x-amz-meta-username: barney' would be combined into the single header
+				//  'x-amz-meta-username: fred,barney'.
+				if (is_array($headers[$header_key])) {
+					$commaSeparatedValues = implode(',', $headers[$header_key]);
+					$values = rtrim($commaSeparatedValues, ',');
+					$xAmzHeaders[$lowercaseHeader] = $values;
+				} else {
+					$xAmzHeaders[$lowercaseHeader] = $headers[$header_key];
+				}
+			}
+		}
+
+		// Sort the collection of headers lexicographically by header name.
+		ksort($xAmzHeaders);
+		return $xAmzHeaders;
 	}
 
 
