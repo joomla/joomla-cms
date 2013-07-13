@@ -81,10 +81,23 @@ abstract class JAmazons3Object
 	protected function createAuthorization($httpVerb, $url, $headers) {
 		$authorization = "AWS " . $this->options->get('api.accessKeyId') . ":";
 
+		$contentMD5 = "";
+		if (array_key_exists("Content-MD5", $headers)) {
+			$contentMD5 = $headers["Content-MD5"];
+		}
+		$contentType = "";
+		if (array_key_exists("Content-type", $headers)) {
+			$contentType = $headers["Content-type"];
+		}
+		$date = "";
+		if (array_key_exists("Date", $headers)) {
+			$date = $headers["Date"];
+		}
+
 		$stringToSign = $httpVerb . "\n"
-			. $headers["Content-MD5"] . "\n"
-			. $headers["content-type"] . "\n"
-			. $headers["Date"] . "\n"
+			. $contentMD5 . "\n"
+			. $contentType . "\n"
+			. $date . "\n"
 			. $this->createCanonicalizedAmzHeaders($headers)
 			. $this->createCanonicalizedResource($url, $headers);
 
