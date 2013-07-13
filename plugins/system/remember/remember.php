@@ -15,6 +15,9 @@ defined('_JEXEC') or die;
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  * @since       1.5
+ * @note  Code improvements inspired by
+ * http://jaspan.com/improved_persistent_login_cookie_best_practice
+ * http://fishbowl.pastiche.org/2004/01/19/persistent_login_cookie_best_practice/
  */
 class PlgSystemRemember extends JPlugin
 {
@@ -45,9 +48,8 @@ class PlgSystemRemember extends JPlugin
 			// Create the cookie name and data
 			$rememberArray = $this->getRememberCookieData();
 
-			if (!empty($rememberArray))
+			if (!empty($rememberArray) && !empty($rememberArray[1]) && !empty($rememberArray[2]))
 			{
-
 				$this->getCookieConfig();
 
 				// We're going to clear out expired tokens very time someone logs in with remember me.
