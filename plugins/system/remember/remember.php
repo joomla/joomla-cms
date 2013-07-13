@@ -339,7 +339,7 @@ class PlgSystemRemember extends JPlugin
 		// Destroy the cookie
 		setcookie($rememberArray[2], false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
 
-		return;
+		return true;
 	}
 
 	/**
