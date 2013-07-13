@@ -659,7 +659,7 @@ class JApplication extends JApplicationBase
 				$plugins[] = JPluginHelper::getPlugin('system', 'remember');
 			}
 
-			// OK, the credentials are authenticated and user is authorised.  Lets fire the onLogin event.
+			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
 
 			/*
@@ -761,7 +761,7 @@ class JApplication extends JApplicationBase
 
 		if (!in_array(false, $results, true))
 		{
-				$options['username'] = $user->get('username');var_dump($options);
+				$options['username'] = $user->get('username');
 				$results = $this->triggerEvent('onUserAfterLogout', array($options));
 
 			return true;

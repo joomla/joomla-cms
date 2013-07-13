@@ -257,9 +257,15 @@ class JAuthentication extends JObject
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
-		$series = JApplication::getHash(@$_SERVER['HTTP_USER_AGENT']);
+		$ua = new JApplicationWebClient;
+		$uaString = $ua->userAgent;
+		$browserVersion = $ua->browserVersion;
+		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+
+		$cookieName = md5(JPATH_BASE . $uaShort);
+
 		$inputCookie = new JInputCookie();
-		if (JpluginHelper::isEnabled('system', 'remember') && $inputCookie->get($series))
+		if (JpluginHelper::isEnabled('system', 'remember') && $inputCookie->get($cookieName))
 		{
 			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
 		}
