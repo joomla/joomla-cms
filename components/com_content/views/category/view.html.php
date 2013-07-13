@@ -93,13 +93,15 @@ class ContentViewCategory extends JViewLegacy
 		{
 			$item = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-
-			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
-
-			// No link for ROOT category
-			if ($item->parent_alias == 'root')
+			if ($params->get('show_parent_category'))
 			{
-				$item->parent_slug = null;
+				$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
+				// No link for ROOT category
+				if ($item->parent_alias == 'root')
+				{
+					$item->parent_slug = null;
+				}
 			}
 
 			$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;

@@ -39,17 +39,23 @@ class ContentViewArchive extends JViewLegacy
 
 		foreach ($items as $item)
 		{
-			$item->catslug = ($item->category_alias) ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
-
-			// No link for ROOT category
-			if ($item->parent_alias == 'root')
+			// Add router helpers.
+			$item->slug			= $item->alias ? ($item->id.':'.$item->alias) : $item->id;
+			$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
+			if ($params->get('show_parent_category'))
 			{
-				$item->parent_slug = null;
+				$item->parent_slug	= $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+
+				// No link for ROOT category
+				if ($item->parent_alias == 'root')
+				{
+					$item->parent_slug = null;
+				}
 			}
 		}
 
 		$form = new stdClass;
+
 		// Month Field
 		$months = array(
 			'' => JText::_('COM_CONTENT_MONTH'),
@@ -66,6 +72,7 @@ class ContentViewArchive extends JViewLegacy
 			'11' => JText::_('NOVEMBER_SHORT'),
 			'12' => JText::_('DECEMBER_SHORT')
 		);
+
 		$form->monthField = JHtml::_(
 			'select.genericlist',
 			$months,
@@ -76,6 +83,7 @@ class ContentViewArchive extends JViewLegacy
 				'option.key' => null
 			)
 		);
+
 		// Year Field
 		$years = array();
 		$years[] = JHtml::_('select.option', null, JText::_('JYEAR'));

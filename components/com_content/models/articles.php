@@ -176,22 +176,13 @@ class ContentModelArticles extends JModelList
 			)
 		);
 
-		// Process an Archived Article layout
-		if ($this->getState('filter.published') == 2)
-		{
-			// If badcats is not null, this means that the article is inside an archived category
-			// In this case, the state is set to 2 to indicate Archived (even if the article state is Published)
-			$query->select($this->getState('list.select', 'CASE WHEN badcats.id is null THEN a.state ELSE 2 END AS state'));
-		}
-		else
-		{
 			// Process non-archived layout
 			// If badcats is not null, this means that the article is inside an unpublished category
 			// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
 			$query->select($this->getState('list.select', 'CASE WHEN badcats.id is not null THEN 0 ELSE a.state END AS state'));
-		}
 
 		$query->from('#__content AS a');
+		$query->where('a.state <> 2');
 
 		// Join over the frontpage articles.
 		if ($this->context != 'com_content.featured')
@@ -210,6 +201,12 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
+		// Get the params
+		$params = $this->state->params;
+
+		// Define the basic group by list
+		$groupstring = 'a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, c.published, c.lft, a.ordering, fp.ordering, c.id, a.images, a.urls';
+
 		// Join on contact table
 		$subQuery = $db->getQuery(true)
 			->select('contact.user_id, MAX(contact.id) AS id, contact.language')
@@ -225,39 +222,51 @@ class ContentModelArticles extends JModelList
 			$onjoin .= ' AND (contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)';
 		}
 
-		$query->select('contact.id as contactid')
-			->join('LEFT', '(' . $subQuery . ') AS contact ON ' . $onjoin);
+		if ($params->get('link_author') != '0')
+		{
+			// Join on contact table
+			$subQuery = $db->getQuery(true);
+			$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+			$subQuery->from('#__contact_details AS contact');
+			$subQuery->where('contact.published = 1');
+			$subQuery->group('contact.user_id, contact.language');
+			$query->select('contact.id as contactid' );
+			$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+			$groupstring = $groupstring . ', contact.id';
 
-		// Join over the categories to get parent category titles
-		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
-			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+		}
+		if ($params->get('show_parent_category'))
+		{
+			// Join over the categories to get parent category titles
+			$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
+			$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+			$groupstring = $groupstring . ', parent.title, parent.id, parent.path, parent.alias, parent.lft';
+		}
 
-		// Join on voting table
-		$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
-			->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+		$votingEnabled = JPluginHelper::isEnabled('content','vote');
+
+		if ($votingEnabled && $params->get('show_vote') != '0')
+		{
+			// Join on voting table
+			$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count');
+			$query->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+			$groupstring = $groupstring . ', v.rating_sum, v.rating_count';
+		}
 
 		// Join to check for category published state in parent categories up the tree
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
+
 		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
 		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
 		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');
 
-		if ($this->getState('filter.published') == 2)
-		{
-			// Find any up-path categories that are archived
-			// If any up-path categories are archived, include all children in archived layout
-			$subquery .= ' AND parent.published = 2 GROUP BY cat.id ';
-			// Set effective state to archived if up-path category is archived
-			$publishedWhere = 'CASE WHEN badcats.id is null THEN a.state ELSE 2 END';
-		}
-		else
-		{
+
 			// Find any up-path categories that are not published
 			// If all categories are published, badcats.id will be null, and we just use the article state
 			$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
 			// Select state to unpublished if up-path category is unpublished
 			$publishedWhere = 'CASE WHEN badcats.id is null THEN a.state ELSE 0 END';
-		}
+
 		$query->join('LEFT OUTER', '(' . $subquery . ') AS badcats ON badcats.id = c.id');
 
 		// Filter by access level.
@@ -504,8 +513,9 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'))
-			->group('a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
+
+		$query->order($this->getState('list.ordering', 'a.ordering').' '.$this->getState('list.direction', 'ASC'));
+		$query->group($groupstring);
 		return $query;
 	}
 

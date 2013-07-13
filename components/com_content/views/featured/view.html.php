@@ -74,6 +74,7 @@ class ContentViewFeatured extends JViewLegacy
 			{
 				$item->parent_slug = null;
 			}
+		}
 
 			$item->event = new stdClass;
 
