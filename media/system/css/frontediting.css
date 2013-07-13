@@ -3,16 +3,26 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+/* Module edit in front-end */
+
 .jmoddiv.jmodinside {
     position: relative;
     top: 0;
     left: 0;
 }
-.jmoddiv.jmodinside .btn.jmodedit
+.btn.jmodedit
 {
-    z-index: 5000;
+    z-index: 1001;
     display: block;
     position: absolute;
     top: 0;
     right: 0;
+}
+
+/* Menu edit in front-end */
+
+.btn.jfedit-menu
+{
+    z-index: 1002;
+    display: block;
 }
