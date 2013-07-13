@@ -43,6 +43,9 @@ abstract class JHtmlFormbehavior
 			return;
 		}
 
+		// Include Joomla Framework
+		JHtml::_('behavior.framework');
+		
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
