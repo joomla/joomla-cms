@@ -44,9 +44,6 @@ class JAmazons3Http extends JHttp
 		// Call the JHttp constructor to setup the object.
 		parent::__construct($options, $transport);
 
-		// Make sure the user agent string is defined.
-		$this->options->def('userAgent', 'JAmazons3');
-
 		// Set the default timeout to 120 seconds.
 		$this->options->def('timeout', 120);
 	}
