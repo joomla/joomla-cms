@@ -80,7 +80,7 @@ ksort($sortedTypes);
 				<?php foreach ($list as $title => $item) : ?>
 					<li>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
-							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => $item->title, 'request' => $item->request))); ?>')">
+							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request))); ?>')">
 							<?php echo $title;?> <small class="muted"><?php echo JText::_($item->description); ?></small>
 						</a>
 					</li>
