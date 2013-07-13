@@ -55,27 +55,6 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 		parent::tearDown();
 	}
 	
-	/**
-	 * @test
-	 
-	public function getAllInputFields_ScreenDisplayed_EqualExpected()
-	{
-		$test_template = 'Hathor - Default'; //A test Template which we are going to select to open the edit page
-		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
-		$this->templateManagerPage->clickItem($test_template);
-		$templateEditPage = $this->getPageObject('TemplateEditPage');
-		$testElements = $templateEditPage->getAllInputFields(array('details','options'));
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
-		$this->assertEquals($templateEditPage->inputFields, $actualFields);
-		$pluginEditPage->clickButton('toolbar-cancel');
-		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
-	}
-	*/
 	
 	/**
 	 * @test
