@@ -114,9 +114,9 @@ abstract class JAmazons3Object
 	 * Creates the canonicalized amz headers used for calculating the signature
 	 * in the Authorization header.
 	 *
-	 * @param string $headers  The headers of the request
+	 * @param	string	$headers  The headers of the request
 	 *
-	 * @return string The canonicalized amz headers
+	 * @return	string	The canonicalized amz headers
 	 *
 	 * @since   ??.?
 	 */
@@ -159,10 +159,10 @@ abstract class JAmazons3Object
 	 * Creates the canonicalized resource used for calculating the signature
 	 * in the Authorization header.
 	 *
-	 * @param string $url      The target url of the request
-	 * @param string $headers  The headers of the request
+	 * @param	string	$url      The target url of the request
+	 * @param	string	$headers  The headers of the request
 	 *
-	 * @return string The canonicalized resource
+	 * @return	string	The canonicalized resource
 	 *
 	 * @since   ??.?
 	 */
