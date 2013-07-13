@@ -56,17 +56,15 @@ abstract class JAmazons3Object
 	 */
 	protected function processResponse(JHttpResponse $response, $expectedCode = 200)
 	{
-		// TODO - xml
-
 		// Validate the response code.
 		if ($response->code != $expectedCode)
 		{
 			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
+			$error = new SimpleXMLElement($response->body);
 			throw new DomainException($error->message, $response->code);
 		}
 
-		return json_decode($response->body);
+		return new SimpleXMLElement($response->body);
 	}
 
 	/**
