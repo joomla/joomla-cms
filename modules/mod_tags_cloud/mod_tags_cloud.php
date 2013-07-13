@@ -20,12 +20,11 @@ $cacheparams->methodparams = $params;
 $cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
 
 $list = JModuleHelper::moduleCache($module, $params, $cacheparams);
+$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 if (!count($list))
 {
-	return;
+	$moduleclass_sfx .= ' empty';
 }
-
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 
 require JModuleHelper::getLayoutPath('mod_tags_cloud', $params->get('layout', 'default'));

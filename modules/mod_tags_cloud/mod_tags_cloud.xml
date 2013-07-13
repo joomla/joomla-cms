@@ -107,6 +107,12 @@
 					<option	value="0">JNO</option>
 					<option	value="1">JYES</option>
 				</field>
+        <field
+          name="no_results_text"
+          type="text"
+          label="MOD_TAGS_CLOUD_FIELD_NO_RESULTS_LABEL"
+          description="MOD_TAGS_CLOUD_FIELD_NO_RESULTS_DESC"
+        />
 			</fieldset>
 			<fieldset
 				name="advanced">
