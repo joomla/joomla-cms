@@ -101,7 +101,7 @@ class JDatabaseQueryElement
 	/**
 	 * Gets the elements of this element.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */
@@ -1033,6 +1033,18 @@ abstract class JDatabaseQuery
 	}
 
 	/**
+	 * Gets the columns of the GROUP clause of the query
+	 *
+	 * @return  array   (array of strings: string[])
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getGroup()
+	{
+		return (is_null($this->group) ? array() : $this->group->getElements());
+	}
+
+	/**
 	 * A conditions to the HAVING clause of the query.
 	 *
 	 * Usage:
@@ -1058,6 +1070,18 @@ abstract class JDatabaseQuery
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Gets the columns of the HAVING clause of the query
+	 *
+	 * @return  array   (array of strings: string[])
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getHaving()
+	{
+		return (is_null($this->having) ? array() : $this->having->getElements());
 	}
 
 	/**
