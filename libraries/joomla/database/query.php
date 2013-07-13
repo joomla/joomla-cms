@@ -140,6 +140,10 @@ class JDatabaseQueryElement
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qs($name, $as = null)     Alias for quoteName method
  * @method      string  e()   e($text, $extra = false)   Alias for escape method
+ * @property-read   JDatabaseQueryElement  $type
+ * @property-read   JDatabaseQueryElement  $select
+ * @property-read   JDatabaseQueryElement  $group
+ * @property-read   JDatabaseQueryElement  $having
  */
 abstract class JDatabaseQuery
 {
@@ -382,8 +386,8 @@ abstract class JDatabaseQuery
 				break;
 
 			case 'unionAll':
-					$query .= (string) $this->unionAll;
-					break;
+				$query .= (string) $this->unionAll;
+				break;
 
 			case 'delete':
 				$query .= (string) $this->delete;
@@ -878,6 +882,8 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since   11.1
 	 */
 	public function from($tables, $subQueryAlias = null)
@@ -1033,18 +1039,6 @@ abstract class JDatabaseQuery
 	}
 
 	/**
-	 * Gets the columns of the GROUP clause of the query
-	 *
-	 * @return  array   (array of strings: string[])
-	 *
-	 * @since   CMS 3.1.2
-	 */
-	public function getGroup()
-	{
-		return (is_null($this->group) ? array() : $this->group->getElements());
-	}
-
-	/**
 	 * A conditions to the HAVING clause of the query.
 	 *
 	 * Usage:
@@ -1070,18 +1064,6 @@ abstract class JDatabaseQuery
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Gets the columns of the HAVING clause of the query
-	 *
-	 * @return  array   (array of strings: string[])
-	 *
-	 * @since   CMS 3.1.2
-	 */
-	public function getHaving()
-	{
-		return (is_null($this->having) ? array() : $this->having->getElements());
 	}
 
 	/**
