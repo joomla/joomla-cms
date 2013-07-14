@@ -87,14 +87,11 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 		
-		// Include MooTools framework
-		static::framework();
-
 		JHtml::_('script', 'system/caption-jquery-uncompressed.js', true, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('load', function() {
+			"jQuery(window).on('load',  function() {
 				new JCaption('" . $selector . "');
 			});"
 		);
@@ -782,3 +779,4 @@ abstract class JHtmlBehavior
 			. ' Calendar._TT = ' . json_encode($text) . ';';
 	}
 }
+
