@@ -25,6 +25,8 @@ class JGithubForks extends JGithubObject
 	 * @param   string  $repo  The name of the GitHub repository.
 	 * @param   string  $org   The organization to fork the repo into. By default it is forked to the current user.
 	 *
+	 * @deprecated  use repositories->forks->create()
+	 *
 	 * @return  object
 	 *
 	 * @since   11.4
@@ -67,6 +69,8 @@ class JGithubForks extends JGithubObject
 	 * @param   string   $repo   The name of the GitHub repository.
 	 * @param   integer  $page   Page to request
 	 * @param   integer  $limit  Number of results to return per page
+	 *
+	 * @deprecated  use repositories->forks->getList()
 	 *
 	 * @return  array
 	 *

@@ -65,8 +65,6 @@ class JGithub
 	 */
 	protected $legacyPackages = array('refs', 'forks', 'commits', 'milestones', 'statuses', 'account', 'hooks', 'meta');
 
-	// 'issues', 'pulls', 'users', 'gists'
-
 	/**
 	 * Constructor.
 	 *
