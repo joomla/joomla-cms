@@ -41,7 +41,7 @@ abstract class JGithubObject
 	public function __construct(JRegistry $options = null, JGithubHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JGithubHttp($this->options);
+		$this->client  = isset($client) ? $client : new JGithubHttp($this->options);
 	}
 
 	/**
@@ -101,21 +101,25 @@ abstract class JGithubObject
 	 *
 	 * @param   JHttpResponse  $response      The response.
 	 * @param   integer        $expectedCode  The expected "good" code.
+	 * @param   boolean        $decode        If the should be response be JSON decoded.
 	 *
 	 * @throws DomainException
+	 * @since  12.4
 	 *
 	 * @return mixed
 	 */
-	protected function processResponse(JHttpResponse $response, $expectedCode = 200)
+	protected function processResponse(JHttpResponse $response, $expectedCode = 200, $decode = true)
 	{
 		// Validate the response code.
-		if ($response->code != $expectedCode)
+		if ($response->code == $expectedCode)
 		{
-			// Decode the error response and throw an exception.
-			$error = json_decode($response->body);
-			throw new DomainException($error->message, $response->code);
+			return ($decode) ? json_decode($response->body) : $response->body;
 		}
 
-		return json_decode($response->body);
+		// Decode the error response and throw an exception.
+		$error   = json_decode($response->body);
+		$message = (isset($error->message)) ? $error->message : 'Error: ' . $response->code;
+
+		throw new DomainException($message, $response->code);
 	}
 }
