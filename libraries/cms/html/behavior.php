@@ -126,9 +126,6 @@ abstract class JHtmlBehavior
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
-		// Include MooTools More framework
-		static::framework('more');
-
 		JHtml::_('script', 'system/validate-jquery-uncompressed.js', true, true);
 		static::$loaded[__METHOD__] = true;
 	}
