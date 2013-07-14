@@ -273,25 +273,12 @@ class ContentModelArticle extends JModelItem
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-			$db = $this->getDbo();
 
-			$db->setQuery(
-
-				'UPDATE #__content' .
-					' SET hits = hits + 1' .
-					' WHERE id = ' . (int) $pk
-			);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
-				return false;
-			}
+			$table = JTable::getInstance('Content', 'JTable');
+			$row = $table->load($pk);
+			$table->hit($pk);
 		}
+
 		return true;
 	}
 

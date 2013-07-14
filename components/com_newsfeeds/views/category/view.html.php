@@ -118,6 +118,10 @@ class NewsfeedsViewCategory extends JViewLegacy
 		$this->category->tags = new JHelperTags;
 		$this->category->tags->getItemTags('com_newsfeeds.category', $this->category->id);
 
+		// Increment the category hit counter
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);

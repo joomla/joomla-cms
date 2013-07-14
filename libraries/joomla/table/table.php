@@ -914,8 +914,8 @@ abstract class JTable extends JObject
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName('hits') . ' = (' . $this->_db->quoteName('hits') . ' + 1)')
-			->where($this->_tbl_key . ' = ' . $this->_db->quote($pk));
+			->set($this->_db->quoteName('hits') . ' = ' . $this->_db->quoteName('hits') . ' + 1')
+			->where($this->_tbl_key . ' = ' . (int) $pk);
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

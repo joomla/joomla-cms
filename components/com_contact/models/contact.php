@@ -376,11 +376,9 @@ class ContactModelContact extends JModelForm
 	/**
 	 * Increment the hit counter for the contact.
 	 *
-	 * @param   int  $pk  Optional primary key of the article to increment.
+	 * @param   integer  Optional primary key of the contact to increment.
 	 *
 	 * @return  boolean  True if successful; false otherwise and internal error set.
-	 *
-	 * @since   3.0
 	 */
 	public function hit($pk = 0)
 	{
@@ -390,23 +388,10 @@ class ContactModelContact extends JModelForm
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('contact.id');
-			$db = $this->getDbo();
 
-			$db->setQuery(
-				'UPDATE #__contact_details' .
-				' SET hits = hits + 1' .
-				' WHERE id = '.(int) $pk
-			);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
-				return false;
-			}
+			$table = JTable::getInstance('Contact', 'ContactTable');
+			$row = $table->load($pk);
+			$table->hit($pk);
 		}
 
 		return true;

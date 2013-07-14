@@ -130,6 +130,10 @@ class ContactViewCategory extends JViewLegacy
 		$category->tags = new JHelperTags;
 		$category->tags->getItemTags('com_contact.category', $category->id);
 
+		// Increment the category hit counter
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
