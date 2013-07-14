@@ -368,7 +368,7 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		static::framework();
 
-		JHtml::_('script', 'system/multiselect.js', true, true);
+		JHtml::_('script', 'system/multiselect-jquery.js', true, true);
 
 		// Attach multiselect to document
 		JFactory::getDocument()->addScriptDeclaration(
