@@ -13,19 +13,6 @@ $input = JFactory::getApplication()->input;
 // Checking if loaded via index.php or component.php
 $tmpl = $input->getCmd('tmpl', '');
 $document = JFactory::getDocument();
-
-$sortedTypes = array();
-foreach ($this->types as $name => $list)
-{
-	$tmp = array();
-	foreach ($list as $item)
-	{
-		$tmp[JText::_($item->title)] = $item;
-	}
-	ksort($tmp);
-	$sortedTypes[JText::_($name)] = $tmp;
-}
-ksort($sortedTypes);
 ?>
 
 <script type="text/javascript">
@@ -43,7 +30,7 @@ ksort($sortedTypes);
 <?php echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1')); ?>
 	<?php
 		$i = 0;
-		foreach ($sortedTypes as $name => $list) : ?>
+		foreach ($this->types as $name => $list) : ?>
 		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . $i++); ?>
 			<ul class="nav nav-tabs nav-stacked">
 				<?php foreach ($list as $title => $item) : ?>

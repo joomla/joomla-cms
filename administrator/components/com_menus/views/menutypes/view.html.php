@@ -25,7 +25,7 @@ class MenusViewMenutypes extends JViewLegacy
 	{
 		$input = JFactory::getApplication()->input;
 		$this->recordId = $input->getInt('recordId');
-		$this->types    = $this->get('TypeOptions');
+		$types    = $this->get('TypeOptions');
 		
 		// Adding System Links
 		$list = array();
@@ -56,7 +56,22 @@ class MenusViewMenutypes extends JViewLegacy
 		$o->description  = 'COM_MENUS_TYPE_HEADING_DESC';
 		$o->request    = null;
 		$list[] = $o;
-		$this->types['COM_MENUS_TYPE_SYSTEM'] = $list;
+		$types['COM_MENUS_TYPE_SYSTEM'] = $list;
+		
+		$sortedTypes = array();
+		foreach ($types as $name => $list)
+		{
+			$tmp = array();
+			foreach ($list as $item)
+			{
+				$tmp[JText::_($item->title)] = $item;
+			}
+			ksort($tmp);
+			$sortedTypes[JText::_($name)] = $tmp;
+		}
+		ksort($sortedTypes);
+		
+		$this->types = $sortedTypes;
 
 		$this->addToolbar();
 
