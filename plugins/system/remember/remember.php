@@ -405,7 +405,7 @@ class PlgSystemRemember extends JPlugin
 		$browserVersion = $ua->browserVersion;
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
-		return md5(JPATH_BASE . $uaShort);
+		return md5(JUri::base() . $uaShort);
 	}
 
 	/*
