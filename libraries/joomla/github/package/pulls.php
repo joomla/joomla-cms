@@ -17,6 +17,8 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  GitHub.Pulls
  * @since       11.3
+ *
+ * @property-read  JGithubPackagePullsComments  $comments  GitHub API object for comments.
  */
 class JGithubPackagePulls extends JGithubPackage
 {
@@ -386,5 +388,126 @@ class JGithubPackagePulls extends JGithubPackage
 		}
 
 		return json_decode($response->body);
+	}
+
+	/*
+	 * Legacy methods
+	 */
+
+	/**
+	 * Method to create a comment on a pull request.
+	 *
+	 * @param   string   $user      The name of the owner of the GitHub repository.
+	 * @param   string   $repo      The name of the GitHub repository.
+	 * @param   integer  $pullId    The pull request number.
+	 * @param   string   $body      The comment body text.
+	 * @param   string   $commitId  The SHA1 hash of the commit to comment on.
+	 * @param   string   $filePath  The Relative path of the file to comment on.
+	 * @param   string   $position  The line index in the diff to comment on.
+	 *
+	 * @deprecated  use pulls->comments->create()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function createComment($user, $repo, $pullId, $body, $commitId, $filePath, $position)
+	{
+		return $this->comments->create($user, $repo, $pullId, $body, $commitId, $filePath, $position);
+	}
+
+	/**
+	 * Method to create a comment in reply to another comment.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $pullId     The pull request number.
+	 * @param   string   $body       The comment body text.
+	 * @param   integer  $inReplyTo  The id of the comment to reply to.
+	 *
+	 * @deprecated  use pulls->comments->createReply()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function createCommentReply($user, $repo, $pullId, $body, $inReplyTo)
+	{
+		return $this->comments->createReply($user, $repo, $pullId, $body, $inReplyTo);
+	}
+
+	/**
+	 * Method to delete a comment on a pull request.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The id of the comment to delete.
+	 *
+	 * @deprecated  use pulls->comments->delete()
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function deleteComment($user, $repo, $commentId)
+	{
+		$this->comments->delete($user, $repo, $commentId);
+	}
+
+	/**
+	 * Method to update a comment on a pull request.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The id of the comment to update.
+	 * @param   string   $body       The new body text for the comment.
+	 *
+	 * @deprecated  use pulls->comments->edit()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function editComment($user, $repo, $commentId, $body)
+	{
+		return $this->comments->edit($user, $repo, $commentId, $body);
+	}
+
+	/**
+	 * Method to get a specific comment on a pull request.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The comment id to get.
+	 *
+	 * @deprecated  use pulls->comments->get()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function getComment($user, $repo, $commentId)
+	{
+		return $this->comments->get($user, $repo, $commentId);
+	}
+
+	/**
+	 * Method to get the list of comments on a pull request.
+	 *
+	 * @param   string   $user    The name of the owner of the GitHub repository.
+	 * @param   string   $repo    The name of the GitHub repository.
+	 * @param   integer  $pullId  The pull request number.
+	 * @param   integer  $page    The page number from which to get items.
+	 * @param   integer  $limit   The number of items on a page.
+	 *
+	 * @deprecated  use pulls->comments->getList()
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getComments($user, $repo, $pullId, $page = 0, $limit = 0)
+	{
+		return $this->comments->getList($user, $repo, $pullId, $page, $limit);
 	}
 }

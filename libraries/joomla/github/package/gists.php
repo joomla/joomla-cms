@@ -458,4 +458,92 @@ class JGithubPackageGists extends JGithubPackage
 
 		return $data;
 	}
+
+	/*
+	 * Deprecated methods
+	 */
+
+	/**
+	 * Method to create a comment on a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 * @param   string   $body    The comment body text.
+	 *
+	 * @deprecated use gists->comments->create()
+	 *
+	 * @return  object
+	 *
+	 * @since      11.3
+	 */
+	public function createComment($gistId, $body)
+	{
+		return $this->comments->create($gistId, $body);
+	}
+
+	/**
+	 * Method to delete a comment on a gist.
+	 *
+	 * @param   integer  $commentId  The id of the comment to delete.
+	 *
+	 * @deprecated use gists->comments->delete()
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function deleteComment($commentId)
+	{
+		$this->comments->delete($commentId);
+	}
+
+	/**
+	 * Method to update a comment on a gist.
+	 *
+	 * @param   integer  $commentId  The id of the comment to update.
+	 * @param   string   $body       The new body text for the comment.
+	 *
+	 * @deprecated use gists->comments->edit()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function editComment($commentId, $body)
+	{
+		return $this->comments->edit($commentId, $body);
+	}
+
+	/**
+	 * Method to get a specific comment on a gist.
+	 *
+	 * @param   integer  $commentId  The comment id to get.
+	 *
+	 * @deprecated use gists->comments->get()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function getComment($commentId)
+	{
+		return $this->comments->get($commentId);
+	}
+
+	/**
+	 * Method to get the list of comments on a gist.
+	 *
+	 * @param   integer  $gistId  The gist number.
+	 * @param   integer  $page    The page number from which to get items.
+	 * @param   integer  $limit   The number of items on a page.
+	 *
+	 * @deprecated use gists->comments->getList()
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getComments($gistId, $page = 0, $limit = 0)
+	{
+		return $this->comments->getList($gistId, $page, $limit);
+	}
 }

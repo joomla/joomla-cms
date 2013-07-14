@@ -321,4 +321,194 @@ class JGithubPackageIssues extends JGithubPackage
 
 		return json_decode($response->body);
 	}
+
+	/*
+	 * Deprecated methods
+	 */
+
+	/**
+	 * Method to create a comment on an issue.
+	 *
+	 * @param   string   $user     The name of the owner of the GitHub repository.
+	 * @param   string   $repo     The name of the GitHub repository.
+	 * @param   integer  $issueId  The issue number.
+	 * @param   string   $body     The comment body text.
+	 *
+	 * @deprecated use issues->comments->create()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function createComment($user, $repo, $issueId, $body)
+	{
+		return $this->comments->create($user, $repo, $issueId, $body);
+	}
+
+	/**
+	 * Method to create a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $name   The label name.
+	 * @param   string  $color  The label color.
+	 *
+	 * @deprecated use issues->labels->create()
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function createLabel($user, $repo, $name, $color)
+	{
+		return $this->labels->create($user, $repo, $name, $color);
+	}
+
+	/**
+	 * Method to delete a comment on an issue.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The id of the comment to delete.
+	 *
+	 * @deprecated use issues->comments->delete()
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function deleteComment($user, $repo, $commentId)
+	{
+		$this->comments->delete($user, $repo, $commentId);
+	}
+
+	/**
+	 * Method to delete a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $label  The label name.
+	 *
+	 * @deprecated use issues->labels->delete()
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function deleteLabel($user, $repo, $label)
+	{
+		return $this->labels->delete($user, $repo, $label);
+	}
+
+	/**
+	 * Method to update a comment on an issue.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The id of the comment to update.
+	 * @param   string   $body       The new body text for the comment.
+	 *
+	 * @deprecated use issues->comments->edit()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function editComment($user, $repo, $commentId, $body)
+	{
+		return $this->comments->edit($user, $repo, $commentId, $body);
+	}
+
+	/**
+	 * Method to update a label on a repo.
+	 *
+	 * @param   string  $user   The name of the owner of the GitHub repository.
+	 * @param   string  $repo   The name of the GitHub repository.
+	 * @param   string  $label  The label name.
+	 * @param   string  $name   The label name.
+	 * @param   string  $color  The label color.
+	 *
+	 * @deprecated use issues->labels->update()
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function editLabel($user, $repo, $label, $name, $color)
+	{
+		return $this->labels->update($user, $repo, $label, $name, $color);
+	}
+
+	/**
+	 * Method to get a specific comment on an issue.
+	 *
+	 * @param   string   $user       The name of the owner of the GitHub repository.
+	 * @param   string   $repo       The name of the GitHub repository.
+	 * @param   integer  $commentId  The comment id to get.
+	 *
+	 * @deprecated use issues->comments->get()
+	 *
+	 * @return  object
+	 *
+	 * @since   11.3
+	 */
+	public function getComment($user, $repo, $commentId)
+	{
+		return $this->comments->get($user, $repo, $commentId);
+	}
+
+	/**
+	 * Method to get the list of comments on an issue.
+	 *
+	 * @param   string   $user     The name of the owner of the GitHub repository.
+	 * @param   string   $repo     The name of the GitHub repository.
+	 * @param   integer  $issueId  The issue number.
+	 * @param   integer  $page     The page number from which to get items.
+	 * @param   integer  $limit    The number of items on a page.
+	 *
+	 * @deprecated use issues->comments->getList()
+	 *
+	 * @return  array
+	 *
+	 * @since   11.3
+	 */
+	public function getComments($user, $repo, $issueId, $page = 0, $limit = 0)
+	{
+		return $this->comments->getList($user, $repo, $issueId, $page, $limit);
+	}
+
+	/**
+	 * Method to get a specific label on a repo.
+	 *
+	 * @param   string  $user  The name of the owner of the GitHub repository.
+	 * @param   string  $repo  The name of the GitHub repository.
+	 * @param   string  $name  The label name to get.
+	 *
+	 * @deprecated use issues->labels->get()
+	 *
+	 * @return  object
+	 *
+	 * @since   12.3
+	 */
+	public function getLabel($user, $repo, $name)
+	{
+		return $this->labels->get($user, $repo, $name);
+	}
+
+	/**
+	 * Method to get the list of labels on a repo.
+	 *
+	 * @param   string  $user  The name of the owner of the GitHub repository.
+	 * @param   string  $repo  The name of the GitHub repository.
+	 *
+	 * @deprecated use issues->labels->getList()
+	 *
+	 * @return  array
+	 *
+	 * @since   12.3
+	 */
+	public function getLabels($user, $repo)
+	{
+		return $this->labels->getList($user, $repo);
+	}
 }
