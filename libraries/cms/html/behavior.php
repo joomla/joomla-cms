@@ -613,15 +613,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('script', 'system/highlighter.js', true, true);
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		
+		JHtml::_('script', 'system/highlighter-jquery-uncompressed.js', true, true);
 
 		$terms = str_replace('"', '\"', $terms);
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
-			window.addEvent('domready', function () {
-				var start = document.id('" . $start . "');
-				var end = document.id('" . $end . "');
+			jQuery(function ($) {
+				var start = document.getElementById('" . $start . "');
+				var end = document.getElementById('" . $end . "');
 				if (!start || !end || !Joomla.Highlighter) {
 					return true;
 				}
@@ -632,8 +635,8 @@ abstract class JHtmlBehavior
 					onlyWords: false,
 					tag: '" . $tag . "'
 				}).highlight([\"" . implode('","', $terms) . "\"]);
-				start.dispose();
-				end.dispose();
+				$(start).remove();
+				$(end).remove();
 			});
 		");
 
