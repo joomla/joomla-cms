@@ -578,7 +578,7 @@ abstract class JHtmlBootstrap
 			// Attach accordion to document
 			JFactory::getDocument()->addScriptDeclaration(
 				"jQuery(document).ready(function() {
-			         jQuery('" . $selector . "').typeahead(" . $options . ");
+			         jQuery('" . $selector . "').collapse(" . $options . ");
                 });"
 			);
 
