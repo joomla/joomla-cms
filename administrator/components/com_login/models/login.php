@@ -34,7 +34,7 @@ class LoginModelLogin extends JModelLegacy
 
 		$credentials = array(
 			'username' => $input->$method->get('username', '', 'BASE64'),
-			'password' => $input->$method->get('password', '', 'BASE64')
+			'password' => $input->$method->get('passwd', '', 'STRING')
 		);
 		$this->setState('credentials', $credentials);
 
