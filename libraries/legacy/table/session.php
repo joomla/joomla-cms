@@ -19,14 +19,6 @@ defined('JPATH_PLATFORM') or die;
 class JTableSession extends JTable
 {
 	/**
-	 * Are tags supported?
-	 *
-	 * @var    boolean
-	 * @since  11.1
-	 */
-	protected $supportTags = false;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.

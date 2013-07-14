@@ -27,6 +27,14 @@ class WeblinksTableWeblink extends JTable
 	protected $tagsHelper = null;
 
 	/**
+	 * Use core JTable tags Processing
+	 *
+	 * @var    boolean
+	 * @since  3.1.2
+	 */
+	protected $supportTags = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  A database connector object
@@ -132,10 +140,7 @@ class WeblinksTableWeblink extends JTable
 		// Convert IDN urls to punycode
 		$this->url = JStringPunycode::urlToPunycode($this->url);
 
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		return $result && $this->tagsHelper->postStoreProcess($this);
+		return parent::store($updateNulls);
 	}
 
 	/**

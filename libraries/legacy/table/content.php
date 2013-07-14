@@ -25,7 +25,15 @@ class JTableContent extends JTable
 	 * @var    JHelperTags
 	 * @since  3.1
 	 */
+
 	protected $tagsHelper = null;
+	/**
+	 * Use core JTable tags Processing
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $supportTags = true;
 
 	/**
 	 * Constructor
@@ -302,10 +310,7 @@ class JTableContent extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		return $result && $this->tagsHelper->postStoreProcess($this);
+		return parent::store($updateNulls);
 	}
 
 	/**

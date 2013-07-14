@@ -81,12 +81,12 @@ abstract class JTable extends JObject
 	protected $_locked = false;
 
 	/**
-	 * Are tags supported?
+	 * Use core JTable tags Processing
 	 *
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $supportTags = true;
+	protected $supportTags = false;
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
@@ -585,6 +585,11 @@ abstract class JTable extends JObject
 	 */
 	public function store($updateNulls = false)
 	{
+		if ($this->supportTags)
+		{
+			$this->tagsHelper->preStoreProcess($this);
+		}
+
 		$k = $this->_tbl_key;
 		if (!empty($this->asset_id))
 		{
@@ -611,6 +616,12 @@ abstract class JTable extends JObject
 		{
 			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
+
+		if ($this->supportTags)
+		{
+			var_dump($this->tagsHelper->postStoreProcess($this));
+		}
+
 
 		// If the table is not set to track assets return true.
 		if (!$this->_trackAssets)
