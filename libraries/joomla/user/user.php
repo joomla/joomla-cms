@@ -594,7 +594,6 @@ class JUser extends JObject
 				}
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
-
 				$array['password'] = $this->createPasswordString($array['password']);
 			}
 			else
@@ -843,7 +842,8 @@ class JUser extends JObject
 		$salt = JUserHelper::genRandomPassword(32);
 		$crypt = JUserHelper::getCryptedPassword($passwordString, $salt);
 
-		if (JUserHelper::hasStrongPasswords())
+		// The first condition is only for when BCrypt or PASSWORD_DEFAULT is the default.
+		if (JUserHelper::hasStrongPasswords() && !empty($defaultHash))
 		{
 			$passwordInfo = password_get_info($passwordString);
 			return $crypt . (($passwordInfo['algo'] != 0
@@ -851,7 +851,7 @@ class JUser extends JObject
 		}
 		else
 		{
-			return substr($crypt, 0, 4) == '$2y$' ? null : $salt;
+			return substr($crypt, 0, 4) == '$2y$' ? $crypt : $crypt . ':' .$salt;
 		}
 	}
 }

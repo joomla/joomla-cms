@@ -397,32 +397,33 @@ abstract class JUserHelper
 
 				return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
 
+				case 'bcrypt':
+
+					if (static::hasStrongPasswords())
+					{
+						$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
+
+						if (!$encrypted)
+						{
+							// Something went wrong.
+							return false;
+						}
+
+						return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
+					}
+					else
+					{
+						// BCrypt isn't available, fall back to md5.
+						return static::getCryptedPassword($plaintext, '', 'md5-hex', false);
+
+					}
+
 			case 'md5-hex':
+				default:
 				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
 
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 
-			case 'bcrypt':
-			default:
-
-				if (static::hasStrongPasswords())
-				{
-					$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
-
-					if (!$encrypted)
-					{
-						// Something went wrong.
-						return false;
-					}
-
-					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
-				}
-				else
-				{
-					// BCrypt isn't available, fall back to md5.
-					return static::getCryptedPassword($plaintext, '', 'md5-hex', false);
-
-				}
 		}
 	}
 

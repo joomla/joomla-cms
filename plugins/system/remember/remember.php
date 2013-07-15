@@ -37,12 +37,6 @@ class PlgSystemRemember extends JPlugin
 		{
 			$app = JFactory::getApplication();
 
-			// No remember me for admin
-			if ($app->isAdmin())
-			{
-				return;
-			}
-
 			JLoader::register('JAuthentication', JPATH_PLATFORM . '/joomla/user/authentication.php');
 
 			// Create the cookie name and data
@@ -208,6 +202,13 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onUserAfterLogin($options)
 	{
+		// No remember me for admin
+		$user = JFactory::getUser();
+		if ($user->get('isRoot'))
+		{
+			return;
+		}
+
 		// We need the old data to match against the current database
 		$rememberArray = $this->getRememberCookieData();
 		$length = $this->params->get('key_length', '20');
