@@ -45,6 +45,7 @@ class JFormFieldRadio extends JFormField
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$readonly = $this->readonly;
 
+
 		// Start the radio field output.
 		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . '>';
 
