@@ -262,7 +262,7 @@ class JAuthentication extends JObject
 		$browserVersion = $ua->browserVersion;
 		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
 
-		$cookieName = md5(JPATH_BASE . $uaShort);
+		$cookieName = md5(Juri::Root() . $uaShort);
 
 		$inputCookie = new JInputCookie();
 		if (JpluginHelper::isEnabled('system', 'remember') && $inputCookie->get($cookieName))
