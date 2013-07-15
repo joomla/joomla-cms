@@ -25,6 +25,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo $this->loadTemplate('ftp'); ?>
 	<?php endif; ?>
 
+	<?php echo $this->loadTemplate('filter'); ?>
+
 	<?php if (count($this->items)) : ?>
 	<table class="adminlist">
 		<thead>
