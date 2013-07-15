@@ -17,48 +17,17 @@ defined('JPATH_PLATFORM') or die;
  * @link        http://docs.joomla.org/JTableObserver
  * @since       3.1.2
  */
-abstract class JTableObserver
+class JTableObserverTags extends JTableObserver
 {
 	/**
-	 * The observed table
+	 * Helper object for storing and deleting tag information associated with this table observer
 	 *
-	 * @var   JTable
+	 * @var  JHelperTags
 	 */
-	protected $table;
-
-	public function __construct(JTable $table)
-	{
-		$table->addObserver($this);
-		$this->table = $table;
-	}
+	protected $tagsHelper;
 
 	/**
-	 * Pre-processor for $table->load($id)
-	 *
-	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
-	 *                           set the instance property value is used.
-	 * @param   boolean  $reset  True to reset the default values before loading the new row.
-	 *
-	 * @return  void
-	 */
-	public function onBeforeLoad($keys, $reset)
-	{
-	}
-
-	/**
-	 * Post-processor for $table->load($id)
-	 *
-	 * @param   boolean   $result   The result of the load
-	 * @param   array     $row      The loaded (and already binded to $this->table) row of the database table
-	 *
-	 * @return  void
-	 */
-	public function onAfterLoad(&$result, $row)
-	{
-	}
-
-	/**
-	 * Pre-processor for $table->store($id)
+	 * Pre-processor for $table->store($updateNulls)
 	 *
 	 * @param   boolean   $updateNulls   The result of the load
 	 * @param   string    $tableKey      The key of the table
@@ -67,14 +36,50 @@ abstract class JTableObserver
 	 */
 	public function onBeforeStore($updateNulls, $tableKey)
 	{
+		$this->tagsHelper->preStoreProcess($this->table);
 	}
 
 	/**
-	 * Post-processor for $table->store($id)
+	 * Post-processor for $table->store($updateNulls)
 	 *
 	 * @param   boolean   $result   The result of the load
 	 */
 	public function onAfterStore(&$result)
 	{
+		if ($result)
+		{
+			$this->tagsHelper->postStoreProcess($this->table);
+		}
+	}
+
+	/**
+	 * Pre-processor for $table->delete($pk)
+	 *
+	 * @param   mixed    $pk         An optional primary key value to delete.  If not set the instance property value is used.
+	 * @param   string   $tableKey   The normal key of the table
+	 *
+	 * @return  void
+	 *
+	 * @throws  UnexpectedValueException
+	 */
+	public function onBeforeDelete($pk, $tableKey)
+	{
+		$this->tagsHelper->deleteTagData($this->table, $pk);
+	}
+
+	/**
+	 * Creates the associated tags helper class instance
+	 *
+	 * @param   JTable   $table
+	 * @param   string   $typeAlias   The type alias (null if set after initial binding like in categories)
+	 *
+	 * @return  JTableObserverTags
+	 */
+	public static function observeTableWithTagsHelperOfTypeAlias($table, $typeAlias)
+	{
+		$observer = new self($table);
+		$observer->tagsHelper = new JHelperTags;
+		$observer->tagsHelper->typeAlias = $typeAlias;
+		return $observer;
 	}
 }

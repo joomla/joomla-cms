@@ -39,7 +39,10 @@ class JTableCategory extends JTableNested
 		parent::__construct('#__categories', 'id', $db);
 
 		$this->access = (int) JFactory::getConfig()->get('access');
-		$this->tagsHelper = new JHelperTags;
+
+		// Sets up the tags observer in $this
+		$this->tagsHelper = JTableObserverTags::observeTableWithTagsHelperOfTypeAlias($this, null);
+		;
 	}
 
 	/**
@@ -209,9 +212,8 @@ class JTableCategory extends JTableNested
 	 */
 	public function delete($pk = null, $children = true)
 	{
-		$result = parent::delete($pk);
 		$this->tagsHelper->typeAlias = $this->extension . '.category';
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
+		return parent::delete($pk);
 	}
 
 	/**
@@ -253,10 +255,7 @@ class JTableCategory extends JTableNested
 		}
 
 		$this->tagsHelper->typeAlias = $this->extension . '.category';
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
 
-		$this->newTags = isset($this->newTags) ? $this->newTags : array();
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+		return parent::store($updateNulls);
 	}
 }

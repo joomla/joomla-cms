@@ -16,14 +16,6 @@ defined('_JEXEC') or die;
 class NewsfeedsTableNewsfeed extends JTable
 {
 	/**
-	 * Helper object for storing and deleting tag information.
-	 *
-	 * @var    JHelperTags
-	 * @since  3.1
-	 */
-	protected $tagsHelper = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  A database connector object
@@ -31,8 +23,9 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
-		$this->tagsHelper = new JHelperTags;
-		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
+
+		// Sets up the tags observer in $this
+		JTableObserverTags::observeTableWithTagsHelperOfTypeAlias($this, 'com_newsfeeds.newsfeed');
 	}
 
 	/**
@@ -134,23 +127,6 @@ class NewsfeedsTableNewsfeed extends JTable
 	}
 
 	/**
-	 * Override parent delete method to delete tags information.
-	 *
-	 * @param   integer  $pk  Primary key to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$result = parent::delete($pk);
-		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
-	}
-
-	/**
 	 * Overriden JTable::store to set modified data.
 	 *
 	 * @param   boolean	 $updateNulls  True to update fields even if they are null.
@@ -193,11 +169,6 @@ class NewsfeedsTableNewsfeed extends JTable
 		// Save links as punycode.
 		$this->link = JStringPunycode::urlToPunycode($this->link);
 
-		$this->tagsHelper->typeAlias = 'com_newsfeeds.newsfeed';
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		$this->newTags = isset($this->newTags) ? $this->newTags : array();
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+		return parent::store($updateNulls);
 	}
 }
