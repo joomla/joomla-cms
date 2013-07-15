@@ -42,7 +42,7 @@ class JFormFieldList extends JFormField
 
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
 		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
