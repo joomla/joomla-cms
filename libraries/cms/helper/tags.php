@@ -775,7 +775,7 @@ class JHelperTags
 		$newTable = clone $table;
 		$newTable->reset();
 		$key = $newTable->getKeyName();
-		$typeAlias = $newTable->get('tagsHelper')->typeAlias;
+		$typeAlias = $this->typeAlias;
 
 		$result = true;
 
@@ -834,7 +834,7 @@ class JHelperTags
 		$oldTable = clone $table;
 		$oldTable->reset();
 		$key = $oldTable->getKeyName();
-		$typeAlias = $oldTable->get('tagsHelper')->typeAlias;
+		$typeAlias = $this->typeAlias;
 
 		if ($oldTable->$key && $oldTable->load())
 		{
@@ -971,7 +971,7 @@ class JHelperTags
 	public function tagItem($ucmId, $table, $tags = array(), $replace = true)
 	{
 		$key = $table->get('_tbl_key');
-		$oldTags = $table->get('tagsHelper')->getTagIds((int) $table->$key, $table->get('tagsHelper')->typeAlias);
+		$oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
 		$oldTags = explode(',', $oldTags);
 		$result = $this->unTagItem($ucmId, $table);
 
