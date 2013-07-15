@@ -99,7 +99,7 @@ abstract class JAmazons3Object
 			. $contentType . "\n"
 			. $date . "\n"
 			. $this->createCanonicalizedAmzHeaders($headers)
-			. $this->createCanonicalizedResource($url, $headers);
+			. $this->createCanonicalizedResource($url);
 
 		// Signature = Base64( HMAC-SHA1( YourSecretAccessKeyID, UTF-8-Encoding-Of( StringToSign ) ) );
 		$signature = base64_encode(
@@ -150,7 +150,6 @@ abstract class JAmazons3Object
 		foreach (array_keys($xAmzHeaders) as $headerKey) {
 			$xAmzHeadersString .= $headerKey . ":" . $xAmzHeaders[$headerKey] . "\n";
 		}
-		rtrim($xAmzHeadersString, "\n");
 		return $xAmzHeadersString;
 	}
 
@@ -159,64 +158,41 @@ abstract class JAmazons3Object
 	 * Creates the canonicalized resource used for calculating the signature
 	 * in the Authorization header.
 	 *
-	 * @param	string	$url      The target url of the request
-	 * @param	string	$headers  The headers of the request
+	 * @param	string	$url  The target url of the request
 	 *
 	 * @return	string	The canonicalized resource
 	 *
 	 * @since   ??.?
 	 */
-	private function createCanonicalizedResource($url, $headers) {
-		// TODO extract the following from $request
-		/**
-			* @param string $httpRequestURI  The request URI
-			* @param string $bucket		     The bucket name contained in the request
-			* @param string $subresources	 In case of multiple subresources, they must be lexicographically sorted
-			*                                 by subresource name and separated by '&', e.g., ?acl&versionId=value
-			*                                 Accepted subresources:  acl, lifecycle, location, logging, notification,
-			*                                 partNumber,policy, requestPayment, torrent, uploadId, uploads, versionId,
-			*                                 versioning, versions, and website.
-			* @param string $queryParameters  The query string parameters in a GET request include response-content-type,
-			*                                  response-content-language, response-expires, response-cache-control,
-			*                                  response-content-disposition, and response-content-encoding.
-			*                                  The delete query string parameter must be included when you create the
-			*                                  CanonicalizedResource for a multi-object Delete request.
-		*/
-		// TODO new function
-		// Constructing the CanonicalizedResource Element
-		/*
-			CanonicalizedResource = [ "/" + Bucket ] +
-			<HTTP-Request-URI, from the protocol name up to the query string> +
-			[ subresource, if present. For example "?acl", "?location", "?logging", or "?torrent"];
-		 */
-		$httpRequestURI = "";
-		$bucket = "";
-		$subresources = "";
-		$queryParameters = "";
-		if ($bucket == NULL) {
-			// For a request that does not address a bucket, such as GET Service, append "/".
-			$canonicalizedResource = "/";
+	private function createCanonicalizedResource($url) {
+		// Gets the host by parsing the url
+		$parsedURL = parse_url($url);
+		$host = $parsedURL["host"];
+		// Gets the bucket from the host
+		if (strcmp($host, $this->options->get('api.url')) == 0) {
+			$bucket = "";
 		} else {
+			$bucket = substr($host, 0, strpos ($host, $this->options->get('api.url')) - 1);
+		}
+
+		// For a request that does not address a bucket, such as GET Service, append "/".
+		$canonicalizedResource = "/";
+		if ($bucket !== "") {
 			// For a virtual hosted-style request "https://johnsmith.s3.amazonaws.com/photos/puppy.jpg",
-			// the CanonicalizedResource is "/johnsmith/photos/puppy.jpg".
-			$canonicalizedResource = "/" . $bucket;
-
-			// TODO check
-			$canonicalizedResource .= substr(
-				$httpRequestURI,
-				strpos ($httpRequestURI, $this->options->get('api.url'))
-				+ strlen($this->options->get('api.url'))
-			);
-
-			// Append existing subresources
-			if ($subresources) {
-				$canonicalizedResource .= $subresources;
+			//  the CanonicalizedResource is "/johnsmith/photos/puppy.jpg".
+			$canonicalizedResource .= $bucket;
+			if (array_key_exists("path", $parsedURL)) {
+				$canonicalizedResource .= $parsedURL["path"];
 			}
 
-			// If the request specifies query string parameters overriding the response header values,
-			// append the query string parameters and their values.
-			if ($queryParameters != NULL) {
-				$canonicalizedResource .= $queryParameters;
+			// If the request addresses a subresource, such as ?versioning, ?location, ?acl, ?torrent, ?lifecycle
+			//  or ?versionid, append the subresource, its value if it has one, and the question mark.
+			// Subresources must be lexicographically sorted by subresource name and separated by '&'
+			if (array_key_exists("query", $parsedURL)) {
+				$queryParameters = explode("&", $parsedURL["query"]);
+				asort($queryParameters);
+				$sortedQueryParameters = implode("&", $queryParameters);
+				$canonicalizedResource .= "?" . $sortedQueryParameters;
 			}
 		}
 
