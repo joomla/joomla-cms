@@ -402,9 +402,10 @@ abstract class JFormField
 		$hidden = (string) $element['hidden'];
 		$inputmode = (string) $element['inputmode'];
 
-		// Set the required, disabled, readonly and validation options.
+		// Set the required, disabled, readonly, multiple and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
 		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+		$this->multiple = ($multiple == 'true' || $multiple == 'multiple' || $multiple == '1');
 		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
 		$this->validate = (string) $element['validate'];
 
@@ -419,9 +420,6 @@ abstract class JFormField
 			}
 			$this->inputmode = $defaultInputmode . implode(" ", $inputmode);
 		}
-
-		// Set the multiple values option.
-		$this->multiple = ($multiple == 'true' || $multiple == 'multiple');
 
 		// Allow for field classes to force the multiple values option.
 		if (isset($this->forceMultiple))

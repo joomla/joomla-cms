@@ -45,7 +45,7 @@ class JFormFieldUsergroup extends JFormField
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' aria-required aria-required="true"' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.

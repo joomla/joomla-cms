@@ -44,9 +44,9 @@ class JFormFieldList extends JFormField
 		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
-		$attr .= $this->disabled ? ' disabled' : '';
+		$attr .= $this->multiple ? ' multiple' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';

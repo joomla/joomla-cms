@@ -140,10 +140,10 @@ class JFormFieldGroupedList extends JFormField
 
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
+		$attr .= $this->multiple ? ' multiple' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
