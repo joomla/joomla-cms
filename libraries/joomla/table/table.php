@@ -619,7 +619,7 @@ abstract class JTable extends JObject
 
 		if ($this->supportTags)
 		{
-			var_dump($this->tagsHelper->postStoreProcess($this));
+			$this->tagsHelper->postStoreProcess($this);
 		}
 
 
