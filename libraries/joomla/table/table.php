@@ -81,6 +81,14 @@ abstract class JTable extends JObject
 	protected $_locked = false;
 
 	/**
+	 * Generic observers for this JTable (Used e.g. for tags Processing)
+	 *
+	 * @var    JTableObserver[]
+	 * @since  3.1.2
+	 */
+	protected $_observers = array();
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -125,6 +133,20 @@ abstract class JTable extends JObject
 		}
 	}
 
+	/**
+	 * Adds an observer to this JTable instance.
+	 * Ideally, this method should be called fron the constructor of JTableObserver.
+	 *
+	 * @param    JTableObserver   $observer
+	 *
+	 * @return   void
+	 *
+	 * @since    3.1.2
+	 */
+	public function addObserver( JTableObserver $observer )
+	{
+		$this->_observers[] = $observer;
+	}
 	/**
 	 * Get the columns from database table.
 	 *
@@ -483,6 +505,12 @@ abstract class JTable extends JObject
 	 */
 	public function load($keys = null, $reset = true)
 	{
+		// Pre-processing by observers
+		foreach ($this->_observers as $observer)
+		{
+			$observer->onBeforeLoad($keys, $reset);
+		}
+
 		if (empty($keys))
 		{
 			// If empty, use the value of the current key
@@ -532,11 +560,21 @@ abstract class JTable extends JObject
 		// Check that we have a result.
 		if (empty($row))
 		{
-			return false;
+			$result = false;
+		}
+		else
+		{
+			// Bind the object with the row and return.
+			$result = $this->bind($row);
 		}
 
-		// Bind the object with the row and return.
-		return $this->bind($row);
+		// Post-processing by observers
+		foreach ($this->_observers as $observer)
+		{
+			$observer->onAfterLoad($result, $row);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -572,6 +610,13 @@ abstract class JTable extends JObject
 	public function store($updateNulls = false)
 	{
 		$k = $this->_tbl_key;
+
+		// Pre-processing by observers
+		foreach ($this->_observers as $observer)
+		{
+			$observer->onBeforeStore($updateNulls, $k);
+		}
+
 		if (!empty($this->asset_id))
 		{
 			$currentAssetId = $this->asset_id;
@@ -591,12 +636,20 @@ abstract class JTable extends JObject
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->$k)
 		{
-			$this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 		}
 		else
 		{
-			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
+
+		// Post-processing by observers
+		foreach ($this->_observers as $observer)
+		{
+			$observer->onAfterStore($result);
+		}
+
+		//@TODO: This trackAssets after here (and above too) should go into a observer post-processing method:
 
 		// If the table is not set to track assets return true.
 		if (!$this->_trackAssets)
