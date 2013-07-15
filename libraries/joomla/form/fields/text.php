@@ -52,6 +52,7 @@ class JFormFieldText extends JFormField
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . (string) $this->element['autocomplete'] . '"';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
+		$inputmode = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
@@ -62,6 +63,6 @@ class JFormFieldText extends JFormField
 
 		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="' 
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly 
-			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . '/>';
+			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . '/>';
 	}
 }

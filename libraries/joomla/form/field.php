@@ -35,6 +35,14 @@ abstract class JFormField
 	protected $hint;
 
 	/**
+	 * The mode of input associated with the field.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $inputmode;
+
+	/**
 	 * The autocomplete of state for the form field. If true element will be automatically
 	 * completed by browser otherwise not.
 	 *
@@ -392,12 +400,25 @@ abstract class JFormField
 		$autocomplete = (string) $element['autocomplete'];
 		$spellcheck = (string) $element['spellcheck'];
 		$hidden = (string) $element['hidden'];
+		$inputmode = (string) $element['inputmode'];
 
 		// Set the required, disabled, readonly and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
 		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
 		$this->validate = (string) $element['validate'];
+
+		$this->inputmode = '';
+
+		$inputmode = explode(' ', $inputmode);
+		if (!empty($inputmode))
+		{
+			$defaultInputmode = in_array('default', $inputmode) ? JText::_("JLIB_FORM_INPUTMODE") . ' ' : '';
+			foreach (array_keys($inputmode, 'default') as $key) {
+			    unset($inputmode[$key]);
+			}
+			$this->inputmode = $defaultInputmode . implode(" ", $inputmode);
+		}
 
 		// Set the multiple values option.
 		$this->multiple = ($multiple == 'true' || $multiple == 'multiple');
