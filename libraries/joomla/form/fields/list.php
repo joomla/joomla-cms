@@ -43,16 +43,10 @@ class JFormFieldList extends JFormField
 		// Initialize some field attributes.
 		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 
-		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ($this->readonly || $this->disabled)
-		{
-			$attr .= ' disabled';
-		}
-
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
+		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
+		$attr .= $this->disabled ? ' disabled' : '';
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
@@ -60,17 +54,8 @@ class JFormFieldList extends JFormField
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
-		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->element['readonly'] == 'true')
-		{
-			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
-		}
 		// Create a regular list.
-		else
-		{
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
-		}
+		$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 
 		return implode($html);
 	}
@@ -95,11 +80,14 @@ class JFormFieldList extends JFormField
 				continue;
 			}
 
+			$value = (string) $option['value'];
+			$disabled = $option['disabled'] == 'true' || ($this->readonly && $value != $this->value);
+
 			// Create a new option object based on the <option /> element.
 			$tmp = JHtml::_(
-				'select.option', (string) $option['value'],
+				'select.option', $value,
 				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-				((string) $option['disabled'] == 'true')
+				(string) $disabled
 			);
 
 			// Set some option attributes.
