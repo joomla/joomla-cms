@@ -123,6 +123,12 @@ abstract class JTable extends JObject
 		{
 			$this->access = (int) JFactory::getConfig()->get('access');
 		}
+
+		// If the newTags property does not exists, set the default.
+		if (!property_exists($this, 'newTags'))
+		{
+			$this->newTags = array();
+		}
 	}
 
 	/**
