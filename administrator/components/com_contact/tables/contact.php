@@ -24,6 +24,14 @@ class ContactTableContact extends JTable
 	protected $tagsHelper = null;
 
 	/**
+	 * Use core JTable tags Processing
+	 *
+	 * @var    boolean
+	 * @since  3.1.2
+	 */
+	protected $supportTags = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  Database connector object
@@ -156,12 +164,8 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		$this->newTags = isset($this->newTags) ? $this->newTags : array();
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
-		}
+		return parent::store($updateNulls);
+	}
 
 	/**
 	 * Overloaded check function

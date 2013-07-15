@@ -28,6 +28,16 @@ class JTableCategory extends JTableNested
 	protected $tagsHelper = null;
 
 	/**
+	 * Use core JTable tags Processing
+	 *
+	 * @var    boolean
+	 * @since  3.1.2
+	 * @note   Categories require custom processing of tags. Therefore this must be false.
+	 *         Modification of this in extended classes should be done with caution.
+	 */
+	protected $supportTags = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
@@ -256,7 +266,6 @@ class JTableCategory extends JTableNested
 		$this->tagsHelper->preStoreProcess($this);
 		$result = parent::store($updateNulls);
 
-		$this->newTags = isset($this->newTags) ? $this->newTags : array();
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+		return $result && $this->tagsHelper->postStoreProcess($this);
 	}
 }

@@ -763,6 +763,11 @@ class JHelperTags
 	 */
 	public function postStoreProcess($table, $newTags = array(), $replace = true)
 	{
+		if (!empty($table->newTags) && empty($newTags))
+		{
+			$newTags = $table->newTags;
+		}
+
 		// If existing row, check to see if tags have changed.
 		$newTable = clone $table;
 		$newTable->reset();
@@ -784,6 +789,7 @@ class JHelperTags
 			{
 				// Process the tags
 				$rowdata = new JHelperContent;
+
 				$data = $rowdata->getRowData($table);
 				$ucmContentTable = JTable::getInstance('Corecontent');
 

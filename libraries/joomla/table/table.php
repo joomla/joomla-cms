@@ -81,6 +81,14 @@ abstract class JTable extends JObject
 	protected $_locked = false;
 
 	/**
+	 * Use core JTable tags Processing
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $supportTags = false;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -122,6 +130,12 @@ abstract class JTable extends JObject
 		if (property_exists($this, 'access'))
 		{
 			$this->access = (int) JFactory::getConfig()->get('access');
+		}
+
+		// If the newTags property does not exists, set the default.
+		if ($this->supportTags && !property_exists($this, 'newTags'))
+		{
+			$this->newTags = array();
 		}
 	}
 
@@ -571,6 +585,11 @@ abstract class JTable extends JObject
 	 */
 	public function store($updateNulls = false)
 	{
+		if ($this->supportTags)
+		{
+			$this->tagsHelper->preStoreProcess($this);
+		}
+
 		$k = $this->_tbl_key;
 		if (!empty($this->asset_id))
 		{
@@ -597,6 +616,12 @@ abstract class JTable extends JObject
 		{
 			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
+
+		if ($this->supportTags)
+		{
+			$this->tagsHelper->postStoreProcess($this);
+		}
+
 
 		// If the table is not set to track assets return true.
 		if (!$this->_trackAssets)
