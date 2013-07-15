@@ -138,7 +138,9 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Follow redirects.
 		if (!ini_get('safe_mode'))
+		{
 			$options[CURLOPT_FOLLOWLOCATION] = (bool) $this->options->get('follow_location', true);
+		}
 
 		// Set the cURL options.
 		curl_setopt_array($ch, $options);
