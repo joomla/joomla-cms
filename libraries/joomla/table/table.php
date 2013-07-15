@@ -814,6 +814,8 @@ abstract class JTable extends JObject
 		if ($this->_trackAssets)
 		{
 			// Get and the asset name.
+			$savedK = $this->$k;
+
 			$this->$k = $pk;
 			$name = $this->_getAssetName();
 			$asset = self::getInstance('Asset');
@@ -831,6 +833,8 @@ abstract class JTable extends JObject
 				$this->setError($asset->getError());
 				return false;
 			}
+
+			$this->$k = $savedK;
 		}
 
 		// Delete the row by primary key.
