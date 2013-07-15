@@ -26,6 +26,11 @@ abstract class JTableObserver
 	 */
 	protected $table;
 
+	/**
+	 * Constructor: Associates to $table $this observer
+	 *
+	 * @param   JTable   $table
+	 */
 	public function __construct(JTable $table)
 	{
 		$table->addObserver($this);
