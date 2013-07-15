@@ -101,67 +101,34 @@ class ContentViewCategory extends JViewCategory
 		// This makes it much easier for the designer to just interrogate the arrays.
 		if (($params->get('layout_type') == 'blog') || ($this->getLayout() == 'blog'))
 		{
-			$max = count($this->items);
-			$i = 0;
+			//$max = count($this->items);
+
+			foreach ($this->items as $i => $item)
+			{
+				if ($i < $numLeading)
+				{
+					$this->lead_items[] = $item;
+				}
+
+				elseif ($i >= $numLeading && $i < $numLeading + $numIntro)
+				{
+					$this->intro_items[] = $item;
+				}
+
+				elseif ($i < $numLeading + $numIntro + $numLinks)
+				{
+					$this->link_items[] = $item;
+				}
+				else
+				{
+					continue;
+				}
 				$i++;
-				while ($i <= $numLeading)
-				{
-					foreach ($this->items as $item)
-					{
-						$this->lead_items = $item;
-					}
-				}
-				while ($i > $numLeading && $i < $numLeading + $numIntro)
-				{
-					foreach ($this->items as $item)
-					{
-						$this->lead_items = $item;
-					}
-				}
-				while ($i > $numLeading + $numIntro && $i < $numLeading + $numIntro + $numLinks)
-				{
-					foreach ($this->items as $item)
-					{
-						$this->link_items = $item;
-					}
-				}
-
-			}
-
-			// The first group is the leading articles.
-/*			$limit = $numLeading;
-			$i = 1;
-			while ($i <= $numleading)
-			{
-				foreach ($this->items as $item)
-				{
-					$this->lead_items = $this->items;
-					$i++;
-				}
-			}*/
-			// The second group is the intro articles.
-			$limit = $numLeading + $numIntro;
-			// Order articles across, then down (or single column mode)
-			for ($i = $numLeading; $i < $limit && $i < $max; $i++)
-			{
-				$this->intro_items[$i] = &$items[$i];
 			}
 
 			$this->columns = max(1, $params->def('num_columns', 1));
 			$order = $params->def('multi_column_order', 1);
 
-			/*if ($order == 0 && $this->columns > 1)
-			{
-				// call order down helper
-				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
-			}*/
-
-			/*$limit = $numLeading + $numIntro + $numLinks;
-			// The remainder are the links.
-			for ($i = $numLeading + $numIntro; $i < $limit && $i < $max;$i++)
-			{
-					$this->link_items[$i] = &$items[$i];
-			}*/
 		}
 
 		parent::display($tpl);
