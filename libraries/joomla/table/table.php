@@ -795,6 +795,13 @@ abstract class JTable extends JObject
 	public function delete($pk = null)
 	{
 		$k = $this->_tbl_key;
+
+		// Pre-processing by observers
+		foreach ($this->_observers as $observer)
+		{
+			$observer->onBeforeDelete($pk, $k);
+		}
+
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// If no primary key is given, return false.
@@ -834,6 +841,12 @@ abstract class JTable extends JObject
 
 		// Check for a database error.
 		$this->_db->execute();
+
+		// Post-processing by observers
+		foreach ($this->_observers as $observer)
+		{
+			$observer->onAfterDelete($pk);
+		}
 
 		return true;
 	}

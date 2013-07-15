@@ -33,7 +33,7 @@ abstract class JTableObserver
 	}
 
 	/**
-	 * Pre-processor for $table->load($keys, $reset)
+	 * Pre-processor for $table->load($id)
 	 *
 	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.  If not
 	 *                           set the instance property value is used.
@@ -46,7 +46,7 @@ abstract class JTableObserver
 	}
 
 	/**
-	 * Post-processor for $table->load($keys, $reset)
+	 * Post-processor for $table->load($id)
 	 *
 	 * @param   boolean   $result   The result of the load
 	 * @param   array     $row      The loaded (and already binded to $this->table) row of the database table
@@ -58,7 +58,7 @@ abstract class JTableObserver
 	}
 
 	/**
-	 * Pre-processor for $table->store($updateNulls)
+	 * Pre-processor for $table->store($id)
 	 *
 	 * @param   boolean   $updateNulls   The result of the load
 	 * @param   string    $tableKey      The key of the table
@@ -70,33 +70,11 @@ abstract class JTableObserver
 	}
 
 	/**
-	 * Post-processor for $table->store($updateNulls)
+	 * Post-processor for $table->store($id)
 	 *
-	 * @param   boolean   $result   The result of the store
+	 * @param   boolean   $result   The result of the load
 	 */
 	public function onAfterStore(&$result)
-	{
-	}
-	/**
-	 * Pre-processor for $table->delete($pk)
-	 *
-	 * @param   mixed    $pk         An optional primary key value to delete.  If not set the instance property value is used.
-	 * @param   string   $tableKey   The normal key of the table
-	 *
-	 * @return  void
-	 *
-	 * @throws  UnexpectedValueException
-	 */
-	public function onBeforeDelete($pk, $tableKey)
-	{
-	}
-
-	/**
-	 * Post-processor for $table->delete($pk)
-	 *
-	 * @param   mixed    $pk         The deleted primary key value.
-	 */
-	public function onAfterDelete($pk)
 	{
 	}
 }
