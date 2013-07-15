@@ -16,18 +16,8 @@ defined('_JEXEC') or die;
  * @subpackage  com_content
  * @since       1.5
  */
-class ContentViewCategory extends JViewLegacy
+class ContentViewCategory extends JViewCategory
 {
-	protected $state;
-
-	protected $items;
-
-	protected $category;
-
-	protected $children;
-
-	protected $pagination;
-
 	protected $lead_items = array();
 
 	protected $intro_items = array();
@@ -38,60 +28,19 @@ class ContentViewCategory extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
 
-		// Get some data from the models
-		$category	= $this->get('Category');
-		$parent		= $this->get('Parent');
-
-		// Check for errors.
-		if ($category == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
-		if ($parent == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
-		// Get some data from the models
-		$state		= $this->get('State');
-		$params		= $state->params;
-		$items		= $this->get('Items');
-		$children	= $this->get('Children');
-		$pagination 	= $this->get('Pagination');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}
-
-		// Setup the category parameters.
-		$cparams = $category->getParams();
-		$category->params = clone($params);
-		$category->params->merge($cparams);
-
-		// Check whether category access level allows access.
-		$user	= JFactory::getUser();
-		$groups	= $user->getAuthorisedViewLevels();
-		if (!in_array($category->access, $groups))
-		{
-			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
-		}
+		parent::commonCategoryDisplay();
 
 		// PREPARE THE DATA
 		// Get the metrics for the structural page layout.
+		$params		= $this->params;
 		$numLeading	= $params->def('num_leading_articles', 1);
 		$numIntro	= $params->def('num_intro_articles', 4);
 		$numLinks	= $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach ($this->items as $item)
 		{
-			$item = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
@@ -131,8 +80,9 @@ class ContentViewCategory extends JViewLegacy
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
+		$app = JFactory::getApplication();
 		$active	= $app->getMenu()->getActive();
-		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $category->id) === false)))
+		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
 			// Get the layout from the merged category params
 			if ($layout = $category->params->get('category_layout'))
@@ -151,15 +101,44 @@ class ContentViewCategory extends JViewLegacy
 		// This makes it much easier for the designer to just interrogate the arrays.
 		if (($params->get('layout_type') == 'blog') || ($this->getLayout() == 'blog'))
 		{
-			$max = count($items);
+			$max = count($this->items);
+			$i = 0;
+				$i++;
+				while ($i <= $numLeading)
+				{
+					foreach ($this->items as $item)
+					{
+						$this->lead_items = $item;
+					}
+				}
+				while ($i > $numLeading && $i < $numLeading + $numIntro)
+				{
+					foreach ($this->items as $item)
+					{
+						$this->lead_items = $item;
+					}
+				}
+				while ($i > $numLeading + $numIntro && $i < $numLeading + $numIntro + $numLinks)
+				{
+					foreach ($this->items as $item)
+					{
+						$this->link_items = $item;
+					}
+				}
 
-			// The first group is the leading articles.
-			$limit = $numLeading;
-			for ($i = 0; $i < $limit && $i < $max; $i++)
-			{
-				$this->lead_items[$i] = &$items[$i];
 			}
 
+			// The first group is the leading articles.
+/*			$limit = $numLeading;
+			$i = 1;
+			while ($i <= $numleading)
+			{
+				foreach ($this->items as $item)
+				{
+					$this->lead_items = $this->items;
+					$i++;
+				}
+			}*/
 			// The second group is the intro articles.
 			$limit = $numLeading + $numIntro;
 			// Order articles across, then down (or single column mode)
@@ -171,43 +150,19 @@ class ContentViewCategory extends JViewLegacy
 			$this->columns = max(1, $params->def('num_columns', 1));
 			$order = $params->def('multi_column_order', 1);
 
-			if ($order == 0 && $this->columns > 1)
+			/*if ($order == 0 && $this->columns > 1)
 			{
 				// call order down helper
 				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
-			}
+			}*/
 
-			$limit = $numLeading + $numIntro + $numLinks;
+			/*$limit = $numLeading + $numIntro + $numLinks;
 			// The remainder are the links.
 			for ($i = $numLeading + $numIntro; $i < $limit && $i < $max;$i++)
 			{
 					$this->link_items[$i] = &$items[$i];
-			}
+			}*/
 		}
-
-		$children = array($category->id => $children);
-
-		//Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
-
-		$this->maxLevel = $params->get('maxLevel', -1);
-		$this->state      = &$state;
-		$this->items      = &$items;
-		$this->category   = &$category;
-		$this->children   = &$children;
-		$this->params     = &$params;
-		$this->parent     = &$parent;
-		$this->pagination = &$pagination;
-		$this->user       = &$user;
-
-		// Increment the category hit counter
-		$model = $this->getModel();
-		$model->hit();
-
-		$this->category->tags = new JHelperTags;
-		$this->category->tags->getItemTags('com_content.category', $this->category->id);
-
-		$this->_prepareDocument();
 
 		parent::display($tpl);
 	}
