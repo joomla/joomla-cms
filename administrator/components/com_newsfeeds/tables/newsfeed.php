@@ -23,9 +23,6 @@ class NewsfeedsTableNewsfeed extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
-
-		// Sets up the tags observer in $this
-		JTableObserverTags::observeTableWithTagsHelperOfTypeAlias($this, 'com_newsfeeds.newsfeed');
 	}
 
 	/**

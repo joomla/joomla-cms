@@ -30,9 +30,6 @@ class JTableCategory extends JTableNested
 		parent::__construct('#__categories', 'id', $db);
 
 		$this->access = (int) JFactory::getConfig()->get('access');
-
-		// Sets up the tags observer in $this
-		JTableObserverTags::observeTableWithTagsHelperOfTypeAlias($this, '{extension}.category');
 	}
 
 	/**

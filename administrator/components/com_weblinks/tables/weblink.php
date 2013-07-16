@@ -26,9 +26,6 @@ class WeblinksTableWeblink extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__weblinks', 'id', $db);
-
-		// Sets up the tags observer in $this
-		JTableObserverTags::observeTableWithTagsHelperOfTypeAlias($this, 'com_weblinks.weblink');
 	}
 
 	/**
