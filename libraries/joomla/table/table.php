@@ -142,7 +142,8 @@ abstract class JTable extends JObject
 
 	/**
 	 * Adds an observer to this JTable instance.
-	 * Ideally, this method should be called fron the constructor of JTableObserver.
+	 * Ideally, this method should be called fron the constructor of JTableObserver
+	 * which should be instanciated by the constructor of $this.
 	 *
 	 * @param    JTableObserver   $observer
 	 *
@@ -150,10 +151,29 @@ abstract class JTable extends JObject
 	 *
 	 * @since    3.1.2
 	 */
-	public function addObserver( JTableObserver $observer )
+	public function addObserver(JTableObserver $observer)
 	{
-		$this->_observers[] = $observer;
+		$this->_observers[get_class($observer)] = $observer;
 	}
+
+	/**
+	 * Gets the instance of the observer of class $observerClass
+	 *
+	 * @param    string          $observerClass
+	 *
+	 * @return   JTableObserver|null
+	 *
+	 * @since    3.1.2
+	 */
+	public function getObserverOfClass($observerClass)
+	{
+		if (isset($this->_observers[$observerClass]))
+		{
+			return $this->_observers[$observerClass];
+		}
+		return null;
+	}
+
 	/**
 	 * Get the columns from database table.
 	 *
