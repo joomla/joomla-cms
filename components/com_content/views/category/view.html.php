@@ -18,13 +18,40 @@ defined('_JEXEC') or die;
  */
 class ContentViewCategory extends JViewCategory
 {
+	/*
+	 * @var array  Array of leading items for blog display
+	 */
 	protected $lead_items = array();
 
+	/*
+	 * @var array  Array of intro (multicolumn display) items for blog display
+	 */
 	protected $intro_items = array();
 
+	/*
+	 * @var array  Array of links in blog displayy
+	 */
 	protected $link_items = array();
 
+	/*
+	 * @var integer Number of columns in a multi column display
+	 */
 	protected $columns = 1;
+
+	/*
+	 * @var string  The name of the extension for the category
+	 */
+	protected $extension = 'com_content';
+
+	/*
+	 * @var  string  Default title to use for page title
+	 */
+	protected $defaultPageTitle = 'JGLOBAL_ARTICLES';
+
+	/*
+	 * @var string  The name of the view to link individual items to
+	 */
+	protected $viewName = 'article';
 
 	public function display($tpl = null)
 	{
@@ -127,8 +154,8 @@ class ContentViewCategory extends JViewCategory
 			}
 
 			$this->columns = max(1, $params->def('num_columns', 1));
-			$order = $params->def('multi_column_order', 1);
 
+			$order = $params->def('multi_column_order', 1);
 		}
 
 		parent::display($tpl);
@@ -139,24 +166,8 @@ class ContentViewCategory extends JViewCategory
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title		= null;
-
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
-
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', JText::_('JGLOBAL_ARTICLES'));
-		}
-
+		parent::_prepareDocument();
+		$menu = $this->menu;
 		$id = (int) @$menu->query['id'];
 
 		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $this->category->id))
@@ -174,72 +185,10 @@ class ContentViewCategory extends JViewCategory
 
 			foreach ($path as $item)
 			{
-				$pathway->addItem($item['title'], $item['link']);
+				$this->pathway->addItem($item['title'], $item['link']);
 			}
 		}
 
-		$title = $this->params->get('page_title', '');
-		if (empty($title))
-		{
-			$title = $app->getCfg('sitename');
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
-		if ($this->category->metadesc)
-		{
-			$this->document->setDescription($this->category->metadesc);
-		}
-		elseif (!$this->category->metadesc && $this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->category->metakey)
-		{
-			$this->document->setMetadata('keywords', $this->category->metakey);
-		}
-		elseif (!$this->category->metakey && $this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
-		}
-
-		if ($app->getCfg('MetaAuthor') == '1')
-		{
-			$this->document->setMetaData('author', $this->category->getMetadata()->get('author'));
-		}
-
-		$mdata = $this->category->getMetadata()->toArray();
-
-		foreach ($mdata as $k => $v)
-		{
-			if ($v)
-			{
-				$this->document->setMetadata($k, $v);
-			}
-		}
-
-		// Add feed links
-		if ($this->params->get('show_feed_link', 1))
-		{
-			$link = '&format=feed&limitstart=';
-			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
-		}
+		parent::addFeed();
 	}
 }

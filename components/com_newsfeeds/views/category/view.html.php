@@ -18,6 +18,21 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsViewCategory extends JViewCategory
 {
+	/*
+	 * @var  string  Default title to use for page title
+	*/
+	protected $defaultPageTitle = 'COM_NEWSFEEDS_DEFAULT_PAGE_TITLE';
+
+	/*
+	 * @var string  The name of the extension for the category
+	*/
+	protected $extension = 'com_newsfeeds';
+
+	/*
+	 * @var string  The name of the view to link individual items to
+	*/
+	protected $viewName = 'newsfeed';
+
 
 	public function display($tpl = null)
 	{
@@ -42,25 +57,10 @@ class NewsfeedsViewCategory extends JViewCategory
 	 */
 	protected function _prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title 		= null;
-
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
-
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
-		}
-
+		parent::_prepareDocument();
 		$id = (int) @$menu->query['id'];
+
+		$menu = $this->menu;
 
 		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id))
 		{
@@ -77,63 +77,10 @@ class NewsfeedsViewCategory extends JViewCategory
 
 			foreach ($path as $item)
 			{
-				$pathway->addItem($item['title'], $item['link']);
+				$this->pathway->addItem($item['title'], $item['link']);
 			}
 		}
 
-		$title = $this->params->get('page_title', '');
-
-		if (empty($title))
-		{
-			$title = $app->getCfg('sitename');
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
-		if ($this->category->metadesc)
-		{
-			$this->document->setDescription($this->category->metadesc);
-		}
-		elseif (!$this->category->metadesc && $this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->category->metakey)
-		{
-			$this->document->setMetadata('keywords', $this->category->metakey);
-		}
-		elseif (!$this->category->metakey && $this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
-		}
-
-		if ($app->getCfg('MetaAuthor') == '1')
-		{
-			$this->document->setMetaData('author', $this->category->getMetadata()->get('author'));
-		}
-
-		$mdata = $this->category->getMetadata()->toArray();
-
-		foreach ($mdata as $k => $v)
-		{
-			if ($v)
-			{
-				$this->document->setMetadata($k, $v);
-			}
-		}
+		parent::addFeed();
 	}
 }

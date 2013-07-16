@@ -16,13 +16,25 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.5
  */
-class WeblinksViewCategories extends JViewLegacy
+class WeblinksViewCategories extends JViewCategory
 {
-	protected $state = null;
 
 	protected $item = null;
 
-	protected $items = null;
+	/*
+	 * @var  string  Default title to use for page title
+	 */
+	protected $defaultPageTitle = 'COM_WEBLINKS_DEFAULT_PAGE_TITLE';
+
+	/*
+	 * @var string  The name of the extension for the category
+	*/
+	protected $extension = 'com_weblinks';
+
+	/*
+	 * @var string  The name of the view to link individual items to
+	*/
+	protected $viewName = 'weblink';
 
 	/**
 	 * Display the view
@@ -68,55 +80,15 @@ class WeblinksViewCategories extends JViewLegacy
 
 		parent::display($tpl);
 	}
-
 	/**
-	 * Prepares the document
+	 * Method to prepares the document
+	 *
+	 * @since 3.1.3
 	 */
 	protected function _prepareDocument()
 	{
-		$app	= JFactory::getApplication();
-		$menus	= $app->getMenu();
-		$title	= null;
-
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', JText::_('COM_WEBLINKS_DEFAULT_PAGE_TITLE'));
-		}
-		$title = $this->params->get('page_title', '');
-		if (empty($title))
-		{
-			$title = $app->getCfg('sitename');
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
-		}
-		$this->document->setTitle($title);
-
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
-		}
+		parent::_prepareDocument;
+		parent::addFeed();
 	}
+
 }

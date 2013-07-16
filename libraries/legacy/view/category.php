@@ -55,7 +55,19 @@ class JViewCategory extends JViewLegacy
 	 */
 	protected $extension;
 
+	/*
+	 * @var string  The name of the view to link individual items to
+	*/
+	protected $viewName;
 
+	/*
+	 * @var  string  Default title to use for page title
+	*/
+	protected $defaultPageTitle ;
+
+	/*
+	 * Method with common display elements used in category list displays
+	 */
 
 	public function commonCategoryDisplay()
 	{
@@ -106,25 +118,26 @@ class JViewCategory extends JViewLegacy
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$maxLevel = $params->get('maxLevel', -1);
-			$this->maxLevel   = &$maxLevel;
-			$this->state      = &$state;
-			$this->items      = &$items;
-			$this->category   = &$category;
-			$this->children   = &$children;
-			$this->params     = &$params;
-			$this->parent     = &$parent;
-			$this->pagination = &$pagination;
-			$this->user       = &$user;
+		$this->maxLevel   = &$maxLevel;
+		$this->state      = &$state;
+		$this->items      = &$items;
+		$this->category   = &$category;
+		$this->children   = &$children;
+		$this->params     = &$params;
+		$this->parent     = &$parent;
+		$this->pagination = &$pagination;
+		$this->user       = &$user;
 
-			// Check for layout override only if this is not the active menu item
+		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
 		$active	= $app->getMenu()->getActive();
+
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
-		if ($layout = $category->params->get('category_layout'))
-		{
-		$this->setLayout($layout);
-		}
+			if ($layout = $category->params->get('category_layout'))
+			{
+			$this->setLayout($layout);
+			}
 		}
 		elseif (isset($active->query['layout']))
 		{
@@ -133,9 +146,15 @@ class JViewCategory extends JViewLegacy
 		}
 
 		$this->category->tags = new JHelperTags;
-		$this->category->tags->getItemTags('com_newsfeeds.category', $this->category->id);
+		$this->category->tags->getItemTags($this->extension . '.category', $this->category->id);
 
 	}
+
+	/*
+	 * Method to display a document
+	 *
+	 * @since 3.1.3
+	 */
 	public function display($tpl = null)
 	{
 		$this->_prepareDocument();
@@ -143,4 +162,77 @@ class JViewCategory extends JViewLegacy
 		parent::display($tpl);
 	}
 
+	/**
+	 * Method to prepares the document
+	 *
+	 * @since 3.1.3
+	 */
+	protected function _prepareDocument()
+	{
+		$app	= JFactory::getApplication();
+		$menus	= $app->getMenu();
+		$this->pathway	= $app->getPathway();
+		$title	= null;
+
+		// Because the application sets a default page title,
+		// we need to get it from the menu item itself
+		$this->menu = $menus->getActive();
+		if ($this->menu)
+		{
+			$this->params->def('page_heading', $this->params->get('page_title', $this->menu->title));
+		}
+		else
+		{
+			$this->params->def('page_heading', JText::_($this->defaultPageTitle));
+		}
+		$title = $this->params->get('page_title', '');
+		if (empty($title))
+		{
+			$title = $app->getCfg('sitename');
+		}
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
+			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
+		}
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
+			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
+		}
+		$this->document->setTitle($title);
+
+		if ($this->params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($this->params->get('menu-meta_description'));
+		}
+
+		if ($this->params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+		}
+
+		if ($this->params->get('robots'))
+		{
+			$this->document->setMetadata('robots', $this->params->get('robots'));
+		}
+	}
+
+	/*
+	 * Method to add an alternative feed link to a category layout.
+	 *
+	 * @return  void
+	 *
+	 * @since  3.1.3
+	 */
+	protected function addFeed()
+	{
+		// Add alternative feed link
+		if ($this->params->get('show_feed_link', 1) == 1)
+		{
+			$link	= '&format=feed&limitstart=';
+			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
+			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
+			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+		}
+	}
 }
