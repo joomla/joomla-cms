@@ -33,6 +33,19 @@ class JTableObserverTags extends JTableObserver
 	protected $typeAliasPattern;
 
 	/**
+	 * Override for postStoreProcess param newTags, Set by setNewTagsToAdd, used by onAfterStore
+	 *
+	 * @var  array
+	 */
+	protected $newTags = array();
+
+	/**
+	 * Override for postStoreProcess param replaceTags. Set by setNewTagsToAdd, used by onAfterStore
+	 *
+	 * @var boolean
+	 */
+	protected $replaceTags = true;
+	/**
 	 * Pre-processor for $table->store($updateNulls)
 	 *
 	 * @param   boolean   $updateNulls   The result of the load
@@ -43,11 +56,12 @@ class JTableObserverTags extends JTableObserver
 	public function onBeforeStore($updateNulls, $tableKey)
 	{
 		$this->parseTypeAlias();
-		$this->tagsHelper->preStoreProcess($this->table);
+		$this->tagsHelper->preStoreProcess($this->table, $this->newTags);
 	}
 
 	/**
 	 * Post-processor for $table->store($updateNulls)
+	 * You can change optional params newTags and replaceTags of tagsHelper with method setNewTagsToAdd
 	 *
 	 * @param   boolean   $result   The result of the load
 	 */
@@ -55,7 +69,11 @@ class JTableObserverTags extends JTableObserver
 	{
 		if ($result)
 		{
-			$this->tagsHelper->postStoreProcess($this->table);
+			$result = $this->tagsHelper->postStoreProcess($this->table, $this->newTags, $this->replaceTags);
+
+			// Restore default values for the optional params:
+			$this->newTags = array();
+			$this->replaceTags = true;
 		}
 	}
 
@@ -92,6 +110,19 @@ class JTableObserverTags extends JTableObserver
 		return $observer;
 	}
 
+	/**
+	 * Sets the new tags to be added at the table's ->store() post-processing method
+	 *
+	 * @param  array    $newTags
+	 * @param  boolean  $replaceTags
+	 *
+	 * @return void
+	 */
+	public function setNewTagsToAdd($newTags, $replaceTags)
+	{
+		$this->newTags = $newTags;
+		$this->replaceTags = $replaceTags;
+	}
 	/**
 	 * Internal method
 	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
