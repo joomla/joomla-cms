@@ -853,6 +853,7 @@ class JTableNested extends JTable
 		{
 			foreach ($this->_observers as $observer)
 			{
+				$result = true;
 				$observer->onAfterStore($result);
 			}
 		}
