@@ -78,7 +78,7 @@ abstract class JAmazons3Object
 	 *
 	 * @since   ??.?
 	 */
-	protected function createAuthorization($httpVerb, $url, $headers)
+	public function createAuthorization($httpVerb, $url, $headers)
 	{
 		$authorization = "AWS " . $this->options->get('api.accessKeyId') . ":";
 
@@ -128,7 +128,7 @@ abstract class JAmazons3Object
 	 *
 	 * @since   ??.?
 	 */
-	private function createCanonicalizedAmzHeaders($headers)
+	public function createCanonicalizedAmzHeaders($headers)
 	{
 		$xAmzHeaders = array();
 
@@ -183,7 +183,7 @@ abstract class JAmazons3Object
 	 *
 	 * @since   ??.?
 	 */
-	private function createCanonicalizedResource($url)
+	public function createCanonicalizedResource($url)
 	{
 		// Gets the host by parsing the url
 		$parsedURL = parse_url($url);
