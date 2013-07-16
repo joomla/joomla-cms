@@ -36,6 +36,7 @@ class JTableObserverTags extends JTableObserver
 	 */
 	public function onBeforeStore($updateNulls, $tableKey)
 	{
+		$this->parseTypeAlias();
 		$this->tagsHelper->preStoreProcess($this->table);
 	}
 
@@ -64,6 +65,7 @@ class JTableObserverTags extends JTableObserver
 	 */
 	public function onBeforeDelete($pk, $tableKey)
 	{
+		$this->parseTypeAlias();
 		$this->tagsHelper->deleteTagData($this->table, $pk);
 	}
 
@@ -81,5 +83,10 @@ class JTableObserverTags extends JTableObserver
 		$observer->tagsHelper = new JHelperTags;
 		$observer->tagsHelper->typeAlias = $typeAlias;
 		return $observer;
+	}
+
+	protected function parseTypeAlias()
+	{
+		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/', function($matches) { return $this->{$matches[1]}; }, $this->tagsHelper->typeAlias);
 	}
 }
