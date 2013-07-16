@@ -19,19 +19,6 @@ defined('JPATH_PLATFORM') or die;
 class JAmazons3Http extends JHttp
 {
 	/**
-	 * @const  integer  Use no authentication for HTTP connections.
-	 * @since  ??.?
-	 */
-	const AUTHENTICATION_NONE = 0;
-
-	/**
-	 * @const  integer  Use the standard HTTP Authorization header to pass
-	 *		    authentication information.
-	 * @since  ??.?
-	 */
-	const AUTHENTICATION_HEADER = 1;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry       $options    Client options object.
