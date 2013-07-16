@@ -105,23 +105,18 @@ class ContentModelArticle extends JModelItem
 				$query->select('u.name AS author')
 					->join('LEFT', '#__users AS u on u.id = a.created_by');
 
-				// Join on contact table
+				// Get contact id
 				$subQuery = $db->getQuery(true)
-					->select('contact.user_id, MAX(contact.id) AS id, contact.language')
+					->select('MAX(contact.id) AS id')
 					->from('#__contact_details AS contact')
 					->where('contact.published = 1')
-					->group('contact.user_id, contact.language');
-
-				$onjoin = 'contact.user_id = a.created_by';
-
-				// Filter by language
-				if ($this->getState('filter.language'))
-				{
-					$onjoin .= ' AND (contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)';
-				}
-
-				$query->select('contact.id as contactid')
-					->join('LEFT', '(' . $subQuery . ') AS contact ON ' . $onjoin);
+					->where('contact.user_id = a.created_by');
+					// Filter by language
+					if ($this->getState('filter.language'))
+					{
+						$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
+					}
+				$query->select('(' . $subQuery . ') as contactid');
 
 				// Filter by language
 				if ($this->getState('filter.language'))
