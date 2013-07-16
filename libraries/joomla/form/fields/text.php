@@ -53,6 +53,7 @@ class JFormFieldText extends JFormField
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
 		$inputmode = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
+		$list = '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
@@ -61,8 +62,50 @@ class JFormFieldText extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" dirname="'. $this->name .'.dir" value="' 
-			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly 
+		// Get the field suggestions.
+		$options = (array) $this->getSuggestions();
+		if(!empty($options))
+		{
+			$html[] = JHtml::_('select.suggestionlist', $options, '', "", 'value', 'text', $this->value, $this->id .'_datalist"');
+			$list = ' list="'. $this->id .'_datalist"';
+		}
+
+		$html[] =  '<input type="text" name="' . $this->name . '" id="' . $this->id . '" dirname="'. $this->name .'.dir" value="' 
+			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $list
 			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . '/>';
+
+		return implode($html);
+	}
+
+	/**
+	 * Method to get the field suggestions.
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   11.1
+	 */
+	protected function getSuggestions()
+	{
+		$options = array();
+
+		foreach ($this->element->children() as $option)
+		{
+
+			// Only add <option /> elements.
+			if ($option->getName() != 'option')
+			{
+				continue;
+			}
+
+			// Create a new option object based on the <option /> element.
+			$options[] = JHtml::_(
+				'select.option', (string) $option['value'],
+				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text'
+			);
+		}
+
+		reset($options);
+
+		return $options;
 	}
 }
