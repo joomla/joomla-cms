@@ -87,6 +87,6 @@ class JTableObserverTags extends JTableObserver
 
 	protected function parseTypeAlias()
 	{
-		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/', function($matches) { return $this->{$matches[1]}; }, $this->tagsHelper->typeAlias);
+		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/', function($matches) { return $this->table->{$matches[1]}; }, $this->tagsHelper->typeAlias);
 	}
 }
