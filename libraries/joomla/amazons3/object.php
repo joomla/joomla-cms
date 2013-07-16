@@ -70,27 +70,34 @@ abstract class JAmazons3Object
 	/**
 	 * Creates the Authorization request header (which handles authentication).
 	 *
-	 * @param string $httpVerb  The HTTP Verb (GET, PUT, etc)
-	 * @param string $url       The target url of the request
-	 * @param string $headers   The headers of the request
+	 * @param   string  $httpVerb  The HTTP Verb (GET, PUT, etc)
+	 * @param   string  $url       The target url of the request
+	 * @param   string  $headers   The headers of the request
 	 *
 	 * @return string The Authorization request header
 	 *
 	 * @since   ??.?
 	 */
-	protected function createAuthorization($httpVerb, $url, $headers) {
+	protected function createAuthorization($httpVerb, $url, $headers)
+	{
 		$authorization = "AWS " . $this->options->get('api.accessKeyId') . ":";
 
 		$contentMD5 = "";
-		if (array_key_exists("Content-MD5", $headers)) {
+		$contentType = "";
+		$date = "";
+
+		if (array_key_exists("Content-MD5", $headers))
+		{
 			$contentMD5 = $headers["Content-MD5"];
 		}
-		$contentType = "";
-		if (array_key_exists("Content-type", $headers)) {
+
+		if (array_key_exists("Content-type", $headers))
+		{
 			$contentType = $headers["Content-type"];
 		}
-		$date = "";
-		if (array_key_exists("Date", $headers)) {
+
+		if (array_key_exists("Date", $headers))
+		{
 			$date = $headers["Date"];
 		}
 
@@ -107,6 +114,7 @@ abstract class JAmazons3Object
 		);
 
 		$authorization .= $signature;
+
 		return $authorization;
 	}
 
@@ -114,26 +122,33 @@ abstract class JAmazons3Object
 	 * Creates the canonicalized amz headers used for calculating the signature
 	 * in the Authorization header.
 	 *
-	 * @param	string	$headers  The headers of the request
+	 * @param   string  $headers  The headers of the request
 	 *
 	 * @return	string	The canonicalized amz headers
 	 *
 	 * @since   ??.?
 	 */
-	private function createCanonicalizedAmzHeaders($headers) {
+	private function createCanonicalizedAmzHeaders($headers)
+	{
 		$xAmzHeaders = array();
-		foreach (array_keys($headers) as $header_key) {
+
+		foreach (array_keys($headers) as $header_key)
+		{
 			// Convert each HTTP header name to lowercase. For example, 'X-Amz-Date' becomes 'x-amz-date'.
 			$lowercaseHeader = strtolower($header_key);
 
 			// Select all HTTP request headers that start with 'x-amz-' (using a case-insensitive comparison)
-			if (strpos($lowercaseHeader, 'x-amz-') === 0) {
-				// Combine header fields with the same name into one "header-name:comma-separated-value-list"
-				//  pair as prescribed by RFC 2616, section 4.2, without any whitespace between values.
-				// For example, the two metadata headers 'x-amz-meta-username: fred' and
-				//  'x-amz-meta-username: barney' would be combined into the single header
-				//  'x-amz-meta-username: fred,barney'.
-				if (is_array($headers[$header_key])) {
+			if (strpos($lowercaseHeader, 'x-amz-') === 0)
+			{
+				/**
+				 * Combine header fields with the same name into one "header-name:comma-separated-value-list"
+				 *  pair as prescribed by RFC 2616, section 4.2, without any whitespace between values.
+				 * For example, the two metadata headers 'x-amz-meta-username: fred' and
+				 *  'x-amz-meta-username: barney' would be combined into the single header
+				 *  'x-amz-meta-username: fred,barney'.
+				 */
+				if (is_array($headers[$header_key]))
+				{
 					$commaSeparatedValues = implode(',', $headers[$header_key]);
 					$xAmzHeaders[$lowercaseHeader] = $commaSeparatedValues;
 				} else {
@@ -147,48 +162,62 @@ abstract class JAmazons3Object
 
 		// Convert the array to a string
 		$xAmzHeadersString = "";
-		foreach (array_keys($xAmzHeaders) as $headerKey) {
+
+		foreach (array_keys($xAmzHeaders) as $headerKey)
+		{
 			$xAmzHeadersString .= $headerKey . ":" . $xAmzHeaders[$headerKey] . "\n";
 		}
+
 		return $xAmzHeadersString;
 	}
-
 
 	/**
 	 * Creates the canonicalized resource used for calculating the signature
 	 * in the Authorization header.
 	 *
-	 * @param	string	$url  The target url of the request
+	 * @param   string  $url  The target url of the request
 	 *
 	 * @return	string	The canonicalized resource
 	 *
 	 * @since   ??.?
 	 */
-	private function createCanonicalizedResource($url) {
+	private function createCanonicalizedResource($url)
+	{
 		// Gets the host by parsing the url
 		$parsedURL = parse_url($url);
 		$host = $parsedURL["host"];
+
 		// Gets the bucket from the host
-		if (strcmp($host, $this->options->get('api.url')) == 0) {
+		if (strcmp($host, $this->options->get('api.url')) == 0)
+		{
 			$bucket = "";
 		} else {
-			$bucket = substr($host, 0, strpos ($host, $this->options->get('api.url')) - 1);
+			$bucket = substr($host, 0, strpos($host, $this->options->get('api.url')) - 1);
 		}
 
 		// For a request that does not address a bucket, such as GET Service, append "/".
 		$canonicalizedResource = "/";
-		if ($bucket !== "") {
-			// For a virtual hosted-style request "https://johnsmith.s3.amazonaws.com/photos/puppy.jpg",
-			//  the CanonicalizedResource is "/johnsmith/photos/puppy.jpg".
+
+		if ($bucket !== "")
+		{
+			/**
+			 * For a virtual hosted-style request "https://johnsmith.s3.amazonaws.com/photos/puppy.jpg",
+			 *  the CanonicalizedResource is "/johnsmith/photos/puppy.jpg".
+			 */
 			$canonicalizedResource .= $bucket;
-			if (array_key_exists("path", $parsedURL)) {
+
+			if (array_key_exists("path", $parsedURL))
+			{
 				$canonicalizedResource .= $parsedURL["path"];
 			}
 
-			// If the request addresses a subresource, such as ?versioning, ?location, ?acl, ?torrent, ?lifecycle
-			//  or ?versionid, append the subresource, its value if it has one, and the question mark.
-			// Subresources must be lexicographically sorted by subresource name and separated by '&'
-			if (array_key_exists("query", $parsedURL)) {
+			/**
+			 * If the request addresses a subresource, such as ?versioning, ?location, ?acl, ?torrent, ?lifecycle
+			 *  or ?versionid, append the subresource, its value if it has one, and the question mark.
+			 * Subresources must be lexicographically sorted by subresource name and separated by '&'
+			 */
+			if (array_key_exists("query", $parsedURL))
+			{
 				$queryParameters = explode("&", $parsedURL["query"]);
 				asort($queryParameters);
 				$sortedQueryParameters = implode("&", $queryParameters);
