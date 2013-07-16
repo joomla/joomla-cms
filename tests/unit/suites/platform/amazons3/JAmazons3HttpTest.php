@@ -37,7 +37,7 @@ class JAmazons3HttpTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->object = new JAmazons3Http();
+		$this->object = new JAmazons3Http;
 	}
 
 	/**
