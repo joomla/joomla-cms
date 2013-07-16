@@ -89,6 +89,13 @@ abstract class JTable extends JObject
 	protected $_observers = array();
 
 	/**
+	 * Process observers (useful when a class extends significantly an observerved method, and calls observers itself
+	 * @var    boolean
+	 * @since  3.1.2
+	 */
+	protected $_callObservers = true;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -506,9 +513,12 @@ abstract class JTable extends JObject
 	public function load($keys = null, $reset = true)
 	{
 		// Pre-processing by observers
-		foreach ($this->_observers as $observer)
+		if ($this->_callObservers)
 		{
-			$observer->onBeforeLoad($keys, $reset);
+			foreach ($this->_observers as $observer)
+			{
+				$observer->onBeforeLoad($keys, $reset);
+			}
 		}
 
 		if (empty($keys))
@@ -569,9 +579,12 @@ abstract class JTable extends JObject
 		}
 
 		// Post-processing by observers
-		foreach ($this->_observers as $observer)
+		if ($this->_callObservers)
 		{
-			$observer->onAfterLoad($result, $row);
+			foreach ($this->_observers as $observer)
+			{
+				$observer->onAfterLoad($result, $row);
+			}
 		}
 
 		return $result;
@@ -612,9 +625,12 @@ abstract class JTable extends JObject
 		$k = $this->_tbl_key;
 
 		// Pre-processing by observers
-		foreach ($this->_observers as $observer)
+		if ($this->_callObservers)
 		{
-			$observer->onBeforeStore($updateNulls, $k);
+			foreach ($this->_observers as $observer)
+			{
+				$observer->onBeforeStore($updateNulls, $k);
+			}
 		}
 
 		if (!empty($this->asset_id))
@@ -644,9 +660,12 @@ abstract class JTable extends JObject
 		}
 
 		// Post-processing by observers
-		foreach ($this->_observers as $observer)
+		if ($this->_callObservers)
 		{
-			$observer->onAfterStore($result);
+			foreach ($this->_observers as $observer)
+			{
+				$observer->onAfterStore($result);
+			}
 		}
 
 		//@TODO: This trackAssets after here (and above too) should go into a observer post-processing method:
@@ -797,9 +816,12 @@ abstract class JTable extends JObject
 		$k = $this->_tbl_key;
 
 		// Pre-processing by observers
-		foreach ($this->_observers as $observer)
+		if ($this->_callObservers)
 		{
-			$observer->onBeforeDelete($pk, $k);
+			foreach ($this->_observers as $observer)
+			{
+				$observer->onBeforeDelete($pk, $k);
+			}
 		}
 
 		$pk = (is_null($pk)) ? $this->$k : $pk;
@@ -847,9 +869,12 @@ abstract class JTable extends JObject
 		$this->_db->execute();
 
 		// Post-processing by observers
-		foreach ($this->_observers as $observer)
+		if ($this->_callObservers)
 		{
-			$observer->onAfterDelete($pk);
+			foreach ($this->_observers as $observer)
+			{
+				$observer->onAfterDelete($pk);
+			}
 		}
 
 		return true;

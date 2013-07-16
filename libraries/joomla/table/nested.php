@@ -698,6 +698,15 @@ class JTableNested extends JTable
 	{
 		$k = $this->_tbl_key;
 
+		// Pre-processing by observers
+		if ($this->_callObservers)
+		{
+			foreach ($this->_observers as $observer)
+			{
+				$observer->onBeforeStore($updateNulls, $k);
+			}
+		}
+
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
@@ -819,11 +828,15 @@ class JTableNested extends JTable
 		}
 
 		// Store the row to the database.
+		$oldCallObservers = $this->_callObservers;
+		$this->_callObservers = false;
 		if (!parent::store($updateNulls))
 		{
+			$this->_callObservers = $oldCallObservers;
 			$this->_unlock();
 			return false;
 		}
+		$this->_callObservers = $oldCallObservers;
 
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
@@ -834,6 +847,15 @@ class JTableNested extends JTable
 
 		// Unlock the table for writing.
 		$this->_unlock();
+
+		// Post-processing by observers
+		if ($this->_callObservers)
+		{
+			foreach ($this->_observers as $observer)
+			{
+				$observer->onAfterStore($result);
+			}
+		}
 
 		return true;
 	}
