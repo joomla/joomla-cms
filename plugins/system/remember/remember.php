@@ -30,6 +30,12 @@ class PlgSystemRemember extends JPlugin
 	public function onAfterInitialise()
 	{
 
+		// No remember me for admin
+		if ($app->isAdmin())
+		{
+			return;
+		}
+
 		$user = JFactory::getUser();
 
 		// Check for a cookie
