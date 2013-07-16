@@ -31,6 +31,7 @@ class PlgSystemRemember extends JPlugin
 	{
 
 		// No remember me for admin
+		$app = JFactory::getApplication();
 		if ($app->isAdmin())
 		{
 			return;
