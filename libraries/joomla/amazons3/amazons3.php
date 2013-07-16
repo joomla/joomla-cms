@@ -51,9 +51,9 @@ class JAmazons3
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options     Amazons3 options object. Should include
-	 *                                   api.accessKeyId and api.secretAccessKey
-	 * @param   JAmazons3Http  $client  The HTTP client object.
+	 * @param   JRegistry      $options  Amazons3 options object. Should include
+	 *                                    api.accessKeyId and api.secretAccessKey
+	 * @param   JAmazons3Http  $client   The HTTP client object.
 	 *
 	 * @since   ??.?
 	 */

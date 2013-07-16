@@ -1,7 +1,10 @@
 <?php
-
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * @package     Joomla.Platform
+ * @subpackage  Amazons3
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-?>
+
+defined('JPATH_PLATFORM') or die;

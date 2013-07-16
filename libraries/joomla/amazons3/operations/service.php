@@ -49,8 +49,7 @@ class JAmazons3OperationsService extends JAmazons3Object
 		}
 
 		throw new InvalidArgumentException(
-		    sprintf('Argument %s produced an invalid class name: %s', $name, $class)
+			sprintf('Argument %s produced an invalid class name: %s', $name, $class)
 		);
 	}
-
 }

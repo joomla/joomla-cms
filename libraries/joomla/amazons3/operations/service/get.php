@@ -25,7 +25,8 @@ class JAmazons3OperationsServiceGet extends JAmazons3OperationsService
 	 *
 	 * @since   ??.?
 	 */
-	public function getService() {
+	public function getService()
+	{
 		$url = "https://" . $this->options->get("api.url") . "/";
 		$headers = array(
 			"Date" => date("D, d M Y H:i:s O"),
@@ -35,6 +36,7 @@ class JAmazons3OperationsServiceGet extends JAmazons3OperationsService
 
 		// Send the http request
 		$response = $this->client->get($url, $headers);
+
 		// Process the response
 		$response_body = $this->processResponse($response);
 
