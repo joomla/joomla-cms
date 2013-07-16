@@ -30,7 +30,7 @@ class JTableObserverTags extends JTableObserver
 	 * The pattern for this tag's TypeAlias
 	 * @var  string
 	 */
-	protected $typeAliasPattern;
+	protected $typeAliasPattern = null;
 
 	/**
 	 * Override for postStoreProcess param newTags, Set by setNewTagsToAdd, used by onAfterStore
@@ -45,6 +45,29 @@ class JTableObserverTags extends JTableObserver
 	 * @var boolean
 	 */
 	protected $replaceTags = true;
+
+	/**
+	 * Creates the associated observer instance and attaches it to the $observableObject
+	 * Creates the associated tags helper class instance
+	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
+	 *
+	 * @param   JObservableInterface|JTable   $observableObject
+	 * @param   array                         $params  ( 'typeAlias' => $typeAlias )
+	 *
+	 * @return  JObserverInterface|JTableObserverTags
+	 */
+	public static function createObserver(JObservableInterface $observableObject, $params = array())
+	{
+		$typeAlias = $params['typeAlias'];
+
+		$observer = new self($observableObject);
+
+		$observer->tagsHelper = new JHelperTags;
+		$observer->typeAliasPattern = $typeAlias;
+
+		return $observer;
+	}
+
 	/**
 	 * Pre-processor for $table->store($updateNulls)
 	 *
@@ -56,7 +79,7 @@ class JTableObserverTags extends JTableObserver
 	public function onBeforeStore($updateNulls, $tableKey)
 	{
 		$this->parseTypeAlias();
-		$this->tagsHelper->preStoreProcess($this->table, $this->newTags);
+		$this->tagsHelper->preStoreProcess($this->table);
 	}
 
 	/**
@@ -69,7 +92,7 @@ class JTableObserverTags extends JTableObserver
 	{
 		if ($result)
 		{
-			$result = $this->tagsHelper->postStoreProcess($this->table, $this->newTags, $this->replaceTags);
+			$result = $this->tagsHelper->postStoreProcess($this->table);
 
 			// Restore default values for the optional params:
 			$this->newTags = array();
@@ -93,22 +116,6 @@ class JTableObserverTags extends JTableObserver
 		$this->tagsHelper->deleteTagData($this->table, $pk);
 	}
 
-	/**
-	 * Creates the associated tags helper class instance
-	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
-	 *
-	 * @param   JTable   $table
-	 * @param   string   $typeAlias   The type alias (null if set after initial binding like in categories)
-	 *
-	 * @return  JTableObserverTags
-	 */
-	public static function observeTableWithTagsHelperOfTypeAlias($table, $typeAlias)
-	{
-		$observer = new self($table);
-		$observer->tagsHelper = new JHelperTags;
-		$observer->typeAliasPattern = $typeAlias;
-		return $observer;
-	}
 
 	/**
 	 * Sets the new tags to be added/replaced to the table row
