@@ -111,18 +111,19 @@ class JTableObserverTags extends JTableObserver
 	}
 
 	/**
-	 * Sets the new tags to be added at the table's ->store() post-processing method
+	 * Sets the new tags to be added/replaced to the table row
 	 *
 	 * @param  array    $newTags
 	 * @param  boolean  $replaceTags
 	 *
-	 * @return void
+	 * @return boolean
 	 */
-	public function setNewTagsToAdd($newTags, $replaceTags)
+	public function setNewTags($newTags, $replaceTags)
 	{
-		$this->newTags = $newTags;
-		$this->replaceTags = $replaceTags;
+		$this->parseTypeAlias();
+		return $this->tagsHelper->postStoreProcess($this->table, $newTags, $replaceTags);
 	}
+
 	/**
 	 * Internal method
 	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
