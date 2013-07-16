@@ -22,7 +22,7 @@ use SeleniumClient\WebElement;
  * @subpackage  Webdriver
  * @since       3.0
  */
-class CategoryManagerPage extends AdminManagerPage
+class ArticleManagerPage extends AdminManagerPage
 {
   /**
 	 * XPath string used to uniquely identify this page
@@ -30,16 +30,16 @@ class CategoryManagerPage extends AdminManagerPage
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_categories&extension=com_content']";
-
+	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_content']";
+	
 	/**
 	 * URL used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $url = 'option=com_categories&';
-
+	protected $url = 'administrator/index.php?option=com_content';
+	
 	/**
 	 * Array of filter id values for this page
 	 *
@@ -47,19 +47,21 @@ class CategoryManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	public $filters = array(
-			'Select Max Levels' => 'filter_level',
 			'Select Status' => 'filter_published',
+			'Select Category' => 'filter_category_id',
+			'Select Max Levels' => 'filter_level',
 			'Select Access' => 'filter_access',
+			'Select Author' => 'filter_author_id',
 			'Select Language' => 'filter_language',
 			'Select Tag' => 'filter_tag'
 			);
-
+			
 	/**
 	 * Array of toolbar id values for this page
 	 *
 	 * @var    array
 	 * @since  3.0
-	 */
+	 */	
 	public $toolbar = array (
 			'New' => 'toolbar-new',
 			'Edit' => 'toolbar-edit',
@@ -74,79 +76,76 @@ class CategoryManagerPage extends AdminManagerPage
 			'Options' => 'toolbar-options',
 			'Help' => 'toolbar-help',
 			);
-
+			
 	/**
-	 * Add a new Category item in the Category Manager: Category Manager Screen.
+	 * Add a new Article item in the Article Manager: Article Manager Screen.
 	 *
-	 * @param string   $name          Test Category Title
-	 *
-	 * @param string   $alias 	  	  Test Category Alias
-	 *
-	 * @param string   $desc		  Test Description of Category
-	 *
-	 * @return  CategoryManagerPage
+	 * @param string   $name          Test Article Title 
+	 * 
+	 * @param string   $category 	  Test Article Category
+	 * 
+	 * @return  ArticleManagerPage
 	 */
-	public function addCategory($name='ABC Testing', $alias='ABC SAMPLE ALIAS',$desc='Testing')
+	public function addArticle($name='Testing Articles', $category='Sample Data-Articles')
 	{
 		$new_name = $name;
 		$this->clickButton('toolbar-new');
-		$categoryEditPage = $this->test->getPageObject('CategoryEditPage');
-		$categoryEditPage->setFieldValues(array('Title' => $name, 'Alias' => $alias,'Description'=>$desc));
-		$categoryEditPage->clickButton('toolbar-save');
-		$this->test->getPageObject('CategoryManagerPage');
+		$articleEditPage = $this->test->getPageObject('ArticleEditPage');
+		$articleEditPage->setFieldValues(array('Title' => $name, 'Category' => $category));
+		$articleEditPage->clickButton('toolbar-save');
+		$this->test->getPageObject('ArticleManagerPage');
 	}
-
+	
 	/**
-	 * Edit a Category item in the Category Manager: Category Manager Screen.
+	 * Edit a Article item in the Article Manager: Article Manager Screen.
 	 *
 	 * @param string   $name	   Title field
 	 * @param array    $fields     associative array of fields in the form label => value.
 	 *
 	 * @return  void
 	 */
-	public function editCategory($name, $fields)
+	public function editArticle($name, $fields)
 	{
 		$this->clickItem($name);
-		$categoryEditPage = $this->test->getPageObject('CategoryEditPage');
-		$categoryEditPage->setFieldValues($fields);
-		$categoryEditPage->clickButton('toolbar-save');
-		$this->test->getPageObject('CategoryManagerPage');
+		$articleEditPage = $this->test->getPageObject('ArticleEditPage');
+		$articleEditPage->setFieldValues($fields);
+		$articleEditPage->clickButton('toolbar-save');
+		$this->test->getPageObject('ArticleManagerPage');
 		$this->searchFor();
 	}
-
+	
 	/**
-	 * Get state  of a Category in Category Manager: Category Manager Screen.
+	 * Get state  of a Article in Article Manager Screen: Article Manager.
 	 *
-	 * @param string   $name	   Category Title field
-	 *
-	 * @return  State of the Category //Published or Unpublished
+	 * @param string   $name	   Article Title field
+	 * 
+	 * @return  State of the Article //Published or Unpublished
 	 */
 	public function getState($name)
 	{
 		$result = false;
-		$this->searchFor($name);
 		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
-		if (strpos($text, 'categories.unpublish') > 0)
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/div/a[1]"))->getAttribute(@onclick);
+		if (strpos($text, 'articles.unpublish') > 0)
 		{
 			$result = 'published';
 		}
-		if (strpos($text, 'categories.publish') > 0)
+		if (strpos($text, 'articles.publish') > 0)
 		{
 			$result = 'unpublished';
 		}
 		return $result;
 	}
-
+	
 	/**
-	 * Change state of a Category in Category Manager: Category Manager Screen.
+	 * Change state of a Article Item in Article Manager Screen
 	 *
-	 * @param string   $name	   Category Title field
-	 * @param string   $state      State of the Category
+	 * @param string   $name	   Article Title field
+	 * @param string   $state      State of the Article
 	 *
 	 * @return  void
-	 */
-	public function changeCategoryState($name, $state = 'published')
+	 */	
+	public function changeArticleState($name, $state = 'published')
 	{
 		$this->searchFor($name);
 		$this->checkAll();
@@ -162,5 +161,5 @@ class CategoryManagerPage extends AdminManagerPage
 		}
 		$this->searchFor();
 	}
-
+	
 }
