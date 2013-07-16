@@ -77,6 +77,7 @@ class JTableObserverTags extends JTableObserver
 
 	/**
 	 * Creates the associated tags helper class instance
+	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
 	 *
 	 * @param   JTable   $table
 	 * @param   string   $typeAlias   The type alias (null if set after initial binding like in categories)
@@ -91,6 +92,13 @@ class JTableObserverTags extends JTableObserver
 		return $observer;
 	}
 
+	/**
+	 * Internal method
+	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
+	 * Storing result into $this->tagsHelper->typeAlias
+	 *
+	 * @return void
+	 */
 	protected function parseTypeAlias()
 	{
 		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/', function($matches) { return $this->table->{$matches[1]}; }, $this->typeAliasPattern);
