@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @link        http://docs.joomla.org/JTableObserver
  * @since       3.1.2
  */
-abstract class JTableObserver
+abstract class JTableObserver implements JObserverInterface
 {
 	/**
 	 * The observed table
@@ -33,7 +33,7 @@ abstract class JTableObserver
 	 */
 	public function __construct(JTable $table)
 	{
-		$table->addObserver($this);
+		$table->attachObserver($this);
 		$this->table = $table;
 	}
 
