@@ -7,8 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/github/http.php';
-require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
+require_once JPATH_PLATFORM . '/joomla/amazons3/http.php';
 
 /**
  * Test class for JAmazons3.
@@ -20,18 +19,6 @@ require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
  */
 class JAmazons3HttpTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  ??.?
-	 */
-	protected $options;
-
-	/**
-	 * @var    JAmazons3Http  Mock client object.
-	 * @since  ??.?
-	 */
-	protected $transport;
-
 	/**
 	 * @var    JAmazons3Http  Object under test.
 	 * @since  ??.?
@@ -50,10 +37,7 @@ class JAmazons3HttpTest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		$this->options = new JRegistry;
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
-
-		$this->object = new JAmazons3Http($this->options, $this->transport);
+		$this->object = new JAmazons3Http();
 	}
 
 	/**
