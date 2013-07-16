@@ -61,7 +61,7 @@ class CategoriesController extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'categories');
 		$vFormat = $document->getType();
-		$lName   = $this->input->get('layout', 'default');
+		$lName   = $this->input->get('layout', 'default', 'string');
 		$id      = $this->input->getInt('id');
 
 		// Check for edit form.
