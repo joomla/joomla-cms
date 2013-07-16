@@ -27,6 +27,12 @@ class JTableObserverTags extends JTableObserver
 	protected $tagsHelper;
 
 	/**
+	 * The pattern for this tag's TypeAlias
+	 * @var  string
+	 */
+	protected $typeAliasPattern;
+
+	/**
 	 * Pre-processor for $table->store($updateNulls)
 	 *
 	 * @param   boolean   $updateNulls   The result of the load
@@ -81,12 +87,12 @@ class JTableObserverTags extends JTableObserver
 	{
 		$observer = new self($table);
 		$observer->tagsHelper = new JHelperTags;
-		$observer->tagsHelper->typeAlias = $typeAlias;
+		$observer->typeAliasPattern = $typeAlias;
 		return $observer;
 	}
 
 	protected function parseTypeAlias()
 	{
-		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/', function($matches) { return $this->table->{$matches[1]}; }, $this->tagsHelper->typeAlias);
+		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/', function($matches) { return $this->table->{$matches[1]}; }, $this->typeAliasPattern);
 	}
 }
