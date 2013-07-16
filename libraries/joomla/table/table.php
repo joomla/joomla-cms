@@ -22,7 +22,7 @@ jimport('joomla.filesystem.path');
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject
+abstract class JTable extends JObject implements JObservableInterface
 {
 	/**
 	 * Include paths for searching for JTable classes.
@@ -138,6 +138,9 @@ abstract class JTable extends JObject
 		{
 			$this->access = (int) JFactory::getConfig()->get('access');
 		}
+
+		// Attaches all observers interested by $this class:
+		JObserverMapper::attachAllObservers($this);
 	}
 
 	/**
@@ -145,13 +148,13 @@ abstract class JTable extends JObject
 	 * Ideally, this method should be called fron the constructor of JTableObserver
 	 * which should be instanciated by the constructor of $this.
 	 *
-	 * @param    JTableObserver   $observer
+	 * @param    JObserverInterface|JTableObserver   $observer
 	 *
 	 * @return   void
 	 *
 	 * @since    3.1.2
 	 */
-	public function addObserver(JTableObserver $observer)
+	public function attachObserver(JObserverInterface $observer)
 	{
 		$this->_observers[get_class($observer)] = $observer;
 	}
