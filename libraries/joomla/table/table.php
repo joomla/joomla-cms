@@ -782,7 +782,7 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Override parent delete method to delete tags information.
+	 * Deletes this row in database (or if provided, the row of key $pk)
 	 *
 	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
 	 *
