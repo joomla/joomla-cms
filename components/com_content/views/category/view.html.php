@@ -112,7 +112,7 @@ class ContentViewCategory extends JViewCategory
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
 			// Get the layout from the merged category params
-			if ($layout = $category->params->get('category_layout'))
+			if ($layout = $this->category->params->get('category_layout'))
 			{
 				$this->setLayout($layout);
 			}
