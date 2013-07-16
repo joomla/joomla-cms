@@ -151,7 +151,9 @@ abstract class JAmazons3Object
 				{
 					$commaSeparatedValues = implode(',', $headers[$header_key]);
 					$xAmzHeaders[$lowercaseHeader] = $commaSeparatedValues;
-				} else {
+				}
+				else
+				{
 					$xAmzHeaders[$lowercaseHeader] = $headers[$header_key];
 				}
 			}
@@ -191,7 +193,9 @@ abstract class JAmazons3Object
 		if (strcmp($host, $this->options->get('api.url')) == 0)
 		{
 			$bucket = "";
-		} else {
+		}
+		else
+		{
 			$bucket = substr($host, 0, strpos($host, $this->options->get('api.url')) - 1);
 		}
 
