@@ -760,7 +760,7 @@ class JHelperTags
 	 * @param   array    $newTags  Array of new tags
 	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
 	 *
-	 * @return  null
+	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
