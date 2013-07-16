@@ -61,7 +61,7 @@ class JFormFieldText extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="' 
+		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" dirname="'. $this->name .'.dir" value="' 
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly 
 			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . '/>';
 	}
