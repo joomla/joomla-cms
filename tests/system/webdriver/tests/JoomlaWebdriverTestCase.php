@@ -109,7 +109,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		return $loginPage;
 	}
 	
-	//function for loggin in to the frontend site
+	//function to login to the frontend site
 	function doFrontEndLogin()
 	{
 		$cfg=new SeleniumConfig();
