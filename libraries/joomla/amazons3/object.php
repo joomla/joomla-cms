@@ -53,7 +53,7 @@ abstract class JAmazons3Object
 	 *
 	 * @since   ??.?
 	 */
-	protected function commonGetOperations($url)
+	public function commonGetOperations($url)
 	{
 		$headers = array(
 			"Date" => date("D, d M Y H:i:s O"),
