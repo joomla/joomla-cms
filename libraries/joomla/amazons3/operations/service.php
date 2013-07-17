@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JAmazons3OperationsService extends JAmazons3Object
 {
 	/**
-	 * @var    JAmazons3OperationsServiceGet  Amazons3 API object for ServiceGet.
+	 * @var    JAmazons3OperationsServiceGet  Amazons3 API object for GET operations on the service.
 	 * @since  ??.?
 	 */
 	protected $get;
