@@ -739,7 +739,7 @@ abstract class JHtml
 	 * @param   string   $format     The date format specification string (see {@link PHP_MANUAL#date}).
 	 * @param   mixed    $tz         Time zone to be used for the date.  Special cases: boolean true for user
 	 *                               setting, boolean false for server setting.
-	 * @param   boolean  $gregorian  True to use Gregorian calenar.
+	 * @param   boolean  $gregorian  True to use Gregorian calendar.
 	 *
 	 * @return  string    A date translated by the given format and time zone.
 	 *

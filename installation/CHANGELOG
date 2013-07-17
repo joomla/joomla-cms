@@ -25,6 +25,25 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+; Below is merged into v3.1.2
+
+17-Jul-2013 Jean-Marie Simonet
+ # [#31476] Remove unneeded GROUP BY and fix duplicate article display. Thanks Thomas Hunziker
+ # [#31445] Default value tag menu-items. Thanks Constantin Romankiewicz
+
+14-Jul-2013 Jean-Marie Simonet
+ # [#31455] Regression by [#31278]. Thanks Beat
+
+12-Jul-2013 Jean-Marie Simonet
+ # [#31362] Various PHP notices and strict errors. Thanks Mark Dexter
+ # [#31376] JToolbar layout change breaks mobile. Thanks Roberto Segura
+
+10-Jul-2013 Jean-Marie Simonet
+ ^ [#31388] Admin login shows language option. Thanks Brian Teeman
+ ^ [#31383] Article manager options. Thanks Brian Teeman
+ # [#30957] System cache issue. Thanks Dennis Hermatski
+ # [#31208] No border bottom right radius and border bottom top radius for buttons at com_finder view (2). Thanks Peter van Westen.
+
 09-Jul-2013 Jean-Marie Simonet
  $ Updating installation lang files: eo-XX
 
