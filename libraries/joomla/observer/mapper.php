@@ -110,48 +110,20 @@ class JObserverMapper
 		$observableClass = get_class($observableObject);
 		while ($observableClass != false)
 		{
-			static::attachObserversToAnObservable($observableClass, $observableObject);
+			// Attach applicable Observers for the class to the Observable subject:
+			if (isset(static::$observations[$observableClass]))
+			{
+				foreach (static::$observations[$observableClass] as $observerClass => $params)
+				{
+					// Attach an Observer to the Observable subject:
+					/**
+					 * @var JObserverInterface $observerClass
+					 */
+					$observerClass::createObserver($observableObject, $params);
+				}
+			}
 			$observableClass = get_parent_class($observableClass);
 		}
-	}
-
-	/**
-	 * Internal method
-	 * Goes through mappings for a given observable class and attaches all corresponding observer classes to it.
-	 * It does check also for all parent classes as well.
-	 *
-	 * @param   string                 $observableClass
-	 * @param   JObservableInterface   $observableObject
-	 *
-	 * @return  void
-	 */
-	protected static function attachObserversToAnObservable($observableClass, JObservableInterface $observableObject)
-	{
-		if (isset(static::$observations[$observableClass]))
-		{
-			foreach (static::$observations[$observableClass] as $observerClass => $params)
-			{
-				static::attachObserverToObservable($observerClass, $observableObject, $params);
-			}
-		}
-	}
-
-	/**
-	 * Internal method
-	 * Attaches a observer to an observable subject
-	 *
-	 * @param   string                 $observerClass     (of type JObserverInterface)
-	 * @param   JObservableInterface   $observableObject
-	 * @param   array                  $params
-	 *
-	 * @return  void
-	 */
-	protected static function attachObserverToObservable($observerClass, JObservableInterface $observableObject, $params)
-	{
-		/**
-		 * @var JObserverInterface $observerClass
-		 */
-		$observerClass::createObserver($observableObject, $params);
 	}
 }
 
