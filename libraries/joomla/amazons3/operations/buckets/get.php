@@ -30,17 +30,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucket($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -57,17 +49,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketAcl($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?acl";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -85,17 +69,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketCors($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?cors";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -112,17 +88,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketLifecycle($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?lifecycle";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -139,17 +107,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketPolicy($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?policy";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -166,17 +126,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketLocation($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?location";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -193,17 +145,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketLogging($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?logging";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -220,17 +164,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketNotification($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?notification";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -247,17 +183,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketTagging($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?tagging";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -275,17 +203,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketVersions($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versions";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -303,17 +223,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketRequestPayment($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?requestPayment";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -330,17 +242,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketVersioning($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versioning";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
@@ -357,17 +261,9 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 	public function getBucketWebsite($bucket)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?website";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}

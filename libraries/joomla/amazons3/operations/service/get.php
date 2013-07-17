@@ -28,17 +28,9 @@ class JAmazons3OperationsServiceGet extends JAmazons3OperationsService
 	public function getService()
 	{
 		$url = "https://" . $this->options->get("api.url") . "/";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("GET", $url, $headers);
-		$headers["Authorization"] = $authorization;
 
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
