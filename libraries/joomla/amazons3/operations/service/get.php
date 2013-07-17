@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Defines the get operation on the service
+ * Defines the GET operation on the service
  *
  * @package     Joomla.Platform
  * @subpackage  Amazons3
