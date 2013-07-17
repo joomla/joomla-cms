@@ -184,7 +184,7 @@ class JFormFieldTag extends JFormFieldList
 		}
 		else
 		{
-			return true;
+			return false;
 		}
 	}
 

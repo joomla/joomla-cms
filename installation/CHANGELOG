@@ -29,6 +29,7 @@ $ -> Language fix or change
 
 17-Jul-2013 Jean-Marie Simonet
  # [#31476] Remove unneeded GROUP BY and fix duplicate article display. Thanks Thomas Hunziker
+ # [#31445] Default value tag menu-items. Thanks Constantin Romankiewicz
 
 14-Jul-2013 Jean-Marie Simonet
  # [#31455] Regression by [#31278]. Thanks Beat
