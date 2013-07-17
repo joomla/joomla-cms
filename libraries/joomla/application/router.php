@@ -165,7 +165,7 @@ class JRouter
 	 *
 	 * @since   11.1
 	 */
-	public function parse($uri)
+	public function parse(&$uri)
 	{
 		// Process the parsed variables based on custom defined rules
 		$vars = $this->_processParseRules($uri);
@@ -354,7 +354,7 @@ class JRouter
 	 *
 	 * @since   11.1
 	 */
-	protected function _parseRawRoute($uri)
+	protected function _parseRawRoute(&$uri)
 	{
 		return false;
 	}
@@ -368,7 +368,7 @@ class JRouter
 	 *
 	 * @since   11.1
 	 */
-	protected function _parseSefRoute($uri)
+	protected function _parseSefRoute(&$uri)
 	{
 		return false;
 	}
@@ -382,7 +382,7 @@ class JRouter
 	 *
 	 * @since   11.1
 	 */
-	protected function _buildRawRoute($uri)
+	protected function _buildRawRoute(&$uri)
 	{
 	}
 
@@ -395,7 +395,7 @@ class JRouter
 	 *
 	 * @since   11.1
 	 */
-	protected function _buildSefRoute($uri)
+	protected function _buildSefRoute(&$uri)
 	{
 	}
 
@@ -408,7 +408,7 @@ class JRouter
 	 *
 	 * @since   11.1
 	 */
-	protected function _processParseRules($uri)
+	protected function _processParseRules(&$uri)
 	{
 		$vars = array();
 
@@ -429,7 +429,7 @@ class JRouter
 	 *
 	 * @since   11.1
 	 */
-	protected function _processBuildRules($uri)
+	protected function _processBuildRules(&$uri)
 	{
 		foreach ($this->_rules['build'] as $rule)
 		{
