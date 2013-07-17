@@ -31,19 +31,19 @@ class JAmazons3
 	protected $client;
 
 	/**
-	 * @var    JAmazons3Service  Amazons3 API object for Service.
+	 * @var    JAmazons3OperationsService  Amazons3 API object for Service.
 	 * @since  ??.?
 	 */
 	protected $service;
 
 	/**
-	 * @var    JAmazons3Buckets  Amazons3 API object for Buckets.
+	 * @var    JAmazons3OperationsBuckets  Amazons3 API object for Buckets.
 	 * @since  ??.?
 	 */
 	protected $buckets;
 
 	/**
-	 * @var    JAmazons3Objects  Amazons3 API object for Objects.
+	 * @var    JAmazons3OperationsObjects  Amazons3 API object for Objects.
 	 * @since  ??.?
 	 */
 	protected $objects;
