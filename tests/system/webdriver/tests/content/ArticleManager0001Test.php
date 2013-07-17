@@ -158,6 +158,56 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
 		$this->articleManagerPage->trashAndDelete('ABC_Test');
 	}
+	
+	/**
+	 * @test
+	 */
+	public function changeArticleStatus_TestAtFrontEnd()
+	{
+		$cfg = new SeleniumConfig();
+		$this->driver->get($cfg->host.$cfg->path);
+		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
+		$article_manager='administrator/index.php?option=com_content';
+		$this->driver->get($cfg->host.$cfg->path.$article_manager);
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->articleManagerPage->changeArticleState('Professionals', 'unpublished');
+		$this->driver->get($cfg->host.$cfg->path);
+		$arrayElement = $this->driver->findElements(By::xPath("//h2//a[contains(text(), 'Professionals')]"));
+		$this->assertEquals(count($arrayElement),0, 'Professionals Must Not be Present');
+		$this->driver->get($cfg->host.$cfg->path.$article_manager);
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->articleManagerPage->changeArticleState('Professionals', 'published');
+		$this->driver->get($cfg->host.$cfg->path);
+		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
+	}
+	
+	/*
+	 * @test
+	 */
+	public function testArticleEditPermission_TestAtFrontEnd()
+	{
+		$cfg=new SeleniumConfig();
+		$this->driver->get($cfg->host.$cfg->path);
+		$this->doFrontEndLogin();
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"),10);				
+		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
+		$this->assertTrue(count($arrayElement)>0,'Edit Icons Must be Present');
+		$d = $this->driver;
+		$d->findElement(By::xPath("//a[contains(text(),'Sample Sites')]"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Sample Sites')]"));		
+		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(), 'Edit')]"));		
+		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
+		$this->assertTrue(count($arrayElement)>0,'Edit Icons Must be Present');
+		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Login')]"),10);		
+		$this->doFrontEndLogout();
+		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
+		$this->assertEquals(count($arrayElement),0,'Edit Icons Must Not be Present');
+		$d->findElement(By::xPath("//a[contains(text(),'Sample Sites')]"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Sample Sites')]"),10);
+		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
+		$this->assertEquals(count($arrayElement),0,'Edit Icons Must Not be Present');
+	}
 
 
 }
