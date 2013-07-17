@@ -68,6 +68,9 @@ class JAmazons3OperationsServiceGetTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetService()
 	{
+		$this->options->set('api.accessKeyId', 'private');
+		$this->options->set('api.secretAccessKey', 'private');
+
 		$response = new JHttpResponse;
 		$response->code = 200;
 		$response->body = "<ListAllMyBucketsResult xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
