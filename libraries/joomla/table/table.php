@@ -140,9 +140,9 @@ abstract class JTable extends JObject implements JObservableInterface
 
 	/**
 	 * Implement JObservableInterface:
-	 * Adds an observer to this JTable instance.
-	 * Ideally, this method should be called fron the constructor of JTableObserver
-	 * which should be instanciated by the constructor of $this.
+	 * Adds an observer to this instance.
+	 * This method will be called fron the constructor of classes implementing JObserverInterface
+	 * which is instanciated by the constructor of $this with JObserverMapper::attachAllObservers($this)
 	 *
 	 * @param    JObserverInterface|JTableObserver   $observer
 	 *
