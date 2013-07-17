@@ -49,7 +49,7 @@ class JAmazons3ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the fetchUrl method using an oAuth token.
+	 * Tests the processResponse method using a sample response.
 	 *
 	 * @return void
 	 */
@@ -70,7 +70,7 @@ class JAmazons3ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the fetchUrl method using an oAuth token.
+	 * Tests the create authorization method.
 	 *
 	 * @return void
 	 */
@@ -92,7 +92,7 @@ class JAmazons3ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the fetchUrl method using an oAuth token.
+	 * Tests the createCanonicalizedAmzHeaders method.
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class JAmazons3ObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the fetchUrl method using an oAuth token.
+	 * Tests the createCanonicalizedResource method.
 	 *
 	 * @return void
 	 */
