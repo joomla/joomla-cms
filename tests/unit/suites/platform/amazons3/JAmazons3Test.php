@@ -75,7 +75,7 @@ class JAmazons3Test extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - gists
+	 * Tests the magic __get method - service
 	 *
 	 * @since  ??.?
 	 *
@@ -90,7 +90,7 @@ class JAmazons3Test extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - gists
+	 * Tests the magic __get method - buckets
 	 *
 	 * @since  ??.?
 	 *
@@ -105,7 +105,7 @@ class JAmazons3Test extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the magic __get method - gists
+	 * Tests the magic __get method - objects
 	 *
 	 * @since  ??.?
 	 *
