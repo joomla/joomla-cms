@@ -54,7 +54,7 @@ abstract class JAmazons3Object
 	 *
 	 * @return mixed
 	 */
-	protected function processResponse(JHttpResponse $response, $expectedCode = 200)
+	public function processResponse(JHttpResponse $response, $expectedCode = 200)
 	{
 		// Validate the response code.
 		if ($response->code != $expectedCode)

@@ -53,6 +53,27 @@ class JAmazons3ObjectTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 */
+	public function testProcessResponse()
+	{
+		$response = new JHttpResponse;
+		$response->code = 200;
+		$response->body = "<ListAllMyBucketsResult xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
+			. "<Owner><ID>6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96</ID>"
+			. "<DisplayName>alex.ukf</DisplayName></Owner><Buckets><Bucket><Name>jgsoc</Name>"
+			. "<CreationDate>2013-06-29T10:29:36.000Z</CreationDate></Bucket></Buckets></ListAllMyBucketsResult>";
+		$expectedResult = new SimpleXMLElement($response->body);
+
+		$this->assertThat(
+			$this->object->processResponse($response),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the fetchUrl method using an oAuth token.
+	 *
+	 * @return void
+	 */
 	public function testCreateAuthorization()
 	{
 		$this->options->set('api.accessKeyId', 'MyTestAccessKeyId');
